@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.objectweb.asm.Type;
 
+import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
@@ -24,13 +25,19 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 
 /**
  * @author matyrobbrt
  */
-@Mod.EventBusSubscriber(modid = "machina", bus = Bus.MOD)
+@Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class RegistryEvents {
+	
+	@SubscribeEvent
+	public static void constructMod(FMLConstructModEvent event) {
+		RegistryEvents.init();
+	}
 
 	private static final ArrayList<Class<?>> REGISTRY_CLASSES = new ArrayList<>();
 
@@ -41,18 +48,17 @@ public class RegistryEvents {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-					try {
-						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
-								RegistryEvents.class.getClassLoader()));
-					} catch (ClassNotFoundException e) {}
-				});
+		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+			try {
+				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
+						RegistryEvents.class.getClassLoader()));
+			} catch (ClassNotFoundException e) {}
+		});
 	}
 
 	private RegistryEvents() {
 	}
 
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 
@@ -69,7 +75,7 @@ public class RegistryEvents {
 					throw new RegistryException(
 							"The field " + field + " is annotated with @RegisterItem but it is not an item.");
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
-				//TODO Do some println()
+				// TODO Do some println()
 			}
 		});
 
@@ -83,13 +89,12 @@ public class RegistryEvents {
 					throw new RegistryException("The field " + field
 							+ " is annotated with @RegisterBlockItem but it is not an block item.");
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
-				//TODO Do some println()
+				// TODO Do some println()
 			}
 		});
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 
@@ -106,7 +111,7 @@ public class RegistryEvents {
 					throw new RegistryException(
 							"The field " + field + " is annotated with @RegisterBlock but it is not a block.");
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				//TODO Do some println()
+				// TODO Do some println()
 			}
 		});
 	}
