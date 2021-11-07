@@ -29,7 +29,7 @@ public class PlanetTraitCapabilityProvider implements ICapabilitySerializable<Co
         if (CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY == null) {
             return new CompoundNBT();
         } else {
-            return (CompoundNBT) CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY.writeNBT(planetTraitCapability, null);
+           return (CompoundNBT) CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY.writeNBT(planetTraitCapability, null);
         }
     }
 
