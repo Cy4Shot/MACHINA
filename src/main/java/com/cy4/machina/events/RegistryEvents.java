@@ -32,6 +32,7 @@ import net.minecraftforge.forgespi.language.ModFileScanData;
 /**
  * @author matyrobbrt
  */
+@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class RegistryEvents {
 	
@@ -117,7 +118,6 @@ public class RegistryEvents {
 		});
 	}
 
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
 
