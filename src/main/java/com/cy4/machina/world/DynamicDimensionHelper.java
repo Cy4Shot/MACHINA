@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.events.planet.PlanetEvent;
 import com.cy4.machina.world.data.PlanetDimensionData;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Lifecycle;
@@ -29,12 +30,14 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraft.world.storage.IServerConfiguration;
 import net.minecraft.world.storage.SaveFormat.LevelSave;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
 public class DynamicDimensionHelper {
+
 	public static final Function<MinecraftServer, IChunkStatusListenerFactory> CHUNK_STATUS_LISTENER_FACTORY_FIELD = getInstanceField(
 			MinecraftServer.class, "field_213220_d");
 	public static final Function<MinecraftServer, Executor> BACKGROUND_EXECUTOR_FIELD = getInstanceField(
@@ -53,9 +56,12 @@ public class DynamicDimensionHelper {
 		
 		PlanetDimensionData.getDefaultInstance(server).addId(id);
 		
-		return getOrCreateWorld(server,
-				RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(Machina.MOD_ID, id)),
-				(serv, key) -> DynamicDimensionFactory.createDimension(serv, key));
+		ServerWorld world = getOrCreateWorld(server,
+				RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(Machina.MOD_ID, id)), DynamicDimensionFactory::createDimension);
+		
+		PlanetEvent.onPlanetCreated(world);
+		
+		return world;
 	}
 
 	public static ServerWorld getOrCreateWorld(MinecraftServer server, RegistryKey<World> worldKey,
