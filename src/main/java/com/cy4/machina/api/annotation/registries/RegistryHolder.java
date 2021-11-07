@@ -7,6 +7,8 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import com.cy4.machina.Machina;
+
 @Documented
 @Retention(RUNTIME)
 @Target({
@@ -15,9 +17,8 @@ import java.lang.annotation.Target;
 public @interface RegistryHolder {
 	
 	/**
-	 * TODO actual mod id
 	 * The modid under which the registries will be registered
 	 * @return
 	 */
-	String modid() default "";
+	String modid() default Machina.MOD_ID;
 }
