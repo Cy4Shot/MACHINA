@@ -10,7 +10,13 @@ import net.minecraft.item.Item;
 @RegistryHolder
 public class ItemInit {
 
-	@RegisterItem("test_item")
-	public static final Item TEST_ITEM = new Item(new Item.Properties().tab(MACHINA_ITEM_GROUP));
-	
+	@RegisterItem("item_group_icon")
+	public static final Item ITEM_GROUP_ICON = new Item(new Item.Properties().tab(MACHINA_ITEM_GROUP)) {
+		@Override
+		public void fillItemCategory(net.minecraft.item.ItemGroup pGroup,
+				net.minecraft.util.NonNullList<net.minecraft.item.ItemStack> pItems) {
+			// We need to hide the item
+		}
+	};
+
 }

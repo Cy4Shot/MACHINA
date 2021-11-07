@@ -30,7 +30,7 @@ public class PlanetTraitArgument implements ArgumentType<ResourceLocation> {
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> p_listSuggestions_1_,
 			SuggestionsBuilder p_listSuggestions_2_) {
 		return p_listSuggestions_1_.getSource() instanceof ISuggestionProvider ? ISuggestionProvider.suggestResource(
-				PlanetTrait.registry.getValues().stream().map(PlanetTrait::getRegistryName),
+				PlanetTrait.REGISTRY.getValues().stream().map(PlanetTrait::getRegistryName),
 				p_listSuggestions_2_) : Suggestions.empty();
 	}
 
@@ -41,7 +41,7 @@ public class PlanetTraitArgument implements ArgumentType<ResourceLocation> {
 	public static PlanetTrait getTrait(CommandContext<CommandSource> pContext, String pName)
 			throws CommandSyntaxException {
 		ResourceLocation resourcelocation = pContext.getArgument(pName, ResourceLocation.class);
-		return PlanetTrait.registry.containsKey(resourcelocation) ? PlanetTrait.registry.getValue(resourcelocation) : notValid(resourcelocation);
+		return PlanetTrait.REGISTRY.containsKey(resourcelocation) ? PlanetTrait.REGISTRY.getValue(resourcelocation) : notValid(resourcelocation);
 	}
 
 	public static PlanetTrait notValid(ResourceLocation location) throws CommandSyntaxException {

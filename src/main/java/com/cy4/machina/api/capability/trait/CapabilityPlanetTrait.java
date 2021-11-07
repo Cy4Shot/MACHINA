@@ -54,7 +54,7 @@ public class CapabilityPlanetTrait {
 			traitsNbt.forEach(INBT -> {
 				CompoundNBT traitData = (CompoundNBT) INBT;
 				ResourceLocation name = new ResourceLocation(traitData.getString("name"));
-				instance.addTrait(PlanetTrait.registry.getValue(name));
+				instance.addTrait(PlanetTrait.REGISTRY.getValue(name));
 			});
 
 		}

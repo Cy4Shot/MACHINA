@@ -7,9 +7,9 @@ import net.minecraft.world.World;
  * @author matyrobbrt
  *
  */
-public class OnPlanetCreatedEvent extends PlanetEvent {
+public class PlanetCreatedEvent extends PlanetEvent {
 
-	protected OnPlanetCreatedEvent(World planet) {
+	protected PlanetCreatedEvent(World planet) {
 		super(planet);
 	}
 
