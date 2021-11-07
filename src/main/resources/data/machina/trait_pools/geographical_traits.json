@@ -1,6 +1,6 @@
 {
 	"minRolls": 3,
-	"maxRolls": 15,
+	"maxRolls": 5,
 	"entries": [
 		{
 			"weight": 15,

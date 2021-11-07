@@ -5,10 +5,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.init.CommandInit;
+import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -23,6 +23,15 @@ public class Machina {
 	
   public static final Logger LOGGER = LogManager.getLogger();
   public static final String MOD_ID = "machina";
+  
+  public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
+		@Override
+		public ItemStack makeIcon() {
+			return ItemStack.EMPTY;
+		}
+	};
+	
+	public static PlanetTraitPoolManager TRAIT_POOL_MANAGER = new PlanetTraitPoolManager();
 	 
 	public Machina() {
 		GeckoLib.initialize();
@@ -44,11 +53,4 @@ public class Machina {
 	public void onCommonSetup(final FMLCommonSetupEvent event) {
 		CapabilityPlanetTrait.register();
 	}
-	
-	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
-		@Override
-		public ItemStack makeIcon() {
-			return ItemStack.EMPTY;
-		}
-	};
 }
