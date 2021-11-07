@@ -2,9 +2,9 @@ package com.cy4.machina.api.capability.trait;
 
 import com.cy4.machina.api.planet.PlanetTrait;
 
+import net.minecraft.nbt.CollectionNBT;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 
@@ -22,40 +22,44 @@ public class CapabilityPlanetTrait {
 				DefaultPlanetTraitCapability::new);
 	}
 
+	/**
+	 * Weird way of loading/saving, but it works.
+	 * TODO figure out a better way to do it. Maybe using a custom {@link CollectionNBT} of {@link String}s?
+	 * @author matyrobbrt
+	 *
+	 */
 	public static class Storage implements Capability.IStorage<IPlanetTraitCapability> {
 
 		@Override
 		public INBT writeNBT(Capability<IPlanetTraitCapability> capability, IPlanetTraitCapability instance,
 				Direction side) {
 			CompoundNBT tag = new CompoundNBT();
-
-			ListNBT traitsNbt = new ListNBT();
-
-			instance.getTraits().forEach(trait -> {
-				ResourceLocation name = trait.getRegistryName();
-				CompoundNBT traitNbt = new CompoundNBT();
-				traitNbt.putString("name", name.toString());
-				traitsNbt.add(traitNbt);
-			});
-
-			tag.put("traits", traitsNbt);
+			
+			CompoundNBT traitsNBT = new CompoundNBT();
+			traitsNBT.putInt("size", instance.getTraits().size());
+			for (int i = 0; i < instance.getTraits().size(); i++) {
+				traitsNBT.putString(String.valueOf(i), instance.getTraits().get(i).getRegistryName().toString());
+			}
+			
+			tag.put("traits", traitsNBT);
 
 			return tag;
 		}
 
-		
-		// TODO Make it actually read
 		@Override
 		public void readNBT(Capability<IPlanetTraitCapability> capability, IPlanetTraitCapability instance,
 				Direction side, INBT inbt) {
 			CompoundNBT nbt = (CompoundNBT) inbt;
-			ListNBT traitsNbt = nbt.getList("traits", 9);
-
-			traitsNbt.forEach(INBT -> {
-				CompoundNBT traitData = (CompoundNBT) INBT;
-				ResourceLocation name = new ResourceLocation(traitData.getString("name"));
-				instance.addTrait(PlanetTrait.REGISTRY.getValue(name));
-			});
+			
+			if (nbt.contains("traits")) {
+				CompoundNBT traitsNbt = nbt.getCompound("traits");
+				int size = traitsNbt.getInt("size");
+				for (int i = 0; i < size; i++) {
+					if (traitsNbt.contains(String.valueOf(i))) {
+						instance.addTrait(PlanetTrait.REGISTRY.getValue(new ResourceLocation(traitsNbt.getString(String.valueOf(i)))));
+					}
+				}
+			}
 
 		}
 
