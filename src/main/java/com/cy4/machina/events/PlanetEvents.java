@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID)
 public class PlanetEvents {
 
-	//@SubscribeEvent
+	@SubscribeEvent
 	public static void onPlanetCreated(PlanetCreatedEvent event) {
 		//TODO Cy4 make it work lol
 		
