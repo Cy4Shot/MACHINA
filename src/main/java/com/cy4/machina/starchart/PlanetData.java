@@ -6,10 +6,12 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.planet.PlanetNameGenerator;
 import com.cy4.machina.api.planet.PlanetTrait;
 
 public class PlanetData {
-	public List<PlanetTrait> TRAITS = new ArrayList<>();
+	public List<PlanetTrait> traits = new ArrayList<>();
+	public String name;
 
 	public static List<PlanetTrait> getTraits(Random rand) {
 		List<PlanetTrait> res = new ArrayList<>();
@@ -22,7 +24,8 @@ public class PlanetData {
 
 	public PlanetData(Random rand) {
 		this.rand = rand;
-		TRAITS = getTraits(rand);
+		this.name = PlanetNameGenerator.getName(rand);
+		traits = getTraits(rand);
 	}
 	
 	@Override
