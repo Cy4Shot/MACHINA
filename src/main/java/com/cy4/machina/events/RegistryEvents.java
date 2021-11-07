@@ -15,7 +15,7 @@ import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.planet.PlanetTrait;
-import com.cy4.machina.util.helper.ReflectionHelper;
+import com.cy4.machina.util.ReflectionHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -124,9 +124,6 @@ public class RegistryEvents {
 		// registers blocks
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterPlanetTrait.class).forEach(field -> {
 			try {
-				for (int i = 0; i < 100; i++) {
-					System.out.println("t");
-				}
 				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof PlanetTrait) {
 					PlanetTrait trait = (PlanetTrait) field.get(field.getDeclaringClass());
 					trait.setRegistryName(
