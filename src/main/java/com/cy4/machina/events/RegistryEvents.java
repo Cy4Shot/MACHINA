@@ -12,14 +12,15 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
+import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.api.planet.PlanetTrait;
 import com.cy4.machina.util.helper.ReflectionHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -114,6 +115,36 @@ public class RegistryEvents {
 				// TODO Do some println()
 			}
 		});
+	}
+
+	@SuppressWarnings("deprecation")
+	@SubscribeEvent
+	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
+
+		// registers blocks
+		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterPlanetTrait.class).forEach(field -> {
+			try {
+				for (int i = 0; i < 100; i++) {
+					System.out.println("t");
+				}
+				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof PlanetTrait) {
+					PlanetTrait trait = (PlanetTrait) field.get(field.getDeclaringClass());
+					trait.setRegistryName(
+							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
+									field.getAnnotation(RegisterPlanetTrait.class).id()));
+					event.getRegistry().register(trait);
+				} else
+					throw new RegistryException(
+							"The field " + field + " is annotated with @RegisterPlanetTrait but it is not a trait.");
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				// TODO Do some println()
+			}
+		});
+	}
+
+	@SubscribeEvent
+	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
+		PlanetTrait.createRegistry(event);
 	}
 
 	public static class RegistryException extends RuntimeException {

@@ -13,7 +13,7 @@ import software.bernie.geckolib3.GeckoLib;
 @Mod(Machina.MOD_ID)
 public class Machina {
 	
-	public static final Logger LOGGER = LogManager.getLogger();
+  public static final Logger LOGGER = LogManager.getLogger();
 	public static final String MOD_ID = "machina";
 	 
 	public Machina() {
