@@ -6,6 +6,8 @@ import software.bernie.geckolib3.GeckoLib;
 
 @Mod("machina")
 public class Machina {
+	
+	public static final String MODID = "machina";
 	 
 	public Machina() {
 		GeckoLib.initialize();
