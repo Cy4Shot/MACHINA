@@ -1,10 +1,8 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.world.DynamicDimensionHelper;
+import com.cy4.machina.starchart.Starchart;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,8 +18,12 @@ public class ForgeEvents {
 
 	@SubscribeEvent
 	public static void debug(ItemTossEvent event) {
-		ServerWorld world = DynamicDimensionHelper.createPlanet(event.getEntity().getServer(), "planet_zog");
 		
-		DynamicDimensionHelper.sendPlayerToDimension((ServerPlayerEntity) event.getPlayer(), world, event.getPlayer().position());
+		Starchart sc = new Starchart(10000L);
+		sc.debugStarchart();
+		
+//		ServerWorld world = DynamicDimensionHelper.createPlanet(event.getEntity().getServer(), "planet_zog");
+//		
+//		DynamicDimensionHelper.sendPlayerToDimension((ServerPlayerEntity) event.getPlayer(), world, event.getPlayer().position());
 	}
 }

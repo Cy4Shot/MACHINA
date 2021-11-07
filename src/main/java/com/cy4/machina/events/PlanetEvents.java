@@ -24,7 +24,7 @@ public class PlanetEvents {
 		event.getPlanet().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
 			long seed = ((ServerWorld) event.getPlanet()).getSeed();
 			Starchart chart = new Starchart(seed);
-			chart.planets.get(chart.planets.indexOf(new PlanetData(new Random(seed)))).TRAITS.forEach(cap::addTrait);
+			chart.planets.get(chart.planets.indexOf(new PlanetData(new Random(seed)))).traits.forEach(cap::addTrait);
 		});
 	}
 
