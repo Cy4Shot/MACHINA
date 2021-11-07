@@ -8,6 +8,7 @@ import com.cy4.machina.starchart.Starchart;
 import net.minecraft.world.server.ServerWorld;
 
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID)
 public class PlanetEvents {
