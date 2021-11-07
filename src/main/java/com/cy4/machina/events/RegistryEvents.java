@@ -32,7 +32,6 @@ import net.minecraftforge.forgespi.language.ModFileScanData;
 /**
  * @author matyrobbrt
  */
-@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class RegistryEvents {
 	
@@ -121,7 +120,7 @@ public class RegistryEvents {
 	@SubscribeEvent
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
 
-		// registers blocks
+		// registers plant traits
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterPlanetTrait.class).forEach(field -> {
 			try {
 				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof PlanetTrait) {
