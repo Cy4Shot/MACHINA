@@ -9,11 +9,10 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
 
-public class AddTraitCommand extends PlanetTraitsCommand {
+public class RemoveTraitCommand extends PlanetTraitsCommand {
 
-	public AddTraitCommand(int permissionLevel, boolean enabled) {
+	public RemoveTraitCommand(int permissionLevel, boolean enabled) {
 		super(permissionLevel, enabled);
 	}
 
@@ -25,22 +24,24 @@ public class AddTraitCommand extends PlanetTraitsCommand {
 
 	public int execute(CommandContext<CommandSource> context, PlanetTrait trait) {
 		if (checkDimension(context)) {
-			ServerWorld world = context.getSource().getLevel();
-			world.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
-				if (!cap.getTraits().contains(trait)) {
-					cap.addTrait(trait);
-					context.getSource()
-							.sendSuccess(new TranslationTextComponent("command.planet_traits.add_trait.success"), true);
-				} else {
-					context.getSource().sendFailure(new TranslationTextComponent(
-							"command.planet_traits.add_trait.duplicate", trait.getRegistryName().toString()));
-				}
-			});
+			context.getSource().getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY)
+					.ifPresent(cap -> {
+						if (cap.getTraits().contains(trait)) {
+							cap.removeTrait(trait);
+							context.getSource().sendSuccess(
+									new TranslationTextComponent("command.planet_traits.remove_trait.success"), true);
+						} else {
+							context.getSource()
+									.sendFailure(new TranslationTextComponent(
+											"command.planet_traits.remove_trait.not_existing",
+											trait.getRegistryName().toString()));
+						}
+					});
 		}
 		return 0;
 	}
 
 	@Override
-	public String getName() { return "add_trait"; }
+	public String getName() { return "remove_trait"; }
 
 }

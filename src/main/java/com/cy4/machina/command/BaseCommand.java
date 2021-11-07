@@ -1,6 +1,7 @@
 package com.cy4.machina.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -32,5 +33,9 @@ public abstract class BaseCommand {
 	}
 	
 	public abstract String getName();
+	
+	protected int execute(CommandContext<CommandSource> context) {
+		return 0;
+	}
 
 }

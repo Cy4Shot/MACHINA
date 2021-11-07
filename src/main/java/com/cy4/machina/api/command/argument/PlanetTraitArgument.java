@@ -3,6 +3,7 @@ package com.cy4.machina.api.command.argument;
 import java.util.concurrent.CompletableFuture;
 
 import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.util.MachinaRL;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -16,14 +17,14 @@ import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 
-public class PlanetTraitArgument implements ArgumentType<ResourceLocation> {
+public class PlanetTraitArgument implements ArgumentType<MachinaRL> {
 
 	private static final DynamicCommandExceptionType ERROR_INVALID_VALUE = new DynamicCommandExceptionType(
 			p_212594_0_ -> new TranslationTextComponent("argument.planet_trait.invalid", p_212594_0_));
 
 	@Override
-	public ResourceLocation parse(StringReader p_parse_1_) throws CommandSyntaxException {
-		return ResourceLocation.read(p_parse_1_);
+	public MachinaRL parse(StringReader reader) throws CommandSyntaxException {
+		return MachinaRL.read(reader);
 	}
 
 	@Override

@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import com.cy4.machina.Machina;
 import com.cy4.machina.command.BaseCommand;
 import com.cy4.machina.command.impl.traits.AddTraitCommand;
+import com.cy4.machina.command.impl.traits.ListTraitsCommand;
 import com.cy4.machina.command.impl.traits.PlanetTraitsCommand;
+import com.cy4.machina.command.impl.traits.RemoveTraitCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
@@ -36,6 +38,8 @@ public class CommandInit {
 		CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
 		
 		planetTraitsCommands.add(new AddTraitCommand(PermissionLevels.GIVE_CLEAR, true));
+		planetTraitsCommands.add(new ListTraitsCommand(PermissionLevels.GIVE_CLEAR, true));
+		planetTraitsCommands.add(new RemoveTraitCommand(PermissionLevels.GIVE_CLEAR, true));
 		
 		commands.forEach(command -> {
 			if (command.isEnabled()) {
