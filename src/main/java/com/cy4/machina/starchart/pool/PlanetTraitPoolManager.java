@@ -2,6 +2,7 @@ package com.cy4.machina.starchart.pool;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.BiConsumer;
 
 import com.cy4.machina.Machina;
 import com.google.common.collect.ImmutableMap;
@@ -57,6 +58,10 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 	
 	public PlanetTraitPool getPool(ResourceLocation loc) {
 		return traits.get(loc);
+	}
+	
+	public void forEach(BiConsumer<? super ResourceLocation, ? super PlanetTraitPool> c) {
+		traits.forEach(c);
 	}
 
 }
