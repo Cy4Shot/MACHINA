@@ -7,15 +7,12 @@ import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.config.MachinaConfig;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
-import com.cy4.machina.world.DynamicDimensionFactory;
 import com.cy4.machina.world.DynamicDimensionHelper;
 import com.cy4.machina.world.data.PlanetDimensionData;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -70,9 +67,7 @@ public class Machina {
 	@SuppressWarnings("resource")
 	public void onServerStart(final FMLServerStartingEvent event) {
 		PlanetDimensionData.getDefaultInstance(event.getServer()).dimensionIds.forEach(id -> {
-			DynamicDimensionHelper.getOrCreateWorld(event.getServer(),
-					RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(Machina.MOD_ID, id)),
-					(server, key) -> DynamicDimensionFactory.createDimension(server, key));
+			DynamicDimensionHelper.createPlanet(event.getServer(), id);
 		});
 	}
 }
