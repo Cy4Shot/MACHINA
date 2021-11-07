@@ -15,7 +15,11 @@ public abstract class PlanetEvent extends Event {
 
 	public World getPlanet() { return this.planet; }
 	
-	public void onPlanetCreated(World planet) {
+	/**
+	 * Call it when a planet is being created
+	 * @param planet
+	 */
+	public static void onPlanetCreated(World planet) {
 		MinecraftForge.EVENT_BUS.post(new PlanetCreatedEvent(planet));
 	}
 

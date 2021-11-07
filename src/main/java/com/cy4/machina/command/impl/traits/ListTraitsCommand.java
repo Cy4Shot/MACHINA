@@ -23,7 +23,7 @@ public class ListTraitsCommand extends PlanetTraitsCommand {
 		if (checkDimension(context)) {
 			context.getSource().getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY)
 					.ifPresent(cap -> {
-						if (cap.getTraits().size() < 1) {
+						if (cap.getTraits().isEmpty()) {
 							context.getSource().sendSuccess(
 									new TranslationTextComponent("command.planet_traits.list_traits.no_traits"), true);
 						} else {
