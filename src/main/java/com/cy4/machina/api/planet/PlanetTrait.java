@@ -14,7 +14,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
 	public static void createRegistry(RegistryEvent.NewRegistry event) {
 		RegistryBuilder<PlanetTrait> registryBuilder = new RegistryBuilder<>();
-		registryBuilder.setName(new ResourceLocation(Machina.MODID, "planet_trait_registry"));
+		registryBuilder.setName(new ResourceLocation(Machina.MOD_ID, "planet_trait_registry"));
 		registryBuilder.setType(PlanetTrait.class);
 		registry = registryBuilder.create();
 	}
