@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.config.MachinaConfig;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
 
@@ -13,7 +14,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import software.bernie.geckolib3.GeckoLib;
@@ -42,6 +45,8 @@ public class Machina {
 		
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
+		
+		ModLoadingContext.get().registerConfig(Type.COMMON, MachinaConfig.SPEC, "machina-common.toml");
 		
 		MinecraftForge.EVENT_BUS.register(this);
 	}

@@ -39,7 +39,7 @@ public class EnUsLangProvider extends LanguageProvider {
 	}
 	
 	private void addTrait(String key, String name) {
-		add("trait." + key, name);
+		add(Machina.MOD_ID + ".trait." + key, name);
 	}
 
 }
