@@ -34,7 +34,7 @@ import net.minecraftforge.forgespi.language.ModFileScanData;
  */
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class RegistryEvents {
-	
+
 	@SubscribeEvent
 	public static void constructMod(FMLConstructModEvent event) {
 		RegistryEvents.init();
@@ -49,12 +49,13 @@ public class RegistryEvents {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-			try {
-				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
-						RegistryEvents.class.getClassLoader()));
-			} catch (ClassNotFoundException e) {}
-		});
+				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+					try {
+						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
+								RegistryEvents.class.getClassLoader()));
+					} catch (ClassNotFoundException e) {
+					}
+				});
 	}
 
 	private RegistryEvents() {
