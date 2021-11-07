@@ -27,11 +27,9 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 
 /**
- * TODO mod id huh
  * @author matyrobbrt
- *
  */
-@Mod.EventBusSubscriber(modid = "", bus = Bus.MOD)
+@Mod.EventBusSubscriber(modid = "machina", bus = Bus.MOD)
 public class RegistryEvents {
 
 	private static final ArrayList<Class<?>> REGISTRY_CLASSES = new ArrayList<>();
@@ -54,6 +52,7 @@ public class RegistryEvents {
 	private RegistryEvents() {
 	}
 
+	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 
@@ -90,6 +89,7 @@ public class RegistryEvents {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 
