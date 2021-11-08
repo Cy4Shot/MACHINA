@@ -5,8 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 
-public class AnimatedBuilder extends Block
-{
+public class AnimatedBuilder extends Block {
     public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
     public AnimatedBuilder(Properties properties) {

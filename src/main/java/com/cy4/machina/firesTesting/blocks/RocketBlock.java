@@ -11,8 +11,7 @@ import net.minecraft.world.IBlockReader;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class RocketBlock extends Block
-{
+public class RocketBlock extends Block {
     public RocketBlock(Properties properties) {
         super(properties);
     }

@@ -14,8 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ClientListener
-{
+public class ClientListener {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void registerRenderers(final FMLClientSetupEvent event) {

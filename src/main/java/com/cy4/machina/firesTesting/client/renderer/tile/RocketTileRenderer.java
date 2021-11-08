@@ -12,8 +12,7 @@ import software.bernie.example.block.tile.BotariumTileEntity;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
-public class RocketTileRenderer extends GeoBlockRenderer<RocketTile>
-{
+public class RocketTileRenderer extends GeoBlockRenderer<RocketTile> {
     public RocketTileRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn, new RocketTileModel());
     }

@@ -14,8 +14,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.model.provider.GeoModelProvider;
 import software.bernie.geckolib3.renderers.geo.IGeoRenderer;
 
-public class RocketTile extends TileEntity implements IAnimatable
-{
+public class RocketTile extends TileEntity implements IAnimatable {
     private final AnimationFactory factory = new AnimationFactory(this);
 
     private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {

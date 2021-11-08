@@ -10,8 +10,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
 @RegistryHolder
-public class BlockItemInit
-{
+public class BlockItemInit {
     @RegisterBlockItem
     public static final BlockItem ROCKET_PLATFORM_BLOCKITEM = new BlockItem(BlockInit.ROCKET_PLATFORM_BLOCK, new Item.Properties());
 

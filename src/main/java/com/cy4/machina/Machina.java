@@ -33,14 +33,8 @@ public class Machina {
 		//modBus.addListener(this::clientSetup);
 		//modBus.addListener(this::gatherData);
 
-		//Registries
-		DeferredRegister<?>[] registers = {
-				TileEntityTypesInit.TILE_ENTITY_TYPE,
-		};
+		TileEntityTypesInit.TILE_ENTITY_TYPE.register(modBus);
 
-		for (DeferredRegister<?> register : registers) {
-			register.register(modBus);
-		}
 	}
 
 
@@ -52,8 +46,7 @@ public class Machina {
 		}
 
 		@Override
-		public void fillItemList(NonNullList<ItemStack> items)
-		{
+		public void fillItemList(NonNullList<ItemStack> items) {
 			//items.add(ItemInit.TEST_ITEM.getDefaultInstance());
 
 			items.add(BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance());
@@ -66,5 +59,4 @@ public class Machina {
 			items.add(BlockInit.ROCKET.asItem().getDefaultInstance());
 		}
 	};
-
 }

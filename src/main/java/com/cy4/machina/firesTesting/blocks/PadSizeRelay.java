@@ -10,8 +10,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
-public class PadSizeRelay extends Block
-{
+public class PadSizeRelay extends Block {
     public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
     public PadSizeRelay(Properties properties) {

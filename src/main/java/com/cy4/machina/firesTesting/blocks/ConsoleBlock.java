@@ -12,8 +12,7 @@ import net.minecraft.state.properties.Half;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
-public class ConsoleBlock extends Block
-{
+public class ConsoleBlock extends Block {
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
     public ConsoleBlock(Properties properties) {

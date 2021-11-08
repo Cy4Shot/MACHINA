@@ -8,8 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 
 @RegistryHolder
-public class BlockInit
-{
+public class BlockInit {
     @RegisterBlock("rocket_platform_block")
     public static final Block ROCKET_PLATFORM_BLOCK = new Block(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
 
