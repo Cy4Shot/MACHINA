@@ -15,7 +15,7 @@ import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.planet.PlanetTrait;
-import com.cy4.machina.util.helper.ReflectionHelper;
+import com.cy4.machina.util.ReflectionHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -32,10 +32,9 @@ import net.minecraftforge.forgespi.language.ModFileScanData;
 /**
  * @author matyrobbrt
  */
-@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class RegistryEvents {
-	
+
 	@SubscribeEvent
 	public static void constructMod(FMLConstructModEvent event) {
 		RegistryEvents.init();
@@ -50,12 +49,13 @@ public class RegistryEvents {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-			try {
-				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
-						RegistryEvents.class.getClassLoader()));
-			} catch (ClassNotFoundException e) {}
-		});
+				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+					try {
+						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
+								RegistryEvents.class.getClassLoader()));
+					} catch (ClassNotFoundException e) {
+					}
+				});
 	}
 
 	private RegistryEvents() {
@@ -121,12 +121,9 @@ public class RegistryEvents {
 	@SubscribeEvent
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
 
-		// registers blocks
+		// registers plant traits
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterPlanetTrait.class).forEach(field -> {
 			try {
-				for (int i = 0; i < 100; i++) {
-					System.out.println("t");
-				}
 				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof PlanetTrait) {
 					PlanetTrait trait = (PlanetTrait) field.get(field.getDeclaringClass());
 					trait.setRegistryName(

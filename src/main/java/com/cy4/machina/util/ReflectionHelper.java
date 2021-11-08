@@ -1,4 +1,4 @@
-package com.cy4.machina.util.helper;
+package com.cy4.machina.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
