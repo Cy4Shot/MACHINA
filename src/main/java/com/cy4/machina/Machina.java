@@ -1,5 +1,13 @@
 package com.cy4.machina;
 
+import com.cy4.machina.firesTesting.TileEntityTypesInit;
+import com.cy4.machina.init.BlockInit;
+import com.cy4.machina.init.ItemInit;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,19 +38,12 @@ public class Machina {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final String MOD_ID = "machina";
-	public static final ResourceLocation MACHINA_ID = new ResourceLocation(MOD_ID, MOD_ID);
-
-	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
-		@Override
-		public ItemStack makeIcon() {
-			return ItemStack.EMPTY;
-		}
-	};
-
+  
 	public static PlanetTraitPoolManager TRAIT_POOL_MANAGER = new PlanetTraitPoolManager();
-
+	 
 	public Machina() {
 		GeckoLib.initialize();
+		MinecraftForge.EVENT_BUS.register(this);
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
@@ -53,7 +54,41 @@ public class Machina {
 
 		ModLoadingContext.get().registerConfig(Type.COMMON, MachinaConfig.SPEC, "machina-common.toml");
 		MinecraftForge.EVENT_BUS.register(this);
+
+		//Registries
+		DeferredRegister<?>[] registers = {
+				TileEntityTypesInit.TILE_ENTITY_TYPE,
+		};
+
+		for (DeferredRegister<?> register : registers) {
+			register.register(modBus);
+		}
 	}
+
+
+	public static final ResourceLocation MACHINA_ID = new ResourceLocation(MOD_ID, MOD_ID);
+
+	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
+		@Override
+		public ItemStack makeIcon() {
+			return BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance();
+		}
+
+		@Override
+		public void fillItemList(NonNullList<ItemStack> items)
+		{
+			//items.add(ItemInit.TEST_ITEM.getDefaultInstance());
+
+			items.add(BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance());
+
+			items.add(BlockInit.ANIMATED_BUILDER_MOUNT.asItem().getDefaultInstance());
+			items.add(BlockInit.ANIMATED_BUILDER.asItem().getDefaultInstance());
+			items.add(BlockInit.PAD_SIZE_RELAY.asItem().getDefaultInstance());
+			items.add(BlockInit.CONSOLE.asItem().getDefaultInstance());
+
+			items.add(BlockInit.ROCKET.asItem().getDefaultInstance());
+		}
+	};
 
 	public void onRegisterCommands(final RegisterCommandsEvent event) {
 		CommandInit.registerCommands(event);

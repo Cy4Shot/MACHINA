@@ -1,11 +1,13 @@
 package com.cy4.machina.init;
 
-import static com.cy4.machina.Machina.MACHINA_ITEM_GROUP;
 
+import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 
 import net.minecraft.item.Item;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @RegistryHolder
 public class ItemInit {
