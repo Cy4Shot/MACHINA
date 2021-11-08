@@ -8,7 +8,8 @@
 		"PlayerEntityMixin"
 	],
 	"client": [
-		"client.ServerWorldInfoMixin"
+		"client.ServerWorldInfoMixin",
+		"client.OverlayRendererMixin"
 	],
 	"minVersion": "0.8"
 }

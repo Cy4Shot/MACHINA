@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.api.planet.PlanetUtils;
-import com.cy4.machina.init.EffectInit;
 import com.cy4.machina.init.PlanetTraitInit;
 
 import net.minecraft.entity.Entity;
@@ -32,10 +31,9 @@ public abstract class LivingEntityMixin extends Entity {
 				callback.setReturnValue(false);
 			}
 		}
-		
-		setEffectPlanetOnly(EffectInit.SUPERHOT_RESISTANCE, effect, callback);
 	}
 	
+	@SuppressWarnings("unused")
 	private void setEffectPlanetOnly(Effect effect, EffectInstance instace, CallbackInfoReturnable<Boolean> callback) {
 		if (instace.getEffect() != effect)
 			return;

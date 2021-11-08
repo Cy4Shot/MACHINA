@@ -2,7 +2,6 @@ package com.cy4.machina.datagen.client.lang;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.planet.PlanetTrait;
-import com.cy4.machina.init.EffectInit;
 import com.cy4.machina.init.PlanetTraitInit;
 
 import net.minecraft.data.DataGenerator;
@@ -35,8 +34,6 @@ public class EnUsLangProvider extends LanguageProvider {
 		addTrait("layered", "Layered");
 		add(PlanetTraitInit.LOW_GRAVITY, "Low Gravity");
 		add(PlanetTraitInit.SUPERHOT, "Superhot");
-		
-		add(EffectInit.SUPERHOT_RESISTANCE, "Superhot Resistance");
 		
 		addItemGroup("machinaItemGroup", "Machina");
 		

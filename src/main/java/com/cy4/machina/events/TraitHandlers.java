@@ -8,8 +8,9 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.api.planet.PlanetUtils;
 import com.cy4.machina.config.ServerConfig;
-import com.cy4.machina.init.EffectInit;
 import com.cy4.machina.init.PlanetTraitInit;
+import com.cy4.machina.item.ThermalRegulatorSuit;
+import com.cy4.machina.util.helper.PlayerHelper;
 
 import net.minecraft.potion.Effects;
 
@@ -37,14 +38,19 @@ public class TraitHandlers {
 			timer.start();
 		}
 	}
-	
+
 	public static void handleSuperHot(TickEvent.PlayerTickEvent event) {
-		if ((event.side != LogicalSide.SERVER)
-				|| !PlanetUtils.isDimensionPlanet(event.player.level.dimension()))
+		if ((event.side != LogicalSide.SERVER) || !PlanetUtils.isDimensionPlanet(event.player.level.dimension()))
 			return;
 		if (CapabilityPlanetTrait.worldHasTrait(event.player.level, PlanetTraitInit.SUPERHOT)) {
-			if (rand.nextInt(100) < ServerConfig.SUPERHOT_FIRE_CHANCE.get() && !event.player.hasEffect(EffectInit.SUPERHOT_RESISTANCE)) {
-				event.player.setSecondsOnFire(1);
+			if (rand.nextInt(100) <= ServerConfig.SUPERHOT_FIRE_CHANCE.get()) {
+				if (ThermalRegulatorSuit.isFullSuit(event.player)) {
+					if (rand.nextInt(100) <= ServerConfig.SUPERHOT_ARMOUR_DAMAGE_CHANCE.get()) {
+						PlayerHelper.damageAllArmour(event.player, 1);
+					}
+				} else {
+					event.player.setSecondsOnFire(1);
+				}
 			}
 			if (event.player.hasEffect(Effects.FIRE_RESISTANCE)) {
 				event.player.removeEffect(Effects.FIRE_RESISTANCE);
