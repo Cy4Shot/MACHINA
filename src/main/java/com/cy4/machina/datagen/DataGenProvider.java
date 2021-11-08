@@ -2,6 +2,7 @@ package com.cy4.machina.datagen;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.datagen.client.lang.EnUsLangProvider;
+import com.cy4.machina.datagen.common.PlanetTraitPoolsProvider;
 
 import net.minecraft.data.DataGenerator;
 
@@ -18,6 +19,8 @@ public class DataGenProvider {
 		DataGenerator gen = event.getGenerator();
 
 		gen.addProvider(new EnUsLangProvider(gen));
+		
+		gen.addProvider(new PlanetTraitPoolsProvider(gen));
 	}
 
 }

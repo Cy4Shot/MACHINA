@@ -1,0 +1,51 @@
+{
+  "minRolls": 3,
+  "maxRolls": 5,
+  "entries": [
+    {
+      "weight": 15,
+      "values": [
+        "machina:continental",
+        "machina:water_world",
+        "machina:landmass"
+      ]
+    },
+    {
+      "weight": 15,
+      "values": [
+        "machina:mountainous",
+        "machina:hilly",
+        "machina:flat"
+      ]
+    },
+    {
+      "weight": 15,
+      "values": [
+        "machina:ore_barren",
+        "machina:ore_rich"
+      ]
+    },
+    {
+      "weight": 5,
+      "values": [
+        "machina:canyons",
+        "machina:fiords",
+        "machina:ravines",
+        "machina:lakes"
+      ]
+    },
+    {
+      "weight": 5,
+      "values": [
+        "machina:volcanic",
+        "machina:frozen"
+      ]
+    },
+    {
+      "weight": 2,
+      "values": [
+        "machina:layered"
+      ]
+    }
+  ]
+}
