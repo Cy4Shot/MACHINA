@@ -71,7 +71,8 @@ public class Machina {
 	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
 		@Override
 		public ItemStack makeIcon() {
-			return BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance();
+			//return BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance();
+			return ItemInit.ITEM_GROUP_ICON.getDefaultInstance();
 		}
 
 		@Override

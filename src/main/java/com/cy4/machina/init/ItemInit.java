@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 @RegistryHolder
 public class ItemInit {
-
+	/**
 	@RegisterItem("item_group_icon")
 	public static final Item ITEM_GROUP_ICON = new Item(new Item.Properties().tab(MACHINA_ITEM_GROUP)) {
 		@Override
@@ -20,5 +20,8 @@ public class ItemInit {
 			// We need to hide the item
 		}
 	};
+	**/
 
+	@RegisterItem("item_group_icon")
+	public static final Item ITEM_GROUP_ICON = new Item(new Item.Properties());
 }
