@@ -6,7 +6,7 @@ import javax.swing.Timer;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
-import com.cy4.machina.api.planet.PlanetDimensionModIds;
+import com.cy4.machina.api.planet.PlanetUtils;
 import com.cy4.machina.config.ServerConfig;
 import com.cy4.machina.init.EffectInit;
 import com.cy4.machina.init.PlanetTraitInit;
@@ -29,7 +29,7 @@ public class TraitHandlers {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void handleGravity(LivingJumpEvent event) {
 		if (CapabilityPlanetTrait.worldHasTrait(event.getEntityLiving().level, PlanetTraitInit.LOW_GRAVITY)
-				&& PlanetDimensionModIds.isDimensionPlanet(event.getEntityLiving().level.dimension())) {
+				&& PlanetUtils.isDimensionPlanet(event.getEntityLiving().level.dimension())) {
 			event.getEntityLiving().setNoGravity(true);
 			Timer timer = new Timer(ServerConfig.LOW_GRAVITY_AIR_TIME.get() * 50,
 					actionEvent -> event.getEntityLiving().setNoGravity(false));
@@ -40,7 +40,7 @@ public class TraitHandlers {
 	
 	public static void handleSuperHot(TickEvent.PlayerTickEvent event) {
 		if ((event.side != LogicalSide.SERVER)
-				|| !PlanetDimensionModIds.isDimensionPlanet(event.player.level.dimension()))
+				|| !PlanetUtils.isDimensionPlanet(event.player.level.dimension()))
 			return;
 		if (CapabilityPlanetTrait.worldHasTrait(event.player.level, PlanetTraitInit.SUPERHOT)) {
 			if (rand.nextInt(100) < ServerConfig.SUPERHOT_FIRE_CHANCE.get() && !event.player.hasEffect(EffectInit.SUPERHOT_RESISTANCE)) {
