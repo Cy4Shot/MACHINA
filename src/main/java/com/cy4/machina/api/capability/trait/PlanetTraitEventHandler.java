@@ -1,6 +1,7 @@
 package com.cy4.machina.api.capability.trait;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.planet.PlanetDimensionModIds;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -15,10 +16,11 @@ public class PlanetTraitEventHandler {
 
 	@SubscribeEvent
 	public static void onAttachCapabilities(AttachCapabilitiesEvent<World> event) {
-		// TODO check if the world is a planet dimension
-		PlanetTraitCapabilityProvider provider = new PlanetTraitCapabilityProvider();
-		event.addCapability(new ResourceLocation(Machina.MOD_ID, "traits"), provider);
-		event.addListener(provider::invalidate);
+		if (PlanetDimensionModIds.isDimensionPlanet(event.getObject().dimension())) {
+			PlanetTraitCapabilityProvider provider = new PlanetTraitCapabilityProvider();
+			event.addCapability(new ResourceLocation(Machina.MOD_ID, "traits"), provider);
+			event.addListener(provider::invalidate);
+		}
 	}
 
 }

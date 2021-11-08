@@ -1,18 +1,13 @@
 package com.cy4.machina;
 
-import com.cy4.machina.firesTesting.TileEntityTypesInit;
-import com.cy4.machina.init.BlockInit;
-import com.cy4.machina.init.ItemInit;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.config.MachinaConfig;
+import com.cy4.machina.events.TraitHandlers;
+import com.cy4.machina.firesTesting.TileEntityTypesInit;
+import com.cy4.machina.init.BlockInit;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
 import com.cy4.machina.world.DynamicDimensionHelper;
@@ -20,7 +15,9 @@ import com.cy4.machina.world.data.PlanetDimensionData;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -31,6 +28,7 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 import software.bernie.geckolib3.GeckoLib;
 
 @Mod(Machina.MOD_ID)
@@ -49,8 +47,10 @@ public class Machina {
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
 		modBus.addListener(this::onCommonSetup);
+		
 		forgeBus.addListener(EventPriority.HIGH, this::onServerStart);
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
+		forgeBus.addListener(EventPriority.HIGH, TraitHandlers::handleSuperHot);
 
 		ModLoadingContext.get().registerConfig(Type.COMMON, MachinaConfig.SPEC, "machina-common.toml");
 		MinecraftForge.EVENT_BUS.register(this);

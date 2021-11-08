@@ -11,7 +11,9 @@ public class DefaultPlanetTraitCapability implements IPlanetTraitCapability {
 
 	@Override
 	public void addTrait(PlanetTrait trait) {
-		traits.add(trait);
+		if (!traits.contains(trait)) {
+			traits.add(trait);
+		}
 	}
 
 	@Override

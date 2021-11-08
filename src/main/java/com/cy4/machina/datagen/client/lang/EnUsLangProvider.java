@@ -1,6 +1,8 @@
 package com.cy4.machina.datagen.client.lang;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.init.PlanetTraitInit;
 
 import net.minecraft.data.DataGenerator;
 
@@ -30,6 +32,8 @@ public class EnUsLangProvider extends LanguageProvider {
 		addTrait("volcanic", "Volcanic");
 		addTrait("frozen", "Frozen");
 		addTrait("layered", "Layered");
+		add(PlanetTraitInit.LOW_GRAVITY, "Low Gravity");
+		add(PlanetTraitInit.SUPERHOT, "Superhot");
 		
 		addItemGroup("machinaItemGroup", "Machina");
 		
@@ -50,6 +54,10 @@ public class EnUsLangProvider extends LanguageProvider {
 	
 	private void addTrait(String key, String name) {
 		add(Machina.MOD_ID + ".trait." + key, name);
+	}
+	
+	private void add(PlanetTrait trait, String name) {
+		add(trait.getRegistryName().getNamespace() + ".trait." + trait.getRegistryName().getPath(), name);
 	}
 	
 	private void addCommandFeedback(String key, String name) {

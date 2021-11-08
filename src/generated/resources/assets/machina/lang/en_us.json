@@ -8,6 +8,8 @@
   "command.planet_traits.remove_trait.not_existing": "This planet does not have the trait %s!",
   "command.planet_traits.remove_trait.success": "Trait removed!",
   "itemGroup.machinaItemGroup": "Machina",
+  "machina.low_gravity": "Low Gravity",
+  "machina.superhot": "Superhot",
   "machina.trait.canyons": "Canyons",
   "machina.trait.continental": "Continental",
   "machina.trait.fiords": "Fiords",

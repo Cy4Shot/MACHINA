@@ -1,5 +1,7 @@
 package com.cy4.machina.api.capability.trait;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.cy4.machina.api.planet.PlanetTrait;
 
 import net.minecraft.nbt.CollectionNBT;
@@ -7,6 +9,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -20,6 +23,12 @@ public class CapabilityPlanetTrait {
 	public static void register() {
 		CapabilityManager.INSTANCE.register(IPlanetTraitCapability.class, new Storage(),
 				DefaultPlanetTraitCapability::new);
+	}
+	
+	public static boolean worldHasTrait(World world, PlanetTrait trait) {
+		AtomicBoolean value = new AtomicBoolean(false);
+		world.getCapability(PLANET_TRAIT_CAPABILITY).ifPresent(cap -> value.set(cap.getTraits().contains(trait)));
+		return value.get();
 	}
 
 	/**
