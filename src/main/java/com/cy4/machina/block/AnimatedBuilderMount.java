@@ -1,14 +1,14 @@
-package com.cy4.machina.firesTesting.blocks;
+package com.cy4.machina.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 
-public class AnimatedBuilder extends Block {
+public class AnimatedBuilderMount extends Block {
     public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
-    public AnimatedBuilder(Properties properties) {
+    public AnimatedBuilderMount(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(ACTIVATED, Boolean.FALSE));

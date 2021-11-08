@@ -13,6 +13,7 @@ import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
+import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.planet.PlanetTrait;
 import com.cy4.machina.util.ReflectionHelper;
@@ -20,6 +21,7 @@ import com.cy4.machina.util.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -112,6 +114,27 @@ public class RegistryEvents {
 				} else
 					throw new RegistryException(
 							"The field " + field + " is annotated with @RegisterBlock but it is not a block.");
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				// TODO Do some println()
+			}
+		});
+	}
+	
+	@SubscribeEvent
+	public static void registerTileEntityTypes(final RegistryEvent.Register<TileEntityType<?>> event) {
+		
+		// registers blocks
+		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterTileEntityType.class).forEach(field -> {
+			try {
+				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof TileEntityType<?>) {
+					TileEntityType<?> tile = (TileEntityType<?>) field.get(field.getDeclaringClass());
+					tile.setRegistryName(
+							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
+									field.getAnnotation(RegisterTileEntityType.class).value()));
+					event.getRegistry().register(tile);
+				} else
+					throw new RegistryException(
+							"The field " + field + " is annotated with @RegisterTileEntityType but it is not a te type.");
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				// TODO Do some println()
 			}

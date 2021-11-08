@@ -2,7 +2,12 @@ package com.cy4.machina.init;
 
 import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
-import com.cy4.machina.firesTesting.blocks.*;
+import com.cy4.machina.block.AnimatedBuilder;
+import com.cy4.machina.block.AnimatedBuilderMount;
+import com.cy4.machina.block.ConsoleBlock;
+import com.cy4.machina.block.PadSizeRelay;
+import com.cy4.machina.block.RocketBlock;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;

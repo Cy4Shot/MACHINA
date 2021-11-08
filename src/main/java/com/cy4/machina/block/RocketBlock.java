@@ -1,15 +1,12 @@
-package com.cy4.machina.firesTesting.blocks;
+package com.cy4.machina.block;
 
-import com.cy4.machina.Machina;
-import com.cy4.machina.firesTesting.TileEntityTypesInit;
+import com.cy4.machina.init.TileEntityTypesInit;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockReader;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class RocketBlock extends Block {
     public RocketBlock(Properties properties) {
@@ -23,7 +20,7 @@ public class RocketBlock extends Block {
 
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return TileEntityTypesInit.ROCKET_TILE.get().create();
+        return TileEntityTypesInit.ROCKET_TILE.create();
     }
 
     @Override

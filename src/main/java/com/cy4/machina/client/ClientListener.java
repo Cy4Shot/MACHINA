@@ -1,11 +1,13 @@
-package com.cy4.machina.firesTesting.client;
+package com.cy4.machina.client;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.firesTesting.TileEntityTypesInit;
-import com.cy4.machina.firesTesting.client.renderer.tile.RocketTileRenderer;
+import com.cy4.machina.client.renderer.tile.RocketTileRenderer;
 import com.cy4.machina.init.BlockInit;
+import com.cy4.machina.init.TileEntityTypesInit;
+
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,7 +20,7 @@ public class ClientListener {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void registerRenderers(final FMLClientSetupEvent event) {
-        ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.ROCKET_TILE.get(), RocketTileRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.ROCKET_TILE, RocketTileRenderer::new);
         RenderTypeLookup.setRenderLayer(BlockInit.ROCKET, RenderType.cutout());
     }
 }

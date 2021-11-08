@@ -36,6 +36,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
+@SuppressWarnings("deprecation")
 public class DynamicDimensionHelper {
 
 	public static final Function<MinecraftServer, IChunkStatusListenerFactory> CHUNK_STATUS_LISTENER_FACTORY_FIELD = getInstanceField(
