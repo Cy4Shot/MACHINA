@@ -8,6 +8,7 @@ import com.cy4.machina.config.MachinaConfig;
 import com.cy4.machina.events.TraitHandlers;
 import com.cy4.machina.init.BlockInit;
 import com.cy4.machina.init.CommandInit;
+import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
 import com.cy4.machina.world.DynamicDimensionHelper;
 import com.cy4.machina.world.data.PlanetDimensionData;
