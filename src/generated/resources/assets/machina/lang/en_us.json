@@ -7,6 +7,7 @@
   "command.planet_traits.not_planet": "This dimension is not a planet!",
   "command.planet_traits.remove_trait.not_existing": "This planet does not have the trait %s!",
   "command.planet_traits.remove_trait.success": "Trait removed!",
+  "effect.machina.superhot_resistance": "Superhot Resistance",
   "itemGroup.machinaItemGroup": "Machina",
   "machina.trait.canyons": "Canyons",
   "machina.trait.continental": "Continental",
