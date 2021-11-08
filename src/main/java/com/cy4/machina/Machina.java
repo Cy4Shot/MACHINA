@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.config.MachinaConfig;
 import com.cy4.machina.events.TraitHandlers;
-import com.cy4.machina.init.BlockInit;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
