@@ -8,8 +8,6 @@
   "command.planet_traits.remove_trait.not_existing": "This planet does not have the trait %s!",
   "command.planet_traits.remove_trait.success": "Trait removed!",
   "itemGroup.machinaItemGroup": "Machina",
-  "machina.low_gravity": "Low Gravity",
-  "machina.superhot": "Superhot",
   "machina.trait.canyons": "Canyons",
   "machina.trait.continental": "Continental",
   "machina.trait.fiords": "Fiords",
@@ -19,10 +17,12 @@
   "machina.trait.lakes": "Lakes",
   "machina.trait.landmass": "Landmass",
   "machina.trait.layered": "Layered",
+  "machina.trait.low_gravity": "Low Gravity",
   "machina.trait.mountainous": "Mountainous",
   "machina.trait.ore_barren": "Ore Barren",
   "machina.trait.ore_rich": "Ore Rich",
   "machina.trait.ravines": "Ravines",
+  "machina.trait.superhot": "Superhot",
   "machina.trait.volcanic": "Volcanic",
   "machina.trait.water_world": "Water World"
 }
