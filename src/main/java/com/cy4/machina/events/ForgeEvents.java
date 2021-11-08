@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 public class ForgeEvents {
 	@SubscribeEvent
 	public static void addReloadListeners(AddReloadListenerEvent event) {
-		event.addListener(Machina.TRAIT_POOL_MANAGER);
+		event.addListener(Machina.traitPoolManager);
 	}
 
 	@SubscribeEvent

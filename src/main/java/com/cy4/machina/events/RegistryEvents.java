@@ -1,5 +1,6 @@
 package com.cy4.machina.events;
 
+import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import org.objectweb.asm.Type;
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
+import com.cy4.machina.api.annotation.registries.RegisterEffect;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
@@ -21,8 +23,10 @@ import com.cy4.machina.util.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -30,6 +34,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.forgespi.language.ModFileScanData;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
  * @author matyrobbrt
@@ -140,6 +145,11 @@ public class RegistryEvents {
 			}
 		});
 	}
+	
+	@SubscribeEvent
+	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
+		registerFieldsWithAnnotation(event, RegisterEffect.class, Effect.class);
+	}
 
 	@SubscribeEvent
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
@@ -165,6 +175,29 @@ public class RegistryEvents {
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
 		PlanetTrait.createRegistry(event);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static <T extends IForgeRegistryEntry<T>> void registerFieldsWithAnnotation(final RegistryEvent.Register<T> event, Class<? extends Annotation> annotation, Class<T> objectClass) {
+		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, annotation).forEach(field -> {
+			try {
+				if (field.isAccessible() && objectClass.isInstance(field.get(field.getDeclaringClass()))) {
+					T registry = (T) field.get(field.getDeclaringClass());
+					String name = "";
+					
+					if (annotation == RegisterEffect.class) {
+						name = field.getAnnotation(RegisterEffect.class).value();
+					}
+					
+					registry.setRegistryName(new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(), name));
+					event.getRegistry().register(registry);
+				} else
+					throw new RegistryException(
+							"The field " + field + " is annotated with " + annotation + "but it is not a " + objectClass);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				// TODO Do some println()
+			}
+		});
 	}
 
 	public static class RegistryException extends RuntimeException {

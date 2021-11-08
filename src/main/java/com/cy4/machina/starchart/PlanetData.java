@@ -15,7 +15,7 @@ public class PlanetData {
 
 	public static List<PlanetTrait> getTraits(Random rand) {
 		List<PlanetTrait> res = new ArrayList<>();
-		Machina.TRAIT_POOL_MANAGER.forEach((location, pool) -> res.addAll(
+		Machina.traitPoolManager.forEach((location, pool) -> res.addAll(
 				pool.roll(rand).stream().map(rl -> PlanetTrait.REGISTRY.getValue(rl)).collect(Collectors.toList())));
 		return res;
 	}

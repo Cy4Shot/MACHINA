@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "com.cy4.machina.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"refmap": "machina.refmap.json",
+	"mixins": [
+		"LivingEntityMixin",
+		"PlayerEntityMixin"
+	],
+	"client": [
+		"client.ServerWorldInfoMixin"
+	],
+	"minVersion": "0.8"
+}

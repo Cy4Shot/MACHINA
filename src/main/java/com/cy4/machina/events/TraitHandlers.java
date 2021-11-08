@@ -2,45 +2,53 @@ package com.cy4.machina.events;
 
 import java.util.Random;
 
+import javax.swing.Timer;
+
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.api.planet.PlanetDimensionModIds;
-import com.cy4.machina.config.MachinaConfig;
+import com.cy4.machina.config.ServerConfig;
+import com.cy4.machina.init.EffectInit;
 import com.cy4.machina.init.PlanetTraitInit;
+
+import net.minecraft.potion.Effects;
 
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE)
 public class TraitHandlers {
-	
+
 	private static final Random rand = new Random();
-	
+
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void handleGravity(LivingJumpEvent event) {
-		if (CapabilityPlanetTrait.worldHasTrait(event.getEntityLiving().level, PlanetTraitInit.LOW_GRAVITY) && PlanetDimensionModIds.isDimensionPlanet(event.getEntityLiving().level.dimension())) {
+		if (CapabilityPlanetTrait.worldHasTrait(event.getEntityLiving().level, PlanetTraitInit.LOW_GRAVITY)
+				&& PlanetDimensionModIds.isDimensionPlanet(event.getEntityLiving().level.dimension())) {
 			event.getEntityLiving().setNoGravity(true);
-			try {
-				Thread.sleep(MachinaConfig.LOW_GRAVITY_AIR_TIME.get() * 50);
-				event.getEntityLiving().setNoGravity(false);
-			} catch (InterruptedException e) {
-				Machina.LOGGER.warn("The thread that was supposed to wait in order to give the player the gravity it lost by jumping in a planet with the Low Gravity trait was interrupted. The gravity was given back earlier! {}", e);
-				event.getEntityLiving().setNoGravity(false);
-			}
+			Timer timer = new Timer(ServerConfig.LOW_GRAVITY_AIR_TIME.get() * 50,
+					actionEvent -> event.getEntityLiving().setNoGravity(false));
+			timer.setRepeats(false);
+			timer.start();
 		}
-		//event.getEntityLiving().setNoGravity(CapabilityPlanetTrait.worldHasTrait(event.getEntityLiving().level, PlanetTraitInit.LOW_GRAVITY));
 	}
 	
 	public static void handleSuperHot(TickEvent.PlayerTickEvent event) {
-		//event.player.setNoGravity(false);
-		if (!PlanetDimensionModIds.isDimensionPlanet(event.player.level.dimension()))
+		if ((event.side != LogicalSide.SERVER)
+				|| !PlanetDimensionModIds.isDimensionPlanet(event.player.level.dimension()))
 			return;
-		if (CapabilityPlanetTrait.worldHasTrait(event.player.level, PlanetTraitInit.SUPERHOT) && rand.nextInt(100) < 10) {
-			event.player.setSecondsOnFire(2);
+		if (CapabilityPlanetTrait.worldHasTrait(event.player.level, PlanetTraitInit.SUPERHOT)) {
+			if (rand.nextInt(100) < ServerConfig.SUPERHOT_FIRE_CHANCE.get() && !event.player.hasEffect(EffectInit.SUPERHOT_RESISTANCE)) {
+				event.player.setSecondsOnFire(1);
+			}
+			if (event.player.hasEffect(Effects.FIRE_RESISTANCE)) {
+				event.player.removeEffect(Effects.FIRE_RESISTANCE);
+			}
 		}
 	}
 

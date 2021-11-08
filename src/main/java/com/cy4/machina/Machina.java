@@ -1,10 +1,14 @@
 package com.cy4.machina;
 
+import java.io.File;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
-import com.cy4.machina.config.MachinaConfig;
+import com.cy4.machina.config.ClientConfig;
+import com.cy4.machina.config.CommonConfig;
+import com.cy4.machina.config.ServerConfig;
 import com.cy4.machina.events.TraitHandlers;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.init.ItemInit;
@@ -34,12 +38,19 @@ public class Machina {
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final String MOD_ID = "machina";
 
-	public static PlanetTraitPoolManager TRAIT_POOL_MANAGER = new PlanetTraitPoolManager();
+	public static PlanetTraitPoolManager traitPoolManager = new PlanetTraitPoolManager();
 	public static final ResourceLocation MACHINA_ID = new ResourceLocation(MOD_ID, MOD_ID);
+	
+	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
+	public static final File CONFIF_DIR = new File(CONFIG_DIR_PATH);
 
 	public Machina() {
 		GeckoLib.initialize();
-		MinecraftForge.EVENT_BUS.register(this);
+		
+		if (!CONFIF_DIR.exists()) {
+			LOGGER.info("Created Machina config folder!");
+			CONFIF_DIR.mkdirs();
+		}
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
@@ -50,7 +61,9 @@ public class Machina {
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
 		forgeBus.addListener(EventPriority.HIGH, TraitHandlers::handleSuperHot);
 
-		ModLoadingContext.get().registerConfig(Type.COMMON, MachinaConfig.SPEC, "machina-common.toml");
+		ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.SPEC, MOD_ID + "/common.toml");
+		ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.SPEC, MOD_ID + "/client.toml");
+		ModLoadingContext.get().registerConfig(Type.SERVER, ServerConfig.SPEC, "machina-server.toml");
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

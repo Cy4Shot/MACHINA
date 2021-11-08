@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.cy4.machina.api.planet.PlanetTrait;
-import com.cy4.machina.config.MachinaConfig;
+import com.cy4.machina.config.CommonConfig;
 
 public class Starchart {
 
@@ -20,8 +20,8 @@ public class Starchart {
 	}
 
 	public void generateStarchart() {
-		int numPlanets = rand.nextInt(MachinaConfig.maxPlanets.get() - MachinaConfig.minPlanets.get() + 1)
-				+ MachinaConfig.minPlanets.get();
+		int numPlanets = rand.nextInt(CommonConfig.MAX_PLANETS.get() - CommonConfig.MIN_PLANETS.get() + 1)
+				+ CommonConfig.MIN_PLANETS.get();
 
 		for (int i = 0; i < numPlanets; i++) {
 			planets.add(new PlanetData(rand));
