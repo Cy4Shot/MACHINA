@@ -22,6 +22,7 @@ public class ConsoleBlock extends Block
                 .setValue(FACING, Direction.NORTH));
     }
 
+    @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> stateBuilder) {
         stateBuilder.add(FACING);
     }

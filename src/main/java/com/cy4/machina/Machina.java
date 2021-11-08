@@ -1,9 +1,10 @@
 package com.cy4.machina;
 
-import com.cy4.machina.firesTesting.BlockInit;
-import com.cy4.machina.firesTesting.MachinaItemGroup;
 import com.cy4.machina.firesTesting.TileEntityTypesInit;
+import com.cy4.machina.init.BlockInit;
 import com.cy4.machina.init.ItemInit;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -34,9 +35,7 @@ public class Machina {
 
 		//Registries
 		DeferredRegister<?>[] registers = {
-				BlockInit.BLOCKS,
 				TileEntityTypesInit.TILE_ENTITY_TYPE,
-				ItemInit.ITEMS
 		};
 
 		for (DeferredRegister<?> register : registers) {
@@ -44,14 +43,28 @@ public class Machina {
 		}
 	}
 
-	public static final ItemGroup MACHINA_ITEM_GROUP = new MachinaItemGroup("machina_item_group");
 
-	/**
+
 	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
 		@Override
 		public ItemStack makeIcon() {
-			return ItemStack.EMPTY;
+			return BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance();
+		}
+
+		@Override
+		public void fillItemList(NonNullList<ItemStack> items)
+		{
+			//items.add(ItemInit.TEST_ITEM.getDefaultInstance());
+
+			items.add(BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance());
+
+			items.add(BlockInit.ANIMATED_BUILDER_MOUNT.asItem().getDefaultInstance());
+			items.add(BlockInit.ANIMATED_BUILDER.asItem().getDefaultInstance());
+			items.add(BlockInit.PAD_SIZE_RELAY.asItem().getDefaultInstance());
+			items.add(BlockInit.CONSOLE.asItem().getDefaultInstance());
+
+			items.add(BlockInit.ROCKET.asItem().getDefaultInstance());
 		}
 	};
-	 **/
+
 }

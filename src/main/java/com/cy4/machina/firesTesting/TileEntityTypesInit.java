@@ -2,6 +2,7 @@ package com.cy4.machina.firesTesting;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.firesTesting.blocks.tiles.RocketTile;
+import com.cy4.machina.init.BlockInit;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -23,5 +24,5 @@ public class TileEntityTypesInit
     **/
 
     public static final RegistryObject<TileEntityType<RocketTile>> ROCKET_TILE = TILE_ENTITY_TYPE.register(
-            "rocket_tile", () -> TileEntityType.Builder.of(RocketTile::new, BlockInit.ROCKET.get()).build(null));
+            "rocket_tile", () -> TileEntityType.Builder.of(RocketTile::new, BlockInit.ROCKET).build(null));
 }

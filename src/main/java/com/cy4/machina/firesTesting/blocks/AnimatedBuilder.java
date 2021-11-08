@@ -15,6 +15,7 @@ public class AnimatedBuilder extends Block
                 .setValue(ACTIVATED, Boolean.FALSE));
     }
 
+    @Override
     protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> stateBuilder) {
         stateBuilder.add(ACTIVATED);
     }
