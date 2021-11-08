@@ -58,7 +58,8 @@ public class Machina {
 
 		@Override
 		public ItemStack makeIcon() {
-			return BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance();
+			//return BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance();
+			return ItemInit.ITEM_GROUP_ICON.getDefaultInstance();
 		}
 	};
 
