@@ -21,6 +21,9 @@ apply plugin: 'org.spongepowered.mixin'
 mixin {
     add sourceSets.main, "machina.refmap.json"
     config "machina.mixins.json"
+    
+    debug.verbose = true
+    debug.export = true
 }
 
 version = '1.0'
@@ -96,7 +99,9 @@ dependencies {
     
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45')
     
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    if (System.getProperty("idea.sync.active") != "true") {
+    	annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    }
 }
 
 jar {
