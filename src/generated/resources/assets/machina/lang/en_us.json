@@ -1,5 +1,6 @@
 {
   "argument.planet_trait.invalid": "Invalid Planet Trait: \u00A76%s",
+  "block.machina.liquid_hydrogen": "Liquid Hydrogen Bucket",
   "command.planet_traits.add_trait.duplicate": "This planet already has the trait %s!",
   "command.planet_traits.add_trait.success": "Trait added!",
   "command.planet_traits.list_traits.no_traits": "This planet has no traits!",
@@ -7,7 +8,8 @@
   "command.planet_traits.not_planet": "This dimension is not a planet!",
   "command.planet_traits.remove_trait.not_existing": "This planet does not have the trait %s!",
   "command.planet_traits.remove_trait.success": "Trait removed!",
-  "effect.machina.superhot_resistance": "Superhot Resistance",
+  "item.machina.hydrogen_bucket": "Hydrogen Bucket",
+  "item.machina.oxygen_bucket": "Oxygen Bucket",
   "itemGroup.machinaItemGroup": "Machina",
   "machina.trait.canyons": "Canyons",
   "machina.trait.continental": "Continental",

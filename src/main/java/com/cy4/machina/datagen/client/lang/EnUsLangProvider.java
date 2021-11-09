@@ -2,6 +2,7 @@ package com.cy4.machina.datagen.client.lang;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.PlanetTraitInit;
 
 import net.minecraft.data.DataGenerator;
@@ -36,6 +37,10 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(PlanetTraitInit.SUPERHOT, "Superhot");
 		
 		addItemGroup("machinaItemGroup", "Machina");
+		
+		add(FluidInit.HYDROGEN_BUCKET, "Hydrogen Bucket");
+		add(FluidInit.LIQUID_HYDROGEN_BLOCK, "Liquid Hydrogen Bucket");
+		add(FluidInit.OXYGEN_BUCKET, "Oxygen Bucket");
 		
 		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");
 		addCommandFeedback("planet_traits.add_trait.duplicate", "This planet already has the trait %s!");

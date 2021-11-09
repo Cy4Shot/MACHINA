@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.command.BaseCommand;
+import com.cy4.machina.command.impl.DebugCommand;
+import com.cy4.machina.command.impl.GoToPlanetCommand;
 import com.cy4.machina.command.impl.traits.AddTraitCommand;
 import com.cy4.machina.command.impl.traits.ListTraitsCommand;
 import com.cy4.machina.command.impl.traits.PlanetTraitsCommand;
@@ -40,6 +42,9 @@ public class CommandInit {
 		planetTraitsCommands.add(new AddTraitCommand(PermissionLevels.GIVE_CLEAR, true));
 		planetTraitsCommands.add(new ListTraitsCommand(PermissionLevels.GIVE_CLEAR, true));
 		planetTraitsCommands.add(new RemoveTraitCommand(PermissionLevels.GIVE_CLEAR, true));
+		
+		commands.add(new DebugCommand(4, true));
+		commands.add(new GoToPlanetCommand(4, true));
 		
 		commands.forEach(command -> {
 			if (command.isEnabled()) {

@@ -34,4 +34,5 @@ public class BlockItemInit {
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_BLOCKITEM = new BlockItem(BlockInit.ROCKET,
 			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	
 }

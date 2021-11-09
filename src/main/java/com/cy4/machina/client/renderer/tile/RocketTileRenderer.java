@@ -1,7 +1,7 @@
 package com.cy4.machina.client.renderer.tile;
 
 import com.cy4.machina.client.models.tile.RocketTileModel;
-import com.cy4.machina.tile_entities.RocketTile;
+import com.cy4.machina.tile_entity.RocketTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 

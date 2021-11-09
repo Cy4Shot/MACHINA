@@ -1,7 +1,7 @@
 package com.cy4.machina.client.models.tile;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.tile_entities.RocketTile;
+import com.cy4.machina.tile_entity.RocketTile;
 
 import net.minecraft.util.ResourceLocation;
 

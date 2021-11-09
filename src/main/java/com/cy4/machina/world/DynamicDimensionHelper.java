@@ -57,8 +57,10 @@ public class DynamicDimensionHelper {
 		
 		PlanetDimensionData.getDefaultInstance(server).addId(id);
 		
-		return getOrCreateWorld(server,
+		ServerWorld world = getOrCreateWorld(server,
 				RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(Machina.MOD_ID, id)), DynamicDimensionFactory::createDimension);
+		PlanetEvent.onPlanetCreated(world);
+		return world;
 	}
 
 	public static ServerWorld getOrCreateWorld(MinecraftServer server, RegistryKey<World> worldKey,
@@ -69,9 +71,7 @@ public class DynamicDimensionHelper {
 		if (map.containsKey(worldKey)) {
 			return map.get(worldKey);
 		} else {
-			ServerWorld newWorld = createAndRegisterWorldAndDimension(server, map, worldKey, dimensionFactory);
-			PlanetEvent.onPlanetCreated(newWorld);
-			return newWorld;
+			return createAndRegisterWorldAndDimension(server, map, worldKey, dimensionFactory);
 		}
 	}
 
