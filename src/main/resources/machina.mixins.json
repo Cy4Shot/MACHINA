@@ -5,7 +5,8 @@
 	"refmap": "machina.refmap.json",
 	"mixins": [
 		"LivingEntityMixin",
-		"PlayerEntityMixin"
+		"PlayerEntityMixin",
+		"WorldMixin"
 	],
 	"client": [
 		"client.ServerWorldInfoMixin",

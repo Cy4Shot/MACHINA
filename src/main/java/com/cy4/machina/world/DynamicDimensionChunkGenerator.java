@@ -51,7 +51,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 				biomes.getOrThrow(RegistryKey.create(Registry.BIOME_REGISTRY, Machina.MACHINA_ID))),
 				new DynamicStructureSettings());
 		this.biomes = biomes;
-		this.surfaceNoise = (INoiseGenerator) (new PerlinNoiseGenerator(new SharedSeedRandom(),
+		this.surfaceNoise = (new PerlinNoiseGenerator(new SharedSeedRandom(),
 				IntStream.rangeClosed(-3, 0)));
 	}
 
@@ -80,8 +80,8 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 			for (int j1 = 0; j1 < 16; ++j1) {
 				int k1 = k + i1;
 				int l1 = l + j1;
-				double d1 = this.surfaceNoise.getSurfaceNoiseValue((double) k1 * 0.0625D, (double) l1 * 0.0625D,
-						0.0625D, (double) i1 * 0.0625D) * 15.0D;
+				double d1 = this.surfaceNoise.getSurfaceNoiseValue(k1 * 0.0625D, l1 * 0.0625D,
+						0.0625D, i1 * 0.0625D) * 15.0D;
 
 				int yPos = height + (int) d1;
 				for (int y = 0; y < yPos; y++) {

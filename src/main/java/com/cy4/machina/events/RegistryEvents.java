@@ -150,7 +150,7 @@ public class RegistryEvents {
 	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
 		registerFieldsWithAnnotation(event, RegisterEffect.class, Effect.class);
 	}
-
+	
 	@SubscribeEvent
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
 

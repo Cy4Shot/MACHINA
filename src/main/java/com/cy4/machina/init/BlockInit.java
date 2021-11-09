@@ -31,4 +31,5 @@ public class BlockInit {
 
     @RegisterBlock("rocket")
     public static final Block ROCKET = new RocketBlock(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
+    
 }

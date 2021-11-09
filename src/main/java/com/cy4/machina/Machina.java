@@ -12,6 +12,7 @@ import com.cy4.machina.config.CommonConfig;
 import com.cy4.machina.config.ServerConfig;
 import com.cy4.machina.events.TraitHandlers;
 import com.cy4.machina.init.CommandInit;
+import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
 import com.cy4.machina.world.DynamicDimensionHelper;
@@ -56,6 +57,7 @@ public class Machina {
 		CustomDimensionRenderInfo.registerDimensionRenderInfo();
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		FluidInit.FLUIDS.register(modBus);
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
 		modBus.addListener(this::onCommonSetup);

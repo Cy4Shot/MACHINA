@@ -11,12 +11,12 @@ import com.cy4.machina.api.planet.PlanetTrait;
 
 public class PlanetData {
 	public List<PlanetTrait> traits = new ArrayList<>();
-	public String name;
+	public final String name;
 
 	public static List<PlanetTrait> getTraits(Random rand) {
 		List<PlanetTrait> res = new ArrayList<>();
 		Machina.traitPoolManager.forEach((location, pool) -> res.addAll(
-				pool.roll(rand).stream().map(rl -> PlanetTrait.REGISTRY.getValue(rl)).collect(Collectors.toList())));
+				pool.roll(rand).stream().map(PlanetTrait.REGISTRY::getValue).collect(Collectors.toList())));
 		return res;
 	}
 	
@@ -35,6 +35,6 @@ public class PlanetData {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return obj instanceof PlanetData ? rand.equals(((PlanetData) obj).rand) : false;
+		return obj instanceof PlanetData && rand.equals(((PlanetData) obj).rand);
 	}
 }
