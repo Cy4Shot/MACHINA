@@ -4,7 +4,6 @@ import com.cy4.machina.Machina;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Dimension;
 import net.minecraft.world.DimensionType;
@@ -12,7 +11,7 @@ import net.minecraft.world.DimensionType;
 public class DynamicDimensionFactory {
 
 	public static final RegistryKey<DimensionType> TYPE_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
-			new ResourceLocation(Machina.MOD_ID, Machina.MOD_ID));
+			Machina.MACHINA_ID);
 
 	public static Dimension createDimension(MinecraftServer server, RegistryKey<Dimension> key) {
 		return new Dimension(() -> getDimensionType(server), new DynamicDimensionChunkGenerator(server));

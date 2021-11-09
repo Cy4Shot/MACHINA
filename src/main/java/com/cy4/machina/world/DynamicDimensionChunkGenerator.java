@@ -10,7 +10,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -48,8 +47,8 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	}
 
 	public DynamicDimensionChunkGenerator(Registry<Biome> biomes) {
-		super(new SingleBiomeProvider(biomes.getOrThrow(
-				RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Machina.MOD_ID, Machina.MOD_ID)))),
+		super(new SingleBiomeProvider(
+				biomes.getOrThrow(RegistryKey.create(Registry.BIOME_REGISTRY, Machina.MACHINA_ID))),
 				new DynamicStructureSettings());
 		this.biomes = biomes;
 		this.surfaceNoise = (INoiseGenerator) (new PerlinNoiseGenerator(new SharedSeedRandom(),
@@ -83,9 +82,11 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 				int l1 = l + j1;
 				double d1 = this.surfaceNoise.getSurfaceNoiseValue((double) k1 * 0.0625D, (double) l1 * 0.0625D,
 						0.0625D, (double) i1 * 0.0625D) * 15.0D;
-				chunk.setBlockState(blockpos$mutable.set(i1, height + (int) d1, j1), Blocks.DIRT.defaultBlockState(),
-						false);
-				System.out.println(d1);
+
+				int yPos = height + (int) d1;
+				for (int y = 0; y < yPos; y++) {
+					chunk.setBlockState(blockpos$mutable.set(i1, y, j1), Blocks.STONE.defaultBlockState(), false);
+				}
 			}
 		}
 

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.client.dimension.CustomDimensionRenderInfo;
 import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
 import com.cy4.machina.config.ServerConfig;
@@ -51,6 +52,8 @@ public class Machina {
 			LOGGER.info("Created Machina config folder!");
 			CONFIF_DIR.mkdirs();
 		}
+		
+		CustomDimensionRenderInfo.registerDimensionRenderInfo();
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
