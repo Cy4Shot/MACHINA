@@ -1,9 +1,13 @@
 package com.cy4.machina.world;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.api.planet.PlanetTrait;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.block.BlockState;
@@ -67,6 +71,13 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk chunk) {
+		
+		List<PlanetTrait> traits = new ArrayList<>();
+		
+		worldGenRegion.getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
+			traits.addAll(cap.getTraits());
+		});
+		
 		ChunkPos chunkpos = chunk.getPos();
 		int i = chunkpos.x;
 		int j = chunkpos.z;

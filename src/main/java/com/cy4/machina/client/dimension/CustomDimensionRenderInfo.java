@@ -41,7 +41,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 
 	@Override
 	public Vector3d getBrightnessDependentFogColor(Vector3d color, float scale) {
-		return new Vector3d(0.5d, 1d, 0d).scale(scale);
+		return color.scale(scale);
 	}
 
 	@Override
