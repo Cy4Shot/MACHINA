@@ -1,12 +1,16 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.network.MachinaNetwork;
+import com.cy4.machina.network.message.to_server.NotifySendTraitsMessage;
 import com.cy4.machina.starchart.Starchart;
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -19,11 +23,19 @@ public class ForgeEvents {
 		event.addListener(Machina.traitPoolManager);
 	}
 
+	
 	@SubscribeEvent
 	public static void debug(ItemTossEvent event) {
 		if (event.getPlayer().level instanceof ServerWorld) {
 			new Starchart(Lists.newArrayList(ServerLifecycleHooks.getCurrentServer().getAllLevels()).get(0).getSeed())
 					.debugStarchart();
+		}
+	}
+
+	@SubscribeEvent
+	public static void onWorldLoaded(WorldEvent.Load event) {
+		if (event.getWorld().isClientSide()) {
+			MachinaNetwork.CHANNEL.sendToServer(new NotifySendTraitsMessage((ClientWorld) event.getWorld()));
 		}
 	}
 }
