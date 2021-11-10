@@ -69,6 +69,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		return this;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk chunk) {
 		
