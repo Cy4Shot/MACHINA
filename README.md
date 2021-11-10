@@ -1,2 +1,2 @@
 # MACHINA
- A minecraft tech/exploration mod!
+ A minecraft tech/space exploration mod!
