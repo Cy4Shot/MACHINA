@@ -5,6 +5,7 @@
 - Your commit/PR should describe exactly what you have implemented.
 - The feature added must have been discussed prior to the commit with lead developers.
 
+
 1. The the order within each of these groups of members **must** be as follows:
 - Public
 - Protected
