@@ -1,6 +1,7 @@
 package com.cy4.machina.datagen;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.datagen.client.BlockStatesProvider;
 import com.cy4.machina.datagen.client.ItemModelProvider;
 import com.cy4.machina.datagen.client.lang.EnUsLangProvider;
 import com.cy4.machina.datagen.common.PlanetTraitPoolsProvider;
@@ -23,6 +24,7 @@ public class DataGenProvider {
 
 		gen.addProvider(new EnUsLangProvider(gen));
 		
+		gen.addProvider(new BlockStatesProvider(gen, existingFileHelper));
 		gen.addProvider(new ItemModelProvider(gen, existingFileHelper));
 		
 		gen.addProvider(new PlanetTraitPoolsProvider(gen));
