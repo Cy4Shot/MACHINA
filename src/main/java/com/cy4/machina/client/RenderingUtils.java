@@ -7,30 +7,33 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 public class RenderingUtils {
 	public static final float[][] CUBE_VERTICES = new float[][] {
-			// SOUTH
-			{ -1f, 1f, 1f }, { -1f, -1f, 1f }, { 1f, -1f, 1f }, { 1f, 1f, 1f },
 
-//			// NORTH
-//			{ -1f, 1f, -1f }, { -1f, -1f, -1f }, { 1f, -1f, -1f }, { 1f, 1f, -1f },
-//
-//			// EAST
-//			{ 1f, 1f, -1f }, { 1f, -1f, -1f }, { 1f, -1f, 1f }, { 1f, 1f, 1f },
-//
-//			// WEST
-//			{ -1f, -1f, 1f }, { -1f, -1f, -1f }, { -1f, 1f, -1f }, { -1f, 1f, 1f },
-//
-//			// TOP
-//			{ 1f, 1f, -1f }, { 1f, 1f, 1f }, { -1f, 1f, 1f }, { -1f, 1f, -1f },
+			// NORTH
+			{ -1f, 1f, -1f }, { -1f, -1f, -1f }, { 1f, -1f, -1f }, { 1f, 1f, -1f },
+
+			// EAST
+			{ 1f, 1f, -1f }, { 1f, -1f, -1f }, { 1f, -1f, 1f }, { 1f, 1f, 1f },
+
+			// WEST
+			{ -1f, -1f, 1f }, { -1f, -1f, -1f }, { -1f, 1f, -1f }, { -1f, 1f, 1f },
+
+			// TOP
+			{ 1f, 1f, -1f }, { 1f, 1f, 1f }, { -1f, 1f, 1f }, { -1f, 1f, -1f },
+
+			// SOUTH
+			{ 1f, 1f, 1f }, { 1f, -1f, 1f }, { -1f, -1f, 1f }, { -1f, 1f, 1f },
 
 			// BOTTOM
-			{ 1f, -1f, -1f }, { 1f, -1f, 1f }, { -1f, -1f, 1f }, { -1f, -1f, -1f } };
+			{ -1f, -1f, 1f }, { 1f, -1f, 1f }, { 1f, -1f, -1f }, { -1f, -1f, -1f },
 
-	public static void makeCube(BufferBuilder buffer, double radius) {
+	};
+
+	public static void makeCube(BufferBuilder buffer, float radius) {
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
 		for (int i = 0; i < CUBE_VERTICES.length; i++) {
 			buffer.vertex(CUBE_VERTICES[i][0] * radius, CUBE_VERTICES[i][1] * radius, CUBE_VERTICES[i][2] * radius)
-					.uv(0, 0).endVertex();
+					.uv(Math.floorDiv(i, 2) % 2 == 0 ? 0 : 1, Math.floorDiv(i + 1, 2) % 2 == 0 ? 0 : 1).endVertex();
 		}
 	}
 

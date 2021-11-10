@@ -21,7 +21,6 @@ import com.cy4.machina.world.data.PlanetDimensionData;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -42,18 +41,18 @@ public class Machina {
 
 	public static PlanetTraitPoolManager traitPoolManager = new PlanetTraitPoolManager();
 	public static final ResourceLocation MACHINA_ID = new ResourceLocation(MOD_ID, MOD_ID);
-	
+
 	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
 	public static final File CONFIF_DIR = new File(CONFIG_DIR_PATH);
 
 	public Machina() {
 		GeckoLib.initialize();
-		
+
 		if (!CONFIF_DIR.exists()) {
 			LOGGER.info("Created Machina config folder!");
 			CONFIF_DIR.mkdirs();
 		}
-		
+
 		CustomDimensionRenderInfo.registerDimensionRenderInfo();
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -76,7 +75,7 @@ public class Machina {
 
 		@Override
 		public ItemStack makeIcon() {
-			//return BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance();
+			// return BlockInit.ROCKET_PLATFORM_BLOCK.asItem().getDefaultInstance();
 			return ItemInit.ITEM_GROUP_ICON.getDefaultInstance();
 		}
 	};

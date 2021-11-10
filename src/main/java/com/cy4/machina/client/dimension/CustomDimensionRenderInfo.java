@@ -68,6 +68,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 		}
 		
 
+		@SuppressWarnings("resource")
 		@Override
 		public void render(int ticks, float partialTicks, MatrixStack matrixStack, ClientWorld world, Minecraft mc) {
 			RenderSystem.enableTexture();
@@ -79,6 +80,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 			matrixStack.pushPose();
 			matrixStack.last().normal().mul(new Quaternion(0, 0, 0, false));
 			mc.getTextureManager().bind(new ResourceLocation("textures/environment/end_sky.png"));
+//			new DynamicTexture(new NativeImage(PixelFormat.RGBA, 100, 100, false)).bind();
 			RenderSystem.color4f(252F / 255F, 144F / 255F, 3F / 255F, 1F); // Col
 			sky.bind();
 			DefaultVertexFormats.POSITION_TEX.setupBufferState(0L);
