@@ -8,3 +8,15 @@
 ## Code Style
 - You **must** use tabs and NOT spaces!
 - You **must** use data generators, where possible, as much as you can.
+- Where possible, ternary operators (`condition ? TRUE : FALSE`) should be used.
+- Redundant `return` statements should not exist.
+- When you are creating a class, you should add the `@author yourName` element in the javadoc of the said class.
+- Curly brackets and braces **must** be on the end of the current line instead of a new line. (for example, the code below **is not** acceptable)
+```
+class DoNotDoThis
+{
+
+}
+```
+- You **must** follow java syntax naming conventions: https://www.javatpoint.com/java-naming-conventions
+- Method References must be used in replacement for a lambda expression when possible.
