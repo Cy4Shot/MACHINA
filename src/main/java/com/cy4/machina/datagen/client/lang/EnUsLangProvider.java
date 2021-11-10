@@ -39,7 +39,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		addItemGroup("machinaItemGroup", "Machina");
 		
 		add(FluidInit.HYDROGEN_BUCKET, "Hydrogen Bucket");
-		add(FluidInit.LIQUID_HYDROGEN_BLOCK, "Liquid Hydrogen Bucket");
+		add(FluidInit.LIQUID_HYDROGEN_BUCKET, "Liquid Hydrogen Bucket");
 		add(FluidInit.OXYGEN_BUCKET, "Oxygen Bucket");
 		
 		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");

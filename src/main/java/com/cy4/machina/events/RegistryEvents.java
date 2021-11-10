@@ -15,6 +15,7 @@ import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
 import com.cy4.machina.api.annotation.registries.RegisterContainerType;
 import com.cy4.machina.api.annotation.registries.RegisterEffect;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
+import com.cy4.machina.api.annotation.registries.RegisterParticleType;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
@@ -25,6 +26,7 @@ import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -128,6 +130,24 @@ public class RegistryEvents {
 				} else
 					throw new RegistryException("The field " + field
 							+ " is annotated with @RegisterContainerType but it is not a container type.");
+			} catch (IllegalArgumentException | IllegalAccessException e) {}
+		});
+	}
+	
+	@SubscribeEvent
+	public static void registerParticleTypes(final RegistryEvent.Register<ParticleType<?>> event) {
+		// registers Particle types
+		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterParticleType.class).forEach(field -> {
+			try {
+				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof ParticleType<?>) {
+					ParticleType<?> particle = (ParticleType<?>) field.get(field.getDeclaringClass());
+					particle.setRegistryName(
+							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
+									field.getAnnotation(RegisterParticleType.class).value()));
+					event.getRegistry().register(particle);
+				} else
+					throw new RegistryException("The field " + field
+							+ " is annotated with @RegisterParticleType but it is not a particle type.");
 			} catch (IllegalArgumentException | IllegalAccessException e) {}
 		});
 	}
