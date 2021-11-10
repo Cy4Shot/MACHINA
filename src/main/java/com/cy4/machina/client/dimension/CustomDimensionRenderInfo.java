@@ -3,15 +3,14 @@ package com.cy4.machina.client.dimension;
 import org.lwjgl.opengl.GL11;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.client.RenderingUtils;
+import com.cy4.machina.client.QuadRenderingUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.world.ClientWorld;
@@ -58,38 +57,35 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 	public class CustomSkyRenderer implements ISkyRenderHandler {
 
 		private VertexBuffer sky;
+		private VertexBuffer fog;
 
 		public CustomSkyRenderer() {
-			BufferBuilder bb = Tessellator.getInstance().getBuilder();
-			sky = new VertexBuffer(DefaultVertexFormats.POSITION_TEX);
-			RenderingUtils.makeCube(bb, 100);
-			bb.end();
-			sky.upload(bb);
+			sky = QuadRenderingUtils.createBuffer(sky, (bb) -> QuadRenderingUtils.makeCube(bb, 100));
+			fog = QuadRenderingUtils.createBuffer(fog, (bb) -> QuadRenderingUtils.makeCylinder(bb, 7, 10, 100));
 		}
 		
 
-		@SuppressWarnings("resource")
 		@Override
 		public void render(int ticks, float partialTicks, MatrixStack matrixStack, ClientWorld world, Minecraft mc) {
+			TextureManager tm = mc.getTextureManager();
+			int currTicks = mc.levelRenderer.ticks;
+			float time = (currTicks % 360000) * 0.000017453292F;
+			
 			RenderSystem.enableTexture();
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			GL11.glAlphaFunc(516, 0.0F);
 			GL11.glEnable(GL11.GL_BLEND);
 			RenderSystem.depthMask(false);
 
+			tm.bind(new ResourceLocation(Machina.MOD_ID, "textures/environment/sky/starfield01.png"));
+			QuadRenderingUtils.renderBuffer(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
+			
 			matrixStack.pushPose();
-			matrixStack.last().normal().mul(new Quaternion(0, 0, 0, false));
-			mc.getTextureManager().bind(new ResourceLocation("textures/environment/end_sky.png"));
-//			new DynamicTexture(new NativeImage(PixelFormat.RGBA, 100, 100, false)).bind();
-			RenderSystem.color4f(252F / 255F, 144F / 255F, 3F / 255F, 1F); // Col
-			sky.bind();
-			DefaultVertexFormats.POSITION_TEX.setupBufferState(0L);
-			sky.draw(matrixStack.last().pose(), GL11.GL_QUADS);
-			VertexBuffer.unbind();
-			DefaultVertexFormats.POSITION_TEX.clearBufferState();
+			matrixStack.last().pose().multiply(new Quaternion(0, -time * 4, 0, false));
+			tm.bind(new ResourceLocation("textures/block/white_concrete.png"));
+			QuadRenderingUtils.renderBuffer(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
 			matrixStack.popPose();
-
-			RenderSystem.enableTexture();
+			
 			RenderSystem.depthMask(true);
 		}
 	}
@@ -99,7 +95,6 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 		@Override
 		public void render(int ticks, float partialTicks, MatrixStack matrixStack, ClientWorld world, Minecraft mc,
 				double viewEntityX, double viewEntityY, double viewEntityZ) {
-			// TODO
 		}
 	}
 
@@ -108,7 +103,6 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 		@Override
 		public void render(int ticks, float partialTicks, ClientWorld world, Minecraft mc, LightTexture lightmapIn,
 				double xIn, double yIn, double zIn) {
-			// TODO
 		}
 	}
 
@@ -116,7 +110,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 
 		@Override
 		public void render(int ticks, ClientWorld world, Minecraft mc, ActiveRenderInfo activeRenderInfoIn) {
-			// TODO
+			
 		}
 	}
 }

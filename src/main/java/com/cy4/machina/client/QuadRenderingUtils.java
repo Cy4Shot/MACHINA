@@ -1,11 +1,19 @@
 package com.cy4.machina.client;
 
+import java.util.function.Consumer;
+
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
-public class RenderingUtils {
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
+import net.minecraft.client.renderer.vertex.VertexFormat;
+
+public class QuadRenderingUtils {
 	public static final float[][] CUBE_VERTICES = new float[][] {
 
 			// NORTH
@@ -27,6 +35,15 @@ public class RenderingUtils {
 			{ -1f, -1f, 1f }, { 1f, -1f, 1f }, { 1f, -1f, -1f }, { -1f, -1f, -1f },
 
 	};
+
+	public static VertexBuffer createBuffer(VertexBuffer b, Consumer<BufferBuilder> r) {
+		BufferBuilder bb = Tessellator.getInstance().getBuilder();
+		b = new VertexBuffer(DefaultVertexFormats.POSITION_TEX);
+		r.accept(bb);
+		bb.end();
+		b.upload(bb);
+		return b;
+	}
 
 	public static void makeCube(BufferBuilder buffer, float radius) {
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
@@ -55,5 +72,15 @@ public class RenderingUtils {
 			buffer.vertex(px2, height, pz2).uv(u1, 1).endVertex();
 			buffer.vertex(px2, -height, pz2).uv(u1, 0).endVertex();
 		}
+	}
+
+	public static void renderBuffer(MatrixStack matrixStackIn, VertexBuffer buffer, VertexFormat format, float r,
+			float g, float b, float a) {
+		RenderSystem.color4f(r, g, b, a);
+		buffer.bind();
+		format.setupBufferState(0L);
+		buffer.draw(matrixStackIn.last().pose(), GL11.GL_QUADS);
+		VertexBuffer.unbind();
+		format.clearBufferState();
 	}
 }

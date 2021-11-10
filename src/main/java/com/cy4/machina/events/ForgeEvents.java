@@ -1,16 +1,16 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.world.DynamicDimensionHelper;
+import com.cy4.machina.starchart.Starchart;
+import com.google.common.collect.Lists;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.server.ServerWorld;
-
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE)
 public class ForgeEvents {
@@ -22,10 +22,8 @@ public class ForgeEvents {
 	@SubscribeEvent
 	public static void debug(ItemTossEvent event) {
 		if (event.getPlayer().level instanceof ServerWorld) {
-			ServerWorld world = DynamicDimensionHelper.createPlanet(event.getPlayer().getServer(), "0");
-
-			DynamicDimensionHelper.sendPlayerToDimension((ServerPlayerEntity) event.getPlayer(), world,
-					event.getPlayer().position());
+			new Starchart(Lists.newArrayList(ServerLifecycleHooks.getCurrentServer().getAllLevels()).get(0).getSeed())
+					.debugStarchart();
 		}
 	}
 }

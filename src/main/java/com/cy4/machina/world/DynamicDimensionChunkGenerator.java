@@ -9,6 +9,7 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.api.planet.PlanetTrait;
 import com.mojang.serialization.Codec;
+//import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -41,6 +42,8 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	private final Registry<Biome> biomes;
 	private final INoiseGenerator surfaceNoise;
 	private final int height = 60;
+	
+	public long seed = 0L;
 
 	public Registry<Biome> getBiomeRegistry() {
 		return this.biomes;
@@ -66,12 +69,13 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public ChunkGenerator withSeed(long seed) {
+		this.seed = seed;
 		return this;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk chunk) {
+		long seed = worldGenRegion.getLevel().getSeed();
 		
 		List<PlanetTrait> traits = new ArrayList<>();
 		
@@ -82,7 +86,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		ChunkPos chunkpos = chunk.getPos();
 		int i = chunkpos.x;
 		int j = chunkpos.z;
-		SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
+		SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
 		sharedseedrandom.setBaseChunkSeed(i, j);
 		ChunkPos chunkpos1 = chunk.getPos();
 		int k = chunkpos1.getMinBlockX();

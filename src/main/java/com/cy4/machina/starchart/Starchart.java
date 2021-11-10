@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.cy4.machina.api.planet.PlanetTrait;
 import com.cy4.machina.config.CommonConfig;
+import com.cy4.machina.util.StringUtils;
 
 public class Starchart {
 
@@ -29,11 +29,15 @@ public class Starchart {
 	}
 
 	public void debugStarchart() {
-		System.out.println("DEBUG STARCHART");
-		for (PlanetData p : planets) {
-			System.out.println("\t" + p.name);
-			for (PlanetTrait t : p.traits) {
-				System.out.println("\t\t" + t.getName().getString());
+		StringUtils.printlnUtf8("Planets");
+		for (int i = 0; i < planets.size(); i++) {
+			PlanetData p = planets.get(i);
+			StringUtils.printlnUtf8(
+					(i == planets.size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F) + StringUtils.TREE_H + p.name);
+			for (int j = 0; j < p.traits.size(); j++) {
+				StringUtils.printlnUtf8((i == planets.size() - 1 ? " " : StringUtils.TREE_V) + " "
+						+ (j == p.traits.size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F) + StringUtils.TREE_H
+						+ p.traits.get(j).toString());
 			}
 		}
 	}
