@@ -7,6 +7,7 @@ import com.cy4.machina.api.ChemicalValues;
 import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.block.fluid.LiquidHydrogenBlock;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
@@ -49,7 +50,7 @@ public class FluidInit {
 	public static final RegistryObject<FlowingFluid> LIQUID_HYDROGEN_FLOWING = FLUIDS.register("liquid_hydrogen_flowing",
 			() -> new ForgeFlowingFluid.Flowing(Properties.LIQUID_HYDROGEN_PROPERTIES));
 	@RegisterBlock("liquid_hydrogen")
-	public static final FlowingFluidBlock LIQUID_HYDROGEN_BLOCK = new FlowingFluidBlock(() -> LIQUID_HYDROGEN.get(), AbstractBlock.Properties.copy(Blocks.WATER));
+	public static final FlowingFluidBlock LIQUID_HYDROGEN_BLOCK = new LiquidHydrogenBlock(LIQUID_HYDROGEN::get, AbstractBlock.Properties.copy(Blocks.WATER));
 
 	public static class Properties {
 

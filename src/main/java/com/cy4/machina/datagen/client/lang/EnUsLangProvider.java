@@ -51,6 +51,8 @@ public class EnUsLangProvider extends LanguageProvider {
 		addCommandFeedback("planet_traits.not_planet", "This dimension is not a planet!");
 		
 		addCommandArgumentFeedback("planet_trait.invalid", "Invalid Planet Trait: §6%s");
+		
+		addDamageSourceMsg("liquidHydrogen", "%1$s stayed too much in hydrogen... Never do that at home kids!", "%1$s encountered hydrogen whilst fighting %2$s!");
 	}
 	
 	private void addItemGroup(String key, String name) {
@@ -71,6 +73,11 @@ public class EnUsLangProvider extends LanguageProvider {
 	
 	private void addCommandArgumentFeedback(String key, String name) {
 		add("argument." + key, name);
+	}
+	
+	private void addDamageSourceMsg(String name, String normal, String diedWhilstFighting) {
+		add("death.attack." + name, normal);
+		add("death.attack." + name + ".player", diedWhilstFighting);
 	}
 
 }

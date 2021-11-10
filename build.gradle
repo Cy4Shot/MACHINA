@@ -89,6 +89,14 @@ repositories {
 	maven {
 		url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
 	}
+	maven {
+	   	name 'tterrag maven'
+	   	url "http://maven.tterrag.com/"
+	   	allowInsecureProtocol = true
+	}
+	maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
@@ -99,6 +107,9 @@ dependencies {
     
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45')
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
+    
+    compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api")
+	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
     
     if (System.getProperty("idea.sync.active") != "true") {
     	annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'

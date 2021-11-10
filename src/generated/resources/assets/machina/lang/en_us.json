@@ -7,6 +7,8 @@
   "command.planet_traits.not_planet": "This dimension is not a planet!",
   "command.planet_traits.remove_trait.not_existing": "This planet does not have the trait %s!",
   "command.planet_traits.remove_trait.success": "Trait removed!",
+  "death.attack.liquidHydrogen": "%1$s stayed too much in hydrogen... Never do that at home kids!",
+  "death.attack.liquidHydrogen.player": "%1$s encountered hydrogen whilst fighting %2$s!",
   "item.machina.hydrogen_bucket": "Hydrogen Bucket",
   "item.machina.liquid_hydrogen_bucket": "Liquid Hydrogen Bucket",
   "item.machina.oxygen_bucket": "Oxygen Bucket",

@@ -5,6 +5,7 @@ import static com.cy4.machina.Machina.MACHINA_ITEM_GROUP;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
@@ -34,5 +35,12 @@ public class BlockItemInit {
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_BLOCKITEM = new BlockItem(BlockInit.ROCKET,
 			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	
+	@RegisterBlockItem
+	public static final BlockItem TANK_BLOCK_ITEM = createBlockItem(BlockInit.TANK);
+	
+	private static BlockItem createBlockItem(Block block) {
+		return new BlockItem(block, new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	}
 	
 }
