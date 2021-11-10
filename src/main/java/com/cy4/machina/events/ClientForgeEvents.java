@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
 	
-	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void fogSetup(FogColors event) {
 //		ClientWorld world = (ClientWorld) event.getInfo().getEntity().level;
