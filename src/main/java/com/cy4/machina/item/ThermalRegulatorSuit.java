@@ -27,7 +27,7 @@ public class ThermalRegulatorSuit extends Item {
 	}
 	
 	/**
-	 * Inefficient way but it works... a loop was a bit redudant here
+	 * Inefficient way but it works... a loop was a bit redundant here
 	 * @param player
 	 * @return
 	 */

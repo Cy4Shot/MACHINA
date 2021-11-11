@@ -13,19 +13,26 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 /**
  * Not done yet
+ * 
  * @author matyrobbrt
  *
  */
 public class GuiElement extends Widget implements IFontRenderer {
 
 	public final ResourceLocation texture;
+	public final int renderX;
+	public final int renderY;
 
-	public GuiElement(int pX, int pY, int pWidth, int pHeight, ITextComponent pMessage, ResourceLocation texture) {
+	public GuiElement(int pX, int pY, int pWidth, int pHeight, int renderX, int renderY, ITextComponent pMessage,
+			ResourceLocation texture) {
 		super(pX, pY, pWidth, pHeight, pMessage);
 		this.texture = texture;
+		this.renderX = renderX;
+		this.renderY = renderY;
 	}
 
 	@Override
@@ -49,15 +56,14 @@ public class GuiElement extends Widget implements IFontRenderer {
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
-		this.blit(pMatrixStack, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
-		this.blit(pMatrixStack, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2,
-				this.height);
+		this.blit(pMatrixStack, this.renderX, this.renderY, this.x, this.y, this.width / 2, this.height);
+		this.blit(pMatrixStack, this.renderX, this.renderY, this.x, this.y, this.width / 2, this.height);
 		this.renderBg(pMatrixStack, minecraft, pMouseX, pMouseY);
 		int j = getFGColor();
 		drawCenteredString(pMatrixStack, fontrenderer, this.getMessage(), this.x + this.width / 2,
 				this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0F) << 24);
 	}
-	
+
 	protected static ResourceLocation texturePath(String name) {
 		return new MachinaRL("textures/gui/element/" + name);
 	}
