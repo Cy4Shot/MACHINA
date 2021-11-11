@@ -6,6 +6,7 @@ import com.cy4.machina.block.AnimatedBuilder;
 import com.cy4.machina.block.AnimatedBuilderMount;
 import com.cy4.machina.block.ConsoleBlock;
 import com.cy4.machina.block.PadSizeRelay;
+import com.cy4.machina.block.PumpBlock;
 import com.cy4.machina.block.RocketBlock;
 import com.cy4.machina.block.TankBlock;
 
@@ -35,5 +36,8 @@ public class BlockInit {
     
     @RegisterBlock("tank")
     public static final TankBlock TANK = new TankBlock(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK));
+    
+    @RegisterBlock("pump")
+    public static final PumpBlock PUMP = new PumpBlock();
     
 }
