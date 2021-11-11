@@ -2,6 +2,7 @@ package com.cy4.machina.init;
 
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.tile_entity.PumpTileEntity;
 import com.cy4.machina.tile_entity.RocketTile;
 import com.cy4.machina.tile_entity.TankTileEntity;
 
@@ -16,5 +17,8 @@ public class TileEntityTypesInit {
 	
 	@RegisterTileEntityType("tank")
 	public static final TileEntityType<TankTileEntity> TANK_TILE_ENTITY_TYPE = Builder.of(TankTileEntity::new, BlockInit.TANK).build(null);
+	
+	@RegisterTileEntityType("pump")
+	public static final TileEntityType<PumpTileEntity> PUMP_TILE_ENTITY_TYPE = Builder.of(PumpTileEntity::new, BlockInit.PUMP).build(null);
 	
 }
