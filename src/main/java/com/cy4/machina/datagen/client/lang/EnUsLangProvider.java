@@ -6,8 +6,10 @@ import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.PlanetTraitInit;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.fluid.Fluid;
 
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.fluids.FluidStack;
 
 public class EnUsLangProvider extends LanguageProvider {
 
@@ -42,6 +44,10 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(FluidInit.LIQUID_HYDROGEN_BUCKET, "Liquid Hydrogen Bucket");
 		add(FluidInit.OXYGEN_BUCKET, "Oxygen Bucket");
 		
+		add(FluidInit.OXYGEN.get(), "Oxygen");
+		add(FluidInit.HYDROGEN.get(), "Hydrogen");
+		add(FluidInit.LIQUID_HYDROGEN.get(), "Liquid Hydrogen");
+		
 		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");
 		addCommandFeedback("planet_traits.add_trait.duplicate", "This planet already has the trait %s!");
 		addCommandFeedback("planet_traits.remove_trait.success", "Trait removed!");
@@ -65,6 +71,10 @@ public class EnUsLangProvider extends LanguageProvider {
 	
 	private void add(PlanetTrait trait, String name) {
 		add(trait.getRegistryName().getNamespace() + ".trait." + trait.getRegistryName().getPath(), name);
+	}
+	
+	private void add(Fluid fluid, String name) {
+		add(new FluidStack(fluid, 2).getTranslationKey(), name);
 	}
 	
 	private void addCommandFeedback(String key, String name) {

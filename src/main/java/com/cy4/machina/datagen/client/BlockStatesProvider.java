@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 
 import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class BlockStatesProvider extends BlockStateProvider {
@@ -21,8 +20,8 @@ public class BlockStatesProvider extends BlockStateProvider {
 		fluid(FluidInit.LIQUID_HYDROGEN_BLOCK);
 	}
 	
-	public ModelFile fluid(Block block) {
-		return models().cubeAll(name(block), FluidInit.STILL_RL);
+	public void fluid(Block block) {
+		getVariantBuilder(block).partialState().modelForState().modelFile(models().cubeAll(name(block), FluidInit.STILL_RL)).addModel();
 	}
 	
     private String name(Block block) {

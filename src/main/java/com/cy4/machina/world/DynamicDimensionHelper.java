@@ -36,6 +36,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
+@SuppressWarnings("deprecation")
 public class DynamicDimensionHelper {
 
 	public static final Function<MinecraftServer, IChunkStatusListenerFactory> CHUNK_STATUS_LISTENER_FACTORY_FIELD = getInstanceField(
@@ -53,9 +54,9 @@ public class DynamicDimensionHelper {
 	}
 
 	public static ServerWorld createPlanet(MinecraftServer server, String id) {
-		
+
 		PlanetDimensionData.getDefaultInstance(server).addId(id);
-		
+
 		ServerWorld world = getOrCreateWorld(server,
 				RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(Machina.MOD_ID, id)), DynamicDimensionFactory::createDimension);
 		PlanetEvent.onPlanetCreated(world);
@@ -69,9 +70,8 @@ public class DynamicDimensionHelper {
 
 		if (map.containsKey(worldKey)) {
 			return map.get(worldKey);
-		} else {
+		} else
 			return createAndRegisterWorldAndDimension(server, map, worldKey, dimensionFactory);
-		}
 	}
 
 	private static ServerWorld createAndRegisterWorldAndDimension(MinecraftServer server,

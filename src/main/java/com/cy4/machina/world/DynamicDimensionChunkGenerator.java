@@ -42,11 +42,11 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	private final Registry<Biome> biomes;
 	private final INoiseGenerator surfaceNoise;
 	private final int height = 60;
-	
+
 	public long seed = 0L;
 
 	public Registry<Biome> getBiomeRegistry() {
-		return this.biomes;
+		return biomes;
 	}
 
 	public DynamicDimensionChunkGenerator(MinecraftServer server) {
@@ -58,7 +58,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 				biomes.getOrThrow(RegistryKey.create(Registry.BIOME_REGISTRY, Machina.MACHINA_ID))),
 				new DynamicStructureSettings());
 		this.biomes = biomes;
-		this.surfaceNoise = (new PerlinNoiseGenerator(new SharedSeedRandom(),
+		surfaceNoise = (new PerlinNoiseGenerator(new SharedSeedRandom(),
 				IntStream.rangeClosed(-3, 0)));
 	}
 
@@ -73,16 +73,17 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		return this;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk chunk) {
 		long seed = worldGenRegion.getLevel().getSeed();
-		
+
 		List<PlanetTrait> traits = new ArrayList<>();
-		
+
 		worldGenRegion.getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
 			traits.addAll(cap.getTraits());
 		});
-		
+
 		ChunkPos chunkpos = chunk.getPos();
 		int i = chunkpos.x;
 		int j = chunkpos.z;
@@ -96,7 +97,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 			for (int j1 = 0; j1 < 16; ++j1) {
 				int k1 = k + i1;
 				int l1 = l + j1;
-				double d1 = this.surfaceNoise.getSurfaceNoiseValue(k1 * 0.0625D, l1 * 0.0625D,
+				double d1 = surfaceNoise.getSurfaceNoiseValue(k1 * 0.0625D, l1 * 0.0625D,
 						0.0625D, i1 * 0.0625D) * 15.0D;
 
 				int yPos = height + (int) d1;

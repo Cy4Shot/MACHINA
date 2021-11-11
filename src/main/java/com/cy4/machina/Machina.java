@@ -14,6 +14,7 @@ import com.cy4.machina.events.TraitHandlers;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.ItemInit;
+import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
 import com.cy4.machina.world.DynamicDimensionHelper;
 import com.cy4.machina.world.data.PlanetDimensionData;
@@ -86,6 +87,7 @@ public class Machina {
 
 	public void onCommonSetup(final FMLCommonSetupEvent event) {
 		CapabilityPlanetTrait.register();
+		MachinaNetwork.init();
 	}
 
 	// Load all the worlds to ensure player spawn spots!

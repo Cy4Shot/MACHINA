@@ -60,7 +60,7 @@ public class CommandInit {
 				LiteralArgumentBuilder<CommandSource> builder = literal(command.getName());
 				builder.requires(sender -> sender.hasPermission(command.getPermissionLevel()));
 				command.build(builder);
-				dispatcher.register(literal("planet_traits").then(builder));
+				dispatcher.register(literal(Machina.MOD_ID).then(literal("planet_traits").then(builder)));
 			}
 		});
 
