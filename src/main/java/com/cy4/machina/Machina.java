@@ -15,13 +15,17 @@ import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.network.MachinaNetwork;
+import com.cy4.machina.starchart.Starchart;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
 import com.cy4.machina.world.DynamicDimensionHelper;
 import com.cy4.machina.world.data.PlanetDimensionData;
+import com.cy4.machina.world.data.StarchartData;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -90,11 +94,16 @@ public class Machina {
 		MachinaNetwork.init();
 	}
 
-	// Load all the worlds to ensure player spawn spots!
-	@SuppressWarnings("resource")
+	// Load all saved data
 	public void onServerStart(final FMLServerStartingEvent event) {
-		PlanetDimensionData.getDefaultInstance(event.getServer()).dimensionIds.forEach(id -> {
-			DynamicDimensionHelper.createPlanet(event.getServer(), id);
+
+		MinecraftServer server = event.getServer();
+
+		PlanetDimensionData.getDefaultInstance(server).dimensionIds.forEach(id -> {
+			DynamicDimensionHelper.createPlanet(server, id);
 		});
+
+		StarchartData.getDefaultInstance(server)
+				.setStarchartIfNull(new Starchart(server.getLevel(World.OVERWORLD).getSeed()));
 	}
 }

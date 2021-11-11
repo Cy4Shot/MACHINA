@@ -3,23 +3,32 @@ package com.cy4.machina.starchart;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import com.cy4.machina.config.CommonConfig;
 import com.cy4.machina.util.StringUtils;
 
-public class Starchart {
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.INBTSerializable;
 
-	public Random rand;
+public class Starchart implements INBTSerializable<CompoundNBT> {
+
 	public List<PlanetData> planets;
 
 	public Starchart(long seed) {
-		rand = new Random(seed);
-		planets = new ArrayList<>();
+		this();
 
-		generateStarchart();
+		generateStarchart(seed);
+	}
+	
+	public Starchart(){
+		this.planets = new ArrayList<>();
 	}
 
-	public void generateStarchart() {
+	public void generateStarchart(long seed) {
+		Random rand = new Random(seed);
 		int numPlanets = rand.nextInt(CommonConfig.MAX_PLANETS.get() - CommonConfig.MIN_PLANETS.get() + 1)
 				+ CommonConfig.MIN_PLANETS.get();
 
@@ -40,5 +49,25 @@ public class Starchart {
 						+ p.traits.get(j).toString());
 			}
 		}
+	}
+
+	// Serialize all planet data
+	@Override
+	public CompoundNBT serializeNBT() {
+		return serializeNBT(new CompoundNBT());
+	}
+
+	public CompoundNBT serializeNBT(CompoundNBT nbt) {
+		ListNBT p = new ListNBT();
+		p.addAll(planets.stream().map(data -> data.serializeNBT()).collect(Collectors.toList()));
+		nbt.put("planets", p);
+		return nbt;
+	}
+
+	// Create new planet data per tag
+	@Override
+	public void deserializeNBT(CompoundNBT nbt) {
+		planets.clear();
+		nbt.getList("planets", Constants.NBT.TAG_COMPOUND).forEach(val -> planets.add(PlanetData.fromNBT(nbt)));
 	}
 }

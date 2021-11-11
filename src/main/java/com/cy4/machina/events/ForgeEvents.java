@@ -1,11 +1,9 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.starchart.Starchart;
-import com.google.common.collect.Lists;
+import com.cy4.machina.world.data.StarchartData;
 
 import net.minecraft.world.server.ServerWorld;
-
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -21,12 +19,11 @@ public class ForgeEvents {
 		event.addListener(Machina.traitPoolManager);
 	}
 
-	
+	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void debug(ItemTossEvent event) {
 		if (event.getPlayer().level instanceof ServerWorld) {
-			new Starchart(Lists.newArrayList(ServerLifecycleHooks.getCurrentServer().getAllLevels()).get(0).getSeed())
-					.debugStarchart();
+			StarchartData.getDefaultInstance(ServerLifecycleHooks.getCurrentServer()).starchart.debugStarchart();
 		}
 	}
 
