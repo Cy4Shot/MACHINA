@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.cy4.machina.tile_entity.util.IEnergyHolderTile;
+import com.cy4.machina.api.inventory.IEnergyHolderTile;
 import com.cy4.machina.tile_entity.util.MachinaEnergyStorage;
 import com.google.common.collect.Lists;
 

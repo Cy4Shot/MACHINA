@@ -38,7 +38,6 @@ public abstract class BaseScreen<T extends BaseTileEntity, C extends BaseContain
 		this.renderTooltip(matrixStack, mouseX, mouseY);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void renderBg(MatrixStack pMatrixStack, float pPartialTicks, int pX, int pY) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
