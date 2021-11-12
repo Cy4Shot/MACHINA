@@ -1,9 +1,16 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.api.events.LivingEntityAddEffectEvent;
+import com.cy4.machina.api.planet.PlanetUtils;
+import com.cy4.machina.init.PlanetTraitInit;
 import com.cy4.machina.world.data.StarchartData;
 
+import net.minecraft.potion.Effects;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -14,6 +21,7 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE)
 public class ForgeEvents {
+
 	@SubscribeEvent
 	public static void addReloadListeners(AddReloadListenerEvent event) {
 		event.addListener(Machina.traitPoolManager);
@@ -33,5 +41,15 @@ public class ForgeEvents {
 //			MachinaNetwork.CHANNEL.sendToServer(new NotifySendTraitsMessage((ClientWorld) event.getWorld()));
 		}
 	}
+
+	@SubscribeEvent
+	public static void handleEffectBan(LivingEntityAddEffectEvent event) {
+		World level = event.getEntity().level;
+		if (PlanetUtils.isDimensionPlanet(level.dimension())) {
+			if (CapabilityPlanetTrait.worldHasTrait(level, PlanetTraitInit.SUPERHOT)
+					&& event.getEffect().getEffect() == Effects.FIRE_RESISTANCE) {
+				event.setCanceled(true);
+			}
+		}
+	}
 }
-	
