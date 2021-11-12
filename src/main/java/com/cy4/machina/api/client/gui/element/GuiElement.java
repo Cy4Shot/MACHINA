@@ -13,7 +13,6 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 
 /**
  * Not done yet
@@ -52,7 +51,7 @@ public class GuiElement extends Widget implements IFontRenderer {
 		FontRenderer fontrenderer = minecraft.font;
 		minecraft.getTextureManager().bind(texture);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
-		int i = this.getYImage(this.isHovered());
+//		int i = this.getYImage(this.isHovered());
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();

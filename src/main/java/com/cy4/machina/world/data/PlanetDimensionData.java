@@ -27,6 +27,7 @@ public class PlanetDimensionData extends WorldSavedData {
 
 	@Override
 	public void load(CompoundNBT nbt) {
+		dimensionIds.clear();
 		ListNBT listNBT = nbt.getList("dimensionIds", Constants.NBT.TAG_STRING);
 		for (INBT inbt : listNBT) {
 			StringNBT stringNBT = (StringNBT) inbt;
