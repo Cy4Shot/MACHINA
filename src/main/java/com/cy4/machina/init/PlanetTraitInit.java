@@ -3,7 +3,7 @@ package com.cy4.machina.init;
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 
 /**
  * @author Cy4Shot

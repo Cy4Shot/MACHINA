@@ -3,7 +3,7 @@ package com.cy4.machina.api.datagen.trait_pools;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

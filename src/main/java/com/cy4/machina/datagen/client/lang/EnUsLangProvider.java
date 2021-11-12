@@ -1,7 +1,7 @@
 package com.cy4.machina.datagen.client.lang;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.PlanetTraitInit;
 

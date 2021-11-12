@@ -19,7 +19,7 @@ import com.cy4.machina.api.annotation.registries.RegisterParticleType;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.util.ReflectionHelper;
 
 import net.minecraft.block.Block;

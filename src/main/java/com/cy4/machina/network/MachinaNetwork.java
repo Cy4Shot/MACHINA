@@ -5,8 +5,8 @@ import java.util.function.Function;
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.network.BaseNetwork;
 import com.cy4.machina.api.network.message.IMachinaMessage;
+import com.cy4.machina.network.message.to_client.SyncTraitsCapabilityMessage;
 import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage;
-import com.cy4.machina.network.message.to_server.NotifySendTraitsMessage;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +21,7 @@ public class MachinaNetwork extends BaseNetwork {
 	public static final SimpleChannel CHANNEL = newSimpleChannel("channel");
 
 	public static void init() {
-		registerClientToServer(CHANNEL, NotifySendTraitsMessage.class, NotifySendTraitsMessage::decode);
+		registerServerToClient(CHANNEL, SyncTraitsCapabilityMessage.class, SyncTraitsCapabilityMessage::decode);
 		registerClientToServer(DevPlanetCreationGUIMessage.class, DevPlanetCreationGUIMessage::decode);
 	}
 

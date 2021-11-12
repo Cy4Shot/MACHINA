@@ -2,8 +2,6 @@ package com.cy4.machina.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
@@ -20,19 +18,22 @@ import net.minecraft.world.World;
 
 @Mixin(World.class)
 public abstract class WorldMixin {
-	
-	private World thisWorld = (World) (Object) this;
-	
+
 	@Shadow
 	protected abstract RegistryKey<World> dimension();
 
 	@Shadow
 	protected abstract boolean setBlock(BlockPos pPos, BlockState pState, int pFlags, int pRecursionLeft);
-	
-	@Inject(method = "dimensionType", at = @At("HEAD"), cancellable = true)
+
+	//@Inject(method = "dimensionType", at = @At("HEAD"), cancellable = true)
+	@SuppressWarnings("unused")
 	private void dimensionTypeMixin(CallbackInfoReturnable<DimensionType> ci) {
-		if (PlanetUtils.isDimensionPlanet(dimension()) && CapabilityPlanetTrait.worldHasTrait(thisWorld, PlanetTraitInit.SUPERHOT)) {
-			ci.setReturnValue(thisWorld.getServer().registryAccess().registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getOrThrow(DynamicDimensionFactory.SUPERHOT_KEY));
+		if (PlanetUtils.isDimensionPlanet(dimension())
+				&& CapabilityPlanetTrait.worldHasTrait(((World) (Object) this), PlanetTraitInit.SUPERHOT)) {
+			// TODO random crashes happen, find a better way
+			ci.setReturnValue(((World) (Object) this).getServer().registryAccess()
+					.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY)
+					.getOrThrow(DynamicDimensionFactory.SUPERHOT_KEY));
 		}
 	}
 }

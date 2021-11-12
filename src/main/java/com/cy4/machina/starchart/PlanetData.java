@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.planet.PlanetNameGenerator;
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;

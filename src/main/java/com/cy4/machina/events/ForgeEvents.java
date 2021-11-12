@@ -13,7 +13,7 @@ import net.minecraft.world.server.ServerWorld;
 
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -36,9 +36,9 @@ public class ForgeEvents {
 	}
 
 	@SubscribeEvent
-	public static void onWorldLoaded(WorldEvent.Load event) {
-		if (event.getWorld().isClientSide()) {
-//			MachinaNetwork.CHANNEL.sendToServer(new NotifySendTraitsMessage((ClientWorld) event.getWorld()));
+	public static void onWorldLoaded(PlayerEvent.PlayerLoggedInEvent event) {
+		if (!event.getPlayer().level.isClientSide()) {
+			CapabilityPlanetTrait.syncCapabilityWithClients(event.getPlayer().level);
 		}
 	}
 

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.client.ClientSetup;
 import com.cy4.machina.client.dimension.CustomDimensionRenderInfo;
 import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
@@ -26,10 +27,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -61,6 +65,9 @@ public class Machina {
 		CustomDimensionRenderInfo.registerDimensionRenderInfo();
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
+		
 		FluidInit.FLUIDS.register(modBus);
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 

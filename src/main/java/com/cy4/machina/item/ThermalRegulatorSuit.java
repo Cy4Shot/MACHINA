@@ -41,7 +41,7 @@ public class ThermalRegulatorSuit extends Item {
 	
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-		return enchantment != Enchantments.MENDING;
+		return super.canApplyAtEnchantingTable(stack, enchantment) && enchantment != Enchantments.MENDING;
 	}
 
 }

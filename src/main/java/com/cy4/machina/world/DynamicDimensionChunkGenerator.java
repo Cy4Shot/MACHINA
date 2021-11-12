@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.mojang.serialization.Codec;
 //import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -82,6 +82,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 		worldGenRegion.getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
 			traits.addAll(cap.getTraits());
+			CapabilityPlanetTrait.syncCapabilityWithClients(worldGenRegion.getLevel());
 		});
 
 		ChunkPos chunkpos = chunk.getPos();

@@ -1,4 +1,4 @@
-package com.cy4.machina.api.planet;
+package com.cy4.machina.api.planet.trait;
 
 import java.lang.reflect.Field;
 
