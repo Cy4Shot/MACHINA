@@ -57,17 +57,15 @@ public abstract class BaseNetwork {
 
 	public static <MSG> void sendToAllInWorld(SimpleChannel channel, MSG message, World world) {
 		if (world instanceof ServerWorld) {
-			((ServerWorld) world).getPlayers(player -> (player.level == world)).forEach(p -> sendTo(channel, message, p));
+			((ServerWorld) world).getPlayers(player -> (player.level == world))
+					.forEach(p -> sendTo(channel, message, p));
 		} else {
 			channel.send(PacketDistributor.ALL.noArg(), message);
 		}
 	}
-	public static <MSG> void sendToAll(SimpleChannel channel, MSG message, World world) {
-		if (world instanceof ServerWorld) {
-			((ServerWorld) world).getServer().getPlayerList().getPlayers().forEach(p -> sendTo(channel, message, p));
-		} else {
-			channel.send(PacketDistributor.ALL.noArg(), message);
-		}
+
+	public static <MSG> void sendToAll(SimpleChannel channel, MSG message) {
+		channel.send(PacketDistributor.ALL.noArg(), message);
 	}
 
 	/**

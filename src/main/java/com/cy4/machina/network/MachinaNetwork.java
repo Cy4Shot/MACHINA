@@ -7,6 +7,7 @@ import com.cy4.machina.api.network.BaseNetwork;
 import com.cy4.machina.api.network.message.IMachinaMessage;
 import com.cy4.machina.network.message.to_client.SyncTraitsCapabilityMessage;
 import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage;
+import com.cy4.machina.network.message.to_server.RequestTraitsUpdateMessage;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
@@ -22,6 +23,8 @@ public class MachinaNetwork extends BaseNetwork {
 
 	public static void init() {
 		registerServerToClient(CHANNEL, SyncTraitsCapabilityMessage.class, SyncTraitsCapabilityMessage::decode);
+		registerClientToServer(RequestTraitsUpdateMessage.class, RequestTraitsUpdateMessage::decode);
+		
 		registerClientToServer(DevPlanetCreationGUIMessage.class, DevPlanetCreationGUIMessage::decode);
 	}
 

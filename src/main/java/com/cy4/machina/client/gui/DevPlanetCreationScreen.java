@@ -8,6 +8,7 @@ import com.cy4.machina.api.planet.trait.PlanetTraitSpriteUploader;
 import com.cy4.machina.init.KeyBindingsInit;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage;
+import com.cy4.machina.network.message.to_server.RequestTraitsUpdateMessage;
 import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage.ActionType;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -109,11 +110,12 @@ public class DevPlanetCreationScreen extends Screen {
 		this.renderBackground(pMatrixStack);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
         
+		MachinaNetwork.CHANNEL.sendToServer(new RequestTraitsUpdateMessage());
         this.minecraft.level.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
         	for (int i = 0; i < cap.getTraits().size(); i++) {
         		TextureAtlasSprite textureatlassprite = PlanetTraitSpriteUploader.getFromInstance(cap.getTraits().get(i));
                 this.minecraft.getTextureManager().bind(textureatlassprite.atlas().location());
-                blit(pMatrixStack, width / 2 + (i * 18), 120, this.getBlitOffset(), 16, 16, textureatlassprite);
+                blit(pMatrixStack, width / 2 - 140 + (i * 18), 120, 12, 16, 16, textureatlassprite);
         	}
         });
 	}

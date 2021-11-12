@@ -42,7 +42,7 @@ public class CapabilityPlanetTrait {
 	 */
 	public static void syncCapabilityWithClients(World world) {
 		world.getCapability(PLANET_TRAIT_CAPABILITY).ifPresent(
-				cap -> BaseNetwork.sendToAll(MachinaNetwork.CHANNEL, new SyncTraitsCapabilityMessage(cap), world));
+				cap -> BaseNetwork.sendToAllInWorld(MachinaNetwork.CHANNEL, new SyncTraitsCapabilityMessage(cap), world));
 	}
 
 	/**
@@ -59,10 +59,8 @@ public class CapabilityPlanetTrait {
 			for (PlanetTrait trait : traits) {
 				cap.addTrait(trait);
 			}
-			if (!level.isClientSide()) {
-				syncCapabilityWithClients(level);
-			}
 		});
+		syncCapabilityWithClients(level);
 	}
 
 	/**
@@ -81,10 +79,8 @@ public class CapabilityPlanetTrait {
 					cap.removeTrait(trait);
 				}
 			}
-			if (!level.isClientSide()) {
-				syncCapabilityWithClients(level);
-			}
 		});
+		syncCapabilityWithClients(level);
 	}
 
 	/**
