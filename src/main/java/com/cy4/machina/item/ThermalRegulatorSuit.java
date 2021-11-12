@@ -1,5 +1,7 @@
 package com.cy4.machina.item;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -35,6 +37,11 @@ public class ThermalRegulatorSuit extends Item {
 		NonNullList<ItemStack> armourSlots = player.inventory.armor;
 		return armourSlots.get(0).getItem() instanceof ThermalRegulatorSuit && armourSlots.get(1).getItem() instanceof ThermalRegulatorSuit
 				&& armourSlots.get(2).getItem() instanceof ThermalRegulatorSuit && armourSlots.get(3).getItem() instanceof ThermalRegulatorSuit;
+	}
+	
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		return enchantment != Enchantments.MENDING;
 	}
 
 }
