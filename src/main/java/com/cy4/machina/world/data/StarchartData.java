@@ -1,5 +1,7 @@
 package com.cy4.machina.world.data;
 
+import javax.annotation.WillNotClose;
+
 import com.cy4.machina.starchart.Starchart;
 
 import net.minecraft.nbt.CompoundNBT;
@@ -17,7 +19,7 @@ public class StarchartData extends WorldSavedData {
 
 	private static final String ID = "starchart";
 
-	public static StarchartData getDefaultInstance(MinecraftServer server) {
+	public static StarchartData getDefaultInstance(@WillNotClose MinecraftServer server) {
 		return server.getLevel(World.OVERWORLD).getDataStorage().computeIfAbsent(() -> new StarchartData(ID), ID);
 	}
 
