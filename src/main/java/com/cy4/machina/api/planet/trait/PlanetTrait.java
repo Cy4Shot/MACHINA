@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.annotation.ChangedByReflection;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Color;
@@ -19,6 +20,7 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
+	@ChangedByReflection(when = "commonSetup (when the registry is built)")
 	public static final IForgeRegistry<PlanetTrait> REGISTRY = null;
 
 	public static void createRegistry(RegistryEvent.NewRegistry event) {
