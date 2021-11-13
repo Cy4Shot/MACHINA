@@ -4,5 +4,4 @@ import com.cy4.machina.api.annotation.registries.RegistryHolder;
 
 @RegistryHolder
 public class ContainerTypesInit {
-
 }

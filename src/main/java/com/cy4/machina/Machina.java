@@ -11,13 +11,13 @@ import com.cy4.machina.client.dimension.CustomDimensionRenderInfo;
 import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
 import com.cy4.machina.config.ServerConfig;
-import com.cy4.machina.events.TraitHandlers;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.starchart.Starchart;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
+import com.cy4.machina.util.MachinaRL;
 import com.cy4.machina.world.DynamicDimensionHelper;
 import com.cy4.machina.world.data.PlanetDimensionData;
 import com.cy4.machina.world.data.StarchartData;
@@ -27,7 +27,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -49,7 +48,7 @@ public class Machina {
 	public static final String MOD_ID = "machina";
 	
 	public static PlanetTraitPoolManager traitPoolManager = new PlanetTraitPoolManager();
-	public static final ResourceLocation MACHINA_ID = new ResourceLocation(MOD_ID, MOD_ID);
+	public static final ResourceLocation MACHINA_ID = new MachinaRL(MOD_ID);
 
 	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
 	public static final File CONFIF_DIR = new File(CONFIG_DIR_PATH);
@@ -75,7 +74,7 @@ public class Machina {
 
 		forgeBus.addListener(EventPriority.HIGH, this::onServerStart);
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
-		forgeBus.addListener(EventPriority.HIGH, TraitHandlers::handleSuperHot);
+//		forgeBus.addListener(EventPriority.HIGH, TraitHandlers::handleSuperHot);
 
 		ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.SPEC, MOD_ID + "/common.toml");
 		ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.SPEC, MOD_ID + "/client.toml");

@@ -2,16 +2,14 @@ package com.cy4.machina.network;
 
 import java.util.function.Function;
 
-import com.cy4.machina.Machina;
 import com.cy4.machina.api.network.BaseNetwork;
 import com.cy4.machina.api.network.message.IMachinaMessage;
 import com.cy4.machina.network.message.to_client.SyncTraitsCapabilityMessage;
 import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage;
 import com.cy4.machina.network.message.to_server.RequestTraitsUpdateMessage;
+import com.cy4.machina.util.MachinaRL;
 
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
@@ -29,7 +27,7 @@ public class MachinaNetwork extends BaseNetwork {
 	}
 
 	private static SimpleChannel newSimpleChannel(String name) {
-		return NetworkRegistry.newSimpleChannel(new ResourceLocation(Machina.MOD_ID, name), () -> NETWORK_VERSION,
+		return NetworkRegistry.newSimpleChannel(new MachinaRL(name), () -> NETWORK_VERSION,
 				version -> version.equals(NETWORK_VERSION), version -> version.equals(NETWORK_VERSION));
 	}
 

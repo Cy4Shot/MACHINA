@@ -1,4 +1,4 @@
-package com.cy4.machina.client;
+package com.cy4.machina.client.util;
 
 import java.util.function.Consumer;
 

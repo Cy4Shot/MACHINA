@@ -20,23 +20,21 @@ public class EnUsLangProvider extends LanguageProvider {
 	@Override
 	protected void addTranslations() {
 		
-		addTrait("water_world", "Water World");
-		addTrait("continental", "Continental");
-		addTrait("landmass", "Landmass");
-		addTrait("mountainous", "Mountainous");
-		addTrait("hilly", "Hilly");
-		addTrait("flat", "Flat");
-		addTrait("ore_rich", "Ore Rich");
-		addTrait("ore_barren", "Ore Barren");
-		addTrait("canyons", "Canyons");
-		addTrait("fiords", "Fiords");
-		addTrait("ravines", "Ravines");
-		addTrait("lakes", "Lakes");
-		addTrait("volcanic", "Volcanic");
-		addTrait("frozen", "Frozen");
-		addTrait("layered", "Layered");
-		add(PlanetTraitInit.LOW_GRAVITY, "Low Gravity");
-		add(PlanetTraitInit.SUPERHOT, "Superhot");
+		add(PlanetTraitInit.WATER_WORLD, "Water World");
+		add(PlanetTraitInit.CONTINENTALL, "Continental");
+		add(PlanetTraitInit.LANDMMASS, "Landmass");
+		add(PlanetTraitInit.MOUNTAINOUS, "Mountainous");
+		add(PlanetTraitInit.HILLY, "Hilly");
+		add(PlanetTraitInit.FLAT, "Flat");
+		add(PlanetTraitInit.ORE_RICH, "Ore Rich");
+		add(PlanetTraitInit.ORE_BARREN, "Ore Barren");
+		add(PlanetTraitInit.CANYONS, "Canyons");
+		add(PlanetTraitInit.FIORDS, "Fiords");
+		add(PlanetTraitInit.RAVINES, "Ravines");
+		add(PlanetTraitInit.LAKES, "Lakes");
+		add(PlanetTraitInit.VOLCANIC, "Volcanic");
+		add(PlanetTraitInit.FROZEN, "Frozen");
+		add(PlanetTraitInit.LAYERED, "Layered");
 		
 		addItemGroup("machinaItemGroup", "Machina");
 		
@@ -59,14 +57,12 @@ public class EnUsLangProvider extends LanguageProvider {
 		addCommandArgumentFeedback("planet_trait.invalid", "Invalid Planet Trait: §6%s");
 		
 		addDamageSourceMsg("liquidHydrogen", "%1$s stayed too much in hydrogen... Never do that at home kids!", "%1$s encountered hydrogen whilst fighting %2$s!");
+		
+		add("machina.screen.starchart.title", "Starchart");
 	}
 	
 	private void addItemGroup(String key, String name) {
 		add("itemGroup." + key, name);
-	}
-	
-	private void addTrait(String key, String name) {
-		add(Machina.MOD_ID + ".trait." + key, name);
 	}
 	
 	private void add(PlanetTrait trait, String name) {

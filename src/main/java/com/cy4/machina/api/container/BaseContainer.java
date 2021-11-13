@@ -1,7 +1,5 @@
 package com.cy4.machina.api.container;
 
-import com.cy4.machina.api.tile_entity.BaseTileEntity;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -9,9 +7,7 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
-public abstract class BaseContainer<T extends BaseTileEntity> extends Container {
-	
-	public final T tile;
+public abstract class BaseContainer extends Container {
 	/**
 	 * Define this in the constructor. Will be used by {@link #quickMoveStack}
 	 */
@@ -21,9 +17,8 @@ public abstract class BaseContainer<T extends BaseTileEntity> extends Container 
 	 */
 	public ITextComponent containerName;
 	
-	protected BaseContainer(ContainerType<?> pMenuType, int pContainerId, T tile) {
+	protected BaseContainer(ContainerType<?> pMenuType, int pContainerId) {
 		super(pMenuType, pContainerId);
-		this.tile = tile;
 	}
 	
 	/**

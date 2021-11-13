@@ -3,7 +3,8 @@ package com.cy4.machina.client.dimension;
 import org.lwjgl.opengl.GL11;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.client.QuadRenderingUtils;
+import com.cy4.machina.client.util.QuadRenderingUtils;
+import com.cy4.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -77,7 +78,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 			GL11.glEnable(GL11.GL_BLEND);
 			RenderSystem.depthMask(false);
 
-			tm.bind(new ResourceLocation(Machina.MOD_ID, "textures/environment/sky/starfield01.png"));
+			tm.bind(new MachinaRL("textures/environment/sky/starfield01.png"));
 			QuadRenderingUtils.renderBuffer(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
 			
 			matrixStack.pushPose();

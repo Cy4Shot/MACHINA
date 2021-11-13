@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.cy4.machina.api.client.gui.element.GuiElement;
 import com.cy4.machina.api.container.BaseContainer;
-import com.cy4.machina.api.tile_entity.BaseTileEntity;
 import com.cy4.machina.api.util.helper.RenderHelper;
 import com.cy4.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -16,7 +15,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
-public abstract class BaseScreen<T extends BaseTileEntity, C extends BaseContainer<T>> extends ContainerScreen<C> implements IGui {
+public abstract class BaseScreen<C extends BaseContainer> extends ContainerScreen<C> implements IGui {
 
 	public final C container;
 	public final ResourceLocation guiTexture;

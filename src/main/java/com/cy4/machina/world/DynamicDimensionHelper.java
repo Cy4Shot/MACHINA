@@ -6,8 +6,8 @@ import java.util.concurrent.Executor;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.cy4.machina.Machina;
 import com.cy4.machina.api.events.planet.PlanetEvent;
+import com.cy4.machina.util.MachinaRL;
 import com.cy4.machina.world.data.PlanetDimensionData;
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Lifecycle;
@@ -15,7 +15,6 @@ import com.mojang.serialization.Lifecycle;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.registry.Registry;
@@ -30,13 +29,11 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraft.world.storage.IServerConfiguration;
 import net.minecraft.world.storage.SaveFormat.LevelSave;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
-@SuppressWarnings("deprecation")
 public class DynamicDimensionHelper {
 
 	public static final Function<MinecraftServer, IChunkStatusListenerFactory> CHUNK_STATUS_LISTENER_FACTORY_FIELD = getInstanceField(
@@ -58,7 +55,7 @@ public class DynamicDimensionHelper {
 		PlanetDimensionData.getDefaultInstance(server).addId(id);
 
 		ServerWorld world = getOrCreateWorld(server,
-				RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(Machina.MOD_ID, id)), DynamicDimensionFactory::createDimension);
+				RegistryKey.create(Registry.DIMENSION_REGISTRY, new MachinaRL(id)), DynamicDimensionFactory::createDimension);
 		PlanetEvent.onPlanetCreated(world);
 		return world;
 	}

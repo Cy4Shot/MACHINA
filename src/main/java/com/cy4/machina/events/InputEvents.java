@@ -2,10 +2,10 @@ package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.client.gui.DevPlanetCreationScreen;
+import com.cy4.machina.client.gui.StarchartScreen;
 import com.cy4.machina.init.KeyBindingsInit;
 
 import net.minecraft.client.Minecraft;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,6 +34,10 @@ public class InputEvents {
 	private static void onInput(Minecraft mc, int key, int action) {
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.DEV_PLANET_CREATION_SCREEN)) {
 			mc.setScreen(new DevPlanetCreationScreen());
+		}
+		
+		if (mc.options.keyDrop.isDown()) {
+			mc.setScreen(new StarchartScreen());
 		}
 	}
 

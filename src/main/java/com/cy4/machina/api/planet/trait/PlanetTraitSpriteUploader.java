@@ -5,13 +5,12 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import com.cy4.machina.Machina;
+import com.cy4.machina.util.MachinaRL;
 
 import net.minecraft.client.renderer.texture.SpriteUploader;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -31,7 +30,7 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 	private static final PlanetTraitSpriteUploader INSTANCE = null;
 
 	public PlanetTraitSpriteUploader(TextureManager manager) {
-		super(manager, new ResourceLocation(Machina.MOD_ID, "textures/atlas/planet_traits.png"), "planet_trait");
+		super(manager, new MachinaRL("textures/atlas/planet_traits.png"), "planet_trait");
 	}
 
 	@Override

@@ -56,10 +56,4 @@ public class PlanetTraitInit  {
 
 	@RegisterPlanetTrait(id = "layered")
 	public static final PlanetTrait LAYERED = new PlanetTrait(0xFFFFFF);
-	
-	@RegisterPlanetTrait(id = "low_gravity")
-	public static final PlanetTrait LOW_GRAVITY = new PlanetTrait(0x75A0FF);
-	
-	@RegisterPlanetTrait(id = "superhot")
-	public static final PlanetTrait SUPERHOT = new PlanetTrait(0xFF003F);
 }
