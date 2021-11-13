@@ -11,6 +11,8 @@ import net.minecraft.item.Item;
 
 @RegistryHolder
 public class BlockItemInit {
+	
+	public static final Block[] AUTO_BLOCK_ITEMS = new Block[] {};
 
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_PLATFORM_BLOCKITEM = new BlockItem(BlockInit.ROCKET_PLATFORM_BLOCK,

@@ -20,6 +20,7 @@ import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.init.BlockItemInit;
 import com.cy4.machina.util.ReflectionHelper;
 
 import net.minecraft.block.Block;
@@ -88,6 +89,12 @@ public class RegistryEvents {
 				// TODO Do some println()
 			}
 		});
+		
+		for (Block block : BlockItemInit.AUTO_BLOCK_ITEMS) {
+			BlockItem item = new BlockItem(block, new Item.Properties().tab(Machina.MACHINA_ITEM_GROUP));
+			item.setRegistryName(block.getRegistryName());
+			event.getRegistry().register(item);
+		}
 
 	}
 
