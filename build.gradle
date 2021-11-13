@@ -127,7 +127,7 @@ dependencies {
     }
     
     implementation "org.reflections:reflections:${reflections_version}"
-    shadow "org.reflections:reflections:${reflections_version}"
+    //shadow "org.reflections:reflections:${reflections_version}"
 }
 
 configurations {

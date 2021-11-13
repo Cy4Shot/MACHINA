@@ -4,10 +4,6 @@ import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.reflections.Reflections;
-import org.reflections.scanners.Scanners;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 
 import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
 import com.cy4.machina.client.ClientSetup;
@@ -52,13 +48,6 @@ public class Machina {
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final String MOD_ID = "machina";
 	
-	/**
-	 * TODO not using yet, I (Maty) needs to solve some jar issues
-	 */
-	public static final Reflections REFLECTIONS = new Reflections(new ConfigurationBuilder()
-			.forPackages("com.cy4.machina").setScanners(Scanners.values()).addClassLoaders(Machina.class.getClassLoader())
-			.setUrls(ClasspathHelper.forPackage("com.cy4.machina")));
-
 	public static PlanetTraitPoolManager traitPoolManager = new PlanetTraitPoolManager();
 	public static final ResourceLocation MACHINA_ID = new ResourceLocation(MOD_ID, MOD_ID);
 
