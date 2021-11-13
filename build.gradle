@@ -12,8 +12,15 @@ buildscript {
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
+
+plugins {
+	id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
@@ -97,6 +104,10 @@ repositories {
 	maven {
         url = "https://maven.theillusivec4.top/"
     }
+    maven {
+    	name 'reflections'
+    	url 'https://mvnrepository.com/artifact/org.reflections/reflections'
+    }
 }
 
 dependencies {
@@ -114,6 +125,19 @@ dependencies {
     if (System.getProperty("idea.sync.active") != "true") {
     	annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
     }
+    
+    implementation "org.reflections:reflections:${reflections_version}"
+    shadow "org.reflections:reflections:${reflections_version}"
+}
+
+configurations {
+	shadow
+}
+
+shadowJar {
+	classifier = ''
+	configurations = [project.configurations.shadow]
+	//relocate 'org.reflections', "shadow.org.reflections" // ensure repackaged packages have unique names
 }
 
 jar {
@@ -126,12 +150,18 @@ jar {
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"Cy4",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "machina.mixins.json"
+            "MixinConfigs": "machina.mixins.json",
+            "Class-Path": archivesBaseName + ".jar"
         ])
     }
 }
 
-jar.finalizedBy('reobfJar') 
+reobf {
+    shadowJar { }
+}
+
+tasks.build.dependsOn reobfShadowJar
+jar.finalizedBy('reobfShadowJar')
 
 publishing {
     publications {

@@ -1,11 +1,14 @@
 package com.cy4.machina.command.impl;
 
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import java.util.Set;
+
+import com.cy4.machina.Machina;
 import com.cy4.machina.command.BaseCommand;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import net.minecraft.command.CommandSource;
+import net.minecraft.util.text.StringTextComponent;
 
 public class DebugCommand extends BaseCommand {
 
@@ -20,7 +23,8 @@ public class DebugCommand extends BaseCommand {
 	
 	@Override
 	protected int execute(CommandContext<CommandSource> context) {
-		CapabilityPlanetTrait.syncCapabilityWithClients(context.getSource().getLevel());
+		Set<Class<?>> allFields = Machina.REFLECTIONS.getSubTypesOf(Object.class);
+		context.getSource().sendSuccess(new StringTextComponent(String.valueOf(allFields.size())), false);
 		return 0;
 	}
 
