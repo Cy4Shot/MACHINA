@@ -108,6 +108,10 @@ repositories {
     	name 'reflections'
     	url 'https://mvnrepository.com/artifact/org.reflections/reflections'
     }
+    maven {
+    	name 'javassist'
+    	url 'https://mvnrepository.com/artifact/org.javassist/javassist'
+    }
 }
 
 dependencies {
@@ -127,7 +131,12 @@ dependencies {
     }
     
     implementation "org.reflections:reflections:${reflections_version}"
-    //shadow "org.reflections:reflections:${reflections_version}"
+    shadow "org.reflections:reflections:${reflections_version}"
+    
+    // Included with reflections
+	//implementation "org.javassist:javassist:${javassist_version}"
+	//shadow "org.javassist:javassist:${javassist_version}"
+    
 }
 
 configurations {
