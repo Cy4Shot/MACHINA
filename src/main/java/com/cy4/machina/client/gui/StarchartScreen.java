@@ -9,6 +9,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,6 +36,12 @@ public class StarchartScreen extends Screen {
 		return bounds;
 	}
 
+	public Vector2f getCentre() {
+		Rectangle bounds = getContainerBounds();
+		return new Vector2f(Math.abs(bounds.x0 - bounds.x1) - bounds.x0 / 2,
+				Math.abs(bounds.y0 - bounds.y1) - bounds.y0 / 2);
+	}
+
 	@Override
 	public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
 		super.render(matrixStack, pMouseX, pMouseY, pPartialTicks); // Buttons
@@ -45,7 +52,7 @@ public class StarchartScreen extends Screen {
 		UIHelper.renderOverflowHidden(matrixStack, this::renderContainerBackground, (ms) -> ms.toString());
 
 		// Elements
-		renderPlanetNode(matrixStack, pMouseX, pMouseY);
+		renderStarSystem(matrixStack, 50D);
 
 		// Border
 		UIHelper.renderContainerBorder(matrixStack, bound);
@@ -83,25 +90,33 @@ public class StarchartScreen extends Screen {
 		}
 	}
 
-	private void renderPlanetNode(MatrixStack matrixStack, float mouseX, float mouseY) {
+	private void renderStarSystem(MatrixStack ms, double radius) {
+
+		Vector2f centre = getCentre();
+
+		for (int i = 1; i <= this.sc.planets.size(); i++) {
+			double angle = (Math.PI * 2) / this.sc.planets.size() * i;
+
+			int x = (int) (radius * Math.cos(angle));
+			int y = (int) (radius * Math.sin(angle));
+
+			renderPlanetNode(ms, centre.x - x, centre.y - y, true);
+
+		}
+	}
+
+	private void renderPlanetNode(MatrixStack matrixStack, float x, float y, boolean renderLine) {
 		assert this.minecraft != null;
 		this.minecraft.getTextureManager().bind(SC_RS);
-		Rectangle containerBounds = getContainerBounds();
+		Vector2f centre = getCentre();
 
 		float offsetC = (float) (8 * Math.cos(this.minecraft.levelRenderer.ticks / 10f) + 8);
-		float offsetS = (float) (8 * Math.sin(this.minecraft.levelRenderer.ticks / 10f) + 8);
 		int textureSize = 3;
 
-		UIHelper.betterBlit(matrixStack, mouseX + offsetC / 8f, mouseY + offsetS / 8f, textureSize * (int) offsetC, 0,
-				textureSize, textureSize, 128);
-		UIHelper.line(matrixStack, containerBounds.x0, containerBounds.y0, mouseX + offsetC / 8f, mouseY + offsetS / 8f,
-				0xFFFFFFFF, 3f, StippleType.DASHED);
-		UIHelper.line(matrixStack, containerBounds.x0, containerBounds.y1, mouseX + offsetC / 8f, mouseY + offsetS / 8f,
-				0xFFFFFFFF, 3f, StippleType.DASHED);
-		UIHelper.line(matrixStack, containerBounds.x1, containerBounds.y0, mouseX + offsetC / 8f, mouseY + offsetS / 8f,
-				0xFFFFFFFF, 3f, StippleType.DASHED);
-		UIHelper.line(matrixStack, containerBounds.x1, containerBounds.y1, mouseX + offsetC / 8f, mouseY + offsetS / 8f,
-				0xFFFFFFFF, 3f, StippleType.DASHED);
+		if (renderLine)
+			UIHelper.line(matrixStack, centre.x, centre.y, x + textureSize / 2f, y + textureSize / 2f, 0xFFFFFFFF, 3f,
+					StippleType.DASHED);
+		UIHelper.betterBlit(matrixStack, x, y, textureSize * (int) offsetC, 0, textureSize, textureSize, 128);
 
 	}
 

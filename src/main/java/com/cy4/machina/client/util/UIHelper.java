@@ -19,13 +19,13 @@ import net.minecraft.util.math.vector.Matrix4f;
 
 public class UIHelper {
 
-	public enum StippleType {
+	public static enum StippleType {
 		NONE((short) 0x0000), FULL((short) 0xFFFF), DOTTED((short) 0x0101), DASHED((short) 0x00FF),
 		DOT_DASH((short) 0x1C47);
 
 		public final short code;
 
-		private StippleType(short code) {
+		private StippleType(final short code) {
 			this.code = code;
 		}
 	}
