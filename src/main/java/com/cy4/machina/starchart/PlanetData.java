@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -35,7 +36,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	public PlanetData(Random rand) {
 		this();
-		this.name = PlanetNameGenerator.getName(rand);
+		name = PlanetNameGenerator.getName(rand);
 		traits = getTraits(rand);
 	}
 
@@ -50,9 +51,9 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 		t.addAll(traits.stream().map(data -> StringNBT.valueOf(data.getRegistryName().toString()))
 				.collect(Collectors.toList()));
 		nbt.put("traits", t);
-		
+
 		nbt.putString("name", name);
-		
+
 		return nbt;
 	}
 
@@ -62,7 +63,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 		traits.clear();
 		nbt.getList("traits", Constants.NBT.TAG_STRING).forEach(val -> traits
 				.add(PlanetTrait.REGISTRY.getValue(new ResourceLocation(((StringNBT) val).getAsString()))));
-		
-		this.name = nbt.getString("name");
+
+		name = nbt.getString("name");
 	}
 }

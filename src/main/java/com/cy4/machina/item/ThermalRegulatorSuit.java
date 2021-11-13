@@ -15,19 +15,19 @@ import net.minecraft.util.NonNullList;
  *
  */
 public class ThermalRegulatorSuit extends Item {
-	
+
 	public final EquipmentSlotType slot;
 
 	public ThermalRegulatorSuit(Properties pProperties, EquipmentSlotType slot) {
 		super(pProperties);
 		this.slot = slot;
 	}
-	
+
 	@Override
 	public boolean canEquip(ItemStack stack, EquipmentSlotType armorType, Entity entity) {
 		return armorType == slot;
 	}
-	
+
 	/**
 	 * Inefficient way but it works... a loop was a bit redundant here
 	 * @param player
@@ -38,7 +38,7 @@ public class ThermalRegulatorSuit extends Item {
 		return armourSlots.get(0).getItem() instanceof ThermalRegulatorSuit && armourSlots.get(1).getItem() instanceof ThermalRegulatorSuit
 				&& armourSlots.get(2).getItem() instanceof ThermalRegulatorSuit && armourSlots.get(3).getItem() instanceof ThermalRegulatorSuit;
 	}
-	
+
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
 		return super.canApplyAtEnchantingTable(stack, enchantment) && enchantment != Enchantments.MENDING;

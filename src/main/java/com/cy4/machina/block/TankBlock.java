@@ -24,17 +24,17 @@ public class TankBlock extends Block {
 	public TankBlock(Properties p_i48440_1_) {
 		super(p_i48440_1_);
 	}
-	
+
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return TileEntityTypesInit.TANK_TILE_ENTITY_TYPE.create();
 	}
-	
+
 	@Override
 	public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult pHit) {
@@ -49,7 +49,7 @@ public class TankBlock extends Block {
 						stackCap.fill(tileCap.drain(tileCap.getTankCapacity(0), FluidAction.EXECUTE), FluidAction.EXECUTE);
 						continue;
 					}
-					
+
 					if (tileCap.isFluidValid(0, stackCap.getFluidInTank(i))) {
 						tileCap.fill(stackCap.drain(stackCap.getFluidInTank(i), FluidAction.EXECUTE), FluidAction.EXECUTE);
 						result.set(ActionResultType.CONSUME);
@@ -58,7 +58,7 @@ public class TankBlock extends Block {
 				}
 			});
 		});
-		
+
 		return result.get();
 	}
 

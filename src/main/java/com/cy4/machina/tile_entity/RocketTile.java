@@ -13,25 +13,25 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class RocketTile extends TileEntity implements IAnimatable {
-    private final AnimationFactory factory = new AnimationFactory(this);
+	private final AnimationFactory factory = new AnimationFactory(this);
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().transitionLengthTicks = 0;
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.deploy", false));
-        return PlayState.CONTINUE;
-    }
+		event.getController().transitionLengthTicks = 0;
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("Botarium.anim.deploy", false));
+		return PlayState.CONTINUE;
+	}
 
-    public RocketTile() {
-        super(TileEntityTypesInit.ROCKET_TILE);
-    }
+	public RocketTile() {
+		super(TileEntityTypesInit.ROCKET_TILE);
+	}
 
 
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
-    }
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
+	}
 
-    @Override
-    public AnimationFactory getFactory() { return factory; }
+	@Override
+	public AnimationFactory getFactory() { return factory; }
 }

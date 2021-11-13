@@ -19,13 +19,14 @@ import net.minecraft.util.math.vector.Matrix4f;
 
 public class UIHelper {
 
-	public static enum StippleType {
+	public enum StippleType {
+
 		NONE((short) 0x0000), FULL((short) 0xFFFF), DOTTED((short) 0x0101), DASHED((short) 0x00FF),
 		DOT_DASH((short) 0x1C47);
 
 		public final short code;
 
-		private StippleType(final short code) {
+		StippleType(final short code) {
 			this.code = code;
 		}
 	}
@@ -100,10 +101,10 @@ public class UIHelper {
 
 	private static void innerLine(Matrix4f pMatrix, float pMinX, float pMinY, float pMaxX, float pMaxY, int pColor,
 			float width, StippleType stippleType) {
-		float f3 = (float) (pColor >> 24 & 255) / 255.0F;
-		float f = (float) (pColor >> 16 & 255) / 255.0F;
-		float f1 = (float) (pColor >> 8 & 255) / 255.0F;
-		float f2 = (float) (pColor & 255) / 255.0F;
+		float f3 = (pColor >> 24 & 255) / 255.0F;
+		float f = (pColor >> 16 & 255) / 255.0F;
+		float f1 = (pColor >> 8 & 255) / 255.0F;
+		float f2 = (pColor & 255) / 255.0F;
 
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
 		RenderSystem.enableBlend();
@@ -135,6 +136,7 @@ public class UIHelper {
 		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / tex, (uOff + w) / tex, vOff / tex, (vOff + h) / tex);
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void innerBlit(Matrix4f pMatrix, float pX1, float pX2, float pY1, float pY2, float pBlitOffset,
 			float pMinU, float pMaxU, float pMinV, float pMaxV) {
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();

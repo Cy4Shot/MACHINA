@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
-	
+
 	private LivingEntityMixin(EntityType<?> pType, World pLevel) {
 		super(pType, pLevel);
 	}

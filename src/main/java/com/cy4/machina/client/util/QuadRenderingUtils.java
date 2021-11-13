@@ -16,23 +16,23 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 public class QuadRenderingUtils {
 	public static final float[][] CUBE_VERTICES = new float[][] {
 
-			// NORTH
-			{ -1f, 1f, -1f }, { -1f, -1f, -1f }, { 1f, -1f, -1f }, { 1f, 1f, -1f },
+		// NORTH
+		{ -1f, 1f, -1f }, { -1f, -1f, -1f }, { 1f, -1f, -1f }, { 1f, 1f, -1f },
 
-			// EAST
-			{ 1f, 1f, -1f }, { 1f, -1f, -1f }, { 1f, -1f, 1f }, { 1f, 1f, 1f },
+		// EAST
+		{ 1f, 1f, -1f }, { 1f, -1f, -1f }, { 1f, -1f, 1f }, { 1f, 1f, 1f },
 
-			// WEST
-			{ -1f, -1f, 1f }, { -1f, -1f, -1f }, { -1f, 1f, -1f }, { -1f, 1f, 1f },
+		// WEST
+		{ -1f, -1f, 1f }, { -1f, -1f, -1f }, { -1f, 1f, -1f }, { -1f, 1f, 1f },
 
-			// TOP
-			{ 1f, 1f, -1f }, { 1f, 1f, 1f }, { -1f, 1f, 1f }, { -1f, 1f, -1f },
+		// TOP
+		{ 1f, 1f, -1f }, { 1f, 1f, 1f }, { -1f, 1f, 1f }, { -1f, 1f, -1f },
 
-			// SOUTH
-			{ 1f, 1f, 1f }, { 1f, -1f, 1f }, { -1f, -1f, 1f }, { -1f, 1f, 1f },
+		// SOUTH
+		{ 1f, 1f, 1f }, { 1f, -1f, 1f }, { -1f, -1f, 1f }, { -1f, 1f, 1f },
 
-			// BOTTOM
-			{ -1f, -1f, 1f }, { 1f, -1f, 1f }, { 1f, -1f, -1f }, { -1f, -1f, -1f },
+		// BOTTOM
+		{ -1f, -1f, 1f }, { 1f, -1f, 1f }, { 1f, -1f, -1f }, { -1f, -1f, -1f },
 
 	};
 
@@ -50,15 +50,15 @@ public class QuadRenderingUtils {
 
 		for (int i = 0; i < CUBE_VERTICES.length; i++) {
 			buffer.vertex(CUBE_VERTICES[i][0] * radius, CUBE_VERTICES[i][1] * radius, CUBE_VERTICES[i][2] * radius)
-					.uv(Math.floorDiv(i, 2) % 2 == 0 ? 0 : 1, Math.floorDiv(i + 1, 2) % 2 == 0 ? 0 : 1).endVertex();
+			.uv(Math.floorDiv(i, 2) % 2 == 0 ? 0 : 1, Math.floorDiv(i + 1, 2) % 2 == 0 ? 0 : 1).endVertex();
 		}
 	}
 
 	public static void makeCylinder(BufferBuilder buffer, int segments, double height, double radius) {
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 		for (int i = 0; i < segments; i++) {
-			double a1 = (double) i * Math.PI * 2.0 / (double) segments;
-			double a2 = (double) (i + 1) * Math.PI * 2.0 / (double) segments;
+			double a1 = i * Math.PI * 2.0 / segments;
+			double a2 = (i + 1) * Math.PI * 2.0 / segments;
 			double px1 = Math.sin(a1) * radius;
 			double pz1 = Math.cos(a1) * radius;
 			double px2 = Math.sin(a2) * radius;

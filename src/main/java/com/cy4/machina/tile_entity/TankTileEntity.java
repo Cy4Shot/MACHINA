@@ -69,17 +69,17 @@ public class TankTileEntity extends BaseTileEntity implements IFluidInventory {
 
 	@Override
 	public int fill(FluidStack resource, FluidAction action) {
-		return this.tank.fill(resource, action);
+		return tank.fill(resource, action);
 	}
 
 	@Override
 	public FluidStack drain(FluidStack resource, FluidAction action) {
-		return this.tank.drain(resource, action);
+		return tank.drain(resource, action);
 	}
 
 	@Override
 	public FluidStack drain(int maxDrain, FluidAction action) {
-		return this.tank.drain(maxDrain, action);
+		return tank.drain(maxDrain, action);
 	}
 
 }

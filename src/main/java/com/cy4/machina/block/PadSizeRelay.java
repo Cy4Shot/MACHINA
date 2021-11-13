@@ -6,16 +6,16 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 
 public class PadSizeRelay extends Block {
-    public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
+	public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
-    public PadSizeRelay(Properties properties) {
-        super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
-                .setValue(ACTIVATED, Boolean.FALSE));
-    }
+	public PadSizeRelay(Properties properties) {
+		super(properties);
+		this.registerDefaultState(stateDefinition.any()
+				.setValue(ACTIVATED, Boolean.FALSE));
+	}
 
-    @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> stateBuilder) {
-        stateBuilder.add(ACTIVATED);
-    }
+	@Override
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> stateBuilder) {
+		stateBuilder.add(ACTIVATED);
+	}
 }

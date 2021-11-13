@@ -37,7 +37,7 @@ public class CapabilityPlanetTrait {
 	/**
 	 * Call in order to sync the traits from the capability to all the players that
 	 * are connected to the server
-	 * 
+	 *
 	 * @param world
 	 */
 	public static void syncCapabilityWithClients(World world) {
@@ -50,7 +50,7 @@ public class CapabilityPlanetTrait {
 	 * {@link #syncCapabilityWithClients(World)}<br>
 	 * It is preferred to use this method instead of
 	 * {@link IPlanetTraitCapability#addTrait(PlanetTrait)}
-	 * 
+	 *
 	 * @param level
 	 * @param traits
 	 */
@@ -68,7 +68,7 @@ public class CapabilityPlanetTrait {
 	 * {@link #syncCapabilityWithClients(World)} <br>
 	 * It is preferred to use this method instead of
 	 * {@link IPlanetTraitCapability#removeTrait(PlanetTrait)}
-	 * 
+	 *
 	 * @param level
 	 * @param traits
 	 */
@@ -86,7 +86,7 @@ public class CapabilityPlanetTrait {
 	/**
 	 * Weird way of loading/saving, but it works. TODO figure out a better way to do
 	 * it. Maybe using a custom {@link CollectionNBT} of {@link String}s?
-	 * 
+	 *
 	 * @author matyrobbrt
 	 *
 	 */

@@ -21,7 +21,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
 public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergyHolderTile, ITickableTileEntity {
-	
+
 	protected final MachinaEnergyStorage energyStorage = createEnergyStorage();
 	protected final LazyOptional<IEnergyStorage> energyOptional = LazyOptional.of(() -> energyStorage);
 
@@ -33,19 +33,18 @@ public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergy
 
 	@Override
 	public MachinaEnergyStorage getStorage() { return energyStorage; }
-	
+
 	protected List<Direction> getSidesForEnergy() {
 		return Lists.newArrayList(Direction.values());
 	}
-	
+
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (cap == CapabilityEnergy.ENERGY && (getSidesForEnergy().contains(side) || side == null)) {
+		if (cap == CapabilityEnergy.ENERGY && (getSidesForEnergy().contains(side) || side == null))
 			return energyOptional.cast();
-		}
 		return super.getCapability(cap, side);
 	}
-	
+
 	@Override
 	public void tick() {
 		if (level.isClientSide()) {
@@ -54,22 +53,22 @@ public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergy
 			serverTick();
 		}
 	}
-	
+
 	protected void serverTick() {
-		
+
 	}
-	
+
 	protected void clientTick() {
-		
+
 	}
-	
+
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {
 		super.save(nbt);
 		nbt.put("energy", energyStorage.serialize());
 		return nbt;
 	}
-	
+
 	@Override
 	public void load(BlockState state, CompoundNBT nbt) {
 		super.load(state, nbt);

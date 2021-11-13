@@ -18,7 +18,7 @@ public class DebugCommand extends BaseCommand {
 	public void build(LiteralArgumentBuilder<CommandSource> builder) {
 		builder.executes(this::execute);
 	}
-	
+
 	@Override
 	protected int execute(CommandContext<CommandSource> context) {
 		return 0;

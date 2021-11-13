@@ -17,7 +17,7 @@ public class ItemInit {
 		@Override
 		public void fillItemCategory(net.minecraft.item.ItemGroup pGroup, net.minecraft.util.NonNullList<net.minecraft.item.ItemStack> pItems) {}
 	};
-	
+
 	@RegisterItem("thermal_regulating_helmet")
 	public static final ThermalRegulatorSuit THERMAL_REGULATING_HELMET = new ThermalRegulatorSuit(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.HEAD);
 	@RegisterItem("thermal_regulating_chestplate")

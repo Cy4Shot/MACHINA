@@ -23,11 +23,11 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		createBucketModel(FluidInit.HYDROGEN.get());
 		createBucketModel(FluidInit.LIQUID_HYDROGEN.get());
 	}
-	
+
 	protected void createBucketModel(FlowingFluid stillFluid) {
-        DynamicBucketModelBuilder<ItemModelBuilder> builder = withExistingParent(stillFluid.getBucket().getRegistryName().getPath(), new ResourceLocation("forge", "item/bucket"))
-              .customLoader(DynamicBucketModelBuilder::begin);
-        builder.fluid(stillFluid);
-    }
+		DynamicBucketModelBuilder<ItemModelBuilder> builder = withExistingParent(stillFluid.getBucket().getRegistryName().getPath(), new ResourceLocation("forge", "item/bucket"))
+				.customLoader(DynamicBucketModelBuilder::begin);
+		builder.fluid(stillFluid);
+	}
 
 }

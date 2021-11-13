@@ -10,10 +10,10 @@ public class Rectangle {
 	}
 
 	public Rectangle(Rectangle other) {
-		this.x0 = other.x0;
-		this.y0 = other.y0;
-		this.x1 = other.x1;
-		this.y1 = other.y1;
+		x0 = other.x0;
+		y0 = other.y0;
+		x1 = other.x1;
+		y1 = other.y1;
 	}
 
 	public int getWidth() {
@@ -25,11 +25,11 @@ public class Rectangle {
 	}
 
 	public void setWidth(int width) {
-		this.x1 = this.x0 + width;
+		x1 = x0 + width;
 	}
 
 	public void setHeight(int height) {
-		this.y1 = this.y0 + height;
+		y1 = y0 + height;
 	}
 
 	public boolean contains(int x, int y) {

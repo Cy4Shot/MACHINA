@@ -39,12 +39,12 @@ public class FluidInit {
 			() -> new ForgeFlowingFluid.Source(Properties.OXYGEN_PROPERTIES));
 	public static final RegistryObject<FlowingFluid> OXYGEN_FLOWING = FLUIDS.register("oxygen_flowing",
 			() -> new ForgeFlowingFluid.Flowing(Properties.OXYGEN_PROPERTIES));
-	
+
 	public static final RegistryObject<FlowingFluid> HYDROGEN = FLUIDS.register("hydrogen",
 			() -> new ForgeFlowingFluid.Source(Properties.HYDROGEN_PROPERTIES));
 	public static final RegistryObject<FlowingFluid> HYDROGEN_FLOWING = FLUIDS.register("hydrogen_flowing",
 			() -> new ForgeFlowingFluid.Flowing(Properties.HYDROGEN_PROPERTIES));
-	
+
 	public static final RegistryObject<FlowingFluid> LIQUID_HYDROGEN = FLUIDS.register("liquid_hydrogen",
 			() -> new ForgeFlowingFluid.Source(Properties.LIQUID_HYDROGEN_PROPERTIES));
 	public static final RegistryObject<FlowingFluid> LIQUID_HYDROGEN_FLOWING = FLUIDS.register("liquid_hydrogen_flowing",
@@ -56,10 +56,10 @@ public class FluidInit {
 
 		public static final ForgeFlowingFluid.Properties OXYGEN_PROPERTIES = registerChemicalGas(ChemicalValues.OXYGEN,
 				OXYGEN::get, OXYGEN_FLOWING::get, OXYGEN_BUCKET);
-		
+
 		public static final ForgeFlowingFluid.Properties HYDROGEN_PROPERTIES = registerChemicalGas(ChemicalValues.HYDROGEN,
 				HYDROGEN::get, HYDROGEN_FLOWING::get, HYDROGEN_BUCKET);
-		
+
 		public static final ForgeFlowingFluid.Properties LIQUID_HYDROGEN_PROPERTIES = registerChemicalLiquid(ChemicalValues.LIQUID_HYDROGEN,
 				LIQUID_HYDROGEN::get, LIQUID_HYDROGEN_FLOWING::get, LIQUID_HYDROGEN_BUCKET, LIQUID_HYDROGEN_BLOCK);
 
@@ -67,22 +67,22 @@ public class FluidInit {
 				Supplier<FlowingFluid> still, Supplier<FlowingFluid> flowing, Item bucket) {
 			return new ForgeFlowingFluid.Properties(still, flowing,
 					FluidAttributes.builder(STILL_RL, FLOWING_RL).color(value.getColor())
-							.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
-							.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
-							.overlay(OVERLAY_RL).gaseous()).bucket(() -> bucket);
+					.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
+					.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
+					.overlay(OVERLAY_RL).gaseous()).bucket(() -> bucket);
 		}
-		
+
 		private static ForgeFlowingFluid.Properties registerChemicalLiquid(ChemicalValues value,
 				Supplier<FlowingFluid> still, Supplier<FlowingFluid> flowing, Item bucket, FlowingFluidBlock block) {
 			return new ForgeFlowingFluid.Properties(still, flowing,
 					FluidAttributes.builder(STILL_RL, FLOWING_RL).color(value.getColor())
-							.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
-							.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
-							.overlay(OVERLAY_RL)).bucket(() -> bucket).block(() -> block);
+					.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
+					.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
+					.overlay(OVERLAY_RL)).bucket(() -> bucket).block(() -> block);
 		}
 
 	}
-	
+
 	@RegisterItem("oxygen_bucket")
 	public static final BucketItem OXYGEN_BUCKET = createBucket(OXYGEN::get);
 	@RegisterItem("hydrogen_bucket")

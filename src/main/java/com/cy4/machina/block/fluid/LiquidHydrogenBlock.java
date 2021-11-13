@@ -16,9 +16,9 @@ public class LiquidHydrogenBlock extends FlowingFluidBlock {
 	public LiquidHydrogenBlock(Supplier<? extends FlowingFluid> supplier, Properties properties) {
 		super(supplier, properties);
 	}
-	
+
 	private int ticksSinceLastDmg;
-	
+
 	@Override
 	public void entityInside(BlockState pState, World pLevel, BlockPos pPos, Entity pEntity) {
 		ticksSinceLastDmg++;

@@ -27,13 +27,14 @@ public class MachinaEnergyStorage extends EnergyStorage {
 		setChanged();
 		return super.receiveEnergy(maxReceive, simulate);
 	}
-	
+
 	public int receiveInternalEnergy(int maxReceive, boolean simulate) {
-        int energyReceived = Math.min(capacity - energy, maxReceive);
-        if (!simulate)
-            energy += energyReceived;
-        setChanged();
-        return energyReceived;
+		int energyReceived = Math.min(capacity - energy, maxReceive);
+		if (!simulate) {
+			energy += energyReceived;
+		}
+		setChanged();
+		return energyReceived;
 	}
 
 	@Override
@@ -44,13 +45,13 @@ public class MachinaEnergyStorage extends EnergyStorage {
 
 	public void setChanged() {
 	}
-	
+
 	public CompoundNBT serialize() {
 		CompoundNBT nbt = new CompoundNBT();
 		nbt.putInt("storedEnergy", energy);
 		return nbt;
 	}
-	
+
 	public void deserialize(CompoundNBT nbt) {
 		energy = nbt.getInt("storedEnergy");
 		setChanged();

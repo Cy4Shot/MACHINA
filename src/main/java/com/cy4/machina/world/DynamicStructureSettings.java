@@ -6,7 +6,7 @@ public class DynamicStructureSettings extends DimensionStructuresSettings {
 
 	public DynamicStructureSettings() {
 		super(false);
-		this.structureConfig.clear();
+		structureConfig.clear();
 	}
 
 }

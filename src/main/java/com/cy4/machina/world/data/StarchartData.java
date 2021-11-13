@@ -34,10 +34,10 @@ public class StarchartData extends WorldSavedData {
 	}
 
 	public void setStarchart(Starchart sc) {
-		this.starchart = sc;
+		starchart = sc;
 		this.setDirty();
 	}
-	
+
 	public void setStarchartIfNull(Starchart sc) {
 		if (starchart.planets.size() == 0) {
 			setStarchart(sc);

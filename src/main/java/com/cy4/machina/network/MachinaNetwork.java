@@ -10,6 +10,7 @@ import com.cy4.machina.network.message.to_server.RequestTraitsUpdateMessage;
 import com.cy4.machina.util.MachinaRL;
 
 import net.minecraft.network.PacketBuffer;
+
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
@@ -22,7 +23,7 @@ public class MachinaNetwork extends BaseNetwork {
 	public static void init() {
 		registerServerToClient(CHANNEL, SyncTraitsCapabilityMessage.class, SyncTraitsCapabilityMessage::decode);
 		registerClientToServer(RequestTraitsUpdateMessage.class, RequestTraitsUpdateMessage::decode);
-		
+
 		registerClientToServer(DevPlanetCreationGUIMessage.class, DevPlanetCreationGUIMessage::decode);
 	}
 

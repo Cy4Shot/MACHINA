@@ -10,6 +10,7 @@ import com.cy4.machina.util.StringUtils;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -22,9 +23,9 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 
 		generateStarchart(seed);
 	}
-	
+
 	public Starchart(){
-		this.planets = new ArrayList<>();
+		planets = new ArrayList<>();
 	}
 
 	public void generateStarchart(long seed) {
@@ -59,7 +60,7 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 
 	public CompoundNBT serializeNBT(CompoundNBT nbt) {
 		ListNBT p = new ListNBT();
-		p.addAll(planets.stream().map(data -> data.serializeNBT()).collect(Collectors.toList()));
+		p.addAll(planets.stream().map(PlanetData::serializeNBT).collect(Collectors.toList()));
 		nbt.put("planets", p);
 		return nbt;
 	}

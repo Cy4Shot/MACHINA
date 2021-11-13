@@ -13,7 +13,7 @@ public class DynamicDimensionFactory {
 
 	public static final RegistryKey<DimensionType> TYPE_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
 			Machina.MACHINA_ID);
-	
+
 	public static final RegistryKey<DimensionType> SUPERHOT_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
 			new MachinaRL("superhot"));
 

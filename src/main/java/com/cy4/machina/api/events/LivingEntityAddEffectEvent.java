@@ -12,7 +12,7 @@ public class LivingEntityAddEffectEvent extends Event {
 
 	private final LivingEntity entity;
 	private final EffectInstance effect;
-	
+
 	private LivingEntityAddEffectEvent(LivingEntity entity, EffectInstance effect) {
 		this.entity = entity;
 		this.effect = effect;
@@ -25,7 +25,7 @@ public class LivingEntityAddEffectEvent extends Event {
 	public LivingEntity getEntity() {
 		return entity;
 	}
-	
+
 	/**
 	 * @param entity
 	 * @param effect
@@ -34,5 +34,5 @@ public class LivingEntityAddEffectEvent extends Event {
 	public static boolean onLivingAddEffect(LivingEntity entity, EffectInstance effect) {
 		return MinecraftForge.EVENT_BUS.post(new LivingEntityAddEffectEvent(entity, effect));
 	}
-	
+
 }

@@ -13,8 +13,8 @@ public abstract class PlanetEvent extends Event {
 		this.planet = planet;
 	}
 
-	public World getPlanet() { return this.planet; }
-	
+	public World getPlanet() { return planet; }
+
 	/**
 	 * Call it when a planet is being created
 	 * @param planet

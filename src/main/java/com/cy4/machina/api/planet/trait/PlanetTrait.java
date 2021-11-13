@@ -11,6 +11,7 @@ import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -25,7 +26,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		RegistryBuilder<PlanetTrait> registryBuilder = new RegistryBuilder<>();
 		registryBuilder.setName(new MachinaRL("planet_trait_registry"));
 		registryBuilder.setType(PlanetTrait.class);
-		
+
 		try {
 			Field registryField = PlanetTrait.class.getDeclaredField("REGISTRY");
 			registryField.setAccessible(true);
@@ -53,9 +54,9 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 	public ITextComponent getName() {
 		return new TranslationTextComponent(
 				this.getRegistryName().getNamespace() + ".trait." + this.getRegistryName().getPath())
-						.setStyle(Style.EMPTY.withColor(Color.fromRgb(this.getColor())));
+				.setStyle(Style.EMPTY.withColor(Color.fromRgb(this.getColor())));
 	}
-	
+
 	@Override
 	public String toString() {
 		return getName().getString();

@@ -19,7 +19,7 @@ public class ClientSetup {
 	public ClientSetup(IEventBus modBus) {
 		modBus.addListener(this::onBlockColourHandler);
 	}
-	
+
 	@SubscribeEvent
 	public void onBlockColourHandler(ColorHandlerEvent.Block event) {
 		Minecraft minecraft = Minecraft.getInstance();
@@ -31,5 +31,5 @@ public class ClientSetup {
 		}
 		PlanetTraitSpriteUploader.setInstance(spriteUploader);
 	}
-	
+
 }

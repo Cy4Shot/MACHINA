@@ -29,6 +29,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraft.world.storage.IServerConfiguration;
 import net.minecraft.world.storage.SaveFormat.LevelSave;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -65,9 +66,9 @@ public class DynamicDimensionHelper {
 
 		Map<RegistryKey<World>, ServerWorld> map = server.forgeGetWorldMap();
 
-		if (map.containsKey(worldKey)) {
+		if (map.containsKey(worldKey))
 			return map.get(worldKey);
-		} else
+		else
 			return createAndRegisterWorldAndDimension(server, map, worldKey, dimensionFactory);
 	}
 

@@ -4,7 +4,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.world.World;
 
 public interface ITickableTile extends ITickableTileEntity {
-	
+
 	@Override
 	default void tick() {
 		if (getWorld().isClientSide()) {
@@ -13,13 +13,13 @@ public interface ITickableTile extends ITickableTileEntity {
 			serverTick();
 		}
 	}
-	
+
 	default void serverTick() {
-		
+
 	}
 
 	default void clientTick() {
-		
+
 	}
 
 	World getWorld();

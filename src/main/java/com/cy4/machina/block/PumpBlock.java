@@ -14,12 +14,12 @@ public class PumpBlock extends Block {
 	public PumpBlock() {
 		super(AbstractBlock.Properties.copy(BlockInit.TANK));
 	}
-	
+
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return TileEntityTypesInit.PUMP_TILE_ENTITY_TYPE.create();

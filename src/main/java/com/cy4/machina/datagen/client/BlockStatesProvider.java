@@ -14,18 +14,18 @@ public class BlockStatesProvider extends BlockStateProvider {
 	public BlockStatesProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
 		super(gen, Machina.MOD_ID, exFileHelper);
 	}
-	
+
 	@Override
 	protected void registerStatesAndModels() {
 		fluid(FluidInit.LIQUID_HYDROGEN_BLOCK);
 	}
-	
+
 	public void fluid(Block block) {
 		getVariantBuilder(block).partialState().modelForState().modelFile(models().cubeAll(name(block), FluidInit.STILL_RL)).addModel();
 	}
-	
-    private String name(Block block) {
-        return block.getRegistryName().getPath();
-    }
+
+	private String name(Block block) {
+		return block.getRegistryName().getPath();
+	}
 
 }

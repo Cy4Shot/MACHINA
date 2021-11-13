@@ -17,7 +17,7 @@ import javax.annotation.Syntax;
 @Retention(RUNTIME)
 @Target(FIELD)
 public @interface ChangedByReflection {
-	
+
 	/**
 	 * Indicates when the value of the field will be changed
 	 * @return

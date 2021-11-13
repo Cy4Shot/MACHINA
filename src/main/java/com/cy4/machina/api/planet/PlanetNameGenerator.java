@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 public class PlanetNameGenerator {
 
-	private final static TreeMap<Integer, String> map = new TreeMap<Integer, String>();
+	private final static TreeMap<Integer, String> map = new TreeMap<>();
 
 	static {
 		map.put(1000, "M");
@@ -28,9 +28,8 @@ public class PlanetNameGenerator {
 
 	public final static String toRoman(int number) {
 		int l = map.floorKey(number);
-		if (number == l) {
+		if (number == l)
 			return map.get(number);
-		}
 		return map.get(l) + toRoman(number - l);
 	}
 
@@ -46,11 +45,13 @@ public class PlanetNameGenerator {
 
 	public static String getName(Random rand) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < rand.nextInt(3) + 1; i++)
+		for (int i = 0; i < rand.nextInt(3) + 1; i++) {
 			sb.append(syllables.get(rand.nextInt(syllables.size())));
+		}
 
-		if (rand.nextBoolean())
+		if (rand.nextBoolean()) {
 			sb.append(" " + toRoman(rand.nextInt(8) + 2));
+		}
 
 		return sb.toString();
 	}

@@ -61,12 +61,12 @@ public class RegistryEvents {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-					try {
-						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
-								RegistryEvents.class.getClassLoader()));
-					} catch (ClassNotFoundException e) {}
-				});
+		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+			try {
+				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
+						RegistryEvents.class.getClassLoader()));
+			} catch (ClassNotFoundException e) {}
+		});
 	}
 
 	private RegistryEvents() {
@@ -89,7 +89,7 @@ public class RegistryEvents {
 				// TODO Do some println()
 			}
 		});
-		
+
 		for (Block block : BlockItemInit.AUTO_BLOCK_ITEMS) {
 			BlockItem item = new BlockItem(block, new Item.Properties().tab(Machina.MACHINA_ITEM_GROUP));
 			item.setRegistryName(block.getRegistryName());
@@ -140,7 +140,7 @@ public class RegistryEvents {
 			} catch (IllegalArgumentException | IllegalAccessException e) {}
 		});
 	}
-	
+
 	@SubscribeEvent
 	public static void registerParticleTypes(final RegistryEvent.Register<ParticleType<?>> event) {
 		// registers Particle types

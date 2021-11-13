@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.text.TranslationTextComponent;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -49,21 +50,21 @@ public class StarchartScreen extends Screen {
 		Rectangle bound = this.getContainerBounds();
 
 		// Background
-		UIHelper.renderOverflowHidden(matrixStack, this::renderContainerBackground, (ms) -> ms.toString());
+		UIHelper.renderOverflowHidden(matrixStack, this::renderContainerBackground, MatrixStack::toString);
 
 		// Elements
 		renderStarSystem(matrixStack, 50D);
 
 		// Border
 		UIHelper.renderContainerBorder(matrixStack, bound);
-		UIHelper.drawStringWithBorder(matrixStack, this.title.getString(), bound.x0, bound.y0 - 12, 0xFF_cc00ff,
+		UIHelper.drawStringWithBorder(matrixStack, title.getString(), bound.x0, bound.y0 - 12, 0xFF_cc00ff,
 				0xFF_0e0e0e);
 	}
 
 	private void renderContainerBackground(MatrixStack matrixStack) {
-		assert this.minecraft != null;
+		assert minecraft != null;
 
-		this.minecraft.getTextureManager().bind(SC_BG);
+		minecraft.getTextureManager().bind(SC_BG);
 
 		Rectangle containerBounds = getContainerBounds();
 
@@ -94,8 +95,8 @@ public class StarchartScreen extends Screen {
 
 		Vector2f centre = getCentre();
 
-		for (int i = 1; i <= this.sc.planets.size(); i++) {
-			double angle = (Math.PI * 2) / this.sc.planets.size() * i;
+		for (int i = 1; i <= sc.planets.size(); i++) {
+			double angle = (Math.PI * 2) / sc.planets.size() * i;
 
 			int x = (int) (radius * Math.cos(angle));
 			int y = (int) (radius * Math.sin(angle));
@@ -106,23 +107,22 @@ public class StarchartScreen extends Screen {
 	}
 
 	private void renderPlanetNode(MatrixStack matrixStack, float x, float y, boolean renderLine) {
-		assert this.minecraft != null;
-		this.minecraft.getTextureManager().bind(SC_RS);
+		assert minecraft != null;
+		minecraft.getTextureManager().bind(SC_RS);
 		Vector2f centre = getCentre();
 
-		float offsetC = (float) (8 * Math.cos(this.minecraft.levelRenderer.ticks / 10f) + 8);
+		float offsetC = (float) (8 * Math.cos(minecraft.levelRenderer.ticks / 10f) + 8);
 		int textureSize = 3;
 
-		if (renderLine)
+		if (renderLine) {
 			UIHelper.line(matrixStack, centre.x, centre.y, x + textureSize / 2f, y + textureSize / 2f, 0xFFFFFFFF, 3f,
 					StippleType.DASHED);
+		}
 		UIHelper.betterBlit(matrixStack, x, y, textureSize * (int) offsetC, 0, textureSize, textureSize, 128);
 
 	}
 
 	@Override
-	public boolean isPauseScreen() {
-		return false;
-	}
+	public boolean isPauseScreen() { return false; }
 
 }

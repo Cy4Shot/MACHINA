@@ -22,13 +22,13 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 
 /**
  * Permission levels
- * 
- * 0 - All Players 
- * 1 - No Commands 
- * 2 - /give, /clear, /difficulty 
- * 3 - /ban, /kick, /op 
+ *
+ * 0 - All Players
+ * 1 - No Commands
+ * 2 - /give, /clear, /difficulty
+ * 3 - /ban, /kick, /op
  * 4 - /not_a_democracy (this is NOT a democracy, i decide what to do :kekw:)
- * 
+ *
  * @author matyrobbrt
  *
  */
@@ -60,7 +60,7 @@ public class CommandInit {
 		});
 
 	}
-	
+
 	private static boolean isDevEnvironment() {
 		return !FMLEnvironment.production;
 	}

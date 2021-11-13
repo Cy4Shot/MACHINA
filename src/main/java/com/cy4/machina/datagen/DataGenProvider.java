@@ -16,17 +16,17 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class DataGenProvider {
-	
+
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
 		DataGenerator gen = event.getGenerator();
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
 		gen.addProvider(new EnUsLangProvider(gen));
-		
+
 		gen.addProvider(new BlockStatesProvider(gen, existingFileHelper));
 		gen.addProvider(new ItemModelProvider(gen, existingFileHelper));
-		
+
 		gen.addProvider(new PlanetTraitPoolsProvider(gen));
 	}
 

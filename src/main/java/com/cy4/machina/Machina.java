@@ -27,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -46,7 +47,7 @@ public class Machina {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final String MOD_ID = "machina";
-	
+
 	public static PlanetTraitPoolManager traitPoolManager = new PlanetTraitPoolManager();
 	public static final ResourceLocation MACHINA_ID = new MachinaRL(MOD_ID);
 
@@ -64,9 +65,9 @@ public class Machina {
 		CustomDimensionRenderInfo.registerDimensionRenderInfo();
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-		
+
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
-		
+
 		FluidInit.FLUIDS.register(modBus);
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
@@ -74,7 +75,7 @@ public class Machina {
 
 		forgeBus.addListener(EventPriority.HIGH, this::onServerStart);
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
-//		forgeBus.addListener(EventPriority.HIGH, TraitHandlers::handleSuperHot);
+		// forgeBus.addListener(EventPriority.HIGH, TraitHandlers::handleSuperHot);
 
 		ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.SPEC, MOD_ID + "/common.toml");
 		ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.SPEC, MOD_ID + "/client.toml");
@@ -110,6 +111,6 @@ public class Machina {
 		});
 
 		StarchartData.getDefaultInstance(server)
-				.setStarchartIfNull(new Starchart(server.getLevel(World.OVERWORLD).getSeed()));
+		.setStarchartIfNull(new Starchart(server.getLevel(World.OVERWORLD).getSeed()));
 	}
 }

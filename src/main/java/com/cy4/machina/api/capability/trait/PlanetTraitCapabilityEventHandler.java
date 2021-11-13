@@ -5,6 +5,7 @@ import com.cy4.machina.api.planet.PlanetUtils;
 import com.cy4.machina.util.MachinaRL;
 
 import net.minecraft.world.World;
+
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +23,7 @@ public class PlanetTraitCapabilityEventHandler {
 			attachPlanetTraitCap(event);
 		}
 	}
-	
+
 	private static void attachPlanetTraitCap(AttachCapabilitiesEvent<World> event) {
 		if (PlanetUtils.isDimensionPlanet(event.getObject().dimension())) {
 			PlanetTraitCapabilityProvider provider = new PlanetTraitCapabilityProvider();

@@ -10,7 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
  *
  */
 public class PlayerHelper {
-	
+
 	public static void damageAllArmour(PlayerEntity player, int damageAmount) {
 		for (int i = 0; i < player.inventory.armor.size() - 1; i++) {
 			if (player.inventory.armor.get(i).hurt(damageAmount, new Random(), null)) {

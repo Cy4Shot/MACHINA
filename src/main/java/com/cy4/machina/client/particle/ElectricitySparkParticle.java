@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ElectricitySparkParticle extends BaseParticle {
-	
+
 	protected ElectricitySparkParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 	}
@@ -19,12 +19,12 @@ public class ElectricitySparkParticle extends BaseParticle {
 	@OnlyIn(Dist.CLIENT)
 	public static class Factory implements IParticleFactory<BasicParticleType> {
 		private final IAnimatedSprite spriteSet;
-		
+
 		public Factory(IAnimatedSprite sprite) {
-			this.spriteSet = sprite;
+			spriteSet = sprite;
 		}
-		
-		
+
+
 		@Override
 		public Particle createParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
 			ElectricitySparkParticle particle = new ElectricitySparkParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -32,7 +32,7 @@ public class ElectricitySparkParticle extends BaseParticle {
 			particle.pickSprite(spriteSet);
 			return particle;
 		}
-		
+
 	}
 
 }

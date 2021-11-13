@@ -18,7 +18,7 @@ public class RequestTraitsUpdateMessage implements IMachinaMessage {
 	public void encode(PacketBuffer buffer) {
 		// Nothing to encode. Just requesting an update
 	}
-	
+
 	public static RequestTraitsUpdateMessage decode(PacketBuffer buffer) {
 		return new RequestTraitsUpdateMessage();
 	}

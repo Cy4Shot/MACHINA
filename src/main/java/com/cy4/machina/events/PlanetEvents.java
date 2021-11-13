@@ -28,7 +28,7 @@ public class PlanetEvents {
 					CapabilityPlanetTrait.addTrait(event.getPlanet(),
 							sc.planets.get(id).traits.toArray(new PlanetTrait[] {}));
 				} else {
-//					PlanetData.getTraits(new Random(seed)).forEach(cap::addTrait);
+					//					PlanetData.getTraits(new Random(seed)).forEach(cap::addTrait);
 					// MATY WHAT IS THIS??? SHOULDNT HAPPEN
 					// Yes it should cy4
 				}

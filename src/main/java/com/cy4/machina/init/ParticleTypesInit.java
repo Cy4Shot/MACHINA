@@ -10,5 +10,5 @@ public class ParticleTypesInit {
 
 	@RegisterParticleType("electricity_spark")
 	public static final BasicParticleType ELECTRICITY_SPARK = new BasicParticleType(true);
-	
+
 }

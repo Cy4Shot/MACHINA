@@ -19,6 +19,7 @@ import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
+
 import net.minecraftforge.client.ICloudRenderHandler;
 import net.minecraftforge.client.ISkyRenderHandler;
 import net.minecraftforge.client.IWeatherParticleRenderHandler;
@@ -55,23 +56,23 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 		return null;
 	}
 
-	public class CustomSkyRenderer implements ISkyRenderHandler {
+	public static class CustomSkyRenderer implements ISkyRenderHandler {
 
 		private VertexBuffer sky;
 		private VertexBuffer fog;
 
 		public CustomSkyRenderer() {
-			sky = QuadRenderingUtils.createBuffer(sky, (bb) -> QuadRenderingUtils.makeCube(bb, 100));
-			fog = QuadRenderingUtils.createBuffer(fog, (bb) -> QuadRenderingUtils.makeCylinder(bb, 7, 10, 100));
+			sky = QuadRenderingUtils.createBuffer(sky, bb -> QuadRenderingUtils.makeCube(bb, 100));
+			fog = QuadRenderingUtils.createBuffer(fog, bb -> QuadRenderingUtils.makeCylinder(bb, 7, 10, 100));
 		}
-		
+
 
 		@Override
 		public void render(int ticks, float partialTicks, MatrixStack matrixStack, ClientWorld world, Minecraft mc) {
 			TextureManager tm = mc.getTextureManager();
 			int currTicks = mc.levelRenderer.ticks;
 			float time = (currTicks % 360000) * 0.000017453292F;
-			
+
 			RenderSystem.enableTexture();
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			GL11.glAlphaFunc(516, 0.0F);
@@ -80,18 +81,18 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 
 			tm.bind(new MachinaRL("textures/environment/sky/starfield01.png"));
 			QuadRenderingUtils.renderBuffer(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
-			
+
 			matrixStack.pushPose();
 			matrixStack.last().pose().multiply(new Quaternion(0, -time * 4, 0, false));
 			tm.bind(new ResourceLocation("textures/block/white_concrete.png"));
 			QuadRenderingUtils.renderBuffer(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
 			matrixStack.popPose();
-			
+
 			RenderSystem.depthMask(true);
 		}
 	}
 
-	public class CustomCloudRenderer implements ICloudRenderHandler {
+	public static class CustomCloudRenderer implements ICloudRenderHandler {
 
 		@Override
 		public void render(int ticks, float partialTicks, MatrixStack matrixStack, ClientWorld world, Minecraft mc,
@@ -99,7 +100,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 		}
 	}
 
-	public class CustomWeatherRenderer implements IWeatherRenderHandler {
+	public static class CustomWeatherRenderer implements IWeatherRenderHandler {
 
 		@Override
 		public void render(int ticks, float partialTicks, ClientWorld world, Minecraft mc, LightTexture lightmapIn,
@@ -107,11 +108,11 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 		}
 	}
 
-	public class CustomWeatherParticleRenderer implements IWeatherParticleRenderHandler {
+	public static class CustomWeatherParticleRenderer implements IWeatherParticleRenderHandler {
 
 		@Override
 		public void render(int ticks, ClientWorld world, Minecraft mc, ActiveRenderInfo activeRenderInfoIn) {
-			
+
 		}
 	}
 }

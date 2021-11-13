@@ -6,7 +6,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 
 public class PlanetUtils {
-	
+
 	public static boolean isDimensionPlanet(RegistryKey<World> dim) {
 		return dim.location().getNamespace().equals(Machina.MOD_ID);
 	}

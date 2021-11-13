@@ -43,19 +43,19 @@ public interface IFluidInventory extends IInventory, IFluidHandler {
 	default boolean canPlaceItem(int pIndex, ItemStack pStack) {
 		return false;
 	}
-	
+
 	/**
-     * @return Current amount of fluid in the tank.
-     */
-    default int getFluidAmount(int tank) {
-    	return getFluidInTank(tank).getAmount();
-    }
-    
-    /**
-     * @return Remaining capacity in tank
-     */
-    default int getRemainingCapacity(int tank) {
-    	return getTankCapacity(tank) - getFluidInTank(tank).getAmount();
-    }
-	
+	 * @return Current amount of fluid in the tank.
+	 */
+	default int getFluidAmount(int tank) {
+		return getFluidInTank(tank).getAmount();
+	}
+
+	/**
+	 * @return Remaining capacity in tank
+	 */
+	default int getRemainingCapacity(int tank) {
+		return getTankCapacity(tank) - getFluidInTank(tank).getAmount();
+	}
+
 }

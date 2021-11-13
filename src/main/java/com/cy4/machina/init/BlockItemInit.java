@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 
 @RegistryHolder
 public class BlockItemInit {
-	
+
 	public static final Block[] AUTO_BLOCK_ITEMS = new Block[] {};
 
 	@RegisterBlockItem
@@ -37,14 +37,14 @@ public class BlockItemInit {
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_BLOCKITEM = new BlockItem(BlockInit.ROCKET,
 			new Item.Properties().tab(MACHINA_ITEM_GROUP));
-	
+
 	@RegisterBlockItem
 	public static final BlockItem TANK_BLOCK_ITEM = createBlockItem(BlockInit.TANK);
 	@RegisterBlockItem
 	public static final BlockItem PUMP_BLOCK_ITEM = createBlockItem(BlockInit.PUMP);
-	
+
 	private static BlockItem createBlockItem(Block block) {
 		return new BlockItem(block, new Item.Properties().tab(MACHINA_ITEM_GROUP));
 	}
-	
+
 }

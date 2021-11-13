@@ -30,7 +30,7 @@ public class AddTraitCommand extends PlanetTraitsCommand {
 				if (!cap.getTraits().contains(trait)) {
 					CapabilityPlanetTrait.addTrait(world, trait);
 					context.getSource()
-							.sendSuccess(new TranslationTextComponent("command.planet_traits.add_trait.success"), true);
+					.sendSuccess(new TranslationTextComponent("command.planet_traits.add_trait.success"), true);
 				} else {
 					context.getSource().sendFailure(new TranslationTextComponent(
 							"command.planet_traits.add_trait.duplicate", trait.getRegistryName().toString()));

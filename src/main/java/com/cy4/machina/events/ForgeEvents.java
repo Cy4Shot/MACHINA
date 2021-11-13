@@ -20,7 +20,7 @@ public class ForgeEvents {
 
 	@SubscribeEvent
 	public static void debug(ItemTossEvent event) {
-		
+
 	}
 
 	@SubscribeEvent
@@ -30,14 +30,14 @@ public class ForgeEvents {
 		}
 	}
 
-//	@SubscribeEvent
-//	public static void handleEffectBan(LivingEntityAddEffectEvent event) {
-//		World level = event.getEntity().level;
-//		if (PlanetUtils.isDimensionPlanet(level.dimension())) {
-//			if (CapabilityPlanetTrait.worldHasTrait(level, PlanetTraitInit.SUPERHOT)
-//					&& event.getEffect().getEffect() == Effects.FIRE_RESISTANCE) {
-//				event.setCanceled(true);
-//			}
-//		}
-//	}
+	//	@SubscribeEvent
+	//	public static void handleEffectBan(LivingEntityAddEffectEvent event) {
+	//		World level = event.getEntity().level;
+	//		if (PlanetUtils.isDimensionPlanet(level.dimension())) {
+	//			if (CapabilityPlanetTrait.worldHasTrait(level, PlanetTraitInit.SUPERHOT)
+	//					&& event.getEffect().getEffect() == Effects.FIRE_RESISTANCE) {
+	//				event.setCanceled(true);
+	//			}
+	//		}
+	//	}
 }

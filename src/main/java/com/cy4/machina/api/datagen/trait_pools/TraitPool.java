@@ -18,7 +18,7 @@ public class TraitPool {
 		this.minRolls = minRolls;
 		this.maxRolls = maxRolls;
 	}
-	
+
 	public TraitPool withEntries(TraitPoolEntry... entries) {
 		for (TraitPoolEntry entry : entries) {
 			this.entries.add(entry);

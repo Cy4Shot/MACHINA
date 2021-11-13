@@ -7,8 +7,6 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import net.minecraft.particles.ParticleType;
-
 @Documented
 @Retention(RUNTIME)
 @Target(FIELD)
@@ -16,7 +14,7 @@ import net.minecraft.particles.ParticleType;
  * Registers the {@link ParticleType} that is represented by the field that has this
  * annotation. For the ParticleType to be registered the class in which the field is
  * has to be annotated with {@link RegistryHolder}
- * 
+ *
  * @author matyrobbrt
  *
  */
@@ -25,7 +23,7 @@ public @interface RegisterParticleType {
 	/**
 	 * The registry name of the ParticleType (the modid is specified by the
 	 * {@link RegistryHolder} on the class the field is in)
-	 * 
+	 *
 	 * @return
 	 */
 	String value();

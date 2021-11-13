@@ -8,8 +8,8 @@ import com.cy4.machina.api.planet.trait.PlanetTraitSpriteUploader;
 import com.cy4.machina.init.KeyBindingsInit;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage;
-import com.cy4.machina.network.message.to_server.RequestTraitsUpdateMessage;
 import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage.ActionType;
+import com.cy4.machina.network.message.to_server.RequestTraitsUpdateMessage;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -109,22 +109,22 @@ public class DevPlanetCreationScreen extends Screen {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		this.renderBackground(pMatrixStack);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
-        
+
 		MachinaNetwork.CHANNEL.sendToServer(new RequestTraitsUpdateMessage());
-        this.minecraft.level.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
-        	for (int i = 0; i < cap.getTraits().size(); i++) {
-        		TextureAtlasSprite textureatlassprite = PlanetTraitSpriteUploader.getFromInstance(cap.getTraits().get(i));
-                this.minecraft.getTextureManager().bind(textureatlassprite.atlas().location());
-                blit(pMatrixStack, width / 2 - 140 + (i * 18), 120, 12, 16, 16, textureatlassprite);
-        	}
-        });
+		minecraft.level.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
+			for (int i = 0; i < cap.getTraits().size(); i++) {
+				TextureAtlasSprite textureatlassprite = PlanetTraitSpriteUploader.getFromInstance(cap.getTraits().get(i));
+				minecraft.getTextureManager().bind(textureatlassprite.atlas().location());
+				blit(pMatrixStack, width / 2 - 140 + (i * 18), 120, 12, 16, 16, textureatlassprite);
+			}
+		});
 	}
 
 	@Override
 	public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
 		return super.mouseClicked(pMouseX, pMouseY, pButton);
 	}
-	
+
 	@Override
 	public boolean keyReleased(int pKeyCode, int pScanCode, int pModifiers) {
 		if (pKeyCode == 257 && dimensionID.isFocused()) {

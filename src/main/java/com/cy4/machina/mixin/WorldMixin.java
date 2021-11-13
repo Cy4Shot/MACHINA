@@ -18,14 +18,14 @@ public abstract class WorldMixin {
 	protected abstract boolean setBlock(BlockPos pPos, BlockState pState, int pFlags, int pRecursionLeft);
 
 	//@Inject(method = "dimensionType", at = @At("HEAD"), cancellable = true)
-//	@SuppressWarnings("unused")
-//	private void dimensionTypeMixin(CallbackInfoReturnable<DimensionType> ci) {
-//		if (PlanetUtils.isDimensionPlanet(dimension())
-//				&& CapabilityPlanetTrait.worldHasTrait(((World) (Object) this), PlanetTraitInit.SUPERHOT)) {
-//			// TODO random crashes happen, find a better way
-//			ci.setReturnValue(((World) (Object) this).getServer().registryAccess()
-//					.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY)
-//					.getOrThrow(DynamicDimensionFactory.SUPERHOT_KEY));
-//		}
-//	}
+	//	@SuppressWarnings("unused")
+	//	private void dimensionTypeMixin(CallbackInfoReturnable<DimensionType> ci) {
+	//		if (PlanetUtils.isDimensionPlanet(dimension())
+	//				&& CapabilityPlanetTrait.worldHasTrait(((World) (Object) this), PlanetTraitInit.SUPERHOT)) {
+	//			// TODO random crashes happen, find a better way
+	//			ci.setReturnValue(((World) (Object) this).getServer().registryAccess()
+	//					.registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY)
+	//					.getOrThrow(DynamicDimensionFactory.SUPERHOT_KEY));
+	//		}
+	//	}
 }

@@ -21,10 +21,10 @@ public abstract class ChunkManagerMixin extends ChunkLoader {
 	protected ChunkManagerMixin(File pRegionFolder, DataFixer pFixerUpper, boolean pSync) {
 		super(pRegionFolder, pFixerUpper, pSync);
 	}
-	
+
 	@Shadow
 	private ServerWorld level;
-	
+
 	@Inject(method = "saveAllChunks(Z)V", at = @At("HEAD"), cancellable = true)
 	private void saveAllChunksMixin(boolean flush, CallbackInfo ci) {
 		CapabilityPlanetTrait.syncCapabilityWithClients(level);

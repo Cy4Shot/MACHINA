@@ -13,13 +13,13 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public class PumpTileEntity extends FluidTileEntity implements ITickableTile {
-	
+
 	public PumpTileEntity() {
 		super(TileEntityTypesInit.PUMP_TILE_ENTITY_TYPE);
 	}
 
 	@Override
-	public World getWorld() { return this.level; }
+	public World getWorld() { return level; }
 
 	@Override
 	protected FluidTank createTank() {
@@ -28,12 +28,12 @@ public class PumpTileEntity extends FluidTileEntity implements ITickableTile {
 
 	@Override
 	public void serverTick() {
-		if (!this.level.getFluidState(worldPosition.below()).isEmpty()) {
-			FluidState fluidState = this.level.getFluidState(worldPosition.below());
+		if (!level.getFluidState(worldPosition.below()).isEmpty()) {
+			FluidState fluidState = level.getFluidState(worldPosition.below());
 			FluidStack fluidStack = new FluidStack(fluidState.getType(), FluidAttributes.BUCKET_VOLUME);
 			if (tank.isFluidValid(fluidStack) && tank.fill(fluidStack, FluidAction.SIMULATE) >= fluidStack.getAmount()) {
 				tank.fill(fluidStack, FluidAction.EXECUTE);
-				this.level.setBlock(worldPosition.below(), Blocks.AIR.defaultBlockState(), 3);
+				level.setBlock(worldPosition.below(), Blocks.AIR.defaultBlockState(), 3);
 			}
 		}
 	}

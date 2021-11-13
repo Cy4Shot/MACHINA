@@ -17,18 +17,18 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 @EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE, value = Dist.CLIENT)
 public class InputEvents {
-	
+
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void clientTick(ClientTickEvent event) {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.screen != null || mc.level == null)
 			return;
-		
+
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.DEV_PLANET_CREATION_SCREEN)) {
 			mc.setScreen(new DevPlanetCreationScreen());
 		}
-		
+
 		if (mc.options.keyDrop.isDown()) {
 			mc.setScreen(new StarchartScreen(StarchartData.getDefaultInstance(ServerLifecycleHooks.getCurrentServer()).starchart));
 		}

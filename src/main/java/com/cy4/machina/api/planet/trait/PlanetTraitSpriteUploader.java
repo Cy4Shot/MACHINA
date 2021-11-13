@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.SpriteUploader;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -20,7 +21,7 @@ import net.minecraftforge.client.event.ColorHandlerEvent;
  * planet stats, that will display more detailed information (more than the
  * starchart, which should be as less cluttered as possible) about a planet,
  * which will also have a bar where all the traits' icons will be displayed
- * 
+ *
  * @author matyrobbrt
  *
  */
@@ -46,7 +47,8 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 	 * not</strong> be called before {@link ColorHandlerEvent.Block}
 	 */
 	public static TextureAtlasSprite getFromInstance(PlanetTrait trait) {
-		if (INSTANCE != null) { return INSTANCE.get(trait); }
+		if (INSTANCE != null)
+			return INSTANCE.get(trait);
 		return null;
 	}
 
@@ -63,9 +65,8 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
-		} else {
+		} else
 			throw new IllegalStateException(
 					"Cannot set the instance of the PlanetTraitSpriteUploader when it was already set!");
-		}
 	}
 }

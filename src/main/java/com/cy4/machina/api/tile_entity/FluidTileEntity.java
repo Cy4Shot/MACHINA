@@ -18,14 +18,14 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public abstract class FluidTileEntity extends BaseTileEntity implements IFluidInventory {
-	
+
 	protected FluidTank tank = createTank();
 	private final LazyOptional<IFluidHandler> holder = LazyOptional.of(() -> tank);
 
 	protected FluidTileEntity(TileEntityType<?> teType) {
 		super(teType);
 	}
-	
+
 	protected abstract FluidTank createTank();
 
 	@Override
@@ -69,17 +69,17 @@ public abstract class FluidTileEntity extends BaseTileEntity implements IFluidIn
 
 	@Override
 	public int fill(FluidStack resource, FluidAction action) {
-		return this.tank.fill(resource, action);
+		return tank.fill(resource, action);
 	}
 
 	@Override
 	public FluidStack drain(FluidStack resource, FluidAction action) {
-		return this.tank.drain(resource, action);
+		return tank.drain(resource, action);
 	}
 
 	@Override
 	public FluidStack drain(int maxDrain, FluidAction action) {
-		return this.tank.drain(maxDrain, action);
+		return tank.drain(maxDrain, action);
 	}
 
 }

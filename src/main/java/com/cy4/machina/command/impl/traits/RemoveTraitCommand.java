@@ -25,18 +25,18 @@ public class RemoveTraitCommand extends PlanetTraitsCommand {
 	public int execute(CommandContext<CommandSource> context, PlanetTrait trait) {
 		if (checkDimension(context)) {
 			context.getSource().getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY)
-					.ifPresent(cap -> {
-						if (cap.getTraits().contains(trait)) {
-							CapabilityPlanetTrait.removeTrait(context.getSource().getLevel(), trait);
-							context.getSource().sendSuccess(
-									new TranslationTextComponent("command.planet_traits.remove_trait.success"), true);
-						} else {
-							context.getSource()
-									.sendFailure(new TranslationTextComponent(
-											"command.planet_traits.remove_trait.not_existing",
-											trait.getRegistryName().toString()));
-						}
-					});
+			.ifPresent(cap -> {
+				if (cap.getTraits().contains(trait)) {
+					CapabilityPlanetTrait.removeTrait(context.getSource().getLevel(), trait);
+					context.getSource().sendSuccess(
+							new TranslationTextComponent("command.planet_traits.remove_trait.success"), true);
+				} else {
+					context.getSource()
+					.sendFailure(new TranslationTextComponent(
+							"command.planet_traits.remove_trait.not_existing",
+							trait.getRegistryName().toString()));
+				}
+			});
 		}
 		return 0;
 	}

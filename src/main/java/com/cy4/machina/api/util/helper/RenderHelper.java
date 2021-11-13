@@ -9,9 +9,9 @@ public class RenderHelper {
 	public static void resetColour() {
 		RenderSystem.color4f(1, 1, 1, 1);
 	}
-	
-    public static float getPartialTick() {
-        return Minecraft.getInstance().getFrameTime();
-    }
+
+	public static float getPartialTick() {
+		return Minecraft.getInstance().getFrameTime();
+	}
 
 }

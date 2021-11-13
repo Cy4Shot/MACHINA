@@ -36,7 +36,7 @@ public abstract class BaseScreen<C extends BaseContainer> extends ContainerScree
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.renderTooltip(matrixStack, mouseX, mouseY);
 	}
-	
+
 	@Override
 	protected void renderBg(MatrixStack pMatrixStack, float pPartialTicks, int pX, int pY) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
@@ -54,9 +54,9 @@ public abstract class BaseScreen<C extends BaseContainer> extends ContainerScree
 		}
 		font.draw(matrixStack, inventory.getDisplayName(), inventoryLabelX, inventoryLabelY, displayNameColour);
 	}
-	
+
 	protected ResourceLocation textureRL(String name) {
 		return new MachinaRL("textures/gui/" + name);
 	}
-	
+
 }

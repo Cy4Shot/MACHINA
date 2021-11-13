@@ -16,7 +16,7 @@ import net.minecraft.util.text.ITextComponent;
 
 /**
  * Not done yet
- * 
+ *
  * @author matyrobbrt
  *
  */
@@ -50,17 +50,17 @@ public class GuiElement extends Widget implements IFontRenderer {
 		Minecraft minecraft = Minecraft.getInstance();
 		FontRenderer fontrenderer = minecraft.font;
 		minecraft.getTextureManager().bind(texture);
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
-//		int i = this.getYImage(this.isHovered());
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
+		//		int i = this.getYImage(this.isHovered());
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
-		this.blit(pMatrixStack, this.renderX, this.renderY, this.x, this.y, this.width / 2, this.height);
-		this.blit(pMatrixStack, this.renderX, this.renderY, this.x, this.y, this.width / 2, this.height);
+		this.blit(pMatrixStack, renderX, renderY, x, y, width / 2, height);
+		this.blit(pMatrixStack, renderX, renderY, x, y, width / 2, height);
 		this.renderBg(pMatrixStack, minecraft, pMouseX, pMouseY);
 		int j = getFGColor();
-		drawCenteredString(pMatrixStack, fontrenderer, this.getMessage(), this.x + this.width / 2,
-				this.y + (this.height - 8) / 2, j | MathHelper.ceil(this.alpha * 255.0F) << 24);
+		drawCenteredString(pMatrixStack, fontrenderer, this.getMessage(), x + width / 2,
+				y + (height - 8) / 2, j | MathHelper.ceil(alpha * 255.0F) << 24);
 	}
 
 	protected static ResourceLocation texturePath(String name) {
