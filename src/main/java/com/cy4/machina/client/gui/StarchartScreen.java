@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class StarchartScreen extends Screen {
 
 	public static final ResourceLocation SC_BG = new MachinaRL("textures/gui/starchart/starchart_bg.png");
+	public static final ResourceLocation SC_RS = new MachinaRL("textures/gui/starchart/starchart_rs.png");
 
 	public StarchartScreen() {
 		super(new TranslationTextComponent("machina.screen.starchart.title"));
@@ -52,7 +53,6 @@ public class StarchartScreen extends Screen {
 
 		Rectangle containerBounds = getContainerBounds();
 
-		// TODO: Include scale param
 		int textureSize = 1536;
 		int currentX = containerBounds.x0;
 		int currentY = containerBounds.y0;
@@ -60,7 +60,7 @@ public class StarchartScreen extends Screen {
 		int uncoveredHeight = containerBounds.getHeight();
 		while (uncoveredWidth > 0) {
 			while (uncoveredHeight > 0) {
-				blit(matrixStack, currentX, currentY, textureSize * 1, 0, // TODO: <-- depends on tab
+				blit(matrixStack, currentX, currentY, textureSize * 1, 0,
 						Math.min(textureSize, uncoveredWidth), Math.min(textureSize, uncoveredHeight));
 				uncoveredHeight -= textureSize;
 				currentY += textureSize;
