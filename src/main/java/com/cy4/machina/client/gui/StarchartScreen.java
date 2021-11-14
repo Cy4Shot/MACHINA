@@ -1,8 +1,12 @@
 package com.cy4.machina.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cy4.machina.api.client.gui.IBoundedGui;
+import com.cy4.machina.client.gui.element.PlanetNodeElement;
 import com.cy4.machina.client.util.Rectangle;
 import com.cy4.machina.client.util.UIHelper;
-import com.cy4.machina.client.util.UIHelper.StippleType;
 import com.cy4.machina.starchart.Starchart;
 import com.cy4.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -11,21 +15,48 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.text.TranslationTextComponent;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class StarchartScreen extends Screen {
+public class StarchartScreen extends Screen implements IBoundedGui{
 
 	public static final ResourceLocation SC_BG = new MachinaRL("textures/gui/starchart/starchart_bg.png");
 	public static final ResourceLocation SC_RS = new MachinaRL("textures/gui/starchart/starchart_rs.png");
 
 	Starchart sc;
+	List<Vector2f> positions = new ArrayList<>();
+	List<PlanetNodeElement> nodes = new ArrayList<>();
 
 	public StarchartScreen(Starchart sc) {
 		super(new TranslationTextComponent("machina.screen.starchart.title"));
 		this.sc = sc;
+	}
+
+	@Override
+	protected void init() {
+		super.init();
+
+		createStarSystem(50D);
+		
+		for(PlanetNodeElement ne : this.nodes) this.addWidget(ne);
+	}
+
+	private void createStarSystem(double radius) {
+
+		this.positions.clear();
+		this.nodes.clear();
+		Vector2f centre = getCentre();
+
+		for (int i = 1; i <= sc.planets.size(); i++) {
+			double angle = (Math.PI * 2) / sc.planets.size() * i;
+
+			float x = (float) (radius * Math.cos(angle));
+			float y = (float) (radius * Math.sin(angle));
+
+			this.positions.add(new Vector2f(centre.x - x, centre.y - y));
+			this.nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this));
+		}
 	}
 
 	public Rectangle getContainerBounds() {
@@ -35,12 +66,6 @@ public class StarchartScreen extends Screen {
 		bounds.x1 = (int) (width * 0.8);
 		bounds.y1 = (int) (height * 0.8);
 		return bounds;
-	}
-
-	public Vector2f getCentre() {
-		Rectangle bounds = getContainerBounds();
-		return new Vector2f(Math.abs(bounds.x0 - bounds.x1) - bounds.x0 / 2,
-				Math.abs(bounds.y0 - bounds.y1) - bounds.y0 / 2);
 	}
 
 	@Override
@@ -53,7 +78,7 @@ public class StarchartScreen extends Screen {
 		UIHelper.renderOverflowHidden(matrixStack, this::renderContainerBackground, MatrixStack::toString);
 
 		// Elements
-		renderStarSystem(matrixStack, 50D);
+		renderStarSystem(matrixStack, pMouseX, pMouseY, pPartialTicks);
 
 		// Border
 		UIHelper.renderContainerBorder(matrixStack, bound);
@@ -91,38 +116,13 @@ public class StarchartScreen extends Screen {
 		}
 	}
 
-	private void renderStarSystem(MatrixStack ms, double radius) {
-
-		Vector2f centre = getCentre();
-
-		for (int i = 1; i <= sc.planets.size(); i++) {
-			double angle = (Math.PI * 2) / sc.planets.size() * i;
-
-			int x = (int) (radius * Math.cos(angle));
-			int y = (int) (radius * Math.sin(angle));
-
-			renderPlanetNode(ms, centre.x - x, centre.y - y, true);
-
-		}
-	}
-
-	private void renderPlanetNode(MatrixStack matrixStack, float x, float y, boolean renderLine) {
-		assert minecraft != null;
-		minecraft.getTextureManager().bind(SC_RS);
-		Vector2f centre = getCentre();
-
-		float offsetC = (float) (8 * Math.cos(minecraft.levelRenderer.ticks / 10f) + 8);
-		int textureSize = 3;
-
-		if (renderLine) {
-			UIHelper.line(matrixStack, centre.x, centre.y, x + textureSize / 2f, y + textureSize / 2f, 0xFFFFFFFF, 3f,
-					StippleType.DASHED);
-		}
-		UIHelper.betterBlit(matrixStack, x, y, textureSize * (int) offsetC, 0, textureSize, textureSize, 128);
-
+	private void renderStarSystem(MatrixStack matrixStack, int mX, int mY, float pTicks) {
+		this.nodes.forEach(node -> node.render(matrixStack, mX, mY, pTicks));
 	}
 
 	@Override
-	public boolean isPauseScreen() { return false; }
+	public boolean isPauseScreen() {
+		return false;
+	}
 
 }
