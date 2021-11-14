@@ -10,7 +10,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 
 @RegistryHolder
-public class ItemInit {
+public final class ItemInit {
 
 	@RegisterItem("item_group_icon")
 	public static final Item ITEM_GROUP_ICON = new Item(new Item.Properties().tab(MACHINA_ITEM_GROUP)) {

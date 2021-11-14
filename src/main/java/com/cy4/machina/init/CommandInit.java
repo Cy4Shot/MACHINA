@@ -32,7 +32,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
  * @author matyrobbrt
  *
  */
-public class CommandInit {
+public final class CommandInit {
 
 	private static final ArrayList<BaseCommand> commands = new ArrayList<>();
 

@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.tileentity.TileEntityType.Builder;
 
 @RegistryHolder
-public class TileEntityTypesInit {
+public final class TileEntityTypesInit {
 
 	@RegisterTileEntityType("rocket")
 	public static final TileEntityType<RocketTile> ROCKET_TILE = TileEntityType.Builder.of(RocketTile::new, BlockInit.ROCKET).build(null);

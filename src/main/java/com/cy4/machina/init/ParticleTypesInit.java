@@ -6,7 +6,7 @@ import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import net.minecraft.particles.BasicParticleType;
 
 @RegistryHolder
-public class ParticleTypesInit {
+public final class ParticleTypesInit {
 
 	@RegisterParticleType("electricity_spark")
 	public static final BasicParticleType ELECTRICITY_SPARK = new BasicParticleType(true);
