@@ -10,7 +10,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 
 @RegistryHolder
-public class BlockItemInit {
+public final class BlockItemInit {
 
 	public static final Block[] AUTO_BLOCK_ITEMS = new Block[] {};
 

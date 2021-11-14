@@ -10,7 +10,7 @@ import com.cy4.machina.api.planet.trait.PlanetTrait;
  */
 
 @RegistryHolder(modid = Machina.MOD_ID)
-public class PlanetTraitInit  {
+public final class PlanetTraitInit  {
 
 	@RegisterPlanetTrait(id = "water_world")
 	public static final PlanetTrait WATER_WORLD = new PlanetTrait(0xFFFFFF);
