@@ -9,7 +9,7 @@ public class NullSafe<@Nonnull O> {
 	@Nonnull
 	private O object;
 	
-	private NullSafe(@Nonnull O defaultValue) {
+	public NullSafe(@Nonnull O defaultValue) {
 		set(defaultValue);
 	}
 

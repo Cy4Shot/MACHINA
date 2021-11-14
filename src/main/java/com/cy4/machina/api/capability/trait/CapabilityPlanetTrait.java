@@ -2,6 +2,7 @@ package com.cy4.machina.api.capability.trait;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.cy4.machina.api.events.planet.PlanetEvent;
 import com.cy4.machina.api.network.BaseNetwork;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.network.MachinaNetwork;
@@ -57,7 +58,9 @@ public class CapabilityPlanetTrait {
 	public static void addTrait(World level, PlanetTrait... traits) {
 		level.getCapability(PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
 			for (PlanetTrait trait : traits) {
-				cap.addTrait(trait);
+				if (!PlanetEvent.onTraitAdded(level, trait)) {
+					cap.addTrait(trait);
+				}
 			}
 		});
 		syncCapabilityWithClients(level);
