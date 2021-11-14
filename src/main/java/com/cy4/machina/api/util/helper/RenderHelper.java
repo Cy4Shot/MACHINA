@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 
 public class RenderHelper {
 
+	@SuppressWarnings("deprecation")
 	public static void resetColour() {
 		RenderSystem.color4f(1, 1, 1, 1);
 	}
