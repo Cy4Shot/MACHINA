@@ -129,12 +129,14 @@ dependencies {
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     
+    /* Unused
     implementation "org.reflections:reflections:${reflections_version}"
     shadow "org.reflections:reflections:${reflections_version}"
     
-    // Included with reflections
-	//implementation "org.javassist:javassist:${javassist_version}"
-	//shadow "org.javassist:javassist:${javassist_version}"
+    Included with reflections
+	implementation "org.javassist:javassist:${javassist_version}"
+	shadow "org.javassist:javassist:${javassist_version}"
+	*/
     
 }
 
