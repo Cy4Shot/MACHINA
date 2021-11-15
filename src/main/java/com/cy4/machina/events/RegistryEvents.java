@@ -46,6 +46,9 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
  */
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class RegistryEvents {
+	
+	private RegistryEvents() {
+	}
 
 	@SubscribeEvent
 	public static void constructMod(FMLConstructModEvent event) {
@@ -65,16 +68,15 @@ public class RegistryEvents {
 			try {
 				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
 						RegistryEvents.class.getClassLoader()));
-			} catch (ClassNotFoundException e) {}
+			} catch (ClassNotFoundException e) {
+				// Unknown class
+			}
 		});
-	}
-
-	private RegistryEvents() {
 	}
 
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
-		registerFieldsWithAnnotation(event, RegisterItem.class, Item.class);
+		registerFieldsWithAnnotation(event, RegisterItem.class);
 
 		// registers block items
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterBlockItem.class).forEach(field -> {
@@ -86,7 +88,7 @@ public class RegistryEvents {
 					throw new RegistryException("The field " + field
 							+ " is annotated with @RegisterBlockItem but it is not an block item.");
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
-				// TODO Do some println()
+				// Exception. Ignore
 			}
 		});
 
@@ -100,73 +102,32 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-		registerFieldsWithAnnotation(event, RegisterBlock.class, Block.class);
+		registerFieldsWithAnnotation(event, RegisterBlock.class);
 	}
 
 	@SubscribeEvent
 	public static void registerTileEntityTypes(final RegistryEvent.Register<TileEntityType<?>> event) {
-		// registers TE types
-		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterTileEntityType.class).forEach(field -> {
-			try {
-				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof TileEntityType<?>) {
-					TileEntityType<?> tile = (TileEntityType<?>) field.get(field.getDeclaringClass());
-					tile.setRegistryName(
-							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
-									field.getAnnotation(RegisterTileEntityType.class).value()));
-					event.getRegistry().register(tile);
-				} else
-					throw new RegistryException("The field " + field
-							+ " is annotated with @RegisterTileEntityType but it is not a te type.");
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Do some println()
-			}
-		});
+		registerFieldsWithAnnotation(event, RegisterTileEntityType.class);
 	}
 
 	@SubscribeEvent
 	public static void registerContainerTypes(final RegistryEvent.Register<ContainerType<?>> event) {
-		// registers TE types
-		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterContainerType.class).forEach(field -> {
-			try {
-				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof ContainerType<?>) {
-					ContainerType<?> container = (ContainerType<?>) field.get(field.getDeclaringClass());
-					container.setRegistryName(
-							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
-									field.getAnnotation(RegisterContainerType.class).value()));
-					event.getRegistry().register(container);
-				} else
-					throw new RegistryException("The field " + field
-							+ " is annotated with @RegisterContainerType but it is not a container type.");
-			} catch (IllegalArgumentException | IllegalAccessException e) {}
-		});
+		registerFieldsWithAnnotation(event, RegisterContainerType.class);
 	}
 
 	@SubscribeEvent
 	public static void registerParticleTypes(final RegistryEvent.Register<ParticleType<?>> event) {
-		// registers Particle types
-		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterParticleType.class).forEach(field -> {
-			try {
-				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof ParticleType<?>) {
-					ParticleType<?> particle = (ParticleType<?>) field.get(field.getDeclaringClass());
-					particle.setRegistryName(
-							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
-									field.getAnnotation(RegisterParticleType.class).value()));
-					event.getRegistry().register(particle);
-				} else
-					throw new RegistryException("The field " + field
-							+ " is annotated with @RegisterParticleType but it is not a particle type.");
-			} catch (IllegalArgumentException | IllegalAccessException e) {}
-		});
+		registerFieldsWithAnnotation(event, RegisterParticleType.class);
 	}
 
 	@SubscribeEvent
 	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
-		registerFieldsWithAnnotation(event, RegisterEffect.class, Effect.class);
+		registerFieldsWithAnnotation(event, RegisterEffect.class);
 	}
 
 	@SubscribeEvent
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
-		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, PlanetTrait.class);
+		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class);
 	}
 
 	@SubscribeEvent
@@ -176,7 +137,8 @@ public class RegistryEvents {
 
 	@SuppressWarnings("unchecked")
 	private static <T extends IForgeRegistryEntry<T>> void registerFieldsWithAnnotation(
-			final RegistryEvent.Register<T> event, Class<? extends Annotation> annotation, Class<T> objectClass) {
+			final RegistryEvent.Register<T> event, Class<? extends Annotation> annotation) {
+		Class<T> objectClass = event.getRegistry().getRegistrySuperType();
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, annotation).forEach(field -> {
 			try {
 				if (field.isAccessible() && objectClass.isInstance(field.get(field.getDeclaringClass()))) {
@@ -191,6 +153,12 @@ public class RegistryEvents {
 						name = field.getAnnotation(RegisterBlock.class).value();
 					} else if (annotation == RegisterPlanetTrait.class) {
 						name = field.getAnnotation(RegisterPlanetTrait.class).id();
+					} else if (annotation == RegisterTileEntityType.class) {
+						name = field.getAnnotation(RegisterTileEntityType.class).value();
+					} else if (annotation == RegisterContainerType.class) {
+						name = field.getAnnotation(RegisterContainerType.class).value();
+					} else if (annotation == RegisterParticleType.class) {
+						name = field.getAnnotation(RegisterParticleType.class).value();
 					}
 
 					registry.setRegistryName(new ResourceLocation(
@@ -200,7 +168,7 @@ public class RegistryEvents {
 					throw new RegistryException("The field " + field + " is annotated with " + annotation
 							+ "but it is not a " + objectClass);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Do some println()
+				// Exception. Ignore
 			}
 		});
 	}
