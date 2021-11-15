@@ -1,6 +1,7 @@
 {
   "variants": {
-    "activated=true": { "model": "machina:block/pad_size_relay_activated" },
-    "activated=false": { "model": "machina:block/pad_size_relay" }
+    "activation_state=not_active": { "model": "machina:block/pad_size_relay" },
+    "activation_state=waiting": { "model": "machina:block/pad_size_relay_waiting" },
+    "activation_state=active": { "model": "machina:block/pad_size_relay_activated" }
   }
 }

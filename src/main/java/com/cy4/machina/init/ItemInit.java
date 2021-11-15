@@ -26,4 +26,8 @@ public class ItemInit {
 	public static final ThermalRegulatorSuit THERMAL_REGULATING_LEGGINGS = new ThermalRegulatorSuit(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.LEGS);
 	@RegisterItem("thermal_regulating_boots")
 	public static final ThermalRegulatorSuit THERMAL_REGULATING_BOOTS = new ThermalRegulatorSuit(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.FEET);
+	
+	
+	@RegisterItem("wrench")
+	public static final Item WRENCH = new Item(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512));
 }

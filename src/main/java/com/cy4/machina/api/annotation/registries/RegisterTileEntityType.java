@@ -7,8 +7,6 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import net.minecraft.tileentity.TileEntityType;
-
 @Documented
 @Retention(RUNTIME)
 @Target({

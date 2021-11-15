@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "activated=true": { "model": "machina:block/rocket_mount_activated" },
+    "activated=false": { "model": "machina:block/rocket_mount" }
+  }
+}
