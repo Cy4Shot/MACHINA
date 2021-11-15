@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
-public class NullSafe<@Nonnull O> {
+public class NullSafe<O> {
 	
 	@Nonnull
 	private O object;
