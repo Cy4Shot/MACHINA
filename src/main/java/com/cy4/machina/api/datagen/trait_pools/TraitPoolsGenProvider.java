@@ -15,14 +15,14 @@ import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 
 public abstract class TraitPoolsGenProvider implements IDataProvider {
-	
+
 	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 	private static final Logger LOGGER = LogManager.getLogger();
 	public final DataGenerator generator;
 	public final String modid;
-	
+
 	private HashMap<String, TraitPool> pools = new HashMap<>();
-	
+
 	protected TraitPoolsGenProvider(DataGenerator generator, String modid) {
 		this.generator = generator;
 		this.modid = modid;
@@ -33,7 +33,7 @@ public abstract class TraitPoolsGenProvider implements IDataProvider {
 		addPools();
 		write(pCache);
 	}
-	
+
 	private void write(DirectoryCache cache) {
 		Path outputFolder = generator.getOutputFolder();
 		pools.forEach((name, pool) -> {
@@ -48,11 +48,11 @@ public abstract class TraitPoolsGenProvider implements IDataProvider {
 
 	@Override
 	public String getName() { return "TraitPools"; }
-	
+
 	protected abstract void addPools();
-	
+
 	protected void addPool(String name, TraitPool pool) {
-		this.pools.put(name, pool);
+		pools.put(name, pool);
 	}
 
 }

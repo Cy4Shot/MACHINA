@@ -9,6 +9,7 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
+
 import net.minecraftforge.common.util.Constants;
 
 public class PlanetDimensionData extends WorldSavedData {
@@ -27,6 +28,7 @@ public class PlanetDimensionData extends WorldSavedData {
 
 	@Override
 	public void load(CompoundNBT nbt) {
+		dimensionIds.clear();
 		ListNBT listNBT = nbt.getList("dimensionIds", Constants.NBT.TAG_STRING);
 		for (INBT inbt : listNBT) {
 			StringNBT stringNBT = (StringNBT) inbt;
@@ -45,12 +47,12 @@ public class PlanetDimensionData extends WorldSavedData {
 	}
 
 	public void addId(String id) {
-		this.dimensionIds.add(id);
+		dimensionIds.add(id);
 		setDirty();
 	}
-	
+
 	public void removeId(String id) {
-		this.dimensionIds.remove(id);
+		dimensionIds.remove(id);
 		setDirty();
 	}
 

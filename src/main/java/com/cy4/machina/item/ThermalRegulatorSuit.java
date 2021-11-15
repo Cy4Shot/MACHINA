@@ -1,5 +1,7 @@
 package com.cy4.machina.item;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -13,21 +15,21 @@ import net.minecraft.util.NonNullList;
  *
  */
 public class ThermalRegulatorSuit extends Item {
-	
+
 	public final EquipmentSlotType slot;
 
 	public ThermalRegulatorSuit(Properties pProperties, EquipmentSlotType slot) {
 		super(pProperties);
 		this.slot = slot;
 	}
-	
+
 	@Override
 	public boolean canEquip(ItemStack stack, EquipmentSlotType armorType, Entity entity) {
 		return armorType == slot;
 	}
-	
+
 	/**
-	 * Inefficient way but it works... a loop was a bit redudant here
+	 * Inefficient way but it works... a loop was a bit redundant here
 	 * @param player
 	 * @return
 	 */
@@ -35,6 +37,11 @@ public class ThermalRegulatorSuit extends Item {
 		NonNullList<ItemStack> armourSlots = player.inventory.armor;
 		return armourSlots.get(0).getItem() instanceof ThermalRegulatorSuit && armourSlots.get(1).getItem() instanceof ThermalRegulatorSuit
 				&& armourSlots.get(2).getItem() instanceof ThermalRegulatorSuit && armourSlots.get(3).getItem() instanceof ThermalRegulatorSuit;
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		return super.canApplyAtEnchantingTable(stack, enchantment) && enchantment != Enchantments.MENDING;
 	}
 
 }

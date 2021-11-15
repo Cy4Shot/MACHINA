@@ -10,14 +10,14 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 
 @RegistryHolder
-public class ItemInit {
+public final class ItemInit {
 
 	@RegisterItem("item_group_icon")
 	public static final Item ITEM_GROUP_ICON = new Item(new Item.Properties().tab(MACHINA_ITEM_GROUP)) {
 		@Override
 		public void fillItemCategory(net.minecraft.item.ItemGroup pGroup, net.minecraft.util.NonNullList<net.minecraft.item.ItemStack> pItems) {}
 	};
-	
+
 	@RegisterItem("thermal_regulating_helmet")
 	public static final ThermalRegulatorSuit THERMAL_REGULATING_HELMET = new ThermalRegulatorSuit(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.HEAD);
 	@RegisterItem("thermal_regulating_chestplate")

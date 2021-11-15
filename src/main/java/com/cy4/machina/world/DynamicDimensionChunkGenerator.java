@@ -1,16 +1,20 @@
 package com.cy4.machina.world;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.mojang.serialization.Codec;
+//import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -39,8 +43,10 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	private final INoiseGenerator surfaceNoise;
 	private final int height = 60;
 
+	public long seed = 0L;
+
 	public Registry<Biome> getBiomeRegistry() {
-		return this.biomes;
+		return biomes;
 	}
 
 	public DynamicDimensionChunkGenerator(MinecraftServer server) {
@@ -48,11 +54,11 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	}
 
 	public DynamicDimensionChunkGenerator(Registry<Biome> biomes) {
-		super(new SingleBiomeProvider(biomes.getOrThrow(
-				RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(Machina.MOD_ID, Machina.MOD_ID)))),
+		super(new SingleBiomeProvider(
+				biomes.getOrThrow(RegistryKey.create(Registry.BIOME_REGISTRY, Machina.MACHINA_ID))),
 				new DynamicStructureSettings());
 		this.biomes = biomes;
-		this.surfaceNoise = (INoiseGenerator) (new PerlinNoiseGenerator(new SharedSeedRandom(),
+		surfaceNoise = (new PerlinNoiseGenerator(new SharedSeedRandom(),
 				IntStream.rangeClosed(-3, 0)));
 	}
 
@@ -63,15 +69,25 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public ChunkGenerator withSeed(long seed) {
+		this.seed = seed;
 		return this;
 	}
 
 	@Override
 	public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk chunk) {
+		long seed = worldGenRegion.getLevel().getSeed();
+
+		List<PlanetTrait> traits = new ArrayList<>();
+
+		worldGenRegion.getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
+			traits.addAll(cap.getTraits());
+			CapabilityPlanetTrait.syncCapabilityWithClients(worldGenRegion.getLevel());
+		});
+
 		ChunkPos chunkpos = chunk.getPos();
 		int i = chunkpos.x;
 		int j = chunkpos.z;
-		SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
+		SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
 		sharedseedrandom.setBaseChunkSeed(i, j);
 		ChunkPos chunkpos1 = chunk.getPos();
 		int k = chunkpos1.getMinBlockX();
@@ -81,11 +97,13 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 			for (int j1 = 0; j1 < 16; ++j1) {
 				int k1 = k + i1;
 				int l1 = l + j1;
-				double d1 = this.surfaceNoise.getSurfaceNoiseValue((double) k1 * 0.0625D, (double) l1 * 0.0625D,
-						0.0625D, (double) i1 * 0.0625D) * 15.0D;
-				chunk.setBlockState(blockpos$mutable.set(i1, height + (int) d1, j1), Blocks.DIRT.defaultBlockState(),
-						false);
-				System.out.println(d1);
+				double d1 = surfaceNoise.getSurfaceNoiseValue(k1 * 0.0625D, l1 * 0.0625D,
+						0.0625D, i1 * 0.0625D) * 15.0D;
+
+				int yPos = height + (int) d1;
+				for (int y = 0; y < yPos; y++) {
+					chunk.setBlockState(blockpos$mutable.set(i1, y, j1), Blocks.STONE.defaultBlockState(), false);
+				}
 			}
 		}
 

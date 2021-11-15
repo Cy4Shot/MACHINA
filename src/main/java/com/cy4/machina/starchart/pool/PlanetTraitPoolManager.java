@@ -37,7 +37,9 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 			Machina.LOGGER.info("Found Trait Pool: " + entry.getKey().toString());
 
 			if (resourcelocation.getPath().startsWith("_"))
+			{
 				continue; // Forge: filter anything beginning with "_" as it's used for metadata.
+			}
 
 			try {
 				PlanetTraitPool pool = GSON.fromJson(entry.getValue(), PlanetTraitPool.class);
@@ -52,14 +54,14 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 				Machina.LOGGER.error("Parsing error loading trait pool {}", resourcelocation, jsonparseexception);
 			}
 
-			this.traits = ImmutableMap.copyOf(map);
+			traits = ImmutableMap.copyOf(map);
 		}
 	}
-	
+
 	public PlanetTraitPool getPool(ResourceLocation loc) {
 		return traits.get(loc);
 	}
-	
+
 	public void forEach(BiConsumer<? super ResourceLocation, ? super PlanetTraitPool> c) {
 		traits.forEach(c);
 	}

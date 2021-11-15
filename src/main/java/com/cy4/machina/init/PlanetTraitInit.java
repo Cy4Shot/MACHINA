@@ -3,14 +3,14 @@ package com.cy4.machina.init;
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 
 /**
  * @author Cy4Shot
  */
 
 @RegistryHolder(modid = Machina.MOD_ID)
-public class PlanetTraitInit  {
+public final class PlanetTraitInit  {
 
 	@RegisterPlanetTrait(id = "water_world")
 	public static final PlanetTrait WATER_WORLD = new PlanetTrait(0xFFFFFF);
@@ -56,10 +56,4 @@ public class PlanetTraitInit  {
 
 	@RegisterPlanetTrait(id = "layered")
 	public static final PlanetTrait LAYERED = new PlanetTrait(0xFFFFFF);
-	
-	@RegisterPlanetTrait(id = "low_gravity")
-	public static final PlanetTrait LOW_GRAVITY = new PlanetTrait(0x75A0FF);
-	
-	@RegisterPlanetTrait(id = "superhot")
-	public static final PlanetTrait SUPERHOT = new PlanetTrait(0xFF003F);
 }

@@ -5,6 +5,7 @@ import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.objectweb.asm.Type;
@@ -12,17 +13,23 @@ import org.objectweb.asm.Type;
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
+import com.cy4.machina.api.annotation.registries.RegisterContainerType;
 import com.cy4.machina.api.annotation.registries.RegisterEffect;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
+import com.cy4.machina.api.annotation.registries.RegisterParticleType;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.api.util.TriFunction;
+import com.cy4.machina.init.BlockItemInit;
 import com.cy4.machina.util.ReflectionHelper;
 
 import net.minecraft.block.Block;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -41,6 +48,9 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
  */
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class RegistryEvents {
+
+	private RegistryEvents() {
+	}
 
 	@SubscribeEvent
 	public static void constructMod(FMLConstructModEvent event) {
@@ -61,141 +71,91 @@ public class RegistryEvents {
 						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
 								RegistryEvents.class.getClassLoader()));
 					} catch (ClassNotFoundException e) {
+						// Unknown class
 					}
 				});
 	}
 
-	private RegistryEvents() {
-	}
-
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
-
-		// registers items
-		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterItem.class).forEach(field -> {
-			try {
-				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof Item) {
-					Item item = (Item) field.get(field.getDeclaringClass());
-					item = item.setRegistryName(
-							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
-									field.getAnnotation(RegisterItem.class).value()));
-					event.getRegistry().register(item);
-				} else
-					throw new RegistryException(
-							"The field " + field + " is annotated with @RegisterItem but it is not an item.");
-			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
-				// TODO Do some println()
+		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value);
+		registerFieldsWithAnnotation(event, RegisterBlockItem.class, (classAn, fieldAn, obj) -> {
+			if (obj instanceof BlockItem) {
+				return ((BlockItem) obj).getBlock().getRegistryName();
 			}
+			throw new RegistryException("Invalid BlockItem");
 		});
 
-		// registers block items
-		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterBlockItem.class).forEach(field -> {
-			try {
-				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof BlockItem) {
-					BlockItem blockitem = (BlockItem) field.get(field.getDeclaringClass());
-					event.getRegistry().register(blockitem.setRegistryName(blockitem.getBlock().getRegistryName()));
-				} else
-					throw new RegistryException("The field " + field
-							+ " is annotated with @RegisterBlockItem but it is not an block item.");
-			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
-				// TODO Do some println()
-			}
-		});
+		for (Block block : BlockItemInit.AUTO_BLOCK_ITEMS) {
+			BlockItem item = new BlockItem(block, new Item.Properties().tab(Machina.MACHINA_ITEM_GROUP));
+			item.setRegistryName(block.getRegistryName());
+			event.getRegistry().register(item);
+		}
 
 	}
 
 	@SubscribeEvent
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-
-		// registers blocks
-		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterBlock.class).forEach(field -> {
-			try {
-				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof Block) {
-					Block block = (Block) field.get(field.getDeclaringClass());
-					block.setRegistryName(
-							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
-									field.getAnnotation(RegisterBlock.class).value()));
-					event.getRegistry().register(block);
-				} else
-					throw new RegistryException(
-							"The field " + field + " is annotated with @RegisterBlock but it is not a block.");
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Do some println()
-			}
-		});
+		registerFieldsWithAnnotation(event, RegisterBlock.class, RegisterBlock::value);
 	}
-	
+
 	@SubscribeEvent
 	public static void registerTileEntityTypes(final RegistryEvent.Register<TileEntityType<?>> event) {
-		
-		// registers blocks
-		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterTileEntityType.class).forEach(field -> {
-			try {
-				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof TileEntityType<?>) {
-					TileEntityType<?> tile = (TileEntityType<?>) field.get(field.getDeclaringClass());
-					tile.setRegistryName(
-							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
-									field.getAnnotation(RegisterTileEntityType.class).value()));
-					event.getRegistry().register(tile);
-				} else
-					throw new RegistryException(
-							"The field " + field + " is annotated with @RegisterTileEntityType but it is not a te type.");
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Do some println()
-			}
-		});
+		registerFieldsWithAnnotation(event, RegisterTileEntityType.class, RegisterTileEntityType::value);
 	}
-	
+
+	@SubscribeEvent
+	public static void registerContainerTypes(final RegistryEvent.Register<ContainerType<?>> event) {
+		registerFieldsWithAnnotation(event, RegisterContainerType.class, RegisterContainerType::value);
+	}
+
+	@SubscribeEvent
+	public static void registerParticleTypes(final RegistryEvent.Register<ParticleType<?>> event) {
+		registerFieldsWithAnnotation(event, RegisterParticleType.class, RegisterParticleType::value);
+	}
+
 	@SubscribeEvent
 	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
-		registerFieldsWithAnnotation(event, RegisterEffect.class, Effect.class);
+		registerFieldsWithAnnotation(event, RegisterEffect.class, RegisterEffect::value);
 	}
 
 	@SubscribeEvent
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
-
-		// registers plant traits
-		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterPlanetTrait.class).forEach(field -> {
-			try {
-				if (field.isAccessible() && field.get(field.getDeclaringClass()) instanceof PlanetTrait) {
-					PlanetTrait trait = (PlanetTrait) field.get(field.getDeclaringClass());
-					trait.setRegistryName(
-							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
-									field.getAnnotation(RegisterPlanetTrait.class).id()));
-					event.getRegistry().register(trait);
-				} else
-					throw new RegistryException(
-							"The field " + field + " is annotated with @RegisterPlanetTrait but it is not a trait.");
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Do some println()
-			}
-		});
+		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id);
 	}
 
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
 		PlanetTrait.createRegistry(event);
 	}
-	
+
+	private static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
+			final RegistryEvent.Register<T> event, Class<A> annotation, Function<A, String> registryName) {
+		registerFieldsWithAnnotation(event, annotation,
+				(classAn, fieldAn, obj) -> new ResourceLocation(classAn.modid(), registryName.apply(fieldAn)));
+	}
+
 	@SuppressWarnings("unchecked")
-	private static <T extends IForgeRegistryEntry<T>> void registerFieldsWithAnnotation(final RegistryEvent.Register<T> event, Class<? extends Annotation> annotation, Class<T> objectClass) {
+	public static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
+			final RegistryEvent.Register<T> event, Class<A> annotation,
+			TriFunction<RegistryHolder, A, T, ResourceLocation> registryName) {
+		Class<T> objectClass = event.getRegistry().getRegistrySuperType();
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, annotation).forEach(field -> {
 			try {
 				if (field.isAccessible() && objectClass.isInstance(field.get(field.getDeclaringClass()))) {
 					T registry = (T) field.get(field.getDeclaringClass());
-					String name = "";
-					
-					if (annotation == RegisterEffect.class) {
-						name = field.getAnnotation(RegisterEffect.class).value();
-					}
-					
-					registry.setRegistryName(new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(), name));
+					ResourceLocation name = registryName.apply(
+							field.getDeclaringClass().getAnnotation(RegistryHolder.class),
+							field.getAnnotation(annotation), registry);
+					registry.setRegistryName(name);
 					event.getRegistry().register(registry);
-				} else
-					throw new RegistryException(
-							"The field " + field + " is annotated with " + annotation + "but it is not a " + objectClass);
+				} else {
+					//@formatter:off
+					throw new RegistryException("The field " + field + " is annotated with " + annotation + "but it is not a " + objectClass);
+					//@formatter:on
+				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Do some println()
+				// Exception. Ignore
 			}
 		});
 	}

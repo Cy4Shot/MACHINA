@@ -12,8 +12,15 @@ buildscript {
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
+
+plugins {
+	id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
@@ -89,6 +96,22 @@ repositories {
 	maven {
 		url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
 	}
+	maven {
+	   	name 'tterrag maven'
+	   	url "http://maven.tterrag.com/"
+	   	allowInsecureProtocol = true
+	}
+	maven {
+        url = "https://maven.theillusivec4.top/"
+    }
+    maven {
+    	name 'reflections'
+    	url 'https://mvnrepository.com/artifact/org.reflections/reflections'
+    }
+    maven {
+    	name 'javassist'
+    	url 'https://mvnrepository.com/artifact/org.javassist/javassist'
+    }
 }
 
 dependencies {
@@ -98,10 +121,33 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45')
+    implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
     
-    if (System.getProperty("idea.sync.active") != "true") {
-    	annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-    }
+    compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api")
+	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
+    
+    // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    
+    /* Unused
+    implementation "org.reflections:reflections:${reflections_version}"
+    shadow "org.reflections:reflections:${reflections_version}"
+    
+    Included with reflections
+	implementation "org.javassist:javassist:${javassist_version}"
+	shadow "org.javassist:javassist:${javassist_version}"
+	*/
+    
+}
+
+configurations {
+	shadow
+}
+
+shadowJar {
+	classifier = ''
+	configurations = [project.configurations.shadow]
+	//relocate 'org.reflections', "shadow.org.reflections" // ensure repackaged packages have unique names
 }
 
 jar {
@@ -119,7 +165,12 @@ jar {
     }
 }
 
-jar.finalizedBy('reobfJar') 
+reobf {
+    shadowJar { }
+}
+
+tasks.build.dependsOn reobfShadowJar
+jar.finalizedBy('reobfShadowJar')
 
 publishing {
     publications {

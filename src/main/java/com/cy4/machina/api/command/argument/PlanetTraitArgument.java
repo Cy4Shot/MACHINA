@@ -2,7 +2,7 @@ package com.cy4.machina.api.command.argument;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.cy4.machina.api.planet.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.util.MachinaRL;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;

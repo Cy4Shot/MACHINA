@@ -12,14 +12,14 @@ public class PlanetTraitPool {
 	public int maxRolls;
 	public List<PlanetTraitPoolEntry> entries;
 
-	public class PlanetTraitPoolEntry {
+	public static class PlanetTraitPoolEntry {
 		public int weight;
 		public List<String> values;
 	}
 
 	public WeightedList<List<String>> createWeightedList() {
 		WeightedList<List<String>> list = new WeightedList<>();
-		this.entries.forEach(entry -> {
+		entries.forEach(entry -> {
 			list.add(entry.values, entry.weight);
 		});
 		return list;

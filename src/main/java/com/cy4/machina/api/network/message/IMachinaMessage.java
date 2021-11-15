@@ -10,14 +10,14 @@ public interface IMachinaMessage {
 
 	void handle(NetworkEvent.Context context);
 
-    void encode(PacketBuffer buffer);
-    
-    static <MSG extends IMachinaMessage> void handle(MSG message, Supplier<NetworkEvent.Context> ctx) {
-        if (message != null) {
-            NetworkEvent.Context context = ctx.get();
-            context.enqueueWork(() -> message.handle(context));
-            context.setPacketHandled(true);
-        }
-    }
-	
+	void encode(PacketBuffer buffer);
+
+	static <MSG extends IMachinaMessage> void handle(MSG message, Supplier<NetworkEvent.Context> ctx) {
+		if (message != null) {
+			NetworkEvent.Context context = ctx.get();
+			context.enqueueWork(() -> message.handle(context));
+			context.setPacketHandled(true);
+		}
+	}
+
 }
