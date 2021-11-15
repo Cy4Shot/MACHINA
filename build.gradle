@@ -126,9 +126,7 @@ dependencies {
     compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api")
 	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
     
-    if (System.getProperty("idea.sync.active") != "true") {
-    	annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-    }
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     
     implementation "org.reflections:reflections:${reflections_version}"
     shadow "org.reflections:reflections:${reflections_version}"
