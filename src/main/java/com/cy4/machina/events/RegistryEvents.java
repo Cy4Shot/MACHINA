@@ -1,7 +1,7 @@
 package com.cy4.machina.events;
 
-import static java.util.Optional.of;
 import static com.cy4.machina.init.MachinaRegistries.*;
+import static java.util.Optional.of;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import org.objectweb.asm.Type;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
 import com.cy4.machina.api.annotation.registries.RegisterContainerType;
 import com.cy4.machina.api.annotation.registries.RegisterEffect;
@@ -31,7 +32,6 @@ import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeSerializer;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeType;
-import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.api.util.TriFunction;
@@ -85,21 +85,22 @@ public class RegistryEvents {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-					try {
-						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
-								RegistryEvents.class.getClassLoader()));
-					} catch (ClassNotFoundException e) {
-						// Unknown class
-					}
-				});
+		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+			try {
+				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
+						RegistryEvents.class.getClassLoader()));
+			} catch (ClassNotFoundException e) {
+				// Unknown class
+			}
+		});
 	}
 
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value, of(ITEMS));
 		registerFieldsWithAnnotation(event, RegisterBlockItem.class, (classAn, fieldAn, obj) -> {
-			if (obj instanceof BlockItem) { return ((BlockItem) obj).getBlock().getRegistryName(); }
+			if (obj instanceof BlockItem)
+				return ((BlockItem) obj).getBlock().getRegistryName();
 			throw new RegistryException("Invalid BlockItem");
 		}, Optional.empty());
 
@@ -169,11 +170,10 @@ public class RegistryEvents {
 					} else {
 						RECIPE_TYPES.put(modid, Lists.newArrayList(type));
 					}
-				} else {
+				} else
 					//@formatter:off
 					throw new RegistryException("The field " + field + " is annotated with @RegisterRecipeType but it is not a recipe type!");
-					//@formatter:on
-				}
+				//@formatter:on
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 				// Exception. Ignore
 				e.printStackTrace();
@@ -199,7 +199,7 @@ public class RegistryEvents {
 
 	/**
 	 * Handles registry annotations
-	 * 
+	 *
 	 * @param <T>          the type of the object being registered
 	 * @param <A>          the class of the registry annotation
 	 * @param event        the event in which the objects should be registered
@@ -216,9 +216,7 @@ public class RegistryEvents {
 	 *                     will be put as the value corresponding to the key which
 	 *                     is the namespace (mod id) of the object's registry name
 	 */
-	@SuppressWarnings({
-			"unchecked"
-	})
+	@SuppressWarnings("unchecked")
 	public static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
 			final RegistryEvent.Register<T> event, Class<A> annotation,
 			TriFunction<RegistryHolder, A, T, ResourceLocation> registryName,
@@ -268,11 +266,10 @@ public class RegistryEvents {
 						setNameMethod.setAccessible(true);
 						setNameMethod.invoke(regObj, name);
 					}
-				} else {
+				} else
 					//@formatter:off
 					throw new RegistryException("The field " + field + " is annotated with " + annotation + " but it is not a " + objectClass);
-					//@formatter:on
-				}
+				//@formatter:on
 			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
 				// Exception. Ignore
