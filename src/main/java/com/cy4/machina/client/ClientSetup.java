@@ -1,6 +1,7 @@
 package com.cy4.machina.client;
 
 import com.cy4.machina.api.planet.trait.PlanetTraitSpriteUploader;
+import com.cy4.machina.client.dimension.CustomDimensionRenderInfo;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IReloadableResourceManager;
@@ -16,8 +17,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 @SuppressWarnings("resource")
 public class ClientSetup {
 
+	/**
+	 * Does client stuffs
+	 * @param modBus
+	 */
 	public ClientSetup(IEventBus modBus) {
 		modBus.addListener(this::onBlockColourHandler);
+		
+		CustomDimensionRenderInfo.registerDimensionRenderInfo();
 	}
 
 	@SubscribeEvent
