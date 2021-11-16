@@ -6,8 +6,10 @@ import com.cy4.machina.block.AnimatedBuilder;
 import com.cy4.machina.block.AnimatedBuilderMount;
 import com.cy4.machina.block.ConsoleBlock;
 import com.cy4.machina.block.PadSizeRelay;
+import com.cy4.machina.block.PumpBlock;
 import com.cy4.machina.block.RocketBlock;
 import com.cy4.machina.block.RocketMount;
+import com.cy4.machina.block.TankBlock;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -35,4 +37,12 @@ public class BlockInit {
     
     @RegisterBlock("rocket_mount")
     public static final Block ROCKET_MOUNT = new RocketMount(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
+    
+    
+    
+    @RegisterBlock("tank")
+	public static final TankBlock TANK = new TankBlock(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK));
+
+	@RegisterBlock("pump")
+	public static final PumpBlock PUMP = new PumpBlock();
 }

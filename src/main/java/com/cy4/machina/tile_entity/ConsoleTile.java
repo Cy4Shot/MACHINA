@@ -1,4 +1,4 @@
-package com.cy4.machina.tile_entities;
+package com.cy4.machina.tile_entity;
 
 public class ConsoleTile //extends TileEntity //implements ITickableTileEntity
 {
