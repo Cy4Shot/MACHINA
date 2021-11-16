@@ -41,4 +41,14 @@ public final class BlockItemInit {
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_MOUNT_BLOCKITEM = new BlockItem(BlockInit.ROCKET_MOUNT,
 			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	
+	@RegisterBlockItem
+	public static final BlockItem PUMP_BLOCK_ITEM = createBlockItem(BlockInit.PUMP);
+	
+	@RegisterBlockItem
+	public static final BlockItem TANK_BLOCK_ITEM = createBlockItem(BlockInit.TANK);
+	
+	private static final BlockItem createBlockItem(Block block) {
+		return new BlockItem(block, new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	}
 }

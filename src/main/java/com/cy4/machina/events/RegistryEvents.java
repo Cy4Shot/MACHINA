@@ -2,10 +2,16 @@ package com.cy4.machina.events;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.objectweb.asm.Type;
@@ -15,17 +21,22 @@ import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
 import com.cy4.machina.api.annotation.registries.RegisterContainerType;
 import com.cy4.machina.api.annotation.registries.RegisterEffect;
+import com.cy4.machina.api.annotation.registries.RegisterFluid;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegisterParticleType;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.api.util.TriFunction;
 import com.cy4.machina.init.BlockItemInit;
+import com.cy4.machina.util.MachinaRegistries;
 import com.cy4.machina.util.ReflectionHelper;
+import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -80,11 +91,9 @@ public class RegistryEvents {
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value);
 		registerFieldsWithAnnotation(event, RegisterBlockItem.class, (classAn, fieldAn, obj) -> {
-			if (obj instanceof BlockItem) {
-				return ((BlockItem) obj).getBlock().getRegistryName();
-			}
+			if (obj instanceof BlockItem) { return ((BlockItem) obj).getBlock().getRegistryName(); }
 			throw new RegistryException("Invalid BlockItem");
-		});
+		}, Optional.empty());
 
 		for (Block block : BlockItemInit.AUTO_BLOCK_ITEMS) {
 			BlockItem item = new BlockItem(block, new Item.Properties().tab(Machina.MACHINA_ITEM_GROUP));
@@ -101,7 +110,8 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerTileEntityTypes(final RegistryEvent.Register<TileEntityType<?>> event) {
-		registerFieldsWithAnnotation(event, RegisterTileEntityType.class, RegisterTileEntityType::value);
+		registerFieldsWithAnnotation(event, RegisterTileEntityType.class, RegisterTileEntityType::value,
+				Optional.of(MachinaRegistries.TILE_ENTITY_TYPES));
 	}
 
 	@SubscribeEvent
@@ -125,37 +135,108 @@ public class RegistryEvents {
 	}
 
 	@SubscribeEvent
+	public static void registerFluids(final RegistryEvent.Register<Fluid> event) {
+		registerFieldsWithAnnotation(event, RegisterFluid.class, RegisterFluid::value);
+	}
+
+	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
 		PlanetTrait.createRegistry(event);
 	}
 
 	private static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
 			final RegistryEvent.Register<T> event, Class<A> annotation, Function<A, String> registryName) {
-		registerFieldsWithAnnotation(event, annotation,
-				(classAn, fieldAn, obj) -> new ResourceLocation(classAn.modid(), registryName.apply(fieldAn)));
+		registerFieldsWithAnnotation(event, annotation, registryName, Optional.empty());
 	}
 
-	@SuppressWarnings("unchecked")
+	private static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
+			final RegistryEvent.Register<T> event, Class<A> annotation, Function<A, String> registryName,
+			Optional<Map<String, List<T>>> outputMap) {
+		registerFieldsWithAnnotation(event, annotation,
+				(classAn, fieldAn, obj) -> new ResourceLocation(classAn.modid(), registryName.apply(fieldAn)),
+				outputMap);
+	}
+
+	/**
+	 * Handles registry annotations
+	 * 
+	 * @param <T>          the type of the object being registered
+	 * @param <A>          the class of the registry annotation
+	 * @param event        the event in which the objects should be registered
+	 * @param annotation   the annotation to look for
+	 * @param registryName a {@link TriFunction} containing: the
+	 *                     {@link RegistryHolder} annotation of the class of the
+	 *                     field being registered, the registry annotation of the
+	 *                     field and the object (of type <strong>T</strong>) the
+	 *                     field contains. This function will return the registry
+	 *                     name of the object, based off the inputed data
+	 * @param outputMap    optionally, a map in which the processed objects will be
+	 *                     put, as following: <br>
+	 *                     A {@link List} with the generic type <strong>T</strong>
+	 *                     will be put as the value corresponding to the key which is the
+	 *                     namespace (mod id) of the object's registry name
+	 */
+	@SuppressWarnings({
+			"unchecked"
+	})
 	public static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
 			final RegistryEvent.Register<T> event, Class<A> annotation,
-			TriFunction<RegistryHolder, A, T, ResourceLocation> registryName) {
+			TriFunction<RegistryHolder, A, T, ResourceLocation> registryName,
+			Optional<Map<String, List<T>>> outputMap) {
 		Class<T> objectClass = event.getRegistry().getRegistrySuperType();
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, annotation).forEach(field -> {
+			if (!field.isAccessible())
+				return;
 			try {
-				if (field.isAccessible() && objectClass.isInstance(field.get(field.getDeclaringClass()))) {
-					T registry = (T) field.get(field.getDeclaringClass());
+				AtomicReference<T> registry = new AtomicReference<>(null);
+				boolean isGood = false;
+				boolean isSupplier = false;
+				if (objectClass.isInstance(field.get(field.getDeclaringClass()))) {
+					registry.set((T) field.get(field.getDeclaringClass()));
+					isGood = true;
+				} else if (field.get(field.getDeclaringClass()) instanceof MachinaRegistryObject<?>) {
+					MachinaRegistryObject<?> regObj = (MachinaRegistryObject<?>) field.get(field.getDeclaringClass());
+					Method getDecValueMet = regObj.getClass().getDeclaredMethod("getDeclaredValue", new Class<?>[] {});
+					getDecValueMet.setAccessible(true);
+					Supplier<?> declaredValue = (Supplier<?>) getDecValueMet.invoke(regObj, new Object[] {});
+					if (objectClass.isInstance(declaredValue.get())) {
+						registry.set((T) declaredValue.get());
+						isGood = true;
+						isSupplier = true;
+					}
+				}
+				if (isGood && registry.get() != null) {
 					ResourceLocation name = registryName.apply(
 							field.getDeclaringClass().getAnnotation(RegistryHolder.class),
-							field.getAnnotation(annotation), registry);
-					registry.setRegistryName(name);
-					event.getRegistry().register(registry);
+							field.getAnnotation(annotation), registry.get());
+					registry.get().setRegistryName(name);
+					event.getRegistry().register(registry.get());
+					outputMap.ifPresent(output -> {
+						String modid = field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid();
+						if (output.containsKey(modid)) {
+							List<T> oldList = output.get(modid);
+							oldList.add(registry.get());
+							output.put(modid, oldList);
+						} else {
+							output.put(modid, Lists.newArrayList(registry.get()));
+						}
+					});
+					if (isSupplier) {
+						MachinaRegistryObject<?> regObj = ((MachinaRegistryObject<?>) field
+								.get(field.getDeclaringClass()));
+						Method setNameMethod = regObj.getClass().getDeclaredMethod("setName", ResourceLocation.class);
+						setNameMethod.setAccessible(true);
+						setNameMethod.invoke(regObj, name);
+					}
 				} else {
 					//@formatter:off
-					throw new RegistryException("The field " + field + " is annotated with " + annotation + "but it is not a " + objectClass);
+					throw new RegistryException("The field " + field + " is annotated with " + annotation + " but it is not a " + objectClass);
 					//@formatter:on
 				}
-			} catch (IllegalArgumentException | IllegalAccessException e) {
+			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException
+					| NoSuchMethodException | SecurityException e) {
 				// Exception. Ignore
+				e.printStackTrace();
 			}
 		});
 	}

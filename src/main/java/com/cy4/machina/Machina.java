@@ -12,7 +12,6 @@ import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
 import com.cy4.machina.config.ServerConfig;
 import com.cy4.machina.init.CommandInit;
-import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.starchart.Starchart;
@@ -68,7 +67,6 @@ public class Machina {
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
 
-		FluidInit.FLUIDS.register(modBus);
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
 
 		modBus.addListener(this::onCommonSetup);
