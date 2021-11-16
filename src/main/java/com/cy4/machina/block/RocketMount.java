@@ -1,9 +1,17 @@
 package com.cy4.machina.block;
 
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.cy4.machina.block.properties.ActivationState;
 import com.cy4.machina.block.properties.RelayPosState;
 import com.cy4.machina.init.BlockInit;
 import com.cy4.machina.init.ItemInit;
+import com.cy4.machina.util.helper.TimeDelayHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -47,13 +55,15 @@ public class RocketMount extends Block {
     		if (checkForAllRelayBlocks(worldIn, pos)) {
     			player.displayClientMessage(new StringTextComponent("Their all RELAYS!!!!!"), true);
     			
+    			Timer timer = new Timer();
+    			LocalDateTime date = LocalDateTime.now();
+    			//long seconds = date.toLocalTime().toSecondOfDay();
+    			Instant seconds = date.toInstant(ZoneOffset.ofTotalSeconds(5));
+    			TimerTask task = new TimeDelayHelper();
+    			timer.schedule(task, Date.from(seconds));
+    			timer.cancel();
     			
-    			/**
-    			 * If one of you could find some way of adding a delay between each individual relay block having their state changed,
-    			 * like this block is trying to "connect" to them or something, that woudl make this so much cooler.
-    			 */
-    			
-    			setAllRelayBlockPositions(worldIn, pos);
+    			//setAllRelayBlockPositions(worldIn, pos);
     			
     			
     		} else {
