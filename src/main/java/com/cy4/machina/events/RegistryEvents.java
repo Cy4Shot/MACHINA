@@ -1,5 +1,8 @@
 package com.cy4.machina.events;
 
+import static java.util.Optional.of;
+import static com.cy4.machina.init.MachinaRegistries.*;
+
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.reflect.InvocationTargetException;
@@ -31,7 +34,7 @@ import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.api.util.TriFunction;
 import com.cy4.machina.init.BlockItemInit;
-import com.cy4.machina.util.MachinaRegistries;
+import com.cy4.machina.init.MachinaRegistries;
 import com.cy4.machina.util.ReflectionHelper;
 import com.google.common.collect.Lists;
 
@@ -89,7 +92,7 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
-		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value);
+		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value, of(ITEMS));
 		registerFieldsWithAnnotation(event, RegisterBlockItem.class, (classAn, fieldAn, obj) -> {
 			if (obj instanceof BlockItem) { return ((BlockItem) obj).getBlock().getRegistryName(); }
 			throw new RegistryException("Invalid BlockItem");
@@ -105,8 +108,24 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-		registerFieldsWithAnnotation(event, RegisterBlock.class, RegisterBlock::value);
+		registerFieldsWithAnnotation(event, RegisterBlock.class, RegisterBlock::value, of(BLOCKS));
 	}
+	
+	@SubscribeEvent
+	public static void registerFluids(final RegistryEvent.Register<Fluid> event) {
+		registerFieldsWithAnnotation(event, RegisterFluid.class, RegisterFluid::value, of(FLUIDS));
+	}
+	
+	@SubscribeEvent
+	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
+		registerFieldsWithAnnotation(event, RegisterEffect.class, RegisterEffect::value, of(EFFECTS));
+	}
+
+	@SubscribeEvent
+	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
+		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id, of(PLANET_TRAITS));
+	}
+
 
 	@SubscribeEvent
 	public static void registerTileEntityTypes(final RegistryEvent.Register<TileEntityType<?>> event) {
@@ -116,37 +135,19 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerContainerTypes(final RegistryEvent.Register<ContainerType<?>> event) {
-		registerFieldsWithAnnotation(event, RegisterContainerType.class, RegisterContainerType::value);
+		registerFieldsWithAnnotation(event, RegisterContainerType.class, RegisterContainerType::value,
+				of(CONTAINER_TYPES));
 	}
 
 	@SubscribeEvent
 	public static void registerParticleTypes(final RegistryEvent.Register<ParticleType<?>> event) {
-		registerFieldsWithAnnotation(event, RegisterParticleType.class, RegisterParticleType::value);
-	}
-
-	@SubscribeEvent
-	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
-		registerFieldsWithAnnotation(event, RegisterEffect.class, RegisterEffect::value);
-	}
-
-	@SubscribeEvent
-	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
-		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id);
-	}
-
-	@SubscribeEvent
-	public static void registerFluids(final RegistryEvent.Register<Fluid> event) {
-		registerFieldsWithAnnotation(event, RegisterFluid.class, RegisterFluid::value);
+		registerFieldsWithAnnotation(event, RegisterParticleType.class, RegisterParticleType::value,
+				of(PARTICLE_TYPES));
 	}
 
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
 		PlanetTrait.createRegistry(event);
-	}
-
-	private static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
-			final RegistryEvent.Register<T> event, Class<A> annotation, Function<A, String> registryName) {
-		registerFieldsWithAnnotation(event, annotation, registryName, Optional.empty());
 	}
 
 	private static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
@@ -173,8 +174,8 @@ public class RegistryEvents {
 	 * @param outputMap    optionally, a map in which the processed objects will be
 	 *                     put, as following: <br>
 	 *                     A {@link List} with the generic type <strong>T</strong>
-	 *                     will be put as the value corresponding to the key which is the
-	 *                     namespace (mod id) of the object's registry name
+	 *                     will be put as the value corresponding to the key which
+	 *                     is the namespace (mod id) of the object's registry name
 	 */
 	@SuppressWarnings({
 			"unchecked"
