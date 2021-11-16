@@ -1,7 +1,7 @@
 package com.cy4.machina.init;
 
-import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.block.AnimatedBuilder;
 import com.cy4.machina.block.AnimatedBuilderMount;
 import com.cy4.machina.block.ConsoleBlock;

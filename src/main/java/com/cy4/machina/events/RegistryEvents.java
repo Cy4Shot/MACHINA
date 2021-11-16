@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 import org.objectweb.asm.Type;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterBlockItem;
 import com.cy4.machina.api.annotation.registries.RegisterContainerType;
 import com.cy4.machina.api.annotation.registries.RegisterEffect;
@@ -30,6 +29,9 @@ import com.cy4.machina.api.annotation.registries.RegisterParticleType;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeSerializer;
+import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeType;
+import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.api.util.TriFunction;
@@ -43,10 +45,13 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -110,12 +115,12 @@ public class RegistryEvents {
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 		registerFieldsWithAnnotation(event, RegisterBlock.class, RegisterBlock::value, of(BLOCKS));
 	}
-	
+
 	@SubscribeEvent
 	public static void registerFluids(final RegistryEvent.Register<Fluid> event) {
 		registerFieldsWithAnnotation(event, RegisterFluid.class, RegisterFluid::value, of(FLUIDS));
 	}
-	
+
 	@SubscribeEvent
 	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
 		registerFieldsWithAnnotation(event, RegisterEffect.class, RegisterEffect::value, of(EFFECTS));
@@ -125,7 +130,6 @@ public class RegistryEvents {
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
 		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id, of(PLANET_TRAITS));
 	}
-
 
 	@SubscribeEvent
 	public static void registerTileEntityTypes(final RegistryEvent.Register<TileEntityType<?>> event) {
@@ -143,6 +147,41 @@ public class RegistryEvents {
 	public static void registerParticleTypes(final RegistryEvent.Register<ParticleType<?>> event) {
 		registerFieldsWithAnnotation(event, RegisterParticleType.class, RegisterParticleType::value,
 				of(PARTICLE_TYPES));
+	}
+
+	@SubscribeEvent
+	public static void registerRecipeTypes(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
+		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterRecipeType.class).forEach(field -> {
+			if (!field.isAccessible())
+				return;
+			try {
+				if (field.get(field.getDeclaringClass()) instanceof IRecipeType<?>) {
+					IRecipeType<?> type = (IRecipeType<?>) field.get(field.getDeclaringClass());
+					Registry.register(Registry.RECIPE_TYPE,
+							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
+									field.getAnnotation(RegisterRecipeType.class).value()),
+							type);
+					String modid = field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid();
+					if (RECIPE_TYPES.containsKey(modid)) {
+						List<IRecipeType<?>> oldList = RECIPE_TYPES.get(modid);
+						oldList.add(type);
+						RECIPE_TYPES.put(modid, oldList);
+					} else {
+						RECIPE_TYPES.put(modid, Lists.newArrayList(type));
+					}
+				} else {
+					//@formatter:off
+					throw new RegistryException("The field " + field + " is annotated with @RegisterRecipeType but it is not a recipe type!");
+					//@formatter:on
+				}
+			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
+				// Exception. Ignore
+				e.printStackTrace();
+			}
+		});
+
+		registerFieldsWithAnnotation(event, RegisterRecipeSerializer.class, RegisterRecipeSerializer::value,
+				of(RECIPE_SERIALIZERS));
 	}
 
 	@SubscribeEvent
