@@ -4,8 +4,12 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.tile_entity.RocketTile;
 
 import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
+@OnlyIn(Dist.CLIENT)
 public class RocketTileModel extends AnimatedGeoModel<RocketTile> {
     @Override
     public ResourceLocation getModelLocation(RocketTile object) {

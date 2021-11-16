@@ -17,6 +17,10 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
 public class UIHelper {
 
 	public enum StippleType {
@@ -136,7 +140,6 @@ public class UIHelper {
 		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / tex, (uOff + w) / tex, vOff / tex, (vOff + h) / tex);
 	}
 
-	@SuppressWarnings("deprecation")
 	private static void innerBlit(Matrix4f pMatrix, float pX1, float pX2, float pY1, float pY2, float pBlitOffset,
 			float pMinU, float pMaxU, float pMinV, float pMaxV) {
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();

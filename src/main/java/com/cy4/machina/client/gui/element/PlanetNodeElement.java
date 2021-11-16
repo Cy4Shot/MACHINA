@@ -10,6 +10,10 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.text.StringTextComponent;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
 public class PlanetNodeElement extends Widget {
 
 	StarchartScreen screen;
