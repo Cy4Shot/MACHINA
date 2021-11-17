@@ -6,10 +6,10 @@ import java.util.function.Supplier;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.ChemicalValues;
-import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.annotation.registries.RegisterFluid;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.api.annotation.registries.RegisterBlock;
 import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.block.fluid.LiquidHydrogenBlock;
 

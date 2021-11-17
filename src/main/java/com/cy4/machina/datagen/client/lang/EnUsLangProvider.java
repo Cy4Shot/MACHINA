@@ -1,18 +1,32 @@
 package com.cy4.machina.datagen.client.lang;
 
+import static com.cy4.machina.Machina.MOD_ID;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.init.FluidInit;
+import com.cy4.machina.init.ItemInit;
+import com.cy4.machina.init.MachinaRegistries;
 import com.cy4.machina.init.PlanetTraitInit;
+import com.cy4.machina.util.helper.TextFormattingHelper;
+import com.google.common.collect.Lists;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
 
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
 public class EnUsLangProvider extends LanguageProvider {
-
+	
+	public static final Logger LOGGER = LogManager.getLogger();
+	
 	public EnUsLangProvider(DataGenerator gen) {
 		super(gen, Machina.MOD_ID, "en_us");
 	}
@@ -38,10 +52,6 @@ public class EnUsLangProvider extends LanguageProvider {
 
 		addItemGroup("machinaItemGroup", "Machina");
 
-		add(FluidInit.HYDROGEN_BUCKET, "Hydrogen Bucket");
-		add(FluidInit.LIQUID_HYDROGEN_BUCKET, "Liquid Hydrogen Bucket");
-		add(FluidInit.OXYGEN_BUCKET, "Oxygen Bucket");
-
 		add(FluidInit.OXYGEN.get(), "Oxygen");
 		add(FluidInit.HYDROGEN.get(), "Hydrogen");
 		add(FluidInit.LIQUID_HYDROGEN.get(), "Liquid Hydrogen");
@@ -59,6 +69,15 @@ public class EnUsLangProvider extends LanguageProvider {
 		addDamageSourceMsg("liquidHydrogen", "%1$s stayed too much in hydrogen... Never do that at home kids!", "%1$s encountered hydrogen whilst fighting %2$s!");
 
 		add("machina.screen.starchart.title", "Starchart");
+		
+		addAutoItems(Lists.newArrayList(ItemInit.ITEM_GROUP_ICON));
+	}
+	
+	private void addAutoItems(List<Item> blacklisted) {
+		MachinaRegistries.ITEMS.get(MOD_ID).stream().filter(item -> !blacklisted.contains(item)).forEach(item -> {
+			String name = item.getRegistryName().getPath().replace("_", " ");
+			add(item, TextFormattingHelper.capitalizeWord(name));
+		});
 	}
 
 	private void addItemGroup(String key, String name) {
@@ -85,5 +104,13 @@ public class EnUsLangProvider extends LanguageProvider {
 		add("death.attack." + name, normal);
 		add("death.attack." + name + ".player", diedWhilstFighting);
 	}
-
+	
+	@Override
+	public void add(String key, String value) {
+		if (!data.containsKey(key)) {
+			super.add(key, value);
+		} else {
+			LOGGER.warn("Found already existing key {}! Skipping.", key);
+		}
+	}
 }

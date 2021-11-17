@@ -2,7 +2,6 @@ package com.cy4.machina.item;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
@@ -24,10 +23,10 @@ public class ThermalRegulatorSuit extends Item {
 	}
 
 	@Override
-	public boolean canEquip(ItemStack stack, EquipmentSlotType armorType, Entity entity) {
-		return armorType == slot;
+	public EquipmentSlotType getEquipmentSlot(ItemStack stack) {
+		return slot;
 	}
-
+	
 	/**
 	 * Inefficient way but it works... a loop was a bit redundant here
 	 * @param player

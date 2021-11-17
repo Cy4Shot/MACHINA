@@ -1,5 +1,8 @@
 package com.cy4.machina.events;
 
+import static com.cy4.machina.init.MachinaRegistries.*;
+import static java.util.Optional.of;
+
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
 import java.lang.reflect.InvocationTargetException;
@@ -27,11 +30,13 @@ import com.cy4.machina.api.annotation.registries.RegisterParticleType;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeSerializer;
+import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeType;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.api.util.TriFunction;
 import com.cy4.machina.init.BlockItemInit;
-import com.cy4.machina.util.MachinaRegistries;
+import com.cy4.machina.init.MachinaRegistries;
 import com.cy4.machina.util.ReflectionHelper;
 import com.google.common.collect.Lists;
 
@@ -40,10 +45,13 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -77,21 +85,22 @@ public class RegistryEvents {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-					try {
-						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
-								RegistryEvents.class.getClassLoader()));
-					} catch (ClassNotFoundException e) {
-						// Unknown class
-					}
-				});
+		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+			try {
+				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
+						RegistryEvents.class.getClassLoader()));
+			} catch (ClassNotFoundException e) {
+				// Unknown class
+			}
+		});
 	}
 
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
-		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value);
+		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value, of(ITEMS));
 		registerFieldsWithAnnotation(event, RegisterBlockItem.class, (classAn, fieldAn, obj) -> {
-			if (obj instanceof BlockItem) { return ((BlockItem) obj).getBlock().getRegistryName(); }
+			if (obj instanceof BlockItem)
+				return ((BlockItem) obj).getBlock().getRegistryName();
 			throw new RegistryException("Invalid BlockItem");
 		}, Optional.empty());
 
@@ -105,7 +114,22 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-		registerFieldsWithAnnotation(event, RegisterBlock.class, RegisterBlock::value);
+		registerFieldsWithAnnotation(event, RegisterBlock.class, RegisterBlock::value, of(BLOCKS));
+	}
+
+	@SubscribeEvent
+	public static void registerFluids(final RegistryEvent.Register<Fluid> event) {
+		registerFieldsWithAnnotation(event, RegisterFluid.class, RegisterFluid::value, of(FLUIDS));
+	}
+
+	@SubscribeEvent
+	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
+		registerFieldsWithAnnotation(event, RegisterEffect.class, RegisterEffect::value, of(EFFECTS));
+	}
+
+	@SubscribeEvent
+	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
+		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id, of(PLANET_TRAITS));
 	}
 
 	@SubscribeEvent
@@ -116,37 +140,53 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerContainerTypes(final RegistryEvent.Register<ContainerType<?>> event) {
-		registerFieldsWithAnnotation(event, RegisterContainerType.class, RegisterContainerType::value);
+		registerFieldsWithAnnotation(event, RegisterContainerType.class, RegisterContainerType::value,
+				of(CONTAINER_TYPES));
 	}
 
 	@SubscribeEvent
 	public static void registerParticleTypes(final RegistryEvent.Register<ParticleType<?>> event) {
-		registerFieldsWithAnnotation(event, RegisterParticleType.class, RegisterParticleType::value);
+		registerFieldsWithAnnotation(event, RegisterParticleType.class, RegisterParticleType::value,
+				of(PARTICLE_TYPES));
 	}
 
 	@SubscribeEvent
-	public static void registerEffects(final RegistryEvent.Register<Effect> event) {
-		registerFieldsWithAnnotation(event, RegisterEffect.class, RegisterEffect::value);
-	}
+	public static void registerRecipeTypes(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
+		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterRecipeType.class).forEach(field -> {
+			if (!field.isAccessible())
+				return;
+			try {
+				if (field.get(field.getDeclaringClass()) instanceof IRecipeType<?>) {
+					IRecipeType<?> type = (IRecipeType<?>) field.get(field.getDeclaringClass());
+					Registry.register(Registry.RECIPE_TYPE,
+							new ResourceLocation(field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid(),
+									field.getAnnotation(RegisterRecipeType.class).value()),
+							type);
+					String modid = field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid();
+					if (RECIPE_TYPES.containsKey(modid)) {
+						List<IRecipeType<?>> oldList = RECIPE_TYPES.get(modid);
+						oldList.add(type);
+						RECIPE_TYPES.put(modid, oldList);
+					} else {
+						RECIPE_TYPES.put(modid, Lists.newArrayList(type));
+					}
+				} else
+					//@formatter:off
+					throw new RegistryException("The field " + field + " is annotated with @RegisterRecipeType but it is not a recipe type!");
+				//@formatter:on
+			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
+				// Exception. Ignore
+				e.printStackTrace();
+			}
+		});
 
-	@SubscribeEvent
-	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
-		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id);
-	}
-
-	@SubscribeEvent
-	public static void registerFluids(final RegistryEvent.Register<Fluid> event) {
-		registerFieldsWithAnnotation(event, RegisterFluid.class, RegisterFluid::value);
+		registerFieldsWithAnnotation(event, RegisterRecipeSerializer.class, RegisterRecipeSerializer::value,
+				of(RECIPE_SERIALIZERS));
 	}
 
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
 		PlanetTrait.createRegistry(event);
-	}
-
-	private static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
-			final RegistryEvent.Register<T> event, Class<A> annotation, Function<A, String> registryName) {
-		registerFieldsWithAnnotation(event, annotation, registryName, Optional.empty());
 	}
 
 	private static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
@@ -159,7 +199,7 @@ public class RegistryEvents {
 
 	/**
 	 * Handles registry annotations
-	 * 
+	 *
 	 * @param <T>          the type of the object being registered
 	 * @param <A>          the class of the registry annotation
 	 * @param event        the event in which the objects should be registered
@@ -173,12 +213,10 @@ public class RegistryEvents {
 	 * @param outputMap    optionally, a map in which the processed objects will be
 	 *                     put, as following: <br>
 	 *                     A {@link List} with the generic type <strong>T</strong>
-	 *                     will be put as the value corresponding to the key which is the
-	 *                     namespace (mod id) of the object's registry name
+	 *                     will be put as the value corresponding to the key which
+	 *                     is the namespace (mod id) of the object's registry name
 	 */
-	@SuppressWarnings({
-			"unchecked"
-	})
+	@SuppressWarnings("unchecked")
 	public static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
 			final RegistryEvent.Register<T> event, Class<A> annotation,
 			TriFunction<RegistryHolder, A, T, ResourceLocation> registryName,
@@ -228,11 +266,10 @@ public class RegistryEvents {
 						setNameMethod.setAccessible(true);
 						setNameMethod.invoke(regObj, name);
 					}
-				} else {
+				} else
 					//@formatter:off
 					throw new RegistryException("The field " + field + " is annotated with " + annotation + " but it is not a " + objectClass);
-					//@formatter:on
-				}
+				//@formatter:on
 			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
 				// Exception. Ignore
