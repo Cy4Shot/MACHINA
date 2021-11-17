@@ -70,6 +70,12 @@ public class EnUsLangProvider extends LanguageProvider {
 
 		add("machina.screen.starchart.title", "Starchart");
 		
+		add("multiblock.rocket.missing_relay", "Missing Relay at direction: $s0");
+		add("direction.north", "North");
+		add("direction.south", "South");
+		add("direction.east", "East");
+		add("direction.west", "West");
+		
 		addAutoItems(Lists.newArrayList(ItemInit.ITEM_GROUP_ICON));
 	}
 	
