@@ -9,6 +9,10 @@
   "command.planet_traits.remove_trait.success": "Trait removed!",
   "death.attack.liquidHydrogen": "%1$s stayed too much in hydrogen... Never do that at home kids!",
   "death.attack.liquidHydrogen.player": "%1$s encountered hydrogen whilst fighting %2$s!",
+  "direction.east": "East",
+  "direction.north": "North",
+  "direction.south": "South",
+  "direction.west": "West",
   "fluid.machina.hydrogen": "Hydrogen",
   "fluid.machina.liquid_hydrogen": "Liquid Hydrogen",
   "fluid.machina.oxygen": "Oxygen",
@@ -36,5 +40,6 @@
   "machina.trait.ore_rich": "Ore Rich",
   "machina.trait.ravines": "Ravines",
   "machina.trait.volcanic": "Volcanic",
-  "machina.trait.water_world": "Water World"
+  "machina.trait.water_world": "Water World",
+  "multiblock.rocket.missing_relay": "Missing Relay at direction: $s0"
 }

@@ -39,7 +39,6 @@ public class BlockInit {
     public static final Block ROCKET_MOUNT = new RocketMount(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
     
     
-    
     @RegisterBlock("tank")
 	public static final TankBlock TANK = new TankBlock(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK));
 
