@@ -5,6 +5,7 @@ import static com.cy4.machina.Machina.MACHINA_ITEM_GROUP;
 import com.cy4.machina.api.annotation.registries.RegisterItem;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.item.ThermalRegulatorSuit;
+import com.cy4.machina.item.WrenchItem;
 
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
@@ -29,5 +30,5 @@ public final class ItemInit {
 	
 	
 	@RegisterItem("wrench")
-	public static final Item WRENCH = new Item(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512));
+	public static final WrenchItem WRENCH = new WrenchItem(new Item.Properties().tab(MACHINA_ITEM_GROUP));
 }

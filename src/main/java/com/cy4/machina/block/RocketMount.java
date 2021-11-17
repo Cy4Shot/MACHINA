@@ -1,5 +1,7 @@
 package com.cy4.machina.block;
 
+import java.util.function.Function;
+
 import com.cy4.machina.block.properties.ActivationState;
 import com.cy4.machina.block.properties.RelayPosState;
 import com.cy4.machina.init.BlockInit;
@@ -12,6 +14,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -21,8 +24,7 @@ import net.minecraft.world.World;
 public class RocketMount extends Block {
     public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
     
-    public static final EnumProperty<RelayPosState> RELAY_POS_STATE = EnumProperty.create("relay_pos_state", RelayPosState.class, RelayPosState.N_A, RelayPosState.NORTH, 
-    		RelayPosState.NORTHEAST, RelayPosState.EAST, RelayPosState.SOUTHEAST, RelayPosState.SOUTH, RelayPosState.SOUTHWEST, RelayPosState.WEST, RelayPosState.NORTHWEST, RelayPosState.CENTER);
+    public static final EnumProperty<RelayPosState> RELAY_POS_STATE = EnumProperty.create("relay_pos_state", RelayPosState.class, RelayPosState.values());
     
 
     public RocketMount(Properties properties) {
@@ -57,19 +59,19 @@ public class RocketMount extends Block {
     			
     			
     		} else {
-    			if (checkForNorthRelayBlock(worldIn, pos) == false) {
+    			if (!checkForRelay(worldIn, pos, Direction.NORTH)) {
     				player.displayClientMessage(new StringTextComponent("Missing North Relay"), true);
     			} else if (checkForNorthEastRelayBlock(worldIn, pos) == false) {
     				player.displayClientMessage(new StringTextComponent("Missing North East Relay"), true);
-    			} else if (checkForEastRelayBlock(worldIn, pos) == false) {
+    			} else if (!checkForRelay(worldIn, pos, Direction.EAST)) {
     				player.displayClientMessage(new StringTextComponent("Missing East Relay"), true);
     			} else if (checkForSouthEastRelayBlock(worldIn, pos) == false) {
     				player.displayClientMessage(new StringTextComponent("Missing South East Relay"), true);
-    			} else if (checkForSouthRelayBlock(worldIn, pos) == false) {
+    			} else if (!checkForRelay(worldIn, pos, Direction.SOUTH)) {
     				player.displayClientMessage(new StringTextComponent("Missing South Relay"), true);
     			} else if (checkForSouthWestRelayBlock(worldIn, pos) == false) {
     				player.displayClientMessage(new StringTextComponent("Missing South West Relay"), true);
-    			} else if (checkForWestRelayBlock(worldIn, pos) == false) {
+    			} else if (!checkForRelay(worldIn, pos, Direction.WEST)) {
     				player.displayClientMessage(new StringTextComponent("Missing West Relay"), true);
     			} else if (checkForNorthWestRelayBlock(worldIn, pos) == false) {
     				player.displayClientMessage(new StringTextComponent("Missing North West Relay"), true);
@@ -109,14 +111,6 @@ public class RocketMount extends Block {
     	}
     }
     
-    public boolean checkForNorthRelayBlock(World worldIn, BlockPos pos) {
-    	BlockPos northBlockPos = pos.north(7).above();
-    	
-    	boolean northRelayPresent = worldIn.getBlockState(northBlockPos).getBlock() == BlockInit.PAD_SIZE_RELAY;
-    	
-    	if (northRelayPresent) { return true; } else { return false; }
-    }
-    
     public boolean checkForNorthEastRelayBlock(World worldIn, BlockPos pos) {
     	BlockPos northBlockPos = pos.north(7).above();
     	BlockPos northEastBlockPos = northBlockPos.east(7);
@@ -124,14 +118,6 @@ public class RocketMount extends Block {
     	boolean northEastRelayPresent = worldIn.getBlockState(northEastBlockPos).getBlock() == BlockInit.PAD_SIZE_RELAY;
     	
     	if (northEastRelayPresent) { return true; } else { return false;  }
-    }
-    
-    public boolean checkForEastRelayBlock(World worldIn, BlockPos pos) {
-    	BlockPos eastBlockPos = pos.east(7).above();
-    	
-    	boolean eastRelayPresent = worldIn.getBlockState(eastBlockPos).getBlock() == BlockInit.PAD_SIZE_RELAY;
-    	
-    	if (eastRelayPresent) { return true; } else { return false; }
     }
     
     public boolean checkForSouthEastRelayBlock(World worldIn, BlockPos pos) {
@@ -143,14 +129,6 @@ public class RocketMount extends Block {
     	if (southEastRelayPresent) { return true; } else { return false; }
     }
     
-    public boolean checkForSouthRelayBlock(World worldIn, BlockPos pos) {
-    	BlockPos southBlockPos = pos.south(7).above();
-    	
-    	boolean southRelayPresent = worldIn.getBlockState(southBlockPos).getBlock() == BlockInit.PAD_SIZE_RELAY;
-    	
-    	if (southRelayPresent) { return true; } else { return false; }
-    }
-    
     public boolean checkForSouthWestRelayBlock(World worldIn, BlockPos pos) {
     	BlockPos southBlockPos = pos.south(7).above();
     	BlockPos southWestBlockPos = southBlockPos.west(7);
@@ -160,14 +138,6 @@ public class RocketMount extends Block {
     	if (southWestRelayPresent) { return true; } else { return false; }
     }
     
-    public boolean checkForWestRelayBlock(World worldIn, BlockPos pos) {
-    	BlockPos westBlockPos = pos.west(7).above();
-    	
-    	boolean westRelayPresent = worldIn.getBlockState(westBlockPos).getBlock() == BlockInit.PAD_SIZE_RELAY;
-    	
-    	if (westRelayPresent) { return true; } else { return false; }
-    }
-    
     public boolean checkForNorthWestRelayBlock(World worldIn, BlockPos pos) {
     	BlockPos northBlockPos = pos.north(7).above();
     	BlockPos northWestBlockPos = northBlockPos.west(7);
@@ -175,6 +145,14 @@ public class RocketMount extends Block {
     	boolean northWestRelayPresent = worldIn.getBlockState(northWestBlockPos).getBlock() == BlockInit.PAD_SIZE_RELAY;
     	
     	if (northWestRelayPresent) { return true; } else { return false; }
+    }
+    
+    public boolean checkForRelay(World world, BlockPos pos, Direction straightDirection) {
+    	return checkForRelay(world, pos.relative(straightDirection, 7));
+    }
+    
+    public boolean checkForRelay(World world, BlockPos pos) {
+    	return world.getBlockState(pos).is(BlockInit.PAD_SIZE_RELAY);
     }
     
     public void setAllRelayBlockPositions(World worldIn, BlockPos pos) {

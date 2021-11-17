@@ -30,10 +30,10 @@ public class BlockInit {
     public static final Block PAD_SIZE_RELAY = new PadSizeRelay(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
 
     @RegisterBlock("pad_console")
-    public static final Block CONSOLE = new ConsoleBlock(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
+    public static final Block CONSOLE = new ConsoleBlock(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE).noOcclusion());
 
     @RegisterBlock("rocket")
-    public static final Block ROCKET = new RocketBlock(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
+    public static final Block ROCKET = new RocketBlock(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE).noOcclusion());
     
     @RegisterBlock("rocket_mount")
     public static final Block ROCKET_MOUNT = new RocketMount(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
