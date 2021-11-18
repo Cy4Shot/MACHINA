@@ -3,8 +3,6 @@ package com.cy4.machina.datagen.client.lang;
 import static com.cy4.machina.Machina.MOD_ID;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -111,14 +109,5 @@ public class EnUsLangProvider extends LanguageProvider {
 	private void addDamageSourceMsg(String name, String normal, String diedWhilstFighting) {
 		add("death.attack." + name, normal);
 		add("death.attack." + name + ".player", diedWhilstFighting);
-	}
-	
-	@Override
-	public void add(String key, String value) {
-		if (!data.containsKey(key)) {
-			super.add(key, value);
-		} else {
-			LOGGER.warn("Found already existing key {}! Skipping.", key);
-		}
 	}
 }
