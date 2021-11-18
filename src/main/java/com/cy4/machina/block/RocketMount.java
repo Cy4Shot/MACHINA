@@ -87,6 +87,17 @@ public class RocketMount extends Block {
 
 		return ActionResultType.SUCCESS;
 	}
+	
+	
+	public void connectRocketMountToRelay(World worldIn, BlockPos pos) {
+		
+	}
+	
+	
+	
+	
+	
+	
 
 	public boolean checkForAllRelayBlocks(World worldIn, BlockPos pos) {
 		AtomicBoolean found = new AtomicBoolean(true);

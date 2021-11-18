@@ -110,13 +110,4 @@ public class EnUsLangProvider extends LanguageProvider {
 		add("death.attack." + name, normal);
 		add("death.attack." + name + ".player", diedWhilstFighting);
 	}
-	
-	@Override
-	public void add(String key, String value) {
-		if (!data.containsKey(key)) {
-			super.add(key, value);
-		} else {
-			LOGGER.warn("Found already existing key {}! Skipping.", key);
-		}
-	}
 }
