@@ -3,6 +3,8 @@ package com.cy4.machina.datagen.client.lang;
 import static com.cy4.machina.Machina.MOD_ID;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +28,7 @@ import net.minecraftforge.fluids.FluidStack;
 public class EnUsLangProvider extends LanguageProvider {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
+	private final Map<String, String> data = new TreeMap<>();
 	
 	public EnUsLangProvider(DataGenerator gen) {
 		super(gen, Machina.MOD_ID, "en_us");
