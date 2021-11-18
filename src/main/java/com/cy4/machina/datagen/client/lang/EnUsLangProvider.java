@@ -3,6 +3,8 @@ package com.cy4.machina.datagen.client.lang;
 import static com.cy4.machina.Machina.MOD_ID;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
