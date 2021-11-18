@@ -26,7 +26,7 @@ public abstract class ChunkManagerMixin extends ChunkLoader {
 	private ServerWorld level;
 
 	@Inject(method = "saveAllChunks(Z)V", at = @At("HEAD"), cancellable = true)
-	private void saveAllChunksMixin(boolean flush, CallbackInfo ci) {
+	private void machina$saveAllChunksMixin(boolean flush, CallbackInfo ci) {
 		CapabilityPlanetTrait.syncCapabilityWithClients(level);
 	}
 

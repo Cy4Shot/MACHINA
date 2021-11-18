@@ -6,7 +6,8 @@
 	"mixins": [
 		"LivingEntityMixin",
 		"ChunkManagerMixin",
-		"WorldMixin"
+		"WorldMixin",
+		"EntityMixin"
 	],
 	"client": [
 		"client.ServerWorldInfoMixin",
