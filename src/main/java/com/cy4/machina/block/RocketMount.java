@@ -3,6 +3,8 @@ package com.cy4.machina.block;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.swing.Timer;
+
 import com.cy4.machina.api.util.DiagonalDirection;
 import com.cy4.machina.api.util.MachinaLangTextComponent;
 import com.cy4.machina.block.properties.ActivationState;
@@ -57,13 +59,11 @@ public class RocketMount extends Block {
 			if (checkForAllRelayBlocks(worldIn, pos)) {
 				player.displayClientMessage(new StringTextComponent("Their all RELAYS!!!!!"), true);
 
-				/**
-				 * If one of you could find some way of adding a delay between each individual
-				 * relay block having their state changed, like this block is trying to
-				 * "connect" to them or something, that woudl make this so much cooler.
-				 */
+				Timer timer = new Timer(3000, actionEvent -> setAllRelayBlockPositions(worldIn, pos));
+				timer.setRepeats(false);
+				timer.start();
 
-				setAllRelayBlockPositions(worldIn, pos);
+				//setAllRelayBlockPositions(worldIn, pos);
 
 			} else {
 				STRAIGHT_DIRECTIONS
