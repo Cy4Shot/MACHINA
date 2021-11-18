@@ -28,7 +28,6 @@ import net.minecraftforge.fluids.FluidStack;
 public class EnUsLangProvider extends LanguageProvider {
 	
 	public static final Logger LOGGER = LogManager.getLogger();
-	private final Map<String, String> data = new TreeMap<>();
 	
 	public EnUsLangProvider(DataGenerator gen) {
 		super(gen, Machina.MOD_ID, "en_us");
