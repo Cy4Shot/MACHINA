@@ -33,8 +33,10 @@ public class AdvancedCraftingRecipeExtension implements ICraftingCategoryExtensi
 
 	@Override
 	public void drawInfo(int recipeWidth, int recipeHeight, MatrixStack matrixStack, double mouseX, double mouseY) {
-		minecraft.textureManager.bind(new MachinaRL("textures/gui/jei/jei_components.png"));
-		minecraft.screen.blit(matrixStack, recipeWidth - 16, recipeHeight - 51, 2, 2, 7, 7);
+		if (!recipe.getFunction().isEmtpy()) {
+			minecraft.textureManager.bind(new MachinaRL("textures/gui/jei/jei_components.png"));
+			minecraft.screen.blit(matrixStack, recipeWidth - 16, recipeHeight - 51, 2, 2, 7, 7);
+		}
 	}
 
 	@Override

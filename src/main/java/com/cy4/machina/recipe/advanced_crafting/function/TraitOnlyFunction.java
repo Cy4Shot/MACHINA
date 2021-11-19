@@ -20,6 +20,8 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 @RegistryHolder
@@ -33,14 +35,15 @@ public class TraitOnlyFunction extends AdvancedCraftingFunction {
 	private final boolean onlyOne;
 
 	public TraitOnlyFunction(List<PlanetTrait> traits, boolean blacklist, boolean onlyOne) {
-		this.validTraits = traits;
+		validTraits = traits;
 		this.blacklist = blacklist;
 		this.onlyOne = onlyOne;
 	}
 
 	@Override
 	public boolean matches(CraftingInventory inv, AdvancedCraftingRecipe recipe, World level) {
-		if (!super.matches(inv, recipe, level)) { return false; }
+		if (!super.matches(inv, recipe, level))
+			return false;
 		List<Boolean> match = new LinkedList<>();
 		AtomicReference<IPlanetTraitCapability> capAtomic = new AtomicReference<>(null);
 		level.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
@@ -52,26 +55,30 @@ public class TraitOnlyFunction extends AdvancedCraftingFunction {
 
 	private boolean checkMatch(List<Boolean> values, IPlanetTraitCapability cap) {
 		if (blacklist) {
-			if (onlyOne) {
+			if (onlyOne)
 				return !values.contains(false);
-			} else {
+			else
 				return cap == null || !cap.getTraits().containsAll(validTraits);
-			}
 		} else {
-			if (onlyOne) {
+			if (onlyOne)
 				return values.contains(true);
-			} else {
+			else
 				return cap.getTraits().containsAll(validTraits);
-			}
 		}
 	}
 
 	@Override
 	public void addJeiInfo(List<ITextComponent> tooltipList) {
-		tooltipList
-				.add(new StringTextComponent("This craft can only occur if one of the following traits are present:"));
+		String msg = "This craft can only occure if %s:";
+		if (blacklist) {
+			msg = msg.replaceFirst("can only", "cannot");
+		}
+		msg = msg.replace("%s", onlyOne ? "at least one of the following traits are present" : "all of the following traits are present");
+		tooltipList.add(new StringTextComponent(msg));
 		validTraits.forEach(trait -> {
-			tooltipList.add(trait.getName());
+			TranslationTextComponent traitName = (TranslationTextComponent) trait.getName();
+			traitName.setStyle(traitName.getStyle().withColor(TextFormatting.GOLD));
+			tooltipList.add(traitName);
 		});
 		super.addJeiInfo(tooltipList);
 	}

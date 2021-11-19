@@ -21,6 +21,7 @@ public class DebugCommand extends BaseCommand {
 
 	@Override
 	protected int execute(CommandContext<CommandSource> context) {
+		//org.objectweb.asm.Type.getMethodDescriptor(null);
 		return 0;
 	}
 
