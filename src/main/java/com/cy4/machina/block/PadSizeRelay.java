@@ -1,5 +1,7 @@
 package com.cy4.machina.block;
 
+import javax.swing.Timer;
+
 import com.cy4.machina.block.properties.ActivationState;
 import com.cy4.machina.block.properties.RelayPosState;
 
@@ -48,7 +50,8 @@ public class PadSizeRelay extends Block {
     		changeRelayPos(pos, worldIn, i);
         } else {
         	player.displayClientMessage(new StringTextComponent(state.getValue(RELAY_POS_STATE).toString()), true);
-        	setActive(pos, worldIn);
+        	//setActive(pos, worldIn);
+        	isConnectingAnimation(pos, worldIn);
         }
     	
     	
@@ -83,8 +86,38 @@ public class PadSizeRelay extends Block {
     
     public void setActive(BlockPos pos, World world) {
     	BlockState state = world.getBlockState(pos);
-    	
     	world.setBlockAndUpdate(pos, state.setValue(ACTIVATION_STATE, ActivationState.ACTIVE));
+    }
+    
+    
+    
+    
+    public static void isConnectingAnimation(BlockPos pos, World worldIn) {
+    	BlockState state1 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
+    	BlockState state2 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.WAITING);
+    	//BlockState state3 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.ACTIVE);
+    	
+    	Timer timer1 = new Timer(1000, actionEvent -> worldIn.setBlockAndUpdate(pos, state2));
+    	timer1.setRepeats(false);
+    	timer1.start();
+    	Timer timer2 = new Timer(2000, actionEvent -> worldIn.setBlockAndUpdate(pos, state1));
+    	timer2.setRepeats(false);
+    	timer2.start();
+    	Timer timer3 = new Timer(3000, actionEvent -> worldIn.setBlockAndUpdate(pos, state2));
+    	timer3.setRepeats(false);
+    	timer3.start();
+    	Timer timer4 = new Timer(4000, actionEvent -> worldIn.setBlockAndUpdate(pos, state1));
+    	timer4.setRepeats(false);
+    	timer4.start();
+    	Timer timer5 = new Timer(5000, actionEvent -> worldIn.setBlockAndUpdate(pos, state2));
+    	timer5.setRepeats(false);
+    	timer5.start();
+    	Timer timer6 = new Timer(6000, actionEvent -> worldIn.setBlockAndUpdate(pos, state1));
+    	timer6.setRepeats(false);
+    	timer6.start();
+    	Timer timer7 = new Timer(7000, actionEvent -> worldIn.setBlockAndUpdate(pos, state2));
+    	timer7.setRepeats(false);
+    	timer7.start();
     }
    
 }
