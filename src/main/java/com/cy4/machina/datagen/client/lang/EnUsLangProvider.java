@@ -24,9 +24,9 @@ import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
 public class EnUsLangProvider extends LanguageProvider {
-	
+
 	public static final Logger LOGGER = LogManager.getLogger();
-	
+
 	public EnUsLangProvider(DataGenerator gen) {
 		super(gen, Machina.MOD_ID, "en_us");
 	}
@@ -69,16 +69,16 @@ public class EnUsLangProvider extends LanguageProvider {
 		addDamageSourceMsg("liquidHydrogen", "%1$s stayed too much in hydrogen... Never do that at home kids!", "%1$s encountered hydrogen whilst fighting %2$s!");
 
 		add("machina.screen.starchart.title", "Starchart");
-		
+
 		add("multiblock.rocket.missing_relay", "Missing Relay at direction: $s0");
 		add("direction.north", "North");
 		add("direction.south", "South");
 		add("direction.east", "East");
 		add("direction.west", "West");
-		
+
 		addAutoItems(Lists.newArrayList(ItemInit.ITEM_GROUP_ICON));
 	}
-	
+
 	private void addAutoItems(List<Item> blacklisted) {
 		MachinaRegistries.ITEMS.get(MOD_ID).stream().filter(item -> !blacklisted.contains(item)).forEach(item -> {
 			String name = item.getRegistryName().getPath().replace("_", " ");

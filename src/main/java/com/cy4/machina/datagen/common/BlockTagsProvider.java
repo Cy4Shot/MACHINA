@@ -14,7 +14,7 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
 	public BlockTagsProvider(DataGenerator pGenerator, ExistingFileHelper existingFileHelper) {
 		super(pGenerator, MOD_ID, existingFileHelper);
 	}
-	
+
 	@Override
 	protected void addTags() {
 		tag(TagInit.Blocks.WRENCH_EFFECTIVE).add(BlockInit.CONSOLE).add(BlockInit.ROCKET).add(BlockInit.ROCKET_MOUNT);

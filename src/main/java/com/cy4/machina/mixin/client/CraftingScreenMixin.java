@@ -30,7 +30,7 @@ public abstract class CraftingScreenMixin extends ContainerScreen<WorkbenchConta
 	private void machina$renderBgEvent(MatrixStack matrixStack, float partialTicks, int x, int y, CallbackInfo ci) {
 		CraftingScreenEvent.onRenderBg((CraftingScreen) (Object) this, minecraft, matrixStack, partialTicks, x, y);
 	}
-	
+
 	@Inject(method = "render(Lcom/mojang/blaze3d/matrix/MatrixStack;IIF)V", at = @At("TAIL"), cancellable = true)
 	private void machina$renderEvent(MatrixStack matrixStack, int x, int y, float partialTicks, CallbackInfo ci) {
 		CraftingScreenEvent.onRender((CraftingScreen) (Object) this, minecraft, matrixStack, partialTicks, x, y);

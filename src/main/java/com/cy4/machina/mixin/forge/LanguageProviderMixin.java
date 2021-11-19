@@ -15,13 +15,13 @@ import net.minecraftforge.common.data.LanguageProvider;
 
 @Mixin(value = LanguageProvider.class, remap = false)
 public abstract class LanguageProviderMixin {
-	
+
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	@Final
 	@Shadow
 	private Map<String, String> data;
-	
+
 	@Inject(remap = false, at = @At(value = "HEAD"), method = "add(Ljava/lang/String;Ljava/lang/String;)V", cancellable = true)
 	private void machina$addMixin(String key, String value, CallbackInfo ci) {
 		if (data.put(key, value) != null) {
@@ -29,5 +29,5 @@ public abstract class LanguageProviderMixin {
 		}
 		ci.cancel();
 	}
-	
+
 }

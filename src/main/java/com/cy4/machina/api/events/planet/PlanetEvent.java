@@ -25,7 +25,7 @@ public abstract class PlanetEvent extends Event {
 
 	/**
 	 * Call it when a planet is being created
-	 * 
+	 *
 	 * @param planet
 	 */
 	public static void onPlanetCreated(World planet) {
@@ -34,7 +34,7 @@ public abstract class PlanetEvent extends Event {
 
 	/**
 	 * Call it when a planet is about to receive a trait
-	 * 
+	 *
 	 * @param planet
 	 * @param trait
 	 * @return if true, the event was cancelled
@@ -46,7 +46,7 @@ public abstract class PlanetEvent extends Event {
 	/**
 	 * Called when a planet is about to receive a trait. If {@link #isCanceled()}
 	 * the trait will not be added
-	 * 
+	 *
 	 * @author matyrobbrt
 	 *
 	 */
@@ -61,7 +61,7 @@ public abstract class PlanetEvent extends Event {
 		}
 
 		public PlanetTrait getTrait() { return trait; }
-		
+
 		public NullSafe<IPlanetTraitCapability> getTraitCapability() {
 			AtomicReference<IPlanetTraitCapability> capAtomic = new AtomicReference<>(null);
 			planet.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(capAtomic::set);

@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 
 public abstract class BaseRecipe<I extends IInventory> implements IRecipe<I> {
-	
+
 	protected ItemStack result = ItemStack.EMPTY;
 
 	@Override

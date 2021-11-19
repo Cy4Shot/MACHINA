@@ -6,14 +6,15 @@ public enum ActivationState implements IStringSerializable {
 	NOT_ACTIVE("not_active"),
 	WAITING("waiting"),
 	ACTIVE("active");
-	
+
 	private final String name;
-	
-	private ActivationState(String pName) {
-		this.name = pName;
+
+	ActivationState(String pName) {
+		name = pName;
 	}
-	
+
+	@Override
 	public String getSerializedName() {
-		return this.name;
+		return name;
 	}
 }

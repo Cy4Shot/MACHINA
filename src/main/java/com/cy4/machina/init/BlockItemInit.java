@@ -13,7 +13,7 @@ import net.minecraft.item.Item;
 public final class BlockItemInit {
 
 	public static final Block[] AUTO_BLOCK_ITEMS = new Block[] {};
-	
+
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_PLATFORM_BLOCKITEM = new BlockItem(BlockInit.ROCKET_PLATFORM_BLOCK,
 			new Item.Properties().tab(MACHINA_ITEM_GROUP));
@@ -33,22 +33,22 @@ public final class BlockItemInit {
 	@RegisterBlockItem
 	public static final BlockItem CONSOLE_BLOCKITEM = new BlockItem(BlockInit.CONSOLE,
 			new Item.Properties().tab(MACHINA_ITEM_GROUP));
-	
+
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_BLOCKITEM = new BlockItem(BlockInit.ROCKET,
 			new Item.Properties().tab(MACHINA_ITEM_GROUP));
-	
+
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_MOUNT_BLOCKITEM = new BlockItem(BlockInit.ROCKET_MOUNT,
 			new Item.Properties().tab(MACHINA_ITEM_GROUP));
-	
+
 	@RegisterBlockItem
 	public static final BlockItem PUMP_BLOCK_ITEM = createBlockItem(BlockInit.PUMP);
-	
+
 	@RegisterBlockItem
 	public static final BlockItem TANK_BLOCK_ITEM = createBlockItem(BlockInit.TANK);
-	
-	private static final BlockItem createBlockItem(Block block) {
+
+	private static BlockItem createBlockItem(Block block) {
 		return new BlockItem(block, new Item.Properties().tab(MACHINA_ITEM_GROUP));
 	}
 }

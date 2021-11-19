@@ -23,6 +23,7 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -43,7 +44,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		super(new TranslationTextComponent("machina.screen.starchart.title"));
 		this.sc = sc;
 
-		this.planetDescriptions = new ScrollableContainer(this::renderDescription,
+		planetDescriptions = new ScrollableContainer(this::renderDescription,
 				new StringTextComponent("Planet Statistics"));
 	}
 
@@ -53,8 +54,9 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 		createStarSystem(40D, 10D);
 
-		for (PlanetNodeElement ne : this.nodes)
+		for (PlanetNodeElement ne : nodes) {
 			this.addWidget(ne);
+		}
 	}
 
 	public Vector2f getNewCentre() {
@@ -64,23 +66,24 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 	private void createStarSystem(double variance, double min) {
 
-		this.positions.clear();
-		this.nodes.clear();
+		positions.clear();
+		nodes.clear();
 		Vector2f centre = getNewCentre();
 
 		for (int i = 1; i <= sc.planets.size(); i++) {
 			double angle = (Math.PI * 2) / sc.planets.size() * i;
-			
+
 			double r = sc.planets.get(i - 1).dist * variance + min;
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
 
-			this.positions.add(new Vector2f(centre.x - x, centre.y - y));
-			this.nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, sc.planets.get(i - 1)));
+			positions.add(new Vector2f(centre.x - x, centre.y - y));
+			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, sc.planets.get(i - 1)));
 		}
 	}
 
+	@Override
 	public Rectangle getContainerBounds() {
 		Rectangle bounds = new Rectangle();
 		bounds.x0 = (int) (width * 0.2);
@@ -153,7 +156,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	}
 
 	private void renderStarSystem(MatrixStack matrixStack, int mX, int mY, float pTicks) {
-		this.nodes.forEach(node -> node.render(matrixStack, mX, mY, pTicks));
+		nodes.forEach(node -> node.render(matrixStack, mX, mY, pTicks));
 	}
 
 	private void renderDescription(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -162,14 +165,13 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 				planetDescriptions.getRenderableBounds().getWidth(), 10) * 10 + 20);
 		RenderSystem.enableDepthTest();
 	}
-	
+
 	private IFormattableTextComponent getDescriptionForPlanet() {
-		if (selected == null) {
+		if (selected == null)
 			return new StringTextComponent("Terra Prime").setStyle(Style.EMPTY.withColor(Color.fromRgb(0xFF_2fc256)));
-		}
 		PlanetData planet = selected.getData();
 		int color = planet.color;
-		
+
 		planetDescriptions.title = new StringTextComponent("Information - \"" + planet.name + "\"");
 		IFormattableTextComponent text = new StringTextComponent("Traits:\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		for (PlanetTrait t : planet.traits) {
@@ -178,41 +180,45 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 			text.append("\n");
 		}
 		text.append("\n");
-		
+
 		// Add Extra Data
 		text.append(new StringTextComponent("Stats:\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color))));
 		text.append("   > Pres: " + planet.getAtm() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Temp: " + planet.getTemp() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Dist: " + planet.getDist() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		
+
 		return text;
 	}
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		if (getContainerBounds().contains((int) mouseX, (int) mouseY))
+		if (getContainerBounds().contains((int) mouseX, (int) mouseY)) {
 			planetDescriptions.mouseScrolled(mouseX, mouseY, delta);
+		}
 		return super.mouseScrolled(mouseX, mouseY, delta);
 	}
 
 	@Override
 	public void mouseMoved(double pMouseX, double pMouseY) {
-		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY))
-			this.planetDescriptions.mouseMoved(pMouseX, pMouseY);
+		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY)) {
+			planetDescriptions.mouseMoved(pMouseX, pMouseY);
+		}
 		super.mouseMoved(pMouseX, pMouseY);
 	}
 
 	@Override
 	public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY))
-			this.planetDescriptions.mouseClicked(pMouseX, pMouseY, pButton);
+		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY)) {
+			planetDescriptions.mouseClicked(pMouseX, pMouseY, pButton);
+		}
 		return super.mouseClicked(pMouseX, pMouseY, pButton);
 	}
 
 	@Override
 	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
-		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY))
-			this.planetDescriptions.mouseReleased(pMouseX, pMouseY, pButton);
+		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY)) {
+			planetDescriptions.mouseReleased(pMouseX, pMouseY, pButton);
+		}
 		return super.mouseReleased(pMouseX, pMouseY, pButton);
 	}
 

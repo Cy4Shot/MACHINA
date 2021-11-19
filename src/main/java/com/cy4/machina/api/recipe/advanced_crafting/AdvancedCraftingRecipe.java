@@ -26,94 +26,94 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 @RegistryHolder
 public class AdvancedCraftingRecipe extends ShapedRecipe {
-	
+
 	private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-	
+
 	@RegisterRecipeSerializer("advanced_crafting")
 	public static final Serializer SERIALIZER = new Serializer();
-	
+
 	private final JsonObject functionData;
-	
+
 	public AdvancedCraftingRecipe(ResourceLocation id, String group, int width, int height, NonNullList<Ingredient> inputs, ItemStack output, JsonObject functionData) {
-        super(id, group, width, height, inputs, output);
-        this.functionData = functionData;
-    }
-	
+		super(id, group, width, height, inputs, output);
+		this.functionData = functionData;
+	}
+
 	@Override
 	public boolean matches(CraftingInventory pInv, World pLevel) {
 		return getFunction().matches(pInv, this, pLevel);
 	}
 
-    public boolean actualMatches(CraftingInventory inventory, World world) {
-        return super.matches(inventory, world);
-    }
-    
-    public AdvancedCraftingFunction getFunction() {
-    	AdvancedCraftingFunctionSerializer<?> serializer = AdvancedCraftingFunctionSerializer.REGISTRY.getValue(new ResourceLocation(JSONUtils
-    			.getAsString(functionData, "type")));
-    	return serializer != null ? serializer.deserialize(functionData) : EmptyFunction.SERIALIZER.deserialize(functionData);
-    }
+	public boolean actualMatches(CraftingInventory inventory, World world) {
+		return super.matches(inventory, world);
+	}
 
-    @Override
-    public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
-    }
-    
-    @Override
-    public ItemStack assemble(CraftingInventory pInv) {
-    	return getFunction().assemble(super.assemble(pInv), pInv, this);
-    }
+	public AdvancedCraftingFunction getFunction() {
+		AdvancedCraftingFunctionSerializer<?> serializer = AdvancedCraftingFunctionSerializer.REGISTRY.getValue(new ResourceLocation(JSONUtils
+				.getAsString(functionData, "type")));
+		return serializer != null ? serializer.deserialize(functionData) : EmptyFunction.SERIALIZER.deserialize(functionData);
+	}
 
-    public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AdvancedCraftingRecipe> {
-    	
-        @Override
-        public AdvancedCraftingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-            String s = JSONUtils.getAsString(json, "group", "");
-            Map<String, Ingredient> map = ShapedRecipe.keyFromJson(JSONUtils.getAsJsonObject(json, "key"));
-            String[] astring = ShapedRecipe.patternFromJson(JSONUtils.getAsJsonArray(json, "pattern"));
-            int i = astring[0].length();
-            int j = astring.length;
-            NonNullList<Ingredient> nonnulllist = ShapedRecipe.dissolvePattern(astring, map, i, j);
-            ItemStack itemstack = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
-            JsonObject serializer = json.has("function") ? JSONUtils.getAsJsonObject(json, "function") : EmptyFunction.EMTPY_OBJECT;
-            return new AdvancedCraftingRecipe(recipeId, s, i, j, nonnulllist, itemstack, serializer);
-        }
+	@Override
+	public IRecipeSerializer<?> getSerializer() {
+		return SERIALIZER;
+	}
 
-        @Override
-        public AdvancedCraftingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
-            int i = buffer.readVarInt();
-            int j = buffer.readVarInt();
-            String s = buffer.readUtf(32767);
-            NonNullList<Ingredient> inputs = NonNullList.withSize(i * j, Ingredient.EMPTY);
+	@Override
+	public ItemStack assemble(CraftingInventory pInv) {
+		return getFunction().assemble(super.assemble(pInv), pInv, this);
+	}
 
-            for (int k = 0; k < inputs.size(); ++k) {
-                inputs.set(k, Ingredient.fromNetwork(buffer));
-            }
+	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AdvancedCraftingRecipe> {
 
-            ItemStack output = buffer.readItem();
-            
-            JsonObject functionData = GSON.fromJson(buffer.readNbt().toString(), JsonObject.class);
+		@Override
+		public AdvancedCraftingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+			String s = JSONUtils.getAsString(json, "group", "");
+			Map<String, Ingredient> map = ShapedRecipe.keyFromJson(JSONUtils.getAsJsonObject(json, "key"));
+			String[] astring = ShapedRecipe.patternFromJson(JSONUtils.getAsJsonArray(json, "pattern"));
+			int i = astring[0].length();
+			int j = astring.length;
+			NonNullList<Ingredient> nonnulllist = ShapedRecipe.dissolvePattern(astring, map, i, j);
+			ItemStack itemstack = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
+			JsonObject serializer = json.has("function") ? JSONUtils.getAsJsonObject(json, "function") : EmptyFunction.EMTPY_OBJECT;
+			return new AdvancedCraftingRecipe(recipeId, s, i, j, nonnulllist, itemstack, serializer);
+		}
 
-            return new AdvancedCraftingRecipe(recipeId, s, i, j, inputs, output, functionData);
-        }
+		@Override
+		public AdvancedCraftingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+			int i = buffer.readVarInt();
+			int j = buffer.readVarInt();
+			String s = buffer.readUtf(32767);
+			NonNullList<Ingredient> inputs = NonNullList.withSize(i * j, Ingredient.EMPTY);
 
-        @Override
-        public void toNetwork(PacketBuffer buffer, AdvancedCraftingRecipe recipe) {
-            buffer.writeVarInt(recipe.getRecipeWidth());
-            buffer.writeVarInt(recipe.getRecipeHeight());
-            buffer.writeUtf(recipe.getGroup());
+			for (int k = 0; k < inputs.size(); ++k) {
+				inputs.set(k, Ingredient.fromNetwork(buffer));
+			}
 
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                ingredient.toNetwork(buffer);
-            }
+			ItemStack output = buffer.readItem();
 
-            buffer.writeItem(recipe.getResultItem());
-            try {
+			JsonObject functionData = GSON.fromJson(buffer.readNbt().toString(), JsonObject.class);
+
+			return new AdvancedCraftingRecipe(recipeId, s, i, j, inputs, output, functionData);
+		}
+
+		@Override
+		public void toNetwork(PacketBuffer buffer, AdvancedCraftingRecipe recipe) {
+			buffer.writeVarInt(recipe.getRecipeWidth());
+			buffer.writeVarInt(recipe.getRecipeHeight());
+			buffer.writeUtf(recipe.getGroup());
+
+			for (Ingredient ingredient : recipe.getIngredients()) {
+				ingredient.toNetwork(buffer);
+			}
+
+			buffer.writeItem(recipe.getResultItem());
+			try {
 				buffer.writeNbt(JsonToNBT.parseTag(recipe.functionData.toString()));
 			} catch (CommandSyntaxException e) {
 				e.printStackTrace();
 			}
-        }
-    }
-    
+		}
+	}
+
 }

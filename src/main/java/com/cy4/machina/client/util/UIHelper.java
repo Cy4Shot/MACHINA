@@ -26,6 +26,7 @@ import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentUtils;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -197,10 +198,9 @@ public class UIHelper {
 
 		for (int i : LINE_BREAK_VALUES) {
 			List<ITextProperties> list1 = charactermanager.splitLines(component, maxWidth - i, Style.EMPTY);
-			float f1 = Math.abs(getTextWidth(charactermanager, list1) - (float) maxWidth);
-			if (f1 <= 10.0F) {
+			float f1 = Math.abs(getTextWidth(charactermanager, list1) - maxWidth);
+			if (f1 <= 10.0F)
 				return list1;
-			}
 
 			if (f1 < f) {
 				f = f1;

@@ -23,11 +23,11 @@ public class PlanetNodeElement extends Widget {
 	public PlanetNodeElement(float pX, float pY, StarchartScreen screen, PlanetData data) {
 		super((int) pX, (int) pY, 3, 3, new StringTextComponent(""));
 		this.screen = screen;
-		this.active = true;
-		this.visible = true;
+		active = true;
+		visible = true;
 		this.data = data;
 	}
-	
+
 	public PlanetData getData() {
 		return data;
 	}
@@ -53,7 +53,7 @@ public class PlanetNodeElement extends Widget {
 					StippleType.DASHED);
 		}
 		UIHelper.betterBlit(matrixStack, x, y, textureSize * (int) offsetC, 0, textureSize, textureSize, 128);
-		
+
 		if (screen.selected != null && screen.selected.equals(this)) {
 			UIHelper.box(matrixStack, x - 2, y - 2, x + textureSize + 2, y + textureSize + 2,  0xFFFFFFFF, 4f, StippleType.FULL);
 		}

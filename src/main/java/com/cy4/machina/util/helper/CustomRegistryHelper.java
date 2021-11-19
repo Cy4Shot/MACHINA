@@ -15,9 +15,9 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 
 public class CustomRegistryHelper {
-	
+
 	public static final Logger LOGGER = LogManager.getLogger();
-	
+
 	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField, Class<T> registryClass, ResourceLocation registryName) {
 		RegistryBuilder<T> registryBuilder = new RegistryBuilder<>();
 		registryBuilder.setName(registryName);
@@ -34,9 +34,9 @@ public class CustomRegistryHelper {
 			throw new CustomRegistryException(e);
 		}
 	}
-	
+
 	private static final class CustomRegistryException extends RuntimeException {
-		
+
 		private static final long serialVersionUID = 204522615406714921L;
 
 		public CustomRegistryException(Throwable e) {

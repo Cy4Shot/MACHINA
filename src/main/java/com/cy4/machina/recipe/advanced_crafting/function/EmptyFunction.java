@@ -11,7 +11,7 @@ public class EmptyFunction extends AdvancedCraftingFunction {
 
 	@RegisterACFunctionSerializer("no_function")
 	public static final Serializer SERIALIZER = new Serializer();
-	
+
 	public static final JsonObject EMTPY_OBJECT = createJsonObj();
 
 	private static JsonObject createJsonObj() {
@@ -19,12 +19,12 @@ public class EmptyFunction extends AdvancedCraftingFunction {
 		obj.addProperty("type", "machina:no_function");
 		return obj;
 	}
-	
+
 	public static final class Serializer extends AdvancedCraftingFunctionSerializer<EmptyFunction> {
 		@Override
 		public EmptyFunction deserialize(JsonObject obj) {
 			return new EmptyFunction();
 		}
 	}
-	
+
 }

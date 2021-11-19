@@ -26,7 +26,7 @@ public class ThermalRegulatorSuit extends Item {
 	public EquipmentSlotType getEquipmentSlot(ItemStack stack) {
 		return slot;
 	}
-	
+
 	/**
 	 * Inefficient way but it works... a loop was a bit redundant here
 	 * @param player

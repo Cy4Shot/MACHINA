@@ -20,27 +20,27 @@ import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 
 @JeiPlugin
 public class MachinaJEIPlugin implements IModPlugin {
-	
+
 	public static final ResourceLocation PLUGIN_ID = new MachinaRL("jei_plugin");
-	
+
 	public static final ResourceLocation VANILLA_CRAFTING = new ResourceLocation("minecraft", "crafting");
 
 	@Override
 	public ResourceLocation getPluginUid() { return PLUGIN_ID; }
-	
+
 	@SuppressWarnings("resource")
 	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
 		RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
-		
+
 		registration.addRecipes(getRecipes(manager, RecipeInit.ADVANCED_CRAFTING_RECIPE_TYPE), VANILLA_CRAFTING);
 	}
-	
+
 	private static Collection<?> getRecipes(RecipeManager manager, IRecipeType<?> type) {
 		return manager.getRecipes().parallelStream().filter(recipe -> recipe.getType() == type)
 				.collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
 		registration.getCraftingCategory().addCategoryExtension(AdvancedCraftingRecipe.class, AdvancedCraftingRecipeExtension::new);

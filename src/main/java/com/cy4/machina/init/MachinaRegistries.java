@@ -25,7 +25,7 @@ import net.minecraft.tileentity.TileEntityType;
  * A {@link List} with the generic type {@code <T>} will be put as the value
  * corresponding to the key which is the namespace (mod id) of the object's
  * registry name. {@code <T>} is the type of the object registered.
- * 
+ *
  * @author matyrobbrt
  *
  */

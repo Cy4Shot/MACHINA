@@ -12,5 +12,5 @@ public class TextFormattingHelper {
 		}
 		return capitalizeWord.trim();
 	}
-	
+
 }

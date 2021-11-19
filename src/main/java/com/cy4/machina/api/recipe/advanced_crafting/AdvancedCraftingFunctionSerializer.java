@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public abstract class AdvancedCraftingFunctionSerializer<F extends AdvancedCraftingFunction>
-		extends ForgeRegistryEntry<AdvancedCraftingFunctionSerializer<F>> {
+extends ForgeRegistryEntry<AdvancedCraftingFunctionSerializer<F>> {
 
 	@ChangedByReflection(when = "commonSetup (when the registry is built)")
 	public static final IForgeRegistry<AdvancedCraftingFunctionSerializer<?>> REGISTRY = null;
@@ -24,7 +24,7 @@ public abstract class AdvancedCraftingFunctionSerializer<F extends AdvancedCraft
 
 	/**
 	 * Create a new function based on the given json object
-	 * 
+	 *
 	 * @param nbt
 	 * @return
 	 */

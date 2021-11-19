@@ -87,14 +87,14 @@ public class RegistryEvents {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-					try {
-						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
-								RegistryEvents.class.getClassLoader()));
-					} catch (ClassNotFoundException e) {
-						// Unknown class
-					}
-				});
+		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+			try {
+				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
+						RegistryEvents.class.getClassLoader()));
+			} catch (ClassNotFoundException e) {
+				// Unknown class
+			}
+		});
 	}
 
 	@SubscribeEvent

@@ -15,7 +15,7 @@ public class AdvancedCraftingFunction {
 	/**
 	 * Called in {@link AdvancedCraftingRecipe#matches(CraftingInventory, World)}.
 	 * Call the super in order to check the recipe pattern
-	 * 
+	 *
 	 * @param inv
 	 * @param recipe
 	 * @return
@@ -27,7 +27,7 @@ public class AdvancedCraftingFunction {
 	/**
 	 * Called in {@link AdvancedCraftingRecipe#assemble(CraftingInventory)}, in
 	 * order to modify the result
-	 * 
+	 *
 	 * @param original
 	 * @param inv
 	 * @param recipe
@@ -41,7 +41,7 @@ public class AdvancedCraftingFunction {
 	 * Called in
 	 * {@link AdvancedCraftingRecipeExtension#getTooltipStrings(double, double)} in
 	 * order to add function info in the tooltip
-	 * 
+	 *
 	 * @param tooltipList
 	 */
 	public void addJeiInfo(List<ITextComponent> tooltipList) {
@@ -50,7 +50,7 @@ public class AdvancedCraftingFunction {
 
 	/**
 	 * Checks if the
-	 * 
+	 *
 	 * @return
 	 */
 	public final boolean isEmtpy() { return this instanceof EmptyFunction; }

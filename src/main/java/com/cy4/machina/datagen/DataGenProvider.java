@@ -29,7 +29,7 @@ public class DataGenProvider {
 		gen.addProvider(new ItemModelProvider(gen, existingFileHelper));
 
 		gen.addProvider(new BlockTagsProvider(gen, existingFileHelper));
-		
+
 		gen.addProvider(new PlanetTraitPoolsProvider(gen));
 	}
 

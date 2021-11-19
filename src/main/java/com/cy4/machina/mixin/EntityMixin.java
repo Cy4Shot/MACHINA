@@ -16,10 +16,9 @@ public abstract class EntityMixin {
 
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;updateFluidHeightAndDoFluidPushing(Lnet/minecraft/tags/ITag;D)Z"), method = "updateInWaterStateAndDoWaterCurrentPushing")
 	private boolean machina$doNotActuallyWaterPushing(Entity entity, ITag<Fluid> fluid, double motionScale) {
-		if (fluid == FluidTags.WATER) {
+		if (fluid == FluidTags.WATER)
 			return entity.updateFluidHeightAndDoFluidPushing(FluidTags.WATER, motionScale)
 					|| entity.updateFluidHeightAndDoFluidPushing(TagInit.Fluids.NOT_ACTUALLY_WATER, motionScale);
-		}
 		return entity.updateFluidHeightAndDoFluidPushing(fluid, motionScale);
 	}
 

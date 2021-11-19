@@ -40,7 +40,7 @@ public class ClientSetup {
 	 */
 	public ClientSetup(IEventBus modBus) {
 		modBus.addListener(this::onBlockColourHandler);
-		
+
 		CustomDimensionRenderInfo.registerDimensionRenderInfo();
 	}
 
@@ -55,7 +55,7 @@ public class ClientSetup {
 		}
 		PlanetTraitSpriteUploader.setInstance(spriteUploader);
 	}
-	
+
 	@SubscribeEvent
 	public static void registerRenderers(final FMLClientSetupEvent event) {
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.ROCKET_TILE, RocketTileRenderer::new);

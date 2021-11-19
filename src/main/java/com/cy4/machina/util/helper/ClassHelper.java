@@ -11,5 +11,5 @@ public final class ClassHelper {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> withWildcard(Class<?> cls) { return (Class<T>) cls; }
-	
+
 }

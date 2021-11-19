@@ -10,6 +10,6 @@ import net.minecraft.item.crafting.IRecipeType;
 public final class RecipeInit {
 
 	@RegisterRecipeType("advanced_crafting")
-    public static final IRecipeType<AdvancedCraftingRecipe> ADVANCED_CRAFTING_RECIPE_TYPE = new IRecipeType<AdvancedCraftingRecipe>() {};
-	
+	public static final IRecipeType<AdvancedCraftingRecipe> ADVANCED_CRAFTING_RECIPE_TYPE = new IRecipeType<AdvancedCraftingRecipe>() {};
+
 }

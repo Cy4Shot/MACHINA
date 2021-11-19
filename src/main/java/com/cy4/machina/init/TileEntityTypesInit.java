@@ -12,8 +12,8 @@ import net.minecraft.tileentity.TileEntityType;
 public class TileEntityTypesInit
 {
 	@RegisterTileEntityType("rocket_tile")
-    public static final TileEntityType<RocketTile> ROCKET_TILE = TileEntityType.Builder.of(RocketTile::new, BlockInit.ROCKET).build(null);
-	
+	public static final TileEntityType<RocketTile> ROCKET_TILE = TileEntityType.Builder.of(RocketTile::new, BlockInit.ROCKET).build(null);
+
 	@RegisterTileEntityType("tank")
 	public static final TileEntityType<TankTileEntity> TANK_TILE_ENTITY_TYPE = TileEntityType.Builder.of(TankTileEntity::new, BlockInit.TANK).build(null);
 

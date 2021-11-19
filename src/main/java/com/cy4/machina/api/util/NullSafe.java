@@ -5,10 +5,10 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 
 public class NullSafe<O> {
-	
+
 	@Nonnull
 	private O object;
-	
+
 	public NullSafe(@Nonnull O defaultValue) {
 		set(defaultValue);
 	}
@@ -19,7 +19,7 @@ public class NullSafe<O> {
 	 */
 	@Nonnull
 	public O get() { return object; }
-	
+
 	/**
 	 * Sets the value of the object
 	 * @param object

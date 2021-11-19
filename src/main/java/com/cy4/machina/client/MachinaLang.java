@@ -10,11 +10,11 @@ public class MachinaLang {
 	public static String getDirectionName(Direction direction) {
 		return getLangEntry("direction." + direction.getName());
 	}
-	
+
 	public static String getDirectionName(DiagonalDirection direction) {
 		return getLangEntry("direction." + direction.name);
 	}
-	
+
 	private static String getLangEntry(String key) {
 		return new TranslationTextComponent(key).getString();
 	}

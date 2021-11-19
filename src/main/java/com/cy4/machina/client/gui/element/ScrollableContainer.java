@@ -17,7 +17,7 @@ public class ScrollableContainer extends AbstractGui {
 
 	public static final int SCROLL_WIDTH = 8;
 
-	public static final ResourceLocation UI_RESOURCE = new MachinaRL("textures/gui/elements.png");;
+	public static final ResourceLocation UI_RESOURCE = new MachinaRL("textures/gui/elements.png");
 	protected Rectangle bounds;
 	protected Renderable renderer;
 	public ITextComponent title;
@@ -108,12 +108,12 @@ public class ScrollableContainer extends AbstractGui {
 
 		textureManager.bind(UI_RESOURCE);
 		UIHelper.renderContainerBorder(matrixStack, renderableBounds);
-		
+
 		UIHelper.drawStringWithBorder(matrixStack, title.getString(), bounds.x0, bounds.y0 - 12, 0xFF_cc00ff,
 				0xFF_0e0e0e);
 
-		UIHelper.renderOverflowHidden(matrixStack, (ms) -> fill(ms, renderableBounds.x0, renderableBounds.y0,
-				renderableBounds.x1, renderableBounds.y1, 0xFF_8B8B8B), (ms) -> {
+		UIHelper.renderOverflowHidden(matrixStack, ms -> fill(ms, renderableBounds.x0, renderableBounds.y0,
+				renderableBounds.x1, renderableBounds.y1, 0xFF_8B8B8B), ms -> {
 					ms.pushPose();
 					ms.translate(renderableBounds.x0 + 1, renderableBounds.y0 - yOffset + 1, 0);
 					renderer.render(matrixStack, mouseX, mouseY, partialTicks);

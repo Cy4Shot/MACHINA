@@ -5,8 +5,8 @@ import com.cy4.machina.client.util.Rectangle;
 import net.minecraft.util.math.vector.Vector2f;
 
 public interface IBoundedGui {
-	public Rectangle getContainerBounds();
-	
+	Rectangle getContainerBounds();
+
 	default Vector2f getCentre() {
 		Rectangle bounds = getContainerBounds();
 		return new Vector2f(Math.abs(bounds.x0 - bounds.x1) - bounds.x0 / 2,
