@@ -1,5 +1,6 @@
 package com.cy4.machina.client.util;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.lwjgl.opengl.GL11;
@@ -10,13 +11,21 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
-
+import net.minecraft.util.text.CharacterManager;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
+import net.minecraft.util.text.LanguageMap;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -98,6 +107,14 @@ public class UIHelper {
 		mc.font.draw(matrixStack, text, x, y, color);
 	}
 
+	public static void box(MatrixStack pPoseStack, float pMinX, float pMinY, float pMaxX, float pMaxY, int pColor,
+			float width, StippleType stippleType) {
+		innerLine(pPoseStack.last().pose(), pMinX, pMinY, pMinX, pMaxY, pColor, width, stippleType);
+		innerLine(pPoseStack.last().pose(), pMinX, pMaxY, pMaxX, pMaxY, pColor, width, stippleType);
+		innerLine(pPoseStack.last().pose(), pMaxX, pMaxY, pMaxX, pMinY, pColor, width, stippleType);
+		innerLine(pPoseStack.last().pose(), pMaxX, pMinY, pMinX, pMinY, pColor, width, stippleType);
+	}
+
 	public static void line(MatrixStack pPoseStack, float pMinX, float pMinY, float pMaxX, float pMaxY, int pColor,
 			float width, StippleType stippleType) {
 		innerLine(pPoseStack.last().pose(), pMinX, pMinY, pMaxX, pMaxY, pColor, width, stippleType);
@@ -151,5 +168,50 @@ public class UIHelper {
 		bufferbuilder.end();
 		RenderSystem.enableAlphaTest();
 		WorldVertexBufferUploader.end(bufferbuilder);
+	}
+
+	public static int renderWrappedText(MatrixStack matrixStack, IFormattableTextComponent text, int maxWidth,
+			int padding) {
+		Minecraft minecraft = Minecraft.getInstance();
+		FontRenderer fontRenderer = minecraft.font;
+
+		List<ITextProperties> lines = getLines(TextComponentUtils.mergeStyles(text.copy(), text.getStyle()),
+				maxWidth - 3 * padding);
+		List<IReorderingProcessor> processors = LanguageMap.getInstance().getVisualOrder(lines);
+
+		for (int i = 0; i < processors.size(); i++) {
+			fontRenderer.draw(matrixStack, processors.get(i), padding, (10 * i) + padding, 0xFF_192022);
+		}
+
+		return processors.size();
+	}
+
+	private static final int[] LINE_BREAK_VALUES = new int[] { 0, 10, -10, 25, -25 };
+
+	private static List<ITextProperties> getLines(ITextComponent component, int maxWidth) {
+		Minecraft minecraft = Minecraft.getInstance();
+
+		CharacterManager charactermanager = minecraft.font.getSplitter();
+		List<ITextProperties> list = null;
+		float f = Float.MAX_VALUE;
+
+		for (int i : LINE_BREAK_VALUES) {
+			List<ITextProperties> list1 = charactermanager.splitLines(component, maxWidth - i, Style.EMPTY);
+			float f1 = Math.abs(getTextWidth(charactermanager, list1) - (float) maxWidth);
+			if (f1 <= 10.0F) {
+				return list1;
+			}
+
+			if (f1 < f) {
+				f = f1;
+				list = list1;
+			}
+		}
+
+		return list;
+	}
+
+	private static float getTextWidth(CharacterManager manager, List<ITextProperties> text) {
+		return (float) text.stream().mapToDouble(manager::stringWidth).max().orElse(0.0D);
 	}
 }
