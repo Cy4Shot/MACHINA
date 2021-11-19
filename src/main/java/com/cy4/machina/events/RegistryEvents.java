@@ -30,9 +30,11 @@ import com.cy4.machina.api.annotation.registries.RegisterParticleType;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.api.annotation.registries.recipe.RegisterAdvancedCraftingFunctionSerializer;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeSerializer;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeType;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.api.util.TriFunction;
 import com.cy4.machina.init.BlockItemInit;
@@ -85,14 +87,14 @@ public class RegistryEvents {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-			try {
-				REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
-						RegistryEvents.class.getClassLoader()));
-			} catch (ClassNotFoundException e) {
-				// Unknown class
-			}
-		});
+				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+					try {
+						REGISTRY_CLASSES.add(Class.forName(data.getClassType().getClassName(), false,
+								RegistryEvents.class.getClassLoader()));
+					} catch (ClassNotFoundException e) {
+						// Unknown class
+					}
+				});
 	}
 
 	@SubscribeEvent
@@ -130,6 +132,13 @@ public class RegistryEvents {
 	@SubscribeEvent
 	public static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
 		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id, of(PLANET_TRAITS));
+	}
+
+	@SubscribeEvent
+	public static void registerAdvancedCraftingFunctions(
+			final RegistryEvent.Register<AdvancedCraftingFunctionSerializer> event) {
+		registerFieldsWithAnnotation(event, RegisterAdvancedCraftingFunctionSerializer.class,
+				RegisterAdvancedCraftingFunctionSerializer::value, of(ADVANCED_CRAFTING_FUNCTION_SERIALIZERS));
 	}
 
 	@SubscribeEvent
@@ -187,6 +196,7 @@ public class RegistryEvents {
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
 		PlanetTrait.createRegistry(event);
+		AdvancedCraftingFunctionSerializer.createRegistry();
 	}
 
 	private static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(

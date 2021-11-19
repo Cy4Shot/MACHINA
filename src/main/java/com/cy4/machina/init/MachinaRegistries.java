@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
@@ -24,6 +25,7 @@ public class MachinaRegistries {
 	
 	public static final Map<String, List<Effect>> EFFECTS = new HashMap<>();
 	public static final Map<String, List<PlanetTrait>> PLANET_TRAITS = new HashMap<>();
+	public static final Map<String, List<AdvancedCraftingFunctionSerializer>> ADVANCED_CRAFTING_FUNCTION_SERIALIZERS = new HashMap<>();
 	
 	public static final Map<String, List<TileEntityType<?>>> TILE_ENTITY_TYPES = new HashMap<>();
 	public static final Map<String, List<ContainerType<?>>> CONTAINER_TYPES = new HashMap<>();

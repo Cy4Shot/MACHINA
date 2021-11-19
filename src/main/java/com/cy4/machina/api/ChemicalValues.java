@@ -1,8 +1,8 @@
 package com.cy4.machina.api;
 
 public enum ChemicalValues {
-	OXYGEN("oxygen", 0xFFFFFFFF, 0, 90.19F, 1_141),
-	HYDROGEN("hydrogen", 0xFF6CE2FF, 0, 20.28F, 70.85F),
+	OXYGEN("oxygen", 0xFFFFFFFF, 0, 90.19F, -1_141),
+	HYDROGEN("hydrogen", 0xFF6CE2FF, 0, 20.28F, -70.85F),
 	LIQUID_HYDROGEN("liquid_hydrogen", 0xFF898FFF, 0, 20.28F, 70.85F);
 
 	private final String name;

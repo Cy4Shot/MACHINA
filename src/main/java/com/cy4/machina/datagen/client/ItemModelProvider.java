@@ -27,6 +27,9 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	protected void createBucketModel(FlowingFluid stillFluid) {
 		DynamicBucketModelBuilder<ItemModelBuilder> builder = withExistingParent(stillFluid.getBucket().getRegistryName().getPath(), new ResourceLocation("forge", "item/bucket"))
 				.customLoader(DynamicBucketModelBuilder::begin);
+		if (stillFluid.getAttributes().isGaseous()) {
+			builder.flipGas(true);
+		}
 		builder.fluid(stillFluid);
 	}
 
