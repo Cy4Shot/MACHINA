@@ -170,6 +170,12 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		if (selected == null) {
 			return new StringTextComponent("Terra Prime").setStyle(Style.EMPTY.withColor(Color.fromRgb(0xFF_2fc256)));
 		}
+		
+		/* Why are you using the data from the planet data which apparently doesnt care
+		 * about the capability. Thats not how u should do it. Use ONLY AND JUST (mistake
+		 * intended) the capability please - maty, 19/11/2021
+		*/
+		
 		PlanetData planet = selected.getData();
 		int color = planet.color;
 
