@@ -12,7 +12,8 @@
 	],
 	"client": [
 		"client.ServerWorldInfoMixin",
-		"client.OverlayRendererMixin"
+		"client.OverlayRendererMixin",
+		"client.CraftingScreenMixin"
 	],
 	"minVersion": "0.8"
 }

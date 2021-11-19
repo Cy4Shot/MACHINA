@@ -2,6 +2,9 @@ package com.cy4.machina.api.recipe.advanced_crafting;
 
 import java.util.List;
 
+import com.cy4.machina.compat.jei.category.AdvancedCraftingRecipeExtension;
+import com.cy4.machina.recipe.advanced_crafting.function.EmptyFunction;
+
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -32,8 +35,19 @@ public class AdvancedCraftingFunction {
 		return original;
 	}
 	
+	/**
+	 * Called in {@link AdvancedCraftingRecipeExtension#getTooltipStrings(double, double)} in order to add function info
+	 * in the tooltip
+	 * @param tooltipList
+	 */
 	public void addJeiInfo(List<ITextComponent> tooltipList) {
 		
 	}
+	
+	/**
+	 * Checks if the
+	 * @return
+	 */
+	public final boolean isEmtpy() { return this instanceof EmptyFunction; }
 
 }
