@@ -66,10 +66,11 @@ public class DynamicDimensionHelper {
 
 		Map<RegistryKey<World>, ServerWorld> map = server.forgeGetWorldMap();
 
-		if (map.containsKey(worldKey))
+		if (map.containsKey(worldKey)) {
 			return map.get(worldKey);
-		else
+		} else {
 			return createAndRegisterWorldAndDimension(server, map, worldKey, dimensionFactory);
+		}
 	}
 
 	private static ServerWorld createAndRegisterWorldAndDimension(MinecraftServer server,

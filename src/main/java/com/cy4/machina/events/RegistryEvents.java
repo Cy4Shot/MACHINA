@@ -101,8 +101,9 @@ public class RegistryEvents {
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value, of(ITEMS));
 		registerFieldsWithAnnotation(event, RegisterBlockItem.class, (classAn, fieldAn, obj) -> {
-			if (obj instanceof BlockItem)
+			if (obj instanceof BlockItem) {
 				return ((BlockItem) obj).getBlock().getRegistryName();
+			}
 			throw new RegistryException("Invalid BlockItem");
 		}, Optional.empty());
 
@@ -162,8 +163,9 @@ public class RegistryEvents {
 	@SubscribeEvent
 	public static void registerRecipeTypes(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, RegisterRecipeType.class).forEach(field -> {
-			if (!field.isAccessible())
+			if (!field.isAccessible()) {
 				return;
+			}
 			try {
 				if (field.get(field.getDeclaringClass()) instanceof IRecipeType<?>) {
 					IRecipeType<?> type = (IRecipeType<?>) field.get(field.getDeclaringClass());
@@ -179,10 +181,12 @@ public class RegistryEvents {
 					} else {
 						RECIPE_TYPES.put(modid, Lists.newArrayList(type));
 					}
-				} else
+				}
+				else {
 					//@formatter:off
 					throw new RegistryException("The field " + field + " is annotated with @RegisterRecipeType but it is not a recipe type!");
-				//@formatter:on
+					//@formatter:on
+				}
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 				// Exception. Ignore
 				e.printStackTrace();
@@ -233,8 +237,9 @@ public class RegistryEvents {
 			Optional<Map<String, List<T>>> outputMap) {
 		Class<T> objectClass = event.getRegistry().getRegistrySuperType();
 		ReflectionHelper.getFieldsAnnotatedWith(REGISTRY_CLASSES, annotation).forEach(field -> {
-			if (!field.isAccessible())
+			if (!field.isAccessible()) {
 				return;
+			}
 			try {
 				AtomicReference<T> registry = new AtomicReference<>(null);
 				boolean isGood = false;
@@ -276,10 +281,12 @@ public class RegistryEvents {
 						setNameMethod.setAccessible(true);
 						setNameMethod.invoke(regObj, name);
 					}
-				} else
+				}
+				else {
 					//@formatter:off
 					throw new RegistryException("The field " + field + " is annotated with " + annotation + " but it is not a " + objectClass);
-				//@formatter:on
+					//@formatter:on
+				}
 			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
 				// Exception. Ignore

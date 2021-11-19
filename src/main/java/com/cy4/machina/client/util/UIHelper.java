@@ -199,8 +199,9 @@ public class UIHelper {
 		for (int i : LINE_BREAK_VALUES) {
 			List<ITextProperties> list1 = charactermanager.splitLines(component, maxWidth - i, Style.EMPTY);
 			float f1 = Math.abs(getTextWidth(charactermanager, list1) - maxWidth);
-			if (f1 <= 10.0F)
+			if (f1 <= 10.0F) {
 				return list1;
+			}
 
 			if (f1 < f) {
 				f = f1;

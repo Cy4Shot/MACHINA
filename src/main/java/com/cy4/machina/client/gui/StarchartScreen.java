@@ -167,8 +167,9 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	}
 
 	private IFormattableTextComponent getDescriptionForPlanet() {
-		if (selected == null)
+		if (selected == null) {
 			return new StringTextComponent("Terra Prime").setStyle(Style.EMPTY.withColor(Color.fromRgb(0xFF_2fc256)));
+		}
 		PlanetData planet = selected.getData();
 		int color = planet.color;
 

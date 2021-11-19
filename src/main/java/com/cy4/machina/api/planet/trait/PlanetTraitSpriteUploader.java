@@ -47,8 +47,9 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 	 * not</strong> be called before {@link ColorHandlerEvent.Block}
 	 */
 	public static TextureAtlasSprite getFromInstance(PlanetTrait trait) {
-		if (INSTANCE != null)
+		if (INSTANCE != null) {
 			return INSTANCE.get(trait);
+		}
 		return null;
 	}
 
@@ -65,8 +66,9 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
-		} else
+		} else {
 			throw new IllegalStateException(
 					"Cannot set the instance of the PlanetTraitSpriteUploader when it was already set!");
+		}
 	}
 }

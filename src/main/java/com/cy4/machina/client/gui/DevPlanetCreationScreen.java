@@ -73,8 +73,9 @@ public class DevPlanetCreationScreen extends Screen {
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void overlayEvent(RenderGameOverlayEvent.Pre event) {
-		if (event.getType() != ElementType.CROSSHAIRS)
+		if (event.getType() != ElementType.CROSSHAIRS) {
 			return;
+		}
 
 		if (Minecraft.getInstance().screen instanceof DevPlanetCreationScreen) {
 			event.setCanceled(true);

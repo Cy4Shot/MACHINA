@@ -38,8 +38,9 @@ public class TankBlock extends Block {
 	@Override
 	public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult pHit) {
-		if (!pLevel.getBlockEntity(pPos).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent() || pLevel.isClientSide())
+		if (!pLevel.getBlockEntity(pPos).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent() || pLevel.isClientSide()) {
 			return ActionResultType.PASS;
+		}
 		ItemStack stack = player.getItemInHand(hand);
 		AtomicReference<ActionResultType> result = new AtomicReference<>(ActionResultType.PASS);
 		pLevel.getBlockEntity(pPos).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(tileCap -> {

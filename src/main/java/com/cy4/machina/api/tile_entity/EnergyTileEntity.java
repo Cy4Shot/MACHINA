@@ -40,8 +40,9 @@ public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergy
 
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (cap == CapabilityEnergy.ENERGY && (getSidesForEnergy().contains(side) || side == null))
+		if (cap == CapabilityEnergy.ENERGY && (getSidesForEnergy().contains(side) || side == null)) {
 			return energyOptional.cast();
+		}
 		return super.getCapability(cap, side);
 	}
 

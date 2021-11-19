@@ -14,9 +14,9 @@ public abstract class PlanetTraitsCommand extends BaseCommand {
 	}
 
 	protected boolean checkDimension(CommandContext<CommandSource> context) {
-		if (PlanetUtils.isDimensionPlanet(context.getSource().getLevel().dimension()))
+		if (PlanetUtils.isDimensionPlanet(context.getSource().getLevel().dimension())) {
 			return true;
-		else {
+		} else {
 			context.getSource().sendFailure(new TranslationTextComponent("command.planet_traits.not_planet"));
 			return false;
 		}

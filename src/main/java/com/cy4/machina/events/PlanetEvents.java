@@ -17,8 +17,9 @@ public class PlanetEvents {
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void onPlanetCreated(PlanetCreatedEvent event) {
-		if (event.getPlanet().isClientSide())
+		if (event.getPlanet().isClientSide()) {
 			return;
+		}
 
 		event.getPlanet().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
 			Starchart sc = StarchartData.getDefaultInstance(event.getPlanet().getServer()).starchart;

@@ -16,10 +16,12 @@ public class OverlayRendererMixin {
 
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/player/ClientPlayerEntity;isOnFire()Z"), method = "net/minecraft/client/renderer/OverlayRenderer.renderScreenEffect(Lnet/minecraft/client/Minecraft;Lcom/mojang/blaze3d/matrix/MatrixStack;)V")
 	private static boolean machina$renderOverlaysMixin(ClientPlayerEntity player, Minecraft minecraft, MatrixStack matrixStack) {
-		if (player.isCreative())
+		if (player.isCreative()) {
 			return false;
-		if (player.isOnFire())
+		}
+		if (player.isOnFire()) {
 			return !ThermalRegulatorSuit.isFullSuit(player);
+		}
 		return false;
 	}
 

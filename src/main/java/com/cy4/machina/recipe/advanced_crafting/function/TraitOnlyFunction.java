@@ -42,8 +42,9 @@ public class TraitOnlyFunction extends AdvancedCraftingFunction {
 
 	@Override
 	public boolean matches(CraftingInventory inv, AdvancedCraftingRecipe recipe, World level) {
-		if (!super.matches(inv, recipe, level))
+		if (!super.matches(inv, recipe, level)) {
 			return false;
+		}
 		List<Boolean> match = new LinkedList<>();
 		AtomicReference<IPlanetTraitCapability> capAtomic = new AtomicReference<>(null);
 		level.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
@@ -55,15 +56,17 @@ public class TraitOnlyFunction extends AdvancedCraftingFunction {
 
 	private boolean checkMatch(List<Boolean> values, IPlanetTraitCapability cap) {
 		if (blacklist) {
-			if (onlyOne)
+			if (onlyOne) {
 				return !values.contains(false);
-			else
+			} else {
 				return cap == null || !cap.getTraits().containsAll(validTraits);
+			}
 		} else {
-			if (onlyOne)
+			if (onlyOne) {
 				return values.contains(true);
-			else
+			} else {
 				return cap.getTraits().containsAll(validTraits);
+			}
 		}
 	}
 

@@ -22,8 +22,9 @@ public class InputEvents {
 	@SubscribeEvent
 	public static void clientTick(ClientTickEvent event) {
 		Minecraft mc = Minecraft.getInstance();
-		if (mc.screen != null || mc.level == null)
+		if (mc.screen != null || mc.level == null) {
 			return;
+		}
 
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.DEV_PLANET_CREATION_SCREEN)) {
 			mc.setScreen(new DevPlanetCreationScreen());

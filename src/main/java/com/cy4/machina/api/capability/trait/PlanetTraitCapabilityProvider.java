@@ -26,10 +26,11 @@ public class PlanetTraitCapabilityProvider implements ICapabilitySerializable<Co
 
 	@Override
 	public CompoundNBT serializeNBT() {
-		if (CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY == null)
+		if (CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY == null) {
 			return new CompoundNBT();
-		else
+		} else {
 			return (CompoundNBT) CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY.writeNBT(planetTraitCapability, null);
+		}
 	}
 
 	@Override
