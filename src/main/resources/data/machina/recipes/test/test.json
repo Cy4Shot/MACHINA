@@ -1,26 +1,24 @@
 {
-  "type": "machina:advanced_crafting",
-  "pattern": [
-    "  L",
-    " L ",
-    "L  "
-  ],
-  "key": {
-    "L": {
-      "item": "minecraft:iron_ingot"
-    }
-  },
-  "result": {
-    "item": "minecraft:acacia_log",
-    "count": 16
-  },
-  "function": {
-  	"type": "machina:trait_only",
-  	"traits": [
-  		"machina:flat",
-  		"machina:hilly"
-  	],
-  	"only_one": true,
-  	"blacklist": true
-  }
+	"type": "machina:advanced_crafting",
+	"pattern": [
+		"  P",
+		" L ",
+		"L  "
+	],
+	"key": {
+		"L": {
+			"item": "minecraft:iron_ingot"
+		},
+		"P": {
+			"item": "minecraft:diamond_pickaxe"
+		}
+	},
+	"result": {
+		"item": "minecraft:acacia_log",
+		"count": 16
+	},
+	"function": {
+		"type": "machina:copy_nbt",
+		"copy_slot": 2
+	}
 }

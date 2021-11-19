@@ -222,9 +222,9 @@ public class RegistryEvents {
 	 *                     name of the object, based off the inputed data
 	 * @param outputMap    optionally, a map in which the processed objects will be
 	 *                     put, as following: <br>
-	 *                     A {@link List} with the generic type <strong>T</strong>
+	 *                     A {@link List} with the generic type {@code <T>}
 	 *                     will be put as the value corresponding to the key which
-	 *                     is the namespace (mod id) of the object's registry name
+	 *                     is the namespace (mod id) of the object's registry name.
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(

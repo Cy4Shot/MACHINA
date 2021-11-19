@@ -4,6 +4,7 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.datagen.client.BlockStatesProvider;
 import com.cy4.machina.datagen.client.ItemModelProvider;
 import com.cy4.machina.datagen.client.lang.EnUsLangProvider;
+import com.cy4.machina.datagen.common.BlockTagsProvider;
 import com.cy4.machina.datagen.common.PlanetTraitPoolsProvider;
 
 import net.minecraft.data.DataGenerator;
@@ -27,6 +28,8 @@ public class DataGenProvider {
 		gen.addProvider(new BlockStatesProvider(gen, existingFileHelper));
 		gen.addProvider(new ItemModelProvider(gen, existingFileHelper));
 
+		gen.addProvider(new BlockTagsProvider(gen, existingFileHelper));
+		
 		gen.addProvider(new PlanetTraitPoolsProvider(gen));
 	}
 
