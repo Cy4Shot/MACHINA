@@ -1,42 +1,33 @@
 package com.cy4.machina.api.recipe.advanced_crafting;
 
-import java.lang.reflect.Field;
-
-import org.apache.commons.lang3.reflect.FieldUtils;
-
 import com.cy4.machina.api.annotation.ChangedByReflection;
 import com.cy4.machina.util.MachinaRL;
+import com.cy4.machina.util.helper.ClassHelper;
+import com.cy4.machina.util.helper.CustomRegistryHelper;
+import com.cy4.machina.util.objects.TargetField;
 import com.google.gson.JsonObject;
 
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryBuilder;
 
-public abstract class AdvancedCraftingFunctionSerializer extends ForgeRegistryEntry<AdvancedCraftingFunctionSerializer> {
-	
+public abstract class AdvancedCraftingFunctionSerializer<F extends AdvancedCraftingFunction>
+		extends ForgeRegistryEntry<AdvancedCraftingFunctionSerializer<F>> {
+
 	@ChangedByReflection(when = "commonSetup (when the registry is built)")
-	public static final IForgeRegistry<AdvancedCraftingFunctionSerializer> REGISTRY = null;
+	public static final IForgeRegistry<AdvancedCraftingFunctionSerializer<?>> REGISTRY = null;
 
 	public static void createRegistry() {
-		RegistryBuilder<AdvancedCraftingFunctionSerializer> registryBuilder = new RegistryBuilder<>();
-		registryBuilder.setName(new MachinaRL("advanced_crafting_function_serializer"));
-		registryBuilder.setType(AdvancedCraftingFunctionSerializer.class);
-
-		try {
-			Field registryField = AdvancedCraftingFunctionSerializer.class.getDeclaredField("REGISTRY");
-			registryField.setAccessible(true);
-			FieldUtils.removeFinalModifier(registryField);
-			IForgeRegistry<AdvancedCraftingFunctionSerializer> registry = registryBuilder.create();
-			registryField.set(AdvancedCraftingFunction.class, registry);
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-		}
+		CustomRegistryHelper.registerRegistry(new TargetField(AdvancedCraftingFunctionSerializer.class, "REGISTRY"),
+				ClassHelper.withWildcard(AdvancedCraftingFunctionSerializer.class),
+				new MachinaRL("advanced_crafting_function_serializer"));
 	}
-	
+
 	/**
 	 * Create a new function based on the given json object
+	 * 
 	 * @param nbt
 	 * @return
 	 */
-	public abstract AdvancedCraftingFunction deserialize(JsonObject obj);
+	public abstract F deserialize(JsonObject obj);
 
 }

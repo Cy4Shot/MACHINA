@@ -15,6 +15,12 @@
     "count": 16
   },
   "function": {
-  	"type": "machina:no_mirror"
+  	"type": "machina:trait_only",
+  	"traits": [
+  		"machina:flat",
+  		"machina:hilly"
+  	],
+  	"only_one": true,
+  	"blacklist": false
   }
 }

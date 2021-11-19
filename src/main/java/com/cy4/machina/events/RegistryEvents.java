@@ -30,7 +30,7 @@ import com.cy4.machina.api.annotation.registries.RegisterParticleType;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegisterTileEntityType;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
-import com.cy4.machina.api.annotation.registries.recipe.RegisterAdvancedCraftingFunctionSerializer;
+import com.cy4.machina.api.annotation.registries.recipe.RegisterACFunctionSerializer;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeSerializer;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeType;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
@@ -136,9 +136,9 @@ public class RegistryEvents {
 
 	@SubscribeEvent
 	public static void registerAdvancedCraftingFunctions(
-			final RegistryEvent.Register<AdvancedCraftingFunctionSerializer> event) {
-		registerFieldsWithAnnotation(event, RegisterAdvancedCraftingFunctionSerializer.class,
-				RegisterAdvancedCraftingFunctionSerializer::value, of(ADVANCED_CRAFTING_FUNCTION_SERIALIZERS));
+			final RegistryEvent.Register<AdvancedCraftingFunctionSerializer<?>> event) {
+		registerFieldsWithAnnotation(event, RegisterACFunctionSerializer.class,
+				RegisterACFunctionSerializer::value, of(ADVANCED_CRAFTING_FUNCTION_SERIALIZERS));
 	}
 
 	@SubscribeEvent

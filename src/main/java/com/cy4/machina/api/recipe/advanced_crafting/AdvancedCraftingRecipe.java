@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeSerializer;
-import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeType;
 import com.cy4.machina.recipe.advanced_crafting.function.EmptyFunction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,7 +13,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.nbt.JsonToNBT;
@@ -34,9 +32,6 @@ public class AdvancedCraftingRecipe extends ShapedRecipe {
 	@RegisterRecipeSerializer("advanced_crafting")
 	public static final Serializer SERIALIZER = new Serializer();
 	
-	@RegisterRecipeType("advanced_crafting")
-    public static final IRecipeType<AdvancedCraftingRecipe> TYPE = new IRecipeType<AdvancedCraftingRecipe>() {};
-	
 	private final JsonObject functionData;
 	
 	public AdvancedCraftingRecipe(ResourceLocation id, String group, int width, int height, NonNullList<Ingredient> inputs, ItemStack output, JsonObject functionData) {
@@ -54,7 +49,7 @@ public class AdvancedCraftingRecipe extends ShapedRecipe {
     }
     
     public AdvancedCraftingFunction getFunction() {
-    	AdvancedCraftingFunctionSerializer serializer = AdvancedCraftingFunctionSerializer.REGISTRY.getValue(new ResourceLocation(JSONUtils
+    	AdvancedCraftingFunctionSerializer<?> serializer = AdvancedCraftingFunctionSerializer.REGISTRY.getValue(new ResourceLocation(JSONUtils
     			.getAsString(functionData, "type")));
     	return serializer != null ? serializer.deserialize(functionData) : EmptyFunction.SERIALIZER.deserialize(functionData);
     }

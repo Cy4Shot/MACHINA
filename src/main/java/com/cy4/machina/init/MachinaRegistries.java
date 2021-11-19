@@ -25,7 +25,7 @@ public class MachinaRegistries {
 	
 	public static final Map<String, List<Effect>> EFFECTS = new HashMap<>();
 	public static final Map<String, List<PlanetTrait>> PLANET_TRAITS = new HashMap<>();
-	public static final Map<String, List<AdvancedCraftingFunctionSerializer>> ADVANCED_CRAFTING_FUNCTION_SERIALIZERS = new HashMap<>();
+	public static final Map<String, List<AdvancedCraftingFunctionSerializer<?>>> ADVANCED_CRAFTING_FUNCTION_SERIALIZERS = new HashMap<>();
 	
 	public static final Map<String, List<TileEntityType<?>>> TILE_ENTITY_TYPES = new HashMap<>();
 	public static final Map<String, List<ContainerType<?>>> CONTAINER_TYPES = new HashMap<>();

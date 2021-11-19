@@ -20,7 +20,7 @@ import com.cy4.machina.api.annotation.registries.RegistryHolder;
  * @author matyrobbrt
  *
  */
-public @interface RegisterAdvancedCraftingFunctionSerializer {
+public @interface RegisterACFunctionSerializer {
 
 	/**
 	 * The registry name of the serializer (the modid is specified by the

@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
+import com.cy4.machina.compat.jei.category.AdvancedCraftingRecipeExtension;
+import com.cy4.machina.init.RecipeInit;
 import com.cy4.machina.util.MachinaRL;
 
 import net.minecraft.client.Minecraft;
@@ -14,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 
 @JeiPlugin
 public class MachinaJEIPlugin implements IModPlugin {
@@ -30,12 +33,17 @@ public class MachinaJEIPlugin implements IModPlugin {
 	public void registerRecipes(IRecipeRegistration registration) {
 		RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
 		
-		registration.addRecipes(getRecipes(manager, AdvancedCraftingRecipe.TYPE), VANILLA_CRAFTING);
+		registration.addRecipes(getRecipes(manager, RecipeInit.ADVANCED_CRAFTING_RECIPE_TYPE), VANILLA_CRAFTING);
 	}
 	
 	private static Collection<?> getRecipes(RecipeManager manager, IRecipeType<?> type) {
 		return manager.getRecipes().parallelStream().filter(recipe -> recipe.getType() == type)
 				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+		registration.getCraftingCategory().addCategoryExtension(AdvancedCraftingRecipe.class, AdvancedCraftingRecipeExtension::new);
 	}
 
 }
