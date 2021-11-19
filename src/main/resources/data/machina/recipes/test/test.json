@@ -21,6 +21,6 @@
   		"machina:hilly"
   	],
   	"only_one": true,
-  	"blacklist": false
+  	"blacklist": true
   }
 }
