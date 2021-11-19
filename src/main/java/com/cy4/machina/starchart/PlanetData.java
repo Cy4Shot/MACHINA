@@ -1,5 +1,7 @@
 package com.cy4.machina.starchart;
 
+import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,13 +15,17 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class PlanetData implements INBTSerializable<CompoundNBT> {
 	public List<PlanetTrait> traits = new ArrayList<>();
 	public String name = "Planet";
+	public int color;
+	
+	public float atm; // Atmospheric Pressure
+	public float temp; // Temperature
+	public float dist; // Distance from terra prime
 
 	public static List<PlanetTrait> getTraits(Random rand) {
 		List<PlanetTrait> res = new ArrayList<>();
@@ -37,7 +43,17 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	public PlanetData(Random rand) {
 		this();
 		name = PlanetNameGenerator.getName(rand);
+		float r = rand.nextFloat() / 2f;
+		float g = rand.nextFloat() / 2f;
+		float b = rand.nextFloat() / 2f;
+		color = new Color(r, g, b).getRGB();
 		traits = getTraits(rand);
+		
+		atm = rand.nextFloat();
+		temp = rand.nextFloat();
+		dist = rand.nextFloat();
+		
+		// TODO: Apply trait modifiers
 	}
 
 	public PlanetData() {
@@ -66,4 +82,20 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 		name = nbt.getString("name");
 	}
+	
+	public String getAtm() {
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(atm * 100F + 50F) +"kPa";
+	}
+	
+	public String getTemp() {
+		DecimalFormat df = new DecimalFormat("##.##");
+		return df.format(temp * 200F + 200F) + "K";
+	}
+	
+	public String getDist() {
+		DecimalFormat df = new DecimalFormat("##");
+		return df.format(dist * 1000F + 100F) + "Gm";
+	}
+	
 }
