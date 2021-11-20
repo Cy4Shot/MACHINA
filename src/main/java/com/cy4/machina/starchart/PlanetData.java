@@ -15,10 +15,21 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.WorldSavedData;
 
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
+/**
+ * @deprecated
+ * Please use the capability. Now that you can sync and get client data easily, theres no
+ * point in a {@link WorldSavedData}. Ask in any modding community: If I have the option of
+ * either using a WSD or a World capability (being able to do what i want in both cases)
+ * what should i use? (spoilers: the answer is a capability, because the capabilities 
+ * are put in a WSD at one point automatically and because they allow for very easy mod
+ * compatibility)
+ */
+@Deprecated
 public class PlanetData implements INBTSerializable<CompoundNBT> {
 	public List<PlanetTrait> traits = new ArrayList<>();
 	public String name = "Planet";

@@ -5,6 +5,10 @@ import java.util.List;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 
 public interface IPlanetDataCapability {
+	
+	/* -------------------------------------------------
+	 * TRAITS
+	 * ---------------------------------------------- */
 
 	/**
 	 * Adds a new trait to the planet. Duplicate traits <strong>should not</strong> exist.
@@ -23,6 +27,10 @@ public interface IPlanetDataCapability {
 	 */
 	List<PlanetTrait> getTraits();
 	
+	/* -------------------------------------------------
+	 * NAME
+	 * ---------------------------------------------- */
+	
 	/**
 	 * @return the name of the planet
 	 */
@@ -33,6 +41,10 @@ public interface IPlanetDataCapability {
 	 * @param name the new name
 	 */
 	void setName(String name);
+	
+	/* -------------------------------------------------
+	 * MISC
+	 * ---------------------------------------------- */
 	
 	/**
 	 * Called in order to clear / reset to default any data the capability holds
