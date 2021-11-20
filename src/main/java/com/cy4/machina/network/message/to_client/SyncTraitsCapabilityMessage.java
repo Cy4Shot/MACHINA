@@ -34,7 +34,7 @@ public class SyncTraitsCapabilityMessage implements IMachinaMessage {
 		World world = Minecraft.getInstance().level;
 		if (world != null) {
 			world.getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY)
-			.ifPresent(clientCap -> msg.cap.getTraits().forEach(clientCap::addTrait));
+					.ifPresent(clientCap -> CapabilityPlanetData.Storage.transferData(msg.cap, clientCap));
 		}
 	}
 

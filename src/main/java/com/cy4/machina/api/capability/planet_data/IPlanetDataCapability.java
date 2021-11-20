@@ -11,5 +11,9 @@ public interface IPlanetDataCapability {
 	void removeTrait(PlanetTrait trait);
 
 	List<PlanetTrait> getTraits();
+	
+	String getName();
+	
+	void setName(String name);
 
 }

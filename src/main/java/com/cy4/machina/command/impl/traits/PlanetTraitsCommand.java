@@ -1,5 +1,6 @@
 package com.cy4.machina.command.impl.traits;
 
+import com.cy4.machina.api.command.IPlanetDataCommand;
 import com.cy4.machina.api.planet.PlanetUtils;
 import com.cy4.machina.command.BaseCommand;
 import com.mojang.brigadier.context.CommandContext;
@@ -7,7 +8,7 @@ import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.command.CommandSource;
 import net.minecraft.util.text.TranslationTextComponent;
 
-public abstract class PlanetTraitsCommand extends BaseCommand {
+public abstract class PlanetTraitsCommand extends BaseCommand implements IPlanetDataCommand {
 
 	protected PlanetTraitsCommand(int permissionLevel, boolean enabled) {
 		super(permissionLevel, enabled);

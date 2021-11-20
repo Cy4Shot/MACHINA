@@ -100,26 +100,12 @@ public final class CapabilityPlanetData {
 	 * @author matyrobbrt
 	 *
 	 */
-	public static class Storage implements Capability.IStorage<IPlanetDataCapability> {
+	public static final class Storage implements Capability.IStorage<IPlanetDataCapability> {
 
 		@Override
 		public INBT writeNBT(Capability<IPlanetDataCapability> capability, IPlanetDataCapability instance,
 				Direction side) {
 			return serialize(instance);
-		}
-
-		public static CompoundNBT serialize(IPlanetDataCapability instance) {
-			CompoundNBT tag = new CompoundNBT();
-
-			CompoundNBT traitsNBT = new CompoundNBT();
-			traitsNBT.putInt("size", instance.getTraits().size());
-			for (int i = 0; i < instance.getTraits().size(); i++) {
-				traitsNBT.putString(String.valueOf(i), instance.getTraits().get(i).getRegistryName().toString());
-			}
-
-			tag.put("traits", traitsNBT);
-			return tag;
-
 		}
 
 		@Override
@@ -129,8 +115,23 @@ public final class CapabilityPlanetData {
 			deserialize(nbt, instance);
 
 		}
+		
+		public static final CompoundNBT serialize(IPlanetDataCapability instance) {
+			CompoundNBT tag = new CompoundNBT();
 
-		public static void deserialize(CompoundNBT nbt, IPlanetDataCapability instance) {
+			CompoundNBT traitsNBT = new CompoundNBT();
+			traitsNBT.putInt("size", instance.getTraits().size());
+			for (int i = 0; i < instance.getTraits().size(); i++) {
+				traitsNBT.putString(String.valueOf(i), instance.getTraits().get(i).getRegistryName().toString());
+			}
+
+			tag.put("traits", traitsNBT);
+			tag.putString("name", instance.getName());
+			return tag;
+
+		}
+
+		public static final void deserialize(CompoundNBT nbt, IPlanetDataCapability instance) {
 			if (nbt.contains("traits")) {
 				CompoundNBT traitsNbt = nbt.getCompound("traits");
 				int size = traitsNbt.getInt("size");
@@ -141,7 +142,15 @@ public final class CapabilityPlanetData {
 					}
 				}
 			}
+			if (nbt.contains("name")) {
+				instance.setName(nbt.getString("name"));
+			}
 		}
+		
+		public static final void transferData(IPlanetDataCapability provider, IPlanetDataCapability destination) {
+			deserialize(serialize(provider), destination);
+		}
+		
 	}
 	
 	@Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE)

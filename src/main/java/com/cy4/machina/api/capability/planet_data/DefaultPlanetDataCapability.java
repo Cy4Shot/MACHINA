@@ -8,6 +8,7 @@ import com.cy4.machina.api.planet.trait.PlanetTrait;
 public class DefaultPlanetDataCapability implements IPlanetDataCapability {
 
 	private List<PlanetTrait> traits = new LinkedList<>();
+	private String name = "Planet";
 
 	@Override
 	public void addTrait(PlanetTrait trait) {
@@ -23,5 +24,13 @@ public class DefaultPlanetDataCapability implements IPlanetDataCapability {
 
 	@Override
 	public List<PlanetTrait> getTraits() { return traits; }
+
+	@Override
+	public String getName() { return name; }
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }
