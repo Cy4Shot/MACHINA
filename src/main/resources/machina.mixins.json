@@ -4,7 +4,6 @@
 	"compatibilityLevel": "JAVA_8",
 	"refmap": "machina.refmap.json",
 	"mixins": [
-		"LivingEntityMixin",
 		"WorldMixin",
 		"EntityMixin",
 		"forge.LanguageProviderMixin"

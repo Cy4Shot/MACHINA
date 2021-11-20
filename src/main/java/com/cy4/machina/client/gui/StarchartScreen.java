@@ -185,6 +185,8 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		text.append("   > Pres: " + planet.getAtm() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Temp: " + planet.getTemp() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Dist: " + planet.getDist() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		
+		text.append("ID  " + ClientStarchartHolder.getStarchart().planets.indexOf(planet) + "\n");
 
 		return text;
 	}

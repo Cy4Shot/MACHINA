@@ -18,7 +18,7 @@ public class DynamicDimensionFactory {
 			new MachinaRL("superhot"));
 
 	public static Dimension createDimension(MinecraftServer server, RegistryKey<Dimension> key) {
-		return new Dimension(() -> getDimensionType(server), new DynamicDimensionChunkGenerator(server));
+		return new Dimension(() -> getDimensionType(server), new DynamicDimensionChunkGenerator(server, key));
 	}
 
 	public static DimensionType getDimensionType(MinecraftServer server) {
