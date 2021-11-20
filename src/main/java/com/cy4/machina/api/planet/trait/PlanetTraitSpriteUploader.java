@@ -17,14 +17,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 
 /**
- * Cy4, <strong>KEEP IT</strong>. I have a good idea. We make a keybind for
- * planet stats, that will display more detailed information (more than the
- * starchart, which should be as less cluttered as possible) about a planet,
- * which will also have a bar where all the traits' icons will be displayed
- *
+ * The owner of the mod doesnt like it he can get rid of it.
+ * @deprecated
  * @author matyrobbrt
  *
  */
+@Deprecated
 @OnlyIn(Dist.CLIENT)
 public class PlanetTraitSpriteUploader extends SpriteUploader {
 
