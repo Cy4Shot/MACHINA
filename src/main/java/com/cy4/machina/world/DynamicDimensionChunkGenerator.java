@@ -62,6 +62,9 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		this(server.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY));
 		this.id = PlanetUtils.getIdDim(key);
 		this.traits.clear();
+		/*
+		 * What on earth have you done cy4. I keep getting IOB exceptions
+		 */
 		this.traits.addAll(StarchartData.getStarchartForServer(server).planets.get(id).traits);
 		updateTraitValues();
 	}

@@ -1,6 +1,7 @@
 package com.cy4.machina.util.helper;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.logging.log4j.LogManager;
@@ -19,10 +20,16 @@ public class CustomRegistryHelper {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField, Class<T> registryClass, ResourceLocation registryName) {
+		registerRegistry(targetField, registryClass, registryName, Optional.empty());
+	}
+	
+	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField, Class<T> registryClass, ResourceLocation registryName, Optional<ResourceLocation> defaultValue) {
 		RegistryBuilder<T> registryBuilder = new RegistryBuilder<>();
 		registryBuilder.setName(registryName);
 		registryBuilder.setType(registryClass);
 
+		defaultValue.ifPresent(registryBuilder::setDefaultKey);
+		
 		try {
 			Field registryField = targetField.getField();
 			registryField.setAccessible(true);

@@ -5,6 +5,10 @@ import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 
+import net.minecraft.item.Items;
+
+import net.minecraftforge.registries.IForgeRegistry;
+
 /**
  * @author Cy4Shot
  */
@@ -56,4 +60,12 @@ public final class PlanetTraitInit  {
 
 	@RegisterPlanetTrait(id = "layered")
 	public static final PlanetTrait LAYERED = new PlanetTrait(0x36870b);
+	
+	/**
+	 * This is similar to {@link Items#AIR}. It is an empty trait that will be the default value of
+	 * {@link IForgeRegistry#getValue(net.minecraft.util.ResourceLocation)}. <br>
+	 * <strong>DO NOT ADD TO A PLANET</strong>
+	 */
+	@RegisterPlanetTrait(id = "not_existing")
+	public static final PlanetTrait NOT_EXISTING = new PlanetTrait(0x00000);
 }
