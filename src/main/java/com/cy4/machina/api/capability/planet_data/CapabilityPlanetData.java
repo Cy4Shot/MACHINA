@@ -148,6 +148,7 @@ public final class CapabilityPlanetData {
 		}
 		
 		public static void transferData(IPlanetDataCapability provider, IPlanetDataCapability destination) {
+			destination.clear();
 			deserialize(serialize(provider), destination);
 		}
 		

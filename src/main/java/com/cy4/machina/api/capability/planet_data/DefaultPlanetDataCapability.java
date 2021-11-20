@@ -33,4 +33,10 @@ public class DefaultPlanetDataCapability implements IPlanetDataCapability {
 		this.name = name;
 	}
 
+	@Override
+	public void clear() {
+		traits.clear();
+		name = "Planet";
+	}
+
 }
