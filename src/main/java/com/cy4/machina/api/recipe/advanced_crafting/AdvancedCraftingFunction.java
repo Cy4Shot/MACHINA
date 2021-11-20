@@ -3,7 +3,7 @@ package com.cy4.machina.api.recipe.advanced_crafting;
 import java.util.List;
 
 import com.cy4.machina.compat.jei.category.AdvancedCraftingRecipeExtension;
-import com.cy4.machina.recipe.advanced_crafting.function.EmptyFunction;
+import com.cy4.machina.recipe.ac.function.EmptyFunction;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;

@@ -1,4 +1,4 @@
-package com.cy4.machina.recipe.advanced_crafting.function;
+package com.cy4.machina.recipe.ac.function;
 
 import java.util.List;
 
