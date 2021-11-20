@@ -28,7 +28,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 public final class CapabilityPlanetData {
 
-	@Deprecated
 	@CapabilityInject(IPlanetDataCapability.class)
 	public static Capability<IPlanetDataCapability> PLANET_DATA_CAPABILITY = null;
 
