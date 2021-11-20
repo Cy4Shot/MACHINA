@@ -5,7 +5,6 @@
 	"refmap": "machina.refmap.json",
 	"mixins": [
 		"LivingEntityMixin",
-		"ChunkManagerMixin",
 		"WorldMixin",
 		"EntityMixin",
 		"forge.LanguageProviderMixin"

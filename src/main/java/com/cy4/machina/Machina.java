@@ -5,7 +5,6 @@ import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.client.ClientSetup;
 import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
@@ -36,6 +35,7 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import software.bernie.geckolib3.GeckoLib;
 
 @Mod(Machina.MOD_ID)
@@ -90,8 +90,11 @@ public class Machina {
 	}
 
 	public void onCommonSetup(final FMLCommonSetupEvent event) {
-		CapabilityPlanetData.register();
 		MachinaNetwork.init();
+	}
+	
+	public static boolean isDevEnvironment() {
+		return !FMLEnvironment.production;
 	}
 
 	// Load all saved data

@@ -13,13 +13,11 @@ import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.init.MachinaRegistries;
 import com.cy4.machina.init.PlanetTraitInit;
-import com.cy4.machina.util.helper.TextFormattingHelper;
 import com.google.common.collect.Lists;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
-
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -82,7 +80,7 @@ public class EnUsLangProvider extends LanguageProvider {
 	private void addAutoItems(List<Item> blacklisted) {
 		MachinaRegistries.ITEMS.get(MOD_ID).stream().filter(item -> !blacklisted.contains(item)).forEach(item -> {
 			String name = item.getRegistryName().getPath().replace("_", " ");
-			add(item, TextFormattingHelper.capitalizeWord(name));
+			add(item, capitalizeWord(name));
 		});
 	}
 
@@ -97,7 +95,6 @@ public class EnUsLangProvider extends LanguageProvider {
 	private void add(Fluid fluid, String name) {
 		add(new FluidStack(fluid, 2).getTranslationKey(), name);
 	}
-
 	private void addCommandFeedback(String key, String name) {
 		add("command." + key, name);
 	}
@@ -109,5 +106,16 @@ public class EnUsLangProvider extends LanguageProvider {
 	private void addDamageSourceMsg(String name, String normal, String diedWhilstFighting) {
 		add("death.attack." + name, normal);
 		add("death.attack." + name + ".player", diedWhilstFighting);
+	}
+	
+	public static String capitalizeWord(String str) {
+		String words[] = str.split("\\s");
+		String capitalizeWord = "";
+		for (String w : words) {
+			String first = w.substring(0, 1);
+			String afterfirst = w.substring(1);
+			capitalizeWord += first.toUpperCase() + afterfirst + " ";
+		}
+		return capitalizeWord.trim();
 	}
 }

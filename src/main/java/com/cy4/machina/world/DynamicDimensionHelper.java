@@ -6,7 +6,6 @@ import java.util.concurrent.Executor;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.cy4.machina.api.events.planet.PlanetEvent;
 import com.cy4.machina.util.MachinaRL;
 import com.cy4.machina.world.data.PlanetDimensionData;
 import com.google.common.collect.ImmutableList;
@@ -29,7 +28,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraft.world.storage.IServerConfiguration;
 import net.minecraft.world.storage.SaveFormat.LevelSave;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -57,7 +55,6 @@ public class DynamicDimensionHelper {
 
 		ServerWorld world = getOrCreateWorld(server, RegistryKey.create(Registry.DIMENSION_REGISTRY, new MachinaRL(id)),
 				DynamicDimensionFactory::createDimension);
-		PlanetEvent.onPlanetCreated(world);
 		return world;
 	}
 

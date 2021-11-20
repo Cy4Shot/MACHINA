@@ -1,5 +1,6 @@
 package com.cy4.machina.api.client;
 
+import com.cy4.machina.starchart.PlanetData;
 import com.cy4.machina.starchart.Starchart;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,5 +16,9 @@ public class ClientStarchartHolder {
 
 	public static void setStarchart(Starchart starchart) {
 		ClientStarchartHolder.starchart = starchart;
+	}
+	
+	public static PlanetData getPlanetDataByID(int id) {
+		return starchart.planets.get(id);
 	}
 }

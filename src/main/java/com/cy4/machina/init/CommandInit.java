@@ -4,21 +4,12 @@ import static net.minecraft.command.Commands.literal;
 
 import java.util.ArrayList;
 
-import com.cy4.machina.Machina;
 import com.cy4.machina.command.BaseCommand;
-import com.cy4.machina.command.impl.DebugCommand;
 import com.cy4.machina.command.impl.GoToPlanetCommand;
-import com.cy4.machina.command.impl.traits.AddTraitCommand;
-import com.cy4.machina.command.impl.traits.ListTraitsCommand;
-import com.cy4.machina.command.impl.traits.PlanetTraitsCommand;
-import com.cy4.machina.command.impl.traits.RemoveTraitCommand;
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.command.CommandSource;
-
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 /**
  * Permission levels
@@ -37,13 +28,7 @@ public final class CommandInit {
 	private static final ArrayList<BaseCommand> commands = new ArrayList<>();
 
 	public static void registerCommands(final RegisterCommandsEvent event) {
-		CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
 
-		commands.add(new AddTraitCommand(PermissionLevels.GIVE_CLEAR, true));
-		commands.add(new ListTraitsCommand(PermissionLevels.GIVE_CLEAR, true));
-		commands.add(new RemoveTraitCommand(PermissionLevels.GIVE_CLEAR, true));
-
-		commands.add(new DebugCommand(4, isDevEnvironment()));
 		commands.add(new GoToPlanetCommand(4, true));
 
 		commands.forEach(command -> {
@@ -51,18 +36,9 @@ public final class CommandInit {
 				LiteralArgumentBuilder<CommandSource> builder = literal(command.getName());
 				builder.requires(sender -> sender.hasPermission(command.getPermissionLevel()));
 				command.build(builder);
-				if (command instanceof PlanetTraitsCommand) {
-					dispatcher.register(literal(Machina.MOD_ID).then(literal("planet_traits").then(builder)));
-				} else {
-					dispatcher.register(literal(Machina.MOD_ID).then(builder));
-				}
 			}
 		});
 
-	}
-
-	private static boolean isDevEnvironment() {
-		return !FMLEnvironment.production;
 	}
 
 	public static class PermissionLevels {

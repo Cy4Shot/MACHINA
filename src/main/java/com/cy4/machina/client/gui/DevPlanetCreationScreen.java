@@ -3,8 +3,6 @@ package com.cy4.machina.client.gui;
 import java.awt.event.KeyEvent;
 import java.util.UUID;
 
-import com.cy4.machina.api.capability.planet_data.ClientPlanetDataStorage;
-import com.cy4.machina.api.planet.trait.PlanetTraitSpriteUploader;
 import com.cy4.machina.init.KeyBindingsInit;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.network.message.C2SDevPlanetCreationGUI;
@@ -16,7 +14,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -110,14 +107,6 @@ public class DevPlanetCreationScreen extends Screen {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		this.renderBackground(pMatrixStack);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
-
-		ClientPlanetDataStorage.getFromWorld(minecraft.level).ifPresent(cap -> {
-			for (int i = 0; i < cap.getTraits().size(); i++) {
-				TextureAtlasSprite textureatlassprite = PlanetTraitSpriteUploader.getFromInstance(cap.getTraits().get(i));
-				minecraft.getTextureManager().bind(textureatlassprite.atlas().location());
-				blit(pMatrixStack, width / 2 - 140 + (i * 18), 120, 12, 16, 16, textureatlassprite);
-			}
-		});
 	}
 
 	@Override

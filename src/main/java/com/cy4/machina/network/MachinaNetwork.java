@@ -5,13 +5,10 @@ import java.util.function.Function;
 import com.cy4.machina.api.network.BaseNetwork;
 import com.cy4.machina.api.network.message.IMachinaMessage;
 import com.cy4.machina.network.message.C2SDevPlanetCreationGUI;
-import com.cy4.machina.network.message.C2SRequestTraitsUpdate;
 import com.cy4.machina.network.message.S2CSyncStarchart;
-import com.cy4.machina.network.message.S2CSyncTraitsCapability;
 import com.cy4.machina.util.MachinaRL;
 
 import net.minecraft.network.PacketBuffer;
-
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
@@ -22,9 +19,7 @@ public class MachinaNetwork extends BaseNetwork {
 	public static final SimpleChannel CHANNEL = newSimpleChannel("channel");
 
 	public static void init() {
-		registerServerToClient(S2CSyncTraitsCapability.class, S2CSyncTraitsCapability::decode);
 		registerServerToClient(S2CSyncStarchart.class, S2CSyncStarchart::decode);
-		registerClientToServer(C2SRequestTraitsUpdate.class, C2SRequestTraitsUpdate::decode);
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
 	}
 
