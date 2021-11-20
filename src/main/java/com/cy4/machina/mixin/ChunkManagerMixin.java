@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
+import com.cy4.machina.api.util.StarchartHelper;
 import com.mojang.datafixers.DataFixer;
 
 import net.minecraft.world.chunk.storage.ChunkLoader;
@@ -29,7 +29,7 @@ public abstract class ChunkManagerMixin extends ChunkLoader {
 
 	@Inject(method = "saveAllChunks(Z)V", at = @At("HEAD"), cancellable = true)
 	private void machina$saveAllChunksMixin(boolean flush, CallbackInfo ci) {
-		CapabilityPlanetData.syncCapabilityWithClients(level);
+		StarchartHelper.syncCapabilityWithClients(level);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.cy4.machina.command.impl.traits;
 import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.api.command.argument.PlanetTraitArgument;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.api.util.StarchartHelper;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
@@ -28,7 +29,7 @@ public class AddTraitCommand extends PlanetTraitsCommand {
 			ServerWorld world = context.getSource().getLevel();
 			world.getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY).ifPresent(cap -> {
 				if (!cap.getTraits().contains(trait)) {
-					CapabilityPlanetData.addTrait(world, trait);
+					StarchartHelper.addTrait(world, trait);
 					context.getSource()
 					.sendSuccess(new TranslationTextComponent("command.planet_traits.add_trait.success"), true);
 				} else {

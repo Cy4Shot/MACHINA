@@ -1,7 +1,7 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
+import com.cy4.machina.api.util.StarchartHelper;
 
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -26,7 +26,7 @@ public class ForgeEvents {
 	@SubscribeEvent
 	public static void onWorldLoaded(PlayerEvent.PlayerLoggedInEvent event) {
 		if (!event.getPlayer().level.isClientSide()) {
-			CapabilityPlanetData.syncCapabilityWithClients(event.getPlayer().level);
+			StarchartHelper.syncCapabilityWithClients(event.getPlayer().level);
 		}
 	}
 

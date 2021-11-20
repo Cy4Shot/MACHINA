@@ -1,7 +1,7 @@
 package com.cy4.machina.network.message.to_server;
 
-import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.api.network.message.IMachinaMessage;
+import com.cy4.machina.api.util.StarchartHelper;
 
 import net.minecraft.network.PacketBuffer;
 
@@ -11,7 +11,7 @@ public class RequestTraitsUpdateMessage implements IMachinaMessage {
 
 	@Override
 	public void handle(Context context) {
-		CapabilityPlanetData.syncCapabilityWithClients(context.getSender().level);
+		StarchartHelper.syncCapabilityWithClients(context.getSender().level);
 	}
 
 	@Override

@@ -1,17 +1,11 @@
 package com.cy4.machina.api.capability.planet_data;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.events.planet.PlanetEvent;
-import com.cy4.machina.api.network.BaseNetwork;
 import com.cy4.machina.api.planet.PlanetUtils;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
-import com.cy4.machina.network.MachinaNetwork;
-import com.cy4.machina.network.message.to_client.SyncTraitsCapabilityMessage;
+import com.cy4.machina.api.util.StarchartHelper;
 import com.cy4.machina.util.MachinaRL;
 
-import net.minecraft.nbt.CollectionNBT;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
@@ -19,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -26,8 +21,20 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
+/**
+ * Class containing the {@link CapabilityPlanetData#PLANET_DATA_CAPABILITY}.
+ * Calls to the capability <strong>should</strong> be put through
+ * {@link StarchartHelper}
+ * 
+ * @author matyrobbrt
+ *
+ */
 public final class CapabilityPlanetData {
 
+	/**
+	 * Do not directly use. Calls to the capability <strong>should</strong> be put
+	 * through {@link StarchartHelper}
+	 */
 	@CapabilityInject(IPlanetDataCapability.class)
 	public static Capability<IPlanetDataCapability> PLANET_DATA_CAPABILITY = null;
 
@@ -36,72 +43,7 @@ public final class CapabilityPlanetData {
 				DefaultPlanetDataCapability::new);
 	}
 
-	public static boolean worldHasTrait(World world, PlanetTrait trait) {
-		AtomicBoolean value = new AtomicBoolean(false);
-		world.getCapability(PLANET_DATA_CAPABILITY).ifPresent(cap -> value.set(cap.getTraits().contains(trait)));
-		return value.get();
-	}
-
-	/**
-	 * Call in order to sync the traits from the capability to all the players that
-	 * are connected to the server
-	 *
-	 * @param world
-	 */
-	public static void syncCapabilityWithClients(World world) {
-		world.getCapability(PLANET_DATA_CAPABILITY)
-				.ifPresent(cap -> BaseNetwork.sendToAll(MachinaNetwork.CHANNEL,
-						new SyncTraitsCapabilityMessage(cap, world.dimension().location())));
-	}
-
-	/**
-	 * This method adds the specified traits to the world, whilst also calling
-	 * {@link #syncCapabilityWithClients(World)}<br>
-	 * It is preferred to use this method instead of
-	 * {@link IPlanetDataCapability#addTrait(PlanetTrait)}
-	 *
-	 * @param level
-	 * @param traits
-	 */
-	public static void addTrait(World level, PlanetTrait... traits) {
-		level.getCapability(PLANET_DATA_CAPABILITY).ifPresent(cap -> {
-			for (PlanetTrait trait : traits) {
-				if (!PlanetEvent.onTraitAdded(level, trait)) {
-					cap.addTrait(trait);
-				}
-			}
-		});
-		syncCapabilityWithClients(level);
-	}
-
-	/**
-	 * This method removes the specified traits from the world, whilst also calling
-	 * {@link #syncCapabilityWithClients(World)} <br>
-	 * It is preferred to use this method instead of
-	 * {@link IPlanetDataCapability#removeTrait(PlanetTrait)}
-	 *
-	 * @param level
-	 * @param traits
-	 */
-	public static void removeTrait(World level, PlanetTrait... traits) {
-		level.getCapability(PLANET_DATA_CAPABILITY).ifPresent(cap -> {
-			for (PlanetTrait trait : traits) {
-				if (cap.getTraits().contains(trait)) {
-					cap.removeTrait(trait);
-				}
-			}
-		});
-		syncCapabilityWithClients(level);
-	}
-
-	/**
-	 * Weird way of loading/saving, but it works. TODO figure out a better way to do
-	 * it. Maybe using a custom {@link CollectionNBT} of {@link String}s?
-	 *
-	 * @author matyrobbrt
-	 *
-	 */
-	public static final class Storage implements Capability.IStorage<IPlanetDataCapability> {
+	public static final class Storage implements IStorage<IPlanetDataCapability> {
 
 		@Override
 		public INBT writeNBT(Capability<IPlanetDataCapability> capability, IPlanetDataCapability instance,
