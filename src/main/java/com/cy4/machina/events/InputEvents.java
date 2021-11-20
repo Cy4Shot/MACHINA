@@ -1,7 +1,6 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.client.ClientStarchartHolder;
 import com.cy4.machina.client.gui.DevPlanetCreationScreen;
 import com.cy4.machina.client.gui.StarchartScreen;
 import com.cy4.machina.init.KeyBindingsInit;

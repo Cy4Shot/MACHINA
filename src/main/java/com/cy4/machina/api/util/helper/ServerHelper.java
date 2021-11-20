@@ -1,7 +1,6 @@
 package com.cy4.machina.api.util.helper;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.common.collect.Lists;
 

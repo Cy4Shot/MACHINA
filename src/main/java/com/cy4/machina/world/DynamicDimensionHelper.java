@@ -55,12 +55,13 @@ public class DynamicDimensionHelper {
 
 		PlanetDimensionData.getDefaultInstance(server).addId(id);
 
-		ServerWorld world = getOrCreateWorld(server,
-				RegistryKey.create(Registry.DIMENSION_REGISTRY, new MachinaRL(id)), DynamicDimensionFactory::createDimension);
+		ServerWorld world = getOrCreateWorld(server, RegistryKey.create(Registry.DIMENSION_REGISTRY, new MachinaRL(id)),
+				DynamicDimensionFactory::createDimension);
 		PlanetEvent.onPlanetCreated(world);
 		return world;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static ServerWorld getOrCreateWorld(MinecraftServer server, RegistryKey<World> worldKey,
 			BiFunction<MinecraftServer, RegistryKey<Dimension>, Dimension> dimensionFactory) {
 
@@ -73,6 +74,7 @@ public class DynamicDimensionHelper {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private static ServerWorld createAndRegisterWorldAndDimension(MinecraftServer server,
 			Map<RegistryKey<World>, ServerWorld> map, RegistryKey<World> worldKey,
 			BiFunction<MinecraftServer, RegistryKey<Dimension>, Dimension> dimensionFactory) {
