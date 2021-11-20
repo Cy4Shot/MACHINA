@@ -19,17 +19,27 @@ public class CustomRegistryHelper {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField, Class<T> registryClass, ResourceLocation registryName) {
+	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField,
+			Class<T> registryClass, ResourceLocation registryName) {
 		registerRegistry(targetField, registryClass, registryName, Optional.empty());
 	}
-	
-	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField, Class<T> registryClass, ResourceLocation registryName, Optional<ResourceLocation> defaultValue) {
+
+	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField,
+			Class<T> registryClass, ResourceLocation registryName, Optional<ResourceLocation> defaultValue) {
+		registerRegistry(targetField, registryClass, registryName, defaultValue);
+	}
+
+	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField,
+			Class<T> registryClass, ResourceLocation registryName, Optional<ResourceLocation> defaultValue,
+			Optional<ResourceLocation> legacyName) {
 		RegistryBuilder<T> registryBuilder = new RegistryBuilder<>();
 		registryBuilder.setName(registryName);
 		registryBuilder.setType(registryClass);
 
 		defaultValue.ifPresent(registryBuilder::setDefaultKey);
-		
+
+		legacyName.ifPresent(registryBuilder::legacyName);
+
 		try {
 			Field registryField = targetField.getField();
 			registryField.setAccessible(true);
