@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.cy4.machina.api.util.StarchartHelper;
+import com.cy4.machina.api.util.helper.StarchartHelper;
 import com.mojang.datafixers.DataFixer;
 
 import net.minecraft.world.chunk.storage.ChunkLoader;

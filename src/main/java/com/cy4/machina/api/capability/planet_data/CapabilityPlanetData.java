@@ -3,7 +3,7 @@ package com.cy4.machina.api.capability.planet_data;
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.planet.PlanetUtils;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
-import com.cy4.machina.api.util.StarchartHelper;
+import com.cy4.machina.api.util.helper.StarchartHelper;
 import com.cy4.machina.util.MachinaRL;
 
 import net.minecraft.nbt.CompoundNBT;

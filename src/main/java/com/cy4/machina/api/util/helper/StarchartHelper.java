@@ -1,4 +1,4 @@
-package com.cy4.machina.api.util;
+package com.cy4.machina.api.util.helper;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

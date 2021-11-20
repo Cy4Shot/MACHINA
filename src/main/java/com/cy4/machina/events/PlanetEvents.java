@@ -4,7 +4,7 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.api.events.planet.PlanetCreatedEvent;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
-import com.cy4.machina.api.util.StarchartHelper;
+import com.cy4.machina.api.util.helper.StarchartHelper;
 import com.cy4.machina.starchart.Starchart;
 import com.cy4.machina.world.data.StarchartData;
 

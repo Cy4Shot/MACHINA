@@ -3,7 +3,7 @@ package com.cy4.machina.command.impl.traits;
 import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.api.command.argument.PlanetTraitArgument;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
-import com.cy4.machina.api.util.StarchartHelper;
+import com.cy4.machina.api.util.helper.StarchartHelper;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 

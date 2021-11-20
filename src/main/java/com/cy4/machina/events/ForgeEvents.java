@@ -1,7 +1,7 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.util.StarchartHelper;
+import com.cy4.machina.api.util.helper.StarchartHelper;
 
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;

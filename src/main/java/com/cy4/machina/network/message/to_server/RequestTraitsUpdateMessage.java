@@ -1,7 +1,7 @@
 package com.cy4.machina.network.message.to_server;
 
 import com.cy4.machina.api.network.message.IMachinaMessage;
-import com.cy4.machina.api.util.StarchartHelper;
+import com.cy4.machina.api.util.helper.StarchartHelper;
 
 import net.minecraft.network.PacketBuffer;
 
