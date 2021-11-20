@@ -116,7 +116,7 @@ public final class CapabilityPlanetData {
 
 		}
 		
-		public static final CompoundNBT serialize(IPlanetDataCapability instance) {
+		public static CompoundNBT serialize(IPlanetDataCapability instance) {
 			CompoundNBT tag = new CompoundNBT();
 
 			CompoundNBT traitsNBT = new CompoundNBT();
@@ -131,7 +131,7 @@ public final class CapabilityPlanetData {
 
 		}
 
-		public static final void deserialize(CompoundNBT nbt, IPlanetDataCapability instance) {
+		public static void deserialize(CompoundNBT nbt, IPlanetDataCapability instance) {
 			if (nbt.contains("traits")) {
 				CompoundNBT traitsNbt = nbt.getCompound("traits");
 				int size = traitsNbt.getInt("size");
@@ -147,7 +147,7 @@ public final class CapabilityPlanetData {
 			}
 		}
 		
-		public static final void transferData(IPlanetDataCapability provider, IPlanetDataCapability destination) {
+		public static void transferData(IPlanetDataCapability provider, IPlanetDataCapability destination) {
 			deserialize(serialize(provider), destination);
 		}
 		
