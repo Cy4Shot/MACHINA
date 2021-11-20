@@ -2,8 +2,8 @@ package com.cy4.machina.api.events.planet;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
-import com.cy4.machina.api.capability.trait.IPlanetTraitCapability;
+import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
+import com.cy4.machina.api.capability.planet_data.IPlanetDataCapability;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.util.NullSafe;
 
@@ -62,9 +62,9 @@ public abstract class PlanetEvent extends Event {
 
 		public PlanetTrait getTrait() { return trait; }
 
-		public NullSafe<IPlanetTraitCapability> getTraitCapability() {
-			AtomicReference<IPlanetTraitCapability> capAtomic = new AtomicReference<>(null);
-			planet.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(capAtomic::set);
+		public NullSafe<IPlanetDataCapability> getTraitCapability() {
+			AtomicReference<IPlanetDataCapability> capAtomic = new AtomicReference<>(null);
+			planet.getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY).ifPresent(capAtomic::set);
 			return new NullSafe<>(capAtomic.get());
 		}
 

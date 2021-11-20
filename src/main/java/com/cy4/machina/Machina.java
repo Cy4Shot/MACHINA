@@ -5,7 +5,7 @@ import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.client.ClientSetup;
 import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
@@ -92,7 +92,7 @@ public class Machina {
 	}
 
 	public void onCommonSetup(final FMLCommonSetupEvent event) {
-		CapabilityPlanetTrait.register();
+		CapabilityPlanetData.register();
 		MachinaNetwork.init();
 	}
 

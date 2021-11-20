@@ -1,6 +1,6 @@
 package com.cy4.machina.command.impl.traits;
 
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.api.command.argument.PlanetTraitArgument;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -26,9 +26,9 @@ public class AddTraitCommand extends PlanetTraitsCommand {
 	public int execute(CommandContext<CommandSource> context, PlanetTrait trait) {
 		if (checkDimension(context)) {
 			ServerWorld world = context.getSource().getLevel();
-			world.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
+			world.getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY).ifPresent(cap -> {
 				if (!cap.getTraits().contains(trait)) {
-					CapabilityPlanetTrait.addTrait(world, trait);
+					CapabilityPlanetData.addTrait(world, trait);
 					context.getSource()
 					.sendSuccess(new TranslationTextComponent("command.planet_traits.add_trait.success"), true);
 				} else {

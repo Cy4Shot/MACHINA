@@ -1,12 +1,15 @@
-package com.cy4.machina.api.capability.trait;
+package com.cy4.machina.api.capability.planet_data;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.cy4.machina.Machina;
 import com.cy4.machina.api.events.planet.PlanetEvent;
 import com.cy4.machina.api.network.BaseNetwork;
+import com.cy4.machina.api.planet.PlanetUtils;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.network.message.to_client.SyncTraitsCapabilityMessage;
+import com.cy4.machina.util.MachinaRL;
 
 import net.minecraft.nbt.CollectionNBT;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,20 +21,24 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-public class CapabilityPlanetTrait {
+public final class CapabilityPlanetData {
 
-	@CapabilityInject(IPlanetTraitCapability.class)
-	public static Capability<IPlanetTraitCapability> PLANET_TRAIT_CAPABILITY = null;
+	@CapabilityInject(IPlanetDataCapability.class)
+	public static Capability<IPlanetDataCapability> PLANET_DATA_CAPABILITY = null;
 
 	public static void register() {
-		CapabilityManager.INSTANCE.register(IPlanetTraitCapability.class, new Storage(),
-				DefaultPlanetTraitCapability::new);
+		CapabilityManager.INSTANCE.register(IPlanetDataCapability.class, new Storage(),
+				DefaultPlanetDataCapability::new);
 	}
 
 	public static boolean worldHasTrait(World world, PlanetTrait trait) {
 		AtomicBoolean value = new AtomicBoolean(false);
-		world.getCapability(PLANET_TRAIT_CAPABILITY).ifPresent(cap -> value.set(cap.getTraits().contains(trait)));
+		world.getCapability(PLANET_DATA_CAPABILITY).ifPresent(cap -> value.set(cap.getTraits().contains(trait)));
 		return value.get();
 	}
 
@@ -42,7 +49,7 @@ public class CapabilityPlanetTrait {
 	 * @param world
 	 */
 	public static void syncCapabilityWithClients(World world) {
-		world.getCapability(PLANET_TRAIT_CAPABILITY).ifPresent(
+		world.getCapability(PLANET_DATA_CAPABILITY).ifPresent(
 				cap -> BaseNetwork.sendToAllInWorld(MachinaNetwork.CHANNEL, new SyncTraitsCapabilityMessage(cap), world));
 	}
 
@@ -50,13 +57,13 @@ public class CapabilityPlanetTrait {
 	 * This method adds the specified traits to the world, whilst also calling
 	 * {@link #syncCapabilityWithClients(World)}<br>
 	 * It is preferred to use this method instead of
-	 * {@link IPlanetTraitCapability#addTrait(PlanetTrait)}
+	 * {@link IPlanetDataCapability#addTrait(PlanetTrait)}
 	 *
 	 * @param level
 	 * @param traits
 	 */
 	public static void addTrait(World level, PlanetTrait... traits) {
-		level.getCapability(PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
+		level.getCapability(PLANET_DATA_CAPABILITY).ifPresent(cap -> {
 			for (PlanetTrait trait : traits) {
 				if (!PlanetEvent.onTraitAdded(level, trait)) {
 					cap.addTrait(trait);
@@ -70,13 +77,13 @@ public class CapabilityPlanetTrait {
 	 * This method removes the specified traits from the world, whilst also calling
 	 * {@link #syncCapabilityWithClients(World)} <br>
 	 * It is preferred to use this method instead of
-	 * {@link IPlanetTraitCapability#removeTrait(PlanetTrait)}
+	 * {@link IPlanetDataCapability#removeTrait(PlanetTrait)}
 	 *
 	 * @param level
 	 * @param traits
 	 */
 	public static void removeTrait(World level, PlanetTrait... traits) {
-		level.getCapability(PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
+		level.getCapability(PLANET_DATA_CAPABILITY).ifPresent(cap -> {
 			for (PlanetTrait trait : traits) {
 				if (cap.getTraits().contains(trait)) {
 					cap.removeTrait(trait);
@@ -93,15 +100,15 @@ public class CapabilityPlanetTrait {
 	 * @author matyrobbrt
 	 *
 	 */
-	public static class Storage implements Capability.IStorage<IPlanetTraitCapability> {
+	public static class Storage implements Capability.IStorage<IPlanetDataCapability> {
 
 		@Override
-		public INBT writeNBT(Capability<IPlanetTraitCapability> capability, IPlanetTraitCapability instance,
+		public INBT writeNBT(Capability<IPlanetDataCapability> capability, IPlanetDataCapability instance,
 				Direction side) {
 			return serialize(instance);
 		}
 
-		public static CompoundNBT serialize(IPlanetTraitCapability instance) {
+		public static CompoundNBT serialize(IPlanetDataCapability instance) {
 			CompoundNBT tag = new CompoundNBT();
 
 			CompoundNBT traitsNBT = new CompoundNBT();
@@ -116,14 +123,14 @@ public class CapabilityPlanetTrait {
 		}
 
 		@Override
-		public void readNBT(Capability<IPlanetTraitCapability> capability, IPlanetTraitCapability instance,
+		public void readNBT(Capability<IPlanetDataCapability> capability, IPlanetDataCapability instance,
 				Direction side, INBT inbt) {
 			CompoundNBT nbt = (CompoundNBT) inbt;
 			deserialize(nbt, instance);
 
 		}
 
-		public static void deserialize(CompoundNBT nbt, IPlanetTraitCapability instance) {
+		public static void deserialize(CompoundNBT nbt, IPlanetDataCapability instance) {
 			if (nbt.contains("traits")) {
 				CompoundNBT traitsNbt = nbt.getCompound("traits");
 				int size = traitsNbt.getInt("size");
@@ -133,6 +140,28 @@ public class CapabilityPlanetTrait {
 								.getValue(new ResourceLocation(traitsNbt.getString(String.valueOf(i)))));
 					}
 				}
+			}
+		}
+	}
+	
+	@Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE)
+	public static final class EventHandler {
+		
+		@SubscribeEvent
+		public static void onAttachCapabilities(AttachCapabilitiesEvent<World> event) {
+			// pretty sure that it is only put on the server if i don't check for client side
+			if (event.getObject().isClientSide()) {
+				attachPlanetTraitCap(event);
+			} else {
+				attachPlanetTraitCap(event);
+			}
+		}
+
+		private static void attachPlanetTraitCap(AttachCapabilitiesEvent<World> event) {
+			if (PlanetUtils.isDimensionPlanet(event.getObject().dimension())) {
+				PlanetDataCapabilityProvider provider = new PlanetDataCapabilityProvider();
+				event.addCapability(new MachinaRL("planet_data"), provider);
+				event.addListener(provider::invalidate);
 			}
 		}
 	}

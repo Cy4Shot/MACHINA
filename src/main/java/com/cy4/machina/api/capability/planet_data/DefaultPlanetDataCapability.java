@@ -1,11 +1,11 @@
-package com.cy4.machina.api.capability.trait;
+package com.cy4.machina.api.capability.planet_data;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 
-public class DefaultPlanetTraitCapability implements IPlanetTraitCapability {
+public class DefaultPlanetDataCapability implements IPlanetDataCapability {
 
 	private List<PlanetTrait> traits = new LinkedList<>();
 

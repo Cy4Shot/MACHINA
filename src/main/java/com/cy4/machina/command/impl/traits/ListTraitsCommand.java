@@ -1,6 +1,6 @@
 package com.cy4.machina.command.impl.traits;
 
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
@@ -21,7 +21,7 @@ public class ListTraitsCommand extends PlanetTraitsCommand {
 	@Override
 	protected int execute(CommandContext<CommandSource> context) {
 		if (checkDimension(context)) {
-			context.getSource().getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY)
+			context.getSource().getLevel().getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY)
 			.ifPresent(cap -> {
 				if (cap.getTraits().isEmpty()) {
 					context.getSource().sendSuccess(

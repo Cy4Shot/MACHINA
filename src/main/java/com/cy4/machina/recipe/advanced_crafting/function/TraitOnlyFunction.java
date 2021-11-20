@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterACFunctionSerializer;
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
-import com.cy4.machina.api.capability.trait.IPlanetTraitCapability;
+import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
+import com.cy4.machina.api.capability.planet_data.IPlanetDataCapability;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunction;
 import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
@@ -46,15 +46,15 @@ public class TraitOnlyFunction extends AdvancedCraftingFunction {
 			return false;
 		}
 		List<Boolean> match = new LinkedList<>();
-		AtomicReference<IPlanetTraitCapability> capAtomic = new AtomicReference<>(null);
-		level.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
+		AtomicReference<IPlanetDataCapability> capAtomic = new AtomicReference<>(null);
+		level.getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY).ifPresent(cap -> {
 			capAtomic.set(cap);
 			cap.getTraits().forEach(trait -> match.add(validTraits.contains(trait)));
 		});
 		return checkMatch(match, capAtomic.get());
 	}
 
-	private boolean checkMatch(List<Boolean> values, IPlanetTraitCapability cap) {
+	private boolean checkMatch(List<Boolean> values, IPlanetDataCapability cap) {
 		if (blacklist) {
 			if (onlyOne) {
 				return !values.contains(false);

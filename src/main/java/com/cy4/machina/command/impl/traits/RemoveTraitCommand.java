@@ -1,6 +1,6 @@
 package com.cy4.machina.command.impl.traits;
 
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.api.command.argument.PlanetTraitArgument;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -24,10 +24,10 @@ public class RemoveTraitCommand extends PlanetTraitsCommand {
 
 	public int execute(CommandContext<CommandSource> context, PlanetTrait trait) {
 		if (checkDimension(context)) {
-			context.getSource().getLevel().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY)
+			context.getSource().getLevel().getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY)
 			.ifPresent(cap -> {
 				if (cap.getTraits().contains(trait)) {
-					CapabilityPlanetTrait.removeTrait(context.getSource().getLevel(), trait);
+					CapabilityPlanetData.removeTrait(context.getSource().getLevel(), trait);
 					context.getSource().sendSuccess(
 							new TranslationTextComponent("command.planet_traits.remove_trait.success"), true);
 				} else {

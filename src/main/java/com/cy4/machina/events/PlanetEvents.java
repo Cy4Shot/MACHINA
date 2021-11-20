@@ -1,7 +1,7 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
+import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
 import com.cy4.machina.api.events.planet.PlanetCreatedEvent;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.starchart.Starchart;
@@ -21,12 +21,12 @@ public class PlanetEvents {
 			return;
 		}
 
-		event.getPlanet().getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY).ifPresent(cap -> {
+		event.getPlanet().getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY).ifPresent(cap -> {
 			Starchart sc = StarchartData.getDefaultInstance(event.getPlanet().getServer()).starchart;
 			try {
 				int id = Integer.parseInt(event.getPlanet().dimension().location().getPath());
 				if (sc.planets.size() - 1 >= id) {
-					CapabilityPlanetTrait.addTrait(event.getPlanet(),
+					CapabilityPlanetData.addTrait(event.getPlanet(),
 							sc.planets.get(id).traits.toArray(new PlanetTrait[] {}));
 				} else {
 					//					PlanetData.getTraits(new Random(seed)).forEach(cap::addTrait);

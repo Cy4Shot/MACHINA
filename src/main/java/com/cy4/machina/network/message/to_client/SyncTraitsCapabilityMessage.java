@@ -1,8 +1,8 @@
 package com.cy4.machina.network.message.to_client;
 
-import com.cy4.machina.api.capability.trait.CapabilityPlanetTrait;
-import com.cy4.machina.api.capability.trait.DefaultPlanetTraitCapability;
-import com.cy4.machina.api.capability.trait.IPlanetTraitCapability;
+import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
+import com.cy4.machina.api.capability.planet_data.DefaultPlanetDataCapability;
+import com.cy4.machina.api.capability.planet_data.IPlanetDataCapability;
 import com.cy4.machina.api.network.message.IMachinaMessage;
 
 import net.minecraft.client.Minecraft;
@@ -17,9 +17,9 @@ import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class SyncTraitsCapabilityMessage implements IMachinaMessage {
 
-	private final IPlanetTraitCapability cap;
+	private final IPlanetDataCapability cap;
 
-	public SyncTraitsCapabilityMessage(IPlanetTraitCapability cap) {
+	public SyncTraitsCapabilityMessage(IPlanetDataCapability cap) {
 		this.cap = cap;
 	}
 
@@ -33,19 +33,19 @@ public class SyncTraitsCapabilityMessage implements IMachinaMessage {
 	private void handleClient(SyncTraitsCapabilityMessage msg, NetworkEvent.Context ctx) {
 		World world = Minecraft.getInstance().level;
 		if (world != null) {
-			world.getCapability(CapabilityPlanetTrait.PLANET_TRAIT_CAPABILITY)
+			world.getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY)
 			.ifPresent(clientCap -> msg.cap.getTraits().forEach(clientCap::addTrait));
 		}
 	}
 
 	@Override
 	public void encode(PacketBuffer buffer) {
-		buffer.writeNbt(CapabilityPlanetTrait.Storage.serialize(cap));
+		buffer.writeNbt(CapabilityPlanetData.Storage.serialize(cap));
 	}
 
 	public static SyncTraitsCapabilityMessage decode(PacketBuffer buffer) {
-		IPlanetTraitCapability cap = new DefaultPlanetTraitCapability();
-		CapabilityPlanetTrait.Storage.deserialize(buffer.readNbt(), cap);
+		IPlanetDataCapability cap = new DefaultPlanetDataCapability();
+		CapabilityPlanetData.Storage.deserialize(buffer.readNbt(), cap);
 		return new SyncTraitsCapabilityMessage(cap);
 	}
 
