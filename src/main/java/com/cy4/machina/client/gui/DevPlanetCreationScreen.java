@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import com.cy4.machina.init.KeyBindingsInit;
 import com.cy4.machina.network.MachinaNetwork;
+import com.cy4.machina.network.message.C2SDevPlanetCreationGUI;
+import com.cy4.machina.network.message.C2SDevPlanetCreationGUI.ActionType;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

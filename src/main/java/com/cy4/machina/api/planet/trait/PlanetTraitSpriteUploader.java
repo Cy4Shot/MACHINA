@@ -16,13 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 
-/**
- * The owner of the mod doesnt like it he can get rid of it.
- * @deprecated
- * @author matyrobbrt
- *
- */
-@Deprecated
 @OnlyIn(Dist.CLIENT)
 public class PlanetTraitSpriteUploader extends SpriteUploader {
 

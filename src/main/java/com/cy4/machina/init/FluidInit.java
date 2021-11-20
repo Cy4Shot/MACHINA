@@ -25,14 +25,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
-/**
- * @deprecated
- * The owner of the mod doesnt like the idea of a fluid being used as fuel so he can 
- * get rid of it
- * @author matyrobbrt
- *
- */
-@Deprecated
 @RegistryHolder
 public final class FluidInit {
 
