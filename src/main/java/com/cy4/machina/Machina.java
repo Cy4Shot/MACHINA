@@ -13,7 +13,6 @@ import com.cy4.machina.config.ServerConfig;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.network.MachinaNetwork;
-import com.cy4.machina.starchart.Starchart;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
 import com.cy4.machina.util.MachinaRL;
 import com.cy4.machina.world.DynamicDimensionHelper;
@@ -25,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -105,7 +103,6 @@ public class Machina {
 			DynamicDimensionHelper.createPlanet(server, id);
 		});
 
-		StarchartData.getDefaultInstance(server)
-		.setStarchartIfNull(new Starchart(server.getLevel(World.OVERWORLD).getSeed()));
+		StarchartData.getDefaultInstance(server).generateIf(server.getLevel(World.OVERWORLD).getSeed());
 	}
 }

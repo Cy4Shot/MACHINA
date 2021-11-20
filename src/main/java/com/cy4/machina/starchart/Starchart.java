@@ -18,17 +18,17 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 
 	public List<PlanetData> planets;
 
-	public Starchart(long seed) {
-		this();
-
-		generateStarchart(seed);
-	}
-
-	public Starchart(){
+	public Starchart() {
 		planets = new ArrayList<>();
 	}
 
+	public Starchart(CompoundNBT nbt) {
+		this();
+		this.deserializeNBT(nbt);
+	}
+
 	public void generateStarchart(long seed) {
+		this.planets.clear();
 		Random rand = new Random(seed);
 		int numPlanets = rand.nextInt(CommonConfig.MAX_PLANETS.get() - CommonConfig.MIN_PLANETS.get() + 1)
 				+ CommonConfig.MIN_PLANETS.get();
@@ -69,6 +69,7 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		planets.clear();
-		nbt.getList("planets", Constants.NBT.TAG_COMPOUND).forEach(val -> planets.add(PlanetData.fromNBT(nbt)));
+		nbt.getList("planets", Constants.NBT.TAG_COMPOUND)
+				.forEach(val -> planets.add(PlanetData.fromNBT((CompoundNBT) val)));
 	}
 }

@@ -1,4 +1,4 @@
-package com.cy4.machina.network.message.to_server;
+package com.cy4.machina.network.message;
 
 import com.cy4.machina.api.network.message.IMachinaMessage;
 import com.cy4.machina.world.DynamicDimensionHelper;
@@ -8,12 +8,12 @@ import net.minecraft.world.server.ServerWorld;
 
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class DevPlanetCreationGUIMessage implements IMachinaMessage {
+public class C2SDevPlanetCreationGUI implements IMachinaMessage {
 
 	public final ActionType action;
 	public final int dimensionID;
 
-	public DevPlanetCreationGUIMessage(ActionType action, int dimensionID) {
+	public C2SDevPlanetCreationGUI(ActionType action, int dimensionID) {
 		this.action = action;
 		this.dimensionID = dimensionID;
 	}
@@ -33,10 +33,10 @@ public class DevPlanetCreationGUIMessage implements IMachinaMessage {
 		buffer.writeInt(dimensionID);
 	}
 
-	public static DevPlanetCreationGUIMessage decode(PacketBuffer buffer) {
+	public static C2SDevPlanetCreationGUI decode(PacketBuffer buffer) {
 		ActionType action = buffer.readEnum(ActionType.class);
 		int dimensionID = buffer.readInt();
-		return new DevPlanetCreationGUIMessage(action, dimensionID);
+		return new C2SDevPlanetCreationGUI(action, dimensionID);
 	}
 
 	public enum ActionType {

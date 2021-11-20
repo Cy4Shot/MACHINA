@@ -8,7 +8,7 @@ import com.cy4.machina.api.events.planet.PlanetEvent;
 import com.cy4.machina.api.network.BaseNetwork;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.network.MachinaNetwork;
-import com.cy4.machina.network.message.to_client.SyncTraitsCapabilityMessage;
+import com.cy4.machina.network.message.S2CSyncTraitsCapability;
 
 import net.minecraft.world.World;
 
@@ -39,7 +39,7 @@ public class StarchartHelper {
 	 */
 	public static void syncCapabilityWithClients(World world) {
 		world.getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY).ifPresent(cap -> BaseNetwork
-				.sendToAll(MachinaNetwork.CHANNEL, new SyncTraitsCapabilityMessage(cap, world.dimension().location())));
+				.sendToAll(MachinaNetwork.CHANNEL, new S2CSyncTraitsCapability(cap, world.dimension().location())));
 	}
 
 	/**

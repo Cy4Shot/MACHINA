@@ -7,9 +7,9 @@ import com.cy4.machina.api.capability.planet_data.ClientPlanetDataStorage;
 import com.cy4.machina.api.planet.trait.PlanetTraitSpriteUploader;
 import com.cy4.machina.init.KeyBindingsInit;
 import com.cy4.machina.network.MachinaNetwork;
-import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage;
-import com.cy4.machina.network.message.to_server.DevPlanetCreationGUIMessage.ActionType;
-import com.cy4.machina.network.message.to_server.RequestTraitsUpdateMessage;
+import com.cy4.machina.network.message.C2SDevPlanetCreationGUI;
+import com.cy4.machina.network.message.C2SRequestTraitsUpdate;
+import com.cy4.machina.network.message.C2SDevPlanetCreationGUI.ActionType;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -85,7 +85,7 @@ public class DevPlanetCreationScreen extends Screen {
 	private void onCreateButton() {
 		try {
 			MachinaNetwork.CHANNEL.sendToServer(
-					new DevPlanetCreationGUIMessage(ActionType.CREATE, Integer.valueOf(dimensionID.getValue())));
+					new C2SDevPlanetCreationGUI(ActionType.CREATE, Integer.valueOf(dimensionID.getValue())));
 			minecraft.player.sendMessage(
 					new StringTextComponent(
 							"Planet with the id of " + Integer.valueOf(dimensionID.getValue()) + " was created!"),
@@ -99,7 +99,7 @@ public class DevPlanetCreationScreen extends Screen {
 	private void onTeleportButton() {
 		try {
 			MachinaNetwork.CHANNEL.sendToServer(
-					new DevPlanetCreationGUIMessage(ActionType.TELEPORT, Integer.valueOf(dimensionID.getValue())));
+					new C2SDevPlanetCreationGUI(ActionType.TELEPORT, Integer.valueOf(dimensionID.getValue())));
 			this.onClose();
 		} catch (NumberFormatException e) {
 			minecraft.player.sendMessage(new StringTextComponent("Invalid Planet ID!"), UUID.randomUUID());

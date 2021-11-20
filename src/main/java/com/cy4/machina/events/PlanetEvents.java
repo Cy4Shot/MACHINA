@@ -23,7 +23,7 @@ public class PlanetEvents {
 		}
 
 		event.getPlanet().getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY).ifPresent(cap -> {
-			Starchart sc = StarchartData.getDefaultInstance(event.getPlanet().getServer()).starchart;
+			Starchart sc = StarchartData.getDefaultInstance(event.getPlanet().getServer()).getStarchart();
 			try {
 				int id = Integer.parseInt(event.getPlanet().dimension().location().getPath());
 				if (sc.planets.size() - 1 >= id) {

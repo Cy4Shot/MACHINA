@@ -3,6 +3,7 @@ package com.cy4.machina.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cy4.machina.api.client.ClientStarchartHolder;
 import com.cy4.machina.api.client.gui.IBoundedGui;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.client.gui.element.PlanetNodeElement;
@@ -10,7 +11,6 @@ import com.cy4.machina.client.gui.element.ScrollableContainer;
 import com.cy4.machina.client.util.Rectangle;
 import com.cy4.machina.client.util.UIHelper;
 import com.cy4.machina.starchart.PlanetData;
-import com.cy4.machina.starchart.Starchart;
 import com.cy4.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,7 +23,6 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -33,16 +32,14 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	public static final ResourceLocation SC_BG = new MachinaRL("textures/gui/starchart/starchart_bg.png");
 	public static final ResourceLocation SC_RS = new MachinaRL("textures/gui/starchart/starchart_rs.png");
 
-	Starchart sc;
 	List<Vector2f> positions = new ArrayList<>();
 	List<PlanetNodeElement> nodes = new ArrayList<>();
 	private ScrollableContainer planetDescriptions;
 
 	public PlanetNodeElement selected = null;
 
-	public StarchartScreen(Starchart sc) {
+	public StarchartScreen() {
 		super(new TranslationTextComponent("machina.screen.starchart.title"));
-		this.sc = sc;
 
 		planetDescriptions = new ScrollableContainer(this::renderDescription,
 				new StringTextComponent("Planet Statistics"));
@@ -70,16 +67,16 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		nodes.clear();
 		Vector2f centre = getNewCentre();
 
-		for (int i = 1; i <= sc.planets.size(); i++) {
-			double angle = (Math.PI * 2) / sc.planets.size() * i;
+		for (int i = 1; i <= ClientStarchartHolder.getStarchart().planets.size(); i++) {
+			double angle = (Math.PI * 2) / ClientStarchartHolder.getStarchart().planets.size() * i;
 
-			double r = sc.planets.get(i - 1).dist * variance + min;
+			double r = ClientStarchartHolder.getStarchart().planets.get(i - 1).dist * variance + min;
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
 
 			positions.add(new Vector2f(centre.x - x, centre.y - y));
-			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, sc.planets.get(i - 1)));
+			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, ClientStarchartHolder.getStarchart().planets.get(i - 1)));
 		}
 	}
 
@@ -170,11 +167,6 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		if (selected == null) {
 			return new StringTextComponent("Terra Prime").setStyle(Style.EMPTY.withColor(Color.fromRgb(0xFF_2fc256)));
 		}
-		
-		/* Why are you using the data from the planet data which apparently doesnt care
-		 * about the capability. Thats not how u should do it. Use ONLY AND JUST (mistake
-		 * intended) the capability please - maty, 19/11/2021
-		*/
 		
 		PlanetData planet = selected.getData();
 		int color = planet.color;

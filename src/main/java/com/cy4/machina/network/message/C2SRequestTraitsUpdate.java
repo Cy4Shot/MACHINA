@@ -1,4 +1,4 @@
-package com.cy4.machina.network.message.to_server;
+package com.cy4.machina.network.message;
 
 import com.cy4.machina.api.network.message.IMachinaMessage;
 import com.cy4.machina.api.util.helper.StarchartHelper;
@@ -7,7 +7,7 @@ import net.minecraft.network.PacketBuffer;
 
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class RequestTraitsUpdateMessage implements IMachinaMessage {
+public class C2SRequestTraitsUpdate implements IMachinaMessage {
 
 	@Override
 	public void handle(Context context) {
@@ -19,8 +19,8 @@ public class RequestTraitsUpdateMessage implements IMachinaMessage {
 		// Nothing to encode. Just requesting an update
 	}
 
-	public static RequestTraitsUpdateMessage decode(PacketBuffer buffer) {
-		return new RequestTraitsUpdateMessage();
+	public static C2SRequestTraitsUpdate decode(PacketBuffer buffer) {
+		return new C2SRequestTraitsUpdate();
 	}
 
 }
