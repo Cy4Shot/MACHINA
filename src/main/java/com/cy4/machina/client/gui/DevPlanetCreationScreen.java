@@ -3,7 +3,7 @@ package com.cy4.machina.client.gui;
 import java.awt.event.KeyEvent;
 import java.util.UUID;
 
-import com.cy4.machina.api.capability.planet_data.CapabilityPlanetData;
+import com.cy4.machina.api.capability.planet_data.ClientPlanetDataStorage;
 import com.cy4.machina.api.planet.trait.PlanetTraitSpriteUploader;
 import com.cy4.machina.init.KeyBindingsInit;
 import com.cy4.machina.network.MachinaNetwork;
@@ -113,8 +113,7 @@ public class DevPlanetCreationScreen extends Screen {
 		this.renderBackground(pMatrixStack);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
 
-		MachinaNetwork.CHANNEL.sendToServer(new RequestTraitsUpdateMessage());
-		minecraft.level.getCapability(CapabilityPlanetData.PLANET_DATA_CAPABILITY).ifPresent(cap -> {
+		ClientPlanetDataStorage.getFromWorld(minecraft.level).ifPresent(cap -> {
 			for (int i = 0; i < cap.getTraits().size(); i++) {
 				TextureAtlasSprite textureatlassprite = PlanetTraitSpriteUploader.getFromInstance(cap.getTraits().get(i));
 				minecraft.getTextureManager().bind(textureatlassprite.atlas().location());

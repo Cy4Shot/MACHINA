@@ -49,8 +49,9 @@ public final class CapabilityPlanetData {
 	 * @param world
 	 */
 	public static void syncCapabilityWithClients(World world) {
-		world.getCapability(PLANET_DATA_CAPABILITY).ifPresent(
-				cap -> BaseNetwork.sendToAllInWorld(MachinaNetwork.CHANNEL, new SyncTraitsCapabilityMessage(cap), world));
+		world.getCapability(PLANET_DATA_CAPABILITY)
+				.ifPresent(cap -> BaseNetwork.sendToAll(MachinaNetwork.CHANNEL,
+						new SyncTraitsCapabilityMessage(cap, world.dimension().location())));
 	}
 
 	/**
@@ -115,7 +116,7 @@ public final class CapabilityPlanetData {
 			deserialize(nbt, instance);
 
 		}
-		
+
 		public static CompoundNBT serialize(IPlanetDataCapability instance) {
 			CompoundNBT tag = new CompoundNBT();
 
@@ -146,20 +147,21 @@ public final class CapabilityPlanetData {
 				instance.setName(nbt.getString("name"));
 			}
 		}
-		
+
 		public static void transferData(IPlanetDataCapability provider, IPlanetDataCapability destination) {
 			destination.clear();
 			deserialize(serialize(provider), destination);
 		}
-		
+
 	}
-	
+
 	@Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE)
 	public static final class EventHandler {
-		
+
 		@SubscribeEvent
 		public static void onAttachCapabilities(AttachCapabilitiesEvent<World> event) {
-			// pretty sure that it is only put on the server if i don't check for client side
+			// pretty sure that it is only put on the server if i don't check for client
+			// side
 			if (event.getObject().isClientSide()) {
 				attachPlanetTraitCap(event);
 			} else {
