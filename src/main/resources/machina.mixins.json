@@ -6,7 +6,8 @@
 	"mixins": [
 		"WorldMixin",
 		"EntityMixin",
-		"forge.LanguageProviderMixin"
+		"forge.LanguageProviderMixin",
+		"SugarCaneBlockMixin"
 	],
 	"client": [
 		"client.ServerWorldInfoMixin",
