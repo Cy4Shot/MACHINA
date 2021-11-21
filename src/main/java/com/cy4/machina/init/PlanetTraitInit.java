@@ -67,5 +67,14 @@ public final class PlanetTraitInit  {
 	 * <strong>DO NOT ADD TO A PLANET</strong>
 	 */
 	@RegisterPlanetTrait(id = "not_existing")
-	public static final PlanetTrait NOT_EXISTING = new PlanetTrait(0x00000);
+	public static final PlanetTrait NOT_EXISTING = new PlanetTrait(0x00000) {
+		@Override
+		public boolean showsInJei() { return false; }
+	};
+	
+	@RegistryHolder
+	public static final class Environmental {
+		@RegisterPlanetTrait(id = "supercold")
+		public static final PlanetTrait SUPERCOLD = new PlanetTrait(0xffffff);
+	}
 }

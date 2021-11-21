@@ -53,6 +53,8 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(FluidInit.OXYGEN.get(), "Oxygen");
 		add(FluidInit.HYDROGEN.get(), "Hydrogen");
 		add(FluidInit.LIQUID_HYDROGEN.get(), "Liquid Hydrogen");
+		
+		addCommandArgumentFeedback("planet_trait.invalid", "Invalid Planet Trait: \u00A76%s");
 
 		addDamageSourceMsg("liquidHydrogen", "%1$s stayed too much in hydrogen... Never do that at home kids!", "%1$s encountered hydrogen whilst fighting %2$s!");
 
@@ -63,6 +65,8 @@ public class EnUsLangProvider extends LanguageProvider {
 		add("direction.south", "South");
 		add("direction.east", "East");
 		add("direction.west", "West");
+		
+		add("jei.planet_trait.type", "Planet Trait");
 
 		addAutoItems(Lists.newArrayList(ItemInit.ITEM_GROUP_ICON));
 	}
@@ -79,7 +83,7 @@ public class EnUsLangProvider extends LanguageProvider {
 	}
 
 	private void add(PlanetTrait trait, String name) {
-		add(trait.getRegistryName().getNamespace() + ".trait." + trait.getRegistryName().getPath(), name);
+		add(trait.getRegistryName().getNamespace() + ".planet_trait." + trait.getRegistryName().getPath(), name);
 	}
 
 	private void add(Fluid fluid, String name) {
@@ -90,9 +94,9 @@ public class EnUsLangProvider extends LanguageProvider {
 //		add("command." + key, name);
 //	}
 //
-//	private void addCommandArgumentFeedback(String key, String name) {
-//		add("argument." + key, name);
-//	}
+	private void addCommandArgumentFeedback(String key, String name) {
+		add("argument." + key, name);
+	}
 
 	private void addDamageSourceMsg(String name, String normal, String diedWhilstFighting) {
 		add("death.attack." + name, normal);
