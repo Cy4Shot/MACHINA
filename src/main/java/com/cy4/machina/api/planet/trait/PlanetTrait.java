@@ -136,6 +136,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		private boolean hasJeiDescription = true;
 
 		public JeiProperties() {
+			//
 		}
 
 		public JeiProperties setShowsInJei(boolean value) {
