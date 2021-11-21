@@ -8,38 +8,42 @@ import mezz.jei.api.ingredients.IIngredientHelper;
 public class PlanetTraitJEIHelper implements IIngredientHelper<PlanetTrait> {
 
 	@Override
-	public PlanetTrait getMatch(Iterable<PlanetTrait> ingredients, PlanetTrait ingredientToMatch) {
-		return Lists.newArrayList(ingredients).stream().filter(trait -> ingredientToMatch == trait).findFirst().get();
+	public PlanetTrait getMatch(Iterable<PlanetTrait> traits, PlanetTrait traitToMatch) {
+		return Lists.newArrayList(traits).stream().filter(trait -> traitToMatch == trait).findFirst().get();
 	}
 
 	@Override
-	public String getDisplayName(PlanetTrait ingredient) {
-		return ingredient.toString();
+	public String getDisplayName(PlanetTrait trait) {
+		return trait.toString();
 	}
 
 	@Override
-	public String getUniqueId(PlanetTrait ingredient) {
-		return ingredient.getRegistryName().toString();
+	public String getUniqueId(PlanetTrait trait) {
+		return trait.getRegistryName().toString();
 	}
 
 	@Override
-	public String getModId(PlanetTrait ingredient) {
-		return ingredient.getRegistryName().getNamespace();
+	public String getModId(PlanetTrait trait) {
+		return trait.getRegistryName().getNamespace();
 	}
 
 	@Override
-	public String getResourceId(PlanetTrait ingredient) {
-		return ingredient.getRegistryName().getPath();
+	public String getResourceId(PlanetTrait trait) {
+		return trait.getRegistryName().getPath();
 	}
 
 	@Override
-	public PlanetTrait copyIngredient(PlanetTrait ingredient) {
-		return ingredient;
+	public PlanetTrait copyIngredient(PlanetTrait trait) {
+		return trait;
 	}
 
 	@Override
-	public String getErrorInfo(PlanetTrait ingredient) {
-		return "";
+	public String getErrorInfo(PlanetTrait trait) {
+		return trait.toString();
 	}
 
+	@Override
+	public Iterable<Integer> getColors(PlanetTrait trait) {
+		return Lists.newArrayList(trait.getColor());
+	}
 }

@@ -17,13 +17,13 @@ import mezz.jei.api.ingredients.IIngredientRenderer;
 public class PlanetTraitJEIRenderer implements IIngredientRenderer<PlanetTrait> {
 
 	@Override
-	public void render(MatrixStack matrixStack, int xPosition, int yPosition, PlanetTrait ingredient) {
-		if (ingredient != null) {
+	public void render(MatrixStack matrixStack, int xPosition, int yPosition, PlanetTrait trait) {
+		if (trait != null) {
 			RenderSystem.pushMatrix();
 			RenderSystem.multMatrix(matrixStack.last().pose());
 			RenderSystem.enableDepthTest();
 			RenderHelper.turnBackOn();
-			ingredient.render(matrixStack, xPosition, yPosition, true);
+			trait.render(matrixStack, xPosition, yPosition, true);
 			RenderSystem.disableBlend();
 			RenderHelper.turnOff();
 			RenderSystem.popMatrix();
@@ -31,9 +31,9 @@ public class PlanetTraitJEIRenderer implements IIngredientRenderer<PlanetTrait> 
 	}
 
 	@Override
-	public List<ITextComponent> getTooltip(PlanetTrait ingredient, ITooltipFlag tooltipFlag) {
+	public List<ITextComponent> getTooltip(PlanetTrait trait, ITooltipFlag tooltipFlag) {
 		List<ITextComponent> tooltips = new LinkedList<>();
-		tooltips.addAll(ingredient.getTooltip(tooltipFlag));
+		tooltips.addAll(trait.getTooltip(tooltipFlag));
 		tooltips.add(new TranslationTextComponent("jei.planet_trait.type"));
 		return tooltips;
 	}
