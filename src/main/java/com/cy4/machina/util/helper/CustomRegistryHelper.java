@@ -26,7 +26,7 @@ public class CustomRegistryHelper {
 
 	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField,
 			Class<T> registryClass, ResourceLocation registryName, Optional<ResourceLocation> defaultValue) {
-		registerRegistry(targetField, registryClass, registryName, defaultValue);
+		registerRegistry(targetField, registryClass, registryName, defaultValue, Optional.empty());
 	}
 
 	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField,
