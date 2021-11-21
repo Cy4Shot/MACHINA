@@ -15,32 +15,25 @@ public final class BlockItemInit {
 	public static final Block[] AUTO_BLOCK_ITEMS = new Block[] {};
 
 	@RegisterBlockItem
-	public static final BlockItem ROCKET_PLATFORM_BLOCKITEM = new BlockItem(BlockInit.ROCKET_PLATFORM_BLOCK,
-			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	public static final BlockItem ROCKET_PLATFORM_BLOCKITEM = createBlockItem(BlockInit.ROCKET_PLATFORM_BLOCK);
 
 	@RegisterBlockItem
-	public static final BlockItem ANIMATED_BUILDER_MOUNT_BLOCKITEM = new BlockItem(BlockInit.ANIMATED_BUILDER_MOUNT,
-			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	public static final BlockItem ANIMATED_BUILDER_MOUNT_BLOCKITEM = createBlockItem(BlockInit.ANIMATED_BUILDER_MOUNT);
 
 	@RegisterBlockItem
-	public static final BlockItem ANIMATED_BUILDER_BLOCKITEM = new BlockItem(BlockInit.ANIMATED_BUILDER,
-			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	public static final BlockItem ANIMATED_BUILDER_BLOCKITEM = createBlockItem(BlockInit.ANIMATED_BUILDER);
 
 	@RegisterBlockItem
-	public static final BlockItem PAD_SIZE_RELAY_BLOCKITEM = new BlockItem(BlockInit.PAD_SIZE_RELAY,
-			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	public static final BlockItem PAD_SIZE_RELAY_BLOCKITEM = createBlockItem(BlockInit.PAD_SIZE_RELAY);
 
 	@RegisterBlockItem
-	public static final BlockItem CONSOLE_BLOCKITEM = new BlockItem(BlockInit.CONSOLE,
-			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	public static final BlockItem CONSOLE_BLOCKITEM = createBlockItem(BlockInit.CONSOLE);
 
 	@RegisterBlockItem
-	public static final BlockItem ROCKET_BLOCKITEM = new BlockItem(BlockInit.ROCKET,
-			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	public static final BlockItem ROCKET_BLOCKITEM = createBlockItem(BlockInit.ROCKET);
 
 	@RegisterBlockItem
-	public static final BlockItem ROCKET_MOUNT_BLOCKITEM = new BlockItem(BlockInit.ROCKET_MOUNT,
-			new Item.Properties().tab(MACHINA_ITEM_GROUP));
+	public static final BlockItem ROCKET_MOUNT_BLOCKITEM = createBlockItem(BlockInit.ROCKET_MOUNT);
 
 	@RegisterBlockItem
 	public static final BlockItem PUMP_BLOCK_ITEM = createBlockItem(BlockInit.PUMP);
