@@ -4,6 +4,8 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait.JeiProperties;
+import com.cy4.machina.api.planet.trait.PlanetTrait.Properties;
 
 import net.minecraft.item.Items;
 
@@ -12,7 +14,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 /**
  * @author Cy4Shot
  */
-
+@SuppressWarnings("deprecation")
 @RegistryHolder(modid = Machina.MOD_ID)
 public final class PlanetTraitInit  {
 
@@ -67,10 +69,8 @@ public final class PlanetTraitInit  {
 	 * <strong>DO NOT ADD TO A PLANET</strong>
 	 */
 	@RegisterPlanetTrait(id = "not_existing")
-	public static final PlanetTrait NOT_EXISTING = new PlanetTrait(0x00000) {
-		@Override
-		public boolean showsInJei() { return false; }
-	};
+	public static final PlanetTrait NOT_EXISTING = new PlanetTrait(new Properties(0x000000)
+			.withJeiProperties(new JeiProperties().setShowsInJei(false)));
 	
 	@RegistryHolder
 	public static final class Environmental {

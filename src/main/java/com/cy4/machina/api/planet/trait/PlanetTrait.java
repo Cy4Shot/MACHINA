@@ -36,15 +36,27 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 				Optional.of(new MachinaRL("planet_trait_registry")));
 	}
 
-	private int color;
+	private final Properties properties;
 
-	public PlanetTrait(int color) {
-		this.setColor(color);
+	public PlanetTrait(Properties properties) {
+		this.properties = properties;
 	}
 
-	public int getColor() { return color; }
+	/**
+	 * Use the {@link PlanetTrait#PlanetTrait(Properties)} constructor (the one
+	 * using {@link Properties})
+	 * 
+	 * @deprecated
+	 * @param color
+	 */
+	@Deprecated
+	public PlanetTrait(int color) {
+		this(new Properties(color));
+	}
 
-	public void setColor(int color) { this.color = color; }
+	public Properties getProperties() { return this.properties; }
+
+	public int getColor() { return properties.getColour(); }
 
 	public ITextComponent getName() {
 		return new TranslationTextComponent(
@@ -65,10 +77,14 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		return Lists.newArrayList(new TranslationTextComponent(
 				getRegistryName().getNamespace() + ".planet_trait." + getRegistryName().getPath() + ".description"));
 	}
-	
-	public boolean hasDescription() { return true; }
-	
-	public boolean showsInJei() { return true; }
+
+	public boolean hasDescription() {
+		return properties.jeiProperties.hasJeiDescription;
+	}
+
+	public boolean showsInJei() {
+		return properties.jeiProperties.showsInJei;
+	}
 
 	public boolean exists() {
 		return this != PlanetTraitInit.NOT_EXISTING;
@@ -80,8 +96,10 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		Minecraft minecraft = Minecraft.getInstance();
 		TextureAtlasSprite textureatlassprite = getIcon();
 		minecraft.getTextureManager().bind(textureatlassprite.atlas().location());
-		Color colour = new Color(this.color);
-		float[] compFloat = new float[] {1.0f, 1.0f, 1.0f, 1.0f};
+		Color colour = new Color(getColor());
+		float[] compFloat = new float[] {
+				1.0f, 1.0f, 1.0f, 1.0f
+		};
 		float[] colourArray = colour.getComponents(compFloat);
 		if (coloured) {
 			RenderSystem.color4f(colourArray[0], colourArray[1], colourArray[2], colourArray[3]);
@@ -90,5 +108,53 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		}
 		AbstractGui.blit(matrixStack, xPosition, yPosition, 12, 16, 16, textureatlassprite);
 	}
-	
+
+	public static class Properties {
+
+		private final int colour;
+		private JeiProperties jeiProperties = new JeiProperties();
+
+		public Properties(int colour) {
+			this.colour = colour;
+		}
+
+		public Properties withJeiProperties(JeiProperties jeiProperties) {
+			this.jeiProperties = jeiProperties;
+			return this;
+		}
+
+		public int getColour() { return colour; }
+
+		public JeiProperties jeiProperties() {
+			return jeiProperties;
+		}
+	}
+
+	public static class JeiProperties {
+
+		private boolean showsInJei = true;
+		private boolean hasJeiDescription = true;
+
+		public JeiProperties() {
+		}
+
+		public JeiProperties setShowsInJei(boolean value) {
+			showsInJei = value;
+			return this;
+		}
+
+		public JeiProperties setHasJeiDescription(boolean value) {
+			hasJeiDescription = value;
+			return this;
+		}
+
+		public boolean showsInJei() {
+			return showsInJei;
+		}
+
+		public boolean hasJeiDescription() {
+			return hasJeiDescription;
+		}
+	}
+
 }
