@@ -52,10 +52,26 @@ import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+/**
+ * Handles all of the RegistryAnnotations. (all annotations included in this
+ * package {@link com.cy4.machina.api.annotation.registries}) <br>
+ * Any exception that will be caught during the processing <strong>will be
+ * thrown back</strong> as a {@link RegistryException}
+ * 
+ * @author matyrobbrt
+ *
+ */
 public class RegistryAnnotationProcessor {
 
 	private final String ownerModID;
 
+	/**
+	 * Creates a new {@link RegistryAnnotationProcessor} which will be used in order
+	 * to process registry annotations. It is recommended to store this statically
+	 * somewhere.
+	 * 
+	 * @param modid the mod id to process the annotations for
+	 */
 	public RegistryAnnotationProcessor(String modid) {
 		this.ownerModID = modid;
 	}
@@ -65,6 +81,13 @@ public class RegistryAnnotationProcessor {
 				: Lists.newArrayList();
 	}
 
+	/**
+	 * Adds listeners for all the methods that process annotations. Basically starts
+	 * the actual registering. <br>
+	 * Call it in your mods' constructor
+	 * 
+	 * @param modBus
+	 */
 	public void register(IEventBus modBus) {
 		modBus.addListener(this::constructMod);
 		modBus.addGenericListener(AdvancedCraftingFunctionSerializer.class, this::registerAdvancedCraftingFunctions);
@@ -100,7 +123,7 @@ public class RegistryAnnotationProcessor {
 							registryClasses.add(clazz);
 						}
 					} catch (ClassNotFoundException e) {
-						// Unknown class
+						throw new RegistryException("A class which holds registry annotations was not found!", e);
 					}
 				});
 	}
@@ -182,8 +205,7 @@ public class RegistryAnnotationProcessor {
 					//@formatter:on
 				}
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
-				// Exception. Ignore
-				e.printStackTrace();
+				throw new RegistryException("Registry Annotations Failed!", e);
 			}
 		});
 
@@ -274,8 +296,7 @@ public class RegistryAnnotationProcessor {
 				}
 			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
-				// Exception. Ignore
-				e.printStackTrace();
+				throw new RegistryException("Registry Annotations Failed!", e);
 			}
 		});
 	}
