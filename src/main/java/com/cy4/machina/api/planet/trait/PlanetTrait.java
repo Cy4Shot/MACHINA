@@ -49,7 +49,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 	/**
 	 * Use the {@link PlanetTrait#PlanetTrait(Properties)} constructor (the one
 	 * using {@link Properties})
-	 * 
+	 *
 	 * @deprecated
 	 * @param color
 	 */
@@ -58,7 +58,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		this(new Properties(color));
 	}
 
-	public Properties getProperties() { return this.properties; }
+	public Properties getProperties() { return properties; }
 
 	public int getColor() { return properties.getColour(); }
 

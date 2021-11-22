@@ -36,6 +36,7 @@ public class ClientSetup {
 
 	/**
 	 * Does client stuffs
+	 * 
 	 * @param modBus
 	 */
 	public ClientSetup(IEventBus modBus) {

@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * <strong>just<strong> a {@link RegistryEvent.NewRegistry} as a parameter with
  * this annotation. <br>
  * {@link RegistryHolder} is <strong>still needed</strong>
- * 
+ *
  * @author matyrobbrt
  *
  */

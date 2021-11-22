@@ -15,19 +15,25 @@ public final class ItemInit {
 
 	@RegisterItem("item_group_icon")
 	public static final Item ITEM_GROUP_ICON = new Item(new Item.Properties().tab(MACHINA_ITEM_GROUP)) {
+
 		@Override
-		public void fillItemCategory(net.minecraft.item.ItemGroup pGroup, net.minecraft.util.NonNullList<net.minecraft.item.ItemStack> pItems) {}
+		public void fillItemCategory(net.minecraft.item.ItemGroup pGroup,
+				net.minecraft.util.NonNullList<net.minecraft.item.ItemStack> pItems) {
+		}
 	};
 
 	@RegisterItem("thermal_regulating_helmet")
-	public static final ThermalRegulatorSuit THERMAL_REGULATING_HELMET = new ThermalRegulatorSuit(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.HEAD);
+	public static final ThermalRegulatorSuit THERMAL_REGULATING_HELMET = new ThermalRegulatorSuit(
+			new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.HEAD);
 	@RegisterItem("thermal_regulating_chestplate")
-	public static final ThermalRegulatorSuit THERMAL_REGULATING_CHESTPLATE = new ThermalRegulatorSuit(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.CHEST);
+	public static final ThermalRegulatorSuit THERMAL_REGULATING_CHESTPLATE = new ThermalRegulatorSuit(
+			new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.CHEST);
 	@RegisterItem("thermal_regulating_leggings")
-	public static final ThermalRegulatorSuit THERMAL_REGULATING_LEGGINGS = new ThermalRegulatorSuit(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.LEGS);
+	public static final ThermalRegulatorSuit THERMAL_REGULATING_LEGGINGS = new ThermalRegulatorSuit(
+			new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.LEGS);
 	@RegisterItem("thermal_regulating_boots")
-	public static final ThermalRegulatorSuit THERMAL_REGULATING_BOOTS = new ThermalRegulatorSuit(new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.FEET);
-
+	public static final ThermalRegulatorSuit THERMAL_REGULATING_BOOTS = new ThermalRegulatorSuit(
+			new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.FEET);
 
 	@RegisterItem("wrench")
 	public static final WrenchItem WRENCH = new WrenchItem(new Item.Properties().tab(MACHINA_ITEM_GROUP));

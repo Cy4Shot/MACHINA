@@ -14,7 +14,8 @@ public class ClientConfig extends BaseTOMLConfig {
 	static {
 		BUILDER.push("generalConfig");
 
-		DISABLE_EXPERIMENTAL_SETTINGS_SCREEN = config("If the experimentals settings screen should be disabled.", "disableExperimentalSettingsScreen", true);
+		DISABLE_EXPERIMENTAL_SETTINGS_SCREEN = config("If the experimentals settings screen should be disabled.",
+				"disableExperimentalSettingsScreen", true);
 
 		SPEC = BUILDER.build();
 	}

@@ -41,13 +41,9 @@ public class ScrollableContainer extends AbstractGui {
 		return (float) yOffset / (innerHeight - scrollBounds.getHeight());
 	}
 
-	public void setInnerHeight(int innerHeight) {
-		this.innerHeight = innerHeight;
-	}
+	public void setInnerHeight(int innerHeight) { this.innerHeight = innerHeight; }
 
-	public void setBounds(Rectangle bounds) {
-		this.bounds = bounds;
-	}
+	public void setBounds(Rectangle bounds) { this.bounds = bounds; }
 
 	public Rectangle getRenderableBounds() {
 		Rectangle renderableBounds = new Rectangle(bounds);

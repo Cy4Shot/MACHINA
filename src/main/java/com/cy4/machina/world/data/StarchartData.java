@@ -48,43 +48,39 @@ public class StarchartData extends WorldSavedData {
 		starchart = sc;
 		this.setDirty();
 	}
-	
-	public Starchart getStarchart() {
-		return starchart;
-	}
-	
+
+	public Starchart getStarchart() { return starchart; }
+
 	public void setGenerated(boolean gen) {
 		isGenerated = gen;
 		this.setDirty();
 	}
-	
-	public boolean getGenerated() {
-		return isGenerated;
-	}
+
+	public boolean getGenerated() { return isGenerated; }
 
 	public void setStarchartIfNull(Starchart sc) {
 		if (starchart.planets.size() == 0) {
 			setStarchart(sc);
 		}
 	}
-	
+
 	public void syncClients() {
 		BaseNetwork.sendToAll(MachinaNetwork.CHANNEL, new S2CSyncStarchart(starchart));
 	}
-	
+
 	public void syncClient(ServerPlayerEntity e) {
 		BaseNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CSyncStarchart(starchart), e);
 	}
-	
+
 	public void generateIf(long seed) {
 		if (!isGenerated) {
 			starchart.generateStarchart(seed);
-			this.isGenerated = true;
+			isGenerated = true;
 			this.setDirty();
 			syncClients();
 		}
 	}
-	
+
 	public static Starchart getStarchartForServer(MinecraftServer server) {
 		return StarchartData.getDefaultInstance(server).getStarchart();
 	}

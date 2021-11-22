@@ -20,6 +20,7 @@ public @interface ChangedByReflection {
 
 	/**
 	 * Indicates when the value of the field will be changed
+	 * 
 	 * @return
 	 */
 	@Syntax("Java")

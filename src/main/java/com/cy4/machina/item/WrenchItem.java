@@ -25,9 +25,7 @@ public class WrenchItem extends Item {
 
 	@Override
 	public ActionResultType useOn(ItemUseContext pContext) {
-		if (pContext.getLevel().isClientSide()) {
-			return super.useOn(pContext);
-		}
+		if (pContext.getLevel().isClientSide()) { return super.useOn(pContext); }
 		BlockState state = pContext.getLevel().getBlockState(pContext.getClickedPos());
 		BlockPos pos = pContext.getClickedPos();
 		if (state.is(TagInit.Blocks.WRENCH_EFFECTIVE)) {

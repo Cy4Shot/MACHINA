@@ -13,6 +13,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class RocketTile extends TileEntity implements IAnimatable {
+
 	private final AnimationFactory factory = new AnimationFactory(this);
 
 	@SuppressWarnings("unchecked")
@@ -25,7 +26,6 @@ public class RocketTile extends TileEntity implements IAnimatable {
 	public RocketTile() {
 		super(TileEntityTypesInit.ROCKET_TILE);
 	}
-
 
 	@Override
 	public void registerControllers(AnimationData data) {

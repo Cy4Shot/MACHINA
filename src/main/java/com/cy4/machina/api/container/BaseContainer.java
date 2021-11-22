@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
 public abstract class BaseContainer extends Container {
+
 	/**
 	 * Define this in the constructor. Will be used by {@link #quickMoveStack}
 	 */
@@ -28,13 +29,12 @@ public abstract class BaseContainer extends Container {
 	public ItemStack quickMoveStack(PlayerEntity pPlayer, int index) {
 		ItemStack stack = ItemStack.EMPTY;
 		Slot slot = slots.get(index);
-		if (!slot.isActive()) {
-			return ItemStack.EMPTY;
-		}
+		if (!slot.isActive()) { return ItemStack.EMPTY; }
 		if (slot.hasItem()) {
 			ItemStack stack1 = slot.getItem();
 			stack = stack1.copy();
-			if ((index < slotsNumber && !this.moveItemStackTo(stack1, slotsNumber, slots.size(), true)) || !this.moveItemStackTo(stack1, 0, slotsNumber, false)) {
+			if ((index < slotsNumber && !this.moveItemStackTo(stack1, slotsNumber, slots.size(), true))
+					|| !this.moveItemStackTo(stack1, 0, slotsNumber, false)) {
 				return ItemStack.EMPTY;
 			}
 

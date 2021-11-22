@@ -10,17 +10,22 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target({
-	FIELD
+		FIELD
 })
 /**
- * Registers the {@link Item} that is represented by the field that has this annotation. For the item to be registered the class in which the field is has to be annotated with {@link RegistryHolder}
+ * Registers the {@link Item} that is represented by the field that has this
+ * annotation. For the item to be registered the class in which the field is has
+ * to be annotated with {@link RegistryHolder}
+ * 
  * @author matyrobbrt
  *
  */
 public @interface RegisterItem {
 
 	/**
-	 * The registry name of the item (the modid is specified by the {@link RegistryHolder} on the class the field is in)
+	 * The registry name of the item (the modid is specified by the
+	 * {@link RegistryHolder} on the class the field is in)
+	 * 
 	 * @return
 	 */
 	String value();

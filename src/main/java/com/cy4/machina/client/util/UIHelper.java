@@ -187,7 +187,9 @@ public class UIHelper {
 		return processors.size();
 	}
 
-	private static final int[] LINE_BREAK_VALUES = new int[] { 0, 10, -10, 25, -25 };
+	private static final int[] LINE_BREAK_VALUES = new int[] {
+			0, 10, -10, 25, -25
+	};
 
 	private static List<ITextProperties> getLines(ITextComponent component, int maxWidth) {
 		Minecraft minecraft = Minecraft.getInstance();
@@ -199,9 +201,7 @@ public class UIHelper {
 		for (int i : LINE_BREAK_VALUES) {
 			List<ITextProperties> list1 = charactermanager.splitLines(component, maxWidth - i, Style.EMPTY);
 			float f1 = Math.abs(getTextWidth(charactermanager, list1) - maxWidth);
-			if (f1 <= 10.0F) {
-				return list1;
-			}
+			if (f1 <= 10.0F) { return list1; }
 
 			if (f1 < f) {
 				f = f1;

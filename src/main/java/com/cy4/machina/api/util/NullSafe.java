@@ -15,13 +15,17 @@ public class NullSafe<O> {
 
 	/**
 	 * Gets the value of the object
+	 * 
 	 * @return
 	 */
 	@Nonnull
-	public O get() { return object; }
+	public O get() {
+		return object;
+	}
 
 	/**
 	 * Sets the value of the object
+	 * 
 	 * @param object
 	 * @throws NullPointerException if the new object is null
 	 */

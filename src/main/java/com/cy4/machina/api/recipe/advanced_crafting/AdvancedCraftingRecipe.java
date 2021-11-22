@@ -34,7 +34,8 @@ public class AdvancedCraftingRecipe extends ShapedRecipe {
 
 	private final JsonObject functionData;
 
-	public AdvancedCraftingRecipe(ResourceLocation id, String group, int width, int height, NonNullList<Ingredient> inputs, ItemStack output, JsonObject functionData) {
+	public AdvancedCraftingRecipe(ResourceLocation id, String group, int width, int height,
+			NonNullList<Ingredient> inputs, ItemStack output, JsonObject functionData) {
 		super(id, group, width, height, inputs, output);
 		this.functionData = functionData;
 	}
@@ -49,22 +50,22 @@ public class AdvancedCraftingRecipe extends ShapedRecipe {
 	}
 
 	public AdvancedCraftingFunction getFunction() {
-		AdvancedCraftingFunctionSerializer<?> serializer = AdvancedCraftingFunctionSerializer.REGISTRY.getValue(new ResourceLocation(JSONUtils
-				.getAsString(functionData, "type")));
-		return serializer != null ? serializer.deserialize(functionData) : EmptyFunction.SERIALIZER.deserialize(functionData);
+		AdvancedCraftingFunctionSerializer<?> serializer = AdvancedCraftingFunctionSerializer.REGISTRY
+				.getValue(new ResourceLocation(JSONUtils.getAsString(functionData, "type")));
+		return serializer != null ? serializer.deserialize(functionData)
+				: EmptyFunction.SERIALIZER.deserialize(functionData);
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
-		return SERIALIZER;
-	}
+	public IRecipeSerializer<?> getSerializer() { return SERIALIZER; }
 
 	@Override
 	public ItemStack assemble(CraftingInventory pInv) {
 		return getFunction().assemble(super.assemble(pInv), pInv, this);
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AdvancedCraftingRecipe> {
+	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
+			implements IRecipeSerializer<AdvancedCraftingRecipe> {
 
 		@Override
 		public AdvancedCraftingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
@@ -75,7 +76,8 @@ public class AdvancedCraftingRecipe extends ShapedRecipe {
 			int j = astring.length;
 			NonNullList<Ingredient> nonnulllist = ShapedRecipe.dissolvePattern(astring, map, i, j);
 			ItemStack itemstack = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
-			JsonObject serializer = json.has("function") ? JSONUtils.getAsJsonObject(json, "function") : EmptyFunction.EMTPY_OBJECT;
+			JsonObject serializer = json.has("function") ? JSONUtils.getAsJsonObject(json, "function")
+					: EmptyFunction.EMTPY_OBJECT;
 			return new AdvancedCraftingRecipe(recipeId, s, i, j, nonnulllist, itemstack, serializer);
 		}
 

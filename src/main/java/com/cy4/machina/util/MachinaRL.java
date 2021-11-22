@@ -11,7 +11,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public class MachinaRL extends ResourceLocation {
 
-	private static final SimpleCommandExceptionType ERROR_INVALID = new SimpleCommandExceptionType(new TranslationTextComponent("argument.id.invalid"));
+	private static final SimpleCommandExceptionType ERROR_INVALID = new SimpleCommandExceptionType(
+			new TranslationTextComponent("argument.id.invalid"));
 
 	public MachinaRL(String name) {
 		super(checkModId(name));
@@ -28,7 +29,7 @@ public class MachinaRL extends ResourceLocation {
 	public static MachinaRL read(StringReader pReader) throws CommandSyntaxException {
 		int i = pReader.getCursor();
 
-		while(pReader.canRead() && isAllowedInResourceLocation(pReader.peek())) {
+		while (pReader.canRead() && isAllowedInResourceLocation(pReader.peek())) {
 			pReader.skip();
 		}
 

@@ -3,6 +3,7 @@ package com.cy4.machina.client.util;
 import net.minecraft.util.math.vector.Vector2f;
 
 public class Rectangle {
+
 	public int x0, y0;
 	public int x1, y1;
 
@@ -16,21 +17,13 @@ public class Rectangle {
 		y1 = other.y1;
 	}
 
-	public int getWidth() {
-		return x1 - x0;
-	}
+	public int getWidth() { return x1 - x0; }
 
-	public int getHeight() {
-		return y1 - y0;
-	}
+	public int getHeight() { return y1 - y0; }
 
-	public void setWidth(int width) {
-		x1 = x0 + width;
-	}
+	public void setWidth(int width) { x1 = x0 + width; }
 
-	public void setHeight(int height) {
-		y1 = y0 + height;
-	}
+	public void setHeight(int height) { y1 = y0 + height; }
 
 	public boolean contains(int x, int y) {
 		return x0 <= x && x <= x1 && y0 <= y && y <= y1;

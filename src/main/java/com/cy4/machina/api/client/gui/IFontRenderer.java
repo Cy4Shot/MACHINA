@@ -52,7 +52,8 @@ public interface IFontRenderer {
 		drawCenteredText(matrix, component, x, 0, y, color);
 	}
 
-	default void drawCenteredText(MatrixStack matrix, ITextComponent component, float xStart, float areaWidth, float y, int color) {
+	default void drawCenteredText(MatrixStack matrix, ITextComponent component, float xStart, float areaWidth, float y,
+			int color) {
 		int textWidth = getStringWidth(component);
 		float centerX = xStart + (areaWidth / 2F) - (textWidth / 2F);
 		drawTextExact(matrix, component, centerX, y, color);
@@ -62,17 +63,20 @@ public interface IFontRenderer {
 		drawCenteredTextScaledBound(matrix, text, getXSize() - 8, y, titleTextColor());
 	}
 
-	default void drawScaledCenteredText(MatrixStack matrix, ITextComponent text, float left, float y, int color, float scale) {
+	default void drawScaledCenteredText(MatrixStack matrix, ITextComponent text, float left, float y, int color,
+			float scale) {
 		int textWidth = getStringWidth(text);
 		float centerX = left - (textWidth / 2F) * scale;
 		drawTextWithScale(matrix, text, centerX, y, color, scale);
 	}
 
-	default void drawCenteredTextScaledBound(MatrixStack matrix, ITextComponent text, float maxLength, float y, int color) {
+	default void drawCenteredTextScaledBound(MatrixStack matrix, ITextComponent text, float maxLength, float y,
+			int color) {
 		drawCenteredTextScaledBound(matrix, text, maxLength, 0, y, color);
 	}
 
-	default void drawCenteredTextScaledBound(MatrixStack matrix, ITextComponent text, float maxLength, float x, float y, int color) {
+	default void drawCenteredTextScaledBound(MatrixStack matrix, ITextComponent text, float maxLength, float x, float y,
+			int color) {
 		float scale = Math.min(1, maxLength / getStringWidth(text));
 		drawScaledCenteredText(matrix, text, x + getXSize() / 2F, y, color, scale);
 	}
@@ -93,7 +97,8 @@ public interface IFontRenderer {
 		drawTextScaledBound(matrix, TextComponentHelper.getString(text), x, y, color, maxLength);
 	}
 
-	default void drawTextScaledBound(MatrixStack matrix, ITextComponent component, float x, float y, int color, float maxLength) {
+	default void drawTextScaledBound(MatrixStack matrix, ITextComponent component, float x, float y, int color,
+			float maxLength) {
 		int length = getStringWidth(component);
 
 		if (length <= maxLength) {
@@ -104,7 +109,8 @@ public interface IFontRenderer {
 		RenderHelper.resetColour();
 	}
 
-	default void drawScaledTextScaledBound(MatrixStack matrix, ITextComponent text, float x, float y, int color, float maxX, float textScale) {
+	default void drawScaledTextScaledBound(MatrixStack matrix, ITextComponent text, float x, float y, int color,
+			float maxX, float textScale) {
 		float width = getStringWidth(text) * textScale;
 		float scale = Math.min(1, maxX / width) * textScale;
 		drawTextWithScale(matrix, text, x, y, color, scale);
@@ -124,11 +130,13 @@ public interface IFontRenderer {
 		RenderHelper.resetColour();
 	}
 
-	default int drawWrappedTextWithScale(MatrixStack matrix, ITextComponent text, float x, float y, int color, float maxLength, float scale) {
+	default int drawWrappedTextWithScale(MatrixStack matrix, ITextComponent text, float x, float y, int color,
+			float maxLength, float scale) {
 		return new WrappedTextRenderer(this).renderWithScale(matrix, text.getString(), x, y, color, maxLength, scale);
 	}
 
-	default void drawWrappedCenteredText(MatrixStack matrix, ITextComponent text, float x, float y, int color, float maxLength) {
+	default void drawWrappedCenteredText(MatrixStack matrix, ITextComponent text, float x, float y, int color,
+			float maxLength) {
 		new WrappedTextRenderer(this).renderCentered(matrix, text.getString(), x, y, color, maxLength);
 	}
 
@@ -156,7 +164,8 @@ public interface IFontRenderer {
 			}
 		}
 
-		int renderWithScale(MatrixStack matrix, String text, float x, float y, int color, float maxLength, float scale) {
+		int renderWithScale(MatrixStack matrix, String text, float x, float y, int color, float maxLength,
+				float scale) {
 			calculateLines(text, maxLength / scale);
 			font.prepTextScale(matrix, m -> {
 				int startY = 0;

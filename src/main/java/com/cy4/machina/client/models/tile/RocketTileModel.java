@@ -11,6 +11,7 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 @OnlyIn(Dist.CLIENT)
 public class RocketTileModel extends AnimatedGeoModel<RocketTile> {
+
 	@Override
 	public ResourceLocation getModelLocation(RocketTile object) {
 		return new ResourceLocation(Machina.MOD_ID, "geo/machina_rocket.geo.json");

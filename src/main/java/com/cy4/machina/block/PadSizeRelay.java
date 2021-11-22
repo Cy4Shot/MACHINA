@@ -18,19 +18,18 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class PadSizeRelay extends Block {
-	public static final EnumProperty<ActivationState> ACTIVATION_STATE = EnumProperty.create("activation_state", ActivationState.class, ActivationState.NOT_ACTIVE,
-			ActivationState.WAITING, ActivationState.ACTIVE);
 
-	public static final EnumProperty<RelayPosState> RELAY_POS_STATE = EnumProperty.create("relay_pos_state", RelayPosState.class, RelayPosState.N_A, RelayPosState.NORTH,
-			RelayPosState.NORTHEAST, RelayPosState.EAST, RelayPosState.SOUTHEAST, RelayPosState.SOUTH, RelayPosState.SOUTHWEST, RelayPosState.WEST, RelayPosState.NORTHWEST, RelayPosState.CENTER);
+	public static final EnumProperty<ActivationState> ACTIVATION_STATE = EnumProperty.create("activation_state",
+			ActivationState.class, ActivationState.NOT_ACTIVE, ActivationState.WAITING, ActivationState.ACTIVE);
 
-
-
+	public static final EnumProperty<RelayPosState> RELAY_POS_STATE = EnumProperty.create("relay_pos_state",
+			RelayPosState.class, RelayPosState.N_A, RelayPosState.NORTH, RelayPosState.NORTHEAST, RelayPosState.EAST,
+			RelayPosState.SOUTHEAST, RelayPosState.SOUTH, RelayPosState.SOUTHWEST, RelayPosState.WEST,
+			RelayPosState.NORTHWEST, RelayPosState.CENTER);
 
 	public PadSizeRelay(Properties properties) {
 		super(properties);
-		this.registerDefaultState(stateDefinition.any()
-				.setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE)
+		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE)
 				.setValue(RELAY_POS_STATE, RelayPosState.N_A));
 	}
 
@@ -39,21 +38,19 @@ public class PadSizeRelay extends Block {
 		stateBuilder.add(ACTIVATION_STATE, RELAY_POS_STATE);
 	}
 
-
-
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
-	{
-		//Simple used for testing as a way to reset a relay bloc to position N_A and getting the current position value
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
+			BlockRayTraceResult hit) {
+		// Simple used for testing as a way to reset a relay bloc to position N_A and
+		// getting the current position value
 		if (player.isCrouching()) {
 			int i = 0;
 			changeRelayPos(pos, worldIn, i);
 		} else {
 			player.displayClientMessage(new StringTextComponent(state.getValue(RELAY_POS_STATE).toString()), true);
-			//setActive(pos, worldIn);
+			// setActive(pos, worldIn);
 			isConnectingAnimation(pos, worldIn);
 		}
-
 
 		return ActionResultType.SUCCESS;
 	}
@@ -62,7 +59,8 @@ public class PadSizeRelay extends Block {
 		BlockState state = world.getBlockState(pos);
 
 		if (newRelayPos == 0) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.N_A).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.N_A).setValue(ACTIVATION_STATE,
+					ActivationState.NOT_ACTIVE));
 		} else if (newRelayPos == 1) {
 			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.NORTH));
 		} else if (newRelayPos == 2) {
@@ -83,19 +81,16 @@ public class PadSizeRelay extends Block {
 
 	}
 
-
 	public void setActive(BlockPos pos, World world) {
 		BlockState state = world.getBlockState(pos);
 		world.setBlockAndUpdate(pos, state.setValue(ACTIVATION_STATE, ActivationState.ACTIVE));
 	}
 
-
-
-
 	public static void isConnectingAnimation(BlockPos pos, World worldIn) {
 		BlockState state1 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
 		BlockState state2 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.WAITING);
-		//BlockState state3 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.ACTIVE);
+		// BlockState state3 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE,
+		// ActivationState.ACTIVE);
 
 		Timer timer1 = new Timer(1000, actionEvent -> worldIn.setBlockAndUpdate(pos, state2));
 		timer1.setRepeats(false);

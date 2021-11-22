@@ -51,7 +51,7 @@ public class GuiElement extends Widget implements IFontRenderer {
 		FontRenderer fontrenderer = minecraft.font;
 		minecraft.getTextureManager().bind(texture);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
-		//		int i = this.getYImage(this.isHovered());
+		// int i = this.getYImage(this.isHovered());
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
@@ -59,8 +59,8 @@ public class GuiElement extends Widget implements IFontRenderer {
 		this.blit(pMatrixStack, renderX, renderY, x, y, width / 2, height);
 		this.renderBg(pMatrixStack, minecraft, pMouseX, pMouseY);
 		int j = getFGColor();
-		drawCenteredString(pMatrixStack, fontrenderer, this.getMessage(), x + width / 2,
-				y + (height - 8) / 2, j | MathHelper.ceil(alpha * 255.0F) << 24);
+		drawCenteredString(pMatrixStack, fontrenderer, this.getMessage(), x + width / 2, y + (height - 8) / 2,
+				j | MathHelper.ceil(alpha * 255.0F) << 24);
 	}
 
 	protected static ResourceLocation texturePath(String name) {

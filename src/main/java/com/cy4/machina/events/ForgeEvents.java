@@ -6,6 +6,7 @@ import com.cy4.machina.world.data.StarchartData;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -24,25 +25,23 @@ public class ForgeEvents {
 
 	@SubscribeEvent
 	public static void debug(ItemTossEvent event) {
-		if (event.getEntity().level.isClientSide)
-			return;
+		if (event.getEntity().level.isClientSide) { return; }
 		MinecraftServer s = ServerLifecycleHooks.getCurrentServer();
 		StarchartData.getStarchartForServer(s).generateStarchart(s.getLevel(World.OVERWORLD).getSeed());
 		StarchartData.getDefaultInstance(s).syncClients();
 		StarchartData.getStarchartForServer(s).debugStarchart();
 	}
 
-//	@SubscribeEvent
-//	public static void onWorldLoaded(PlayerEvent.PlayerLoggedInEvent event) {
-//		if (!event.getPlayer().level.isClientSide()) {
-//			StarchartHelper.syncCapabilityWithClients(event.getPlayer().level);
-//		}
-//	}
+	// @SubscribeEvent
+	// public static void onWorldLoaded(PlayerEvent.PlayerLoggedInEvent event) {
+	// if (!event.getPlayer().level.isClientSide()) {
+	// StarchartHelper.syncCapabilityWithClients(event.getPlayer().level);
+	// }
+	// }
 
 	@SubscribeEvent
 	public static void onPlayerLogin(final PlayerLoggedInEvent e) {
-		if (e.getEntity().level.isClientSide)
-			return;
+		if (e.getEntity().level.isClientSide) { return; }
 		System.out.println("SYNCEY TIME");
 		StarchartData.getDefaultInstance(e.getEntity().getServer()).syncClient((ServerPlayerEntity) e.getPlayer());
 	}

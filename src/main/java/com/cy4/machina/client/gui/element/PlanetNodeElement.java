@@ -28,9 +28,7 @@ public class PlanetNodeElement extends Widget {
 		this.data = data;
 	}
 
-	public PlanetData getData() {
-		return data;
-	}
+	public PlanetData getData() { return data; }
 
 	@Override
 	public void onClick(double pMouseX, double pMouseY) {
@@ -55,7 +53,8 @@ public class PlanetNodeElement extends Widget {
 		UIHelper.betterBlit(matrixStack, x, y, textureSize * (int) offsetC, 0, textureSize, textureSize, 128);
 
 		if (screen.selected != null && screen.selected.equals(this)) {
-			UIHelper.box(matrixStack, x - 2, y - 2, x + textureSize + 2, y + textureSize + 2,  0xFFFFFFFF, 4f, StippleType.FULL);
+			UIHelper.box(matrixStack, x - 2, y - 2, x + textureSize + 2, y + textureSize + 2, 0xFFFFFFFF, 4f,
+					StippleType.FULL);
 		}
 	}
 

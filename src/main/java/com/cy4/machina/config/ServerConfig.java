@@ -17,9 +17,15 @@ public class ServerConfig extends BaseTOMLConfig {
 	static {
 		BUILDER.push("planetTraits");
 
-		LOW_GRAVITY_AIR_TIME = config("The amount of ticks the players will stay in the air when they jump in a planet with the Low Gravity trait.", "lowGravityAirTime", 25);
-		SUPERHOT_FIRE_CHANCE = percentChanceConfig("The chance that a player will get put on fire for 1 second, every tick if the player is in a planet with the Superhot trait.", "superhotFireChance", 10, true, BUILDER);
-		SUPERHOT_ARMOUR_DAMAGE_CHANCE = percentChanceConfig("The chance that, if a plyer is about to be set on fire in a dimension with the Superhot trait, and they have a full set of Thermal Regulating armour, the armour will have its durability decreased by 1.", "superhotArmourDamageChance", 10, true, BUILDER);
+		LOW_GRAVITY_AIR_TIME = config(
+				"The amount of ticks the players will stay in the air when they jump in a planet with the Low Gravity trait.",
+				"lowGravityAirTime", 25);
+		SUPERHOT_FIRE_CHANCE = percentChanceConfig(
+				"The chance that a player will get put on fire for 1 second, every tick if the player is in a planet with the Superhot trait.",
+				"superhotFireChance", 10, true, BUILDER);
+		SUPERHOT_ARMOUR_DAMAGE_CHANCE = percentChanceConfig(
+				"The chance that, if a plyer is about to be set on fire in a dimension with the Superhot trait, and they have a full set of Thermal Regulating armour, the armour will have its durability decreased by 1.",
+				"superhotArmourDamageChance", 10, true, BUILDER);
 
 		BUILDER.pop();
 		SPEC = BUILDER.build();
@@ -28,6 +34,5 @@ public class ServerConfig extends BaseTOMLConfig {
 	private static <T> ConfigValue<T> config(String comment, String path, T defaultValue) {
 		return config(comment, path, defaultValue, true, BUILDER);
 	}
-
 
 }

@@ -57,7 +57,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
  * package {@link com.cy4.machina.api.annotation.registries}) <br>
  * Any exception that will be caught during the processing <strong>will be
  * thrown back</strong> as a {@link RegistryException}
- * 
+ *
  * @author matyrobbrt
  *
  */
@@ -69,11 +69,11 @@ public class RegistryAnnotationProcessor {
 	 * Creates a new {@link RegistryAnnotationProcessor} which will be used in order
 	 * to process registry annotations. It is recommended to store this statically
 	 * somewhere.
-	 * 
+	 *
 	 * @param modid the mod id to process the annotations for
 	 */
 	public RegistryAnnotationProcessor(String modid) {
-		this.ownerModID = modid;
+		ownerModID = modid;
 	}
 
 	public List<Item> getItems() {
@@ -85,7 +85,7 @@ public class RegistryAnnotationProcessor {
 	 * Adds listeners for all the methods that process annotations. Basically starts
 	 * the actual registering. <br>
 	 * Call it in your mods' constructor
-	 * 
+	 *
 	 * @param modBus
 	 */
 	public void register(IEventBus modBus) {
@@ -120,7 +120,7 @@ public class RegistryAnnotationProcessor {
 					try {
 						Class<?> clazz = Class.forName(data.getClassType().getClassName(), false,
 								getClass().getClassLoader());
-						if (clazz.getAnnotation(RegistryHolder.class).modid().equals(this.ownerModID)) {
+						if (clazz.getAnnotation(RegistryHolder.class).modid().equals(ownerModID)) {
 							registryClasses.add(clazz);
 						}
 					} catch (ClassNotFoundException e) {
@@ -229,8 +229,8 @@ public class RegistryAnnotationProcessor {
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				if (e instanceof IllegalArgumentException) {
 					//@formatter:off
-						throw new RegistryException("The method " + method + " is annotated with @RegisterCustomRegistry but it cannot be invoked using only RegistryEvent.NewRegistry as a parameter");
-						//@formatter:on
+					throw new RegistryException("The method " + method + " is annotated with @RegisterCustomRegistry but it cannot be invoked using only RegistryEvent.NewRegistry as a parameter");
+					//@formatter:on
 				}
 				throw new RegistryException(e);
 			}

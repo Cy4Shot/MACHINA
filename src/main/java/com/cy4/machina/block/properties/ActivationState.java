@@ -3,9 +3,8 @@ package com.cy4.machina.block.properties;
 import net.minecraft.util.IStringSerializable;
 
 public enum ActivationState implements IStringSerializable {
-	NOT_ACTIVE("not_active"),
-	WAITING("waiting"),
-	ACTIVE("active");
+
+	NOT_ACTIVE("not_active"), WAITING("waiting"), ACTIVE("active");
 
 	private final String name;
 
@@ -14,7 +13,5 @@ public enum ActivationState implements IStringSerializable {
 	}
 
 	@Override
-	public String getSerializedName() {
-		return name;
-	}
+	public String getSerializedName() { return name; }
 }

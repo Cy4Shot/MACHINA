@@ -28,7 +28,7 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 	}
 
 	public void generateStarchart(long seed) {
-		this.planets.clear();
+		planets.clear();
 		Random rand = new Random(seed);
 		int numPlanets = rand.nextInt(CommonConfig.MAX_PLANETS.get() - CommonConfig.MIN_PLANETS.get() + 1)
 				+ CommonConfig.MIN_PLANETS.get();

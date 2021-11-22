@@ -18,19 +18,13 @@ public abstract class BaseCommand {
 		this.permissionLevel = permissionLevel;
 	}
 
-	public int getPermissionLevel() {
-		return permissionLevel;
-	}
+	public int getPermissionLevel() { return permissionLevel; }
 
-	public LiteralArgumentBuilder<CommandSource> getBuilder() {
-		return builder;
-	}
+	public LiteralArgumentBuilder<CommandSource> getBuilder() { return builder; }
 
 	public abstract void build(LiteralArgumentBuilder<CommandSource> builder);
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+	public boolean isEnabled() { return enabled; }
 
 	public abstract String getName();
 

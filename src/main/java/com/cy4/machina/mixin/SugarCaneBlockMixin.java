@@ -20,12 +20,13 @@ public abstract class SugarCaneBlockMixin extends Block {
 	private SugarCaneBlockMixin(Properties p_i48440_1_) {
 		super(p_i48440_1_);
 	}
-	
-	private static final ITag.INamedTag<Block> SUGARCANE_CAN_LIVE_TAG = BlockTags.bind(new ResourceLocation("sugarcane_can_live").toString());
-	
-	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;is(Lnet/minecraft/block/Block;)Z", ordinal = 0),
-			method = "Lnet/minecraft/block/SugarCaneBlock;canSurvive(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/IWorldReader;Lnet/minecraft/util/math/BlockPos;)Z")
-	private boolean machina$canSurvive(BlockState blockstate, Block block, BlockState methodState, IWorldReader level, BlockPos pos) {
+
+	private static final ITag.INamedTag<Block> SUGARCANE_CAN_LIVE_TAG = BlockTags
+			.bind(new ResourceLocation("sugarcane_can_live").toString());
+
+	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;is(Lnet/minecraft/block/Block;)Z", ordinal = 0), method = "Lnet/minecraft/block/SugarCaneBlock;canSurvive(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/IWorldReader;Lnet/minecraft/util/math/BlockPos;)Z")
+	private boolean machina$canSurvive(BlockState blockstate, Block block, BlockState methodState, IWorldReader level,
+			BlockPos pos) {
 		return blockstate.is(SUGARCANE_CAN_LIVE_TAG) || blockstate.is(Blocks.GRASS_BLOCK);
 	}
 

@@ -23,6 +23,7 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -76,7 +77,8 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 			float y = (float) (r * Math.sin(angle));
 
 			positions.add(new Vector2f(centre.x - x, centre.y - y));
-			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, ClientStarchartHolder.getStarchart().planets.get(i - 1)));
+			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this,
+					ClientStarchartHolder.getStarchart().planets.get(i - 1)));
 		}
 	}
 
@@ -157,8 +159,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	}
 
 	private void renderDescription(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		planetDescriptions.setInnerHeight(UIHelper.renderWrappedText(matrixStack,
-				getDescriptionForPlanet(),
+		planetDescriptions.setInnerHeight(UIHelper.renderWrappedText(matrixStack, getDescriptionForPlanet(),
 				planetDescriptions.getRenderableBounds().getWidth(), 10) * 10 + 20);
 		RenderSystem.enableDepthTest();
 	}
@@ -167,12 +168,13 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		if (selected == null) {
 			return new StringTextComponent("Terra Prime").setStyle(Style.EMPTY.withColor(Color.fromRgb(0xFF_2fc256)));
 		}
-		
+
 		PlanetData planet = selected.getData();
 		int color = planet.color;
 
 		planetDescriptions.title = new StringTextComponent("Information - \"" + planet.name + "\"");
-		IFormattableTextComponent text = new StringTextComponent("Traits:\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		IFormattableTextComponent text = new StringTextComponent("Traits:\n")
+				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		for (PlanetTrait t : planet.traits) {
 			text.append("   > ").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 			text.append(t.getName());
@@ -185,7 +187,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		text.append("   > Pres: " + planet.getAtm() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Temp: " + planet.getTemp() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Dist: " + planet.getDist() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		
+
 		text.append("ID  " + ClientStarchartHolder.getStarchart().planets.indexOf(planet) + "\n");
 
 		return text;
@@ -224,8 +226,6 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	}
 
 	@Override
-	public boolean isPauseScreen() {
-		return false;
-	}
+	public boolean isPauseScreen() { return false; }
 
 }

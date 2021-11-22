@@ -7,8 +7,8 @@ import mezz.jei.api.ingredients.IIngredientType;
 public final class MachinaJEITypes {
 
 	public static final IIngredientType<PlanetTrait> PLANET_TRAIT = () -> PlanetTrait.class;
-	
+
 	private MachinaJEITypes() {
 	}
-	
+
 }
