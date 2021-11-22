@@ -95,7 +95,8 @@ public class PadSizeRelay extends Block {
 	public static void isConnectingAnimation(BlockPos pos, World worldIn) {
 		BlockState state1 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
 		BlockState state2 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.WAITING);
-		//BlockState state3 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.ACTIVE);
+		// BlockState state3 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE,
+		// ActivationState.ACTIVE);
 
 		Timer timer1 = new Timer(1000, actionEvent -> worldIn.setBlockAndUpdate(pos, state2));
 		timer1.setRepeats(false);

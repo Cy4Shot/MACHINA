@@ -13,32 +13,41 @@ public interface IFluidInventory extends IInventory, IFluidHandler {
 	@Override
 	default void clearContent() {
 	}
+
 	@Override
 	default int getContainerSize() { return 0; }
+
 	@Override
 	default ItemStack getItem(int pIndex) {
 		return ItemStack.EMPTY;
 	}
+
 	@Override
 	default boolean isEmpty() { return true; }
+
 	@Override
 	default ItemStack removeItem(int pIndex, int pCount) {
 		return EMPTY;
 	}
+
 	@Override
 	default ItemStack removeItemNoUpdate(int pIndex) {
 		return EMPTY;
 	}
+
 	@Override
 	default void setChanged() {
 	}
+
 	@Override
 	default void setItem(int pIndex, ItemStack pStack) {
 	}
+
 	@Override
 	default boolean stillValid(PlayerEntity pPlayer) {
 		return false;
 	}
+
 	@Override
 	default boolean canPlaceItem(int pIndex, ItemStack pStack) {
 		return false;

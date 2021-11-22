@@ -8,11 +8,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedList;
 
 public class PlanetTraitPool {
+
 	public int minRolls;
 	public int maxRolls;
 	public List<PlanetTraitPoolEntry> entries;
 
 	public static class PlanetTraitPoolEntry {
+
 		public int weight;
 		public List<String> values;
 	}

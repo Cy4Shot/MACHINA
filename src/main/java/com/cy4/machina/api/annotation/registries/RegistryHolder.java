@@ -12,12 +12,13 @@ import com.cy4.machina.Machina;
 @Documented
 @Retention(RUNTIME)
 @Target({
-	TYPE
+		TYPE
 })
 public @interface RegistryHolder {
 
 	/**
 	 * The modid under which the registries will be registered
+	 * 
 	 * @return
 	 */
 	String modid() default Machina.MOD_ID;

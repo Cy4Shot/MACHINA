@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(FIELD)
 /**
- * Registers the {@link ParticleType} that is represented by the field that has this
- * annotation. For the ParticleType to be registered the class in which the field is
- * has to be annotated with {@link RegistryHolder}
+ * Registers the {@link ParticleType} that is represented by the field that has
+ * this annotation. For the ParticleType to be registered the class in which the
+ * field is has to be annotated with {@link RegistryHolder}
  *
  * @author matyrobbrt
  *

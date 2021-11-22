@@ -67,18 +67,18 @@ public final class FluidInit {
 				Supplier<FlowingFluid> still, Supplier<FlowingFluid> flowing, Item bucket) {
 			return new ForgeFlowingFluid.Properties(still, flowing,
 					FluidAttributes.builder(STILL_RL, FLOWING_RL).color(value.getColor())
-					.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
-					.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
-					.overlay(OVERLAY_RL).gaseous()).bucket(() -> bucket);
+							.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
+							.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
+							.overlay(OVERLAY_RL).gaseous()).bucket(() -> bucket);
 		}
 
 		private static ForgeFlowingFluid.Properties registerChemicalLiquid(ChemicalValues value,
 				Supplier<FlowingFluid> still, Supplier<FlowingFluid> flowing, Item bucket, FlowingFluidBlock block) {
 			return new ForgeFlowingFluid.Properties(still, flowing,
 					FluidAttributes.builder(STILL_RL, FLOWING_RL).color(value.getColor())
-					.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
-					.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
-					.overlay(OVERLAY_RL)).bucket(() -> bucket).block(() -> block);
+							.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
+							.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
+							.overlay(OVERLAY_RL)).bucket(() -> bucket).block(() -> block);
 		}
 
 	}

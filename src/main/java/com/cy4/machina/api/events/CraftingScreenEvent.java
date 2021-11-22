@@ -18,13 +18,9 @@ public abstract class CraftingScreenEvent extends Event {
 		this.minecraft = minecraft;
 	}
 
-	public CraftingScreen getScreen() {
-		return screen;
-	}
+	public CraftingScreen getScreen() { return screen; }
 
-	public Minecraft getMinecraft() {
-		return minecraft;
-	}
+	public Minecraft getMinecraft() { return minecraft; }
 
 	public static class RenderBackground extends CraftingScreenEvent {
 
@@ -33,7 +29,8 @@ public abstract class CraftingScreenEvent extends Event {
 		public final int x;
 		public final int y;
 
-		private RenderBackground(CraftingScreen screen, Minecraft minecraft, MatrixStack matrixStack, float partialTicks, int x, int y) {
+		private RenderBackground(CraftingScreen screen, Minecraft minecraft, MatrixStack matrixStack,
+				float partialTicks, int x, int y) {
 			super(screen, minecraft);
 			this.matrixStack = matrixStack;
 			this.partialTicks = partialTicks;
@@ -50,7 +47,8 @@ public abstract class CraftingScreenEvent extends Event {
 		public final int x;
 		public final int y;
 
-		private Render(CraftingScreen screen, Minecraft minecraft, MatrixStack matrixStack, float partialTicks, int x, int y) {
+		private Render(CraftingScreen screen, Minecraft minecraft, MatrixStack matrixStack, float partialTicks, int x,
+				int y) {
 			super(screen, minecraft);
 			this.matrixStack = matrixStack;
 			this.partialTicks = partialTicks;
@@ -60,11 +58,13 @@ public abstract class CraftingScreenEvent extends Event {
 
 	}
 
-	public static void onRenderBg(CraftingScreen screen, Minecraft minecraft, MatrixStack matrixStack, float partialTicks, int x, int y) {
+	public static void onRenderBg(CraftingScreen screen, Minecraft minecraft, MatrixStack matrixStack,
+			float partialTicks, int x, int y) {
 		MinecraftForge.EVENT_BUS.post(new RenderBackground(screen, minecraft, matrixStack, partialTicks, x, y));
 	}
 
-	public static void onRender(CraftingScreen screen, Minecraft minecraft, MatrixStack matrixStack, float partialTicks, int x, int y) {
+	public static void onRender(CraftingScreen screen, Minecraft minecraft, MatrixStack matrixStack, float partialTicks,
+			int x, int y) {
 		MinecraftForge.EVENT_BUS.post(new Render(screen, minecraft, matrixStack, partialTicks, x, y));
 	}
 

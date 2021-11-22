@@ -5,6 +5,7 @@ import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.cy4.machina.api.annotation.registries.RegistryAnnotationProcessor;
 import com.cy4.machina.client.ClientSetup;
 import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
@@ -23,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -50,6 +52,8 @@ public class Machina {
 	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
 	public static final File CONFIF_DIR = new File(CONFIG_DIR_PATH);
 
+	public static final RegistryAnnotationProcessor REGISTRY_PROCESSOR = new RegistryAnnotationProcessor(MOD_ID);
+
 	public Machina() {
 		GeckoLib.initialize();
 
@@ -59,6 +63,8 @@ public class Machina {
 		}
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+		REGISTRY_PROCESSOR.register(modBus);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
 
@@ -92,10 +98,8 @@ public class Machina {
 	public void onCommonSetup(final FMLCommonSetupEvent event) {
 		MachinaNetwork.init();
 	}
-	
-	public static boolean isDevEnvironment() {
-		return !FMLEnvironment.production;
-	}
+
+	public static boolean isDevEnvironment() { return !FMLEnvironment.production; }
 
 	// Load all saved data
 	public void onServerStart(final FMLServerStartingEvent event) {

@@ -49,7 +49,7 @@ public abstract class BaseNetwork {
 	public static <MSG> void sendToAllTracking(SimpleChannel channel, MSG message, World world, BlockPos pos) {
 		if (world instanceof ServerWorld) {
 			((ServerWorld) world).getChunkSource().chunkMap.getPlayers(new ChunkPos(pos), false)
-			.forEach(p -> sendTo(channel, message, p));
+					.forEach(p -> sendTo(channel, message, p));
 		} else {
 			channel.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(pos.getX() >> 4, pos.getZ() >> 4)),
 					message);
@@ -59,7 +59,7 @@ public abstract class BaseNetwork {
 	public static <MSG> void sendToAllInWorld(SimpleChannel channel, MSG message, World world) {
 		if (world instanceof ServerWorld) {
 			((ServerWorld) world).getPlayers(player -> (player.level == world))
-			.forEach(p -> sendTo(channel, message, p));
+					.forEach(p -> sendTo(channel, message, p));
 		} else {
 			channel.send(PacketDistributor.ALL.noArg(), message);
 		}

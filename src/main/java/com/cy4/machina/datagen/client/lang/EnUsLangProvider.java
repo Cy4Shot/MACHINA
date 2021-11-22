@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
+
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -54,7 +55,10 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(FluidInit.HYDROGEN.get(), "Hydrogen");
 		add(FluidInit.LIQUID_HYDROGEN.get(), "Liquid Hydrogen");
 
-		addDamageSourceMsg("liquidHydrogen", "%1$s stayed too much in hydrogen... Never do that at home kids!", "%1$s encountered hydrogen whilst fighting %2$s!");
+		addCommandArgumentFeedback("planet_trait.invalid", "Invalid Planet Trait: \u00A76%s");
+
+		addDamageSourceMsg("liquidHydrogen", "%1$s stayed too much in hydrogen... Never do that at home kids!",
+				"%1$s encountered hydrogen whilst fighting %2$s!");
 
 		add("machina.screen.starchart.title", "Starchart");
 
@@ -63,6 +67,8 @@ public class EnUsLangProvider extends LanguageProvider {
 		add("direction.south", "South");
 		add("direction.east", "East");
 		add("direction.west", "West");
+
+		add("jei.planet_trait.type", "Planet Trait");
 
 		addAutoItems(Lists.newArrayList(ItemInit.ITEM_GROUP_ICON));
 	}
@@ -79,26 +85,26 @@ public class EnUsLangProvider extends LanguageProvider {
 	}
 
 	private void add(PlanetTrait trait, String name) {
-		add(trait.getRegistryName().getNamespace() + ".trait." + trait.getRegistryName().getPath(), name);
+		add(trait.getRegistryName().getNamespace() + ".planet_trait." + trait.getRegistryName().getPath(), name);
 	}
 
 	private void add(Fluid fluid, String name) {
 		add(new FluidStack(fluid, 2).getTranslationKey(), name);
 	}
-	
-//	private void addCommandFeedback(String key, String name) {
-//		add("command." + key, name);
-//	}
-//
-//	private void addCommandArgumentFeedback(String key, String name) {
-//		add("argument." + key, name);
-//	}
+
+	// private void addCommandFeedback(String key, String name) {
+	// add("command." + key, name);
+	// }
+	//
+	private void addCommandArgumentFeedback(String key, String name) {
+		add("argument." + key, name);
+	}
 
 	private void addDamageSourceMsg(String name, String normal, String diedWhilstFighting) {
 		add("death.attack." + name, normal);
 		add("death.attack." + name + ".player", diedWhilstFighting);
 	}
-	
+
 	public static String capitalizeWord(String str) {
 		String words[] = str.split("\\s");
 		String capitalizeWord = "";

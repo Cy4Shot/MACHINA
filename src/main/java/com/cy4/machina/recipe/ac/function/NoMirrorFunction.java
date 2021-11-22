@@ -25,9 +25,7 @@ public class NoMirrorFunction extends AdvancedCraftingFunction {
 	public boolean matches(CraftingInventory inventory, AdvancedCraftingRecipe recipe, World level) {
 		for (int i = 0; i <= inventory.getWidth() - recipe.getRecipeWidth(); i++) {
 			for (int j = 0; j <= inventory.getHeight() - recipe.getRecipeHeight(); j++) {
-				if (this.checkMatch(inventory, i, j, recipe)) {
-					return true;
-				}
+				if (this.checkMatch(inventory, i, j, recipe)) { return true; }
 			}
 		}
 
@@ -44,9 +42,7 @@ public class NoMirrorFunction extends AdvancedCraftingFunction {
 					ingredient = recipe.getIngredients().get(k + l * recipe.getRecipeWidth());
 				}
 
-				if (!ingredient.test(inventory.getItem(i + j * inventory.getWidth()))) {
-					return false;
-				}
+				if (!ingredient.test(inventory.getItem(i + j * inventory.getWidth()))) { return false; }
 			}
 		}
 

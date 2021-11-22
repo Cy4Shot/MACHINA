@@ -32,7 +32,9 @@ import net.minecraftforge.client.IWeatherRenderHandler;
 public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 
 	/**
-	 * Cy4 do not call in {@link Machina#Machina()}, cuz that loads the class server-side as well. Call in {@link ClientSetup#ClientSetup(net.minecraftforge.eventbus.api.IEventBus)}
+	 * Cy4 do not call in {@link Machina#Machina()}, cuz that loads the class
+	 * server-side as well. Call in
+	 * {@link ClientSetup#ClientSetup(net.minecraftforge.eventbus.api.IEventBus)}
 	 */
 	public static void registerDimensionRenderInfo() {
 		DimensionRenderInfo.EFFECTS.put(Machina.MACHINA_ID, new CustomDimensionRenderInfo());
@@ -72,7 +74,6 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 			sky = QuadRenderingUtils.createBuffer(sky, bb -> QuadRenderingUtils.makeCube(bb, 100));
 			fog = QuadRenderingUtils.createBuffer(fog, bb -> QuadRenderingUtils.makeCylinder(bb, 7, 10, 100));
 		}
-
 
 		@Override
 		public void render(int ticks, float partialTicks, MatrixStack matrixStack, ClientWorld world, Minecraft mc) {

@@ -15,7 +15,5 @@ public enum ActivationState implements IStringSerializable {
 	}
 
 	@Override
-	public String getSerializedName() {
-		return name;
-	}
+	public String getSerializedName() { return name; }
 }

@@ -56,20 +56,20 @@ public class RocketMount extends Block {
 
 			} else {
 				STRAIGHT_DIRECTIONS
-				.stream().filter(
-						dir -> !checkForRelay(worldIn, pos, dir))
-				.findFirst()
-				.ifPresent(direction -> player
-						.displayClientMessage(new MachinaLangTextComponent("multiblock.rocket.missing_relay",
-								MachinaLang.getDirectionName(direction)).toComponent(), true));
+						.stream().filter(
+								dir -> !checkForRelay(worldIn, pos, dir))
+						.findFirst()
+						.ifPresent(direction -> player
+								.displayClientMessage(new MachinaLangTextComponent("multiblock.rocket.missing_relay",
+										MachinaLang.getDirectionName(direction)).toComponent(), true));
 
 				DIAGONAL_DIRECTIONS
-				.stream().filter(
-						dir -> !checkForRelay(worldIn, pos, dir))
-				.findFirst()
-				.ifPresent(direction -> player
-						.displayClientMessage(new MachinaLangTextComponent("multiblock.rocket.missing_relay",
-								MachinaLang.getDirectionName(direction)).toComponent(), true));
+						.stream().filter(
+								dir -> !checkForRelay(worldIn, pos, dir))
+						.findFirst()
+						.ifPresent(direction -> player
+								.displayClientMessage(new MachinaLangTextComponent("multiblock.rocket.missing_relay",
+										MachinaLang.getDirectionName(direction)).toComponent(), true));
 			}
 
 		}

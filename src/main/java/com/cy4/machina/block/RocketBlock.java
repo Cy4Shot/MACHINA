@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
 public class RocketBlock extends Block {
+
 	public RocketBlock(Properties properties) {
 		super(properties);
 	}

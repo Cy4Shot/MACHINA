@@ -4,6 +4,7 @@ import net.minecraft.util.DamageSource;
 
 public final class DamageSourcesInit {
 
-	public static final DamageSource LIQUID_HYDROGEN_DAMAGE_SOURCE = new DamageSource("liquidHydrogen").bypassArmor().bypassMagic();
+	public static final DamageSource LIQUID_HYDROGEN_DAMAGE_SOURCE = new DamageSource("liquidHydrogen").bypassArmor()
+			.bypassMagic();
 
 }

@@ -56,6 +56,24 @@ minecraft {
                 }
             }
         }
+        
+        test {
+        	parent runs.client
+            workingDirectory project.file('testRun')
+            property 'mixin.env.remapRefMap', 'true'
+      		property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+			arg "-mixin.config=machina.mixins.json"
+			
+			environment 'MOD_CLASSES', 'dummy'
+
+            main 'net.minecraftforge.userdev.LaunchTesting'
+
+            mods {
+                tests {
+                    source sourceSets.test
+                }
+            }
+        }
 
         server {
             workingDirectory project.file('run/server')
@@ -85,6 +103,36 @@ minecraft {
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets {
+        main {
+            java {
+                srcDirs = [
+                    "$rootDir/src/main/java"
+                ]
+            }
+            resources {
+                srcDirs = [
+                    "$rootDir/src/main/resources",
+                    "$rootDir/src/generated/resources"
+                ]
+            }
+        }
+        test {
+            java {
+                srcDirs = [
+                    "$rootDir/src/test/java",
+                    "$rootDir/src/main/java"
+                ]
+            }
+            resources {
+                srcDirs = [
+                    "$rootDir/src/test/resources",
+                    "$rootDir/src/main/resources",
+                    "$rootDir/src/generated/resources"
+                ]
+            }
+        }
+}
 
 repositories {
 	maven {
@@ -112,6 +160,7 @@ repositories {
     	name 'javassist'
     	url 'https://mvnrepository.com/artifact/org.javassist/javassist'
     }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -128,6 +177,9 @@ dependencies {
     
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    
+    implementation(group: 'com.github.Vatuu', name: 'discord-rpc', version: "${discord_rpc_version}")
+    shadow(group: 'com.github.Vatuu', name: 'discord-rpc', version: "${discord_rpc_version}")
     
     /* Unused
     implementation "org.reflections:reflections:${reflections_version}"

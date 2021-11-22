@@ -28,21 +28,20 @@ public class PlanetNameGenerator {
 
 	public final static String toRoman(int number) {
 		int l = map.floorKey(number);
-		if (number == l) {
-			return map.get(number);
-		}
+		if (number == l) { return map.get(number); }
 		return map.get(l) + toRoman(number - l);
 	}
 
-	public static final List<String> syllables = Arrays.asList(new String[] { "ac", "ad", "af", "ag", "air", "al",
-			"als", "am", "an", "ap", "ar", "as", "at", "au", "ba", "be", "bi", "ble", "by", "ca", "ci", "cle", "co",
-			"cu", "cy", "da", "de", "di", "dle", "dy", "e", "ed", "ef", "el", "en", "end", "ent", "er", "ern", "ers",
-			"es", "bel", "et", "ev", "eve", "ex", "fa", "fi", "gi", "gle", "go", "ho", "i", "ic", "ies", "il", "im",
-			"in", "eer", "ion", "is", "ish", "it", "its", "jo", "la", "li", "lo", "lu", "ly", "ma", "me", "mi", "mo",
-			"mu", "my", "na", "ni", "no", "nu", "ny", "ob", "oc", "of", "on", "one", "op", "or", "oth", "ous", "out",
-			"pa", "pe", "peo", "pi", "ple", "ply", "po", "pre", "pro", "ra", "re", "ri", "ro", "ry", "sa", "se", "si",
-			"so", "su", "ta", "te", "the", "ti", "tle", "to", "tra", "tri", "tro", "try", "tu", "ty", "uer", "um", "un",
-			"up", "ure", "us", "va", "vi", "wa", });
+	public static final List<String> syllables = Arrays.asList(new String[] {
+			"ac", "ad", "af", "ag", "air", "al", "als", "am", "an", "ap", "ar", "as", "at", "au", "ba", "be", "bi",
+			"ble", "by", "ca", "ci", "cle", "co", "cu", "cy", "da", "de", "di", "dle", "dy", "e", "ed", "ef", "el",
+			"en", "end", "ent", "er", "ern", "ers", "es", "bel", "et", "ev", "eve", "ex", "fa", "fi", "gi", "gle", "go",
+			"ho", "i", "ic", "ies", "il", "im", "in", "eer", "ion", "is", "ish", "it", "its", "jo", "la", "li", "lo",
+			"lu", "ly", "ma", "me", "mi", "mo", "mu", "my", "na", "ni", "no", "nu", "ny", "ob", "oc", "of", "on", "one",
+			"op", "or", "oth", "ous", "out", "pa", "pe", "peo", "pi", "ple", "ply", "po", "pre", "pro", "ra", "re",
+			"ri", "ro", "ry", "sa", "se", "si", "so", "su", "ta", "te", "the", "ti", "tle", "to", "tra", "tri", "tro",
+			"try", "tu", "ty", "uer", "um", "un", "up", "ure", "us", "va", "vi", "wa",
+	});
 
 	public static String getName(Random rand) {
 		StringBuilder sb = new StringBuilder();

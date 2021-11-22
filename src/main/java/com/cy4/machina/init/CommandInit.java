@@ -9,16 +9,15 @@ import com.cy4.machina.command.impl.GoToPlanetCommand;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.command.CommandSource;
+
 import net.minecraftforge.event.RegisterCommandsEvent;
 
 /**
  * Permission levels
  *
- * 0 - All Players
- * 1 - No Commands
- * 2 - /give, /clear, /difficulty
- * 3 - /ban, /kick, /op
- * 4 - /not_a_democracy (this is NOT a democracy, i decide what to do :kekw:)
+ * 0 - All Players 1 - No Commands 2 - /give, /clear, /difficulty 3 - /ban,
+ * /kick, /op 4 - /not_a_democracy (this is NOT a democracy, i decide what to do
+ * :kekw:)
  *
  * @author matyrobbrt
  *

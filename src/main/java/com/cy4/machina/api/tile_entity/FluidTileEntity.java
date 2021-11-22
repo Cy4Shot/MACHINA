@@ -44,9 +44,7 @@ public abstract class FluidTileEntity extends BaseTileEntity implements IFluidIn
 	@Override
 	@Nonnull
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return holder.cast();
-		}
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) { return holder.cast(); }
 		return super.getCapability(capability, facing);
 	}
 

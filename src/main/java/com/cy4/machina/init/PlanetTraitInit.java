@@ -4,6 +4,8 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.RegisterPlanetTrait;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTrait.JeiProperties;
+import com.cy4.machina.api.planet.trait.PlanetTrait.Properties;
 
 import net.minecraft.item.Items;
 
@@ -12,9 +14,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 /**
  * @author Cy4Shot
  */
-
+@SuppressWarnings("deprecation")
 @RegistryHolder(modid = Machina.MOD_ID)
-public final class PlanetTraitInit  {
+public final class PlanetTraitInit {
 
 	@RegisterPlanetTrait(id = "water_world")
 	public static final PlanetTrait WATER_WORLD = new PlanetTrait(0x169fde);
@@ -60,12 +62,21 @@ public final class PlanetTraitInit  {
 
 	@RegisterPlanetTrait(id = "layered")
 	public static final PlanetTrait LAYERED = new PlanetTrait(0x36870b);
-	
+
 	/**
-	 * This is similar to {@link Items#AIR}. It is an empty trait that will be the default value of
+	 * This is similar to {@link Items#AIR}. It is an empty trait that will be the
+	 * default value of
 	 * {@link IForgeRegistry#getValue(net.minecraft.util.ResourceLocation)}. <br>
 	 * <strong>DO NOT ADD TO A PLANET</strong>
 	 */
 	@RegisterPlanetTrait(id = "not_existing")
-	public static final PlanetTrait NOT_EXISTING = new PlanetTrait(0x00000);
+	public static final PlanetTrait NOT_EXISTING = new PlanetTrait(
+			new Properties(0x000000).withJeiProperties(new JeiProperties().setShowsInJei(false)));
+
+	@RegistryHolder
+	public static final class Environmental {
+
+		@RegisterPlanetTrait(id = "supercold")
+		public static final PlanetTrait SUPERCOLD = new PlanetTrait(0xffffff);
+	}
 }

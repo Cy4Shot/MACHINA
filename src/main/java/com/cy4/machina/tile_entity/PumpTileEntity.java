@@ -31,7 +31,8 @@ public class PumpTileEntity extends FluidTileEntity implements ITickableTile {
 		if (!level.getFluidState(worldPosition.below()).isEmpty()) {
 			FluidState fluidState = level.getFluidState(worldPosition.below());
 			FluidStack fluidStack = new FluidStack(fluidState.getType(), FluidAttributes.BUCKET_VOLUME);
-			if (tank.isFluidValid(fluidStack) && tank.fill(fluidStack, FluidAction.SIMULATE) >= fluidStack.getAmount()) {
+			if (tank.isFluidValid(fluidStack)
+					&& tank.fill(fluidStack, FluidAction.SIMULATE) >= fluidStack.getAmount()) {
 				tank.fill(fluidStack, FluidAction.EXECUTE);
 				level.setBlock(worldPosition.below(), Blocks.AIR.defaultBlockState(), 3);
 			}

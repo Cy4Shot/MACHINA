@@ -18,12 +18,13 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target({
-	TYPE, FIELD, METHOD, CONSTRUCTOR, LOCAL_VARIABLE, PACKAGE
+		TYPE, FIELD, METHOD, CONSTRUCTOR, LOCAL_VARIABLE, PACKAGE
 })
 public @interface DevelopmentOnly {
 
 	/**
 	 * If true, the element should <b>not be used</b> in a development environment
+	 * 
 	 * @return
 	 */
 	boolean inversed() default false;

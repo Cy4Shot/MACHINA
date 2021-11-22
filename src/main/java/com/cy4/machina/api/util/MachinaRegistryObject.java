@@ -31,13 +31,9 @@ public class MachinaRegistryObject<T extends IForgeRegistryEntry<?>> implements 
 	}
 
 	@SuppressWarnings("unused")
-	private Supplier<T> getDeclaredValue() {
-		return sup;
-	}
+	private Supplier<T> getDeclaredValue() { return sup; }
 
 	@SuppressWarnings("unused")
-	private void setName(ResourceLocation name) {
-		this.name = name;
-	}
+	private void setName(ResourceLocation name) { this.name = name; }
 
 }

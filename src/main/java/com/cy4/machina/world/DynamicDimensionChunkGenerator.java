@@ -38,6 +38,7 @@ import net.minecraft.world.gen.feature.structure.StructureManager;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
 public class DynamicDimensionChunkGenerator extends ChunkGenerator {
+
 	public static final Codec<DynamicDimensionChunkGenerator> CODEC = RegistryLookupCodec
 			.create(Registry.BIOME_REGISTRY)
 			.xmap(DynamicDimensionChunkGenerator::new, DynamicDimensionChunkGenerator::getBiomeRegistry).codec();
@@ -54,18 +55,16 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	private List<PlanetTrait> traits = new ArrayList<>();
 	public long seed = 0L;
 
-	public Registry<Biome> getBiomeRegistry() {
-		return biomes;
-	}
+	public Registry<Biome> getBiomeRegistry() { return biomes; }
 
 	public DynamicDimensionChunkGenerator(MinecraftServer server, RegistryKey<Dimension> key) {
 		this(server.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY));
-		this.id = PlanetUtils.getIdDim(key);
-		this.traits.clear();
+		id = PlanetUtils.getIdDim(key);
+		traits.clear();
 		/*
 		 * What on earth have you done cy4. I keep getting IOB exceptions
 		 */
-		this.traits.addAll(StarchartData.getStarchartForServer(server).planets.get(id).traits);
+		traits.addAll(StarchartData.getStarchartForServer(server).planets.get(id).traits);
 		updateTraitValues();
 	}
 
@@ -134,7 +133,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 				int yPos = baseHeight + (int) (d1 * heightMultiplier);
 				for (int y = 0; y < yPos; y++) {
-//					System.out.println(traits.contains(PlanetTraitInit.MOUNTAINOUS));
+					// System.out.println(traits.contains(PlanetTraitInit.MOUNTAINOUS));
 					chunk.setBlockState(blockpos$mutable.set(i1, y, j1), Blocks.STONE.defaultBlockState(), false);
 				}
 				if (yPos < seaLevel) {
@@ -144,8 +143,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 					if (freezing) {
 						chunk.setBlockState(blockpos$mutable.set(i1, seaLevel, j1),
-								(sharedseedrandom.nextInt(2) == 0 ? Blocks.PACKED_ICE : Blocks.ICE)
-										.defaultBlockState(),
+								(sharedseedrandom.nextInt(2) == 0 ? Blocks.PACKED_ICE : Blocks.ICE).defaultBlockState(),
 								false);
 					}
 				}

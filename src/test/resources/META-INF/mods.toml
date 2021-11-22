@@ -1,0 +1,10 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT Liscence"
+
+[[mods]]
+modId="test_mod"
+[[mods]]
+modId = "discord_rpc"
+
+

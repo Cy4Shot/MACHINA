@@ -24,12 +24,12 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class ConsoleBlock extends Block {
+
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
 	public ConsoleBlock(Properties properties) {
 		super(properties);
-		this.registerDefaultState(stateDefinition.any()
-				.setValue(FACING, Direction.NORTH));
+		this.registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
 	@Override

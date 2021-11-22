@@ -8,16 +8,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientStarchartHolder {
+
 	private static Starchart starchart;
 
-	public static Starchart getStarchart() {
-		return starchart;
-	}
+	public static Starchart getStarchart() { return starchart; }
 
-	public static void setStarchart(Starchart starchart) {
-		ClientStarchartHolder.starchart = starchart;
-	}
-	
+	public static void setStarchart(Starchart starchart) { ClientStarchartHolder.starchart = starchart; }
+
 	public static PlanetData getPlanetDataByID(int id) {
 		return starchart.planets.get(id);
 	}

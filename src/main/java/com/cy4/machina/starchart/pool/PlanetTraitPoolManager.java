@@ -36,8 +36,7 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 			ResourceLocation resourcelocation = entry.getKey();
 			Machina.LOGGER.info("Found Trait Pool: " + entry.getKey().toString());
 
-			if (resourcelocation.getPath().startsWith("_"))
-			{
+			if (resourcelocation.getPath().startsWith("_")) {
 				continue; // Forge: filter anything beginning with "_" as it's used for metadata.
 			}
 

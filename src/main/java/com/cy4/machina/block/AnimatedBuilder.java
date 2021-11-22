@@ -6,12 +6,12 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 
 public class AnimatedBuilder extends Block {
+
 	public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
 	public AnimatedBuilder(Properties properties) {
 		super(properties);
-		this.registerDefaultState(stateDefinition.any()
-				.setValue(ACTIVATED, Boolean.FALSE));
+		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATED, Boolean.FALSE));
 	}
 
 	@Override

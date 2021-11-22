@@ -5,6 +5,7 @@ import com.cy4.machina.api.network.message.IMachinaMessage;
 import com.cy4.machina.starchart.Starchart;
 
 import net.minecraft.network.PacketBuffer;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
@@ -12,10 +13,11 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class S2CSyncStarchart implements IMachinaMessage {
+
 	private Starchart sc;
-	
+
 	public S2CSyncStarchart(Starchart starchart) {
-		this.sc = starchart;
+		sc = starchart;
 	}
 
 	@Override

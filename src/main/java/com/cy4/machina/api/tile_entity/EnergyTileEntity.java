@@ -34,9 +34,7 @@ public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergy
 	@Override
 	public MachinaEnergyStorage getStorage() { return energyStorage; }
 
-	protected List<Direction> getSidesForEnergy() {
-		return Lists.newArrayList(Direction.values());
-	}
+	protected List<Direction> getSidesForEnergy() { return Lists.newArrayList(Direction.values()); }
 
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {

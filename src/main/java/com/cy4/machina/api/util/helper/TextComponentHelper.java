@@ -21,13 +21,13 @@ public class TextComponentHelper {
 	 * @return Colored component.
 	 */
 	public static IFormattableTextComponent color(IFormattableTextComponent component, int color) {
-		return component.setStyle(component.getStyle()
-				.withColor(Color.fromRgb(color)));
+		return component.setStyle(component.getStyle().withColor(Color.fromRgb(color)));
 	}
 
 	/**
-	 * Builds a formattable text component out of a list of components using a "smart" combination system to allow for automatic replacements, and coloring to take
-	 * place.
+	 * Builds a formattable text component out of a list of components using a
+	 * "smart" combination system to allow for automatic replacements, and coloring
+	 * to take place.
 	 *
 	 * @param components Argument components.
 	 *
@@ -63,7 +63,8 @@ public class TextComponentHelper {
 	}
 
 	/**
-	 * Helper to call the constructor for string text components and also convert any non-breaking spaces to spaces so that they render properly.
+	 * Helper to call the constructor for string text components and also convert
+	 * any non-breaking spaces to spaces so that they render properly.
 	 *
 	 * @param component String
 	 *
@@ -78,7 +79,8 @@ public class TextComponentHelper {
 	}
 
 	/**
-	 * Helper to call the constructor for translation text components in case we end up ever needing to do any extra processing.
+	 * Helper to call the constructor for translation text components in case we end
+	 * up ever needing to do any extra processing.
 	 *
 	 * @param key  Translation Key.
 	 * @param args Arguments.

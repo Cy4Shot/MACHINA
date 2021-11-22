@@ -21,6 +21,7 @@ public class EmptyFunction extends AdvancedCraftingFunction {
 	}
 
 	public static final class Serializer extends AdvancedCraftingFunctionSerializer<EmptyFunction> {
+
 		@Override
 		public EmptyFunction deserialize(JsonObject obj) {
 			return new EmptyFunction();

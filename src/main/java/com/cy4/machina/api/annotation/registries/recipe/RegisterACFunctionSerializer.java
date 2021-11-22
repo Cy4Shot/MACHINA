@@ -13,9 +13,10 @@ import com.cy4.machina.api.annotation.registries.RegistryHolder;
 @Retention(RUNTIME)
 @Target(FIELD)
 /**
- * Registers the {@link AdvancedCraftingFunctionSerializer} that is represented by the field that has this
- * annotation. For the serializer to be registered the class in which the field is
- * has to be annotated with {@link RegistryHolder}
+ * Registers the {@link AdvancedCraftingFunctionSerializer} that is represented
+ * by the field that has this annotation. For the serializer to be registered
+ * the class in which the field is has to be annotated with
+ * {@link RegistryHolder}
  *
  * @author matyrobbrt
  *

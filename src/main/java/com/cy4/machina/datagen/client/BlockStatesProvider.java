@@ -21,7 +21,8 @@ public class BlockStatesProvider extends BlockStateProvider {
 	}
 
 	public void fluid(Block block) {
-		getVariantBuilder(block).partialState().modelForState().modelFile(models().cubeAll(name(block), FluidInit.STILL_RL)).addModel();
+		getVariantBuilder(block).partialState().modelForState()
+				.modelFile(models().cubeAll(name(block), FluidInit.STILL_RL)).addModel();
 	}
 
 	private String name(Block block) {

@@ -38,9 +38,7 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 	 * not</strong> be called before {@link ColorHandlerEvent.Block}
 	 */
 	public static TextureAtlasSprite getFromInstance(PlanetTrait trait) {
-		if (INSTANCE != null) {
-			return INSTANCE.get(trait);
-		}
+		if (INSTANCE != null) { return INSTANCE.get(trait); }
 		return null;
 	}
 

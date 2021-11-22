@@ -6,7 +6,8 @@ import net.minecraft.client.world.ClientWorld;
 
 public abstract class BaseParticle extends SpriteTexturedParticle {
 
-	protected BaseParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+	protected BaseParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
+			double ySpeedIn, double zSpeedIn) {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 
 		float f = random.nextFloat() * 1.0f;
@@ -19,13 +20,11 @@ public abstract class BaseParticle extends SpriteTexturedParticle {
 		xd *= 0.02f;
 		yd *= 0.02f;
 		zd *= 0.02f;
-		lifetime = (int)(20.0D / (Math.random() * 1.0D));
+		lifetime = (int) (20.0D / (Math.random() * 1.0D));
 
 	}
 
 	@Override
-	public IParticleRenderType getRenderType() {
-		return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
-	}
+	public IParticleRenderType getRenderType() { return IParticleRenderType.PARTICLE_SHEET_OPAQUE; }
 
 }

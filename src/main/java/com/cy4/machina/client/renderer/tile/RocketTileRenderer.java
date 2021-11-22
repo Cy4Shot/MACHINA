@@ -16,6 +16,7 @@ import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
 @OnlyIn(Dist.CLIENT)
 public class RocketTileRenderer extends GeoBlockRenderer<RocketTile> {
+
 	public RocketTileRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn, new RocketTileModel());
 	}

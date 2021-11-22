@@ -2,6 +2,7 @@ package com.cy4.machina.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +24,20 @@ public class ReflectionHelper {
 			}
 		});
 		return fields;
+	}
+
+	public static ArrayList<Method> getMethodsAnnotatedWith(ArrayList<Class<?>> classes,
+			Class<? extends Annotation> annotation) {
+		ArrayList<Method> methods = new ArrayList<>();
+		classes.forEach(clazz -> {
+			for (Method method : clazz.getDeclaredMethods()) {
+				method.setAccessible(true);
+				if (method.isAnnotationPresent(annotation)) {
+					methods.add(method);
+				}
+			}
+		});
+		return methods;
 	}
 
 }
