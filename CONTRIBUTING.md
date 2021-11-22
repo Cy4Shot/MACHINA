@@ -20,3 +20,5 @@ class DoNotDoThis
 ```
 - You **must** follow java syntax naming conventions: https://www.javatpoint.com/java-naming-conventions
 - Method References must be used in replacement for a lambda expression when possible.
+
+- Note: Eclipse treats `//@formatter:on` and `//@formatter:off` as switches for the formatter. If you see that kind of comment, its purpose is usually to stop eclipse's line wrapping for strings and methods. Please do not remove the comment
