@@ -5,6 +5,7 @@ import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.cy4.machina.api.annotation.registries.RegistryAnnotationProcessor;
 import com.cy4.machina.client.ClientSetup;
 import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
@@ -59,6 +60,9 @@ public class Machina {
 		}
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+		
+		RegistryAnnotationProcessor registryAnnotations = new RegistryAnnotationProcessor(MOD_ID);
+		registryAnnotations.register(modBus);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
 

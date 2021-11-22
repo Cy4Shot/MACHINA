@@ -18,7 +18,6 @@
 		"count": 16
 	},
 	"function": {
-		"type": "machina:copy_nbt",
-		"copy_slot": 2
+		"type": "machina:no_mirror"
 	}
 }
