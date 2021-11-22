@@ -78,7 +78,7 @@ public class RegistryAnnotationProcessor {
 		init();
 	}
 
-	private final ArrayList<Class<?>> registryClasses = new ArrayList<>();
+	protected final ArrayList<Class<?>> registryClasses = new ArrayList<>();
 
 	private void init() {
 		final List<ModFileScanData.AnnotationData> annotations = ModList.get().getAllScanData().stream()
