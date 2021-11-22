@@ -50,6 +50,8 @@ public class Machina {
 
 	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
 	public static final File CONFIF_DIR = new File(CONFIG_DIR_PATH);
+	
+	public static final RegistryAnnotationProcessor REGISTRY_PROCESSOR = new RegistryAnnotationProcessor(MOD_ID);
 
 	public Machina() {
 		GeckoLib.initialize();
@@ -61,8 +63,7 @@ public class Machina {
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 		
-		RegistryAnnotationProcessor registryAnnotations = new RegistryAnnotationProcessor(MOD_ID);
-		registryAnnotations.register(modBus);
+		REGISTRY_PROCESSOR.register(modBus);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
 

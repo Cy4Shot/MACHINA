@@ -53,13 +53,18 @@ import net.minecraftforge.forgespi.language.ModFileScanData;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 public class RegistryAnnotationProcessor {
-	
+
 	private final String ownerModID;
-	
+
 	public RegistryAnnotationProcessor(String modid) {
 		this.ownerModID = modid;
 	}
-	
+
+	public List<Item> getItems() {
+		return MachinaRegistries.ITEMS.get(ownerModID) != null ? MachinaRegistries.ITEMS.get(ownerModID)
+				: Lists.newArrayList();
+	}
+
 	public void register(IEventBus modBus) {
 		modBus.addListener(this::constructMod);
 		modBus.addGenericListener(AdvancedCraftingFunctionSerializer.class, this::registerAdvancedCraftingFunctions);
@@ -73,7 +78,7 @@ public class RegistryAnnotationProcessor {
 		modBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeTypes);
 		modBus.addGenericListener(TileEntityType.class, this::registerTileEntityTypes);
 	}
-	
+
 	private void constructMod(FMLConstructModEvent event) {
 		init();
 	}
@@ -87,27 +92,26 @@ public class RegistryAnnotationProcessor {
 				.collect(Collectors.toList());
 
 		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
-		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-			try {
-				Class<?> clazz = Class.forName(data.getClassType().getClassName(), false,
-						getClass().getClassLoader());
-				if (clazz.getAnnotation(RegistryHolder.class).modid().equals(this.ownerModID)) {
-					registryClasses.add(clazz);
-				}
-			} catch (ClassNotFoundException e) {
-				// Unknown class
-			}
-		});
+				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+					try {
+						Class<?> clazz = Class.forName(data.getClassType().getClassName(), false,
+								getClass().getClassLoader());
+						if (clazz.getAnnotation(RegistryHolder.class).modid().equals(this.ownerModID)) {
+							registryClasses.add(clazz);
+						}
+					} catch (ClassNotFoundException e) {
+						// Unknown class
+					}
+				});
 	}
 
 	private void registerItems(final RegistryEvent.Register<Item> event) {
 		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value, of(ITEMS));
-		RegistryAnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, RegisterBlockItem.class, (classAn, fieldAn, obj) -> {
-			if (obj instanceof BlockItem) {
-				return ((BlockItem) obj).getBlock().getRegistryName();
-			}
-			throw new RegistryException("Invalid BlockItem");
-		}, Optional.empty());
+		RegistryAnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, RegisterBlockItem.class,
+				(classAn, fieldAn, obj) -> {
+					if (obj instanceof BlockItem) { return ((BlockItem) obj).getBlock().getRegistryName(); }
+					throw new RegistryException("Invalid BlockItem");
+				}, Optional.empty());
 
 		for (Block block : BlockItemInit.AUTO_BLOCK_ITEMS) {
 			BlockItem item = new BlockItem(block, new Item.Properties().tab(Machina.MACHINA_ITEM_GROUP));
@@ -135,8 +139,8 @@ public class RegistryAnnotationProcessor {
 
 	private void registerAdvancedCraftingFunctions(
 			final RegistryEvent.Register<AdvancedCraftingFunctionSerializer<?>> event) {
-		registerFieldsWithAnnotation(event, RegisterACFunctionSerializer.class,
-				RegisterACFunctionSerializer::value, of(ADVANCED_CRAFTING_FUNCTION_SERIALIZERS));
+		registerFieldsWithAnnotation(event, RegisterACFunctionSerializer.class, RegisterACFunctionSerializer::value,
+				of(ADVANCED_CRAFTING_FUNCTION_SERIALIZERS));
 	}
 
 	private void registerTileEntityTypes(final RegistryEvent.Register<TileEntityType<?>> event) {
@@ -156,9 +160,7 @@ public class RegistryAnnotationProcessor {
 
 	private void registerRecipeTypes(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
 		ReflectionHelper.getFieldsAnnotatedWith(registryClasses, RegisterRecipeType.class).forEach(field -> {
-			if (!field.isAccessible()) {
-				return;
-			}
+			if (!field.isAccessible()) { return; }
 			try {
 				if (field.get(field.getDeclaringClass()) instanceof IRecipeType<?>) {
 					IRecipeType<?> type = (IRecipeType<?>) field.get(field.getDeclaringClass());
@@ -174,8 +176,7 @@ public class RegistryAnnotationProcessor {
 					} else {
 						RECIPE_TYPES.put(modid, Lists.newArrayList(type));
 					}
-				}
-				else {
+				} else {
 					//@formatter:off
 					throw new RegistryException("The field " + field + " is annotated with @RegisterRecipeType but it is not a recipe type!");
 					//@formatter:on
@@ -189,7 +190,7 @@ public class RegistryAnnotationProcessor {
 		registerFieldsWithAnnotation(event, RegisterRecipeSerializer.class, RegisterRecipeSerializer::value,
 				of(RECIPE_SERIALIZERS));
 	}
-	
+
 	private <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
 			final RegistryEvent.Register<T> event, Class<A> annotation, Function<A, String> registryName,
 			Optional<Map<String, List<T>>> outputMap) {
@@ -213,21 +214,18 @@ public class RegistryAnnotationProcessor {
 	 *                     name of the object, based off the inputed data
 	 * @param outputMap    optionally, a map in which the processed objects will be
 	 *                     put, as following: <br>
-	 *                     A {@link List} with the generic type {@code <T>}
-	 *                     will be put as the value corresponding to the key which
-	 *                     is the namespace (mod id) of the object's registry name.
+	 *                     A {@link List} with the generic type {@code <T>} will be
+	 *                     put as the value corresponding to the key which is the
+	 *                     namespace (mod id) of the object's registry name.
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
-			 ArrayList<Class<?>> registryClasses,
-			final RegistryEvent.Register<T> event, Class<A> annotation,
+			ArrayList<Class<?>> registryClasses, final RegistryEvent.Register<T> event, Class<A> annotation,
 			TriFunction<RegistryHolder, A, T, ResourceLocation> registryName,
 			Optional<Map<String, List<T>>> outputMap) {
 		Class<T> objectClass = event.getRegistry().getRegistrySuperType();
 		ReflectionHelper.getFieldsAnnotatedWith(registryClasses, annotation).forEach(field -> {
-			if (!field.isAccessible()) {
-				return;
-			}
+			if (!field.isAccessible()) { return; }
 			try {
 				AtomicReference<T> registry = new AtomicReference<>(null);
 				boolean isGood = false;
@@ -269,8 +267,7 @@ public class RegistryAnnotationProcessor {
 						setNameMethod.setAccessible(true);
 						setNameMethod.invoke(regObj, name);
 					}
-				}
-				else {
+				} else {
 					//@formatter:off
 					throw new RegistryException("The field " + field + " is annotated with " + annotation + " but it is not a " + objectClass);
 					//@formatter:on
@@ -282,7 +279,7 @@ public class RegistryAnnotationProcessor {
 			}
 		});
 	}
-	
+
 	public static class RegistryException extends RuntimeException {
 
 		private static final long serialVersionUID = 1688668579640237515L;

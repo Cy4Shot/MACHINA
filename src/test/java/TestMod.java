@@ -27,10 +27,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @RegistryHolder(modid = "test_mod")
 @Mod.EventBusSubscriber(modid = "test_mod", bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TestMod {
+	
+	public static final RegistryAnnotationProcessor ANN_HELPER = new RegistryAnnotationProcessor("test_mod");
 
 	public TestMod() {
-		RegistryAnnotationProcessor annHelper = new RegistryAnnotationProcessor("test_mod");
-		annHelper.register(FMLJavaModLoadingContext.get().getModEventBus());
+		ANN_HELPER.register(FMLJavaModLoadingContext.get().getModEventBus());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
