@@ -56,6 +56,24 @@ minecraft {
                 }
             }
         }
+        
+        test {
+        	parent runs.client
+            workingDirectory project.file('testRun')
+            property 'mixin.env.remapRefMap', 'true'
+      		property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+			arg "-mixin.config=machina.mixins.json"
+			
+			environment 'MOD_CLASSES', 'dummy'
+
+            main 'net.minecraftforge.userdev.LaunchTesting'
+
+            mods {
+                tests {
+                    source sourceSets.test
+                }
+            }
+        }
 
         server {
             workingDirectory project.file('run/server')
@@ -85,6 +103,36 @@ minecraft {
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets {
+        main {
+            java {
+                srcDirs = [
+                    "$rootDir/src/main/java"
+                ]
+            }
+            resources {
+                srcDirs = [
+                    "$rootDir/src/main/resources",
+                    "$rootDir/src/generated/resources"
+                ]
+            }
+        }
+        test {
+            java {
+                srcDirs = [
+                    "$rootDir/src/test/java",
+                    "$rootDir/src/main/java"
+                ]
+            }
+            resources {
+                srcDirs = [
+                    "$rootDir/src/test/resources",
+                    "$rootDir/src/main/resources",
+                    "$rootDir/src/generated/resources"
+                ]
+            }
+        }
+}
 
 repositories {
 	maven {
