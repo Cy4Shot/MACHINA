@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.cy4.machina.api.annotation.ChangedByReflection;
+import com.cy4.machina.api.annotation.registries.RegisterCustomRegistry;
+import com.cy4.machina.api.annotation.registries.RegistryHolder;
 import com.cy4.machina.api.util.Color;
 import com.cy4.machina.init.PlanetTraitInit;
 import com.cy4.machina.util.MachinaRL;
@@ -25,11 +27,13 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
+@RegistryHolder
 public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
 	@ChangedByReflection(when = "commonSetup (when the registry is built)")
 	public static final IForgeRegistry<PlanetTrait> REGISTRY = null;
 
+	@RegisterCustomRegistry
 	public static void createRegistry(RegistryEvent.NewRegistry event) {
 		CustomRegistryHelper.registerRegistry(new TargetField(PlanetTrait.class, "REGISTRY"), PlanetTrait.class,
 				new MachinaRL("planet_trait"), Optional.of(new MachinaRL("not_existing")),
@@ -92,6 +96,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
 	public TextureAtlasSprite getIcon() { return PlanetTraitSpriteUploader.getFromInstance(this); }
 
+	@SuppressWarnings("deprecation")
 	public void render(MatrixStack matrixStack, int xPosition, int yPosition, boolean coloured) {
 		Minecraft minecraft = Minecraft.getInstance();
 		TextureAtlasSprite textureatlassprite = getIcon();

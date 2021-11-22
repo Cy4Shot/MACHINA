@@ -100,6 +100,7 @@ public class RegistryAnnotationProcessor {
 		modBus.addGenericListener(PlanetTrait.class, this::registerPlanetTraits);
 		modBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeTypes);
 		modBus.addGenericListener(TileEntityType.class, this::registerTileEntityTypes);
+		modBus.addListener(this::registerCustomRegistries);
 	}
 
 	private void constructMod(FMLConstructModEvent event) {
@@ -219,6 +220,21 @@ public class RegistryAnnotationProcessor {
 		RegistryAnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, annotation,
 				(classAn, fieldAn, obj) -> new ResourceLocation(classAn.modid(), registryName.apply(fieldAn)),
 				outputMap);
+	}
+
+	private void registerCustomRegistries(final RegistryEvent.NewRegistry event) {
+		ReflectionHelper.getMethodsAnnotatedWith(registryClasses, RegisterCustomRegistry.class).forEach(method -> {
+			try {
+				method.invoke(method.getDeclaringClass(), event);
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				if (e instanceof IllegalArgumentException) {
+					//@formatter:off
+						throw new RegistryException("The method " + method + " is annotated with @RegisterCustomRegistry but it cannot be invoked using only RegistryEvent.NewRegistry as a parameter");
+						//@formatter:on
+				}
+				throw new RegistryException(e);
+			}
+		});
 	}
 
 	/**
