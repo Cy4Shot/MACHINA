@@ -160,6 +160,7 @@ repositories {
     	name 'javassist'
     	url 'https://mvnrepository.com/artifact/org.javassist/javassist'
     }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -176,6 +177,9 @@ dependencies {
     
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    
+    implementation(group: 'com.github.Vatuu', name: 'discord-rpc', version: "${discord_rpc_version}")
+    shadow(group: 'com.github.Vatuu', name: 'discord-rpc', version: "${discord_rpc_version}")
     
     /* Unused
     implementation "org.reflections:reflections:${reflections_version}"
