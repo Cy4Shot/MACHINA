@@ -1,5 +1,6 @@
 {
   "variants": {
+    "activation_state=un_powered": { "model": "machina:block/pad_size_relay_unpowered" },
     "activation_state=not_active": { "model": "machina:block/pad_size_relay" },
     "activation_state=waiting": { "model": "machina:block/pad_size_relay_waiting" },
     "activation_state=active": { "model": "machina:block/pad_size_relay_activated" }

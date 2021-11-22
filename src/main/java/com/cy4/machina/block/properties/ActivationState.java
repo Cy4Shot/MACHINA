@@ -3,6 +3,7 @@ package com.cy4.machina.block.properties;
 import net.minecraft.util.IStringSerializable;
 
 public enum ActivationState implements IStringSerializable {
+	UN_POWERED("un_powered"),
 	NOT_ACTIVE("not_active"),
 	WAITING("waiting"),
 	ACTIVE("active");

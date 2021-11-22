@@ -36,7 +36,7 @@ public class RocketMount extends Block {
 
 	public RocketMount(Properties properties) {
 		super(properties);
-		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE)
+		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATION_STATE, ActivationState.UN_POWERED)
 				.setValue(RELAY_POS_STATE, RelayPosState.N_A));
 	}
 
@@ -52,42 +52,7 @@ public class RocketMount extends Block {
 		if (player.getItemInHand(handIn).getItem() == ItemInit.WRENCH) {
 			if (checkForAllRelayBlocks(worldIn, pos)) {
 
-				resetAllRelayBlockPositions(worldIn, pos);
-				worldIn.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.CENTER)
-						.setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
-
-				Timer timer1 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.NORTH));
-				timer1.setInitialDelay(1000);
-				timer1.setRepeats(false);
-				timer1.start();
-				Timer timer2 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.NORTH_EAST));
-				timer2.setInitialDelay(9000);
-				timer2.setRepeats(false);
-				timer2.start();
-				Timer timer3 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.EAST));
-				timer3.setInitialDelay(17000);
-				timer3.setRepeats(false);
-				timer3.start();
-				Timer timer4 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.SOUTH_EAST));
-				timer4.setInitialDelay(25000);
-				timer4.setRepeats(false);
-				timer4.start();
-				Timer timer5 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.SOUTH));
-				timer5.setInitialDelay(33000);
-				timer5.setRepeats(false);
-				timer5.start();
-				Timer timer6 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.SOUTH_WEST));
-				timer6.setInitialDelay(41000);
-				timer6.setRepeats(false);
-				timer6.start();
-				Timer timer7 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.WEST));
-				timer7.setInitialDelay(49000);
-				timer7.setRepeats(false);
-				timer7.start();
-				Timer timer8 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.NORTH_WEST));
-				timer8.setInitialDelay(57000);
-				timer8.setRepeats(false);
-				timer8.start();
+				connectingToAllRelays(state, worldIn, pos);
 
 			} else {
 				STRAIGHT_DIRECTIONS
@@ -111,8 +76,51 @@ public class RocketMount extends Block {
 
 		return ActionResultType.SUCCESS;
 	}
+	
+	
+	
+	public static void connectingToAllRelays(BlockState state, World worldIn, BlockPos posIn) {
+		BlockPos pos = new BlockPos(0, 0, 0);
+		
+		resetAllRelayBlockPositions(worldIn, pos);
+		worldIn.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.CENTER)
+				.setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
 
-	public void connectToRelay(BlockPos pos, World worldIn, Direction straightDirection) {
+		Timer timer1 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.NORTH));
+		timer1.setInitialDelay(1000);
+		timer1.setRepeats(false);
+		timer1.start();
+		Timer timer2 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.NORTH_EAST));
+		timer2.setInitialDelay(9000);
+		timer2.setRepeats(false);
+		timer2.start();
+		Timer timer3 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.EAST));
+		timer3.setInitialDelay(17000);
+		timer3.setRepeats(false);
+		timer3.start();
+		Timer timer4 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.SOUTH_EAST));
+		timer4.setInitialDelay(25000);
+		timer4.setRepeats(false);
+		timer4.start();
+		Timer timer5 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.SOUTH));
+		timer5.setInitialDelay(33000);
+		timer5.setRepeats(false);
+		timer5.start();
+		Timer timer6 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.SOUTH_WEST));
+		timer6.setInitialDelay(41000);
+		timer6.setRepeats(false);
+		timer6.start();
+		Timer timer7 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.WEST));
+		timer7.setInitialDelay(49000);
+		timer7.setRepeats(false);
+		timer7.start();
+		Timer timer8 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.NORTH_WEST));
+		timer8.setInitialDelay(57000);
+		timer8.setRepeats(false);
+		timer8.start();
+	}
+
+	public static void connectToRelay(BlockPos pos, World worldIn, Direction straightDirection) {
 		BlockPos relativePos = pos.relative(straightDirection, 7).above();
 
 		// isConnectingAnimation(pos, worldIn);
@@ -133,10 +141,10 @@ public class RocketMount extends Block {
 		}
 	}
 
-	public void connectToRelay(BlockPos pos, World worldIn, DiagonalDirection diagonalDirection) {
+	public static void connectToRelay(BlockPos pos, World worldIn, DiagonalDirection diagonalDirection) {
 		BlockPos relativePos = diagonalDirection.relative(pos, 7).above();
 
-		// isConnectingAnimation(pos, worldIn);
+		//isConnectingAnimation(pos, worldIn);
 		PadSizeRelay.isConnectingAnimation(relativePos, worldIn);
 
 		if (diagonalDirection == DiagonalDirection.NORTH_EAST) {
@@ -188,10 +196,10 @@ public class RocketMount extends Block {
 	}
 
 	public boolean checkForRelay(World world, BlockPos pos) {
-		return world.getBlockState(pos).is(BlockInit.PAD_SIZE_RELAY);
+		return world.getBlockState(pos).is(BlockInit.PAD_SIZE_RELAY) && world.getBlockState(pos).getValue(PadSizeRelay.ACTIVATION_STATE) == ActivationState.NOT_ACTIVE;
 	}
 
-	public void resetAllRelayBlockPositions(World worldIn, BlockPos pos) {
+	public static void resetAllRelayBlockPositions(World worldIn, BlockPos pos) {
 		STRAIGHT_DIRECTIONS.forEach(direction -> {
 			BlockPos newPos = pos.relative(direction, 7).above();
 			BlockState state = worldIn.getBlockState(newPos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.N_A)
@@ -211,7 +219,7 @@ public class RocketMount extends Block {
 	public void isConnectingAnimation(BlockPos pos, World worldIn) {
 		BlockState state1 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
 		BlockState state2 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.WAITING);
-		BlockState state3 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.ACTIVE);
+		//BlockState state3 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.ACTIVE);
 
 		Timer timer1 = new Timer(1000, actionEvent -> worldIn.setBlockAndUpdate(pos, state2));
 		timer1.setRepeats(false);
@@ -231,7 +239,7 @@ public class RocketMount extends Block {
 		Timer timer6 = new Timer(6000, actionEvent -> worldIn.setBlockAndUpdate(pos, state1));
 		timer6.setRepeats(false);
 		timer6.start();
-		Timer timer7 = new Timer(7000, actionEvent -> worldIn.setBlockAndUpdate(pos, state3));
+		Timer timer7 = new Timer(7000, actionEvent -> worldIn.setBlockAndUpdate(pos, state2));
 		timer7.setRepeats(false);
 		timer7.start();
 	}
