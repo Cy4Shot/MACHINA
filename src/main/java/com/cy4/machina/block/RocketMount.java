@@ -52,7 +52,6 @@ public class RocketMount extends Block {
 		if (player.getItemInHand(handIn).getItem() == ItemInit.WRENCH) {
 			if (checkForAllRelayBlocks(worldIn, pos)) {
 
-				connectingToAllRelays(state, worldIn, pos);
 
 			} else {
 				STRAIGHT_DIRECTIONS
@@ -79,88 +78,21 @@ public class RocketMount extends Block {
 	
 	
 	
-	public static void connectingToAllRelays(BlockState state, World worldIn, BlockPos posIn) {
-		BlockPos pos = new BlockPos(0, 0, 0);
-		
-		resetAllRelayBlockPositions(worldIn, pos);
-		worldIn.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.CENTER)
-				.setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
-
-		Timer timer1 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.NORTH));
-		timer1.setInitialDelay(1000);
-		timer1.setRepeats(false);
-		timer1.start();
-		Timer timer2 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.NORTH_EAST));
-		timer2.setInitialDelay(9000);
-		timer2.setRepeats(false);
-		timer2.start();
-		Timer timer3 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.EAST));
-		timer3.setInitialDelay(17000);
-		timer3.setRepeats(false);
-		timer3.start();
-		Timer timer4 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.SOUTH_EAST));
-		timer4.setInitialDelay(25000);
-		timer4.setRepeats(false);
-		timer4.start();
-		Timer timer5 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.SOUTH));
-		timer5.setInitialDelay(33000);
-		timer5.setRepeats(false);
-		timer5.start();
-		Timer timer6 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.SOUTH_WEST));
-		timer6.setInitialDelay(41000);
-		timer6.setRepeats(false);
-		timer6.start();
-		Timer timer7 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, Direction.WEST));
-		timer7.setInitialDelay(49000);
-		timer7.setRepeats(false);
-		timer7.start();
-		Timer timer8 = new Timer(0, actionEvent -> connectToRelay(pos, worldIn, DiagonalDirection.NORTH_WEST));
-		timer8.setInitialDelay(57000);
-		timer8.setRepeats(false);
-		timer8.start();
-	}
-
-	public static void connectToRelay(BlockPos pos, World worldIn, Direction straightDirection) {
+	
+	
+	
+	
+	public static BlockPos returnRelayPos(BlockPos pos, World worldIn, Direction straightDirection) {
 		BlockPos relativePos = pos.relative(straightDirection, 7).above();
-
-		// isConnectingAnimation(pos, worldIn);
-		PadSizeRelay.isConnectingAnimation(relativePos, worldIn);
-
-		if (straightDirection == Direction.NORTH) {
-			worldIn.setBlockAndUpdate(relativePos,
-					worldIn.getBlockState(relativePos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.NORTH));
-		} else if (straightDirection == Direction.EAST) {
-			worldIn.setBlockAndUpdate(relativePos,
-					worldIn.getBlockState(relativePos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.EAST));
-		} else if (straightDirection == Direction.SOUTH) {
-			worldIn.setBlockAndUpdate(relativePos,
-					worldIn.getBlockState(relativePos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.SOUTH));
-		} else if (straightDirection == Direction.WEST) {
-			worldIn.setBlockAndUpdate(relativePos,
-					worldIn.getBlockState(relativePos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.WEST));
-		}
+		return relativePos;
 	}
-
-	public static void connectToRelay(BlockPos pos, World worldIn, DiagonalDirection diagonalDirection) {
+	
+	public static BlockPos returnRelayPos(BlockPos pos, World worldIn, DiagonalDirection diagonalDirection) {
 		BlockPos relativePos = diagonalDirection.relative(pos, 7).above();
-
-		//isConnectingAnimation(pos, worldIn);
-		PadSizeRelay.isConnectingAnimation(relativePos, worldIn);
-
-		if (diagonalDirection == DiagonalDirection.NORTH_EAST) {
-			worldIn.setBlockAndUpdate(relativePos,
-					worldIn.getBlockState(relativePos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.NORTHEAST));
-		} else if (diagonalDirection == DiagonalDirection.SOUTH_EAST) {
-			worldIn.setBlockAndUpdate(relativePos,
-					worldIn.getBlockState(relativePos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.SOUTHEAST));
-		} else if (diagonalDirection == DiagonalDirection.SOUTH_WEST) {
-			worldIn.setBlockAndUpdate(relativePos,
-					worldIn.getBlockState(relativePos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.SOUTHWEST));
-		} else if (diagonalDirection == DiagonalDirection.NORTH_WEST) {
-			worldIn.setBlockAndUpdate(relativePos,
-					worldIn.getBlockState(relativePos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.NORTHWEST));
-		}
+		return relativePos;
 	}
+	
+	
 
 	/**************************************************************************************************************************************************
 	 * UTIL METHODS/VARIABLES
@@ -172,8 +104,9 @@ public class RocketMount extends Block {
 	private static final List<DiagonalDirection> DIAGONAL_DIRECTIONS = Lists.newArrayList(DiagonalDirection.NORTH_WEST,
 			DiagonalDirection.NORTH_EAST, DiagonalDirection.SOUTH_WEST, DiagonalDirection.SOUTH_EAST);
 
-	public boolean checkForAllRelayBlocks(World worldIn, BlockPos pos) {
+	public static boolean checkForAllRelayBlocks(World worldIn, BlockPos pos) {
 		AtomicBoolean found = new AtomicBoolean(true);
+		
 		DIAGONAL_DIRECTIONS.forEach(dir -> {
 			if (!checkForRelay(worldIn, pos, dir)) {
 				found.set(false);
@@ -184,37 +117,23 @@ public class RocketMount extends Block {
 				found.set(false);
 			}
 		});
+		
 		return found.get();
 	}
 
-	public boolean checkForRelay(World world, BlockPos pos, Direction straightDirection) {
+	public static boolean checkForRelay(World world, BlockPos pos, Direction straightDirection) {
 		return checkForRelay(world, pos.relative(straightDirection, 7).above());
 	}
 
-	public boolean checkForRelay(World world, BlockPos pos, DiagonalDirection diagonalDirection) {
+	public static boolean checkForRelay(World world, BlockPos pos, DiagonalDirection diagonalDirection) {
 		return checkForRelay(world, diagonalDirection.relative(pos, 7).above());
 	}
 
-	public boolean checkForRelay(World world, BlockPos pos) {
+	public static boolean checkForRelay(World world, BlockPos pos) {
 		return world.getBlockState(pos).is(BlockInit.PAD_SIZE_RELAY) && world.getBlockState(pos).getValue(PadSizeRelay.ACTIVATION_STATE) == ActivationState.NOT_ACTIVE;
 	}
 
-	public static void resetAllRelayBlockPositions(World worldIn, BlockPos pos) {
-		STRAIGHT_DIRECTIONS.forEach(direction -> {
-			BlockPos newPos = pos.relative(direction, 7).above();
-			BlockState state = worldIn.getBlockState(newPos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.N_A)
-					.setValue(PadSizeRelay.ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
-
-			worldIn.setBlockAndUpdate(newPos, state);
-		});
-		DIAGONAL_DIRECTIONS.forEach(direction -> {
-			BlockPos newPos = direction.relative(pos, 7).above();
-			BlockState state = worldIn.getBlockState(newPos).setValue(PadSizeRelay.RELAY_POS_STATE, RelayPosState.N_A)
-					.setValue(PadSizeRelay.ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
-
-			worldIn.setBlockAndUpdate(newPos, state);
-		});
-	}
+	
 
 	public void isConnectingAnimation(BlockPos pos, World worldIn) {
 		BlockState state1 = worldIn.getBlockState(pos).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
