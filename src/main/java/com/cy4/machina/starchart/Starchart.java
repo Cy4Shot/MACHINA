@@ -2,7 +2,7 @@ package com.cy4.machina.starchart;
 
 import java.util.Random;
 
-import com.cy4.machina.api.nbt.NbtList;
+import com.cy4.machina.api.nbt.NBTList;
 import com.cy4.machina.config.CommonConfig;
 import com.cy4.machina.util.StringUtils;
 
@@ -12,10 +12,10 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public class Starchart implements INBTSerializable<CompoundNBT> {
 
-	public NbtList<PlanetData> planets;
+	public NBTList<PlanetData> planets;
 
 	public Starchart() {
-		planets = new NbtList<>(PlanetData::deserialize);
+		planets = new NBTList<>(PlanetData::deserialize);
 	}
 
 	public Starchart(CompoundNBT nbt) {

@@ -7,14 +7,14 @@ import net.minecraft.nbt.CompoundNBT;
 
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class NbtList<O extends INBTSerializable<CompoundNBT>> extends ArrayList<O>
+public class NBTList<O extends INBTSerializable<CompoundNBT>> extends ArrayList<O>
 		implements INBTSerializable<CompoundNBT> {
 
 	private static final long serialVersionUID = -3021708656511519616L;
 
 	private final transient Function<CompoundNBT, O> deserializer;
 
-	public NbtList(Function<CompoundNBT, O> deserializer) {
+	public NBTList(Function<CompoundNBT, O> deserializer) {
 		super();
 		this.deserializer = deserializer;
 	}
@@ -44,7 +44,7 @@ public class NbtList<O extends INBTSerializable<CompoundNBT>> extends ArrayList<
 	
 	@Override
 	public boolean equals(Object o) {
-		return super.equals(o) && o instanceof NbtList<?>;
+		return super.equals(o) && o instanceof NBTList<?>;
 	}
 	
 	@Override
