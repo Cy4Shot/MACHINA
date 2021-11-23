@@ -17,6 +17,7 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.SoundEvent;
 
 /**
  * The maps stored in here contain all the objects (except {@link BlockItem}s)
@@ -37,6 +38,7 @@ public final class MachinaRegistries {
 
 	public static final Map<String, List<Effect>> EFFECTS = new HashMap<>();
 	public static final Map<String, List<PlanetTrait>> PLANET_TRAITS = new HashMap<>();
+	public static final Map<String, List<SoundEvent>> SOUND_EVENTS = new HashMap<>();
 	public static final Map<String, List<AdvancedCraftingFunctionSerializer<?>>> ADVANCED_CRAFTING_FUNCTION_SERIALIZERS = new HashMap<>();
 
 	public static final Map<String, List<TileEntityType<?>>> TILE_ENTITY_TYPES = new HashMap<>();

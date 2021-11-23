@@ -43,6 +43,7 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.registry.Registry;
 
 import net.minecraftforge.event.RegistryEvent;
@@ -98,6 +99,7 @@ public class RegistryAnnotationProcessor {
 		modBus.addGenericListener(Item.class, this::registerItems);
 		modBus.addGenericListener(ParticleType.class, this::registerParticleTypes);
 		modBus.addGenericListener(PlanetTrait.class, this::registerPlanetTraits);
+		modBus.addGenericListener(SoundEvent.class, this::registerSoundEvents);
 		modBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeTypes);
 		modBus.addGenericListener(TileEntityType.class, this::registerTileEntityTypes);
 		modBus.addListener(this::registerCustomRegistries);
@@ -159,6 +161,10 @@ public class RegistryAnnotationProcessor {
 
 	private void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
 		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id, of(PLANET_TRAITS));
+	}
+	
+	private void registerSoundEvents(final RegistryEvent.Register<SoundEvent> event) {
+		registerFieldsWithAnnotation(event, RegisterSoundEvent.class, RegisterSoundEvent::value, of(SOUND_EVENTS));
 	}
 
 	private void registerAdvancedCraftingFunctions(
