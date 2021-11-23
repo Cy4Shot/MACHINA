@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
+import net.minecraftforge.registries.IForgeRegistry.AddCallback;
 
 public class CustomRegistryHelper {
 
@@ -26,18 +27,18 @@ public class CustomRegistryHelper {
 
 	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField,
 			Class<T> registryClass, ResourceLocation registryName, Optional<ResourceLocation> defaultValue) {
-		registerRegistry(targetField, registryClass, registryName, defaultValue, Optional.empty());
+		registerRegistry(targetField, registryClass, registryName, defaultValue, Optional.empty(), Optional.empty());
 	}
 
 	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField,
 			Class<T> registryClass, ResourceLocation registryName, Optional<ResourceLocation> defaultValue,
-			Optional<ResourceLocation> legacyName) {
+			Optional<ResourceLocation> legacyName, Optional<AddCallback<T>> addCallback) {
 		RegistryBuilder<T> registryBuilder = new RegistryBuilder<>();
 		registryBuilder.setName(registryName);
 		registryBuilder.setType(registryClass);
 
 		defaultValue.ifPresent(registryBuilder::setDefaultKey);
-
+		addCallback.ifPresent(cb -> registryBuilder.onAdd(cb));
 		legacyName.ifPresent(registryBuilder::legacyName);
 
 		try {

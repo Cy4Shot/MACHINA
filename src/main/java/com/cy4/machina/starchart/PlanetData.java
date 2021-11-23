@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.planet.PlanetNameGenerator;
+import com.cy4.machina.api.planet.attribute.PlanetAttributeList;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.planet.trait.PlanetTraitList;
 
@@ -19,6 +20,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	private final PlanetTraitList traits = new PlanetTraitList();
+	private final PlanetAttributeList attributes = new PlanetAttributeList();
 	
 	public String name = "Planet";
 	public int color;
@@ -66,6 +68,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	public CompoundNBT serializeNBT() {
 		final CompoundNBT nbt = new CompoundNBT();
 		nbt.put("traits", traits.serializeNBT());
+		nbt.put("attributes", attributes.serializeNBT());
 
 		nbt.putString("name", name);
 		nbt.putFloat("atm", atm);
@@ -89,6 +92,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	private static PlanetData deserialize(CompoundNBT nbt, PlanetData data) {
 		data.traits.deserializeNBT(nbt.getCompound("traits"));
+		data.attributes.deserializeNBT(nbt.getCompound("attributes"));
 		data.name = nbt.getString("name");
 		data.atm = nbt.getFloat("atm");
 		data.temp = nbt.getFloat("temp");
@@ -112,5 +116,6 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	}
 	
 	public PlanetTraitList getTraits() { return traits; }
+	public PlanetAttributeList getAttributes() { return attributes; }
 
 }

@@ -10,7 +10,7 @@ public class NBTList<O extends INBTSerializable<ONBT>, ONBT extends INBT> extend
 	
 	private static final long serialVersionUID = -7631328899434821083L;
 
-	public NBTList(Function<O, ONBT> serializer, Function<ONBT, O> deserializer) {
+	public NBTList(Function<ONBT, O> deserializer) {
 		super(O::serializeNBT, deserializer);
 	}
 

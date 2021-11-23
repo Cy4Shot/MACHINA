@@ -1,6 +1,7 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
+import com.cy4.machina.api.planet.attribute.PlanetAttribute;
 import com.cy4.machina.world.data.StarchartData;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -30,6 +31,13 @@ public class ForgeEvents {
 		StarchartData.getStarchartForServer(s).generateStarchart(s.getLevel(World.OVERWORLD).getSeed());
 		StarchartData.getDefaultInstance(s).syncClients();
 		StarchartData.getStarchartForServer(s).debugStarchart();
+		
+		StarchartData.getStarchartForServer(s).getDimensionDataOrCreate(event.getEntity().level.dimension().location()).ifPresent(data -> {
+			data.getAttributes().add(new PlanetAttribute<>(RegistryEvents.TEST_ATTRIBUTE_TYPE, 13));
+			data.getAttributes().add(new PlanetAttribute<>(RegistryEvents.TEST_ATTRIBUTE_TYPE, 15));
+			StarchartData.getDefaultInstance(s).setDirty();
+			System.out.println(data.getAttributes());
+		});
 	}
 
 	// @SubscribeEvent

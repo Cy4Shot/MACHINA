@@ -37,7 +37,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 	public static void createRegistry(RegistryEvent.NewRegistry event) {
 		CustomRegistryHelper.registerRegistry(new TargetField(PlanetTrait.class, "REGISTRY"), PlanetTrait.class,
 				new MachinaRL("planet_trait"), Optional.of(new MachinaRL("not_existing")),
-				Optional.of(new MachinaRL("planet_trait_registry")));
+				Optional.of(new MachinaRL("planet_trait_registry")), Optional.empty());
 	}
 
 	private final Properties properties;
