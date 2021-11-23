@@ -10,18 +10,16 @@ import java.util.stream.Collectors;
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.planet.PlanetNameGenerator;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.cy4.machina.api.planet.trait.PlanetTraitList;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.ResourceLocation;
 
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class PlanetData implements INBTSerializable<CompoundNBT> {
 
-	public List<PlanetTrait> traits = new ArrayList<>();
+	private final PlanetTraitList traits = new PlanetTraitList();
+	
 	public String name = "Planet";
 	public int color;
 
@@ -49,7 +47,9 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 		float g = rand.nextFloat() / 2f;
 		float b = rand.nextFloat() / 2f;
 		color = new Color(r, g, b).getRGB();
-		traits = getTraits(rand);
+		
+		traits.clear();
+		traits.addAll(getTraits(rand));
 
 		atm = rand.nextFloat();
 		temp = rand.nextFloat();
@@ -65,10 +65,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	@Override
 	public CompoundNBT serializeNBT() {
 		final CompoundNBT nbt = new CompoundNBT();
-		ListNBT t = new ListNBT();
-		t.addAll(traits.stream().map(data -> StringNBT.valueOf(data.getRegistryName().toString()))
-				.collect(Collectors.toList()));
-		nbt.put("traits", t);
+		nbt.put("traits", traits.serializeNBT());
 
 		nbt.putString("name", name);
 		nbt.putFloat("atm", atm);
@@ -83,17 +80,15 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	public void deserializeNBT(CompoundNBT nbt) {
 		deserialize(nbt, this);
 	}
-	
+
 	public static PlanetData deserialize(CompoundNBT nbt) {
 		PlanetData data = new PlanetData();
 		deserialize(nbt, data);
 		return data;
 	}
-	
-	private static PlanetData deserialize(CompoundNBT nbt, PlanetData data) {
-		nbt.getList("traits", Constants.NBT.TAG_STRING).forEach(val -> data.traits
-				.add(PlanetTrait.REGISTRY.getValue(new ResourceLocation(((StringNBT) val).getAsString()))));
 
+	private static PlanetData deserialize(CompoundNBT nbt, PlanetData data) {
+		data.traits.deserializeNBT(nbt.getCompound("traits"));
 		data.name = nbt.getString("name");
 		data.atm = nbt.getFloat("atm");
 		data.temp = nbt.getFloat("temp");
@@ -115,5 +110,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 		DecimalFormat df = new DecimalFormat("##");
 		return df.format(dist * 1000F + 100F) + "Gm";
 	}
+	
+	public PlanetTraitList getTraits() { return traits; }
 
 }

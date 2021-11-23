@@ -71,14 +71,14 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		for (int i = 1; i <= ClientStarchartHolder.getStarchart().planets.size(); i++) {
 			double angle = (Math.PI * 2) / ClientStarchartHolder.getStarchart().planets.size() * i;
 
-			double r = ClientStarchartHolder.getStarchart().planets.get(i - 1).dist * variance + min;
+			double r = ClientStarchartHolder.getPlanetDataByID(i - 1).dist * variance + min;
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
 
 			positions.add(new Vector2f(centre.x - x, centre.y - y));
 			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this,
-					ClientStarchartHolder.getStarchart().planets.get(i - 1)));
+					ClientStarchartHolder.getPlanetDataByID(i - 1)));
 		}
 	}
 
@@ -175,7 +175,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		planetDescriptions.title = new StringTextComponent("Information - \"" + planet.name + "\"");
 		IFormattableTextComponent text = new StringTextComponent("Traits:\n")
 				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		for (PlanetTrait t : planet.traits) {
+		for (PlanetTrait t : planet.getTraits()) {
 			text.append("   > ").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 			text.append(t.getName());
 			text.append("\n");
@@ -188,7 +188,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		text.append("   > Temp: " + planet.getTemp() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Dist: " + planet.getDist() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 
-		text.append("ID  " + ClientStarchartHolder.getStarchart().planets.indexOf(planet) + "\n");
+		text.append("ID  " + ClientStarchartHolder.getStarchart().planets.getValues().indexOf(planet) + "\n");
 
 		return text;
 	}

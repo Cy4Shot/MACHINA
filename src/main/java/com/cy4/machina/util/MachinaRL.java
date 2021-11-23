@@ -1,5 +1,7 @@
 package com.cy4.machina.util;
 
+import static com.cy4.machina.Machina.MOD_ID;
+
 import com.cy4.machina.Machina;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -14,6 +16,10 @@ public class MachinaRL extends ResourceLocation {
 	private static final SimpleCommandExceptionType ERROR_INVALID = new SimpleCommandExceptionType(
 			new TranslationTextComponent("argument.id.invalid"));
 
+	public MachinaRL(int id) {
+		super(MOD_ID, String.valueOf(id));
+	}
+	
 	public MachinaRL(String name) {
 		super(checkModId(name));
 	}

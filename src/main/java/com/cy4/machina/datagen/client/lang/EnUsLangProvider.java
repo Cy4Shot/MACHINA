@@ -54,6 +54,14 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(FluidInit.OXYGEN.get(), "Oxygen");
 		add(FluidInit.HYDROGEN.get(), "Hydrogen");
 		add(FluidInit.LIQUID_HYDROGEN.get(), "Liquid Hydrogen");
+		
+		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");
+		addCommandFeedback("planet_traits.add_trait.duplicate", "This planet already has the trait %s!");
+		addCommandFeedback("planet_traits.remove_trait.success", "Trait removed!");
+		addCommandFeedback("planet_traits.remove_trait.not_existing", "This planet does not have the trait %s!");
+		addCommandFeedback("planet_traits.list_traits.success", "This planet has the following traits: \n§6%s");
+		addCommandFeedback("planet_traits.list_traits.no_traits", "This planet has no traits!");
+		addCommandFeedback("planet_traits.not_planet", "This dimension is not a planet!");
 
 		addCommandArgumentFeedback("planet_trait.invalid", "Invalid Planet Trait: \u00A76%s");
 
@@ -92,10 +100,10 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(new FluidStack(fluid, 2).getTranslationKey(), name);
 	}
 
-	// private void addCommandFeedback(String key, String name) {
-	// add("command." + key, name);
-	// }
-	//
+	private void addCommandFeedback(String key, String name) {
+		add("command." + key, name);
+	}
+	
 	private void addCommandArgumentFeedback(String key, String name) {
 		add("argument." + key, name);
 	}

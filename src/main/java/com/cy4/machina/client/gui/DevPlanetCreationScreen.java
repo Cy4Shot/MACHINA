@@ -3,6 +3,7 @@ package com.cy4.machina.client.gui;
 import java.awt.event.KeyEvent;
 import java.util.UUID;
 
+import com.cy4.machina.api.client.ClientStarchartHolder;
 import com.cy4.machina.init.KeyBindingsInit;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.network.message.C2SDevPlanetCreationGUI;
@@ -100,12 +101,19 @@ public class DevPlanetCreationScreen extends Screen {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MatrixStack pMatrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
 		super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		this.renderBackground(pMatrixStack);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
+
+		ClientStarchartHolder.getDataForDimension(minecraft.level.dimension().location()).ifPresent(data -> {
+			for (int i = 0; i < data.getTraits().size(); i++) {
+				data.getTraits().get(i).render(pMatrixStack, width / 2 - 140 + (i * 18), 120, true);
+			}
+		});
 	}
 
 	@Override

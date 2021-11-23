@@ -51,7 +51,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	private float heightMultiplier = 1f;
 	private boolean freezing = false;
 
-	private int id;
+	public int id;
 	private List<PlanetTrait> traits = new ArrayList<>();
 	public long seed = 0L;
 
@@ -64,7 +64,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		/*
 		 * What on earth have you done cy4. I keep getting IOB exceptions
 		 */
-		traits.addAll(StarchartData.getStarchartForServer(server).planets.get(id).traits);
+		StarchartData.getStarchartForServer(server).getDimensionData(key.location()).ifPresent(data -> traits.addAll(data.getTraits()));
 		updateTraitValues();
 	}
 
