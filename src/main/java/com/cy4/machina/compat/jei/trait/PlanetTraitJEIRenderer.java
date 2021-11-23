@@ -16,6 +16,7 @@ import mezz.jei.api.ingredients.IIngredientRenderer;
 
 public class PlanetTraitJEIRenderer implements IIngredientRenderer<PlanetTrait> {
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MatrixStack matrixStack, int xPosition, int yPosition, PlanetTrait trait) {
 		if (trait != null) {
@@ -23,7 +24,7 @@ public class PlanetTraitJEIRenderer implements IIngredientRenderer<PlanetTrait> 
 			RenderSystem.multMatrix(matrixStack.last().pose());
 			RenderSystem.enableDepthTest();
 			RenderHelper.turnBackOn();
-			trait.render(matrixStack, xPosition, yPosition, true);
+			trait.render(matrixStack, xPosition, yPosition, trait.getProperties().jeiProperties().colouredInJei());
 			RenderSystem.disableBlend();
 			RenderHelper.turnOff();
 			RenderSystem.popMatrix();

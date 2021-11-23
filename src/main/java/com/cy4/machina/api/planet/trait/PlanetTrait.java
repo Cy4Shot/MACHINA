@@ -139,6 +139,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
 		private boolean showsInJei = true;
 		private boolean hasJeiDescription = true;
+		private boolean colouredInJei = true;
 
 		public JeiProperties() {
 			//
@@ -154,6 +155,10 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 			return this;
 		}
 
+		public void setColouredInJei(boolean colouredInJei) {
+			this.colouredInJei = colouredInJei;
+		}
+
 		public boolean showsInJei() {
 			return showsInJei;
 		}
@@ -161,6 +166,11 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		public boolean hasJeiDescription() {
 			return hasJeiDescription;
 		}
+
+		public boolean colouredInJei() {
+			return colouredInJei;
+		}
+
 	}
 
 }
