@@ -26,7 +26,9 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 	}
 
 	@Override
-	protected Stream<ResourceLocation> getResourcesToLoad() { return PlanetTrait.REGISTRY.getKeys().stream(); }
+	protected Stream<ResourceLocation> getResourcesToLoad() {
+		return PlanetTrait.REGISTRY.getValues().stream().filter(PlanetTrait::exists).map(PlanetTrait::getRegistryName);
+	}
 
 	public TextureAtlasSprite get(PlanetTrait trait) {
 		return this.getSprite(PlanetTrait.REGISTRY.getKey(trait));

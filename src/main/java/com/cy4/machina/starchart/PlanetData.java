@@ -81,14 +81,24 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	// Read all data
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		traits.clear();
-		nbt.getList("traits", Constants.NBT.TAG_STRING).forEach(val -> traits
+		deserialize(nbt, this);
+	}
+	
+	public static PlanetData deserialize(CompoundNBT nbt) {
+		PlanetData data = new PlanetData();
+		deserialize(nbt, data);
+		return data;
+	}
+	
+	private static PlanetData deserialize(CompoundNBT nbt, PlanetData data) {
+		nbt.getList("traits", Constants.NBT.TAG_STRING).forEach(val -> data.traits
 				.add(PlanetTrait.REGISTRY.getValue(new ResourceLocation(((StringNBT) val).getAsString()))));
 
-		name = nbt.getString("name");
-		atm = nbt.getFloat("atm");
-		temp = nbt.getFloat("temp");
-		dist = nbt.getFloat("dist");
+		data.name = nbt.getString("name");
+		data.atm = nbt.getFloat("atm");
+		data.temp = nbt.getFloat("temp");
+		data.dist = nbt.getFloat("dist");
+		return data;
 	}
 
 	public String getAtm() {

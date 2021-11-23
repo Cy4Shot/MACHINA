@@ -1,25 +1,21 @@
 package com.cy4.machina.starchart;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
+import com.cy4.machina.api.nbt.NbtList;
 import com.cy4.machina.config.CommonConfig;
 import com.cy4.machina.util.StringUtils;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class Starchart implements INBTSerializable<CompoundNBT> {
 
-	public List<PlanetData> planets;
+	public NbtList<PlanetData> planets;
 
 	public Starchart() {
-		planets = new ArrayList<>();
+		planets = new NbtList<>(PlanetData::deserialize);
 	}
 
 	public Starchart(CompoundNBT nbt) {
@@ -59,9 +55,7 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 	}
 
 	public CompoundNBT serializeNBT(CompoundNBT nbt) {
-		ListNBT p = new ListNBT();
-		p.addAll(planets.stream().map(PlanetData::serializeNBT).collect(Collectors.toList()));
-		nbt.put("planets", p);
+		nbt.put("planets", planets.serializeNBT());
 		return nbt;
 	}
 
@@ -69,7 +63,6 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		planets.clear();
-		nbt.getList("planets", Constants.NBT.TAG_COMPOUND)
-				.forEach(val -> planets.add(PlanetData.fromNBT((CompoundNBT) val)));
+		planets.deserializeNBT(nbt.getCompound("planets"));
 	}
 }
