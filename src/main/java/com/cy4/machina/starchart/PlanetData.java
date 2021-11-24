@@ -19,7 +19,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public class PlanetData implements INBTSerializable<CompoundNBT> {
 
-	private final PlanetTraitList traits = new PlanetTraitList();
+	private final PlanetTraitList traits;
 	private final PlanetAttributeList attributes = new PlanetAttributeList();
 	
 	public String name = "Planet";
@@ -61,6 +61,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	}
 
 	public PlanetData() {
+		this.traits = new PlanetTraitList(attributes);
 	}
 
 	// Serialize all data

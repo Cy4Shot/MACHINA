@@ -2,6 +2,7 @@ package com.cy4.machina.api.planet.attribute;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.UnaryOperator;
 
 import com.cy4.machina.api.nbt.NBTList;
 
@@ -17,10 +18,7 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
 
 	@Override
 	public boolean add(PlanetAttribute<?> e) {
-		if (getAttributeForType(e.getAttributeType()).isPresent()
-				&& getAttributeForType(e.getAttributeType()).get() != null) {
-			return false;
-		}
+		if (getAttributeForType(e.getAttributeType()).isPresent()) { return false; }
 		return super.add(e);
 	}
 
@@ -37,6 +35,36 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
 			if (get(i).getAttributeType() == type) { return Optional.ofNullable((PlanetAttribute<Z>) get(i)); }
 		}
 		return Optional.empty();
+	}
+
+	/**
+	 * Sets the value of the attribute, creating it if it does not exist
+	 * 
+	 * @param <Z>
+	 * @param type
+	 * @param value a function accepting the old value and returning the new one.
+	 *              The input value will be null if the attribute doesn't exist so
+	 *              keep that in mind
+	 */
+	public <Z> void setValue(PlanetAttributeType<Z> type, UnaryOperator<Z> value) {
+		getAttributeForType(type).ifPresent(attr -> attr.setValue(value.apply(attr.getValue())));
+		if (!getAttributeForType(type).isPresent()) {
+			add(new PlanetAttribute<>(type, value.apply(null)));
+		}
+	}
+	
+	public UnaryOperator<Integer> intOperator(Operation operation, Integer value) {
+		switch (operation) {
+		case ADDITION: return old -> value + old;
+		case SUBSTRACTION: return old -> old - value;
+		case MULTIPLICATION: return old -> value * old;
+		case DIVISON: return old -> old / value;
+		}
+		return old -> value;
+	}
+	
+	public enum Operation {
+		ADDITION, SUBSTRACTION, MULTIPLICATION, DIVISON;
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.cy4.machina.api.annotation.ChangedByReflection;
 import com.cy4.machina.api.annotation.registries.RegisterCustomRegistry;
 import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.api.planet.attribute.PlanetAttributeList;
 import com.cy4.machina.api.util.Color;
 import com.cy4.machina.init.PlanetTraitInit;
 import com.cy4.machina.util.MachinaRL;
@@ -113,6 +114,10 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		}
 		AbstractGui.blit(matrixStack, xPosition, yPosition, 12, 16, 16, textureatlassprite);
 	}
+	
+	public boolean hasAttributeModifier() { return false; }
+	public void addAttribute(PlanetAttributeList attributes) {}
+	public void removeAttribute(PlanetAttributeList attributes) {}
 
 	public static class Properties {
 
