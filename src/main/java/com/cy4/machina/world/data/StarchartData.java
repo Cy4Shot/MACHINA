@@ -1,5 +1,7 @@
 package com.cy4.machina.world.data;
 
+import static com.cy4.machina.Machina.MOD_ID;
+
 import javax.annotation.WillNotClose;
 
 import com.cy4.machina.api.network.BaseNetwork;
@@ -25,7 +27,7 @@ public class StarchartData extends WorldSavedData {
 		isGenerated = false;
 	}
 
-	private static final String ID = "starchart";
+	private static final String ID = MOD_ID + "_starchart";
 
 	public static StarchartData getDefaultInstance(@WillNotClose MinecraftServer server) {
 		ServerWorld w = server.getLevel(World.OVERWORLD);

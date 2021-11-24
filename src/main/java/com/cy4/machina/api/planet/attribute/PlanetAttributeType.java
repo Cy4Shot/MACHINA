@@ -43,5 +43,7 @@ public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeTy
 	}
 
 	public String getMeasureUnit() { return measureUnit; }
+	
+	public boolean isShown() { return true; }
 
 }

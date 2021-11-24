@@ -44,7 +44,7 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 		for (int i = 0; i < planets.size(); i++) {
 			PlanetData p = planets.getValues().get(i);
 			StringUtils.printlnUtf8((i == planets.size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F)
-					+ StringUtils.TREE_H + p.name);
+					+ StringUtils.TREE_H + p.getName());
 			for (int j = 0; j < p.getTraits().size(); j++) {
 				StringUtils.printlnUtf8((i == planets.size() - 1 ? " " : StringUtils.TREE_V) + " "
 						+ (j == p.getTraits().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F) + StringUtils.TREE_H

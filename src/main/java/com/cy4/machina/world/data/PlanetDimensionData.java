@@ -2,6 +2,8 @@ package com.cy4.machina.world.data;
 
 import java.util.HashSet;
 
+import com.cy4.machina.Machina;
+
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -20,7 +22,7 @@ public class PlanetDimensionData extends WorldSavedData {
 		super(n);
 	}
 
-	private static final String ID = "planet_dimensions";
+	private static final String ID = Machina.MOD_ID + "_planet_dimensions";
 
 	public static PlanetDimensionData getDefaultInstance(MinecraftServer server) {
 		return server.getLevel(World.OVERWORLD).getDataStorage().computeIfAbsent(() -> new PlanetDimensionData(ID), ID);
