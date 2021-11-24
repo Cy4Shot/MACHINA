@@ -17,7 +17,7 @@ import net.minecraft.nbt.StringNBT;
 public final class PlanetAttributeTypesInit {
 
 	@RegisterPlanetAttributeType("gravity")
-	public static final PlanetAttributeType<Double> GRAVITY = new PlanetAttributeType<>("G", DoubleNBT::valueOf, nbt -> {
+	public static final PlanetAttributeType<Double> GRAVITY = new PlanetAttributeType<>("N", DoubleNBT::valueOf, nbt -> {
 		if (nbt instanceof DoubleNBT) {
 			return ((DoubleNBT) nbt).getAsDouble();
 		}
