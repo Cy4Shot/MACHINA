@@ -1,7 +1,5 @@
 package com.cy4.machina.api.planet.attribute;
 
-import static com.cy4.machina.Machina.MOD_ID;
-
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -18,8 +16,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryInternal;
-import net.minecraftforge.registries.RegistryManager;
 
 @RegistryHolder
 public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeType<?>> {
@@ -31,23 +27,7 @@ public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeTy
 	public static void createRegistry(RegistryEvent.NewRegistry event) {
 		CustomRegistryHelper.registerRegistry(new TargetField(PlanetAttributeType.class, "REGISTRY"),
 				ClassHelper.withWildcard(PlanetAttributeType.class), new MachinaRL("planet_attribute_type"),
-				Optional.empty(), Optional.empty(), Optional.of(AddCallback.INSTANCE));
-	}
-
-	public static final class AddCallback
-			implements net.minecraftforge.registries.IForgeRegistry.AddCallback<PlanetAttributeType<?>> {
-
-		public static final AddCallback INSTANCE = new AddCallback();
-
-		@Override
-		public void onAdd(IForgeRegistryInternal<PlanetAttributeType<?>> owner, RegistryManager stage, int id,
-				PlanetAttributeType<?> obj, PlanetAttributeType<?> oldObj) {
-			if (!obj.getRegistryName().getNamespace().equals(MOD_ID)) {
-				if (REGISTRY.containsKey(obj.getRegistryName())) {
-					//TODO prevent registration
-				}
-			}
-		}
+				Optional.empty(), Optional.empty());
 	}
 
 	private final String measureUnit;
