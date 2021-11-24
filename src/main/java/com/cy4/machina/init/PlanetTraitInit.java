@@ -79,4 +79,28 @@ public final class PlanetTraitInit {
 		@RegisterPlanetTrait(id = "supercold")
 		public static final PlanetTrait SUPERCOLD = new PlanetTrait(0xffffff);
 	}
+	
+	@RegisterPlanetTrait(id = "low_gravity")
+	public static final PlanetTrait LOW_GRAVITY = new PlanetTrait(new Properties(0x000000)) {
+		@Override
+		public boolean hasAttributeModifier() { return true; }
+		@Override
+		public void addAttribute(com.cy4.machina.api.planet.attribute.PlanetAttributeList attributes) {
+			attributes.setValue(PlanetAttributeTypesInit.GRAVITY, oldVal -> {
+				if (oldVal != null) {
+					return oldVal / 2;
+				}
+				return 4.9;
+			});
+		}
+		@Override
+		public void removeAttribute(com.cy4.machina.api.planet.attribute.PlanetAttributeList attributes) {
+			attributes.setValue(PlanetAttributeTypesInit.GRAVITY, oldVal -> {
+				if (oldVal != null) {
+					return oldVal * 2;
+				}
+				return 9.8;
+			});
+		}
+	};
 }

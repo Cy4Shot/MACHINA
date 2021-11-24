@@ -10,13 +10,13 @@ public class StarchartHelper {
 
 	public static void addTraitToWorld(World level, PlanetTrait trait) {
 		Starchart serverChart = StarchartData.getStarchartForServer(level.getServer());
-		serverChart.getDimensionDataOrCreate(level.dimension().location()).ifPresent(data -> data.getTraits().add(trait));
+		serverChart.getDimensionDataOrCreate(level.dimension().location()).ifPresent(data -> data.getTraits().addTrait(trait));
 		setDirtyAndUpdate(level);
 	}
 	
 	public static void removeTraitFromWorld(World level, PlanetTrait trait) {
 		Starchart serverChart = StarchartData.getStarchartForServer(level.getServer());
-		serverChart.getDimensionDataOrCreate(level.dimension().location()).ifPresent(data -> data.getTraits().remove(trait));
+		serverChart.getDimensionDataOrCreate(level.dimension().location()).ifPresent(data -> data.getTraits().removeTrait(trait));
 		setDirtyAndUpdate(level);
 	}
 	

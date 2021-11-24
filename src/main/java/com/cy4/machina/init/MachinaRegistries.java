@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cy4.machina.api.planet.attribute.PlanetAttributeType;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 
@@ -38,6 +39,7 @@ public final class MachinaRegistries {
 
 	public static final Map<String, List<Effect>> EFFECTS = new HashMap<>();
 	public static final Map<String, List<PlanetTrait>> PLANET_TRAITS = new HashMap<>();
+	public static final Map<String, List<PlanetAttributeType<?>>> PLANET_ATTRIBUTE_TYPES = new HashMap<>();
 	public static final Map<String, List<SoundEvent>> SOUND_EVENTS = new HashMap<>();
 	public static final Map<String, List<AdvancedCraftingFunctionSerializer<?>>> ADVANCED_CRAFTING_FUNCTION_SERIALIZERS = new HashMap<>();
 

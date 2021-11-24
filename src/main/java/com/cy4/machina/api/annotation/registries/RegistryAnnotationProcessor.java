@@ -23,6 +23,7 @@ import com.cy4.machina.Machina;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterACFunctionSerializer;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeSerializer;
 import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeType;
+import com.cy4.machina.api.planet.attribute.PlanetAttributeType;
 import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 import com.cy4.machina.api.util.MachinaRegistryObject;
@@ -99,6 +100,7 @@ public class RegistryAnnotationProcessor {
 		modBus.addGenericListener(Item.class, this::registerItems);
 		modBus.addGenericListener(ParticleType.class, this::registerParticleTypes);
 		modBus.addGenericListener(PlanetTrait.class, this::registerPlanetTraits);
+		modBus.addGenericListener(PlanetAttributeType.class, this::registerPlanetAttributeTypes);
 		modBus.addGenericListener(SoundEvent.class, this::registerSoundEvents);
 		modBus.addGenericListener(IRecipeSerializer.class, this::registerRecipeTypes);
 		modBus.addGenericListener(TileEntityType.class, this::registerTileEntityTypes);
@@ -163,10 +165,14 @@ public class RegistryAnnotationProcessor {
 		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id, of(PLANET_TRAITS));
 	}
 	
+	private void registerPlanetAttributeTypes(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
+		registerFieldsWithAnnotation(event, RegisterPlanetAttributeType.class, RegisterPlanetAttributeType::value, of(PLANET_ATTRIBUTE_TYPES));
+	}
+	
 	private void registerSoundEvents(final RegistryEvent.Register<SoundEvent> event) {
 		registerFieldsWithAnnotation(event, RegisterSoundEvent.class, RegisterSoundEvent::value, of(SOUND_EVENTS));
 	}
-
+	
 	private void registerAdvancedCraftingFunctions(
 			final RegistryEvent.Register<AdvancedCraftingFunctionSerializer<?>> event) {
 		registerFieldsWithAnnotation(event, RegisterACFunctionSerializer.class, RegisterACFunctionSerializer::value,
