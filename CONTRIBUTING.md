@@ -20,5 +20,6 @@ class DoNotDoThis
 ```
 - You **must** follow java syntax naming conventions: https://www.javatpoint.com/java-naming-conventions
 - Method References must be used in replacement for a lambda expression when possible.
+- The task `gradlew updateLicenses` should be executed whenever there are new classes added by a PR. Even if you don't do so, the PR can still be accepted.
 
 - Note: Eclipse treats `//@formatter:on` and `//@formatter:off` as switches for the formatter. If you see that kind of comment, its purpose is usually to stop eclipse's line wrapping for strings and methods. Please do not remove the comment

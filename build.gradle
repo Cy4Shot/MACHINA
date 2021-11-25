@@ -195,6 +195,10 @@ dependencies {
 
 license {
 	header = file("$rootDir/header.txt")
+	properties {
+        name = 'Machina Team'
+        year = 2021
+    }
 
 	include '**/*.java'
 	
