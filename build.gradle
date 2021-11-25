@@ -15,6 +15,7 @@ buildscript {
 
 plugins {
 	id 'com.github.johnrengelman.shadow' version '7.1.0'
+	id 'org.cadixdev.licenser' version '0.6.1'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -190,6 +191,28 @@ dependencies {
 	shadow "org.javassist:javassist:${javassist_version}"
 	*/
     
+}
+
+license {
+	header = file("$rootDir/header.txt")
+
+	include '**/*.java'
+	
+	exclude 'com/cy4/machina/mixin/'
+	exclude 'com/cy4/machina/api/util/Color.java'
+	
+	style {
+    	java = 'JAVADOC'
+    }
+
+    tasks {
+    	main {
+    		files.from files("$rootDir/src/main/java")
+    	}
+    	test {
+    		files.from files("$rootDir/src/test/java")
+    	}
+    }
 }
 
 configurations {
