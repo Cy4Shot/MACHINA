@@ -15,6 +15,7 @@ buildscript {
 
 plugins {
 	id 'com.github.johnrengelman.shadow' version '7.1.0'
+	id 'org.cadixdev.licenser' version '0.6.1'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -176,7 +177,7 @@ dependencies {
 	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
     
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
     
     implementation(group: 'com.github.Vatuu', name: 'discord-rpc', version: "${discord_rpc_version}")
     shadow(group: 'com.github.Vatuu', name: 'discord-rpc', version: "${discord_rpc_version}")
@@ -190,6 +191,21 @@ dependencies {
 	shadow "org.javassist:javassist:${javassist_version}"
 	*/
     
+}
+
+license {
+	header = file("$rootDir/header.txt")
+	
+	include '**/*.java'
+	
+    tasks {
+    	main {
+    		files.from files("$rootDir/src/main/java")
+    	}
+    	test {
+    		files.from files("$rootDir/src/test/java")
+    	}
+    }
 }
 
 configurations {
