@@ -1,10 +1,10 @@
 /**
- * This code is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license.
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license.
  * If you want to contribute please join https://discord.com/invite/x9Mj63m4QG.
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.api.annotation.registries;
+package com.cy4.machina.api.registry.annotation;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -15,24 +15,23 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(RUNTIME)
-@Target({
-		FIELD
-})
+@Target(FIELD)
 /**
- * Registers the {@link TileEntityType} that is represented by the field that
- * has this annotation. For the TileEntityType to be registered the class in
- * which the field is has to be annotated with {@link RegistryHolder}
- * 
+ * Registers the {@link Effect} that is represented by the field that has this
+ * annotation. For the effect to be registered the class in which the field is
+ * has to be annotated with {@link RegistryHolder}
+ *
  * @author matyrobbrt
  *
  */
-public @interface RegisterTileEntityType {
+public @interface RegisterEffect {
 
 	/**
-	 * The registry name of the TileEntityType (the modid is specified by the
+	 * The registry name of the effect (the modid is specified by the
 	 * {@link RegistryHolder} on the class the field is in)
-	 * 
+	 *
 	 * @return
 	 */
 	String value();
+
 }

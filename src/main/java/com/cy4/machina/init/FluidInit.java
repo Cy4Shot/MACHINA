@@ -1,5 +1,5 @@
 /**
- * This code is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license.
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license.
  * If you want to contribute please join https://discord.com/invite/x9Mj63m4QG.
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
@@ -12,10 +12,10 @@ import java.util.function.Supplier;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.api.ChemicalValues;
-import com.cy4.machina.api.annotation.registries.RegisterBlock;
-import com.cy4.machina.api.annotation.registries.RegisterFluid;
-import com.cy4.machina.api.annotation.registries.RegisterItem;
-import com.cy4.machina.api.annotation.registries.RegistryHolder;
+import com.cy4.machina.api.registry.annotation.RegisterBlock;
+import com.cy4.machina.api.registry.annotation.RegisterFluid;
+import com.cy4.machina.api.registry.annotation.RegisterItem;
+import com.cy4.machina.api.registry.annotation.RegistryHolder;
 import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.block.fluid.LiquidHydrogenBlock;
 

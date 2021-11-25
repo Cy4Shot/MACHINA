@@ -1,5 +1,5 @@
 /**
- * This code is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license.
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license.
  * If you want to contribute please join https://discord.com/invite/x9Mj63m4QG.
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
@@ -8,8 +8,8 @@ package com.cy4.machina.api.recipe.advanced_crafting;
 
 import java.util.Map;
 
-import com.cy4.machina.api.annotation.registries.RegistryHolder;
-import com.cy4.machina.api.annotation.registries.recipe.RegisterRecipeSerializer;
+import com.cy4.machina.api.registry.annotation.RegistryHolder;
+import com.cy4.machina.api.registry.annotation.recipe.RegisterRecipeSerializer;
 import com.cy4.machina.recipe.ac.function.EmptyFunction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

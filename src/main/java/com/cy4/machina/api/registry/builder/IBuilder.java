@@ -4,15 +4,12 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.api.tile_entity;
+package com.cy4.machina.api.registry.builder;
 
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
-public abstract class BaseTileEntity extends TileEntity {
-
-	protected BaseTileEntity(TileEntityType<?> p_i48289_1_) {
-		super(p_i48289_1_);
-	}
+public interface IBuilder<T extends IForgeRegistryEntry<T>, P> {
+	
+	P build();
 
 }
