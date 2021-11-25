@@ -6,13 +6,16 @@
 	"mixins": [
 		"WorldMixin",
 		"EntityMixin",
+		"PlayerEntityMixin",
+		"SwimTaskMixin",
 		"forge.LanguageProviderMixin",
 		"SugarCaneBlockMixin"
 	],
 	"client": [
 		"client.ServerWorldInfoMixin",
 		"client.OverlayRendererMixin",
-		"client.CraftingScreenMixin"
+		"client.CraftingScreenMixin",
+		"client.ClientPlayerEntityMixin"
 	],
 	"minVersion": "0.8"
 }
