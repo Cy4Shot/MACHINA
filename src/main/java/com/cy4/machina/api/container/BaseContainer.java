@@ -29,6 +29,9 @@
 
 package com.cy4.machina.api.container;
 
+import com.cy4.machina.api.container.tracker.IDataTracker;
+import com.cy4.machina.api.util.FunctionalIntReferenceHolder;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -49,6 +52,15 @@ public abstract class BaseContainer extends Container {
 
 	protected BaseContainer(ContainerType<?> pMenuType, int pContainerId) {
 		super(pMenuType, pContainerId);
+	}
+	
+	/**
+	 * Adds a {@link IDataTracker} to the container
+	 * @param tracker
+	 */
+	protected <T extends IDataTracker> T addTracker(T tracker) {
+		tracker.addDataSlots(this);
+		return tracker;
 	}
 
 	/**
