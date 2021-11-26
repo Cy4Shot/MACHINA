@@ -29,6 +29,8 @@
 
 package com.cy4.machina.world.data;
 
+import static com.cy4.machina.Machina.MOD_ID;
+
 import java.util.HashSet;
 
 import com.cy4.machina.Machina;
@@ -74,6 +76,7 @@ public class PlanetDimensionData extends WorldSavedData {
 			listNBT.add(StringNBT.valueOf(str));
 		}
 		nbt.put("dimensionIds", listNBT);
+		nbt.putString("dataOwnerMod", MOD_ID);
 		return nbt;
 	}
 

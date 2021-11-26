@@ -72,6 +72,7 @@ public class StarchartData extends WorldSavedData {
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {
 		nbt.putBoolean("generated", isGenerated);
+		nbt.putString("dataOwnerMod", MOD_ID);
 		return starchart.serializeNBT(nbt);
 	}
 
