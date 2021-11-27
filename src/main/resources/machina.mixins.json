@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "com.cy4.machina.mixin",
+	"package": "com.machina.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"refmap": "machina.refmap.json",
 	"mixins": [
