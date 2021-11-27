@@ -57,6 +57,8 @@ import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializ
 import com.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
 import com.machina.api.registry.annotation.recipe.RegisterRecipeSerializer;
 import com.machina.api.registry.annotation.recipe.RegisterRecipeType;
+import com.machina.api.registry.module.IModule;
+import com.machina.api.registry.module.Module;
 import com.machina.api.util.MachinaRegistryObject;
 import com.machina.api.util.ReflectionHelper;
 import com.machina.api.util.TriFunction;
@@ -79,6 +81,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -92,20 +96,20 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
  * @author matyrobbrt
  *
  */
-public class RegistryAnnotationProcessor {
+public class AnnotationProcessor {
 
 	protected final String ownerModID;
 	protected final List<Block> autoBlockItems = new LinkedList<>();
 	protected ItemGroup blockItemTab = ItemGroup.TAB_MISC;
 
 	/**
-	 * Creates a new {@link RegistryAnnotationProcessor} which will be used in order
+	 * Creates a new {@link AnnotationProcessor} which will be used in order
 	 * to process registry annotations. It is recommended to store this statically
 	 * somewhere.
 	 *
 	 * @param modid the mod id to process the annotations for
 	 */
-	public RegistryAnnotationProcessor(String modid) {
+	public AnnotationProcessor(String modid) {
 		ownerModID = modid;
 	}
 	
@@ -131,6 +135,12 @@ public class RegistryAnnotationProcessor {
 	 */
 	public void register(IEventBus modBus) {
 		modBus.addListener(this::constructMod);
+		
+		// Modules
+		modBus.addListener(this::commonSetup);
+		modBus.addListener(this::clientSetup);
+		
+		// Registry Annotations
 		modBus.addGenericListener(AdvancedCraftingFunctionSerializer.class, this::registerAdvancedCraftingFunctions);
 		modBus.addGenericListener(Block.class, this::registerBlocks);
 		modBus.addGenericListener(ContainerType.class, this::registerContainerTypes);
@@ -147,18 +157,22 @@ public class RegistryAnnotationProcessor {
 	}
 
 	private void constructMod(FMLConstructModEvent event) {
-		init();
+		initModules();
+		initRegistryClasses();
 	}
 
 	protected final ArrayList<Class<?>> registryClasses = new ArrayList<>();
+	
+	protected final ArrayList<Class<?>> moduleClasses = new ArrayList<>();
+	protected final ArrayList<IModule> modules = new ArrayList<>();
 
-	private void init() {
-		final List<ModFileScanData.AnnotationData> annotations = ModList.get().getAllScanData().stream()
+	private void initRegistryClasses() {
+		final List<ModFileScanData.AnnotationData> regAnnotations = ModList.get().getAllScanData().stream()
 				.map(ModFileScanData::getAnnotations).flatMap(Collection::stream)
 				.filter(a -> a.getAnnotationType().equals(Type.getType(RegistryHolder.class)))
 				.collect(Collectors.toList());
 
-		annotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
+		regAnnotations.stream().filter(a -> Type.getType(RegistryHolder.class).equals(a.getAnnotationType()))
 				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
 					try {
 						Class<?> clazz = Class.forName(data.getClassType().getClassName(), false,
@@ -171,10 +185,53 @@ public class RegistryAnnotationProcessor {
 					}
 				});
 	}
+	
+	private void initModules() {
+		final List<ModFileScanData.AnnotationData> moduleAnnotations = ModList.get().getAllScanData().stream()
+				.map(ModFileScanData::getAnnotations).flatMap(Collection::stream)
+				.filter(a -> a.getAnnotationType().equals(Type.getType(Module.class)))
+				.collect(Collectors.toList());
+		
+		moduleAnnotations.stream().filter(a -> Type.getType(Module.class).equals(a.getAnnotationType()))
+		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
+			try {
+				Class<?> clazz = Class.forName(data.getClassType().getClassName(), false,
+						getClass().getClassLoader());
+				if (clazz.getAnnotation(Module.class).modid().equals(ownerModID)) {
+					moduleClasses.add(clazz);
+					try {
+						Object instance = clazz.newInstance();
+						if (instance instanceof IModule) {
+							modules.add((IModule) instance);
+						} else {
+							throw new RegistryException("The module " + clazz + " is not an instace of " + IModule.class);
+						}
+					} catch (InstantiationException | IllegalAccessException e) {
+						throw new RegistryException(e);
+					}
+				}
+			} catch (ClassNotFoundException e) {
+				throw new RegistryException("A class which is a module was not found!", e);
+			}
+		});
+		
+	}
+	
+	// Module registry
+	
+	private void commonSetup(final FMLCommonSetupEvent event) {
+		modules.forEach(module -> module.onCommonSetup(event));
+	}
+	
+	private void clientSetup(final FMLClientSetupEvent event) {
+		modules.forEach(module -> module.onClientSetup(event));
+	}
+	
+	// Registry Annotations
 
 	private void registerItems(final RegistryEvent.Register<Item> event) {
 		registerFieldsWithAnnotation(event, RegisterItem.class, RegisterItem::value, of(ITEMS));
-		RegistryAnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, RegisterBlockItem.class,
+		AnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, RegisterBlockItem.class,
 				(classAn, fieldAn, obj) -> {
 					if (obj instanceof BlockItem) { return ((BlockItem) obj).getBlock().getRegistryName(); }
 					throw new RegistryException("Invalid BlockItem");
@@ -268,7 +325,7 @@ public class RegistryAnnotationProcessor {
 	private <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
 			final RegistryEvent.Register<T> event, Class<A> annotation, Function<A, String> registryName,
 			Optional<Map<String, List<T>>> outputMap) {
-		RegistryAnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, annotation,
+		AnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, annotation,
 				(classAn, fieldAn, obj) -> new ResourceLocation(classAn.modid(), registryName.apply(fieldAn)),
 				outputMap);
 	}

@@ -39,7 +39,7 @@ import com.machina.api.config.MachinaClientConfig;
 import com.machina.api.config.MachinaCommonConfig;
 import com.machina.api.config.MachinaServerConfig;
 import com.machina.api.network.machina.MachinaNetwork;
-import com.machina.api.registry.annotation.RegistryAnnotationProcessor;
+import com.machina.api.registry.annotation.AnnotationProcessor;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.world.DynamicDimensionHelper;
 import com.machina.api.world.data.PlanetDimensionData;
@@ -81,7 +81,7 @@ public class Machina {
 	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
 	public static final File CONFIF_DIR = new File(CONFIG_DIR_PATH);
 
-	public static final RegistryAnnotationProcessor REGISTRY_PROCESSOR = new RegistryAnnotationProcessor(MOD_ID);
+	public static final AnnotationProcessor REGISTRY_PROCESSOR = new AnnotationProcessor(MOD_ID);
 
 	static {
 		REGISTRY_PROCESSOR.addAutoBlockItems(BlockItemInit.AUTO_BLOCK_ITEMS);
