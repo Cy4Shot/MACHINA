@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import com.cy4.machina.init.PlanetTraitInit;
 import com.machina.api.ModIDs;
+import com.machina.api.planet.trait.DefaultPlanetTraits;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetUtils;
@@ -108,23 +108,23 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	// TODO dont hard code this, its bad :(
 	public void updateTraitValues() {
-		if (traits.contains(PlanetTraitInit.FLAT)) {
+		if (traits.contains(DefaultPlanetTraits.FLAT)) {
 			heightMultiplier = 0.5f;
-		} else if (traits.contains(PlanetTraitInit.HILLY)) {
+		} else if (traits.contains(DefaultPlanetTraits.HILLY)) {
 			heightMultiplier = 2.5f;
-		} else if (traits.contains(PlanetTraitInit.MOUNTAINOUS)) {
+		} else if (traits.contains(DefaultPlanetTraits.MOUNTAINOUS)) {
 			heightMultiplier = 7.5f;
 		}
 
-		if (traits.contains(PlanetTraitInit.LANDMMASS)) {
+		if (traits.contains(DefaultPlanetTraits.LANDMMASS)) {
 			seaLevel = -1;
-		} else if (traits.contains(PlanetTraitInit.WATER_WORLD)) {
+		} else if (traits.contains(DefaultPlanetTraits.WATER_WORLD)) {
 			seaLevel = 85;
-		} else if (traits.contains(PlanetTraitInit.CONTINENTALL)) {
+		} else if (traits.contains(DefaultPlanetTraits.CONTINENTALL)) {
 			seaLevel = baseHeight;
 		}
 
-		if (traits.contains(PlanetTraitInit.FROZEN)) {
+		if (traits.contains(DefaultPlanetTraits.FROZEN)) {
 			freezing = true;
 		}
 	}
@@ -163,7 +163,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 				int yPos = baseHeight + (int) (d1 * heightMultiplier);
 				for (int y = 0; y < yPos; y++) {
-					// System.out.println(traits.contains(PlanetTraitInit.MOUNTAINOUS));
+					// System.out.println(traits.contains(DefaultPlanetTraits.MOUNTAINOUS));
 					chunk.setBlockState(blockpos$mutable.set(i1, y, j1), Blocks.STONE.defaultBlockState(), false);
 				}
 				if (yPos < seaLevel) {
