@@ -29,7 +29,7 @@
 
 package com.machina.api.inventory;
 
-import com.cy4.machina.tile_entity.util.MachinaEnergyStorage;
+import com.machina.api.tile_entity.MachinaEnergyStorage;
 
 public interface IEnergyHolderTile {
 

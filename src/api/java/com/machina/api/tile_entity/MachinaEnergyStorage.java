@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.tile_entity.util;
+package com.machina.api.tile_entity;
 
 import net.minecraft.nbt.CompoundNBT;
 
@@ -86,4 +86,6 @@ public class MachinaEnergyStorage extends EnergyStorage {
 		setChanged();
 	}
 
+	public int getMaxExtract() { return this.maxExtract; }
+	public int getMaxReceive() { return this.maxReceive; }
 }

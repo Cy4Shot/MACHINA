@@ -34,7 +34,6 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.cy4.machina.tile_entity.util.MachinaEnergyStorage;
 import com.google.common.collect.Lists;
 import com.machina.api.inventory.IEnergyHolderTile;
 
