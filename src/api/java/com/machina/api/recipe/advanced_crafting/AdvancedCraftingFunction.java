@@ -31,8 +31,6 @@ package com.machina.api.recipe.advanced_crafting;
 
 import java.util.List;
 
-import com.machina.api.compat.jei.AdvancedCraftingRecipeExtension;
-
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
