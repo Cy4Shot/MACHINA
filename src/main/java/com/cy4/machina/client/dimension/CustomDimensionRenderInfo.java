@@ -34,7 +34,7 @@ import org.lwjgl.opengl.GL11;
 import com.cy4.machina.Machina;
 import com.cy4.machina.client.ClientSetup;
 import com.cy4.machina.client.util.QuadRenderingUtils;
-import com.cy4.machina.util.MachinaRL;
+import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

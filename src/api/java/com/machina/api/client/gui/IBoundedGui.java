@@ -29,7 +29,7 @@
 
 package com.machina.api.client.gui;
 
-import com.cy4.machina.client.util.Rectangle;
+import com.machina.api.client.util.Rectangle;
 
 import net.minecraft.util.math.vector.Vector2f;
 

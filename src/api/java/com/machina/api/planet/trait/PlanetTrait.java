@@ -33,15 +33,15 @@ import java.util.List;
 import java.util.Optional;
 
 import com.cy4.machina.init.PlanetTraitInit;
-import com.cy4.machina.util.MachinaRL;
-import com.cy4.machina.util.helper.CustomRegistryHelper;
-import com.cy4.machina.util.objects.TargetField;
 import com.google.common.collect.Lists;
 import com.machina.api.annotation.ChangedByReflection;
 import com.machina.api.planet.attribute.PlanetAttributeList;
 import com.machina.api.registry.annotation.RegisterCustomRegistry;
 import com.machina.api.registry.annotation.RegistryHolder;
 import com.machina.api.util.Color;
+import com.machina.api.util.MachinaRL;
+import com.machina.api.util.helper.CustomRegistryHelper;
+import com.machina.api.util.objects.TargetField;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

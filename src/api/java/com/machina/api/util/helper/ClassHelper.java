@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.util.helper;
+package com.machina.api.util.helper;
 
 public final class ClassHelper {
 

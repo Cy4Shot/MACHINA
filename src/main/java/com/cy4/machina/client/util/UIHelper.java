@@ -34,7 +34,8 @@ import java.util.function.Consumer;
 
 import org.lwjgl.opengl.GL11;
 
-import com.cy4.machina.util.MachinaRL;
+import com.machina.api.client.util.Rectangle;
+import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

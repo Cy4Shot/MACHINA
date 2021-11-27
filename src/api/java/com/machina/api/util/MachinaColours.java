@@ -27,22 +27,24 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.util.objects;
+package com.machina.api.util;
 
-import java.lang.reflect.Field;
+public class MachinaColours {
 
-public class TargetField {
+	// TODO make these actually be colours
+	public static final MachinaColours TITLE = new MachinaColours(0);
+	public static final MachinaColours HEADING = new MachinaColours(0);
+	public static final MachinaColours SUBHEADING = new MachinaColours(0);
+	public static final MachinaColours SCREEN = new MachinaColours(0);
 
-	public final Class<?> targetFieldClass;
-	public final String targetFieldName;
+	private final int colourARGB;
 
-	public TargetField(Class<?> targetFieldClass, String targetFieldName) {
-		this.targetFieldClass = targetFieldClass;
-		this.targetFieldName = targetFieldName;
+	protected MachinaColours(int colourARGB) {
+		this.colourARGB = colourARGB;
 	}
 
-	public Field getField() throws NoSuchFieldException, SecurityException {
-		return targetFieldClass.getDeclaredField(targetFieldName);
+	public int argb() {
+		return colourARGB;
 	}
 
 }

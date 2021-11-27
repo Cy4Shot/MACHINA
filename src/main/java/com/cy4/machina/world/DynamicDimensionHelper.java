@@ -35,9 +35,9 @@ import java.util.concurrent.Executor;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.cy4.machina.util.MachinaRL;
 import com.cy4.machina.world.data.PlanetDimensionData;
 import com.google.common.collect.ImmutableList;
+import com.machina.api.util.MachinaRL;
 import com.mojang.serialization.Lifecycle;
 
 import net.minecraft.entity.player.ServerPlayerEntity;

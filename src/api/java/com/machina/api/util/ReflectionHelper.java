@@ -27,38 +27,46 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.client.util;
+package com.machina.api.util;
 
-import net.minecraft.util.math.vector.Vector2f;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
-public class Rectangle {
+/**
+ *
+ * @author matyrobbrt
+ *
+ */
+public class ReflectionHelper {
 
-	public int x0, y0;
-	public int x1, y1;
-
-	public Rectangle() {
+	public static ArrayList<Field> getFieldsAnnotatedWith(ArrayList<Class<?>> classes,
+			Class<? extends Annotation> annotation) {
+		ArrayList<Field> fields = new ArrayList<>();
+		classes.forEach(clazz -> {
+			for (Field field : clazz.getDeclaredFields()) {
+				field.setAccessible(true);
+				if (field.isAnnotationPresent(annotation)) {
+					fields.add(field);
+				}
+			}
+		});
+		return fields;
 	}
 
-	public Rectangle(Rectangle other) {
-		x0 = other.x0;
-		y0 = other.y0;
-		x1 = other.x1;
-		y1 = other.y1;
+	public static ArrayList<Method> getMethodsAnnotatedWith(ArrayList<Class<?>> classes,
+			Class<? extends Annotation> annotation) {
+		ArrayList<Method> methods = new ArrayList<>();
+		classes.forEach(clazz -> {
+			for (Method method : clazz.getDeclaredMethods()) {
+				method.setAccessible(true);
+				if (method.isAnnotationPresent(annotation)) {
+					methods.add(method);
+				}
+			}
+		});
+		return methods;
 	}
 
-	public int getWidth() { return x1 - x0; }
-
-	public int getHeight() { return y1 - y0; }
-
-	public void setWidth(int width) { x1 = x0 + width; }
-
-	public void setHeight(int height) { y1 = y0 + height; }
-
-	public boolean contains(int x, int y) {
-		return x0 <= x && x <= x1 && y0 <= y && y <= y1;
-	}
-
-	public Vector2f midpoint() {
-		return new Vector2f((x1 + x0) / 2f, (y1 + y0) / 2f);
-	}
 }

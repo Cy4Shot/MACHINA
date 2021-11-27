@@ -31,8 +31,8 @@ package com.machina.api.client.gui.element;
 
 import javax.annotation.Nonnull;
 
-import com.cy4.machina.util.MachinaRL;
 import com.machina.api.client.gui.IFontRenderer;
+import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

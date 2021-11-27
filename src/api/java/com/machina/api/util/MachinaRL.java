@@ -27,31 +27,55 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.client;
+package com.machina.api.util;
 
-import com.cy4.machina.starchart.PlanetData;
-import com.cy4.machina.starchart.Starchart;
-import com.machina.api.util.MachinaRL;
+import static com.cy4.machina.Machina.MOD_ID;
+
+import com.cy4.machina.Machina;
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.ResourceLocationException;
+import net.minecraft.util.text.TranslationTextComponent;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+public class MachinaRL extends ResourceLocation {
 
-@OnlyIn(Dist.CLIENT)
-public class ClientStarchartHolder {
+	private static final SimpleCommandExceptionType ERROR_INVALID = new SimpleCommandExceptionType(
+			new TranslationTextComponent("argument.id.invalid"));
 
-	private static Starchart starchart;
-
-	public static Starchart getStarchart() { return starchart; }
-
-	public static void setStarchart(Starchart starchart) { ClientStarchartHolder.starchart = starchart; }
-	
-	public static PlanetData getPlanetDataByID(int id) {
-		return starchart.planets.get(new MachinaRL(id));
+	public MachinaRL(int id) {
+		super(MOD_ID, String.valueOf(id));
 	}
 	
-	public static java.util.Optional<PlanetData> getDataForDimension(ResourceLocation dimID) {
-		return starchart.getDimensionData(dimID);
+	public MachinaRL(String name) {
+		super(checkModId(name));
 	}
+
+	public MachinaRL(String modId, String path) {
+		super(modId, path);
+	}
+
+	public static String checkModId(String input) {
+		return input.contains(":") ? input : Machina.MOD_ID + ":" + input;
+	}
+
+	public static MachinaRL read(StringReader pReader) throws CommandSyntaxException {
+		int i = pReader.getCursor();
+
+		while (pReader.canRead() && isAllowedInResourceLocation(pReader.peek())) {
+			pReader.skip();
+		}
+
+		String s = pReader.getString().substring(i, pReader.getCursor());
+
+		try {
+			return new MachinaRL(s);
+		} catch (ResourceLocationException resourcelocationexception) {
+			pReader.setCursor(i);
+			throw ERROR_INVALID.createWithContext(pReader);
+		}
+	}
+
 }

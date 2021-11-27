@@ -33,9 +33,9 @@ import java.util.function.Function;
 
 import com.cy4.machina.network.message.C2SDevPlanetCreationGUI;
 import com.cy4.machina.network.message.S2CSyncStarchart;
-import com.cy4.machina.util.MachinaRL;
 import com.machina.api.network.BaseNetwork;
 import com.machina.api.network.message.INetworkMessage;
+import com.machina.api.util.MachinaRL;
 
 import net.minecraft.network.PacketBuffer;
 

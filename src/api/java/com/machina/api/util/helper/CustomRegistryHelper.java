@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.util.helper;
+package com.machina.api.util.helper;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
@@ -36,7 +36,7 @@ import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.cy4.machina.util.objects.TargetField;
+import com.machina.api.util.objects.TargetField;
 
 import net.minecraft.util.ResourceLocation;
 

@@ -27,55 +27,38 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.util;
+package com.machina.api.client.util;
 
-import static com.cy4.machina.Machina.MOD_ID;
+import net.minecraft.util.math.vector.Vector2f;
 
-import com.cy4.machina.Machina;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+public class Rectangle {
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.ResourceLocationException;
-import net.minecraft.util.text.TranslationTextComponent;
+	public int x0, y0;
+	public int x1, y1;
 
-public class MachinaRL extends ResourceLocation {
-
-	private static final SimpleCommandExceptionType ERROR_INVALID = new SimpleCommandExceptionType(
-			new TranslationTextComponent("argument.id.invalid"));
-
-	public MachinaRL(int id) {
-		super(MOD_ID, String.valueOf(id));
-	}
-	
-	public MachinaRL(String name) {
-		super(checkModId(name));
+	public Rectangle() {
 	}
 
-	public MachinaRL(String modId, String path) {
-		super(modId, path);
+	public Rectangle(Rectangle other) {
+		x0 = other.x0;
+		y0 = other.y0;
+		x1 = other.x1;
+		y1 = other.y1;
 	}
 
-	public static String checkModId(String input) {
-		return input.contains(":") ? input : Machina.MOD_ID + ":" + input;
+	public int getWidth() { return x1 - x0; }
+
+	public int getHeight() { return y1 - y0; }
+
+	public void setWidth(int width) { x1 = x0 + width; }
+
+	public void setHeight(int height) { y1 = y0 + height; }
+
+	public boolean contains(int x, int y) {
+		return x0 <= x && x <= x1 && y0 <= y && y <= y1;
 	}
 
-	public static MachinaRL read(StringReader pReader) throws CommandSyntaxException {
-		int i = pReader.getCursor();
-
-		while (pReader.canRead() && isAllowedInResourceLocation(pReader.peek())) {
-			pReader.skip();
-		}
-
-		String s = pReader.getString().substring(i, pReader.getCursor());
-
-		try {
-			return new MachinaRL(s);
-		} catch (ResourceLocationException resourcelocationexception) {
-			pReader.setCursor(i);
-			throw ERROR_INVALID.createWithContext(pReader);
-		}
+	public Vector2f midpoint() {
+		return new Vector2f((x1 + x0) / 2f, (y1 + y0) / 2f);
 	}
-
 }

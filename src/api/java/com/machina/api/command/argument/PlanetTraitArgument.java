@@ -31,8 +31,8 @@ package com.machina.api.command.argument;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.cy4.machina.util.MachinaRL;
 import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.util.MachinaRL;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;

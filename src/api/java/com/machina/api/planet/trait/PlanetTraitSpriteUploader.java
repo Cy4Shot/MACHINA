@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import com.cy4.machina.util.MachinaRL;
+import com.machina.api.util.MachinaRL;
 
 import net.minecraft.client.renderer.texture.SpriteUploader;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

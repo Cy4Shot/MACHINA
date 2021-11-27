@@ -34,13 +34,13 @@ import java.util.List;
 
 import com.cy4.machina.client.gui.element.PlanetNodeElement;
 import com.cy4.machina.client.gui.element.ScrollableContainer;
-import com.cy4.machina.client.util.Rectangle;
 import com.cy4.machina.client.util.UIHelper;
 import com.cy4.machina.starchart.PlanetData;
-import com.cy4.machina.util.MachinaRL;
 import com.machina.api.client.ClientStarchartHolder;
 import com.machina.api.client.gui.IBoundedGui;
+import com.machina.api.client.util.Rectangle;
 import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

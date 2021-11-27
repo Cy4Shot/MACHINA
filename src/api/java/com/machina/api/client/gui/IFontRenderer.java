@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.cy4.machina.util.MachinaColours;
+import com.machina.api.util.MachinaColours;
 import com.machina.api.util.helper.RenderHelper;
 import com.machina.api.util.helper.TextComponentHelper;
 import com.mojang.blaze3d.matrix.MatrixStack;

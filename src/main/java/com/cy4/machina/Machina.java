@@ -42,11 +42,11 @@ import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.init.ItemInit;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
-import com.cy4.machina.util.MachinaRL;
 import com.cy4.machina.world.DynamicDimensionHelper;
 import com.cy4.machina.world.data.PlanetDimensionData;
 import com.cy4.machina.world.data.StarchartData;
 import com.machina.api.registry.annotation.RegistryAnnotationProcessor;
+import com.machina.api.util.MachinaRL;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

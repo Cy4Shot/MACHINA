@@ -31,14 +31,14 @@ package com.machina.api.recipe.advanced_crafting;
 
 import java.util.Optional;
 
-import com.cy4.machina.util.MachinaRL;
-import com.cy4.machina.util.helper.ClassHelper;
-import com.cy4.machina.util.helper.CustomRegistryHelper;
-import com.cy4.machina.util.objects.TargetField;
 import com.google.gson.JsonObject;
 import com.machina.api.annotation.ChangedByReflection;
 import com.machina.api.registry.annotation.RegisterCustomRegistry;
 import com.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.util.MachinaRL;
+import com.machina.api.util.helper.ClassHelper;
+import com.machina.api.util.helper.CustomRegistryHelper;
+import com.machina.api.util.objects.TargetField;
 
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;

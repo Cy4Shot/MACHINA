@@ -30,7 +30,7 @@
 package com.cy4.machina.world;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.util.MachinaRL;
+import com.machina.api.util.MachinaRL;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;

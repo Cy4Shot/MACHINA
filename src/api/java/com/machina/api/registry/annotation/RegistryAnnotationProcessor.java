@@ -50,7 +50,6 @@ import org.objectweb.asm.Type;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.init.BlockItemInit;
-import com.cy4.machina.util.ReflectionHelper;
 import com.google.common.collect.Lists;
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.planet.trait.PlanetTrait;
@@ -59,6 +58,7 @@ import com.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
 import com.machina.api.registry.annotation.recipe.RegisterRecipeSerializer;
 import com.machina.api.registry.annotation.recipe.RegisterRecipeType;
 import com.machina.api.util.MachinaRegistryObject;
+import com.machina.api.util.ReflectionHelper;
 import com.machina.api.util.TriFunction;
 
 import net.minecraft.block.Block;
