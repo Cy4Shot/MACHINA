@@ -45,9 +45,9 @@ sourceSets {
         java {
             srcDir "$rootDir/src/api/java"
         }
-        resources {
-        	srcDir "$rootDir/src/api/resources"
-        }
+		//The API has no resources
+        resources.srcDirs = []
+        
         compileClasspath += configurations.getByName("minecraft")
 	}
 
@@ -187,7 +187,7 @@ dependencies {
 	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
     
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
     
     implementation(group: 'com.github.Vatuu', name: 'discord-rpc', version: "${discord_rpc_version}")
     shadow(group: 'com.github.Vatuu', name: 'discord-rpc', version: "${discord_rpc_version}")
@@ -239,12 +239,13 @@ configurations {
 shadowJar {
 	classifier = ''
 	configurations = [project.configurations.shadow]
-	//relocate 'org.reflections', "shadow.org.reflections" // ensure repackaged packages have unique names
+	relocate 'net.arikia.dev', "com.machina.shadow_jar.net.arikia.dev" // ensure repackaged packages have unique names
 }
 
 jar {
+	duplicatesStrategy(DuplicatesStrategy.WARN)
 	from sourceSets.main.output
-	from sourceSets.api.output
+	from sourceSets.api.java
 
     manifest {
         attributes([
@@ -258,13 +259,35 @@ jar {
             "MixinConfigs": "machina.mixins.json"
         ])
     }
+    finalizedBy 'reobfJar'
+}
+
+task sourcesJar(type: Jar) {
+	duplicatesStrategy(DuplicatesStrategy.WARN)
+	destinationDirectory = file("$rootDir/build-out")
+	archiveClassifier.set('sources')
+	from sourceSets.main.allJava
+	from sourceSets.api.allJava
 }
 
 task apiJar(type: Jar) {
+	duplicatesStrategy(DuplicatesStrategy.WARN)
+	destinationDirectory = file("$rootDir/build-out")
+	archiveClassifier.set('api')
+	from sourceSets.api.output
+	afterEvaluate { finalizedBy reobfApiJar }
+
+	// TODO: when FG bug is fixed, remove allJava from the api jar.
+	// https://github.com/MinecraftForge/ForgeGradle/issues/369
+	// Gradle should be able to pull them from the -sources jar.
+	from sourceSets.api.allJava
+}
+
+task mainJar(type: Jar) {
     // Sources included because of MinecraftForge/ForgeGradle#369
-    from sourceSets.api.output
+    from sourceSets.main.output
     destinationDirectory = file("$rootDir/build-out")
-    classifier("api")
+    classifier("main")
 }
 
 artifacts {
@@ -273,6 +296,9 @@ artifacts {
 
 reobf {
     shadowJar { }
+    
+    apiJar { classpath.from(sourceSets.api.compileClasspath) }
+	jar { classpath.from(sourceSets.main.compileClasspath) }
 }
 
 tasks.build.dependsOn reobfShadowJar

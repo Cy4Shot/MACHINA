@@ -16,7 +16,7 @@ import net.minecraft.world.server.ServerWorld;
 @Mixin(SwimTask.class)
 public abstract class SwimTaskMixin {
 
-	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getFluidHeight(Lnet/minecraft/tags/ITag)D", ordinal = 0), method = "checkExtraStartConditions(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/entity/MobEntity)Z")
+	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getFluidHeight(Lnet/minecraft/tags/ITag;)D", ordinal = 0), method = "checkExtraStartConditions(Lnet/minecraft/world/server/ServerWorld;Lnet/minecraft/entity/MobEntity;)Z")
 	private boolean machina$checkExtraStartConditionsFluidHeight(MobEntity entity, ITag<Fluid> fluid, ServerWorld pLevel,
 			MobEntity pOwner) {
 		return entity.getFluidHeight(FluidTags.WATER) > entity.getFluidJumpThreshold()
