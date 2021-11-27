@@ -40,6 +40,52 @@ archivesBaseName = 'machina'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
+sourceSets {
+	api {
+        java {
+            srcDir "$rootDir/src/api/java"
+        }
+        resources {
+        	srcDir "$rootDir/src/api/resources"
+        }
+        compileClasspath += configurations.getByName("minecraft")
+	}
+
+	main {
+		java {
+			srcDirs = [
+				"$rootDir/src/main/java"
+			]
+		}
+		resources {
+			srcDirs = [
+				"$rootDir/src/main/resources",
+				"$rootDir/src/generated/resources"
+			]
+		}
+		compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+	}
+        
+	test {
+		compileClasspath += sourceSets.api.output
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.main.output
+	
+		java {
+			srcDirs = [
+				"$rootDir/src/test/java"
+			]
+		}
+		resources {
+			srcDirs = [
+				"$rootDir/src/test/resources"
+			]
+		}
+	}
+}
+
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     mappings channel: 'parchment', version: '2021.10.17-1.16.5'
@@ -52,9 +98,7 @@ minecraft {
 			arg "-mixin.config=machina.mixins.json"
 
             mods {
-                machina {
-                    source sourceSets.main
-                }
+            	machina.sources((SourceSet[]) [sourceSets.main, sourceSets.api])
             }
         }
         
@@ -70,9 +114,11 @@ minecraft {
             main 'net.minecraftforge.userdev.LaunchTesting'
 
             mods {
-                tests {
-                    source sourceSets.test
-                }
+           		tests {
+           			source sourceSets.main
+           			source sourceSets.api
+           			source sourceSets.test
+           		}
             }
         }
 
@@ -83,9 +129,7 @@ minecraft {
             arg "-mixin.config=machina.mixins.json"
 
             mods {
-                machina {
-                    source sourceSets.main
-                }
+            	machina.sources((SourceSet[]) [sourceSets.main, sourceSets.api])
             }
         }
 
@@ -95,44 +139,10 @@ minecraft {
             args '--mod', 'machina', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                machina {
-                    source sourceSets.main
-                }
+            	machina.sources((SourceSet[]) [sourceSets.main, sourceSets.api])
             }
         }
     }
-}
-
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-sourceSets {
-        main {
-            java {
-                srcDirs = [
-                    "$rootDir/src/main/java"
-                ]
-            }
-            resources {
-                srcDirs = [
-                    "$rootDir/src/main/resources",
-                    "$rootDir/src/generated/resources"
-                ]
-            }
-        }
-        test {
-            java {
-                srcDirs = [
-                    "$rootDir/src/test/java",
-                    "$rootDir/src/main/java"
-                ]
-            }
-            resources {
-                srcDirs = [
-                    "$rootDir/src/test/resources",
-                    "$rootDir/src/main/resources",
-                    "$rootDir/src/generated/resources"
-                ]
-            }
-        }
 }
 
 repositories {
@@ -213,6 +223,9 @@ license {
     	main {
     		files.from files("$rootDir/src/main/java")
     	}
+    	api {
+    		files.from files("$rootDir/src/api/java")
+    	}
     	test {
     		files.from files("$rootDir/src/test/java")
     	}
@@ -230,6 +243,10 @@ shadowJar {
 }
 
 jar {
+	classifier("slim")
+	from sourceSets.api.output
+    from sourceSets.main.output
+
     manifest {
         attributes([
             "Specification-Title": "machina",

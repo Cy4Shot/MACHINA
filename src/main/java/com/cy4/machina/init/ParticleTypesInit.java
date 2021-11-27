@@ -29,8 +29,8 @@
 
 package com.cy4.machina.init;
 
-import com.cy4.machina.api.registry.annotation.RegisterParticleType;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.registry.annotation.RegisterParticleType;
+import com.machina.api.registry.annotation.RegistryHolder;
 
 import net.minecraft.particles.BasicParticleType;
 

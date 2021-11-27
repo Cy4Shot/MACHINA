@@ -31,11 +31,11 @@ package com.cy4.machina.block;
 
 import javax.swing.Timer;
 
-import com.cy4.machina.api.util.DiagonalDirection;
 import com.cy4.machina.block.properties.ActivationState;
 import com.cy4.machina.block.properties.RelayPosState;
 import com.cy4.machina.init.BlockInit;
 import com.cy4.machina.init.ItemInit;
+import com.machina.api.util.DiagonalDirection;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

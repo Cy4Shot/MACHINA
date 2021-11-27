@@ -31,10 +31,10 @@ package com.cy4.machina.init;
 
 import java.util.function.Function;
 
-import com.cy4.machina.api.planet.attribute.PlanetAttributeType;
-import com.cy4.machina.api.registry.annotation.RegisterPlanetAttributeType;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
-import com.cy4.machina.api.util.Color;
+import com.machina.api.planet.attribute.PlanetAttributeType;
+import com.machina.api.registry.annotation.RegisterPlanetAttributeType;
+import com.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.util.Color;
 
 import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.FloatNBT;

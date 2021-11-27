@@ -31,10 +31,11 @@ package com.cy4.machina.starchart;
 
 import java.util.Random;
 
-import com.cy4.machina.api.nbt.BaseNBTMap;
 import com.cy4.machina.config.CommonConfig;
 import com.cy4.machina.util.MachinaRL;
 import com.cy4.machina.util.StringUtils;
+import com.machina.api.nbt.BaseNBTMap;
+
 import java.util.Optional;
 
 import net.minecraft.nbt.CompoundNBT;

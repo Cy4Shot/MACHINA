@@ -33,10 +33,10 @@ import static com.cy4.machina.Machina.MOD_ID;
 
 import javax.annotation.WillNotClose;
 
-import com.cy4.machina.api.network.BaseNetwork;
 import com.cy4.machina.network.MachinaNetwork;
 import com.cy4.machina.network.message.S2CSyncStarchart;
 import com.cy4.machina.starchart.Starchart;
+import com.machina.api.network.BaseNetwork;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;

@@ -29,7 +29,7 @@
 
 package com.cy4.machina.compat.jei;
 
-import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.planet.trait.PlanetTrait;
 
 import mezz.jei.api.ingredients.IIngredientType;
 

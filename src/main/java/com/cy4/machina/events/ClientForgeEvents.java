@@ -30,7 +30,7 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.planet.PlanetUtils;
+import com.machina.api.planet.PlanetUtils;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;

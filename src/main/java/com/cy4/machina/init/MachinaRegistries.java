@@ -33,9 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cy4.machina.api.planet.attribute.PlanetAttributeType;
-import com.cy4.machina.api.planet.trait.PlanetTrait;
-import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
+import com.machina.api.planet.attribute.PlanetAttributeType;
+import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;

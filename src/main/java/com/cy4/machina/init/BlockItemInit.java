@@ -31,8 +31,8 @@ package com.cy4.machina.init;
 
 import static com.cy4.machina.Machina.MACHINA_ITEM_GROUP;
 
-import com.cy4.machina.api.registry.annotation.RegisterBlockItem;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.registry.annotation.RegisterBlockItem;
+import com.machina.api.registry.annotation.RegistryHolder;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;

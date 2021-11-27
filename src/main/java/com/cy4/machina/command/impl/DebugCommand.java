@@ -29,9 +29,9 @@
 
 package com.cy4.machina.command.impl;
 
-import com.cy4.machina.api.annotation.DevelopmentOnly;
-import com.cy4.machina.api.planet.attribute.PlanetAttributeType;
 import com.cy4.machina.command.BaseCommand;
+import com.machina.api.annotation.DevelopmentOnly;
+import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 

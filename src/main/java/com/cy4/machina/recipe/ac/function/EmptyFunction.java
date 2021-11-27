@@ -29,11 +29,11 @@
 
 package com.cy4.machina.recipe.ac.function;
 
-import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunction;
-import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
-import com.cy4.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
 import com.google.gson.JsonObject;
+import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunction;
+import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
+import com.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
 
 @RegistryHolder
 public class EmptyFunction extends AdvancedCraftingFunction {

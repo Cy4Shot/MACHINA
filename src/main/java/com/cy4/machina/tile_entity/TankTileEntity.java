@@ -32,9 +32,9 @@ package com.cy4.machina.tile_entity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.cy4.machina.api.inventory.IFluidInventory;
-import com.cy4.machina.api.tile_entity.BaseTileEntity;
 import com.cy4.machina.init.TileEntityTypesInit;
+import com.machina.api.inventory.IFluidInventory;
+import com.machina.api.tile_entity.BaseTileEntity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;

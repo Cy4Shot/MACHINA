@@ -29,7 +29,7 @@
 
 package com.cy4.machina.client;
 
-import com.cy4.machina.api.util.DiagonalDirection;
+import com.machina.api.util.DiagonalDirection;
 
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.TranslationTextComponent;

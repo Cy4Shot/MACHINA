@@ -30,11 +30,11 @@
 package com.cy4.machina.init;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.planet.trait.PlanetTrait;
-import com.cy4.machina.api.planet.trait.PlanetTrait.JeiProperties;
-import com.cy4.machina.api.planet.trait.PlanetTrait.Properties;
-import com.cy4.machina.api.registry.annotation.RegisterPlanetTrait;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.planet.trait.PlanetTrait.JeiProperties;
+import com.machina.api.planet.trait.PlanetTrait.Properties;
+import com.machina.api.registry.annotation.RegisterPlanetTrait;
+import com.machina.api.registry.annotation.RegistryHolder;
 
 import net.minecraft.item.Items;
 
@@ -114,7 +114,7 @@ public final class PlanetTraitInit {
 		@Override
 		public boolean hasAttributeModifier() { return true; }
 		@Override
-		public void addAttribute(com.cy4.machina.api.planet.attribute.PlanetAttributeList attributes) {
+		public void addAttribute(com.machina.api.planet.attribute.PlanetAttributeList attributes) {
 			attributes.setValue(PlanetAttributeTypesInit.GRAVITY, oldVal -> {
 				if (oldVal != null) {
 					return oldVal / 2;
@@ -123,7 +123,7 @@ public final class PlanetTraitInit {
 			});
 		}
 		@Override
-		public void removeAttribute(com.cy4.machina.api.planet.attribute.PlanetAttributeList attributes) {
+		public void removeAttribute(com.machina.api.planet.attribute.PlanetAttributeList attributes) {
 			attributes.setValue(PlanetAttributeTypesInit.GRAVITY, oldVal -> {
 				if (oldVal != null) {
 					return oldVal * 2;

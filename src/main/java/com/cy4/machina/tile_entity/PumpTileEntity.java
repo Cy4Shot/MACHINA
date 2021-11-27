@@ -29,9 +29,9 @@
 
 package com.cy4.machina.tile_entity;
 
-import com.cy4.machina.api.tile_entity.FluidTileEntity;
-import com.cy4.machina.api.tile_entity.ITickableTile;
 import com.cy4.machina.init.TileEntityTypesInit;
+import com.machina.api.tile_entity.FluidTileEntity;
+import com.machina.api.tile_entity.ITickableTile;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.fluid.FluidState;

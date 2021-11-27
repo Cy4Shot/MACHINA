@@ -29,9 +29,9 @@
 
 package com.cy4.machina.init;
 
-import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
-import com.cy4.machina.api.registry.annotation.recipe.RegisterRecipeType;
+import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
+import com.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.registry.annotation.recipe.RegisterRecipeType;
 
 import net.minecraft.item.crafting.IRecipeType;
 

@@ -34,7 +34,6 @@ import java.io.File;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.cy4.machina.api.registry.annotation.RegistryAnnotationProcessor;
 import com.cy4.machina.client.ClientSetup;
 import com.cy4.machina.config.ClientConfig;
 import com.cy4.machina.config.CommonConfig;
@@ -47,6 +46,7 @@ import com.cy4.machina.util.MachinaRL;
 import com.cy4.machina.world.DynamicDimensionHelper;
 import com.cy4.machina.world.data.PlanetDimensionData;
 import com.cy4.machina.world.data.StarchartData;
+import com.machina.api.registry.annotation.RegistryAnnotationProcessor;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

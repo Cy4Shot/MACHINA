@@ -30,7 +30,6 @@
 package com.cy4.machina.client;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.planet.trait.PlanetTraitSpriteUploader;
 import com.cy4.machina.client.dimension.CustomDimensionRenderInfo;
 import com.cy4.machina.client.particle.ElectricitySparkParticle;
 import com.cy4.machina.client.renderer.tile.RocketTileRenderer;
@@ -38,6 +37,7 @@ import com.cy4.machina.init.BlockInit;
 import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.ParticleTypesInit;
 import com.cy4.machina.init.TileEntityTypesInit;
+import com.machina.api.planet.trait.PlanetTraitSpriteUploader;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;

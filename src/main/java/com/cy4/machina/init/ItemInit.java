@@ -31,11 +31,11 @@ package com.cy4.machina.init;
 
 import static com.cy4.machina.Machina.MACHINA_ITEM_GROUP;
 
-import com.cy4.machina.api.registry.annotation.RegisterItem;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
-import com.cy4.machina.api.registry.builder.ItemBuilder;
 import com.cy4.machina.item.ThermalRegulatorSuit;
 import com.cy4.machina.item.WrenchItem;
+import com.machina.api.registry.annotation.RegisterItem;
+import com.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.registry.builder.ItemBuilder;
 
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;

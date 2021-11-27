@@ -29,8 +29,8 @@
 
 package com.cy4.machina.compat.jei.trait;
 
-import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.google.common.collect.Lists;
+import com.machina.api.planet.trait.PlanetTrait;
 
 import mezz.jei.api.ingredients.IIngredientHelper;
 

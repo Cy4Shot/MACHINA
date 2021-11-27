@@ -29,7 +29,7 @@
 
 package com.cy4.machina.config;
 
-import com.cy4.machina.api.config.BaseTOMLConfig;
+import com.machina.api.config.BaseTOMLConfig;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;

@@ -32,7 +32,7 @@ package com.cy4.machina.compat.jei.trait;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.cy4.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.planet.trait.PlanetTrait;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

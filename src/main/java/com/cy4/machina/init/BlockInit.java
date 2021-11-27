@@ -29,8 +29,6 @@
 
 package com.cy4.machina.init;
 
-import com.cy4.machina.api.registry.annotation.RegisterBlock;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
 import com.cy4.machina.block.AnimatedBuilder;
 import com.cy4.machina.block.AnimatedBuilderMount;
 import com.cy4.machina.block.ConsoleBlock;
@@ -39,6 +37,8 @@ import com.cy4.machina.block.PumpBlock;
 import com.cy4.machina.block.RocketBlock;
 import com.cy4.machina.block.RocketMount;
 import com.cy4.machina.block.TankBlock;
+import com.machina.api.registry.annotation.RegisterBlock;
+import com.machina.api.registry.annotation.RegistryHolder;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;

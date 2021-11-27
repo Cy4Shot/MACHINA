@@ -29,11 +29,11 @@
 
 package com.cy4.machina.init;
 
-import com.cy4.machina.api.registry.annotation.RegisterTileEntityType;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
 import com.cy4.machina.tile_entity.PumpTileEntity;
 import com.cy4.machina.tile_entity.RocketTile;
 import com.cy4.machina.tile_entity.TankTileEntity;
+import com.machina.api.registry.annotation.RegisterTileEntityType;
+import com.machina.api.registry.annotation.RegistryHolder;
 
 import net.minecraft.tileentity.TileEntityType;
 

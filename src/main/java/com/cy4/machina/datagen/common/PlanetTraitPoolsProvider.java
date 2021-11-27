@@ -32,10 +32,10 @@ package com.cy4.machina.datagen.common;
 import static com.cy4.machina.init.PlanetTraitInit.*;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.datagen.trait_pools.TraitPool;
-import com.cy4.machina.api.datagen.trait_pools.TraitPoolEntry;
-import com.cy4.machina.api.datagen.trait_pools.TraitPoolsGenProvider;
 import com.cy4.machina.init.PlanetTraitInit;
+import com.machina.api.datagen.trait_pools.TraitPool;
+import com.machina.api.datagen.trait_pools.TraitPoolEntry;
+import com.machina.api.datagen.trait_pools.TraitPoolsGenProvider;
 
 import net.minecraft.data.DataGenerator;
 

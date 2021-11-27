@@ -29,15 +29,15 @@
 
 package com.cy4.machina.network.message;
 
-import com.cy4.machina.api.network.message.IMachinaMessage;
 import com.cy4.machina.world.DynamicDimensionHelper;
+import com.machina.api.network.message.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.server.ServerWorld;
 
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class C2SDevPlanetCreationGUI implements IMachinaMessage {
+public class C2SDevPlanetCreationGUI implements INetworkMessage {
 
 	public final ActionType action;
 	public final int dimensionID;

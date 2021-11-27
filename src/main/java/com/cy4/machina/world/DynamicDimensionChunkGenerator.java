@@ -35,10 +35,10 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.planet.PlanetUtils;
-import com.cy4.machina.api.planet.trait.PlanetTrait;
 import com.cy4.machina.init.PlanetTraitInit;
 import com.cy4.machina.world.data.StarchartData;
+import com.machina.api.planet.PlanetUtils;
+import com.machina.api.planet.trait.PlanetTrait;
 import com.mojang.serialization.Codec;
 //import com.mojang.serialization.codecs.RecordCodecBuilder;
 

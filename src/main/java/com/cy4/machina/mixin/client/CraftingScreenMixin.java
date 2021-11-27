@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.cy4.machina.api.events.CraftingScreenEvent;
+import com.machina.api.events.CraftingScreenEvent;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.recipebook.IRecipeShownListener;

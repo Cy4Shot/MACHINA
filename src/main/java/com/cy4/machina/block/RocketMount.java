@@ -34,14 +34,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.Timer;
 
-import com.cy4.machina.api.util.DiagonalDirection;
-import com.cy4.machina.api.util.MachinaLangTextComponent;
 import com.cy4.machina.block.properties.ActivationState;
 import com.cy4.machina.block.properties.RelayPosState;
 import com.cy4.machina.client.MachinaLang;
 import com.cy4.machina.init.BlockInit;
 import com.cy4.machina.init.ItemInit;
 import com.google.common.collect.Lists;
+import com.machina.api.util.DiagonalDirection;
+import com.machina.api.util.MachinaLangTextComponent;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

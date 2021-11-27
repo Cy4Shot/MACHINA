@@ -29,18 +29,18 @@
 
 package com.cy4.machina.init;
 
-import static com.cy4.machina.api.util.MachinaRegistryObject.fluid;
+import static com.machina.api.util.MachinaRegistryObject.fluid;
 
 import java.util.function.Supplier;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.ChemicalValues;
-import com.cy4.machina.api.registry.annotation.RegisterBlock;
-import com.cy4.machina.api.registry.annotation.RegisterFluid;
-import com.cy4.machina.api.registry.annotation.RegisterItem;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
-import com.cy4.machina.api.util.MachinaRegistryObject;
 import com.cy4.machina.block.fluid.LiquidHydrogenBlock;
+import com.machina.api.ChemicalValues;
+import com.machina.api.registry.annotation.RegisterBlock;
+import com.machina.api.registry.annotation.RegisterFluid;
+import com.machina.api.registry.annotation.RegisterItem;
+import com.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.util.MachinaRegistryObject;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;

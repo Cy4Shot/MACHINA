@@ -36,12 +36,12 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.api.planet.PlanetNameGenerator;
-import com.cy4.machina.api.planet.attribute.PlanetAttributeList;
-import com.cy4.machina.api.planet.trait.PlanetTrait;
-import com.cy4.machina.api.planet.trait.PlanetTraitList;
-import com.cy4.machina.api.util.Color;
 import com.cy4.machina.init.PlanetAttributeTypesInit;
+import com.machina.api.planet.PlanetNameGenerator;
+import com.machina.api.planet.attribute.PlanetAttributeList;
+import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.planet.trait.PlanetTraitList;
+import com.machina.api.util.Color;
 
 import net.minecraft.nbt.CompoundNBT;
 

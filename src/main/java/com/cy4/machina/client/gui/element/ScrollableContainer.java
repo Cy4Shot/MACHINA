@@ -29,10 +29,10 @@
 
 package com.cy4.machina.client.gui.element;
 
-import com.cy4.machina.api.client.gui.Renderable;
 import com.cy4.machina.client.util.Rectangle;
 import com.cy4.machina.client.util.UIHelper;
 import com.cy4.machina.util.MachinaRL;
+import com.machina.api.client.gui.Renderable;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;

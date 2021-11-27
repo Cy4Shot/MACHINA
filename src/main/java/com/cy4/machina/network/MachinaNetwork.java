@@ -31,11 +31,11 @@ package com.cy4.machina.network;
 
 import java.util.function.Function;
 
-import com.cy4.machina.api.network.BaseNetwork;
-import com.cy4.machina.api.network.message.IMachinaMessage;
 import com.cy4.machina.network.message.C2SDevPlanetCreationGUI;
 import com.cy4.machina.network.message.S2CSyncStarchart;
 import com.cy4.machina.util.MachinaRL;
+import com.machina.api.network.BaseNetwork;
+import com.machina.api.network.message.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;
 
@@ -58,12 +58,12 @@ public class MachinaNetwork extends BaseNetwork {
 				version -> version.equals(NETWORK_VERSION), version -> version.equals(NETWORK_VERSION));
 	}
 
-	private static <M extends IMachinaMessage> void registerServerToClient(Class<M> type,
+	private static <M extends INetworkMessage> void registerServerToClient(Class<M> type,
 			Function<PacketBuffer, M> decoder) {
 		registerServerToClient(CHANNEL, type, decoder);
 	}
 
-	private static <M extends IMachinaMessage> void registerClientToServer(Class<M> type,
+	private static <M extends INetworkMessage> void registerClientToServer(Class<M> type,
 			Function<PacketBuffer, M> decoder) {
 		registerClientToServer(CHANNEL, type, decoder);
 	}

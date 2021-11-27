@@ -29,10 +29,10 @@
 
 import java.util.UUID;
 
-import com.cy4.machina.api.planet.attribute.PlanetAttributeType;
-import com.cy4.machina.api.registry.annotation.RegisterItem;
-import com.cy4.machina.api.registry.annotation.RegistryAnnotationProcessor;
-import com.cy4.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.planet.attribute.PlanetAttributeType;
+import com.machina.api.registry.annotation.RegisterItem;
+import com.machina.api.registry.annotation.RegistryAnnotationProcessor;
+import com.machina.api.registry.annotation.RegistryHolder;
 
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;

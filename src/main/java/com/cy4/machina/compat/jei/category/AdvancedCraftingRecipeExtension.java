@@ -32,8 +32,8 @@ package com.cy4.machina.compat.jei.category;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.cy4.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
 import com.cy4.machina.util.MachinaRL;
+import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
