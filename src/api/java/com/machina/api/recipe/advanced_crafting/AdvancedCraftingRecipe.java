@@ -31,7 +31,6 @@ package com.machina.api.recipe.advanced_crafting;
 
 import java.util.Map;
 
-import com.cy4.machina.recipe.ac.function.EmptyFunction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;

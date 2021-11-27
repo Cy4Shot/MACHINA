@@ -29,9 +29,9 @@
 
 package com.machina.api.util;
 
-import static com.cy4.machina.Machina.MOD_ID;
+import static com.machina.api.ModIDs.MACHINA;
 
-import com.cy4.machina.Machina;
+import com.machina.api.ModIDs;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
@@ -46,7 +46,7 @@ public class MachinaRL extends ResourceLocation {
 			new TranslationTextComponent("argument.id.invalid"));
 
 	public MachinaRL(int id) {
-		super(MOD_ID, String.valueOf(id));
+		super(ModIDs.MACHINA, String.valueOf(id));
 	}
 	
 	public MachinaRL(String name) {
@@ -58,7 +58,7 @@ public class MachinaRL extends ResourceLocation {
 	}
 
 	public static String checkModId(String input) {
-		return input.contains(":") ? input : Machina.MOD_ID + ":" + input;
+		return input.contains(":") ? input : MACHINA + ":" + input;
 	}
 
 	public static MachinaRL read(StringReader pReader) throws CommandSyntaxException {

@@ -27,13 +27,15 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.starchart.pool;
+package com.machina.api.planet.trait.pool;
 
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiConsumer;
 
-import com.cy4.machina.Machina;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -48,6 +50,10 @@ import net.minecraft.util.ResourceLocation;
 
 public class PlanetTraitPoolManager extends JsonReloadListener {
 
+	public static PlanetTraitPoolManager instance = new PlanetTraitPoolManager();
+	
+	private static final Logger LOGGER = LogManager.getLogger();
+	
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 	private Map<ResourceLocation, PlanetTraitPool> traits = ImmutableMap.of();
 
@@ -63,7 +69,7 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 
 		for (Entry<ResourceLocation, JsonElement> entry : pObject.entrySet()) {
 			ResourceLocation resourcelocation = entry.getKey();
-			Machina.LOGGER.info("Found Trait Pool: " + entry.getKey().toString());
+			LOGGER.info("Found Trait Pool: " + entry.getKey().toString());
 
 			if (resourcelocation.getPath().startsWith("_")) {
 				continue; // Forge: filter anything beginning with "_" as it's used for metadata.
@@ -72,14 +78,14 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 			try {
 				PlanetTraitPool pool = GSON.fromJson(entry.getValue(), PlanetTraitPool.class);
 				if (pool == null) {
-					Machina.LOGGER.error("Trait Pool is NULL!!!! Bit rude, fix pls.");
+					LOGGER.error("Trait Pool is NULL!!!! Bit rude, fix pls.");
 					continue;
 				}
 
 				map.put(resourcelocation, pool);
 
 			} catch (IllegalArgumentException | JsonParseException jsonparseexception) {
-				Machina.LOGGER.error("Parsing error loading trait pool {}", resourcelocation, jsonparseexception);
+				LOGGER.error("Parsing error loading trait pool {}", resourcelocation, jsonparseexception);
 			}
 
 			traits = ImmutableMap.copyOf(map);

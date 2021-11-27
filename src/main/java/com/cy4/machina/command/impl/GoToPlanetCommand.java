@@ -30,7 +30,7 @@
 package com.cy4.machina.command.impl;
 
 import com.cy4.machina.command.BaseCommand;
-import com.cy4.machina.world.DynamicDimensionHelper;
+import com.machina.api.world.DynamicDimensionHelper;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;

@@ -30,7 +30,7 @@
 package com.cy4.machina.command.impl.traits;
 
 import com.cy4.machina.command.BaseCommand;
-import com.machina.api.planet.PlanetUtils;
+import com.machina.api.util.PlanetUtils;
 import com.mojang.brigadier.context.CommandContext;
 
 import net.minecraft.command.CommandSource;

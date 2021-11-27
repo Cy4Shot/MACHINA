@@ -27,13 +27,11 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.world.data;
+package com.machina.api.world.data;
 
-import static com.cy4.machina.Machina.MOD_ID;
+import static com.machina.api.ModIDs.MACHINA;
 
 import java.util.HashSet;
-
-import com.cy4.machina.Machina;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -53,7 +51,7 @@ public class PlanetDimensionData extends WorldSavedData {
 		super(n);
 	}
 
-	private static final String ID = Machina.MOD_ID + "_planet_dimensions";
+	private static final String ID = MACHINA + "_planet_dimensions";
 
 	public static PlanetDimensionData getDefaultInstance(MinecraftServer server) {
 		return server.getLevel(World.OVERWORLD).getDataStorage().computeIfAbsent(() -> new PlanetDimensionData(ID), ID);
@@ -76,7 +74,7 @@ public class PlanetDimensionData extends WorldSavedData {
 			listNBT.add(StringNBT.valueOf(str));
 		}
 		nbt.put("dimensionIds", listNBT);
-		nbt.putString("dataOwnerMod", MOD_ID);
+		nbt.putString("dataOwnerMod", MACHINA);
 		return nbt;
 	}
 

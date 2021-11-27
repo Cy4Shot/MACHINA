@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.starchart.pool;
+package com.machina.api.planet.trait.pool;
 
 import java.util.ArrayList;
 import java.util.List;

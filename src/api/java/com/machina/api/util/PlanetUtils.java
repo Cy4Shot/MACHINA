@@ -27,31 +27,26 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.util;
+package com.machina.api.util;
 
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import com.machina.api.ModIDs;
 
-public class StringUtils {
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.Dimension;
+import net.minecraft.world.World;
 
-	public static final String TREE_V = "\u2502";
-	public static final String TREE_H = "\u2500";
-	public static final String TREE_F = "\u251c";
-	public static final String TREE_L = "\u2514";
+public class PlanetUtils {
 
-	public static final Charset utf8Charset = Charset.forName("UTF-8");
-	public static final Charset defaultCharset = Charset.defaultCharset();
-
-	public static void printlnUtf8(String msg) {
-		try {
-			byte[] sourceBytes = msg.getBytes("UTF-8");
-			String data = new String(sourceBytes, defaultCharset.name());
-
-			PrintStream out = new PrintStream(System.out, true, utf8Charset.name());
-			out.println(data);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+	public static boolean isDimensionPlanet(RegistryKey<World> dim) {
+		return dim.location().getNamespace().equals(ModIDs.MACHINA);
 	}
+
+	public static int getId(RegistryKey<World> dim) {
+		return Integer.valueOf(dim.location().getPath());
+	}
+
+	public static int getIdDim(RegistryKey<Dimension> dim) {
+		return Integer.valueOf(dim.location().getPath());
+	}
+
 }

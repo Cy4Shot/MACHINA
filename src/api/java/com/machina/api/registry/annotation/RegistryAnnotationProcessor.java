@@ -38,6 +38,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -48,8 +50,6 @@ import java.util.stream.Collectors;
 
 import org.objectweb.asm.Type;
 
-import com.cy4.machina.Machina;
-import com.cy4.machina.init.BlockItemInit;
 import com.google.common.collect.Lists;
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.planet.trait.PlanetTrait;
@@ -66,6 +66,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.particles.ParticleType;
@@ -93,7 +94,9 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
  */
 public class RegistryAnnotationProcessor {
 
-	private final String ownerModID;
+	protected final String ownerModID;
+	protected final List<Block> autoBlockItems = new LinkedList<>();
+	protected ItemGroup blockItemTab = ItemGroup.TAB_MISC;
 
 	/**
 	 * Creates a new {@link RegistryAnnotationProcessor} which will be used in order
@@ -104,6 +107,14 @@ public class RegistryAnnotationProcessor {
 	 */
 	public RegistryAnnotationProcessor(String modid) {
 		ownerModID = modid;
+	}
+	
+	public void addAutoBlockItems(Block... blocks) {
+		Collections.addAll(autoBlockItems, blocks);
+	}
+	
+	public void setBlockItemTab(ItemGroup tab) {
+		this.blockItemTab = tab;
 	}
 
 	public List<Item> getItems() {
@@ -169,8 +180,8 @@ public class RegistryAnnotationProcessor {
 					throw new RegistryException("Invalid BlockItem");
 				}, Optional.empty());
 
-		for (Block block : BlockItemInit.AUTO_BLOCK_ITEMS) {
-			BlockItem item = new BlockItem(block, new Item.Properties().tab(Machina.MACHINA_ITEM_GROUP));
+		for (Block block : autoBlockItems) {
+			BlockItem item = new BlockItem(block, new Item.Properties().tab(blockItemTab));
 			item.setRegistryName(block.getRegistryName());
 			event.getRegistry().register(item);
 		}

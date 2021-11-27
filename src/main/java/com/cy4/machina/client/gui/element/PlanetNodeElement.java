@@ -32,7 +32,7 @@ package com.cy4.machina.client.gui.element;
 import com.cy4.machina.client.gui.StarchartScreen;
 import com.cy4.machina.client.util.UIHelper;
 import com.cy4.machina.client.util.UIHelper.StippleType;
-import com.cy4.machina.starchart.PlanetData;
+import com.machina.api.starchart.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;

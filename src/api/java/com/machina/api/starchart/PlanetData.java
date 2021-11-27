@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.starchart;
+package com.machina.api.starchart;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,12 +35,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import com.cy4.machina.Machina;
-import com.cy4.machina.init.PlanetAttributeTypesInit;
 import com.machina.api.planet.PlanetNameGenerator;
+import com.machina.api.planet.attribute.DefaultPlanetAttributes;
 import com.machina.api.planet.attribute.PlanetAttributeList;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.planet.trait.PlanetTraitList;
+import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.util.Color;
 
 import net.minecraft.nbt.CompoundNBT;
@@ -56,7 +56,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	public static List<PlanetTrait> getTraits(Random rand) {
 		List<PlanetTrait> res = new ArrayList<>();
-		Machina.traitPoolManager.forEach((location, pool) -> res
+		PlanetTraitPoolManager.instance.forEach((location, pool) -> res
 				.addAll(pool.roll(rand).stream().map(PlanetTrait.REGISTRY::getValue).collect(Collectors.toList())));
 		return res;
 	}
@@ -69,17 +69,17 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	public PlanetData(Random rand) {
 		this();
-		attributes.setValue(PlanetAttributeTypesInit.PLANET_NAME, oldval -> PlanetNameGenerator.getName(rand));
+		attributes.setValue(DefaultPlanetAttributes.PLANET_NAME, oldval -> PlanetNameGenerator.getName(rand));
 		float r = rand.nextFloat() / 2f;
 		float g = rand.nextFloat() / 2f;
 		float b = rand.nextFloat() / 2f;
-		attributes.setValue(PlanetAttributeTypesInit.COLOUR, oldval -> new Color(r, g, b));
+		attributes.setValue(DefaultPlanetAttributes.COLOUR, oldval -> new Color(r, g, b));
 		
 		traits.clear();
 		traits.addAll(getTraits(rand));
 
-		attributes.setValue(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, oldVal -> rand.nextFloat());
-		attributes.setValue(PlanetAttributeTypesInit.TEMPERATURE, oldVal -> rand.nextFloat());
+		attributes.setValue(DefaultPlanetAttributes.ATMOSPHERIC_PRESSURE, oldVal -> rand.nextFloat());
+		attributes.setValue(DefaultPlanetAttributes.TEMPERATURE, oldVal -> rand.nextFloat());
 		dist = rand.nextFloat();
 
 		// TODO: Apply trait modifiers
@@ -91,23 +91,23 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	}
 	
 	public String getName() {
-		return attributes.getAttributeForType(PlanetAttributeTypesInit.PLANET_NAME).isPresent() ? 
-				attributes.getAttributeForType(PlanetAttributeTypesInit.PLANET_NAME).get().getValue() : "Planet";
+		return attributes.getAttributeForType(DefaultPlanetAttributes.PLANET_NAME).isPresent() ? 
+				attributes.getAttributeForType(DefaultPlanetAttributes.PLANET_NAME).get().getValue() : "Planet";
 	}
 	
 	public Color getColour() {
-		return attributes.getAttributeForType(PlanetAttributeTypesInit.COLOUR).isPresent() ? 
-				attributes.getAttributeForType(PlanetAttributeTypesInit.COLOUR).get().getValue() : new Color(0);
+		return attributes.getAttributeForType(DefaultPlanetAttributes.COLOUR).isPresent() ? 
+				attributes.getAttributeForType(DefaultPlanetAttributes.COLOUR).get().getValue() : new Color(0);
 	}
 	
 	public float getAtmosphericPressure() {
-		return attributes.getAttributeForType(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE).isPresent() ? 
-				attributes.getAttributeForType(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE).get().getValue() : 1.0f;
+		return attributes.getAttributeForType(DefaultPlanetAttributes.ATMOSPHERIC_PRESSURE).isPresent() ? 
+				attributes.getAttributeForType(DefaultPlanetAttributes.ATMOSPHERIC_PRESSURE).get().getValue() : 1.0f;
 	}
 	
 	public float getTemperature() {
-		return attributes.getAttributeForType(PlanetAttributeTypesInit.TEMPERATURE).isPresent() ? 
-				attributes.getAttributeForType(PlanetAttributeTypesInit.TEMPERATURE).get().getValue() : 1.0f;
+		return attributes.getAttributeForType(DefaultPlanetAttributes.TEMPERATURE).isPresent() ? 
+				attributes.getAttributeForType(DefaultPlanetAttributes.TEMPERATURE).get().getValue() : 1.0f;
 	}
 
 	// Serialize all data

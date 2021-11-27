@@ -29,9 +29,9 @@
 
 package com.machina.api.util.helper;
 
-import com.cy4.machina.starchart.Starchart;
-import com.cy4.machina.world.data.StarchartData;
 import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.starchart.Starchart;
+import com.machina.api.world.data.StarchartData;
 
 import net.minecraft.world.World;
 

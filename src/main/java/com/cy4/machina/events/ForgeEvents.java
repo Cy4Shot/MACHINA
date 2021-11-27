@@ -30,7 +30,8 @@
 package com.cy4.machina.events;
 
 import com.cy4.machina.Machina;
-import com.cy4.machina.world.data.StarchartData;
+import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
+import com.machina.api.world.data.StarchartData;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
@@ -49,7 +50,7 @@ public class ForgeEvents {
 
 	@SubscribeEvent
 	public static void addReloadListeners(AddReloadListenerEvent event) {
-		event.addListener(Machina.traitPoolManager);
+		event.addListener(PlanetTraitPoolManager.instance);
 	}
 
 	@SubscribeEvent

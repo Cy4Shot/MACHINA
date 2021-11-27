@@ -29,8 +29,8 @@
 
 package com.machina.api.client;
 
-import com.cy4.machina.starchart.PlanetData;
-import com.cy4.machina.starchart.Starchart;
+import com.machina.api.starchart.PlanetData;
+import com.machina.api.starchart.Starchart;
 import com.machina.api.util.MachinaRL;
 
 import net.minecraft.util.ResourceLocation;

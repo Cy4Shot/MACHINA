@@ -35,18 +35,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.cy4.machina.client.ClientSetup;
-import com.cy4.machina.config.ClientConfig;
-import com.cy4.machina.config.CommonConfig;
-import com.cy4.machina.config.ServerConfig;
+import com.cy4.machina.init.BlockItemInit;
 import com.cy4.machina.init.CommandInit;
 import com.cy4.machina.init.ItemInit;
-import com.cy4.machina.network.MachinaNetwork;
-import com.cy4.machina.starchart.pool.PlanetTraitPoolManager;
-import com.cy4.machina.world.DynamicDimensionHelper;
-import com.cy4.machina.world.data.PlanetDimensionData;
-import com.cy4.machina.world.data.StarchartData;
+import com.machina.api.ModIDs;
+import com.machina.api.config.MachinaClientConfig;
+import com.machina.api.config.MachinaCommonConfig;
+import com.machina.api.config.MachinaServerConfig;
+import com.machina.api.network.machina.MachinaNetwork;
 import com.machina.api.registry.annotation.RegistryAnnotationProcessor;
 import com.machina.api.util.MachinaRL;
+import com.machina.api.world.DynamicDimensionHelper;
+import com.machina.api.world.data.PlanetDimensionData;
+import com.machina.api.world.data.StarchartData;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -73,9 +74,8 @@ import software.bernie.geckolib3.GeckoLib;
 public class Machina {
 
 	public static final Logger LOGGER = LogManager.getLogger();
-	public static final String MOD_ID = "machina";
+	public static final String MOD_ID = ModIDs.MACHINA;
 
-	public static PlanetTraitPoolManager traitPoolManager = new PlanetTraitPoolManager();
 	public static final ResourceLocation MACHINA_ID = new MachinaRL(MOD_ID);
 
 	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
@@ -83,6 +83,10 @@ public class Machina {
 
 	public static final RegistryAnnotationProcessor REGISTRY_PROCESSOR = new RegistryAnnotationProcessor(MOD_ID);
 
+	static {
+		REGISTRY_PROCESSOR.addAutoBlockItems(BlockItemInit.AUTO_BLOCK_ITEMS);
+	}
+	
 	public Machina() {
 		GeckoLib.initialize();
 
@@ -93,6 +97,7 @@ public class Machina {
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		REGISTRY_PROCESSOR.setBlockItemTab(MACHINA_ITEM_GROUP);
 		REGISTRY_PROCESSOR.register(modBus);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
@@ -105,9 +110,9 @@ public class Machina {
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
 		// forgeBus.addListener(EventPriority.HIGH, TraitHandlers::handleSuperHot);
 
-		ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.SPEC, MOD_ID + "/common.toml");
-		ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.SPEC, MOD_ID + "/client.toml");
-		ModLoadingContext.get().registerConfig(Type.SERVER, ServerConfig.SPEC, "machina-server.toml");
+		ModLoadingContext.get().registerConfig(Type.COMMON, MachinaCommonConfig.SPEC, MOD_ID + "/common.toml");
+		ModLoadingContext.get().registerConfig(Type.CLIENT, MachinaClientConfig.SPEC, MOD_ID + "/client.toml");
+		ModLoadingContext.get().registerConfig(Type.SERVER, MachinaServerConfig.SPEC, "machina-server.toml");
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

@@ -27,18 +27,19 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.world;
+package com.machina.api.world;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import com.cy4.machina.Machina;
 import com.cy4.machina.init.PlanetTraitInit;
-import com.cy4.machina.world.data.StarchartData;
-import com.machina.api.planet.PlanetUtils;
+import com.machina.api.ModIDs;
 import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.util.MachinaRL;
+import com.machina.api.util.PlanetUtils;
+import com.machina.api.world.data.StarchartData;
 import com.mojang.serialization.Codec;
 //import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -99,7 +100,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	public DynamicDimensionChunkGenerator(Registry<Biome> biomes) {
 		super(new SingleBiomeProvider(
-				biomes.getOrThrow(RegistryKey.create(Registry.BIOME_REGISTRY, Machina.MACHINA_ID))),
+				biomes.getOrThrow(RegistryKey.create(Registry.BIOME_REGISTRY, new MachinaRL(ModIDs.MACHINA)))),
 				new DynamicStructureSettings());
 		this.biomes = biomes;
 		surfaceNoise = (new PerlinNoiseGenerator(new SharedSeedRandom(), IntStream.rangeClosed(-3, 0)));

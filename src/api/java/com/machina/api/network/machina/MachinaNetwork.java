@@ -27,30 +27,45 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.world;
+package com.machina.api.network.machina;
 
-import com.cy4.machina.Machina;
+import java.util.function.Function;
+
+import com.machina.api.network.BaseNetwork;
+import com.machina.api.network.machina.message.C2SDevPlanetCreationGUI;
+import com.machina.api.network.machina.message.S2CSyncStarchart;
+import com.machina.api.network.message.INetworkMessage;
 import com.machina.api.util.MachinaRL;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.DimensionType;
+import net.minecraft.network.PacketBuffer;
 
-public class DynamicDimensionFactory {
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 
-	public static final RegistryKey<DimensionType> TYPE_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
-			Machina.MACHINA_ID);
+public class MachinaNetwork extends BaseNetwork {
 
-	public static final RegistryKey<DimensionType> SUPERHOT_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
-			new MachinaRL("superhot"));
+	public static final String NETWORK_VERSION = "0.1.0";
 
-	public static Dimension createDimension(MinecraftServer server, RegistryKey<Dimension> key) {
-		return new Dimension(() -> getDimensionType(server), new DynamicDimensionChunkGenerator(server, key));
+	public static final SimpleChannel CHANNEL = newSimpleChannel("channel");
+
+	public static void init() {
+		registerServerToClient(S2CSyncStarchart.class, S2CSyncStarchart::decode);
+		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
 	}
 
-	public static DimensionType getDimensionType(MinecraftServer server) {
-		return server.registryAccess().registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getOrThrow(TYPE_KEY);
+	private static SimpleChannel newSimpleChannel(String name) {
+		return NetworkRegistry.newSimpleChannel(new MachinaRL(name), () -> NETWORK_VERSION,
+				version -> version.equals(NETWORK_VERSION), version -> version.equals(NETWORK_VERSION));
 	}
+
+	private static <M extends INetworkMessage> void registerServerToClient(Class<M> type,
+			Function<PacketBuffer, M> decoder) {
+		registerServerToClient(CHANNEL, type, decoder);
+	}
+
+	private static <M extends INetworkMessage> void registerClientToServer(Class<M> type,
+			Function<PacketBuffer, M> decoder) {
+		registerClientToServer(CHANNEL, type, decoder);
+	}
+
 }

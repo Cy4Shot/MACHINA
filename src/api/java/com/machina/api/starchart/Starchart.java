@@ -27,14 +27,14 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.starchart;
+package com.machina.api.starchart;
 
 import java.util.Random;
 
-import com.cy4.machina.config.CommonConfig;
-import com.cy4.machina.util.StringUtils;
+import com.machina.api.config.MachinaCommonConfig;
 import com.machina.api.nbt.BaseNBTMap;
 import com.machina.api.util.MachinaRL;
+import com.machina.api.util.StringUtils;
 
 import java.util.Optional;
 
@@ -61,8 +61,8 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 	public void generateStarchart(long seed) {
 		planets.clear();
 		Random rand = new Random(seed);
-		int numPlanets = rand.nextInt(CommonConfig.MAX_PLANETS.get() - CommonConfig.MIN_PLANETS.get() + 1)
-				+ CommonConfig.MIN_PLANETS.get();
+		int numPlanets = rand.nextInt(MachinaCommonConfig.MAX_PLANETS.get() - MachinaCommonConfig.MIN_PLANETS.get() + 1)
+				+ MachinaCommonConfig.MIN_PLANETS.get();
 
 		for (int i = 0; i < numPlanets; i++) {
 			planets.put(new MachinaRL(i), new PlanetData(rand));

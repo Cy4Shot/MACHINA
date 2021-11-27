@@ -27,45 +27,49 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.network;
+package com.machina.api.network.machina.message;
 
-import java.util.function.Function;
-
-import com.cy4.machina.network.message.C2SDevPlanetCreationGUI;
-import com.cy4.machina.network.message.S2CSyncStarchart;
-import com.machina.api.network.BaseNetwork;
 import com.machina.api.network.message.INetworkMessage;
-import com.machina.api.util.MachinaRL;
+import com.machina.api.world.DynamicDimensionHelper;
 
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.server.ServerWorld;
 
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class MachinaNetwork extends BaseNetwork {
+public class C2SDevPlanetCreationGUI implements INetworkMessage {
 
-	public static final String NETWORK_VERSION = "0.1.0";
+	public final ActionType action;
+	public final int dimensionID;
 
-	public static final SimpleChannel CHANNEL = newSimpleChannel("channel");
-
-	public static void init() {
-		registerServerToClient(S2CSyncStarchart.class, S2CSyncStarchart::decode);
-		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
+	public C2SDevPlanetCreationGUI(ActionType action, int dimensionID) {
+		this.action = action;
+		this.dimensionID = dimensionID;
 	}
 
-	private static SimpleChannel newSimpleChannel(String name) {
-		return NetworkRegistry.newSimpleChannel(new MachinaRL(name), () -> NETWORK_VERSION,
-				version -> version.equals(NETWORK_VERSION), version -> version.equals(NETWORK_VERSION));
+	@Override
+	public void handle(Context context) {
+		ServerWorld world = DynamicDimensionHelper.createPlanet(context.getSender().getServer(),
+				String.valueOf(dimensionID));
+		if (action == ActionType.TELEPORT) {
+			DynamicDimensionHelper.sendPlayerToDimension(context.getSender(), world, context.getSender().position());
+		}
 	}
 
-	private static <M extends INetworkMessage> void registerServerToClient(Class<M> type,
-			Function<PacketBuffer, M> decoder) {
-		registerServerToClient(CHANNEL, type, decoder);
+	@Override
+	public void encode(PacketBuffer buffer) {
+		buffer.writeEnum(action);
+		buffer.writeInt(dimensionID);
 	}
 
-	private static <M extends INetworkMessage> void registerClientToServer(Class<M> type,
-			Function<PacketBuffer, M> decoder) {
-		registerClientToServer(CHANNEL, type, decoder);
+	public static C2SDevPlanetCreationGUI decode(PacketBuffer buffer) {
+		ActionType action = buffer.readEnum(ActionType.class);
+		int dimensionID = buffer.readInt();
+		return new C2SDevPlanetCreationGUI(action, dimensionID);
+	}
+
+	public enum ActionType {
+		CREATE, TELEPORT;
 	}
 
 }

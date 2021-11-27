@@ -27,34 +27,31 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.recipe.ac.function;
+package com.machina.api.util;
 
-import com.google.gson.JsonObject;
-import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunction;
-import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
-@RegistryHolder
-public class EmptyFunction extends AdvancedCraftingFunction {
+public class StringUtils {
 
-	@RegisterACFunctionSerializer("no_function")
-	public static final Serializer SERIALIZER = new Serializer();
+	public static final String TREE_V = "\u2502";
+	public static final String TREE_H = "\u2500";
+	public static final String TREE_F = "\u251c";
+	public static final String TREE_L = "\u2514";
 
-	public static final JsonObject EMTPY_OBJECT = createJsonObj();
+	public static final Charset utf8Charset = Charset.forName("UTF-8");
+	public static final Charset defaultCharset = Charset.defaultCharset();
 
-	private static JsonObject createJsonObj() {
-		JsonObject obj = new JsonObject();
-		obj.addProperty("type", "machina:no_function");
-		return obj;
-	}
+	public static void printlnUtf8(String msg) {
+		try {
+			byte[] sourceBytes = msg.getBytes("UTF-8");
+			String data = new String(sourceBytes, defaultCharset.name());
 
-	public static final class Serializer extends AdvancedCraftingFunctionSerializer<EmptyFunction> {
-
-		@Override
-		public EmptyFunction deserialize(JsonObject obj) {
-			return new EmptyFunction();
+			PrintStream out = new PrintStream(System.out, true, utf8Charset.name());
+			out.println(data);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 	}
-
 }

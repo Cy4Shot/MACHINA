@@ -27,49 +27,44 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.network.message;
+package com.machina.api.network.machina.message;
 
-import com.cy4.machina.world.DynamicDimensionHelper;
+import com.machina.api.client.ClientStarchartHolder;
 import com.machina.api.network.message.INetworkMessage;
+import com.machina.api.starchart.Starchart;
 
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.server.ServerWorld;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class C2SDevPlanetCreationGUI implements INetworkMessage {
+public class S2CSyncStarchart implements INetworkMessage {
 
-	public final ActionType action;
-	public final int dimensionID;
+	private Starchart sc;
 
-	public C2SDevPlanetCreationGUI(ActionType action, int dimensionID) {
-		this.action = action;
-		this.dimensionID = dimensionID;
+	public S2CSyncStarchart(Starchart starchart) {
+		sc = starchart;
 	}
 
 	@Override
 	public void handle(Context context) {
-		ServerWorld world = DynamicDimensionHelper.createPlanet(context.getSender().getServer(),
-				String.valueOf(dimensionID));
-		if (action == ActionType.TELEPORT) {
-			DynamicDimensionHelper.sendPlayerToDimension(context.getSender(), world, context.getSender().position());
-		}
+		context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClient(this, context)));
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	private void handleClient(S2CSyncStarchart msg, NetworkEvent.Context ctx) {
+		ClientStarchartHolder.setStarchart(msg.sc);
 	}
 
 	@Override
 	public void encode(PacketBuffer buffer) {
-		buffer.writeEnum(action);
-		buffer.writeInt(dimensionID);
+		buffer.writeNbt(sc.serializeNBT());
 	}
 
-	public static C2SDevPlanetCreationGUI decode(PacketBuffer buffer) {
-		ActionType action = buffer.readEnum(ActionType.class);
-		int dimensionID = buffer.readInt();
-		return new C2SDevPlanetCreationGUI(action, dimensionID);
+	public static S2CSyncStarchart decode(PacketBuffer buffer) {
+		return new S2CSyncStarchart(new Starchart(buffer.readNbt()));
 	}
-
-	public enum ActionType {
-		CREATE, TELEPORT;
-	}
-
 }

@@ -32,7 +32,6 @@ package com.machina.api.planet.trait;
 import java.util.List;
 import java.util.Optional;
 
-import com.cy4.machina.init.PlanetTraitInit;
 import com.google.common.collect.Lists;
 import com.machina.api.annotation.ChangedByReflection;
 import com.machina.api.planet.attribute.PlanetAttributeList;
@@ -121,7 +120,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 	}
 
 	public boolean exists() {
-		return this != PlanetTraitInit.NOT_EXISTING;
+		return this != DefaultPlanetTraits.NOT_EXISTING;
 	}
 
 	public TextureAtlasSprite getIcon() { return PlanetTraitSpriteUploader.getFromInstance(this); }

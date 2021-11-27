@@ -35,10 +35,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.cy4.machina.compat.jei.category.AdvancedCraftingRecipeExtension;
 import com.cy4.machina.compat.jei.trait.PlanetTraitJEIHelper;
 import com.cy4.machina.compat.jei.trait.PlanetTraitJEIRenderer;
 import com.cy4.machina.init.RecipeInit;
+import com.machina.api.compat.jei.AdvancedCraftingRecipeExtension;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
 import com.machina.api.util.MachinaRL;

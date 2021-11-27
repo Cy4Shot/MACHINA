@@ -243,7 +243,8 @@ shadowJar {
 }
 
 jar {
-	from([sourceSets.api, sourceSets.main])
+	from sourceSets.main.output
+	from sourceSets.api.output
 
     manifest {
         attributes([

@@ -27,44 +27,15 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.network.message;
+package com.machina.api.world;
 
-import com.cy4.machina.starchart.Starchart;
-import com.machina.api.client.ClientStarchartHolder;
-import com.machina.api.network.message.INetworkMessage;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 
-import net.minecraft.network.PacketBuffer;
+public class DynamicStructureSettings extends DimensionStructuresSettings {
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
-
-public class S2CSyncStarchart implements INetworkMessage {
-
-	private Starchart sc;
-
-	public S2CSyncStarchart(Starchart starchart) {
-		sc = starchart;
+	public DynamicStructureSettings() {
+		super(false);
+		structureConfig.clear();
 	}
 
-	@Override
-	public void handle(Context context) {
-		context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClient(this, context)));
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	private void handleClient(S2CSyncStarchart msg, NetworkEvent.Context ctx) {
-		ClientStarchartHolder.setStarchart(msg.sc);
-	}
-
-	@Override
-	public void encode(PacketBuffer buffer) {
-		buffer.writeNbt(sc.serializeNBT());
-	}
-
-	public static S2CSyncStarchart decode(PacketBuffer buffer) {
-		return new S2CSyncStarchart(new Starchart(buffer.readNbt()));
-	}
 }

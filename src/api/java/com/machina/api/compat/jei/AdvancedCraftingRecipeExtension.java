@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.compat.jei.category;
+package com.machina.api.compat.jei;
 
 import java.util.LinkedList;
 import java.util.List;

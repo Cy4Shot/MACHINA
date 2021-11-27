@@ -36,7 +36,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.cy4.machina.Machina;
+import com.machina.api.ModIDs;
 
 @Documented
 @Retention(RUNTIME)
@@ -50,5 +50,5 @@ public @interface RegistryHolder {
 	 * 
 	 * @return
 	 */
-	String modid() default Machina.MOD_ID;
+	String modid() default ModIDs.MACHINA;
 }

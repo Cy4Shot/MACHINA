@@ -27,16 +27,16 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.world.data;
+package com.machina.api.world.data;
 
-import static com.cy4.machina.Machina.MOD_ID;
+import static com.machina.api.ModIDs.MACHINA;
 
 import javax.annotation.WillNotClose;
 
-import com.cy4.machina.network.MachinaNetwork;
-import com.cy4.machina.network.message.S2CSyncStarchart;
-import com.cy4.machina.starchart.Starchart;
 import com.machina.api.network.BaseNetwork;
+import com.machina.api.network.machina.MachinaNetwork;
+import com.machina.api.network.machina.message.S2CSyncStarchart;
+import com.machina.api.starchart.Starchart;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -56,7 +56,7 @@ public class StarchartData extends WorldSavedData {
 		isGenerated = false;
 	}
 
-	private static final String ID = MOD_ID + "_starchart";
+	private static final String ID = MACHINA + "_starchart";
 
 	public static StarchartData getDefaultInstance(@WillNotClose MinecraftServer server) {
 		ServerWorld w = server.getLevel(World.OVERWORLD);
@@ -72,7 +72,7 @@ public class StarchartData extends WorldSavedData {
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {
 		nbt.putBoolean("generated", isGenerated);
-		nbt.putString("dataOwnerMod", MOD_ID);
+		nbt.putString("dataOwnerMod", MACHINA);
 		return starchart.serializeNBT(nbt);
 	}
 

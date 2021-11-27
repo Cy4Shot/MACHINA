@@ -27,31 +27,23 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.config;
-
-import com.machina.api.config.BaseTOMLConfig;
+package com.machina.api.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
-public class CommonConfig extends BaseTOMLConfig {
+public class MachinaClientConfig extends BaseTOMLConfig {
 
 	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 	public static final ForgeConfigSpec SPEC;
+	public static final ForgeConfigSpec.ConfigValue<Boolean> DISABLE_EXPERIMENTAL_SETTINGS_SCREEN;
 
-	// Bad Cy4, not caring about syntax THIS IS A CONSTANT
-	public static final ForgeConfigSpec.ConfigValue<Integer> MIN_PLANETS;
-	public static final ForgeConfigSpec.ConfigValue<Integer> MAX_PLANETS;
-
-	//@formatter:off
 	static {
-		BUILDER.push("Config for Machina!");
+		BUILDER.push("generalConfig");
 
-		// WHY is order messed up
-		MIN_PLANETS = config("Minimum planets in the starchart.", "minimumPlanets", 5);
-		MAX_PLANETS = config("Maximum planets in the starchart.", "maximumPlanets", 10);
+		DISABLE_EXPERIMENTAL_SETTINGS_SCREEN = config("If the experimentals settings screen should be disabled.",
+				"disableExperimentalSettingsScreen", true);
 
-		BUILDER.pop();
 		SPEC = BUILDER.build();
 	}
 

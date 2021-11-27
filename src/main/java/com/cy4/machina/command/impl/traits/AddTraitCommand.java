@@ -29,10 +29,10 @@
 
 package com.cy4.machina.command.impl.traits;
 
-import com.cy4.machina.world.data.StarchartData;
 import com.machina.api.command.argument.PlanetTraitArgument;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.util.helper.StarchartHelper;
+import com.machina.api.world.data.StarchartData;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 

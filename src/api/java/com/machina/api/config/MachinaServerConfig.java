@@ -27,14 +27,12 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.cy4.machina.config;
-
-import com.machina.api.config.BaseTOMLConfig;
+package com.machina.api.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
-public class ServerConfig extends BaseTOMLConfig {
+public class MachinaServerConfig extends BaseTOMLConfig {
 
 	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 	public static final ForgeConfigSpec SPEC;
