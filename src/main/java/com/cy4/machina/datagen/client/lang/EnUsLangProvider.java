@@ -39,10 +39,10 @@ import org.apache.logging.log4j.Logger;
 import com.cy4.machina.Machina;
 import com.cy4.machina.init.FluidInit;
 import com.cy4.machina.init.ItemInit;
-import com.cy4.machina.init.MachinaRegistries;
 import com.cy4.machina.init.PlanetTraitInit;
 import com.google.common.collect.Lists;
 import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.registry.annotation.MachinaRegistries;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;

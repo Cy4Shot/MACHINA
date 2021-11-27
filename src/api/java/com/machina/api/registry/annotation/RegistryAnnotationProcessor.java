@@ -29,7 +29,7 @@
 
 package com.machina.api.registry.annotation;
 
-import static com.cy4.machina.init.MachinaRegistries.*;
+import static com.machina.api.registry.annotation.MachinaRegistries.*;
 import static java.util.Optional.of;
 
 import java.lang.annotation.Annotation;
@@ -50,7 +50,6 @@ import org.objectweb.asm.Type;
 
 import com.cy4.machina.Machina;
 import com.cy4.machina.init.BlockItemInit;
-import com.cy4.machina.init.MachinaRegistries;
 import com.cy4.machina.util.ReflectionHelper;
 import com.google.common.collect.Lists;
 import com.machina.api.planet.attribute.PlanetAttributeType;
