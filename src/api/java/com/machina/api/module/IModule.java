@@ -30,7 +30,9 @@
 
 package com.machina.api.module;
 
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -66,6 +68,15 @@ public interface IModule {
 	default void register(final IEventBus modBus, final IEventBus forgeBus) {
 		modBus.addListener(this::onCommonSetup);
 		modBus.addListener(this::onClientSetup);
+	}
+	
+	/**
+	 * TODO make this work without static initialisers
+	 * @param configType
+	 * @param builder
+	 */
+	default void initConfig(final Type configType, final ForgeConfigSpec.Builder builder) {
+		
 	}
 
 }

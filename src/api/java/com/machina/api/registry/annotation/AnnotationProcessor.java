@@ -106,6 +106,11 @@ public class AnnotationProcessor {
 
 	protected Function<Block, ItemGroup> autoBlockItemTab = (block) -> ItemGroup.TAB_MISC;
 
+	protected final ArrayList<Class<?>> registryClasses = new ArrayList<>();
+
+	protected final ArrayList<Class<?>> moduleClasses = new ArrayList<>();
+	protected final HashMap<ResourceLocation, IModule> modules = new HashMap<>();
+	
 	/**
 	 * Creates a new {@link AnnotationProcessor} which will be used in order to
 	 * process annotations. It is recommended to store this statically somewhere.
@@ -122,6 +127,8 @@ public class AnnotationProcessor {
 		return MachinaRegistries.ITEMS.get(ownerModID) != null ? MachinaRegistries.ITEMS.get(ownerModID)
 				: Lists.newArrayList();
 	}
+	
+	public HashMap<ResourceLocation, IModule> getModules() { return modules; }
 
 	/**
 	 * Adds listeners for all the methods that process annotations. Basically starts
@@ -159,11 +166,6 @@ public class AnnotationProcessor {
 
 		initRegistryClasses();
 	}
-
-	protected final ArrayList<Class<?>> registryClasses = new ArrayList<>();
-
-	protected final ArrayList<Class<?>> moduleClasses = new ArrayList<>();
-	protected final HashMap<ResourceLocation, IModule> modules = new HashMap<>();
 
 	private void initRegistryClasses() {
 		final List<ModFileScanData.AnnotationData> regAnnotations = ModList.get().getAllScanData().stream()

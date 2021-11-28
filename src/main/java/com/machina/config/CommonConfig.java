@@ -50,7 +50,7 @@ public class CommonConfig extends BaseTOMLConfig {
 		// WHY is order messed up
 		MIN_PLANETS = config("Minimum planets in the starchart.", "minimumPlanets", 5);
 		MAX_PLANETS = config("Maximum planets in the starchart.", "maximumPlanets", 10);
-
+		
 		BUILDER.pop();
 		SPEC = BUILDER.build();
 	}
