@@ -27,19 +27,21 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.block;
+package com.machina.modules.rocket.block;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 
-public class AnimatedBuilder extends Block {
+public class AnimatedBuilderMount extends Block {
 
 	public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
-	public AnimatedBuilder(Properties properties) {
-		super(properties);
+	public AnimatedBuilderMount() {
+		super(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
 		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATED, Boolean.FALSE));
 	}
 

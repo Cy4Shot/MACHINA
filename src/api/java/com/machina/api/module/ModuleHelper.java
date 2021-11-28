@@ -1,5 +1,6 @@
 /**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license:
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
+ * under the MIT license:
  *
  * MIT License
  *
@@ -12,8 +13,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -27,24 +28,28 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.block;
+package com.machina.api.module;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
+import net.minecraft.client.gui.IHasContainer;
+import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
 
-public class AnimatedBuilderMount extends Block {
-
-	public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
-
-	public AnimatedBuilderMount(Properties properties) {
-		super(properties);
-		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATED, Boolean.FALSE));
+public class ModuleHelper {
+	
+	public static <M extends Container, U extends Screen & IHasContainer<M>> void registerScreen(
+			ContainerType<? extends M> pType, ScreenManager.IScreenFactory<M, U> pFactory) {
+		ScreenManager.register(pType, pFactory);
+	}
+	
+	/* Render Layers */
+	
+	public static void cutout(Block block) {
+		RenderTypeLookup.setRenderLayer(block, RenderType.cutout());
 	}
 
-	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> stateBuilder) {
-		stateBuilder.add(ACTIVATED);
-	}
 }

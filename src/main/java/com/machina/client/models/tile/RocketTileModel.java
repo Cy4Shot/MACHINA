@@ -30,7 +30,7 @@
 package com.machina.client.models.tile;
 
 import com.machina.Machina;
-import com.machina.tile_entity.RocketTile;
+import com.machina.modules.rocket.tile_entity.RocketTile;
 
 import net.minecraft.util.ResourceLocation;
 

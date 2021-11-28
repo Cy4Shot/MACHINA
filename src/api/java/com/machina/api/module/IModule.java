@@ -30,12 +30,6 @@
 
 package com.machina.api.module;
 
-import net.minecraft.client.gui.IHasContainer;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -72,17 +66,6 @@ public interface IModule {
 	default void register(final IEventBus modBus, final IEventBus forgeBus) {
 		modBus.addListener(this::onCommonSetup);
 		modBus.addListener(this::onClientSetup);
-	}
-
-	/*
-	 * ===================================================================
-	 * ========================= HELPER METHODS =============================
-	 * ===================================================================
-	 */
-
-	static <M extends Container, U extends Screen & IHasContainer<M>> void registerScreen(
-			ContainerType<? extends M> pType, ScreenManager.IScreenFactory<M, U> pFactory) {
-		ScreenManager.register(pType, pFactory);
 	}
 
 }

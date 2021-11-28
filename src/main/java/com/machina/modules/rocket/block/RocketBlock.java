@@ -27,26 +27,37 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.datagen.common;
+package com.machina.modules.rocket.block;
 
-import static com.machina.Machina.MOD_ID;
-
-import com.machina.init.TagInit;
 import com.machina.modules.rocket.RocketModule;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockReader;
 
-import net.minecraftforge.common.data.ExistingFileHelper;
+public class RocketBlock extends Block {
 
-public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
-
-	public BlockTagsProvider(DataGenerator pGenerator, ExistingFileHelper existingFileHelper) {
-		super(pGenerator, MOD_ID, existingFileHelper);
+	public RocketBlock() {
+		super(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE).noOcclusion());
 	}
 
 	@Override
-	protected void addTags() {
-		tag(TagInit.Blocks.WRENCH_EFFECTIVE).add(RocketModule.CONSOLE_BLOCK).add(RocketModule.ROCKET_BLOCK).add(RocketModule.ROCKET_MOUNT_BLOCK);
+	public boolean hasTileEntity(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return RocketModule.ROCKET_TILE.create();
+	}
+
+	@Override
+	public BlockRenderType getRenderShape(BlockState state) {
+		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 
 }

@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.block;
+package com.machina.modules.rocket.block;
 
 import java.util.List;
 
@@ -37,11 +37,13 @@ import com.google.common.collect.Lists;
 import com.machina.api.util.DiagonalDirection;
 import com.machina.block.properties.ActivationState;
 import com.machina.block.properties.RelayPosState;
-import com.machina.init.BlockInit;
 import com.machina.init.ItemInit;
+import com.machina.modules.rocket.RocketModule;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -59,8 +61,8 @@ public class ConsoleBlock extends Block {
 
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
-	public ConsoleBlock(Properties properties) {
-		super(properties);
+	public ConsoleBlock() {
+		super(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE).noOcclusion());
 		this.registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
@@ -247,7 +249,7 @@ public class ConsoleBlock extends Block {
 	}
 	
 	public boolean checkForRelayBelow(World worldIn, BlockPos posIn) {
-		if (worldIn.getBlockState(posIn.below()).is(BlockInit.PAD_SIZE_RELAY)) {
+		if (worldIn.getBlockState(posIn.below()).is(RocketModule.PAD_SIZE_RELAY_BLOCK)) {
 			return true;
 		} else {
 			return false;

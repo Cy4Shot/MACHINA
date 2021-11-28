@@ -42,27 +42,6 @@ import net.minecraft.item.Item;
 public final class BlockItemInit {
 
 	@RegisterBlockItem
-	public static final BlockItem ROCKET_PLATFORM_BLOCKITEM = createBlockItem(BlockInit.ROCKET_PLATFORM_BLOCK);
-
-	@RegisterBlockItem
-	public static final BlockItem ANIMATED_BUILDER_MOUNT_BLOCKITEM = createBlockItem(BlockInit.ANIMATED_BUILDER_MOUNT);
-
-	@RegisterBlockItem
-	public static final BlockItem ANIMATED_BUILDER_BLOCKITEM = createBlockItem(BlockInit.ANIMATED_BUILDER);
-
-	@RegisterBlockItem
-	public static final BlockItem PAD_SIZE_RELAY_BLOCKITEM = createBlockItem(BlockInit.PAD_SIZE_RELAY);
-
-	@RegisterBlockItem
-	public static final BlockItem CONSOLE_BLOCKITEM = createBlockItem(BlockInit.CONSOLE);
-
-	@RegisterBlockItem
-	public static final BlockItem ROCKET_BLOCKITEM = createBlockItem(BlockInit.ROCKET);
-
-	@RegisterBlockItem
-	public static final BlockItem ROCKET_MOUNT_BLOCKITEM = createBlockItem(BlockInit.ROCKET_MOUNT);
-
-	@RegisterBlockItem
 	public static final BlockItem TANK_BLOCK_ITEM = createBlockItem(BlockInit.TANK);
 
 	private static BlockItem createBlockItem(Block block) {

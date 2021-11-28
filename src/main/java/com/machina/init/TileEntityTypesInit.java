@@ -31,17 +31,12 @@ package com.machina.init;
 
 import com.machina.api.registry.annotation.RegisterTileEntityType;
 import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.tile_entity.RocketTile;
 import com.machina.tile_entity.TankTileEntity;
 
 import net.minecraft.tileentity.TileEntityType;
 
 @RegistryHolder
 public class TileEntityTypesInit {
-
-	@RegisterTileEntityType("rocket_tile")
-	public static final TileEntityType<RocketTile> ROCKET_TILE = TileEntityType.Builder
-			.of(RocketTile::new, BlockInit.ROCKET).build(null);
 
 	@RegisterTileEntityType("tank")
 	public static final TileEntityType<TankTileEntity> TANK_TILE_ENTITY_TYPE = TileEntityType.Builder

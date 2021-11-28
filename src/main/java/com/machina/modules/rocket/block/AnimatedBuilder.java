@@ -27,35 +27,26 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.block;
+package com.machina.modules.rocket.block;
 
-import com.machina.init.TileEntityTypesInit;
-
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.block.Blocks;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 
-public class RocketBlock extends Block {
+public class AnimatedBuilder extends Block {
 
-	public RocketBlock(Properties properties) {
-		super(properties);
+	public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
+
+	public AnimatedBuilder() {
+		super(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
+		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATED, Boolean.FALSE));
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> stateBuilder) {
+		stateBuilder.add(ACTIVATED);
 	}
-
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityTypesInit.ROCKET_TILE.create();
-	}
-
-	@Override
-	public BlockRenderType getRenderShape(BlockState state) {
-		return BlockRenderType.ENTITYBLOCK_ANIMATED;
-	}
-
 }

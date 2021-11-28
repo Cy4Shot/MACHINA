@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.block;
+package com.machina.modules.rocket.block;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,11 +40,13 @@ import com.machina.api.util.MachinaLangTextComponent;
 import com.machina.block.properties.ActivationState;
 import com.machina.block.properties.RelayPosState;
 import com.machina.client.MachinaLang;
-import com.machina.init.BlockInit;
 import com.machina.init.ItemInit;
+import com.machina.modules.rocket.RocketModule;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -63,8 +65,8 @@ public class RocketMount extends Block {
 	public static final EnumProperty<RelayPosState> RELAY_POS_STATE = EnumProperty.create("relay_pos_state",
 			RelayPosState.class, RelayPosState.values());
 
-	public RocketMount(Properties properties) {
-		super(properties);
+	public RocketMount() {
+		super(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
 		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATION_STATE, ActivationState.UN_POWERED)
 				.setValue(RELAY_POS_STATE, RelayPosState.N_A));
 	}
@@ -159,7 +161,7 @@ public class RocketMount extends Block {
 	}
 
 	public static boolean checkForRelay(World world, BlockPos pos) {
-		return world.getBlockState(pos).is(BlockInit.PAD_SIZE_RELAY) && world.getBlockState(pos).getValue(PadSizeRelay.ACTIVATION_STATE) == ActivationState.NOT_ACTIVE;
+		return world.getBlockState(pos).is(RocketModule.PAD_SIZE_RELAY_BLOCK) && world.getBlockState(pos).getValue(PadSizeRelay.ACTIVATION_STATE) == ActivationState.NOT_ACTIVE;
 	}
 
 	

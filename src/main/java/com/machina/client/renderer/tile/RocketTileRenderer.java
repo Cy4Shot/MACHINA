@@ -30,7 +30,7 @@
 package com.machina.client.renderer.tile;
 
 import com.machina.client.models.tile.RocketTileModel;
-import com.machina.tile_entity.RocketTile;
+import com.machina.modules.rocket.tile_entity.RocketTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 

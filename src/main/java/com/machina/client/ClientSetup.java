@@ -34,10 +34,9 @@ import com.machina.api.planet.trait.PlanetTraitSpriteUploader;
 import com.machina.client.dimension.CustomDimensionRenderInfo;
 import com.machina.client.particle.ElectricitySparkParticle;
 import com.machina.client.renderer.tile.RocketTileRenderer;
-import com.machina.init.BlockInit;
 import com.machina.init.FluidInit;
 import com.machina.init.ParticleTypesInit;
-import com.machina.init.TileEntityTypesInit;
+import com.machina.modules.rocket.RocketModule;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -88,8 +87,7 @@ public class ClientSetup {
 
 	@SubscribeEvent
 	public static void registerRenderers(final FMLClientSetupEvent event) {
-		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.ROCKET_TILE, RocketTileRenderer::new);
-		RenderTypeLookup.setRenderLayer(BlockInit.ROCKET, RenderType.cutout());
+		ClientRegistry.bindTileEntityRenderer(RocketModule.ROCKET_TILE, RocketTileRenderer::new);
 
 		translucent(FluidInit.LIQUID_HYDROGEN.get());
 		translucent(FluidInit.LIQUID_HYDROGEN_FLOWING.get());

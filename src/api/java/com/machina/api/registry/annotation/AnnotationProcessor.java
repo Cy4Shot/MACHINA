@@ -93,7 +93,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
  * package {@link com.machina.api.annotation.registries}), and {@link Module}
  * annotations (and such it handles {@link IModule}s as well). <br>
  * Any exception that will be caught during the processing <strong>will be
- * thrown back</strong> as a {@link RegistryException}
+ * thrown back</strong> as a {@link ProcessingException}
  *
  * @author matyrobbrt
  *
@@ -182,7 +182,7 @@ public class AnnotationProcessor {
 							}
 						}
 					} catch (ClassNotFoundException e) {
-						throw new RegistryException("A class which holds registry annotations was not found!", e);
+						throw new ProcessingException("A class which holds registry annotations was not found!", e);
 					}
 				});
 	}
@@ -205,17 +205,22 @@ public class AnnotationProcessor {
 							constructor.setAccessible(true);
 							Object instance = constructor.newInstance();
 							if (instance instanceof IModule) {
-								modules.put(new ResourceLocation(id.modid(), id.path()), (IModule) instance);
+								ResourceLocation name = new ResourceLocation(id.modid(), id.path());
+								if (!modules.containsKey(name)) {
+									modules.put(name, (IModule) instance);
+								} else {
+									throw new ProcessingException("Duplicate module id " + name);
+								}
 							} else {
-								throw new RegistryException(
+								throw new ProcessingException(
 										"The module " + clazz + " is not an instace of " + IModule.class);
 							}
 						}
 					} catch (IllegalAccessError | InstantiationException | IllegalAccessException
 							| NoSuchMethodException | InvocationTargetException e) {
-						throw new RegistryException(e);
+						throw new ProcessingException(e);
 					} catch (ClassNotFoundException e) {
-						throw new RegistryException("A class which is a module was not found!", e);
+						throw new ProcessingException("A class which is a module was not found!", e);
 					} catch (SecurityException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -231,7 +236,7 @@ public class AnnotationProcessor {
 		AnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, RegisterBlockItem.class,
 				(classAn, fieldAn, obj) -> {
 					if (obj instanceof BlockItem) { return ((BlockItem) obj).getBlock().getRegistryName(); }
-					throw new RegistryException("Invalid BlockItem");
+					throw new ProcessingException("Invalid BlockItem");
 				}, Optional.empty());
 		registerAutoBIs(event);
 	}
@@ -246,11 +251,11 @@ public class AnnotationProcessor {
 					event.getRegistry().register(item.setRegistryName(block.getRegistryName()));
 				} else {
 					//@formatter:off
-					throw new RegistryException("The field " + field + " is annotated with @AutoBlockItem but it is not a block!");
+					throw new ProcessingException("The field " + field + " is annotated with @AutoBlockItem but it is not a block!");
 					//@formatter:on
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				throw new RegistryException("Registry Annotations Failed!", e);
+				throw new ProcessingException("Registry Annotations Failed!", e);
 			}
 		});
 	}
@@ -321,11 +326,11 @@ public class AnnotationProcessor {
 					}
 				} else {
 					//@formatter:off
-					throw new RegistryException("The field " + field + " is annotated with @RegisterRecipeType but it is not a recipe type!");
+					throw new ProcessingException("The field " + field + " is annotated with @RegisterRecipeType but it is not a recipe type!");
 					//@formatter:on
 				}
 			} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
-				throw new RegistryException("Registry Annotations Failed!", e);
+				throw new ProcessingException("Registry Annotations Failed!", e);
 			}
 		});
 
@@ -347,10 +352,10 @@ public class AnnotationProcessor {
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				if (e instanceof IllegalArgumentException) {
 					//@formatter:off
-					throw new RegistryException("The method " + method + " is annotated with @RegisterCustomRegistry but it cannot be invoked using only RegistryEvent.NewRegistry as a parameter");
+					throw new ProcessingException("The method " + method + " is annotated with @RegisterCustomRegistry but it cannot be invoked using only RegistryEvent.NewRegistry as a parameter");
 					//@formatter:on
 				}
-				throw new RegistryException(e);
+				throw new ProcessingException(e);
 			}
 		});
 	}
@@ -423,12 +428,12 @@ public class AnnotationProcessor {
 					}
 				} else {
 					//@formatter:off
-					throw new RegistryException("The field " + field + " is annotated with " + annotation + " but it is not a " + objectClass);
+					throw new ProcessingException("The field " + field + " is annotated with " + annotation + " but it is not a " + objectClass);
 					//@formatter:on
 				}
 			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
-				throw new RegistryException("Registry Annotations Failed!", e);
+				throw new ProcessingException("Registry Annotations Failed!", e);
 			}
 		});
 	}
@@ -440,23 +445,23 @@ public class AnnotationProcessor {
 		return null;
 	}
 
-	public static class RegistryException extends RuntimeException {
+	public static class ProcessingException extends RuntimeException {
 
 		private static final long serialVersionUID = 1688668579640237515L;
 
-		public RegistryException() {
+		public ProcessingException() {
 			super();
 		}
 
-		public RegistryException(String message) {
+		public ProcessingException(String message) {
 			super(message);
 		}
 
-		public RegistryException(String message, Throwable cause) {
+		public ProcessingException(String message, Throwable cause) {
 			super(message, cause);
 		}
 
-		public RegistryException(Throwable cause) {
+		public ProcessingException(Throwable cause) {
 			super(cause);
 		}
 	}

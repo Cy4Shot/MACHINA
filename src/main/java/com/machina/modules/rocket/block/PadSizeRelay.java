@@ -27,18 +27,20 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.block;
+package com.machina.modules.rocket.block;
 
 import javax.swing.Timer;
 
 import com.machina.api.util.DiagonalDirection;
 import com.machina.block.properties.ActivationState;
 import com.machina.block.properties.RelayPosState;
-import com.machina.init.BlockInit;
 import com.machina.init.ItemInit;
+import com.machina.modules.rocket.RocketModule;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -57,8 +59,8 @@ public class PadSizeRelay extends Block {
 	public static final EnumProperty<RelayPosState> RELAY_POS_STATE = EnumProperty.create("relay_pos_state", RelayPosState.class, RelayPosState.N_A, RelayPosState.NORTH,
 			RelayPosState.NORTHEAST, RelayPosState.EAST, RelayPosState.SOUTHEAST, RelayPosState.SOUTH, RelayPosState.SOUTHWEST, RelayPosState.WEST, RelayPosState.NORTHWEST, RelayPosState.CENTER);
 
-	public PadSizeRelay(Properties properties) {
-		super(properties);
+	public PadSizeRelay() {
+		super(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
 		this.registerDefaultState(stateDefinition.any()
 				.setValue(ACTIVATION_STATE, ActivationState.UN_POWERED)
 				.setValue(RELAY_POS_STATE, RelayPosState.N_A));
@@ -118,7 +120,7 @@ public class PadSizeRelay extends Block {
 	}
 
 	public boolean checkForCenter(World world, BlockPos pos) {
-		return world.getBlockState(pos).is(BlockInit.ROCKET_MOUNT);
+		return world.getBlockState(pos).is(RocketModule.ROCKET_MOUNT_BLOCK);
 	}
 
 	public static void isConnectingAnimation(BlockPos pos, World worldIn) {

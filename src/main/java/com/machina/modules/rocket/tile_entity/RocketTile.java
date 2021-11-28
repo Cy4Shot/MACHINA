@@ -27,9 +27,9 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.tile_entity;
+package com.machina.modules.rocket.tile_entity;
 
-import com.machina.init.TileEntityTypesInit;
+import com.machina.modules.rocket.RocketModule;
 
 import net.minecraft.tileentity.TileEntity;
 
@@ -53,7 +53,7 @@ public class RocketTile extends TileEntity implements IAnimatable {
 	}
 
 	public RocketTile() {
-		super(TileEntityTypesInit.ROCKET_TILE);
+		super(RocketModule.ROCKET_TILE);
 	}
 
 	@Override

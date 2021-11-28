@@ -317,7 +317,7 @@ jar.finalizedBy('reobfShadowJar')
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
+            artifact allJar
         }
     }
     repositories {
