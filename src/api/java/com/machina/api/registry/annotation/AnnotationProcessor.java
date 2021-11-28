@@ -89,7 +89,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
  * Handles all of the RegistryAnnotations. (all annotations included in this
- * package {@link com.cy4.machina.api.annotation.registries}) <br>
+ * package {@link com.machina.api.annotation.registries}) <br>
  * Any exception that will be caught during the processing <strong>will be
  * thrown back</strong> as a {@link RegistryException}
  *
