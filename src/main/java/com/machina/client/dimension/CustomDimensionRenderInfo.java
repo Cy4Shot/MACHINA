@@ -66,7 +66,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 	 * {@link ClientSetup#ClientSetup(net.minecraftforge.eventbus.api.IEventBus)}
 	 */
 	public static void registerDimensionRenderInfo() {
-		DimensionRenderInfo.EFFECTS.put(Machina.MACHINA_ID, new CustomDimensionRenderInfo());
+		DimensionRenderInfo.EFFECTS.put(new ResourceLocation(Machina.MACHINA_ID.toString()), new CustomDimensionRenderInfo());
 	}
 
 	public CustomDimensionRenderInfo() {

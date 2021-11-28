@@ -262,51 +262,27 @@ jar {
     finalizedBy 'reobfJar'
 }
 
-/*
-task apiJar(type: Jar) {
-	duplicatesStrategy(DuplicatesStrategy.WARN)
-	destinationDirectory = file("$rootDir/build-out")
-	archiveClassifier.set('api')
-	from sourceSets.api.output
-	//afterEvaluate { finalizedBy reobfApiJar }
-
-	// TODO: when FG bug is fixed, remove allJava from the api jar.
-	// https://github.com/MinecraftForge/ForgeGradle/issues/369
-	// Gradle should be able to pull them from the -sources jar.
-	from sourceSets.api.allJava
-} */
-
 task apiJar(type: Jar) {
     duplicatesStrategy(DuplicatesStrategy.FAIL)
+    destinationDirectory = file("$rootDir/build-out")
     archiveClassifier.set("api")
     from sourceSets.api.output
-    manifest {
-        attributes([
-            "Specification-Title": "machina",
-            "Specification-Vendor": "The Machina Team and Cy4's community",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"The Machina Team and Cy4's community",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "machina.mixins.json"
-        ])
-    }
     afterEvaluate { finalizedBy reobfApiJar }
 }
 
 task mainJar(type: Jar) {
-    // Sources included because of MinecraftForge/ForgeGradle#369
-    from sourceSets.main.output
+    duplicatesStrategy(DuplicatesStrategy.FAIL)
     destinationDirectory = file("$rootDir/build-out")
-    classifier("main")
+    archiveClassifier.set("main")
+    from sourceSets.main.output
+    afterEvaluate { finalizedBy reobfMainJar }
 }
 
 task allJar(type: Jar) {
 	destinationDirectory = file("$rootDir/build-out")
-	archiveClassifier.set('all')
+	archiveClassifier.set("all")
 	with apiJar
-	with jar
+	with mainJar
 	afterEvaluate { finalizedBy reobfShadowJar }
 	finalizedBy 'reobfJar'
 }
@@ -320,6 +296,7 @@ reobf {
     
     apiJar { classpath.from(sourceSets.api.compileClasspath) }
 	jar { classpath.from(sourceSets.main.compileClasspath) }
+	mainjar { classpath.from(sourceSets.main.compileClasspath) }
 }
 
 tasks.build.dependsOn reobfShadowJar

@@ -27,23 +27,28 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.init;
+package com.machina.events;
 
-import com.machina.api.registry.annotation.RegisterTileEntityType;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.tile_entity.RocketTile;
-import com.machina.tile_entity.TankTileEntity;
+import static com.machina.api.ModIDs.MACHINA;
 
-import net.minecraft.tileentity.TileEntityType;
+import com.machina.api.starchart.Starchart;
+import com.machina.config.CommonConfig;
 
-@RegistryHolder
-public class TileEntityTypesInit {
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.ModConfig.Type;
 
-	@RegisterTileEntityType("rocket_tile")
-	public static final TileEntityType<RocketTile> ROCKET_TILE = TileEntityType.Builder
-			.of(RocketTile::new, BlockInit.ROCKET).build(null);
+@EventBusSubscriber(modid = MACHINA, bus = Bus.MOD)
+public class ConfigEvents {
+	
+	@SubscribeEvent
+	public static void onConfigLoaded(final ModConfig.Loading event) {
+		if (event.getConfig().getType() == Type.COMMON) {
+			Starchart.maxPlanets = CommonConfig.MAX_PLANETS.get();
+			Starchart.minPlanets = CommonConfig.MIN_PLANETS.get();
+		}
+	}
 
-	@RegisterTileEntityType("tank")
-	public static final TileEntityType<TankTileEntity> TANK_TILE_ENTITY_TYPE = TileEntityType.Builder
-			.of(TankTileEntity::new, BlockInit.TANK).build(null);
 }

@@ -27,26 +27,30 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.registry.module;
+package com.machina.modules.pump;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import com.machina.init.BlockInit;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockReader;
 
-@Documented
-@Retention(RUNTIME)
-@Target({
-		TYPE
-})
-public @interface Module {
+public class PumpBlock extends Block {
 
-	/**
-	 * The modid under which the module will be registered
-	 * 
-	 * @return
-	 */
-	String modid();
+	public PumpBlock() {
+		super(AbstractBlock.Properties.copy(BlockInit.TANK));
+	}
+
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return PumpModule.PUMP_TILE_ENTITY_TYPE.create();
+	}
+
 }

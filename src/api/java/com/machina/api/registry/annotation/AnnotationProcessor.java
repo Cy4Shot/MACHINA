@@ -1,5 +1,6 @@
 /**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license:
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
+ * under the MIT license:
  *
  * MIT License
  *
@@ -12,8 +13,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -34,12 +35,12 @@ import static java.util.Optional.of;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,14 +52,15 @@ import java.util.stream.Collectors;
 import org.objectweb.asm.Type;
 
 import com.google.common.collect.Lists;
+import com.machina.api.annotation.RL;
+import com.machina.api.module.IModule;
+import com.machina.api.module.Module;
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 import com.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
 import com.machina.api.registry.annotation.recipe.RegisterRecipeSerializer;
 import com.machina.api.registry.annotation.recipe.RegisterRecipeType;
-import com.machina.api.registry.module.IModule;
-import com.machina.api.registry.module.Module;
 import com.machina.api.util.MachinaRegistryObject;
 import com.machina.api.util.ReflectionHelper;
 import com.machina.api.util.TriFunction;
@@ -78,18 +80,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.registry.Registry;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.forgespi.language.ModFileScanData;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 /**
- * Handles all of the RegistryAnnotations. (all annotations included in this
- * package {@link com.machina.api.annotation.registries}) <br>
+ * Handles all of the RegistryAnnotations (all annotations included in this
+ * package {@link com.machina.api.annotation.registries}), and {@link Module}
+ * annotations (and such it handles {@link IModule}s as well). <br>
  * Any exception that will be caught during the processing <strong>will be
  * thrown back</strong> as a {@link RegistryException}
  *
@@ -99,27 +101,22 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 public class AnnotationProcessor {
 
 	protected final String ownerModID;
-	protected final List<Block> autoBlockItems = new LinkedList<>();
-	protected ItemGroup blockItemTab = ItemGroup.TAB_MISC;
+	protected IEventBus modBus;
+	protected IEventBus forgeBus;
+
+	protected Function<Block, ItemGroup> autoBlockItemTab = (block) -> ItemGroup.TAB_MISC;
 
 	/**
-	 * Creates a new {@link AnnotationProcessor} which will be used in order
-	 * to process registry annotations. It is recommended to store this statically
-	 * somewhere.
+	 * Creates a new {@link AnnotationProcessor} which will be used in order to
+	 * process annotations. It is recommended to store this statically somewhere.
 	 *
 	 * @param modid the mod id to process the annotations for
 	 */
 	public AnnotationProcessor(String modid) {
 		ownerModID = modid;
 	}
-	
-	public void addAutoBlockItems(Block... blocks) {
-		Collections.addAll(autoBlockItems, blocks);
-	}
-	
-	public void setBlockItemTab(ItemGroup tab) {
-		this.blockItemTab = tab;
-	}
+
+	public void setAutoBlockItemTab(Function<Block, ItemGroup> tab) { this.autoBlockItemTab = tab; }
 
 	public List<Item> getItems() {
 		return MachinaRegistries.ITEMS.get(ownerModID) != null ? MachinaRegistries.ITEMS.get(ownerModID)
@@ -134,12 +131,11 @@ public class AnnotationProcessor {
 	 * @param modBus
 	 */
 	public void register(IEventBus modBus) {
+		this.forgeBus = MinecraftForge.EVENT_BUS;
+		this.modBus = modBus;
+
 		modBus.addListener(this::constructMod);
-		
-		// Modules
-		modBus.addListener(this::commonSetup);
-		modBus.addListener(this::clientSetup);
-		
+
 		// Registry Annotations
 		modBus.addGenericListener(AdvancedCraftingFunctionSerializer.class, this::registerAdvancedCraftingFunctions);
 		modBus.addGenericListener(Block.class, this::registerBlocks);
@@ -158,13 +154,16 @@ public class AnnotationProcessor {
 
 	private void constructMod(FMLConstructModEvent event) {
 		initModules();
+
+		modules.forEach((id, module) -> module.register(modBus, forgeBus));
+
 		initRegistryClasses();
 	}
 
 	protected final ArrayList<Class<?>> registryClasses = new ArrayList<>();
-	
+
 	protected final ArrayList<Class<?>> moduleClasses = new ArrayList<>();
-	protected final ArrayList<IModule> modules = new ArrayList<>();
+	protected final HashMap<ResourceLocation, IModule> modules = new HashMap<>();
 
 	private void initRegistryClasses() {
 		final List<ModFileScanData.AnnotationData> regAnnotations = ModList.get().getAllScanData().stream()
@@ -178,55 +177,53 @@ public class AnnotationProcessor {
 						Class<?> clazz = Class.forName(data.getClassType().getClassName(), false,
 								getClass().getClassLoader());
 						if (clazz.getAnnotation(RegistryHolder.class).modid().equals(ownerModID)) {
-							registryClasses.add(clazz);
+							if (!registryClasses.contains(clazz)) {
+								registryClasses.add(clazz);
+							}
 						}
 					} catch (ClassNotFoundException e) {
 						throw new RegistryException("A class which holds registry annotations was not found!", e);
 					}
 				});
 	}
-	
+
 	private void initModules() {
 		final List<ModFileScanData.AnnotationData> moduleAnnotations = ModList.get().getAllScanData().stream()
 				.map(ModFileScanData::getAnnotations).flatMap(Collection::stream)
-				.filter(a -> a.getAnnotationType().equals(Type.getType(Module.class)))
-				.collect(Collectors.toList());
-		
+				.filter(a -> a.getAnnotationType().equals(Type.getType(Module.class))).collect(Collectors.toList());
+
 		moduleAnnotations.stream().filter(a -> Type.getType(Module.class).equals(a.getAnnotationType()))
-		.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
-			try {
-				Class<?> clazz = Class.forName(data.getClassType().getClassName(), false,
-						getClass().getClassLoader());
-				if (clazz.getAnnotation(Module.class).modid().equals(ownerModID)) {
-					moduleClasses.add(clazz);
+				.filter(a -> a.getTargetType() == ElementType.TYPE).forEach(data -> {
 					try {
-						Object instance = clazz.newInstance();
-						if (instance instanceof IModule) {
-							modules.add((IModule) instance);
-						} else {
-							throw new RegistryException("The module " + clazz + " is not an instace of " + IModule.class);
+						Class<?> clazz = Class.forName(data.getClassType().getClassName(), false,
+								getClass().getClassLoader());
+						RL id = clazz.getAnnotation(Module.class).id();
+						if (id.modid().equals(ownerModID)) {
+							moduleClasses.add(clazz);
+							registryClasses.add(clazz);
+							Constructor<?> constructor = clazz.getConstructor();
+							constructor.setAccessible(true);
+							Object instance = constructor.newInstance();
+							if (instance instanceof IModule) {
+								modules.put(new ResourceLocation(id.modid(), id.path()), (IModule) instance);
+							} else {
+								throw new RegistryException(
+										"The module " + clazz + " is not an instace of " + IModule.class);
+							}
 						}
-					} catch (InstantiationException | IllegalAccessException e) {
+					} catch (IllegalAccessError | InstantiationException | IllegalAccessException
+							| NoSuchMethodException | InvocationTargetException e) {
 						throw new RegistryException(e);
+					} catch (ClassNotFoundException e) {
+						throw new RegistryException("A class which is a module was not found!", e);
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-				}
-			} catch (ClassNotFoundException e) {
-				throw new RegistryException("A class which is a module was not found!", e);
-			}
-		});
-		
+				});
+
 	}
-	
-	// Module registry
-	
-	private void commonSetup(final FMLCommonSetupEvent event) {
-		modules.forEach(module -> module.onCommonSetup(event));
-	}
-	
-	private void clientSetup(final FMLClientSetupEvent event) {
-		modules.forEach(module -> module.onClientSetup(event));
-	}
-	
+
 	// Registry Annotations
 
 	private void registerItems(final RegistryEvent.Register<Item> event) {
@@ -236,13 +233,26 @@ public class AnnotationProcessor {
 					if (obj instanceof BlockItem) { return ((BlockItem) obj).getBlock().getRegistryName(); }
 					throw new RegistryException("Invalid BlockItem");
 				}, Optional.empty());
+		registerAutoBIs(event);
+	}
 
-		for (Block block : autoBlockItems) {
-			BlockItem item = new BlockItem(block, new Item.Properties().tab(blockItemTab));
-			item.setRegistryName(block.getRegistryName());
-			event.getRegistry().register(item);
-		}
-
+	private void registerAutoBIs(final RegistryEvent.Register<Item> event) {
+		ReflectionHelper.getFieldsAnnotatedWith(registryClasses, AutoBlockItem.class).forEach(field -> {
+			try {
+				Object value = field.get(field.getDeclaringClass());
+				if (value instanceof Block) {
+					Block block = (Block) value;
+					BlockItem item = new BlockItem(block, new Item.Properties().tab(autoBlockItemTab.apply(block)));
+					event.getRegistry().register(item.setRegistryName(block.getRegistryName()));
+				} else {
+					//@formatter:off
+					throw new RegistryException("The field " + field + " is annotated with @AutoBlockItem but it is not a block!");
+					//@formatter:on
+				}
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				throw new RegistryException("Registry Annotations Failed!", e);
+			}
+		});
 	}
 
 	private void registerBlocks(final RegistryEvent.Register<Block> event) {
@@ -260,18 +270,19 @@ public class AnnotationProcessor {
 	private void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
 		registerFieldsWithAnnotation(event, RegisterPlanetTrait.class, RegisterPlanetTrait::id, of(PLANET_TRAITS));
 	}
-	
+
 	private void registerPlanetAttributeTypes(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
-		registerFieldsWithAnnotation(event, RegisterPlanetAttributeType.class, RegisterPlanetAttributeType::value, of(PLANET_ATTRIBUTE_TYPES));
+		registerFieldsWithAnnotation(event, RegisterPlanetAttributeType.class, RegisterPlanetAttributeType::value,
+				of(PLANET_ATTRIBUTE_TYPES));
 	}
-	
+
 	private void registerSoundEvents(final RegistryEvent.Register<SoundEvent> event) {
 		registerFieldsWithAnnotation(event, RegisterSoundEvent.class, RegisterSoundEvent::value, of(SOUND_EVENTS));
 	}
-	
+
 	private void registerAdvancedCraftingFunctions(
 			final RegistryEvent.Register<AdvancedCraftingFunctionSerializer<?>> event) {
-		registerFieldsWithAnnotation(event, RegisterACFunctionSerializer.class, an -> an.value(),
+		registerFieldsWithAnnotation(event, RegisterACFunctionSerializer.class, RegisterACFunctionSerializer::value,
 				of(ADVANCED_CRAFTING_FUNCTION_SERIALIZERS));
 	}
 
@@ -326,8 +337,7 @@ public class AnnotationProcessor {
 			final RegistryEvent.Register<T> event, Class<A> annotation, Function<A, String> registryName,
 			Optional<Map<String, List<T>>> outputMap) {
 		AnnotationProcessor.registerFieldsWithAnnotation(registryClasses, event, annotation,
-				(classAn, fieldAn, obj) -> new ResourceLocation(classAn.modid(), registryName.apply(fieldAn)),
-				outputMap);
+				(clazz, fieldAn, obj) -> new ResourceLocation(getModID(clazz), registryName.apply(fieldAn)), outputMap);
 	}
 
 	private void registerCustomRegistries(final RegistryEvent.NewRegistry event) {
@@ -367,8 +377,7 @@ public class AnnotationProcessor {
 	@SuppressWarnings("unchecked")
 	public static <T extends IForgeRegistryEntry<T>, A extends Annotation> void registerFieldsWithAnnotation(
 			ArrayList<Class<?>> registryClasses, final RegistryEvent.Register<T> event, Class<A> annotation,
-			TriFunction<RegistryHolder, A, T, ResourceLocation> registryName,
-			Optional<Map<String, List<T>>> outputMap) {
+			TriFunction<Class<?>, A, T, ResourceLocation> registryName, Optional<Map<String, List<T>>> outputMap) {
 		Class<T> objectClass = event.getRegistry().getRegistrySuperType();
 		ReflectionHelper.getFieldsAnnotatedWith(registryClasses, annotation).forEach(field -> {
 			if (!field.isAccessible()) { return; }
@@ -391,13 +400,12 @@ public class AnnotationProcessor {
 					}
 				}
 				if (isGood && registry.get() != null) {
-					ResourceLocation name = registryName.apply(
-							field.getDeclaringClass().getAnnotation(RegistryHolder.class),
+					ResourceLocation name = registryName.apply(field.getDeclaringClass(),
 							field.getAnnotation(annotation), registry.get());
 					registry.get().setRegistryName(name);
 					event.getRegistry().register(registry.get());
 					outputMap.ifPresent(output -> {
-						String modid = field.getDeclaringClass().getAnnotation(RegistryHolder.class).modid();
+						String modid = getModID(field.getDeclaringClass());
 						if (output.containsKey(modid)) {
 							List<T> oldList = output.get(modid);
 							oldList.add(registry.get());
@@ -423,6 +431,13 @@ public class AnnotationProcessor {
 				throw new RegistryException("Registry Annotations Failed!", e);
 			}
 		});
+	}
+
+	public static String getModID(Class<?> clazz) {
+		if (clazz.isAnnotationPresent(RegistryHolder.class)) {
+			return clazz.getAnnotation(RegistryHolder.class).modid();
+		} else if (clazz.isAnnotationPresent(Module.class)) { return clazz.getAnnotation(Module.class).id().modid(); }
+		return null;
 	}
 
 	public static class RegistryException extends RuntimeException {

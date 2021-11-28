@@ -29,14 +29,12 @@
 
 package com.machina.api.starchart;
 
+import java.util.Optional;
 import java.util.Random;
 
-import com.machina.api.config.MachinaCommonConfig;
 import com.machina.api.nbt.BaseNBTMap;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.StringUtils;
-
-import java.util.Optional;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
@@ -45,6 +43,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class Starchart implements INBTSerializable<CompoundNBT> {
+
+	public static int maxPlanets;
+	public static int minPlanets;
 
 	public final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> planets = new BaseNBTMap<>(
 			rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
@@ -61,8 +62,7 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 	public void generateStarchart(long seed) {
 		planets.clear();
 		Random rand = new Random(seed);
-		int numPlanets = rand.nextInt(MachinaCommonConfig.MAX_PLANETS.get() - MachinaCommonConfig.MIN_PLANETS.get() + 1)
-				+ MachinaCommonConfig.MIN_PLANETS.get();
+		int numPlanets = rand.nextInt(maxPlanets - minPlanets + 1) + minPlanets;
 
 		for (int i = 0; i < numPlanets; i++) {
 			planets.put(new MachinaRL(i), new PlanetData(rand));
@@ -99,17 +99,19 @@ public class Starchart implements INBTSerializable<CompoundNBT> {
 	public void deserializeNBT(CompoundNBT nbt) {
 		planets.deserializeNBT(nbt.getCompound("planets"));
 	}
-	
+
 	/**
 	 * Gets the current data of the dimension or creates it if not present. <br>
-	 * {@link Optional} because it can still <i>somehow</i> be null after being created
+	 * {@link Optional} because it can still <i>somehow</i> be null after being
+	 * created
+	 * 
 	 * @param dimID
 	 * @return
 	 */
 	public Optional<PlanetData> getDimensionData(ResourceLocation dimID) {
 		return Optional.ofNullable(planets.get(dimID));
 	}
-	
+
 	public Optional<PlanetData> getDimensionDataOrCreate(ResourceLocation dimID) {
 		planets.computeIfAbsent(dimID, key -> new PlanetData());
 		return Optional.ofNullable(planets.get(dimID));

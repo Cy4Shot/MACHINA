@@ -35,7 +35,6 @@ import com.machina.block.AnimatedBuilder;
 import com.machina.block.AnimatedBuilderMount;
 import com.machina.block.ConsoleBlock;
 import com.machina.block.PadSizeRelay;
-import com.machina.block.PumpBlock;
 import com.machina.block.RocketBlock;
 import com.machina.block.RocketMount;
 import com.machina.block.TankBlock;
@@ -74,7 +73,4 @@ public class BlockInit {
 
 	@RegisterBlock("tank")
 	public static final TankBlock TANK = new TankBlock(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK));
-
-	@RegisterBlock("pump")
-	public static final PumpBlock PUMP = new PumpBlock();
 }

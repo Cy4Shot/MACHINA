@@ -41,8 +41,6 @@ import net.minecraft.item.Item;
 @RegistryHolder
 public final class BlockItemInit {
 
-	public static final Block[] AUTO_BLOCK_ITEMS = new Block[] {};
-
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_PLATFORM_BLOCKITEM = createBlockItem(BlockInit.ROCKET_PLATFORM_BLOCK);
 
@@ -63,9 +61,6 @@ public final class BlockItemInit {
 
 	@RegisterBlockItem
 	public static final BlockItem ROCKET_MOUNT_BLOCKITEM = createBlockItem(BlockInit.ROCKET_MOUNT);
-
-	@RegisterBlockItem
-	public static final BlockItem PUMP_BLOCK_ITEM = createBlockItem(BlockInit.PUMP);
 
 	@RegisterBlockItem
 	public static final BlockItem TANK_BLOCK_ITEM = createBlockItem(BlockInit.TANK);

@@ -27,23 +27,30 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.init;
+package com.machina.config;
 
-import com.machina.api.registry.annotation.RegisterTileEntityType;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.tile_entity.RocketTile;
-import com.machina.tile_entity.TankTileEntity;
+import com.machina.api.config.BaseTOMLConfig;
 
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
-@RegistryHolder
-public class TileEntityTypesInit {
+public class ClientConfig extends BaseTOMLConfig {
 
-	@RegisterTileEntityType("rocket_tile")
-	public static final TileEntityType<RocketTile> ROCKET_TILE = TileEntityType.Builder
-			.of(RocketTile::new, BlockInit.ROCKET).build(null);
+	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+	public static final ForgeConfigSpec SPEC;
+	public static final ForgeConfigSpec.ConfigValue<Boolean> DISABLE_EXPERIMENTAL_SETTINGS_SCREEN;
 
-	@RegisterTileEntityType("tank")
-	public static final TileEntityType<TankTileEntity> TANK_TILE_ENTITY_TYPE = TileEntityType.Builder
-			.of(TankTileEntity::new, BlockInit.TANK).build(null);
+	static {
+		BUILDER.push("generalConfig");
+
+		DISABLE_EXPERIMENTAL_SETTINGS_SCREEN = config("If the experimentals settings screen should be disabled.",
+				"disableExperimentalSettingsScreen", true);
+
+		SPEC = BUILDER.build();
+	}
+
+	private static <T> ConfigValue<T> config(String comment, String path, T defaultValue) {
+		return config(comment, path, defaultValue, true, BUILDER);
+	}
+
 }

@@ -50,7 +50,7 @@ public class ForgeEvents {
 
 	@SubscribeEvent
 	public static void addReloadListeners(AddReloadListenerEvent event) {
-		event.addListener(PlanetTraitPoolManager.instance);
+		event.addListener(Machina.planetTraitPoolManager);
 	}
 
 	@SubscribeEvent

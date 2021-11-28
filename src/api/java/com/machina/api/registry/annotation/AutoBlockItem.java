@@ -27,23 +27,26 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.init;
+package com.machina.api.registry.annotation;
 
-import com.machina.api.registry.annotation.RegisterTileEntityType;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.tile_entity.RocketTile;
-import com.machina.tile_entity.TankTileEntity;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import net.minecraft.tileentity.TileEntityType;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-@RegistryHolder
-public class TileEntityTypesInit {
+@Documented
+@Retention(RUNTIME)
+@Target(FIELD)
+/**
+ * Registers a {@link BlockItem} for the {@link Block} that is represented by
+ * the field that has this annotation. For the item to be registered the class
+ * in which the field is has to be annotated with {@link RegistryHolder}
+ * 
+ * @author matyrobbrt
+ *
+ */
+public @interface AutoBlockItem {
 
-	@RegisterTileEntityType("rocket_tile")
-	public static final TileEntityType<RocketTile> ROCKET_TILE = TileEntityType.Builder
-			.of(RocketTile::new, BlockInit.ROCKET).build(null);
-
-	@RegisterTileEntityType("tank")
-	public static final TileEntityType<TankTileEntity> TANK_TILE_ENTITY_TYPE = TileEntityType.Builder
-			.of(TankTileEntity::new, BlockInit.TANK).build(null);
 }

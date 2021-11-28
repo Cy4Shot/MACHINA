@@ -27,11 +27,10 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.tile_entity;
+package com.machina.modules.pump;
 
 import com.machina.api.tile_entity.FluidTileEntity;
 import com.machina.api.tile_entity.ITickableTile;
-import com.machina.init.TileEntityTypesInit;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.fluid.FluidState;
@@ -44,7 +43,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 public class PumpTileEntity extends FluidTileEntity implements ITickableTile {
 
 	public PumpTileEntity() {
-		super(TileEntityTypesInit.PUMP_TILE_ENTITY_TYPE);
+		super(PumpModule.PUMP_TILE_ENTITY_TYPE);
 	}
 
 	@Override

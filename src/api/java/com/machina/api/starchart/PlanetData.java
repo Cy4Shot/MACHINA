@@ -56,7 +56,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	public static List<PlanetTrait> getTraits(Random rand) {
 		List<PlanetTrait> res = new ArrayList<>();
-		PlanetTraitPoolManager.instance.forEach((location, pool) -> res
+		PlanetTraitPoolManager.INSTANCE.forEach((location, pool) -> res
 				.addAll(pool.roll(rand).stream().map(PlanetTrait.REGISTRY::getValue).collect(Collectors.toList())));
 		return res;
 	}

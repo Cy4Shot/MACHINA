@@ -29,6 +29,8 @@
 
 package com.machina.api.planet.trait.pool;
 
+import static com.machina.api.ModIDs.MACHINA;
+
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiConsumer;
@@ -48,9 +50,13 @@ import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+
+@EventBusSubscriber(modid = MACHINA, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PlanetTraitPoolManager extends JsonReloadListener {
 
-	public static PlanetTraitPoolManager instance = new PlanetTraitPoolManager();
+	public static PlanetTraitPoolManager INSTANCE = new PlanetTraitPoolManager();
 	
 	private static final Logger LOGGER = LogManager.getLogger();
 	
@@ -64,7 +70,7 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 	@Override
 	protected void apply(Map<ResourceLocation, JsonElement> pObject, IResourceManager pResourceManager,
 			IProfiler pProfiler) {
-
+		
 		Map<ResourceLocation, PlanetTraitPool> map = Maps.newHashMap();
 
 		for (Entry<ResourceLocation, JsonElement> entry : pObject.entrySet()) {
