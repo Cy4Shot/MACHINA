@@ -27,9 +27,8 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.client.renderer.tile;
+package com.machina.modules.rocket.client;
 
-import com.machina.client.models.tile.RocketTileModel;
 import com.machina.modules.rocket.tile_entity.RocketTile;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

@@ -27,7 +27,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.client.models.tile;
+package com.machina.modules.rocket.client;
 
 import com.machina.Machina;
 import com.machina.modules.rocket.tile_entity.RocketTile;

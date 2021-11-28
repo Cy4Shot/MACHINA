@@ -15,6 +15,7 @@ import com.machina.modules.rocket.block.ConsoleBlock;
 import com.machina.modules.rocket.block.PadSizeRelay;
 import com.machina.modules.rocket.block.RocketBlock;
 import com.machina.modules.rocket.block.RocketMount;
+import com.machina.modules.rocket.client.RocketTileRenderer;
 import com.machina.modules.rocket.tile_entity.RocketTile;
 
 import net.minecraft.block.AbstractBlock;
@@ -22,6 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.tileentity.TileEntityType;
 
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Module(id = @RL(modid = MACHINA, path = "rocket"))
@@ -62,6 +64,7 @@ public class RocketModule implements IModule {
 	@Override
 	public void onClientSetup(FMLClientSetupEvent event) {
 		cutout(RocketModule.ROCKET_BLOCK);
+		ClientRegistry.bindTileEntityRenderer(RocketModule.ROCKET_TILE, RocketTileRenderer::new);
 	}
 
 }
