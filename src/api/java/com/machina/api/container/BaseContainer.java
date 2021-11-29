@@ -30,14 +30,20 @@
 
 package com.machina.api.container;
 
+import java.util.Objects;
+
 import com.machina.api.container.tracker.IDataTracker;
 import com.machina.api.util.FunctionalIntReferenceHolder;
+import com.machina.modules.test.TestTileEntity;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 
 public abstract class BaseContainer extends Container {
@@ -87,6 +93,16 @@ public abstract class BaseContainer extends Container {
 			}
 		}
 		return stack;
+	}
+	
+	public static <T extends TileEntity> T getTileEntity(final PlayerInventory playerInv, final PacketBuffer data, Class<T> tileClass) {
+		Objects.requireNonNull(playerInv, "Player Inventory cannot be null.");
+		Objects.requireNonNull(data, "Packet Buffer cannot be null.");
+		final TileEntity te = playerInv.player.level.getBlockEntity(data.readBlockPos());
+		if (tileClass.isInstance(te)) {
+			return tileClass.cast(te);
+		}
+		throw new IllegalStateException("Tile Entity Is Not Correct");
 	}
 
 }

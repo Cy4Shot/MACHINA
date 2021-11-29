@@ -85,7 +85,7 @@ public abstract class BaseScreen<C extends BaseContainer> extends ContainerScree
 		font.draw(matrixStack, inventory.getDisplayName(), inventoryLabelX, inventoryLabelY, displayNameColour);
 	}
 
-	protected ResourceLocation textureRL(String name) {
+	protected static ResourceLocation textureRL(String name) {
 		return new MachinaRL("textures/gui/" + name);
 	}
 
