@@ -296,6 +296,7 @@ task allJar(type: Jar) {
 	with apiJar
 	with mainJar
 	finalizedBy 'reobfJar'
+	finalizedBy 'shadowJar'
 }
 
 artifacts {
@@ -311,7 +312,6 @@ reobf {
 }
 
 tasks.build.dependsOn reobfShadowJar
-tasks.allJar.dependsOn reobfShadowJar
 jar.finalizedBy('reobfShadowJar')
 
 publishing {
