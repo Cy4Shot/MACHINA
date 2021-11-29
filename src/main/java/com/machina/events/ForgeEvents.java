@@ -31,7 +31,6 @@
 package com.machina.events;
 
 import com.machina.Machina;
-import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.world.data.StarchartData;
 
 import net.minecraft.entity.player.ServerPlayerEntity;

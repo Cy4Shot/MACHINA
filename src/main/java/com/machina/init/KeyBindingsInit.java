@@ -49,10 +49,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 public final class KeyBindingsInit {
 
 	public static final KeyBinding DEV_PLANET_CREATION_SCREEN = create("dev_planet_creation_screen", KeyEvent.VK_C);
+	public static final KeyBinding STARCHART = create("starchart", KeyEvent.VK_P);
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
 		ClientRegistry.registerKeyBinding(DEV_PLANET_CREATION_SCREEN);
+		ClientRegistry.registerKeyBinding(STARCHART);
 	}
 
 	private static KeyBinding create(String name, int key) {

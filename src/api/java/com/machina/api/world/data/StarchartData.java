@@ -35,7 +35,6 @@ import static com.machina.api.ModIDs.MACHINA;
 import javax.annotation.WillNotClose;
 
 import com.machina.api.network.BaseNetwork;
-import com.machina.api.network.machina.MachinaNetwork;
 import com.machina.api.network.machina.message.S2CSyncStarchart;
 import com.machina.api.starchart.Starchart;
 
@@ -98,11 +97,11 @@ public class StarchartData extends WorldSavedData {
 	}
 
 	public void syncClients() {
-		BaseNetwork.sendToAll(MachinaNetwork.CHANNEL, new S2CSyncStarchart(starchart));
+		BaseNetwork.sendToAll(BaseNetwork.MACHINA_CHANNEL, new S2CSyncStarchart(starchart));
 	}
 
 	public void syncClient(ServerPlayerEntity e) {
-		BaseNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CSyncStarchart(starchart), e);
+		BaseNetwork.sendTo(BaseNetwork.MACHINA_CHANNEL, new S2CSyncStarchart(starchart), e);
 	}
 
 	public void generateIf(long seed) {

@@ -48,6 +48,8 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public abstract class BaseNetwork {
+	
+	public static SimpleChannel MACHINA_CHANNEL = null;
 
 	protected static int ID = 0;
 

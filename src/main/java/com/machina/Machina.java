@@ -36,7 +36,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.machina.api.ModIDs;
-import com.machina.api.network.machina.MachinaNetwork;
 import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.registry.annotation.AnnotationProcessor;
 import com.machina.api.util.MachinaRL;
@@ -48,6 +47,7 @@ import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
 import com.machina.init.CommandInit;
 import com.machina.init.ItemInit;
+import com.machina.network.MachinaNetwork;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

@@ -28,7 +28,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.network.machina;
+package com.machina.network;
 
 import java.util.function.Function;
 
@@ -52,6 +52,8 @@ public class MachinaNetwork extends BaseNetwork {
 	public static void init() {
 		registerServerToClient(S2CSyncStarchart.class, S2CSyncStarchart::decode);
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
+		
+		BaseNetwork.MACHINA_CHANNEL = CHANNEL;
 	}
 
 	private static SimpleChannel newSimpleChannel(String name) {

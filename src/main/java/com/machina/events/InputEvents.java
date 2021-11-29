@@ -55,7 +55,7 @@ public class InputEvents {
 			mc.setScreen(new DevPlanetCreationScreen());
 		}
 
-		if (mc.options.keyChat.isDown()) {
+		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.STARCHART)) {
 			mc.setScreen(new StarchartScreen());
 			// ClientStarchartHolder.getStarchart().debugStarchart();
 		}
