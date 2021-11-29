@@ -1,5 +1,6 @@
 /**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license:
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
+ * under the MIT license:
  *
  * MIT License
  *
@@ -46,8 +47,8 @@ public class ConfigEvents {
 	@SubscribeEvent
 	public static void onConfigLoaded(final ModConfig.Loading event) {
 		if (event.getConfig().getType() == Type.COMMON) {
-			Starchart.maxPlanets = CommonConfig.MAX_PLANETS.get();
-			Starchart.minPlanets = CommonConfig.MIN_PLANETS.get();
+			Starchart.maxPlanets = CommonConfig.maxPlanets.get();
+			Starchart.minPlanets = CommonConfig.minPlanets.get();
 		}
 	}
 

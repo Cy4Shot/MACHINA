@@ -1,5 +1,6 @@
 /**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license:
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
+ * under the MIT license:
  *
  * MIT License
  *

@@ -1,5 +1,6 @@
 /**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license:
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
+ * under the MIT license:
  *
  * MIT License
  *
@@ -29,34 +30,44 @@
 
 package com.machina.config;
 
+import static com.machina.api.ModIDs.MACHINA;
+
+import com.machina.Machina;
 import com.machina.api.config.BaseTOMLConfig;
+import com.machina.api.config.TOMLConfigBuilder;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig.Type;
 
 public class CommonConfig extends BaseTOMLConfig {
 
-	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-	public static final ForgeConfigSpec SPEC;
+	public static final TOMLConfigBuilder BUILDER = new TOMLConfigBuilder();
+	public static ForgeConfigSpec spec;
 
-	// Bad Cy4, not caring about syntax THIS IS A CONSTANT
-	public static final ForgeConfigSpec.ConfigValue<Integer> MIN_PLANETS;
-	public static final ForgeConfigSpec.ConfigValue<Integer> MAX_PLANETS;
+	public static ForgeConfigSpec.ConfigValue<Integer> minPlanets;
+	public static ForgeConfigSpec.ConfigValue<Integer> maxPlanets;
 
 	//@formatter:off
-	static {
-		BUILDER.push("Config for Machina!");
+	public static void register() {
+		BUILDER.push("machinaConfig");
 
-		// WHY is order messed up
-		MIN_PLANETS = config("Minimum planets in the starchart.", "minimumPlanets", 5);
-		MAX_PLANETS = config("Maximum planets in the starchart.", "maximumPlanets", 10);
+		minPlanets = config("Minimum planets in the starchart.", "minimumPlanets", 5);
+		maxPlanets = config("Maximum planets in the starchart.", "maximumPlanets", 10);
+		
+		Machina.ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
+			module.initConfig(Type.COMMON, BUILDER)
+		);
 		
 		BUILDER.pop();
-		SPEC = BUILDER.build();
-	}
+		spec = BUILDER.build();
+		
+		ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.spec, MACHINA + "/common.toml");
+    }
 
 	private static <T> ConfigValue<T> config(String comment, String path, T defaultValue) {
-		return config(comment, path, defaultValue, true, BUILDER);
+		return BUILDER.config(comment, path, defaultValue, true);
 	}
 
 }

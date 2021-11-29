@@ -13,8 +13,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -104,12 +104,16 @@ public class AnnotationProcessor {
 	protected IEventBus modBus;
 	protected IEventBus forgeBus;
 
-	protected Function<Block, ItemGroup> autoBlockItemTab = (block) -> ItemGroup.TAB_MISC;
+	protected Function<Block, ItemGroup> autoBlockItemTab = block -> ItemGroup.TAB_MISC;
 
 	protected final ArrayList<Class<?>> registryClasses = new ArrayList<>();
 
 	protected final ArrayList<Class<?>> moduleClasses = new ArrayList<>();
 	protected final HashMap<ResourceLocation, IModule> modules = new HashMap<>();
+	
+	protected Runnable afterInit = () -> {
+		
+	};
 	
 	/**
 	 * Creates a new {@link AnnotationProcessor} which will be used in order to
@@ -122,6 +126,8 @@ public class AnnotationProcessor {
 	}
 
 	public void setAutoBlockItemTab(Function<Block, ItemGroup> tab) { this.autoBlockItemTab = tab; }
+	
+	public void afterInit(Runnable toRun) { this.afterInit = toRun; }
 
 	public List<Item> getItems() {
 		return MachinaRegistries.ITEMS.get(ownerModID) != null ? MachinaRegistries.ITEMS.get(ownerModID)
@@ -161,10 +167,9 @@ public class AnnotationProcessor {
 
 	private void constructMod(FMLConstructModEvent event) {
 		initModules();
-
 		modules.forEach((id, module) -> module.register(modBus, forgeBus));
-
 		initRegistryClasses();
+		afterInit.run();
 	}
 
 	private void initRegistryClasses() {

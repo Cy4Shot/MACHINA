@@ -1,5 +1,6 @@
 /**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license:
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
+ * under the MIT license:
  *
  * MIT License
  *
@@ -29,39 +30,37 @@
 
 package com.machina.config;
 
+import com.machina.Machina;
 import com.machina.api.config.BaseTOMLConfig;
+import com.machina.api.config.TOMLConfigBuilder;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig.Type;
 
 public class ServerConfig extends BaseTOMLConfig {
 
-	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-	public static final ForgeConfigSpec SPEC;
-
-	public static final ForgeConfigSpec.ConfigValue<Integer> LOW_GRAVITY_AIR_TIME;
-	public static final ConfigValue<Integer> SUPERHOT_FIRE_CHANCE;
-	public static final ConfigValue<Integer> SUPERHOT_ARMOUR_DAMAGE_CHANCE;
-
-	static {
-		BUILDER.push("planetTraits");
-
-		LOW_GRAVITY_AIR_TIME = config(
-				"The amount of ticks the players will stay in the air when they jump in a planet with the Low Gravity trait.",
-				"lowGravityAirTime", 25);
-		SUPERHOT_FIRE_CHANCE = percentChanceConfig(
-				"The chance that a player will get put on fire for 1 second, every tick if the player is in a planet with the Superhot trait.",
-				"superhotFireChance", 10, true, BUILDER);
-		SUPERHOT_ARMOUR_DAMAGE_CHANCE = percentChanceConfig(
-				"The chance that, if a plyer is about to be set on fire in a dimension with the Superhot trait, and they have a full set of Thermal Regulating armour, the armour will have its durability decreased by 1.",
-				"superhotArmourDamageChance", 10, true, BUILDER);
-
+	public static final TOMLConfigBuilder BUILDER = new TOMLConfigBuilder();
+	public static ForgeConfigSpec spec;
+	
+	//@formatter:off
+	public static void register() {
+		BUILDER.push("machinaConfig");
+		
+		Machina.ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
+			module.initConfig(Type.SERVER, BUILDER)
+		);
+		
 		BUILDER.pop();
-		SPEC = BUILDER.build();
-	}
+		spec = BUILDER.build();
+		
+		ModLoadingContext.get().registerConfig(Type.SERVER, ServerConfig.spec, "machina-server.toml");
+    }
 
+	@SuppressWarnings("unused")
 	private static <T> ConfigValue<T> config(String comment, String path, T defaultValue) {
-		return config(comment, path, defaultValue, true, BUILDER);
+		return BUILDER.config(comment, path, defaultValue, true);
 	}
 
 }

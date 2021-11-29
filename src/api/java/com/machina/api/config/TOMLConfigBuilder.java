@@ -28,18 +28,26 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.init;
+package com.machina.api.config;
 
-import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.api.registry.annotation.recipe.RegisterRecipeType;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
-import net.minecraft.item.crafting.IRecipeType;
+public class TOMLConfigBuilder extends ForgeConfigSpec.Builder {
+	
+	public <T> ConfigValue<T> config(String comment, String path, T defaultValue,
+			boolean addDefaultValueComment) {
+		return addDefaultValueComment
+				? this.comment(comment, "default: " + defaultValue.toString()).define(path, defaultValue)
+				: this.comment(comment).define(path, defaultValue);
+	}
 
-@RegistryHolder
-public final class RecipeInit {
-
-	@RegisterRecipeType("advanced_crafting")
-	public static final IRecipeType<AdvancedCraftingRecipe> ADVANCED_CRAFTING_RECIPE_TYPE = new IRecipeType<AdvancedCraftingRecipe>() {};
+	public ConfigValue<Integer> percentChanceConfig(String comment, String path, int defaultValue,
+			boolean addDefaultValueComment) {
+		String range = "range: 0 ~ 100";
+		return addDefaultValueComment
+				? this.comment(comment, "default: " + defaultValue, range).define(path, defaultValue)
+				: this.comment(comment, range).defineInRange(path, defaultValue, 0, 100);
+	}
 
 }

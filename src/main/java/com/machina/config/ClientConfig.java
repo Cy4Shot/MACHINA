@@ -1,5 +1,6 @@
 /**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license:
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
+ * under the MIT license:
  *
  * MIT License
  *
@@ -29,28 +30,44 @@
 
 package com.machina.config;
 
+import static com.machina.api.ModIDs.MACHINA;
+
+import com.machina.Machina;
 import com.machina.api.config.BaseTOMLConfig;
+import com.machina.api.config.TOMLConfigBuilder;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig.Type;
 
 public class ClientConfig extends BaseTOMLConfig {
 
-	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-	public static final ForgeConfigSpec SPEC;
-	public static final ForgeConfigSpec.ConfigValue<Boolean> DISABLE_EXPERIMENTAL_SETTINGS_SCREEN;
+	public static final TOMLConfigBuilder BUILDER = new TOMLConfigBuilder();
+	public static ForgeConfigSpec spec;
+	
+	public static ForgeConfigSpec.ConfigValue<Boolean> disableExperimentalSettingsScreen;
 
-	static {
-		BUILDER.push("generalConfig");
-
-		DISABLE_EXPERIMENTAL_SETTINGS_SCREEN = config("If the experimentals settings screen should be disabled.",
+	//@formatter:off
+	public static void register() {
+		BUILDER.push("machinaConfig");
+		
+		disableExperimentalSettingsScreen = config("If the experimentals settings screen should be disabled.",
 				"disableExperimentalSettingsScreen", true);
-
-		SPEC = BUILDER.build();
-	}
+		
+		Machina.ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
+			module.initConfig(Type.CLIENT, BUILDER)
+		);
+		
+		
+		BUILDER.pop();
+		spec = BUILDER.build();
+		
+		ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.spec, MACHINA + "/client.toml");
+    }
 
 	private static <T> ConfigValue<T> config(String comment, String path, T defaultValue) {
-		return config(comment, path, defaultValue, true, BUILDER);
+		return BUILDER.config(comment, path, defaultValue, true);
 	}
 
 }

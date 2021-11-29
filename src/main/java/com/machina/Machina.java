@@ -1,5 +1,6 @@
 /**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed under the MIT license:
+ * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
+ * under the MIT license:
  *
  * MIT License
  *
@@ -45,7 +46,6 @@ import com.machina.api.world.data.StarchartData;
 import com.machina.client.ClientSetup;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
-import com.machina.config.ServerConfig;
 import com.machina.init.CommandInit;
 import com.machina.init.ItemInit;
 
@@ -60,9 +60,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -94,6 +92,11 @@ public class Machina {
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		ANNOTATION_PROCESSOR.afterInit(() -> {
+			CommonConfig.register();
+			ClientConfig.register();
+		});
+		
 		ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
 		ANNOTATION_PROCESSOR.register(modBus);
 		modBus.addListener(this::onCommonSetup);
@@ -101,15 +104,10 @@ public class Machina {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
 
 		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
-		//forgeBus.addListener(PlanetTraitPoolManager::addReloadListeners);
 
 		forgeBus.addListener(EventPriority.HIGH, this::onServerStart);
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
-		// forgeBus.addListener(EventPriority.HIGH, TraitHandlers::handleSuperHot);
 
-		ModLoadingContext.get().registerConfig(Type.COMMON, CommonConfig.SPEC, MOD_ID + "/common.toml");
-		ModLoadingContext.get().registerConfig(Type.CLIENT, ClientConfig.SPEC, MOD_ID + "/client.toml");
-		ModLoadingContext.get().registerConfig(Type.SERVER, ServerConfig.SPEC, "machina-server.toml");
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

@@ -13,8 +13,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -30,7 +30,8 @@
 
 package com.machina.api.module;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import com.machina.api.config.TOMLConfigBuilder;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -70,12 +71,7 @@ public interface IModule {
 		modBus.addListener(this::onClientSetup);
 	}
 	
-	/**
-	 * TODO make this work without static initialisers
-	 * @param configType
-	 * @param builder
-	 */
-	default void initConfig(final Type configType, final ForgeConfigSpec.Builder builder) {
+	default void initConfig(final Type configType, final TOMLConfigBuilder builder) {
 		
 	}
 
