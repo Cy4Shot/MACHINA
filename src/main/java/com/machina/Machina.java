@@ -45,6 +45,7 @@ import com.machina.api.world.data.StarchartData;
 import com.machina.client.ClientSetup;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
+import com.machina.config.ServerConfig;
 import com.machina.init.CommandInit;
 import com.machina.init.ItemInit;
 import com.machina.network.MachinaNetwork;
@@ -95,6 +96,7 @@ public class Machina {
 		ANNOTATION_PROCESSOR.afterInit(() -> {
 			CommonConfig.register();
 			ClientConfig.register();
+			ServerConfig.register();
 		});
 		
 		ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
