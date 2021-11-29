@@ -33,10 +33,10 @@ package com.machina.network;
 import java.util.function.Function;
 
 import com.machina.api.network.BaseNetwork;
-import com.machina.api.network.machina.message.C2SDevPlanetCreationGUI;
 import com.machina.api.network.machina.message.S2CSyncStarchart;
 import com.machina.api.network.message.INetworkMessage;
 import com.machina.api.util.MachinaRL;
+import com.machina.network.message.C2SDevPlanetCreationGUI;
 
 import net.minecraft.network.PacketBuffer;
 
