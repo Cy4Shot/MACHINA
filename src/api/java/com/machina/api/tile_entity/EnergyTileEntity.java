@@ -40,7 +40,6 @@ import com.machina.api.inventory.IEnergyHolderTile;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 
@@ -49,7 +48,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergyHolderTile, ITickableTileEntity {
+public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergyHolderTile {
 
 	protected final MachinaEnergyStorage energyStorage = createEnergyStorage();
 	protected final LazyOptional<IEnergyStorage> energyOptional = LazyOptional.of(() -> energyStorage);
@@ -61,7 +60,7 @@ public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergy
 	protected abstract MachinaEnergyStorage createEnergyStorage();
 
 	@Override
-	public MachinaEnergyStorage getStorage() { return energyStorage; }
+	public MachinaEnergyStorage getEnergyStorage() { return energyStorage; }
 
 	protected List<Direction> getSidesForEnergy() { return Lists.newArrayList(Direction.values()); }
 
@@ -73,22 +72,6 @@ public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergy
 		return super.getCapability(cap, side);
 	}
 
-	@Override
-	public void tick() {
-		if (level.isClientSide()) {
-			clientTick();
-		} else {
-			serverTick();
-		}
-	}
-
-	protected void serverTick() {
-
-	}
-
-	protected void clientTick() {
-
-	}
 
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {

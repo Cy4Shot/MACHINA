@@ -34,6 +34,6 @@ import com.machina.api.tile_entity.MachinaEnergyStorage;
 
 public interface IEnergyHolderTile {
 
-	MachinaEnergyStorage getStorage();
+	MachinaEnergyStorage getEnergyStorage();
 
 }

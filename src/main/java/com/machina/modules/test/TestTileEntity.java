@@ -7,10 +7,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
-public class TestTileEntity extends EnergyTileEntity implements INamedContainerProvider {
+public class TestTileEntity extends EnergyTileEntity implements INamedContainerProvider, ITickableTileEntity {
 
 	protected TestTileEntity() {
 		super(TestModule.TEST_TE_TYPE);
@@ -18,7 +19,7 @@ public class TestTileEntity extends EnergyTileEntity implements INamedContainerP
 
 	@Override
 	protected MachinaEnergyStorage createEnergyStorage() {
-		return new MachinaEnergyStorage(1200000, 20, 20);
+		return new MachinaEnergyStorage(1200, 20, 20);
 	}
 
 	@Override
@@ -28,5 +29,11 @@ public class TestTileEntity extends EnergyTileEntity implements INamedContainerP
 
 	@Override
 	public ITextComponent getDisplayName() { return new StringTextComponent(""); }
+
+	@Override
+	public void tick() {
+		if (level.isClientSide()) return;
+		energyStorage.receiveEnergy(100, false);
+	}
 
 }

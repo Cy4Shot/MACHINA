@@ -8,6 +8,7 @@ import com.machina.api.module.Module;
 import com.machina.api.module.ModuleHelper;
 import com.machina.api.registry.annotation.AutoBlockItem;
 import com.machina.api.registry.annotation.RegisterBlock;
+import com.machina.api.registry.annotation.RegisterContainerType;
 import com.machina.api.registry.annotation.RegisterTileEntityType;
 
 import net.minecraft.inventory.container.ContainerType;
@@ -26,6 +27,7 @@ public class TestModule extends ModuleHelper implements IModule {
 	@RegisterTileEntityType("test_tile")
 	public static final TileEntityType<TestTileEntity> TEST_TE_TYPE = TileEntityType.Builder.of(TestTileEntity::new, TEST_BLOCK).build(null);
 	
+	@RegisterContainerType("test_container")
 	public static final ContainerType<TestContainer> TEST_CONTAINER_TYPE = IForgeContainerType.create(TestContainer::new);
 	
 	@Override

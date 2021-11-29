@@ -30,11 +30,11 @@
 
 package com.machina.api.container;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import com.machina.api.container.tracker.IDataTracker;
-import com.machina.api.util.FunctionalIntReferenceHolder;
-import com.machina.modules.test.TestTileEntity;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -47,6 +47,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 
 public abstract class BaseContainer extends Container {
+	
+	private final List<IDataTracker> trackers = new LinkedList<>();
 
 	/**
 	 * Define this in the constructor. Will be used by {@link #quickMoveStack}
@@ -66,7 +68,8 @@ public abstract class BaseContainer extends Container {
 	 * @param tracker
 	 */
 	protected <T extends IDataTracker> T addTracker(T tracker) {
-		tracker.getDataSlots().forEach(this::addDataSlot);
+		trackers.add(tracker);
+		tracker.addDataSlots(this::addDataSlot);
 		return tracker;
 	}
 
