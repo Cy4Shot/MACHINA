@@ -19,7 +19,7 @@ public class TestScreen extends BaseScreen<TestContainer> {
 	
 	@Override
 	protected void renderBg(MatrixStack pMatrixStack, float pPartialTicks, int pX, int pY) {
-		System.out.println(this.menu.currentEnergy.get());
+		System.out.println(this.menu.data.get(0));
 		super.renderBg(pMatrixStack, pPartialTicks, pX, pY);
 		for (int i = 0; i <= 76; ++i) {
 			if (this.menu.getEnergyScaled() >= i) {

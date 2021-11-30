@@ -8,6 +8,7 @@ import com.machina.api.util.InventoryUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.IWorldPosCallable;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,7 +19,7 @@ public class TestContainer extends BaseContainer {
 	private final IWorldPosCallable canInteractWithCallable;
 	public EnergyTracker energyTracker; 
 	
-	public FunctionalIntReferenceHolder currentEnergy;
+	public IIntArray data;
 
 	public TestContainer(final int windowId, final PlayerInventory playerInv, final TestTileEntity te) {
 		super(TestModule.TEST_CONTAINER_TYPE, windowId);
@@ -26,8 +27,28 @@ public class TestContainer extends BaseContainer {
 		InventoryUtils.createPlayerSlots(playerInv, 8, 84).forEach(this::addSlot);
 		energyTracker = addTracker(new EnergyTracker(te.getEnergyStorage()));
 		
-		this.addDataSlot(currentEnergy = new FunctionalIntReferenceHolder(() -> te.getEnergyStorage().getEnergyStored(),
-				value -> te.getEnergyStorage().receiveEnergy(value, false)));
+		this.data = new IIntArray() {
+			
+			@Override
+			public void set(int i, int pValue) {
+				if (i == 0) {
+					te.getEnergyStorage().receiveInternalEnergy(pValue, false);
+				}
+			}
+			
+			@Override
+			public int getCount() { return 1; }
+			
+			@Override
+			public int get(int i) {
+				if (i == 0) {
+					return te.getEnergyStorage().getEnergyStored();
+				}
+				return 0;
+			}
+		};
+		
+		this.addDataSlots(data);
 	}
 	
 	@Override
@@ -41,8 +62,8 @@ public class TestContainer extends BaseContainer {
 	
 	@OnlyIn(Dist.CLIENT)
 	public int getEnergyScaled() {
-		return this.energyTracker.getEnergyStored() != 0 && this.energyTracker.getMaxStorage() != 0
-				? this.energyTracker.getEnergyStored() * 76 / this.energyTracker.getMaxStorage()
+		return this.data.get(0) != 0 && this.energyTracker.getMaxStorage() != 0
+				? this.data.get(0) * 76 / this.energyTracker.getMaxStorage()
 				: 0;
 	}
 
