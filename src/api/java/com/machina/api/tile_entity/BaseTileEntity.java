@@ -30,13 +30,38 @@
 
 package com.machina.api.tile_entity;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.machina.api.annotation.GuiValue;
+
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 
 public abstract class BaseTileEntity extends TileEntity {
 
-	protected BaseTileEntity(TileEntityType<?> p_i48289_1_) {
-		super(p_i48289_1_);
+	private Map<Field, String> syncFields = null;
+
+	protected BaseTileEntity(TileEntityType<?> type) {
+		super(type);
+	}
+
+	public Map<Field, String> getSyncFields() {
+		if (syncFields == null) {
+			syncFields = createSyncFields(getClass());
+		}
+		return syncFields;
+	}
+
+	private static Map<Field, String> createSyncFields(Class<? extends BaseTileEntity> clazz) {
+		Map<Field, String> map = new HashMap<>();
+		for (Field field : clazz.getFields()) {
+			if (field.isAnnotationPresent(GuiValue.class)) {
+				map.put(field, field.getName());
+			}
+		}
+		return map;
 	}
 
 }

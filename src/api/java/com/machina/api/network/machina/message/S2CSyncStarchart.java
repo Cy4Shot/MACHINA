@@ -56,7 +56,7 @@ public class S2CSyncStarchart implements INetworkMessage {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private void handleClient(S2CSyncStarchart msg, NetworkEvent.Context ctx) {
+	private static void handleClient(S2CSyncStarchart msg, NetworkEvent.Context ctx) {
 		ClientStarchartHolder.setStarchart(msg.sc);
 	}
 
