@@ -30,14 +30,13 @@
 
 package com.machina.api.container.tracker;
 
-import java.util.function.UnaryOperator;
-
-import net.minecraft.util.IntReferenceHolder;
+import net.minecraft.inventory.container.Container;
 
 public class BooleanTracker implements IDataTracker {
 
 	@Override
-	public void addDataSlots(UnaryOperator<IntReferenceHolder> adder) {
+	public void addDataSlots(Container container) {
 	}
+
 
 }

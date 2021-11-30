@@ -30,36 +30,35 @@
 
 package com.machina.api.container.tracker;
 
-import java.util.function.UnaryOperator;
-
 import com.machina.api.util.FunctionalIntReferenceHolder;
 
-import net.minecraft.util.IntReferenceHolder;
+import net.minecraft.inventory.container.Container;
 
 import net.minecraftforge.energy.EnergyStorage;
 
 public class EnergyTracker implements IDataTracker {
 
 	private final EnergyStorage energyStorage;
-	
+
 	public FunctionalIntReferenceHolder energyStored;
-	
+
 	public EnergyTracker(EnergyStorage energyStorage) {
 		this.energyStorage = energyStorage;
-		this.energyStored = new FunctionalIntReferenceHolder(energyStorage::getEnergyStored, value -> energyStorage.receiveEnergy(value, false));
+		this.energyStored = new FunctionalIntReferenceHolder(energyStorage::getEnergyStored,
+				value -> energyStorage.receiveEnergy(value, false));
 	}
 
-	
 	public int getEnergyStored() { return energyStored.get(); }
+
 	public int getMaxReceive() { return energyStorage.getEnergyStored(); }
+
 	public int getMaxExtract() { return energyStorage.getEnergyStored(); }
-	
+
 	public int getMaxStorage() { return energyStorage.getMaxEnergyStored(); }
 
-
 	@Override
-	public void addDataSlots(UnaryOperator<IntReferenceHolder> adder) {
-		adder.apply(energyStored);
+	public void addDataSlots(Container container) {
+		container.addDataSlot(energyStored);
 	}
-	
+
 }

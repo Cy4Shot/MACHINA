@@ -30,12 +30,10 @@
 
 package com.machina.api.container.tracker;
 
-import java.util.function.UnaryOperator;
-
-import net.minecraft.util.IntReferenceHolder;
+import net.minecraft.inventory.container.Container;
 
 public interface IDataTracker {
 	
-	void addDataSlots(UnaryOperator<IntReferenceHolder> adder);
+	void addDataSlots(Container container);
 	
 }

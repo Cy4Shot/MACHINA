@@ -69,7 +69,7 @@ public abstract class BaseContainer extends Container {
 	 */
 	protected <T extends IDataTracker> T addTracker(T tracker) {
 		trackers.add(tracker);
-		tracker.addDataSlots(this::addDataSlot);
+		tracker.addDataSlots(this);
 		return tracker;
 	}
 
