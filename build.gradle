@@ -160,6 +160,9 @@ repositories {
 		url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
 	}
 	maven {
+		url "https://dl.cloudsmith.io/public/matyrobbrt/matylib/maven/"
+	}
+	maven {
 	   	name 'tterrag maven'
 	   	url "http://maven.tterrag.com/"
 	   	allowInsecureProtocol = true
@@ -176,20 +179,6 @@ repositories {
     	url 'https://mvnrepository.com/artifact/org.javassist/javassist'
     }
     maven { url 'https://jitpack.io' }
-    maven {
-        url = uri("https://maven.pkg.github.com/Matyrobbrt/MatyLib")
-        credentials {
-        	username = project.findProperty("gpr.user") ?: props.getProperty("GITHUB_USERNAME")
-            password = project.findProperty("gpr.key") ?: props.getProperty("GITHUB_TOKEN")
-        }
-    }
-    maven {
-        url = uri("https://maven.pkg.github.com/CompactMods/CompactCrafting")
-        credentials {
-        	username = project.findProperty("gpr.user") ?: props.getProperty("GITHUB_USERNAME")
-            password = project.findProperty("gpr.key") ?: props.getProperty("GITHUB_TOKEN")
-        }
-    }
 }
 
 dependencies {
