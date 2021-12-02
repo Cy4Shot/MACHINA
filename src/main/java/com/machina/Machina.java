@@ -105,6 +105,7 @@ public class Machina {
 			ServerConfig.register();
 		});
 
+		ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
 		ANNOTATION_PROCESSOR.register(modBus);
 
 		LEGACY_ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
