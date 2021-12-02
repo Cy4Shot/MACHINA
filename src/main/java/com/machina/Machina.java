@@ -79,8 +79,14 @@ public class Machina {
 	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
 	public static final File CONFIF_DIR = new File(CONFIG_DIR_PATH);
 
-	public static final AnnotationProcessor ANNOTATION_PROCESSOR = new AnnotationProcessor(MOD_ID);
-	
+	/**
+	 * @deprecated Use {@link #ANNOTATION_PROCESSOR}, from MatyLib
+	 */
+	@Deprecated
+	public static final AnnotationProcessor LEGACY_ANNOTATION_PROCESSOR = new AnnotationProcessor(MOD_ID);
+	public static final com.matyrobbrt.lib.registry.annotation.AnnotationProcessor ANNOTATION_PROCESSOR = new com.matyrobbrt.lib.registry.annotation.AnnotationProcessor(
+			MOD_ID);
+
 	public static PlanetTraitPoolManager planetTraitPoolManager = new PlanetTraitPoolManager();
 
 	public Machina() {
@@ -93,14 +99,16 @@ public class Machina {
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		ANNOTATION_PROCESSOR.afterInit(() -> {
+		LEGACY_ANNOTATION_PROCESSOR.afterInit(() -> {
 			CommonConfig.register();
 			ClientConfig.register();
 			ServerConfig.register();
 		});
-		
-		ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
+
 		ANNOTATION_PROCESSOR.register(modBus);
+
+		LEGACY_ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
+		LEGACY_ANNOTATION_PROCESSOR.register(modBus);
 		modBus.addListener(this::onCommonSetup);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));

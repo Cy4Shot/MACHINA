@@ -31,17 +31,17 @@
 package com.machina.init;
 
 import static com.machina.Machina.MACHINA_ITEM_GROUP;
+import static com.machina.api.ModIDs.MACHINA;
 
-import com.machina.api.registry.annotation.RegisterItem;
-import com.machina.api.registry.annotation.RegistryHolder;
 import com.machina.api.registry.builder.ItemBuilder;
 import com.machina.item.ThermalRegulatorSuit;
 import com.machina.item.WrenchItem;
+import com.matyrobbrt.lib.registry.annotation.RegisterItem;
 
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 
-@RegistryHolder
+@com.matyrobbrt.lib.registry.annotation.RegistryHolder(modid = MACHINA)
 public final class ItemInit {
 
 	@RegisterItem("item_group_icon")
@@ -53,7 +53,7 @@ public final class ItemInit {
 		}
 	};
 
-	@RegisterItem("thermal_regulating_helmet")
+	@com.matyrobbrt.lib.registry.annotation.RegisterItem("thermal_regulating_helmet")
 	public static final ThermalRegulatorSuit THERMAL_REGULATING_HELMET = new ThermalRegulatorSuit(
 			new Item.Properties().tab(MACHINA_ITEM_GROUP).defaultDurability(512), EquipmentSlotType.HEAD);
 	@RegisterItem("thermal_regulating_chestplate")
