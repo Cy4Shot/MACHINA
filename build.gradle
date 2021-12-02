@@ -26,6 +26,9 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
+def props = new Properties()
+file(".env").withInputStream { props.load(it) }
+
 mixin {
     add sourceSets.main, "machina.refmap.json"
     config "machina.mixins.json"
@@ -173,6 +176,13 @@ repositories {
     	url 'https://mvnrepository.com/artifact/org.javassist/javassist'
     }
     maven { url 'https://jitpack.io' }
+    maven {
+        url = uri("https://maven.pkg.github.com/Matyrobbrt/MatyLib")
+        credentials {
+        	username = project.findProperty("gpr.user") ?: props.getProperty("GITHUB_USERNAME")
+            password = project.findProperty("gpr.key") ?: props.getProperty("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
@@ -183,6 +193,8 @@ dependencies {
     
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45')
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
+    
+    //implementation fg.deobf('com.matyrobbrt:matylib:1.0')
     
     compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api")
 	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
