@@ -183,6 +183,13 @@ repositories {
             password = project.findProperty("gpr.key") ?: props.getProperty("GITHUB_TOKEN")
         }
     }
+    maven {
+        url = uri("https://maven.pkg.github.com/CompactMods/CompactCrafting")
+        credentials {
+        	username = project.findProperty("gpr.user") ?: props.getProperty("GITHUB_USERNAME")
+            password = project.findProperty("gpr.key") ?: props.getProperty("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
@@ -194,7 +201,7 @@ dependencies {
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45')
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
     
-    //implementation fg.deobf('com.matyrobbrt:matylib:1.0')
+    implementation fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
     
     compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api")
 	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
