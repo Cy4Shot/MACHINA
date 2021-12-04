@@ -30,22 +30,10 @@
 
 package com.machina.init;
 
-import static com.machina.Machina.MACHINA_ITEM_GROUP;
+import static com.machina.api.ModIDs.MACHINA;
 
-import com.machina.api.registry.annotation.RegisterBlockItem;
-import com.machina.api.registry.annotation.RegistryHolder;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public final class BlockItemInit {
-
-	@RegisterBlockItem
-	public static final BlockItem TANK_BLOCK_ITEM = createBlockItem(BlockInit.TANK);
-
-	private static BlockItem createBlockItem(Block block) {
-		return new BlockItem(block, new Item.Properties().tab(MACHINA_ITEM_GROUP));
-	}
 }

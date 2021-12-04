@@ -30,13 +30,15 @@
 
 package com.machina.api.recipe.advanced_crafting;
 
+import static com.machina.api.ModIDs.MACHINA;
+
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.api.registry.annotation.recipe.RegisterRecipeSerializer;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
+import com.matyrobbrt.lib.registry.annotation.recipe.RegisterRecipeSerializer;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.inventory.CraftingInventory;
@@ -53,7 +55,7 @@ import net.minecraft.world.World;
 
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public class AdvancedCraftingRecipe extends ShapedRecipe {
 
 	private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();

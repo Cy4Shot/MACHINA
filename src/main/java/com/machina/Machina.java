@@ -37,7 +37,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.machina.api.ModIDs;
 import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
-import com.machina.api.registry.annotation.AnnotationProcessor;
+import com.machina.api.registry.annotation.MachinaAnnotationProcessor;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.world.DynamicDimensionHelper;
 import com.machina.api.world.data.PlanetDimensionData;
@@ -79,13 +79,7 @@ public class Machina {
 	public static final String CONFIG_DIR_PATH = "config/" + MOD_ID + "/";
 	public static final File CONFIF_DIR = new File(CONFIG_DIR_PATH);
 
-	/**
-	 * @deprecated Use {@link #ANNOTATION_PROCESSOR}, from MatyLib
-	 */
-	@Deprecated
-	public static final AnnotationProcessor LEGACY_ANNOTATION_PROCESSOR = new AnnotationProcessor(MOD_ID);
-	public static final com.matyrobbrt.lib.registry.annotation.AnnotationProcessor ANNOTATION_PROCESSOR = new com.matyrobbrt.lib.registry.annotation.AnnotationProcessor(
-			MOD_ID);
+	public static final MachinaAnnotationProcessor ANNOTATION_PROCESSOR = new MachinaAnnotationProcessor(MOD_ID);
 
 	public static PlanetTraitPoolManager planetTraitPoolManager = new PlanetTraitPoolManager();
 
@@ -99,7 +93,7 @@ public class Machina {
 
 		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-		LEGACY_ANNOTATION_PROCESSOR.afterInit(() -> {
+		ANNOTATION_PROCESSOR.afterInit(() -> {
 			CommonConfig.register();
 			ClientConfig.register();
 			ServerConfig.register();
@@ -107,9 +101,6 @@ public class Machina {
 
 		ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
 		ANNOTATION_PROCESSOR.register(modBus);
-
-		LEGACY_ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
-		LEGACY_ANNOTATION_PROCESSOR.register(modBus);
 		modBus.addListener(this::onCommonSetup);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));

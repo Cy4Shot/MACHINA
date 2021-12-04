@@ -30,11 +30,13 @@
 
 package com.machina.api.recipe.advanced_crafting;
 
-import com.google.gson.JsonObject;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
+import static com.machina.api.ModIDs.MACHINA;
 
-@RegistryHolder
+import com.google.gson.JsonObject;
+import com.machina.api.registry.annotation.RegisterACFunctionSerializer;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
+
+@RegistryHolder(modid = MACHINA)
 public class EmptyFunction extends AdvancedCraftingFunction {
 
 	@RegisterACFunctionSerializer("no_function")

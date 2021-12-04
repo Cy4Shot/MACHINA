@@ -30,13 +30,15 @@
 
 package com.machina.init;
 
-import com.machina.api.registry.annotation.RegisterTileEntityType;
-import com.machina.api.registry.annotation.RegistryHolder;
+import static com.machina.api.ModIDs.MACHINA;
+
 import com.machina.tile_entity.TankTileEntity;
+import com.matyrobbrt.lib.registry.annotation.RegisterTileEntityType;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.tileentity.TileEntityType;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public class TileEntityTypesInit {
 
 	@RegisterTileEntityType("tank")

@@ -31,14 +31,7 @@
 package com.machina.modules.rocket;
 
 import static com.machina.api.ModIDs.MACHINA;
-import static com.machina.api.module.ModuleHelper.cutout;
 
-import com.machina.api.annotation.RL;
-import com.machina.api.module.IModule;
-import com.machina.api.module.Module;
-import com.machina.api.registry.annotation.AutoBlockItem;
-import com.machina.api.registry.annotation.RegisterBlock;
-import com.machina.api.registry.annotation.RegisterTileEntityType;
 import com.machina.modules.rocket.block.AnimatedBuilder;
 import com.machina.modules.rocket.block.AnimatedBuilderMount;
 import com.machina.modules.rocket.block.ConsoleBlock;
@@ -47,6 +40,13 @@ import com.machina.modules.rocket.block.RocketBlock;
 import com.machina.modules.rocket.block.RocketMount;
 import com.machina.modules.rocket.client.RocketTileRenderer;
 import com.machina.modules.rocket.tile_entity.RocketTile;
+import com.matyrobbrt.lib.annotation.RL;
+import com.matyrobbrt.lib.module.IModule;
+import com.matyrobbrt.lib.module.Module;
+import com.matyrobbrt.lib.module.ModuleHelper;
+import com.matyrobbrt.lib.registry.annotation.AutoBlockItem;
+import com.matyrobbrt.lib.registry.annotation.RegisterBlock;
+import com.matyrobbrt.lib.registry.annotation.RegisterTileEntityType;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -57,7 +57,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Module(id = @RL(modid = MACHINA, path = "rocket"))
-public class RocketModule implements IModule {
+public class RocketModule extends ModuleHelper implements IModule {
 
 	@AutoBlockItem
 	@RegisterBlock("rocket")

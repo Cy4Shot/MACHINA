@@ -41,17 +41,18 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(FIELD)
 /**
- * Registers the {@link ParticleType} that is represented by the field that has
- * this annotation. For the ParticleType to be registered the class in which the
- * field is has to be annotated with {@link RegistryHolder}
+ * Registers the {@link AdvancedCraftingFunctionSerializer} that is represented
+ * by the field that has this annotation. For the serializer to be registered
+ * the class in which the field is has to be annotated with
+ * {@link RegistryHolder}
  *
  * @author matyrobbrt
  *
  */
-public @interface RegisterParticleType {
+public @interface RegisterACFunctionSerializer {
 
 	/**
-	 * The registry name of the ParticleType (the modid is specified by the
+	 * The registry name of the serializer (the modid is specified by the
 	 * {@link RegistryHolder} on the class the field is in)
 	 *
 	 * @return

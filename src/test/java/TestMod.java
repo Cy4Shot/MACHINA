@@ -31,9 +31,10 @@
 import java.util.UUID;
 
 import com.machina.api.planet.attribute.PlanetAttributeType;
-import com.machina.api.registry.annotation.AnnotationProcessor;
-import com.machina.api.registry.annotation.RegisterItem;
-import com.machina.api.registry.annotation.RegistryHolder;
+import com.machina.api.registry.annotation.MachinaAnnotationProcessor;
+import com.matyrobbrt.lib.registry.annotation.AnnotationProcessor;
+import com.matyrobbrt.lib.registry.annotation.RegisterItem;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
@@ -63,7 +64,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod.EventBusSubscriber(modid = "test_mod", bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TestMod {
 
-	public static final AnnotationProcessor ANN_HELPER = new AnnotationProcessor("test_mod");
+	public static final MachinaAnnotationProcessor ANN_HELPER = new MachinaAnnotationProcessor("test_mod");
 
 	public TestMod() {
 		ANN_HELPER.register(FMLJavaModLoadingContext.get().getModEventBus());

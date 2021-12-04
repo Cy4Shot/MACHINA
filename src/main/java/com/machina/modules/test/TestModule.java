@@ -2,14 +2,14 @@ package com.machina.modules.test;
 
 import static com.machina.api.ModIDs.MACHINA;
 
-import com.machina.api.annotation.RL;
-import com.machina.api.module.IModule;
-import com.machina.api.module.Module;
-import com.machina.api.module.ModuleHelper;
-import com.machina.api.registry.annotation.AutoBlockItem;
-import com.machina.api.registry.annotation.RegisterBlock;
-import com.machina.api.registry.annotation.RegisterContainerType;
-import com.machina.api.registry.annotation.RegisterTileEntityType;
+import com.matyrobbrt.lib.annotation.RL;
+import com.matyrobbrt.lib.module.IModule;
+import com.matyrobbrt.lib.module.Module;
+import com.matyrobbrt.lib.module.ModuleHelper;
+import com.matyrobbrt.lib.registry.annotation.AutoBlockItem;
+import com.matyrobbrt.lib.registry.annotation.RegisterBlock;
+import com.matyrobbrt.lib.registry.annotation.RegisterContainerType;
+import com.matyrobbrt.lib.registry.annotation.RegisterTileEntityType;
 
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.tileentity.TileEntityType;

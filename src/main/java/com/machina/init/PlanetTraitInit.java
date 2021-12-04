@@ -30,12 +30,13 @@
 
 package com.machina.init;
 
-import com.machina.Machina;
+import static com.machina.api.ModIDs.MACHINA;
+
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.planet.trait.PlanetTrait.JeiProperties;
 import com.machina.api.planet.trait.PlanetTrait.Properties;
 import com.machina.api.registry.annotation.RegisterPlanetTrait;
-import com.machina.api.registry.annotation.RegistryHolder;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.item.Items;
 
@@ -45,7 +46,7 @@ import net.minecraftforge.registries.IForgeRegistry;
  * @author Cy4Shot
  */
 @SuppressWarnings("deprecation")
-@RegistryHolder(modid = Machina.MOD_ID)
+@RegistryHolder(modid = MACHINA)
 public final class PlanetTraitInit {
 
 	@RegisterPlanetTrait(id = "water_world")
@@ -103,7 +104,7 @@ public final class PlanetTraitInit {
 	public static final PlanetTrait NOT_EXISTING = new PlanetTrait(
 			new Properties(0x000000).withJeiProperties(new JeiProperties().setShowsInJei(false)));
 
-	@RegistryHolder
+	@RegistryHolder(modid = MACHINA)
 	public static final class Environmental {
 
 		@RegisterPlanetTrait(id = "supercold")

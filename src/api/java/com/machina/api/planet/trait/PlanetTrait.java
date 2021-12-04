@@ -30,18 +30,20 @@
 
 package com.machina.api.planet.trait;
 
+import static com.machina.api.ModIDs.MACHINA;
+
 import java.util.List;
 import java.util.Optional;
 
 import com.google.common.collect.Lists;
 import com.machina.api.annotation.ChangedByReflection;
 import com.machina.api.planet.attribute.PlanetAttributeList;
-import com.machina.api.registry.annotation.RegisterCustomRegistry;
-import com.machina.api.registry.annotation.RegistryHolder;
 import com.machina.api.util.Color;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.helper.CustomRegistryHelper;
 import com.machina.api.util.objects.TargetField;
+import com.matyrobbrt.lib.registry.annotation.RegisterCustomRegistry;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -57,7 +59,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
 	@ChangedByReflection(when = "commonSetup (when the registry is built)")

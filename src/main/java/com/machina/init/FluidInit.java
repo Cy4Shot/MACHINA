@@ -30,18 +30,19 @@
 
 package com.machina.init;
 
-import static com.machina.api.util.MachinaRegistryObject.fluid;
+import static com.machina.api.ModIDs.MACHINA;
+import static com.matyrobbrt.lib.registry.BetterRegistryObject.fluid;
 
 import java.util.function.Supplier;
 
 import com.machina.Machina;
 import com.machina.api.ChemicalValues;
-import com.machina.api.registry.annotation.RegisterBlock;
-import com.machina.api.registry.annotation.RegisterFluid;
-import com.machina.api.registry.annotation.RegisterItem;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.api.util.MachinaRegistryObject;
 import com.machina.block.fluid.LiquidHydrogenBlock;
+import com.matyrobbrt.lib.registry.BetterRegistryObject;
+import com.matyrobbrt.lib.registry.annotation.RegisterBlock;
+import com.matyrobbrt.lib.registry.annotation.RegisterFluid;
+import com.matyrobbrt.lib.registry.annotation.RegisterItem;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
@@ -55,7 +56,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public final class FluidInit {
 
 	public static final ResourceLocation STILL_RL = new ResourceLocation("block/water_still");
@@ -64,19 +65,19 @@ public final class FluidInit {
 
 	//@formatter:off
 	@RegisterFluid("oxygen")
-	public static final MachinaRegistryObject<FlowingFluid> OXYGEN = fluid(() -> new ForgeFlowingFluid.Source(Properties.OXYGEN_PROPERTIES));
+	public static final BetterRegistryObject<FlowingFluid> OXYGEN = fluid(() -> new ForgeFlowingFluid.Source(Properties.OXYGEN_PROPERTIES));
 	@RegisterFluid("oxygen_flowing")
-	public static final MachinaRegistryObject<FlowingFluid> OXYGEN_FLOWING = fluid(() -> new ForgeFlowingFluid.Flowing(Properties.OXYGEN_PROPERTIES));
+	public static final BetterRegistryObject<FlowingFluid> OXYGEN_FLOWING = fluid(() -> new ForgeFlowingFluid.Flowing(Properties.OXYGEN_PROPERTIES));
 
 	@RegisterFluid("hydrogen")
-	public static final MachinaRegistryObject<FlowingFluid> HYDROGEN = fluid(() -> new ForgeFlowingFluid.Source(Properties.HYDROGEN_PROPERTIES));
+	public static final BetterRegistryObject<FlowingFluid> HYDROGEN = fluid(() -> new ForgeFlowingFluid.Source(Properties.HYDROGEN_PROPERTIES));
 	@RegisterFluid("hydrogen_flowing")
-	public static final MachinaRegistryObject<FlowingFluid> HYDROGEN_FLOWING = fluid(() -> new ForgeFlowingFluid.Flowing(Properties.HYDROGEN_PROPERTIES));
+	public static final BetterRegistryObject<FlowingFluid> HYDROGEN_FLOWING = fluid(() -> new ForgeFlowingFluid.Flowing(Properties.HYDROGEN_PROPERTIES));
 
 	@RegisterFluid("liquid_hydrogen")
-	public static final MachinaRegistryObject<FlowingFluid> LIQUID_HYDROGEN = fluid(() -> new ForgeFlowingFluid.Source(Properties.LIQUID_HYDROGEN_PROPERTIES));
+	public static final BetterRegistryObject<FlowingFluid> LIQUID_HYDROGEN = fluid(() -> new ForgeFlowingFluid.Source(Properties.LIQUID_HYDROGEN_PROPERTIES));
 	@RegisterFluid("liquid_hydrogen_flowing")
-	public static final MachinaRegistryObject<FlowingFluid> LIQUID_HYDROGEN_FLOWING = fluid(() -> new ForgeFlowingFluid.Flowing(Properties.LIQUID_HYDROGEN_PROPERTIES));
+	public static final BetterRegistryObject<FlowingFluid> LIQUID_HYDROGEN_FLOWING = fluid(() -> new ForgeFlowingFluid.Flowing(Properties.LIQUID_HYDROGEN_PROPERTIES));
 	@RegisterBlock("liquid_hydrogen")
 	public static final FlowingFluidBlock LIQUID_HYDROGEN_BLOCK = new LiquidHydrogenBlock(LIQUID_HYDROGEN::get, AbstractBlock.Properties.copy(Blocks.WATER));
 

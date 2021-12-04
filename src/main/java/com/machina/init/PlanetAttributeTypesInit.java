@@ -30,12 +30,14 @@
 
 package com.machina.init;
 
+import static com.machina.api.ModIDs.MACHINA;
+
 import java.util.function.Function;
 
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.registry.annotation.RegisterPlanetAttributeType;
-import com.machina.api.registry.annotation.RegistryHolder;
 import com.machina.api.util.Color;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.FloatNBT;
@@ -43,7 +45,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.IntNBT;
 import net.minecraft.nbt.StringNBT;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public final class PlanetAttributeTypesInit {
 
 	@RegisterPlanetAttributeType("gravity")

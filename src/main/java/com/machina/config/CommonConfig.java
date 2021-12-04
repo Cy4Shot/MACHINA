@@ -56,7 +56,7 @@ public class CommonConfig extends BaseTOMLConfig {
 		minPlanets = config("Minimum planets in the starchart.", "minimumPlanets", 5);
 		maxPlanets = config("Maximum planets in the starchart.", "maximumPlanets", 10);
 		
-		Machina.LEGACY_ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
+		Machina.ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
 			module.initConfig(Type.COMMON, BUILDER)
 		);
 		

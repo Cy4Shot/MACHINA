@@ -48,7 +48,7 @@ public class ServerConfig extends BaseTOMLConfig {
 	public static void register() {
 		BUILDER.push("machinaConfig");
 		
-		Machina.LEGACY_ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
+		Machina.ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
 			module.initConfig(Type.SERVER, BUILDER)
 		);
 		

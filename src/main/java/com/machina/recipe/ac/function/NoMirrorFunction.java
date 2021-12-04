@@ -30,14 +30,16 @@
 
 package com.machina.recipe.ac.function;
 
+import static com.machina.api.ModIDs.MACHINA;
+
 import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunction;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
+import com.machina.api.registry.annotation.RegisterACFunctionSerializer;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.crafting.Ingredient;
@@ -45,7 +47,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public class NoMirrorFunction extends AdvancedCraftingFunction {
 
 	@RegisterACFunctionSerializer("no_mirror")
@@ -55,14 +57,14 @@ public class NoMirrorFunction extends AdvancedCraftingFunction {
 	public boolean matches(CraftingInventory inventory, AdvancedCraftingRecipe recipe, World level) {
 		for (int i = 0; i <= inventory.getWidth() - recipe.getRecipeWidth(); i++) {
 			for (int j = 0; j <= inventory.getHeight() - recipe.getRecipeHeight(); j++) {
-				if (this.checkMatch(inventory, i, j, recipe)) { return true; }
+				if (checkMatch(inventory, i, j, recipe)) { return true; }
 			}
 		}
 
 		return false;
 	}
 
-	private boolean checkMatch(CraftingInventory inventory, int x, int y, AdvancedCraftingRecipe recipe) {
+	private static boolean checkMatch(CraftingInventory inventory, int x, int y, AdvancedCraftingRecipe recipe) {
 		for (int i = 0; i < inventory.getWidth(); ++i) {
 			for (int j = 0; j < inventory.getHeight(); ++j) {
 				int k = i - x;

@@ -191,6 +191,7 @@ dependencies {
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
     
     implementation fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
+    compileClasspath fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
     
     compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api")
 	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
@@ -274,7 +275,10 @@ task apiJar(type: Jar) {
     duplicatesStrategy(DuplicatesStrategy.FAIL)
     destinationDirectory = file("$rootDir/build-out")
     archiveClassifier.set("api")
-    from sourceSets.api.output
+    from {
+    	configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    	sourceSets.api.output
+    }
     afterEvaluate { finalizedBy reobfApiJar }
 }
 

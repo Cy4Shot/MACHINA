@@ -30,13 +30,15 @@
 
 package com.machina.init;
 
+import static com.machina.api.ModIDs.MACHINA;
+
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.api.registry.annotation.recipe.RegisterRecipeType;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
+import com.matyrobbrt.lib.registry.annotation.recipe.RegisterRecipeType;
 
 import net.minecraft.item.crafting.IRecipeType;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public final class RecipeInit {
 
 	@RegisterRecipeType("advanced_crafting")

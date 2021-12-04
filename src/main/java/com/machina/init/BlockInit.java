@@ -30,16 +30,20 @@
 
 package com.machina.init;
 
-import com.machina.api.registry.annotation.RegisterBlock;
-import com.machina.api.registry.annotation.RegistryHolder;
+import static com.machina.api.ModIDs.MACHINA;
+
 import com.machina.block.TankBlock;
+import com.matyrobbrt.lib.registry.annotation.AutoBlockItem;
+import com.matyrobbrt.lib.registry.annotation.RegisterBlock;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public class BlockInit {
 
+	@AutoBlockItem
 	@RegisterBlock("tank")
 	public static final TankBlock TANK = new TankBlock(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK));
 }

@@ -30,12 +30,14 @@
 
 package com.machina.init;
 
-import com.machina.api.registry.annotation.RegisterParticleType;
-import com.machina.api.registry.annotation.RegistryHolder;
+import static com.machina.api.ModIDs.MACHINA;
+
+import com.matyrobbrt.lib.registry.annotation.RegisterParticleType;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.particles.BasicParticleType;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public final class ParticleTypesInit {
 
 	@RegisterParticleType("electricity_spark")

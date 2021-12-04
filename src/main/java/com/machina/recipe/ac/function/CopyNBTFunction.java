@@ -30,18 +30,20 @@
 
 package com.machina.recipe.ac.function;
 
+import static com.machina.api.ModIDs.MACHINA;
+
 import com.google.gson.JsonObject;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunction;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
-import com.machina.api.registry.annotation.RegistryHolder;
-import com.machina.api.registry.annotation.recipe.RegisterACFunctionSerializer;
+import com.machina.api.registry.annotation.RegisterACFunctionSerializer;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.JSONUtils;
 
-@RegistryHolder
+@RegistryHolder(modid = MACHINA)
 public class CopyNBTFunction extends AdvancedCraftingFunction {
 
 	public final int copyNBTSlot;

@@ -2,7 +2,6 @@ package com.machina.modules.test;
 
 import com.machina.api.container.BaseContainer;
 import com.machina.api.container.tracker.EnergyTracker;
-import com.machina.api.util.FunctionalIntReferenceHolder;
 import com.machina.api.util.InventoryUtils;
 
 import net.minecraft.entity.player.PlayerEntity;

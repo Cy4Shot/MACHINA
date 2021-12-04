@@ -55,7 +55,7 @@ public class ClientConfig extends BaseTOMLConfig {
 		disableExperimentalSettingsScreen = config("If the experimentals settings screen should be disabled.",
 				"disableExperimentalSettingsScreen", true);
 		
-		Machina.LEGACY_ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
+		Machina.ANNOTATION_PROCESSOR.getModules().forEach((id, module) -> 
 			module.initConfig(Type.CLIENT, BUILDER)
 		);
 		

@@ -30,8 +30,6 @@
 
 package com.machina.datagen.client.lang;
 
-import static com.machina.Machina.MOD_ID;
-
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +38,6 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Lists;
 import com.machina.Machina;
 import com.machina.api.planet.trait.PlanetTrait;
-import com.machina.api.registry.annotation.MachinaRegistries;
 import com.machina.init.FluidInit;
 import com.machina.init.ItemInit;
 import com.machina.init.PlanetTraitInit;
@@ -112,7 +109,7 @@ public class EnUsLangProvider extends LanguageProvider {
 	}
 
 	private void addAutoItems(List<Item> blacklisted) {
-		MachinaRegistries.ITEMS.get(MOD_ID).stream().filter(item -> !blacklisted.contains(item)).forEach(item -> {
+		Machina.ANNOTATION_PROCESSOR.getItems().stream().filter(item -> !blacklisted.contains(item)).forEach(item -> {
 			String name = item.getRegistryName().getPath().replace("_", " ");
 			add(item, capitalizeWord(name));
 		});
