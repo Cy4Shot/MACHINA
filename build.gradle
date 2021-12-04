@@ -26,9 +26,6 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-def props = new Properties()
-file(".env").withInputStream { props.load(it) }
-
 mixin {
     add sourceSets.main, "machina.refmap.json"
     config "machina.mixins.json"
