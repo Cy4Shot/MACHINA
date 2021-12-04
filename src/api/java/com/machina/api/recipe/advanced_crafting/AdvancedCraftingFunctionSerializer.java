@@ -69,4 +69,16 @@ public abstract class AdvancedCraftingFunctionSerializer<F extends AdvancedCraft
 	 */
 	public abstract F deserialize(JsonObject obj);
 
+	/**
+	 * Serializes the given function into a {@link JsonObject}
+	 * 
+	 * @param function
+	 * @return
+	 */
+	public JsonObject serialize(F function) {
+		JsonObject obj = new JsonObject();
+		obj.addProperty("type", getRegistryName().toString());
+		return obj;
+	}
+
 }

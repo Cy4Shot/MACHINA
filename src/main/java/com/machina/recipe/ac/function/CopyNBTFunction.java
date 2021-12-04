@@ -68,6 +68,13 @@ public class CopyNBTFunction extends AdvancedCraftingFunction {
 			return new CopyNBTFunction(JSONUtils.getAsInt(obj, "copy_slot", 4));
 		}
 
+		@Override
+		public JsonObject serialize(CopyNBTFunction function) {
+			JsonObject obj = super.serialize(function);
+			obj.addProperty("copy_slot", function.copyNBTSlot);
+			return obj;
+		}
+
 	}
 
 }
