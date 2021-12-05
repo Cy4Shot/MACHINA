@@ -32,8 +32,10 @@ package com.machina.api.planet.trait.pool;
 
 import static com.machina.api.ModIDs.MACHINA;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 import org.apache.logging.log4j.LogManager;
@@ -106,5 +108,9 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 	public void forEach(BiConsumer<? super ResourceLocation, ? super PlanetTraitPool> c) {
 		traits.forEach(c);
 	}
+
+	public Collection<PlanetTraitPool> getPools() { return traits.values(); }
+
+	public Set<Entry<ResourceLocation, PlanetTraitPool>> getEntrySet() { return traits.entrySet(); }
 
 }

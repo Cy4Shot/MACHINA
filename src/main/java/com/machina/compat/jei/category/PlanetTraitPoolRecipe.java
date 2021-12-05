@@ -28,52 +28,29 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.compat.jei.trait;
+package com.machina.compat.jei.category;
 
-import com.google.common.collect.Lists;
-import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.planet.trait.pool.PlanetTraitPool;
+import com.machina.compat.jei.MachinaJEITypes;
 
-import mezz.jei.api.ingredients.IIngredientHelper;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
 
-public class PlanetTraitJEIHelper implements IIngredientHelper<PlanetTrait> {
+public class PlanetTraitPoolRecipe implements IRecipeCategoryExtension {
 
-	@Override
-	public PlanetTrait getMatch(Iterable<PlanetTrait> traits, PlanetTrait traitToMatch) {
-		return Lists.newArrayList(traits).stream().filter(trait -> traitToMatch == trait).findFirst().orElse(null);
+	private final PlanetTraitPool pool;
+	public final String name;
+
+	public PlanetTraitPoolRecipe(PlanetTraitPool pool, String name) {
+		this.pool = pool;
+		this.name = name;
 	}
 
 	@Override
-	public String getDisplayName(PlanetTrait trait) {
-		return trait.toString();
+	public void setIngredients(IIngredients ingredients) {
+		ingredients.setOutputs(MachinaJEITypes.PLANET_TRAIT, pool.allTraits());
 	}
 
-	@Override
-	public String getUniqueId(PlanetTrait trait) {
-		return trait.getRegistryName().toString();
-	}
+	public PlanetTraitPool getPool() { return this.pool; }
 
-	@Override
-	public String getModId(PlanetTrait trait) {
-		return trait.getRegistryName().getNamespace();
-	}
-
-	@Override
-	public String getResourceId(PlanetTrait trait) {
-		return trait.getRegistryName().getPath();
-	}
-
-	@Override
-	public PlanetTrait copyIngredient(PlanetTrait trait) {
-		return trait;
-	}
-
-	@Override
-	public String getErrorInfo(PlanetTrait trait) {
-		return trait.toString();
-	}
-
-	@Override
-	public Iterable<Integer> getColors(PlanetTrait trait) {
-		return Lists.newArrayList(trait.getColor());
-	}
 }

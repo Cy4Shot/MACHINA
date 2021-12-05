@@ -37,9 +37,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
 import com.machina.api.util.MachinaRL;
 import com.machina.compat.jei.category.AdvancedCraftingRecipeExtension;
+import com.machina.compat.jei.category.PlanetTraitPoolRecipe;
+import com.machina.compat.jei.category.PlanetTraitPoolsCategory;
 import com.machina.compat.jei.trait.PlanetTraitJEIHelper;
 import com.machina.compat.jei.trait.PlanetTraitJEIRenderer;
 import com.machina.init.RecipeInit;
@@ -52,7 +55,9 @@ import net.minecraft.util.text.ITextComponent;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IModIngredientRegistration;
+import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 
@@ -66,14 +71,27 @@ public class MachinaJEIPlugin implements IModPlugin {
 	@Override
 	public ResourceLocation getPluginUid() { return PLUGIN_ID; }
 
+	@Override
+	public void registerCategories(IRecipeCategoryRegistration registration) {
+		IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
+		registration.addRecipeCategories(new PlanetTraitPoolsCategory(helper));
+	}
+
 	@SuppressWarnings("resource")
 	@Override
 	public void registerRecipes(IRecipeRegistration registration) {
 		RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
 
 		registration.addRecipes(getRecipes(manager, RecipeInit.ADVANCED_CRAFTING_RECIPE_TYPE), VANILLA_CRAFTING);
+		registration.addRecipes(getPlanetTraitPools(), PlanetTraitPoolsCategory.ID);
 
 		addIngredientInfo(registration);
+	}
+
+	private static Collection<PlanetTraitPoolRecipe> getPlanetTraitPools() {
+		return PlanetTraitPoolManager.INSTANCE.getEntrySet().stream()
+				.map(entry -> new PlanetTraitPoolRecipe(entry.getValue(), entry.getKey().toString()))
+				.collect(Collectors.toList());
 	}
 
 	private static Collection<?> getRecipes(RecipeManager manager, IRecipeType<?> type) {
