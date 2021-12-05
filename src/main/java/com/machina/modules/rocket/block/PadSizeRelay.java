@@ -37,6 +37,9 @@ import com.machina.block.properties.ActivationState;
 import com.machina.block.properties.RelayPosState;
 import com.machina.init.ItemInit;
 import com.machina.modules.rocket.RocketModule;
+import com.machina.modules.rocket.top.RelayTOPDriver;
+import com.matyrobbrt.lib.compat.top.ITOPDriver;
+import com.matyrobbrt.lib.compat.top.ITOPInfoProvider;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -53,17 +56,20 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
-public class PadSizeRelay extends Block {
-	public static final EnumProperty<ActivationState> ACTIVATION_STATE = EnumProperty.create("activation_state", ActivationState.class, ActivationState.UN_POWERED, ActivationState.NOT_ACTIVE,
-			ActivationState.WAITING, ActivationState.ACTIVE);
+public class PadSizeRelay extends Block implements ITOPInfoProvider {
 
-	public static final EnumProperty<RelayPosState> RELAY_POS_STATE = EnumProperty.create("relay_pos_state", RelayPosState.class, RelayPosState.N_A, RelayPosState.NORTH,
-			RelayPosState.NORTHEAST, RelayPosState.EAST, RelayPosState.SOUTHEAST, RelayPosState.SOUTH, RelayPosState.SOUTHWEST, RelayPosState.WEST, RelayPosState.NORTHWEST, RelayPosState.CENTER);
+	public static final EnumProperty<ActivationState> ACTIVATION_STATE = EnumProperty.create("activation_state",
+			ActivationState.class, ActivationState.UN_POWERED, ActivationState.NOT_ACTIVE, ActivationState.WAITING,
+			ActivationState.ACTIVE);
+
+	public static final EnumProperty<RelayPosState> RELAY_POS_STATE = EnumProperty.create("relay_pos_state",
+			RelayPosState.class, RelayPosState.N_A, RelayPosState.NORTH, RelayPosState.NORTHEAST, RelayPosState.EAST,
+			RelayPosState.SOUTHEAST, RelayPosState.SOUTH, RelayPosState.SOUTHWEST, RelayPosState.WEST,
+			RelayPosState.NORTHWEST, RelayPosState.CENTER);
 
 	public PadSizeRelay() {
 		super(AbstractBlock.Properties.copy(Blocks.GRAY_CONCRETE));
-		this.registerDefaultState(stateDefinition.any()
-				.setValue(ACTIVATION_STATE, ActivationState.UN_POWERED)
+		this.registerDefaultState(stateDefinition.any().setValue(ACTIVATION_STATE, ActivationState.UN_POWERED)
 				.setValue(RELAY_POS_STATE, RelayPosState.N_A));
 	}
 
@@ -73,54 +79,58 @@ public class PadSizeRelay extends Block {
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
-	{
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
+			BlockRayTraceResult hit) {
 		if (player.getItemInHand(handIn).getItem() == ItemInit.WRENCH) {
 			determineRelayPosAndActivate(player, state, worldIn, pos);
 		}
-			
+
 		return ActionResultType.SUCCESS;
 	}
-	
-	
-	
-	
-	
+
 	/**************************************************************************************************************************************************
 	 * UTIL METHODS/VARIABLES
 	 **************************************************************************************************************************************************/
 
 	public void determineRelayPosAndActivate(PlayerEntity player, BlockState state, World world, BlockPos pos) {
 		if (checkForCenter(world, pos, Direction.NORTH)) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.SOUTH).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.SOUTH).setValue(ACTIVATION_STATE,
+					ActivationState.NOT_ACTIVE));
 		} else if (checkForCenter(world, pos, DiagonalDirection.NORTH_EAST)) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.SOUTHWEST).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.SOUTHWEST)
+					.setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
 		} else if (checkForCenter(world, pos, Direction.EAST)) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.WEST).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.WEST).setValue(ACTIVATION_STATE,
+					ActivationState.NOT_ACTIVE));
 		} else if (checkForCenter(world, pos, DiagonalDirection.SOUTH_EAST)) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.NORTHWEST).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.NORTHWEST)
+					.setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
 		} else if (checkForCenter(world, pos, Direction.SOUTH)) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.NORTH).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.NORTH).setValue(ACTIVATION_STATE,
+					ActivationState.NOT_ACTIVE));
 		} else if (checkForCenter(world, pos, DiagonalDirection.SOUTH_WEST)) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.NORTHEAST).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.NORTHEAST)
+					.setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
 		} else if (checkForCenter(world, pos, Direction.WEST)) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.EAST).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.EAST).setValue(ACTIVATION_STATE,
+					ActivationState.NOT_ACTIVE));
 		} else if (checkForCenter(world, pos, DiagonalDirection.NORTH_WEST)) {
-			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.SOUTHEAST).setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
+			world.setBlockAndUpdate(pos, state.setValue(RELAY_POS_STATE, RelayPosState.SOUTHEAST)
+					.setValue(ACTIVATION_STATE, ActivationState.NOT_ACTIVE));
 		} else {
 			player.displayClientMessage(new StringTextComponent("This Relay Is Not in a Valid Position"), true);
 		}
 	}
-	
-	public boolean checkForCenter(World world, BlockPos pos, Direction straightDirection) {
+
+	public static boolean checkForCenter(World world, BlockPos pos, Direction straightDirection) {
 		return checkForCenter(world, pos.relative(straightDirection, 7).below());
 	}
 
-	public boolean checkForCenter(World world, BlockPos pos, DiagonalDirection diagonalDirection) {
+	public static boolean checkForCenter(World world, BlockPos pos, DiagonalDirection diagonalDirection) {
 		return checkForCenter(world, diagonalDirection.relative(pos, 7).below());
 	}
 
-	public boolean checkForCenter(World world, BlockPos pos) {
+	public static boolean checkForCenter(World world, BlockPos pos) {
 		return world.getBlockState(pos).is(RocketModule.ROCKET_MOUNT_BLOCK);
 	}
 
@@ -150,5 +160,8 @@ public class PadSizeRelay extends Block {
 		timer7.setRepeats(false);
 		timer7.start();
 	}
+
+	@Override
+	public ITOPDriver getTheOneProbeDriver() { return new RelayTOPDriver(); }
 
 }

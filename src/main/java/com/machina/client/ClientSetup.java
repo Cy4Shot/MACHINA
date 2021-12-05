@@ -58,14 +58,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 @OnlyIn(Dist.CLIENT)
 @SuppressWarnings("resource")
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientSetup {
+public class ClientSetup extends com.matyrobbrt.lib.ClientSetup {
 
-	/**
-	 * Does client stuffs
-	 * 
-	 * @param modBus
-	 */
 	public ClientSetup(IEventBus modBus) {
+		super(modBus);
 		modBus.addListener(this::onBlockColourHandler);
 
 		CustomDimensionRenderInfo.registerDimensionRenderInfo();

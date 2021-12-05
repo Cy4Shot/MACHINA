@@ -28,50 +28,24 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.modules.test;
+package com.machina.modules.rocket.top;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
+import com.matyrobbrt.lib.compat.top.ITOPDriver;
+
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-import net.minecraftforge.fml.network.NetworkHooks;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 
-public class TestBlock extends Block {
+public class ConsoleTOPDriver implements ITOPDriver {
 
-	public TestBlock() {
-		super(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK));
-	}
-	
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-	
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TestModule.TEST_TE_TYPE.create();
-	}
-	
-	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
-			Hand handIn, BlockRayTraceResult hit) {
-		if (!worldIn.isClientSide()) {
-			TileEntity te = worldIn.getBlockEntity(pos);
-			if (te instanceof TestTileEntity) {
-				NetworkHooks.openGui((ServerPlayerEntity) player, (TestTileEntity) te, pos);
-			}
-		}
-		return ActionResultType.SUCCESS;
+	public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World level,
+			BlockState blockState, IProbeHitData probeData) {
+		probeInfo.text("some text to display yes no");
 	}
 
 }

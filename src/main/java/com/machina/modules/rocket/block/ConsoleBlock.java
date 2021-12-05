@@ -40,6 +40,9 @@ import com.machina.block.properties.ActivationState;
 import com.machina.block.properties.RelayPosState;
 import com.machina.init.ItemInit;
 import com.machina.modules.rocket.RocketModule;
+import com.machina.modules.rocket.top.ConsoleTOPDriver;
+import com.matyrobbrt.lib.compat.top.ITOPDriver;
+import com.matyrobbrt.lib.compat.top.ITOPInfoProvider;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -58,7 +61,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
-public class ConsoleBlock extends Block {
+public class ConsoleBlock extends Block implements ITOPInfoProvider {
 
 	public static final DirectionProperty FACING = HorizontalBlock.FACING;
 
@@ -78,22 +81,20 @@ public class ConsoleBlock extends Block {
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit)
-	{
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
+			BlockRayTraceResult hit) {
 		if (player.getItemInHand(handIn).getItem() == ItemInit.WRENCH) {
 			if (isConfiguredRelayBelow(worldIn, pos, player)) {
 				relayConnectionProcess(player, state, worldIn, pos);
 			}
 		}
-			
+
 		return ActionResultType.SUCCESS;
 	}
 
-	
-	
-	public void relayConnectionProcess(PlayerEntity player, BlockState state, World world, BlockPos pos) {
+	public static void relayConnectionProcess(PlayerEntity player, BlockState state, World world, BlockPos pos) {
 		BlockPos rocketMountPosFromNorth = pos.relative(Direction.SOUTH, 7).below(2);
-		
+
 		if (isConfiguredRelayBelow(world, pos, player)) {
 			if (getRelayPosition(world, pos) == RelayPosState.NORTH) {
 				if (rocketMountRelayCheck(world, pos, player, Direction.SOUTH)) {
@@ -101,138 +102,157 @@ public class ConsoleBlock extends Block {
 				}
 			} else if (getRelayPosition(world, pos) == RelayPosState.NORTHEAST) {
 				if (rocketMountRelayCheck(world, pos, player, DiagonalDirection.SOUTH_WEST)) {
-					//player.displayClientMessage(new StringTextComponent("Sent From NorthEast Console"), false);
+					// player.displayClientMessage(new StringTextComponent("Sent From NorthEast
+					// Console"), false);
 				}
 			} else if (getRelayPosition(world, pos) == RelayPosState.EAST) {
 				if (rocketMountRelayCheck(world, pos, player, Direction.WEST)) {
-					//player.displayClientMessage(new StringTextComponent("Sent From East Console"), false);
+					// player.displayClientMessage(new StringTextComponent("Sent From East
+					// Console"), false);
 				}
 			} else if (getRelayPosition(world, pos) == RelayPosState.SOUTHEAST) {
 				if (rocketMountRelayCheck(world, pos, player, DiagonalDirection.NORTH_WEST)) {
-					//player.displayClientMessage(new StringTextComponent("Sent From SouthEast Console"), false);
+					// player.displayClientMessage(new StringTextComponent("Sent From SouthEast
+					// Console"), false);
 				}
 			} else if (getRelayPosition(world, pos) == RelayPosState.SOUTH) {
 				if (rocketMountRelayCheck(world, pos, player, Direction.NORTH)) {
-					//player.displayClientMessage(new StringTextComponent("Sent From South Console"), false);
+					// player.displayClientMessage(new StringTextComponent("Sent From South
+					// Console"), false);
 				}
 			} else if (getRelayPosition(world, pos) == RelayPosState.SOUTHWEST) {
 				if (rocketMountRelayCheck(world, pos, player, DiagonalDirection.NORTH_EAST)) {
-					//player.displayClientMessage(new StringTextComponent("Sent From SouthWest Console"), false);
+					// player.displayClientMessage(new StringTextComponent("Sent From SouthWest
+					// Console"), false);
 				}
 			} else if (getRelayPosition(world, pos) == RelayPosState.WEST) {
 				if (rocketMountRelayCheck(world, pos, player, Direction.EAST)) {
-					//player.displayClientMessage(new StringTextComponent("Sent From West Console"), false);
+					// player.displayClientMessage(new StringTextComponent("Sent From West
+					// Console"), false);
 				}
 			} else if (getRelayPosition(world, pos) == RelayPosState.NORTHWEST) {
 				if (rocketMountRelayCheck(world, pos, player, DiagonalDirection.SOUTH_EAST)) {
-					//player.displayClientMessage(new StringTextComponent("Sent From NorthWest Console"), false);
+					// player.displayClientMessage(new StringTextComponent("Sent From NorthWest
+					// Console"), false);
 				}
 			}
 		}
 	}
-	
-	public void relativeRelayConnectionAnimationChain(BlockPos posIn, World worldIn) {
-		BlockPos northRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, Direction.NORTH);
-		BlockPos northEastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, DiagonalDirection.NORTH_EAST);
-		BlockPos eastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, Direction.EAST);
-		BlockPos southEastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, DiagonalDirection.SOUTH_EAST);
-		BlockPos southRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, Direction.SOUTH);
-		BlockPos southWestEastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, DiagonalDirection.SOUTH_WEST);
-		BlockPos westRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, Direction.WEST);
-		BlockPos northWestEastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, DiagonalDirection.NORTH_WEST);
-		
-		//resetAllRelayBlocks(worldIn, posIn);
 
-		Timer timer1 = new Timer(0, actionEvent -> PadSizeRelay.isConnectingAnimation(northRelayRelativeToRocketMount, worldIn));
-		timer1.setInitialDelay(1000); timer1.setRepeats(false); timer1.start();
-		Timer timer2 = new Timer(0, actionEvent -> PadSizeRelay.isConnectingAnimation(northEastRelayRelativeToRocketMount, worldIn));
-		timer2.setInitialDelay(9000); timer2.setRepeats(false); timer2.start();
-		Timer timer3 = new Timer(0, actionEvent -> PadSizeRelay.isConnectingAnimation(eastRelayRelativeToRocketMount, worldIn));
-		timer3.setInitialDelay(17000); timer3.setRepeats(false); timer3.start();
-		Timer timer4 = new Timer(0, actionEvent -> PadSizeRelay.isConnectingAnimation(southEastRelayRelativeToRocketMount, worldIn));
-		timer4.setInitialDelay(25000); timer4.setRepeats(false); timer4.start();
-		Timer timer5 = new Timer(0, actionEvent -> PadSizeRelay.isConnectingAnimation(southRelayRelativeToRocketMount, worldIn));
-		timer5.setInitialDelay(33000); timer5.setRepeats(false); timer5.start();
-		Timer timer6 = new Timer(0, actionEvent -> PadSizeRelay.isConnectingAnimation(southWestEastRelayRelativeToRocketMount, worldIn));
-		timer6.setInitialDelay(41000); timer6.setRepeats(false); timer6.start();
-		Timer timer7 = new Timer(0, actionEvent -> PadSizeRelay.isConnectingAnimation(westRelayRelativeToRocketMount, worldIn));
-		timer7.setInitialDelay(49000); timer7.setRepeats(false); timer7.start();
-		Timer timer8 = new Timer(0, actionEvent -> PadSizeRelay.isConnectingAnimation(northWestEastRelayRelativeToRocketMount, worldIn));
-		timer8.setInitialDelay(57000); timer8.setRepeats(false); timer8.start();
+	public static void relativeRelayConnectionAnimationChain(BlockPos posIn, World worldIn) {
+		BlockPos northRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, Direction.NORTH);
+		BlockPos northEastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn,
+				DiagonalDirection.NORTH_EAST);
+		BlockPos eastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, Direction.EAST);
+		BlockPos southEastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn,
+				DiagonalDirection.SOUTH_EAST);
+		BlockPos southRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, Direction.SOUTH);
+		BlockPos southWestEastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn,
+				DiagonalDirection.SOUTH_WEST);
+		BlockPos westRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn, Direction.WEST);
+		BlockPos northWestEastRelayRelativeToRocketMount = RocketMount.returnRelayPos(posIn, worldIn,
+				DiagonalDirection.NORTH_WEST);
+
+		// resetAllRelayBlocks(worldIn, posIn);
+
+		Timer timer1 = new Timer(0,
+				actionEvent -> PadSizeRelay.isConnectingAnimation(northRelayRelativeToRocketMount, worldIn));
+		timer1.setInitialDelay(1000);
+		timer1.setRepeats(false);
+		timer1.start();
+		Timer timer2 = new Timer(0,
+				actionEvent -> PadSizeRelay.isConnectingAnimation(northEastRelayRelativeToRocketMount, worldIn));
+		timer2.setInitialDelay(9000);
+		timer2.setRepeats(false);
+		timer2.start();
+		Timer timer3 = new Timer(0,
+				actionEvent -> PadSizeRelay.isConnectingAnimation(eastRelayRelativeToRocketMount, worldIn));
+		timer3.setInitialDelay(17000);
+		timer3.setRepeats(false);
+		timer3.start();
+		Timer timer4 = new Timer(0,
+				actionEvent -> PadSizeRelay.isConnectingAnimation(southEastRelayRelativeToRocketMount, worldIn));
+		timer4.setInitialDelay(25000);
+		timer4.setRepeats(false);
+		timer4.start();
+		Timer timer5 = new Timer(0,
+				actionEvent -> PadSizeRelay.isConnectingAnimation(southRelayRelativeToRocketMount, worldIn));
+		timer5.setInitialDelay(33000);
+		timer5.setRepeats(false);
+		timer5.start();
+		Timer timer6 = new Timer(0,
+				actionEvent -> PadSizeRelay.isConnectingAnimation(southWestEastRelayRelativeToRocketMount, worldIn));
+		timer6.setInitialDelay(41000);
+		timer6.setRepeats(false);
+		timer6.start();
+		Timer timer7 = new Timer(0,
+				actionEvent -> PadSizeRelay.isConnectingAnimation(westRelayRelativeToRocketMount, worldIn));
+		timer7.setInitialDelay(49000);
+		timer7.setRepeats(false);
+		timer7.start();
+		Timer timer8 = new Timer(0,
+				actionEvent -> PadSizeRelay.isConnectingAnimation(northWestEastRelayRelativeToRocketMount, worldIn));
+		timer8.setInitialDelay(57000);
+		timer8.setRepeats(false);
+		timer8.start();
 	}
-	
+
 	private static final List<Direction> STRAIGHT_DIRECTIONS = Lists.newArrayList(Direction.NORTH, Direction.EAST,
 			Direction.SOUTH, Direction.WEST);
 
 	private static final List<DiagonalDirection> DIAGONAL_DIRECTIONS = Lists.newArrayList(DiagonalDirection.NORTH_WEST,
 			DiagonalDirection.NORTH_EAST, DiagonalDirection.SOUTH_WEST, DiagonalDirection.SOUTH_EAST);
-	
+
 	public static void resetAllRelayBlocks(World worldIn, BlockPos pos) {
 		STRAIGHT_DIRECTIONS.forEach(direction -> {
 			BlockPos newPos = pos.relative(direction, 7).above();
-			BlockState state = worldIn.getBlockState(newPos).setValue(PadSizeRelay.ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
+			BlockState state = worldIn.getBlockState(newPos).setValue(PadSizeRelay.ACTIVATION_STATE,
+					ActivationState.NOT_ACTIVE);
 
 			worldIn.setBlockAndUpdate(newPos, state);
 		});
 		DIAGONAL_DIRECTIONS.forEach(direction -> {
 			BlockPos newPos = direction.relative(pos, 7).above();
-			BlockState state = worldIn.getBlockState(newPos).setValue(PadSizeRelay.ACTIVATION_STATE, ActivationState.NOT_ACTIVE);
+			BlockState state = worldIn.getBlockState(newPos).setValue(PadSizeRelay.ACTIVATION_STATE,
+					ActivationState.NOT_ACTIVE);
 
 			worldIn.setBlockAndUpdate(newPos, state);
 		});
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-
 
 	/**************************************************************************************************************************************************
 	 * UTIL METHODS/VARIABLES
 	 **************************************************************************************************************************************************/
-	
-	public boolean rocketMountRelayCheck(World worldIn, BlockPos pos, PlayerEntity player, Direction straightDirection) {
+
+	public static boolean rocketMountRelayCheck(World worldIn, BlockPos pos, PlayerEntity player,
+			Direction straightDirection) {
 		BlockPos relativePos = pos.relative(straightDirection, 7).below(2);
-		
-		if (RocketMount.checkForAllRelayBlocks(worldIn, relativePos) == true) {
+
+		if (RocketMount.checkForAllRelayBlocks(worldIn, relativePos)) {
 			player.displayClientMessage(new StringTextComponent("All Relays Are Present"), true);
 			return true;
 		} else {
-			player.displayClientMessage(new StringTextComponent("Either a Relay is missing, or the method's busted"), true);
+			player.displayClientMessage(new StringTextComponent("Either a Relay is missing, or the method's busted"),
+					true);
 			return false;
 		}
 	}
-	
-	public boolean rocketMountRelayCheck(World worldIn, BlockPos pos, PlayerEntity player, DiagonalDirection diagonalDirection) {
+
+	public static boolean rocketMountRelayCheck(World worldIn, BlockPos pos, PlayerEntity player,
+			DiagonalDirection diagonalDirection) {
 		BlockPos relativePos = diagonalDirection.relative(pos, 7).below(2);
-		
-		if (RocketMount.checkForAllRelayBlocks(worldIn, relativePos) == true) {
+
+		if (RocketMount.checkForAllRelayBlocks(worldIn, relativePos)) {
 			player.displayClientMessage(new StringTextComponent("All Relays Are Present"), true);
 			return true;
 		} else {
-			player.displayClientMessage(new StringTextComponent("Either a Relay is missing, or the method's busted"), true);
+			player.displayClientMessage(new StringTextComponent("Either a Relay is missing, or the method's busted"),
+					true);
 			return false;
 		}
 	}
-	
-	
-	
-	
-	
-	public boolean isConfiguredRelayBelow(World worldIn, BlockPos posIn, PlayerEntity player) {
+
+	public static boolean isConfiguredRelayBelow(World worldIn, BlockPos posIn, PlayerEntity player) {
 		if (getRelayPosition(worldIn, posIn) != RelayPosState.N_A) {
 			return true;
 		} else {
@@ -240,20 +260,19 @@ public class ConsoleBlock extends Block {
 			return false;
 		}
 	}
-	
-	public RelayPosState getRelayPosition(World worldIn, BlockPos posIn) {
+
+	public static RelayPosState getRelayPosition(World worldIn, BlockPos posIn) {
 		if (checkForRelayBelow(worldIn, posIn)) {
 			return worldIn.getBlockState(posIn.below()).getValue(PadSizeRelay.RELAY_POS_STATE);
 		} else {
 			return RelayPosState.N_A;
 		}
 	}
-	
-	public boolean checkForRelayBelow(World worldIn, BlockPos posIn) {
-		if (worldIn.getBlockState(posIn.below()).is(RocketModule.PAD_SIZE_RELAY_BLOCK)) {
-			return true;
-		} else {
-			return false;
-		}
+
+	public static boolean checkForRelayBelow(World worldIn, BlockPos posIn) {
+		return worldIn.getBlockState(posIn.below()).is(RocketModule.PAD_SIZE_RELAY_BLOCK);
 	}
+
+	@Override
+	public ITOPDriver getTheOneProbeDriver() { return new ConsoleTOPDriver(); }
 }

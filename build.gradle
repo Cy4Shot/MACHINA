@@ -190,8 +190,9 @@ dependencies {
     implementation fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
     //compileClasspath fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
     
-    compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api")
-	runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}")
+    implementation fg.deobf(project.dependencies.create("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}") {
+    	transitive = false
+    })
     
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'

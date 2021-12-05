@@ -49,6 +49,8 @@ import com.machina.config.ServerConfig;
 import com.machina.init.CommandInit;
 import com.machina.init.ItemInit;
 import com.machina.network.MachinaNetwork;
+import com.matyrobbrt.lib.ModSetup;
+import com.matyrobbrt.lib.registry.annotation.AnnotationProcessor;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -56,20 +58,17 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import software.bernie.geckolib3.GeckoLib;
 
 @Mod(Machina.MOD_ID)
-public class Machina {
+public class Machina extends ModSetup {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final String MOD_ID = ModIDs.MACHINA;
@@ -84,14 +83,13 @@ public class Machina {
 	public static PlanetTraitPoolManager planetTraitPoolManager = new PlanetTraitPoolManager();
 
 	public Machina() {
+		super(MOD_ID);
 		GeckoLib.initialize();
 
 		if (!CONFIF_DIR.exists()) {
 			LOGGER.info("Created Machina config folder!");
 			CONFIF_DIR.mkdirs();
 		}
-
-		IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		ANNOTATION_PROCESSOR.afterInit(() -> {
 			CommonConfig.register();
@@ -100,17 +98,11 @@ public class Machina {
 		});
 
 		ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
-		ANNOTATION_PROCESSOR.register(modBus);
-		modBus.addListener(this::onCommonSetup);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
 
-		IEventBus forgeBus = MinecraftForge.EVENT_BUS;
-
 		forgeBus.addListener(EventPriority.HIGH, this::onServerStart);
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
-
-		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
@@ -125,7 +117,13 @@ public class Machina {
 	public void onRegisterCommands(final RegisterCommandsEvent event) {
 		CommandInit.registerCommands(event);
 	}
-
+	
+	@Override
+	public AnnotationProcessor annotationProcessor() {
+		return ANNOTATION_PROCESSOR;
+	}
+	
+	@Override
 	public void onCommonSetup(final FMLCommonSetupEvent event) {
 		MachinaNetwork.init();
 		PlanetTraitPoolManager.INSTANCE = planetTraitPoolManager;
