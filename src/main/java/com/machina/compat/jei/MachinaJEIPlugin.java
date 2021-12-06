@@ -83,11 +83,12 @@ public class MachinaJEIPlugin implements IModPlugin {
 		RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
 
 		registration.addRecipes(getRecipes(manager, RecipeInit.ADVANCED_CRAFTING_RECIPE_TYPE), VANILLA_CRAFTING);
-		registration.addRecipes(getPlanetTraitPools(), PlanetTraitPoolsCategory.ID);
+		// registration.addRecipes(getPlanetTraitPools(), PlanetTraitPoolsCategory.ID);
 
 		addIngredientInfo(registration);
 	}
 
+	@SuppressWarnings("unused")
 	private static Collection<PlanetTraitPoolRecipe> getPlanetTraitPools() {
 		return PlanetTraitPoolManager.INSTANCE.getEntrySet().stream()
 				.map(entry -> new PlanetTraitPoolRecipe(entry.getValue(), entry.getKey().toString()))
