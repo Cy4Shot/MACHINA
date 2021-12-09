@@ -30,20 +30,30 @@
 
 package com.machina.modules.test;
 
+import java.util.Random;
+
 import com.machina.api.tile_entity.EnergyTileEntity;
 import com.machina.api.tile_entity.MachinaEnergyStorage;
+import com.matyrobbrt.lib.annotation.SyncValue;
+import com.matyrobbrt.lib.annotation.SyncValue.SyncType;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
 public class TestTileEntity extends EnergyTileEntity implements INamedContainerProvider, ITickableTileEntity {
 
-	protected TestTileEntity() {
+	@SyncValue(name = "randomIntSync", onPacket = true)
+	int randomInt = 129;
+	@SyncValue(name = "randomStringSync", onPacket = true)
+	String randomString = "random yes";
+
+	public TestTileEntity() {
 		super(TestModule.TEST_TE_TYPE);
 	}
 
@@ -62,8 +72,15 @@ public class TestTileEntity extends EnergyTileEntity implements INamedContainerP
 
 	@Override
 	public void tick() {
-		if (level.isClientSide()) return;
-		energyStorage.receiveEnergy(100, false);
+		/*
+		 * if (level.isClientSide()) {
+		 * System.out.println(energyStorage.getEnergyStored()); } else {
+		 * energyStorage.receiveEnergy(100, false); sync(Direction.SERVER_TO_CLIENT); }
+		 */
+		if (new Random().nextInt(259) == 15) {
+			System.out.println(
+					SyncValue.Helper.writeSyncValues(getSyncFields(), this, new CompoundNBT(), SyncType.PACKET));
+		}
 	}
 
 }

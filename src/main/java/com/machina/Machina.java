@@ -31,6 +31,8 @@
 package com.machina;
 
 import java.io.File;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +40,7 @@ import org.apache.logging.log4j.Logger;
 import com.machina.api.ModIDs;
 import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.registry.annotation.MachinaAnnotationProcessor;
+import com.machina.api.tile_entity.MachinaEnergyStorage;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.world.DynamicDimensionHelper;
 import com.machina.api.world.data.PlanetDimensionData;
@@ -50,6 +53,7 @@ import com.machina.init.CommandInit;
 import com.machina.init.ItemInit;
 import com.machina.network.MachinaNetwork;
 import com.matyrobbrt.lib.ModSetup;
+import com.matyrobbrt.lib.annotation.SyncValue;
 import com.matyrobbrt.lib.registry.annotation.AnnotationProcessor;
 
 import net.minecraft.item.ItemGroup;
@@ -57,10 +61,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -99,10 +102,17 @@ public class Machina extends ModSetup {
 
 		ANNOTATION_PROCESSOR.setAutoBlockItemTab(block -> MACHINA_ITEM_GROUP);
 
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> new ClientSetup(modBus));
-
 		forgeBus.addListener(EventPriority.HIGH, this::onServerStart);
 		forgeBus.addListener(EventPriority.HIGH, this::onRegisterCommands);
+
+		SyncValue.Helper.registerSerializer(MachinaEnergyStorage.class, MachinaEnergyStorage::fromNbt,
+				(nbt, energy) -> energy.serialize(nbt));
+
+		SyncValue.Helper.registerSerializer(FluidTank.class, nbt -> new FluidTank(nbt.getInt("TankCapacity")),
+				(nbt, tank) -> {
+					tank.writeToNBT(nbt);
+					nbt.putInt("TankCapacity", tank.getCapacity());
+				});
 	}
 
 	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
@@ -117,12 +127,17 @@ public class Machina extends ModSetup {
 	public void onRegisterCommands(final RegisterCommandsEvent event) {
 		CommandInit.registerCommands(event);
 	}
-	
+
 	@Override
 	public AnnotationProcessor annotationProcessor() {
 		return ANNOTATION_PROCESSOR;
 	}
-	
+
+	@Override
+	public Optional<Supplier<com.matyrobbrt.lib.ClientSetup>> clientSetup() {
+		return Optional.of(() -> new ClientSetup(modBus));
+	}
+
 	@Override
 	public void onCommonSetup(final FMLCommonSetupEvent event) {
 		MachinaNetwork.init();
@@ -136,9 +151,8 @@ public class Machina extends ModSetup {
 
 		MinecraftServer server = event.getServer();
 
-		PlanetDimensionData.getDefaultInstance(server).dimensionIds.forEach(id -> {
-			DynamicDimensionHelper.createPlanet(server, id);
-		});
+		PlanetDimensionData.getDefaultInstance(server).dimensionIds
+				.forEach(id -> DynamicDimensionHelper.createPlanet(server, id));
 
 		StarchartData.getDefaultInstance(server).generateIf(server.getLevel(World.OVERWORLD).getSeed());
 	}

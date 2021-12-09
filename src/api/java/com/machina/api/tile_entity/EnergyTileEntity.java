@@ -37,6 +37,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.machina.api.inventory.IEnergyHolderTile;
+import com.matyrobbrt.lib.annotation.SyncValue;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -50,11 +51,12 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergyHolderTile {
 
+	@SyncValue(name = "energySyncValue", onPacket = true)
 	protected final MachinaEnergyStorage energyStorage = createEnergyStorage();
 	protected final LazyOptional<IEnergyStorage> energyOptional = LazyOptional.of(() -> energyStorage);
 
-	protected EnergyTileEntity(TileEntityType<?> p_i48289_1_) {
-		super(p_i48289_1_);
+	protected EnergyTileEntity(TileEntityType<?> type) {
+		super(type);
 	}
 
 	protected abstract MachinaEnergyStorage createEnergyStorage();
@@ -76,7 +78,7 @@ public abstract class EnergyTileEntity extends BaseTileEntity implements IEnergy
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {
 		super.save(nbt);
-		nbt.put("energy", energyStorage.serialize());
+		nbt.put("energy", energyStorage.serialize(new CompoundNBT()));
 		return nbt;
 	}
 

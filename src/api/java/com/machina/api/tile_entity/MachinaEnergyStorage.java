@@ -76,17 +76,34 @@ public class MachinaEnergyStorage extends EnergyStorage {
 	public void setChanged() {
 	}
 
-	public CompoundNBT serialize() {
-		CompoundNBT nbt = new CompoundNBT();
+	/**
+	 * Writes the data to the {@code nbt}
+	 * 
+	 * @param nbt
+	 * @return The new {@link CompoundNBT}
+	 */
+	public CompoundNBT serialize(CompoundNBT nbt) {
 		nbt.putInt("storedEnergy", energy);
+		nbt.putInt("maxExtract", maxExtract);
+		nbt.putInt("maxReceive", maxReceive);
+		nbt.putInt("capacity", capacity);
 		return nbt;
+	}
+
+	public static MachinaEnergyStorage fromNbt(CompoundNBT nbt) {
+		return new MachinaEnergyStorage(nbt.getInt("capacity"), nbt.getInt("maxReceive"), nbt.getInt("maxExtract"),
+				nbt.getInt("storedEnergy"));
 	}
 
 	public void deserialize(CompoundNBT nbt) {
 		energy = nbt.getInt("storedEnergy");
+		maxExtract = nbt.contains("maxExtract") ? nbt.getInt("maxExtract") : maxExtract;
+		maxReceive = nbt.contains("maxReceive") ? nbt.getInt("maxReceive") : maxReceive;
+		capacity = nbt.contains("capacity") ? nbt.getInt("capacity") : capacity;
 		setChanged();
 	}
 
 	public int getMaxExtract() { return this.maxExtract; }
+
 	public int getMaxReceive() { return this.maxReceive; }
 }

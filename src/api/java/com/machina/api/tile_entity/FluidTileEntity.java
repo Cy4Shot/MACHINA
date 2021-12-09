@@ -34,6 +34,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.machina.api.inventory.IFluidInventory;
+import com.matyrobbrt.lib.annotation.SyncValue;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -49,6 +50,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public abstract class FluidTileEntity extends BaseTileEntity implements IFluidInventory {
 
+	@SyncValue(name = "tankSyncValue", onPacket = true)
 	protected FluidTank tank = createTank();
 	private final LazyOptional<IFluidHandler> holder = LazyOptional.of(() -> tank);
 
