@@ -32,7 +32,8 @@ package com.machina.api.world.data;
 
 import static com.machina.api.ModIDs.MACHINA;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -87,13 +88,7 @@ public class StarchartData extends WorldSavedData {
 		return nbt;
 	}
 
-	// This seems very bad... anything could make the map null
-	/*
-	 * public void setStarchart(Map<ResourceLocation, PlanetData> sc) { starchart =
-	 * sc; this.setDirty(); }
-	 */
-
-	public Map<ResourceLocation, PlanetData> getStarchart() { return starchart; }
+	public BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> getStarchart() { return starchart; }
 
 	public void setGenerated(boolean gen) {
 		isGenerated = gen;
@@ -120,8 +115,14 @@ public class StarchartData extends WorldSavedData {
 	}
 
 	// Static Getters
-	public static Map<ResourceLocation, PlanetData> getStarchartForServer(MinecraftServer server) {
+	public static BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> getStarchartForServer(MinecraftServer server) {
 		return StarchartData.getDefaultInstance(server).getStarchart();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> List<? extends T> getTraitsOfType(MinecraftServer server, int id, Class<T> type) {
+		return (List<? extends T>) StarchartData.getDefaultInstance(server).getStarchart().get(new MachinaRL(id)).getTraits().stream()
+				.filter(t -> Arrays.asList(t.getClass().getInterfaces()).contains(type)).collect(Collectors.toList());
 	}
 
 	public void debugStarchart() {

@@ -30,12 +30,15 @@
 
 package com.machina.api.world;
 
+import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 import com.machina.api.ModIDs;
+import com.machina.api.planet.trait.type.IWorldTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetUtils;
+import com.machina.api.world.data.StarchartData;
 import com.mojang.serialization.Codec;
 //import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -73,18 +76,61 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	private final INoiseGenerator surfaceNoise;
 	private final int baseHeight = 60;
 
-	private int seaLevel = 40;
-	private float heightMultiplier = 1f;
-	private boolean freezing = false;
-
+	public int seaLevel = 40;
+	public float heightMultiplier = 1f;
+	public boolean freezing = false;
+	
+	public List<? extends IWorldTrait> traits;
 	public int id;
 	public long seed = 0L;
 
-	public Registry<Biome> getBiomeRegistry() { return biomes; }
+	public Registry<Biome> getBiomeRegistry() {
+		return biomes;
+	}
 
 	public DynamicDimensionChunkGenerator(MinecraftServer server, RegistryKey<Dimension> key) {
 		this(server.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY));
 		id = PlanetUtils.getIdDim(key);
+		this.traits = StarchartData.getTraitsOfType(server, id, IWorldTrait.class);
+		traits.forEach(t -> t.updateNoiseSettings(this));
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		System.out.println(traits.toString());
+		
 	}
 
 	public DynamicDimensionChunkGenerator(Registry<Biome> biomes) {
@@ -129,7 +175,6 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 				int yPos = baseHeight + (int) (d1 * heightMultiplier);
 				for (int y = 0; y < yPos; y++) {
-					// System.out.println(traits.contains(DefaultPlanetTraits.MOUNTAINOUS));
 					chunk.setBlockState(blockpos$mutable.set(i1, y, j1), Blocks.STONE.defaultBlockState(), false);
 				}
 				if (yPos < seaLevel) {

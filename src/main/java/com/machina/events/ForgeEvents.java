@@ -31,15 +31,16 @@
 package com.machina.events;
 
 import com.machina.Machina;
+import com.machina.api.world.DynamicDimensionHelper;
 import com.machina.api.world.data.StarchartData;
 
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE)
 public class ForgeEvents {
@@ -54,7 +55,10 @@ public class ForgeEvents {
 		if (event.getEntity().level.isClientSide) {
 			return;
 		}
-		StarchartData.getDefaultInstance(ServerLifecycleHooks.getCurrentServer()).debugStarchart();
+		StarchartData.getDefaultInstance(event.getPlayer().getServer()).debugStarchart();
+		DynamicDimensionHelper.sendPlayerToDimension((ServerPlayerEntity) event.getPlayer(),
+				DynamicDimensionHelper.createPlanet(event.getPlayer().getServer(), String.valueOf(0)),
+				event.getPlayer().position());
 	}
 
 	// @SubscribeEvent
