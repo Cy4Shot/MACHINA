@@ -32,6 +32,7 @@ package com.machina.api.world.data;
 
 import static com.machina.api.ModIDs.MACHINA;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -115,7 +116,9 @@ public class StarchartData extends WorldSavedData {
 		// fastest things in the world
 	}
 
-	public boolean getGenerated() { return isGenerated; }
+	public boolean getGenerated() {
+		return isGenerated;
+	}
 
 	public void generateIf(long seed) {
 		if (!isGenerated) {
