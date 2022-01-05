@@ -32,7 +32,6 @@ package com.machina.api.world.data;
 
 import static com.machina.api.ModIDs.MACHINA;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
