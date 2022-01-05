@@ -32,7 +32,6 @@ package com.machina.api.world.data;
 
 import static com.machina.api.ModIDs.MACHINA;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -42,28 +41,29 @@ import javax.annotation.WillNotClose;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.StringUtils;
 import com.machina.config.CommonConfig;
+import com.matyrobbrt.lib.nbt.BaseNBTMap;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraftforge.common.util.Constants;
 
 public class StarchartData extends WorldSavedData {
 
 	// Variables + Constructor
 	private static final String ID = MACHINA + "_starchart";
 
-	private Map<ResourceLocation, PlanetData> starchart;
+	private final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> starchart = new BaseNBTMap<>(
+			rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
+			nbt -> new ResourceLocation(nbt.getAsString()), PlanetData::fromNBT);
+
 	private boolean isGenerated;
 
 	public StarchartData(String n) {
 		super(n);
-		starchart = new HashMap<>();
 		isGenerated = false;
 	}
 
@@ -77,69 +77,43 @@ public class StarchartData extends WorldSavedData {
 	@Override
 	public void load(CompoundNBT nbt) {
 		isGenerated = nbt.getBoolean("generated");
-
-		ListNBT rlList = nbt.getList("SRLEntries", Constants.NBT.TAG_STRING);
-		ListNBT pdList = nbt.getList("SPDEntries", Constants.NBT.TAG_COMPOUND);
-
-		if (rlList.size() != pdList.size()) {
-			throw new IllegalStateException("Map doesn't have the same amount of keys as values");
-		}
-
-		for (int i = 0; i < rlList.size(); i++) {
-			ResourceLocation rl = new ResourceLocation(rlList.getString(i));
-			starchart.put(rl, PlanetData.fromNBT(pdList.getCompound(i)));
-		}
+		starchart.deserializeNBT(nbt.getCompound("starchart"));
 	}
 
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {
 		nbt.putBoolean("generated", isGenerated);
-
-		ListNBT rlList = new ListNBT();
-		ListNBT pdList = new ListNBT();
-
-		starchart.forEach((rl, pd) -> {
-			rlList.add(StringNBT.valueOf(rl.toString()));
-			pdList.add(pd.serializeNBT());
-		});
-
-		nbt.put("SRLEntries", rlList);
-		nbt.put("SPDEntries", pdList);
-
+		nbt.put("starchart", starchart.serializeNBT());
 		return nbt;
 	}
 
-	// Getters + Setters
-	public void setStarchart(Map<ResourceLocation, PlanetData> sc) {
-		starchart = sc;
-		this.setDirty();
-	}
+	// This seems very bad... anything could make the map null
+	/*
+	 * public void setStarchart(Map<ResourceLocation, PlanetData> sc) { starchart =
+	 * sc; this.setDirty(); }
+	 */
 
-	public Map<ResourceLocation, PlanetData> getStarchart() {
-		return starchart;
-	}
+	public Map<ResourceLocation, PlanetData> getStarchart() { return starchart; }
 
 	public void setGenerated(boolean gen) {
 		isGenerated = gen;
 		this.setDirty();
 	}
 
-	public boolean getGenerated() {
-		return isGenerated;
-	}
+	public boolean getGenerated() { return isGenerated; }
 
 	public void generateIf(long seed) {
 		if (!isGenerated) {
-			
+
 			Random rand = new Random(seed);
 			int min = CommonConfig.minPlanets.get();
 			int max = CommonConfig.maxPlanets.get();
 			int num = min + rand.nextInt(max - min);
-			
+
 			for (int i = 0; i < num; i++) {
 				starchart.put(new MachinaRL(i), PlanetData.fromRand(rand));
 			}
-			
+
 			isGenerated = true;
 			this.setDirty();
 		}
@@ -149,7 +123,7 @@ public class StarchartData extends WorldSavedData {
 	public static Map<ResourceLocation, PlanetData> getStarchartForServer(MinecraftServer server) {
 		return StarchartData.getDefaultInstance(server).getStarchart();
 	}
-	
+
 	public void debugStarchart() {
 		StringUtils.printlnUtf8("Planets");
 		for (int i = 0; i < starchart.size(); i++) {
