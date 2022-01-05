@@ -43,19 +43,17 @@ import com.machina.init.ItemInit;
 import com.matyrobbrt.lib.util.ColourCodes;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
-
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class PlanetTraitPoolsCategory implements IRecipeCategory<PlanetTraitPoolRecipe> {
 

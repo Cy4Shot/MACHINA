@@ -30,7 +30,7 @@
 
 package com.machina.client.gui.element;
 
-import com.machina.api.starchart.PlanetData;
+import com.machina.api.world.data.PlanetData;
 import com.machina.client.gui.StarchartScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
@@ -40,7 +40,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.text.StringTextComponent;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

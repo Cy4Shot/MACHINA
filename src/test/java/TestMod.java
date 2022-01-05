@@ -32,7 +32,6 @@ import java.util.UUID;
 
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.registry.annotation.MachinaAnnotationProcessor;
-import com.matyrobbrt.lib.registry.annotation.AnnotationProcessor;
 import com.matyrobbrt.lib.registry.annotation.RegisterItem;
 import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
@@ -52,7 +51,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -74,7 +72,7 @@ public class TestMod {
 	}
 	
 	public final void testRegisterAttribute(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
-		event.getRegistry().register(new PlanetAttributeType<>("TEST", IntNBT::valueOf, nbt -> 0).setRegistryName(new ResourceLocation("test_mod", "yes")));
+		event.getRegistry().register(new PlanetAttributeType<>("TEST", IntNBT::valueOf, nbt -> 0, r -> 0).setRegistryName(new ResourceLocation("test_mod", "yes")));
 	}
 
 	public static void onEntityUseTick(LivingEntityUseItemEvent.Tick event) {

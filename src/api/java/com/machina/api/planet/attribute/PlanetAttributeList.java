@@ -83,6 +83,14 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
 		}
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void set(PlanetAttributeType<?> type, Object value) {
+		getAttributeForType(type).ifPresent(attr -> attr.set(value));
+		if (!getAttributeForType(type).isPresent()) {
+			add(new PlanetAttribute(type, value));
+		}
+	}
+	
 	public UnaryOperator<Integer> intOperator(Operation operation, Integer value) {
 		switch (operation) {
 		case ADDITION: return old -> value + old;

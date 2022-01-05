@@ -30,17 +30,12 @@
 
 package com.machina.api.world;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 import com.machina.api.ModIDs;
-import com.machina.api.planet.trait.DefaultPlanetTraits;
-import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetUtils;
-import com.machina.api.world.data.StarchartData;
 import com.mojang.serialization.Codec;
 //import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -83,7 +78,6 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	private boolean freezing = false;
 
 	public int id;
-	private List<PlanetTrait> traits = new ArrayList<>();
 	public long seed = 0L;
 
 	public Registry<Biome> getBiomeRegistry() { return biomes; }
@@ -91,12 +85,6 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	public DynamicDimensionChunkGenerator(MinecraftServer server, RegistryKey<Dimension> key) {
 		this(server.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY));
 		id = PlanetUtils.getIdDim(key);
-		traits.clear();
-		/*
-		 * What on earth have you done cy4. I keep getting IOB exceptions
-		 */
-		StarchartData.getStarchartForServer(server).getDimensionData(key.location()).ifPresent(data -> traits.addAll(data.getTraits()));
-		updateTraitValues();
 	}
 
 	public DynamicDimensionChunkGenerator(Registry<Biome> biomes) {
@@ -105,29 +93,6 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 				new DynamicStructureSettings());
 		this.biomes = biomes;
 		surfaceNoise = (new PerlinNoiseGenerator(new SharedSeedRandom(), IntStream.rangeClosed(-3, 0)));
-	}
-
-	// TODO dont hard code this, its bad :(
-	public void updateTraitValues() {
-		if (traits.contains(DefaultPlanetTraits.FLAT)) {
-			heightMultiplier = 0.5f;
-		} else if (traits.contains(DefaultPlanetTraits.HILLY)) {
-			heightMultiplier = 2.5f;
-		} else if (traits.contains(DefaultPlanetTraits.MOUNTAINOUS)) {
-			heightMultiplier = 7.5f;
-		}
-
-		if (traits.contains(DefaultPlanetTraits.LANDMMASS)) {
-			seaLevel = -1;
-		} else if (traits.contains(DefaultPlanetTraits.WATER_WORLD)) {
-			seaLevel = 85;
-		} else if (traits.contains(DefaultPlanetTraits.CONTINENTALL)) {
-			seaLevel = baseHeight;
-		}
-
-		if (traits.contains(DefaultPlanetTraits.FROZEN)) {
-			freezing = true;
-		}
 	}
 
 	@Override

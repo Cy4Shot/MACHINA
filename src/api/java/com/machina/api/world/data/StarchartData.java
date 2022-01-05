@@ -32,89 +32,136 @@ package com.machina.api.world.data;
 
 import static com.machina.api.ModIDs.MACHINA;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 import javax.annotation.WillNotClose;
 
-import com.machina.api.network.BaseNetwork;
-import com.machina.api.network.machina.message.S2CSyncStarchart;
-import com.machina.api.starchart.Starchart;
+import com.machina.api.util.MachinaRL;
+import com.machina.api.util.StringUtils;
+import com.machina.config.CommonConfig;
 
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
+import net.minecraftforge.common.util.Constants;
 
 public class StarchartData extends WorldSavedData {
 
-	private Starchart starchart = new Starchart();
+	// Variables + Constructor
+	private static final String ID = MACHINA + "_starchart";
+
+	private Map<ResourceLocation, PlanetData> starchart;
 	private boolean isGenerated;
 
 	public StarchartData(String n) {
 		super(n);
-		starchart = new Starchart();
+		starchart = new HashMap<>();
 		isGenerated = false;
 	}
 
-	private static final String ID = MACHINA + "_starchart";
-
+	// Instance
 	public static StarchartData getDefaultInstance(@WillNotClose MinecraftServer server) {
 		ServerWorld w = server.getLevel(World.OVERWORLD);
 		return w.getDataStorage().computeIfAbsent(() -> new StarchartData(ID), ID);
 	}
 
+	// Save + Load
 	@Override
 	public void load(CompoundNBT nbt) {
 		isGenerated = nbt.getBoolean("generated");
-		starchart.deserializeNBT(nbt);
+
+		ListNBT rlList = nbt.getList("SRLEntries", Constants.NBT.TAG_STRING);
+		ListNBT pdList = nbt.getList("SPDEntries", Constants.NBT.TAG_COMPOUND);
+
+		if (rlList.size() != pdList.size()) {
+			throw new IllegalStateException("Map doesn't have the same amount of keys as values");
+		}
+
+		for (int i = 0; i < rlList.size(); i++) {
+			ResourceLocation rl = new ResourceLocation(rlList.getString(i));
+			starchart.put(rl, PlanetData.fromNBT(pdList.getCompound(i)));
+		}
 	}
 
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {
 		nbt.putBoolean("generated", isGenerated);
-		nbt.putString("dataOwnerMod", MACHINA);
-		return starchart.serializeNBT(nbt);
+
+		ListNBT rlList = new ListNBT();
+		ListNBT pdList = new ListNBT();
+
+		starchart.forEach((rl, pd) -> {
+			rlList.add(StringNBT.valueOf(rl.toString()));
+			pdList.add(pd.serializeNBT());
+		});
+
+		nbt.put("SRLEntries", rlList);
+		nbt.put("SPDEntries", pdList);
+
+		return nbt;
 	}
 
-	public void setStarchart(Starchart sc) {
+	// Getters + Setters
+	public void setStarchart(Map<ResourceLocation, PlanetData> sc) {
 		starchart = sc;
 		this.setDirty();
 	}
 
-	public Starchart getStarchart() { return starchart; }
+	public Map<ResourceLocation, PlanetData> getStarchart() {
+		return starchart;
+	}
 
 	public void setGenerated(boolean gen) {
 		isGenerated = gen;
 		this.setDirty();
 	}
 
-	public boolean getGenerated() { return isGenerated; }
-
-	public void setStarchartIfNull(Starchart sc) {
-		if (starchart.planets.size() == 0) {
-			setStarchart(sc);
-		}
-	}
-
-	public void syncClients() {
-		BaseNetwork.sendToAll(BaseNetwork.MACHINA_CHANNEL, new S2CSyncStarchart(starchart));
-	}
-
-	public void syncClient(ServerPlayerEntity e) {
-		BaseNetwork.sendTo(BaseNetwork.MACHINA_CHANNEL, new S2CSyncStarchart(starchart), e);
+	public boolean getGenerated() {
+		return isGenerated;
 	}
 
 	public void generateIf(long seed) {
 		if (!isGenerated) {
-			starchart.generateStarchart(seed);
+			
+			Random rand = new Random(seed);
+			int min = CommonConfig.minPlanets.get();
+			int max = CommonConfig.maxPlanets.get();
+			int num = min + rand.nextInt(max - min);
+			
+			for (int i = 0; i < num; i++) {
+				starchart.put(new MachinaRL(i), PlanetData.fromRand(rand));
+			}
+			
 			isGenerated = true;
 			this.setDirty();
-			syncClients();
 		}
 	}
 
-	public static Starchart getStarchartForServer(MinecraftServer server) {
+	// Static Getters
+	public static Map<ResourceLocation, PlanetData> getStarchartForServer(MinecraftServer server) {
 		return StarchartData.getDefaultInstance(server).getStarchart();
+	}
+	
+	public void debugStarchart() {
+		StringUtils.printlnUtf8("Planets");
+		for (int i = 0; i < starchart.size(); i++) {
+			PlanetData p = starchart.values().stream().collect(Collectors.toList()).get(i);
+			StringUtils.printlnUtf8((i == starchart.values().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F)
+					+ StringUtils.TREE_H + p.getName());
+			for (int j = 0; j < p.getTraits().size(); j++) {
+				StringUtils.printlnUtf8((i == starchart.values().size() - 1 ? " " : StringUtils.TREE_V) + " "
+						+ (j == p.getTraits().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F) + StringUtils.TREE_H
+						+ p.getTraits().get(j).toString());
+			}
+		}
 	}
 
 }

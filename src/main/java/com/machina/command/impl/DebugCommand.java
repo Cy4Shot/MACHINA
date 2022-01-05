@@ -31,7 +31,7 @@
 package com.machina.command.impl;
 
 import com.machina.api.annotation.DevelopmentOnly;
-import com.machina.api.planet.attribute.PlanetAttributeType;
+import com.machina.api.registry.PlanetAttributeRegistry;
 import com.machina.command.BaseCommand;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -54,7 +54,7 @@ public class DebugCommand extends BaseCommand {
 	protected int execute(CommandContext<CommandSource> context) {
 		// DO NOT REMOVE THE NEXT COMMENT!
 		//org.objectweb.asm.Type.getMethodDescriptor(null);
-		System.out.println(PlanetAttributeType.REGISTRY.getValues());
+		System.out.println(PlanetAttributeRegistry.REGISTRY.getValues());
 		return 0;
 	}
 

@@ -32,14 +32,15 @@ package com.machina.init;
 
 import static com.machina.api.ModIDs.MACHINA;
 
+import java.util.Random;
 import java.util.function.Function;
 
+import com.machina.api.planet.PlanetNameGenerator;
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.registry.annotation.RegisterPlanetAttributeType;
 import com.machina.api.util.Color;
 import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
-import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.FloatNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.IntNBT;
@@ -49,41 +50,56 @@ import net.minecraft.nbt.StringNBT;
 public final class PlanetAttributeTypesInit {
 
 	@RegisterPlanetAttributeType("gravity")
-	public static final PlanetAttributeType<Double> GRAVITY = new PlanetAttributeType<>("N", DoubleNBT::valueOf, nbt -> {
-		if (nbt instanceof DoubleNBT) {
-			return ((DoubleNBT) nbt).getAsDouble();
-		}
-		return 9.8;
-	});
+	public static final PlanetAttributeType<Float> GRAVITY = new PlanetAttributeType<>("N", FloatNBT::valueOf, floatDeserializer(9.8f), random(5.0f, 15.0f));
 	
 	@RegisterPlanetAttributeType("planet_name")
-	public static final PlanetAttributeType<String> PLANET_NAME = new PlanetAttributeType<>("", StringNBT::valueOf, nbt -> {
-		if (nbt instanceof StringNBT) {
-			return ((StringNBT) nbt).getAsString();
-		}
-		return "Planet";
-	});
+	public static final PlanetAttributeType<String> PLANET_NAME = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("Planet"), PlanetNameGenerator::getName);
 	
 	@RegisterPlanetAttributeType("colour")
-	public static final PlanetAttributeType<Color> COLOUR = new PlanetAttributeType<>("", colour -> IntNBT.valueOf(colour.getRGB()), nbt -> {
-		if (nbt instanceof IntNBT) {
-			return new Color(((IntNBT) nbt).getAsInt());
-		}
-		return new Color(0);
-	});
+	public static final PlanetAttributeType<Color> COLOUR = new PlanetAttributeType<>("", colorSerializer(), colorDeserializer(new Color(0)), Color::random);
 	
 	@RegisterPlanetAttributeType("atmospheric_pressure")
-	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = new PlanetAttributeType<>("Pa", FloatNBT::valueOf, floatDeserializer());
+	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = new PlanetAttributeType<>("Pa", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.1f, 2.0f));
 	
 	@RegisterPlanetAttributeType("temperature")
-	public static final PlanetAttributeType<Float> TEMPERATURE = new PlanetAttributeType<>("K", FloatNBT::valueOf, floatDeserializer());
+	public static final PlanetAttributeType<Float> TEMPERATURE = new PlanetAttributeType<>("K", FloatNBT::valueOf, floatDeserializer(350.0f), random(100f, 1000f));
 	
-	public static Function<INBT, Float> floatDeserializer() {
+	
+	// Deserializers
+	public static Function<INBT, Float> floatDeserializer(float defaultVal) {
 		return nbt -> {
 			if (nbt instanceof FloatNBT) {
 				return ((FloatNBT) nbt).getAsFloat();
 			}
-			return 1.0f;
+			return defaultVal;
 		};
+	}
+	
+	public static Function<INBT, String> stringDeserializer(String defaultVal) {
+		return nbt -> {
+			if (nbt instanceof StringNBT) {
+				return ((StringNBT) nbt).getAsString();
+			}
+			return defaultVal;
+		};
+	}
+	
+	public static Function<INBT, Color> colorDeserializer(Color defaultVal) {
+		return nbt -> {
+			if (nbt instanceof IntNBT) {
+				return new Color(((IntNBT) nbt).getAsInt());
+			}
+			return defaultVal;
+		};
+	}
+	
+	// Serializers
+	public static Function<Color, INBT> colorSerializer() {
+		return color -> IntNBT.valueOf(color.getRGB());
+	}
+	
+	// Random
+	public static Function<Random, Float> random(float min, float max) {
+		return r -> min + r.nextFloat() * (max - min);
 	}
 }

@@ -30,28 +30,16 @@
 
 package com.machina.compat.jei;
 
-import static com.machina.compat.jei.MachinaJEITypes.PLANET_TRAIT;
-
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
-import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
 import com.machina.api.util.MachinaRL;
 import com.machina.compat.jei.category.AdvancedCraftingRecipeExtension;
 import com.machina.compat.jei.category.PlanetTraitPoolRecipe;
 import com.machina.compat.jei.category.PlanetTraitPoolsCategory;
-import com.machina.compat.jei.trait.PlanetTraitJEIHelper;
-import com.machina.compat.jei.trait.PlanetTraitJEIRenderer;
 import com.machina.init.RecipeInit;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -60,6 +48,10 @@ import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.util.ResourceLocation;
 
 @JeiPlugin
 public class MachinaJEIPlugin implements IModPlugin {
@@ -108,20 +100,20 @@ public class MachinaJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerIngredients(IModIngredientRegistration registration) {
-		List<PlanetTrait> traits = PlanetTrait.REGISTRY.getValues().stream().filter(PlanetTrait::showsInJei)
-				.collect(Collectors.toList());
-		PlanetTraitJEIHelper traitHelper = new PlanetTraitJEIHelper();
-		PlanetTraitJEIRenderer traitRenderer = new PlanetTraitJEIRenderer();
-		registration.register(MachinaJEITypes.PLANET_TRAIT, traits, traitHelper, traitRenderer);
+//		List<PlanetTrait> traits = PlanetTraitRegistry.REGISTRY.getValues().stream().filter(PlanetTrait::showsInJei)
+//				.collect(Collectors.toList());
+//		PlanetTraitJEIHelper traitHelper = new PlanetTraitJEIHelper();
+//		PlanetTraitJEIRenderer traitRenderer = new PlanetTraitJEIRenderer();
+//		registration.register(MachinaJEITypes.PLANET_TRAIT, traits, traitHelper, traitRenderer);
 	}
 
 	public void addIngredientInfo(IRecipeRegistration registration) {
-		PlanetTrait.REGISTRY.getValues().forEach(trait -> {
-			if (trait.hasDescription()) {
-				registration.addIngredientInfo(trait, PLANET_TRAIT,
-						trait.getDescription().toArray(new ITextComponent[] {}));
-			}
-		});
+//		PlanetTraitRegistry.REGISTRY.getValues().forEach(trait -> {
+//			if (trait.hasDescription()) {
+//				registration.addIngredientInfo(trait, PLANET_TRAIT,
+//						trait.getDescription().toArray(new ITextComponent[] {}));
+//			}
+//		});
 	}
 
 }

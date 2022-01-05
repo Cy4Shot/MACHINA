@@ -66,15 +66,8 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(PlanetTraitInit.MOUNTAINOUS, "Mountainous");
 		add(PlanetTraitInit.HILLY, "Hilly");
 		add(PlanetTraitInit.FLAT, "Flat");
-		add(PlanetTraitInit.ORE_RICH, "Ore Rich");
-		add(PlanetTraitInit.ORE_BARREN, "Ore Barren");
-		add(PlanetTraitInit.CANYONS, "Canyons");
-		add(PlanetTraitInit.FIORDS, "Fiords");
-		add(PlanetTraitInit.RAVINES, "Ravines");
 		add(PlanetTraitInit.LAKES, "Lakes");
-		add(PlanetTraitInit.VOLCANIC, "Volcanic");
 		add(PlanetTraitInit.FROZEN, "Frozen");
-		add(PlanetTraitInit.LAYERED, "Layered");
 
 		addItemGroup("machinaItemGroup", "Machina");
 

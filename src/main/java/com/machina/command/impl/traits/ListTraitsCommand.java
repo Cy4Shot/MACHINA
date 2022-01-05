@@ -30,6 +30,7 @@
 
 package com.machina.command.impl.traits;
 
+import com.machina.api.world.data.PlanetData;
 import com.machina.api.world.data.StarchartData;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -51,24 +52,24 @@ public class ListTraitsCommand extends PlanetTraitsCommand {
 	@Override
 	protected int execute(CommandContext<CommandSource> context) {
 		if (checkDimension(context)) {
-			StarchartData.getStarchartForServer(context.getSource().getServer())
-					.getDimensionDataOrCreate(context.getSource().getLevel().dimension().location()).ifPresent(cap -> {
-						if (cap.getTraits().isEmpty()) {
-							context.getSource().sendSuccess(
-									new TranslationTextComponent("command.planet_traits.list_traits.no_traits"), true);
-						} else {
-							context.getSource()
-									.sendSuccess(
-											new TranslationTextComponent("command.planet_traits.list_traits.success",
-													cap.getTraits().toString().replace("[", "").replace("]", "")),
-											true);
-						}
-					});
+			PlanetData pd = StarchartData.getStarchartForServer(context.getSource().getServer())
+					.get(context.getSource().getLevel().dimension().location());
+
+			if (pd.getTraits().isEmpty()) {
+				context.getSource()
+						.sendSuccess(new TranslationTextComponent("command.planet_traits.list_traits.no_traits"), true);
+			} else {
+				context.getSource()
+						.sendSuccess(new TranslationTextComponent("command.planet_traits.list_traits.success",
+								pd.getTraits().toString().replace("[", "").replace("]", "")), true);
+			}
 		}
 		return super.execute(context);
 	}
 
 	@Override
-	public String getName() { return "list_traits"; }
+	public String getName() {
+		return "list_traits";
+	}
 
 }

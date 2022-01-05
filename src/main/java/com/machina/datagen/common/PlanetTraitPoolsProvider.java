@@ -52,8 +52,7 @@ public class PlanetTraitPoolsProvider extends TraitPoolsGenProvider {
 				new TraitPoolEntry(15, PlanetTraitInit.CONTINENTALL, PlanetTraitInit.WATER_WORLD,
 						PlanetTraitInit.LANDMMASS),
 				new TraitPoolEntry(15, PlanetTraitInit.MOUNTAINOUS, PlanetTraitInit.HILLY, PlanetTraitInit.FLAT),
-				new TraitPoolEntry(15, ORE_BARREN, ORE_RICH), new TraitPoolEntry(5, CANYONS, FIORDS, RAVINES, LAKES),
-				new TraitPoolEntry(5, VOLCANIC, FROZEN), new TraitPoolEntry(2, LAYERED)));
+				new TraitPoolEntry(5, FROZEN)));
 	}
 
 }
