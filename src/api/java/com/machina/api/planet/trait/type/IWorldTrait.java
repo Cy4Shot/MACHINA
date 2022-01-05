@@ -6,12 +6,12 @@ import com.machina.api.world.PlanetGenStage;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.WorldGenRegion;
 
-public interface IWorldTrait {
+public interface IWorldTrait extends IPlanetTraitType {
 	/**
 	 * This method will be the first thing run during world generation. It will
 	 * update settings in the chunk generator.
 	 */
-	default public void updateNoiseSettings(DynamicDimensionChunkGenerator chunkGenerator) {
+	default void updateNoiseSettings(DynamicDimensionChunkGenerator chunkGenerator) {
 	}
 
 	/**
@@ -19,7 +19,7 @@ public interface IWorldTrait {
 	 * 
 	 * @return Boolean: Success?
 	 */
-	default public boolean modify(PlanetGenStage stage, DynamicDimensionChunkGenerator chunkGenerator,
+	default boolean modify(PlanetGenStage stage, DynamicDimensionChunkGenerator chunkGenerator,
 			WorldGenRegion worldGenRegion, IChunk chunk, long seed) {
 		return false;
 	}

@@ -91,7 +91,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	public DynamicDimensionChunkGenerator(MinecraftServer server, RegistryKey<Dimension> key) {
 		this(server.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY));
 		id = PlanetUtils.getIdDim(key);
-		this.traits = StarchartData.getTraitsOfType(server, id, IWorldTrait.class);
+		this.traits = StarchartData.getDefaultInstance(server).getTraitsForType(key.location(), IWorldTrait.class);
 		traits.forEach(t -> t.updateNoiseSettings(this));
 		System.out.println(traits.toString());
 		System.out.println(traits.toString());

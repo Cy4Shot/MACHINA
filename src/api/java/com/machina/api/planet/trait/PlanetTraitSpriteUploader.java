@@ -58,9 +58,6 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 
 	@Override
 	protected Stream<ResourceLocation> getResourcesToLoad() {
-		for (int i = 0; i < 100; i++) {
-			System.out.println(PlanetTraitRegistry.REGISTRY == null);
-		}
 		return PlanetTraitRegistry.REGISTRY.getValues().stream().filter(PlanetTrait::exists).map(PlanetTrait::getRegistryName);
 	}
 
