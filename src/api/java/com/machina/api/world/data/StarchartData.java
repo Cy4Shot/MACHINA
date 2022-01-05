@@ -140,13 +140,6 @@ public class StarchartData extends WorldSavedData {
 		return StarchartData.getDefaultInstance(server).getStarchart();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> List<? extends T> getTraitsOfType(MinecraftServer server, int id, Class<T> type) {
-		return (List<? extends T>) StarchartData.getDefaultInstance(server).getStarchart().get(new MachinaRL(id))
-				.getTraits().stream().filter(t -> Arrays.asList(t.getClass().getInterfaces()).contains(type))
-				.collect(Collectors.toList());
-	}
-
 	public void debugStarchart() {
 		StringUtils.printlnUtf8("Planets");
 		for (int i = 0; i < starchart.size(); i++) {
