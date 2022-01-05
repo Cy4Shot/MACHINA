@@ -33,15 +33,16 @@ package com.machina.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.machina.api.client.ClientStarchartHolder;
+import com.machina.api.client.ClientDataHolder;
 import com.machina.api.client.gui.IBoundedGui;
 import com.machina.api.client.util.Rectangle;
 import com.machina.api.planet.trait.PlanetTrait;
-import com.machina.api.starchart.PlanetData;
 import com.machina.api.util.MachinaRL;
+import com.machina.api.world.data.PlanetData;
 import com.machina.client.gui.element.PlanetNodeElement;
 import com.machina.client.gui.element.ScrollableContainer;
 import com.machina.client.util.UIHelper;
+import com.machina.init.PlanetAttributeTypesInit;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -53,7 +54,6 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -98,17 +98,17 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		nodes.clear();
 		Vector2f centre = getNewCentre();
 
-		for (int i = 1; i <= ClientStarchartHolder.getStarchart().planets.size(); i++) {
-			double angle = (Math.PI * 2) / ClientStarchartHolder.getStarchart().planets.size() * i;
+		for (int i = 1; i <= ClientDataHolder.getStarchart().size(); i++) {
+			double angle = (Math.PI * 2) / ClientDataHolder.getStarchart().size() * i;
 
-			double r = ClientStarchartHolder.getPlanetDataByID(i - 1).dist * variance + min;
+			double r = ClientDataHolder.getPlanetDataByID(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE) * variance + min;
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
 
 			positions.add(new Vector2f(centre.x - x, centre.y - y));
 			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this,
-					ClientStarchartHolder.getPlanetDataByID(i - 1)));
+					ClientDataHolder.getPlanetDataByID(i - 1)));
 		}
 	}
 
@@ -200,25 +200,25 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		}
 
 		PlanetData planet = selected.getData();
-		int color = planet.getColour().getRGB();
+		int color = planet.getAttribute(PlanetAttributeTypesInit.COLOUR).getRGB();
 
-		planetDescriptions.title = new StringTextComponent("Information - \"" + planet.getName() + "\"");
+		planetDescriptions.title = new StringTextComponent("Information - \"" + planet.getAttribute(PlanetAttributeTypesInit.PLANET_NAME) + "\"");
 		IFormattableTextComponent text = new StringTextComponent("Traits:\n")
 				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		for (PlanetTrait t : planet.getTraits()) {
 			text.append("   > ").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-			text.append(t.getName());
+			text.append(t.getRegistryName().toString());
 			text.append("\n");
 		}
 		text.append("\n");
 
 		// Add Extra Data
 		text.append(new StringTextComponent("Stats:\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color))));
-		text.append("   > Pres: " + planet.getAtm() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		text.append("   > Temp: " + planet.getTemp() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		text.append("   > Dist: " + planet.getDist() + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		text.append("   > Pres: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		text.append("   > Temp: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.TEMPERATURE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		text.append("   > Dist: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.GRAVITY) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 
-		text.append("ID  " + ClientStarchartHolder.getStarchart().planets.getValues().indexOf(planet) + "\n");
+		text.append("ID  " + ClientDataHolder.planets().indexOf(planet) + "\n");
 
 		return text;
 	}

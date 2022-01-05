@@ -4,18 +4,18 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.machina.api.planet.attribute.PlanetAttributeList;
+import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.planet.trait.PlanetTraitList;
 import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.registry.PlanetAttributeRegistry;
 import com.machina.api.registry.PlanetTraitRegistry;
-import com.machina.init.PlanetAttributeTypesInit;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class PlanetData implements INBTSerializable<CompoundNBT> {
 
-	private final PlanetTraitList traits;
+	private final PlanetTraitList traits = new PlanetTraitList();
 	private final PlanetAttributeList attributes = new PlanetAttributeList();
 
 	public static PlanetData fromNBT(CompoundNBT nbt) {
@@ -28,10 +28,6 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 		PlanetData pd = new PlanetData();
 		pd.generate(rand);
 		return pd;
-	}
-
-	public PlanetData() {
-		this.traits = new PlanetTraitList();
 	}
 
 	public void generate(Random rand) {
@@ -79,8 +75,14 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	public PlanetAttributeList getAttributes() {
 		return attributes;
 	}
-
-	public String getName() {
-		return attributes.getAttributeForType(PlanetAttributeTypesInit.PLANET_NAME).get().getValue();
+	
+	public <T> T getAttribute(PlanetAttributeType<T> type) {
+		return attributes.getAttributeForType(type).get().getValue();
 	}
+	
+	public <T> String getAttributeFormatted(PlanetAttributeType<T> type) {
+		return String.valueOf(attributes.getAttributeForType(type).get().getValue()) + type.getMeasureUnit();
+	}
+	
+	public static PlanetData NONE = new PlanetData();
 }

@@ -42,6 +42,7 @@ import javax.annotation.WillNotClose;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.StringUtils;
 import com.machina.config.CommonConfig;
+import com.machina.init.PlanetAttributeTypesInit;
 import com.matyrobbrt.lib.nbt.BaseNBTMap;
 
 import net.minecraft.nbt.CompoundNBT;
@@ -88,14 +89,18 @@ public class StarchartData extends WorldSavedData {
 		return nbt;
 	}
 
-	public BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> getStarchart() { return starchart; }
+	public BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> getStarchart() {
+		return starchart;
+	}
 
 	public void setGenerated(boolean gen) {
 		isGenerated = gen;
 		this.setDirty();
 	}
 
-	public boolean getGenerated() { return isGenerated; }
+	public boolean getGenerated() {
+		return isGenerated;
+	}
 
 	public void generateIf(long seed) {
 		if (!isGenerated) {
@@ -115,14 +120,16 @@ public class StarchartData extends WorldSavedData {
 	}
 
 	// Static Getters
-	public static BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> getStarchartForServer(MinecraftServer server) {
+	public static BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> getStarchartForServer(
+			MinecraftServer server) {
 		return StarchartData.getDefaultInstance(server).getStarchart();
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T> List<? extends T> getTraitsOfType(MinecraftServer server, int id, Class<T> type) {
-		return (List<? extends T>) StarchartData.getDefaultInstance(server).getStarchart().get(new MachinaRL(id)).getTraits().stream()
-				.filter(t -> Arrays.asList(t.getClass().getInterfaces()).contains(type)).collect(Collectors.toList());
+		return (List<? extends T>) StarchartData.getDefaultInstance(server).getStarchart().get(new MachinaRL(id))
+				.getTraits().stream().filter(t -> Arrays.asList(t.getClass().getInterfaces()).contains(type))
+				.collect(Collectors.toList());
 	}
 
 	public void debugStarchart() {
@@ -130,7 +137,7 @@ public class StarchartData extends WorldSavedData {
 		for (int i = 0; i < starchart.size(); i++) {
 			PlanetData p = starchart.values().stream().collect(Collectors.toList()).get(i);
 			StringUtils.printlnUtf8((i == starchart.values().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F)
-					+ StringUtils.TREE_H + p.getName());
+					+ StringUtils.TREE_H + p.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME));
 			for (int j = 0; j < p.getTraits().size(); j++) {
 				StringUtils.printlnUtf8((i == starchart.values().size() - 1 ? " " : StringUtils.TREE_V) + " "
 						+ (j == p.getTraits().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F) + StringUtils.TREE_H

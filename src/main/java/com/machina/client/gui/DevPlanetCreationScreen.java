@@ -33,7 +33,8 @@ package com.machina.client.gui;
 import java.awt.event.KeyEvent;
 import java.util.UUID;
 
-import com.machina.api.client.ClientStarchartHolder;
+import com.machina.api.client.ClientDataHolder;
+import com.machina.api.world.data.PlanetData;
 import com.machina.init.KeyBindingsInit;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SDevPlanetCreationGUI;
@@ -47,7 +48,6 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -100,7 +100,9 @@ public class DevPlanetCreationScreen extends Screen {
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void overlayEvent(RenderGameOverlayEvent.Pre event) {
-		if (event.getType() != ElementType.CROSSHAIRS) { return; }
+		if (event.getType() != ElementType.CROSSHAIRS) {
+			return;
+		}
 
 		if (Minecraft.getInstance().screen instanceof DevPlanetCreationScreen) {
 			event.setCanceled(true);
@@ -139,11 +141,10 @@ public class DevPlanetCreationScreen extends Screen {
 		this.renderBackground(pMatrixStack);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
 
-		ClientStarchartHolder.getDataForDimension(minecraft.level.dimension().location()).ifPresent(data -> {
-			for (int i = 0; i < data.getTraits().size(); i++) {
-				data.getTraits().get(i).render(pMatrixStack, width / 2 - 140 + (i * 18), 120, true);
-			}
-		});
+		PlanetData data = ClientDataHolder.getDataForDimension(minecraft.level.dimension().location());
+		for (int i = 0; i < data.getTraits().size(); i++) {
+			data.getTraits().get(i).render(pMatrixStack, width / 2 - 140 + (i * 18), 120, true);
+		}
 	}
 
 	@Override
