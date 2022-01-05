@@ -32,13 +32,13 @@ package com.machina.api.world.data;
 
 import static com.machina.api.ModIDs.MACHINA;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.annotation.WillNotClose;
 
+import com.machina.api.planet.trait.type.IPlanetTraitType;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.StringUtils;
 import com.machina.config.CommonConfig;
@@ -93,14 +93,29 @@ public class StarchartData extends WorldSavedData {
 		return starchart;
 	}
 
+	public <TYPE extends IPlanetTraitType> List<TYPE> getTraitsForType(ResourceLocation dimensionId,
+			Class<TYPE> typeClass) {
+		return starchart.computeIfAbsent(dimensionId, k -> new PlanetData()).getTraits().stream()
+				.filter(typeClass::isInstance).map(typeClass::cast).collect(Collectors.toList());
+	}
+
 	public void setGenerated(boolean gen) {
 		isGenerated = gen;
 		this.setDirty();
 	}
 
-	public boolean getGenerated() {
-		return isGenerated;
+	@Override
+	public void setDirty() {
+		super.setDirty();
+		cache();
 	}
+
+	public void cache() {
+		// TODO Here we should cache the trait types, because streams are not the
+		// fastest things in the world
+	}
+
+	public boolean getGenerated() { return isGenerated; }
 
 	public void generateIf(long seed) {
 		if (!isGenerated) {
