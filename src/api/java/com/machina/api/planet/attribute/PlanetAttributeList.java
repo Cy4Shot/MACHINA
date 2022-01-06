@@ -91,7 +91,7 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
 		}
 	}
 	
-	public UnaryOperator<Integer> intOperator(Operation operation, Integer value) {
+	public static UnaryOperator<Integer> intOperator(Operation operation, Integer value) {
 		switch (operation) {
 		case ADDITION: return old -> value + old;
 		case SUBSTRACTION: return old -> old - value;

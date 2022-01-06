@@ -30,8 +30,8 @@
 
 package com.machina.command.impl.traits;
 
+import com.machina.api.starchart.Starchart;
 import com.machina.api.world.data.PlanetData;
-import com.machina.api.world.data.StarchartData;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
@@ -52,8 +52,8 @@ public class ListTraitsCommand extends PlanetTraitsCommand {
 	@Override
 	protected int execute(CommandContext<CommandSource> context) {
 		if (checkDimension(context)) {
-			PlanetData pd = StarchartData.getStarchartForServer(context.getSource().getServer())
-					.get(context.getSource().getLevel().dimension().location());
+			PlanetData pd = Starchart.getStarchartForServer(context.getSource().getServer())
+					.getDataForLevel(context.getSource().getLevel());
 
 			if (pd.getTraits().isEmpty()) {
 				context.getSource()

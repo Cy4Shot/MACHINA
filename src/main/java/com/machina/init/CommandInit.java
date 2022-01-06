@@ -30,11 +30,11 @@
 
 package com.machina.init;
 
+import static com.machina.api.ModIDs.MACHINA;
 import static net.minecraft.command.Commands.literal;
 
 import java.util.ArrayList;
 
-import com.machina.Machina;
 import com.machina.command.BaseCommand;
 import com.machina.command.impl.DebugCommand;
 import com.machina.command.impl.GoToPlanetCommand;
@@ -44,6 +44,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.command.CommandSource;
+
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
@@ -77,9 +78,9 @@ public final class CommandInit {
 				builder.requires(sender -> sender.hasPermission(command.getPermissionLevel()));
 				command.build(builder);
 				if (command instanceof PlanetTraitsCommand) {
-					dispatcher.register(literal(Machina.MOD_ID).then(literal("planet_traits").then(builder)));
+					dispatcher.register(literal(MACHINA).then(literal("planet_traits").then(builder)));
 				} else {
-					dispatcher.register(literal(Machina.MOD_ID).then(builder));
+					dispatcher.register(literal(MACHINA).then(builder));
 				}
 			}
 		});

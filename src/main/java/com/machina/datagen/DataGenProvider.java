@@ -30,7 +30,8 @@
 
 package com.machina.datagen;
 
-import com.machina.Machina;
+import static com.machina.api.ModIDs.MACHINA;
+
 import com.machina.datagen.client.BlockStatesProvider;
 import com.machina.datagen.client.ItemModelProvider;
 import com.machina.datagen.client.lang.EnUsLangProvider;
@@ -45,7 +46,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
-@Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
+@Mod.EventBusSubscriber(modid = MACHINA, bus = Bus.MOD)
 public class DataGenProvider {
 
 	@SubscribeEvent

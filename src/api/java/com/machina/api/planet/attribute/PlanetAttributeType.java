@@ -30,17 +30,13 @@
 
 package com.machina.api.planet.attribute;
 
-import static com.machina.api.ModIDs.MACHINA;
-
 import java.util.Random;
 import java.util.function.Function;
 
-import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
-
 import net.minecraft.nbt.INBT;
+
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-@RegistryHolder(modid = MACHINA)
 public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeType<?>> {
 
 	private final String measureUnit;

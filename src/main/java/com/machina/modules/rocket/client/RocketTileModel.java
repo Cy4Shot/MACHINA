@@ -30,7 +30,8 @@
 
 package com.machina.modules.rocket.client;
 
-import com.machina.Machina;
+import static com.machina.api.ModIDs.MACHINA;
+
 import com.machina.modules.rocket.tile_entity.RocketTile;
 
 import net.minecraft.util.ResourceLocation;
@@ -44,16 +45,16 @@ public class RocketTileModel extends AnimatedGeoModel<RocketTile> {
 
 	@Override
 	public ResourceLocation getModelLocation(RocketTile object) {
-		return new ResourceLocation(Machina.MOD_ID, "geo/machina_rocket.geo.json");
+		return new ResourceLocation(MACHINA, "geo/machina_rocket.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureLocation(RocketTile object) {
-		return new ResourceLocation(Machina.MOD_ID, "textures/gecko/test_texture.png");
+		return new ResourceLocation(MACHINA, "textures/gecko/test_texture.png");
 	}
 
 	@Override
 	public ResourceLocation getAnimationFileLocation(RocketTile animatable) {
-		return new ResourceLocation(Machina.MOD_ID, "animations/rocket.animation.json");
+		return new ResourceLocation(MACHINA, "animations/rocket.animation.json");
 	}
 }

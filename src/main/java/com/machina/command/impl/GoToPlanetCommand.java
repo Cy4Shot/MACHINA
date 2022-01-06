@@ -30,8 +30,8 @@
 
 package com.machina.command.impl;
 
-import com.machina.api.world.DynamicDimensionHelper;
 import com.machina.command.BaseCommand;
+import com.machina.world.DynamicDimensionHelper;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;

@@ -28,7 +28,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.world.data;
+package com.machina.starchart;
 
 import static com.machina.api.ModIDs.MACHINA;
 
@@ -38,9 +38,13 @@ import java.util.stream.Collectors;
 
 import javax.annotation.WillNotClose;
 
+import com.machina.api.api_extension.ApiExtension;
+import com.machina.api.api_extension.ApiExtensions;
 import com.machina.api.planet.trait.type.IPlanetTraitType;
+import com.machina.api.starchart.Starchart;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.StringUtils;
+import com.machina.api.world.data.PlanetData;
 import com.machina.config.CommonConfig;
 import com.machina.init.PlanetAttributeTypesInit;
 import com.matyrobbrt.lib.nbt.BaseNBTMap;
@@ -53,50 +57,63 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
 
-public class StarchartData extends WorldSavedData {
+public class StarchartImpl extends WorldSavedData implements Starchart {
 
-	// Variables + Constructor
+	public static void registerAPIExtension() {
+		ApiExtensions.registerExtension(Starchart.StarchartGetter.class, server -> server.getLevel(World.OVERWORLD)
+				.getDataStorage().computeIfAbsent(() -> new StarchartImpl(ID), ID));
+	}
+
 	private static final String ID = MACHINA + "_starchart";
 
-	private final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> starchart = new BaseNBTMap<>(
+	/**
+	 * Use an API Extension in order for the API to have access to the starchart
+	 */
+	@ApiExtension(StarchartGetter.class)
+	private static final StarchartGetter API_STARCHART_GETTER = server -> server.getLevel(World.OVERWORLD)
+			.getDataStorage().computeIfAbsent(() -> new StarchartImpl(ID), ID);
+
+	private final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> planetData = new BaseNBTMap<>(
 			rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
 			nbt -> new ResourceLocation(nbt.getAsString()), PlanetData::fromNBT);
 
 	private boolean isGenerated;
 
-	public StarchartData(String n) {
-		super(n);
+	private StarchartImpl(String name) {
+		super(name);
 		isGenerated = false;
 	}
 
 	// Instance
-	public static StarchartData getDefaultInstance(@WillNotClose MinecraftServer server) {
+	public static StarchartImpl getDefaultInstance(@WillNotClose MinecraftServer server) {
 		ServerWorld w = server.getLevel(World.OVERWORLD);
-		return w.getDataStorage().computeIfAbsent(() -> new StarchartData(ID), ID);
+		return w.getDataStorage().computeIfAbsent(() -> new StarchartImpl(ID), ID);
 	}
 
 	// Save + Load
 	@Override
 	public void load(CompoundNBT nbt) {
 		isGenerated = nbt.getBoolean("generated");
-		starchart.deserializeNBT(nbt.getCompound("starchart"));
+		planetData.deserializeNBT(nbt.getCompound("PlanetData"));
 	}
 
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {
 		nbt.putBoolean("generated", isGenerated);
-		nbt.put("starchart", starchart.serializeNBT());
+		nbt.put("PlanetData", planetData.serializeNBT());
 		return nbt;
 	}
 
-	public BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> getStarchart() {
-		return starchart;
-	}
-
+	@Override
 	public <TYPE extends IPlanetTraitType> List<TYPE> getTraitsForType(ResourceLocation dimensionId,
 			Class<TYPE> typeClass) {
-		return starchart.computeIfAbsent(dimensionId, k -> new PlanetData()).getTraits().stream()
+		return planetData.computeIfAbsent(dimensionId, k -> new PlanetData()).getTraits().stream()
 				.filter(typeClass::isInstance).map(typeClass::cast).collect(Collectors.toList());
+	}
+
+	@Override
+	public PlanetData getDataForLevel(ResourceLocation dimensionId) {
+		return planetData.get(dimensionId);
 	}
 
 	public void setGenerated(boolean gen) {
@@ -128,7 +145,7 @@ public class StarchartData extends WorldSavedData {
 			int num = min + rand.nextInt(max - min);
 
 			for (int i = 0; i < num; i++) {
-				starchart.put(new MachinaRL(i), PlanetData.fromRand(rand));
+				planetData.put(new MachinaRL(i), PlanetData.fromRand(rand));
 			}
 
 			isGenerated = true;
@@ -136,20 +153,14 @@ public class StarchartData extends WorldSavedData {
 		}
 	}
 
-	// Static Getters
-	public static BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> getStarchartForServer(
-			MinecraftServer server) {
-		return StarchartData.getDefaultInstance(server).getStarchart();
-	}
-
 	public void debugStarchart() {
 		StringUtils.printlnUtf8("Planets");
-		for (int i = 0; i < starchart.size(); i++) {
-			PlanetData p = starchart.values().stream().collect(Collectors.toList()).get(i);
-			StringUtils.printlnUtf8((i == starchart.values().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F)
+		for (int i = 0; i < planetData.size(); i++) {
+			PlanetData p = planetData.values().stream().collect(Collectors.toList()).get(i);
+			StringUtils.printlnUtf8((i == planetData.values().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F)
 					+ StringUtils.TREE_H + p.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME));
 			for (int j = 0; j < p.getTraits().size(); j++) {
-				StringUtils.printlnUtf8((i == starchart.values().size() - 1 ? " " : StringUtils.TREE_V) + " "
+				StringUtils.printlnUtf8((i == planetData.values().size() - 1 ? " " : StringUtils.TREE_V) + " "
 						+ (j == p.getTraits().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F) + StringUtils.TREE_H
 						+ p.getTraits().get(j).toString());
 			}
