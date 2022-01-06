@@ -64,9 +64,7 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 	private static final StarchartGetter API_STARCHART_GETTER = server -> server.getLevel(World.OVERWORLD)
 			.getDataStorage().computeIfAbsent(() -> new StarchartImpl(ID), ID);
 
-	private final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> planetData = new BaseNBTMap<>(
-			rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
-			nbt -> new ResourceLocation(nbt.getAsString()), PlanetData::fromNBT);
+	private final PlanetDataMap planetData = new PlanetDataMap();
 
 	private boolean isGenerated;
 

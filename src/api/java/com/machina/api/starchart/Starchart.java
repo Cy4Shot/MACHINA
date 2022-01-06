@@ -40,7 +40,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.WillNotClose;
 import java.util.List;
 import java.util.Map;
@@ -52,17 +51,29 @@ public interface Starchart {
     }
 
     default <TYPE extends IPlanetTraitType> List<TYPE> getTraitsForType(World level, Class<TYPE> typeClass) {
+        // compute the data if it doesn't exist
+        getDataForLevel(level);
         return getTraitsForType(level.dimension().location(), typeClass);
     }
 
     <TYPE extends IPlanetTraitType> List<TYPE> getTraitsForType(ResourceLocation dimensionId, Class<TYPE> typeClass);
 
-    @Nullable
+    /**
+     * This cannot be null! It will be computed if absent
+     * @param level
+     * @return
+     */
+    @Nonnull
     default PlanetData getDataForLevel(World level) {
         return getDataForLevel(level.dimension().location());
     }
 
-    @Nullable
+    /**
+     * This cannot be null! It will be computed if absent
+     * @param dimensionId
+     * @return
+     */
+    @Nonnull
     PlanetData getDataForLevel(ResourceLocation dimensionId);
 
     /**
