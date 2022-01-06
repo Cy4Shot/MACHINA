@@ -34,12 +34,11 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.registry.MachinaRegistries;
 import com.machina.api.starchart.PlanetAttributeList;
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.starchart.PlanetTraitList;
 import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
-import com.machina.api.registry.PlanetAttributeRegistry;
-import com.machina.api.registry.PlanetTraitRegistry;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -63,14 +62,14 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	public void generate(Random rand) {
 		// Attributes
-		PlanetAttributeRegistry.REGISTRY.forEach(type -> {
+		MachinaRegistries.PLANET_ATTRIBUTE_TYPES.forEach(type -> {
 			attributes.set(type, type.generator.apply(rand)); // Kinda Hacky .. dunno
 		});
 
 		// Traits
 		traits.clear();
 		PlanetTraitPoolManager.INSTANCE.forEach((location, pool) -> traits.addAll(
-				pool.roll(rand).stream().map(PlanetTraitRegistry.REGISTRY::getValue).collect(Collectors.toList())));
+				pool.roll(rand).stream().map(MachinaRegistries.PLANET_TRAITS::getValue).collect(Collectors.toList())));
 	}
 
 	@Override

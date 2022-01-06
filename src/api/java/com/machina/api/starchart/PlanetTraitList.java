@@ -33,7 +33,7 @@ package com.machina.api.starchart;
 import java.util.Collection;
 
 import com.machina.api.planet.trait.PlanetTrait;
-import com.machina.api.registry.PlanetTraitRegistry;
+import com.machina.api.registry.MachinaRegistries;
 import com.matyrobbrt.lib.nbt.BaseNBTList;
 
 import net.minecraft.nbt.StringNBT;
@@ -46,7 +46,7 @@ public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 
 	public PlanetTraitList() {
 		super(trait -> StringNBT.valueOf(trait.getRegistryName().toString()),
-				nbt -> PlanetTraitRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getAsString())));
+				nbt -> MachinaRegistries.PLANET_TRAITS.getValue(new ResourceLocation(nbt.getAsString())));
 	}
 
 	/**

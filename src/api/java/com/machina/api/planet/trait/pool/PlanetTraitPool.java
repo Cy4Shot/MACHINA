@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.machina.api.planet.trait.PlanetTrait;
-import com.machina.api.registry.PlanetTraitRegistry;
+import com.machina.api.registry.MachinaRegistries;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedList;
@@ -79,7 +79,7 @@ public class PlanetTraitPool {
 		final List<PlanetTrait> list = new LinkedList<>();
 		entries.stream().map(entry -> entry.values).forEach(stringList -> {
 			stringList.forEach(stringTrait -> {
-				PlanetTrait trait = PlanetTraitRegistry.REGISTRY.getValue(new ResourceLocation(stringTrait));
+				PlanetTrait trait = MachinaRegistries.PLANET_TRAITS.getValue(new ResourceLocation(stringTrait));
 				if (trait.exists())
 					list.add(trait);
 			});

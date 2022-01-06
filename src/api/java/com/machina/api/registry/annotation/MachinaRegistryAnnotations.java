@@ -38,7 +38,7 @@ import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingFunctionSerializer;
 
-public final class MachinaRegistries {
+public final class MachinaRegistryAnnotations {
 
 	public static final Map<String, List<PlanetTrait>> PLANET_TRAITS = new HashMap<>();
 	public static final Map<String, List<PlanetAttributeType<?>>> PLANET_ATTRIBUTE_TYPES = new HashMap<>();

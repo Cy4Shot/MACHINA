@@ -33,7 +33,7 @@ package com.machina.api.command.argument;
 import java.util.concurrent.CompletableFuture;
 
 import com.machina.api.planet.trait.PlanetTrait;
-import com.machina.api.registry.PlanetTraitRegistry;
+import com.machina.api.registry.MachinaRegistries;
 import com.machina.api.util.MachinaRL;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -62,7 +62,7 @@ public class PlanetTraitArgument implements ArgumentType<MachinaRL> {
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> p_listSuggestions_1_,
 			SuggestionsBuilder p_listSuggestions_2_) {
 		return p_listSuggestions_1_.getSource() instanceof ISuggestionProvider
-				? ISuggestionProvider.suggestResource(PlanetTraitRegistry.REGISTRY.getValues().stream()
+				? ISuggestionProvider.suggestResource(MachinaRegistries.PLANET_TRAITS.getValues().stream()
 						.filter(PlanetTrait::exists).map(PlanetTrait::getRegistryName), p_listSuggestions_2_)
 				: Suggestions.empty();
 	}
@@ -74,9 +74,9 @@ public class PlanetTraitArgument implements ArgumentType<MachinaRL> {
 	public static PlanetTrait getTrait(CommandContext<CommandSource> pContext, String pName)
 			throws CommandSyntaxException {
 		ResourceLocation resourcelocation = pContext.getArgument(pName, ResourceLocation.class);
-		return PlanetTraitRegistry.REGISTRY.containsKey(resourcelocation)
-				&& PlanetTraitRegistry.REGISTRY.getValue(resourcelocation).exists()
-						? PlanetTraitRegistry.REGISTRY.getValue(resourcelocation)
+		return MachinaRegistries.PLANET_TRAITS.containsKey(resourcelocation)
+				&& MachinaRegistries.PLANET_TRAITS.getValue(resourcelocation).exists()
+						? MachinaRegistries.PLANET_TRAITS.getValue(resourcelocation)
 						: notValid(resourcelocation);
 	}
 
