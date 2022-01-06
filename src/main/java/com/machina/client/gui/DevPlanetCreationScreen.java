@@ -142,7 +142,7 @@ public class DevPlanetCreationScreen extends Screen {
 		this.renderBackground(pMatrixStack);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
 
-		PlanetData data = ClientDataHolder.getDataForDimension(minecraft.level.dimension().location());
+		PlanetData data = ClientDataHolder.getStarchart().getDataForLevel(minecraft.level);
 		for (int i = 0; i < data.getTraits().size(); i++) {
 			data.getTraits().get(i).render(pMatrixStack, width / 2 - 140 + (i * 18), 120, true);
 		}

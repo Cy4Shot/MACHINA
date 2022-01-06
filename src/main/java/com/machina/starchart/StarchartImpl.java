@@ -45,8 +45,12 @@ import com.machina.api.util.StringUtils;
 import com.machina.api.world.data.PlanetData;
 import com.machina.config.CommonConfig;
 import com.machina.init.PlanetAttributeTypesInit;
+import com.machina.network.MachinaNetwork;
+import com.machina.network.message.S2CStarchartSyncMessage;
 import com.matyrobbrt.lib.nbt.BaseNBTMap;
 
+import com.matyrobbrt.lib.network.BaseNetwork;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
@@ -63,6 +67,37 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 	@ApiExtension(StarchartGetter.class)
 	private static final StarchartGetter API_STARCHART_GETTER = server -> server.getLevel(World.OVERWORLD)
 			.getDataStorage().computeIfAbsent(() -> new StarchartImpl(ID), ID);
+
+	@ApiExtension(StarchartSerializer.class)
+	private static final Starchart.StarchartSerializer SERIALIZER = new StarchartSerializer() {
+		@Override
+		public CompoundNBT serializeNBT(Starchart starchart) {
+			if (starchart instanceof  StarchartImpl) {
+				return ((StarchartImpl) starchart).save(new CompoundNBT());
+			}
+			return new CompoundNBT();
+		}
+
+		@Override
+		public Starchart deserializeNBT(CompoundNBT nbt) {
+			StarchartImpl starchart = new StarchartImpl(ID);
+			starchart.deserializeNBT(nbt);
+			return starchart;
+		}
+	};
+
+	@ApiExtension(StarchartSyncer.class)
+	public static final StarchartSyncer SYNCER = new StarchartSyncer() {
+		@Override
+		public void syncWithClients(Starchart starchart) {
+			BaseNetwork.sendToAll(MachinaNetwork.CHANNEL, new S2CStarchartSyncMessage(starchart));
+		}
+
+		@Override
+		public void syncWithPlayer(Starchart starchart, ServerPlayerEntity player) {
+			BaseNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CStarchartSyncMessage(starchart), player);
+		}
+	};
 
 	private final PlanetDataMap planetData = new PlanetDataMap();
 
@@ -104,6 +139,7 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 		return planetData.get(dimensionId);
 	}
 
+	@Override
 	public void setGenerated(boolean gen) {
 		isGenerated = gen;
 		this.setDirty();
@@ -113,6 +149,7 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 	public void setDirty() {
 		super.setDirty();
 		cache();
+		syncWithClients();
 	}
 
 	@Override
@@ -125,7 +162,8 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 		// fastest things in the world
 	}
 
-	public boolean getGenerated() {
+	@Override
+	public boolean isGenerated() {
 		return isGenerated;
 	}
 
@@ -147,14 +185,14 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 		}
 	}
 
-	public void debugStarchart() {
+	public static void debugStarchart(Starchart starchart) {
 		StringUtils.printlnUtf8("Planets");
-		for (int i = 0; i < planetData.size(); i++) {
-			PlanetData p = planetData.values().stream().collect(Collectors.toList()).get(i);
-			StringUtils.printlnUtf8((i == planetData.values().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F)
+		for (int i = 0; i < starchart.getAllPlanetData().size(); i++) {
+			PlanetData p = starchart.getAllPlanetData().values().stream().collect(Collectors.toList()).get(i);
+			StringUtils.printlnUtf8((i == starchart.getAllPlanetData().values().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F)
 					+ StringUtils.TREE_H + p.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME));
 			for (int j = 0; j < p.getTraits().size(); j++) {
-				StringUtils.printlnUtf8((i == planetData.values().size() - 1 ? " " : StringUtils.TREE_V) + " "
+				StringUtils.printlnUtf8((i == starchart.getAllPlanetData().values().size() - 1 ? " " : StringUtils.TREE_V) + " "
 						+ (j == p.getTraits().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F) + StringUtils.TREE_H
 						+ p.getTraits().get(j).toString());
 			}
