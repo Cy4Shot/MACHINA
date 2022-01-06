@@ -28,16 +28,18 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.planet.trait;
+package com.machina.api.starchart;
 
 import java.util.Collection;
 
-import com.machina.api.nbt.BaseNBTList;
+import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.registry.PlanetTraitRegistry;
+import com.matyrobbrt.lib.nbt.BaseNBTList;
 
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
 
+// TODO add some kind of setChanged
 public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 
 	private static final long serialVersionUID = -363048464726157694L;
@@ -59,8 +61,9 @@ public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 	}
 
 	/**
-	 * @deprecated Use {@link #addTrait} so that the attributes are updated
-	 * @param e
+	 * @deprecated Use {@link #addTrait}
+	 * @param index
+	 * @param element
 	 */
 	@Deprecated
 	@Override
@@ -77,7 +80,7 @@ public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 	}
 	
 	/**
-	 * Adds a trait to the list, whilst also calling {@link #update(PlanetTrait, ChangeType)}
+	 * Adds a trait to the list
 	 * @param trait
 	 * @return
 	 */
@@ -87,7 +90,7 @@ public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 	}
 	
 	/**
-	 * Removes a trait from the list, whilst also calling {@link #update(PlanetTrait, ChangeType)}
+	 * Removes a trait from the list
 	 * @param trait
 	 * @return
 	 */

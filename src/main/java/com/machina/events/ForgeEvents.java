@@ -33,7 +33,6 @@ package com.machina.events;
 import static com.machina.api.ModIDs.MACHINA;
 
 import com.machina.Machina;
-import com.machina.starchart.StarchartImpl;
 import com.machina.world.DynamicDimensionHelper;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -58,7 +57,7 @@ public class ForgeEvents {
 		if (event.getEntity().level.isClientSide) {
 			return;
 		}
-		StarchartImpl.getDefaultInstance(event.getPlayer().getServer()).debugStarchart();
+		// StarchartImpl.getDefaultInstance(event.getPlayer().getServer()).debugStarchart();
 		DynamicDimensionHelper.sendPlayerToDimension((ServerPlayerEntity) event.getPlayer(),
 				DynamicDimensionHelper.createPlanet(event.getPlayer().getServer(), String.valueOf(0)),
 				event.getPlayer().position());

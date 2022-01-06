@@ -30,12 +30,10 @@
 
 package com.machina.network.message;
 
-import com.machina.api.network.message.INetworkMessage;
 import com.machina.world.DynamicDimensionHelper;
-
+import com.matyrobbrt.lib.network.INetworkMessage;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.server.ServerWorld;
-
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class C2SDevPlanetCreationGUI implements INetworkMessage {

@@ -43,6 +43,7 @@ public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeTy
 
 	public final Function<T, INBT> valueSerializer;
 	public final Function<INBT, T> valueDeserializer;
+	// TODO this seems a bit useless
 	public final Function<Random, T> generator;
 
 	public PlanetAttributeType(String measureUnit, Function<T, INBT> valueSerializer,
