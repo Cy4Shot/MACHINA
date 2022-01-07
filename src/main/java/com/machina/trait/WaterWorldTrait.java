@@ -32,11 +32,7 @@ package com.machina.trait;
 
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.planet.trait.type.IWorldTrait;
-import com.machina.api.world.IDynamicDimensionChunkGenerator;
-import com.machina.api.world.PlanetGenStage;
-
-import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.gen.WorldGenRegion;
+import com.machina.api.world.DynamicDimensionChunkGenerator;
 
 public class WaterWorldTrait extends PlanetTrait implements IWorldTrait {
 
@@ -45,16 +41,8 @@ public class WaterWorldTrait extends PlanetTrait implements IWorldTrait {
 	}
 	
 	@Override
-	public void updateNoiseSettings(IDynamicDimensionChunkGenerator chunkGenerator) {
+	public void updateNoiseSettings(DynamicDimensionChunkGenerator chunkGenerator) {
 		chunkGenerator.setSeaLevel(85);
-		chunkGenerator.setHeightMultiplier(getColor());
-	}
-	
-	@Override
-	public boolean modify(PlanetGenStage stage, IDynamicDimensionChunkGenerator chunkGenerator,
-			WorldGenRegion worldGenRegion, IChunk chunk, long seed) {
-		// TODO Auto-generated method stub
-		return IWorldTrait.super.modify(stage, chunkGenerator, worldGenRegion, chunk, seed);
 	}
 
 }

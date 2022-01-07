@@ -73,10 +73,6 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
         }
         return Optional.empty();
     }
-    
-    public <Z> Z getValue(PlanetAttributeType<Z> type) {
-        return getAttributeForType(type).get().getValue();
-    }
 
     /**
      * Sets the value of the attribute, creating it if it does not exist
