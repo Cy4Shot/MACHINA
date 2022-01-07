@@ -42,6 +42,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface ApiExtension {
 
-	Class<? extends IApiExtendable> value();
+	Class<? extends ApiExtendable> value();
 
 }
