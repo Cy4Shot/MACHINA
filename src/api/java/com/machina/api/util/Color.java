@@ -5,6 +5,7 @@ import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.image.ColorModel;
 import java.beans.ConstructorProperties;
+import java.util.Random;
 
 public class Color {
 
@@ -1050,5 +1051,12 @@ public class Color {
 		} else {
 			return Transparency.TRANSLUCENT;
 		}
+	}
+	
+	public static Color random(Random rand) {
+		float r = rand.nextFloat() / 2f;
+		float g = rand.nextFloat() / 2f;
+		float b = rand.nextFloat() / 2f;
+		return new Color(r, g, b);
 	}
 }

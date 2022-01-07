@@ -32,17 +32,8 @@ package com.machina.api.planet.trait;
 
 import static com.machina.api.ModIDs.MACHINA;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.google.common.collect.Lists;
-import com.machina.api.annotation.ChangedByReflection;
-import com.machina.api.planet.attribute.PlanetAttributeList;
+import com.machina.api.registry.annotation.RegisterPlanetTrait;
 import com.machina.api.util.Color;
-import com.machina.api.util.MachinaRL;
-import com.machina.api.util.helper.CustomRegistryHelper;
-import com.machina.api.util.objects.TargetField;
-import com.matyrobbrt.lib.registry.annotation.RegisterCustomRegistry;
 import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -50,92 +41,38 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
+import net.minecraft.item.Items;
 import net.minecraft.util.text.TranslationTextComponent;
-
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @RegistryHolder(modid = MACHINA)
 public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
-	@ChangedByReflection(when = "commonSetup (when the registry is built)")
-	public static final IForgeRegistry<PlanetTrait> REGISTRY = null;
+	private final String description;
+	private final int color;
 
-	@RegisterCustomRegistry
-	public static void createRegistry(RegistryEvent.NewRegistry event) {
-		CustomRegistryHelper.<PlanetTrait>registerRegistry(new TargetField(PlanetTrait.class, "REGISTRY"), PlanetTrait.class,
-				new MachinaRL("planet_trait"), Optional.of(new MachinaRL("not_existing")),
-				Optional.of(new MachinaRL("planet_trait_registry")));
-	}
-
-	private final Properties properties;
-
-	public PlanetTrait(Properties properties) {
-		this.properties = properties;
-	}
-
-	/**
-	 * Use the {@link PlanetTrait#PlanetTrait(Properties)} constructor (the one
-	 * using {@link Properties})
-	 *
-	 * @deprecated
-	 * @param color
-	 */
-	@Deprecated
-	public PlanetTrait(int color) {
-		this(new Properties(color));
-	}
-
-	public Properties getProperties() { return properties; }
-
-	public int getColor() { return properties.getColour(); }
-
-	public ITextComponent getName() {
-		return new TranslationTextComponent(
-				this.getRegistryName().getNamespace() + ".planet_trait." + this.getRegistryName().getPath())
-						.setStyle(Style.EMPTY.withColor(net.minecraft.util.text.Color.fromRgb(this.getColor())));
+	public PlanetTrait(int color, String description) {
+		this.color = color;
+		this.description = description;
 	}
 
 	@Override
 	public String toString() {
-		return getName().getString();
-	}
-
-	public List<ITextComponent> getTooltip(ITooltipFlag flag) {
-		return Lists.newArrayList(getName());
-	}
-
-	public List<ITextComponent> getDescription() {
-		return Lists.newArrayList(new TranslationTextComponent(
-				getRegistryName().getNamespace() + ".planet_trait." + getRegistryName().getPath() + ".description"));
-	}
-
-	public boolean hasDescription() {
-		return properties.jeiProperties.hasJeiDescription;
-	}
-
-	public boolean showsInJei() {
-		return properties.jeiProperties.showsInJei;
+		return new TranslationTextComponent(getRegistryName().getNamespace() + ".planet_trait." + getRegistryName().getPath()).getString();
 	}
 
 	public boolean exists() {
-		return this != DefaultPlanetTraits.NOT_EXISTING;
+		return this != NONE;
 	}
 
-	public TextureAtlasSprite getIcon() { return PlanetTraitSpriteUploader.getFromInstance(this); }
-
+	@SuppressWarnings("deprecation")
 	public void render(MatrixStack matrixStack, int xPosition, int yPosition, boolean coloured) {
 		Minecraft minecraft = Minecraft.getInstance();
-		TextureAtlasSprite textureatlassprite = getIcon();
+		TextureAtlasSprite textureatlassprite = getSprite();
 		minecraft.getTextureManager().bind(textureatlassprite.atlas().location());
 		Color colour = new Color(getColor());
-		float[] compFloat = new float[] {
-				1.0f, 1.0f, 1.0f, 1.0f
-		};
+		float[] compFloat = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
 		float[] colourArray = colour.getComponents(compFloat);
 		if (coloured) {
 			RenderSystem.color4f(colourArray[0], colourArray[1], colourArray[2], colourArray[3]);
@@ -144,68 +81,26 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		}
 		AbstractGui.blit(matrixStack, xPosition, yPosition, 12, 16, 16, textureatlassprite);
 	}
-	
-	public boolean hasAttributeModifier() { return false; }
-	public void addAttribute(PlanetAttributeList attributes) {}
-	public void removeAttribute(PlanetAttributeList attributes) {}
 
-	public static class Properties {
-
-		private final int colour;
-		private JeiProperties jeiProperties = new JeiProperties();
-
-		public Properties(int colour) {
-			this.colour = colour;
-		}
-
-		public Properties withJeiProperties(JeiProperties jeiProperties) {
-			this.jeiProperties = jeiProperties;
-			return this;
-		}
-
-		public int getColour() { return colour; }
-
-		public JeiProperties jeiProperties() {
-			return jeiProperties;
-		}
+	public String getDescription() {
+		return description;
 	}
 
-	public static class JeiProperties {
-
-		private boolean showsInJei = true;
-		private boolean hasJeiDescription = true;
-		private boolean colouredInJei = true;
-
-		public JeiProperties() {
-			//
-		}
-
-		public JeiProperties setShowsInJei(boolean value) {
-			showsInJei = value;
-			return this;
-		}
-
-		public JeiProperties setHasJeiDescription(boolean value) {
-			hasJeiDescription = value;
-			return this;
-		}
-
-		public void setColouredInJei(boolean colouredInJei) {
-			this.colouredInJei = colouredInJei;
-		}
-
-		public boolean showsInJei() {
-			return showsInJei;
-		}
-
-		public boolean hasJeiDescription() {
-			return hasJeiDescription;
-		}
-
-		public boolean colouredInJei() {
-			return colouredInJei;
-		}
-
+	public int getColor() {
+		return color;
 	}
+
+	public TextureAtlasSprite getSprite() {
+		return PlanetTraitSpriteUploader.getFromInstance(this);
+	}
+
+	/**
+	 * This is similar to {@link Items#AIR}. It is an empty trait that will be the
+	 * default value of
+	 * {@link IForgeRegistry#getValue(net.minecraft.util.ResourceLocation)}. <br>
+	 * <strong>DO NOT ADD TO A PLANET</strong>
+	 */
+	@RegisterPlanetTrait(id = "none")
+	public static final PlanetTrait NONE = new PlanetTrait(0, "");
 
 }

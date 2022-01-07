@@ -30,9 +30,10 @@
 
 package com.machina.api.planet.attribute;
 
+import com.machina.api.registry.PlanetAttributeRegistry;
+
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
@@ -47,6 +48,11 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 	
 	void setValue(T value) {
 		this.value = value;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void set(Object v) {
+		setValue((T) v);
 	}
 	
 	public T getValue() { return this.value; }
@@ -66,7 +72,7 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		this.attributeType = (PlanetAttributeType<T>) PlanetAttributeType.REGISTRY.getValue(new ResourceLocation(nbt.getString("type")));
+		this.attributeType = (PlanetAttributeType<T>) PlanetAttributeRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getString("type")));
 		this.value = attributeType.valueDeserializer.apply(nbt.get("value"));
 	}
 	
@@ -74,7 +80,7 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 			"rawtypes", "unchecked"
 	})
 	public static PlanetAttribute<?> fromNBT(CompoundNBT nbt) {
-		PlanetAttributeType<?> type = PlanetAttributeType.REGISTRY.getValue(new ResourceLocation(nbt.getString("type")));
+		PlanetAttributeType<?> type = PlanetAttributeRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getString("type")));
 		if (type != null) {
 			return new PlanetAttribute(type, type.valueDeserializer.apply(nbt.get("value")));
 		}

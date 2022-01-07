@@ -33,7 +33,7 @@ package com.machina.api.planet.trait;
 import java.util.Collection;
 
 import com.machina.api.nbt.BaseNBTList;
-import com.machina.api.planet.attribute.PlanetAttributeList;
+import com.machina.api.registry.PlanetTraitRegistry;
 
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
@@ -41,13 +41,10 @@ import net.minecraft.util.ResourceLocation;
 public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 
 	private static final long serialVersionUID = -363048464726157694L;
-	
-	private final PlanetAttributeList attributes;
 
-	public PlanetTraitList(PlanetAttributeList attributes) {
+	public PlanetTraitList() {
 		super(trait -> StringNBT.valueOf(trait.getRegistryName().toString()),
-				nbt -> PlanetTrait.REGISTRY.getValue(new ResourceLocation(nbt.getAsString())));
-		this.attributes = attributes;
+				nbt -> PlanetTraitRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getAsString())));
 	}
 
 	/**
@@ -86,9 +83,6 @@ public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 	 */
 	public boolean addTrait(PlanetTrait trait) {
 		boolean result = add(trait);
-		if (result && trait.hasAttributeModifier()) {
-			update(trait, ChangeType.ADD);
-		}
 		return result;
 	}
 	
@@ -99,21 +93,7 @@ public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 	 */
 	public boolean removeTrait(PlanetTrait trait) {
 		boolean result = remove(trait);
-		if (result && trait.hasAttributeModifier()) {
-			update(trait, ChangeType.REMOVE);
-		}
 		return result;
-	}
-	
-	public void update(PlanetTrait trait, ChangeType type) {
-		switch (type) {
-		case ADD: trait.addAttribute(attributes);
-		case REMOVE: trait.removeAttribute(attributes);
-		}
-	}
-	
-	public enum ChangeType {
-		ADD, REMOVE;
 	}
 
 }

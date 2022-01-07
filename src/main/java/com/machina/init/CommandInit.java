@@ -38,15 +38,12 @@ import com.machina.Machina;
 import com.machina.command.BaseCommand;
 import com.machina.command.impl.DebugCommand;
 import com.machina.command.impl.GoToPlanetCommand;
-import com.machina.command.impl.traits.AddTraitCommand;
 import com.machina.command.impl.traits.ListTraitsCommand;
 import com.machina.command.impl.traits.PlanetTraitsCommand;
-import com.machina.command.impl.traits.RemoveTraitCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.command.CommandSource;
-
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
@@ -69,9 +66,7 @@ public final class CommandInit {
 	public static void registerCommands(final RegisterCommandsEvent event) {
 		CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
 
-		commands.add(new AddTraitCommand(PermissionLevels.GIVE_CLEAR, true));
 		commands.add(new ListTraitsCommand(PermissionLevels.GIVE_CLEAR, true));
-		commands.add(new RemoveTraitCommand(PermissionLevels.GIVE_CLEAR, true));
 
 		commands.add(new DebugCommand(4, isDevEnvironment()));
 		commands.add(new GoToPlanetCommand(4, true));

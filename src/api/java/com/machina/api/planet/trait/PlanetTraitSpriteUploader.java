@@ -35,6 +35,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
+import com.machina.api.registry.PlanetTraitRegistry;
 import com.machina.api.util.MachinaRL;
 
 import net.minecraft.client.renderer.texture.SpriteUploader;
@@ -57,11 +58,11 @@ public class PlanetTraitSpriteUploader extends SpriteUploader {
 
 	@Override
 	protected Stream<ResourceLocation> getResourcesToLoad() {
-		return PlanetTrait.REGISTRY.getValues().stream().filter(PlanetTrait::exists).map(PlanetTrait::getRegistryName);
+		return PlanetTraitRegistry.REGISTRY.getValues().stream().filter(PlanetTrait::exists).map(PlanetTrait::getRegistryName);
 	}
 
 	public TextureAtlasSprite get(PlanetTrait trait) {
-		return this.getSprite(PlanetTrait.REGISTRY.getKey(trait));
+		return this.getSprite(PlanetTraitRegistry.REGISTRY.getKey(trait));
 	}
 
 	/**
