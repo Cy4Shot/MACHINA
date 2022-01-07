@@ -19,7 +19,7 @@ public class S2CStarchartSyncMessage implements INetworkMessage {
 
     @Override
     public void handle(NetworkEvent.Context context) {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> executeClient(context, this));
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> executeClient(context, this));
     }
 
     private static void executeClient(NetworkEvent.Context context, S2CStarchartSyncMessage msg) {

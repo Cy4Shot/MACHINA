@@ -113,7 +113,7 @@ public class DevPlanetCreationScreen extends Screen {
 	private void onCreateButton() {
 		try {
 			MachinaNetwork.CHANNEL.sendToServer(
-					new C2SDevPlanetCreationGUI(ActionType.CREATE, Integer.parseInt(dimensionID.getValue())));
+					new C2SDevPlanetCreationGUI(ActionType.CREATE, Integer.valueOf(dimensionID.getValue())));
 			minecraft.player.sendMessage(
 					new StringTextComponent(
 							"Planet with the id of " + Integer.valueOf(dimensionID.getValue()) + " was created!"),
@@ -141,8 +141,6 @@ public class DevPlanetCreationScreen extends Screen {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		this.renderBackground(pMatrixStack);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
-
-		System.out.println(ClientDataHolder.getStarchart() != null);
 
 		PlanetData data = ClientDataHolder.getStarchart().getDataForLevel(minecraft.level);
 		for (int i = 0; i < data.getTraits().size(); i++) {
