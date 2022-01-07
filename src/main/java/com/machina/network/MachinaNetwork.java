@@ -34,7 +34,6 @@ import java.util.function.Function;
 
 import com.machina.api.util.MachinaRL;
 import com.machina.network.message.C2SDevPlanetCreationGUI;
-import com.machina.network.message.S2CStarchartSyncMessage;
 import com.matyrobbrt.lib.network.BaseNetwork;
 import com.matyrobbrt.lib.network.INetworkMessage;
 
@@ -51,8 +50,6 @@ public class MachinaNetwork extends BaseNetwork {
 
     public static void init() {
         registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
-
-        registerServerToClient(S2CStarchartSyncMessage.class, S2CStarchartSyncMessage::decode);
     }
 
     private static SimpleChannel newSimpleChannel(String name) {

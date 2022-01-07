@@ -30,23 +30,17 @@
 
 package com.machina.api.starchart;
 
-import com.machina.api.api_extension.ApiExtension;
 import com.machina.api.api_extension.ApiExtensions;
 import com.machina.api.api_extension.IApiExtendable;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.planet.trait.type.IPlanetTraitType;
 import com.machina.api.world.data.PlanetData;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.INBTSerializable;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nonnull;
 import javax.annotation.WillNotClose;
-import javax.naming.CompoundName;
 import java.util.List;
 import java.util.Map;
 
@@ -91,7 +85,6 @@ public interface Starchart {
 
     default void addTrait(ResourceLocation dimensionId, PlanetTrait trait) {
         getDataForLevel(dimensionId).addTrait(trait);
-        setChanged();
     }
 
     default void addTrait(World level, PlanetTrait trait) {
@@ -100,7 +93,6 @@ public interface Starchart {
 
     default void removeTrait(ResourceLocation dimensionId, PlanetTrait trait) {
         getDataForLevel(dimensionId).removeTrait(trait);
-        setChanged();
     }
 
     default void removeTrait(World level, PlanetTrait trait) {
@@ -111,38 +103,10 @@ public interface Starchart {
 
     void generateIfNotExists(final long seed);
 
-    default void syncWithClients() {
-        ApiExtensions.useExtension(StarchartSyncer.class, syncer -> syncer.syncWithClients(this));
-    }
-
-    default void syncWithPlayer(ServerPlayerEntity player) {
-        ApiExtensions.useExtension(StarchartSyncer.class, syncer -> syncer.syncWithPlayer(this, player));
-    }
-
-    boolean isGenerated();
-
-    void setGenerated(boolean generated);
-
     @FunctionalInterface
     interface StarchartGetter extends IApiExtendable {
 
         Starchart getStarchart(MinecraftServer server);
-    }
-
-    interface StarchartSyncer extends IApiExtendable {
-
-        void syncWithClients(Starchart starchart);
-
-        void syncWithPlayer(Starchart starchart, ServerPlayerEntity player);
-
-    }
-
-    interface StarchartSerializer extends IApiExtendable {
-
-        CompoundNBT serializeNBT(Starchart starchart);
-
-        Starchart deserializeNBT(CompoundNBT nbt);
-
     }
 
 }

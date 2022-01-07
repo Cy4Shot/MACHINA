@@ -34,33 +34,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-import com.machina.api.ModIDs;
-import com.machina.api.starchart.Starchart;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.world.data.PlanetData;
 
 import net.minecraft.util.ResourceLocation;
 
 public class ClientDataHolder {
-	private static Starchart starchart;
+	private static Map<ResourceLocation, PlanetData> starchart;
 
-	public static void setStarchart(Starchart starchart) {
-		ClientDataHolder.starchart = starchart;
+	public static  Map<ResourceLocation, PlanetData> getStarchart() { return starchart; }
+
+	public static void setStarchart( Map<ResourceLocation, PlanetData> starchart) { ClientDataHolder.starchart = starchart; }
+	
+	public static PlanetData getPlanetDataByID(int id) {
+		return getDataForDimension(new MachinaRL(id));
 	}
-
-	/**
-	 * @return the current client-side starchart instance
-	 */
-	public static Starchart getStarchart() {
-		return starchart;
+	
+	public static PlanetData getDataForDimension(ResourceLocation dimID) {
+		return starchart.computeIfAbsent(dimID, rl -> PlanetData.NONE);
 	}
-
-	public static PlanetData getPlanetDataByID(final int id) {
-		return starchart.getDataForLevel(new ResourceLocation(ModIDs.MACHINA, String.valueOf(id)));
-	}
-
-	public static List<PlanetData> getPlanets() {
-		return Lists.newArrayList(starchart.getAllPlanetData().values());
+	
+	public static List<PlanetData> planets() {
+		return new ArrayList<PlanetData>(starchart.values());
 	}
 }

@@ -98,8 +98,8 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		nodes.clear();
 		Vector2f centre = getNewCentre();
 
-		for (int i = 1; i <= ClientDataHolder.getStarchart().getAllPlanetData().size(); i++) {
-			double angle = (Math.PI * 2) / ClientDataHolder.getStarchart().getAllPlanetData().size() * i;
+		for (int i = 1; i <= ClientDataHolder.getStarchart().size(); i++) {
+			double angle = (Math.PI * 2) / ClientDataHolder.getStarchart().size() * i;
 
 			double r = ClientDataHolder.getPlanetDataByID(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE) * variance + min;
 
@@ -218,7 +218,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		text.append("   > Temp: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.TEMPERATURE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Dist: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.GRAVITY) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 
-		text.append("ID  " + ClientDataHolder.getPlanets().indexOf(planet) + "\n");
+		text.append("ID  " + ClientDataHolder.planets().indexOf(planet) + "\n");
 
 		return text;
 	}
