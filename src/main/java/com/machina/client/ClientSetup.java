@@ -30,8 +30,7 @@
 
 package com.machina.client;
 
-import static com.machina.api.ModIDs.MACHINA;
-
+import com.machina.Machina;
 import com.machina.api.planet.trait.PlanetTraitSpriteUploader;
 import com.machina.client.dimension.CustomDimensionRenderInfo;
 import com.machina.client.particle.ElectricitySparkParticle;
@@ -58,7 +57,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @OnlyIn(Dist.CLIENT)
 @SuppressWarnings("resource")
-@Mod.EventBusSubscriber(modid = MACHINA, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup extends com.matyrobbrt.lib.ClientSetup {
 
 	public ClientSetup(IEventBus modBus) {

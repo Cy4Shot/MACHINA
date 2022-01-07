@@ -12,7 +12,7 @@ public class WaterWorldTrait extends PlanetTrait implements IWorldTrait {
 	
 	@Override
 	public void updateNoiseSettings(DynamicDimensionChunkGenerator chunkGenerator) {
-		chunkGenerator.setSeaLevel(85);
+		chunkGenerator.seaLevel = 85;
 	}
 
 }

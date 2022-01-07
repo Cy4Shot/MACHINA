@@ -28,30 +28,15 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.world;
+package com.machina.api.world;
 
-import com.machina.api.ModIDs;
-import com.machina.api.util.MachinaRL;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.DimensionType;
+public class DynamicStructureSettings extends DimensionStructuresSettings {
 
-public class DynamicDimensionFactory {
-
-	public static final RegistryKey<DimensionType> TYPE_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
-			new MachinaRL(ModIDs.MACHINA));
-
-	public static final RegistryKey<DimensionType> SUPERHOT_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
-			new MachinaRL("superhot"));
-
-	public static Dimension createDimension(MinecraftServer server, RegistryKey<Dimension> key) {
-		return new Dimension(() -> getDimensionType(server), new DDChunkGeneratorImpl(server, key));
+	public DynamicStructureSettings() {
+		super(false);
+		structureConfig.clear();
 	}
 
-	public static DimensionType getDimensionType(MinecraftServer server) {
-		return server.registryAccess().registryOrThrow(Registry.DIMENSION_TYPE_REGISTRY).getOrThrow(TYPE_KEY);
-	}
 }

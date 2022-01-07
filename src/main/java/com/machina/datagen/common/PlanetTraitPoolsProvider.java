@@ -30,9 +30,9 @@
 
 package com.machina.datagen.common;
 
-import static com.machina.api.ModIDs.MACHINA;
-import static com.machina.init.PlanetTraitInit.FROZEN;
+import static com.machina.init.PlanetTraitInit.*;
 
+import com.machina.Machina;
 import com.machina.api.datagen.trait_pools.TraitPool;
 import com.machina.api.datagen.trait_pools.TraitPoolEntry;
 import com.machina.api.datagen.trait_pools.TraitPoolsGenProvider;
@@ -43,7 +43,7 @@ import net.minecraft.data.DataGenerator;
 public class PlanetTraitPoolsProvider extends TraitPoolsGenProvider {
 
 	public PlanetTraitPoolsProvider(DataGenerator generator) {
-		super(generator, MACHINA);
+		super(generator, Machina.MOD_ID);
 	}
 
 	@Override

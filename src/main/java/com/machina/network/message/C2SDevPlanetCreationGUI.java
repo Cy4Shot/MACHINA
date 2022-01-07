@@ -31,7 +31,7 @@
 package com.machina.network.message;
 
 import com.machina.api.network.message.INetworkMessage;
-import com.machina.world.DynamicDimensionHelper;
+import com.machina.api.world.DynamicDimensionHelper;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.server.ServerWorld;

@@ -30,8 +30,7 @@
 
 package com.machina.datagen.client;
 
-import static com.machina.api.ModIDs.MACHINA;
-
+import com.machina.Machina;
 import com.machina.init.FluidInit;
 
 import net.minecraft.block.Block;
@@ -43,7 +42,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class BlockStatesProvider extends BlockStateProvider {
 
 	public BlockStatesProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-		super(gen, MACHINA, exFileHelper);
+		super(gen, Machina.MOD_ID, exFileHelper);
 	}
 
 	@Override

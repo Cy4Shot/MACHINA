@@ -38,12 +38,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.machina.api.ModIDs;
-import com.machina.api.api_extension.ApiExtensions;
 import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.registry.annotation.MachinaAnnotationProcessor;
 import com.machina.api.tile_entity.MachinaEnergyStorage;
 import com.machina.api.util.MachinaRL;
+import com.machina.api.world.DynamicDimensionHelper;
 import com.machina.api.world.data.PlanetDimensionData;
+import com.machina.api.world.data.StarchartData;
 import com.machina.client.ClientSetup;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
@@ -51,8 +52,6 @@ import com.machina.config.ServerConfig;
 import com.machina.init.CommandInit;
 import com.machina.init.ItemInit;
 import com.machina.network.MachinaNetwork;
-import com.machina.starchart.StarchartImpl;
-import com.machina.world.DynamicDimensionHelper;
 import com.matyrobbrt.lib.ModSetup;
 import com.matyrobbrt.lib.annotation.SyncValue;
 import com.matyrobbrt.lib.registry.annotation.AnnotationProcessor;
@@ -75,11 +74,6 @@ import software.bernie.geckolib3.GeckoLib;
 public class Machina extends ModSetup {
 
 	public static final Logger LOGGER = LogManager.getLogger();
-
-	/**
-	 * @deprecated Use {@link ModIDs#MACHINA} inside API classes
-	 */
-	@Deprecated
 	public static final String MOD_ID = ModIDs.MACHINA;
 
 	public static final MachinaRL MACHINA_ID = new MachinaRL(MOD_ID);
@@ -119,8 +113,6 @@ public class Machina extends ModSetup {
 					tank.writeToNBT(nbt);
 					nbt.putInt("TankCapacity", tank.getCapacity());
 				});
-
-		ApiExtensions.registerAnnotationExtensions();
 	}
 
 	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
@@ -162,6 +154,6 @@ public class Machina extends ModSetup {
 		PlanetDimensionData.getDefaultInstance(server).dimensionIds
 				.forEach(id -> DynamicDimensionHelper.createPlanet(server, id));
 
-		StarchartImpl.getDefaultInstance(server).generateIf(server.getLevel(World.OVERWORLD).getSeed());
+		StarchartData.getDefaultInstance(server).generateIf(server.getLevel(World.OVERWORLD).getSeed());
 	}
 }

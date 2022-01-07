@@ -30,8 +30,7 @@
 
 package com.machina.events;
 
-import static com.machina.api.ModIDs.MACHINA;
-
+import com.machina.Machina;
 import com.machina.api.util.PlanetUtils;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -40,7 +39,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-@Mod.EventBusSubscriber(modid = MACHINA, bus = Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
 
 	@SubscribeEvent

@@ -49,7 +49,7 @@ import net.minecraft.nbt.StringNBT;
 @RegistryHolder(modid = MACHINA)
 public final class PlanetAttributeTypesInit {
 	
-	@RegisterPlanetAttributeType("distance")
+	@RegisterPlanetAttributeType("temperature")
 	public static final PlanetAttributeType<Float> DISTANCE = new PlanetAttributeType<>("AU", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.5f, 10f));
 
 	@RegisterPlanetAttributeType("gravity")

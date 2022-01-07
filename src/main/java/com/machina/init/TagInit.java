@@ -30,7 +30,7 @@
 
 package com.machina.init;
 
-import static com.machina.api.ModIDs.MACHINA;
+import static com.machina.Machina.MOD_ID;
 
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
@@ -46,7 +46,7 @@ public final class TagInit {
 		public static final ITag.INamedTag<Block> WRENCH_EFFECTIVE = mod("wrench_effective");
 
 		private static ITag.INamedTag<Block> mod(String path) {
-			return BlockTags.bind(new ResourceLocation(MACHINA, path).toString());
+			return BlockTags.bind(new ResourceLocation(MOD_ID, path).toString());
 		}
 	}
 

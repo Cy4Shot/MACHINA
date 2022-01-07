@@ -30,8 +30,7 @@
 
 package com.machina.datagen.client;
 
-import static com.machina.api.ModIDs.MACHINA;
-
+import com.machina.Machina;
 import com.machina.init.FluidInit;
 
 import net.minecraft.data.DataGenerator;
@@ -45,7 +44,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class ItemModelProvider extends net.minecraftforge.client.model.generators.ItemModelProvider {
 
 	public ItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, MACHINA, existingFileHelper);
+		super(generator, Machina.MOD_ID, existingFileHelper);
 	}
 
 	@Override

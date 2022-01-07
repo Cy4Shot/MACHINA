@@ -30,8 +30,7 @@
 
 package com.machina.events;
 
-import static com.machina.api.ModIDs.MACHINA;
-
+import com.machina.Machina;
 import com.machina.client.gui.DevPlanetCreationScreen;
 import com.machina.client.gui.StarchartScreen;
 import com.machina.init.KeyBindingsInit;
@@ -44,7 +43,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-@EventBusSubscriber(modid = MACHINA, bus = Bus.FORGE, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE, value = Dist.CLIENT)
 public class InputEvents {
 
 	@SubscribeEvent

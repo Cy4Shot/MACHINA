@@ -2,7 +2,7 @@ package com.machina.api.registry;
 
 import java.util.Optional;
 
-import com.machina.api.ModIDs;
+import com.machina.Machina;
 import com.machina.api.annotation.ChangedByReflection;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.util.MachinaRL;
@@ -14,7 +14,7 @@ import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@RegistryHolder(modid = ModIDs.MACHINA)
+@RegistryHolder(modid = Machina.MOD_ID)
 public class PlanetTraitRegistry {
 
 	@ChangedByReflection(when = "commonSetup (when the registry is built)")

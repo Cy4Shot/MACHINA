@@ -28,7 +28,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.world;
+package com.machina.api.world;
 
 import java.lang.reflect.Field;
 import java.util.Map;

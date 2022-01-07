@@ -30,7 +30,7 @@
 
 package com.machina.datagen.common;
 
-import static com.machina.api.ModIDs.MACHINA;
+import static com.machina.Machina.MOD_ID;
 
 import com.machina.init.TagInit;
 import com.machina.modules.rocket.RocketModule;
@@ -42,7 +42,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
 
 	public BlockTagsProvider(DataGenerator pGenerator, ExistingFileHelper existingFileHelper) {
-		super(pGenerator, MACHINA, existingFileHelper);
+		super(pGenerator, MOD_ID, existingFileHelper);
 	}
 
 	@Override

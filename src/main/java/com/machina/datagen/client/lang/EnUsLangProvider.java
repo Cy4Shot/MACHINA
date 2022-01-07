@@ -30,8 +30,6 @@
 
 package com.machina.datagen.client.lang;
 
-import static com.machina.api.ModIDs.MACHINA;
-
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -56,7 +54,7 @@ public class EnUsLangProvider extends LanguageProvider {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	public EnUsLangProvider(DataGenerator gen) {
-		super(gen, MACHINA, "en_us");
+		super(gen, Machina.MOD_ID, "en_us");
 	}
 
 	@Override
