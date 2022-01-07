@@ -35,6 +35,7 @@ import static com.machina.api.ModIDs.MACHINA;
 import java.util.Random;
 import java.util.function.Function;
 
+import com.machina.api.planet.PlanetBlocksGenerator;
 import com.machina.api.planet.PlanetNameGenerator;
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.registry.annotation.RegisterPlanetAttributeType;
@@ -49,7 +50,7 @@ import net.minecraft.nbt.StringNBT;
 @RegistryHolder(modid = MACHINA)
 public final class PlanetAttributeTypesInit {
 	
-	@RegisterPlanetAttributeType("temperature")
+	@RegisterPlanetAttributeType("distance")
 	public static final PlanetAttributeType<Float> DISTANCE = new PlanetAttributeType<>("AU", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.5f, 10f));
 
 	@RegisterPlanetAttributeType("gravity")
@@ -66,6 +67,9 @@ public final class PlanetAttributeTypesInit {
 	
 	@RegisterPlanetAttributeType("temperature")
 	public static final PlanetAttributeType<Float> TEMPERATURE = new PlanetAttributeType<>("K", FloatNBT::valueOf, floatDeserializer(350.0f), random(100f, 1000f));
+	
+	@RegisterPlanetAttributeType("base_block")
+	public static final PlanetAttributeType<String> BASE_BLOCK = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("minecraft:stone"), PlanetBlocksGenerator::getBaseBlock);
 	
 	
 	// Deserializers

@@ -38,13 +38,17 @@ import java.util.stream.Collectors;
 
 import javax.annotation.WillNotClose;
 
+import com.machina.api.network.BaseNetwork;
 import com.machina.api.planet.trait.type.IPlanetTraitType;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.StringUtils;
 import com.machina.config.CommonConfig;
 import com.machina.init.PlanetAttributeTypesInit;
+import com.machina.network.MachinaNetwork;
+import com.machina.network.message.S2CStarchartSyncMessage;
 import com.matyrobbrt.lib.nbt.BaseNBTMap;
 
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.server.MinecraftServer;
@@ -58,9 +62,7 @@ public class StarchartData extends WorldSavedData {
 	// Variables + Constructor
 	private static final String ID = MACHINA + "_starchart";
 
-	private final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> starchart = new BaseNBTMap<>(
-			rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
-			nbt -> new ResourceLocation(nbt.getAsString()), PlanetData::fromNBT);
+	private final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> starchart = createEmptyStarchart();
 
 	private boolean isGenerated;
 
@@ -106,13 +108,16 @@ public class StarchartData extends WorldSavedData {
 
 	@Override
 	public void setDirty() {
+		syncWithClients();
 		super.setDirty();
-		cache();
 	}
 
-	public void cache() {
-		// TODO Here we should cache the trait types, because streams are not the
-		// fastest things in the world
+	public void syncWithClients() {
+		BaseNetwork.sendToAll(MachinaNetwork.CHANNEL, new S2CStarchartSyncMessage(starchart));
+	}
+	
+	public void syncClient(ServerPlayerEntity player) {
+		BaseNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CStarchartSyncMessage(starchart), player);
 	}
 
 	public boolean getGenerated() {
@@ -154,6 +159,12 @@ public class StarchartData extends WorldSavedData {
 						+ p.getTraits().get(j).toString());
 			}
 		}
+	}
+	
+	public static BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> createEmptyStarchart() {
+		return new BaseNBTMap<>(
+				rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
+				nbt -> new ResourceLocation(nbt.getAsString()), PlanetData::fromNBT);
 	}
 
 }

@@ -35,10 +35,12 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 import com.machina.api.ModIDs;
+import com.machina.api.planet.attribute.PlanetAttributeList;
 import com.machina.api.planet.trait.type.IWorldTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetUtils;
 import com.machina.api.world.data.StarchartData;
+import com.machina.init.PlanetAttributeTypesInit;
 import com.mojang.serialization.Codec;
 //import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -46,6 +48,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -64,6 +67,7 @@ import net.minecraft.world.gen.INoiseGenerator;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.structure.StructureManager;
+import net.minecraftforge.registries.ForgeRegistries;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
 public class DynamicDimensionChunkGenerator extends ChunkGenerator {
@@ -78,9 +82,9 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	public int seaLevel = 40;
 	public float heightMultiplier = 1f;
-	public boolean freezing = false;
-	
+
 	public List<? extends IWorldTrait> traits;
+	public PlanetAttributeList attributes;
 	public int id;
 	public long seed = 0L;
 
@@ -92,45 +96,9 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		this(server.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY));
 		id = PlanetUtils.getIdDim(key);
 		this.traits = StarchartData.getDefaultInstance(server).getTraitsForType(key.location(), IWorldTrait.class);
+		this.attributes = StarchartData.getStarchartForServer(server).get(key.location()).getAttributes();
 		traits.forEach(t -> t.updateNoiseSettings(this));
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		System.out.println(traits.toString());
-		
+
 	}
 
 	public DynamicDimensionChunkGenerator(Registry<Biome> biomes) {
@@ -156,11 +124,18 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	@Override
 	public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk chunk) {
 		long seed = worldGenRegion.getLevel().getSeed();
+		final BlockState baseBlock = ForgeRegistries.BLOCKS
+				.getValue(new ResourceLocation(attributes.getValue(PlanetAttributeTypesInit.BASE_BLOCK)))
+				.defaultBlockState();
+		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
+
+		/*
+		 * 1. GENERATE BASE LAYER
+		 */
 
 		ChunkPos chunkpos = chunk.getPos();
 		int i = chunkpos.x;
 		int j = chunkpos.z;
-		SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
 		sharedseedrandom.setBaseChunkSeed(i, j);
 		ChunkPos chunkpos1 = chunk.getPos();
 		int k = chunkpos1.getMinBlockX();
@@ -175,23 +150,43 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 				int yPos = baseHeight + (int) (d1 * heightMultiplier);
 				for (int y = 0; y < yPos; y++) {
-					chunk.setBlockState(blockpos$mutable.set(i1, y, j1), Blocks.STONE.defaultBlockState(), false);
+					chunk.setBlockState(blockpos$mutable.set(i1, y, j1), baseBlock, false);
 				}
 				if (yPos < seaLevel) {
 					for (int y = yPos; y < seaLevel; y++) {
 						chunk.setBlockState(blockpos$mutable.set(i1, y, j1), Blocks.WATER.defaultBlockState(), false);
-					}
-
-					if (freezing) {
-						chunk.setBlockState(blockpos$mutable.set(i1, seaLevel, j1),
-								(sharedseedrandom.nextInt(2) == 0 ? Blocks.PACKED_ICE : Blocks.ICE).defaultBlockState(),
-								false);
 					}
 				}
 			}
 		}
 
 		this.placeBedrock(chunk, sharedseedrandom);
+
+		traits.forEach(t -> t.modify(PlanetGenStage.BASE, this, worldGenRegion, chunk, seed));
+
+		/*
+		 * 2. GENERATE CARVER LAYER
+		 */
+
+		traits.forEach(t -> t.modify(PlanetGenStage.CARVER, this, worldGenRegion, chunk, seed));
+
+		/*
+		 * 3. GENERATE STRUCTURE LAYER
+		 */
+
+		traits.forEach(t -> t.modify(PlanetGenStage.STRUCTURE, this, worldGenRegion, chunk, seed));
+
+		/*
+		 * 4. GENERATE FEATURE LAYER
+		 */
+
+		traits.forEach(t -> t.modify(PlanetGenStage.FEATURE, this, worldGenRegion, chunk, seed));
+
+		/*
+		 * 5. GENERATE DECORATION LAYER
+		 */
+
+		traits.forEach(t -> t.modify(PlanetGenStage.DECORATION, this, worldGenRegion, chunk, seed));
 	}
 
 	private void placeBedrock(IChunk chunk, Random random) {
@@ -219,9 +214,64 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		return 0;
 	}
 
-	// get base column
 	@Override
 	public IBlockReader getBaseColumn(int x, int z) {
 		return new Blockreader(new BlockState[0]);
+	}
+	
+	public int getSeaLevel() {
+		return seaLevel;
+	}
+
+	public void setSeaLevel(int seaLevel) {
+		this.seaLevel = seaLevel;
+	}
+
+	public float getHeightMultiplier() {
+		return heightMultiplier;
+	}
+
+	public void setHeightMultiplier(float heightMultiplier) {
+		this.heightMultiplier = heightMultiplier;
+	}
+
+	public List<? extends IWorldTrait> getTraits() {
+		return traits;
+	}
+
+	public void setTraits(List<? extends IWorldTrait> traits) {
+		this.traits = traits;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public long getSeed() {
+		return seed;
+	}
+
+	public void setSeed(long seed) {
+		this.seed = seed;
+	}
+
+	public Registry<Biome> getBiomes() {
+		return biomes;
+	}
+
+	public INoiseGenerator getSurfaceNoise() {
+		return surfaceNoise;
+	}
+
+	public int getBaseHeight() {
+		return baseHeight;
+	}
+
+	public PlanetAttributeList getAttributes() {
+		return attributes;
 	}
 }

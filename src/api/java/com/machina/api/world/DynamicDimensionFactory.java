@@ -44,9 +44,6 @@ public class DynamicDimensionFactory {
 	public static final RegistryKey<DimensionType> TYPE_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
 			new MachinaRL(ModIDs.MACHINA));
 
-	public static final RegistryKey<DimensionType> SUPERHOT_KEY = RegistryKey.create(Registry.DIMENSION_TYPE_REGISTRY,
-			new MachinaRL("superhot"));
-
 	public static Dimension createDimension(MinecraftServer server, RegistryKey<Dimension> key) {
 		return new Dimension(() -> getDimensionType(server), new DynamicDimensionChunkGenerator(server, key));
 	}

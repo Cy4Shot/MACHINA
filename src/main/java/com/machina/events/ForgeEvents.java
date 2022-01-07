@@ -73,7 +73,6 @@ public class ForgeEvents {
 		if (e.getEntity().level.isClientSide) {
 			return;
 		}
-		System.out.println("SYNCEY TIME");
-//		StarchartData.getDefaultInstance(e.getEntity().getServer()).syncClient((ServerPlayerEntity) e.getPlayer());
+		StarchartData.getDefaultInstance(e.getEntity().getServer()).syncClient((ServerPlayerEntity) e.getPlayer());
 	}
 }

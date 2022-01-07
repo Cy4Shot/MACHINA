@@ -83,6 +83,10 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
 		}
 	}
 	
+	public <Z> Z getValue(PlanetAttributeType<Z> t) {
+		return getAttributeForType(t).get().getValue();
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void set(PlanetAttributeType<?> type, Object value) {
 		getAttributeForType(type).ifPresent(attr -> attr.set(value));
