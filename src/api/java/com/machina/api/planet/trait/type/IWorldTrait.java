@@ -30,7 +30,7 @@
 
 package com.machina.api.planet.trait.type;
 
-import com.machina.api.world.DynamicDimensionChunkGenerator;
+import com.machina.api.world.IDynamicDimensionChunkGenerator;
 import com.machina.api.world.PlanetGenStage;
 
 import net.minecraft.world.chunk.IChunk;
@@ -41,7 +41,7 @@ public interface IWorldTrait extends IPlanetTraitType {
 	 * This method will be the first thing run during world generation. It will
 	 * update settings in the chunk generator.
 	 */
-	default void updateNoiseSettings(DynamicDimensionChunkGenerator chunkGenerator) {
+	default void updateNoiseSettings(IDynamicDimensionChunkGenerator chunkGenerator) {
 	}
 
 	/**
@@ -49,7 +49,7 @@ public interface IWorldTrait extends IPlanetTraitType {
 	 * 
 	 * @return Boolean: Success?
 	 */
-	default boolean modify(PlanetGenStage stage, DynamicDimensionChunkGenerator chunkGenerator,
+	default boolean modify(PlanetGenStage stage, IDynamicDimensionChunkGenerator chunkGenerator,
 			WorldGenRegion worldGenRegion, IChunk chunk, long seed) {
 		return false;
 	}

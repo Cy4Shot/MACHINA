@@ -30,8 +30,35 @@
 
 package com.machina.api.world;
 
-public interface DynamicDimensionChunkGenerator {
+import java.util.List;
+
+import com.machina.api.planet.trait.type.IWorldTrait;
+import com.machina.api.starchart.PlanetAttributeList;
+
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.INoiseGenerator;
+
+public interface IDynamicDimensionChunkGenerator {
+	int getSeaLevel();
 
 	void setSeaLevel(int seaLevel);
 
+	float getHeightMultiplier();
+
+	void setHeightMultiplier(float heightMultiplier);
+
+	List<? extends IWorldTrait> getTraits();
+	
+	PlanetAttributeList getAttributes();
+
+	int getId();
+
+	long getSeed();
+
+	Registry<Biome> getBiomes();
+
+	INoiseGenerator getSurfaceNoise();
+
+	int getBaseHeight();
 }
