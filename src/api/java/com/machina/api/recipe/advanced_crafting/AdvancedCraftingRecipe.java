@@ -37,7 +37,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.machina.api.registry.MachinaRegistries;
 import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 import com.matyrobbrt.lib.registry.annotation.recipe.RegisterRecipeSerializer;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -82,7 +81,7 @@ public class AdvancedCraftingRecipe extends ShapedRecipe {
 	}
 
 	public AdvancedCraftingFunction getFunction() {
-		AdvancedCraftingFunctionSerializer<?> serializer = MachinaRegistries.ADVANCED_CRAFTING_FUNCTION_SERIALIZERS
+		AdvancedCraftingFunctionSerializer<?> serializer = AdvancedCraftingFunctionSerializer.REGISTRY
 				.getValue(new ResourceLocation(JSONUtils.getAsString(functionData, "type")));
 		return serializer != null ? serializer.deserialize(functionData)
 				: EmptyFunction.SERIALIZER.deserialize(functionData);

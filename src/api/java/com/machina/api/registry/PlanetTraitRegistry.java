@@ -28,37 +28,32 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.command.impl;
+package com.machina.api.registry;
 
-import com.machina.api.annotation.DevelopmentOnly;
-import com.machina.api.registry.PlanetAttributeRegistry;
-import com.machina.command.BaseCommand;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
+import java.util.Optional;
 
-import net.minecraft.command.CommandSource;
+import com.machina.api.ModIDs;
+import com.machina.api.annotation.ChangedByReflection;
+import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.api.util.MachinaRL;
+import com.machina.api.util.helper.CustomRegistryHelper;
+import com.machina.api.util.objects.TargetField;
+import com.matyrobbrt.lib.registry.annotation.RegisterCustomRegistry;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
-@DevelopmentOnly
-public class DebugCommand extends BaseCommand {
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 
-	public DebugCommand(int permissionLevel, boolean enabled) {
-		super(permissionLevel, enabled);
+@RegistryHolder(modid = ModIDs.MACHINA)
+public class PlanetTraitRegistry {
+
+	@ChangedByReflection(when = "commonSetup (when the registry is built)")
+	public static final IForgeRegistry<PlanetTrait> REGISTRY = null;
+
+	@RegisterCustomRegistry
+	public static void createRegistry(RegistryEvent.NewRegistry event) {
+		CustomRegistryHelper.<PlanetTrait>registerRegistry(new TargetField(PlanetTraitRegistry.class, "REGISTRY"),
+				PlanetTrait.class, new MachinaRL("planet_trait"), Optional.of(new MachinaRL("none")),
+				Optional.of(new MachinaRL("planet_trait_registry")));
 	}
-
-	@Override
-	public void build(LiteralArgumentBuilder<CommandSource> builder) {
-		builder.executes(this::execute);
-	}
-
-	@Override
-	protected int execute(CommandContext<CommandSource> context) {
-		// DO NOT REMOVE THE NEXT COMMENT!
-		//org.objectweb.asm.Type.getMethodDescriptor(null);
-		System.out.println(PlanetAttributeRegistry.REGISTRY.getValues());
-		return 0;
-	}
-
-	@Override
-	public String getName() { return "debug"; }
-
 }

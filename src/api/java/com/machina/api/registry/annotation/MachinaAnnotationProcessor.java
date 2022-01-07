@@ -30,9 +30,9 @@
 
 package com.machina.api.registry.annotation;
 
-import static com.machina.api.registry.annotation.MachinaRegistryAnnotations.ADVANCED_CRAFTING_FUNCTION_SERIALIZERS;
-import static com.machina.api.registry.annotation.MachinaRegistryAnnotations.PLANET_ATTRIBUTE_TYPES;
-import static com.machina.api.registry.annotation.MachinaRegistryAnnotations.PLANET_TRAITS;
+import static com.machina.api.registry.annotation.MachinaRegistries.ADVANCED_CRAFTING_FUNCTION_SERIALIZERS;
+import static com.machina.api.registry.annotation.MachinaRegistries.PLANET_ATTRIBUTE_TYPES;
+import static com.machina.api.registry.annotation.MachinaRegistries.PLANET_TRAITS;
 import static java.util.Optional.of;
 
 import com.machina.api.planet.attribute.PlanetAttributeType;

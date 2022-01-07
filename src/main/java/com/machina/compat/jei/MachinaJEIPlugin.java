@@ -100,7 +100,7 @@ public class MachinaJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerIngredients(IModIngredientRegistration registration) {
-//		List<PlanetTrait> traits = PlanetTraitRegistry.PLANET_ATTRIBUTE_TYPES.getValues().stream().filter(PlanetTrait::showsInJei)
+//		List<PlanetTrait> traits = PlanetTraitRegistry.REGISTRY.getValues().stream().filter(PlanetTrait::showsInJei)
 //				.collect(Collectors.toList());
 //		PlanetTraitJEIHelper traitHelper = new PlanetTraitJEIHelper();
 //		PlanetTraitJEIRenderer traitRenderer = new PlanetTraitJEIRenderer();
@@ -108,7 +108,7 @@ public class MachinaJEIPlugin implements IModPlugin {
 	}
 
 	public void addIngredientInfo(IRecipeRegistration registration) {
-//		PlanetTraitRegistry.PLANET_ATTRIBUTE_TYPES.getValues().forEach(trait -> {
+//		PlanetTraitRegistry.REGISTRY.getValues().forEach(trait -> {
 //			if (trait.hasDescription()) {
 //				registration.addIngredientInfo(trait, PLANET_TRAIT,
 //						trait.getDescription().toArray(new ITextComponent[] {}));

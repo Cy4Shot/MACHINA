@@ -30,12 +30,36 @@
 
 package com.machina.api.recipe.advanced_crafting;
 
+import static com.machina.api.ModIDs.MACHINA;
+
+import java.util.Optional;
+
 import com.google.gson.JsonObject;
+import com.machina.api.annotation.ChangedByReflection;
+import com.machina.api.util.MachinaRL;
+import com.machina.api.util.helper.ClassHelper;
+import com.machina.api.util.helper.CustomRegistryHelper;
+import com.machina.api.util.objects.TargetField;
+import com.matyrobbrt.lib.registry.annotation.RegisterCustomRegistry;
+import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistry;
 
-public abstract class AdvancedCraftingFunctionSerializer<FUNCTION extends AdvancedCraftingFunction>
+@RegistryHolder(modid = MACHINA)
+public abstract class AdvancedCraftingFunctionSerializer<F extends AdvancedCraftingFunction>
 		extends ForgeRegistryEntry<AdvancedCraftingFunctionSerializer<?>> {
+
+	@ChangedByReflection(when = "commonSetup (when the registry is built)")
+	public static final IForgeRegistry<AdvancedCraftingFunctionSerializer<?>> REGISTRY = null;
+
+	@RegisterCustomRegistry
+	public static void createRegistry(final RegistryEvent.NewRegistry event) {
+		CustomRegistryHelper.<AdvancedCraftingFunctionSerializer<?>>registerRegistry(new TargetField(AdvancedCraftingFunctionSerializer.class, "REGISTRY"),
+				ClassHelper.withWildcard(AdvancedCraftingFunctionSerializer.class),
+				new MachinaRL("advanced_crafting_function_serializer"), Optional.of(new MachinaRL("no_function")));
+	}
 
 	/**
 	 * Create a new function based on the given json object
@@ -43,7 +67,7 @@ public abstract class AdvancedCraftingFunctionSerializer<FUNCTION extends Advanc
 	 * @param nbt
 	 * @return
 	 */
-	public abstract FUNCTION deserialize(JsonObject obj);
+	public abstract F deserialize(JsonObject obj);
 
 	/**
 	 * Serializes the given function into a {@link JsonObject}
@@ -51,7 +75,7 @@ public abstract class AdvancedCraftingFunctionSerializer<FUNCTION extends Advanc
 	 * @param function
 	 * @return
 	 */
-	public JsonObject serialize(FUNCTION function) {
+	public JsonObject serialize(F function) {
 		JsonObject obj = new JsonObject();
 		obj.addProperty("type", getRegistryName().toString());
 		return obj;
