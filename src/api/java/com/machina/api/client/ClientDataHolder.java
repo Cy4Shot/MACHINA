@@ -30,14 +30,11 @@
 
 package com.machina.api.client;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.machina.api.ModIDs;
 import com.machina.api.starchart.Starchart;
-import com.machina.api.util.MachinaRL;
 import com.machina.api.world.data.PlanetData;
 
 import net.minecraft.util.ResourceLocation;

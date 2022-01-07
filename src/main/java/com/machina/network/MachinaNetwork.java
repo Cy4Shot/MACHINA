@@ -60,7 +60,6 @@ public class MachinaNetwork extends BaseNetwork {
                 version -> version.equals(NETWORK_VERSION), version -> version.equals(NETWORK_VERSION));
     }
 
-	@SuppressWarnings("unused")
 	private static <M extends INetworkMessage> void registerServerToClient(Class<M> type,
 			Function<PacketBuffer, M> decoder) {
         registerServerToClient(CHANNEL, type, decoder);

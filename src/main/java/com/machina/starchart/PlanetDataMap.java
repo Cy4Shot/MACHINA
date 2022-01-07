@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
 
+@SuppressWarnings("serial")
 public class PlanetDataMap extends BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> {
 
     public PlanetDataMap() {
