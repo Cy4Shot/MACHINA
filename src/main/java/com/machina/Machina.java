@@ -41,7 +41,6 @@ import com.machina.api.ModIDs;
 import com.machina.api.api_extension.ApiExtensions;
 import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.registry.annotation.MachinaAnnotationProcessor;
-import com.machina.api.starchart.Starchart;
 import com.machina.api.tile_entity.MachinaEnergyStorage;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.world.data.PlanetDimensionData;
@@ -52,6 +51,7 @@ import com.machina.config.ServerConfig;
 import com.machina.init.CommandInit;
 import com.machina.init.ItemInit;
 import com.machina.network.MachinaNetwork;
+import com.machina.starchart.StarchartImpl;
 import com.machina.world.DynamicDimensionHelper;
 import com.matyrobbrt.lib.ModSetup;
 import com.matyrobbrt.lib.annotation.SyncValue;
@@ -162,6 +162,6 @@ public class Machina extends ModSetup {
 		PlanetDimensionData.getDefaultInstance(server).dimensionIds
 				.forEach(id -> DynamicDimensionHelper.createPlanet(server, id));
 
-		Starchart.getStarchartForServer(server).generateIfNotExists(server.getLevel(World.OVERWORLD).getSeed());
+		StarchartImpl.getDefaultInstance(server).generateIf(server.getLevel(World.OVERWORLD).getSeed());
 	}
 }

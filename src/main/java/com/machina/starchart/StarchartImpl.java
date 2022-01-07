@@ -33,11 +33,13 @@ package com.machina.starchart;
 import static com.machina.api.ModIDs.MACHINA;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import javax.annotation.WillNotClose;
+
 import com.machina.api.api_extension.ApiExtension;
+import com.machina.api.api_extension.ApiExtensions;
 import com.machina.api.planet.trait.type.IPlanetTraitType;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.util.MachinaRL;
@@ -49,11 +51,18 @@ import com.matyrobbrt.lib.nbt.BaseNBTMap;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
 
 public class StarchartImpl extends WorldSavedData implements Starchart {
+
+	public static void registerAPIExtension() {
+		ApiExtensions.registerExtension(Starchart.StarchartGetter.class, server -> server.getLevel(World.OVERWORLD)
+				.getDataStorage().computeIfAbsent(() -> new StarchartImpl(ID), ID));
+	}
 
 	private static final String ID = MACHINA + "_starchart";
 
@@ -75,9 +84,10 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 		isGenerated = false;
 	}
 
-	@Override
-	public Map<ResourceLocation, PlanetData> getAllPlanetData() {
-		return planetData;
+	// Instance
+	public static StarchartImpl getDefaultInstance(@WillNotClose MinecraftServer server) {
+		ServerWorld w = server.getLevel(World.OVERWORLD);
+		return w.getDataStorage().computeIfAbsent(() -> new StarchartImpl(ID), ID);
 	}
 
 	// Save + Load
@@ -117,11 +127,6 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 		cache();
 	}
 
-	@Override
-	public void setChanged() {
-		setDirty();
-	}
-
 	public void cache() {
 		// TODO Here we should cache the trait types, because streams are not the
 		// fastest things in the world
@@ -131,8 +136,7 @@ public class StarchartImpl extends WorldSavedData implements Starchart {
 		return isGenerated;
 	}
 
-	@Override
-	public void generateIfNotExists(long seed) {
+	public void generateIf(long seed) {
 		if (!isGenerated) {
 
 			Random rand = new Random(seed);

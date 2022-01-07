@@ -28,33 +28,21 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.planet.attribute;
+package com.machina.api.nbt;
 
-import java.util.Random;
 import java.util.function.Function;
 
 import net.minecraft.nbt.INBT;
 
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeType<?>> {
+public class NBTMap<K extends INBTSerializable<DK>, V extends INBTSerializable<DV>, DK extends INBT, DV extends INBT>
+extends BaseNBTMap<K, V, DK, DV> {
 
-	private final String measureUnit;
+	private static final long serialVersionUID = -4397124152173696864L;
 
-	public final Function<T, INBT> valueSerializer;
-	public final Function<INBT, T> valueDeserializer;
-	public final Function<Random, T> generator;
-
-	public PlanetAttributeType(String measureUnit, Function<T, INBT> valueSerializer,
-			Function<INBT, T> valueDeserializer, Function<Random, T> generator) {
-		this.measureUnit = measureUnit;
-		this.valueSerializer = valueSerializer;
-		this.valueDeserializer = valueDeserializer;
-		this.generator = generator;
+	public NBTMap(Function<DK, K> keyDeserializer, Function<DV, V> valueDeserializer) {
+		super(K::serializeNBT, V::serializeNBT, keyDeserializer, valueDeserializer);
 	}
-
-	public String getMeasureUnit() { return measureUnit; }
-	
-	public boolean isShown() { return true; }
 
 }

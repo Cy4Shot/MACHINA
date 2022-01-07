@@ -47,10 +47,8 @@ sourceSets {
         }
 		//The API has no resources
         resources.srcDirs = []
-
-        compileClasspath -= sourceSets.main.output
+        
         compileClasspath += configurations.getByName("minecraft")
-        compileClasspath += configurations.getByName("shade")
 	}
 
 	main {
@@ -190,7 +188,6 @@ dependencies {
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
     
     implementation fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
-    shade fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
     //compileClasspath fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
     
     implementation fg.deobf(project.dependencies.create("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}") {
@@ -215,7 +212,7 @@ license {
 	header = file("$rootDir/header.txt")
 	properties {
         name = 'Machina Team'
-        year = 2021-2022
+        year = 2021
     }
 
 	include '**/*.java'

@@ -28,33 +28,26 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.planet.attribute;
+package com.machina.api.network.message;
 
-import java.util.Random;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
-import net.minecraft.nbt.INBT;
+import net.minecraft.network.PacketBuffer;
 
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeType<?>> {
+public interface INetworkMessage {
 
-	private final String measureUnit;
+	void handle(NetworkEvent.Context context);
 
-	public final Function<T, INBT> valueSerializer;
-	public final Function<INBT, T> valueDeserializer;
-	public final Function<Random, T> generator;
+	void encode(PacketBuffer buffer);
 
-	public PlanetAttributeType(String measureUnit, Function<T, INBT> valueSerializer,
-			Function<INBT, T> valueDeserializer, Function<Random, T> generator) {
-		this.measureUnit = measureUnit;
-		this.valueSerializer = valueSerializer;
-		this.valueDeserializer = valueDeserializer;
-		this.generator = generator;
+	static <MSG extends INetworkMessage> void handle(MSG message, Supplier<NetworkEvent.Context> ctx) {
+		if (message != null) {
+			NetworkEvent.Context context = ctx.get();
+			context.enqueueWork(() -> message.handle(context));
+			context.setPacketHandled(true);
+		}
 	}
-
-	public String getMeasureUnit() { return measureUnit; }
-	
-	public boolean isShown() { return true; }
 
 }

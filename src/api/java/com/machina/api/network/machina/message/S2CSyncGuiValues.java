@@ -28,49 +28,64 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.network.message;
+package com.machina.api.network.machina.message;
 
 import com.machina.api.network.message.INetworkMessage;
-import com.machina.world.DynamicDimensionHelper;
+import com.machina.api.tile_entity.BaseTileEntity;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.registries.ForgeRegistries;
 
-public class C2SDevPlanetCreationGUI implements INetworkMessage {
+/**
+ * TODO make this work
+ * @author matyrobbrt
+ *
+ */
+public class S2CSyncGuiValues implements INetworkMessage {
 
-	public final ActionType action;
-	public final int dimensionID;
+	private final BlockPos pos;
+	private final TileEntityType<?> teType;
 
-	public C2SDevPlanetCreationGUI(ActionType action, int dimensionID) {
-		this.action = action;
-		this.dimensionID = dimensionID;
+	public S2CSyncGuiValues(BlockPos pos, TileEntityType<?> teType) {
+		this.pos = pos;
+		this.teType = teType;
 	}
 
 	@Override
 	public void handle(Context context) {
-		ServerWorld world = DynamicDimensionHelper.createPlanet(context.getSender().getServer(),
-				String.valueOf(dimensionID));
-		if (action == ActionType.TELEPORT) {
-			DynamicDimensionHelper.sendPlayerToDimension(context.getSender(), world, context.getSender().position());
+		context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClient(this, context)));
+	}
+
+	@SuppressWarnings("resource")
+	private static void handleClient(S2CSyncGuiValues msg, Context context) {
+		World level = Minecraft.getInstance().level;
+		TileEntity targetTile = level.getBlockEntity(msg.pos);
+		if (targetTile == null) {
+			return;
+		}
+		if (targetTile.getType() == msg.teType && targetTile instanceof BaseTileEntity) {
 		}
 	}
 
 	@Override
 	public void encode(PacketBuffer buffer) {
-		buffer.writeEnum(action);
-		buffer.writeInt(dimensionID);
+		buffer.writeBlockPos(pos);
+		buffer.writeUtf(teType.getRegistryName().toString());
 	}
 
-	public static C2SDevPlanetCreationGUI decode(PacketBuffer buffer) {
-		ActionType action = buffer.readEnum(ActionType.class);
-		int dimensionID = buffer.readInt();
-		return new C2SDevPlanetCreationGUI(action, dimensionID);
-	}
-
-	public enum ActionType {
-		CREATE, TELEPORT;
+	public static S2CSyncGuiValues decode(PacketBuffer buffer) {
+		return new S2CSyncGuiValues(buffer.readBlockPos(),
+				ForgeRegistries.TILE_ENTITIES.getValue(new ResourceLocation(buffer.readUtf())));
 	}
 
 }

@@ -28,33 +28,61 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.planet.attribute;
+package com.machina.api.nbt;
 
-import java.util.Random;
+import java.util.ArrayList;
 import java.util.function.Function;
 
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.common.util.INBTSerializable;
 
-public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeType<?>> {
+@SuppressWarnings("unchecked")
+public class BaseNBTList<O, ONBT extends INBT> extends ArrayList<O> implements INBTSerializable<CompoundNBT> {
 
-	private final String measureUnit;
+	private static final long serialVersionUID = -3021708656511519616L;
 
-	public final Function<T, INBT> valueSerializer;
-	public final Function<INBT, T> valueDeserializer;
-	public final Function<Random, T> generator;
+	private final transient Function<O, ONBT> serializer;
+	private final transient Function<ONBT, O> deserializer;
 
-	public PlanetAttributeType(String measureUnit, Function<T, INBT> valueSerializer,
-			Function<INBT, T> valueDeserializer, Function<Random, T> generator) {
-		this.measureUnit = measureUnit;
-		this.valueSerializer = valueSerializer;
-		this.valueDeserializer = valueDeserializer;
-		this.generator = generator;
+	public BaseNBTList(Function<O, ONBT> serializer, Function<ONBT, O> deserializer) {
+		super();
+		this.serializer = serializer;
+		this.deserializer = deserializer;
 	}
 
-	public String getMeasureUnit() { return measureUnit; }
-	
-	public boolean isShown() { return true; }
+	@Override
+	public CompoundNBT serializeNBT() {
+		CompoundNBT tag = new CompoundNBT();
+		tag.putInt("size", size());
+		for (int i = 0; i < size(); i++) {
+			tag.put(String.valueOf(i), serializer.apply(get(i)));
+		}
+		return tag;
+	}
+
+	@Override
+	public void deserializeNBT(CompoundNBT nbt) {
+		int size = nbt.getInt("size");
+		for (int i = 0; i < size; i++) {
+			O element = deserializer.apply((ONBT) nbt.get(String.valueOf(i)));
+			if (i < size()) {
+				set(i, element);
+			} else {
+				add(i, element);
+			}
+		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return super.equals(o) && o instanceof BaseNBTList<?, ?>;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 
 }
