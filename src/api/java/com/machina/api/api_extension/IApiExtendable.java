@@ -30,17 +30,6 @@
 
 package com.machina.api.api_extension;
 
-/**
- * Implement this interface on types which can be API extended.
- * @see ApiExtensions
- */
-public interface ApiExtendable {
-
-    /**
-     * @return the name of the extension type
-     */
-    default String getExtensionTypeName() {
-        return ApiExtendable.class.getName().replaceFirst("L", "");
-    }
+public interface IApiExtendable {
 
 }
