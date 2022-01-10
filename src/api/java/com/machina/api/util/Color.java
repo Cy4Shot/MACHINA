@@ -1054,9 +1054,9 @@ public class Color {
 	}
 	
 	public static Color random(Random rand) {
-		float r = rand.nextFloat() / 2f;
-		float g = rand.nextFloat() / 2f;
-		float b = rand.nextFloat() / 2f;
+		float r = rand.nextFloat();
+		float g = rand.nextFloat();
+		float b = rand.nextFloat();
 		return new Color(r, g, b);
 	}
 }

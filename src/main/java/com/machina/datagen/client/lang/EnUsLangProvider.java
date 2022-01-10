@@ -38,6 +38,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Lists;
 import com.machina.Machina;
 import com.machina.api.planet.trait.PlanetTrait;
+import com.machina.init.BlockInit;
 import com.machina.init.FluidInit;
 import com.machina.init.ItemInit;
 import com.machina.init.PlanetTraitInit;
@@ -45,7 +46,6 @@ import com.machina.init.PlanetTraitInit;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
-
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -59,6 +59,8 @@ public class EnUsLangProvider extends LanguageProvider {
 
 	@Override
 	protected void addTranslations() {
+		
+		addBlock(() -> BlockInit.ALIEN_STONE, "Alien Stone");
 
 		add(PlanetTraitInit.WATER_WORLD, "Water World");
 		add(PlanetTraitInit.CONTINENTALL, "Continental");

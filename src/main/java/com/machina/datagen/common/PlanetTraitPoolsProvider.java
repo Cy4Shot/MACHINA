@@ -48,7 +48,7 @@ public class PlanetTraitPoolsProvider extends TraitPoolsGenProvider {
 
 	@Override
 	protected void addPools() {
-		addPool("geographical_traits", new TraitPool(3, 5).withEntries(
+		addPool("geographical_traits", new TraitPool(3, 3).withEntries(
 				new TraitPoolEntry(15, PlanetTraitInit.CONTINENTALL, PlanetTraitInit.WATER_WORLD,
 						PlanetTraitInit.LANDMMASS),
 				new TraitPoolEntry(15, PlanetTraitInit.MOUNTAINOUS, PlanetTraitInit.HILLY, PlanetTraitInit.FLAT),

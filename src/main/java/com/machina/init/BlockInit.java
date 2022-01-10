@@ -38,6 +38,7 @@ import com.matyrobbrt.lib.registry.annotation.RegisterBlock;
 import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 
 @RegistryHolder(modid = MACHINA)
@@ -46,4 +47,8 @@ public class BlockInit {
 	@AutoBlockItem
 	@RegisterBlock("tank")
 	public static final TankBlock TANK = new TankBlock(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK));
+	
+	@AutoBlockItem
+	@RegisterBlock("alien_stone")
+	public static final Block ALIEN_STONE = new Block(AbstractBlock.Properties.copy(Blocks.STONE));
 }

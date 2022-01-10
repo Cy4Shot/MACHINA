@@ -1,6 +1,6 @@
 {
   "minRolls": 3,
-  "maxRolls": 5,
+  "maxRolls": 3,
   "entries": [
     {
       "weight": 15,
@@ -19,32 +19,9 @@
       ]
     },
     {
-      "weight": 15,
-      "values": [
-        "machina:ore_barren",
-        "machina:ore_rich"
-      ]
-    },
-    {
       "weight": 5,
       "values": [
-        "machina:canyons",
-        "machina:fiords",
-        "machina:ravines",
-        "machina:lakes"
-      ]
-    },
-    {
-      "weight": 5,
-      "values": [
-        "machina:volcanic",
         "machina:frozen"
-      ]
-    },
-    {
-      "weight": 2,
-      "values": [
-        "machina:layered"
       ]
     }
   ]
