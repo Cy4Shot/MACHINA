@@ -46,6 +46,7 @@ import com.machina.init.PlanetAttributeTypesInit;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import it.unimi.dsi.fastutil.floats.Float2DoubleFunction;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector2f;
@@ -80,7 +81,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	protected void init() {
 		super.init();
 
-		createStarSystem(40D, 10D);
+		createStarSystem(val -> 20 * val + 10);
 
 		for (PlanetNodeElement ne : nodes) {
 			this.addWidget(ne);
@@ -89,10 +90,10 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 	public Vector2f getNewCentre() {
 		Vector2f centre = getCentre();
-		return new Vector2f(centre.x - 70, centre.y);
+		return new Vector2f(centre.x, centre.y);
 	}
 
-	private void createStarSystem(double variance, double min) {
+	private void createStarSystem(Float2DoubleFunction func) {
 
 		positions.clear();
 		nodes.clear();
@@ -101,7 +102,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		for (int i = 1; i <= ClientDataHolder.getStarchart().size(); i++) {
 			double angle = (Math.PI * 2) / ClientDataHolder.getStarchart().size() * i;
 
-			double r = ClientDataHolder.getPlanetDataByID(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE) * variance + min;
+			double r = func.apply(ClientDataHolder.getPlanetDataByID(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE));
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
@@ -114,12 +115,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 	@Override
 	public Rectangle getContainerBounds() {
-		Rectangle bounds = new Rectangle();
-		bounds.x0 = (int) (width * 0.2);
-		bounds.y0 = (int) (height * 0.2);
-		bounds.x1 = (int) (width * 0.8);
-		bounds.y1 = (int) (height * 0.8);
-		return bounds;
+		return new Rectangle(0, 0, this.width, this.height);
 	}
 
 	public Rectangle getDescriptionsBounds() {
@@ -140,16 +136,17 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 		// Background
 		UIHelper.renderOverflowHidden(matrixStack, this::renderContainerBackground, MatrixStack::toString);
+		minecraft.getTextureManager().bind(SC_RS);
+		UIHelper.blit(matrixStack, this.width / 2 - 32, this.height / 2 - 32, 0, 32, 64, 64);
 
 		// Elements
 		renderStarSystem(matrixStack, pMouseX, pMouseY, pPartialTicks);
 
 		// Description
 		planetDescriptions.setBounds(getDescriptionsBounds());
-		planetDescriptions.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
+//		planetDescriptions.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
 
 		// Border
-		UIHelper.renderContainerBorder(matrixStack, bound);
 		UIHelper.drawStringWithBorder(matrixStack, title.getString(), bound.x0, bound.y0 - 12, 0xFF_cc00ff,
 				0xFF_0e0e0e);
 	}
@@ -216,7 +213,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		text.append(new StringTextComponent("Stats:\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color))));
 		text.append("   > Pres: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		text.append("   > Temp: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.TEMPERATURE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		text.append("   > Dist: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.GRAVITY) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		text.append("   > Dist: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.DISTANCE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 
 		text.append("ID  " + ClientDataHolder.planets().indexOf(planet) + "\n");
 

@@ -38,8 +38,8 @@ public interface IBoundedGui {
 
 	default Vector2f getCentre() {
 		Rectangle bounds = getContainerBounds();
-		return new Vector2f(Math.abs(bounds.x0 - bounds.x1) - bounds.x0 / 2,
-				Math.abs(bounds.y0 - bounds.y1) - bounds.y0 / 2);
+		return new Vector2f((Math.abs(bounds.x0 - bounds.x1) - bounds.x0) / 2,
+				(Math.abs(bounds.y0 - bounds.y1) - bounds.y0) / 2);
 	}
 
 }

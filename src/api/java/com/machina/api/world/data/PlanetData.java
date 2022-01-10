@@ -32,8 +32,9 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	public void generate(Random rand) {
 		// Attributes
-		PlanetAttributeRegistry.REGISTRY.forEach(type -> {
-			attributes.set(type, type.generator.apply(rand)); // Kinda Hacky .. dunno
+		PlanetAttributeRegistry.REGISTRY.getEntries().forEach(entry -> {
+			System.out.println(entry.getKey());
+			attributes.set(entry.getValue(), entry.getValue().generator.apply(rand)); // Kinda Hacky .. dunno
 		});
 
 		// Traits

@@ -34,17 +34,23 @@ import net.minecraft.util.math.vector.Vector2f;
 
 public class Rectangle {
 
-	public int x0, y0;
-	public int x1, y1;
+	public int x0, y0, x1, y1;
 
 	public Rectangle() {
 	}
 
 	public Rectangle(Rectangle other) {
-		x0 = other.x0;
-		y0 = other.y0;
-		x1 = other.x1;
-		y1 = other.y1;
+		this.x0 = other.x0;
+		this.y0 = other.y0;
+		this.x1 = other.x1;
+		this.y1 = other.y1;
+	}
+	
+	public Rectangle(int x0, int y0, int x1, int y1) {
+		this.x0 = x0;
+		this.y0 = y0;
+		this.x1 = x1;
+		this.y1 = y1;
 	}
 
 	public int getWidth() { return x1 - x0; }

@@ -30,6 +30,7 @@
 
 package com.machina.client.screen.element;
 
+import com.machina.api.util.MathUtil;
 import com.machina.api.world.data.PlanetData;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.client.util.UIHelper;
@@ -48,16 +49,20 @@ public class PlanetNodeElement extends Widget {
 
 	StarchartScreen screen;
 	PlanetData data;
+	
+	private static int textureSize = 5;
 
 	public PlanetNodeElement(float pX, float pY, StarchartScreen screen, PlanetData data) {
-		super((int) pX, (int) pY, 3, 3, new StringTextComponent(""));
+		super((int) pX, (int) pY, textureSize, textureSize, new StringTextComponent(""));
 		this.screen = screen;
 		active = true;
 		visible = true;
 		this.data = data;
 	}
 
-	public PlanetData getData() { return data; }
+	public PlanetData getData() {
+		return data;
+	}
 
 	@Override
 	public void onClick(double pMouseX, double pMouseY) {
@@ -73,11 +78,13 @@ public class PlanetNodeElement extends Widget {
 		Vector2f centre = screen.getNewCentre();
 
 		float offsetC = (float) (8 * Math.cos(mc.levelRenderer.ticks / 10f) + 8);
-		int textureSize = 3;
+		
+		double distFromCentre = MathUtil.distance(centre, new Vector2f(x, y));
 
 		if (true) {
-			UIHelper.line(matrixStack, centre.x, centre.y, x + textureSize / 2f, y + textureSize / 2f, 0xFFFFFFFF, 3f,
-					StippleType.DASHED);
+//			UIHelper.line(matrixStack, centre.x, centre.y, x + textureSize / 2f, y + textureSize / 2f, 0xFFFFFFFF, 3f,
+//					StippleType.DASHED);
+			UIHelper.polygon(matrixStack, centre.x, centre.y, (float) distFromCentre + 1, 100, 0x55_FFFFFF, 2f, StippleType.FULL);
 		}
 		UIHelper.betterBlit(matrixStack, x, y, textureSize * (int) offsetC, 0, textureSize, textureSize, 128);
 

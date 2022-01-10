@@ -179,6 +179,45 @@ public class UIHelper {
 		RenderSystem.disableBlend();
 	}
 
+	public static void polygon(MatrixStack pPoseStack, float cX, float cY, float r, int edges, int pColor, float width,
+			StippleType stippleType) {
+		polygon(pPoseStack.last().pose(), cX, cY, r, edges, pColor, width, stippleType);
+	}
+
+	private static void polygon(Matrix4f pMatrix, float cX, float cY, float r, int sides, int pColor, float width,
+			StippleType stippleType) {
+		float f3 = (pColor >> 24 & 255) / 255.0F;
+		float f = (pColor >> 16 & 255) / 255.0F;
+		float f1 = (pColor >> 8 & 255) / 255.0F;
+		float f2 = (pColor & 255) / 255.0F;
+
+		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
+		RenderSystem.enableBlend();
+		RenderSystem.disableTexture();
+		RenderSystem.defaultBlendFunc();
+		RenderSystem.lineWidth(width);
+		GL11.glLineStipple(1, stippleType.code);
+		GL11.glEnable(GL11.GL_LINE_STIPPLE);
+
+		bufferbuilder.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+		for (int i = 0; i < sides; i++) {
+			bufferbuilder
+					.vertex(pMatrix, (float) (cX + (Math.sin(2 * Math.PI * i / sides) * r)),
+							(float) (cY - (Math.cos(2 * Math.PI * i / sides) * r)), 0.0F)
+					.color(f, f1, f2, f3).endVertex();
+		}
+		bufferbuilder.vertex(pMatrix, (float) (cX + (Math.sin(0) * r)), (float) (cY - (Math.cos(0) * r)), 0.0F)
+				.color(f, f1, f2, f3).endVertex();
+		bufferbuilder.end();
+
+		WorldVertexBufferUploader.end(bufferbuilder);
+		GL11.glDisable(GL11.GL_LINE_STIPPLE);
+		GL11.glLineStipple(1, StippleType.FULL.code);
+		RenderSystem.lineWidth(1f);
+		RenderSystem.enableTexture();
+		RenderSystem.disableBlend();
+	}
+
 	public static void blit(MatrixStack ms, int x, int y, int uOff, int vOff, int w, int h) {
 		betterBlit(ms, x, y, uOff, vOff, w, h, 256);
 	}
@@ -218,9 +257,7 @@ public class UIHelper {
 		return processors.size();
 	}
 
-	private static final int[] LINE_BREAK_VALUES = new int[] {
-			0, 10, -10, 25, -25
-	};
+	private static final int[] LINE_BREAK_VALUES = new int[] { 0, 10, -10, 25, -25 };
 
 	private static List<ITextProperties> getLines(ITextComponent component, int maxWidth) {
 		Minecraft minecraft = Minecraft.getInstance();
@@ -232,7 +269,9 @@ public class UIHelper {
 		for (int i : LINE_BREAK_VALUES) {
 			List<ITextProperties> list1 = charactermanager.splitLines(component, maxWidth - i, Style.EMPTY);
 			float f1 = Math.abs(getTextWidth(charactermanager, list1) - maxWidth);
-			if (f1 <= 10.0F) { return list1; }
+			if (f1 <= 10.0F) {
+				return list1;
+			}
 
 			if (f1 < f) {
 				f = f1;
