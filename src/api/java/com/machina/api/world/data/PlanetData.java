@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import com.machina.api.planet.attribute.PlanetAttributeList;
 import com.machina.api.planet.attribute.PlanetAttributeType;
+import com.machina.api.planet.pool.PlanetTraitPoolManager;
 import com.machina.api.planet.trait.PlanetTraitList;
-import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
 import com.machina.api.registry.PlanetAttributeRegistry;
 import com.machina.api.registry.PlanetTraitRegistry;
 

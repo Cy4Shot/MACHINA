@@ -38,8 +38,8 @@ import com.machina.Machina;
 import com.machina.command.BaseCommand;
 import com.machina.command.impl.DebugCommand;
 import com.machina.command.impl.GoToPlanetCommand;
-import com.machina.command.impl.traits.ListTraitsCommand;
-import com.machina.command.impl.traits.PlanetTraitsCommand;
+import com.machina.command.impl.ListTraitsCommand;
+import com.machina.command.impl.PlanetTraitsCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 

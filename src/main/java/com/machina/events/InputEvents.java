@@ -31,8 +31,8 @@
 package com.machina.events;
 
 import com.machina.Machina;
-import com.machina.client.gui.DevPlanetCreationScreen;
-import com.machina.client.gui.StarchartScreen;
+import com.machina.client.screen.DevPlanetCreationScreen;
+import com.machina.client.screen.StarchartScreen;
 import com.machina.init.KeyBindingsInit;
 
 import net.minecraft.client.Minecraft;

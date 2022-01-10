@@ -28,7 +28,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.client.gui;
+package com.machina.client.util;
 
 import java.util.ArrayList;
 import java.util.List;

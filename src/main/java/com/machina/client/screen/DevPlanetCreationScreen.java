@@ -28,7 +28,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.client.gui;
+package com.machina.client.screen;
 
 import java.awt.event.KeyEvent;
 import java.util.UUID;

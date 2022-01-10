@@ -33,8 +33,8 @@ package com.machina.config;
 import static com.machina.api.ModIDs.MACHINA;
 
 import com.machina.Machina;
-import com.machina.api.config.BaseTOMLConfig;
-import com.machina.api.config.TOMLConfigBuilder;
+import com.machina.config.base.BaseTOMLConfig;
+import com.machina.config.base.TOMLConfigBuilder;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;

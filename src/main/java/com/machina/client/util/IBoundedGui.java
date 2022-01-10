@@ -28,12 +28,18 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.client.gui;
+package com.machina.client.util;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.util.math.vector.Vector2f;
 
-public interface Renderable {
+public interface IBoundedGui {
 
-	void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks);
+	Rectangle getContainerBounds();
+
+	default Vector2f getCentre() {
+		Rectangle bounds = getContainerBounds();
+		return new Vector2f(Math.abs(bounds.x0 - bounds.x1) - bounds.x0 / 2,
+				Math.abs(bounds.y0 - bounds.y1) - bounds.y0 / 2);
+	}
 
 }

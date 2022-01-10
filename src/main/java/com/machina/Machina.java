@@ -38,7 +38,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.machina.api.ModIDs;
-import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
+import com.machina.api.planet.pool.PlanetTraitPoolManager;
 import com.machina.api.registry.annotation.MachinaAnnotationProcessor;
 import com.machina.api.tile_entity.MachinaEnergyStorage;
 import com.machina.api.util.MachinaRL;

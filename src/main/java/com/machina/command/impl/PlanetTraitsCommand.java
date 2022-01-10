@@ -28,26 +28,28 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.config;
+package com.machina.command.impl;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import com.machina.api.util.PlanetUtils;
+import com.machina.command.BaseCommand;
+import com.mojang.brigadier.context.CommandContext;
 
-public class TOMLConfigBuilder extends ForgeConfigSpec.Builder {
-	
-	public <T> ConfigValue<T> config(String comment, String path, T defaultValue,
-			boolean addDefaultValueComment) {
-		return addDefaultValueComment
-				? this.comment(comment, "default: " + defaultValue.toString()).define(path, defaultValue)
-				: this.comment(comment).define(path, defaultValue);
+import net.minecraft.command.CommandSource;
+import net.minecraft.util.text.TranslationTextComponent;
+
+public abstract class PlanetTraitsCommand extends BaseCommand {
+
+	protected PlanetTraitsCommand(int permissionLevel, boolean enabled) {
+		super(permissionLevel, enabled);
 	}
 
-	public ConfigValue<Integer> percentChanceConfig(String comment, String path, int defaultValue,
-			boolean addDefaultValueComment) {
-		String range = "range: 0 ~ 100";
-		return addDefaultValueComment
-				? this.comment(comment, "default: " + defaultValue, range).define(path, defaultValue)
-				: this.comment(comment, range).defineInRange(path, defaultValue, 0, 100);
+	protected boolean checkDimension(CommandContext<CommandSource> context) {
+		if (PlanetUtils.isDimensionPlanet(context.getSource().getLevel().dimension())) {
+			return true;
+		} else {
+			context.getSource().sendFailure(new TranslationTextComponent("command.planet_traits.not_planet"));
+			return false;
+		}
 	}
 
 }

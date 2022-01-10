@@ -28,11 +28,11 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.client.gui.element;
+package com.machina.client.screen.element;
 
-import com.machina.api.client.gui.Renderable;
-import com.machina.api.client.util.Rectangle;
 import com.machina.api.util.MachinaRL;
+import com.machina.client.util.Rectangle;
+import com.machina.client.util.Renderable;
 import com.machina.client.util.UIHelper;
 import com.mojang.blaze3d.matrix.MatrixStack;
 

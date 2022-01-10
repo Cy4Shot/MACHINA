@@ -28,48 +28,26 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.command.impl.traits;
+package com.machina.config.base;
 
-import com.machina.api.world.data.PlanetData;
-import com.machina.api.world.data.StarchartData;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.context.CommandContext;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.TranslationTextComponent;
-
-public class ListTraitsCommand extends PlanetTraitsCommand {
-
-	public ListTraitsCommand(int permissionLevel, boolean enabled) {
-		super(permissionLevel, enabled);
+public class TOMLConfigBuilder extends ForgeConfigSpec.Builder {
+	
+	public <T> ConfigValue<T> config(String comment, String path, T defaultValue,
+			boolean addDefaultValueComment) {
+		return addDefaultValueComment
+				? this.comment(comment, "default: " + defaultValue.toString()).define(path, defaultValue)
+				: this.comment(comment).define(path, defaultValue);
 	}
 
-	@Override
-	public void build(LiteralArgumentBuilder<CommandSource> builder) {
-		builder.executes(this::execute);
-	}
-
-	@Override
-	protected int execute(CommandContext<CommandSource> context) {
-		if (checkDimension(context)) {
-			PlanetData pd = StarchartData.getStarchartForServer(context.getSource().getServer())
-					.get(context.getSource().getLevel().dimension().location());
-
-			if (pd.getTraits().isEmpty()) {
-				context.getSource()
-						.sendSuccess(new TranslationTextComponent("command.planet_traits.list_traits.no_traits"), true);
-			} else {
-				context.getSource()
-						.sendSuccess(new TranslationTextComponent("command.planet_traits.list_traits.success",
-								pd.getTraits().toString().replace("[", "").replace("]", "")), true);
-			}
-		}
-		return super.execute(context);
-	}
-
-	@Override
-	public String getName() {
-		return "list_traits";
+	public ConfigValue<Integer> percentChanceConfig(String comment, String path, int defaultValue,
+			boolean addDefaultValueComment) {
+		String range = "range: 0 ~ 100";
+		return addDefaultValueComment
+				? this.comment(comment, "default: " + defaultValue, range).define(path, defaultValue)
+				: this.comment(comment, range).defineInRange(path, defaultValue, 0, 100);
 	}
 
 }

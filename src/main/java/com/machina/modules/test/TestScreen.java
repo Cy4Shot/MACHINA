@@ -30,7 +30,7 @@
 
 package com.machina.modules.test;
 
-import com.machina.api.client.gui.BaseScreen;
+import com.machina.client.screen.BaseScreen;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.player.PlayerInventory;

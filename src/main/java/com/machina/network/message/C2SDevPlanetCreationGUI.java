@@ -30,7 +30,7 @@
 
 package com.machina.network.message;
 
-import com.machina.api.network.message.INetworkMessage;
+import com.machina.api.network.INetworkMessage;
 import com.machina.api.world.DynamicDimensionHelper;
 
 import net.minecraft.network.PacketBuffer;

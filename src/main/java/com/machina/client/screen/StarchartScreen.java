@@ -28,19 +28,19 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.client.gui;
+package com.machina.client.screen;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.machina.api.client.ClientDataHolder;
-import com.machina.api.client.gui.IBoundedGui;
-import com.machina.api.client.util.Rectangle;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.world.data.PlanetData;
-import com.machina.client.gui.element.PlanetNodeElement;
-import com.machina.client.gui.element.ScrollableContainer;
+import com.machina.client.screen.element.PlanetNodeElement;
+import com.machina.client.screen.element.ScrollableContainer;
+import com.machina.client.util.IBoundedGui;
+import com.machina.client.util.Rectangle;
 import com.machina.client.util.UIHelper;
 import com.machina.init.PlanetAttributeTypesInit;
 import com.mojang.blaze3d.matrix.MatrixStack;

@@ -33,8 +33,6 @@ package com.machina.api.network;
 import java.util.Optional;
 import java.util.function.Function;
 
-import com.machina.api.network.message.INetworkMessage;
-
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;

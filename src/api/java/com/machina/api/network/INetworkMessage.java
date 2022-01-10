@@ -28,26 +28,26 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.config;
+package com.machina.api.network;
 
-import net.minecraftforge.common.ForgeConfigSpec.Builder;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import java.util.function.Supplier;
 
-public abstract class BaseTOMLConfig {
+import net.minecraft.network.PacketBuffer;
 
-	public static <T> ConfigValue<T> config(String comment, String path, T defaultValue,
-			boolean addDefaultValueComment, Builder builder) {
-		return addDefaultValueComment
-				? builder.comment(comment, "default: " + defaultValue.toString()).define(path, defaultValue)
-				: builder.comment(comment).define(path, defaultValue);
-	}
+import net.minecraftforge.fml.network.NetworkEvent;
 
-	public static ConfigValue<Integer> percentChanceConfig(String comment, String path, int defaultValue,
-			boolean addDefaultValueComment, Builder builder) {
-		String range = "range: 0 ~ 100";
-		return addDefaultValueComment
-				? builder.comment(comment, "default: " + defaultValue, range).define(path, defaultValue)
-				: builder.comment(comment, range).defineInRange(path, defaultValue, 0, 100);
+public interface INetworkMessage {
+
+	void handle(NetworkEvent.Context context);
+
+	void encode(PacketBuffer buffer);
+
+	static <MSG extends INetworkMessage> void handle(MSG message, Supplier<NetworkEvent.Context> ctx) {
+		if (message != null) {
+			NetworkEvent.Context context = ctx.get();
+			context.enqueueWork(() -> message.handle(context));
+			context.setPacketHandled(true);
+		}
 	}
 
 }

@@ -28,15 +28,16 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.client.gui;
+package com.machina.client.screen;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import com.machina.api.client.gui.element.GuiElement;
 import com.machina.api.container.BaseContainer;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.helper.RenderHelper;
+import com.machina.client.screen.element.GuiElement;
+import com.machina.client.util.IGui;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

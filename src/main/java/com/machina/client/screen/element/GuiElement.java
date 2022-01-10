@@ -28,12 +28,12 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.client.gui.element;
+package com.machina.client.screen.element;
 
 import javax.annotation.Nonnull;
 
-import com.machina.api.client.gui.IFontRenderer;
 import com.machina.api.util.MachinaRL;
+import com.machina.client.util.IFontRenderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

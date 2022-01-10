@@ -28,26 +28,30 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.network.message;
+package com.machina.client.util;
 
-import java.util.function.Supplier;
+import com.machina.client.screen.BaseScreen;
 
-import net.minecraft.network.PacketBuffer;
+public interface IGui {
 
-import net.minecraftforge.fml.network.NetworkEvent;
+	default int getLeft() {
+		if (this instanceof BaseScreen<?>) { return ((BaseScreen<?>) this).getGuiLeft(); }
+		return 0;
+	}
 
-public interface INetworkMessage {
+	default int getTop() {
+		if (this instanceof BaseScreen<?>) { return ((BaseScreen<?>) this).getGuiTop(); }
+		return 0;
+	}
 
-	void handle(NetworkEvent.Context context);
+	default int getWidth() {
+		if (this instanceof BaseScreen<?>) { return ((BaseScreen<?>) this).getXSize(); }
+		return 0;
+	}
 
-	void encode(PacketBuffer buffer);
-
-	static <MSG extends INetworkMessage> void handle(MSG message, Supplier<NetworkEvent.Context> ctx) {
-		if (message != null) {
-			NetworkEvent.Context context = ctx.get();
-			context.enqueueWork(() -> message.handle(context));
-			context.setPacketHandled(true);
-		}
+	default int getHeight() {
+		if (this instanceof BaseScreen<?>) { return ((BaseScreen<?>) this).getYSize(); }
+		return 0;
 	}
 
 }

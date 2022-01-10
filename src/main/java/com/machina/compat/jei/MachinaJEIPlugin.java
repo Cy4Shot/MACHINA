@@ -33,7 +33,7 @@ package com.machina.compat.jei;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.machina.api.planet.trait.pool.PlanetTraitPoolManager;
+import com.machina.api.planet.pool.PlanetTraitPoolManager;
 import com.machina.api.recipe.advanced_crafting.AdvancedCraftingRecipe;
 import com.machina.api.util.MachinaRL;
 import com.machina.compat.jei.category.AdvancedCraftingRecipeExtension;

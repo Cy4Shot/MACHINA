@@ -28,10 +28,10 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.client.gui.element;
+package com.machina.client.screen.element;
 
 import com.machina.api.world.data.PlanetData;
-import com.machina.client.gui.StarchartScreen;
+import com.machina.client.screen.StarchartScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
 import com.mojang.blaze3d.matrix.MatrixStack;

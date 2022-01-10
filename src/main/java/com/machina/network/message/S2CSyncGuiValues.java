@@ -28,9 +28,9 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.network.machina.message;
+package com.machina.network.message;
 
-import com.machina.api.network.message.INetworkMessage;
+import com.machina.api.network.INetworkMessage;
 import com.machina.api.tile_entity.BaseTileEntity;
 
 import net.minecraft.client.Minecraft;

@@ -28,28 +28,38 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.command.impl.traits;
+package com.machina.client.util;
 
-import com.machina.api.util.PlanetUtils;
-import com.machina.command.BaseCommand;
-import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.util.math.vector.Vector2f;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.TranslationTextComponent;
+public class Rectangle {
 
-public abstract class PlanetTraitsCommand extends BaseCommand {
+	public int x0, y0;
+	public int x1, y1;
 
-	protected PlanetTraitsCommand(int permissionLevel, boolean enabled) {
-		super(permissionLevel, enabled);
+	public Rectangle() {
 	}
 
-	protected boolean checkDimension(CommandContext<CommandSource> context) {
-		if (PlanetUtils.isDimensionPlanet(context.getSource().getLevel().dimension())) {
-			return true;
-		} else {
-			context.getSource().sendFailure(new TranslationTextComponent("command.planet_traits.not_planet"));
-			return false;
-		}
+	public Rectangle(Rectangle other) {
+		x0 = other.x0;
+		y0 = other.y0;
+		x1 = other.x1;
+		y1 = other.y1;
 	}
 
+	public int getWidth() { return x1 - x0; }
+
+	public int getHeight() { return y1 - y0; }
+
+	public void setWidth(int width) { x1 = x0 + width; }
+
+	public void setHeight(int height) { y1 = y0 + height; }
+
+	public boolean contains(int x, int y) {
+		return x0 <= x && x <= x1 && y0 <= y && y <= y1;
+	}
+
+	public Vector2f midpoint() {
+		return new Vector2f((x1 + x0) / 2f, (y1 + y0) / 2f);
+	}
 }

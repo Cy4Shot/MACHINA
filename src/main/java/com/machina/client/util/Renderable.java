@@ -28,28 +28,12 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.client.gui;
+package com.machina.client.util;
 
-public interface IGui {
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-	default int getLeft() {
-		if (this instanceof BaseScreen<?>) { return ((BaseScreen<?>) this).getGuiLeft(); }
-		return 0;
-	}
+public interface Renderable {
 
-	default int getTop() {
-		if (this instanceof BaseScreen<?>) { return ((BaseScreen<?>) this).getGuiTop(); }
-		return 0;
-	}
-
-	default int getWidth() {
-		if (this instanceof BaseScreen<?>) { return ((BaseScreen<?>) this).getXSize(); }
-		return 0;
-	}
-
-	default int getHeight() {
-		if (this instanceof BaseScreen<?>) { return ((BaseScreen<?>) this).getYSize(); }
-		return 0;
-	}
+	void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks);
 
 }
