@@ -35,11 +35,11 @@ import static com.machina.api.ModIDs.MACHINA;
 import java.util.Random;
 import java.util.function.Function;
 
-import com.machina.api.planet.PlanetBlocksGenerator;
-import com.machina.api.planet.PlanetNameGenerator;
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.registry.annotation.RegisterPlanetAttributeType;
 import com.machina.api.util.Color;
+import com.machina.world.gen.PlanetBlocksGenerator;
+import com.machina.world.gen.PlanetNameGenerator;
 import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 import net.minecraft.nbt.FloatNBT;

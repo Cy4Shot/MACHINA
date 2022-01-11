@@ -28,7 +28,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.planet.pool;
+package com.machina.api.planet;
 
 import static com.machina.api.ModIDs.MACHINA;
 

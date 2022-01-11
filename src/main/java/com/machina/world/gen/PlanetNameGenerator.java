@@ -28,7 +28,7 @@
  * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
  */
 
-package com.machina.api.planet;
+package com.machina.world.gen;
 
 import java.util.Arrays;
 import java.util.List;

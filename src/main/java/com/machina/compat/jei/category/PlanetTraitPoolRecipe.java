@@ -30,7 +30,7 @@
 
 package com.machina.compat.jei.category;
 
-import com.machina.api.planet.pool.PlanetTraitPool;
+import com.machina.api.planet.PlanetTraitPool;
 import com.machina.compat.jei.MachinaJEITypes;
 
 import mezz.jei.api.ingredients.IIngredients;

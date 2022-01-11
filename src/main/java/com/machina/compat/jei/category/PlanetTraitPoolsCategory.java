@@ -35,8 +35,8 @@ import static com.machina.api.ModIDs.MACHINA;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.machina.api.planet.pool.PlanetTraitPool;
-import com.machina.api.planet.pool.PlanetTraitPool.PlanetTraitPoolEntry;
+import com.machina.api.planet.PlanetTraitPool;
+import com.machina.api.planet.PlanetTraitPool.PlanetTraitPoolEntry;
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.compat.jei.MachinaJEITypes;
 import com.machina.init.ItemInit;

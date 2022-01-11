@@ -1,4 +1,4 @@
-package com.machina.api.planet;
+package com.machina.world.gen;
 
 import java.util.Random;
 
