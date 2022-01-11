@@ -4,12 +4,11 @@
 	"compatibilityLevel": "JAVA_8",
 	"refmap": "machina.refmap.json",
 	"mixins": [
-		"WorldMixin",
 		"EntityMixin",
 		"PlayerEntityMixin",
 		"SwimTaskMixin",
-		"forge.LanguageProviderMixin",
-		"SugarCaneBlockMixin"
+		"SugarCaneBlockMixin",
+		"forge.LanguageProviderMixin"
 	],
 	"client": [
 		"client.ServerWorldInfoMixin",

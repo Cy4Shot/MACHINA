@@ -8,6 +8,7 @@ import com.machina.api.world.data.PlanetData;
 import com.machina.init.BlockInit;
 import com.machina.init.PlanetAttributeTypesInit;
 
+import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,11 +26,18 @@ public class ClientEvents {
 		final int defaultColor = 8947848;
 
 		event.getBlockColors().register((state, reader, pos, num) -> {
-			
-			System.out.println("HMMMMMMMMMMMMMMMM IS READER WORLD???? >>> " + (reader instanceof World));
-			
-			if (reader instanceof World) {
-				RegistryKey<World> dim = ((World) reader).dimension();
+
+			World world = null;
+
+			if (reader instanceof World)
+				world = (World) reader;
+
+			if (reader instanceof ChunkRenderCache)
+				world = ((ChunkRenderCache) reader).level;
+
+			if (world != null) {
+
+				RegistryKey<World> dim = world.dimension();
 				System.out.println(dim);
 				if (PlanetUtils.isDimensionPlanet(dim)) {
 					PlanetData data = ClientDataHolder.getPlanetDataByID(PlanetUtils.getId(dim));
@@ -39,7 +47,7 @@ public class ClientEvents {
 				} else
 					return defaultColor;
 			} else {
-				System.out.println("Reader is not world. Very sad.");
+				System.out.println("Cannot get world.");
 				return defaultColor;
 			}
 		}, BlockInit.ALIEN_STONE);
