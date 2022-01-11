@@ -66,7 +66,6 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 		return this != NONE;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void render(MatrixStack matrixStack, int xPosition, int yPosition, boolean coloured) {
 		Minecraft minecraft = Minecraft.getInstance();
 		TextureAtlasSprite textureatlassprite = getSprite();

@@ -22,9 +22,6 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public static void registerBlockColorsEvent(ColorHandlerEvent.Block event) {
-
-		final int defaultColor = 8947848;
-
 		event.getBlockColors().register((state, reader, pos, num) -> {
 
 			World world = null;
@@ -36,20 +33,15 @@ public class ClientEvents {
 				world = ((ChunkRenderCache) reader).level;
 
 			if (world != null) {
-
 				RegistryKey<World> dim = world.dimension();
-				System.out.println(dim);
 				if (PlanetUtils.isDimensionPlanet(dim)) {
 					PlanetData data = ClientDataHolder.getPlanetDataByID(PlanetUtils.getId(dim));
 					Color color = data.getAttribute(PlanetAttributeTypesInit.COLOUR);
-					System.out.println("Correct dim." + color.toString());
 					return color.getRGB();
-				} else
-					return defaultColor;
-			} else {
-				System.out.println("Cannot get world.");
-				return defaultColor;
+				}
 			}
+
+			return 8947848;
 		}, BlockInit.ALIEN_STONE);
 	}
 }

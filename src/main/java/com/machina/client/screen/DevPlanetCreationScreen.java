@@ -133,7 +133,6 @@ public class DevPlanetCreationScreen extends Screen {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MatrixStack pMatrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
 		super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
