@@ -25,6 +25,9 @@ public class ClientEvents {
 		final int defaultColor = 8947848;
 
 		event.getBlockColors().register((state, reader, pos, num) -> {
+			
+			System.out.println("HMMMMMMMMMMMMMMMM IS READER WORLD???? >>> " + (reader instanceof World));
+			
 			if (reader instanceof World) {
 				RegistryKey<World> dim = ((World) reader).dimension();
 				System.out.println(dim);

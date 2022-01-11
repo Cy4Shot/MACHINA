@@ -31,12 +31,14 @@
 package com.machina.datagen.client;
 
 import com.machina.Machina;
+import com.machina.api.util.MachinaRL;
+import com.machina.init.BlockInit;
 import com.machina.init.FluidInit;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.loaders.DynamicBucketModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -49,6 +51,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 
 	@Override
 	protected void registerModels() {
+		makeSimpleBlockItem(BlockInit.ALIEN_STONE);
+
 		createBucketModel(FluidInit.OXYGEN.get());
 		createBucketModel(FluidInit.HYDROGEN.get());
 		createBucketModel(FluidInit.LIQUID_HYDROGEN.get());
@@ -62,6 +66,11 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 			builder.flipGas(true);
 		}
 		builder.fluid(stillFluid);
+	}
+
+	protected void makeSimpleBlockItem(Block block) {
+		getBuilder(block.asItem().getRegistryName().toString())
+				.parent(getExistingFile(new MachinaRL("block/" + block.asItem().getRegistryName().getPath())));
 	}
 
 }
