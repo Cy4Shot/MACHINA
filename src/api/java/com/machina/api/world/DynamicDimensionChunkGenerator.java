@@ -30,8 +30,10 @@
 
 package com.machina.api.world;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 import com.machina.api.ModIDs;
@@ -46,6 +48,8 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.crash.ReportedException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -66,6 +70,8 @@ import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.gen.INoiseGenerator;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -94,7 +100,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	public DynamicDimensionChunkGenerator(MinecraftServer server, RegistryKey<Dimension> key) {
 		this(server.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY));
-		id = PlanetUtils.getIdDim(key);
+		this.id = PlanetUtils.getIdDim(key);
 		this.traits = StarchartData.getDefaultInstance(server).getTraitsForType(key.location(), IWorldTrait.class);
 		this.attributes = StarchartData.getStarchartForServer(server).get(key.location()).getAttributes();
 		traits.forEach(t -> t.updateNoiseSettings(this));
@@ -189,6 +195,45 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		traits.forEach(t -> t.modify(PlanetGenStage.DECORATION, this, worldGenRegion, chunk, sharedseedrandom, seed));
 	}
 
+	@Override
+	public void applyBiomeDecoration(WorldGenRegion region, StructureManager pStructureManager) {
+
+		int i = region.getCenterX();
+		int j = region.getCenterZ();
+		int k = i * 16;
+		int l = j * 16;
+		
+		BlockPos pos = new BlockPos(k, 0, l);
+		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
+		List<Supplier<ConfiguredFeature<?, ?>>> list = new ArrayList<>();
+
+		list.add(() -> Features.JUNGLE_TREE);
+
+		for (int i3 = 0; i3 < 16; ++i3) {
+			for (int j3 = 0; j3 < 16; ++j3) {
+
+				for (Supplier<ConfiguredFeature<?, ?>> supplier : list) {
+					ConfiguredFeature<?, ?> configuredfeature = supplier.get();
+
+					try {
+						configuredfeature.place(region, this, sharedseedrandom, pos);
+					} catch (Exception exception1) {
+						CrashReport crashreport1 = CrashReport.forThrowable(exception1, "Feature placement");
+						crashreport1.addCategory("Feature")
+								.setDetail("Id", Registry.FEATURE.getKey(configuredfeature.feature))
+								.setDetail("Config", configuredfeature.config).setDetail("Description", () -> {
+									return configuredfeature.feature.toString();
+								});
+						throw new ReportedException(crashreport1);
+					}
+				}
+
+			}
+		}
+
+		super.applyBiomeDecoration(region, pStructureManager);
+	}
+
 	private void placeBedrock(IChunk chunk, Random random) {
 		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
 		int i = chunk.getPos().getMinBlockX();
@@ -218,7 +263,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	public IBlockReader getBaseColumn(int x, int z) {
 		return new Blockreader(new BlockState[0]);
 	}
-	
+
 	public int getSeaLevel() {
 		return seaLevel;
 	}
