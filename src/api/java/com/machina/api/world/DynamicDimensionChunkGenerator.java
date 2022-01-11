@@ -80,7 +80,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	private final INoiseGenerator surfaceNoise;
 	private final int baseHeight = 60;
 
-	public int seaLevel = 40;
+	public int seaLevel = -1;
 	public float heightMultiplier = 1f;
 
 	public List<? extends IWorldTrait> traits;
@@ -162,31 +162,31 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 		this.placeBedrock(chunk, sharedseedrandom);
 
-		traits.forEach(t -> t.modify(PlanetGenStage.BASE, this, worldGenRegion, chunk, seed));
+		traits.forEach(t -> t.modify(PlanetGenStage.BASE, this, worldGenRegion, chunk, sharedseedrandom, seed));
 
 		/*
 		 * 2. GENERATE CARVER LAYER
 		 */
 
-		traits.forEach(t -> t.modify(PlanetGenStage.CARVER, this, worldGenRegion, chunk, seed));
+		traits.forEach(t -> t.modify(PlanetGenStage.CARVER, this, worldGenRegion, chunk, sharedseedrandom, seed));
 
 		/*
 		 * 3. GENERATE STRUCTURE LAYER
 		 */
 
-		traits.forEach(t -> t.modify(PlanetGenStage.STRUCTURE, this, worldGenRegion, chunk, seed));
+		traits.forEach(t -> t.modify(PlanetGenStage.STRUCTURE, this, worldGenRegion, chunk, sharedseedrandom, seed));
 
 		/*
 		 * 4. GENERATE FEATURE LAYER
 		 */
 
-		traits.forEach(t -> t.modify(PlanetGenStage.FEATURE, this, worldGenRegion, chunk, seed));
+		traits.forEach(t -> t.modify(PlanetGenStage.FEATURE, this, worldGenRegion, chunk, sharedseedrandom, seed));
 
 		/*
 		 * 5. GENERATE DECORATION LAYER
 		 */
 
-		traits.forEach(t -> t.modify(PlanetGenStage.DECORATION, this, worldGenRegion, chunk, seed));
+		traits.forEach(t -> t.modify(PlanetGenStage.DECORATION, this, worldGenRegion, chunk, sharedseedrandom, seed));
 	}
 
 	private void placeBedrock(IChunk chunk, Random random) {

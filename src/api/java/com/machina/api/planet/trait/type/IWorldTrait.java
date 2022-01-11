@@ -3,6 +3,7 @@ package com.machina.api.planet.trait.type;
 import com.machina.api.world.DynamicDimensionChunkGenerator;
 import com.machina.api.world.PlanetGenStage;
 
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.WorldGenRegion;
 
@@ -20,7 +21,7 @@ public interface IWorldTrait extends IPlanetTraitType {
 	 * @return Boolean: Success?
 	 */
 	default boolean modify(PlanetGenStage stage, DynamicDimensionChunkGenerator chunkGenerator,
-			WorldGenRegion worldGenRegion, IChunk chunk, long seed) {
+			WorldGenRegion worldGenRegion, IChunk chunk, SharedSeedRandom rand, long seed) {
 		return false;
 	}
 }

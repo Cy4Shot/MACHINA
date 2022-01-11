@@ -34,7 +34,9 @@ import static com.machina.api.ModIDs.MACHINA;
 
 import com.machina.api.planet.trait.PlanetTrait;
 import com.machina.api.registry.annotation.RegisterPlanetTrait;
-import com.machina.trait.WaterWorldTrait;
+import com.machina.trait.FrozenTrait;
+import com.machina.trait.HeightMultiplierTrait;
+import com.machina.trait.WaterHeightTrait;
 import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
 /**
@@ -44,26 +46,26 @@ import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 public final class PlanetTraitInit {
 
 	@RegisterPlanetTrait(id = "water_world")
-	public static final PlanetTrait WATER_WORLD = new WaterWorldTrait(0x169fde, "");
+	public static final PlanetTrait WATER_WORLD = new WaterHeightTrait(0x169fde, "", 70);
 
 	@RegisterPlanetTrait(id = "continental")
-	public static final PlanetTrait CONTINENTALL = new PlanetTrait(0x24bf2a, "");
+	public static final PlanetTrait CONTINENTALL = new WaterHeightTrait(0x24bf2a, "", 60);
 
 	@RegisterPlanetTrait(id = "landmass")
-	public static final PlanetTrait LANDMMASS = new PlanetTrait(0xada39a, "");
+	public static final PlanetTrait LANDMMASS = new WaterHeightTrait(0xada39a, "", -1);
 
 	@RegisterPlanetTrait(id = "mountainous")
-	public static final PlanetTrait MOUNTAINOUS = new PlanetTrait(0x807f7e, "");
+	public static final PlanetTrait MOUNTAINOUS = new HeightMultiplierTrait(0x807f7e, "", 7.0f);
 
 	@RegisterPlanetTrait(id = "hilly")
-	public static final PlanetTrait HILLY = new PlanetTrait(0x613407, "");
+	public static final PlanetTrait HILLY = new HeightMultiplierTrait(0x613407, "", 3.5f);
 
 	@RegisterPlanetTrait(id = "flat")
-	public static final PlanetTrait FLAT = new PlanetTrait(0x449e41, "");
+	public static final PlanetTrait FLAT = new HeightMultiplierTrait(0x449e41, "", 1.3f);
 
 	@RegisterPlanetTrait(id = "lakes")
 	public static final PlanetTrait LAKES = new PlanetTrait(0x098aed, "");
 
 	@RegisterPlanetTrait(id = "frozen")
-	public static final PlanetTrait FROZEN = new PlanetTrait(0x0aabf5, "");
+	public static final PlanetTrait FROZEN = new FrozenTrait(0x0aabf5, "");
 }

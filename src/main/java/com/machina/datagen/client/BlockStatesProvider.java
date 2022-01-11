@@ -50,6 +50,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		simpleTintedBlock(BlockInit.ALIEN_STONE);
+		simpleTintedBlock(BlockInit.TWILIGHT_DIRT);
 		fluid(FluidInit.LIQUID_HYDROGEN_BLOCK);
 	}
 

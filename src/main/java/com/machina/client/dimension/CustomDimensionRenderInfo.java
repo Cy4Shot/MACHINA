@@ -34,7 +34,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.machina.Machina;
 import com.machina.api.util.MachinaRL;
-import com.machina.client.ClientSetup;
 import com.machina.client.util.QuadRenderingUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -50,7 +49,6 @@ import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ICloudRenderHandler;
@@ -61,11 +59,6 @@ import net.minecraftforge.client.IWeatherRenderHandler;
 @OnlyIn(Dist.CLIENT)
 public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 
-	/**
-	 * Cy4 do not call in {@link Machina#Machina()}, cuz that loads the class
-	 * server-side as well. Call in
-	 * {@link ClientSetup#ClientSetup(net.minecraftforge.eventbus.api.IEventBus)}
-	 */
 	public static void registerDimensionRenderInfo() {
 		DimensionRenderInfo.EFFECTS.put(new ResourceLocation(Machina.MACHINA_ID.toString()), new CustomDimensionRenderInfo());
 	}

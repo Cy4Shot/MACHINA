@@ -36,12 +36,12 @@ public class ClientEvents {
 				RegistryKey<World> dim = world.dimension();
 				if (PlanetUtils.isDimensionPlanet(dim)) {
 					PlanetData data = ClientDataHolder.getPlanetDataByID(PlanetUtils.getId(dim));
-					Color color = data.getAttribute(PlanetAttributeTypesInit.COLOUR);
+					Color color = data.getAttribute(PlanetAttributeTypesInit.PRIMARY_COLOUR);
 					return color.getRGB();
 				}
 			}
 
 			return 8947848;
-		}, BlockInit.ALIEN_STONE);
+		}, BlockInit.ALIEN_STONE, BlockInit.TWILIGHT_DIRT);
 	}
 }

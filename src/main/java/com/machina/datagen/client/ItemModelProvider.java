@@ -52,6 +52,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	@Override
 	protected void registerModels() {
 		makeSimpleBlockItem(BlockInit.ALIEN_STONE);
+		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT);
 
 		createBucketModel(FluidInit.OXYGEN.get());
 		createBucketModel(FluidInit.HYDROGEN.get());

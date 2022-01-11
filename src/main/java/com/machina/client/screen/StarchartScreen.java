@@ -197,7 +197,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		}
 
 		PlanetData planet = selected.getData();
-		int color = planet.getAttribute(PlanetAttributeTypesInit.COLOUR).getRGB();
+		int color = planet.getAttribute(PlanetAttributeTypesInit.PRIMARY_COLOUR).getRGB();
 
 		planetDescriptions.title = new StringTextComponent("Information - \"" + planet.getAttribute(PlanetAttributeTypesInit.PLANET_NAME) + "\"");
 		IFormattableTextComponent text = new StringTextComponent("Traits:\n")

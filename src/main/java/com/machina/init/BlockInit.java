@@ -51,4 +51,8 @@ public class BlockInit {
 	@AutoBlockItem
 	@RegisterBlock("alien_stone")
 	public static final Block ALIEN_STONE = new Block(AbstractBlock.Properties.copy(Blocks.STONE));
+	
+	@AutoBlockItem
+	@RegisterBlock("twilight_dirt")
+	public static final Block TWILIGHT_DIRT = new Block(AbstractBlock.Properties.copy(Blocks.DIRT));
 }

@@ -36,9 +36,9 @@ import com.machina.datagen.client.ItemModelProvider;
 import com.machina.datagen.client.lang.EnUsLangProvider;
 import com.machina.datagen.common.BlockTagsProvider;
 import com.machina.datagen.common.PlanetTraitPoolsProvider;
+import com.machina.datagen.common.loot.LootTableProvider;
 
 import net.minecraft.data.DataGenerator;
-
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -53,14 +53,14 @@ public class DataGenProvider {
 		DataGenerator gen = event.getGenerator();
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
+		// Client
 		gen.addProvider(new EnUsLangProvider(gen));
-
 		gen.addProvider(new BlockStatesProvider(gen, existingFileHelper));
 		gen.addProvider(new ItemModelProvider(gen, existingFileHelper));
 
 		gen.addProvider(new BlockTagsProvider(gen, existingFileHelper));
-
 		gen.addProvider(new PlanetTraitPoolsProvider(gen));
+		gen.addProvider(new LootTableProvider(gen));
 	}
 
 }

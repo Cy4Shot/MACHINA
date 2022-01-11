@@ -31,8 +31,15 @@
 package com.machina.events;
 
 import com.machina.Machina;
+import com.machina.api.client.ClientDataHolder;
+import com.machina.api.util.Color;
 import com.machina.api.util.PlanetUtils;
+import com.machina.api.world.data.PlanetData;
+import com.machina.init.PlanetAttributeTypesInit;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -42,12 +49,17 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
 
+	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void fogSetup(FogColors event) {
-		if (PlanetUtils.isDimensionPlanet(event.getInfo().getEntity().level.dimension())) {
-			event.setBlue(1f);
-			event.setRed(0f);
-			event.setGreen(1f);
+		RegistryKey<World> dim = Minecraft.getInstance().level.dimension();
+		if (PlanetUtils.isDimensionPlanet(dim)) {
+			PlanetData data = ClientDataHolder.getPlanetDataByID(PlanetUtils.getId(dim));
+			Color color = data.getAttribute(PlanetAttributeTypesInit.FOG_COLOUR);
+			Float density = data.getAttribute(PlanetAttributeTypesInit.FOG_DENSITY);
+			event.setRed(color.getRed() / 255f * density);
+			event.setGreen(color.getGreen() / 255f * density);
+			event.setBlue(color.getBlue() / 255f * density);
 		}
 	}
 }

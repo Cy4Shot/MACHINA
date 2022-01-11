@@ -59,8 +59,14 @@ public final class PlanetAttributeTypesInit {
 	@RegisterPlanetAttributeType("planet_name")
 	public static final PlanetAttributeType<String> PLANET_NAME = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("Planet"), PlanetNameGenerator::getName);
 	
-	@RegisterPlanetAttributeType("colour")
-	public static final PlanetAttributeType<Color> COLOUR = new PlanetAttributeType<>("", colorSerializer(), colorDeserializer(new Color(0)), Color::random);
+	@RegisterPlanetAttributeType("fog_density")
+	public static final PlanetAttributeType<Float> FOG_DENSITY = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.5f), random(0f, 1.0f));
+	
+	@RegisterPlanetAttributeType("fog_colour")
+	public static final PlanetAttributeType<Color> FOG_COLOUR = new PlanetAttributeType<>("", colorSerializer(), colorDeserializer(new Color(0)), Color::random);
+	
+	@RegisterPlanetAttributeType("primary_colour")
+	public static final PlanetAttributeType<Color> PRIMARY_COLOUR = new PlanetAttributeType<>("", colorSerializer(), colorDeserializer(new Color(0)), Color::random);
 	
 	@RegisterPlanetAttributeType("atmospheric_pressure")
 	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = new PlanetAttributeType<>("Pa", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.1f, 2.0f));

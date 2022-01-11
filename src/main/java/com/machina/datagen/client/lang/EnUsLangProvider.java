@@ -61,6 +61,7 @@ public class EnUsLangProvider extends LanguageProvider {
 	protected void addTranslations() {
 		
 		addBlock(() -> BlockInit.ALIEN_STONE, "Alien Stone");
+		addBlock(() -> BlockInit.TWILIGHT_DIRT, "Twilight Dirt");
 
 		add(PlanetTraitInit.WATER_WORLD, "Water World");
 		add(PlanetTraitInit.CONTINENTALL, "Continental");
