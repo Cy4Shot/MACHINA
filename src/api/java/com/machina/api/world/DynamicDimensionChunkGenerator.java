@@ -217,10 +217,10 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
 		List<Supplier<ConfiguredFeature<?, ?>>> list = new ArrayList<>();
 
-		list.add(() -> Feature.BLOCK_PILE.configured(new BlockStateProvidingFeatureConfig(new SimpleBlockStateProvider(Blocks.ACACIA_LOG.defaultBlockState())))
+		list.add(() -> Feature.BLOCK_PILE
+				.configured(new BlockStateProvidingFeatureConfig(
+						new SimpleBlockStateProvider(Blocks.ACACIA_LOG.defaultBlockState())))
 				.decorated(Placement.HEIGHTMAP_WORLD_SURFACE.configured(new NoPlacementConfig())));
-		
-		
 
 		for (int i3 = 0; i3 < 16; ++i3) {
 			for (int j3 = 0; j3 < 16; ++j3) {
@@ -251,12 +251,11 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public void applyCarvers(long pSeed, BiomeManager pBiomeManager, IChunk pChunk, Carving pCarving) {
-		
+
 		List<Supplier<ConfiguredCarver<?>>> carvers = new ArrayList<>();
-		
+
 		carvers.add(() -> ConfiguredCarvers.CAVE);
-		
-		
+
 		BiomeManager biomemanager = pBiomeManager.withDifferentSource(this.biomeSource);
 		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
 		ChunkPos chunkpos = pChunk.getPos();
@@ -269,13 +268,9 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 				ListIterator<Supplier<ConfiguredCarver<?>>> listiterator = carvers.listIterator();
 
 				while (listiterator.hasNext()) {
-					int j1 = listiterator.nextIndex();
 					ConfiguredCarver<?> configuredcarver = listiterator.next().get();
-					sharedseedrandom.setLargeFeatureSeed(pSeed + (long) j1, l, i1);
-					if (configuredcarver.isStartChunk(sharedseedrandom, l, i1)) {
-						configuredcarver.carve(pChunk, biomemanager::getBiome, sharedseedrandom, this.getSeaLevel(), l,
-								i1, j, k, bitset);
-					}
+					configuredcarver.carve(pChunk, biomemanager::getBiome, sharedseedrandom, this.getSeaLevel(), l, i1,
+							j, k, bitset);
 				}
 			}
 		}
