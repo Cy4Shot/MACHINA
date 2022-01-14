@@ -31,7 +31,9 @@
 package com.machina.api.world;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -44,7 +46,6 @@ import com.machina.api.util.PlanetUtils;
 import com.machina.api.world.data.StarchartData;
 import com.machina.init.PlanetAttributeTypesInit;
 import com.mojang.serialization.Codec;
-//import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -63,16 +64,25 @@ import net.minecraft.world.Dimension;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.biome.provider.SingleBiomeProvider;
+import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationStage.Carving;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.gen.INoiseGenerator;
 import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.carver.ConfiguredCarver;
+import net.minecraft.world.gen.carver.ConfiguredCarvers;
+import net.minecraft.world.gen.feature.BlockStateProvidingFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Features;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.StructureManager;
+import net.minecraft.world.gen.placement.NoPlacementConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
@@ -202,15 +212,20 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		int j = region.getCenterZ();
 		int k = i * 16;
 		int l = j * 16;
-		
+
 		BlockPos pos = new BlockPos(k, 0, l);
 		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
 		List<Supplier<ConfiguredFeature<?, ?>>> list = new ArrayList<>();
 
-		list.add(() -> Features.JUNGLE_TREE);
+		list.add(() -> Feature.BLOCK_PILE.configured(new BlockStateProvidingFeatureConfig(new SimpleBlockStateProvider(Blocks.ACACIA_LOG.defaultBlockState())))
+				.decorated(Placement.HEIGHTMAP_WORLD_SURFACE.configured(new NoPlacementConfig())));
+		
+		
 
 		for (int i3 = 0; i3 < 16; ++i3) {
 			for (int j3 = 0; j3 < 16; ++j3) {
+
+//				Biome
 
 				for (Supplier<ConfiguredFeature<?, ?>> supplier : list) {
 					ConfiguredFeature<?, ?> configuredfeature = supplier.get();
@@ -232,6 +247,38 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		}
 
 		super.applyBiomeDecoration(region, pStructureManager);
+	}
+
+	@Override
+	public void applyCarvers(long pSeed, BiomeManager pBiomeManager, IChunk pChunk, Carving pCarving) {
+		
+		List<Supplier<ConfiguredCarver<?>>> carvers = new ArrayList<>();
+		
+		carvers.add(() -> ConfiguredCarvers.CAVE);
+		
+		
+		BiomeManager biomemanager = pBiomeManager.withDifferentSource(this.biomeSource);
+		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
+		ChunkPos chunkpos = pChunk.getPos();
+		int j = chunkpos.x;
+		int k = chunkpos.z;
+		BitSet bitset = ((ChunkPrimer) pChunk).getOrCreateCarvingMask(pCarving);
+
+		for (int l = j - 8; l <= j + 8; ++l) {
+			for (int i1 = k - 8; i1 <= k + 8; ++i1) {
+				ListIterator<Supplier<ConfiguredCarver<?>>> listiterator = carvers.listIterator();
+
+				while (listiterator.hasNext()) {
+					int j1 = listiterator.nextIndex();
+					ConfiguredCarver<?> configuredcarver = listiterator.next().get();
+					sharedseedrandom.setLargeFeatureSeed(pSeed + (long) j1, l, i1);
+					if (configuredcarver.isStartChunk(sharedseedrandom, l, i1)) {
+						configuredcarver.carve(pChunk, biomemanager::getBiome, sharedseedrandom, this.getSeaLevel(), l,
+								i1, j, k, bitset);
+					}
+				}
+			}
+		}
 	}
 
 	private void placeBedrock(IChunk chunk, Random random) {
