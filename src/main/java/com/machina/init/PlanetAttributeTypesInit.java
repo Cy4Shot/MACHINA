@@ -87,7 +87,7 @@ public final class PlanetAttributeTypesInit {
 	public static final PlanetAttributeType<Integer> CAVE_LENGTH = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(3), random(1, 5));
 	
 	@RegisterPlanetAttributeType("cave_thickness")
-	public static final PlanetAttributeType<Float> CAVE_THICKNESS = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.01f), random(0f, 0.02f, 3f));
+	public static final PlanetAttributeType<Float> CAVE_THICKNESS = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.01f), random(0f, 0.02f, 1.7f));
 	
 	
 	

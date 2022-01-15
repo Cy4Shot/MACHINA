@@ -1,11 +1,16 @@
 package com.machina.api.planet.trait.type;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.function.Supplier;
+
 import com.machina.api.world.DynamicDimensionChunkGenerator;
 import com.machina.api.world.PlanetGenStage;
 
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.WorldGenRegion;
+import net.minecraft.world.gen.carver.ConfiguredCarver;
 
 public interface IWorldTrait extends IPlanetTraitType {
 	/**
@@ -23,5 +28,9 @@ public interface IWorldTrait extends IPlanetTraitType {
 	default boolean modify(PlanetGenStage stage, DynamicDimensionChunkGenerator chunkGenerator,
 			WorldGenRegion worldGenRegion, IChunk chunk, SharedSeedRandom rand, long seed) {
 		return false;
+	}
+	
+	default Collection<Supplier<ConfiguredCarver<?>>> addCarvers(DynamicDimensionChunkGenerator chunkGenerator, SharedSeedRandom rand, long seed) {
+		return new ArrayList<>();
 	}
 }

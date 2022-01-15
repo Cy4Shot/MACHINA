@@ -43,7 +43,6 @@ import com.machina.api.planet.trait.type.IWorldTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetUtils;
 import com.machina.api.world.data.StarchartData;
-import com.machina.api.world.settings.DynamicDimensionCarverConfig;
 import com.machina.api.world.settings.DynamicStructureSettings;
 import com.machina.init.PlanetAttributeTypesInit;
 import com.mojang.serialization.Codec;
@@ -80,7 +79,6 @@ import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.BlockStateProvidingFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.ProbabilityConfig;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -252,14 +250,16 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	public void applyCarvers(long pSeed, BiomeManager pBiomeManager, IChunk pChunk, Carving pCarving) {
 
 		List<Supplier<ConfiguredCarver<?>>> carvers = new ArrayList<>();
+		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
 
 		// Add carver if cave exists.
 		if (attributes.getValue(PlanetAttributeTypesInit.CAVES_EXIST) == 1) {
 			carvers.add(DynamicDimensionCarver.createDefault(attributes));
 		}
 
+		traits.forEach(trait -> carvers.addAll(trait.addCarvers(this, sharedseedrandom, pSeed)));
+
 		BiomeManager biomemanager = pBiomeManager.withDifferentSource(this.biomeSource);
-		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
 		ChunkPos chunkpos = pChunk.getPos();
 		int j = chunkpos.x;
 		int k = chunkpos.z;
