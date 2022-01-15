@@ -77,12 +77,36 @@ public final class PlanetAttributeTypesInit {
 	@RegisterPlanetAttributeType("base_block")
 	public static final PlanetAttributeType<String> BASE_BLOCK = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("minecraft:stone"), PlanetBlocksGenerator::getBaseBlock);
 	
+	@RegisterPlanetAttributeType("caves_exist")
+	public static final PlanetAttributeType<Integer> CAVES_EXIST = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(0), random(0, 1));
+	
+	@RegisterPlanetAttributeType("cave_chance")
+	public static final PlanetAttributeType<Float> CAVE_CHANCE = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.01f), random(0f, 0.02f));
+	
+	@RegisterPlanetAttributeType("cave_length")
+	public static final PlanetAttributeType<Integer> CAVE_LENGTH = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(3), random(1, 5));
+	
+	@RegisterPlanetAttributeType("cave_thickness")
+	public static final PlanetAttributeType<Float> CAVE_THICKNESS = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.01f), random(0f, 0.02f, 3f));
+	
+	
+	
 	
 	// Deserializers
 	public static Function<INBT, Float> floatDeserializer(float defaultVal) {
 		return nbt -> {
 			if (nbt instanceof FloatNBT) {
 				return ((FloatNBT) nbt).getAsFloat();
+			}
+			return defaultVal;
+		};
+	}
+	
+	// Deserializers
+	public static Function<INBT, Integer> intDeserializer(int defaultVal) {
+		return nbt -> {
+			if (nbt instanceof IntNBT) {
+				return ((IntNBT) nbt).getAsInt();
 			}
 			return defaultVal;
 		};
@@ -114,5 +138,13 @@ public final class PlanetAttributeTypesInit {
 	// Random
 	public static Function<Random, Float> random(float min, float max) {
 		return r -> min + r.nextFloat() * (max - min);
+	}
+	
+	public static Function<Random, Float> random(float min, float max, float exp) {
+		return r -> min + (float) Math.pow(r.nextFloat(), exp) * (max - min);
+	}
+	
+	public static Function<Random, Integer> random(int min, int max) {
+		return r -> r.nextInt((max - min) + 1) + min;
 	}
 }

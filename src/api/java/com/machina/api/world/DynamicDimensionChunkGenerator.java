@@ -43,6 +43,8 @@ import com.machina.api.planet.trait.type.IWorldTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetUtils;
 import com.machina.api.world.data.StarchartData;
+import com.machina.api.world.settings.DynamicDimensionCarverConfig;
+import com.machina.api.world.settings.DynamicStructureSettings;
 import com.machina.init.PlanetAttributeTypesInit;
 import com.mojang.serialization.Codec;
 
@@ -224,9 +226,6 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 		for (int i3 = 0; i3 < 16; ++i3) {
 			for (int j3 = 0; j3 < 16; ++j3) {
-
-//				Biome
-
 				for (Supplier<ConfiguredFeature<?, ?>> supplier : list) {
 					ConfiguredFeature<?, ?> configuredfeature = supplier.get();
 
@@ -254,8 +253,10 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 		List<Supplier<ConfiguredCarver<?>>> carvers = new ArrayList<>();
 
-		carvers.add(() -> new DynamicDimensionCarver(ProbabilityConfig.CODEC, 256)
-				.configured(new ProbabilityConfig(0.014285715F)));
+		// Add carver if cave exists.
+		if (attributes.getValue(PlanetAttributeTypesInit.CAVES_EXIST) == 1) {
+			carvers.add(DynamicDimensionCarver.createDefault(attributes));
+		}
 
 		BiomeManager biomemanager = pBiomeManager.withDifferentSource(this.biomeSource);
 		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
