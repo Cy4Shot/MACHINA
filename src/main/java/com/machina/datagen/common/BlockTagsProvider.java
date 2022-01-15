@@ -32,6 +32,7 @@ package com.machina.datagen.common;
 
 import static com.machina.Machina.MOD_ID;
 
+import com.machina.init.BlockInit;
 import com.machina.init.TagInit;
 import com.machina.modules.rocket.RocketModule;
 
@@ -48,6 +49,7 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
 	@Override
 	protected void addTags() {
 		tag(TagInit.Blocks.WRENCH_EFFECTIVE).add(RocketModule.CONSOLE_BLOCK).add(RocketModule.ROCKET_BLOCK).add(RocketModule.ROCKET_MOUNT_BLOCK);
+		tag(TagInit.Blocks.CARVEABLE_BLOCKS).add(BlockInit.ALIEN_STONE, BlockInit.TWILIGHT_DIRT);
 	}
 
 }

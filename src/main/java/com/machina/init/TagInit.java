@@ -44,6 +44,7 @@ public final class TagInit {
 	public static final class Blocks {
 
 		public static final ITag.INamedTag<Block> WRENCH_EFFECTIVE = mod("wrench_effective");
+		public static final ITag.INamedTag<Block> CARVEABLE_BLOCKS = mod("carveable_blocks");
 
 		private static ITag.INamedTag<Block> mod(String path) {
 			return BlockTags.bind(new ResourceLocation(MOD_ID, path).toString());

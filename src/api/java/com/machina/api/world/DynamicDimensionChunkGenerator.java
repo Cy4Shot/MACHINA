@@ -33,7 +33,6 @@ package com.machina.api.world;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -76,10 +75,10 @@ import net.minecraft.world.gen.PerlinNoiseGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
-import net.minecraft.world.gen.carver.ConfiguredCarvers;
 import net.minecraft.world.gen.feature.BlockStateProvidingFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.ProbabilityConfig;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -205,6 +204,7 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		traits.forEach(t -> t.modify(PlanetGenStage.DECORATION, this, worldGenRegion, chunk, sharedseedrandom, seed));
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void applyBiomeDecoration(WorldGenRegion region, StructureManager pStructureManager) {
 
@@ -254,7 +254,8 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 		List<Supplier<ConfiguredCarver<?>>> carvers = new ArrayList<>();
 
-		carvers.add(() -> ConfiguredCarvers.CAVE);
+		carvers.add(() -> new DynamicDimensionCarver(ProbabilityConfig.CODEC, 256)
+				.configured(new ProbabilityConfig(0.014285715F)));
 
 		BiomeManager biomemanager = pBiomeManager.withDifferentSource(this.biomeSource);
 		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
@@ -265,12 +266,17 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 		for (int l = j - 8; l <= j + 8; ++l) {
 			for (int i1 = k - 8; i1 <= k + 8; ++i1) {
-				ListIterator<Supplier<ConfiguredCarver<?>>> listiterator = carvers.listIterator();
-
-				while (listiterator.hasNext()) {
-					ConfiguredCarver<?> configuredcarver = listiterator.next().get();
+				int l1 = 0;
+				for (Supplier<ConfiguredCarver<?>> supplier : carvers) {
+					ConfiguredCarver<?> configuredcarver = supplier.get();
+					sharedseedrandom.setLargeFeatureSeed(pSeed + (long) l1, l, i1);
 					configuredcarver.carve(pChunk, biomemanager::getBiome, sharedseedrandom, this.getSeaLevel(), l, i1,
 							j, k, bitset);
+					if (configuredcarver.isStartChunk(sharedseedrandom, l, i1)) {
+						configuredcarver.carve(pChunk, biomemanager::getBiome, sharedseedrandom, this.getSeaLevel(), l,
+								i1, j, k, bitset);
+					}
+					l1++;
 				}
 			}
 		}

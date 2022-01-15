@@ -12,5 +12,6 @@ b1fe7ba8cc047a1442933b3182f7785d00ae2fe6 assets/machina/models/item/oxygen_bucke
 4aa417bdf503315ad218617671824bd9a4941164 assets/machina/models/item/twilight_dirt.json
 543f5f563e5f399da84558ecf89ee0524f648f6d data/machina/loot_tables/blocks/alien_stone.json
 3ea72a26a8bd7790432261b16aafea6bfe0cc1ec data/machina/loot_tables/blocks/twilight_dirt.json
+833ed95ab5b9e0c34e8cd87cf7bbd45c92dd7f71 data/machina/tags/blocks/carveable_blocks.json
 e18790e27784c7f265cc3579682ee7c6f23767bb data/machina/tags/blocks/wrench_effective.json
 7ef6893debc1ba726e0d870f3adb384b0e069615 data/machina/trait_pools/geographical_traits.json
