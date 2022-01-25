@@ -6,6 +6,9 @@ import java.awt.color.ColorSpace;
 import java.awt.image.ColorModel;
 import java.beans.ConstructorProperties;
 import java.util.Random;
+import java.util.stream.Collectors;
+
+import com.google.common.primitives.Floats;
 
 public class Color {
 
@@ -320,9 +323,7 @@ public class Color {
 	 * @see #getAlpha
 	 * @see #getRGB
 	 */
-	@ConstructorProperties({
-			"red", "green", "blue", "alpha"
-	})
+	@ConstructorProperties({ "red", "green", "blue", "alpha" })
 	public Color(int r, int g, int b, int a) {
 		value = ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | ((b & 0xFF) << 0);
 		testColorValueRange(r, g, b, a);
@@ -477,7 +478,9 @@ public class Color {
 	 * @return the red component.
 	 * @see #getRGB
 	 */
-	public int getRed() { return (getRGB() >> 16) & 0xFF; }
+	public int getRed() {
+		return (getRGB() >> 16) & 0xFF;
+	}
 
 	/**
 	 * Returns the green component in the range 0-255 in the default sRGB space.
@@ -485,7 +488,9 @@ public class Color {
 	 * @return the green component.
 	 * @see #getRGB
 	 */
-	public int getGreen() { return (getRGB() >> 8) & 0xFF; }
+	public int getGreen() {
+		return (getRGB() >> 8) & 0xFF;
+	}
 
 	/**
 	 * Returns the blue component in the range 0-255 in the default sRGB space.
@@ -493,7 +498,9 @@ public class Color {
 	 * @return the blue component.
 	 * @see #getRGB
 	 */
-	public int getBlue() { return (getRGB() >> 0) & 0xFF; }
+	public int getBlue() {
+		return (getRGB() >> 0) & 0xFF;
+	}
 
 	/**
 	 * Returns the alpha component in the range 0-255.
@@ -501,7 +508,9 @@ public class Color {
 	 * @return the alpha component.
 	 * @see #getRGB
 	 */
-	public int getAlpha() { return (getRGB() >> 24) & 0xff; }
+	public int getAlpha() {
+		return (getRGB() >> 24) & 0xff;
+	}
 
 	/**
 	 * Returns the RGB value representing the color in the default sRGB
@@ -515,7 +524,9 @@ public class Color {
 	 * @see #getBlue
 	 * @since 1.0
 	 */
-	public int getRGB() { return value; }
+	public int getRGB() {
+		return value;
+	}
 
 	private static final double FACTOR = 0.7;
 
@@ -546,7 +557,9 @@ public class Color {
 		 * eventually return white
 		 */
 		int i = (int) (1.0 / (1.0 - FACTOR));
-		if (r == 0 && g == 0 && b == 0) { return new Color(i, i, i, alpha); }
+		if (r == 0 && g == 0 && b == 0) {
+			return new Color(i, i, i, alpha);
+		}
 		if (r > 0 && r < i) {
 			r = i;
 		}
@@ -683,7 +696,9 @@ public class Color {
 	 */
 	public static Color getColor(String nm, Color v) {
 		Integer intval = Integer.getInteger(nm);
-		if (intval == null) { return v; }
+		if (intval == null) {
+			return v;
+		}
 		int i = intval.intValue();
 		return new Color((i >> 16) & 0xFF, (i >> 8) & 0xFF, i & 0xFF);
 	}
@@ -948,7 +963,9 @@ public class Color {
 	 * @return the color and alpha components in a {@code float} array.
 	 */
 	public float[] getComponents(float[] compArray) {
-		if (fvalue == null) { return getRGBComponents(compArray); }
+		if (fvalue == null) {
+			return getRGBComponents(compArray);
+		}
 		float[] f;
 		int n = fvalue.length;
 		if (compArray == null) {
@@ -976,7 +993,9 @@ public class Color {
 	 * @return the color components in a {@code float} array.
 	 */
 	public float[] getColorComponents(float[] compArray) {
-		if (fvalue == null) { return getRGBColorComponents(compArray); }
+		if (fvalue == null) {
+			return getRGBColorComponents(compArray);
+		}
 		float[] f;
 		int n = fvalue.length;
 		if (compArray == null) {
@@ -1052,11 +1071,19 @@ public class Color {
 			return Transparency.TRANSLUCENT;
 		}
 	}
-	
+
+	public float[] getHSB() {
+		return RGBtoHSB(getRed(), getGreen(), getBlue(), null);
+	}
+
 	public static Color random(Random rand) {
 		float r = rand.nextFloat();
 		float g = rand.nextFloat();
 		float b = rand.nextFloat();
 		return new Color(r, g, b);
+	}
+
+	public static Color getHSBColor(float[] hsb) {
+		return getHSBColor(hsb[0], hsb[1], hsb[2]);
 	}
 }
