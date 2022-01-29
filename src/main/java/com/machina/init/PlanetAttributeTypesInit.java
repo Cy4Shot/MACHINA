@@ -78,6 +78,9 @@ public final class PlanetAttributeTypesInit {
 	@RegisterPlanetAttributeType("base_block")
 	public static final PlanetAttributeType<String> BASE_BLOCK = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("minecraft:stone"), PlanetBlocksGenerator::getBaseBlock);
 	
+	@RegisterPlanetAttributeType("top_block")
+	public static final PlanetAttributeType<String> TOP_BLOCK = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("minecraft:dirt"), PlanetBlocksGenerator::getTopLayer);
+	
 	@RegisterPlanetAttributeType("caves_exist")
 	public static final PlanetAttributeType<Integer> CAVES_EXIST = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(0), random(0, 1));
 	

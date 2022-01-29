@@ -42,6 +42,7 @@ import com.machina.api.planet.attribute.PlanetAttributeList;
 import com.machina.api.planet.trait.type.IWorldTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetUtils;
+import com.machina.api.world.builder.DynamicDimensionNoiseSurfaceBuilder;
 import com.machina.api.world.data.StarchartData;
 import com.machina.api.world.settings.DynamicStructureSettings;
 import com.machina.init.PlanetAttributeTypesInit;
@@ -82,6 +83,8 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
@@ -139,10 +142,20 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	@Override
 	public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk chunk) {
 		long seed = worldGenRegion.getLevel().getSeed();
+
 		final BlockState baseBlock = ForgeRegistries.BLOCKS
 				.getValue(new ResourceLocation(attributes.getValue(PlanetAttributeTypesInit.BASE_BLOCK)))
 				.defaultBlockState();
+
+		final BlockState topLayer1 = ForgeRegistries.BLOCKS
+				.getValue(new ResourceLocation(attributes.getValue(PlanetAttributeTypesInit.TOP_BLOCK)))
+				.defaultBlockState();
+
 		final SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
+
+		ConfiguredSurfaceBuilder<SurfaceBuilderConfig> surf = new ConfiguredSurfaceBuilder<SurfaceBuilderConfig>(
+				new DynamicDimensionNoiseSurfaceBuilder(SurfaceBuilderConfig.CODEC, baseBlock, topLayer1),
+				new SurfaceBuilderConfig(baseBlock, baseBlock, baseBlock));
 
 		/*
 		 * 1. GENERATE BASE LAYER
@@ -166,6 +179,8 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 				int yPos = baseHeight + (int) (d1 * heightMultiplier);
 				for (int y = 0; y < yPos; y++) {
 					chunk.setBlockState(blockpos$mutable.set(i1, y, j1), baseBlock, false);
+					surf.apply(sharedseedrandom, chunk, null, i1, j1, y, d1, baseBlock,
+							Blocks.WATER.defaultBlockState(), seaLevel, seed);
 				}
 				if (yPos < seaLevel) {
 					for (int y = yPos; y < seaLevel; y++) {
