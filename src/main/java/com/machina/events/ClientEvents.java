@@ -9,6 +9,8 @@ import com.machina.init.BlockInit;
 import com.machina.init.PlanetAttributeTypesInit;
 
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,9 +22,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {
 
-	@SubscribeEvent
-	public static void registerBlockColorsEvent(ColorHandlerEvent.Block event) {
-		event.getBlockColors().register((state, reader, pos, num) -> {
+	public static IBlockColor getPlanetColor(int defVal, int paletteId) {
+		return (state, reader, pos, num) -> {
 
 			World world = null;
 
@@ -36,12 +37,20 @@ public class ClientEvents {
 				RegistryKey<World> dim = world.dimension();
 				if (PlanetUtils.isDimensionPlanet(dim)) {
 					PlanetData data = ClientDataHolder.getPlanetDataByID(PlanetUtils.getId(dim));
-					Color color = data.getAttribute(PlanetAttributeTypesInit.PRIMARY_COLOUR);
+					Color color = data.getAttribute(PlanetAttributeTypesInit.PALETTE)[paletteId];
 					return color.getRGB();
 				}
 			}
 
-			return 8947848;
-		}, BlockInit.ALIEN_STONE, BlockInit.TWILIGHT_DIRT);
+			return defVal;
+		};
+	}
+
+	@SubscribeEvent
+	public static void registerBlockColorsEvent(ColorHandlerEvent.Block event) {
+		BlockColors col = event.getBlockColors();
+		
+		col.register(getPlanetColor(8947848, 0), BlockInit.ALIEN_STONE);
+		col.register(getPlanetColor(8947848, 1), BlockInit.TWILIGHT_DIRT);
 	}
 }

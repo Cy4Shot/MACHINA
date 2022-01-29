@@ -32,16 +32,20 @@ package com.machina.init;
 
 import static com.machina.api.ModIDs.MACHINA;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
 
+import com.machina.api.nbt.BaseNBTList;
 import com.machina.api.planet.attribute.PlanetAttributeType;
 import com.machina.api.registry.annotation.RegisterPlanetAttributeType;
 import com.machina.api.util.Color;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetNameGenerator;
+import com.machina.world.gen.PlanetPaletteGenerator;
 import com.matyrobbrt.lib.registry.annotation.RegistryHolder;
 
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.FloatNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.IntNBT;
@@ -62,11 +66,8 @@ public final class PlanetAttributeTypesInit {
 	@RegisterPlanetAttributeType("fog_density")
 	public static final PlanetAttributeType<Float> FOG_DENSITY = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.5f), random(0f, 1.0f));
 	
-	@RegisterPlanetAttributeType("fog_colour")
-	public static final PlanetAttributeType<Color> FOG_COLOUR = new PlanetAttributeType<>("", colorSerializer(), colorDeserializer(new Color(0)), Color::random);
-	
-	@RegisterPlanetAttributeType("primary_colour")
-	public static final PlanetAttributeType<Color> PRIMARY_COLOUR = new PlanetAttributeType<>("", colorSerializer(), colorDeserializer(new Color(0)), Color::random);
+	@RegisterPlanetAttributeType("palette")
+	public static final PlanetAttributeType<Color[]> PALETTE = new PlanetAttributeType<>("", colorListSerializer(), colorListDeserializer(PlanetPaletteGenerator.DEFAULT_PALETTE, new Color(0), 5), PlanetPaletteGenerator::genPlanetPalette);
 	
 	@RegisterPlanetAttributeType("atmospheric_pressure")
 	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = new PlanetAttributeType<>("Pa", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.1f, 2.0f));
@@ -93,6 +94,17 @@ public final class PlanetAttributeTypesInit {
 	
 	
 	// Deserializers
+	public static Function<INBT, Color[]> colorListDeserializer(Color[] defaultVal, Color defaultCol, int size) {
+		return nbt -> {
+			if (nbt instanceof CompoundNBT) {
+				BaseNBTList<Color, INBT> colors = new BaseNBTList<>(colorSerializer(), colorDeserializer(defaultCol));
+				colors.deserializeNBT((CompoundNBT) nbt);
+				return colors.toArray(new Color[size]);
+			}
+			return defaultVal;
+		};
+	}
+	
 	public static Function<INBT, Float> floatDeserializer(float defaultVal) {
 		return nbt -> {
 			if (nbt instanceof FloatNBT) {
@@ -102,7 +114,6 @@ public final class PlanetAttributeTypesInit {
 		};
 	}
 	
-	// Deserializers
 	public static Function<INBT, Integer> intDeserializer(int defaultVal) {
 		return nbt -> {
 			if (nbt instanceof IntNBT) {
@@ -133,6 +144,14 @@ public final class PlanetAttributeTypesInit {
 	// Serializers
 	public static Function<Color, INBT> colorSerializer() {
 		return color -> IntNBT.valueOf(color.getRGB());
+	}
+	
+	public static Function<Color[], INBT> colorListSerializer() {
+		return colors -> {
+			BaseNBTList<Color, INBT> c = new BaseNBTList<>(colorSerializer(), colorDeserializer(new Color(0)));
+			c.addAll(Arrays.asList(colors));
+			return c.serializeNBT();
+		};
 	}
 	
 	// Random

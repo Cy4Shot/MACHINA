@@ -6,6 +6,9 @@ import com.machina.api.util.Color;
 
 public class PlanetPaletteGenerator {
 
+	public static final Color[] DEFAULT_PALETTE = new Color[] { new Color(9055202), new Color(4857502),
+			new Color(11086818), new Color(2971618), new Color(2047390) };
+
 	public static Color[] getAnalogousPalette(Random r, int similarity, int len) {
 		Color[] cols = new Color[len];
 		float[] c = Color.random(r).getHSB();
@@ -24,9 +27,7 @@ public class PlanetPaletteGenerator {
 		return cols;
 	}
 
-	public static void main(String[] args) {
-		for (Color c : getAnalogousPalette(new Random(), 15, 5)) {
-			System.out.println(c.toString());
-		}
+	public static Color[] genPlanetPalette(Random r) {
+		return getAnalogousPalette(r, 50, 5);
 	}
 }

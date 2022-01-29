@@ -117,31 +117,6 @@ public class StarchartData extends WorldSavedData {
 	}
 	
 	public void syncClient(ServerPlayerEntity player) {
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
-		System.out.println(getGenerated());
 		BaseNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CStarchartSyncMessage(starchart), player);
 	}
 
