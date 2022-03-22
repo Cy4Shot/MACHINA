@@ -1,6 +1,6 @@
 package com.machina.datagen.common.loot;
 
-import com.machina.init.BlockInit;
+import com.machina.registration.init.BlockInit;
 
 import net.minecraft.data.DataGenerator;
 
@@ -12,7 +12,7 @@ public class LootTableProvider extends BaseLootTableProvider {
 
     @Override
     protected void addTables() {
-        dropSelf(BlockInit.TWILIGHT_DIRT);
-        dropSelf(BlockInit.ALIEN_STONE);
+        dropSelf(BlockInit.TWILIGHT_DIRT.get());
+        dropSelf(BlockInit.ALIEN_STONE.get());
     }
 }

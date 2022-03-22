@@ -11,7 +11,6 @@
 		"forge.LanguageProviderMixin"
 	],
 	"client": [
-		"client.ServerWorldInfoMixin",
 		"client.OverlayRendererMixin",
 		"client.CraftingScreenMixin",
 		"client.ClientPlayerEntityMixin"

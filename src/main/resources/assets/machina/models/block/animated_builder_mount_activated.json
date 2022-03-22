@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "machina:block/animated_builder_mount_activated"
-  }
-}

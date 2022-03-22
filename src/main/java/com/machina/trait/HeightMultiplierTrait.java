@@ -1,14 +1,14 @@
 package com.machina.trait;
 
-import com.machina.api.planet.trait.PlanetTrait;
-import com.machina.api.planet.trait.type.IWorldTrait;
-import com.machina.api.world.DynamicDimensionChunkGenerator;
+import com.machina.planet.trait.PlanetTrait;
+import com.machina.planet.trait.type.IWorldTrait;
+import com.machina.world.DynamicDimensionChunkGenerator;
 
 public class HeightMultiplierTrait extends PlanetTrait implements IWorldTrait{
 	final float height;
 
-	public HeightMultiplierTrait(int color, String description, float h) {
-		super(color, description);
+	public HeightMultiplierTrait(int color, float h) {
+		super(color);
 		
 		height = h;
 	}

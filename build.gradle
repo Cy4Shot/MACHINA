@@ -41,15 +41,6 @@ archivesBaseName = 'machina'
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 sourceSets {
-	api {
-        java {
-            srcDir "$rootDir/src/api/java"
-        }
-		//The API has no resources
-        resources.srcDirs = []
-        
-        compileClasspath += configurations.getByName("minecraft")
-	}
 
 	main {
 		java {
@@ -64,14 +55,10 @@ sourceSets {
 			]
 			exclude '.cache'
 		}
-		compileClasspath += sourceSets.api.output
-        runtimeClasspath += sourceSets.api.output
 	}
         
 	test {
-		compileClasspath += sourceSets.api.output
         compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.api.output
         runtimeClasspath += sourceSets.main.output
 	
 		java {
@@ -99,7 +86,7 @@ minecraft {
 			arg "-mixin.config=machina.mixins.json"
 
             mods {
-            	machina.sources((SourceSet[]) [sourceSets.main, sourceSets.api])
+            	machina.sources((SourceSet[]) [sourceSets.main])
             }
         }
         
@@ -117,7 +104,6 @@ minecraft {
             mods {
            		tests {
            			source sourceSets.main
-           			source sourceSets.api
            			source sourceSets.test
            		}
             }
@@ -130,7 +116,7 @@ minecraft {
             arg "-mixin.config=machina.mixins.json"
 
             mods {
-            	machina.sources((SourceSet[]) [sourceSets.main, sourceSets.api])
+            	machina.sources((SourceSet[]) [sourceSets.main])
             }
         }
 
@@ -140,7 +126,7 @@ minecraft {
             args '--mod', 'machina', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-            	machina.sources((SourceSet[]) [sourceSets.main, sourceSets.api])
+            	machina.sources((SourceSet[]) [sourceSets.main])
             }
         }
     }
@@ -151,13 +137,7 @@ repositories {
 		url "https://dvs1.progwml6.com/files/maven/"
 	}
 	maven {
-		url "https://modmaven.k-4u.nl"
-	}
-	maven {
 		url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
-	}
-	maven {
-		url "https://dl.cloudsmith.io/public/matyrobbrt/matylib/maven/"
 	}
 	maven {
 	   	name 'tterrag maven'
@@ -166,14 +146,6 @@ repositories {
 	}
 	maven {
         url = "https://maven.theillusivec4.top/"
-    }
-    maven {
-    	name 'reflections'
-    	url 'https://mvnrepository.com/artifact/org.reflections/reflections'
-    }
-    maven {
-    	name 'javassist'
-    	url 'https://mvnrepository.com/artifact/org.javassist/javassist'
     }
     maven { url 'https://jitpack.io' }
 }
@@ -187,54 +159,9 @@ dependencies {
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45')
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
     
-    implementation fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
-    //compileClasspath fg.deobf("com.matyrobbrt:matylib-${mc_version}:${matylib_version}")
-    
-    implementation fg.deobf(project.dependencies.create("mcjty.theoneprobe:TheOneProbe-1.16:${top_version}") {
-    	transitive = false
-    })
-    
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
     
-    /* Unused
-    implementation "org.reflections:reflections:${reflections_version}"
-    shadow "org.reflections:reflections:${reflections_version}"
-    
-    Included with reflections
-	implementation "org.javassist:javassist:${javassist_version}"
-	shadow "org.javassist:javassist:${javassist_version}"
-	*/
-    
-}
-
-license {
-	header = file("$rootDir/header.txt")
-	properties {
-        name = 'Machina Team'
-        year = 2021
-    }
-
-	include '**/*.java'
-	
-	exclude 'com/machina/mixin/'
-	exclude 'com/machina/api/util/Color.java'
-	
-	style {
-    	java = 'JAVADOC'
-    }
-
-    tasks {
-    	main {
-    		files.from files("$rootDir/src/main/java")
-    	}
-    	api {
-    		files.from files("$rootDir/src/api/java")
-    	}
-    	test {
-    		files.from files("$rootDir/src/test/java")
-    	}
-    }
 }
 
 configurations {
@@ -248,9 +175,6 @@ shadowJar {
 }
 
 jar {
-	from {
-		sourceSets.api.output
-	}
     manifest {
         attributes([
             "Specification-Title": "machina",
@@ -264,17 +188,6 @@ jar {
         ])
     }
     finalizedBy 'reobfJar'
-}
-
-task apiJar(type: Jar) {
-    duplicatesStrategy(DuplicatesStrategy.FAIL)
-    destinationDirectory = file("$rootDir/build-out")
-    archiveClassifier.set("api")
-    from {
-    	configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    	sourceSets.api.output
-    }
-    afterEvaluate { finalizedBy reobfApiJar }
 }
 
 task mainJar(type: Jar) {
@@ -300,20 +213,18 @@ task mainJar(type: Jar) {
 task allJar(type: Jar) {
 	destinationDirectory = file("$rootDir/build-out")
 	archiveClassifier.set("all")
-	with apiJar
 	with mainJar
 	finalizedBy 'reobfJar'
 	finalizedBy 'shadowJar'
 }
 
 artifacts {
-    archives apiJar, jar, shadowJar
+    archives jar, shadowJar
 }
 
 reobf {
     shadowJar { }
     
-    apiJar { classpath.from(sourceSets.api.compileClasspath) }
 	jar { classpath.from(sourceSets.main.compileClasspath) }
 	mainJar { classpath.from(sourceSets.main.compileClasspath) }
 }

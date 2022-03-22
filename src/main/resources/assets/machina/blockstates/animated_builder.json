@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "activated=true": { "model": "machina:block/animated_builder_activated" },
-    "activated=false": { "model": "machina:block/animated_builder" }
-  }
-}

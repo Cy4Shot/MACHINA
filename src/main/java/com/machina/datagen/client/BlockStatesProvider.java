@@ -1,42 +1,12 @@
-/**
- * This file is part of the Machina Minecraft (Java Edition) mod and is licensed
- * under the MIT license:
- *
- * MIT License
- *
- * Copyright (c) 2021 Machina Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * If you want to contribute please join https://discord.com/invite/x9Mj63m4QG.
- * More information can be found on Github: https://github.com/Cy4Shot/MACHINA
- */
-
 package com.machina.datagen.client;
 
 import com.machina.Machina;
-import com.machina.api.util.MachinaRL;
-import com.machina.init.BlockInit;
-import com.machina.init.FluidInit;
+import com.machina.registration.init.BlockInit;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -49,23 +19,22 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		simpleTintedBlock(BlockInit.ALIEN_STONE);
-		simpleTintedBlock(BlockInit.TWILIGHT_DIRT);
-		fluid(FluidInit.LIQUID_HYDROGEN_BLOCK);
+		simpleTintedBlock(BlockInit.ALIEN_STONE.get());
+		simpleTintedBlock(BlockInit.TWILIGHT_DIRT.get());
 	}
 
 	public void fluid(Block block) {
 		getVariantBuilder(block).partialState().modelForState()
-				.modelFile(models().cubeAll(name(block), FluidInit.STILL_RL)).addModel();
+				.modelFile(models().cubeAll(name(block), new ResourceLocation("block/water_still"))).addModel();
 	}
-	
+
 	public void simpleTintedBlock(Block block) {
-        simpleBlock(block, tinted(block));
-    }
-	
+		simpleBlock(block, tinted(block));
+	}
+
 	public ModelFile tinted(Block block) {
-        return models().singleTexture(name(block), new MachinaRL("block/tinted_cube_all"), "all", blockTexture(block));
-    }
+		return models().singleTexture(name(block), new MachinaRL("block/tinted_cube_all"), "all", blockTexture(block));
+	}
 
 	private String name(Block block) {
 		return block.getRegistryName().getPath();

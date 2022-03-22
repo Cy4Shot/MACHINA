@@ -1,0 +1,16 @@
+package com.machina.client.util;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import net.minecraft.client.Minecraft;
+
+public class RenderHelper {
+
+	@SuppressWarnings("deprecation")
+	public static void resetColour() {
+		RenderSystem.color4f(1, 1, 1, 1);
+	}
+
+	public static float getPartialTick() { return Minecraft.getInstance().getFrameTime(); }
+
+}

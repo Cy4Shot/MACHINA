@@ -1,11 +1,5 @@
 {
 	"replace": false,
 	"values": [
-		"machina:oxygen",
-		"machina:oxygen_flowing",
-		"machina:hydrogen",
-		"machina:hydrogen_flowing",
-		"machina:liquid_hydrogen",
-		"machina:liquid_hydrogen_flowing"
 	]
 }

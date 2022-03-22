@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import com.machina.init.TagInit;
+import com.machina.registration.init.TagInit;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

@@ -1,15 +1,15 @@
 package com.machina.trait;
 
-import com.machina.api.planet.trait.PlanetTrait;
-import com.machina.api.planet.trait.type.IWorldTrait;
-import com.machina.api.world.DynamicDimensionChunkGenerator;
+import com.machina.planet.trait.PlanetTrait;
+import com.machina.planet.trait.type.IWorldTrait;
+import com.machina.world.DynamicDimensionChunkGenerator;
 
 public class WaterHeightTrait extends PlanetTrait implements IWorldTrait {
 	
 	final int height;
 
-	public WaterHeightTrait(int color, String description, int h) {
-		super(color, description);
+	public WaterHeightTrait(int color,int h) {
+		super(color);
 		
 		height = h;
 	}

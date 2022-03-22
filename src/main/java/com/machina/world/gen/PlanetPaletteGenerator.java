@@ -2,7 +2,7 @@ package com.machina.world.gen;
 
 import java.util.Random;
 
-import com.machina.api.util.Color;
+import com.machina.util.color.Color;
 
 public class PlanetPaletteGenerator {
 

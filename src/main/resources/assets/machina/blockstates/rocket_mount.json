@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "activation_state=un_powered": { "model": "machina:block/rocket_mount_unpowered" },
-    "activation_state=not_active": { "model": "machina:block/rocket_mount" },
-    "activation_state=waiting": { "model": "machina:block/rocket_mount_waiting" },
-    "activation_state=active": { "model": "machina:block/rocket_mount_activated" }
-  }
-}
