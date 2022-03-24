@@ -5,8 +5,8 @@ import com.machina.datagen.client.BlockStatesProvider;
 import com.machina.datagen.client.ItemModelProvider;
 import com.machina.datagen.client.lang.EnUsLangProvider;
 import com.machina.datagen.common.BlockTagsProvider;
+import com.machina.datagen.common.LootTableProvider;
 import com.machina.datagen.common.PlanetTraitPoolsProvider;
-import com.machina.datagen.common.loot.LootTableProvider;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;

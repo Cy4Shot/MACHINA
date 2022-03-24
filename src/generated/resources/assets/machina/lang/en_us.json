@@ -1,6 +1,7 @@
 {
   "argument.planet_trait.invalid": "Invalid Planet Trait: \u00A76%s",
   "block.machina.alien_stone": "Alien Stone",
+  "block.machina.ship_console": "Ship Console",
   "block.machina.twilight_dirt": "Twilight Dirt",
   "command.planet_traits.add_trait.duplicate": "This planet already has the trait %s!",
   "command.planet_traits.add_trait.success": "Trait added!",

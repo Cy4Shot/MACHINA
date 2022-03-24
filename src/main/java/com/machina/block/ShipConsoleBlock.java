@@ -1,0 +1,89 @@
+package com.machina.block;
+
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+
+public class ShipConsoleBlock extends Block {
+
+	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+	
+	   public static final VoxelShape SHAPE_BASE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
+	   public static final VoxelShape SHAPE_POST = Block.box(6.0D, 2.0D, 6.0D, 10.0D, 14.0D, 10.0D);
+	   public static final VoxelShape SHAPE_COMMON = VoxelShapes.or(SHAPE_BASE, SHAPE_POST);
+	   public static final VoxelShape SHAPE_TOP_PLATE = Block.box(0.0D, 15.0D, 0.0D, 16.0D, 15.0D, 16.0D);
+	   public static final VoxelShape SHAPE_COLLISION = VoxelShapes.or(SHAPE_COMMON, SHAPE_TOP_PLATE);
+	   public static final VoxelShape SHAPE_WEST = VoxelShapes.or(Block.box(1.0D, 11.0D, 0.0D, 5.333333D, 15.0D, 16.0D), Block.box(5.333333D, 13.0D, 0.0D, 9.666667D, 17.0D, 16.0D), Block.box(9.666667D, 15.0D, 0.0D, 14.0D, 19.0D, 16.0D), SHAPE_COMMON);
+	   public static final VoxelShape SHAPE_NORTH = VoxelShapes.or(Block.box(0.0D, 11.0D, 1.0D, 16.0D, 15.0D, 5.333333D), Block.box(0.0D, 13.0D, 5.333333D, 16.0D, 17.0D, 9.666667D), Block.box(0.0D, 15.0D, 9.666667D, 16.0D, 19.0D, 14.0D), SHAPE_COMMON);
+	   public static final VoxelShape SHAPE_EAST = VoxelShapes.or(Block.box(15.0D, 11.0D, 0.0D, 10.666667D, 15.0D, 16.0D), Block.box(10.666667D, 13.0D, 0.0D, 6.333333D, 17.0D, 16.0D), Block.box(6.333333D, 15.0D, 0.0D, 2.0D, 19.0D, 16.0D), SHAPE_COMMON);
+	   public static final VoxelShape SHAPE_SOUTH = VoxelShapes.or(Block.box(0.0D, 11.0D, 15.0D, 16.0D, 15.0D, 10.666667D), Block.box(0.0D, 13.0D, 10.666667D, 16.0D, 17.0D, 6.333333D), Block.box(0.0D, 15.0D, 6.333333D, 16.0D, 19.0D, 2.0D), SHAPE_COMMON);
+
+
+	public ShipConsoleBlock() {
+		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).harvestLevel(2).strength(6f)
+				.noOcclusion().sound(SoundType.METAL));
+
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+	}
+	
+	@Override
+	public VoxelShape getShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
+		switch((Direction)pState.getValue(FACING)) {
+	      case NORTH:
+	         return SHAPE_NORTH;
+	      case SOUTH:
+	         return SHAPE_SOUTH;
+	      case EAST:
+	         return SHAPE_EAST;
+	      case WEST:
+	         return SHAPE_WEST;
+	      default:
+	         return SHAPE_COMMON;
+	      }
+	}
+	
+	@Override
+	public VoxelShape getCollisionShape(BlockState pState, IBlockReader pLevel, BlockPos pPos,
+			ISelectionContext pContext) {
+		return SHAPE_COLLISION;
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public BlockState mirror(BlockState state, Mirror mirrorIn) {
+		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
+	}
+
+	@Override
+	public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation direction) {
+		return state.setValue(FACING, direction.rotate(state.getValue(FACING)));
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+	}
+	
+	@Override
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
+		builder.add(FACING);
+	}
+
+}

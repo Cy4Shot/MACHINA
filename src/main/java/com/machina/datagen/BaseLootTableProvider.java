@@ -1,4 +1,4 @@
-package com.machina.datagen.common.loot;
+package com.machina.datagen;
 
 import java.io.IOException;
 import java.nio.file.Path;

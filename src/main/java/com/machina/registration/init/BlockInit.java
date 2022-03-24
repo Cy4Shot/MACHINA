@@ -3,6 +3,8 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.block.ShipConsoleBlock;
+import com.machina.registration.Registration;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -23,6 +25,9 @@ public class BlockInit {
 		return BLOCKS.register(name, block);
 	}
 
+	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console",
+			() -> new ShipConsoleBlock());
+
 	public static final RegistryObject<Block> ALIEN_STONE = register("alien_stone",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.STONE)));
 
@@ -32,7 +37,8 @@ public class BlockInit {
 	public static void registerBlockItems(final RegistryEvent.Register<Item> event) {
 		BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
 			event.getRegistry()
-					.register(new BlockItem(block, new Item.Properties()).setRegistryName(block.getRegistryName()));
+					.register(new BlockItem(block, new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP))
+							.setRegistryName(block.getRegistryName()));
 		});
 	}
 }

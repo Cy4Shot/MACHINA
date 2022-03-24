@@ -22,6 +22,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	protected void registerModels() {
 		makeSimpleBlockItem(BlockInit.ALIEN_STONE.get());
 		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT.get());
+		makeSimpleBlockItem(BlockInit.SHIP_CONSOLE.get());
 	}
 
 	protected void createBucketModel(FlowingFluid stillFluid) {

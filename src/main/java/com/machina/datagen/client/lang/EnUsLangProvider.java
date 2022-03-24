@@ -26,6 +26,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		
 		addBlock(() -> BlockInit.ALIEN_STONE.get(), "Alien Stone");
 		addBlock(() -> BlockInit.TWILIGHT_DIRT.get(), "Twilight Dirt");
+		addBlock(() -> BlockInit.SHIP_CONSOLE.get(), "Ship Console");
 
 		add(PlanetTraitInit.WATER_WORLD, "Water World");
 		add(PlanetTraitInit.CONTINENTAL, "Continental");
