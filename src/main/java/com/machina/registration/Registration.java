@@ -13,6 +13,7 @@ import com.machina.registration.init.CommandInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.PlanetTraitInit;
+import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.registration.registry.PlanetTraitRegistry;
 import com.machina.world.DynamicDimensionHelper;
@@ -57,6 +58,7 @@ public class Registration {
 
 		BlockInit.BLOCKS.register(bus);
 		ItemInit.ITEMS.register(bus);
+		TileEntityTypesInit.TILES.register(bus);
 
 		CommonConfig.register();
 		ClientConfig.register();

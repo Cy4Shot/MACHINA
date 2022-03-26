@@ -3,6 +3,7 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.item.ShipComponentItem;
 import com.machina.item.ThermalRegulatorSuit;
 import com.machina.item.WrenchItem;
 import com.machina.registration.Registration;
@@ -35,5 +36,7 @@ public final class ItemInit {
 			() -> new ThermalRegulatorSuit(new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
 					EquipmentSlotType.FEET));
 
-	public static final RegistryObject<WrenchItem> WRENCH = register("wrench", () -> ItemBuilder.create(WrenchItem::new).tab(Registration.MACHINA_ITEM_GROUP).build());
+	public static final RegistryObject<WrenchItem> WRENCH = register("wrench", () -> ItemBuilder.basicItem(WrenchItem::new));
+	
+	public static final RegistryObject<ShipComponentItem> SHIP_COMPONENT = register("ship_component", () -> ItemBuilder.basicItem(ShipComponentItem::new));
 }

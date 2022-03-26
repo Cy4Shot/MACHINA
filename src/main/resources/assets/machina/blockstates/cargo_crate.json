@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"open=false": {
+			"model": "machina:block/cargo_crate"
+		},
+		"open=true": {
+			"model": "machina:block/cargo_crate"
+		}
+	}
+}

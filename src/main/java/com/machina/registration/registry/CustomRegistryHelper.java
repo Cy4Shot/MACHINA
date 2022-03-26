@@ -4,20 +4,16 @@ import java.lang.reflect.Field;
 import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+import com.machina.Machina;
 import com.machina.util.reflection.TargetField;
 
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
 
 public class CustomRegistryHelper {
-
-	public static final Logger LOGGER = LogManager.getLogger();
 
 	public static <T extends IForgeRegistryEntry<T>> void registerRegistry(TargetField targetField,
 			Class<T> registryClass, ResourceLocation registryName) {
@@ -45,7 +41,7 @@ public class CustomRegistryHelper {
 			FieldUtils.removeFinalModifier(registryField);
 			IForgeRegistry<T> newRegistry = registryBuilder.create();
 			registryField.set(targetField.targetFieldClass, newRegistry);
-			LOGGER.info("Created Custom Forge Registry {}!", registryName);
+			Machina.LOGGER.info("Created Custom Forge Registry {}!", registryName);
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 			throw new CustomRegistryException(e);
 		}

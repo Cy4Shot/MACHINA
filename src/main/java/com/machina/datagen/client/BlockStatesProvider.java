@@ -21,6 +21,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 	protected void registerStatesAndModels() {
 		simpleTintedBlock(BlockInit.ALIEN_STONE.get());
 		simpleTintedBlock(BlockInit.TWILIGHT_DIRT.get());
+		simpleBlock(BlockInit.CARGO_CRATE.get());
 	}
 
 	public void fluid(Block block) {

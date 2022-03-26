@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import com.machina.Machina;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.PlanetTraitInit;
 
 import net.minecraft.data.DataGenerator;
@@ -27,6 +28,10 @@ public class EnUsLangProvider extends LanguageProvider {
 		addBlock(() -> BlockInit.ALIEN_STONE.get(), "Alien Stone");
 		addBlock(() -> BlockInit.TWILIGHT_DIRT.get(), "Twilight Dirt");
 		addBlock(() -> BlockInit.SHIP_CONSOLE.get(), "Ship Console");
+		addBlock(() -> BlockInit.CARGO_CRATE.get(), "Cargo Crate");
+		
+		addItem(() -> ItemInit.WRENCH.get(), "Wrench");
+		addItem(() -> ItemInit.SHIP_COMPONENT.get(), "Ship Component");
 
 		add(PlanetTraitInit.WATER_WORLD, "Water World");
 		add(PlanetTraitInit.CONTINENTAL, "Continental");
@@ -61,6 +66,8 @@ public class EnUsLangProvider extends LanguageProvider {
 		add("direction.west", "West");
 
 		add("jei.planet_trait.type", "Planet Trait");
+		
+		add("machina.cargo_crate.open", "Right Click to Loot");
 	}
 
 	private void addItemGroup(String key, String name) {

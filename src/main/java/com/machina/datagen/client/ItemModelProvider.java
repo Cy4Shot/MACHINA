@@ -2,11 +2,14 @@ package com.machina.datagen.client;
 
 import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.ItemInit;
 import com.machina.util.MachinaRL;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.FlowingFluid;
+import net.minecraft.item.Item;
+import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.loaders.DynamicBucketModelBuilder;
@@ -23,6 +26,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		makeSimpleBlockItem(BlockInit.ALIEN_STONE.get());
 		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT.get());
 		makeSimpleBlockItem(BlockInit.SHIP_CONSOLE.get());
+		
+		oneLayerItem(ItemInit.SHIP_COMPONENT.get());
 	}
 
 	protected void createBucketModel(FlowingFluid stillFluid) {
@@ -38,6 +43,21 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	protected void makeSimpleBlockItem(Block block) {
 		getBuilder(block.asItem().getRegistryName().toString())
 				.parent(getExistingFile(new MachinaRL("block/" + block.asItem().getRegistryName().getPath())));
+	}
+	
+	protected void oneLayerItem(Item item, ResourceLocation texture) {
+		ResourceLocation itemTexture = new ResourceLocation(texture.getNamespace(), "item/" + texture.getPath());
+		if (existingFileHelper.exists(itemTexture, ResourcePackType.CLIENT_RESOURCES, ".png", "textures")) {
+			getBuilder(item.getRegistryName().getPath()).parent(getExistingFile(mcLoc("item/generated")))
+					.texture("layer0", itemTexture);
+		} else {
+			System.out.println(
+					"Texture for " + item.getRegistryName().toString() + " not present at " + itemTexture.toString());
+		}
+	}
+	
+	protected void oneLayerItem(Item item) {
+		oneLayerItem(item, item.getRegistryName());
 	}
 
 }

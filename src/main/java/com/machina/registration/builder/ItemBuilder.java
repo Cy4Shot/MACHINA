@@ -1,5 +1,7 @@
 package com.machina.registration.builder;
 
+import com.machina.registration.Registration;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemGroup;
@@ -12,6 +14,14 @@ public class ItemBuilder<T extends Item> implements IBuilder<Item, T> {
 	
 	protected ItemBuilder(NonNullFunction<Item.Properties, T> factory) {
 		this.factory = factory;
+	}
+	
+	public static Item basicItem() {
+		return new ItemBuilder<>(Item::new).tab(Registration.MACHINA_ITEM_GROUP).build();
+	}
+	
+	public static <T extends Item> T basicItem(NonNullFunction<Item.Properties, T> factory) {
+		return new ItemBuilder<>(factory).tab(Registration.MACHINA_ITEM_GROUP).build();
 	}
 	
 	public static <T extends Item> ItemBuilder<T> create(NonNullFunction<Item.Properties, T> factory) {

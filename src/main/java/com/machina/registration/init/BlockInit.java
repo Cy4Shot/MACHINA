@@ -3,6 +3,7 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.block.CargoCrateBlock;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.registration.Registration;
 
@@ -27,6 +28,9 @@ public class BlockInit {
 
 	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console",
 			() -> new ShipConsoleBlock());
+	
+	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate",
+			() -> new CargoCrateBlock());
 
 	public static final RegistryObject<Block> ALIEN_STONE = register("alien_stone",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.STONE)));
