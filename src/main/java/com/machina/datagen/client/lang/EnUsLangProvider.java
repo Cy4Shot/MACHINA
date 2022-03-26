@@ -25,14 +25,21 @@ public class EnUsLangProvider extends LanguageProvider {
 	@Override
 	protected void addTranslations() {
 		
-		addBlock(() -> BlockInit.ALIEN_STONE.get(), "Alien Stone");
-		addBlock(() -> BlockInit.TWILIGHT_DIRT.get(), "Twilight Dirt");
-		addBlock(() -> BlockInit.SHIP_CONSOLE.get(), "Ship Console");
-		addBlock(() -> BlockInit.CARGO_CRATE.get(), "Cargo Crate");
+		// Blocks
+		add(BlockInit.ALIEN_STONE.get(), "Alien Stone");
+		add(BlockInit.TWILIGHT_DIRT.get(), "Twilight Dirt");
+		add(BlockInit.SHIP_CONSOLE.get(), "Ship Console");
+		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		
-		addItem(() -> ItemInit.WRENCH.get(), "Wrench");
-		addItem(() -> ItemInit.SHIP_COMPONENT.get(), "Ship Component");
+		// Items
+		add(ItemInit.THERMAL_REGULATING_HELMET.get(), "Thermal Regulating Helmet");
+		add(ItemInit.THERMAL_REGULATING_CHESTPLATE.get(), "Thermal Regulating Chestplate");
+		add(ItemInit.THERMAL_REGULATING_LEGGINGS.get(), "Thermal Regulating Leggings");
+		add(ItemInit.THERMAL_REGULATING_BOOTS.get(), "Thermal Regulating Boots");
+		add(ItemInit.WRENCH.get(), "Wrench");
+		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
 
+		// Traits
 		add(PlanetTraitInit.WATER_WORLD, "Water World");
 		add(PlanetTraitInit.CONTINENTAL, "Continental");
 		add(PlanetTraitInit.LANDMMASS, "Landmass");
@@ -42,8 +49,10 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(PlanetTraitInit.LAKES, "Lakes");
 		add(PlanetTraitInit.FROZEN, "Frozen");
 
+		// Item Groups
 		addItemGroup("machinaItemGroup", "Machina");
 		
+		// Commands
 		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");
 		addCommandFeedback("planet_traits.add_trait.duplicate", "This planet already has the trait %s!");
 		addCommandFeedback("planet_traits.remove_trait.success", "Trait removed!");
@@ -51,23 +60,14 @@ public class EnUsLangProvider extends LanguageProvider {
 		addCommandFeedback("planet_traits.list_traits.success", "This planet has the following traits: \n§6%s");
 		addCommandFeedback("planet_traits.list_traits.no_traits", "This planet has no traits!");
 		addCommandFeedback("planet_traits.not_planet", "This dimension is not a planet!");
-
 		addCommandArgumentFeedback("planet_trait.invalid", "Invalid Planet Trait: \u00A76%s");
 
-		addDamageSourceMsg("liquidHydrogen", "%1$s stayed too much in hydrogen... Never do that at home kids!",
-				"%1$s encountered hydrogen whilst fighting %2$s!");
-
+		// GUI
 		add("machina.screen.starchart.title", "Starchart");
-
-		add("multiblock.rocket.missing_relay", "Missing Relay at direction: $s0");
-		add("direction.north", "North");
-		add("direction.south", "South");
-		add("direction.east", "East");
-		add("direction.west", "West");
-
-		add("jei.planet_trait.type", "Planet Trait");
 		
+		// Tooltips
 		add("machina.cargo_crate.open", "Right Click to Loot");
+		add("machina.ship_component.unidentified", "Unidentified");
 	}
 
 	private void addItemGroup(String key, String name) {
@@ -89,21 +89,5 @@ public class EnUsLangProvider extends LanguageProvider {
 	
 	private void addCommandArgumentFeedback(String key, String name) {
 		add("argument." + key, name);
-	}
-
-	private void addDamageSourceMsg(String name, String normal, String diedWhilstFighting) {
-		add("death.attack." + name, normal);
-		add("death.attack." + name + ".player", diedWhilstFighting);
-	}
-
-	public static String capitalizeWord(String str) {
-		String words[] = str.split("\\s");
-		String capitalizeWord = "";
-		for (String w : words) {
-			String first = w.substring(0, 1);
-			String afterfirst = w.substring(1);
-			capitalizeWord += first.toUpperCase() + afterfirst + " ";
-		}
-		return capitalizeWord.trim();
 	}
 }

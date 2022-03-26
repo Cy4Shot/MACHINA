@@ -11,16 +11,13 @@
   "command.planet_traits.not_planet": "This dimension is not a planet!",
   "command.planet_traits.remove_trait.not_existing": "This planet does not have the trait %s!",
   "command.planet_traits.remove_trait.success": "Trait removed!",
-  "death.attack.liquidHydrogen": "%1$s stayed too much in hydrogen... Never do that at home kids!",
-  "death.attack.liquidHydrogen.player": "%1$s encountered hydrogen whilst fighting %2$s!",
-  "direction.east": "East",
-  "direction.north": "North",
-  "direction.south": "South",
-  "direction.west": "West",
   "item.machina.ship_component": "Ship Component",
+  "item.machina.thermal_regulating_boots": "Thermal Regulating Boots",
+  "item.machina.thermal_regulating_chestplate": "Thermal Regulating Chestplate",
+  "item.machina.thermal_regulating_helmet": "Thermal Regulating Helmet",
+  "item.machina.thermal_regulating_leggings": "Thermal Regulating Leggings",
   "item.machina.wrench": "Wrench",
   "itemGroup.machinaItemGroup": "Machina",
-  "jei.planet_trait.type": "Planet Trait",
   "machina.cargo_crate.open": "Right Click to Loot",
   "machina.planet_trait.continental": "Continental",
   "machina.planet_trait.flat": "Flat",
@@ -31,5 +28,5 @@
   "machina.planet_trait.mountainous": "Mountainous",
   "machina.planet_trait.water_world": "Water World",
   "machina.screen.starchart.title": "Starchart",
-  "multiblock.rocket.missing_relay": "Missing Relay at direction: $s0"
+  "machina.ship_component.unidentified": "Unidentified"
 }
