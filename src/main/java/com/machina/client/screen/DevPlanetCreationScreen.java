@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.UUID;
 
 import com.machina.client.ClientDataHolder;
+import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SDevPlanetCreationGUI;
 import com.machina.network.message.C2SDevPlanetCreationGUI.ActionType;
@@ -81,40 +82,57 @@ public class DevPlanetCreationScreen extends Screen {
 
 	private void onCreateButton() {
 		try {
-			MachinaNetwork.CHANNEL.sendToServer(
-					new C2SDevPlanetCreationGUI(ActionType.CREATE, Integer.valueOf(dimensionID.getValue())));
-			minecraft.player.sendMessage(
-					new StringTextComponent(
-							"Planet with the id of " + Integer.valueOf(dimensionID.getValue()) + " was created!"),
+
+			int id = Integer.valueOf(dimensionID.getValue());
+			if (id >= ClientDataHolder.getStarchart().size()) {
+				invalidId();
+				return;
+			}
+
+			MachinaNetwork.CHANNEL.sendToServer(new C2SDevPlanetCreationGUI(ActionType.CREATE, id));
+			minecraft.player.sendMessage(new StringTextComponent("Planet with the id of " + id + " was created!"),
 					UUID.randomUUID());
 			this.onClose();
 		} catch (NumberFormatException e) {
-			minecraft.player.sendMessage(new StringTextComponent("Invalid Planet ID!"), UUID.randomUUID());
+			invalidId();
 		}
 	}
 
 	private void onTeleportButton() {
 		try {
-			MachinaNetwork.CHANNEL.sendToServer(
-					new C2SDevPlanetCreationGUI(ActionType.TELEPORT, Integer.valueOf(dimensionID.getValue())));
+
+			int id = Integer.valueOf(dimensionID.getValue());
+			if (id >= ClientDataHolder.getStarchart().size()) {
+				invalidId();
+				return;
+			}
+
+			MachinaNetwork.CHANNEL.sendToServer(new C2SDevPlanetCreationGUI(ActionType.TELEPORT, id));
 			this.onClose();
 		} catch (NumberFormatException e) {
-			minecraft.player.sendMessage(new StringTextComponent("Invalid Planet ID!"), UUID.randomUUID());
+			invalidId();
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	private void invalidId() {
+		minecraft.player.sendMessage(new StringTextComponent("Invalid Planet ID!"), UUID.randomUUID());
+	}
+
 	@Override
 	public void render(MatrixStack pMatrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
-		super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		this.renderBackground(pMatrixStack);
+
+		super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
 		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
 
 		PlanetData data = ClientDataHolder.getDataForDimension(minecraft.level.dimension().location());
 		for (int i = 0; i < data.getTraits().size(); i++) {
-			data.getTraits().get(i).render(pMatrixStack, width / 2 - 140 + (i * 18), 120, true);
+			data.getTraits().get(i).render(pMatrixStack, width / 2 - 150 + (i * 18), 75, true);
 		}
+
+		UIHelper.drawStringWithBorder(pMatrixStack, "Total Planets: " + ClientDataHolder.getStarchart().size(),
+				width / 2 - 150, 36, 0xFF_cc00ff, 0xFF_0e0e0e);
 	}
 
 	@Override

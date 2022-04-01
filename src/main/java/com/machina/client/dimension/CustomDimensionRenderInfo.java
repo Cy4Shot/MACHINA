@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.client.world.DimensionRenderInfo;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,7 +30,7 @@ import net.minecraftforge.client.IWeatherRenderHandler;
 public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 
 	public static void registerDimensionRenderInfo() {
-		DimensionRenderInfo.EFFECTS.put(new ResourceLocation(Machina.MACHINA_ID.toString()), new CustomDimensionRenderInfo());
+		DimensionRenderInfo.EFFECTS.put(Machina.MACHINA_ID, new CustomDimensionRenderInfo());
 	}
 
 	public CustomDimensionRenderInfo() {

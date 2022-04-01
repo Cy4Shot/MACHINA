@@ -45,14 +45,12 @@ public class GuiElement extends Widget implements IFontRenderer {
 		super.render(matrix, mouseX, mouseY, partialTicks);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void renderButton(MatrixStack pMatrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
 		Minecraft minecraft = Minecraft.getInstance();
 		FontRenderer fontrenderer = minecraft.font;
 		minecraft.getTextureManager().bind(texture);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
-		// int i = this.getYImage(this.isHovered());
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
