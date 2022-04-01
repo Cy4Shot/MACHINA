@@ -10,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -65,7 +66,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 
 		public CustomSkyRenderer() {
 			sky = QuadRenderingUtils.createBuffer(sky, bb -> QuadRenderingUtils.makeCube(bb, 100));
-			fog = QuadRenderingUtils.createBuffer(fog, bb -> QuadRenderingUtils.makeCylinder(bb, 7, 10, 100));
+			fog = QuadRenderingUtils.createBuffer(fog, bb -> QuadRenderingUtils.makeCylinder(bb, 7, 70, 100));
 		}
 
 		@Override
@@ -81,12 +82,12 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 			RenderSystem.depthMask(false);
 
 			tm.bind(new MachinaRL("textures/environment/sky/starfield01.png"));
-			QuadRenderingUtils.renderBuffer(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
+			QuadRenderingUtils.renderBuffer(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed, FogRenderer.fogGreen, FogRenderer.fogBlue, 0.8f);
 
 			matrixStack.pushPose();
 			matrixStack.last().pose().multiply(new Quaternion(0, -time * 4, 0, false));
-			tm.bind(new ResourceLocation("textures/block/white_concrete.png"));
-			QuadRenderingUtils.renderBuffer(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
+			tm.bind(new MachinaRL("textures/environment/sky/fog.png"));
+			QuadRenderingUtils.renderBuffer(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed, FogRenderer.fogGreen, FogRenderer.fogBlue, 1f);
 			matrixStack.popPose();
 
 			RenderSystem.depthMask(true);

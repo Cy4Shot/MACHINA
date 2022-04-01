@@ -115,6 +115,10 @@ public class StarchartData extends WorldSavedData {
 			MinecraftServer server) {
 		return StarchartData.getDefaultInstance(server).getStarchart();
 	}
+	
+	public int getNumPlanets() {
+		return this.starchart.size();
+	}
 
 	public void debugStarchart() {
 		StringUtils.printlnUtf8("Planets");

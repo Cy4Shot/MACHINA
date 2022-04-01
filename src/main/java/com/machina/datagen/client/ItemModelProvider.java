@@ -23,9 +23,21 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 
 	@Override
 	protected void registerModels() {
-		makeSimpleBlockItem(BlockInit.ALIEN_STONE.get());
-		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT.get());
 		makeSimpleBlockItem(BlockInit.SHIP_CONSOLE.get());
+		makeSimpleBlockItem(BlockInit.ALIEN_STONE.get());
+		makeSimpleBlockItem(BlockInit.ALIEN_STONE_SLAB.get());
+		makeSimpleBlockItem(BlockInit.ALIEN_STONE_STAIRS.get());
+		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT.get());
+		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT_SLAB.get());
+		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT_STAIRS.get());
+		makeSimpleBlockItem(BlockInit.WASTELAND_DIRT.get());
+		makeSimpleBlockItem(BlockInit.WASTELAND_DIRT_SLAB.get());
+		makeSimpleBlockItem(BlockInit.WASTELAND_DIRT_STAIRS.get());
+		makeSimpleBlockItem(BlockInit.WASTELAND_SAND.get());
+		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE.get());
+		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_SLAB.get());
+		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
+		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_WALL.get());
 		
 		oneLayerItem(ItemInit.SHIP_COMPONENT.get());
 	}

@@ -15,7 +15,7 @@ public class WaterHeightTrait extends PlanetTrait implements IWorldTrait {
 	}
 	
 	@Override
-	public void updateNoiseSettings(DynamicDimensionChunkGenerator chunkGenerator) {
+	public void init(DynamicDimensionChunkGenerator chunkGenerator) {
 		chunkGenerator.seaLevel = height;
 	}
 

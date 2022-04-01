@@ -1,20 +1,131 @@
 package com.machina.world.gen;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
+import com.machina.registration.init.BlockInit;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+
 public class PlanetBlocksGenerator {
-	public static final String[] BASE_BLOCKS = new String[] {"machina:alien_stone", "machina:twilight_dirt"};
-	public static final String[] TOP_LAYER = new String[] { "machina:twilight_dirt", "minecraft:dirt" };
+
+	//@formatter:off
+	@SuppressWarnings("serial")
+	private static Map<Integer, BlockPalette> basePalette = new HashMap<Integer, BlockPalette>() {{
+	    put(0, new BlockPalette(
+	    		BlockInit.ALIEN_STONE.get().defaultBlockState(),
+	    		BlockInit.WASTELAND_SAND.get().defaultBlockState(),
+	    		BlockInit.ALIEN_STONE_STAIRS.get().defaultBlockState(),
+	    		BlockInit.ALIEN_STONE_SLAB.get().defaultBlockState(),
+	    		Blocks.SNOW.defaultBlockState()));
+	    put(1, new BlockPalette(
+	    		BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
+	    		BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
+	    		BlockInit.TWILIGHT_DIRT_STAIRS.get().defaultBlockState(),
+	    		BlockInit.TWILIGHT_DIRT_SLAB.get().defaultBlockState(),
+	    		Blocks.SNOW.defaultBlockState()));
+	    put(2, new BlockPalette(
+	    		BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
+	    		BlockInit.WASTELAND_SAND.get().defaultBlockState(),
+	    		BlockInit.WASTELAND_DIRT_STAIRS.get().defaultBlockState(),
+	    		BlockInit.WASTELAND_DIRT_SLAB.get().defaultBlockState(),
+	    		Blocks.SNOW.defaultBlockState()));
+	}};
 	
-	public static String getBaseBlock(Random rand) {
-		return getRandom(BASE_BLOCKS, rand);
+	@SuppressWarnings("serial")
+	private static Map<Integer, BlockPalette> surfacePalette = new HashMap<Integer, BlockPalette>() {{
+	    put(0, new BlockPalette(
+	    		BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
+	    		Blocks.DIRT.defaultBlockState(),
+	    		null,
+	    		null,
+	    		null));
+	    put(1, new BlockPalette(
+	    		BlockInit.ALIEN_STONE.get().defaultBlockState(),
+	    		Blocks.MAGMA_BLOCK.defaultBlockState(),
+	    		null,
+	    		null,
+	    		null));
+	}};
+	
+	@SuppressWarnings("serial")
+	private static Map<Integer, BlockPalette> fluidPalette = new HashMap<Integer, BlockPalette>() {{
+	    put(0, new BlockPalette(
+	    		Blocks.WATER.defaultBlockState(),
+	    		Blocks.ICE.defaultBlockState(),
+	    		null,
+	    		null,
+	    		null));
+	    put(1, new BlockPalette(
+	    		Blocks.LAVA.defaultBlockState(),
+	    		Blocks.MAGMA_BLOCK.defaultBlockState(),
+	    		null,
+	    		null,
+	    		null));
+	}};
+	//@formatter:on
+
+	public static int getRandomBase(Random rand) {
+		return getRandom(basePalette, rand);
 	}
 	
-	public static String getTopLayer(Random rand) {
-		return getRandom(TOP_LAYER, rand);
+	public static int getRandomSurf(Random rand) {
+		return getRandom(surfacePalette, rand);
 	}
 	
-	private static String getRandom(String[] array, Random rand) {
-		return array[rand.nextInt(array.length)];
+	public static int getRandomFluid(Random rand) {
+		return getRandom(fluidPalette, rand);
+	}
+
+	public static BlockPalette getBasePalette(int id) {
+		return basePalette.get(id);
+	}
+	
+	public static BlockPalette getSurfPalette(int id) {
+		return surfacePalette.get(id);
+	}
+	
+	public static BlockPalette getFluidPalette(int id) {
+		return fluidPalette.get(id);
+	}
+
+	private static int getRandom(Map<?, ?> p, Random rand) {
+		return rand.nextInt(p.size());
+	}
+
+	public static class BlockPalette {
+
+		private BlockState baseBlock, secondaryBlock, stairBlock, slabBlock, layerBlock;
+
+		public BlockPalette(BlockState baseBlock, BlockState secondaryBlock, BlockState stairBlock,
+				BlockState slabBlock, BlockState layerBlock) {
+			this.baseBlock = baseBlock;
+			this.secondaryBlock = secondaryBlock;
+			this.stairBlock = stairBlock;
+			this.slabBlock = slabBlock;
+			this.layerBlock = layerBlock;
+		}
+
+		public BlockState getBaseBlock() {
+			return baseBlock;
+		}
+
+		public BlockState getSecondaryBlock() {
+			return secondaryBlock;
+		}
+
+		public BlockState getStairBlock() {
+			return stairBlock;
+		}
+
+		public BlockState getSlabBlock() {
+			return slabBlock;
+		}
+
+		public BlockState getLayerBlock() {
+			return layerBlock;
+		}
 	}
 }

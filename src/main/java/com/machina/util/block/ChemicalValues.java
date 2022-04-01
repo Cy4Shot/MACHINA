@@ -1,4 +1,4 @@
-package com.machina.util;
+package com.machina.util.block;
 
 public enum ChemicalValues {
 

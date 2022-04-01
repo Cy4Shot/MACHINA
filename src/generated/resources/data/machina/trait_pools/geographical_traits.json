@@ -3,15 +3,14 @@
   "maxRolls": 3,
   "entries": [
     {
-      "weight": 15,
+      "weight": 5,
       "values": [
         "machina:continental",
-        "machina:water_world",
-        "machina:landmass"
+        "machina:water_world"
       ]
     },
     {
-      "weight": 15,
+      "weight": 25,
       "values": [
         "machina:mountainous",
         "machina:hilly",
@@ -22,6 +21,12 @@
       "weight": 5,
       "values": [
         "machina:frozen"
+      ]
+    },
+    {
+      "weight": 5,
+      "values": [
+        "machina:islands"
       ]
     }
   ]

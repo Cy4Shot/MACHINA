@@ -14,7 +14,7 @@ public class HeightMultiplierTrait extends PlanetTrait implements IWorldTrait{
 	}
 	
 	@Override
-	public void updateNoiseSettings(DynamicDimensionChunkGenerator chunkGenerator) {
+	public void init(DynamicDimensionChunkGenerator chunkGenerator) {
 		chunkGenerator.heightMultiplier = height;
 	}
 }

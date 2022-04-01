@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "machina:block/alien_stone_slab_top"
+    },
+    "type=bottom": {
+      "model": "machina:block/alien_stone_slab"
+    },
+    "type=double": {
+      "model": "machina:block/alien_stone"
+    }
+  }
+}

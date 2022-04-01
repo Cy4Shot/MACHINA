@@ -1,0 +1,6 @@
+{
+  "parent": "machina:block/tinted_wall_side",
+  "textures": {
+    "wall": "machina:block/wasteland_sandstone"
+  }
+}

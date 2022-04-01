@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "machina:block/twilight_dirt_slab_top"
+    },
+    "type=bottom": {
+      "model": "machina:block/twilight_dirt_slab"
+    },
+    "type=double": {
+      "model": "machina:block/twilight_dirt"
+    }
+  }
+}

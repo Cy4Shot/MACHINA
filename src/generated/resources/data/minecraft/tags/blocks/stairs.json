@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "machina:wasteland_sandstone_stairs",
+    "machina:alien_stone_stairs",
+    "machina:twilight_dirt_stairs",
+    "machina:wasteland_dirt_stairs"
+  ]
+}

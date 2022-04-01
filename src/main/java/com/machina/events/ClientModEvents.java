@@ -7,8 +7,8 @@ import com.machina.planet.trait.PlanetTraitSpriteUploader;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.TileEntityTypesInit;
-import com.machina.util.PlanetUtils;
 import com.machina.util.color.Color;
+import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
@@ -43,7 +43,10 @@ public class ClientModEvents {
 		PlanetTraitSpriteUploader.setInstance(spriteUploader);
 	}
 
-	public static IBlockColor getPlanetColor(int defVal, int paletteId) {
+	public static IBlockColor getPlanetColor(int paletteId) {
+	
+		final int defVal = 8947848;
+		
 		return (state, reader, pos, num) -> {
 
 			World world = null;
@@ -71,8 +74,23 @@ public class ClientModEvents {
 	public static void registerBlockColorsEvent(ColorHandlerEvent.Block event) {
 		BlockColors col = event.getBlockColors();
 
-		col.register(getPlanetColor(8947848, 0), BlockInit.ALIEN_STONE.get());
-		col.register(getPlanetColor(8947848, 1), BlockInit.TWILIGHT_DIRT.get());
+		// ID 0
+		col.register(getPlanetColor(0), BlockInit.ALIEN_STONE.get());
+		col.register(getPlanetColor(0), BlockInit.ALIEN_STONE_SLAB.get());
+		col.register(getPlanetColor(0), BlockInit.ALIEN_STONE_STAIRS.get());
+		col.register(getPlanetColor(0), BlockInit.TWILIGHT_DIRT.get());
+		col.register(getPlanetColor(0), BlockInit.TWILIGHT_DIRT_SLAB.get());
+		col.register(getPlanetColor(0), BlockInit.TWILIGHT_DIRT_STAIRS.get());
+		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT.get());
+		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT_SLAB.get());
+		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT_STAIRS.get());
+		
+		// ID 1
+		col.register(getPlanetColor(1), BlockInit.WASTELAND_SAND.get());
+		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE.get());
+		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE_SLAB.get());
+		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
+		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE_WALL.get());
 	}
 
 	@SubscribeEvent

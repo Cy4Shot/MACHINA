@@ -1,0 +1,8 @@
+{
+  "parent": "machina:block/tinted_slab_top",
+  "textures": {
+    "side": "machina:block/wasteland_sandstone",
+    "bottom": "machina:block/wasteland_sandstone_bottom",
+    "top": "machina:block/wasteland_sandstone_top"
+  }
+}

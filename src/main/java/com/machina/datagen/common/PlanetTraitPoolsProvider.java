@@ -18,11 +18,14 @@ public class PlanetTraitPoolsProvider extends TraitPoolsGenProvider {
 
 	@Override
 	protected void addPools() {
+
+		// @formatter:off
 		addPool("geographical_traits", new TraitPool(3, 3).withEntries(
-				new TraitPoolEntry(15, PlanetTraitInit.CONTINENTAL, PlanetTraitInit.WATER_WORLD,
-						PlanetTraitInit.LANDMMASS),
-				new TraitPoolEntry(15, PlanetTraitInit.MOUNTAINOUS, PlanetTraitInit.HILLY, PlanetTraitInit.FLAT),
-				new TraitPoolEntry(5, FROZEN)));
+				new TraitPoolEntry(5, PlanetTraitInit.CONTINENTAL, PlanetTraitInit.WATER_WORLD),
+				new TraitPoolEntry(25, PlanetTraitInit.MOUNTAINOUS, PlanetTraitInit.HILLY, PlanetTraitInit.FLAT),
+				new TraitPoolEntry(5, FROZEN),
+				new TraitPoolEntry(5, ISLANDS)));
+		// @formatter:on
 	}
 
 }

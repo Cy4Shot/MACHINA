@@ -13,8 +13,20 @@ public class LootTableProvider extends BaseLootTableProvider {
 
     @Override
     protected void addTables() {
-        dropSelf(BlockInit.TWILIGHT_DIRT.get());
-        dropSelf(BlockInit.ALIEN_STONE.get());
         dropSelf(BlockInit.SHIP_CONSOLE.get());
+        dropSelf(BlockInit.TWILIGHT_DIRT.get());
+        dropSelf(BlockInit.TWILIGHT_DIRT_SLAB.get());
+        dropSelf(BlockInit.TWILIGHT_DIRT_STAIRS.get());
+        dropSelf(BlockInit.ALIEN_STONE.get());
+        dropSelf(BlockInit.ALIEN_STONE_SLAB.get());
+        dropSelf(BlockInit.ALIEN_STONE_STAIRS.get());
+        dropSelf(BlockInit.WASTELAND_DIRT.get());
+        dropSelf(BlockInit.WASTELAND_DIRT_SLAB.get());
+        dropSelf(BlockInit.WASTELAND_DIRT_STAIRS.get());
+        dropSelf(BlockInit.WASTELAND_SAND.get());
+        dropSelf(BlockInit.WASTELAND_SANDSTONE.get());
+        dropSelf(BlockInit.WASTELAND_SANDSTONE_SLAB.get());
+        dropSelf(BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
+        dropSelf(BlockInit.WASTELAND_SANDSTONE_WALL.get());
     }
 }

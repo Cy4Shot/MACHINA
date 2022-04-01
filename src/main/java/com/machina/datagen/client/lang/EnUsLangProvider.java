@@ -26,10 +26,23 @@ public class EnUsLangProvider extends LanguageProvider {
 	protected void addTranslations() {
 		
 		// Blocks
-		add(BlockInit.ALIEN_STONE.get(), "Alien Stone");
-		add(BlockInit.TWILIGHT_DIRT.get(), "Twilight Dirt");
 		add(BlockInit.SHIP_CONSOLE.get(), "Ship Console");
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
+		
+		add(BlockInit.ALIEN_STONE.get(), "Alien Stone");
+		add(BlockInit.ALIEN_STONE_SLAB.get(), "Alien Stone Slab");
+		add(BlockInit.ALIEN_STONE_STAIRS.get(), "Alien Stone Stairs");
+		add(BlockInit.TWILIGHT_DIRT.get(), "Twilight Dirt");
+		add(BlockInit.TWILIGHT_DIRT_SLAB.get(), "Twilight Dirt Slab");
+		add(BlockInit.TWILIGHT_DIRT_STAIRS.get(), "Twilight Stairs");
+		add(BlockInit.WASTELAND_DIRT.get(), "Wasteland Dirt");
+		add(BlockInit.WASTELAND_DIRT_SLAB.get(), "Wasteland Dirt Slab");
+		add(BlockInit.WASTELAND_DIRT_STAIRS.get(), "Wasteland Dirt Stairs");
+		add(BlockInit.WASTELAND_SAND.get(), "Wasteland Sand");
+		add(BlockInit.WASTELAND_SANDSTONE.get(), "Wasteland Sandstone");
+		add(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "Wasteland Sandstone Slab");
+		add(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "Wasteland Sandstone Stairs");
+		add(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "Wasteland Sandstone Wall");
 		
 		// Items
 		add(ItemInit.THERMAL_REGULATING_HELMET.get(), "Thermal Regulating Helmet");
@@ -42,12 +55,12 @@ public class EnUsLangProvider extends LanguageProvider {
 		// Traits
 		add(PlanetTraitInit.WATER_WORLD, "Water World");
 		add(PlanetTraitInit.CONTINENTAL, "Continental");
-		add(PlanetTraitInit.LANDMMASS, "Landmass");
 		add(PlanetTraitInit.MOUNTAINOUS, "Mountainous");
 		add(PlanetTraitInit.HILLY, "Hilly");
 		add(PlanetTraitInit.FLAT, "Flat");
 		add(PlanetTraitInit.LAKES, "Lakes");
 		add(PlanetTraitInit.FROZEN, "Frozen");
+		add(PlanetTraitInit.ISLANDS, "Islands");
 
 		// Item Groups
 		addItemGroup("machinaItemGroup", "Machina");

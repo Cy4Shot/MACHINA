@@ -1,0 +1,6 @@
+{
+  "parent": "machina:block/tinted_cube_all",
+  "textures": {
+    "all": "machina:block/wasteland_sandstone"
+  }
+}

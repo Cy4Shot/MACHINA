@@ -1,4 +1,4 @@
-package com.machina.util;
+package com.machina.util.server;
 
 import com.machina.Machina;
 

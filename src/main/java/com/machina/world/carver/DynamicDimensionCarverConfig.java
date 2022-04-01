@@ -1,4 +1,4 @@
-package com.machina.world.settings;
+package com.machina.world.carver;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

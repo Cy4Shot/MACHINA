@@ -11,13 +11,14 @@ import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 public interface IWorldTrait extends IPlanetTraitType {
 	/**
 	 * This method will be the first thing run during world generation. It will
 	 * update settings in the chunk generator.
 	 */
-	default void updateNoiseSettings(DynamicDimensionChunkGenerator chunkGenerator) {
+	default void init(DynamicDimensionChunkGenerator chunkGenerator) {
 	}
 
 	/**
@@ -30,7 +31,11 @@ public interface IWorldTrait extends IPlanetTraitType {
 		return false;
 	}
 	
-	default Collection<Supplier<ConfiguredCarver<?>>> addCarvers(DynamicDimensionChunkGenerator chunkGenerator, SharedSeedRandom rand, long seed) {
+	default Collection<Supplier<ConfiguredCarver<?>>> addCarvers(DynamicDimensionChunkGenerator chunkGenerator) {
+		return new ArrayList<>();
+	}
+	
+	default Collection<Supplier<ConfiguredFeature<?, ?>>> addFeatures(DynamicDimensionChunkGenerator chunkGenerator) {
 		return new ArrayList<>();
 	}
 }

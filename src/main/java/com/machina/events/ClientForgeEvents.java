@@ -6,8 +6,8 @@ import com.machina.client.screen.DevPlanetCreationScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
-import com.machina.util.PlanetUtils;
 import com.machina.util.color.Color;
+import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;

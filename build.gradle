@@ -15,7 +15,6 @@ buildscript {
 
 plugins {
 	id 'com.github.johnrengelman.shadow' version '7.1.0'
-	id 'org.cadixdev.licenser' version '0.6.1'
 }
 
 apply plugin: 'net.minecraftforge.gradle'

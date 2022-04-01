@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "wasteland_sandstone_stairs",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "machina:wasteland_sandstone_stairs"
+        }
+      ]
+    }
+  ]
+}

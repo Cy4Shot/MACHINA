@@ -1,4 +1,4 @@
-package com.machina.world;
+package com.machina.world.carver;
 
 import java.util.BitSet;
 import java.util.Random;
@@ -7,10 +7,7 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
-import com.machina.planet.attribute.PlanetAttributeList;
-import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.TagInit;
-import com.machina.world.settings.DynamicDimensionCarverConfig;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.block.BlockState;
@@ -26,12 +23,7 @@ import net.minecraft.world.gen.carver.WorldCarver;
 
 public class DynamicDimensionCarver extends WorldCarver<DynamicDimensionCarverConfig> {
 
-	public static Supplier<ConfiguredCarver<?>> createDefault(PlanetAttributeList attributes) {
-		
-		final float chance = attributes.getValue(PlanetAttributeTypesInit.CAVE_CHANCE);
-		final int length = attributes.getValue(PlanetAttributeTypesInit.CAVE_LENGTH);
-		final float thickness = attributes.getValue(PlanetAttributeTypesInit.CAVE_THICKNESS);
-		
+	public static Supplier<ConfiguredCarver<?>> create(final float chance, final int length, final float thickness) {
 		return () -> new DynamicDimensionCarver(DynamicDimensionCarverConfig.CODEC, 256)
 				.configured(new DynamicDimensionCarverConfig(chance, length, thickness));
 	}
@@ -87,7 +79,7 @@ public class DynamicDimensionCarver extends WorldCarver<DynamicDimensionCarverCo
 			f *= r.nextFloat() * r.nextFloat() * 3.0F + 1.0F;
 		}
 
-		return f;
+		return f * 4; // Global thickness multiplier :)
 	}
 
 	protected double getYScale() {
@@ -154,40 +146,44 @@ public class DynamicDimensionCarver extends WorldCarver<DynamicDimensionCarverCo
 		}
 
 	}
-	
+
 	@Override
-	protected boolean carveBlock(IChunk p_230358_1_, Function<BlockPos, Biome> p_230358_2_, BitSet p_230358_3_, Random p_230358_4_, BlockPos.Mutable p_230358_5_, BlockPos.Mutable p_230358_6_, BlockPos.Mutable p_230358_7_, int p_230358_8_, int p_230358_9_, int p_230358_10_, int p_230358_11_, int p_230358_12_, int p_230358_13_, int p_230358_14_, int p_230358_15_, MutableBoolean p_230358_16_) {
-	      int i = p_230358_13_ | p_230358_15_ << 4 | p_230358_14_ << 8;
-	      if (p_230358_3_.get(i)) {
-	         return false;
-	      } else {
-	         p_230358_3_.set(i);
-	         p_230358_5_.set(p_230358_11_, p_230358_14_, p_230358_12_);
-	         BlockState blockstate = p_230358_1_.getBlockState(p_230358_5_);
-	         BlockState blockstate1 = p_230358_1_.getBlockState(p_230358_6_.setWithOffset(p_230358_5_, Direction.UP));
-	         if (blockstate.is(Blocks.GRASS_BLOCK) || blockstate.is(Blocks.MYCELIUM)) {
-	            p_230358_16_.setTrue();
-	         }
+	protected boolean carveBlock(IChunk p_230358_1_, Function<BlockPos, Biome> p_230358_2_, BitSet p_230358_3_,
+			Random p_230358_4_, BlockPos.Mutable p_230358_5_, BlockPos.Mutable p_230358_6_,
+			BlockPos.Mutable p_230358_7_, int p_230358_8_, int p_230358_9_, int p_230358_10_, int p_230358_11_,
+			int p_230358_12_, int p_230358_13_, int p_230358_14_, int p_230358_15_, MutableBoolean p_230358_16_) {
+		int i = p_230358_13_ | p_230358_15_ << 4 | p_230358_14_ << 8;
+		if (p_230358_3_.get(i)) {
+			return false;
+		} else {
+			p_230358_3_.set(i);
+			p_230358_5_.set(p_230358_11_, p_230358_14_, p_230358_12_);
+			BlockState blockstate = p_230358_1_.getBlockState(p_230358_5_);
+			BlockState blockstate1 = p_230358_1_.getBlockState(p_230358_6_.setWithOffset(p_230358_5_, Direction.UP));
+			if (blockstate.is(Blocks.GRASS_BLOCK) || blockstate.is(Blocks.MYCELIUM)) {
+				p_230358_16_.setTrue();
+			}
 
-	         if (!this.canReplaceBlock(blockstate, blockstate1)) {
-	            return false;
-	         } else {
-	            if (p_230358_14_ < 11) {
-	               p_230358_1_.setBlockState(p_230358_5_, LAVA.createLegacyBlock(), false);
-	            } else {
-	               p_230358_1_.setBlockState(p_230358_5_, CAVE_AIR, false);
-	               if (p_230358_16_.isTrue()) {
-	                  p_230358_7_.setWithOffset(p_230358_5_, Direction.DOWN);
-	                  if (p_230358_1_.getBlockState(p_230358_7_).is(Blocks.DIRT)) {
-	                     p_230358_1_.setBlockState(p_230358_7_, p_230358_2_.apply(p_230358_5_).getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial(), false);
-	                  }
-	               }
-	            }
+			if (!this.canReplaceBlock(blockstate, blockstate1)) {
+				return false;
+			} else {
+				if (p_230358_14_ < 11) {
+					p_230358_1_.setBlockState(p_230358_5_, LAVA.createLegacyBlock(), false);
+				} else {
+					p_230358_1_.setBlockState(p_230358_5_, CAVE_AIR, false);
+					if (p_230358_16_.isTrue()) {
+						p_230358_7_.setWithOffset(p_230358_5_, Direction.DOWN);
+						if (p_230358_1_.getBlockState(p_230358_7_).is(Blocks.DIRT)) {
+							p_230358_1_.setBlockState(p_230358_7_, p_230358_2_.apply(p_230358_5_)
+									.getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial(), false);
+						}
+					}
+				}
 
-	            return true;
-	         }
-	      }
-	   }
+				return true;
+			}
+		}
+	}
 
 	protected boolean skip(double p_222708_1_, double p_222708_3_, double p_222708_5_, int p_222708_7_) {
 		return p_222708_3_ <= -0.7D

@@ -4,6 +4,7 @@ import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.registry.PlanetTraitRegistry;
 import com.machina.trait.FrozenTrait;
 import com.machina.trait.HeightMultiplierTrait;
+import com.machina.trait.IslandsTrait;
 import com.machina.trait.WaterHeightTrait;
 import com.machina.util.MachinaRL;
 
@@ -13,14 +14,14 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public final class PlanetTraitInit {
 	
-	public static final PlanetTrait WATER_WORLD = new WaterHeightTrait(0x169fde, 70);
-	public static final PlanetTrait CONTINENTAL = new WaterHeightTrait(0x24bf2a, 60);
-	public static final PlanetTrait LANDMMASS = new WaterHeightTrait(0xada39a, -1);
-	public static final PlanetTrait MOUNTAINOUS = new HeightMultiplierTrait(0x807f7e, 7.0f);
-	public static final PlanetTrait HILLY = new HeightMultiplierTrait(0x613407, 3.5f);
-	public static final PlanetTrait FLAT = new HeightMultiplierTrait(0x449e41, 1.3f);
+	public static final PlanetTrait WATER_WORLD = new WaterHeightTrait(0x169fde, 100);
+	public static final PlanetTrait CONTINENTAL = new WaterHeightTrait(0x24bf2a, 70);
+	public static final PlanetTrait MOUNTAINOUS = new HeightMultiplierTrait(0x807f7e, 3.0f);
+	public static final PlanetTrait HILLY = new HeightMultiplierTrait(0x613407, 1.5f);
+	public static final PlanetTrait FLAT = new HeightMultiplierTrait(0x449e41, 0.5f);
 	public static final PlanetTrait LAKES = new PlanetTrait(0x098aed);
 	public static final PlanetTrait FROZEN = new FrozenTrait(0x0aabf5);
+	public static final PlanetTrait ISLANDS = new IslandsTrait(0x48dde8);
 	
 	/**
 	 * This is similar to {@link Items#AIR}. It is an empty trait that will be the
@@ -34,12 +35,12 @@ public final class PlanetTraitInit {
 		register("none", NONE);
 		register("water_world", WATER_WORLD);
 		register("continental", CONTINENTAL);
-		register("landmass", LANDMMASS);
 		register("mountainous", MOUNTAINOUS);
 		register("hilly", HILLY);
 		register("flat", FLAT);
 		register("lakes", LAKES);
 		register("frozen", FROZEN);
+		register("islands", ISLANDS);
 	}
 	
 	private static PlanetTrait register(String name, PlanetTrait trait) {
