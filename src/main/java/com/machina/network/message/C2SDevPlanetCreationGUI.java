@@ -1,5 +1,6 @@
 package com.machina.network.message;
 
+import com.machina.network.INetworkMessage;
 import com.machina.world.DynamicDimensionHelper;
 
 import net.minecraft.network.PacketBuffer;

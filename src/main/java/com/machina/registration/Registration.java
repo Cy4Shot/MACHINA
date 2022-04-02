@@ -1,9 +1,9 @@
 package com.machina.registration;
 
 import com.machina.Machina;
+import com.machina.client.dimension.CustomDimensionRenderInfo;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
-import com.machina.config.ServerConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.planet.PlanetTraitPoolManager;
 import com.machina.planet.attribute.PlanetAttributeType;
@@ -26,20 +26,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class Registration {
-	
+
 	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
 		@Override
 		public ItemStack makeIcon() {
@@ -50,7 +55,14 @@ public class Registration {
 	public static PlanetTraitPoolManager planetTraitPoolManager = new PlanetTraitPoolManager();
 
 	public static void register(IEventBus bus) {
+
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			CustomDimensionRenderInfo.registerDimensionRenderInfo();
+		});
 		
+		registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
+		registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
+
 		bus.addListener(Registration::onCommonSetup);
 		bus.addGenericListener(Item.class, BlockInit::registerBlockItems);
 		bus.addGenericListener(PlanetTrait.class, Registration::registerPlanetTraits);
@@ -60,10 +72,6 @@ public class Registration {
 		ItemInit.ITEMS.register(bus);
 		TileEntityTypesInit.TILES.register(bus);
 
-		CommonConfig.register();
-		ClientConfig.register();
-		ServerConfig.register();
-		
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, Registration::onServerStart);
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, Registration::onRegisterCommands);
 	}
@@ -89,6 +97,11 @@ public class Registration {
 
 	private static void registerPlanetAttributes(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
 		PlanetAttributeTypesInit.register(event);
+	}
+
+	private static void registerConfig(ModConfig.Type type, ForgeConfigSpec spec) {
+		ModLoadingContext.get().registerConfig(type, spec,
+				Machina.MOD_ID + "-" + type.toString().toLowerCase() + ".toml");
 	}
 
 	// Load all saved data

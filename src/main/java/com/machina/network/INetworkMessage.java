@@ -1,4 +1,4 @@
-package com.machina.network.message;
+package com.machina.network;
 
 import java.util.function.Supplier;
 

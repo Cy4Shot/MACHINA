@@ -3,7 +3,6 @@ package com.machina.network;
 import java.util.function.Function;
 
 import com.machina.network.message.C2SDevPlanetCreationGUI;
-import com.machina.network.message.INetworkMessage;
 import com.machina.network.message.S2CStarchartSyncMessage;
 import com.machina.network.message.S2CSyncGuiValues;
 import com.machina.util.MachinaRL;

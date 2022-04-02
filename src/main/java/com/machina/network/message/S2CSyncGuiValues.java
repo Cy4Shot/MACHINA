@@ -1,5 +1,7 @@
 package com.machina.network.message;
 
+import com.machina.network.INetworkMessage;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;

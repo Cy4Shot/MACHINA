@@ -21,26 +21,22 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
 	@Override
 	public String toString() {
-		return new TranslationTextComponent(getRegistryName().getNamespace() + ".planet_trait." + getRegistryName().getPath()).getString();
+		return new TranslationTextComponent(
+				getRegistryName().getNamespace() + ".planet_trait." + getRegistryName().getPath()).getString();
 	}
 
 	public boolean exists() {
 		return this != PlanetTraitInit.NONE;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void render(MatrixStack matrixStack, int xPosition, int yPosition, boolean coloured) {
-		Minecraft minecraft = Minecraft.getInstance();
 		TextureAtlasSprite textureatlassprite = getSprite();
-		minecraft.getTextureManager().bind(textureatlassprite.atlas().location());
-		Color colour = new Color(getColor());
-		float[] compFloat = new float[] { 1.0f, 1.0f, 1.0f, 1.0f };
-		float[] colourArray = colour.getComponents(compFloat);
-		if (coloured) {
+		Minecraft.getInstance().getTextureManager().bind(textureatlassprite.atlas().location());
+		float[] colourArray = new Color(getColor()).getComponents(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+		if (coloured)
 			RenderSystem.color4f(colourArray[0], colourArray[1], colourArray[2], colourArray[3]);
-		} else {
+		else
 			RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
-		}
 		AbstractGui.blit(matrixStack, xPosition, yPosition, 12, 16, 16, textureatlassprite);
 	}
 

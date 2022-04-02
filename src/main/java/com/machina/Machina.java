@@ -3,13 +3,10 @@ package com.machina;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.machina.client.dimension.CustomDimensionRenderInfo;
 import com.machina.registration.Registration;
 import com.machina.util.MachinaRL;
 
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -23,10 +20,6 @@ public class Machina {
 	public static final MachinaRL MACHINA_ID = new MachinaRL(MOD_ID);
 
 	public Machina() {
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			CustomDimensionRenderInfo.registerDimensionRenderInfo();
-		});
-
 		Registration.register(FMLJavaModLoadingContext.get().getModEventBus());
 		GeckoLib.initialize();
 		MinecraftForge.EVENT_BUS.register(this);

@@ -1,6 +1,7 @@
 package com.machina.network.message;
 
 import com.machina.client.ClientDataHolder;
+import com.machina.network.INetworkMessage;
 import com.machina.util.nbt.BaseNBTMap;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
