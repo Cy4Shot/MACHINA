@@ -77,6 +77,7 @@ public class EnUsLangProvider extends LanguageProvider {
 
 		// GUI
 		add("machina.screen.starchart.title", "Starchart");
+		add("machina.container.ship_console", "Ship Console");
 		
 		// Tooltips
 		add("machina.cargo_crate.open", "Right Click to Loot");

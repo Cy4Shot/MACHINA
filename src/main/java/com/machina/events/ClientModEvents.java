@@ -3,8 +3,11 @@ package com.machina.events;
 import com.machina.Machina;
 import com.machina.client.ClientDataHolder;
 import com.machina.client.renderer.CargoCrateRenderer;
+import com.machina.client.screen.ShipConsoleScreen;
+import com.machina.client.util.ClientTimer;
 import com.machina.planet.trait.PlanetTraitSpriteUploader;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.ContainerTypesInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.color.Color;
@@ -12,6 +15,7 @@ import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
@@ -44,9 +48,9 @@ public class ClientModEvents {
 	}
 
 	public static IBlockColor getPlanetColor(int paletteId) {
-	
+
 		final int defVal = 8947848;
-		
+
 		return (state, reader, pos, num) -> {
 
 			World world = null;
@@ -84,7 +88,7 @@ public class ClientModEvents {
 		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT.get());
 		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT_SLAB.get());
 		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT_STAIRS.get());
-		
+
 		// ID 1
 		col.register(getPlanetColor(1), BlockInit.WASTELAND_SAND.get());
 		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE.get());
@@ -95,6 +99,9 @@ public class ClientModEvents {
 
 	@SubscribeEvent
 	public static void registerRenderers(final FMLClientSetupEvent event) {
+		ClientTimer.setup();
+
+		ScreenManager.register(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), ShipConsoleScreen::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 	}
 }

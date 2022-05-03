@@ -3,6 +3,7 @@ package com.machina.events;
 import com.machina.Machina;
 import com.machina.client.ClientDataHolder;
 import com.machina.client.screen.DevPlanetCreationScreen;
+import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
@@ -15,6 +16,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
+import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -49,6 +51,16 @@ public class ClientForgeEvents {
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.STARCHART)) {
 			mc.setScreen(new StarchartScreen());
 			// ClientStarchartHolder.getStarchart().debugStarchart();
+		}
+	}
+	
+	@SuppressWarnings("resource")
+	@SubscribeEvent
+	public static void drawTooltipEvent(RenderTooltipEvent.Color event) {
+		if (Minecraft.getInstance().screen instanceof ShipConsoleScreen) {
+			event.setBackground(0xFF_232323);
+			event.setBorderEnd(0xFF_1bcccc);
+			event.setBorderStart(0xFF_00fefe);
 		}
 	}
 }

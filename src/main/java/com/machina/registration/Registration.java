@@ -10,6 +10,7 @@ import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.CommandInit;
+import com.machina.registration.init.ContainerTypesInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.PlanetTraitInit;
@@ -70,6 +71,7 @@ public class Registration {
 
 		BlockInit.BLOCKS.register(bus);
 		ItemInit.ITEMS.register(bus);
+		ContainerTypesInit.CONTAINER_TYPES.register(bus);
 		TileEntityTypesInit.TILES.register(bus);
 
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, Registration::onServerStart);
