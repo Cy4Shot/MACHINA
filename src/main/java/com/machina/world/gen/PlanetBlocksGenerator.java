@@ -18,20 +18,17 @@ public class PlanetBlocksGenerator {
 	    		BlockInit.ALIEN_STONE.get().defaultBlockState(),
 	    		BlockInit.WASTELAND_SAND.get().defaultBlockState(),
 	    		BlockInit.ALIEN_STONE_STAIRS.get().defaultBlockState(),
-	    		BlockInit.ALIEN_STONE_SLAB.get().defaultBlockState(),
-	    		Blocks.SNOW.defaultBlockState()));
+	    		BlockInit.ALIEN_STONE_SLAB.get().defaultBlockState()));
 	    put(1, new BlockPalette(
 	    		BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
 	    		BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
 	    		BlockInit.TWILIGHT_DIRT_STAIRS.get().defaultBlockState(),
-	    		BlockInit.TWILIGHT_DIRT_SLAB.get().defaultBlockState(),
-	    		Blocks.SNOW.defaultBlockState()));
+	    		BlockInit.TWILIGHT_DIRT_SLAB.get().defaultBlockState()));
 	    put(2, new BlockPalette(
 	    		BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
 	    		BlockInit.WASTELAND_SAND.get().defaultBlockState(),
 	    		BlockInit.WASTELAND_DIRT_STAIRS.get().defaultBlockState(),
-	    		BlockInit.WASTELAND_DIRT_SLAB.get().defaultBlockState(),
-	    		Blocks.SNOW.defaultBlockState()));
+	    		BlockInit.WASTELAND_DIRT_SLAB.get().defaultBlockState()));
 	}};
 	
 	@SuppressWarnings("serial")
@@ -40,12 +37,10 @@ public class PlanetBlocksGenerator {
 	    		BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
 	    		Blocks.DIRT.defaultBlockState(),
 	    		null,
-	    		null,
 	    		null));
 	    put(1, new BlockPalette(
 	    		BlockInit.ALIEN_STONE.get().defaultBlockState(),
 	    		Blocks.MAGMA_BLOCK.defaultBlockState(),
-	    		null,
 	    		null,
 	    		null));
 	}};
@@ -56,12 +51,10 @@ public class PlanetBlocksGenerator {
 	    		Blocks.WATER.defaultBlockState(),
 	    		Blocks.ICE.defaultBlockState(),
 	    		null,
-	    		null,
 	    		null));
 	    put(1, new BlockPalette(
 	    		Blocks.LAVA.defaultBlockState(),
 	    		Blocks.MAGMA_BLOCK.defaultBlockState(),
-	    		null,
 	    		null,
 	    		null));
 	}};
@@ -70,11 +63,11 @@ public class PlanetBlocksGenerator {
 	public static int getRandomBase(Random rand) {
 		return getRandom(basePalette, rand);
 	}
-	
+
 	public static int getRandomSurf(Random rand) {
 		return getRandom(surfacePalette, rand);
 	}
-	
+
 	public static int getRandomFluid(Random rand) {
 		return getRandom(fluidPalette, rand);
 	}
@@ -82,11 +75,11 @@ public class PlanetBlocksGenerator {
 	public static BlockPalette getBasePalette(int id) {
 		return basePalette.get(id);
 	}
-	
+
 	public static BlockPalette getSurfPalette(int id) {
 		return surfacePalette.get(id);
 	}
-	
+
 	public static BlockPalette getFluidPalette(int id) {
 		return fluidPalette.get(id);
 	}
@@ -97,15 +90,14 @@ public class PlanetBlocksGenerator {
 
 	public static class BlockPalette {
 
-		private BlockState baseBlock, secondaryBlock, stairBlock, slabBlock, layerBlock;
+		private BlockState baseBlock, secondaryBlock, stairBlock, slabBlock;
 
 		public BlockPalette(BlockState baseBlock, BlockState secondaryBlock, BlockState stairBlock,
-				BlockState slabBlock, BlockState layerBlock) {
+				BlockState slabBlock) {
 			this.baseBlock = baseBlock;
 			this.secondaryBlock = secondaryBlock;
 			this.stairBlock = stairBlock;
 			this.slabBlock = slabBlock;
-			this.layerBlock = layerBlock;
 		}
 
 		public BlockState getBaseBlock() {
@@ -122,10 +114,6 @@ public class PlanetBlocksGenerator {
 
 		public BlockState getSlabBlock() {
 			return slabBlock;
-		}
-
-		public BlockState getLayerBlock() {
-			return layerBlock;
 		}
 	}
 }

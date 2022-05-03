@@ -12,7 +12,7 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 public class DynamicDimensionNoiseSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
 
-	private BlockState[] states;
+	private final BlockState[] states;
 
 	public DynamicDimensionNoiseSurfaceBuilder(Codec<SurfaceBuilderConfig> c, BlockState... states) {
 		super(c);

@@ -65,7 +65,7 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 
 		public CustomSkyRenderer() {
 			sky = QuadRenderingUtils.createBuffer(sky, bb -> QuadRenderingUtils.makeCube(bb, 100));
-			fog = QuadRenderingUtils.createBuffer(fog, bb -> QuadRenderingUtils.makeCylinder(bb, 7, 70, 100));
+			fog = QuadRenderingUtils.createBuffer(fog, bb -> QuadRenderingUtils.makeCylinder(bb, 10, 70, 100));
 		}
 
 		@Override

@@ -134,7 +134,6 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 	public int seaLevel = -1;
 	public float heightMultiplier = 1f;
 	public boolean cavesExist = false;
-	public boolean islands = false;
 	public boolean frozen = false;
 	public float caveChance = 0f;
 	public int caveLength = 0;
@@ -178,19 +177,18 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
 
 		// Noise
-		xzscale = 684.412D * noisesettings.noiseSamplingSettings().xzScale();
-		yscale = 684.412D * noisesettings.noiseSamplingSettings().yScale() * (1f / heightMultiplier);
-		xzfactor = xzscale / noisesettings.noiseSamplingSettings().xzFactor();
-		yfactor = yscale / noisesettings.noiseSamplingSettings().yFactor();
-		topTarget = (double) noisesettings.topSlideSettings().target();
-		topSize = (double) noisesettings.topSlideSettings().size();
-		topOffset = (double) noisesettings.topSlideSettings().offset();
-		botTarget = (double) noisesettings.bottomSlideSettings().target();
-		botSize = (double) noisesettings.bottomSlideSettings().size();
-		botOffset = (double) noisesettings.bottomSlideSettings().offset();
-		randDensityEnabled = noisesettings.randomDensityOffset();
-		randFactor = noisesettings.densityFactor();
-		randOffset = noisesettings.densityOffset();
+		this.xzscale = 684.412D * this.noisesettings.noiseSamplingSettings().xzScale();
+		this.yscale = 684.412D * this.noisesettings.noiseSamplingSettings().yScale() * (1f / this.heightMultiplier);
+		this.xzfactor = this.xzscale / this.noisesettings.noiseSamplingSettings().xzFactor();
+		this.yfactor = this.yscale / this.noisesettings.noiseSamplingSettings().yFactor();
+		this.topTarget = (double) this.noisesettings.topSlideSettings().target();
+		this.topSize = (double) this.noisesettings.topSlideSettings().size();
+		this.topOffset = (double) this.noisesettings.topSlideSettings().offset();
+		this.botSize = (double) this.noisesettings.bottomSlideSettings().size();
+		this.botOffset = (double) this.noisesettings.bottomSlideSettings().offset();
+		this.randDensityEnabled = this.noisesettings.randomDensityOffset();
+		this.randFactor = this.noisesettings.densityFactor();
+		this.randOffset = this.noisesettings.densityOffset();
 
 	}
 
@@ -206,14 +204,19 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		this.biome = biomeSource.getNoiseBiome(0, 0, 0);
 		this.random = new SharedSeedRandom(this.seed);
 
-		// NOISEEE
+		// NOISEE
 //		this.surfaceNoise = (new PerlinNoiseGenerator(this.random, IntStream.rangeClosed(-3, 0)));
-		this.islandNoise = null;
 		this.minLimitPerlinNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
 		this.maxLimitPerlinNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
 		this.mainPerlinNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-7, 0));
 		this.random.consumeCount(2600);
 		this.depthNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
+		if (noisesettings.islandNoiseOverride()) {
+			this.random.consumeCount(17292);
+			this.islandNoise = new SimplexNoiseGenerator(this.random);
+		} else {
+			this.islandNoise = null;
+		}
 		this.caveDecoNoise = new OpenSimplex2F(this.seed);
 
 	}
@@ -266,9 +269,21 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 		this.placeBedrock(chunk, this.random);
 	}
 
+	public boolean isIslands() {
+		return this.noisesettings.equals(DynamicNoiseSettings.ISLAND_TYPE);
+	}
+
+	public boolean isLayered() {
+		return this.noisesettings.equals(DynamicNoiseSettings.LAYERED_TYPE);
+	}
+
 	protected BlockState generateBaseState(double chance, int y) {
 
-		int newSea = seaLevel * (islands ? 2 : 1);
+		int newSea = seaLevel;
+		if (isIslands())
+			newSea *= 0;
+		else if (isLayered())
+			newSea *= 2;
 
 		BlockState blockstate;
 		if (chance > 0.0D) {
@@ -304,7 +319,6 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 						throw new ReportedException(crashreport1);
 					}
 				}
-
 			}
 		}
 
@@ -348,22 +362,25 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	private void placeBedrock(IChunk chunk, Random random) {
 
-		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-		int i = chunk.getPos().getMinBlockX();
-		int j = chunk.getPos().getMinBlockZ();
-		for (BlockPos blockpos : BlockPos.betweenClosed(i, 0, j, i + 15, 0, j + 15)) {
-			for (int k1 = 4; k1 >= 0; --k1) {
-				if (k1 <= random.nextInt(5)) {
-					chunk.setBlockState(blockpos$mutable.set(blockpos.getX(), k1, blockpos.getZ()), BEDROCK, false);
+		boolean layered = isLayered();
 
-					if (islands) {
-						chunk.setBlockState(
-								blockpos$mutable.set(blockpos.getX(), getGenDepth() - k1 - 1, blockpos.getZ()), BEDROCK,
-								false);
+		if (!isIslands()) {
+			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+			int i = chunk.getPos().getMinBlockX();
+			int j = chunk.getPos().getMinBlockZ();
+			for (BlockPos blockpos : BlockPos.betweenClosed(i, 0, j, i + 15, 0, j + 15)) {
+				for (int k1 = 4; k1 >= 0; --k1) {
+					if (k1 <= random.nextInt(5)) {
+						chunk.setBlockState(blockpos$mutable.set(blockpos.getX(), k1, blockpos.getZ()), BEDROCK, false);
+
+						if (layered) {
+							chunk.setBlockState(
+									blockpos$mutable.set(blockpos.getX(), getGenDepth() - k1 - 1, blockpos.getZ()),
+									BEDROCK, false);
+						}
 					}
 				}
 			}
-
 		}
 	}
 

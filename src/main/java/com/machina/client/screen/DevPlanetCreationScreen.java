@@ -119,20 +119,27 @@ public class DevPlanetCreationScreen extends Screen {
 	}
 
 	@Override
-	public void render(MatrixStack pMatrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
+	public void render(MatrixStack stack, int pMouseX, int pMouseY, float pPartialTicks) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		this.renderBackground(pMatrixStack);
+		this.renderBackground(stack);
 
-		super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
-		dimensionID.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
+		super.render(stack, pMouseX, pMouseY, pPartialTicks);
+		dimensionID.render(stack, pMouseX, pMouseY, pPartialTicks);
+
+		int x = width / 2 - 150;
 
 		PlanetData data = ClientDataHolder.getDataForDimension(minecraft.level.dimension().location());
 		for (int i = 0; i < data.getTraits().size(); i++) {
-			data.getTraits().get(i).render(pMatrixStack, width / 2 - 150 + (i * 18), 75, true);
+			data.getTraits().get(i).render(stack, x + (i * 18), 75, true);
 		}
 
-		UIHelper.drawStringWithBorder(pMatrixStack, "Total Planets: " + ClientDataHolder.getStarchart().size(),
-				width / 2 - 150, 36, 0xFF_cc00ff, 0xFF_0e0e0e);
+		String size = String.valueOf(ClientDataHolder.getStarchart().size());
+		String dim = minecraft.level.dimension().location().toString();
+
+		UIHelper.drawStringWithBorder(stack, "Planet Count: ", x, 36, 0xFF_cc00ff, 0xFF_0e0e0e);
+		UIHelper.drawStringWithBorder(stack, size, x + 70, 36, 0xFF_e3d914, 0xFF_0e0e0e);
+		UIHelper.drawStringWithBorder(stack, "Currently In: ", x, 26, 0xFF_ff640a, 0xFF_0e0e0e);
+		UIHelper.drawStringWithBorder(stack, dim, x + 70, 26, 0xFF_1bde0d, 0xFF_0e0e0e);
 	}
 
 	@Override

@@ -4,9 +4,10 @@ import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.registry.PlanetTraitRegistry;
 import com.machina.trait.FrozenTrait;
 import com.machina.trait.HeightMultiplierTrait;
-import com.machina.trait.IslandsTrait;
+import com.machina.trait.NoiseSettingsTrait;
 import com.machina.trait.WaterHeightTrait;
 import com.machina.util.MachinaRL;
+import com.machina.world.settings.DynamicNoiseSettings;
 
 import net.minecraft.item.Items;
 import net.minecraftforge.event.RegistryEvent;
@@ -21,7 +22,7 @@ public final class PlanetTraitInit {
 	public static final PlanetTrait FLAT = new HeightMultiplierTrait(0x449e41, 0.5f);
 	public static final PlanetTrait LAKES = new PlanetTrait(0x098aed);
 	public static final PlanetTrait FROZEN = new FrozenTrait(0x0aabf5);
-	public static final PlanetTrait ISLANDS = new IslandsTrait(0x48dde8);
+	public static final PlanetTrait ISLANDS = new NoiseSettingsTrait(0x48dde8, DynamicNoiseSettings.ISLAND_TYPE);
 	
 	/**
 	 * This is similar to {@link Items#AIR}. It is an empty trait that will be the

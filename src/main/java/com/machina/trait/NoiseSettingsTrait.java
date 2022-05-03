@@ -5,16 +5,19 @@ import com.machina.planet.trait.type.IWorldTrait;
 import com.machina.world.DynamicDimensionChunkGenerator;
 import com.machina.world.settings.DynamicNoiseSettings;
 
-public class IslandsTrait extends PlanetTrait implements IWorldTrait {
+public class NoiseSettingsTrait extends PlanetTrait implements IWorldTrait {
+	
+	private final DynamicNoiseSettings settings;
 
-	public IslandsTrait(int color) {
+	public NoiseSettingsTrait(int color, DynamicNoiseSettings settings) {
 		super(color);
+		
+		this.settings = settings;
 	}
 
 	@Override
 	public void init(DynamicDimensionChunkGenerator chunkGenerator) {
-		chunkGenerator.noisesettings = DynamicNoiseSettings.ISLAND_TYPE;
-		chunkGenerator.islands = true;
+		chunkGenerator.noisesettings = this.settings;
 	}
 
 }

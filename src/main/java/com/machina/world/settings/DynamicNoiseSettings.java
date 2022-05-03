@@ -8,16 +8,22 @@ public class DynamicNoiseSettings extends NoiseSettings {
 
 	//@formatter:off
 	public static final DynamicNoiseSettings OVERWORLD_TYPE = new DynamicNoiseSettings(256,
-			new ScalingSettings(0.9999999814507745, 0.9999999814507745, 80, 160),
+			new ScalingSettings(0.9999999814507745D, 0.9999999814507745D, 80D, 160D),
 			new SlideSettings(-10, 3, 0),
 			new SlideSettings(-30, 0, 0),
-			1, 2, 1D, -0.46875D, true, true, false);
+			1F, 2F, 1D, -0.46875D, true, true, false);
 	
-	public static final DynamicNoiseSettings ISLAND_TYPE = new DynamicNoiseSettings(256,
-			new ScalingSettings(1, 3, 80, 60),
+	public static final DynamicNoiseSettings LAYERED_TYPE = new DynamicNoiseSettings(256,
+			new ScalingSettings(1D, 3D, 80D, 60D),
 			new SlideSettings(120, 3, 0),
 			new SlideSettings(320, 4, -1),
-			1, 2, 0D, 0.019921875D, false, false, false);
+			1F, 2F, 0D, 0.019921875D, false, false, false);
+	
+	public static final DynamicNoiseSettings ISLAND_TYPE = new DynamicNoiseSettings(256,
+			new ScalingSettings(1D, 3D, 80D, 60D),
+			new SlideSettings(-120, 3, 0),
+			new SlideSettings(-30, 3, 2),
+			1F, 2F, 0D, 0.019921875D, false, false, false);
 	//@formatter:on
 
 	private final float noiseSizeX;
