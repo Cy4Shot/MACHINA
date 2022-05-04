@@ -11,6 +11,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
 public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
+	
+	private static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
 
 	public ShipConsoleScreen(ShipConsoleContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
@@ -22,6 +24,11 @@ public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
 		super.init();
 		this.leftPos = (this.width - 176) / 2;
 	}
+	
+	@Override
+	public int getSlotColor(int index) {
+		return 0x00_FFFFFF;
+	}
 
 	@Override
 	public void render(MatrixStack stack, int pMouseX, int pMouseY, float pPartialTicks) {
@@ -30,6 +37,8 @@ public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
 		// Darker background
 		this.renderBackground(stack);
 		this.renderBackground(stack);
+		
+		// Render
 		super.render(stack, pMouseX, pMouseY, pPartialTicks);
 		this.renderTooltip(stack, pMouseX, pMouseY);
 	}
@@ -41,18 +50,26 @@ public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
 	@Override
 	protected void renderBg(MatrixStack stack, float pPartialTicks, int pX, int pY) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		this.minecraft.textureManager.bind(new MachinaRL("textures/gui/scifi_el.png"));
+		this.minecraft.textureManager.bind(SCIFI_EL);
+		
+		// Back
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
 		this.blit(stack, x, y, 2, 3, xSize, ySize);
-		this.blit(stack, x + 54, y + 40, 3, 130, 135, 18);
-		this.blit(stack, x + 30, y + 37, 160, 104, 23, 23);
-		this.blit(stack, x + 190, y + 37, 186, 104, 23, 23);
 		
-		int percentage = (int)((0.5f) * 129f);
-		this.blit(stack, x + 56, y + 42, 3, 103, percentage, 12);
+		// Progress
+		int percentage = (int)((0.9f) * 129f);
+		this.blit(stack, x + 74, y + 38, 3, 130, 135, 18);
+		this.blit(stack, x + 74 + 2, y + 38 + 2, 3, 103, percentage, 12);
+		
+		// Slots
+		this.blit(stack, x + 20, y + 22, 160, 104, 23, 23);
+		this.blit(stack, x + 47, y + 22, 186, 104, 23, 23);
+		this.blit(stack, x + 20, y + 49, 160, 130, 23, 23);
+		this.blit(stack, x + 47, y + 49, 186, 130, 23, 23);
 
+		// Text
 		UIHelper.drawStringWithBorder(stack, "Stage 1 / 5", x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, "MACHINA://SHIP_CONSOLE/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
@@ -61,5 +78,4 @@ public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
 	public int getXSize() {
 		return 176;
 	}
-
 }

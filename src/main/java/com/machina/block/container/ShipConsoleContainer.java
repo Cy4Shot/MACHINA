@@ -2,12 +2,14 @@ package com.machina.block.container;
 
 import java.util.Objects;
 
+import com.machina.block.container.slot.HintedSlot;
 import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -25,11 +27,10 @@ public class ShipConsoleContainer extends Container {
 		this.te = te;
 		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
 		
-		this.addSlot(new Slot(playerInv, 0, 4, 75));
-		this.addSlot(new Slot(playerInv, 1, 162, 75));
-
-		// Tile Entity
-//		this.addSlot(new Slot(null, 0, 80, 35));
+		this.addSlot(new HintedSlot((IInventory) te, 0, -6, 60, te.requried.get(0)));
+		this.addSlot(new HintedSlot((IInventory) te, 1, 19, 60, te.requried.get(1)));
+		this.addSlot(new HintedSlot((IInventory) te, 2, -6, 84, te.requried.get(2)));
+		this.addSlot(new HintedSlot((IInventory) te, 3, 19, 84, te.requried.get(3)));
 
 		// Main Player Inventory
 //		for (int row = 0; row < 3; row++) {
@@ -39,9 +40,9 @@ public class ShipConsoleContainer extends Container {
 //		}
 //
 //		// Player Hotbar
-//		for (int col = 0; col < 9; col++) {
-//			this.addSlot(new Slot(playerInv, col, 8 + col * 18, 142));
-//		}
+		for (int col = 0; col < 9; col++) {
+			this.addSlot(new Slot(playerInv, col, 8 + col * 18, 142));
+		}
 	}
 
 	public ShipConsoleContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {

@@ -37,6 +37,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleTintedSlab(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "wasteland_sandstone", true);
 		simpleTintedStairs(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "wasteland_sandstone", true);
 		simpleTintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
+		simpleBlock(BlockInit.CARGO_CRATE.get());
 	}
 
 	public void fluid(Block block) {

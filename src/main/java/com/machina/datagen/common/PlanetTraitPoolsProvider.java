@@ -1,7 +1,5 @@
 package com.machina.datagen.common;
 
-import static com.machina.registration.init.PlanetTraitInit.*;
-
 import com.machina.Machina;
 import com.machina.datagen.trait_pools.TraitPool;
 import com.machina.datagen.trait_pools.TraitPoolEntry;
@@ -21,10 +19,10 @@ public class PlanetTraitPoolsProvider extends TraitPoolsGenProvider {
 
 		// @formatter:off
 		addPool("geographical_traits", new TraitPool(3, 3).withEntries(
-				new TraitPoolEntry(5, PlanetTraitInit.CONTINENTAL, PlanetTraitInit.WATER_WORLD),
 				new TraitPoolEntry(25, PlanetTraitInit.MOUNTAINOUS, PlanetTraitInit.HILLY, PlanetTraitInit.FLAT),
-				new TraitPoolEntry(5, FROZEN),
-				new TraitPoolEntry(5, ISLANDS)));
+				new TraitPoolEntry(5,  PlanetTraitInit.CONTINENTAL, PlanetTraitInit.WATER_WORLD),
+				new TraitPoolEntry(5,  PlanetTraitInit.FROZEN),
+				new TraitPoolEntry(5,  PlanetTraitInit.ISLANDS)));
 		// @formatter:on
 	}
 
