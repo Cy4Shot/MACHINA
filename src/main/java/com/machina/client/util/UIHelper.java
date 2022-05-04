@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import org.lwjgl.opengl.GL11;
 
 import com.machina.util.MachinaRL;
+import com.machina.util.color.Color;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -13,9 +14,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -26,7 +30,6 @@ import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentUtils;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -46,6 +49,8 @@ public class UIHelper {
 	}
 
 	public static final ResourceLocation ELEMENTS = new MachinaRL("textures/gui/elements.png");
+	private static Minecraft mc = Minecraft.getInstance();
+	private static TextureManager tm = mc.getTextureManager();
 
 	public static void renderOverflowHidden(MatrixStack matrixStack, Consumer<MatrixStack> backgroundRenderer,
 			Consumer<MatrixStack> innerRenderer) {
@@ -72,7 +77,7 @@ public class UIHelper {
 	}
 
 	public static void renderContainerBorder(MatrixStack matrixStack, Rectangle rec) {
-		Minecraft.getInstance().getTextureManager().bind(ELEMENTS);
+		tm.bind(ELEMENTS);
 		RenderSystem.enableBlend();
 
 		blit(matrixStack, rec.x0 - 9, rec.y0 - 18, 0, 0, 15, 24);
@@ -99,8 +104,6 @@ public class UIHelper {
 
 	public static void drawStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
 			int borderColor) {
-		Minecraft mc = Minecraft.getInstance();
-
 		mc.font.draw(matrixStack, text, x - 1, y, borderColor);
 		mc.font.draw(matrixStack, text, x + 1, y, borderColor);
 		mc.font.draw(matrixStack, text, x, y - 1, borderColor);
@@ -212,8 +215,7 @@ public class UIHelper {
 
 	public static int renderWrappedText(MatrixStack matrixStack, IFormattableTextComponent text, int maxWidth,
 			int padding) {
-		Minecraft minecraft = Minecraft.getInstance();
-		FontRenderer fontRenderer = minecraft.font;
+		FontRenderer fontRenderer = mc.font;
 
 		List<ITextProperties> lines = getLines(TextComponentUtils.mergeStyles(text.copy(), text.getStyle()),
 				maxWidth - 3 * padding);
@@ -253,5 +255,14 @@ public class UIHelper {
 
 	private static float getTextWidth(CharacterManager manager, List<ITextProperties> text) {
 		return (float) text.stream().mapToDouble(manager::stringWidth).max().orElse(0.0D);
+	}
+
+	public static void renderTintedItem(MatrixStack m, ItemStack stack, int x, int y, int r, int g, int b, float alpha) {
+		ItemRenderer renderer = mc.getItemRenderer();
+		renderer.renderAndDecorateFakeItem(stack, x, y);
+		RenderSystem.depthFunc(516);
+		AbstractGui.fill(m, x, y, x + 16, y + 16, Color.getIntFromColor(r, g, b, (int) (alpha * 255f)));
+		RenderSystem.depthFunc(515);
+
 	}
 }

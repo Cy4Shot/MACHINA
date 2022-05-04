@@ -2,7 +2,7 @@ package com.machina.block.container;
 
 import java.util.Objects;
 
-import com.machina.block.container.slot.HintedSlot;
+import com.machina.block.container.slot.CompletableSlot;
 import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
@@ -26,11 +26,11 @@ public class ShipConsoleContainer extends Container {
 		super(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), windowId);
 		this.te = te;
 		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
-		
-		this.addSlot(new HintedSlot((IInventory) te, 0, -6, 60, te.requried.get(0)));
-		this.addSlot(new HintedSlot((IInventory) te, 1, 19, 60, te.requried.get(1)));
-		this.addSlot(new HintedSlot((IInventory) te, 2, -6, 84, te.requried.get(2)));
-		this.addSlot(new HintedSlot((IInventory) te, 3, 19, 84, te.requried.get(3)));
+
+		this.addSlot(new CompletableSlot((IInventory) te, 0, -6, 60, () -> te.required.get(0)));
+		this.addSlot(new CompletableSlot((IInventory) te, 1, 19, 60, () -> te.required.get(1)));
+		this.addSlot(new CompletableSlot((IInventory) te, 2, -6, 85, () -> te.required.get(2)));
+		this.addSlot(new CompletableSlot((IInventory) te, 3, 19, 85, () -> te.required.get(3)));
 
 		// Main Player Inventory
 //		for (int row = 0; row < 3; row++) {
@@ -62,7 +62,6 @@ public class ShipConsoleContainer extends Container {
 	@Override
 	public boolean stillValid(PlayerEntity player) {
 		return stillValid(canInteractWithCallable, player, BlockInit.SHIP_CONSOLE.get());
-
 	}
 
 	@Override
@@ -87,5 +86,9 @@ public class ShipConsoleContainer extends Container {
 			}
 		}
 		return stack;
+	}
+	
+	public CompletableSlot getCompletableSlot(int pSlotId) {
+		return (CompletableSlot) super.getSlot(pSlotId);
 	}
 }

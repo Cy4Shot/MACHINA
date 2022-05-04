@@ -22,14 +22,18 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity {
 
 	public static int slots = 4;
 	protected NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
-	public NonNullList<ItemStack> requried = NonNullList.withSize(slots, ItemStack.EMPTY);
+	public NonNullList<ItemStack> required = NonNullList.withSize(slots, ItemStack.EMPTY);
 
 	public ShipConsoleTileEntity(TileEntityType<?> type) {
 		super(type);
-		requried.set(0, new ItemStack(Items.DIAMOND, 1));
-		requried.set(1, new ItemStack(Items.STICK, 3));
-		requried.set(2, new ItemStack(ItemInit.SHIP_COMPONENT.get(), 1));
-		requried.set(3, new ItemStack(Blocks.ACACIA_LOG.asItem(), 1));
+		if (required.get(0).isEmpty())
+			required.set(0, new ItemStack(Items.DIAMOND, 1));
+		if (required.get(1).isEmpty())
+			required.set(1, new ItemStack(Items.STICK, 3));
+		if (required.get(2).isEmpty())
+			required.set(2, new ItemStack(ItemInit.SHIP_COMPONENT.get(), 1));
+		if (required.get(3).isEmpty())
+			required.set(3, new ItemStack(Blocks.ACACIA_LOG.asItem(), 1));
 	}
 
 	public ShipConsoleTileEntity() {
@@ -70,7 +74,7 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity {
 		super.save(compound);
 		if (!this.trySaveLootTable(compound)) {
 			ItemStackUtil.saveAllItems(compound, this.items, "I");
-			ItemStackUtil.saveAllItems(compound, this.requried, "R");
+			ItemStackUtil.saveAllItems(compound, this.required, "R");
 		}
 		return compound;
 	}
@@ -79,10 +83,10 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity {
 	public void load(BlockState state, CompoundNBT compound) {
 		super.load(state, compound);
 		this.items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-		this.requried = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+		this.required = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
 		if (!this.tryLoadLootTable(compound)) {
 			ItemStackUtil.loadAllItems(compound, this.items, "I");
-			ItemStackUtil.loadAllItems(compound, this.requried, "R");
+			ItemStackUtil.loadAllItems(compound, this.required, "R");
 		}
 	}
 
