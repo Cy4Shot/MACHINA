@@ -1,5 +1,8 @@
 package com.machina.block.tile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.machina.block.container.ShipConsoleContainer;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TileEntityTypesInit;
@@ -22,22 +25,40 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity {
 
 	public static int slots = 4;
 	protected NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
-	public NonNullList<ItemStack> required = NonNullList.withSize(slots, ItemStack.EMPTY);
+	public int stage = 1;
+	public List<ItemStack> required = new ArrayList<>();
 
 	public ShipConsoleTileEntity(TileEntityType<?> type) {
 		super(type);
-		if (required.get(0).isEmpty())
-			required.set(0, new ItemStack(Items.DIAMOND, 1));
-		if (required.get(1).isEmpty())
-			required.set(1, new ItemStack(Items.STICK, 3));
-		if (required.get(2).isEmpty())
-			required.set(2, new ItemStack(ItemInit.SHIP_COMPONENT.get(), 1));
-		if (required.get(3).isEmpty())
-			required.set(3, new ItemStack(Blocks.ACACIA_LOG.asItem(), 1));
+		updateStage();
 	}
 
 	public ShipConsoleTileEntity() {
 		this(TileEntityTypesInit.SHIP_CONSOLE.get());
+	}
+	
+	public void updateStage() {
+		switch (stage) {
+		case 1:
+			required.clear();
+			required.add(new ItemStack(Items.DIAMOND, 1));
+			required.add(new ItemStack(Items.STICK, 3));
+			required.add(new ItemStack(ItemInit.SHIP_COMPONENT.get(), 1));
+			required.add(new ItemStack(Blocks.ACACIA_LOG.asItem(), 1));
+		case 2:
+			required.clear();
+			required.add(new ItemStack(Items.ACACIA_BUTTON, 1));
+			required.add(new ItemStack(Items.BEEF, 3));
+			required.add(new ItemStack(ItemInit.THERMAL_REGULATING_BOOTS.get(), 1));
+			required.add(new ItemStack(Blocks.BRAIN_CORAL_BLOCK.asItem(), 2));
+		}
+
+		System.out.println(required.get(0));
+	}
+
+	@Override
+	public void onLoad() {
+		updateStage();
 	}
 
 	@Override
@@ -72,9 +93,9 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity {
 	@Override
 	public CompoundNBT save(CompoundNBT compound) {
 		super.save(compound);
+		compound.putInt("Stage", this.stage);
 		if (!this.trySaveLootTable(compound)) {
-			ItemStackUtil.saveAllItems(compound, this.items, "I");
-			ItemStackUtil.saveAllItems(compound, this.required, "R");
+			ItemStackUtil.saveAllItems(compound, this.items, "");
 		}
 		return compound;
 	}
@@ -82,12 +103,12 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity {
 	@Override
 	public void load(BlockState state, CompoundNBT compound) {
 		super.load(state, compound);
+		this.stage = compound.getInt("Stage");
 		this.items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-		this.required = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
 		if (!this.tryLoadLootTable(compound)) {
-			ItemStackUtil.loadAllItems(compound, this.items, "I");
-			ItemStackUtil.loadAllItems(compound, this.required, "R");
+			ItemStackUtil.loadAllItems(compound, this.items, "");
 		}
+		updateStage();
 	}
 
 }
