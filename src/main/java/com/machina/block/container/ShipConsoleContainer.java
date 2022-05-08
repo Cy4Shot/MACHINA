@@ -27,6 +27,12 @@ public class ShipConsoleContainer extends Container {
 		this.te = te;
 		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
 
+		recreateSlots(playerInv);
+	}
+	
+	public void recreateSlots(final PlayerInventory playerInv) {
+		this.slots.clear();
+		System.out.println(te.stage);
 		this.addSlot(new CompletableSlot((IInventory) te, 0, -6, 60, () -> te.required.get(0)));
 		this.addSlot(new CompletableSlot((IInventory) te, 1, 19, 60, () -> te.required.get(1)));
 		this.addSlot(new CompletableSlot((IInventory) te, 2, -6, 85, () -> te.required.get(2)));

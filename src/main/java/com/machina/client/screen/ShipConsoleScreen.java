@@ -8,13 +8,11 @@ import com.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
-public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
-
+public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer> {
 	private static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
 
 	public ShipConsoleScreen(ShipConsoleContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
@@ -23,7 +21,6 @@ public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
 
 	@Override
 	protected void init() {
-		this.imageWidth = this.width; // Hide JEI!
 		super.init();
 		this.leftPos = (this.width - 176) / 2;
 	}
@@ -84,7 +81,7 @@ public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
 		} else {
 			this.blit(stack, x + 74, y + 49, 92, 155, 95, 18);
 		}
-		UIHelper.drawStringWithBorder(stack, "Click Button", x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
+		UIHelper.drawStringWithBorder(stack, "Tingly Clicker", x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		// Text
 		UIHelper.drawStringWithBorder(stack, "Stage 1 / 5", x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);
@@ -98,7 +95,7 @@ public class ShipConsoleScreen extends ContainerScreen<ShipConsoleContainer> {
 			int x = (this.width - xSize) / 2;
 			int y = (this.height - ySize) / 2;
 			if (pX > x + 74 && pX < x + 74 + 95 && pY > y + 49 && pY < y + 49 + 18) {
-				MachinaNetwork.CHANNEL.sendToServer(new C2SShipConsoleGUIButton(this.menu.te.getBlockPos(), 1));
+				MachinaNetwork.CHANNEL.sendToServer(new C2SShipConsoleGUIButton(this.menu.te.getBlockPos(), 2));
 			}
 		}
 		return false;
