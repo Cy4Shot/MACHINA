@@ -1,10 +1,9 @@
 package com.machina.block.tile;
 
-import java.util.Random;
-
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.nbt.ItemStackUtil;
+import com.machina.util.server.ParticleUtil;
 import com.machina.util.text.TextComponentHelper;
 
 import net.minecraft.block.BlockState;
@@ -21,7 +20,6 @@ import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 
 public class ComponentAnalyzerTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
@@ -72,15 +70,7 @@ public class ComponentAnalyzerTileEntity extends LockableLootTileEntity implemen
 			this.progress++;
 
 			if (this.progress % 3 == 0) {
-				BlockPos p = this.getBlockPos();
-				Random r = new Random();
-				double d0 = (double) p.getX() + 0.5D;
-				double d1 = (double) p.getY() + 0.5D;
-				double d2 = (double) p.getZ() + 0.5D;
-				double d3 = (r.nextDouble() - 0.5D) * 0.1D;
-				double d4 = (r.nextDouble() - 0.5D) * 0.1D;
-				double d5 = (r.nextDouble() - 0.5D) * 0.1D;
-				this.level.addParticle(ParticleTypes.END_ROD, d0, d1, d2, d3, d4, d5);
+				ParticleUtil.spawnParticle(level, ParticleTypes.END_ROD, getBlockPos(), 0.1D, null);
 			}
 
 			if (this.progress == 100) {
@@ -90,6 +80,10 @@ public class ComponentAnalyzerTileEntity extends LockableLootTileEntity implemen
 					this.setItem(1, new ItemStack(Items.DIAMOND));
 				} else {
 					this.getItem(1).grow(1);
+				}
+
+				for (int i = 0; i < 10; i++) {
+					ParticleUtil.spawnParticle(level, ParticleTypes.CAMPFIRE_COSY_SMOKE, getBlockPos(), 0.1D, null);
 				}
 			}
 		} else {
@@ -110,6 +104,18 @@ public class ComponentAnalyzerTileEntity extends LockableLootTileEntity implemen
 	@Override
 	protected void setItems(NonNullList<ItemStack> pItems) {
 		this.items = pItems;
+		this.syncClients();
+	}
+	
+	@Override
+	public void setItem(int pIndex, ItemStack pStack) {
+		super.setItem(pIndex, pStack);
+		this.syncClients();
+	}
+	
+	public void syncClients() {
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+		this.setChanged();
 	}
 
 	@Override

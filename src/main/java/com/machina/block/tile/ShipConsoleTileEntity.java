@@ -136,6 +136,18 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity implements ITi
 	@Override
 	protected void setItems(NonNullList<ItemStack> pItems) {
 		this.items = pItems;
+		this.syncClients();
+	}
+
+	@Override
+	public void setItem(int pIndex, ItemStack pStack) {
+		super.setItem(pIndex, pStack);
+		this.syncClients();
+	}
+
+	public void syncClients() {
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+		this.setChanged();
 	}
 
 	@Override

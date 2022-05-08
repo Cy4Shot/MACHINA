@@ -18,6 +18,8 @@ import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
@@ -102,6 +104,10 @@ public class ClientModEvents {
 	@SubscribeEvent
 	public static void registerRenderers(final FMLClientSetupEvent event) {
 		ClientTimer.setup();
+		
+		RenderTypeLookup.setRenderLayer(BlockInit.CARGO_CRATE.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(BlockInit.SHIP_CONSOLE.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(BlockInit.COMPONENT_ANALYZER.get(), RenderType.cutout());
 
 		ScreenManager.register(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), ShipConsoleScreen::new);
 		ScreenManager.register(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), ComponentAnalyzerScreen::new);

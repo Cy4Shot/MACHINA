@@ -2,6 +2,7 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.client.ClientDataHolder;
+import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.DevPlanetCreationScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.screen.StarchartScreen;
@@ -12,6 +13,7 @@ import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -57,7 +59,8 @@ public class ClientForgeEvents {
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void drawTooltipEvent(RenderTooltipEvent.Color event) {
-		if (Minecraft.getInstance().screen instanceof ShipConsoleScreen) {
+		Screen s = Minecraft.getInstance().screen;
+		if (s instanceof ShipConsoleScreen || s instanceof ComponentAnalyzerScreen) {
 			event.setBackground(0xFF_232323);
 			event.setBorderEnd(0xFF_1bcccc);
 			event.setBorderStart(0xFF_00fefe);

@@ -1,5 +1,6 @@
 package com.machina.block;
 
+import com.machina.block.tile.CargoCrateTileEntity;
 import com.machina.registration.init.TileEntityTypesInit;
 
 import net.minecraft.block.AbstractBlock;
@@ -11,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
@@ -36,7 +38,18 @@ public class CargoCrateBlock extends Block {
 	public ActionResultType use(BlockState pState, World pLevel, BlockPos pPos, PlayerEntity pPlayer, Hand pHand,
 			BlockRayTraceResult pHit) {
 		if (!pLevel.isClientSide()) {
-			pLevel.setBlock(pPos, pState.setValue(OPEN, Boolean.valueOf(true)), 3);
+			if (pState.getValue(OPEN).booleanValue()) {
+				TileEntity te = pLevel.getBlockEntity(pPos);
+				if (te != null && te instanceof CargoCrateTileEntity) {
+					CargoCrateTileEntity ccte = (CargoCrateTileEntity) te;
+					if (pPlayer.canTakeItem(ccte.getItem(0))) {
+						pPlayer.addItem(ccte.getItem(0));
+						ccte.setItem(0, ItemStack.EMPTY);
+					}
+				}
+			} else {
+				pLevel.setBlock(pPos, pState.setValue(OPEN, Boolean.valueOf(true)), 3);
+			}
 		}
 
 		return ActionResultType.CONSUME;

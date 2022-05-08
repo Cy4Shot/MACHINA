@@ -28,8 +28,9 @@ public class ComponentAnalyzerRenderer extends TileEntityRenderer<ComponentAnaly
 	@Override
 	public void render(ComponentAnalyzerTileEntity te, float partialTicks, MatrixStack stack,
 			IRenderTypeBuffer bufferIn, int packedLightIn, int pCombinedOverlay) {
-		renderItem(te.getItem(0), new double[] { .5d, .4d, .5d }, Vector3f.YP.rotationDegrees(180f - mc.player.yRot),
-				stack, bufferIn, partialTicks, pCombinedOverlay, getLightLevel(te.getLevel(), te.getBlockPos()), 0.8f);
+		ItemStack item = te.getItem(te.getItem(0).isEmpty() ? 1 : 0);
+		renderItem(item, new double[] { .5d, .4d, .5d }, Vector3f.YP.rotationDegrees(180f - mc.player.yRot), stack,
+				bufferIn, partialTicks, pCombinedOverlay, getLightLevel(te.getLevel(), te.getBlockPos()), 0.8f);
 	}
 
 	private void renderItem(ItemStack stack, double[] translation, Quaternion rotation, MatrixStack matrixStack,

@@ -2,11 +2,9 @@ package com.machina.client.renderer;
 
 import com.machina.block.tile.CargoCrateTileEntity;
 import com.machina.client.model.CargoCrateModel;
-import com.machina.registration.init.ItemInit;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.LightTexture;
@@ -37,16 +35,19 @@ public class CargoCrateRenderer extends GeoBlockRenderer<CargoCrateTileEntity> {
 	public void render(TileEntity te, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn,
 			int combinedLightIn, int combinedOverlayIn) {
 		super.render(te, partialTicks, stack, bufferIn, combinedLightIn, combinedOverlayIn);
-
-		ClientPlayerEntity player = mc.player;
+		
+		
+		CargoCrateTileEntity ccte = (CargoCrateTileEntity) te;
 		int lightLevel = getLightLevel(te.getLevel(), te.getBlockPos());
 
-		renderItem(new ItemStack(ItemInit.SHIP_COMPONENT.get()), new double[] { .5d, .4d, .5d },
-				Vector3f.YP.rotationDegrees(180f - player.yRot), stack, bufferIn, partialTicks, combinedOverlayIn,
+		renderItem(ccte.getItem(0), new double[] { .5d, .4d, .5d },
+				Vector3f.YP.rotationDegrees(180f - mc.player.yRot), stack, bufferIn, partialTicks, combinedOverlayIn,
 				lightLevel, 0.8f);
-
-		ITextComponent label = new TranslationTextComponent("machina.cargo_crate.open");
-		renderLabel(stack, bufferIn, lightLevel, new double[] { .5d, .9d, .5d }, label, 0xffffff);
+		
+		if (!ccte.getItem(0).isEmpty()) {
+			ITextComponent label = new TranslationTextComponent("machina.cargo_crate.open");
+			renderLabel(stack, bufferIn, lightLevel, new double[] { .5d, .9d, .5d }, label, 0xffffff);
+		}
 	}
 
 	private void renderItem(ItemStack stack, double[] translation, Quaternion rotation, MatrixStack matrixStack,
