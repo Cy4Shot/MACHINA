@@ -2,10 +2,12 @@ package com.machina.block.container;
 
 import java.util.Objects;
 
-import com.machina.block.container.slot.CompletableSlot;
-import com.machina.block.tile.ShipConsoleTileEntity;
+import com.machina.block.container.slot.AcceptSlot;
+import com.machina.block.container.slot.ResultSlot;
+import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.ItemInit;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,52 +20,51 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IWorldPosCallable;
 
-public class ShipConsoleContainer extends Container {
+public class ComponentAnalyzerContainer extends Container {
 
-	public final ShipConsoleTileEntity te;
+	public final ComponentAnalyzerTileEntity te;
 	private final IWorldPosCallable canInteractWithCallable;
 	public final IIntArray data;
 
-	public ShipConsoleContainer(final int windowId, final PlayerInventory playerInv, final ShipConsoleTileEntity te) {
-		super(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), windowId);
+	public ComponentAnalyzerContainer(final int windowId, final PlayerInventory playerInv,
+			final ComponentAnalyzerTileEntity te) {
+		super(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), windowId);
 		this.te = te;
 		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
 
 		recreateSlots(playerInv);
 
 		this.data = te.getData();
-		checkContainerDataCount(data, 2);
+		checkContainerDataCount(data, 1);
 		this.addDataSlots(data);
 	}
 
 	public void recreateSlots(final PlayerInventory playerInv) {
 		this.slots.clear();
-		this.addSlot(new CompletableSlot((IInventory) te, 0, -6, 60, () -> te.getItemForStage(0)));
-		this.addSlot(new CompletableSlot((IInventory) te, 1, 19, 60, () -> te.getItemForStage(1)));
-		this.addSlot(new CompletableSlot((IInventory) te, 2, -6, 85, () -> te.getItemForStage(2)));
-		this.addSlot(new CompletableSlot((IInventory) te, 3, 19, 85, () -> te.getItemForStage(3)));
+		this.addSlot(new AcceptSlot((IInventory) te, 0, -2, 74, ItemInit.SHIP_COMPONENT.get()));
+		this.addSlot(new ResultSlot((IInventory) te, 1, 159, 74));
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInv, col, 8 + col * 18, 142));
 		}
 	}
 
-	public ShipConsoleContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
+	public ComponentAnalyzerContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
 		this(windowId, playerInv, getTileEntity(playerInv, data));
 	}
 
-	private static ShipConsoleTileEntity getTileEntity(final PlayerInventory playerInv, final PacketBuffer data) {
+	private static ComponentAnalyzerTileEntity getTileEntity(final PlayerInventory playerInv, final PacketBuffer data) {
 		Objects.requireNonNull(playerInv, "Player Inventory cannot be null.");
 		Objects.requireNonNull(data, "Packet Buffer cannot be null.");
 		final TileEntity te = playerInv.player.level.getBlockEntity(data.readBlockPos());
-		if (te instanceof ShipConsoleTileEntity) {
-			return (ShipConsoleTileEntity) te;
+		if (te instanceof ComponentAnalyzerTileEntity) {
+			return (ComponentAnalyzerTileEntity) te;
 		}
 		throw new IllegalStateException("Tile Entity Is Not Correct");
 	}
 
 	@Override
 	public boolean stillValid(PlayerEntity player) {
-		return stillValid(canInteractWithCallable, player, BlockInit.SHIP_CONSOLE.get());
+		return stillValid(canInteractWithCallable, player, BlockInit.COMPONENT_ANALYZER.get());
 	}
 
 	@Override
@@ -73,11 +74,11 @@ public class ShipConsoleContainer extends Container {
 		if (slot != null && slot.hasItem()) {
 			ItemStack stack1 = slot.getItem();
 			stack = stack1.copy();
-			if (index < ShipConsoleTileEntity.slots
-					&& !this.moveItemStackTo(stack1, ShipConsoleTileEntity.slots, this.slots.size(), true)) {
+			if (index < ComponentAnalyzerTileEntity.slots
+					&& !this.moveItemStackTo(stack1, ComponentAnalyzerTileEntity.slots, this.slots.size(), true)) {
 				return ItemStack.EMPTY;
 			}
-			if (!this.moveItemStackTo(stack1, 0, ShipConsoleTileEntity.slots, false)) {
+			if (!this.moveItemStackTo(stack1, 0, ComponentAnalyzerTileEntity.slots, false)) {
 				return ItemStack.EMPTY;
 			}
 
@@ -88,14 +89,5 @@ public class ShipConsoleContainer extends Container {
 			}
 		}
 		return stack;
-	}
-
-	public CompletableSlot getCompletableSlot(int pSlotId) {
-		return (CompletableSlot) super.getSlot(pSlotId);
-	}
-
-	public boolean areSlotsComplete() {
-		return this.getCompletableSlot(0).isComplete() && this.getCompletableSlot(1).isComplete()
-				&& this.getCompletableSlot(2).isComplete() && this.getCompletableSlot(3).isComplete();
 	}
 }

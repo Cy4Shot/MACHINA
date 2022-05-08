@@ -645,6 +645,7 @@ public abstract class NoJeiContainerScreen<T extends Container> extends Screen i
 		return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void tick() {
 		super.tick();
 		if (!this.minecraft.player.isAlive() || this.minecraft.player.removed) {

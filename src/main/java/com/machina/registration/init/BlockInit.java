@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.machina.Machina;
 import com.machina.block.CargoCrateBlock;
+import com.machina.block.ComponentAnalyzerBlock;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.registration.Registration;
 
@@ -37,9 +38,12 @@ public class BlockInit {
 	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate",
 			() -> new CargoCrateBlock());
 
+	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer",
+			() -> new ComponentAnalyzerBlock());
+
 	public static final RegistryObject<Block> ALIEN_STONE = register("alien_stone",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.STONE)));
-	
+
 	public static final RegistryObject<StairsBlock> ALIEN_STONE_STAIRS = register("alien_stone_stairs",
 			() -> new StairsBlock(ALIEN_STONE.get().defaultBlockState(),
 					AbstractBlock.Properties.copy(Blocks.STONE_STAIRS)));
@@ -49,17 +53,16 @@ public class BlockInit {
 
 	public static final RegistryObject<Block> TWILIGHT_DIRT = register("twilight_dirt",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.DIRT)));
-	
+
 	public static final RegistryObject<StairsBlock> TWILIGHT_DIRT_STAIRS = register("twilight_dirt_stairs",
-			() -> new StairsBlock(TWILIGHT_DIRT.get().defaultBlockState(),
-					AbstractBlock.Properties.copy(Blocks.DIRT)));
+			() -> new StairsBlock(TWILIGHT_DIRT.get().defaultBlockState(), AbstractBlock.Properties.copy(Blocks.DIRT)));
 
 	public static final RegistryObject<SlabBlock> TWILIGHT_DIRT_SLAB = register("twilight_dirt_slab",
 			() -> new SlabBlock(AbstractBlock.Properties.copy(Blocks.DIRT)));
 
 	public static final RegistryObject<Block> WASTELAND_DIRT = register("wasteland_dirt",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.DIRT)));
-	
+
 	public static final RegistryObject<StairsBlock> WASTELAND_DIRT_STAIRS = register("wasteland_dirt_stairs",
 			() -> new StairsBlock(WASTELAND_DIRT.get().defaultBlockState(),
 					AbstractBlock.Properties.copy(Blocks.DIRT)));

@@ -3,18 +3,18 @@
   "maxRolls": 3,
   "entries": [
     {
-      "weight": 5,
-      "values": [
-        "machina:continental",
-        "machina:water_world"
-      ]
-    },
-    {
       "weight": 25,
       "values": [
         "machina:mountainous",
         "machina:hilly",
         "machina:flat"
+      ]
+    },
+    {
+      "weight": 5,
+      "values": [
+        "machina:continental",
+        "machina:water_world"
       ]
     },
     {

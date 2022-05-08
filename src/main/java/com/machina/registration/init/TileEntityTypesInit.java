@@ -2,6 +2,7 @@ package com.machina.registration.init;
 
 import com.machina.Machina;
 import com.machina.block.tile.CargoCrateTileEntity;
+import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.block.tile.ShipConsoleTileEntity;
 
 import net.minecraft.tileentity.TileEntityType;
@@ -21,5 +22,9 @@ public class TileEntityTypesInit {
 	public static final RegistryObject<TileEntityType<ShipConsoleTileEntity>> SHIP_CONSOLE = TILES
 			.register("ship_console", () -> TileEntityType.Builder
 					.of(ShipConsoleTileEntity::new, BlockInit.SHIP_CONSOLE.get()).build(null));
+	
+	public static final RegistryObject<TileEntityType<ComponentAnalyzerTileEntity>> COMPONENT_ANALYZER = TILES
+			.register("component_analyzer", () -> TileEntityType.Builder
+					.of(ComponentAnalyzerTileEntity::new, BlockInit.COMPONENT_ANALYZER.get()).build(null));
 
 }

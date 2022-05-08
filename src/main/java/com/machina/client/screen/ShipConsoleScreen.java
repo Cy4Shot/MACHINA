@@ -1,6 +1,7 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.ShipConsoleContainer;
+import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SShipConsoleGUIButton;
@@ -27,7 +28,10 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 
 	@Override
 	public int getSlotColor(int index) {
-		return 0x00_FFFFFF;
+		if (index < ShipConsoleTileEntity.slots)
+			return 0x00_FFFFFF;
+		else
+			return super.getSlotColor(index);
 	}
 
 	@Override
@@ -57,6 +61,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
 		this.blit(stack, x, y, 2, 3, xSize, ySize);
+		this.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
 
 		// Progress
 		int percentage = (int) (((float) this.menu.te.progress / 100f) * 129f);
@@ -64,10 +69,10 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		this.blit(stack, x + 76, y + 30, 3, 103, percentage, 12);
 
 		// Slots
-		this.blit(stack, x + 20, y + 22, 160, 104, 23, 23);
-		this.blit(stack, x + 47, y + 22, 186, 104, 23, 23);
-		this.blit(stack, x + 20, y + 49, 160, 129, 23, 23);
-		this.blit(stack, x + 47, y + 49, 186, 129, 23, 23);
+		this.blit(stack, x + 20, y + 22, 3, 150, 23, 23);
+		this.blit(stack, x + 47, y + 22, 29, 150, 23, 23);
+		this.blit(stack, x + 20, y + 49, 3, 175, 23, 23);
+		this.blit(stack, x + 47, y + 49, 29, 175, 23, 23);
 		renderHintItem(stack, 0, x + 24, y + 26);
 		renderHintItem(stack, 1, x + 49, y + 26);
 		renderHintItem(stack, 2, x + 24, y + 51);
@@ -78,9 +83,9 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		this.minecraft.textureManager.bind(SCIFI_EL);
 		if (pX > x + 74 && pX < x + 74 + 95 && pY > y + 49 && pY < y + 49 + 18 && this.menu.te.progress == 0
 				&& this.menu.areSlotsComplete()) {
-			this.blit(stack, x + 74, y + 49, 92, 174, 95, 18);
+			this.blit(stack, x + 74, y + 49, 56, 169, 95, 18);
 		} else {
-			this.blit(stack, x + 74, y + 49, 92, 155, 95, 18);
+			this.blit(stack, x + 74, y + 49, 56, 150, 95, 18);
 		}
 		String buttonText = "Missing Items";
 		if (this.menu.areSlotsComplete()) {

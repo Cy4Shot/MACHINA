@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
@@ -25,29 +26,29 @@ import net.minecraft.world.World;
 import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 
 public class CargoCrateRenderer extends GeoBlockRenderer<CargoCrateTileEntity> {
-	
+
 	private Minecraft mc = Minecraft.getInstance();
-	
-    public CargoCrateRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn, new CargoCrateModel());
-    }
-    
-    @Override
-    public void render(CargoCrateTileEntity te, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn,
-    		int packedLightIn) {
-    	super.render(te, partialTicks, stack, bufferIn, packedLightIn);
-    	
-    	ClientPlayerEntity player = mc.player;
-		int lightLevel = getLightLevel(te.getLevel(), te.getBlockPos().above());
+
+	public CargoCrateRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
+		super(rendererDispatcherIn, new CargoCrateModel());
+	}
+
+	@Override
+	public void render(TileEntity te, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn,
+			int combinedLightIn, int combinedOverlayIn) {
+		super.render(te, partialTicks, stack, bufferIn, combinedLightIn, combinedOverlayIn);
+
+		ClientPlayerEntity player = mc.player;
+		int lightLevel = getLightLevel(te.getLevel(), te.getBlockPos());
 
 		renderItem(new ItemStack(ItemInit.SHIP_COMPONENT.get()), new double[] { .5d, .4d, .5d },
-				Vector3f.YP.rotationDegrees(180f - player.yRot), stack, bufferIn, partialTicks,
-				packedLightIn, lightLevel, 0.8f);
-		
+				Vector3f.YP.rotationDegrees(180f - player.yRot), stack, bufferIn, partialTicks, combinedOverlayIn,
+				lightLevel, 0.8f);
+
 		ITextComponent label = new TranslationTextComponent("machina.cargo_crate.open");
 		renderLabel(stack, bufferIn, lightLevel, new double[] { .5d, .9d, .5d }, label, 0xffffff);
-    }
-	
+	}
+
 	private void renderItem(ItemStack stack, double[] translation, Quaternion rotation, MatrixStack matrixStack,
 			IRenderTypeBuffer buffer, float partialTicks, int combinedOverlay, int lightLevel, float scale) {
 		matrixStack.pushPose();
@@ -60,7 +61,7 @@ public class CargoCrateRenderer extends GeoBlockRenderer<CargoCrateTileEntity> {
 				lightLevel, combinedOverlay, model);
 		matrixStack.popPose();
 	}
-	
+
 	private void renderLabel(MatrixStack stack, IRenderTypeBuffer buffer, int lightLevel, double[] corner,
 			ITextComponent text, int color) {
 
@@ -80,7 +81,7 @@ public class CargoCrateRenderer extends GeoBlockRenderer<CargoCrateTileEntity> {
 		font.drawInBatch(text, offset, 0, color, false, matrix, buffer, false, opacity, lightLevel);
 		stack.popPose();
 	}
-	
+
 	private int getLightLevel(World world, BlockPos pos) {
 		int bLight = world.getBrightness(LightType.BLOCK, pos);
 		int sLight = world.getBrightness(LightType.SKY, pos);

@@ -3,6 +3,8 @@ package com.machina.events;
 import com.machina.Machina;
 import com.machina.client.ClientDataHolder;
 import com.machina.client.renderer.CargoCrateRenderer;
+import com.machina.client.renderer.ComponentAnalyzerRenderer;
+import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.util.ClientTimer;
 import com.machina.planet.trait.PlanetTraitSpriteUploader;
@@ -102,6 +104,8 @@ public class ClientModEvents {
 		ClientTimer.setup();
 
 		ScreenManager.register(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), ShipConsoleScreen::new);
+		ScreenManager.register(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), ComponentAnalyzerScreen::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);
 	}
 }
