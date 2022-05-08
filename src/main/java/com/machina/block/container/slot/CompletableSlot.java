@@ -37,5 +37,4 @@ public class CompletableSlot extends Slot {
 	public boolean isComplete() {
 		return getItem().getItem().equals(accept.get().getItem()) && accept.get().getCount() == getItem().getCount();
 	}
-
 }

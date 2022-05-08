@@ -12,11 +12,9 @@ import net.minecraftforge.fml.network.NetworkEvent.Context;
 public class C2SShipConsoleGUIButton implements INetworkMessage {
 
 	public final BlockPos pos;
-	public final int s;
 
-	public C2SShipConsoleGUIButton(BlockPos pos, int stage) {
+	public C2SShipConsoleGUIButton(BlockPos pos) {
 		this.pos = pos;
-		this.s = stage;
 	}
 
 	@Override
@@ -26,24 +24,17 @@ public class C2SShipConsoleGUIButton implements INetworkMessage {
 		if (e == null || !(e instanceof ShipConsoleTileEntity)) {
 			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
 		}
-		ShipConsoleTileEntity te = (ShipConsoleTileEntity) e;
-		if(te.stage == 1) te.stage = 2;
-		else if(te.stage == 2) te.stage = 1;
-		System.out.println(te.stage);
-//		te.stage = s;
-		te.updateStage();
+		((ShipConsoleTileEntity) e).buttonPressed();
 	}
 
 	@Override
 	public void encode(PacketBuffer buffer) {
 		buffer.writeBlockPos(pos);
-		buffer.writeInt(s);
 	}
 
 	public static C2SShipConsoleGUIButton decode(PacketBuffer buffer) {
 		BlockPos pos = buffer.readBlockPos();
-		int stage = buffer.readInt();
-		return new C2SShipConsoleGUIButton(pos, stage);
+		return new C2SShipConsoleGUIButton(pos);
 	}
 
 }

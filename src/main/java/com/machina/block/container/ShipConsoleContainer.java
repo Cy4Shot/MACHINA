@@ -15,12 +15,14 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.IWorldPosCallable;
 
 public class ShipConsoleContainer extends Container {
 
 	public final ShipConsoleTileEntity te;
 	private final IWorldPosCallable canInteractWithCallable;
+	public final IIntArray data;
 
 	public ShipConsoleContainer(final int windowId, final PlayerInventory playerInv, final ShipConsoleTileEntity te) {
 		super(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), windowId);
@@ -28,24 +30,18 @@ public class ShipConsoleContainer extends Container {
 		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
 
 		recreateSlots(playerInv);
+
+		this.data = te.getData();
+		checkContainerDataCount(data, 1);
+		this.addDataSlots(data);
 	}
-	
+
 	public void recreateSlots(final PlayerInventory playerInv) {
 		this.slots.clear();
-		System.out.println(te.stage);
-		this.addSlot(new CompletableSlot((IInventory) te, 0, -6, 60, () -> te.required.get(0)));
-		this.addSlot(new CompletableSlot((IInventory) te, 1, 19, 60, () -> te.required.get(1)));
-		this.addSlot(new CompletableSlot((IInventory) te, 2, -6, 85, () -> te.required.get(2)));
-		this.addSlot(new CompletableSlot((IInventory) te, 3, 19, 85, () -> te.required.get(3)));
-
-		// Main Player Inventory
-//		for (int row = 0; row < 3; row++) {
-//			for (int col = 0; col < 9; col++) {
-//				this.addSlot(new Slot(playerInv, col + row * 9 + 9, 8 + col * 18, 166 - (4 - row) * 18 - 10));
-//			}
-//		}
-//
-//		// Player Hotbar
+		this.addSlot(new CompletableSlot((IInventory) te, 0, -6, 60, () -> te.getItemForStage(0)));
+		this.addSlot(new CompletableSlot((IInventory) te, 1, 19, 60, () -> te.getItemForStage(1)));
+		this.addSlot(new CompletableSlot((IInventory) te, 2, -6, 85, () -> te.getItemForStage(2)));
+		this.addSlot(new CompletableSlot((IInventory) te, 3, 19, 85, () -> te.getItemForStage(3)));
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInv, col, 8 + col * 18, 142));
 		}
@@ -93,8 +89,13 @@ public class ShipConsoleContainer extends Container {
 		}
 		return stack;
 	}
-	
+
 	public CompletableSlot getCompletableSlot(int pSlotId) {
 		return (CompletableSlot) super.getSlot(pSlotId);
+	}
+
+	public boolean areSlotsComplete() {
+		return this.getCompletableSlot(0).isComplete() && this.getCompletableSlot(1).isComplete()
+				&& this.getCompletableSlot(2).isComplete() && this.getCompletableSlot(3).isComplete();
 	}
 }

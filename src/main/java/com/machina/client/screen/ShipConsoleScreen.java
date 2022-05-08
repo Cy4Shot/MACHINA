@@ -59,7 +59,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		this.blit(stack, x, y, 2, 3, xSize, ySize);
 
 		// Progress
-		int percentage = (int) ((0.9f) * 129f);
+		int percentage = (int) (((float) this.menu.te.progress / 100f) * 129f);
 		this.blit(stack, x + 74, y + 28, 3, 130, 135, 18);
 		this.blit(stack, x + 76, y + 30, 3, 103, percentage, 12);
 
@@ -76,15 +76,23 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		// Button
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		this.minecraft.textureManager.bind(SCIFI_EL);
-		if (pX > x + 74 && pX < x + 74 + 95 && pY > y + 49 && pY < y + 49 + 18) {
+		if (pX > x + 74 && pX < x + 74 + 95 && pY > y + 49 && pY < y + 49 + 18 && this.menu.te.progress == 0
+				&& this.menu.areSlotsComplete()) {
 			this.blit(stack, x + 74, y + 49, 92, 174, 95, 18);
 		} else {
 			this.blit(stack, x + 74, y + 49, 92, 155, 95, 18);
 		}
-		UIHelper.drawStringWithBorder(stack, "Tingly Clicker", x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
+		String buttonText = "Missing Items";
+		if (this.menu.areSlotsComplete()) {
+			buttonText = "Complete Stage";
+		} else if (this.menu.te.progress != 0) {
+			buttonText = "Crafting...";
+		}
+		UIHelper.drawStringWithBorder(stack, buttonText, x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		// Text
-		UIHelper.drawStringWithBorder(stack, "Stage 1 / 5", x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);
+		String stage = String.format("Stage %d / 5", this.menu.te.stage);
+		UIHelper.drawStringWithBorder(stack, stage, x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, "MACHINA://SHIP_CONSOLE/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
 
@@ -95,14 +103,17 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 			int x = (this.width - xSize) / 2;
 			int y = (this.height - ySize) / 2;
 			if (pX > x + 74 && pX < x + 74 + 95 && pY > y + 49 && pY < y + 49 + 18) {
-				MachinaNetwork.CHANNEL.sendToServer(new C2SShipConsoleGUIButton(this.menu.te.getBlockPos(), 2));
+				if (this.menu.areSlotsComplete()) {
+					MachinaNetwork.CHANNEL.sendToServer(new C2SShipConsoleGUIButton(this.menu.te.getBlockPos()));
+					return true;
+				}
 			}
 		}
-		return false;
+		return super.mouseReleased(pX, pY, pButton);
 	}
 
 	private void renderHintItem(MatrixStack stack, int slot, int x, int y) {
-		if (!this.menu.getSlot(slot).hasItem()) {
+		if (!this.menu.getSlot(slot).hasItem() && this.menu.te.progress == 0) {
 			ItemStack hint = this.menu.getCompletableSlot(slot).getBackground();
 			String count = String.valueOf(hint.getCount());
 			UIHelper.renderTintedItem(stack, hint, x, y, 35, 35, 35, 0.7f);
