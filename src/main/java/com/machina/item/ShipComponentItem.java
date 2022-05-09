@@ -80,7 +80,7 @@ public class ShipComponentItem extends Item {
 		LIFE_SUPPORT(5, "life_support");
 		//@formatter:on
 
-		private final byte nbtID;
+		public final byte nbtID;
 		private final String name;
 
 		private ShipComponentType(int id, String n) {
@@ -101,7 +101,7 @@ public class ShipComponentItem extends Item {
 			return fromId(id).orElse(UNIDENTIFIED);
 		}
 
-		private static Optional<ShipComponentType> fromId(byte id) {
+		public static Optional<ShipComponentType> fromId(byte id) {
 			for (ShipComponentType type : ShipComponentType.values()) {
 				if (type.nbtID == id)
 					return Optional.of(type);

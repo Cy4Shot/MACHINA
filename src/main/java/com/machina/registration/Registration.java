@@ -14,6 +14,7 @@ import com.machina.registration.init.ContainerTypesInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.PlanetTraitInit;
+import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.registration.registry.PlanetTraitRegistry;
@@ -25,6 +26,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -56,7 +58,7 @@ public class Registration {
 	public static PlanetTraitPoolManager planetTraitPoolManager = new PlanetTraitPoolManager();
 
 	public static void register(IEventBus bus) {
-
+		
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			CustomDimensionRenderInfo.registerDimensionRenderInfo();
 		});
@@ -68,6 +70,7 @@ public class Registration {
 		bus.addGenericListener(Item.class, BlockInit::registerBlockItems);
 		bus.addGenericListener(PlanetTrait.class, Registration::registerPlanetTraits);
 		bus.addGenericListener(PlanetAttributeType.class, Registration::registerPlanetAttributes);
+		bus.addGenericListener(IRecipeSerializer.class, RecipeInit::registerRecipes);
 
 		BlockInit.BLOCKS.register(bus);
 		ItemInit.ITEMS.register(bus);

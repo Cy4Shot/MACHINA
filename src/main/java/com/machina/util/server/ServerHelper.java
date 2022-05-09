@@ -17,7 +17,15 @@ public class ServerHelper {
 				.filter(level -> level.dimension().location().equals(dimensionID)).findFirst();
 	}
 	
+	public static Optional<ServerWorld> getLevelFromServer(ResourceLocation dimensionID) {
+		return getLevelFromServer(server(), dimensionID);
+	}
+	
 	public static long getSeed() {
-		return ServerLifecycleHooks.getCurrentServer().getLevel(World.OVERWORLD).getSeed();
+		return server().getLevel(World.OVERWORLD).getSeed();
+	}
+	
+	public static MinecraftServer server() {
+		return ServerLifecycleHooks.getCurrentServer();
 	}
 }

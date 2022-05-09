@@ -18,7 +18,7 @@ public class CompletableSlot extends Slot {
 	public ItemStack getBackground() {
 		return accept.get();
 	}
-	
+
 	@Override
 	public int getMaxStackSize() {
 		return accept.get().getCount();
@@ -26,7 +26,8 @@ public class CompletableSlot extends Slot {
 
 	@Override
 	public boolean mayPlace(ItemStack stack) {
-		return accept.get().getItem().equals(stack.getItem());
+		return accept.get().getItem().equals(stack.getItem())
+				&& accept.get().getOrCreateTag().equals(stack.getOrCreateTag());
 	}
 
 	@Override

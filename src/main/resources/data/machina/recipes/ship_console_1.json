@@ -1,0 +1,22 @@
+{
+	"type": "machina:ship_console",
+	"component": 1,
+	"input": [
+		{
+			"item": "machina:ship_component",
+			"count": 1
+		},
+		{
+			"item": "minecraft:diamond",
+			"count": 3
+		},
+		{
+			"item": "minecraft:iron_block",
+			"count": 2
+		},
+		{
+			"item": "minecraft:netherite_ingot",
+			"count": 1
+		}
+	]
+}

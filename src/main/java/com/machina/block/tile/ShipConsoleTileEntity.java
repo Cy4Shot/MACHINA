@@ -1,20 +1,21 @@
 package com.machina.block.tile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.machina.block.container.ShipConsoleContainer;
-import com.machina.registration.init.ItemInit;
+import com.machina.recipe.ShipConsoleRecipe;
+import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.util.MachinaRL;
 import com.machina.util.nbt.ItemStackUtil;
 import com.machina.util.text.TextComponentHelper;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -70,25 +71,31 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity implements ITi
 	}
 
 	public List<ItemStack> getItemsForStage() {
-		List<ItemStack> required = new ArrayList<>();
-		if (stage == 1) {
-			required.add(new ItemStack(Items.DIAMOND, 1));
-			required.add(new ItemStack(Items.STICK, 3));
-			required.add(new ItemStack(ItemInit.SHIP_COMPONENT.get(), 1));
-			required.add(new ItemStack(Blocks.ACACIA_LOG.asItem(), 1));
-		} else if (stage == 2) {
-			required.add(new ItemStack(Items.ACACIA_BUTTON, 1));
-			required.add(new ItemStack(Items.BEEF, 3));
-			required.add(new ItemStack(ItemInit.THERMAL_REGULATING_BOOTS.get(), 1));
-			required.add(new ItemStack(Blocks.BRAIN_CORAL_BLOCK.asItem(), 2));
-		} else {
-			required.add(ItemStack.EMPTY);
-			required.add(ItemStack.EMPTY);
-			required.add(ItemStack.EMPTY);
-			required.add(ItemStack.EMPTY);
-		}
+		try {
+			ShipConsoleRecipe recipe = (ShipConsoleRecipe) RecipeInit
+					.getRecipes(RecipeInit.SHIP_CONSOLE_RECIPE, this.level.getRecipeManager())
+					.get(new MachinaRL("ship_console_" + stage));
 
-		return required;
+			return recipe.createRequirements();
+		} catch (Exception e) {
+			return Collections.nCopies(4, ItemStack.EMPTY);
+		}
+	}
+
+	public List<ItemStack> getMissingItems() {
+		List<ItemStack> missing = new ArrayList<>();
+		getItemsForStage().forEach(item -> {
+			ItemStack item1 = item.copy();
+			for (ItemStack stack : getItems()) {
+				if (item1.getItem().equals(stack.getItem())) {
+					item1.shrink(stack.getCount());
+				}
+			}
+			if (!item1.isEmpty()) {
+				missing.add(item1);
+			}
+		});
+		return missing;
 	}
 
 	public ItemStack getItemForStage(int id) {
@@ -204,5 +211,4 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity implements ITi
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		this.load(this.getBlockState(), pkt.getTag());
 	}
-
 }

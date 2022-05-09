@@ -4,6 +4,7 @@ import com.machina.Machina;
 import com.machina.client.ClientDataHolder;
 import com.machina.client.renderer.CargoCrateRenderer;
 import com.machina.client.renderer.ComponentAnalyzerRenderer;
+import com.machina.client.renderer.ShipConsoleRenderer;
 import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.util.ClientTimer;
@@ -113,5 +114,6 @@ public class ClientModEvents {
 		ScreenManager.register(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), ComponentAnalyzerScreen::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.SHIP_CONSOLE.get(), ShipConsoleRenderer::new);
 	}
 }
