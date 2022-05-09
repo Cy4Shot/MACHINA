@@ -20,7 +20,7 @@
   "command.planet_traits.add_trait.duplicate": "This planet already has the trait %s!",
   "command.planet_traits.add_trait.success": "Trait added!",
   "command.planet_traits.list_traits.no_traits": "This planet has no traits!",
-  "command.planet_traits.list_traits.success": "This planet has the following traits: \n\u00A76%s",
+  "command.planet_traits.list_traits.success": "This planet has the following traits: \n\u00C2\u00A76%s",
   "command.planet_traits.not_planet": "This dimension is not a planet!",
   "command.planet_traits.remove_trait.not_existing": "This planet does not have the trait %s!",
   "command.planet_traits.remove_trait.success": "Trait removed!",
@@ -42,5 +42,10 @@
   "machina.planet_trait.mountainous": "Mountainous",
   "machina.planet_trait.water_world": "Water World",
   "machina.screen.starchart.title": "Starchart",
+  "machina.ship_component.core": "Core",
+  "machina.ship_component.engine": "Engine",
+  "machina.ship_component.life_support": "Life Support",
+  "machina.ship_component.reactor": "Reactor",
+  "machina.ship_component.shields": "Shields",
   "machina.ship_component.unidentified": "Unidentified"
 }

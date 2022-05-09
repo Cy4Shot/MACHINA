@@ -41,7 +41,7 @@ public class ComponentAnalyzerContainer extends Container {
 
 	public void recreateSlots(final PlayerInventory playerInv) {
 		this.slots.clear();
-		this.addSlot(new AcceptSlot((IInventory) te, 0, -2, 74, ItemInit.SHIP_COMPONENT.get()));
+		this.addSlot(new AcceptSlot((IInventory) te, 0, -2, 74, ItemInit.SHIP_COMPONENT.get().getDefaultInstance()));
 		this.addSlot(new ResultSlot((IInventory) te, 1, 159, 74));
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInv, col, 8 + col * 18, 142));

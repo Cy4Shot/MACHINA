@@ -22,5 +22,4 @@ public class CargoCrateModel extends AnimatedGeoModel<CargoCrateTileEntity> {
 	public ResourceLocation getTextureLocation(CargoCrateTileEntity object) {
 		return new MachinaRL("textures/geo/cargo_crate.png");
 	}
-
 }

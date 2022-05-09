@@ -83,6 +83,11 @@ public class EnUsLangProvider extends LanguageProvider {
 		// Tooltips
 		add("machina.cargo_crate.open", "Right Click to Loot");
 		add("machina.ship_component.unidentified", "Unidentified");
+		add("machina.ship_component.reactor", "Reactor");
+		add("machina.ship_component.core", "Core");
+		add("machina.ship_component.engine", "Engine");
+		add("machina.ship_component.shields", "Shields");
+		add("machina.ship_component.life_support", "Life Support");
 	}
 
 	private void addItemGroup(String key, String name) {

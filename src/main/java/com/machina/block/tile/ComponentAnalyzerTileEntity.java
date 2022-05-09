@@ -1,6 +1,7 @@
 package com.machina.block.tile;
 
 import com.machina.block.container.ComponentAnalyzerContainer;
+import com.machina.item.ShipComponentItem;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.nbt.ItemStackUtil;
 import com.machina.util.server.ParticleUtil;
@@ -10,7 +11,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -66,7 +66,7 @@ public class ComponentAnalyzerTileEntity extends LockableLootTileEntity implemen
 
 	@Override
 	public void tick() {
-		if (!this.getItem(0).isEmpty()) {
+		if (!this.getItem(0).isEmpty() && this.getItem(1).isEmpty()) {
 			this.progress++;
 
 			if (this.progress % 3 == 0) {
@@ -76,12 +76,7 @@ public class ComponentAnalyzerTileEntity extends LockableLootTileEntity implemen
 			if (this.progress == 100) {
 				this.progress = 0;
 				this.getItem(0).shrink(1);
-				if (this.getItem(1).isEmpty()) {
-					this.setItem(1, new ItemStack(Items.DIAMOND));
-				} else {
-					this.getItem(1).grow(1);
-				}
-
+					this.setItem(1, ShipComponentItem.randomComponent());
 				for (int i = 0; i < 10; i++) {
 					ParticleUtil.spawnParticle(level, ParticleTypes.CAMPFIRE_COSY_SMOKE, getBlockPos(), 0.1D, null);
 				}

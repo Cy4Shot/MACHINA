@@ -1,25 +1,116 @@
 package com.machina.item;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
+import com.machina.registration.init.ItemInit;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 public class ShipComponentItem extends Item {
 
+	public static final String NBT_TYPE = "type";
+
 	public ShipComponentItem(Properties props) {
 		super(props);
 	}
-	
-	@Override
-	public void appendHoverText(ItemStack pStack, World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
-		super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
-		
-		pTooltip.add(new TranslationTextComponent("machina.ship_component.unidentified"));
+
+	public static ShipComponentType getType(ItemStack stack) {
+		return ShipComponentType.fromNBT(stack.getOrCreateTag(), NBT_TYPE);
 	}
 
+	public static void setType(ItemStack stack, ShipComponentType type) {
+		type.toNBT(stack.getOrCreateTag(), NBT_TYPE);
+	}
+
+	@Override
+	public void appendHoverText(ItemStack pStack, World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
+		pTooltip.add(new TranslationTextComponent("machina.ship_component." + getType(pStack).getSerializedName())
+				.setStyle(Style.EMPTY.withColor(Color.fromRgb(0x9D_00fefe))));
+
+		super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+	}
+
+	@Override
+	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+		if (!this.allowdedIn(group))
+			return;
+		for (ShipComponentType type : ShipComponentType.values()) {
+			ItemStack stack = new ItemStack(this, 1);
+			setType(stack, type);
+			items.add(stack);
+		}
+	}
+
+	@Override
+	public ItemStack getDefaultInstance() {
+		ItemStack stack = super.getDefaultInstance();
+		setType(stack, ShipComponentType.UNIDENTIFIED);
+		return stack;
+	}
+
+	public static ItemStack randomComponent() {
+		ItemStack stack = new ItemStack(ItemInit.SHIP_COMPONENT.get(), 1);
+		List<ShipComponentType> types = Arrays.asList(ShipComponentType.REACTOR, ShipComponentType.ENGINE,
+				ShipComponentType.CORE, ShipComponentType.SHIELDS, ShipComponentType.LIFE_SUPPORT);
+		setType(stack, types.get(new Random().nextInt(types.size())));
+		return stack;
+	}
+
+	public enum ShipComponentType implements IStringSerializable {
+		//@formatter:off
+		UNIDENTIFIED(0, "unidentified"),
+		REACTOR(1, "reactor"),
+		CORE(2, "core"),
+		ENGINE(3, "engine"),
+		SHIELDS(4, "shields"),
+		LIFE_SUPPORT(5, "life_support");
+		//@formatter:on
+
+		private final byte nbtID;
+		private final String name;
+
+		private ShipComponentType(int id, String n) {
+			this.nbtID = (byte) id;
+			this.name = n;
+		}
+
+		@Override
+		public String getSerializedName() {
+			return this.name;
+		}
+
+		public static ShipComponentType fromNBT(CompoundNBT compoundNBT, String tagname) {
+			byte id = 0;
+			if (compoundNBT != null && compoundNBT.contains(tagname)) {
+				id = compoundNBT.getByte(tagname);
+			}
+			return fromId(id).orElse(UNIDENTIFIED);
+		}
+
+		private static Optional<ShipComponentType> fromId(byte id) {
+			for (ShipComponentType type : ShipComponentType.values()) {
+				if (type.nbtID == id)
+					return Optional.of(type);
+			}
+			return Optional.empty();
+		}
+
+		public void toNBT(CompoundNBT compoundNBT, String tagname) {
+			compoundNBT.putByte(tagname, nbtID);
+		}
+	}
 }
