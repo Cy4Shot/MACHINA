@@ -38,10 +38,10 @@ public class ShipConsoleContainer extends Container {
 
 	public void recreateSlots(final PlayerInventory playerInv) {
 		this.slots.clear();
-		this.addSlot(new CompletableSlot((IInventory) te, 0, -6, 60, () -> te.getItemForStage(0)));
-		this.addSlot(new CompletableSlot((IInventory) te, 1, 19, 60, () -> te.getItemForStage(1)));
-		this.addSlot(new CompletableSlot((IInventory) te, 2, -6, 85, () -> te.getItemForStage(2)));
-		this.addSlot(new CompletableSlot((IInventory) te, 3, 19, 85, () -> te.getItemForStage(3)));
+		this.addSlot(new CompletableSlot((IInventory) te, 0, -6, 60, () -> te.getItemForStage(0), true));
+		this.addSlot(new CompletableSlot((IInventory) te, 1, 19, 60, () -> te.getItemForStage(1), false));
+		this.addSlot(new CompletableSlot((IInventory) te, 2, -6, 85, () -> te.getItemForStage(2), false));
+		this.addSlot(new CompletableSlot((IInventory) te, 3, 19, 85, () -> te.getItemForStage(3), false));
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInv, col, 8 + col * 18, 142));
 		}

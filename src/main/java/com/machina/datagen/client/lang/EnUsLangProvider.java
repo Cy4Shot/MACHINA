@@ -82,6 +82,10 @@ public class EnUsLangProvider extends LanguageProvider {
 		
 		// Tooltips
 		add("machina.cargo_crate.open", "Right Click to Loot");
+		add("machina.ship_console.missing", "Missing Items");
+		add("machina.ship_console.craft_ready", "Craft Ready");
+		add("machina.ship_console.crafting", "Crafting...");
+		add("machina.ship_console.craft", "Craft");
 		add("machina.ship_component.unidentified", "Unidentified");
 		add("machina.ship_component.reactor", "Reactor");
 		add("machina.ship_component.core", "Core");

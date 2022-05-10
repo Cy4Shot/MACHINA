@@ -47,5 +47,9 @@
   "machina.ship_component.life_support": "Life Support",
   "machina.ship_component.reactor": "Reactor",
   "machina.ship_component.shields": "Shields",
-  "machina.ship_component.unidentified": "Unidentified"
+  "machina.ship_component.unidentified": "Unidentified",
+  "machina.ship_console.craft": "Craft",
+  "machina.ship_console.craft_ready": "Craft Ready",
+  "machina.ship_console.crafting": "Crafting...",
+  "machina.ship_console.missing": "Missing Items"
 }

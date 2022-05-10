@@ -4,6 +4,10 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+
 public class StringUtils {
 
 	public static final String TREE_V = "\u2502";
@@ -35,5 +39,21 @@ public class StringUtils {
 			capitalizeWord += first.toUpperCase() + afterfirst + " ";
 		}
 		return capitalizeWord.trim();
+	}
+	
+	public static String translate(String key) {
+		return translateComp(key).getString();
+	}
+	
+	public static String prettyItemStack(ItemStack stack) {
+		return String.valueOf(stack.getCount()) + "x " + stack.getItem().getName(stack).getString();
+	}
+	
+	public static TranslationTextComponent translateComp(String key) {
+		return new TranslationTextComponent(key);
+	}
+	
+	public static StringTextComponent toComp(String text) {
+		return new StringTextComponent(text);
 	}
 }

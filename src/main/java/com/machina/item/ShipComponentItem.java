@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import com.machina.registration.init.ItemInit;
+import com.machina.util.text.StringUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
@@ -16,8 +17,8 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 public class ShipComponentItem extends Item {
@@ -36,9 +37,17 @@ public class ShipComponentItem extends Item {
 		type.toNBT(stack.getOrCreateTag(), NBT_TYPE);
 	}
 
+	public static String getNameForType(ShipComponentType type) {
+		return StringUtils.translate("machina.ship_component." + type.getSerializedName());
+	}
+	
+	public static String getNameForStage(int stage) {
+		return getNameForType(ShipComponentType.fromId((byte) stage).get());
+	}
+
 	@Override
 	public void appendHoverText(ItemStack pStack, World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
-		pTooltip.add(new TranslationTextComponent("machina.ship_component." + getType(pStack).getSerializedName())
+		pTooltip.add(new StringTextComponent(getNameForType(getType(pStack)))
 				.setStyle(Style.EMPTY.withColor(Color.fromRgb(0x9D_00fefe))));
 
 		super.appendHoverText(pStack, pLevel, pTooltip, pFlag);

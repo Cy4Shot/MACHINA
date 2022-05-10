@@ -2,17 +2,19 @@ package com.machina.block.container.slot;
 
 import java.util.function.Supplier;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 
 public class CompletableSlot extends Slot {
 	Supplier<ItemStack> accept = () -> ItemStack.EMPTY;
+	boolean tag = false;
 
-	public CompletableSlot(IInventory pContainer, int pIndex, int pX, int pY, Supplier<ItemStack> accept) {
+	public CompletableSlot(IInventory pContainer, int pIndex, int pX, int pY, Supplier<ItemStack> accept,
+			boolean checktag) {
 		super(pContainer, pIndex, pX, pY);
 		this.accept = accept;
+		this.tag = checktag;
 	}
 
 	public ItemStack getBackground() {
@@ -27,12 +29,7 @@ public class CompletableSlot extends Slot {
 	@Override
 	public boolean mayPlace(ItemStack stack) {
 		return accept.get().getItem().equals(stack.getItem())
-				&& accept.get().getOrCreateTag().equals(stack.getOrCreateTag());
-	}
-
-	@Override
-	public boolean mayPickup(PlayerEntity pPlayer) {
-		return !getItem().getItem().equals(accept.get().getItem());
+				&& (!tag || accept.get().getOrCreateTag().equals(stack.getOrCreateTag()));
 	}
 
 	public boolean isComplete() {

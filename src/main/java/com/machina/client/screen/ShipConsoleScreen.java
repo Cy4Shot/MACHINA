@@ -3,9 +3,11 @@ package com.machina.client.screen;
 import com.machina.block.container.ShipConsoleContainer;
 import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.client.util.UIHelper;
+import com.machina.item.ShipComponentItem;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SShipConsoleGUIButton;
 import com.machina.util.MachinaRL;
+import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -87,17 +89,19 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		} else {
 			this.blit(stack, x + 74, y + 49, 56, 150, 95, 18);
 		}
-		String buttonText = "Missing Items";
+		String buttonText = StringUtils.translate("machina.ship_console.missing");
 		if (this.menu.areSlotsComplete()) {
-			buttonText = "Complete Stage";
+			buttonText = StringUtils.translate("machina.ship_console.craft");
 		} else if (this.menu.te.progress != 0) {
-			buttonText = "Crafting...";
+			buttonText = StringUtils.translate("machina.ship_console.crafting");
 		}
 		UIHelper.drawStringWithBorder(stack, buttonText, x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		// Text
 		String stage = String.format("Stage %d / 5", this.menu.te.stage);
+		String comp = ShipComponentItem.getNameForStage(this.menu.te.stage);
 		UIHelper.drawStringWithBorder(stack, stage, x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);
+		UIHelper.drawStringWithBorder(stack, comp, x + 120 - this.minecraft.font.width(comp) / 2, y + 14, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, "MACHINA://SHIP_CONSOLE/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
 

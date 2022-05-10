@@ -5,6 +5,8 @@ import java.util.List;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.client.util.TERUtil;
+import com.machina.item.ShipComponentItem;
+import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -12,7 +14,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
-import net.minecraft.util.text.StringTextComponent;
 
 public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntity> {
 
@@ -46,8 +47,9 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 		int x = d.getNormal().getX();
 		int z = d.getNormal().getZ();
 
+		String stage = String.format("Stage %d / 5 - ", te.stage) + ShipComponentItem.getNameForStage(te.stage);
 		TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d - .15d * x, .72d, .5d - .15d * z }, rot,
-				new StringTextComponent("Stage " + String.valueOf(te.stage) + " / 5"), 0xffffff, .5f);
+				StringUtils.toComp(stage), 0xffffff, .5f);
 
 		if (!te.isInProgress) {
 
@@ -56,22 +58,22 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 			int i = 0;
 			for (ItemStack item : missing) {
 				i++;
-				String text = String.valueOf(item.getCount()) + "x " + item.getDisplayName().getString();
+				String text = StringUtils.prettyItemStack(item);
 				TERUtil.renderLabel(stack, bufferIn, lightLevel,
 						new double[] { .5d + .07d * i * x, .66d - .03d * i, .5d + .07d * i * z }, rot,
-						new StringTextComponent(text), 0xff0000, 0.5f);
+						StringUtils.toComp(text), 0xff0000, 0.5f);
 			}
 
 			if (missing.isEmpty()) {
 				TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z },
-						rot, new StringTextComponent("Craft Ready"), 0x00ff00, 1f);
+						rot, StringUtils.translateComp("machina.ship_console.craft_ready"), 0x00ff00, 1f);
 			} else {
 				TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d - .05d * x, .69d, .5d - .05d * z },
-						rot, new StringTextComponent("Missing Items"), 0xff0000, 1f);
+						rot, StringUtils.translateComp("machina.ship_console.missing"), 0xff0000, 1f);
 			}
 		} else {
 			TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
-					new StringTextComponent("Crafting..."), 0x00ff00, 1f);
+					StringUtils.translateComp("machina.ship_console.crafting"), 0x00ff00, 1f);
 		}
 	}
 
