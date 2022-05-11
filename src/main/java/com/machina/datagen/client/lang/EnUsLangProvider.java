@@ -52,6 +52,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(ItemInit.THERMAL_REGULATING_BOOTS.get(), "Thermal Regulating Boots");
 		add(ItemInit.WRENCH.get(), "Wrench");
 		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
+		add(ItemInit.REINFORCED_STICK.get(), "Reinforced Stick");
 
 		// Traits
 		add(PlanetTraitInit.WATER_WORLD, "Water World");

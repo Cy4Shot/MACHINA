@@ -23,20 +23,33 @@ public final class ItemInit {
 		return ITEMS.register(name, item);
 	}
 
-	public static final RegistryObject<ThermalRegulatorSuit> THERMAL_REGULATING_HELMET = register("thermal_regulating_helmet",
-			() -> new ThermalRegulatorSuit(new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
+	public static final RegistryObject<ThermalRegulatorSuit> THERMAL_REGULATING_HELMET = register(
+			"thermal_regulating_helmet",
+			() -> new ThermalRegulatorSuit(
+					new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
 					EquipmentSlotType.HEAD));
-	public static final RegistryObject<ThermalRegulatorSuit> THERMAL_REGULATING_CHESTPLATE = register("thermal_regulating_chestplate",
-			() -> new ThermalRegulatorSuit(new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
+	public static final RegistryObject<ThermalRegulatorSuit> THERMAL_REGULATING_CHESTPLATE = register(
+			"thermal_regulating_chestplate",
+			() -> new ThermalRegulatorSuit(
+					new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
 					EquipmentSlotType.CHEST));
-	public static final RegistryObject<ThermalRegulatorSuit> THERMAL_REGULATING_LEGGINGS = register("thermal_regulating_leggings",
-			() -> new ThermalRegulatorSuit(new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
+	public static final RegistryObject<ThermalRegulatorSuit> THERMAL_REGULATING_LEGGINGS = register(
+			"thermal_regulating_leggings",
+			() -> new ThermalRegulatorSuit(
+					new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
 					EquipmentSlotType.LEGS));
-	public static final RegistryObject<ThermalRegulatorSuit> THERMAL_REGULATING_BOOTS = register("thermal_regulating_boots",
-			() -> new ThermalRegulatorSuit(new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
+	public static final RegistryObject<ThermalRegulatorSuit> THERMAL_REGULATING_BOOTS = register(
+			"thermal_regulating_boots",
+			() -> new ThermalRegulatorSuit(
+					new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
 					EquipmentSlotType.FEET));
 
-	public static final RegistryObject<WrenchItem> WRENCH = register("wrench", () -> ItemBuilder.basicItem(WrenchItem::new));
-	
-	public static final RegistryObject<ShipComponentItem> SHIP_COMPONENT = register("ship_component", () -> ItemBuilder.basicItem(ShipComponentItem::new));
+	public static final RegistryObject<WrenchItem> WRENCH = register("wrench",
+			() -> ItemBuilder.basicItem(WrenchItem::new));
+
+	public static final RegistryObject<ShipComponentItem> SHIP_COMPONENT = register("ship_component",
+			() -> ItemBuilder.basicItem(ShipComponentItem::new));
+
+	public static final RegistryObject<Item> REINFORCED_STICK = register("reinforced_stick",
+			() -> ItemBuilder.basicItem());
 }

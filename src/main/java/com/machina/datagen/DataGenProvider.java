@@ -8,6 +8,7 @@ import com.machina.datagen.common.BlockTagsProvider;
 import com.machina.datagen.common.ItemTagsProvider;
 import com.machina.datagen.common.LootTableProvider;
 import com.machina.datagen.common.PlanetTraitPoolsProvider;
+import com.machina.datagen.common.RecipesProvider;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -35,6 +36,7 @@ public class DataGenProvider {
 		gen.addProvider(new ItemTagsProvider(gen, blockTags, existingFileHelper));
 		gen.addProvider(new PlanetTraitPoolsProvider(gen));
 		gen.addProvider(new LootTableProvider(gen));
+		gen.addProvider(new RecipesProvider(gen));
 	}
 
 }
