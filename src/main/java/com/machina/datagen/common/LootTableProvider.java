@@ -29,5 +29,8 @@ public class LootTableProvider extends BaseLootTableProvider {
         dropSelf(BlockInit.WASTELAND_SANDSTONE_SLAB.get());
         dropSelf(BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
         dropSelf(BlockInit.WASTELAND_SANDSTONE_WALL.get());
+        dropSelf(BlockInit.STEEL_BLOCK.get());
+        dropSelf(BlockInit.STEEL_CHASSIS.get());
+        dropSelf(BlockInit.IRON_CHASSIS.get());
     }
 }

@@ -118,6 +118,7 @@ public class DevPlanetCreationScreen extends Screen {
 		minecraft.player.sendMessage(new StringTextComponent("Invalid Planet ID!"), UUID.randomUUID());
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MatrixStack stack, int pMouseX, int pMouseY, float pPartialTicks) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);

@@ -39,9 +39,14 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_SLAB.get());
 		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
 		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_WALL.get());
+		makeSimpleBlockItem(BlockInit.STEEL_BLOCK.get());
+		makeSimpleBlockItem(BlockInit.STEEL_CHASSIS.get());
+		makeSimpleBlockItem(BlockInit.IRON_CHASSIS.get());
 		
 		oneLayerItem(ItemInit.SHIP_COMPONENT.get());
 		oneLayerItem(ItemInit.REINFORCED_STICK.get());
+		oneLayerItem(ItemInit.STEEL_INGOT.get());
+		oneLayerItem(ItemInit.STEEL_NUGGET.get());
 	}
 
 	protected void createBucketModel(FlowingFluid stillFluid) {

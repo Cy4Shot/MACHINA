@@ -40,6 +40,15 @@ public class BlockInit {
 
 	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer",
 			() -> new ComponentAnalyzerBlock());
+	
+	public static final RegistryObject<Block> IRON_CHASSIS = register("iron_chassis",
+			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+	
+	public static final RegistryObject<Block> STEEL_CHASSIS = register("steel_chassis",
+			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
+	
+	public static final RegistryObject<Block> STEEL_BLOCK = register("steel_block",
+			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 
 	public static final RegistryObject<Block> ALIEN_STONE = register("alien_stone",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.STONE)));

@@ -44,12 +44,11 @@ public final class ItemInit {
 					new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512),
 					EquipmentSlotType.FEET));
 
-	public static final RegistryObject<WrenchItem> WRENCH = register("wrench",
-			() -> ItemBuilder.basicItem(WrenchItem::new));
-
-	public static final RegistryObject<ShipComponentItem> SHIP_COMPONENT = register("ship_component",
-			() -> ItemBuilder.basicItem(ShipComponentItem::new));
-
-	public static final RegistryObject<Item> REINFORCED_STICK = register("reinforced_stick",
-			() -> ItemBuilder.basicItem());
+	//@formatter:off
+	public static final RegistryObject<WrenchItem> WRENCH = register("wrench", () -> ItemBuilder.basicItem(WrenchItem::new));
+	public static final RegistryObject<ShipComponentItem> SHIP_COMPONENT = register("ship_component", () -> ItemBuilder.basicItem(ShipComponentItem::new));
+	public static final RegistryObject<Item> REINFORCED_STICK = register("reinforced_stick", () -> ItemBuilder.basicItem());
+	public static final RegistryObject<Item> STEEL_INGOT = register("steel_ingot", () -> ItemBuilder.basicItem());
+	public static final RegistryObject<Item> STEEL_NUGGET = register("steel_nugget", () -> ItemBuilder.basicItem());
+	//@formatter:on
 }

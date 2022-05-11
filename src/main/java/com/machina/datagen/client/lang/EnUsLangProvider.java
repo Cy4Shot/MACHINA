@@ -30,6 +30,10 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
 		
+		add(BlockInit.STEEL_BLOCK.get(), "Steel Block");
+		add(BlockInit.STEEL_CHASSIS.get(), "Steel Chassis");
+		add(BlockInit.IRON_CHASSIS.get(), "Iron Chassis");
+		
 		add(BlockInit.ALIEN_STONE.get(), "Alien Stone");
 		add(BlockInit.ALIEN_STONE_SLAB.get(), "Alien Stone Slab");
 		add(BlockInit.ALIEN_STONE_STAIRS.get(), "Alien Stone Stairs");
@@ -53,6 +57,8 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(ItemInit.WRENCH.get(), "Wrench");
 		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
 		add(ItemInit.REINFORCED_STICK.get(), "Reinforced Stick");
+		add(ItemInit.STEEL_INGOT.get(), "Steel Ingot");
+		add(ItemInit.STEEL_NUGGET.get(), "Steel Nugget");
 
 		// Traits
 		add(PlanetTraitInit.WATER_WORLD, "Water World");

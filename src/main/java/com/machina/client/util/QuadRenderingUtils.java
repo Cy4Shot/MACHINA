@@ -78,6 +78,7 @@ public class QuadRenderingUtils {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void renderBuffer(MatrixStack matrixStackIn, VertexBuffer buffer, VertexFormat format, float r,
 			float g, float b, float a) {
 		RenderSystem.color4f(r, g, b, a);

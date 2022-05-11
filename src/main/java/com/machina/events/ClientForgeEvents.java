@@ -52,7 +52,6 @@ public class ClientForgeEvents {
 
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.STARCHART)) {
 			mc.setScreen(new StarchartScreen());
-			// ClientStarchartHolder.getStarchart().debugStarchart();
 		}
 	}
 	

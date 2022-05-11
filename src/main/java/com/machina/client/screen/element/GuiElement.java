@@ -45,6 +45,7 @@ public class GuiElement extends Widget implements IFontRenderer {
 		super.render(matrix, mouseX, mouseY, partialTicks);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void renderButton(MatrixStack pMatrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
 		Minecraft minecraft = Minecraft.getInstance();

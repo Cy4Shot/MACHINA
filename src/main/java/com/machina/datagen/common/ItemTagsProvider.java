@@ -2,6 +2,8 @@ package com.machina.datagen.common;
 
 import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.ItemInit;
+import com.machina.util.server.TagHelper;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.ItemTags;
@@ -23,5 +25,8 @@ public class ItemTagsProvider extends net.minecraft.data.ItemTagsProvider {
 				BlockInit.WASTELAND_DIRT_STAIRS.get().asItem());
 		tag(ItemTags.WALLS).add(BlockInit.WASTELAND_SANDSTONE_WALL.get().asItem());
 		tag(ItemTags.SAND).add(BlockInit.WASTELAND_SAND.get().asItem());
+		tag(TagHelper.getForgeItemTag("ingots/steel")).add(ItemInit.STEEL_INGOT.get());
+		tag(TagHelper.getForgeItemTag("nuggets/steel")).add(ItemInit.STEEL_NUGGET.get());
+		tag(TagHelper.getForgeItemTag("storage_blocks/steel")).add(BlockInit.STEEL_BLOCK.get().asItem());
 	}
 }

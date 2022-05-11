@@ -4,6 +4,7 @@ import static com.machina.Machina.MOD_ID;
 
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.TagInit;
+import com.machina.util.server.TagHelper;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
@@ -26,6 +27,7 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
 				BlockInit.TWILIGHT_DIRT_STAIRS.get(), BlockInit.WASTELAND_DIRT_STAIRS.get());
 		tag(BlockTags.WALLS).add(BlockInit.WASTELAND_SANDSTONE_WALL.get());
 		tag(BlockTags.SAND).add(BlockInit.WASTELAND_SAND.get());
+		tag(TagHelper.getForgeBlockTag("storage_blocks/steel")).add(BlockInit.STEEL_BLOCK.get());
 	}
 
 }

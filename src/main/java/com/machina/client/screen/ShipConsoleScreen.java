@@ -36,6 +36,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 			return super.getSlotColor(index);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MatrixStack stack, int pMouseX, int pMouseY, float pPartialTicks) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
@@ -53,6 +54,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 	protected void renderLabels(MatrixStack pMatrixStack, int pX, int pY) {
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void renderBg(MatrixStack stack, float pPartialTicks, int pX, int pY) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
