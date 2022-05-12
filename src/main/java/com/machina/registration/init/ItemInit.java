@@ -50,5 +50,8 @@ public final class ItemInit {
 	public static final RegistryObject<Item> REINFORCED_STICK = register("reinforced_stick", () -> ItemBuilder.basicItem());
 	public static final RegistryObject<Item> STEEL_INGOT = register("steel_ingot", () -> ItemBuilder.basicItem());
 	public static final RegistryObject<Item> STEEL_NUGGET = register("steel_nugget", () -> ItemBuilder.basicItem());
+	public static final RegistryObject<Item> PROCESSOR = register("processor", () -> ItemBuilder.basicItem());
+	public static final RegistryObject<Item> SILICON = register("silicon", () -> ItemBuilder.basicItem());
+	public static final RegistryObject<Item> TRANSISTOR = register("transistor", () -> ItemBuilder.basicItem());
 	//@formatter:on
 }

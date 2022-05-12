@@ -47,6 +47,9 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		oneLayerItem(ItemInit.REINFORCED_STICK.get());
 		oneLayerItem(ItemInit.STEEL_INGOT.get());
 		oneLayerItem(ItemInit.STEEL_NUGGET.get());
+		oneLayerItem(ItemInit.PROCESSOR.get());
+		oneLayerItem(ItemInit.SILICON.get());
+		oneLayerItem(ItemInit.TRANSISTOR.get());
 	}
 
 	protected void createBucketModel(FlowingFluid stillFluid) {

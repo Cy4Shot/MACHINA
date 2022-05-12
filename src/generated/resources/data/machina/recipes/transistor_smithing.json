@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:iron_ingot"
+  },
+  "addition": {
+    "item": "machina:silicon"
+  },
+  "result": {
+    "item": "machina:transistor"
+  }
+}

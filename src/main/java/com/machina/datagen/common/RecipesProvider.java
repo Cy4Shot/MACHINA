@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.machina.datagen.builder.CustomCookingRecipeBuilder;
 import com.machina.datagen.builder.CustomShapedRecipeBuilder;
 import com.machina.datagen.builder.CustomShapelessRecipeBuilder;
 import com.machina.datagen.builder.CustomSmithingRecipeBuilder;
@@ -29,8 +30,25 @@ public class RecipesProvider extends RecipeProvider {
 	protected void buildShapelessRecipes(Consumer<IFinishedRecipe> f) {
 		add9x9AndBack(f, ItemInit.STEEL_NUGGET.get(), ItemInit.STEEL_INGOT.get());
 		add9x9AndBack(f, ItemInit.STEEL_INGOT.get(), BlockInit.STEEL_BLOCK.get());
+		
 		addSmithing(f, Items.STICK, Items.IRON_BLOCK, ItemInit.REINFORCED_STICK.get());
+		addSmithing(f, Items.IRON_INGOT, ItemInit.SILICON.get(), ItemInit.TRANSISTOR.get());
+		
 		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.COAL, Items.COAL);
+		
+		addBlasting(f, Blocks.GRAVEL, ItemInit.SILICON.get(), 0.5f, 100);
+		
+		addShaped(f, ItemInit.PROCESSOR.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('t', ItemInit.TRANSISTOR.get())
+					.define('d', Items.DIAMOND)
+					.define('r', Items.REDSTONE_TORCH)
+					.pattern("trt")
+					.pattern("rdr")
+					.pattern("trt");
+			//@formatter:on
+		});
 
 		addShaped(f, BlockInit.IRON_CHASSIS.get(), 1, builder -> {
 			//@formatter:off
@@ -41,6 +59,17 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("rsr")
 					.pattern("rrr");
 			//@formatter:off
+		});
+		
+		addShaped(f, BlockInit.STEEL_CHASSIS.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('c', BlockInit.IRON_CHASSIS.get())
+					.define('s', ItemInit.STEEL_INGOT.get())
+					.pattern("sss")
+					.pattern("scs")
+					.pattern("sss");
+			//@formatter:on
 		});
 	}
 
@@ -81,5 +110,17 @@ public class RecipesProvider extends RecipeProvider {
 		CustomShapelessRecipeBuilder.shapeless(out, count).requires(in)
 				.unlockedBy("has_" + in[0].asItem().getRegistryName().getPath(), has(in[0]))
 				.save(f, out.asItem().getRegistryName().getPath());
+	}
+
+	public void addSmelting(Consumer<IFinishedRecipe> f, IItemProvider in, IItemProvider out, float exp, int time) {
+		String i = in.asItem().getRegistryName().getPath();
+		CustomCookingRecipeBuilder.smelting(Ingredient.of(in), out, exp, time).unlockedBy("has_" + i, has(in)).save(f,
+				out.asItem().getRegistryName().getPath() + "_from_" + i);
+	}
+
+	public void addBlasting(Consumer<IFinishedRecipe> f, IItemProvider in, IItemProvider out, float exp, int time) {
+		String i = in.asItem().getRegistryName().getPath();
+		CustomCookingRecipeBuilder.blasting(Ingredient.of(in), out, exp, time).unlockedBy("has_" + i, has(in)).save(f,
+				out.asItem().getRegistryName().getPath() + "_from_" + i);
 	}
 }

@@ -73,7 +73,7 @@ public class ShipComponentItem extends Item {
 
 	public static ItemStack randomComponent() {
 		ItemStack stack = new ItemStack(ItemInit.SHIP_COMPONENT.get(), 1);
-		List<ShipComponentType> types = Arrays.asList(ShipComponentType.REACTOR, ShipComponentType.ENGINE,
+		List<ShipComponentType> types = Arrays.asList(ShipComponentType.REACTOR, ShipComponentType.THRUSTERS,
 				ShipComponentType.CORE, ShipComponentType.SHIELDS, ShipComponentType.LIFE_SUPPORT);
 		setType(stack, types.get(new Random().nextInt(types.size())));
 		return stack;
@@ -84,7 +84,7 @@ public class ShipComponentItem extends Item {
 		UNIDENTIFIED(0, "unidentified"),
 		REACTOR(1, "reactor"),
 		CORE(2, "core"),
-		ENGINE(3, "engine"),
+		THRUSTERS(3, "thrusters"),
 		SHIELDS(4, "shields"),
 		LIFE_SUPPORT(5, "life_support");
 		//@formatter:on

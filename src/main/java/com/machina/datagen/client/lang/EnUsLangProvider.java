@@ -59,6 +59,9 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(ItemInit.REINFORCED_STICK.get(), "Reinforced Stick");
 		add(ItemInit.STEEL_INGOT.get(), "Steel Ingot");
 		add(ItemInit.STEEL_NUGGET.get(), "Steel Nugget");
+		add(ItemInit.PROCESSOR.get(), "Processor");
+		add(ItemInit.SILICON.get(), "Silicon");
+		add(ItemInit.TRANSISTOR.get(), "Transistor");
 
 		// Traits
 		add(PlanetTraitInit.WATER_WORLD, "Water World");
@@ -96,7 +99,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		add("machina.ship_component.unidentified", "Unidentified");
 		add("machina.ship_component.reactor", "Reactor");
 		add("machina.ship_component.core", "Core");
-		add("machina.ship_component.engine", "Engine");
+		add("machina.ship_component.thrusters", "Thrusters");
 		add("machina.ship_component.shields", "Shields");
 		add("machina.ship_component.life_support", "Life Support");
 	}
