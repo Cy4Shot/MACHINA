@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "ship_console",
+  "pattern": [
+    "gpg",
+    "tct",
+    "sbs"
+  ],
+  "key": {
+    "t": {
+      "item": "machina:transistor"
+    },
+    "g": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "c": {
+      "item": "machina:steel_chassis"
+    },
+    "s": {
+      "item": "machina:steel_ingot"
+    },
+    "b": {
+      "item": "machina:steel_block"
+    },
+    "p": {
+      "item": "machina:processor"
+    }
+  },
+  "result": {
+    "item": "machina:ship_console"
+  }
+}

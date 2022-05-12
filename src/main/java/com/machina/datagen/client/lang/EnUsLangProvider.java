@@ -29,6 +29,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(BlockInit.SHIP_CONSOLE.get(), "Ship Console");
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
+		add(BlockInit.PUZZLE_BLOCK.get(), "Puzzle Block");
 		
 		add(BlockInit.STEEL_BLOCK.get(), "Steel Block");
 		add(BlockInit.STEEL_CHASSIS.get(), "Steel Chassis");

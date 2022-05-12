@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.block.CargoCrateBlock;
 import com.machina.block.ComponentAnalyzerBlock;
+import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.registration.Registration;
 
@@ -40,13 +41,15 @@ public class BlockInit {
 
 	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer",
 			() -> new ComponentAnalyzerBlock());
-	
+
+	public static final RegistryObject<PuzzleBlock> PUZZLE_BLOCK = register("puzzle_block", () -> new PuzzleBlock());
+
 	public static final RegistryObject<Block> IRON_CHASSIS = register("iron_chassis",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-	
+
 	public static final RegistryObject<Block> STEEL_CHASSIS = register("steel_chassis",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-	
+
 	public static final RegistryObject<Block> STEEL_BLOCK = register("steel_block",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
 

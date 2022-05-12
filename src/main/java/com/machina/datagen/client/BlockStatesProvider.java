@@ -41,6 +41,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.STEEL_CHASSIS.get());
 		simpleBlock(BlockInit.IRON_CHASSIS.get());
+		simpleBlock(BlockInit.PUZZLE_BLOCK.get());
 	}
 
 	public void fluid(Block block) {

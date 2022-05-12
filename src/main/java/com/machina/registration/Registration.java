@@ -25,7 +25,6 @@ import com.machina.world.data.StarchartData;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -51,18 +50,18 @@ public class Registration {
 	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
 		@Override
 		public ItemStack makeIcon() {
-			return Items.ENDER_PEARL.getDefaultInstance();
+			return BlockInit.SHIP_CONSOLE.get().asItem().getDefaultInstance();
 		}
 	};
 
 	public static PlanetTraitPoolManager planetTraitPoolManager = new PlanetTraitPoolManager();
 
 	public static void register(IEventBus bus) {
-		
+
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			CustomDimensionRenderInfo.registerDimensionRenderInfo();
 		});
-		
+
 		registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
 		registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 

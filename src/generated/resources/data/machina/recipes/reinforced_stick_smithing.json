@@ -4,7 +4,7 @@
     "item": "minecraft:stick"
   },
   "addition": {
-    "item": "minecraft:iron_block"
+    "item": "minecraft:iron_ingot"
   },
   "result": {
     "item": "machina:reinforced_stick"

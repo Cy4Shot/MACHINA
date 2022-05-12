@@ -31,10 +31,10 @@ public class RecipesProvider extends RecipeProvider {
 		add9x9AndBack(f, ItemInit.STEEL_NUGGET.get(), ItemInit.STEEL_INGOT.get());
 		add9x9AndBack(f, ItemInit.STEEL_INGOT.get(), BlockInit.STEEL_BLOCK.get());
 		
-		addSmithing(f, Items.STICK, Items.IRON_BLOCK, ItemInit.REINFORCED_STICK.get());
+		addSmithing(f, Items.STICK, Items.IRON_INGOT, ItemInit.REINFORCED_STICK.get());
 		addSmithing(f, Items.IRON_INGOT, ItemInit.SILICON.get(), ItemInit.TRANSISTOR.get());
 		
-		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.COAL, Items.COAL);
+		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.IRON_INGOT, Items.COAL);
 		
 		addBlasting(f, Blocks.GRAVEL, ItemInit.SILICON.get(), 0.5f, 100);
 		
@@ -47,6 +47,36 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("trt")
 					.pattern("rdr")
 					.pattern("trt");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.SHIP_CONSOLE.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('t', ItemInit.TRANSISTOR.get())
+					.define('g', Items.GLOWSTONE_DUST)
+					.define('c', BlockInit.STEEL_CHASSIS.get())
+					.define('s', ItemInit.STEEL_INGOT.get())
+					.define('b', BlockInit.STEEL_BLOCK.get())
+					.define('p', ItemInit.PROCESSOR.get())
+					.pattern("gpg")
+					.pattern("tct")
+					.pattern("sbs");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.COMPONENT_ANALYZER.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('t', ItemInit.TRANSISTOR.get())
+					.define('c', BlockInit.IRON_CHASSIS.get())
+					.define('s', ItemInit.STEEL_INGOT.get())
+					.define('b', Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE)
+					.define('r', Items.REDSTONE)
+					.define('p', ItemInit.PROCESSOR.get())
+					.pattern("rpr")
+					.pattern("tct")
+					.pattern("sbs");
 			//@formatter:on
 		});
 
