@@ -109,8 +109,8 @@ public class ClientModEvents {
 		RenderTypeLookup.setRenderLayer(BlockInit.CARGO_CRATE.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.SHIP_CONSOLE.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.COMPONENT_ANALYZER.get(), RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockInit.STEEL_CHASSIS.get(), RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockInit.IRON_CHASSIS.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(BlockInit.STEEL_CHASSIS.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(BlockInit.IRON_CHASSIS.get(), RenderType.translucent());
 
 		ScreenManager.register(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), ShipConsoleScreen::new);
 		ScreenManager.register(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), ComponentAnalyzerScreen::new);

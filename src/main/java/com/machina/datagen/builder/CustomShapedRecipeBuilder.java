@@ -33,7 +33,7 @@ public class CustomShapedRecipeBuilder {
 	private final Item result;
 	private final int count;
 	private final List<String> rows = Lists.newArrayList();
-	private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
+	public final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
 	private final Advancement.Builder advancement = Advancement.Builder.advancement();
 	private String group;
 

@@ -1,6 +1,8 @@
 package com.machina.datagen.common;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.machina.datagen.builder.CustomShapedRecipeBuilder;
 import com.machina.datagen.builder.CustomShapelessRecipeBuilder;
@@ -8,9 +10,11 @@ import com.machina.datagen.builder.CustomSmithingRecipeBuilder;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.RecipeProvider;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
@@ -27,6 +31,26 @@ public class RecipesProvider extends RecipeProvider {
 		add9x9AndBack(f, ItemInit.STEEL_INGOT.get(), BlockInit.STEEL_BLOCK.get());
 		addSmithing(f, Items.STICK, Items.IRON_BLOCK, ItemInit.REINFORCED_STICK.get());
 		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.COAL, Items.COAL);
+
+		addShaped(f, BlockInit.IRON_CHASSIS.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('r', ItemInit.REINFORCED_STICK.get())
+					.define('s', Blocks.SCAFFOLDING)
+					.pattern("rrr")
+					.pattern("rsr")
+					.pattern("rrr");
+			//@formatter:off
+		});
+	}
+
+	public void addShaped(Consumer<IFinishedRecipe> f, IItemProvider out, int count,
+			Function<CustomShapedRecipeBuilder, CustomShapedRecipeBuilder> apply) {
+		CustomShapedRecipeBuilder b = CustomShapedRecipeBuilder.shaped(out, count);
+		CustomShapedRecipeBuilder a = apply.apply(b);
+		Item i = a.key.values().stream().collect(Collectors.toList()).get(0).getItems()[0].getItem();
+		String p = out.asItem().getRegistryName().getPath();
+		a.group(p).unlockedBy("has_" + i, has(i)).save(f, p);
 	}
 
 	public void addSmithing(Consumer<IFinishedRecipe> f, IItemProvider base, IItemProvider add, IItemProvider out) {
@@ -58,5 +82,4 @@ public class RecipesProvider extends RecipeProvider {
 				.unlockedBy("has_" + in[0].asItem().getRegistryName().getPath(), has(in[0]))
 				.save(f, out.asItem().getRegistryName().getPath());
 	}
-
 }
