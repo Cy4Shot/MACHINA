@@ -8,6 +8,7 @@
 		"PlayerEntityMixin",
 		"SwimTaskMixin",
 		"SugarCaneBlockMixin",
+		"LivingEntityMixin",
 		"forge.LanguageProviderMixin"
 	],
 	"client": [

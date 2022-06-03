@@ -15,12 +15,14 @@ import com.machina.planet.trait.type.IPlanetTraitType;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.util.MachinaRL;
 import com.machina.util.nbt.BaseNBTMap;
+import com.machina.util.server.PlanetUtils;
 import com.machina.util.text.StringUtils;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -138,6 +140,14 @@ public class StarchartData extends WorldSavedData {
 		return new BaseNBTMap<>(
 				rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
 				nbt -> new ResourceLocation(nbt.getAsString()), PlanetData::fromNBT);
+	}
+	
+	public static PlanetData getDataForDimension(MinecraftServer server, RegistryKey<World> dim) {
+		return getDataForDimension(server, PlanetUtils.getId(dim));
+	}
+	
+	public static PlanetData getDataForDimension(MinecraftServer server, int id) {
+		return getStarchartForServer(server).computeIfAbsent(new MachinaRL(id), rl -> PlanetData.NONE);
 	}
 
 }
