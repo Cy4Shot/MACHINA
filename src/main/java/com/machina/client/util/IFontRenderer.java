@@ -6,9 +6,9 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.machina.util.color.MachinaColours;
-import com.machina.util.text.TextComponentHelper;
+import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.text.ITextComponent;
@@ -22,22 +22,6 @@ public interface IFontRenderer {
 	int getXSize();
 
 	FontRenderer getFont();
-
-	default int titleTextColor() {
-		return MachinaColours.TITLE.argb();
-	}
-
-	default int headingTextColor() {
-		return MachinaColours.HEADING.argb();
-	}
-
-	default int subheadingTextColor() {
-		return MachinaColours.SUBHEADING.argb();
-	}
-
-	default int screenTextColor() {
-		return MachinaColours.SCREEN.argb();
-	}
 
 	default int drawString(MatrixStack matrix, ITextComponent component, int x, int y, int color) {
 		return getFont().draw(matrix, component, x, y, color);
@@ -58,8 +42,8 @@ public interface IFontRenderer {
 		drawTextExact(matrix, component, centerX, y, color);
 	}
 
-	default void drawTitleText(MatrixStack matrix, ITextComponent text, float y) {
-		drawCenteredTextScaledBound(matrix, text, getXSize() - 8, y, titleTextColor());
+	default void drawTitleText(MatrixStack matrix, ITextComponent text, float y, int color) {
+		drawCenteredTextScaledBound(matrix, text, getXSize() - 8, y, color);
 	}
 
 	default void drawScaledCenteredText(MatrixStack matrix, ITextComponent text, float left, float y, int color,
@@ -93,7 +77,7 @@ public interface IFontRenderer {
 	}
 
 	default void drawTextScaledBound(MatrixStack matrix, String text, float x, float y, int color, float maxLength) {
-		drawTextScaledBound(matrix, TextComponentHelper.getString(text), x, y, color, maxLength);
+		drawTextScaledBound(matrix, StringUtils.toComp(text), x, y, color, maxLength);
 	}
 
 	default void drawTextScaledBound(MatrixStack matrix, ITextComponent component, float x, float y, int color,
@@ -105,7 +89,7 @@ public interface IFontRenderer {
 		} else {
 			drawTextWithScale(matrix, component, x, y, color, maxLength / length);
 		}
-		RenderHelper.resetColour();
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
 	}
 
 	default void drawScaledTextScaledBound(MatrixStack matrix, ITextComponent text, float x, float y, int color,
@@ -126,7 +110,7 @@ public interface IFontRenderer {
 		matrix.scale(scale, scale, scale);
 		runnable.accept(matrix);
 		matrix.popPose();
-		RenderHelper.resetColour();
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
 	}
 
 	default int drawWrappedTextWithScale(MatrixStack matrix, ITextComponent text, float x, float y, int color,
@@ -189,7 +173,7 @@ public interface IFontRenderer {
 				addWord(maxLength);
 			}
 			if (lineBuilder.length() > 0) {
-				linesToDraw.add(Pair.of(TextComponentHelper.getString(lineBuilder.toString()), lineLength));
+				linesToDraw.add(Pair.of(StringUtils.toComp(lineBuilder.toString()), lineLength));
 			}
 		}
 
@@ -197,7 +181,7 @@ public interface IFontRenderer {
 			// ignore spacing if it is the first word of the line
 			float spacingLength = lineBuilder.length() == 0 ? 0 : spaceLength;
 			if (lineLength + spacingLength + wordLength > maxLength) {
-				linesToDraw.add(Pair.of(TextComponentHelper.getString(lineBuilder.toString()), lineLength));
+				linesToDraw.add(Pair.of(StringUtils.toComp(lineBuilder.toString()), lineLength));
 				lineBuilder = new StringBuilder(wordBuilder);
 				lineLength = wordLength;
 			} else {

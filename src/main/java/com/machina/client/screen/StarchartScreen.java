@@ -3,7 +3,7 @@ package com.machina.client.screen;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.machina.client.ClientDataHolder;
+import com.machina.client.ClientStarchart;
 import com.machina.client.screen.element.PlanetNodeElement;
 import com.machina.client.screen.element.ScrollableContainer;
 import com.machina.client.util.IBoundedGui;
@@ -69,20 +69,20 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		nodes.clear();
 		Vector2f centre = getNewCentre();
 
-		for (int i = 1; i <= ClientDataHolder.getStarchart().size(); i++) {
-			if (ClientDataHolder.getPlanetData(i - 1).equals(PlanetData.NONE))
+		for (int i = 1; i <= ClientStarchart.getStarchart().size(); i++) {
+			if (ClientStarchart.getPlanetData(i - 1).equals(PlanetData.NONE))
 				continue;
 
-			double angle = (Math.PI * 2) / ClientDataHolder.getStarchart().size() * i;
+			double angle = (Math.PI * 2) / ClientStarchart.getStarchart().size() * i;
 
 			double r = func
-					.apply(ClientDataHolder.getPlanetData(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE));
+					.apply(ClientStarchart.getPlanetData(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE));
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
 
 			positions.add(new Vector2f(centre.x - x, centre.y - y));
-			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, ClientDataHolder.getPlanetData(i - 1)));
+			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, ClientStarchart.getPlanetData(i - 1)));
 		}
 	}
 
@@ -192,7 +192,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		text.append("   > Dist: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.DISTANCE) + "\n")
 				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 
-		text.append("ID  " + ClientDataHolder.planets().indexOf(planet) + "\n");
+		text.append("ID  " + ClientStarchart.planets().indexOf(planet) + "\n");
 
 		return text;
 	}

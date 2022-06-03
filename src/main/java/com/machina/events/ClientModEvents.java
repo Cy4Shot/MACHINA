@@ -1,7 +1,7 @@
 package com.machina.events;
 
 import com.machina.Machina;
-import com.machina.client.ClientDataHolder;
+import com.machina.client.ClientStarchart;
 import com.machina.client.renderer.CargoCrateRenderer;
 import com.machina.client.renderer.ComponentAnalyzerRenderer;
 import com.machina.client.renderer.ShipConsoleRenderer;
@@ -70,7 +70,7 @@ public class ClientModEvents {
 			if (world != null) {
 				RegistryKey<World> dim = world.dimension();
 				if (PlanetUtils.isDimensionPlanet(dim)) {
-					PlanetData data = ClientDataHolder.getPlanetData(PlanetUtils.getId(dim));
+					PlanetData data = ClientStarchart.getPlanetData(PlanetUtils.getId(dim));
 					Color color = data.getAttribute(PlanetAttributeTypesInit.PALETTE)[paletteId];
 					return color.getRGB();
 				}

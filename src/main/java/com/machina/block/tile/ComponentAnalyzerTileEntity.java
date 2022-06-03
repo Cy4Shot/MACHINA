@@ -3,9 +3,9 @@ package com.machina.block.tile;
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.item.ShipComponentItem;
 import com.machina.registration.init.TileEntityTypesInit;
-import com.machina.util.nbt.ItemStackUtil;
+import com.machina.util.server.ItemStackUtil;
 import com.machina.util.server.ParticleUtil;
-import com.machina.util.text.TextComponentHelper;
+import com.machina.util.text.StringUtils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
@@ -115,7 +115,7 @@ public class ComponentAnalyzerTileEntity extends LockableLootTileEntity implemen
 
 	@Override
 	protected ITextComponent getDefaultName() {
-		return TextComponentHelper.translate("machina.container.component_analyzer");
+		return StringUtils.translateComp("machina.container.component_analyzer");
 	}
 
 	@Override

@@ -2,8 +2,8 @@ package com.machina.block.tile;
 
 import com.machina.block.CargoCrateBlock;
 import com.machina.registration.init.TileEntityTypesInit;
-import com.machina.util.nbt.ItemStackUtil;
-import com.machina.util.text.TextComponentHelper;
+import com.machina.util.server.ItemStackUtil;
+import com.machina.util.text.StringUtils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -96,7 +96,7 @@ public class CargoCrateTileEntity extends LockableLootTileEntity implements IAni
 	
 	@Override
 	protected ITextComponent getDefaultName() {
-		return TextComponentHelper.translate("machina.container.cargo_crate");
+		return StringUtils.translateComp("machina.container.cargo_crate");
 	}
 
 	public ItemStack getItem(int id) {

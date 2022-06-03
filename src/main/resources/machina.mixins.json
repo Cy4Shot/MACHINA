@@ -13,7 +13,6 @@
 	],
 	"client": [
 		"client.OverlayRendererMixin",
-		"client.CraftingScreenMixin",
 		"client.ClientPlayerEntityMixin"
 	],
 	"minVersion": "0.8"

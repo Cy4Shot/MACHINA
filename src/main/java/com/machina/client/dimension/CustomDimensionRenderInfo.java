@@ -81,12 +81,14 @@ public class CustomDimensionRenderInfo extends DimensionRenderInfo {
 			RenderSystem.depthMask(false);
 
 			tm.bind(new MachinaRL("textures/environment/sky/starfield01.png"));
-			QuadRenderingUtils.renderBuffer(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed, FogRenderer.fogGreen, FogRenderer.fogBlue, 0.8f);
+			QuadRenderingUtils.renderBuffer(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed,
+					FogRenderer.fogGreen, FogRenderer.fogBlue, 0.8f);
 
 			matrixStack.pushPose();
 			matrixStack.last().pose().multiply(new Quaternion(0, -time * 4, 0, false));
 			tm.bind(new MachinaRL("textures/environment/sky/fog.png"));
-			QuadRenderingUtils.renderBuffer(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed, FogRenderer.fogGreen, FogRenderer.fogBlue, 1f);
+			QuadRenderingUtils.renderBuffer(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed,
+					FogRenderer.fogGreen, FogRenderer.fogBlue, 1f);
 			matrixStack.popPose();
 
 			RenderSystem.depthMask(true);

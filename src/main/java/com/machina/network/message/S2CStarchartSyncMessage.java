@@ -1,6 +1,6 @@
 package com.machina.network.message;
 
-import com.machina.client.ClientDataHolder;
+import com.machina.client.ClientStarchart;
 import com.machina.network.INetworkMessage;
 import com.machina.util.nbt.BaseNBTMap;
 import com.machina.world.data.PlanetData;
@@ -23,7 +23,7 @@ public class S2CStarchartSyncMessage implements INetworkMessage {
 	@Override
 	public void handle(NetworkEvent.Context context) {
 		context.enqueueWork(() -> {
-			ClientDataHolder.setStarchart(starchart);
+			ClientStarchart.setStarchart(starchart);
         });
         context.setPacketHandled(true);
 	}

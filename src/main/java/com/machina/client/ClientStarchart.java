@@ -12,7 +12,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class ClientDataHolder {
+public class ClientStarchart {
 	private static Map<ResourceLocation, PlanetData> starchart;
 
 	public static Map<ResourceLocation, PlanetData> getStarchart() {
@@ -20,7 +20,7 @@ public class ClientDataHolder {
 	}
 
 	public static void setStarchart(Map<ResourceLocation, PlanetData> starchart) {
-		ClientDataHolder.starchart = starchart;
+		ClientStarchart.starchart = starchart;
 	}
 
 	public static PlanetData getPlanetData(int id) {

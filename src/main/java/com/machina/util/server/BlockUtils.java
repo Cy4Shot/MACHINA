@@ -1,4 +1,4 @@
-package com.machina.util.block;
+package com.machina.util.server;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

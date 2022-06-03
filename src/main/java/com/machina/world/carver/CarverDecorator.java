@@ -2,8 +2,8 @@ package com.machina.world.carver;
 
 import com.google.common.collect.ImmutableSet;
 import com.machina.registration.init.TagInit;
-import com.machina.util.block.BlockUtils;
 import com.machina.util.math.OpenSimplex2F;
+import com.machina.util.server.BlockUtils;
 import com.machina.world.DynamicDimensionChunkGenerator;
 
 import net.minecraft.block.BlockState;

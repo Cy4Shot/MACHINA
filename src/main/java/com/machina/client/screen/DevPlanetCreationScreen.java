@@ -3,7 +3,7 @@ package com.machina.client.screen;
 import java.awt.event.KeyEvent;
 import java.util.UUID;
 
-import com.machina.client.ClientDataHolder;
+import com.machina.client.ClientStarchart;
 import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SDevPlanetCreationGUI;
@@ -84,7 +84,7 @@ public class DevPlanetCreationScreen extends Screen {
 		try {
 
 			int id = Integer.valueOf(dimensionID.getValue());
-			if (id >= ClientDataHolder.getStarchart().size()) {
+			if (id >= ClientStarchart.getStarchart().size()) {
 				invalidId();
 				return;
 			}
@@ -102,7 +102,7 @@ public class DevPlanetCreationScreen extends Screen {
 		try {
 
 			int id = Integer.valueOf(dimensionID.getValue());
-			if (id >= ClientDataHolder.getStarchart().size()) {
+			if (id >= ClientStarchart.getStarchart().size()) {
 				invalidId();
 				return;
 			}
@@ -118,7 +118,6 @@ public class DevPlanetCreationScreen extends Screen {
 		minecraft.player.sendMessage(new StringTextComponent("Invalid Planet ID!"), UUID.randomUUID());
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MatrixStack stack, int pMouseX, int pMouseY, float pPartialTicks) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
@@ -129,12 +128,12 @@ public class DevPlanetCreationScreen extends Screen {
 
 		int x = width / 2 - 150;
 
-		PlanetData data = ClientDataHolder.getDataForDimension(minecraft.level.dimension().location());
+		PlanetData data = ClientStarchart.getDataForDimension(minecraft.level.dimension().location());
 		for (int i = 0; i < data.getTraits().size(); i++) {
 			data.getTraits().get(i).render(stack, x + (i * 18), 75, true);
 		}
 
-		String size = String.valueOf(ClientDataHolder.getStarchart().size());
+		String size = String.valueOf(ClientStarchart.getStarchart().size());
 		String dim = minecraft.level.dimension().location().toString();
 
 		UIHelper.drawStringWithBorder(stack, "Planet Count: ", x, 36, 0xFF_cc00ff, 0xFF_0e0e0e);

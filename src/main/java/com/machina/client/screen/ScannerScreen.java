@@ -1,6 +1,6 @@
 package com.machina.client.screen;
 
-import com.machina.client.ClientDataHolder;
+import com.machina.client.ClientStarchart;
 import com.machina.client.util.UIHelper;
 import com.machina.item.container.ScannerContainer;
 import com.machina.planet.trait.PlanetTrait;
@@ -77,7 +77,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		String title, gravity, atmo, temp, fog, cave_chance, cave_thickness, cave_length;
 
 		RegistryKey<World> dim = this.menu.getDim();
-		PlanetData data = ClientDataHolder.getPlanetData(dim);
+		PlanetData data = ClientStarchart.getPlanetData(dim);
 		PlanetTraitList traits = data.getTraits();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
 

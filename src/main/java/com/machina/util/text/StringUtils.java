@@ -57,6 +57,10 @@ public class StringUtils {
 	}
 	
 	public static StringTextComponent toComp(String text) {
-		return new StringTextComponent(text);
+		return new StringTextComponent(cleanString(text));
+	}
+
+	public static String cleanString(String component) {
+		return component.replace("\u00A0", " ");
 	}
 }

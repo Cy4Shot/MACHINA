@@ -9,8 +9,8 @@ import com.machina.recipe.ShipConsoleRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.MachinaRL;
-import com.machina.util.nbt.ItemStackUtil;
-import com.machina.util.text.TextComponentHelper;
+import com.machina.util.server.ItemStackUtil;
+import com.machina.util.text.StringUtils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
@@ -159,7 +159,7 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity implements ITi
 
 	@Override
 	protected ITextComponent getDefaultName() {
-		return TextComponentHelper.translate("machina.container.ship_console");
+		return StringUtils.translateComp("machina.container.ship_console");
 	}
 
 	@Override

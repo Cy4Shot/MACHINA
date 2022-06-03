@@ -95,7 +95,6 @@ public abstract class NoJeiContainerScreen<T extends Container> extends Screen i
 		this.topPos = (this.height - this.imageHeight) / 2;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void render(MatrixStack pMatrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
 		int i = this.leftPos;
 		int j = this.topPos;
@@ -184,7 +183,6 @@ public abstract class NoJeiContainerScreen<T extends Container> extends Screen i
 	 * The z index is increased by 32 (and not decreased afterwards), and the item
 	 * is then rendered at z=200.
 	 */
-	@SuppressWarnings("deprecation")
 	private void renderFloatingItem(ItemStack pStack, int pX, int pY, String pAltText) {
 		RenderSystem.translatef(0.0F, 0.0F, 32.0F);
 		this.setBlitOffset(200);

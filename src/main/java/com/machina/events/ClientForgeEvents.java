@@ -1,7 +1,7 @@
 package com.machina.events;
 
 import com.machina.Machina;
-import com.machina.client.ClientDataHolder;
+import com.machina.client.ClientStarchart;
 import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.DevPlanetCreationScreen;
 import com.machina.client.screen.ShipConsoleScreen;
@@ -32,7 +32,7 @@ public class ClientForgeEvents {
 	public static void fogSetup(FogColors event) {
 		RegistryKey<World> dim = Minecraft.getInstance().level.dimension();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
-			PlanetData data = ClientDataHolder.getPlanetData(PlanetUtils.getId(dim));
+			PlanetData data = ClientStarchart.getPlanetData(PlanetUtils.getId(dim));
 			Color color = data.getAttribute(PlanetAttributeTypesInit.PALETTE)[4];
 			Float density = data.getAttribute(PlanetAttributeTypesInit.FOG_DENSITY);
 			event.setRed(color.getRed() / 255f * density);
