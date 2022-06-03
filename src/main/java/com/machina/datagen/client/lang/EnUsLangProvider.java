@@ -57,6 +57,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(ItemInit.THERMAL_REGULATING_BOOTS.get(), "Thermal Regulating Boots");
 		add(ItemInit.WRENCH.get(), "Wrench");
 		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
+		add(ItemInit.SCANNER.get(), "Scanner");
 		add(ItemInit.REINFORCED_STICK.get(), "Reinforced Stick");
 		add(ItemInit.STEEL_INGOT.get(), "Steel Ingot");
 		add(ItemInit.STEEL_NUGGET.get(), "Steel Nugget");
@@ -103,6 +104,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		add("machina.ship_component.thrusters", "Thrusters");
 		add("machina.ship_component.shields", "Shields");
 		add("machina.ship_component.life_support", "Life Support");
+		add("machina.scanner.title", "Scanner");
 	}
 
 	private void addItemGroup(String key, String name) {

@@ -2,13 +2,13 @@ package com.machina.planet.trait;
 
 import com.machina.registration.init.PlanetTraitInit;
 import com.machina.util.color.Color;
+import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
@@ -21,15 +21,13 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 
 	@Override
 	public String toString() {
-		return new TranslationTextComponent(
-				getRegistryName().getNamespace() + ".planet_trait." + getRegistryName().getPath()).getString();
+		return StringUtils.translate(getRegistryName().getNamespace() + ".planet_trait." + getRegistryName().getPath());
 	}
 
 	public boolean exists() {
 		return this != PlanetTraitInit.NONE;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void render(MatrixStack matrixStack, int xPosition, int yPosition, boolean coloured) {
 		TextureAtlasSprite textureatlassprite = getSprite();
 		Minecraft.getInstance().getTextureManager().bind(textureatlassprite.atlas().location());

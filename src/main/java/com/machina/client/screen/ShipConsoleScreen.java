@@ -36,7 +36,6 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 			return super.getSlotColor(index);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void render(MatrixStack stack, int pMouseX, int pMouseY, float pPartialTicks) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
@@ -54,7 +53,6 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 	protected void renderLabels(MatrixStack pMatrixStack, int pX, int pY) {
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void renderBg(MatrixStack stack, float pPartialTicks, int pX, int pY) {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
@@ -103,7 +101,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		String stage = String.format("Stage %d / 5", this.menu.te.stage);
 		String comp = ShipComponentItem.getNameForStage(this.menu.te.stage);
 		UIHelper.drawStringWithBorder(stack, stage, x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);
-		UIHelper.drawStringWithBorder(stack, comp, x + 120 - this.minecraft.font.width(comp) / 2, y + 14, 0xFF_00fefe, 0xFF_0e0e0e);
+		UIHelper.drawCenteredStringWithBorder(stack, comp, x + 120, y + 14, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, "MACHINA://SHIP_CONSOLE/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
 

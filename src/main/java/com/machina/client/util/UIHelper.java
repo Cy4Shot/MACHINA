@@ -101,6 +101,11 @@ public class UIHelper {
 		blit(matrixStack, 0, 0, 18, 25, 15, 1);
 		matrixStack.popPose();
 	}
+	
+	public static void drawCenteredStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
+			int borderColor) {
+		drawStringWithBorder(matrixStack, text, x - mc.font.width(text) / 2, y, color, borderColor);
+	}
 
 	public static void drawStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
 			int borderColor) {

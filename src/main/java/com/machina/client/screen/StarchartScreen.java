@@ -70,16 +70,19 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		Vector2f centre = getNewCentre();
 
 		for (int i = 1; i <= ClientDataHolder.getStarchart().size(); i++) {
+			if (ClientDataHolder.getPlanetData(i - 1).equals(PlanetData.NONE))
+				continue;
+
 			double angle = (Math.PI * 2) / ClientDataHolder.getStarchart().size() * i;
 
-			double r = func.apply(ClientDataHolder.getPlanetDataByID(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE));
+			double r = func
+					.apply(ClientDataHolder.getPlanetData(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE));
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
 
 			positions.add(new Vector2f(centre.x - x, centre.y - y));
-			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this,
-					ClientDataHolder.getPlanetDataByID(i - 1)));
+			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, ClientDataHolder.getPlanetData(i - 1)));
 		}
 	}
 
@@ -169,7 +172,8 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		PlanetData planet = selected.getData();
 		int color = planet.getAttribute(PlanetAttributeTypesInit.PALETTE)[0].getRGB();
 
-		planetDescriptions.title = new StringTextComponent("Information - \"" + planet.getAttribute(PlanetAttributeTypesInit.PLANET_NAME) + "\"");
+		planetDescriptions.title = new StringTextComponent(
+				"Information - \"" + planet.getAttribute(PlanetAttributeTypesInit.PLANET_NAME) + "\"");
 		IFormattableTextComponent text = new StringTextComponent("Traits:\n")
 				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 		for (PlanetTrait t : planet.getTraits()) {
@@ -181,9 +185,12 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 		// Add Extra Data
 		text.append(new StringTextComponent("Stats:\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color))));
-		text.append("   > Pres: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		text.append("   > Temp: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.TEMPERATURE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		text.append("   > Dist: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.DISTANCE) + "\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		text.append("   > Pres: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE) + "\n")
+				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		text.append("   > Temp: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.TEMPERATURE) + "\n")
+				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
+		text.append("   > Dist: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.DISTANCE) + "\n")
+				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
 
 		text.append("ID  " + ClientDataHolder.planets().indexOf(planet) + "\n");
 
@@ -223,6 +230,8 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	}
 
 	@Override
-	public boolean isPauseScreen() { return false; }
+	public boolean isPauseScreen() {
+		return false;
+	}
 
 }

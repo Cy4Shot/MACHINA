@@ -50,6 +50,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		oneLayerItem(ItemInit.STEEL_NUGGET.get());
 		oneLayerItem(ItemInit.PROCESSOR.get());
 		oneLayerItem(ItemInit.SILICON.get());
+		oneLayerItem(ItemInit.SCANNER.get());
 		oneLayerItem(ItemInit.TRANSISTOR.get());
 	}
 

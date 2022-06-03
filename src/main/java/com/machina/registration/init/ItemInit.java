@@ -3,6 +3,7 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.item.ScannerItem;
 import com.machina.item.ShipComponentItem;
 import com.machina.item.ThermalRegulatorSuit;
 import com.machina.item.WrenchItem;
@@ -47,6 +48,7 @@ public final class ItemInit {
 	//@formatter:off
 	public static final RegistryObject<WrenchItem> WRENCH = register("wrench", () -> ItemBuilder.basicItem(WrenchItem::new));
 	public static final RegistryObject<ShipComponentItem> SHIP_COMPONENT = register("ship_component", () -> ItemBuilder.basicItem(ShipComponentItem::new));
+	public static final RegistryObject<ScannerItem> SCANNER = register("scanner", () -> ItemBuilder.basicItem(ScannerItem::new));
 	public static final RegistryObject<Item> REINFORCED_STICK = register("reinforced_stick", () -> ItemBuilder.basicItem());
 	public static final RegistryObject<Item> STEEL_INGOT = register("steel_ingot", () -> ItemBuilder.basicItem());
 	public static final RegistryObject<Item> STEEL_NUGGET = register("steel_nugget", () -> ItemBuilder.basicItem());

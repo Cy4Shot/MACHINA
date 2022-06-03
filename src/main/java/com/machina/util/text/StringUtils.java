@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -17,6 +18,8 @@ public class StringUtils {
 
 	public static final Charset utf8Charset = Charset.forName("UTF-8");
 	public static final Charset defaultCharset = Charset.defaultCharset();
+	
+	public static final ITextComponent EMPTY = new StringTextComponent("");
 
 	public static void printlnUtf8(String msg) {
 		try {

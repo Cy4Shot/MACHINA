@@ -32,7 +32,7 @@ public class ClientForgeEvents {
 	public static void fogSetup(FogColors event) {
 		RegistryKey<World> dim = Minecraft.getInstance().level.dimension();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
-			PlanetData data = ClientDataHolder.getPlanetDataByID(PlanetUtils.getId(dim));
+			PlanetData data = ClientDataHolder.getPlanetData(PlanetUtils.getId(dim));
 			Color color = data.getAttribute(PlanetAttributeTypesInit.PALETTE)[4];
 			Float density = data.getAttribute(PlanetAttributeTypesInit.FOG_DENSITY);
 			event.setRed(color.getRed() / 255f * density);

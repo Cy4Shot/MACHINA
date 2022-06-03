@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.machina.util.MachinaRL;
+import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
 
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 public class ClientDataHolder {
 	private static Map<ResourceLocation, PlanetData> starchart;
@@ -20,8 +23,12 @@ public class ClientDataHolder {
 		ClientDataHolder.starchart = starchart;
 	}
 
-	public static PlanetData getPlanetDataByID(int id) {
+	public static PlanetData getPlanetData(int id) {
 		return getDataForDimension(new MachinaRL(id));
+	}
+	
+	public static PlanetData getPlanetData(RegistryKey<World> dim) {
+		return getPlanetData(PlanetUtils.getId(dim));
 	}
 
 	public static PlanetData getDataForDimension(ResourceLocation dimID) {
