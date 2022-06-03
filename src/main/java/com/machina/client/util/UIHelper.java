@@ -11,6 +11,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -22,6 +23,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.text.CharacterManager;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -205,7 +207,6 @@ public class UIHelper {
 		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / tex, (uOff + w) / tex, vOff / tex, (vOff + h) / tex);
 	}
 
-	@SuppressWarnings("deprecation")
 	private static void innerBlit(Matrix4f pMatrix, float pX1, float pX2, float pY1, float pY2, float pBlitOffset,
 			float pMinU, float pMaxU, float pMinV, float pMaxV) {
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
@@ -270,5 +271,9 @@ public class UIHelper {
 		AbstractGui.fill(m, x, y, x + 16, y + 16, Color.getIntFromColor(r, g, b, (int) (alpha * 255f)));
 		RenderSystem.depthFunc(515);
 
+	}
+	
+	public static void click() {
+		mc.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 	}
 }

@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 	private static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
 
-	private int tab = 0;
+	private static int tab = 0;
 
 	public ScannerScreen(ScannerContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
@@ -149,12 +149,16 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 			int x = (this.width - xSize) / 2;
 			int y = (this.height - ySize) / 2;
 			if (pX > x + 24 && pX < x + 24 + 23 && pY > y - 26 && pY < y - 26 + 23) {
-				if (tab > 0)
+				if (tab > 0) {
 					tab--;
+					UIHelper.click();
+				}
 			}
 			if (pX > x + 187 && pX < x + 187 + 23 && pY > y - 26 && pY < y - 26 + 23) {
-				if (tab < 5)
+				if (tab < 5) {
 					tab++;
+					UIHelper.click();
+				}
 			}
 		}
 		return super.mouseReleased(pX, pY, pButton);

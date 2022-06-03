@@ -114,6 +114,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 			if (pX > x + 74 && pX < x + 74 + 95 && pY > y + 49 && pY < y + 49 + 18) {
 				if (this.menu.areSlotsComplete()) {
 					MachinaNetwork.CHANNEL.sendToServer(new C2SShipConsoleGUIButton(this.menu.te.getBlockPos()));
+					UIHelper.click();
 					return true;
 				}
 			}

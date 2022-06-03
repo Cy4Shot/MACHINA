@@ -24,7 +24,7 @@ public final class PlanetAttributeTypesInit {
 
 	//@formatter:off
 	public static final PlanetAttributeType<Float> DISTANCE = new PlanetAttributeType<>("AU", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.5f, 10f));
-	public static final PlanetAttributeType<Float> GRAVITY = new PlanetAttributeType<>("N", FloatNBT::valueOf, floatDeserializer(9.8f), random(5.0f, 15.0f));
+	public static final PlanetAttributeType<Float> GRAVITY = new PlanetAttributeType<>("N", FloatNBT::valueOf, floatDeserializer(9.80655f), random(1.0f, 18.0f));
 	public static final PlanetAttributeType<String> PLANET_NAME = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("Planet"), PlanetNameGenerator::getName);
 	public static final PlanetAttributeType<Float> FOG_DENSITY = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.5f), random(0f, 1.0f));
 	public static final PlanetAttributeType<Color[]> PALETTE = new PlanetAttributeType<>("", colorListSerializer(), colorListDeserializer(PlanetPaletteGenerator.DEFAULT_PALETTE, new Color(0), 5), PlanetPaletteGenerator::genPlanetPalette);

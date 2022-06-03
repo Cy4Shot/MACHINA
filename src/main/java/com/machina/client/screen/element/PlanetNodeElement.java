@@ -19,7 +19,7 @@ public class PlanetNodeElement extends Widget {
 
 	StarchartScreen screen;
 	PlanetData data;
-	
+
 	private static int textureSize = 5;
 
 	public PlanetNodeElement(float pX, float pY, StarchartScreen screen, PlanetData data) {
@@ -37,7 +37,7 @@ public class PlanetNodeElement extends Widget {
 	@Override
 	public void onClick(double pMouseX, double pMouseY) {
 		super.onClick(pMouseX, pMouseY);
-
+		UIHelper.click();
 		screen.selected = this;
 	}
 
@@ -48,13 +48,14 @@ public class PlanetNodeElement extends Widget {
 		Vector2f centre = screen.getNewCentre();
 
 		float offsetC = (float) (8 * Math.cos(mc.levelRenderer.ticks / 10f) + 8);
-		
+
 		double distFromCentre = MathUtil.distance(centre, new Vector2f(x, y));
 
 		if (true) {
 //			UIHelper.line(matrixStack, centre.x, centre.y, x + textureSize / 2f, y + textureSize / 2f, 0xFFFFFFFF, 3f,
 //					StippleType.DASHED);
-			UIHelper.polygon(matrixStack, centre.x, centre.y, (float) distFromCentre + 1, 100, 0x55_FFFFFF, 2f, StippleType.FULL);
+			UIHelper.polygon(matrixStack, centre.x, centre.y, (float) distFromCentre + 1, 100, 0x55_FFFFFF, 2f,
+					StippleType.FULL);
 		}
 		UIHelper.betterBlit(matrixStack, x, y, textureSize * (int) offsetC, 0, textureSize, textureSize, 128);
 
