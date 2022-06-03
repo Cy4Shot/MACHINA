@@ -39,8 +39,6 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleTintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
 		simpleBlock(BlockInit.CARGO_CRATE.get());
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
-		simpleBlock(BlockInit.STEEL_CHASSIS.get());
-		simpleBlock(BlockInit.IRON_CHASSIS.get());
 		simpleBlock(BlockInit.PUZZLE_BLOCK.get());
 	}
 
@@ -54,53 +52,45 @@ public class BlockStatesProvider extends BlockStateProvider {
 	}
 
 	public ModelFile tinted(Block block) {
-		return models().singleTexture(name(block), new MachinaRL("block/tinted_cube_all"), "all", blockTexture(block));
+		return models().singleTexture(name(block), blockLoc("tinted/tinted_cube_all"), "all", blockTexture(block));
 	}
 
 	public void simpleSlab(SlabBlock block, String rl, boolean sep) {
 		if (sep)
-			slabBlock(block, new MachinaRL("block/" + rl), new MachinaRL("block/" + rl),
-					new MachinaRL("block/" + rl + "_bottom"), new MachinaRL("block/" + rl + "_top"));
+			slabBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl + "_bottom"), blockLoc(rl + "_top"));
 		else
-			slabBlock(block, new MachinaRL("block/" + rl), new MachinaRL("block/" + rl), new MachinaRL("block/" + rl),
-					new MachinaRL("block/" + rl));
+			slabBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl), blockLoc(rl));
 	}
 
 	public void simpleTintedSlab(SlabBlock block, String rl, boolean sep) {
 		if (sep)
-			tintedSlabBlock(block, new MachinaRL("block/" + rl), new MachinaRL("block/" + rl),
-					new MachinaRL("block/" + rl + "_bottom"), new MachinaRL("block/" + rl + "_top"));
+			tintedSlabBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl + "_bottom"), blockLoc(rl + "_top"));
 		else
-			tintedSlabBlock(block, new MachinaRL("block/" + rl), new MachinaRL("block/" + rl),
-					new MachinaRL("block/" + rl), new MachinaRL("block/" + rl));
+			tintedSlabBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl), blockLoc(rl));
 	}
 
 	public void simpleStairs(StairsBlock block, String rl, boolean sep) {
 		if (sep)
-			stairsBlock(block, new MachinaRL("block/" + rl), new MachinaRL("block/" + rl + "_bottom"),
-					new MachinaRL("block/" + rl + "_top"));
+			stairsBlock(block, blockLoc(rl), blockLoc(rl + "_bottom"), blockLoc(rl + "_top"));
 		else
-			stairsBlock(block, new MachinaRL("block/" + rl), new MachinaRL("block/" + rl),
-					new MachinaRL("block/" + rl));
+			stairsBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl));
 	}
 
 	public void simpleTintedStairs(StairsBlock block, String rl, boolean sep) {
 		if (sep)
-			tintedStairsBlock(block, new MachinaRL("block/" + rl), new MachinaRL("block/" + rl + "_bottom"),
-					new MachinaRL("block/" + rl + "_top"));
+			tintedStairsBlock(block, blockLoc(rl), blockLoc(rl + "_bottom"), blockLoc(rl + "_top"));
 		else
-			tintedStairsBlock(block, new MachinaRL("block/" + rl), new MachinaRL("block/" + rl),
-					new MachinaRL("block/" + rl));
+			tintedStairsBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl));
 	}
 
 	public void simpleWall(WallBlock block, String rl) {
-		wallBlock(block, new MachinaRL("block/" + rl));
-		models().wallInventory(block.getRegistryName().toString(), new MachinaRL("block/" + rl));
+		wallBlock(block, blockLoc(rl));
+		models().wallInventory(block.getRegistryName().toString(), blockLoc(rl));
 	}
 
 	public void simpleTintedWall(WallBlock block, String rl) {
-		tintedWallBlock(block, new MachinaRL("block/" + rl));
-		models().wallInventory(block.getRegistryName().toString(), new MachinaRL("block/" + rl));
+		tintedWallBlock(block, blockLoc(rl));
+		models().wallInventory(block.getRegistryName().toString(), blockLoc(rl));
 	}
 
 	private String name(Block block) {
@@ -109,22 +99,22 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 	private void tintedSlabBlock(SlabBlock block, ResourceLocation doubleslab, ResourceLocation side,
 			ResourceLocation bottom, ResourceLocation top) {
-		slabBlock(block, sideBottomTop(name(block), new MachinaRL("block/tinted_slab"), side, bottom, top),
-				sideBottomTop(name(block) + "_top", new MachinaRL("block/tinted_slab_top"), side, bottom, top),
+		slabBlock(block, sideBottomTop(name(block), blockLoc("tinted/tinted_slab"), side, bottom, top),
+				sideBottomTop(name(block) + "_top", blockLoc("tinted/tinted_slab_top"), side, bottom, top),
 				models().getExistingFile(doubleslab));
 	}
 
 	private void tintedStairsBlock(StairsBlock block, ResourceLocation side, ResourceLocation bottom,
 			ResourceLocation top) {
-		stairsBlock(block, sideBottomTop(name(block), new MachinaRL("block/tinted_stairs"), side, bottom, top),
-				sideBottomTop(name(block) + "_inner", new MachinaRL("block/tinted_inner_stairs"), side, bottom, top),
-				sideBottomTop(name(block) + "_outer", new MachinaRL("block/tinted_outer_stairs"), side, bottom, top));
+		stairsBlock(block, sideBottomTop(name(block), blockLoc("tinted/tinted_stairs"), side, bottom, top),
+				sideBottomTop(name(block) + "_inner", blockLoc("tinted/tinted_inner_stairs"), side, bottom, top),
+				sideBottomTop(name(block) + "_outer", blockLoc("tinted/tinted_outer_stairs"), side, bottom, top));
 	}
 
 	private void tintedWallBlock(WallBlock block, ResourceLocation texture) {
-		wallBlock(block, wallModel(name(block) + "_post", new MachinaRL("block/tinted_wall_post"), texture),
-				wallModel(name(block) + "_side", new MachinaRL("block/tinted_wall_side"), texture),
-				wallModel(name(block) + "_side_tall", new MachinaRL("block/tinted_wall_side_tall"), texture));
+		wallBlock(block, wallModel(name(block) + "_post", blockLoc("tinted/tinted_wall_post"), texture),
+				wallModel(name(block) + "_side", blockLoc("tinted/tinted_wall_side"), texture),
+				wallModel(name(block) + "_side_tall", blockLoc("tinted/tinted_wall_side_tall"), texture));
 	}
 
 	private BlockModelBuilder sideBottomTop(String name, ResourceLocation parent, ResourceLocation side,
@@ -135,6 +125,10 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 	private BlockModelBuilder wallModel(String name, ResourceLocation parent, ResourceLocation texture) {
 		return models().withExistingParent(name, parent).texture("wall", texture);
+	}
+
+	private ResourceLocation blockLoc(String loc) {
+		return new MachinaRL("block/" + loc);
 	}
 
 }

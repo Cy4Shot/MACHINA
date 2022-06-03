@@ -1,5 +1,5 @@
 {
-  "parent": "machina:block/tinted_slab",
+  "parent": "machina:block/tinted/tinted_slab",
   "textures": {
     "side": "machina:block/twilight_dirt",
     "bottom": "machina:block/twilight_dirt",

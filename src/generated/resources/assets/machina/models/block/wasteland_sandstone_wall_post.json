@@ -1,5 +1,5 @@
 {
-  "parent": "machina:block/tinted_wall_post",
+  "parent": "machina:block/tinted/tinted_wall_post",
   "textures": {
     "wall": "machina:block/wasteland_sandstone"
   }

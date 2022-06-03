@@ -1,5 +1,5 @@
 {
-  "parent": "machina:block/tinted_wall_side_tall",
+  "parent": "machina:block/tinted/tinted_wall_side_tall",
   "textures": {
     "wall": "machina:block/wasteland_sandstone"
   }
