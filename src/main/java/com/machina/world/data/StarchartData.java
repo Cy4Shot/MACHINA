@@ -10,7 +10,7 @@ import com.machina.Machina;
 import com.machina.config.CommonConfig;
 import com.machina.network.BaseNetwork;
 import com.machina.network.MachinaNetwork;
-import com.machina.network.message.S2CStarchartSyncMessage;
+import com.machina.network.message.S2CStarchartSync;
 import com.machina.planet.trait.type.IPlanetTraitType;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.util.MachinaRL;
@@ -84,11 +84,11 @@ public class StarchartData extends WorldSavedData {
 	}
 
 	public void syncWithClients() {
-		BaseNetwork.sendToAll(MachinaNetwork.CHANNEL, new S2CStarchartSyncMessage(starchart));
+		BaseNetwork.sendToAll(MachinaNetwork.CHANNEL, new S2CStarchartSync(starchart));
 	}
 	
 	public void syncClient(ServerPlayerEntity player) {
-		BaseNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CStarchartSyncMessage(starchart), player);
+		BaseNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CStarchartSync(starchart), player);
 	}
 
 	public boolean getGenerated() {

@@ -12,11 +12,11 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-public class S2CStarchartSyncMessage implements INetworkMessage {
+public class S2CStarchartSync implements INetworkMessage {
 
 	private final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> starchart;
 
-	public S2CStarchartSyncMessage(final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> starchart) {
+	public S2CStarchartSync(final BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> starchart) {
 		this.starchart = starchart;
 	}
 
@@ -33,9 +33,9 @@ public class S2CStarchartSyncMessage implements INetworkMessage {
 		buffer.writeNbt(starchart.serializeNBT());
 	}
 
-	public static S2CStarchartSyncMessage decode(PacketBuffer buffer) {
+	public static S2CStarchartSync decode(PacketBuffer buffer) {
 		BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> chart = StarchartData.createEmptyStarchart();
 		chart.deserializeNBT(buffer.readNbt());
-		return new S2CStarchartSyncMessage(chart);
+		return new S2CStarchartSync(chart);
 	}
 }

@@ -31,6 +31,9 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
 		add(BlockInit.PUZZLE_BLOCK.get(), "Puzzle Block");
 		
+		add(BlockInit.BATTERY.get(), "Battery");
+		add(BlockInit.CREATIVE_BATTERY.get(), "Creative Battery");
+		
 		add(BlockInit.STEEL_BLOCK.get(), "Steel Block");
 		add(BlockInit.STEEL_CHASSIS.get(), "Steel Chassis");
 		add(BlockInit.IRON_CHASSIS.get(), "Iron Chassis");

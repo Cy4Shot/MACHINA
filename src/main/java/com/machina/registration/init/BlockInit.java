@@ -3,8 +3,10 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.block.BatteryBlock;
 import com.machina.block.CargoCrateBlock;
 import com.machina.block.ComponentAnalyzerBlock;
+import com.machina.block.CreativeBatteryBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.registration.Registration;
@@ -41,6 +43,11 @@ public class BlockInit {
 
 	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer",
 			() -> new ComponentAnalyzerBlock());
+
+	public static final RegistryObject<BatteryBlock> BATTERY = register("battery", () -> new BatteryBlock());
+	
+	public static final RegistryObject<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery",
+			() -> new CreativeBatteryBlock());
 
 	public static final RegistryObject<PuzzleBlock> PUZZLE_BLOCK = register("puzzle_block", () -> new PuzzleBlock());
 

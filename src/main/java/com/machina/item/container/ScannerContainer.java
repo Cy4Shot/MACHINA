@@ -12,7 +12,7 @@ public class ScannerContainer extends Container {
 	private RegistryKey<World> dim;
 
 	public ScannerContainer(int windowId, RegistryKey<World> key) {
-		super(ContainerTypesInit.SCANNER_CONTAINER.get(), windowId);
+		super(ContainerTypesInit.SCANNER_CONTAINER_TYPE.get(), windowId);
 		this.dim = key;
 	}
 

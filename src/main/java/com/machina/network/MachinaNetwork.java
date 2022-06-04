@@ -3,8 +3,9 @@ package com.machina.network;
 import java.util.function.Function;
 
 import com.machina.network.message.C2SDevPlanetCreationGUI;
+import com.machina.network.message.C2SEnergyDirChange;
 import com.machina.network.message.C2SShipConsoleGUIButton;
-import com.machina.network.message.S2CStarchartSyncMessage;
+import com.machina.network.message.S2CStarchartSync;
 import com.machina.network.message.S2CSyncGuiValues;
 import com.machina.util.MachinaRL;
 
@@ -20,10 +21,11 @@ public class MachinaNetwork extends BaseNetwork {
 
 	public static void init() {
 		registerServerToClient(S2CSyncGuiValues.class, S2CSyncGuiValues::decode);
-		registerServerToClient(S2CStarchartSyncMessage.class, S2CStarchartSyncMessage::decode);
+		registerServerToClient(S2CStarchartSync.class, S2CStarchartSync::decode);
 
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
 		registerClientToServer(C2SShipConsoleGUIButton.class, C2SShipConsoleGUIButton::decode);
+		registerClientToServer(C2SEnergyDirChange.class, C2SEnergyDirChange::decode);
 
 		BaseNetwork.MACHINA_CHANNEL = CHANNEL;
 	}

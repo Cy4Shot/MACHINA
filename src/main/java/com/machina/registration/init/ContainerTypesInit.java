@@ -1,6 +1,7 @@
 package com.machina.registration.init;
 
 import com.machina.Machina;
+import com.machina.block.container.BatteryContainer;
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.container.ShipConsoleContainer;
 import com.machina.item.container.ScannerContainer;
@@ -22,8 +23,11 @@ public class ContainerTypesInit {
 
 	public static final RegistryObject<ContainerType<ComponentAnalyzerContainer>> COMPONENT_ANALYZER_CONTAINER_TYPE = CONTAINER_TYPES
 			.register("component_analyzer", () -> IForgeContainerType.create(ComponentAnalyzerContainer::new));
+	
+	public static final RegistryObject<ContainerType<BatteryContainer>> BATTERY_CONTAINER_TYPE = CONTAINER_TYPES
+			.register("battery", () -> IForgeContainerType.create(BatteryContainer::new));
 
-	public static final RegistryObject<ContainerType<ScannerContainer>> SCANNER_CONTAINER = CONTAINER_TYPES
+	public static final RegistryObject<ContainerType<ScannerContainer>> SCANNER_CONTAINER_TYPE = CONTAINER_TYPES
 			.register("scanner_container", () -> createContainerType((windowId, inventory, buffer) -> {
 				return new ScannerContainer(windowId, inventory.player.level.dimension());
 			}));

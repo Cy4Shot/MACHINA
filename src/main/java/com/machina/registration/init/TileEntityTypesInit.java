@@ -1,8 +1,10 @@
 package com.machina.registration.init;
 
 import com.machina.Machina;
+import com.machina.block.tile.BatteryTileEntity;
 import com.machina.block.tile.CargoCrateTileEntity;
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
+import com.machina.block.tile.CreativeBatteryTileEntity;
 import com.machina.block.tile.PuzzleTileEntity;
 import com.machina.block.tile.ShipConsoleTileEntity;
 
@@ -29,5 +31,11 @@ public class TileEntityTypesInit {
 
 	public static final RegistryObject<TileEntityType<PuzzleTileEntity>> PUZZLE = TILES.register("puzzle",
 			() -> TileEntityType.Builder.of(PuzzleTileEntity::new, BlockInit.PUZZLE_BLOCK.get()).build(null));
+	
+	public static final RegistryObject<TileEntityType<BatteryTileEntity>> BATTERY = TILES.register("battery",
+			() -> TileEntityType.Builder.of(BatteryTileEntity::new, BlockInit.BATTERY.get()).build(null));
+	
+	public static final RegistryObject<TileEntityType<CreativeBatteryTileEntity>> CREATIVE_BATTERY = TILES.register("creative_battery",
+			() -> TileEntityType.Builder.of(CreativeBatteryTileEntity::new, BlockInit.CREATIVE_BATTERY.get()).build(null));
 
 }
