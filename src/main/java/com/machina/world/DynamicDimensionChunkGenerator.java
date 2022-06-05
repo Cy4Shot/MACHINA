@@ -69,7 +69,6 @@ import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
-@SuppressWarnings("deprecation")
 public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 	//@formatter:off

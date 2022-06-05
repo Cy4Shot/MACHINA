@@ -1,0 +1,20 @@
+{
+  "credit": "Powah!",
+  "parent": "block/block",
+  "textures": {
+	"0": "#multipart",
+	"particle": "#multipart"
+  },
+  "elements": [
+	{
+	  "from": [6.5, 6.5, 0],
+	  "to": [9.5, 9.5, 6.25],
+	  "faces": {
+		"east": {"uv": [5, 0, 11.25, 3], "texture": "#0"},
+		"west": {"uv": [5, 0, 11.249, 3], "rotation": 180, "texture": "#0"},
+		"up": {"uv": [0, 4.75, 3, 10.999], "texture": "#0"},
+		"down": {"uv": [0, 4.75, 3, 10.999], "rotation": 180, "texture": "#0"}
+	  }
+	}
+  ]
+}

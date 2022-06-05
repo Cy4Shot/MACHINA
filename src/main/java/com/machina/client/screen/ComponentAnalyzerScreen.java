@@ -1,7 +1,6 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.ComponentAnalyzerContainer;
-import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.client.util.UIHelper;
 import com.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -25,7 +24,7 @@ public class ComponentAnalyzerScreen extends NoJeiContainerScreen<ComponentAnaly
 
 	@Override
 	public int getSlotColor(int index) {
-		if (index < ComponentAnalyzerTileEntity.slots)
+		if (index < this.menu.te.getContainerSize())
 			return 0x00_FFFFFF;
 		else
 			return super.getSlotColor(index);

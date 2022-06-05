@@ -133,12 +133,10 @@ public class CarverDecorator {
 		return state.is(TagInit.Blocks.CARVEABLE_BLOCKS);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static boolean canGenExtra(IChunk chunk, BlockState state, BlockState sState, Direction dir) {
 		return state.isAir() && (sState.getMaterial() == Material.WOOD || sState.is(TagInit.Blocks.CARVEABLE_BLOCKS));
 	}
 
-	@SuppressWarnings("deprecation")
 	public static boolean canGenFill(IChunk chunk, BlockState state) {
 		return state.isAir();
 	}

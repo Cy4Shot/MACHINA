@@ -82,7 +82,6 @@ public class CustomSmithingRecipeBuilder {
 			this.advancementId = pAdvancementId;
 		}
 
-		@SuppressWarnings("deprecation")
 		public void serializeRecipeData(JsonObject pJson) {
 			pJson.add("base", this.base.toJson());
 			pJson.add("addition", this.addition.toJson());

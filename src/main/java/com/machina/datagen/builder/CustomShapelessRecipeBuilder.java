@@ -35,19 +35,19 @@ public class CustomShapelessRecipeBuilder {
 		this.result = pResult.asItem();
 		this.count = pCount;
 	}
-	
+
 	public static CustomShapelessRecipeBuilder shapeless(IItemProvider pResult) {
 		return new CustomShapelessRecipeBuilder(pResult, 1);
 	}
-	
+
 	public static CustomShapelessRecipeBuilder shapeless(IItemProvider pResult, int pCount) {
 		return new CustomShapelessRecipeBuilder(pResult, pCount);
 	}
-	
+
 	public CustomShapelessRecipeBuilder requires(ITag<Item> pTag) {
 		return this.requires(Ingredient.of(pTag));
 	}
-	
+
 	public CustomShapelessRecipeBuilder requires(IItemProvider... items) {
 		for (int i = 0; i < items.length; ++i) {
 			this.requires(Ingredient.of(items[i]));
@@ -55,11 +55,11 @@ public class CustomShapelessRecipeBuilder {
 
 		return this;
 	}
-	
+
 	public CustomShapelessRecipeBuilder requires(IItemProvider pItem) {
 		return this.requires(pItem, 1);
 	}
-	
+
 	public CustomShapelessRecipeBuilder requires(IItemProvider pItem, int pQuantity) {
 		for (int i = 0; i < pQuantity; ++i) {
 			this.requires(Ingredient.of(pItem));
@@ -67,11 +67,11 @@ public class CustomShapelessRecipeBuilder {
 
 		return this;
 	}
-	
+
 	public CustomShapelessRecipeBuilder requires(Ingredient pIngredient) {
 		return this.requires(pIngredient, 1);
 	}
-	
+
 	public CustomShapelessRecipeBuilder requires(Ingredient pIngredient, int pQuantity) {
 		for (int i = 0; i < pQuantity; ++i) {
 			this.ingredients.add(pIngredient);
@@ -90,12 +90,10 @@ public class CustomShapelessRecipeBuilder {
 		return this;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void save(Consumer<IFinishedRecipe> p_200482_1_) {
 		this.save(p_200482_1_, Registry.ITEM.getKey(this.result));
 	}
 
-	@SuppressWarnings("deprecation")
 	public void save(Consumer<IFinishedRecipe> p_200484_1_, String p_200484_2_) {
 		ResourceLocation resourcelocation = Registry.ITEM.getKey(this.result);
 		if ((new ResourceLocation(p_200484_2_)).equals(resourcelocation)) {
@@ -114,7 +112,7 @@ public class CustomShapelessRecipeBuilder {
 				this.group == null ? "" : this.group, this.ingredients, this.advancement,
 				new ResourceLocation(p_200485_2_.getNamespace(), "recipes/" + p_200485_2_.getPath())));
 	}
-	
+
 	private void ensureValid(ResourceLocation pId) {
 		if (this.advancement.getCriteria().isEmpty()) {
 			throw new IllegalStateException("No way of obtaining recipe " + pId);
@@ -141,7 +139,6 @@ public class CustomShapelessRecipeBuilder {
 			this.advancementId = pAdvancementId;
 		}
 
-		@SuppressWarnings("deprecation")
 		public void serializeRecipeData(JsonObject pJson) {
 			if (!this.group.isEmpty()) {
 				pJson.addProperty("group", this.group);
@@ -166,16 +163,16 @@ public class CustomShapelessRecipeBuilder {
 		public IRecipeSerializer<?> getType() {
 			return IRecipeSerializer.SHAPELESS_RECIPE;
 		}
-		
+
 		public ResourceLocation getId() {
 			return this.id;
 		}
-		
+
 		@Nullable
 		public JsonObject serializeAdvancement() {
 			return this.advancement.serializeToJson();
 		}
-		
+
 		@Nullable
 		public ResourceLocation getAdvancementId() {
 			return this.advancementId;

@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.machina.Machina;
 import com.machina.block.BatteryBlock;
+import com.machina.block.CableBlock;
 import com.machina.block.CargoCrateBlock;
 import com.machina.block.ComponentAnalyzerBlock;
 import com.machina.block.CreativeBatteryBlock;
@@ -25,7 +26,6 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@SuppressWarnings("deprecation")
 public class BlockInit {
 
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
@@ -50,6 +50,8 @@ public class BlockInit {
 			() -> new CreativeBatteryBlock());
 
 	public static final RegistryObject<PuzzleBlock> PUZZLE_BLOCK = register("puzzle_block", () -> new PuzzleBlock());
+	
+	public static final RegistryObject<CableBlock> CABLE = register("cable", () -> new CableBlock());
 
 	public static final RegistryObject<Block> IRON_CHASSIS = register("iron_chassis",
 			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));

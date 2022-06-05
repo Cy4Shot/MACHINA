@@ -88,12 +88,10 @@ public class CustomShapedRecipeBuilder {
 		return this;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void save(Consumer<IFinishedRecipe> p_200464_1_) {
 		this.save(p_200464_1_, Registry.ITEM.getKey(this.result));
 	}
 
-	@SuppressWarnings("deprecation")
 	public void save(Consumer<IFinishedRecipe> p_200466_1_, String p_200466_2_) {
 		ResourceLocation resourcelocation = Registry.ITEM.getKey(this.result);
 		if ((new ResourceLocation(p_200466_2_)).equals(resourcelocation)) {
@@ -169,7 +167,6 @@ public class CustomShapedRecipeBuilder {
 			this.advancementId = p_i48271_9_;
 		}
 
-		@SuppressWarnings("deprecation")
 		public void serializeRecipeData(JsonObject pJson) {
 			if (!this.group.isEmpty()) {
 				pJson.addProperty("group", this.group);

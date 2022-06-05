@@ -2,6 +2,7 @@ package com.machina.registration.init;
 
 import com.machina.Machina;
 import com.machina.block.tile.BatteryTileEntity;
+import com.machina.block.tile.CableTileEntity;
 import com.machina.block.tile.CargoCrateTileEntity;
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.block.tile.CreativeBatteryTileEntity;
@@ -37,5 +38,8 @@ public class TileEntityTypesInit {
 	
 	public static final RegistryObject<TileEntityType<CreativeBatteryTileEntity>> CREATIVE_BATTERY = TILES.register("creative_battery",
 			() -> TileEntityType.Builder.of(CreativeBatteryTileEntity::new, BlockInit.CREATIVE_BATTERY.get()).build(null));
+	
+	public static final RegistryObject<TileEntityType<CableTileEntity>> CABLE = TILES.register("cable",
+			() -> TileEntityType.Builder.of(CableTileEntity::new, BlockInit.CABLE.get()).build(null));
 
 }

@@ -1,6 +1,7 @@
 package com.machina.block.tile;
 
 import com.machina.block.container.BatteryContainer;
+import com.machina.block.tile.base.BaseEnergyTileEntity;
 import com.machina.energy.EnergyDefinition;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.text.StringUtils;
@@ -11,15 +12,12 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.text.ITextComponent;
 
-public class BatteryTileEntity extends EnergyTileEntity implements INamedContainerProvider {
+public class BatteryTileEntity extends BaseEnergyTileEntity implements INamedContainerProvider {
 
 	public BatteryTileEntity() {
 		super(TileEntityTypesInit.BATTERY.get(), new EnergyDefinition(1000000, 1000, 1000));
-	}
-
-	@Override
-	public void tick() {
-		recieveAll();
+		
+		this.sides = new int[] {1, 1, 1, 1, 1, 1};
 	}
 
 	@Override

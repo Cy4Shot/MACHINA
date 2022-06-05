@@ -147,6 +147,13 @@ repositories {
         url = "https://maven.theillusivec4.top/"
     }
     maven { url 'https://jitpack.io' }
+    
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -157,6 +164,9 @@ dependencies {
     
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.45')
     implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
+    
+    // Shutup Experimental Settings
+    implementation "curse.maven:shutup-407174:3188120"
     
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'

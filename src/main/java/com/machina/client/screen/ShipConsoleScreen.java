@@ -1,7 +1,6 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.ShipConsoleContainer;
-import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.client.util.UIHelper;
 import com.machina.item.ShipComponentItem;
 import com.machina.network.MachinaNetwork;
@@ -30,7 +29,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 
 	@Override
 	public int getSlotColor(int index) {
-		if (index < ShipConsoleTileEntity.slots)
+		if (index < this.menu.te.getContainerSize())
 			return 0x00_FFFFFF;
 		else
 			return super.getSlotColor(index);

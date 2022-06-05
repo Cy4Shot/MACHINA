@@ -1,12 +1,10 @@
-package com.machina.block.tile;
+package com.machina.block.tile.base;
 
 import com.machina.energy.EnergyDefinition;
 import com.machina.util.server.BlockUtils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -17,30 +15,36 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public abstract class EnergyTileEntity extends TileEntity implements ITickableTileEntity {
+public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITickableTileEntity {
 
 	protected final EnergyDefinition energyDef;
 	private final LazyOptional<IEnergyStorage> energyCap;
 
 	protected final IIntArray data = new IIntArray() {
 		public int get(int index) {
-			return EnergyTileEntity.this.sides[index];
+			return BaseEnergyTileEntity.this.sides[index];
 		}
 
 		public void set(int index, int value) {
-			EnergyTileEntity.this.sides[index] = value;
+			BaseEnergyTileEntity.this.sides[index] = value;
 		}
 
 		@Override
 		public int getCount() {
-			return EnergyTileEntity.this.sides.length;
+			return BaseEnergyTileEntity.this.sides.length;
 		}
 	};
 
 	// 1 or 3 is in. 2 or 3 is out. D-U-N-S-W-E
 	public int[] sides = new int[] { 3, 3, 3, 3, 3, 3 };
 
-	public EnergyTileEntity(TileEntityType<?> type, EnergyDefinition storage) {
+	@Override
+	public void tick() {
+		recieveAll();
+		transferAll();
+	}
+
+	public BaseEnergyTileEntity(TileEntityType<?> type, EnergyDefinition storage) {
 		super(type);
 		this.energyDef = storage;
 		this.energyCap = LazyOptional.of(() -> storage);
@@ -69,21 +73,33 @@ public abstract class EnergyTileEntity extends TileEntity implements ITickableTi
 	}
 
 	protected void transferAll() {
-		for (Direction dir : BlockUtils.DIRECTIONS)
-			if (sides[dir.get3DDataValue()] >= 2)
+		BlockUtils.DIRECTIONS.forEach(dir -> {
+			if (canTransfer(dir)) {
 				transfer(dir, dir.getOpposite());
+			}
+		});
 	}
 
 	protected void recieveAll() {
-		for (Direction dir : BlockUtils.DIRECTIONS)
-			if ((sides[dir.get3DDataValue()] + 1) % 2 == 0)
-				transfer(dir, dir.getOpposite());
+		BlockUtils.DIRECTIONS.forEach(dir -> {
+			if (canRecieve(dir)) {
+				recieve(dir, dir.getOpposite());
+			}
+		});
 	}
 
-	private void transfer(Direction d1, Direction d2) {
-		TileEntity te = level.getBlockEntity(worldPosition.relative(d1));
+	public boolean canRecieve(Direction dir) {
+		return (sides[dir.get3DDataValue()] + 1) % 2 == 0;
+	}
+
+	public boolean canTransfer(Direction dir) {
+		return sides[dir.get3DDataValue()] >= 2;
+	}
+
+	protected void transfer(Direction to, Direction from) {
+		TileEntity te = level.getBlockEntity(worldPosition.relative(to));
 		if (te != null) {
-			te.getCapability(CapabilityEnergy.ENERGY, d2).ifPresent(e -> {
+			te.getCapability(CapabilityEnergy.ENERGY, from).ifPresent(e -> {
 				if (e.canReceive() && e.getEnergyStored() < e.getMaxEnergyStored()) {
 					energyDef.extractEnergy(e.receiveEnergy(energyDef.getOutput(), false), false);
 				}
@@ -91,10 +107,10 @@ public abstract class EnergyTileEntity extends TileEntity implements ITickableTi
 		}
 	}
 
-	protected void recieve(Direction d1, Direction d2) {
-		TileEntity te = level.getBlockEntity(worldPosition.relative(d1));
+	protected void recieve(Direction from, Direction to) {
+		TileEntity te = level.getBlockEntity(worldPosition.relative(from));
 		if (te != null) {
-			te.getCapability(CapabilityEnergy.ENERGY, d2).ifPresent(e -> {
+			te.getCapability(CapabilityEnergy.ENERGY, to).ifPresent(e -> {
 				if (e.canExtract() && e.getEnergyStored() > 0) {
 					energyDef.receiveEnergy(e.extractEnergy(energyDef.getInput(), false), false);
 				}
@@ -116,23 +132,6 @@ public abstract class EnergyTileEntity extends TileEntity implements ITickableTi
 
 	public float propFull() {
 		return (float) this.getEnergy() / (float) this.getMaxEnergy();
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.save(new CompoundNBT());
-	}
-
-	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		CompoundNBT nbt = new CompoundNBT();
-		this.save(nbt);
-		return new SUpdateTileEntityPacket(this.getBlockPos(), 0, nbt);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.load(this.getBlockState(), pkt.getTag());
 	}
 
 	public IIntArray getData() {

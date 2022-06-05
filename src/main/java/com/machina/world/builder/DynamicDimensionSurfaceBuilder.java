@@ -29,7 +29,6 @@ public class DynamicDimensionSurfaceBuilder extends SurfaceBuilder<SurfaceBuilde
 				p_205610_14_.getUnderwaterMaterial(), p_205610_11_);
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void apply(Random p_206967_1_, IChunk p_206967_2_, int p_206967_4_, int p_206967_5_, int p_206967_6_,
 			double p_206967_7_, BlockState p_206967_9_, BlockState p_206967_10_, BlockState p_206967_11_,
 			BlockState p_206967_12_, BlockState p_206967_13_, int p_206967_14_) {

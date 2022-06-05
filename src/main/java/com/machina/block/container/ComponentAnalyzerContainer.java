@@ -1,7 +1,5 @@
 package com.machina.block.container;
 
-import java.util.Objects;
-
 import com.machina.block.container.slot.AcceptSlot;
 import com.machina.block.container.slot.ResultSlot;
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
@@ -9,34 +7,26 @@ import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
 import com.machina.registration.init.ItemInit;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IWorldPosCallable;
 
-public class ComponentAnalyzerContainer extends Container {
+public class ComponentAnalyzerContainer extends BaseContainer<ComponentAnalyzerTileEntity> {
 
-	public final ComponentAnalyzerTileEntity te;
-	private final IWorldPosCallable canInteractWithCallable;
-	public final IIntArray data;
+	public ComponentAnalyzerTileEntity te;
 
 	public ComponentAnalyzerContainer(final int windowId, final PlayerInventory playerInv,
 			final ComponentAnalyzerTileEntity te) {
-		super(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), windowId);
+		super(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), windowId, te);
 		this.te = te;
-		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
 
 		recreateSlots(playerInv);
 
-		this.data = te.getData();
-		checkContainerDataCount(data, 1);
-		this.addDataSlots(data);
+		createData(() -> te.getData());
 	}
 
 	public void recreateSlots(final PlayerInventory playerInv) {
@@ -52,21 +42,6 @@ public class ComponentAnalyzerContainer extends Container {
 		this(windowId, playerInv, getTileEntity(playerInv, data));
 	}
 
-	private static ComponentAnalyzerTileEntity getTileEntity(final PlayerInventory playerInv, final PacketBuffer data) {
-		Objects.requireNonNull(playerInv, "Player Inventory cannot be null.");
-		Objects.requireNonNull(data, "Packet Buffer cannot be null.");
-		final TileEntity te = playerInv.player.level.getBlockEntity(data.readBlockPos());
-		if (te instanceof ComponentAnalyzerTileEntity) {
-			return (ComponentAnalyzerTileEntity) te;
-		}
-		throw new IllegalStateException("Tile Entity Is Not Correct");
-	}
-
-	@Override
-	public boolean stillValid(PlayerEntity player) {
-		return stillValid(canInteractWithCallable, player, BlockInit.COMPONENT_ANALYZER.get());
-	}
-
 	@Override
 	public ItemStack quickMoveStack(PlayerEntity player, int index) {
 		ItemStack stack = ItemStack.EMPTY;
@@ -74,11 +49,11 @@ public class ComponentAnalyzerContainer extends Container {
 		if (slot != null && slot.hasItem()) {
 			ItemStack stack1 = slot.getItem();
 			stack = stack1.copy();
-			if (index < ComponentAnalyzerTileEntity.slots
-					&& !this.moveItemStackTo(stack1, ComponentAnalyzerTileEntity.slots, this.slots.size(), true)) {
+			if (index < this.te.getContainerSize()
+					&& !this.moveItemStackTo(stack1, this.te.getContainerSize(), this.slots.size(), true)) {
 				return ItemStack.EMPTY;
 			}
-			if (!this.moveItemStackTo(stack1, 0, ComponentAnalyzerTileEntity.slots, false)) {
+			if (!this.moveItemStackTo(stack1, 0, this.te.getContainerSize(), false)) {
 				return ItemStack.EMPTY;
 			}
 
@@ -89,5 +64,10 @@ public class ComponentAnalyzerContainer extends Container {
 			}
 		}
 		return stack;
+	}
+
+	@Override
+	protected Block getBlock() {
+		return BlockInit.COMPONENT_ANALYZER.get();
 	}
 }

@@ -1,0 +1,6 @@
+{
+	"parent": "machina:block/connector/connector_multipart",
+	"textures": {
+		"multipart": "machina:block/cable"
+	}
+}

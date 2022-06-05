@@ -1,39 +1,27 @@
 package com.machina.block.container;
 
-import java.util.Objects;
-
 import com.machina.block.container.slot.CompletableSlot;
 import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IWorldPosCallable;
 
-public class ShipConsoleContainer extends Container {
+public class ShipConsoleContainer extends BaseContainer<ShipConsoleTileEntity> {
 
 	public final ShipConsoleTileEntity te;
-	private final IWorldPosCallable canInteractWithCallable;
-	public final IIntArray data;
 
 	public ShipConsoleContainer(final int windowId, final PlayerInventory playerInv, final ShipConsoleTileEntity te) {
-		super(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), windowId);
+		super(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), windowId, te);
 		this.te = te;
-		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
 
 		recreateSlots(playerInv);
 
-		this.data = te.getData();
-		checkContainerDataCount(data, 2);
-		this.addDataSlots(data);
+		createData(() -> te.getData());
 	}
 
 	public void recreateSlots(final PlayerInventory playerInv) {
@@ -51,43 +39,9 @@ public class ShipConsoleContainer extends Container {
 		this(windowId, playerInv, getTileEntity(playerInv, data));
 	}
 
-	private static ShipConsoleTileEntity getTileEntity(final PlayerInventory playerInv, final PacketBuffer data) {
-		Objects.requireNonNull(playerInv, "Player Inventory cannot be null.");
-		Objects.requireNonNull(data, "Packet Buffer cannot be null.");
-		final TileEntity te = playerInv.player.level.getBlockEntity(data.readBlockPos());
-		if (te instanceof ShipConsoleTileEntity) {
-			return (ShipConsoleTileEntity) te;
-		}
-		throw new IllegalStateException("Tile Entity Is Not Correct");
-	}
-
 	@Override
-	public boolean stillValid(PlayerEntity player) {
-		return stillValid(canInteractWithCallable, player, BlockInit.SHIP_CONSOLE.get());
-	}
-
-	@Override
-	public ItemStack quickMoveStack(PlayerEntity player, int index) {
-		ItemStack stack = ItemStack.EMPTY;
-		Slot slot = this.slots.get(index);
-		if (slot != null && slot.hasItem()) {
-			ItemStack stack1 = slot.getItem();
-			stack = stack1.copy();
-			if (index < ShipConsoleTileEntity.slots
-					&& !this.moveItemStackTo(stack1, ShipConsoleTileEntity.slots, this.slots.size(), true)) {
-				return ItemStack.EMPTY;
-			}
-			if (!this.moveItemStackTo(stack1, 0, ShipConsoleTileEntity.slots, false)) {
-				return ItemStack.EMPTY;
-			}
-
-			if (stack1.isEmpty()) {
-				slot.set(ItemStack.EMPTY);
-			} else {
-				slot.setChanged();
-			}
-		}
-		return stack;
+	protected Block getBlock() {
+		return BlockInit.SHIP_CONSOLE.get();
 	}
 
 	public CompletableSlot getCompletableSlot(int pSlotId) {

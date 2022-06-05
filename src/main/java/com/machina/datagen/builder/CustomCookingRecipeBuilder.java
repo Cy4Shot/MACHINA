@@ -60,12 +60,10 @@ public class CustomCookingRecipeBuilder {
 		return this;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void save(Consumer<IFinishedRecipe> p_218630_1_) {
 		this.save(p_218630_1_, Registry.ITEM.getKey(this.result));
 	}
 
-	@SuppressWarnings("deprecation")
 	public void save(Consumer<IFinishedRecipe> p_218632_1_, String p_218632_2_) {
 		ResourceLocation resourcelocation = Registry.ITEM.getKey(this.result);
 		ResourceLocation resourcelocation1 = new MachinaRL(p_218632_2_);
@@ -117,7 +115,6 @@ public class CustomCookingRecipeBuilder {
 			this.serializer = pSerializer;
 		}
 
-		@SuppressWarnings("deprecation")
 		public void serializeRecipeData(JsonObject pJson) {
 			if (!this.group.isEmpty()) {
 				pJson.addProperty("group", this.group);

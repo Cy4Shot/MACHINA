@@ -1,0 +1,6 @@
+{
+	"parent": "machina:block/connector/connector_base",
+	"textures": {
+		"connector": "machina:block/cable"
+	}
+}

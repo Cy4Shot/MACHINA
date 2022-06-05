@@ -59,7 +59,6 @@ public class DynamicDimensionHelper {
 		return world;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static ServerWorld getOrCreateWorld(MinecraftServer server, RegistryKey<World> worldKey,
 			BiFunction<MinecraftServer, RegistryKey<Dimension>, Dimension> dimensionFactory) {
 
@@ -72,7 +71,6 @@ public class DynamicDimensionHelper {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private static ServerWorld createAndRegisterWorldAndDimension(MinecraftServer server,
 			Map<RegistryKey<World>, ServerWorld> map, RegistryKey<World> worldKey,
 			BiFunction<MinecraftServer, RegistryKey<Dimension>, Dimension> dimensionFactory) {

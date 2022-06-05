@@ -1,0 +1,42 @@
+{
+  "multipart": [
+	{
+	  "apply": {"model": "machina:block/cable"}
+	}, {
+	  "when": {
+		"north": true
+	  },
+	  "apply": {"model": "machina:block/cable_multipart"}
+	},
+	{
+	  "when": {
+		"east": true
+	  },
+	  "apply": {"model": "machina:block/cable_multipart", "y": 90}
+	},
+	{
+	  "when": {
+		"south": true
+	  },
+	  "apply": {"model": "machina:block/cable_multipart", "x": 180}
+	},
+	{
+	  "when": {
+		"west": true
+	  },
+	  "apply": {"model": "machina:block/cable_multipart", "y": 270}
+	},
+	{
+	  "when": {
+		"up": true
+	  },
+	  "apply": {"model": "machina:block/cable_multipart", "x": 270}
+	},
+	{
+	  "when": {
+		"down": true
+	  },
+	  "apply": {"model": "machina:block/cable_multipart", "x": 90}
+	}
+  ]
+}

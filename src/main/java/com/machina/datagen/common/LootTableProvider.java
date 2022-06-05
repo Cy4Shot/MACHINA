@@ -33,5 +33,6 @@ public class LootTableProvider extends BaseLootTableProvider {
         dropSelf(BlockInit.STEEL_CHASSIS.get());
         dropSelf(BlockInit.IRON_CHASSIS.get());
         dropSelf(BlockInit.BATTERY.get());
+        dropSelf(BlockInit.CABLE.get());
     }
 }

@@ -82,7 +82,6 @@ public class ShipConsoleBlock extends Block {
 		return SHAPE_COLLISION;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState mirror(BlockState state, Mirror mirrorIn) {
 		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));

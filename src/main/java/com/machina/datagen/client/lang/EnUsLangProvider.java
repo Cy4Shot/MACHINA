@@ -30,6 +30,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
 		add(BlockInit.PUZZLE_BLOCK.get(), "Puzzle Block");
+		add(BlockInit.CABLE.get(), "Cable");
 		
 		add(BlockInit.BATTERY.get(), "Battery");
 		add(BlockInit.CREATIVE_BATTERY.get(), "Creative Battery");

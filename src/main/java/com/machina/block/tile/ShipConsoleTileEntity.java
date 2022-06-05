@@ -5,31 +5,23 @@ import java.util.Collections;
 import java.util.List;
 
 import com.machina.block.container.ShipConsoleContainer;
+import com.machina.block.tile.base.BaseLockableTileEntity;
 import com.machina.recipe.ShipConsoleRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.MachinaRL;
-import com.machina.util.server.ItemStackUtil;
-import com.machina.util.text.StringUtils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
 
-public class ShipConsoleTileEntity extends LockableLootTileEntity implements ITickableTileEntity {
+public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITickableTileEntity {
 
-	public static int slots = 4;
-	protected NonNullList<ItemStack> items = NonNullList.withSize(slots, ItemStack.EMPTY);
 	public int stage = 1, progress = 0;
 	public boolean isInProgress = false;
 
@@ -63,7 +55,7 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity implements ITi
 	};
 
 	public ShipConsoleTileEntity(TileEntityType<?> type) {
-		super(type);
+		super(type, 4);
 	}
 
 	public ShipConsoleTileEntity() {
@@ -131,44 +123,8 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity implements ITi
 	}
 
 	@Override
-	public int getContainerSize() {
-		return slots;
-	}
-
-	@Override
-	protected NonNullList<ItemStack> getItems() {
-		return this.items;
-	}
-
-	@Override
-	protected void setItems(NonNullList<ItemStack> pItems) {
-		this.items = pItems;
-		this.syncClients();
-	}
-
-	@Override
-	public void setItem(int pIndex, ItemStack pStack) {
-		super.setItem(pIndex, pStack);
-		this.syncClients();
-	}
-
-	public void syncClients() {
-		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
-		this.setChanged();
-	}
-
-	@Override
-	protected ITextComponent getDefaultName() {
-		return StringUtils.translateComp("machina.container.ship_console");
-	}
-
-	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
 		return new ShipConsoleContainer(id, player, this);
-	}
-
-	public ItemStack getItem(int id) {
-		return this.items.get(id);
 	}
 
 	@Override
@@ -177,38 +133,14 @@ public class ShipConsoleTileEntity extends LockableLootTileEntity implements ITi
 		compound.putInt("Stage", this.stage);
 		compound.putInt("Progress", this.progress);
 		compound.putBoolean("InProgress", this.isInProgress);
-		if (!this.trySaveLootTable(compound)) {
-			ItemStackUtil.saveAllItems(compound, this.items, "I");
-		}
 		return compound;
 	}
 
 	@Override
 	public void load(BlockState state, CompoundNBT compound) {
 		super.load(state, compound);
-		this.items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
-		if (!this.tryLoadLootTable(compound)) {
-			ItemStackUtil.loadAllItems(compound, this.items, "I");
-		}
 		this.stage = compound.getInt("Stage");
 		this.progress = compound.getInt("Progress");
 		this.isInProgress = compound.getBoolean("InProgress");
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag() {
-		return this.save(new CompoundNBT());
-	}
-
-	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		CompoundNBT nbt = new CompoundNBT();
-		this.save(nbt);
-		return new SUpdateTileEntityPacket(this.getBlockPos(), 0, nbt);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.load(this.getBlockState(), pkt.getTag());
 	}
 }

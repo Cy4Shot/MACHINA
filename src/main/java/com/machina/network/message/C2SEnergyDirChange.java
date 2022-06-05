@@ -1,6 +1,6 @@
 package com.machina.network.message;
 
-import com.machina.block.tile.EnergyTileEntity;
+import com.machina.block.tile.base.BaseEnergyTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;
@@ -23,10 +23,10 @@ public class C2SEnergyDirChange implements INetworkMessage {
 	public void handle(Context context) {
 		ServerWorld world = context.getSender().getLevel();
 		TileEntity e = world.getBlockEntity(this.pos);
-		if (e == null || !(e instanceof EnergyTileEntity)) {
+		if (e == null || !(e instanceof BaseEnergyTileEntity)) {
 			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
 		}
-		((EnergyTileEntity) e).sides = s;
+		((BaseEnergyTileEntity) e).sides = s;
 	}
 
 	@Override
