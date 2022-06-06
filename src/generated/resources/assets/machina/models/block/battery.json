@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "all": "machina:block/battery"
+    "side": "machina:block/battery",
+    "end": "machina:block/battery_side"
   }
 }

@@ -1,8 +1,12 @@
 {
   "multipart": [
 	{
+	  "when": {
+		"middle": false
+	  },
 	  "apply": {"model": "machina:block/cable"}
-	}, {
+	},
+	{
 	  "when": {
 		"north": true
 	  },

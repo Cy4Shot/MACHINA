@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import com.machina.block.tile.CableTileEntity;
 import com.machina.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.util.math.MathUtil;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -40,9 +41,11 @@ public class CableBlock extends Block {
 	public static final BooleanProperty WEST = SixWayBlock.WEST;
 	public static final BooleanProperty UP = SixWayBlock.UP;
 	public static final BooleanProperty DOWN = SixWayBlock.DOWN;
+	public static final BooleanProperty MIDDLE = BooleanProperty.create("middle");
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");
 
-	private static final VoxelShape CABLE = Block.box(6.25, 6.25, 6.25, 9.75, 9.75, 9.75);
+	private static final VoxelShape PART_C = Block.box(6, 6, 6, 10, 10, 10);
+	private static final VoxelShape PART_M = Block.box(6.5, 6.5, 6.5, 9.5, 9.5, 9.5);
 	private static final VoxelShape PART_N = Block.box(6.5, 6.5, 0, 9.5, 9.5, 7);
 	private static final VoxelShape PART_E = Block.box(9.5, 6.5, 6.5, 16, 9.5, 9.5);
 	private static final VoxelShape PART_S = Block.box(6.5, 6.5, 9.5, 9.5, 9.5, 16);
@@ -56,9 +59,9 @@ public class CableBlock extends Block {
 		super(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).harvestLevel(1).strength(1f)
 				.noOcclusion());
 
-		this.registerDefaultState(
-				this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false)
-						.setValue(WEST, false).setValue(UP, false).setValue(DOWN, false).setValue(TILE, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false)
+				.setValue(SOUTH, false).setValue(WEST, false).setValue(UP, false).setValue(DOWN, false)
+				.setValue(MIDDLE, false).setValue(TILE, false));
 	}
 
 	@Override
@@ -73,7 +76,7 @@ public class CableBlock extends Block {
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext pContext) {
-		VoxelShape shape = CABLE;
+		VoxelShape shape = state.getValue(MIDDLE) ? PART_M : PART_C;
 		if (state.getValue(NORTH) || isConnectable(world, pos, Direction.NORTH))
 			shape = VoxelShapes.or(shape, PART_N);
 		if (state.getValue(EAST) || isConnectable(world, pos, Direction.EAST))
@@ -122,6 +125,17 @@ public class CableBlock extends Block {
 		if (!tile)
 			doWithTe(world, pos, cable -> cable.setRemoved());
 
+		boolean middle = false;
+		if (MathUtil.numTrue(north[0], south[0], west[0], east[0], up[0], down[0]) == 2) {
+			for (Direction dir : Direction.values()) {
+				if (canAttach(world, pos, dir)[0]) {
+					if (canAttach(world, pos, dir.getOpposite())[0])
+						middle = true;
+					break;
+				}
+			}
+		}
+
 		//@formatter:off
 		return state
 				.setValue(NORTH, north[0])
@@ -130,6 +144,7 @@ public class CableBlock extends Block {
 				.setValue(EAST, east[0])
 				.setValue(UP, up[0])
 				.setValue(DOWN, down[0])
+				.setValue(MIDDLE, middle)
 				.setValue(TILE, tile);
 		//@formatter:on
 	}
@@ -146,7 +161,7 @@ public class CableBlock extends Block {
 
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> b) {
-		b.add(NORTH, EAST, SOUTH, WEST, UP, DOWN, TILE);
+		b.add(NORTH, EAST, SOUTH, WEST, UP, DOWN, MIDDLE, TILE);
 		super.createBlockStateDefinition(b);
 	}
 

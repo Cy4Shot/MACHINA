@@ -37,10 +37,10 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleTintedSlab(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "wasteland_sandstone", true);
 		simpleTintedStairs(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "wasteland_sandstone", true);
 		simpleTintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
+		simplePillarBlock(BlockInit.BATTERY.get());
 		simpleBlock(BlockInit.CARGO_CRATE.get());
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.PUZZLE_BLOCK.get());
-		simpleBlock(BlockInit.BATTERY.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 	}
 
@@ -51,6 +51,10 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 	public void simpleTintedBlock(Block block) {
 		simpleBlock(block, tinted(block));
+	}
+
+	public void simplePillarBlock(Block block) {
+		simpleBlock(block, models().cubeColumn(name(block), blockTexture(block), extend(blockTexture(block), "_side")));
 	}
 
 	public ModelFile tinted(Block block) {
@@ -131,6 +135,10 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 	private ResourceLocation blockLoc(String loc) {
 		return new MachinaRL("block/" + loc);
+	}
+
+	private ResourceLocation extend(ResourceLocation rl, String suffix) {
+		return new ResourceLocation(rl.getNamespace(), rl.getPath() + suffix);
 	}
 
 }

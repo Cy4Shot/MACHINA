@@ -43,4 +43,13 @@ public class MathUtil {
 		}
 		return tval + prefixes.get(order) + unit;
 	}
+
+	public static int numTrue(boolean... bs) {
+		int num = 0;
+		for (boolean b : bs) {
+			if (b)
+				num++;
+		}
+		return num;
+	}
 }
