@@ -1,7 +1,9 @@
 package com.machina.block.tile.base;
 
-import com.machina.energy.EnergyDefinition;
-import com.machina.util.server.BlockUtils;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.machina.energy.MachinaEnergyStorage;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -17,7 +19,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITickableTileEntity {
 
-	protected final EnergyDefinition energyDef;
+	protected final MachinaEnergyStorage energyDef;
 	private final LazyOptional<IEnergyStorage> energyCap;
 
 	protected final IIntArray data = new IIntArray() {
@@ -40,15 +42,18 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 
 	@Override
 	public void tick() {
-		recieveAll();
-		transferAll();
+		if (this.level.isClientSide())
+			return;
+		outputEnergy();
 	}
 
-	public BaseEnergyTileEntity(TileEntityType<?> type, EnergyDefinition storage) {
+	public BaseEnergyTileEntity(TileEntityType<?> type) {
 		super(type);
-		this.energyDef = storage;
-		this.energyCap = LazyOptional.of(() -> storage);
+		this.energyDef = createStorage();
+		this.energyCap = LazyOptional.of(() -> this.energyDef);
 	}
+
+	public abstract MachinaEnergyStorage createStorage();
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction d) {
@@ -56,6 +61,12 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 			return energyCap.cast();
 
 		return super.getCapability(cap, d);
+	}
+
+	@Override
+	protected void invalidateCaps() {
+		super.invalidateCaps();
+		this.energyCap.invalidate();
 	}
 
 	@Override
@@ -72,22 +83,6 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 		super.load(state, nbt);
 	}
 
-	protected void transferAll() {
-		BlockUtils.DIRECTIONS.forEach(dir -> {
-			if (canTransfer(dir)) {
-				transfer(dir, dir.getOpposite());
-			}
-		});
-	}
-
-	protected void recieveAll() {
-		BlockUtils.DIRECTIONS.forEach(dir -> {
-			if (canRecieve(dir)) {
-				recieve(dir, dir.getOpposite());
-			}
-		});
-	}
-
 	public boolean canRecieve(Direction dir) {
 		return (sides[dir.get3DDataValue()] + 1) % 2 == 0;
 	}
@@ -96,25 +91,40 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 		return sides[dir.get3DDataValue()] >= 2;
 	}
 
-	protected void transfer(Direction to, Direction from) {
-		TileEntity te = level.getBlockEntity(worldPosition.relative(to));
-		if (te != null) {
-			te.getCapability(CapabilityEnergy.ENERGY, from).ifPresent(e -> {
-				if (e.canReceive() && e.getEnergyStored() < e.getMaxEnergyStored()) {
-					energyDef.extractEnergy(e.receiveEnergy(energyDef.getOutput(), false), false);
-				}
-			});
-		}
-	}
+	public void outputEnergy() {
+		if (this.energyDef.getEnergyStored() >= this.energyDef.getMaxExtract() && this.energyDef.canExtract()) {
 
-	protected void recieve(Direction from, Direction to) {
-		TileEntity te = level.getBlockEntity(worldPosition.relative(from));
-		if (te != null) {
-			te.getCapability(CapabilityEnergy.ENERGY, to).ifPresent(e -> {
-				if (e.canExtract() && e.getEnergyStored() > 0) {
-					energyDef.receiveEnergy(e.extractEnergy(energyDef.getInput(), false), false);
-				}
-			});
+			List<LazyOptional<IEnergyStorage>> tes = new ArrayList<>();
+			for (Direction direction : Direction.values()) {
+				if (!canTransfer(direction))
+					continue;
+				final TileEntity te = this.level.getBlockEntity(this.worldPosition.relative(direction));
+				if (te == null || !(te instanceof BaseEnergyTileEntity))
+					continue;
+
+				final BaseEnergyTileEntity ete = (BaseEnergyTileEntity) te;
+				if (!ete.canRecieve(direction.getOpposite()))
+					continue;
+
+				tes.add(ete.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()));
+			}
+
+			if (tes.size() == 0)
+				return;
+
+			int extract = this.energyDef.getMaxExtract() / tes.size();
+
+			for (LazyOptional<IEnergyStorage> s : tes) {
+				s.ifPresent(storage -> {
+					if (storage.getEnergyStored() < storage.getMaxEnergyStored()) {
+						final int toSend = BaseEnergyTileEntity.this.energyDef.extractEnergy(extract, false);
+						final int received = storage.receiveEnergy(toSend, false);
+
+						BaseEnergyTileEntity.this.energyDef
+								.setEnergy(BaseEnergyTileEntity.this.energyDef.getEnergyStored() + toSend - received);
+					}
+				});
+			}
 		}
 	}
 

@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import com.machina.block.tile.CableTileEntity;
-import com.machina.energy.EnergyDefinition;
+import com.machina.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
 
 import net.minecraft.block.AbstractBlock;
@@ -136,7 +136,7 @@ public class CableBlock extends Block {
 
 	public boolean isConnectable(IBlockReader world, BlockPos pos, Direction dir) {
 		TileEntity te = world.getBlockEntity(pos.relative(dir));
-		return !(te instanceof CableTileEntity) && EnergyDefinition.hasEnergy(te, dir);
+		return !(te instanceof CableTileEntity) && MachinaEnergyStorage.hasEnergy(te, dir);
 	}
 
 	public boolean[] canAttach(IWorld world, BlockPos pos, Direction dir) {
@@ -200,12 +200,10 @@ public class CableBlock extends Block {
 				BlockPos blockPos = pos.relative(direction);
 				BlockState state = world.getBlockState(blockPos);
 				if (state.getBlock() == this) {
-					TileEntity tileEntity = world.getBlockEntity(blockPos);
-					if (tileEntity instanceof CableTileEntity) {
-						CableTileEntity cable = (CableTileEntity) tileEntity;
-						cable.connectors.clear();
-						cable.search(this);
-					}
+					doWithTe(world, blockPos, te -> {
+						te.connectors.clear();
+						te.search(this);
+					});
 					CableBlock cableBlock = (CableBlock) state.getBlock();
 					ss.add(pos);
 					CACHE.put(poss, ss);
@@ -224,10 +222,7 @@ public class CableBlock extends Block {
 					continue;
 				BlockState state = world.getBlockState(blockPos);
 				if (state.getBlock() == this) {
-					TileEntity tileEntity = world.getBlockEntity(blockPos);
-					if (tileEntity instanceof CableTileEntity) {
-						first.connectors.add(blockPos);
-					}
+					doWithTe(world, blockPos, te -> first.connectors.add(blockPos));
 					CableBlock cableBlock = (CableBlock) state.getBlock();
 					first.cache.add(pos);
 					cableBlock.searchCables(world, blockPos, first);

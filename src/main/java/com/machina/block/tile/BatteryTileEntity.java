@@ -2,7 +2,7 @@ package com.machina.block.tile;
 
 import com.machina.block.container.BatteryContainer;
 import com.machina.block.tile.base.BaseEnergyTileEntity;
-import com.machina.energy.EnergyDefinition;
+import com.machina.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.text.StringUtils;
 
@@ -15,7 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 public class BatteryTileEntity extends BaseEnergyTileEntity implements INamedContainerProvider {
 
 	public BatteryTileEntity() {
-		super(TileEntityTypesInit.BATTERY.get(), new EnergyDefinition(1000000, 1000, 1000));
+		super(TileEntityTypesInit.BATTERY.get());
 		
 		this.sides = new int[] {1, 1, 1, 1, 1, 1};
 	}
@@ -28,6 +28,11 @@ public class BatteryTileEntity extends BaseEnergyTileEntity implements INamedCon
 	@Override
 	public ITextComponent getDisplayName() {
 		return StringUtils.toComp("Battery");
+	}
+
+	@Override
+	public MachinaEnergyStorage createStorage() {
+		return new MachinaEnergyStorage(this, 1000000, 1000, 1000);
 	}
 
 }

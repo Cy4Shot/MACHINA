@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.machina.block.CableBlock;
 import com.machina.block.tile.base.BaseEnergyTileEntity;
-import com.machina.energy.EnergyDefinition;
+import com.machina.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
 
 import net.minecraft.block.Block;
@@ -26,13 +26,18 @@ public class CableTileEntity extends BaseEnergyTileEntity {
 	public List<Direction> dirs = new ArrayList<>();
 
 	public CableTileEntity(TileEntityType<?> type) {
-		super(type, new EnergyDefinition(1000, 1000, 1000));
+		super(type);
 
 		sides = new int[] { 3, 3, 3, 3, 3, 3 };
 	}
 
 	public CableTileEntity() {
 		this(TileEntityTypesInit.CABLE.get());
+	}
+	
+	@Override
+	public MachinaEnergyStorage createStorage() {
+		return new MachinaEnergyStorage(this, 1000, 1000, 1000);
 	}
 
 	@Override
