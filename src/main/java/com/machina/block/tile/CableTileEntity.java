@@ -18,6 +18,9 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 
 public class CableTileEntity extends BaseEnergyTileEntity {
 
@@ -34,7 +37,7 @@ public class CableTileEntity extends BaseEnergyTileEntity {
 	public CableTileEntity() {
 		this(TileEntityTypesInit.CABLE.get());
 	}
-	
+
 	@Override
 	public MachinaEnergyStorage createStorage() {
 		return new MachinaEnergyStorage(this, 1000, 1000, 1000);
@@ -42,10 +45,55 @@ public class CableTileEntity extends BaseEnergyTileEntity {
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide())
-			return;
-		System.out.println("Here goes: " + this.getBlockPos());
-		dirs.forEach(pos -> System.out.println(pos));
+		super.tick();
+	}
+
+	public List<LazyOptional<IEnergyStorage>> storages() {
+		List<LazyOptional<IEnergyStorage>> tes = new ArrayList<>();
+		for (Direction direction : dirs) {
+			if (!canTransfer(direction))
+				continue;
+			final TileEntity te = this.level.getBlockEntity(this.worldPosition.relative(direction));
+			if (te == null || !(te instanceof BaseEnergyTileEntity))
+				continue;
+
+			final BaseEnergyTileEntity ete = (BaseEnergyTileEntity) te;
+			if (!ete.canRecieve(direction.getOpposite()))
+				continue;
+
+			tes.add(ete.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()));
+		}
+		return tes;
+	}
+
+	@Override
+	public void outputEnergy() {
+		if (this.energyDef.getEnergyStored() >= this.energyDef.getMaxExtract() && this.energyDef.canExtract()) {
+			
+			List<LazyOptional<IEnergyStorage>> tes = storages();
+			this.connectors.forEach(connector -> {
+				final TileEntity te = this.level.getBlockEntity(connector);
+				if (te != null && te instanceof CableTileEntity)
+					tes.addAll(((CableTileEntity) te).storages());
+			});
+
+			if (tes.size() == 0)
+				return;
+
+			int extract = this.energyDef.getMaxExtract() / tes.size();
+
+			for (LazyOptional<IEnergyStorage> s : tes) {
+				s.ifPresent(storage -> {
+					if (storage.getEnergyStored() < storage.getMaxEnergyStored()) {
+						final int toSend = CableTileEntity.this.energyDef.extractEnergy(extract, false);
+						final int received = storage.receiveEnergy(toSend, false);
+
+						CableTileEntity.this.energyDef
+								.setEnergy(CableTileEntity.this.energyDef.getEnergyStored() + toSend - received);
+					}
+				});
+			}
+		}
 	}
 
 	public void search(Block block) {
