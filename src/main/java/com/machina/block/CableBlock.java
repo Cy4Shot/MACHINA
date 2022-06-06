@@ -1,5 +1,9 @@
 package com.machina.block;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import com.machina.block.tile.CableTileEntity;
@@ -46,6 +50,8 @@ public class CableBlock extends Block {
 	private static final VoxelShape PART_U = Block.box(6.5, 9.5, 6.5, 9.5, 16, 9.5);
 	private static final VoxelShape PART_D = Block.box(6.5, 0, 6.5, 9.5, 7, 9.5);
 
+	private static final Map<BlockPos, Set<BlockPos>> CACHE = new HashMap<>();
+
 	public CableBlock() {
 		super(AbstractBlock.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).harvestLevel(1).strength(1f)
 				.noOcclusion());
@@ -86,6 +92,14 @@ public class CableBlock extends Block {
 	@Override
 	public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, IWorld world,
 			BlockPos pos, BlockPos pFacingPos) {
+		doWithTe(world, pos, cable -> {
+			cable.dirs.clear();
+			for (Direction direction : Direction.values()) {
+				if (isConnectable(world, pos, direction)) {
+					cable.dirs.add(direction);
+				}
+			}
+		});
 		return createState(world, pos);
 	}
 
@@ -145,10 +159,25 @@ public class CableBlock extends Block {
 
 	@Override
 	public void onPlace(BlockState pState, World world, BlockPos pos, BlockState pOldState, boolean pIsMoving) {
-		doWithTe(world, pos, cable -> {
+		if (!doWithTe(world, pos, cable -> {
+			cable.dirs.clear();
+			for (Direction direction : Direction.values()) {
+				if (isConnectable(world, pos, direction)) {
+					cable.dirs.add(direction);
+				}
+			}
 			cable.sync();
-		});
+		})) {
+			findCables(world, pos, pos);
+		}
+		;
 		super.onPlace(pState, world, pos, pOldState, pIsMoving);
+	}
+
+	@Override
+	public void onRemove(BlockState pState, World world, BlockPos pos, BlockState pNewState, boolean pIsMoving) {
+		findCables(world, pos, pos);
+		super.onRemove(pState, world, pos, pNewState, pIsMoving);
 	}
 
 	private boolean doWithTe(IWorld w, BlockPos p, Consumer<CableTileEntity> func) {
@@ -159,5 +188,51 @@ public class CableBlock extends Block {
 			return true;
 		}
 		return false;
+	}
+
+	public void findCables(IWorld world, BlockPos poss, BlockPos pos) {
+		Set<BlockPos> ss = CACHE.get(poss);
+		if (ss == null) {
+			ss = new HashSet<>();
+		}
+		if (!ss.contains(pos)) {
+			for (Direction direction : Direction.values()) {
+				BlockPos blockPos = pos.relative(direction);
+				BlockState state = world.getBlockState(blockPos);
+				if (state.getBlock() == this) {
+					TileEntity tileEntity = world.getBlockEntity(blockPos);
+					if (tileEntity instanceof CableTileEntity) {
+						CableTileEntity cable = (CableTileEntity) tileEntity;
+						cable.connectors.clear();
+						cable.search(this);
+					}
+					CableBlock cableBlock = (CableBlock) state.getBlock();
+					ss.add(pos);
+					CACHE.put(poss, ss);
+					cableBlock.findCables(world, poss, blockPos);
+				}
+			}
+		}
+		CACHE.clear();
+	}
+
+	public void searchCables(IWorld world, BlockPos pos, CableTileEntity first) {
+		if (!first.cache.contains(pos)) {
+			for (Direction direction : Direction.values()) {
+				BlockPos blockPos = pos.relative(direction);
+				if (blockPos.equals(first.getBlockPos()))
+					continue;
+				BlockState state = world.getBlockState(blockPos);
+				if (state.getBlock() == this) {
+					TileEntity tileEntity = world.getBlockEntity(blockPos);
+					if (tileEntity instanceof CableTileEntity) {
+						first.connectors.add(blockPos);
+					}
+					CableBlock cableBlock = (CableBlock) state.getBlock();
+					first.cache.add(pos);
+					cableBlock.searchCables(world, blockPos, first);
+				}
+			}
+		}
 	}
 }
