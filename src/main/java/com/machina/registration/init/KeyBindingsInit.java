@@ -3,6 +3,7 @@ package com.machina.registration.init;
 import java.awt.event.KeyEvent;
 
 import com.machina.Machina;
+import com.machina.util.reflection.ClassHelper;
 
 import net.minecraft.client.settings.KeyBinding;
 
@@ -23,8 +24,8 @@ public final class KeyBindingsInit {
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
-		ClientRegistry.registerKeyBinding(DEV_PLANET_CREATION_SCREEN);
-		ClientRegistry.registerKeyBinding(STARCHART);
+		ClassHelper.<KeyBinding>doWithStatics(KeyBindingsInit.class,
+				(name, data) -> ClientRegistry.registerKeyBinding(data));
 	}
 
 	private static KeyBinding create(String name, int key) {
@@ -34,5 +35,4 @@ public final class KeyBindingsInit {
 	public static boolean isKeyDown(KeyBinding key) {
 		return key != null && key.isDown();
 	}
-
 }

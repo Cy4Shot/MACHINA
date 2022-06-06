@@ -30,6 +30,10 @@
 
 package com.machina.util.reflection;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.function.BiConsumer;
+
 public final class ClassHelper {
 
 	/**
@@ -43,6 +47,19 @@ public final class ClassHelper {
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> withWildcard(Class<?> cls) {
 		return (Class<T>) cls;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static <T> void doWithStatics(Class clazz, BiConsumer<String, T> func) {
+		for (Field field : clazz.getDeclaredFields()) {
+			if (Modifier.isStatic(field.getModifiers())) {
+				try {
+					func.accept(field.getName(), (T) field.get(null));
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+		}
 	}
 
 }

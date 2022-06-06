@@ -1,7 +1,5 @@
 package com.machina.registration.init;
 
-import static net.minecraft.command.Commands.literal;
-
 import java.util.ArrayList;
 
 import com.machina.Machina;
@@ -14,8 +12,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public final class CommandInit {
 
@@ -26,26 +24,23 @@ public final class CommandInit {
 
 		commands.add(new ListTraitsCommand(PermissionLevels.GIVE_CLEAR, true));
 
-		commands.add(new DebugCommand(4, isDevEnvironment()));
+		commands.add(new DebugCommand(4, Machina.isDevEnvironment()));
 		commands.add(new GoToPlanetCommand(4, true));
 
 		commands.forEach(command -> {
 			if (command.isEnabled()) {
-				LiteralArgumentBuilder<CommandSource> builder = literal(command.getName());
+				LiteralArgumentBuilder<CommandSource> builder = Commands.literal(command.getName());
 				builder.requires(sender -> sender.hasPermission(command.getPermissionLevel()));
 				command.build(builder);
 				if (command instanceof PlanetTraitsCommand) {
-					dispatcher.register(literal(Machina.MOD_ID).then(literal("planet_traits").then(builder)));
+					dispatcher.register(
+							Commands.literal(Machina.MOD_ID).then(Commands.literal("planet_traits").then(builder)));
 				} else {
-					dispatcher.register(literal(Machina.MOD_ID).then(builder));
+					dispatcher.register(Commands.literal(Machina.MOD_ID).then(builder));
 				}
 			}
 		});
 
-	}
-
-	private static boolean isDevEnvironment() {
-		return !FMLEnvironment.production;
 	}
 
 	public static class PermissionLevels {
