@@ -1,37 +1,73 @@
 package com.machina.block.tile;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.machina.block.CableBlock;
-import com.machina.block.tile.base.BaseEnergyTileEntity;
-import com.machina.energy.MachinaEnergyStorage;
+import com.machina.block.tile.base.BaseTileEntity;
+import com.machina.energy.CableEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.util.DirectionalLazyOptionalCache;
+import com.machina.util.server.BlockUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 
-public class CableTileEntity extends BaseEnergyTileEntity {
+//https://github.com/henkelmax/pipez/blob/e84a48ef95f44b13a37e9c2b06a41e24d706345c/src/main/java/de/maxhenkel/pipez/blocks/tileentity/PipeLogicTileEntity.java
+public class CableTileEntity extends BaseTileEntity implements ITickableTileEntity {
 
-	public List<BlockPos> connectors = new ArrayList<>();
+	private final DirectionalLazyOptionalCache<CableEnergyStorage> energyCap;
+
+	protected final IIntArray data = new IIntArray() {
+		public int get(int index) {
+			return CableTileEntity.this.sides[index];
+		}
+
+		public void set(int index, int value) {
+			CableTileEntity.this.sides[index] = value;
+		}
+
+		@Override
+		public int getCount() {
+			return CableTileEntity.this.sides.length;
+		}
+	};
+
+	// 1 or 3 is in. 2 or 3 is out. D-U-N-S-W-E
+	public int[] sides = new int[] { 3, 3, 3, 3, 3, 3 };
+	protected final int[] roundrobin;
+	private int recursionDepth;
+
+	public List<Connection> connectors = new ArrayList<>();
 	public List<BlockPos> cache = new ArrayList<>();
 	public List<Direction> dirs = new ArrayList<>();
 
 	public CableTileEntity(TileEntityType<?> type) {
 		super(type);
-
-		sides = new int[] { 3, 3, 3, 3, 3, 3 };
+		this.energyCap = new DirectionalLazyOptionalCache<>();
+		this.roundrobin = new int[Direction.values().length];
+		revalidate();
+	}
+	
+	public void revalidate() {
+		BlockUtils.DIRECTIONS.forEach(dir -> {
+			energyCap.revalidate(dir, s -> canTransfer(s), (s) -> new CableEnergyStorage(this, s));
+		});
 	}
 
 	public CableTileEntity() {
@@ -39,61 +75,104 @@ public class CableTileEntity extends BaseEnergyTileEntity {
 	}
 
 	@Override
-	public MachinaEnergyStorage createStorage() {
-		return new MachinaEnergyStorage(this, 1000, 1000, 1000);
-	}
-
-	@Override
 	public void tick() {
-		super.tick();
+		if (this.level.isClientSide())
+			return;
+		BlockUtils.DIRECTIONS.forEach(dir -> {
+			energyCap.get(dir).ifPresent(CableEnergyStorage::tick);
+		});
 	}
 
-	public List<LazyOptional<IEnergyStorage>> storages() {
-		List<LazyOptional<IEnergyStorage>> tes = new ArrayList<>();
-		for (Direction direction : dirs) {
-			if (!canTransfer(direction))
-				continue;
-			final TileEntity te = this.level.getBlockEntity(this.worldPosition.relative(direction));
-			if (te == null || !(te instanceof BaseEnergyTileEntity))
-				continue;
+	public int getRoundRobinIndex(Direction direction) {
+		return roundrobin[direction.get3DDataValue()];
+	}
 
-			final BaseEnergyTileEntity ete = (BaseEnergyTileEntity) te;
-			if (!ete.canRecieve(direction.getOpposite()))
-				continue;
+	public void setRoundRobinIndex(Direction direction, int value) {
+		roundrobin[direction.get3DDataValue()] = value;
+	}
 
-			tes.add(ete.getCapability(CapabilityEnergy.ENERGY, direction.getOpposite()));
-		}
-		return tes;
+	public List<Connection> getSortedConnections(Direction side) {
+		return connectors.stream().sorted(Comparator.comparingInt(Connection::getDistance))
+				.collect(Collectors.toList());
+
+	}
+
+	public int getRate() {
+		return 2000;
 	}
 
 	@Override
-	public void outputEnergy() {
-		if (this.energyDef.getEnergyStored() >= this.energyDef.getMaxExtract() && this.energyDef.canExtract()) {
-			
-			List<LazyOptional<IEnergyStorage>> tes = storages();
-			this.connectors.forEach(connector -> {
-				final TileEntity te = this.level.getBlockEntity(connector);
-				if (te != null && te instanceof CableTileEntity)
-					tes.addAll(((CableTileEntity) te).storages());
-			});
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction d) {
+		if (cap == CapabilityEnergy.ENERGY)
+			return energyCap.get(d).cast();
 
-			if (tes.size() == 0)
-				return;
+		return super.getCapability(cap, d);
+	}
 
-			int extract = this.energyDef.getMaxExtract() / tes.size();
+	@Override
+	protected void invalidateCaps() {
+		super.invalidateCaps();
+		this.energyCap.invalidate();
+	}
 
-			for (LazyOptional<IEnergyStorage> s : tes) {
-				s.ifPresent(storage -> {
-					if (storage.getEnergyStored() < storage.getMaxEnergyStored()) {
-						final int toSend = CableTileEntity.this.energyDef.extractEnergy(extract, false);
-						final int received = storage.receiveEnergy(toSend, false);
+	@Override
+	public void setRemoved() {
+		this.energyCap.invalidate();
+		super.setRemoved();
+	}
 
-						CableTileEntity.this.energyDef
-								.setEnergy(CableTileEntity.this.energyDef.getEnergyStored() + toSend - received);
-					}
-				});
-			}
+	@Override
+	public CompoundNBT save(CompoundNBT nbt) {
+		nbt.putIntArray("Sides", sides);
+
+		ListNBT cons = new ListNBT();
+		this.connectors.forEach(pos -> {
+			CompoundNBT posnbt = new CompoundNBT();
+			posnbt.put("connector", pos.save());
+			cons.add(posnbt);
+		});
+		nbt.put("connectors", cons);
+
+		ListNBT sides = new ListNBT();
+		this.dirs.forEach(dir -> {
+			CompoundNBT posnbt = new CompoundNBT();
+			posnbt.putInt("dir", dir.get3DDataValue());
+			sides.add(posnbt);
+		});
+		nbt.put("dirs", sides);
+		return super.save(nbt);
+	}
+
+	@Override
+	public void load(BlockState state, CompoundNBT nbt) {
+		sides = nbt.getIntArray("Sides");
+
+		connectors = new ArrayList<>();
+		dirs = new ArrayList<>();
+
+		ListNBT cons = nbt.getList("connectors", Constants.NBT.TAG_COMPOUND);
+		for (int j = 0; j < cons.size(); j++) {
+			connectors.add(Connection.load(cons.getCompound(j).getCompound("connector")));
 		}
+
+		ListNBT sides = nbt.getList("dirs", Constants.NBT.TAG_COMPOUND);
+		for (int j = 0; j < sides.size(); j++) {
+			dirs.add(Direction.from3DDataValue(sides.getCompound(j).getInt("dir")));
+		}
+		energyCap.revalidate(this::canTransfer, (s) -> new CableEnergyStorage(this, s));
+		super.load(state, nbt);
+	}
+
+	public boolean canRecieve(Direction dir) {
+		return (sides[dir.get3DDataValue()] + 1) % 2 == 0;
+	}
+
+	public boolean canTransfer(Direction dir) {
+		return sides[dir.get3DDataValue()] >= 2;
+	}
+
+	public IIntArray getData() {
+		return this.data;
 	}
 
 	public void search(Block block) {
@@ -105,54 +184,73 @@ public class CableTileEntity extends BaseEnergyTileEntity {
 				if (state.getBlock() == block) {
 					TileEntity tile1 = this.level.getBlockEntity(blockPos);
 					if (tile1 instanceof CableTileEntity) {
-						connectors.add(blockPos);
+						connectors.add(new Connection(this.worldPosition, direction, 0));
 					}
 					CableBlock cableBlock = (CableBlock) state.getBlock();
-					cableBlock.searchCables(this.level, blockPos, this);
+					cableBlock.searchCables(this.level, blockPos, this, 0);
 				}
 			}
 		}
 		this.cache.clear();
 	}
 
-	@Override
-	public CompoundNBT save(CompoundNBT nbt) {
-		CompoundNBT compound = super.save(nbt);
-
-		ListNBT cons = new ListNBT();
-		this.connectors.forEach(pos -> {
-			CompoundNBT posnbt = new CompoundNBT();
-			posnbt.put("connector", NBTUtil.writeBlockPos(pos));
-			cons.add(posnbt);
-		});
-		compound.put("connectors", cons);
-
-		ListNBT sides = new ListNBT();
-		this.dirs.forEach(dir -> {
-			CompoundNBT posnbt = new CompoundNBT();
-			posnbt.putInt("dir", dir.get3DDataValue());
-			sides.add(posnbt);
-		});
-		compound.put("dirs", sides);
-
-		return compound;
+	public boolean pushRecursion() {
+		if (recursionDepth >= 1) {
+			return true;
+		}
+		recursionDepth++;
+		return false;
 	}
 
-	@Override
-	public void load(BlockState state, CompoundNBT nbt) {
-		connectors = new ArrayList<>();
-		dirs = new ArrayList<>();
+	public void popRecursion() {
+		recursionDepth--;
+	}
 
-		super.load(state, nbt);
+	public static class Connection {
+		private final BlockPos pos;
+		private final Direction direction;
+		private final int distance;
 
-		ListNBT cons = nbt.getList("connectors", Constants.NBT.TAG_COMPOUND);
-		for (int j = 0; j < cons.size(); j++) {
-			connectors.add(NBTUtil.readBlockPos(cons.getCompound(j).getCompound("connector")));
+		public Connection(BlockPos pos, Direction direction, int distance) {
+			this.pos = pos;
+			this.direction = direction;
+			this.distance = distance;
 		}
 
-		ListNBT sides = nbt.getList("dirs", Constants.NBT.TAG_COMPOUND);
-		for (int j = 0; j < sides.size(); j++) {
-			dirs.add(Direction.from3DDataValue(sides.getCompound(j).getInt("dir")));
+		public int getDistance() {
+			return distance;
+		}
+
+		public BlockPos getPos() {
+			return pos;
+		}
+		
+		public BlockPos getDest() {
+			return pos.relative(direction.getOpposite());
+		}
+
+		public Direction getDirection() {
+			return direction;
+		}
+
+		@Override
+		public String toString() {
+			return "Connection{" + "pos=" + pos + ", direction=" + direction + ", distance=" + distance + '}';
+		}
+
+		public CompoundNBT save() {
+			CompoundNBT nbt = new CompoundNBT();
+			nbt.put("CPos", NBTUtil.writeBlockPos(pos));
+			nbt.putInt("CDir", direction.get3DDataValue());
+			nbt.putInt("CDis", distance);
+			return nbt;
+		}
+
+		public static Connection load(CompoundNBT nbt) {
+			BlockPos p = NBTUtil.readBlockPos(nbt.getCompound("CPos"));
+			Direction d = Direction.from3DDataValue(nbt.getInt("CDir"));
+			int dist = nbt.getInt("CDis");
+			return new Connection(p, d, dist);
 		}
 	}
 }

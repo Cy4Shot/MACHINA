@@ -102,6 +102,7 @@ public class CableBlock extends Block {
 					cable.dirs.add(direction);
 				}
 			}
+			cable.sync();
 		});
 		return createState(world, pos);
 	}
@@ -170,6 +171,9 @@ public class CableBlock extends Block {
 		super.setPlacedBy(world, pos, pState, pPlacer, pStack);
 		if (world.isClientSide())
 			return;
+		doWithTe(world, pos, cable -> {
+			cable.search(this);
+		});
 	}
 
 	@Override
@@ -185,7 +189,6 @@ public class CableBlock extends Block {
 		})) {
 			findCables(world, pos, pos);
 		}
-		;
 		super.onPlace(pState, world, pos, pOldState, pIsMoving);
 	}
 
@@ -229,7 +232,8 @@ public class CableBlock extends Block {
 		CACHE.clear();
 	}
 
-	public void searchCables(IWorld world, BlockPos pos, CableTileEntity first) {
+	public void searchCables(IWorld world, BlockPos pos, CableTileEntity first, int dist) {
+		int newdist = dist + 1;
 		if (!first.cache.contains(pos)) {
 			for (Direction direction : Direction.values()) {
 				BlockPos blockPos = pos.relative(direction);
@@ -237,10 +241,12 @@ public class CableBlock extends Block {
 					continue;
 				BlockState state = world.getBlockState(blockPos);
 				if (state.getBlock() == this) {
-					doWithTe(world, blockPos, te -> first.connectors.add(blockPos));
+					doWithTe(world, blockPos, te -> te.dirs.forEach(dir -> {
+						first.connectors.add(new CableTileEntity.Connection(blockPos, dir, newdist));
+					}));
 					CableBlock cableBlock = (CableBlock) state.getBlock();
 					first.cache.add(pos);
-					cableBlock.searchCables(world, blockPos, first);
+					cableBlock.searchCables(world, blockPos, first, newdist);
 				}
 			}
 		}

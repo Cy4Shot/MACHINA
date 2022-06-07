@@ -35,4 +35,9 @@ public class BatteryTileEntity extends BaseEnergyTileEntity implements INamedCon
 		return new MachinaEnergyStorage(this, 1000000, 1000, 1000);
 	}
 
+	@Override
+	public void tick() {
+		
+	}
+
 }

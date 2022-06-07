@@ -63,6 +63,14 @@ public class MachinaEnergyStorage extends EnergyStorage {
 		this.energy = Math.max(0, Math.min(energy, this.capacity));
 	}
 
+	public void consumeEnergy(int energy) {
+		this.energy -= energy;
+		if (this.energy < 0) {
+			this.energy = 0;
+		}
+		this.te.sync();
+	}
+
 	public static boolean hasEnergy(@Nullable TileEntity te, @Nullable Direction dir) {
 		return (te == null ? LazyOptional.empty()
 				: te.getCapability(CapabilityEnergy.ENERGY, dir != null ? dir.getOpposite() : null)).isPresent();

@@ -20,7 +20,7 @@ public class CreativeBatteryTileEntity extends BaseEnergyTileEntity {
 	@Override
 	public void tick() {
 		fillEnergy();
-		super.tick();
+		sendOutPower();
 	}
 
 }
