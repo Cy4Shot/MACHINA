@@ -9,14 +9,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class C2SEnergyDirChange implements INetworkMessage {
+public class C2SUpdateEnergySide implements INetworkMessage {
 
 	public final BlockPos pos;
-	public final int[] s;
+	public final int[] data;
 
-	public C2SEnergyDirChange(BlockPos pos, int[] s) {
+	public C2SUpdateEnergySide(BlockPos pos, int[] data) {
 		this.pos = pos;
-		this.s = s;
+		this.data = data;
 	}
 
 	@Override
@@ -26,19 +26,21 @@ public class C2SEnergyDirChange implements INetworkMessage {
 		if (e == null || !(e instanceof BaseEnergyTileEntity)) {
 			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
 		}
-		((BaseEnergyTileEntity) e).sides = s;
+		BaseEnergyTileEntity et = (BaseEnergyTileEntity) e;
+		et.sides = data;
+		et.sync();
 	}
 
 	@Override
 	public void encode(PacketBuffer buffer) {
 		buffer.writeBlockPos(pos);
-		buffer.writeVarIntArray(s);
+		buffer.writeVarIntArray(data);
 	}
 
-	public static C2SEnergyDirChange decode(PacketBuffer buffer) {
+	public static C2SUpdateEnergySide decode(PacketBuffer buffer) {
 		BlockPos pos = buffer.readBlockPos();
-		int[] s = buffer.readVarIntArray();
-		return new C2SEnergyDirChange(pos, s);
+		int[] data = buffer.readVarIntArray();
+		return new C2SUpdateEnergySide(pos, data);
 	}
 
 }

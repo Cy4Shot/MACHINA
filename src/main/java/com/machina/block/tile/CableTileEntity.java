@@ -21,7 +21,6 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
@@ -33,23 +32,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 
 	private final DirectionalLazyOptionalCache<CableEnergyStorage> energyCap;
 
-	protected final IIntArray data = new IIntArray() {
-		public int get(int index) {
-			return CableTileEntity.this.sides[index];
-		}
-
-		public void set(int index, int value) {
-			CableTileEntity.this.sides[index] = value;
-		}
-
-		@Override
-		public int getCount() {
-			return CableTileEntity.this.sides.length;
-		}
-	};
-
 	// 1 or 3 is in. 2 or 3 is out. D-U-N-S-W-E
-	public int[] sides = new int[] { 3, 3, 3, 3, 3, 3 };
 	protected final int[] roundrobin;
 	private int recursionDepth;
 
@@ -66,7 +49,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 	
 	public void revalidate() {
 		BlockUtils.DIRECTIONS.forEach(dir -> {
-			energyCap.revalidate(dir, s -> canTransfer(s), (s) -> new CableEnergyStorage(this, s));
+			energyCap.revalidate(dir, s -> true, (s) -> new CableEnergyStorage(this, s));
 		});
 	}
 
@@ -123,8 +106,6 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 
 	@Override
 	public CompoundNBT save(CompoundNBT nbt) {
-		nbt.putIntArray("Sides", sides);
-
 		ListNBT cons = new ListNBT();
 		this.connectors.forEach(pos -> {
 			CompoundNBT posnbt = new CompoundNBT();
@@ -145,8 +126,6 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 
 	@Override
 	public void load(BlockState state, CompoundNBT nbt) {
-		sides = nbt.getIntArray("Sides");
-
 		connectors = new ArrayList<>();
 		dirs = new ArrayList<>();
 
@@ -159,20 +138,8 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 		for (int j = 0; j < sides.size(); j++) {
 			dirs.add(Direction.from3DDataValue(sides.getCompound(j).getInt("dir")));
 		}
-		energyCap.revalidate(this::canTransfer, (s) -> new CableEnergyStorage(this, s));
+		energyCap.revalidate(a -> true, s -> new CableEnergyStorage(this, s));
 		super.load(state, nbt);
-	}
-
-	public boolean canRecieve(Direction dir) {
-		return (sides[dir.get3DDataValue()] + 1) % 2 == 0;
-	}
-
-	public boolean canTransfer(Direction dir) {
-		return sides[dir.get3DDataValue()] >= 2;
-	}
-
-	public IIntArray getData() {
-		return this.data;
 	}
 
 	public void search(Block block) {

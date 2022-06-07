@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.machina.block.tile.CableTileEntity;
+import com.machina.block.tile.base.BaseEnergyTileEntity;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.tileentity.TileEntity;
@@ -63,9 +64,6 @@ public class CableEnergyStorage implements IEnergyStorage {
 	}
 
 	public void pullEnergy(CableTileEntity tileEntity, Direction side) {
-		if (!tileEntity.canTransfer(side)) {
-			return;
-		}
 		IEnergyStorage energyStorage = getEnergyStorage(tileEntity, tileEntity.getBlockPos().relative(side),
 				side.getOpposite());
 		if (energyStorage == null || !energyStorage.canExtract()) {
@@ -78,10 +76,6 @@ public class CableEnergyStorage implements IEnergyStorage {
 	}
 
 	public int receive(CableTileEntity tileEntity, Direction side, int amount, boolean simulate) {
-		if (!tileEntity.canTransfer(side)) {
-			return 0;
-		}
-
 		List<CableTileEntity.Connection> connections = tileEntity.getSortedConnections(side);
 
 		int maxTransfer = Math.min(tileEntity.getRate(), amount);
@@ -103,11 +97,19 @@ public class CableEnergyStorage implements IEnergyStorage {
 		List<IEnergyStorage> destinations = new ArrayList<>(connections.size());
 		for (int i = 0; i < connections.size(); i++) {
 			int index = (i + p) % connections.size();
-
+			
 			CableTileEntity.Connection connection = connections.get(index);
+			BlockPos pos = connection.getPos().relative(connection.getDirection());
 			IEnergyStorage destination = getEnergyStorage(tileEntity,
 					connection.getPos().relative(connection.getDirection()), connection.getDirection().getOpposite());
-			if (destination != null && destination.canReceive() && destination.receiveEnergy(1, true) >= 1) {
+			
+			boolean canRecieve = destination.canReceive();
+			TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
+			if (te instanceof BaseEnergyTileEntity) {
+				canRecieve = ((BaseEnergyTileEntity)te).canRecieve(connection.getDirection().getOpposite());
+			}
+			
+			if (destination != null && canRecieve && destination.receiveEnergy(1, true) >= 1) {
 				destinations.add(destination);
 			}
 		}
@@ -148,9 +150,17 @@ public class CableEnergyStorage implements IEnergyStorage {
 			int index = (i + p) % connections.size();
 
 			CableTileEntity.Connection connection = connections.get(index);
+			BlockPos pos = connection.getPos().relative(connection.getDirection());
 			IEnergyStorage destination = getEnergyStorage(tileEntity,
 					connection.getPos().relative(connection.getDirection()), connection.getDirection().getOpposite());
-			if (destination != null && destination.canReceive() && destination.receiveEnergy(1, true) >= 1) {
+			
+			boolean canRecieve = destination.canReceive();
+			TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
+			if (te instanceof BaseEnergyTileEntity) {
+				canRecieve = ((BaseEnergyTileEntity)te).canRecieve(connection.getDirection().getOpposite());
+			}
+			
+			if (destination != null && canRecieve && destination.receiveEnergy(1, true) >= 1) {
 				destinations.add(new Pair<>(destination, index));
 			}
 		}

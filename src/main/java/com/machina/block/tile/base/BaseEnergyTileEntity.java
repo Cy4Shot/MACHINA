@@ -80,13 +80,22 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 	}
 
 	public boolean canTransfer(Direction dir) {
-		return sides[dir.get3DDataValue()] >= 2;
+		return sides[dir.get3DDataValue()] > 1;
+	}
+
+	@Override
+	public void tick() {
+		if (this.level.isClientSide())
+			return;
+		sendOutPower();
 	}
 
 	protected void sendOutPower() {
 		AtomicInteger capacity = new AtomicInteger(energyDef.getEnergyStored());
 		if (capacity.get() > 0) {
 			for (Direction direction : Direction.values()) {
+				if (!canTransfer(direction))
+					continue;
 				TileEntity te = level.getBlockEntity(worldPosition.relative(direction));
 				if (te != null) {
 					boolean doContinue = te.getCapability(CapabilityEnergy.ENERGY, direction).map(handler -> {

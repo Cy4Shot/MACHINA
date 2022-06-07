@@ -63,23 +63,26 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		this.blit(stack, x + 187, y - 26, 29, 150, 23, 23);
 
 		if (pX > x + 24 && pX < x + 24 + 23 && pY > y - 26 && pY < y - 26 + 23) {
-			this.blit(stack, x + 31, y - 20, 216, 201, 8, 12);
+			this.blit(stack, x + 31, y - 20, 216, 196, 8, 12);
 		} else {
-			this.blit(stack, x + 31, y - 20, 216, 189, 8, 12);
+			this.blit(stack, x + 31, y - 20, 216, 184, 8, 12);
 		}
 		if (pX > x + 187 && pX < x + 187 + 23 && pY > y - 26 && pY < y - 26 + 23) {
-			this.blit(stack, x + 194, y - 20, 208, 201, 8, 12);
+			this.blit(stack, x + 194, y - 20, 208, 196, 8, 12);
 		} else {
-			this.blit(stack, x + 194, y - 20, 208, 189, 8, 12);
+			this.blit(stack, x + 194, y - 20, 208, 184, 8, 12);
 		}
 
 		// Data
 		String title, gravity, atmo, temp, fog, cave_chance, cave_thickness, cave_length;
 
 		RegistryKey<World> dim = this.menu.getDim();
-		PlanetData data = ClientStarchart.getPlanetData(dim);
-		PlanetTraitList traits = data.getTraits();
+		PlanetTraitList traits = new PlanetTraitList();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
+			
+
+			PlanetData data = ClientStarchart.getPlanetData(dim);
+			traits = data.getTraits();
 
 			title = data.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME);
 
