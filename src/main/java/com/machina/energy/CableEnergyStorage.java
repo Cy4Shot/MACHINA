@@ -97,20 +97,22 @@ public class CableEnergyStorage implements IEnergyStorage {
 		List<IEnergyStorage> destinations = new ArrayList<>(connections.size());
 		for (int i = 0; i < connections.size(); i++) {
 			int index = (i + p) % connections.size();
-			
+
 			CableTileEntity.Connection connection = connections.get(index);
 			BlockPos pos = connection.getPos().relative(connection.getDirection());
 			IEnergyStorage destination = getEnergyStorage(tileEntity,
 					connection.getPos().relative(connection.getDirection()), connection.getDirection().getOpposite());
-			
-			boolean canRecieve = destination.canReceive();
-			TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
-			if (te instanceof BaseEnergyTileEntity) {
-				canRecieve = ((BaseEnergyTileEntity)te).canRecieve(connection.getDirection().getOpposite());
-			}
-			
-			if (destination != null && canRecieve && destination.receiveEnergy(1, true) >= 1) {
-				destinations.add(destination);
+
+			if (destination != null) {
+				boolean canRecieve = destination.canReceive();
+				TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
+				if (te instanceof BaseEnergyTileEntity) {
+					canRecieve = ((BaseEnergyTileEntity) te).canRecieve(connection.getDirection().getOpposite());
+				}
+
+				if (canRecieve && destination.receiveEnergy(1, true) >= 1) {
+					destinations.add(destination);
+				}
 			}
 		}
 
@@ -153,15 +155,17 @@ public class CableEnergyStorage implements IEnergyStorage {
 			BlockPos pos = connection.getPos().relative(connection.getDirection());
 			IEnergyStorage destination = getEnergyStorage(tileEntity,
 					connection.getPos().relative(connection.getDirection()), connection.getDirection().getOpposite());
-			
-			boolean canRecieve = destination.canReceive();
-			TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
-			if (te instanceof BaseEnergyTileEntity) {
-				canRecieve = ((BaseEnergyTileEntity)te).canRecieve(connection.getDirection().getOpposite());
-			}
-			
-			if (destination != null && canRecieve && destination.receiveEnergy(1, true) >= 1) {
-				destinations.add(new Pair<>(destination, index));
+
+			if (destination != null) {
+				boolean canRecieve = destination.canReceive();
+				TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
+				if (te instanceof BaseEnergyTileEntity) {
+					canRecieve = ((BaseEnergyTileEntity) te).canRecieve(connection.getDirection().getOpposite());
+				}
+
+				if (canRecieve && destination.receiveEnergy(1, true) >= 1) {
+					destinations.add(new Pair<>(destination, index));
+				}
 			}
 		}
 

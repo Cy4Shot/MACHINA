@@ -4,7 +4,6 @@ import com.machina.block.tile.BatteryTileEntity;
 import com.machina.registration.init.TileEntityTypesInit;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -20,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class BatteryBlock extends Block {
+public class BatteryBlock extends HorizontalFacingBlock {
 
 	public BatteryBlock() {
 		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).harvestLevel(2).strength(6f)

@@ -78,8 +78,8 @@ public class BatteryScreen extends NoJeiContainerScreen<BatteryContainer> {
 			this.blit(stack, x2 + 28, y2 + 6, 203, 208 + this.menu.te.sides[1] * 12, 12, 6); // Up
 			this.blit(stack, x2 + 10, y2 + 24, 215, 208 + this.menu.te.sides[4] * 12, 6, 12); // West
 			this.blit(stack, x2 + 30, y2 + 26, 227, 208 + this.menu.te.sides[2] * 12, 9, 9); // North
-			this.blit(stack, x2 + 52, y2 + 24, 221, 208 + this.menu.te.sides[0] * 12, 6, 12); // Down
-			this.blit(stack, x2 + 28, y2 + 48, 203, 214 + this.menu.te.sides[5] * 12, 12, 6); // East
+			this.blit(stack, x2 + 52, y2 + 24, 221, 208 + this.menu.te.sides[5] * 12, 6, 12); // Down
+			this.blit(stack, x2 + 28, y2 + 48, 203, 214 + this.menu.te.sides[0] * 12, 12, 6); // East
 		}
 
 		// Progress
@@ -142,16 +142,16 @@ public class BatteryScreen extends NoJeiContainerScreen<BatteryContainer> {
 				}
 
 				if (pX > x2 + 46 && pX < x2 + 46 + 19 && pY > y2 + 21 && pY < y2 + 21 + 19) {
-					data[0]++;
-					if (data[0] > 3)
-						data[0] = 0;
+					data[5]++;
+					if (data[5] > 3)
+						data[5] = 0;
 					changed = true;
 				}
 
 				if (pX > x2 + 25 && pX < x2 + 25 + 19 && pY > y2 + 42 && pY < y2 + 42 + 19) {
-					data[5]++;
-					if (data[5] > 3)
-						data[5] = 0;
+					data[0]++;
+					if (data[0] > 3)
+						data[0] = 0;
 					changed = true;
 				}
 
