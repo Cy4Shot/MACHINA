@@ -6,8 +6,8 @@ import com.machina.energy.MachinaEnergyStorage;
 import com.machina.util.math.DirectionUtil;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -78,15 +78,14 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 	}
 
 	public Direction getDir() {
-		return this.getBlockState().getValue(HorizontalBlock.FACING);
+		return this.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
 	}
-	
+
 	public int getSide(Direction side) {
 		return sides[DirectionUtil.rotate(side, getDir()).get3DDataValue()];
 	}
 
 	public boolean canRecieve(Direction dir) {
-		System.out.println("Recieve Check for " + dir + DirectionUtil.rotate(dir, getDir()));
 		return (getSide(dir) & 1) != 0;
 	}
 

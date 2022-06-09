@@ -8,7 +8,7 @@ public class DirectionUtil {
 		switch (dir) {
 		case EAST:
 			return 3;
-		case SOUTH:
+		case NORTH:
 			return 2;
 		case WEST:
 			return 1;
