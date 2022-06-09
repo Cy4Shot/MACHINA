@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import com.machina.block.tile.CableTileEntity;
-import com.machina.energy.MachinaEnergyStorage;
+import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.math.MathUtil;
 

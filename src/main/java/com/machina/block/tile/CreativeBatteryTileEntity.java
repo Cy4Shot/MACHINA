@@ -1,7 +1,7 @@
 package com.machina.block.tile;
 
 import com.machina.block.tile.base.BaseEnergyTileEntity;
-import com.machina.energy.MachinaEnergyStorage;
+import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
 
 public class CreativeBatteryTileEntity extends BaseEnergyTileEntity {

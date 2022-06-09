@@ -1,4 +1,4 @@
-package com.machina.energy;
+package com.machina.capability.energy;
 
 import java.util.ArrayList;
 import java.util.List;

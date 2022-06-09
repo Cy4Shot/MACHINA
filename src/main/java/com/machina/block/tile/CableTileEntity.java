@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 import com.machina.block.CableBlock;
 import com.machina.block.tile.base.BaseTileEntity;
-import com.machina.energy.CableEnergyStorage;
+import com.machina.capability.DirectionalLazyOptionalCache;
+import com.machina.capability.energy.CableEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
-import com.machina.util.DirectionalLazyOptionalCache;
 import com.machina.util.server.BlockUtils;
 
 import net.minecraft.block.Block;

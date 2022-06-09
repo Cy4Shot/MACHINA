@@ -2,7 +2,7 @@ package com.machina.block.tile.base;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.machina.energy.MachinaEnergyStorage;
+import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.util.math.DirectionUtil;
 
 import net.minecraft.block.BlockState;

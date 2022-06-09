@@ -2,7 +2,7 @@ package com.machina.block.tile;
 
 import com.machina.block.container.BatteryContainer;
 import com.machina.block.tile.base.BaseEnergyTileEntity;
-import com.machina.energy.MachinaEnergyStorage;
+import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.text.StringUtils;
 

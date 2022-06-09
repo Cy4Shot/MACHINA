@@ -1,4 +1,4 @@
-package com.machina.util;
+package com.machina.capability;
 
 import java.util.HashMap;
 import java.util.Map;
