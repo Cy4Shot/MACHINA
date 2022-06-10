@@ -1,5 +1,6 @@
 package com.machina.block.container;
 
+import com.machina.block.container.base.BaseContainer;
 import com.machina.block.container.slot.AcceptSlot;
 import com.machina.block.container.slot.ResultSlot;
 import com.machina.block.tile.ComponentAnalyzerTileEntity;

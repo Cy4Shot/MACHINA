@@ -42,5 +42,4 @@ public class DirectionalLazyOptionalCache<T> {
 	public void invalidate() {
 		cache.values().forEach(LazyOptional::invalidate);
 	}
-
 }

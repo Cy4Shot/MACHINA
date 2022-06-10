@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.machina.block.tile.CableTileEntity;
 import com.machina.block.tile.base.BaseEnergyTileEntity;
+import com.machina.util.server.EnergyUtils;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.tileentity.TileEntity;

@@ -1,5 +1,6 @@
 package com.machina.block.container;
 
+import com.machina.block.container.base.BaseContainer;
 import com.machina.block.container.slot.CompletableSlot;
 import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.registration.init.BlockInit;

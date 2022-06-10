@@ -34,13 +34,19 @@ public class MachinaEnergyStorage extends EnergyStorage implements ICapabilityPr
 	@Override
 	public int extractEnergy(int maxExtract, boolean simulate) {
 		this.te.sync();
-		return super.extractEnergy(maxExtract, simulate);
+		int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
+        if (!simulate)
+            energy -= energyExtracted;
+        return energyExtracted;
 	}
 
 	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
 		this.te.sync();
-		return super.receiveEnergy(maxReceive, simulate);
+		int energyReceived = Math.min(capacity - energy, Math.min(this.maxReceive, maxReceive));
+        if (!simulate)
+            energy += energyReceived;
+        return energyReceived;
 	}
 
 	public void save(CompoundNBT nbt) {
@@ -57,6 +63,14 @@ public class MachinaEnergyStorage extends EnergyStorage implements ICapabilityPr
 
 	public void setEnergy(int energy) {
 		this.energy = Math.max(0, Math.min(energy, this.capacity));
+	}
+	
+	public void setEnergyDirectly(int amount) {
+        this.energy = amount;
+    }
+	
+	public LazyOptional<IEnergyStorage> getEnergy(Direction side) {
+		return this.connections.get(side).cast();
 	}
 
 	public void consumeEnergy(int energy) {
@@ -86,7 +100,7 @@ public class MachinaEnergyStorage extends EnergyStorage implements ICapabilityPr
 			if (world == null)
 				return 0;
 
-			if (!MachinaEnergyStorage.this.te.canRecieve(dir))
+			if (!canReceive())
 				return 0;
 
 			int received = MachinaEnergyStorage.this.receiveEnergy(maxReceive, simulate);
@@ -101,7 +115,7 @@ public class MachinaEnergyStorage extends EnergyStorage implements ICapabilityPr
 			if (world == null)
 				return 0;
 
-			if (!MachinaEnergyStorage.this.te.canTransfer(dir))
+			if (!canExtract())
 				return 0;
 
 			long time = world.getGameTime();
@@ -123,13 +137,27 @@ public class MachinaEnergyStorage extends EnergyStorage implements ICapabilityPr
 
 		@Override
 		public boolean canExtract() {
-			return MachinaEnergyStorage.this.canExtract();
+			System.out.println("Extract check : " + dir);
+			return MachinaEnergyStorage.this.te.canTransfer(dir) && MachinaEnergyStorage.this.maxExtract > 0;
 		}
 
 		@Override
 		public boolean canReceive() {
-			return MachinaEnergyStorage.this.canReceive();
+			System.out.println("Recieve check : " + dir);
+			return MachinaEnergyStorage.this.te.canRecieve(dir) && MachinaEnergyStorage.this.maxReceive > 0;
 		}
+	}
+	
+	@Override
+	public boolean canExtract() {
+		System.out.println("EXTRACT CHECK WITHOUT DIR :(((");
+		return super.canExtract();
+	}
+	
+	@Override
+	public boolean canReceive() {
+		System.out.println("RECEIVE CHECK WITHOUT DIR :(((");
+		return super.canReceive();
 	}
 
 	@Override

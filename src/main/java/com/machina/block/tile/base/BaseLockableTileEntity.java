@@ -79,7 +79,7 @@ public abstract class BaseLockableTileEntity extends LockableLootTileEntity {
 
 	@Override
 	protected ITextComponent getDefaultName() {
-		return StringUtils.toComp("BaseLockableTileEntity");
+		return StringUtils.EMPTY;
 	}
 	
 	public ItemStack getItem(int id) {
