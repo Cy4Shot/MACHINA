@@ -3,6 +3,7 @@ package com.machina.block.tile.base;
 import com.machina.capability.energy.IEnergyContainer;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.util.math.DirectionUtil;
+import com.machina.util.server.BlockUtils;
 import com.machina.util.server.EnergyUtils;
 
 import net.minecraft.block.BlockState;
@@ -51,9 +52,8 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction d) {
 		if (cap == CapabilityEnergy.ENERGY) {
-			if (d == null) 
+			if (d == null)
 				return energyCap.cast();
-			
 			return energyDef.getCapability(cap, d);
 		}
 
@@ -109,11 +109,10 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 	}
 
 	protected void sendOutPower() {
-		for (Direction direction : Direction.values()) {
-			if (!canTransfer(direction))
-				continue;
-			EnergyUtils.trySendTo(level, worldPosition, this, energyDef.getMaxExtract(), direction);
-		}
+		BlockUtils.DIRECTIONS.forEach(dir -> {
+			if (canTransfer(dir))
+				EnergyUtils.trySendTo(level, worldPosition, this, energyDef.getMaxExtract(), dir);
+		});
 	}
 
 	public int getEnergy() {

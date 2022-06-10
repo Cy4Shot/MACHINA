@@ -46,7 +46,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 		this.roundrobin = new int[Direction.values().length];
 		revalidate();
 	}
-	
+
 	public void revalidate() {
 		BlockUtils.DIRECTIONS.forEach(dir -> {
 			energyCap.revalidate(dir, s -> true, (s) -> new CableEnergyStorage(this, s));
@@ -145,18 +145,17 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 	public void search(Block block) {
 		if (this.level != null) {
 			this.cache.add(this.getBlockPos());
-			for (Direction direction : Direction.values()) {
-				BlockPos blockPos = this.getBlockPos().relative(direction);
+			BlockUtils.DIRECTIONS.forEach(dir -> {
+				BlockPos blockPos = this.getBlockPos().relative(dir);
 				BlockState state = this.level.getBlockState(blockPos);
 				if (state.getBlock() == block) {
 					TileEntity tile1 = this.level.getBlockEntity(blockPos);
-					if (tile1 instanceof CableTileEntity) {
-						connectors.add(new Connection(this.worldPosition, direction, 0));
-					}
+					if (tile1 instanceof CableTileEntity)
+						connectors.add(new Connection(this.worldPosition, dir, 0));
 					CableBlock cableBlock = (CableBlock) state.getBlock();
 					cableBlock.searchCables(this.level, blockPos, this, 0);
 				}
-			}
+			});
 		}
 		this.cache.clear();
 	}
@@ -191,7 +190,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 		public BlockPos getPos() {
 			return pos;
 		}
-		
+
 		public BlockPos getDest() {
 			return pos.relative(direction.getOpposite());
 		}

@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 
 import com.machina.block.tile.CableTileEntity;
 import com.machina.block.tile.base.BaseEnergyTileEntity;
-import com.machina.util.server.EnergyUtils;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.tileentity.TileEntity;
@@ -67,32 +66,24 @@ public class CableEnergyStorage implements IEnergyStorage {
 	public void pullEnergy(CableTileEntity tileEntity, Direction side) {
 		IEnergyStorage energyStorage = getEnergyStorage(tileEntity, tileEntity.getBlockPos().relative(side),
 				side.getOpposite());
-		if (energyStorage == null || !energyStorage.canExtract()) {
+		if (energyStorage == null || !energyStorage.canExtract())
 			return;
-		}
 
-		List<CableTileEntity.Connection> connections = tileEntity.getSortedConnections(side);
-
-		insertEqually(tileEntity, side, connections, energyStorage);
+		insertEqually(tileEntity, side, tileEntity.getSortedConnections(side), energyStorage);
 	}
 
 	public int receive(CableTileEntity tileEntity, Direction side, int amount, boolean simulate) {
-		List<CableTileEntity.Connection> connections = tileEntity.getSortedConnections(side);
-
-		int maxTransfer = Math.min(tileEntity.getRate(), amount);
-
-		return receiveEqually(tileEntity, side, connections, maxTransfer, simulate);
+		return receiveEqually(tileEntity, side, tileEntity.getSortedConnections(side),
+				Math.min(tileEntity.getRate(), amount), simulate);
 	}
 
 	protected void insertEqually(CableTileEntity tileEntity, Direction side,
 			List<CableTileEntity.Connection> connections, IEnergyStorage energyStorage) {
-		if (connections.isEmpty()) {
+		if (connections.isEmpty())
 			return;
-		}
 
 		int completeAmount = tileEntity.getRate();
 		int energyToTransfer = completeAmount;
-
 		int p = tileEntity.getRoundRobinIndex(side) % connections.size();
 
 		List<IEnergyStorage> destinations = new ArrayList<>(connections.size());
@@ -107,13 +98,11 @@ public class CableEnergyStorage implements IEnergyStorage {
 			if (destination != null) {
 				boolean canRecieve = destination.canReceive();
 				TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
-				if (te instanceof BaseEnergyTileEntity) {
+				if (te instanceof BaseEnergyTileEntity)
 					canRecieve = ((BaseEnergyTileEntity) te).canRecieve(connection.getDirection().getOpposite());
-				}
 
-				if (canRecieve && destination.receiveEnergy(1, true) >= 1) {
+				if (canRecieve && destination.receiveEnergy(1, true) >= 1)
 					destinations.add(destination);
-				}
 			}
 		}
 
@@ -122,16 +111,14 @@ public class CableEnergyStorage implements IEnergyStorage {
 					.extractEnergy(Math.min(Math.max(completeAmount / destinations.size(), 1), energyToTransfer), true);
 			if (simulatedExtract > 0) {
 				int transferred = pushEnergy(energyStorage, destination, simulatedExtract);
-				if (transferred > 0) {
+				if (transferred > 0)
 					energyToTransfer -= transferred;
-				}
 			}
 
 			p = (p + 1) % connections.size();
 
-			if (energyToTransfer <= 0) {
+			if (energyToTransfer <= 0)
 				break;
-			}
 		}
 
 		tileEntity.setRoundRobinIndex(side, p);
@@ -139,12 +126,10 @@ public class CableEnergyStorage implements IEnergyStorage {
 
 	protected int receiveEqually(CableTileEntity tileEntity, Direction side,
 			List<CableTileEntity.Connection> connections, int maxReceive, boolean simulate) {
-		if (connections.isEmpty() || maxReceive <= 0) {
+		if (connections.isEmpty() || maxReceive <= 0)
 			return 0;
-		}
-		if (tileEntity.pushRecursion()) {
+		if (tileEntity.pushRecursion())
 			return 0;
-		}
 		int actuallyTransferred = 0;
 		int energyToTransfer = maxReceive;
 		int p = tileEntity.getRoundRobinIndex(side) % connections.size();
@@ -160,13 +145,11 @@ public class CableEnergyStorage implements IEnergyStorage {
 			if (destination != null) {
 				boolean canRecieve = destination.canReceive();
 				TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
-				if (te instanceof BaseEnergyTileEntity) {
+				if (te instanceof BaseEnergyTileEntity)
 					canRecieve = ((BaseEnergyTileEntity) te).canRecieve(connection.getDirection().getOpposite());
-				}
 
-				if (canRecieve && destination.receiveEnergy(1, true) >= 1) {
+				if (canRecieve && destination.receiveEnergy(1, true) >= 1)
 					destinations.add(new Pair<>(destination, index));
-				}
 			}
 		}
 
@@ -180,14 +163,12 @@ public class CableEnergyStorage implements IEnergyStorage {
 
 			p = destination.getSecond() + 1;
 
-			if (energyToTransfer <= 0) {
+			if (energyToTransfer <= 0)
 				break;
-			}
 		}
 
-		if (!simulate) {
+		if (!simulate)
 			tileEntity.setRoundRobinIndex(side, p);
-		}
 		tileEntity.popRecursion();
 		return actuallyTransferred;
 	}
@@ -195,9 +176,8 @@ public class CableEnergyStorage implements IEnergyStorage {
 	@Nullable
 	private IEnergyStorage getEnergyStorage(CableTileEntity tileEntity, BlockPos pos, Direction direction) {
 		TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
-		if (te == null) {
+		if (te == null)
 			return null;
-		}
 		return te.getCapability(CapabilityEnergy.ENERGY, direction).orElse(null);
 	}
 
@@ -208,5 +188,4 @@ public class CableEnergyStorage implements IEnergyStorage {
 		receiver.receiveEnergy(energy, false);
 		return energy;
 	}
-
 }

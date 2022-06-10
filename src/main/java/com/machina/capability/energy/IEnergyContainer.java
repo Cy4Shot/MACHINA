@@ -2,7 +2,6 @@ package com.machina.capability.energy;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -19,26 +18,5 @@ public interface IEnergyContainer {
 	default int getEnergyStored() {
 		IEnergyStorage energy = getEnergy(null).orElse(new EnergyStorage(25_000));
 		return energy.getEnergyStored();
-	}
-
-	default int getMaxEnergyStored() {
-		IEnergyStorage energy = getEnergy(null).orElse(new EnergyStorage(100_000));
-		return energy.getMaxEnergyStored();
-	}
-
-	default void setEnergyStoredDirectly(int value) {
-		getEnergy(null).ifPresent(e -> {
-			if (e instanceof MachinaEnergyStorage) {
-				((MachinaEnergyStorage) e).setEnergyDirectly(value);
-			}
-		});
-	}
-
-	default void readEnergy(CompoundNBT tags) {
-		setEnergyStoredDirectly(tags.getInt("Energy"));
-	}
-
-	default void writeEnergy(CompoundNBT tags) {
-		tags.putInt("Energy", getEnergyStored());
 	}
 }

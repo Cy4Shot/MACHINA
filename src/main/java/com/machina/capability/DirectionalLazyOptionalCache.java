@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.machina.util.server.BlockUtils;
+
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -14,9 +16,9 @@ public class DirectionalLazyOptionalCache<T> {
 
 	public DirectionalLazyOptionalCache() {
 		cache = new HashMap<>();
-		for (Direction side : Direction.values()) {
-			cache.put(side, LazyOptional.empty());
-		}
+		BlockUtils.DIRECTIONS.forEach(dir -> {
+			cache.put(dir, LazyOptional.empty());
+		});
 	}
 
 	public LazyOptional<T> get(Direction side) {
@@ -26,17 +28,14 @@ public class DirectionalLazyOptionalCache<T> {
 	public void revalidate(Direction side, Function<Direction, Boolean> validFunction,
 			Function<Direction, T> cachePopulator) {
 		cache.get(side).invalidate();
-		if (validFunction.apply(side)) {
-			cache.put(side, LazyOptional.of(() -> cachePopulator.apply(side)));
-		} else {
-			cache.put(side, LazyOptional.empty());
-		}
+		cache.put(side,
+				validFunction.apply(side) ? LazyOptional.of(() -> cachePopulator.apply(side)) : LazyOptional.empty());
 	}
 
 	public void revalidate(Function<Direction, Boolean> validFunction, Function<Direction, T> cachePopulator) {
-		for (Direction side : Direction.values()) {
-			revalidate(side, validFunction, cachePopulator);
-		}
+		BlockUtils.DIRECTIONS.forEach(dir -> {
+			revalidate(dir, validFunction, cachePopulator);
+		});
 	}
 
 	public void invalidate() {
