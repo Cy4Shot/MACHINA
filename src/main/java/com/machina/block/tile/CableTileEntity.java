@@ -156,7 +156,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 	}
 
 	public void search() {
-		System.out.println("Searching at BlockPos: " + this.dirs.size());
+//		System.out.println("Searching at BlockPos: " + this.worldPosition);
 		if (this.level != null) {
 			addToCache(this.worldPosition);
 

@@ -173,9 +173,7 @@ public class CableBlock extends Block {
 		super.setPlacedBy(world, pos, pState, pPlacer, pStack);
 		if (world.isClientSide())
 			return;
-		if (!doWithTe(world, pos, cable -> {
-			cable.enqueueSearch();
-		})) {
+		if (!doWithTe(world, pos, cable -> cable.enqueueSearch())) {
 			findCables(world, pos, pos);
 		}
 	}
@@ -220,15 +218,12 @@ public class CableBlock extends Block {
 		if (!ss.contains(pos)) {
 			for (Direction direction : Direction.values()) {
 				BlockPos blockPos = pos.relative(direction);
-				BlockState state = world.getBlockState(blockPos);
-				if (state.getBlock() == this) {
-					doWithTe(world, blockPos, te -> {
-						te.enqueueSearch();
-					});
-					CableBlock cableBlock = (CableBlock) state.getBlock();
+				Block block = world.getBlockState(blockPos).getBlock();
+				if (block == this) {
+					doWithTe(world, blockPos, te -> te.enqueueSearch());
 					ss.add(pos);
 					CACHE.put(poss, ss);
-					cableBlock.findCables(world, poss, blockPos);
+					((CableBlock) block).findCables(world, poss, blockPos);
 				}
 			}
 		}
@@ -236,10 +231,8 @@ public class CableBlock extends Block {
 	}
 
 	public void searchCables(IWorld world, BlockPos pos, CableTileEntity first, int dist) {
-		System.out.println("Foind cables" + pos + ", = " + dist);
 		int newdist = dist + 1;
 		DirectionUtil.DIRECTIONS.forEach(direction -> {
-
 			BlockPos blockPos = pos.relative(direction);
 
 			if (!first.isInCache(blockPos)) {
@@ -248,7 +241,7 @@ public class CableBlock extends Block {
 					Block block = world.getBlockState(blockPos).getBlock();
 					if (block == this) {
 						doWithTe(world, blockPos, te -> te.dirs.forEach(
-								dir -> first.connectors.add(new CableTileEntity.Connection(pos, dir, newdist))));
+								dir -> first.connectors.add(new CableTileEntity.Connection(blockPos, dir, newdist))));
 						first.addToCache(blockPos);
 						((CableBlock) block).searchCables(world, blockPos, first, newdist);
 					}
