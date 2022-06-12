@@ -9,8 +9,9 @@ import com.machina.block.CableBlock;
 import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.capability.DirectionalLazyOptionalCache;
 import com.machina.capability.energy.CableEnergyStorage;
+import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.TileEntityTypesInit;
-import com.machina.util.server.BlockUtils;
+import com.machina.util.math.DirectionUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -18,7 +19,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -35,6 +35,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 	// 1 or 3 is in. 2 or 3 is out. D-U-N-S-W-E
 	protected final int[] roundrobin;
 	private int recursionDepth;
+	private boolean search = false;
 
 	public List<Connection> connectors = new ArrayList<>();
 	public List<BlockPos> cache = new ArrayList<>();
@@ -48,7 +49,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 	}
 
 	public void revalidate() {
-		BlockUtils.DIRECTIONS.forEach(dir -> {
+		DirectionUtil.DIRECTIONS.forEach(dir -> {
 			energyCap.revalidate(dir, s -> true, (s) -> new CableEnergyStorage(this, s));
 		});
 	}
@@ -61,9 +62,15 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 	public void tick() {
 		if (this.level.isClientSide())
 			return;
-		BlockUtils.DIRECTIONS.forEach(dir -> {
+		DirectionUtil.DIRECTIONS.forEach(dir -> {
 			energyCap.get(dir).ifPresent(CableEnergyStorage::tick);
 		});
+
+		if (search) {
+			this.search();
+			this.search = false;
+			this.sync();
+		}
 	}
 
 	public int getRoundRobinIndex(Direction direction) {
@@ -142,22 +149,35 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 		super.load(state, nbt);
 	}
 
-	public void search(Block block) {
+	public void enqueueSearch() {
+		this.connectors.clear();
+		this.search = true;
+		this.sync();
+	}
+
+	public void search() {
+		System.out.println("Searching at BlockPos: " + this.dirs.size());
 		if (this.level != null) {
-			this.cache.add(this.getBlockPos());
-			BlockUtils.DIRECTIONS.forEach(dir -> {
-				BlockPos blockPos = this.getBlockPos().relative(dir);
-				BlockState state = this.level.getBlockState(blockPos);
-				if (state.getBlock() == block) {
-					TileEntity tile1 = this.level.getBlockEntity(blockPos);
-					if (tile1 instanceof CableTileEntity)
-						connectors.add(new Connection(this.worldPosition, dir, 0));
-					CableBlock cableBlock = (CableBlock) state.getBlock();
-					cableBlock.searchCables(this.level, blockPos, this, 0);
-				}
+			addToCache(this.worldPosition);
+
+			dirs.forEach(dir -> {
+				connectors.add(new Connection(this.worldPosition, dir, 0));
 			});
+
+			Block b = this.getBlockState().getBlock();
+			if (b == BlockInit.CABLE.get())
+				((CableBlock) b).searchCables(this.level, this.worldPosition, this, 0);
 		}
+		connectors.forEach(c -> System.out.println(c));
 		this.cache.clear();
+	}
+
+	public void addToCache(BlockPos pos) {
+		this.cache.add(pos);
+	}
+
+	public boolean isInCache(BlockPos pos) {
+		return this.cache.contains(pos);
 	}
 
 	public boolean pushRecursion() {

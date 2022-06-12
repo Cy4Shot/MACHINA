@@ -1,8 +1,14 @@
 package com.machina.util.math;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import net.minecraft.util.Direction;
 
 public class DirectionUtil {
+
+	public static final List<Direction> DIRECTIONS = Lists.newArrayList(Direction.values());
 
 	public static int rotations(Direction dir) {
 		switch (dir) {

@@ -41,7 +41,7 @@ public class MathUtil {
 			tval *= 1000.0;
 			order -= 3;
 		}
-		return tval + prefixes.get(order) + unit;
+		return String.format("%.01f", tval) + prefixes.get(order) + unit;
 	}
 
 	public static int numTrue(boolean... bs) {

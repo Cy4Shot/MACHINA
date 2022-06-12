@@ -110,58 +110,31 @@ public class BatteryScreen extends NoJeiContainerScreen<BatteryContainer> {
 				int x2 = x + xSize + 15;
 				int y2 = y + 13;
 
-				boolean changed = false;
-				int[] data = this.menu.te.sides;
+				if (pX > x2 + 25 && pX < x2 + 25 + 19 && pY > y2 + 42 && pY < y2 + 42 + 19)
+					cycleSide(0);
+				if (pX > x2 + 25 && pX < x2 + 25 + 19 && pY > y2 && pY < y2 + 19)
+					cycleSide(1);
+				if (pX > x2 + 25 && pX < x2 + 25 + 19 && pY > y2 + 21 && pY < y2 + 21 + 19)
+					cycleSide(2);
+				if (pX > x2 + 4 && pX < x2 + 4 + 19 && pY > y2 && pY < y2 + 19)
+					cycleSide(3);
+				if (pX > x2 + 4 && pX < x2 + 4 + 19 && pY > y2 + 21 && pY < y2 + 21 + 19)
+					cycleSide(4);
+				if (pX > x2 + 46 && pX < x2 + 46 + 19 && pY > y2 + 21 && pY < y2 + 21 + 19)
+					cycleSide(5);
 
-				if (pX > x2 + 4 && pX < x2 + 4 + 19 && pY > y2 && pY < y2 + 19) {
-					data[3]++;
-					if (data[3] > 3)
-						data[3] = 0;
-					changed = true;
-				}
-
-				if (pX > x2 + 25 && pX < x2 + 25 + 19 && pY > y2 && pY < y2 + 19) {
-					data[1]++;
-					if (data[1] > 3)
-						data[1] = 0;
-					changed = true;
-				}
-
-				if (pX > x2 + 4 && pX < x2 + 4 + 19 && pY > y2 + 21 && pY < y2 + 21 + 19) {
-					data[4]++;
-					if (data[4] > 3)
-						data[4] = 0;
-					changed = true;
-				}
-
-				if (pX > x2 + 25 && pX < x2 + 25 + 19 && pY > y2 + 21 && pY < y2 + 21 + 19) {
-					data[2]++;
-					if (data[2] > 3)
-						data[2] = 0;
-					changed = true;
-				}
-
-				if (pX > x2 + 46 && pX < x2 + 46 + 19 && pY > y2 + 21 && pY < y2 + 21 + 19) {
-					data[5]++;
-					if (data[5] > 3)
-						data[5] = 0;
-					changed = true;
-				}
-
-				if (pX > x2 + 25 && pX < x2 + 25 + 19 && pY > y2 + 42 && pY < y2 + 42 + 19) {
-					data[0]++;
-					if (data[0] > 3)
-						data[0] = 0;
-					changed = true;
-				}
-
-				if (changed) {
-					MachinaNetwork.CHANNEL.sendToServer(new C2SUpdateEnergySide(this.menu.te.getBlockPos(), data));
-					UIHelper.click();
-				}
 			}
 		}
 		return super.mouseReleased(pX, pY, pButton);
+	}
+
+	private void cycleSide(int index) {
+		int[] data = this.menu.te.sides;
+		data[index]++;
+		if (data[index] > 3)
+			data[index] = 0;
+		MachinaNetwork.CHANNEL.sendToServer(new C2SUpdateEnergySide(this.menu.te.getBlockPos(), data));
+		UIHelper.click();
 	}
 
 	@Override

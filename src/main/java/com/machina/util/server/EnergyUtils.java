@@ -1,6 +1,7 @@
 package com.machina.util.server;
 
 import com.machina.capability.energy.IEnergyContainer;
+import com.machina.util.math.DirectionUtil;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -15,7 +16,7 @@ public class EnergyUtils {
 		if (cont.getEnergyStored() == 0)
 			return;
 
-		BlockUtils.DIRECTIONS.forEach(side -> {
+		DirectionUtil.DIRECTIONS.forEach(side -> {
 			trySendTo(world, pos, cont, maxSend, side);
 		});
 	}
@@ -36,5 +37,16 @@ public class EnergyUtils {
 			if (sent > 0)
 				energy.extractEnergy(sent, false);
 		}
+	}
+
+	public static boolean hasEnergy(IBlockReader world, BlockPos pos, Direction dir) {
+		TileEntity te = world.getBlockEntity(pos);
+		if (te != null)
+			return hasEnergy(te, dir);
+		return false;
+	}
+
+	public static boolean hasEnergy(TileEntity te, Direction dir) {
+		return te.getCapability(CapabilityEnergy.ENERGY, dir).isPresent();
 	}
 }
