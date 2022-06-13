@@ -24,21 +24,27 @@ public class BlockStatesProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		simpleTintedBlock(BlockInit.ALIEN_STONE.get());
-		simpleTintedSlab(BlockInit.ALIEN_STONE_SLAB.get(), "alien_stone", false);
-		simpleTintedStairs(BlockInit.ALIEN_STONE_STAIRS.get(), "alien_stone", false);
-		simpleTintedBlock(BlockInit.TWILIGHT_DIRT.get());
-		simpleTintedSlab(BlockInit.TWILIGHT_DIRT_SLAB.get(), "twilight_dirt", false);
-		simpleTintedStairs(BlockInit.TWILIGHT_DIRT_STAIRS.get(), "twilight_dirt", false);
 		simpleTintedBlock(BlockInit.WASTELAND_DIRT.get());
-		simpleTintedSlab(BlockInit.WASTELAND_DIRT_SLAB.get(), "wasteland_dirt", false);
-		simpleTintedStairs(BlockInit.WASTELAND_DIRT_STAIRS.get(), "wasteland_dirt", false);
-		simpleTintedBlock(BlockInit.WASTELAND_SAND.get());
+		simpleTintedBlock(BlockInit.TWILIGHT_DIRT.get());
 		simpleTintedBlock(BlockInit.WASTELAND_SANDSTONE.get());
+		simpleTintedBlock(BlockInit.WASTELAND_SAND.get());
+		
+		simpleTintedSlab(BlockInit.ALIEN_STONE_SLAB.get(), "alien_stone", false);
+		simpleTintedSlab(BlockInit.WASTELAND_DIRT_SLAB.get(), "wasteland_dirt", false);
+		simpleTintedSlab(BlockInit.TWILIGHT_DIRT_SLAB.get(), "twilight_dirt", false);
 		simpleTintedSlab(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "wasteland_sandstone", true);
+		
+
+		simpleTintedStairs(BlockInit.ALIEN_STONE_STAIRS.get(), "alien_stone", false);
+		simpleTintedStairs(BlockInit.WASTELAND_DIRT_STAIRS.get(), "wasteland_dirt", false);
+		simpleTintedStairs(BlockInit.TWILIGHT_DIRT_STAIRS.get(), "twilight_dirt", false);
 		simpleTintedStairs(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "wasteland_sandstone", true);
+		
 		simpleTintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
+		
 		simpleOrientableBlock(BlockInit.BATTERY.get());
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
+		
 		simpleBlock(BlockInit.CARGO_CRATE.get());
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
