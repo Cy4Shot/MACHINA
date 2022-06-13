@@ -37,10 +37,10 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleTintedSlab(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "wasteland_sandstone", true);
 		simpleTintedStairs(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "wasteland_sandstone", true);
 		simpleTintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
-		simplePillarBlock(BlockInit.BATTERY.get());
+		simpleOrientableBlock(BlockInit.BATTERY.get());
+		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
 		simpleBlock(BlockInit.CARGO_CRATE.get());
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
-		simpleBlock(BlockInit.PUZZLE_BLOCK.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 	}
 
@@ -53,8 +53,9 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(block, tinted(block));
 	}
 
-	public void simplePillarBlock(Block block) {
-		simpleBlock(block, models().cubeColumn(name(block), blockTexture(block), extend(blockTexture(block), "_side")));
+	public void simpleOrientableBlock(Block block) {
+		horizontalBlock(block, models().orientable(name(block), blockTexture(block),
+				extend(blockTexture(block), "_front"), extend(blockTexture(block), "_top")));
 	}
 
 	public ModelFile tinted(Block block) {

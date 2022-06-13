@@ -25,12 +25,17 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 	private boolean progress;
 	private Runnable onComplete;
 	private float ticksNeeded;
-	
+
 	private boolean awaitingResponse;
 	private Function<String, Boolean> checkResponse;
 
 	public TerminalScreen(T pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
+
+		this.history.clear();
+		this.history.add("Type \"help\" to see a list of commands.");
+
+		this.instructionSet = createCommands();
 	}
 
 	@Override
@@ -41,18 +46,12 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
 
-		this.input = new CustomTextField(this.font, x + 8, y + 166, 108, 18,
-				StringUtils.translateComp("machina.terminal.hint"));
+		this.input = new CustomTextField(this.font, x + 8, y + 166, 108, 18, StringUtils.EMPTY);
 		this.input.setBordered(false);
 		this.input.setMaxLength(16);
 		this.input.setCompletion(s -> inputSubmitted(s));
 		this.addWidget(input);
 		this.setInitialFocus(this.input);
-
-		this.history.clear();
-		this.history.add("Type \"help\" to see a list of commands.");
-
-		this.instructionSet = createCommands();
 	}
 
 	public abstract List<TerminalCommand> createCommands();
@@ -163,11 +162,11 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 		String command = input.toLowerCase().trim();
 		history.add("> " + command);
 		if (awaitingResponse) {
-			if(checkResponse.apply(command))
+			if (checkResponse.apply(command))
 				awaitingResponse = false;
 			return;
 		}
-		
+
 		if (command.equals("help")) {
 			history.add("");
 			history.add("The following is a list of commands:");
@@ -193,7 +192,7 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 		this.ticksNeeded = ticks;
 		this.input.setEditable(false);
 	}
-	
+
 	public void awaitResponse(Function<String, Boolean> isCorrect) {
 		this.awaitingResponse = true;
 		this.checkResponse = isCorrect;
@@ -228,5 +227,4 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 			return false;
 		}
 	}
-
 }

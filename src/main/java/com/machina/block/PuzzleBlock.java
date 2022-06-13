@@ -4,7 +4,6 @@ import com.machina.block.tile.PuzzleTileEntity;
 import com.machina.registration.init.TileEntityTypesInit;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -20,7 +19,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class PuzzleBlock extends Block {
+public class PuzzleBlock extends HorizontalFacingBlock {
 
 	public PuzzleBlock() {
 		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).strength(-1.0F, 3600000.0F)

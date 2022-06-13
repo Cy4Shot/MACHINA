@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "machina:block/puzzle_block"
+    },
+    "facing=south": {
+      "model": "machina:block/puzzle_block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "machina:block/puzzle_block",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "machina:block/puzzle_block",
+      "y": 90
     }
   }
 }

@@ -1,7 +1,8 @@
 {
-  "parent": "minecraft:block/cube_column",
+  "parent": "minecraft:block/orientable",
   "textures": {
     "side": "machina:block/battery",
-    "end": "machina:block/battery_side"
+    "front": "machina:block/battery_front",
+    "top": "machina:block/battery_top"
   }
 }
