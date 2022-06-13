@@ -1,4 +1,4 @@
-package com.machina.client.screen;
+package com.machina.client.screen.base;
 
 import java.util.Set;
 

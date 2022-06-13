@@ -7,6 +7,7 @@ import com.machina.client.renderer.ComponentAnalyzerRenderer;
 import com.machina.client.renderer.ShipConsoleRenderer;
 import com.machina.client.screen.BatteryScreen;
 import com.machina.client.screen.ComponentAnalyzerScreen;
+import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.util.ClientTimer;
@@ -118,6 +119,7 @@ public class ClientModEvents {
 		ScreenManager.register(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), ComponentAnalyzerScreen::new);
 		ScreenManager.register(ContainerTypesInit.BATTERY_CONTAINER_TYPE.get(), BatteryScreen::new);
 		ScreenManager.register(ContainerTypesInit.SCANNER_CONTAINER_TYPE.get(), ScannerScreen::new);
+		ScreenManager.register(ContainerTypesInit.PUZZLE_CONTAINER_TYPE.get(), PuzzleScreen::new);
 		
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);

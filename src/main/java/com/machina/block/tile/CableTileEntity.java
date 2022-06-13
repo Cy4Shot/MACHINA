@@ -168,7 +168,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 			if (b == BlockInit.CABLE.get())
 				((CableBlock) b).searchCables(this.level, this.worldPosition, this, 0);
 		}
-		connectors.forEach(c -> System.out.println(c));
+//		connectors.forEach(c -> System.out.println(c));
 		this.cache.clear();
 	}
 

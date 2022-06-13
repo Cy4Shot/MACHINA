@@ -3,6 +3,8 @@ package com.machina.util.text;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Random;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -18,7 +20,7 @@ public class StringUtils {
 
 	public static final Charset utf8Charset = Charset.forName("UTF-8");
 	public static final Charset defaultCharset = Charset.defaultCharset();
-	
+
 	public static final ITextComponent EMPTY = new StringTextComponent("");
 
 	public static void printlnUtf8(String msg) {
@@ -32,7 +34,7 @@ public class StringUtils {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static String capitalizeWord(String str) {
 		String words[] = str.split("\\s");
 		String capitalizeWord = "";
@@ -43,24 +45,33 @@ public class StringUtils {
 		}
 		return capitalizeWord.trim();
 	}
-	
+
 	public static String translate(String key) {
 		return translateComp(key).getString();
 	}
-	
+
 	public static String prettyItemStack(ItemStack stack) {
 		return String.valueOf(stack.getCount()) + "x " + stack.getItem().getName(stack).getString();
 	}
-	
+
 	public static TranslationTextComponent translateComp(String key) {
 		return new TranslationTextComponent(key);
 	}
-	
+
 	public static StringTextComponent toComp(String text) {
 		return new StringTextComponent(cleanString(text));
 	}
 
 	public static String cleanString(String component) {
 		return component.replace("\u00A0", " ");
+	}
+
+	public static String repeat(String s, int n) {
+		return String.join("", Collections.nCopies(n, s));
+	}
+
+	public static String random() {
+		Random r = new Random();
+		return Character.toString((char) (r.nextInt(26) + 'a'));
 	}
 }

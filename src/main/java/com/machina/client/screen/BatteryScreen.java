@@ -1,10 +1,10 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.BatteryContainer;
+import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SUpdateEnergySide;
-import com.machina.util.MachinaRL;
 import com.machina.util.math.MathUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -13,8 +13,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
 public class BatteryScreen extends NoJeiContainerScreen<BatteryContainer> {
-	private static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
-
 	private boolean energyWindow = false;
 
 	public BatteryScreen(BatteryContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
@@ -46,8 +44,7 @@ public class BatteryScreen extends NoJeiContainerScreen<BatteryContainer> {
 
 	@Override
 	protected void renderBg(MatrixStack stack, float pPartialTicks, int pX, int pY) {
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		this.minecraft.textureManager.bind(SCIFI_EL);
+		UIHelper.bindScifi();
 
 		// Back
 		int xSize = 236, ySize = 99;

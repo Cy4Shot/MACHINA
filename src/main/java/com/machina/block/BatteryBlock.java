@@ -46,5 +46,4 @@ public class BatteryBlock extends HorizontalFacingBlock {
 		}
 		return ActionResultType.SUCCESS;
 	}
-
 }

@@ -51,6 +51,8 @@ public class UIHelper {
 	}
 
 	public static final ResourceLocation ELEMENTS = new MachinaRL("textures/gui/elements.png");
+	public static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
+	public static final MachinaRL TRMNL_EL = new MachinaRL("textures/gui/trmnl_el.png");
 	private static Minecraft mc = Minecraft.getInstance();
 	private static TextureManager tm = mc.getTextureManager();
 
@@ -109,13 +111,13 @@ public class UIHelper {
 		drawStringWithBorder(matrixStack, text, x - mc.font.width(text) / 2, y, color, borderColor);
 	}
 
-	public static void drawStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
+	public static int drawStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
 			int borderColor) {
 		mc.font.draw(matrixStack, text, x - 1, y, borderColor);
 		mc.font.draw(matrixStack, text, x + 1, y, borderColor);
 		mc.font.draw(matrixStack, text, x, y - 1, borderColor);
 		mc.font.draw(matrixStack, text, x, y + 1, borderColor);
-		mc.font.draw(matrixStack, text, x, y, color);
+		return mc.font.draw(matrixStack, text, x, y, color) + 2;
 	}
 
 	public static void box(MatrixStack pPoseStack, float pMinX, float pMinY, float pMaxX, float pMaxY, int pColor,
@@ -275,5 +277,15 @@ public class UIHelper {
 	
 	public static void click() {
 		mc.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+	}
+	
+	public static void bindScifi() {
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
+		mc.textureManager.bind(SCIFI_EL);
+	}
+	
+	public static void bindTrmnl() {
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
+		mc.textureManager.bind(TRMNL_EL);
 	}
 }

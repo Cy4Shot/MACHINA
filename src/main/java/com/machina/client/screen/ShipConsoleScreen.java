@@ -1,11 +1,11 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.ShipConsoleContainer;
+import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.item.ShipComponentItem;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SShipConsoleGUIButton;
-import com.machina.util.MachinaRL;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
 public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer> {
-	private static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
 
 	public ShipConsoleScreen(ShipConsoleContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
@@ -54,8 +53,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 
 	@Override
 	protected void renderBg(MatrixStack stack, float pPartialTicks, int pX, int pY) {
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		this.minecraft.textureManager.bind(SCIFI_EL);
+		UIHelper.bindScifi();
 
 		// Back
 		int xSize = 236, ySize = 99;
@@ -80,8 +78,7 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		renderHintItem(stack, 3, x + 49, y + 51);
 
 		// Button
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		this.minecraft.textureManager.bind(SCIFI_EL);
+		UIHelper.bindScifi();
 		if (pX > x + 74 && pX < x + 74 + 95 && pY > y + 49 && pY < y + 49 + 18 && this.menu.te.progress == 0
 				&& this.menu.areSlotsComplete()) {
 			this.blit(stack, x + 74, y + 49, 56, 169, 95, 18);

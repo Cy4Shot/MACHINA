@@ -1,12 +1,12 @@
 package com.machina.client.screen;
 
 import com.machina.client.ClientStarchart;
+import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.item.container.ScannerContainer;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.planet.trait.PlanetTraitList;
 import com.machina.registration.init.PlanetAttributeTypesInit;
-import com.machina.util.MachinaRL;
 import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -18,8 +18,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
-	private static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
-
 	private static int tab = 0;
 
 	public ScannerScreen(ScannerContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
@@ -50,8 +48,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 
 	@Override
 	protected void renderBg(MatrixStack stack, float pPartialTicks, int pX, int pY) {
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		this.minecraft.textureManager.bind(SCIFI_EL);
+		UIHelper.bindScifi();
 
 		// Back
 		int xSize = 236, ySize = 99;

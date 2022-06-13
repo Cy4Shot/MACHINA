@@ -248,6 +248,5 @@ public class CableBlock extends Block {
 				}
 			}
 		});
-
 	}
 }
