@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 
 import com.machina.block.container.PuzzleContainer;
 import com.machina.client.screen.base.TerminalScreen;
+import com.machina.config.ClientConfig;
+import com.machina.network.MachinaNetwork;
+import com.machina.network.message.C2SCompletePuzzle;
 import com.machina.util.text.StringUtils;
 
 import net.minecraft.entity.player.PlayerInventory;
@@ -31,7 +34,7 @@ public class PuzzleScreen extends TerminalScreen<PuzzleContainer> {
 
 		// Unlock
 		list.add(new TerminalCommand("unlock", "Lifts security on cargo.", () -> {
-			createTimer(2 * 20, () -> {
+			createTimer(ClientConfig.puzzleLoadDuration.get(), () -> {
 				Map<String, String> code = new HashMap<>();
 				Random r = new Random();
 				for (int i = 0; i < 10; i++) {
@@ -40,7 +43,8 @@ public class PuzzleScreen extends TerminalScreen<PuzzleContainer> {
 
 				StringBuilder original = new StringBuilder();
 				StringBuilder result = new StringBuilder();
-				for (int i = 0; i < r.nextInt(5) + 5; i++) {
+				for (int i = 0; i < r.nextInt(ClientConfig.maxPuzzleSize.get() - ClientConfig.minPuzzleSize.get())
+						+ ClientConfig.minPuzzleSize.get(); i++) {
 					String ch = code.keySet().stream().collect(Collectors.toList())
 							.get(r.nextInt(code.values().size()));
 					original.append(ch);
@@ -63,6 +67,7 @@ public class PuzzleScreen extends TerminalScreen<PuzzleContainer> {
 					if (correct) {
 						history.add("Permission granted.");
 						history.add("");
+						MachinaNetwork.CHANNEL.sendToServer(new C2SCompletePuzzle(this.menu.te.getBlockPos()));
 					} else {
 						history.add("Incorrect.");
 						history.add("");

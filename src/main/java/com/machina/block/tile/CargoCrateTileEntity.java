@@ -4,9 +4,11 @@ import com.machina.block.CargoCrateBlock;
 import com.machina.block.tile.base.BaseLockableTileEntity;
 import com.machina.registration.init.TileEntityTypesInit;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -20,6 +22,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 public class CargoCrateTileEntity extends BaseLockableTileEntity implements IAnimatable {
 
 	private final AnimationFactory manager = new AnimationFactory(this);
+	public boolean open = false;
 
 	public CargoCrateTileEntity(TileEntityType<?> type) {
 		super(type, 1);
@@ -63,5 +66,22 @@ public class CargoCrateTileEntity extends BaseLockableTileEntity implements IAni
 	@Override
 	protected Container createMenu(int pId, PlayerInventory pPlayer) {
 		return null;
+	}
+
+	@Override
+	public CompoundNBT save(CompoundNBT compound) {
+		compound.putBoolean("open", this.open);
+		return super.save(compound);
+	}
+
+	@Override
+	public void load(BlockState state, CompoundNBT compound) {
+		this.open = compound.getBoolean("open");
+		super.load(state, compound);
+	}
+	
+	public void setOpen() {
+		this.open = true;
+		this.sync();
 	}
 }

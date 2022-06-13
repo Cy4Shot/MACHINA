@@ -47,8 +47,6 @@ public class CargoCrateBlock extends Block {
 						ccte.setItem(0, ItemStack.EMPTY);
 					}
 				}
-			} else {
-				pLevel.setBlock(pPos, pState.setValue(OPEN, Boolean.valueOf(true)), 3);
 			}
 		}
 

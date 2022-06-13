@@ -16,8 +16,6 @@ public class PuzzleContainer extends BaseContainer<PuzzleTileEntity> {
 	public PuzzleContainer(final int windowId, final PuzzleTileEntity te) {
 		super(ContainerTypesInit.PUZZLE_CONTAINER_TYPE.get(), windowId, te);
 		this.te = te;
-
-		createData(() -> te.getData());
 	}
 
 	public PuzzleContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {

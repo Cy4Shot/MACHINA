@@ -2,6 +2,7 @@ package com.machina.network;
 
 import java.util.function.Function;
 
+import com.machina.network.message.C2SCompletePuzzle;
 import com.machina.network.message.C2SDevPlanetCreationGUI;
 import com.machina.network.message.C2SShipConsoleGUIButton;
 import com.machina.network.message.C2SUpdateEnergySide;
@@ -26,6 +27,7 @@ public class MachinaNetwork extends BaseNetwork {
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
 		registerClientToServer(C2SShipConsoleGUIButton.class, C2SShipConsoleGUIButton::decode);
 		registerClientToServer(C2SUpdateEnergySide.class, C2SUpdateEnergySide::decode);
+		registerClientToServer(C2SCompletePuzzle.class, C2SCompletePuzzle::decode);
 
 		BaseNetwork.MACHINA_CHANNEL = CHANNEL;
 	}

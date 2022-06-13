@@ -34,7 +34,7 @@ public class CargoCrateRenderer extends GeoBlockRenderer<CargoCrateTileEntity> {
 				Vector3f.YP.rotationDegrees(180f - mc.player.yRot), stack, bufferIn, partialTicks, combinedOverlayIn,
 				lightLevel, 0.8f);
 
-		if (!ccte.getItem(0).isEmpty()) {
+		if (ccte.open && !ccte.getItem(0).isEmpty()) {
 			ITextComponent label = new TranslationTextComponent("machina.cargo_crate.open");
 			TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d, .9d, .5d }, label, 0xffffff);
 		}
