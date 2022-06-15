@@ -28,16 +28,29 @@ public class PuzzleScreen extends TerminalScreen<PuzzleContainer> {
 		List<TerminalCommand> list = new ArrayList<>();
 
 		// Clear
-		list.add(new TerminalCommand("clear", (t) -> {
+		list.add(new TerminalCommand("clear", t -> {
 			clear();
 		}));
 
+		// Neofetch
+		list.add(new TerminalCommand("neofetch", t -> {
+			space();
+			add("█▁▁▁█▁███▁███▁█▁█");
+			add("██▁██▁█▁█▁█▁▁▁█▁█");
+			add("█▁█▁█▁███▁█▁▁▁███");
+			add("█▁▁▁█▁█▁█▁█▁▁▁█▁█");
+			add("█▁▁▁█▁█▁█▁███▁█▁█");
+			space();
+			add(t, "mach_os");
+			add(t, "mach_cpu");
+			add(t, "mach_status");
+		}));
+
 		// Unlock
-		list.add(new TerminalCommand("unlock", (t) -> {
+		list.add(new TerminalCommand("unlock", t -> {
 			if (this.menu.te.unlocked) {
 				space();
 				add(t, "already_complete");
-				space();
 				return;
 			}
 
@@ -73,7 +86,6 @@ public class PuzzleScreen extends TerminalScreen<PuzzleContainer> {
 					boolean correct = s.equals(result.toString());
 					if (correct) {
 						add(t, "permission_granted");
-						space();
 						MachinaNetwork.CHANNEL.sendToServer(new C2SCompletePuzzle(this.menu.te.getBlockPos()));
 					} else {
 						add(t, "incorrect");

@@ -124,13 +124,19 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("ship_console", "stage", "Stage");
 
 		// Terminal
-		addTerminalCommand("clear", "Clears the console.");
-		addTerminalCommand("unlock", "Lifts cargo security.");
+
 		addTerminalCommand("help", "Shows a list of commands.");
+		addTerminalCommand("clear", "Clears the console.");
+		addTerminalCommand("neofetch", "Displays info about the OS.");
+		addTerminalCommand("unlock", "Lifts cargo security.");
 
 		addTerminalFeedback("help", "prompt", "Type 'help' to see a list of commands.");
 		addTerminalFeedback("help", "list", "The following is a list of commands:");
 		addTerminalFeedback("help", "unrecognised", "Unrecognised command: ");
+		
+		addTerminalFeedback("neofetch", "mach_os", "Operating System: MachOS");
+		addTerminalFeedback("neofetch", "mach_cpu", "CPU: SecurityModule-908172U");
+		addTerminalFeedback("neofetch", "mach_status", "Status: LISTENING");
 
 		addTerminalFeedback("unlock", "already_complete", "Cargo security already lifted.");
 		addTerminalFeedback("unlock", "verification_needed", "Security verification needed.");

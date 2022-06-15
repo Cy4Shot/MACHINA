@@ -12,7 +12,8 @@
 		"forge.LanguageProviderMixin"
 	],
 	"client": [
-		"client.OverlayRendererMixin",
+		"client.ClientFontMixin",
+		"client.ClientOverlayRendererMixin",
 		"client.ClientPlayerEntityMixin"
 	],
 	"minVersion": "0.8"

@@ -12,7 +12,7 @@ import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.OverlayRenderer;
 
 @Mixin(OverlayRenderer.class)
-public class OverlayRendererMixin {
+public class ClientOverlayRendererMixin {
 
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/player/ClientPlayerEntity;isOnFire()Z"), method = "net/minecraft/client/renderer/OverlayRenderer.renderScreenEffect(Lnet/minecraft/client/Minecraft;Lcom/mojang/blaze3d/matrix/MatrixStack;)V")
 	private static boolean machina$renderOverlaysMixin(ClientPlayerEntity player, Minecraft minecraft,
