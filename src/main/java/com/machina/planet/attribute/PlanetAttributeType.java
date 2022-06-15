@@ -3,6 +3,8 @@ package com.machina.planet.attribute;
 import java.util.Random;
 import java.util.function.Function;
 
+import com.machina.util.text.StringUtils;
+
 import net.minecraft.nbt.INBT;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -22,8 +24,17 @@ public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeTy
 		this.generator = generator;
 	}
 
-	public String getMeasureUnit() { return measureUnit; }
-	
-	public boolean isShown() { return true; }
+	public String getMeasureUnit() {
+		return measureUnit;
+	}
+
+	public boolean isShown() {
+		return true;
+	}
+
+	public String getName() {
+		return StringUtils.translate(
+				this.getRegistryName().getNamespace() + ".planet_attribute." + this.getRegistryName().getPath());
+	}
 
 }

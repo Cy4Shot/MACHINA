@@ -3,6 +3,7 @@ package com.machina.client.screen;
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
+import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -10,7 +11,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
 public class ComponentAnalyzerScreen extends NoJeiContainerScreen<ComponentAnalyzerContainer> {
-	public ComponentAnalyzerScreen(ComponentAnalyzerContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
+	public ComponentAnalyzerScreen(ComponentAnalyzerContainer pMenu, PlayerInventory pPlayerInventory,
+			ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
 	}
 
@@ -67,7 +69,8 @@ public class ComponentAnalyzerScreen extends NoJeiContainerScreen<ComponentAnaly
 
 		// Text
 		if (this.menu.te.progress == 0)
-			UIHelper.drawStringWithBorder(stack, "Insert Component", x + 73, y + 42, 0xFF_00fefe, 0xFF_0e0e0e);
+			UIHelper.drawStringWithBorder(stack, StringUtils.translate("machina.screen.component_analyzer.insert"),
+					x + 73, y + 42, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, "MACHINA://COMP_ANALYZER/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
 

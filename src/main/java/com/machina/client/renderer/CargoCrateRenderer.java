@@ -35,7 +35,7 @@ public class CargoCrateRenderer extends GeoBlockRenderer<CargoCrateTileEntity> {
 				lightLevel, 0.8f);
 
 		if (ccte.open && !ccte.getItem(0).isEmpty()) {
-			ITextComponent label = new TranslationTextComponent("machina.cargo_crate.open");
+			ITextComponent label = new TranslationTextComponent("machina.screen.cargo_crate.open");
 			TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d, .9d, .5d }, label, 0xffffff);
 		}
 	}

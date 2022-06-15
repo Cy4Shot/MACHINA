@@ -28,12 +28,19 @@ public class PuzzleScreen extends TerminalScreen<PuzzleContainer> {
 		List<TerminalCommand> list = new ArrayList<>();
 
 		// Clear
-		list.add(new TerminalCommand("clear", "Clears the terminal.", () -> {
-			history.clear();
+		list.add(new TerminalCommand("clear", (t) -> {
+			clear();
 		}));
 
 		// Unlock
-		list.add(new TerminalCommand("unlock", "Lifts security on cargo.", () -> {
+		list.add(new TerminalCommand("unlock", (t) -> {
+			if (this.menu.te.unlocked) {
+				space();
+				add(t, "already_complete");
+				space();
+				return;
+			}
+
 			createTimer(ClientConfig.puzzleLoadDuration.get(), () -> {
 				Map<String, String> code = new HashMap<>();
 				Random r = new Random();
@@ -56,25 +63,25 @@ public class PuzzleScreen extends TerminalScreen<PuzzleContainer> {
 					def.append(c.getKey() + ":" + c.getValue() + " ");
 				}
 
-				history.add("");
-				history.add("Security Verification Needed");
-				history.add(def.toString());
-				history.add("Translate: " + original.toString());
-				history.add("");
+				space();
+				add(t, "verification_needed");
+				add(def.toString());
+				add(t.getFeedback("translate") + original.toString());
+				space();
 
 				awaitResponse(s -> {
 					boolean correct = s.equals(result.toString());
 					if (correct) {
-						history.add("Permission granted.");
-						history.add("");
+						add(t, "permission_granted");
+						space();
 						MachinaNetwork.CHANNEL.sendToServer(new C2SCompletePuzzle(this.menu.te.getBlockPos()));
 					} else {
-						history.add("Incorrect.");
-						history.add("");
-						history.add("Security Verification Needed");
-						history.add(def.toString());
-						history.add("Translate: " + original);
-						history.add("");
+						add(t, "incorrect");
+						space();
+						add(t, "verification_needed");
+						add(def.toString());
+						add(t.getFeedback("translate") + original.toString());
+						this.space();
 					}
 
 					return correct;

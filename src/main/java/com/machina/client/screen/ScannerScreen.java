@@ -8,6 +8,7 @@ import com.machina.planet.trait.PlanetTrait;
 import com.machina.planet.trait.PlanetTraitList;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.util.server.PlanetUtils;
+import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -112,25 +113,25 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		}
 
 		if (tab == 0) {
-			draw(stack, "1. Planet Traits", x + 120, y + 6, 0xFF_00fefe, true);
+			draw(stack, StringUtils.translate("machina.screen.scanner.tab0"), x + 120, y + 6, 0xFF_00fefe, true);
 			for (int i = 0; i < traits.size(); i++) {
 				PlanetTrait t = traits.get(i);
 				draw(stack, t.toString(), x + 120, y + 20 + i * 10, t.getColor(), true);
 			}
 		} else if (tab == 1) {
-			draw(stack, "2. Planet Info", x + 120, y + 6, 0xFF_00fefe, true);
-			draw(stack, "Gravity: " + gravity, x + 20, y + 20, 0xFF_00fefe, false);
-			draw(stack, "Atmospheric Pressure: " + atmo, x + 20, y + 30, 0xFF_00fefe, false);
-			draw(stack, "Temperature: " + temp, x + 20, y + 40, 0xFF_00fefe, false);
-			draw(stack, "Fog Density: " + fog, x + 20, y + 50, 0xFF_00fefe, false);
+			draw(stack, StringUtils.translate("machina.screen.scanner.tab1"), x + 120, y + 6, 0xFF_00fefe, true);
+			draw(stack, PlanetAttributeTypesInit.GRAVITY.getName() + ": " + gravity, x + 20, y + 20, 0xFF_00fefe, false);
+			draw(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE.getName() + ": " + atmo, x + 20, y + 30, 0xFF_00fefe, false);
+			draw(stack, PlanetAttributeTypesInit.TEMPERATURE.getName() + ": " + temp, x + 20, y + 40, 0xFF_00fefe, false);
+			draw(stack, PlanetAttributeTypesInit.FOG_DENSITY.getName() + ": " + fog, x + 20, y + 50, 0xFF_00fefe, false);
 		} else if (tab == 2) {
-			draw(stack, "3. Cave Info", x + 120, y + 6, 0xFF_00fefe, true);
-			draw(stack, "Cave Density: " + cave_chance, x + 20, y + 20, 0xFF_00fefe, false);
-			draw(stack, "Cave Size: " + cave_thickness, x + 20, y + 30, 0xFF_00fefe, false);
-			draw(stack, "Cave Length: " + cave_length, x + 20, y + 40, 0xFF_00fefe, false);
+			draw(stack, StringUtils.translate("machina.screen.scanner.tab2"), x + 120, y + 6, 0xFF_00fefe, true);
+			draw(stack, PlanetAttributeTypesInit.CAVE_CHANCE.getName() + ": " + cave_chance, x + 20, y + 20, 0xFF_00fefe, false);
+			draw(stack, PlanetAttributeTypesInit.CAVE_THICKNESS.getName() + ": " + cave_thickness, x + 20, y + 30, 0xFF_00fefe, false);
+			draw(stack, PlanetAttributeTypesInit.CAVE_LENGTH.getName() + ": " + cave_length, x + 20, y + 40, 0xFF_00fefe, false);
 		}
 
-		draw(stack, "Planet - " + title, x + 117, y - 18, 0xFF_00fefe, true);
+		draw(stack, PlanetAttributeTypesInit.PLANET_NAME.getName() + " - " + title, x + 117, y - 18, 0xFF_00fefe, true);
 		draw(stack, "MACHINA://SCANNER-" + (tab + 1) + "/", x + 8, y + 82, 0xFF_00fefe, false);
 	}
 

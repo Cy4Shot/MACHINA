@@ -5,25 +5,18 @@ import java.util.List;
 
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.element.PlanetNodeElement;
-import com.machina.client.screen.element.ScrollableContainer;
 import com.machina.client.util.IBoundedGui;
 import com.machina.client.util.Rectangle;
 import com.machina.client.util.UIHelper;
-import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.util.MachinaRL;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import it.unimi.dsi.fastutil.floats.Float2DoubleFunction;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.text.Color;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,15 +29,11 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 	List<Vector2f> positions = new ArrayList<>();
 	List<PlanetNodeElement> nodes = new ArrayList<>();
-	private ScrollableContainer planetDescriptions;
 
 	public PlanetNodeElement selected = null;
 
 	public StarchartScreen() {
 		super(new TranslationTextComponent("machina.screen.starchart.title"));
-
-		planetDescriptions = new ScrollableContainer(this::renderDescription,
-				new StringTextComponent("Planet Statistics"));
 	}
 
 	@Override
@@ -75,8 +64,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 			double angle = (Math.PI * 2) / ClientStarchart.getStarchart().size() * i;
 
-			double r = func
-					.apply(ClientStarchart.getPlanetData(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE));
+			double r = func.apply(ClientStarchart.getPlanetData(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE));
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
@@ -115,10 +103,6 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		// Elements
 		renderStarSystem(matrixStack, pMouseX, pMouseY, pPartialTicks);
 
-		// Description
-		planetDescriptions.setBounds(getDescriptionsBounds());
-//		planetDescriptions.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
-
 		// Border
 		UIHelper.drawStringWithBorder(matrixStack, title.getString(), bound.x0, bound.y0 - 12, 0xFF_cc00ff,
 				0xFF_0e0e0e);
@@ -156,77 +140,6 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 	private void renderStarSystem(MatrixStack matrixStack, int mX, int mY, float pTicks) {
 		nodes.forEach(node -> node.render(matrixStack, mX, mY, pTicks));
-	}
-
-	private void renderDescription(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		planetDescriptions.setInnerHeight(UIHelper.renderWrappedText(matrixStack, getDescriptionForPlanet(),
-				planetDescriptions.getRenderableBounds().getWidth(), 10) * 10 + 20);
-		RenderSystem.enableDepthTest();
-	}
-
-	private IFormattableTextComponent getDescriptionForPlanet() {
-		if (selected == null) {
-			return new StringTextComponent("Terra Prime").setStyle(Style.EMPTY.withColor(Color.fromRgb(0xFF_2fc256)));
-		}
-
-		PlanetData planet = selected.getData();
-		int color = planet.getAttribute(PlanetAttributeTypesInit.PALETTE)[0].getRGB();
-
-		planetDescriptions.title = new StringTextComponent(
-				"Information - \"" + planet.getAttribute(PlanetAttributeTypesInit.PLANET_NAME) + "\"");
-		IFormattableTextComponent text = new StringTextComponent("Traits:\n")
-				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		for (PlanetTrait t : planet.getTraits()) {
-			text.append("   > ").setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-			text.append(t.getRegistryName().toString());
-			text.append("\n");
-		}
-		text.append("\n");
-
-		// Add Extra Data
-		text.append(new StringTextComponent("Stats:\n").setStyle(Style.EMPTY.withColor(Color.fromRgb(color))));
-		text.append("   > Pres: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE) + "\n")
-				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		text.append("   > Temp: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.TEMPERATURE) + "\n")
-				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-		text.append("   > Dist: " + planet.getAttributeFormatted(PlanetAttributeTypesInit.DISTANCE) + "\n")
-				.setStyle(Style.EMPTY.withColor(Color.fromRgb(color)));
-
-		text.append("ID  " + ClientStarchart.planets().indexOf(planet) + "\n");
-
-		return text;
-	}
-
-	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-		if (getContainerBounds().contains((int) mouseX, (int) mouseY)) {
-			planetDescriptions.mouseScrolled(mouseX, mouseY, delta);
-		}
-		return super.mouseScrolled(mouseX, mouseY, delta);
-	}
-
-	@Override
-	public void mouseMoved(double pMouseX, double pMouseY) {
-		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY)) {
-			planetDescriptions.mouseMoved(pMouseX, pMouseY);
-		}
-		super.mouseMoved(pMouseX, pMouseY);
-	}
-
-	@Override
-	public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY)) {
-			planetDescriptions.mouseClicked(pMouseX, pMouseY, pButton);
-		}
-		return super.mouseClicked(pMouseX, pMouseY, pButton);
-	}
-
-	@Override
-	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
-		if (getContainerBounds().contains((int) pMouseX, (int) pMouseY)) {
-			planetDescriptions.mouseReleased(pMouseX, pMouseY, pButton);
-		}
-		return super.mouseReleased(pMouseX, pMouseY, pButton);
 	}
 
 	@Override

@@ -1,44 +1,32 @@
 package com.machina.datagen.client.lang;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.machina.Machina;
-import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.PlanetTraitInit;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.fluid.Fluid;
-import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.fluids.FluidStack;
 
-public class EnUsLangProvider extends LanguageProvider {
-
-	public static final Logger LOGGER = LogManager.getLogger();
+public class EnUsLangProvider extends BaseLangProvider {
 
 	public EnUsLangProvider(DataGenerator gen) {
-		super(gen, Machina.MOD_ID, "en_us");
+		super(gen, "en_us");
 	}
 
 	@Override
 	protected void addTranslations() {
-		
+
 		// Blocks
 		add(BlockInit.SHIP_CONSOLE.get(), "Ship Console");
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
 		add(BlockInit.PUZZLE_BLOCK.get(), "Puzzle Block");
 		add(BlockInit.CABLE.get(), "Cable");
-		
 		add(BlockInit.BATTERY.get(), "Battery");
 		add(BlockInit.CREATIVE_BATTERY.get(), "Creative Battery");
-		
 		add(BlockInit.STEEL_BLOCK.get(), "Steel Block");
 		add(BlockInit.STEEL_CHASSIS.get(), "Steel Chassis");
 		add(BlockInit.IRON_CHASSIS.get(), "Iron Chassis");
-		
 		add(BlockInit.ALIEN_STONE.get(), "Alien Stone");
 		add(BlockInit.ALIEN_STONE_SLAB.get(), "Alien Stone Slab");
 		add(BlockInit.ALIEN_STONE_STAIRS.get(), "Alien Stone Stairs");
@@ -53,7 +41,7 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "Wasteland Sandstone Slab");
 		add(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "Wasteland Sandstone Stairs");
 		add(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "Wasteland Sandstone Wall");
-		
+
 		// Items
 		add(ItemInit.THERMAL_REGULATING_HELMET.get(), "Thermal Regulating Helmet");
 		add(ItemInit.THERMAL_REGULATING_CHESTPLATE.get(), "Thermal Regulating Chestplate");
@@ -78,10 +66,27 @@ public class EnUsLangProvider extends LanguageProvider {
 		add(PlanetTraitInit.LAKES, "Lakes");
 		add(PlanetTraitInit.FROZEN, "Frozen");
 		add(PlanetTraitInit.ISLANDS, "Islands");
+		
+		// Attributes
+		add(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, "Atmospheric Pressure");
+		add(PlanetAttributeTypesInit.BASE_BLOCKS, "Blocks");
+		add(PlanetAttributeTypesInit.CAVE_CHANCE, "Cave Density");
+		add(PlanetAttributeTypesInit.CAVE_LENGTH, "Cave Length");
+		add(PlanetAttributeTypesInit.CAVE_THICKNESS, "Cave Thickness");
+		add(PlanetAttributeTypesInit.CAVES_EXIST, "Caves");
+		add(PlanetAttributeTypesInit.DISTANCE, "Distance from Star");
+		add(PlanetAttributeTypesInit.FLUID_BLOCKS, "Fluids");
+		add(PlanetAttributeTypesInit.FOG_DENSITY, "Fog Density");
+		add(PlanetAttributeTypesInit.GRAVITY, "Gravity");
+		add(PlanetAttributeTypesInit.ISLAND_DENSITY, "Island Density");
+		add(PlanetAttributeTypesInit.PALETTE, "Color Palettte");
+		add(PlanetAttributeTypesInit.PLANET_NAME, "Name");
+		add(PlanetAttributeTypesInit.SURF_BLOCKS, "Surface Blocks");
+		add(PlanetAttributeTypesInit.TEMPERATURE, "Temperature");
 
 		// Item Groups
 		addItemGroup("machinaItemGroup", "Machina");
-		
+
 		// Commands
 		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");
 		addCommandFeedback("planet_traits.add_trait.duplicate", "This planet already has the trait %s!");
@@ -92,43 +97,45 @@ public class EnUsLangProvider extends LanguageProvider {
 		addCommandFeedback("planet_traits.not_planet", "This dimension is not a planet!");
 		addCommandArgumentFeedback("planet_trait.invalid", "Invalid Planet Trait: \u00A76%s");
 
+		// Ship Component
+		addShipComponent("unidentified", "Unidentified");
+		addShipComponent("reactor", "Reactor");
+		addShipComponent("core", "Core");
+		addShipComponent("thrusters", "Thrusters");
+		addShipComponent("shields", "Shields");
+		addShipComponent("life_support", "Life Support");
+
 		// GUI
-		add("machina.screen.starchart.title", "Starchart");
-		add("machina.container.ship_console", "Ship Console");
+		addScreen("component_analyzer", "insert", "Insert Component");
 		
-		// Tooltips
-		add("machina.cargo_crate.open", "Right Click to Loot");
-		add("machina.ship_console.missing", "Missing Items");
-		add("machina.ship_console.craft_ready", "Craft Ready");
-		add("machina.ship_console.crafting", "Crafting...");
-		add("machina.ship_console.craft", "Craft");
-		add("machina.ship_component.unidentified", "Unidentified");
-		add("machina.ship_component.reactor", "Reactor");
-		add("machina.ship_component.core", "Core");
-		add("machina.ship_component.thrusters", "Thrusters");
-		add("machina.ship_component.shields", "Shields");
-		add("machina.ship_component.life_support", "Life Support");
-		add("machina.scanner.title", "Scanner");
-	}
+		addScreen("cargo_crate", "open", "Right Click to Loot");
+		
+		addScreen("starchart", "title", "Starchart");
+		
+		addScreen("scanner", "title", "Scanner");
+		addScreen("scanner", "tab0", "1. Planet Traits");
+		addScreen("scanner", "tab1", "2. Planet Info");
+		addScreen("scanner", "tab2", "3. Cave Info");
+		
+		addScreen("ship_console", "missing", "Missing Items");
+		addScreen("ship_console", "craft_ready", "Craft Ready");
+		addScreen("ship_console", "crafting", "Crafting...");
+		addScreen("ship_console", "craft", "Craft");
+		addScreen("ship_console", "stage", "Stage");
 
-	private void addItemGroup(String key, String name) {
-		add("itemGroup." + key, name);
-	}
+		// Terminal
+		addTerminalCommand("clear", "Clears the console.");
+		addTerminalCommand("unlock", "Lifts cargo security.");
+		addTerminalCommand("help", "Shows a list of commands.");
 
-	private void add(PlanetTrait trait, String name) {
-		add(trait.getRegistryName().getNamespace() + ".planet_trait." + trait.getRegistryName().getPath(), name);
-	}
+		addTerminalFeedback("help", "prompt", "Type 'help' to see a list of commands.");
+		addTerminalFeedback("help", "list", "The following is a list of commands:");
+		addTerminalFeedback("help", "unrecognised", "Unrecognised command: ");
 
-	@SuppressWarnings("unused")
-	private void add(Fluid fluid, String name) {
-		add(new FluidStack(fluid, 2).getTranslationKey(), name);
-	}
-
-	private void addCommandFeedback(String key, String name) {
-		add("command." + key, name);
-	}
-	
-	private void addCommandArgumentFeedback(String key, String name) {
-		add("argument." + key, name);
+		addTerminalFeedback("unlock", "already_complete", "Cargo security already lifted.");
+		addTerminalFeedback("unlock", "verification_needed", "Security verification needed.");
+		addTerminalFeedback("unlock", "translate", "Translate: ");
+		addTerminalFeedback("unlock", "incorrect", "Incorrect.");
+		addTerminalFeedback("unlock", "permission_granted", "Permission granted.");
 	}
 }

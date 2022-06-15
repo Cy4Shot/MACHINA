@@ -9,6 +9,7 @@ import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SDevPlanetCreationGUI;
 import com.machina.network.message.C2SDevPlanetCreationGUI.ActionType;
 import com.machina.registration.init.KeyBindingsInit;
+import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -17,8 +18,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -33,19 +32,18 @@ public class DevPlanetCreationScreen extends Screen {
 	private TextFieldWidget dimensionID;
 
 	public DevPlanetCreationScreen() {
-		super(new StringTextComponent("CreativePlanetCreation"));
+		super(StringUtils.EMPTY);
 	}
 
 	@Override
 	protected void init() {
 		super.init();
-		this.addButton(new Button(width / 2 - 55, 50, 40, 20, new StringTextComponent("Create"),
-				btn -> this.onCreateButton()));
-		this.addButton(new Button(width / 2 - 105, 50, 50, 20, new StringTextComponent("Teleport"),
+		this.addButton(
+				new Button(width / 2 - 55, 50, 40, 20, StringUtils.toComp("Create"), btn -> this.onCreateButton()));
+		this.addButton(new Button(width / 2 - 105, 50, 50, 20, StringUtils.toComp("Teleport"),
 				btn -> this.onTeleportButton()));
 
-		dimensionID = new TextFieldWidget(font, width / 2 - 150, 50, 40, 20,
-				new TranslationTextComponent("Dimension ID"));
+		dimensionID = new TextFieldWidget(font, width / 2 - 150, 50, 40, 20, StringUtils.toComp("Dimension ID"));
 		dimensionID.setMaxLength(10);
 		children.add(dimensionID);
 		this.setInitialFocus(dimensionID);
@@ -90,7 +88,7 @@ public class DevPlanetCreationScreen extends Screen {
 			}
 
 			MachinaNetwork.CHANNEL.sendToServer(new C2SDevPlanetCreationGUI(ActionType.CREATE, id));
-			minecraft.player.sendMessage(new StringTextComponent("Planet with the id of " + id + " was created!"),
+			minecraft.player.sendMessage(StringUtils.toComp("Planet with the id of " + id + " was created!"),
 					UUID.randomUUID());
 			this.onClose();
 		} catch (NumberFormatException e) {
@@ -115,7 +113,7 @@ public class DevPlanetCreationScreen extends Screen {
 	}
 
 	private void invalidId() {
-		minecraft.player.sendMessage(new StringTextComponent("Invalid Planet ID!"), UUID.randomUUID());
+		minecraft.player.sendMessage(StringUtils.toComp("Invalid Planet ID!"), UUID.randomUUID());
 	}
 
 	@Override

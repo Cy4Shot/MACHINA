@@ -85,16 +85,17 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		} else {
 			this.blit(stack, x + 74, y + 49, 56, 150, 95, 18);
 		}
-		String buttonText = StringUtils.translate("machina.ship_console.missing");
+		String buttonText = StringUtils.translate("machina.screen.ship_console.missing");
 		if (this.menu.areSlotsComplete()) {
-			buttonText = StringUtils.translate("machina.ship_console.craft");
+			buttonText = StringUtils.translate("machina.screen.ship_console.craft");
 		} else if (this.menu.te.progress != 0) {
-			buttonText = StringUtils.translate("machina.ship_console.crafting");
+			buttonText = StringUtils.translate("machina.screen.ship_console.crafting");
 		}
 		UIHelper.drawStringWithBorder(stack, buttonText, x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		// Text
-		String stage = String.format("Stage %d / 5", this.menu.te.stage);
+		String stage = String.format(StringUtils.translate("machina.screen.ship_console.stage") + " %d / 5",
+				this.menu.te.stage);
 		String comp = ShipComponentItem.getNameForStage(this.menu.te.stage);
 		UIHelper.drawStringWithBorder(stack, stage, x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawCenteredStringWithBorder(stack, comp, x + 120, y + 14, 0xFF_00fefe, 0xFF_0e0e0e);

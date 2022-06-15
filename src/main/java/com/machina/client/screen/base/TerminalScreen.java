@@ -2,6 +2,7 @@ package com.machina.client.screen.base;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.machina.client.screen.element.CustomTextField;
@@ -32,8 +33,8 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 	public TerminalScreen(T pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
 
-		this.history.clear();
-		this.history.add("Type \"help\" to see a list of commands.");
+		clear();
+		add(StringUtils.translate("machina.terminal.feedback.help.prompt"));
 
 		this.instructionSet = createCommands();
 	}
@@ -160,7 +161,7 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 		UIHelper.click();
 		this.input.setValue("");
 		String command = input.toLowerCase().trim();
-		history.add("> " + command);
+		add("> " + command);
 		if (awaitingResponse) {
 			if (checkResponse.apply(command))
 				awaitingResponse = false;
@@ -168,24 +169,24 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 		}
 
 		if (command.equals("help")) {
-			history.add("");
-			history.add("The following is a list of commands:");
-			history.add(" - \"help\" - Shows a list of commands.");
+			space();
+			add(StringUtils.translate("machina.terminal.feedback.help.list"));
+			add(" - \"help\" - " + StringUtils.translate("machina.terminal.description.help"));
 			this.instructionSet.forEach(comm -> {
-				history.add(comm.help());
+				add(comm.help());
 			});
-			history.add("");
+			space();
 		} else {
 			for (TerminalCommand comm : this.instructionSet) {
 				if (comm.execute(command))
 					return;
 			}
-			history.add("Unrecognised command: " + command);
+			add(StringUtils.translate("machina.terminal.feedback.help.unrecognised") + command);
 		}
 	}
 
 	public void createTimer(float ticks, Runnable onComplete) {
-		this.history.add("");
+		space();
 		this.timer = 0;
 		this.progress = true;
 		this.onComplete = onComplete;
@@ -198,6 +199,27 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 		this.checkResponse = isCorrect;
 	}
 
+	public void space(int size) {
+		for (int i = 0; i < size; i++)
+			history.add("");
+	}
+
+	public void space() {
+		space(1);
+	}
+
+	public void clear() {
+		history.clear();
+	}
+
+	public void add(String text) {
+		history.add(text);
+	}
+
+	public void add(TerminalCommand t, String id) {
+		add(t.getFeedback(id));
+	}
+
 	@Override
 	public int getXSize() {
 		return 176;
@@ -205,26 +227,32 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 
 	public class TerminalCommand {
 		String command;
-		String description;
-		Runnable execute;
+		Consumer<TerminalCommand> execute;
 
-		public TerminalCommand(String comm, String desc, Runnable exe) {
+		public TerminalCommand(String comm, Consumer<TerminalCommand> exe) {
 			this.command = comm;
-			this.description = desc;
 			this.execute = exe;
 		}
 
 		public String help() {
-			return " - \"" + command + "\" - " + description;
+			return " - \"" + command + "\" - " + description();
 		}
 
 		public boolean execute(String c) {
 			if (command.equals(c)) {
-				execute.run();
+				execute.accept(this);
 				return true;
 			}
 
 			return false;
+		}
+
+		public String description() {
+			return StringUtils.translate("machina.terminal.description." + this.command);
+		}
+
+		public String getFeedback(String id) {
+			return StringUtils.translate("machina.terminal.feedback." + this.command + "." + id);
 		}
 	}
 }
