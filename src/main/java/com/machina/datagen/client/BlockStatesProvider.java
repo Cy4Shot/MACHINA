@@ -45,7 +45,6 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleOrientableBlock(BlockInit.BATTERY.get());
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
 		
-		simpleBlock(BlockInit.CARGO_CRATE.get());
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());

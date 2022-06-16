@@ -69,7 +69,7 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 			this.timer += ClientTimer.deltaTick;
 			int occupied = (int) Math.min((this.timer / this.ticksNeeded) * 24, 24);
 			this.history.set(this.history.size() - 1,
-					"[" + StringUtils.repeat("█", occupied) + StringUtils.repeat("▁", 24 - occupied) + "]");
+					"[" + StringUtils.repeat("\u2588", occupied) + StringUtils.repeat("\u2581", 24 - occupied) + "]");
 			if (this.timer > this.ticksNeeded) {
 				this.onComplete.run();
 				this.input.setEditable(true);
