@@ -1,0 +1,24 @@
+{
+	"name": "machina:ship/cargo_crate",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 3,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"projection": "rigid",
+				"location": "machina:ship/extras/crate_yes",
+				"processors": "minecraft:empty"
+			}
+		},
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"projection": "rigid",
+				"location": "machina:ship/extras/crate_no",
+				"processors": "minecraft:empty"
+			}
+		}
+	]
+}

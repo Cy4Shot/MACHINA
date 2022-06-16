@@ -1,0 +1,15 @@
+{
+	"name": "machina:ship/start",
+	"fallback": "minecraft:empty",
+	"elements": [
+		{
+			"weight": 1,
+			"element": {
+				"element_type": "minecraft:single_pool_element",
+				"projection": "rigid",
+				"location": "machina:ship/crashed_ship",
+				"processors": "minecraft:empty"
+			}
+		}
+	]
+}
