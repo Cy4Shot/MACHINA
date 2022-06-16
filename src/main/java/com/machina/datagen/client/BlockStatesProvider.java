@@ -48,6 +48,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.CARGO_CRATE.get());
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
+		simpleBlock(BlockInit.REINFORCED_TILE.get());
 	}
 
 	public void fluid(Block block) {

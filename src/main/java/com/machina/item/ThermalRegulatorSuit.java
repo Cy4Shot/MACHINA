@@ -1,5 +1,7 @@
 package com.machina.item;
 
+import com.machina.registration.Registration;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,8 +21,8 @@ public class ThermalRegulatorSuit extends Item {
 
 	public final EquipmentSlotType slot;
 
-	public ThermalRegulatorSuit(Properties pProperties, EquipmentSlotType slot) {
-		super(pProperties);
+	public ThermalRegulatorSuit(EquipmentSlotType slot) {
+		super(new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512));
 		this.slot = slot;
 	}
 

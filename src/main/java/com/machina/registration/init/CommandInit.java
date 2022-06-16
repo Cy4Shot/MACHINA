@@ -17,15 +17,20 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 
 public final class CommandInit {
 
+	public static final int ALL_PLAYERS = 0;
+	public static final int NO_COMMANDS = 1;
+	public static final int GIVE_CLEAR = 2;
+	public static final int BAN_KICK_OP = 3;
+	public static final int STOP_THE_SERVER = 4;
+
 	private static final ArrayList<BaseCommand> commands = new ArrayList<>();
 
 	public static void registerCommands(final RegisterCommandsEvent event) {
 		CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
 
-		commands.add(new ListTraitsCommand(PermissionLevels.GIVE_CLEAR, true));
-
-		commands.add(new DebugCommand(4, Machina.isDevEnvironment()));
-		commands.add(new GoToPlanetCommand(4, true));
+		commands.add(new ListTraitsCommand(GIVE_CLEAR, true));
+		commands.add(new DebugCommand(STOP_THE_SERVER, Machina.isDevEnvironment()));
+		commands.add(new GoToPlanetCommand(STOP_THE_SERVER, true));
 
 		commands.forEach(command -> {
 			if (command.isEnabled()) {
@@ -42,15 +47,4 @@ public final class CommandInit {
 		});
 
 	}
-
-	public static class PermissionLevels {
-
-		public static final int ALL_PLAYERS = 0;
-		public static final int NO_COMMANDS = 1;
-		public static final int GIVE_CLEAR = 2;
-		public static final int BAN_KICK_OP = 3;
-		public static final int STOP_THE_SERVER = 4;
-
-	}
-
 }

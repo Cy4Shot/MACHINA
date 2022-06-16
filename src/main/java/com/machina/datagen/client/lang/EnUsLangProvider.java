@@ -41,6 +41,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "Wasteland Sandstone Slab");
 		add(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "Wasteland Sandstone Stairs");
 		add(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "Wasteland Sandstone Wall");
+		add(BlockInit.REINFORCED_TILE.get(), "Reinforced Tile");
 
 		// Items
 		add(ItemInit.THERMAL_REGULATING_HELMET.get(), "Thermal Regulating Helmet");

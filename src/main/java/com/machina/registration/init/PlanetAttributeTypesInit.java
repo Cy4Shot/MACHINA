@@ -5,10 +5,12 @@ import java.util.Random;
 import java.util.function.Function;
 
 import com.machina.planet.attribute.PlanetAttributeType;
+import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.util.MachinaRL;
 import com.machina.util.color.Color;
 import com.machina.util.nbt.BaseNBTList;
+import com.machina.util.reflection.ClassHelper;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetNameGenerator;
 import com.machina.world.gen.PlanetPaletteGenerator;
@@ -41,21 +43,24 @@ public final class PlanetAttributeTypesInit {
 	//@formatter:on
 
 	public static void register(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
-		register("distance", DISTANCE);
-		register("gravity", GRAVITY);
-		register("planet_name", PLANET_NAME);
-		register("fog_density", FOG_DENSITY);
-		register("palette", PALETTE);
-		register("atmospheric_pressure", ATMOSPHERIC_PRESSURE);
-		register("temperature", TEMPERATURE);
-		register("base_blocks", BASE_BLOCKS);
-		register("surf_blocks", SURF_BLOCKS);
-		register("fluid_blocks", FLUID_BLOCKS);
-		register("caves_exist", CAVES_EXIST);
-		register("cave_chance", CAVE_CHANCE);
-		register("cave_length", CAVE_LENGTH);
-		register("cave_thickness", CAVE_THICKNESS);
-		register("island_density", ISLAND_DENSITY);
+//		register("distance", DISTANCE);
+//		register("gravity", GRAVITY);
+//		register("planet_name", PLANET_NAME);
+//		register("fog_density", FOG_DENSITY);
+//		register("palette", PALETTE);
+//		register("atmospheric_pressure", ATMOSPHERIC_PRESSURE);
+//		register("temperature", TEMPERATURE);
+//		register("base_blocks", BASE_BLOCKS);
+//		register("surf_blocks", SURF_BLOCKS);
+//		register("fluid_blocks", FLUID_BLOCKS);
+//		register("caves_exist", CAVES_EXIST);
+//		register("cave_chance", CAVE_CHANCE);
+//		register("cave_length", CAVE_LENGTH);
+//		register("cave_thickness", CAVE_THICKNESS);
+//		register("island_density", ISLAND_DENSITY);
+		
+		ClassHelper.<PlanetAttributeType<?>>doWithStatics(PlanetAttributeTypesInit.class,
+				(name, data) -> register(name.toLowerCase(), data));
 	}
 
 	private static <T> PlanetAttributeType<T> register(String name, PlanetAttributeType<T> attribute) {

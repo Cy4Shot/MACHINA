@@ -1,5 +1,6 @@
 package com.machina.registration.init;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
@@ -31,81 +32,74 @@ public class BlockInit {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
 			Machina.MOD_ID);
 
-	public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
-		return BLOCKS.register(name, block);
+	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console", ShipConsoleBlock::new);
+	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate", CargoCrateBlock::new);
+	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer",
+			ComponentAnalyzerBlock::new);
+	public static final RegistryObject<BatteryBlock> BATTERY = register("battery", BatteryBlock::new);
+	public static final RegistryObject<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery",
+			CreativeBatteryBlock::new);
+	public static final RegistryObject<PuzzleBlock> PUZZLE_BLOCK = register("puzzle_block", PuzzleBlock::new);
+	public static final RegistryObject<CableBlock> CABLE = register("cable", CableBlock::new);
+	public static final RegistryObject<Block> IRON_CHASSIS = register("iron_chassis", Blocks.IRON_BLOCK,
+			a -> a.noOcclusion(), Block::new);
+	public static final RegistryObject<Block> STEEL_CHASSIS = register("steel_chassis", Blocks.IRON_BLOCK,
+			a -> a.noOcclusion(), Block::new);
+	public static final RegistryObject<Block> STEEL_BLOCK = register("steel_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> ALIEN_STONE = register("alien_stone", Blocks.STONE);
+	public static final RegistryObject<StairsBlock> ALIEN_STONE_STAIRS = stair("alien_stone_stairs", Blocks.STONE_SLAB);
+	public static final RegistryObject<SlabBlock> ALIEN_STONE_SLAB = register("alien_stone_slab", Blocks.STONE_SLAB,
+			SlabBlock::new);
+	public static final RegistryObject<Block> TWILIGHT_DIRT = register("twilight_dirt", Blocks.DIRT);
+	public static final RegistryObject<StairsBlock> TWILIGHT_DIRT_STAIRS = stair("twilight_dirt_stairs", Blocks.DIRT);
+	public static final RegistryObject<SlabBlock> TWILIGHT_DIRT_SLAB = register("twilight_dirt_slab", Blocks.DIRT,
+			SlabBlock::new);
+	public static final RegistryObject<Block> WASTELAND_DIRT = register("wasteland_dirt", Blocks.DIRT);
+	public static final RegistryObject<StairsBlock> WASTELAND_DIRT_STAIRS = stair("wasteland_dirt_stairs", Blocks.DIRT);
+	public static final RegistryObject<SlabBlock> WASTELAND_DIRT_SLAB = register("wasteland_dirt_slab", Blocks.DIRT,
+			SlabBlock::new);
+	public static final RegistryObject<FallingBlock> WASTELAND_SAND = register("wasteland_sand", Blocks.SAND,
+			FallingBlock::new);
+	public static final RegistryObject<Block> WASTELAND_SANDSTONE = register("wasteland_sandstone", Blocks.SANDSTONE);
+	public static final RegistryObject<StairsBlock> WASTELAND_SANDSTONE_STAIRS = stair("wasteland_sandstone_stairs",
+			Blocks.SANDSTONE_SLAB);
+	public static final RegistryObject<SlabBlock> WASTELAND_SANDSTONE_SLAB = register("wasteland_sandstone_slab",
+			Blocks.SANDSTONE_SLAB, SlabBlock::new);
+	public static final RegistryObject<WallBlock> WASTELAND_SANDSTONE_WALL = register("wasteland_sandstone_wall",
+			Blocks.SANDSTONE_WALL, WallBlock::new);
+	public static final RegistryObject<Block> REINFORCED_TILE = register("reinforced_tile", Blocks.NETHERITE_BLOCK);
+
+	
+	
+	private static <T extends Block> Supplier<T> of(Block block,
+			Function<AbstractBlock.Properties, AbstractBlock.Properties> extra,
+			Function<AbstractBlock.Properties, T> constructor) {
+		return () -> constructor.apply((extra.apply(AbstractBlock.Properties.copy(block))));
 	}
 
-	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console",
-			() -> new ShipConsoleBlock());
+	public static <T extends Block> RegistryObject<T> register(String name, Supplier<T> block) {
+		return BLOCKS.<T>register(name, block);
+	}
 
-	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate",
-			() -> new CargoCrateBlock());
+	public static RegistryObject<Block> register(String name, Block prop) {
+		return register(name, prop, a -> a, Block::new);
+	}
 
-	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer",
-			() -> new ComponentAnalyzerBlock());
+	public static <T extends Block> RegistryObject<T> register(String name, Block prop,
+			Function<AbstractBlock.Properties, T> constructor) {
+		return register(name, prop, a -> a, constructor);
+	}
 
-	public static final RegistryObject<BatteryBlock> BATTERY = register("battery", () -> new BatteryBlock());
-	
-	public static final RegistryObject<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery",
-			() -> new CreativeBatteryBlock());
+	public static <T extends Block> RegistryObject<T> register(String name, Block prop,
+			Function<AbstractBlock.Properties, AbstractBlock.Properties> extra,
+			Function<AbstractBlock.Properties, T> constructor) {
+		return register(name, BlockInit.<T>of(prop, extra, constructor));
+	}
 
-	public static final RegistryObject<PuzzleBlock> PUZZLE_BLOCK = register("puzzle_block", () -> new PuzzleBlock());
-	
-	public static final RegistryObject<CableBlock> CABLE = register("cable", () -> new CableBlock());
-
-	public static final RegistryObject<Block> IRON_CHASSIS = register("iron_chassis",
-			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-
-	public static final RegistryObject<Block> STEEL_CHASSIS = register("steel_chassis",
-			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-
-	public static final RegistryObject<Block> STEEL_BLOCK = register("steel_block",
-			() -> new Block(AbstractBlock.Properties.copy(Blocks.IRON_BLOCK)));
-
-	public static final RegistryObject<Block> ALIEN_STONE = register("alien_stone",
-			() -> new Block(AbstractBlock.Properties.copy(Blocks.STONE)));
-
-	public static final RegistryObject<StairsBlock> ALIEN_STONE_STAIRS = register("alien_stone_stairs",
-			() -> new StairsBlock(ALIEN_STONE.get().defaultBlockState(),
-					AbstractBlock.Properties.copy(Blocks.STONE_STAIRS)));
-
-	public static final RegistryObject<SlabBlock> ALIEN_STONE_SLAB = register("alien_stone_slab",
-			() -> new SlabBlock(AbstractBlock.Properties.copy(Blocks.STONE_SLAB)));
-
-	public static final RegistryObject<Block> TWILIGHT_DIRT = register("twilight_dirt",
-			() -> new Block(AbstractBlock.Properties.copy(Blocks.DIRT)));
-
-	public static final RegistryObject<StairsBlock> TWILIGHT_DIRT_STAIRS = register("twilight_dirt_stairs",
-			() -> new StairsBlock(TWILIGHT_DIRT.get().defaultBlockState(), AbstractBlock.Properties.copy(Blocks.DIRT)));
-
-	public static final RegistryObject<SlabBlock> TWILIGHT_DIRT_SLAB = register("twilight_dirt_slab",
-			() -> new SlabBlock(AbstractBlock.Properties.copy(Blocks.DIRT)));
-
-	public static final RegistryObject<Block> WASTELAND_DIRT = register("wasteland_dirt",
-			() -> new Block(AbstractBlock.Properties.copy(Blocks.DIRT)));
-
-	public static final RegistryObject<StairsBlock> WASTELAND_DIRT_STAIRS = register("wasteland_dirt_stairs",
-			() -> new StairsBlock(WASTELAND_DIRT.get().defaultBlockState(),
-					AbstractBlock.Properties.copy(Blocks.DIRT)));
-
-	public static final RegistryObject<SlabBlock> WASTELAND_DIRT_SLAB = register("wasteland_dirt_slab",
-			() -> new SlabBlock(AbstractBlock.Properties.copy(Blocks.DIRT)));
-
-	public static final RegistryObject<FallingBlock> WASTELAND_SAND = register("wasteland_sand",
-			() -> new FallingBlock(AbstractBlock.Properties.copy(Blocks.SAND)));
-
-	public static final RegistryObject<Block> WASTELAND_SANDSTONE = register("wasteland_sandstone",
-			() -> new Block(AbstractBlock.Properties.copy(Blocks.SANDSTONE)));
-
-	public static final RegistryObject<StairsBlock> WASTELAND_SANDSTONE_STAIRS = register("wasteland_sandstone_stairs",
-			() -> new StairsBlock(WASTELAND_SANDSTONE.get().defaultBlockState(),
-					AbstractBlock.Properties.copy(Blocks.SANDSTONE)));
-
-	public static final RegistryObject<SlabBlock> WASTELAND_SANDSTONE_SLAB = register("wasteland_sandstone_slab",
-			() -> new SlabBlock(AbstractBlock.Properties.copy(Blocks.SANDSTONE_SLAB)));
-
-	public static final RegistryObject<WallBlock> WASTELAND_SANDSTONE_WALL = register("wasteland_sandstone_wall",
-			() -> new WallBlock(AbstractBlock.Properties.copy(Blocks.SANDSTONE_WALL)));
+	public static RegistryObject<StairsBlock> stair(String name, Block prop) {
+		return register(name,
+				() -> new StairsBlock(() -> prop.defaultBlockState(), AbstractBlock.Properties.copy(prop)));
+	}
 
 	public static void registerBlockItems(final RegistryEvent.Register<Item> event) {
 		BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {

@@ -13,7 +13,7 @@ import net.minecraft.client.gui.fonts.IGlyphInfo;
 @Mixin(Font.class)
 public class ClientFontMixin {
 
-	// Replace Char 6969 with better space.
+	// Replace Char 9601 with better space.
 	@Inject(at = @At(value = "HEAD"), method = "Lnet/minecraft/client/gui/fonts/Font;getRaw(I)Lnet/minecraft/client/gui/fonts/IGlyphInfo;", cancellable = true)
 	private void getRaw(int p_212455_1_, CallbackInfoReturnable<IGlyphInfo> callback) {
 		if (p_212455_1_ == 9601) {
