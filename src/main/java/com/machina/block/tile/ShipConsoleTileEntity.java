@@ -107,6 +107,10 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 	}
 
 	public void buttonPressed() {
+		scan();
+		if (this.erroredPos.size() > 0)
+			return;
+		
 		if (this.stage < 5 && this.progress == 0) {
 			this.isInProgress = true;
 			clear();
@@ -117,8 +121,6 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		for (int i = 0; i < getContainerSize(); i++)
 			setItem(i, ItemStack.EMPTY);
 	}
-
-	boolean sca = true;
 
 	@Override
 	public void tick() {
@@ -132,11 +134,6 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 				this.isInProgress = false;
 				this.progress = 0;
 			}
-		}
-
-		if (sca) {
-			scan();
-			sca = false;
 		}
 	}
 

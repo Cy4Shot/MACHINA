@@ -53,4 +53,9 @@ public class ShipConsoleContainer extends BaseContainer<ShipConsoleTileEntity> {
 		return this.getCompletableSlot(0).isComplete() && this.getCompletableSlot(1).isComplete()
 				&& this.getCompletableSlot(2).isComplete() && this.getCompletableSlot(3).isComplete();
 	}
+	
+	@Override
+	protected int getContainerSize() {
+		return this.te.getContainerSize();
+	}
 }

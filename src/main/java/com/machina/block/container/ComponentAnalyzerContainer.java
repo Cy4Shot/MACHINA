@@ -9,11 +9,9 @@ import com.machina.registration.init.ContainerTypesInit;
 import com.machina.registration.init.ItemInit;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 
 public class ComponentAnalyzerContainer extends BaseContainer<ComponentAnalyzerTileEntity> {
@@ -44,27 +42,8 @@ public class ComponentAnalyzerContainer extends BaseContainer<ComponentAnalyzerT
 	}
 
 	@Override
-	public ItemStack quickMoveStack(PlayerEntity player, int index) {
-		ItemStack stack = ItemStack.EMPTY;
-		Slot slot = this.slots.get(index);
-		if (slot != null && slot.hasItem()) {
-			ItemStack stack1 = slot.getItem();
-			stack = stack1.copy();
-			if (index < this.te.getContainerSize()
-					&& !this.moveItemStackTo(stack1, this.te.getContainerSize(), this.slots.size(), true)) {
-				return ItemStack.EMPTY;
-			}
-			if (!this.moveItemStackTo(stack1, 0, this.te.getContainerSize(), false)) {
-				return ItemStack.EMPTY;
-			}
-
-			if (stack1.isEmpty()) {
-				slot.set(ItemStack.EMPTY);
-			} else {
-				slot.setChanged();
-			}
-		}
-		return stack;
+	protected int getContainerSize() {
+		return this.te.getContainerSize();
 	}
 
 	@Override
