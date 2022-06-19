@@ -1,4 +1,4 @@
-package com.machina.client.renderer;
+package com.machina.client.renderer.tile;
 
 import com.machina.block.tile.CargoCrateTileEntity;
 import com.machina.client.model.CargoCrateModel;

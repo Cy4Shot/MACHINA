@@ -1,4 +1,4 @@
-package com.machina.client.renderer;
+package com.machina.client.renderer.tile;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 
 public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntity> {
 
@@ -22,7 +23,7 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 	}
 
 	@Override
-	public void render(ShipConsoleTileEntity te, float partialTicks, MatrixStack stack, IRenderTypeBuffer bufferIn,
+	public void render(ShipConsoleTileEntity te, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer,
 			int packedLightIn, int pCombinedOverlay) {
 		int lightLevel = TERUtil.getLightLevel(te.getLevel(), te.getBlockPos());
 		Direction d = te.getBlockState().getValue(ShipConsoleBlock.FACING);
@@ -49,7 +50,7 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 
 		String stage = String.format(StringUtils.translate("machina.screen.ship_console.stage") + " %d / 5 - ",
 				te.stage) + ShipComponentItem.getNameForStage(te.stage);
-		TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d - .15d * x, .72d, .5d - .15d * z }, rot,
+		TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d - .15d * x, .72d, .5d - .15d * z }, rot,
 				StringUtils.toComp(stage), 0xffffff, .5f);
 
 		if (!te.isInProgress) {
@@ -60,22 +61,32 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 			for (ItemStack item : missing) {
 				i++;
 				String text = StringUtils.prettyItemStack(item);
-				TERUtil.renderLabel(stack, bufferIn, lightLevel,
+				TERUtil.renderLabel(stack, buffer, lightLevel,
 						new double[] { .5d + .07d * i * x, .66d - .03d * i, .5d + .07d * i * z }, rot,
 						StringUtils.toComp(text), 0xff0000, 0.5f);
 			}
 
 			if (missing.isEmpty()) {
-				TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z },
+				TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z },
 						rot, StringUtils.translateComp("machina.screen.ship_console.craft_ready"), 0x00ff00, 1f);
 			} else {
-				TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d - .05d * x, .69d, .5d - .05d * z },
+				TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d - .05d * x, .69d, .5d - .05d * z },
 						rot, StringUtils.translateComp("machina.screen.ship_console.missing"), 0xff0000, 1f);
 			}
 		} else {
-			TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
+			TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
 					StringUtils.translateComp("machina.screen.ship_console.crafting"), 0x00ff00, 1f);
 		}
-	}
 
+
+		BlockPos o = te.getBlockPos();
+		for (BlockPos p : te.erroredPos) {
+			TERUtil.preview(stack, te.getLevel(), p.immutable().offset(-o.getX(), -o.getY(), -o.getZ()));
+		}
+	}
+	
+	@Override
+	public boolean shouldRenderOffScreen(ShipConsoleTileEntity pTe) {
+		return true;
+	}
 }

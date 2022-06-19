@@ -45,6 +45,12 @@ public abstract class BaseLockableTileEntity extends LockableLootTileEntity {
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		this.load(this.getBlockState(), pkt.getTag());
 	}
+	
+	@Override
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		this.load(state, tag);
+		super.handleUpdateTag(state, tag);
+	}
 
 	public void sync() {
 		if (this.level instanceof ServerWorld) {

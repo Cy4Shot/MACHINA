@@ -1,13 +1,24 @@
 package com.machina.client.util;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -18,6 +29,23 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 public class TERUtil {
+
+	private static final RenderType.State GL_STATE = RenderType.State.builder()
+			.setTextureState(new RenderState.TextureState(AtlasTexture.LOCATION_BLOCKS, false, false))
+			.setTransparencyState(new RenderState.TransparencyState("translucent_transparency", () -> {
+				RenderSystem.enableBlend();
+				RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+						GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+						GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			}, () -> {
+				RenderSystem.disableBlend();
+				RenderSystem.defaultBlendFunc();
+			})).setDiffuseLightingState(new RenderState.DiffuseLightingState(true))
+			.setAlphaState(new RenderState.AlphaState(0.004F)).setCullState(new RenderState.CullState(false))
+			.setLightmapState(new RenderState.LightmapState(true)).setOverlayState(new RenderState.OverlayState(true))
+			.createCompositeState(true);
+	public static final RenderType PREVIEW_TYPE = RenderType.create("machina_preview", DefaultVertexFormats.BLOCK, 7,
+			131072, true, true, GL_STATE);
 
 	private static Minecraft mc = Minecraft.getInstance();
 
@@ -53,9 +81,9 @@ public class TERUtil {
 		font.drawInBatch(text, offset, 0, color, false, matrix, buffer, false, opacity, lightLevel);
 		stack.popPose();
 	}
-	
-	public static void renderLabel(MatrixStack stack, IRenderTypeBuffer buffer, int lightLevel, double[] corner, float[] rot,
-			ITextComponent text, int color, float s) {
+
+	public static void renderLabel(MatrixStack stack, IRenderTypeBuffer buffer, int lightLevel, double[] corner,
+			float[] rot, ITextComponent text, int color, float s) {
 
 		FontRenderer font = mc.font;
 
@@ -73,6 +101,26 @@ public class TERUtil {
 
 		font.drawInBatch(text, offset, 0, color, false, matrix, buffer, false, opacity, lightLevel);
 		stack.popPose();
+	}
+
+	public static void preview(MatrixStack ms, World world, BlockPos pos) {
+		IRenderTypeBuffer.Impl buffers = mc.renderBuffers().bufferSource();
+		IVertexBuilder buffer = buffers.getBuffer(PREVIEW_TYPE);
+		renderBlockAt(ms, buffer, Blocks.WHITE_CONCRETE.defaultBlockState(), pos, 1.01f);
+		buffers.endBatch(PREVIEW_TYPE);
+	}
+
+	private static void renderBlockAt(MatrixStack ms, IVertexBuilder buffer, BlockState state, BlockPos pos,
+			float scale) {
+		float offset = -(scale - 1) / 2;
+		ms.pushPose();
+		ms.translate(pos.getX(), pos.getY(), pos.getZ());
+		ms.scale(scale, scale, scale);
+		ms.translate(offset, offset, offset);
+		BlockRendererDispatcher brd = mc.getBlockRenderer();
+		brd.getModelRenderer().renderModel(ms.last(), buffer, state, brd.getBlockModel(state), 1, 1, 1, 0xFFFFFF,
+				OverlayTexture.NO_OVERLAY);
+		ms.popPose();
 	}
 
 	public static int getLightLevel(World world, BlockPos pos) {

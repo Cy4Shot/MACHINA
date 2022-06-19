@@ -31,6 +31,12 @@ public abstract class BaseTileEntity extends TileEntity {
 		this.load(this.getBlockState(), pkt.getTag());
 	}
 
+	@Override
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		this.load(state, tag);
+		super.handleUpdateTag(state, tag);
+	}
+
 	public void sync() {
 		if (this.level instanceof ServerWorld) {
 			final BlockState state = getBlockState();

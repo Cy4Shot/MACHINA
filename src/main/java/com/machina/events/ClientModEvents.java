@@ -2,9 +2,9 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
-import com.machina.client.renderer.CargoCrateRenderer;
-import com.machina.client.renderer.ComponentAnalyzerRenderer;
-import com.machina.client.renderer.ShipConsoleRenderer;
+import com.machina.client.renderer.tile.CargoCrateRenderer;
+import com.machina.client.renderer.tile.ComponentAnalyzerRenderer;
+import com.machina.client.renderer.tile.ShipConsoleRenderer;
 import com.machina.client.screen.BatteryScreen;
 import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.PuzzleScreen;

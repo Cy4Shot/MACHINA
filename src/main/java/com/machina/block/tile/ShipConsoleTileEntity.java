@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.machina.block.ShipConsoleBlock;
 import com.machina.block.container.ShipConsoleContainer;
 import com.machina.block.tile.base.BaseLockableTileEntity;
 import com.machina.recipe.ShipConsoleRecipe;
@@ -16,14 +17,21 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.util.Constants;
 
 public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITickableTileEntity {
 
 	public int stage = 1, progress = 0;
 	public boolean isInProgress = false;
+	public List<BlockPos> erroredPos = new ArrayList<>();
 
 	protected final IIntArray data = new IIntArray() {
 		public int get(int index) {
@@ -110,8 +118,13 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 			setItem(i, ItemStack.EMPTY);
 	}
 
+	boolean sca = true;
+
 	@Override
 	public void tick() {
+		if (this.level.isClientSide())
+			return;
+
 		if (this.isInProgress) {
 			this.progress++;
 			if (this.progress == 100) {
@@ -120,6 +133,33 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 				this.progress = 0;
 			}
 		}
+
+		if (sca) {
+			scan();
+			sca = false;
+		}
+	}
+
+	public void scan() {
+		int sizeX = 9;
+		int sizeY = 18;
+		int sizeZ = 9;
+		int halfX = (sizeX - 1) / 2;
+
+		Direction d = getBlockState().getValue(ShipConsoleBlock.FACING);
+		BlockPos cur = getBlockPos().relative(d.getOpposite());
+		BlockPos pos1 = cur.relative(d.getClockWise(), halfX);
+		BlockPos pos2 = cur.relative(d.getCounterClockWise(), halfX).relative(d.getOpposite(), sizeZ - 1)
+				.relative(Direction.UP, sizeY - 1);
+
+		this.erroredPos.clear();
+		for (BlockPos p : BlockPos.betweenClosed(pos1, pos2)) {
+			if (!this.level.getBlockState(p.immutable()).isAir()) {
+				this.erroredPos.add(p.immutable());
+			}
+		}
+
+		sync();
 	}
 
 	@Override
@@ -128,19 +168,39 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound) {
-		super.save(compound);
-		compound.putInt("Stage", this.stage);
-		compound.putInt("Progress", this.progress);
-		compound.putBoolean("InProgress", this.isInProgress);
-		return compound;
+	public CompoundNBT save(CompoundNBT nbt) {
+
+		ListNBT poss = new ListNBT();
+		this.erroredPos.forEach(pos -> {
+			poss.add(NBTUtil.writeBlockPos(pos));
+		});
+
+		nbt.put("Errors", poss);
+		nbt.putInt("Stage", this.stage);
+		nbt.putInt("Progress", this.progress);
+		nbt.putBoolean("InProgress", this.isInProgress);
+
+		return super.save(nbt);
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound) {
-		super.load(state, compound);
-		this.stage = compound.getInt("Stage");
-		this.progress = compound.getInt("Progress");
-		this.isInProgress = compound.getBoolean("InProgress");
+	public void load(BlockState state, CompoundNBT nbt) {
+		this.erroredPos.clear();
+		ListNBT cons = nbt.getList("Errors", Constants.NBT.TAG_COMPOUND);
+		for (int j = 0; j < cons.size(); j++) {
+			erroredPos.add(NBTUtil.readBlockPos(cons.getCompound(j)));
+		}
+
+		this.stage = nbt.getInt("Stage");
+		this.progress = nbt.getInt("Progress");
+		this.isInProgress = nbt.getBoolean("InProgress");
+		super.load(state, nbt);
+	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		BlockPos p = getBlockPos();
+		int dist = 20;
+		return new AxisAlignedBB(p.offset(-dist, -dist, -dist), p.offset(dist, dist, dist));
 	}
 }
