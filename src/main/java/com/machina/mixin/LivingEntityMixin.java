@@ -39,7 +39,7 @@ public abstract class LivingEntityMixin extends Entity {
 			RegistryKey<World> dim = this.level.dimension();
 			if (PlanetUtils.isDimensionPlanet(dim)) {
 				PlanetData data = StarchartData.getDataForDimension(ServerHelper.server(), dim);
-				float gravity = data.getAttribute(PlanetAttributeTypesInit.GRAVITY) / 9.80655f;
+				float gravity = data.getAttribute(PlanetAttributeTypesInit.GRAVITY);
 				ModifiableAttributeInstance attr = getAttributes().getInstance(pAttribute);
 				attr.setBaseValue(0.08f * gravity);
 				callback.setReturnValue(attr);

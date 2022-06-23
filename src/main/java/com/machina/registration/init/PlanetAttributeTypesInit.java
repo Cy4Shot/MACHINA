@@ -25,10 +25,10 @@ public final class PlanetAttributeTypesInit {
 
 	//@formatter:off
 	public static final PlanetAttributeType<Float> DISTANCE = new PlanetAttributeType<>("AU", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.5f, 10f));
-	public static final PlanetAttributeType<Float> GRAVITY = new PlanetAttributeType<>("N", FloatNBT::valueOf, floatDeserializer(9.80655f), random(1.0f, 18.0f));
+	public static final PlanetAttributeType<Float> GRAVITY = new PlanetAttributeType<>("G", FloatNBT::valueOf, floatDeserializer(1f), random(0.1f, 2.0f));
 	public static final PlanetAttributeType<String> PLANET_NAME = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("Planet"), PlanetNameGenerator::getName);
 	public static final PlanetAttributeType<Float> FOG_DENSITY = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.5f), random(0f, 1.0f));
-	public static final PlanetAttributeType<Color[]> PALETTE = new PlanetAttributeType<>("", colorListSerializer(), colorListDeserializer(PlanetPaletteGenerator.DEFAULT_PALETTE, new Color(0), 5), PlanetPaletteGenerator::genPlanetPalette);
+	public static final PlanetAttributeType<Color[]> PALETTE = new PlanetAttributeType<>("", colorListSerializer(), colorListDeserializer(PlanetPaletteGenerator.DEFAULT_PALETTE, Color.black, 5), PlanetPaletteGenerator::genPlanetPalette);
 	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = new PlanetAttributeType<>("atm", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.1f, 2.0f));
 	public static final PlanetAttributeType<Float> TEMPERATURE = new PlanetAttributeType<>("K", FloatNBT::valueOf, floatDeserializer(350.0f), random(100f, 1000f));
 	public static final PlanetAttributeType<Integer> BASE_BLOCKS = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(0), PlanetBlocksGenerator::getRandomBase);

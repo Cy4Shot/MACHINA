@@ -102,7 +102,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		} else {
 //			if (World.OVERWORLD.equals(dim)) {
 			title = "Overworld";
-			gravity = "9.80655 N";
+			gravity = "1G";
 			atmo = "1 atm";
 			temp = "287 K";
 			fog = "0.2";
