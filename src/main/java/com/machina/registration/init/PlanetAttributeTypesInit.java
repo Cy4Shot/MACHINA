@@ -1,45 +1,47 @@
 package com.machina.registration.init;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
 
 import com.machina.planet.attribute.PlanetAttributeType;
+import com.machina.planet.attribute.serializers.AttributeSerializer;
+import com.machina.planet.attribute.serializers.ColorListSerializer;
+import com.machina.planet.attribute.serializers.FloatSerializer;
+import com.machina.planet.attribute.serializers.IntSerializer;
+import com.machina.planet.attribute.serializers.StringSerializer;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.util.MachinaRL;
 import com.machina.util.color.Color;
-import com.machina.util.nbt.BaseNBTList;
 import com.machina.util.reflection.ClassHelper;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetNameGenerator;
 import com.machina.world.gen.PlanetPaletteGenerator;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.FloatNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.IntNBT;
-import net.minecraft.nbt.StringNBT;
 import net.minecraftforge.event.RegistryEvent;
 
 public final class PlanetAttributeTypesInit {
 
 	//@formatter:off
-	public static final PlanetAttributeType<Float> DISTANCE = new PlanetAttributeType<>("AU", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.5f, 10f));
-	public static final PlanetAttributeType<Float> GRAVITY = new PlanetAttributeType<>("G", FloatNBT::valueOf, floatDeserializer(1f), random(0.1f, 2.0f));
-	public static final PlanetAttributeType<String> PLANET_NAME = new PlanetAttributeType<>("", StringNBT::valueOf, stringDeserializer("Planet"), PlanetNameGenerator::getName);
-	public static final PlanetAttributeType<Float> FOG_DENSITY = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.5f), random(0f, 1.0f));
-	public static final PlanetAttributeType<Color[]> PALETTE = new PlanetAttributeType<>("", colorListSerializer(), colorListDeserializer(PlanetPaletteGenerator.DEFAULT_PALETTE, Color.black, 5), PlanetPaletteGenerator::genPlanetPalette);
-	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = new PlanetAttributeType<>("atm", FloatNBT::valueOf, floatDeserializer(1.0f), random(0.1f, 2.0f));
-	public static final PlanetAttributeType<Float> TEMPERATURE = new PlanetAttributeType<>("K", FloatNBT::valueOf, floatDeserializer(350.0f), random(100f, 1000f));
-	public static final PlanetAttributeType<Integer> BASE_BLOCKS = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(0), PlanetBlocksGenerator::getRandomBase);
-	public static final PlanetAttributeType<Integer> SURF_BLOCKS = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(0), PlanetBlocksGenerator::getRandomSurf);
-	public static final PlanetAttributeType<Integer> FLUID_BLOCKS = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(0), PlanetBlocksGenerator::getRandomFluid);
-	public static final PlanetAttributeType<Integer> CAVES_EXIST = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(0), random(0, 1));
-	public static final PlanetAttributeType<Float> CAVE_CHANCE = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.01f), random(0f, 0.02f));
-	public static final PlanetAttributeType<Integer> CAVE_LENGTH = new PlanetAttributeType<>("", IntNBT::valueOf, intDeserializer(3), random(1, 5));
-	public static final PlanetAttributeType<Float> CAVE_THICKNESS = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.03f), random(0.01f, 0.06f, 1.7f));
-	public static final PlanetAttributeType<Float> ISLAND_DENSITY = new PlanetAttributeType<>("", FloatNBT::valueOf, floatDeserializer(0.5f), random(0.3f, 0.7f));
+	public static final PlanetAttributeType<Float> DISTANCE = create("AU", new FloatSerializer(1.0f, random(0.5f, 10f)));
+	public static final PlanetAttributeType<Float> GRAVITY = create("G", new FloatSerializer(1.0f, random(0.1f, 2.0f)));
+	public static final PlanetAttributeType<String> PLANET_NAME = create("", new StringSerializer("Planet", PlanetNameGenerator::getName));
+	public static final PlanetAttributeType<Float> FOG_DENSITY = create("", new FloatSerializer(0.5f, random(0.0f, 1.0f)));
+	public static final PlanetAttributeType<Color[]> PALETTE = create("", new ColorListSerializer(Color.black, PlanetPaletteGenerator::genPlanetPalette, 5));
+	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = create("atm", new FloatSerializer(1.0f, random(0.1f, 2.0f)));
+	public static final PlanetAttributeType<Float> TEMPERATURE = create("K", new FloatSerializer(350.0f, random(100f, 1000f)));
+	public static final PlanetAttributeType<Integer> BASE_BLOCKS = create("", new IntSerializer(0, PlanetBlocksGenerator::getRandomBase));
+	public static final PlanetAttributeType<Integer> SURF_BLOCKS = create("", new IntSerializer(0, PlanetBlocksGenerator::getRandomSurf));
+	public static final PlanetAttributeType<Integer> FLUID_BLOCKS = create("", new IntSerializer(0, PlanetBlocksGenerator::getRandomFluid));
+	public static final PlanetAttributeType<Integer> CAVES_EXIST = create("", new IntSerializer(0, random(0, 1)));
+	public static final PlanetAttributeType<Float> CAVE_CHANCE = create("", new FloatSerializer(0.01f, random(0f, 0.02f)));
+	public static final PlanetAttributeType<Integer> CAVE_LENGTH = create("",new IntSerializer(3, random(1, 5)));
+	public static final PlanetAttributeType<Float> CAVE_THICKNESS = create("", new FloatSerializer(0.03f, random(0.01f, 0.06f, 1.7f)));
+	public static final PlanetAttributeType<Float> ISLAND_DENSITY = create("", new FloatSerializer(0.5f, random(0.3f, 0.7f)));
 	//@formatter:on
+	
+	public static <T> PlanetAttributeType<T> create(String unit, AttributeSerializer<T> ser) {
+		return new PlanetAttributeType<T>(unit, ser);
+	}
 
 	public static void register(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
 		ClassHelper.<PlanetAttributeType<?>>doWithStatics(PlanetAttributeTypesInit.class,
@@ -51,67 +53,6 @@ public final class PlanetAttributeTypesInit {
 		PlanetAttributeRegistry.REGISTRY.register(attribute);
 		return attribute;
 
-	}
-
-	// Deserializers
-	public static Function<INBT, Color[]> colorListDeserializer(Color[] defaultVal, Color defaultCol, int size) {
-		return nbt -> {
-			if (nbt instanceof CompoundNBT) {
-				BaseNBTList<Color, INBT> colors = new BaseNBTList<>(colorSerializer(), colorDeserializer(defaultCol));
-				colors.deserializeNBT((CompoundNBT) nbt);
-				return colors.toArray(new Color[size]);
-			}
-			return defaultVal;
-		};
-	}
-
-	public static Function<INBT, Float> floatDeserializer(float defaultVal) {
-		return nbt -> {
-			if (nbt instanceof FloatNBT) {
-				return ((FloatNBT) nbt).getAsFloat();
-			}
-			return defaultVal;
-		};
-	}
-
-	public static Function<INBT, Integer> intDeserializer(int defaultVal) {
-		return nbt -> {
-			if (nbt instanceof IntNBT) {
-				return ((IntNBT) nbt).getAsInt();
-			}
-			return defaultVal;
-		};
-	}
-
-	public static Function<INBT, String> stringDeserializer(String defaultVal) {
-		return nbt -> {
-			if (nbt instanceof StringNBT) {
-				return ((StringNBT) nbt).getAsString();
-			}
-			return defaultVal;
-		};
-	}
-
-	public static Function<INBT, Color> colorDeserializer(Color defaultVal) {
-		return nbt -> {
-			if (nbt instanceof IntNBT) {
-				return new Color(((IntNBT) nbt).getAsInt());
-			}
-			return defaultVal;
-		};
-	}
-
-	// Serializers
-	public static Function<Color, INBT> colorSerializer() {
-		return color -> IntNBT.valueOf(color.getRGB());
-	}
-
-	public static Function<Color[], INBT> colorListSerializer() {
-		return colors -> {
-			BaseNBTList<Color, INBT> c = new BaseNBTList<>(colorSerializer(), colorDeserializer(new Color(0)));
-			c.addAll(Arrays.asList(colors));
-			return c.serializeNBT();
-		};
 	}
 
 	// Random

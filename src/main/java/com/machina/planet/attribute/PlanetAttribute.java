@@ -34,7 +34,7 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT tag = new CompoundNBT();
-		tag.put("value", attributeType.valueSerializer.apply(this.value));
+		tag.put("value", attributeType.ser.save(this.value));
 		tag.putString("type", attributeType.getRegistryName().toString());
 		return tag;
 	}
@@ -43,7 +43,7 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		this.attributeType = (PlanetAttributeType<T>) PlanetAttributeRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getString("type")));
-		this.value = attributeType.valueDeserializer.apply(nbt.get("value"));
+		this.value = attributeType.ser.load(nbt.get("value"));
 	}
 	
 	@SuppressWarnings({
@@ -52,7 +52,7 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 	public static PlanetAttribute<?> fromNBT(CompoundNBT nbt) {
 		PlanetAttributeType<?> type = PlanetAttributeRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getString("type")));
 		if (type != null) {
-			return new PlanetAttribute(type, type.valueDeserializer.apply(nbt.get("value")));
+			return new PlanetAttribute(type, type.ser.load(nbt.get("value")));
 		}
 		return null;
 	}

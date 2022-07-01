@@ -1,27 +1,18 @@
 package com.machina.planet.attribute;
 
-import java.util.Random;
-import java.util.function.Function;
-
+import com.machina.planet.attribute.serializers.AttributeSerializer;
 import com.machina.util.text.StringUtils;
 
-import net.minecraft.nbt.INBT;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeType<?>> {
 
 	private final String measureUnit;
+	public final AttributeSerializer<T> ser;
 
-	public final Function<T, INBT> valueSerializer;
-	public final Function<INBT, T> valueDeserializer;
-	public final Function<Random, T> generator;
-
-	public PlanetAttributeType(String measureUnit, Function<T, INBT> valueSerializer,
-			Function<INBT, T> valueDeserializer, Function<Random, T> generator) {
+	public PlanetAttributeType(String measureUnit, AttributeSerializer<T> ser) {
 		this.measureUnit = measureUnit;
-		this.valueSerializer = valueSerializer;
-		this.valueDeserializer = valueDeserializer;
-		this.generator = generator;
+		this.ser = ser;
 	}
 
 	public String getMeasureUnit() {
