@@ -73,37 +73,41 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		}
 
 		// Data
-		PlanetTraitList traits = new PlanetTraitList();
-
-		if (tab == 0) {
-			draw(stack, StringUtils.translate("machina.screen.scanner.tab0"), x + 120, y + 6, 0xFF_00fefe, true);
-			for (int i = 0; i < traits.size(); i++) {
-				PlanetTrait t = traits.get(i);
-				draw(stack, t.toString(), x + 120, y + 20 + i * 10, t.getColor(), true);
+		draw(stack, StringUtils.translate("machina.screen.scanner.tab" + tab), x + 120, y + 6, 0xFF_00fefe, true);
+		switch (tab) {
+		case 0:
+			RegistryKey<World> dim = this.menu.getDim();
+			if (PlanetUtils.isDimensionPlanet(dim)) {
+				PlanetTraitList traits = ClientStarchart.getPlanetData(dim).getTraits();
+				for (int i = 0; i < traits.size(); i++) {
+					PlanetTrait t = traits.get(i);
+					draw(stack, t.toString(), x + 120, y + 20 + i * 10, t.getColor(), true);
+				}
 			}
-		} else if (tab == 1) {
-			draw(stack, StringUtils.translate("machina.screen.scanner.tab1"), x + 120, y + 6, 0xFF_00fefe, true);
-			drawAttribute(stack, PlanetAttributeTypesInit.GRAVITY, x + 20, y + 20);
-			drawAttribute(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, x + 20, y + 30);
-			drawAttribute(stack, PlanetAttributeTypesInit.TEMPERATURE, x + 20, y + 40);
-			drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x + 20, y + 50);
-		} else if (tab == 2) {
-			draw(stack, StringUtils.translate("machina.screen.scanner.tab2"), x + 120, y + 6, 0xFF_00fefe, true);
-			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x + 20, y + 20);
-			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x + 20, y + 30);
-			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x + 20, y + 40);
+			break;
+		case 1:
+			drawAttribute(stack, PlanetAttributeTypesInit.GRAVITY, x + 20, y + 20, false);
+			drawAttribute(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, x + 20, y + 30, false);
+			drawAttribute(stack, PlanetAttributeTypesInit.TEMPERATURE, x + 20, y + 40, false);
+			drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x + 20, y + 50, false);
+			break;
+		case 2:
+			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x + 20, y + 20, false);
+			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x + 20, y + 30, false);
+			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x + 20, y + 40, false);
+			break;
 		}
-		drawAttribute(stack, PlanetAttributeTypesInit.PLANET_NAME, x + 117, y - 18);
+		drawAttribute(stack, PlanetAttributeTypesInit.PLANET_NAME, x + 117, y - 18, true);
 		draw(stack, "MACHINA://SCANNER-" + (tab + 1) + "/", x + 8, y + 82, 0xFF_00fefe, false);
 	}
 
-	private void drawAttribute(MatrixStack stack, PlanetAttributeType<?> type, int x, int y) {
+	private void drawAttribute(MatrixStack stack, PlanetAttributeType<?> type, int x, int y, boolean centered) {
 		RegistryKey<World> dim = this.menu.getDim();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
 			PlanetData data = ClientStarchart.getPlanetData(dim);
-			draw(stack, type.getName() + ": " + data.getAttributeFormatted(type), x, y, 0xFF_00fefe, false);
+			draw(stack, type.getName() + ": " + data.getAttributeFormatted(type), x, y, 0xFF_00fefe, centered);
 		} else {
-			draw(stack, type.getName() + ": Data Unvailable", x, y, 0xFF_00fefe, false);
+			draw(stack, type.getName() + ": Data Unvailable", x, y, 0xFF_00fefe, centered);
 		}
 	}
 
