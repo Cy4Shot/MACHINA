@@ -11,6 +11,10 @@ public class FloatSerializer extends AttributeSerializer<Float> {
 	public FloatSerializer(Float def, Function<Random, Float> gen) {
 		super(def, gen);
 	}
+	
+	public FloatSerializer(Float def, Function<Random, Float> gen, Function<Float, Float> format) {
+		super(def, gen, format);
+	}
 
 	@Override
 	public INBT save(Float data) {

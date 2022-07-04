@@ -4,6 +4,7 @@ import com.machina.client.ClientStarchart;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.item.container.ScannerContainer;
+import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.planet.trait.PlanetTraitList;
 import com.machina.registration.init.PlanetAttributeTypesInit;
@@ -72,45 +73,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		}
 
 		// Data
-		String title, gravity, atmo, temp, fog, cave_chance, cave_thickness, cave_length;
-
-		RegistryKey<World> dim = this.menu.getDim();
 		PlanetTraitList traits = new PlanetTraitList();
-		if (PlanetUtils.isDimensionPlanet(dim)) {
-			
-
-			PlanetData data = ClientStarchart.getPlanetData(dim);
-			traits = data.getTraits();
-
-			title = data.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME);
-
-			gravity = data.getAttributeFormatted(PlanetAttributeTypesInit.GRAVITY);
-			atmo = data.getAttributeFormatted(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE);
-			temp = data.getAttributeFormatted(PlanetAttributeTypesInit.TEMPERATURE);
-			fog = data.getAttributeFormatted(PlanetAttributeTypesInit.FOG_DENSITY);
-
-			int caves = data.getAttribute(PlanetAttributeTypesInit.CAVES_EXIST);
-			cave_chance = String
-					.valueOf((float) caves * data.getAttribute(PlanetAttributeTypesInit.CAVE_CHANCE) * 100 * 50) + "%";
-			if (caves == 1) {
-				cave_thickness = String.valueOf(data.getAttribute(PlanetAttributeTypesInit.CAVE_THICKNESS) * 250) + "m";
-				cave_length = String.valueOf(data.getAttribute(PlanetAttributeTypesInit.CAVE_LENGTH) * 16) + "m";
-			} else {
-				cave_thickness = "0m";
-				cave_length = "0m";
-			}
-		} else {
-//			if (World.OVERWORLD.equals(dim)) {
-			title = "Overworld";
-			gravity = "1G";
-			atmo = "1 atm";
-			temp = "287 K";
-			fog = "0.2";
-			cave_chance = "50%";
-			cave_thickness = "5m";
-			cave_length = "48m";
-//			}
-		}
 
 		if (tab == 0) {
 			draw(stack, StringUtils.translate("machina.screen.scanner.tab0"), x + 120, y + 6, 0xFF_00fefe, true);
@@ -120,19 +83,28 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 			}
 		} else if (tab == 1) {
 			draw(stack, StringUtils.translate("machina.screen.scanner.tab1"), x + 120, y + 6, 0xFF_00fefe, true);
-			draw(stack, PlanetAttributeTypesInit.GRAVITY.getName() + ": " + gravity, x + 20, y + 20, 0xFF_00fefe, false);
-			draw(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE.getName() + ": " + atmo, x + 20, y + 30, 0xFF_00fefe, false);
-			draw(stack, PlanetAttributeTypesInit.TEMPERATURE.getName() + ": " + temp, x + 20, y + 40, 0xFF_00fefe, false);
-			draw(stack, PlanetAttributeTypesInit.FOG_DENSITY.getName() + ": " + fog, x + 20, y + 50, 0xFF_00fefe, false);
+			drawAttribute(stack, PlanetAttributeTypesInit.GRAVITY, x + 20, y + 20);
+			drawAttribute(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, x + 20, y + 30);
+			drawAttribute(stack, PlanetAttributeTypesInit.TEMPERATURE, x + 20, y + 40);
+			drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x + 20, y + 50);
 		} else if (tab == 2) {
 			draw(stack, StringUtils.translate("machina.screen.scanner.tab2"), x + 120, y + 6, 0xFF_00fefe, true);
-			draw(stack, PlanetAttributeTypesInit.CAVE_CHANCE.getName() + ": " + cave_chance, x + 20, y + 20, 0xFF_00fefe, false);
-			draw(stack, PlanetAttributeTypesInit.CAVE_THICKNESS.getName() + ": " + cave_thickness, x + 20, y + 30, 0xFF_00fefe, false);
-			draw(stack, PlanetAttributeTypesInit.CAVE_LENGTH.getName() + ": " + cave_length, x + 20, y + 40, 0xFF_00fefe, false);
+			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x + 20, y + 20);
+			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x + 20, y + 30);
+			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x + 20, y + 40);
 		}
-
-		draw(stack, PlanetAttributeTypesInit.PLANET_NAME.getName() + " - " + title, x + 117, y - 18, 0xFF_00fefe, true);
+		drawAttribute(stack, PlanetAttributeTypesInit.PLANET_NAME, x + 117, y - 18);
 		draw(stack, "MACHINA://SCANNER-" + (tab + 1) + "/", x + 8, y + 82, 0xFF_00fefe, false);
+	}
+
+	private void drawAttribute(MatrixStack stack, PlanetAttributeType<?> type, int x, int y) {
+		RegistryKey<World> dim = this.menu.getDim();
+		if (PlanetUtils.isDimensionPlanet(dim)) {
+			PlanetData data = ClientStarchart.getPlanetData(dim);
+			draw(stack, type.getName() + ": " + data.getAttributeFormatted(type), x, y, 0xFF_00fefe, false);
+		} else {
+			draw(stack, type.getName() + ": Data Unvailable", x, y, 0xFF_00fefe, false);
+		}
 	}
 
 	private static void draw(MatrixStack stack, String title, int x, int y, int col, boolean centered) {

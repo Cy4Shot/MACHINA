@@ -9,7 +9,11 @@ import net.minecraft.nbt.IntNBT;
 public class IntSerializer extends AttributeSerializer<Integer> {
 
 	public IntSerializer(Integer def, Function<Random, Integer> gen) {
-		super(def, gen);
+		this(def, gen, t -> t);
+	}
+	
+	public IntSerializer(Integer def, Function<Random, Integer> gen, Function<Integer, Integer> formatted) {
+		super(def, gen, formatted);
 	}
 
 	@Override

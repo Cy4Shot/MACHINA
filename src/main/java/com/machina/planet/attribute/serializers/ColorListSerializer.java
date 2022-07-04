@@ -49,5 +49,4 @@ public class ColorListSerializer extends AttributeSerializer<Color[]> {
 		}
 		return def;
 	}
-
 }

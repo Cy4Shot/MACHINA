@@ -10,22 +10,28 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 
 	private PlanetAttributeType<T> attributeType;
 	private T value;
-	
+
 	public PlanetAttribute(PlanetAttributeType<T> attributeType, T value) {
 		this.attributeType = attributeType;
 		this.value = value;
 	}
-	
+
 	void setValue(T value) {
 		this.value = value;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void set(Object v) {
 		setValue((T) v);
 	}
+
+	public T getValue() {
+		return this.value;
+	}
 	
-	public T getValue() { return this.value; }
+	public T getValueFormatted() {
+		return this.attributeType.ser.formatted(this.value);
+	}
 
 	public PlanetAttributeType<T> getAttributeType() {
 		return attributeType;
@@ -42,19 +48,19 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		this.attributeType = (PlanetAttributeType<T>) PlanetAttributeRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getString("type")));
+		this.attributeType = (PlanetAttributeType<T>) PlanetAttributeRegistry.REGISTRY
+				.getValue(new ResourceLocation(nbt.getString("type")));
 		this.value = attributeType.ser.load(nbt.get("value"));
 	}
-	
-	@SuppressWarnings({
-			"rawtypes", "unchecked"
-	})
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static PlanetAttribute<?> fromNBT(CompoundNBT nbt) {
-		PlanetAttributeType<?> type = PlanetAttributeRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getString("type")));
+		PlanetAttributeType<?> type = PlanetAttributeRegistry.REGISTRY
+				.getValue(new ResourceLocation(nbt.getString("type")));
 		if (type != null) {
 			return new PlanetAttribute(type, type.ser.load(nbt.get("value")));
 		}
 		return null;
 	}
-	
+
 }

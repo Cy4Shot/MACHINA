@@ -81,7 +81,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	}
 	
 	public <T> String getAttributeFormatted(PlanetAttributeType<T> type) {
-		return String.valueOf(attributes.getAttributeForType(type).get().getValue()) + " " + type.getMeasureUnit();
+		return String.valueOf(attributes.getAttributeForType(type).get().getValueFormatted()) + " " + type.getMeasureUnit();
 	}
 	
 	public static PlanetData NONE = new PlanetData();
