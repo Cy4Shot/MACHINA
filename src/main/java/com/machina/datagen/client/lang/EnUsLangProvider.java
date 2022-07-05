@@ -81,7 +81,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(PlanetAttributeTypesInit.GRAVITY, "Gravity");
 		add(PlanetAttributeTypesInit.ISLAND_DENSITY, "Island Density");
 		add(PlanetAttributeTypesInit.PALETTE, "Color Palettte");
-		add(PlanetAttributeTypesInit.PLANET_NAME, "Name");
+		add(PlanetAttributeTypesInit.PLANET_NAME, "Planet Name");
 		add(PlanetAttributeTypesInit.SURF_BLOCKS, "Surface Blocks");
 		add(PlanetAttributeTypesInit.TEMPERATURE, "Temperature");
 
@@ -117,6 +117,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("scanner", "tab0", "1. Planet Traits");
 		addScreen("scanner", "tab1", "2. Planet Info");
 		addScreen("scanner", "tab2", "3. Cave Info");
+		addScreen("scanner", "tab3", "4. Solar Status");
+		addScreen("scanner", "location", "Location: ");
+		addScreen("scanner", "nodata", "Data Unavailable.");
 		
 		addScreen("ship_console", "missing", "Missing Items");
 		addScreen("ship_console", "craft_ready", "Craft Ready");

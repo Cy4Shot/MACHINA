@@ -6,8 +6,8 @@ import com.machina.client.util.UIHelper;
 import com.machina.item.container.ScannerContainer;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
-import com.machina.planet.trait.PlanetTraitList;
 import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.util.color.Color;
 import com.machina.util.server.PlanetUtils;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
@@ -61,6 +61,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		this.blit(stack, x + 24, y - 26, 3, 150, 23, 23);
 		this.blit(stack, x + 187, y - 26, 29, 150, 23, 23);
 
+		// Buttons
 		if (pX > x + 24 && pX < x + 24 + 23 && pY > y - 26 && pY < y - 26 + 23) {
 			this.blit(stack, x + 31, y - 20, 216, 196, 8, 12);
 		} else {
@@ -73,50 +74,63 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		}
 
 		// Data
-		draw(stack, StringUtils.translate("machina.screen.scanner.tab" + tab), x + 120, y + 6, 0xFF_00fefe, true);
-		switch (tab) {
-		case 0:
-			RegistryKey<World> dim = this.menu.getDim();
-			if (PlanetUtils.isDimensionPlanet(dim)) {
-				PlanetTraitList traits = ClientStarchart.getPlanetData(dim).getTraits();
-				for (int i = 0; i < traits.size(); i++) {
-					PlanetTrait t = traits.get(i);
-					draw(stack, t.toString(), x + 120, y + 20 + i * 10, t.getColor(), true);
-				}
-			}
-			break;
-		case 1:
-			drawAttribute(stack, PlanetAttributeTypesInit.GRAVITY, x + 20, y + 20, false);
-			drawAttribute(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, x + 20, y + 30, false);
-			drawAttribute(stack, PlanetAttributeTypesInit.TEMPERATURE, x + 20, y + 40, false);
-			drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x + 20, y + 50, false);
-			break;
-		case 2:
-			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x + 20, y + 20, false);
-			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x + 20, y + 30, false);
-			drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x + 20, y + 40, false);
-			break;
-		}
-		drawAttribute(stack, PlanetAttributeTypesInit.PLANET_NAME, x + 117, y - 18, true);
-		draw(stack, "MACHINA://SCANNER-" + (tab + 1) + "/", x + 8, y + 82, 0xFF_00fefe, false);
-	}
-
-	private void drawAttribute(MatrixStack stack, PlanetAttributeType<?> type, int x, int y, boolean centered) {
 		RegistryKey<World> dim = this.menu.getDim();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
 			PlanetData data = ClientStarchart.getPlanetData(dim);
-			draw(stack, type.getName() + ": " + data.getAttributeFormatted(type), x, y, 0xFF_00fefe, centered);
+			draw(stack, StringUtils.translate("machina.screen.scanner.tab" + tab), x + 120, y + 6, 0xFF_00fefe, true);
+			switch (tab) {
+			case 0:
+				int i = 0;
+				for (PlanetTrait t : data.getTraits()) {
+					draw(stack, t.toString(), x + 120, y + 20 + i * 10, t.getColor(), true);
+					i++;
+				}
+				break;
+			case 1:
+				drawAttribute(stack, PlanetAttributeTypesInit.GRAVITY, x + 20, y + 20);
+				drawAttribute(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, x + 20, y + 30);
+				drawAttribute(stack, PlanetAttributeTypesInit.TEMPERATURE, x + 20, y + 40);
+				drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x + 20, y + 50);
+				break;
+			case 2:
+				drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x + 20, y + 20);
+				drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x + 20, y + 30);
+				drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x + 20, y + 40);
+				break;
+			case 3:
+				drawAttribute(stack, PlanetAttributeTypesInit.DISTANCE, x + 20, y + 20);
+				break;
+			}
+			draw(stack,
+					PlanetAttributeTypesInit.PLANET_NAME.getName() + ": "
+							+ data.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME),
+					x + 117, y - 18, 0xFF_00fefe, true);
 		} else {
-			draw(stack, type.getName() + ": Data Unvailable", x, y, 0xFF_00fefe, centered);
+			draw(stack,
+					StringUtils.translate("machina.screen.scanner.location")
+							+ StringUtils.capitalizeWord(dim.location().getPath().replace("_", " ")),
+					x + 117, y - 18, 0xFF_00fefe, true);
+			draw(stack, StringUtils.translate("machina.screen.scanner.nodata"), x + 120, y + 6, 0xFF_00fefe, true);
 		}
+
+		// Footer
+		draw(stack, "MACHINA://SCANNER-" + (tab + 1) + "/", x + 8, y + 82, 0xFF_00fefe, false);
+	}
+
+	private void drawAttribute(MatrixStack stack, PlanetAttributeType<?> type, int x, int y) {
+		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
+		String title = type.getName() + ": ";
+		String value = data.getAttributeFormatted(type);
+		Color[] colors = data.getAttribute(PlanetAttributeTypesInit.PALETTE);
+		draw(stack, title, x, y, colors[0].maxBrightness().toInt(), false);
+		draw(stack, value, x + UIHelper.getWidth(title), y, colors[4].maxBrightness().toInt(), false);
 	}
 
 	private static void draw(MatrixStack stack, String title, int x, int y, int col, boolean centered) {
-		if (centered) {
+		if (centered)
 			UIHelper.drawCenteredStringWithBorder(stack, title, x, y, col, 0xFF_0e0e0e);
-		} else {
+		else
 			UIHelper.drawStringWithBorder(stack, title, x, y, col, 0xFF_0e0e0e);
-		}
 	}
 
 	@Override

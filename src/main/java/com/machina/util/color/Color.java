@@ -5,6 +5,9 @@ import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.image.ColorModel;
 import java.beans.ConstructorProperties;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class Color {
@@ -1083,14 +1086,24 @@ public class Color {
 	public static Color getHSBColor(float[] hsb) {
 		return getHSBColor(hsb[0], hsb[1], hsb[2]);
 	}
-	
-	public static int getIntFromColor(int r, int g, int b, int a){
 
-	    a = (a << 24) & 0xFF000000;
-	    r = (r << 16) & 0x00FF0000;
-	    g = (g << 8) & 0x0000FF00;
-	    b = b & 0x000000FF;
+	public Color maxBrightness() {
+		float scale = 255f / (float) Collections.max(Arrays.asList(getRed(), getGreen(), getBlue()));
+		return new Color(Math.min(getRed() * scale, 255) / 255f, Math.min(getGreen() * scale, 255) / 255f,
+				Math.min(getBlue() * scale, 255) / 255f);
+	}
 
-	    return a | r | g | b;
+	public int toInt() {
+		return getIntFromColor(getRed(), getGreen(), getBlue(), getAlpha());
+	}
+
+	public static int getIntFromColor(int r, int g, int b, int a) {
+
+		a = (a << 24) & 0xFF000000;
+		r = (r << 16) & 0x00FF0000;
+		g = (g << 8) & 0x0000FF00;
+		b = b & 0x000000FF;
+
+		return a | r | g | b;
 	}
 }
