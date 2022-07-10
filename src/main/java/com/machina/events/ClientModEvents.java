@@ -11,6 +11,7 @@ import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.util.ClientTimer;
+import com.machina.client.util.ShakeManager;
 import com.machina.planet.trait.PlanetTraitSpriteUploader;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
@@ -108,6 +109,7 @@ public class ClientModEvents {
 	@SubscribeEvent
 	public static void registerRenderers(final FMLClientSetupEvent event) {
 		ClientTimer.setup();
+		ShakeManager.setup();
 		
 		RenderTypeLookup.setRenderLayer(BlockInit.CARGO_CRATE.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.SHIP_CONSOLE.get(), RenderType.cutout());

@@ -7,6 +7,9 @@ import java.util.Map;
 import net.minecraft.util.math.vector.Vector2f;
 
 public class MathUtil {
+	
+	public static final double TWO_PI = Math.PI * 2;
+	
 	public static double distance(Vector2f start, Vector2f end) {
 		double a = start.x - end.x;
 		double b = start.y - end.y;

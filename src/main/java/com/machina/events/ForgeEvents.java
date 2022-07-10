@@ -19,22 +19,17 @@ public class ForgeEvents {
 		event.addListener(Registration.planetTraitPoolManager);
 	}
 
-//	@SubscribeEvent
-//	public static void debug(ItemTossEvent event) {
-//		if (event.getEntity().level.isClientSide) {
-//			return;
-//		}
-//		StarchartData.getDefaultInstance(event.getPlayer().getServer()).debugStarchart();
-//		DynamicDimensionHelper.sendPlayerToDimension((ServerPlayerEntity) event.getPlayer(),
-//				DynamicDimensionHelper.createPlanet(event.getPlayer().getServer(), String.valueOf(0)),
-//				event.getPlayer().position());
-//	}
-
 	@SubscribeEvent
 	public static void onPlayerLogin(final PlayerLoggedInEvent e) {
-		if (e.getEntity().level.isClientSide) {
+		if (e.getEntity().level.isClientSide())
 			return;
-		}
 		StarchartData.getDefaultInstance(e.getEntity().getServer()).syncClient((ServerPlayerEntity) e.getPlayer());
 	}
+	
+//	@SubscribeEvent
+//	public static void debug(ItemTossEvent event) {
+//		if (event.getEntity().level.isClientSide())
+//			return;
+//		ShakeManager.shakePlayerCameras(Arrays.asList((ServerPlayerEntity) event.getPlayer()), 1.0f, 0.7f);
+//	}
 }
