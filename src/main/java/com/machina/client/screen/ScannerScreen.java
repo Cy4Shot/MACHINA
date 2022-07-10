@@ -87,22 +87,22 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				}
 				break;
 			case 1:
-				drawAttribute(stack, PlanetAttributeTypesInit.GRAVITY, x + 20, y + 20);
-				drawAttribute(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, x + 20, y + 30);
-				drawAttribute(stack, PlanetAttributeTypesInit.TEMPERATURE, x + 20, y + 40);
-				drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x + 20, y + 50);
+				drawAttribute(stack, PlanetAttributeTypesInit.GRAVITY, x, y + 20);
+				drawAttribute(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, x, y + 30);
+				drawAttribute(stack, PlanetAttributeTypesInit.TEMPERATURE, x, y + 40);
+				drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x, y + 50);
 				break;
 			case 2:
 				if (data.getAttribute(PlanetAttributeTypesInit.CAVES_EXIST) == 1) {
-					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x + 20, y + 20);
-					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x + 20, y + 30);
-					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x + 20, y + 40);
+					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x, y + 20);
+					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x, y + 30);
+					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x, y + 40);
 					break;
 				}
 				draw(stack, StringUtils.translate("machina.screen.scanner.nocave"), x + 120, y + 20, 0xFF_FF0000, true);
 				break;
 			case 3:
-				drawAttribute(stack, PlanetAttributeTypesInit.DISTANCE, x + 20, y + 20);
+				drawAttribute(stack, PlanetAttributeTypesInit.DISTANCE, x, y + 20);
 				break;
 			}
 			draw(stack,
@@ -126,8 +126,8 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		String title = type.getName() + ": ";
 		String value = data.getAttributeFormatted(type);
 		Color[] colors = data.getAttribute(PlanetAttributeTypesInit.PALETTE);
-		draw(stack, title, x, y, colors[0].maxBrightness().toInt(), false);
-		draw(stack, value, x + UIHelper.getWidth(title), y, colors[4].maxBrightness().toInt(), false);
+		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);
+		draw(stack, value, x + 120 + UIHelper.getWidth(title) / 2, y, colors[4].maxBrightness().toInt(), true);
 	}
 
 	private static void draw(MatrixStack stack, String title, int x, int y, int col, boolean centered) {
