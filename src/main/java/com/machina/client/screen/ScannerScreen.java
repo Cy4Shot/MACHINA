@@ -93,9 +93,13 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x + 20, y + 50);
 				break;
 			case 2:
-				drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x + 20, y + 20);
-				drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x + 20, y + 30);
-				drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x + 20, y + 40);
+				if (data.getAttribute(PlanetAttributeTypesInit.CAVES_EXIST) == 1) {
+					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x + 20, y + 20);
+					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x + 20, y + 30);
+					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x + 20, y + 40);
+					break;
+				}
+				draw(stack, StringUtils.translate("machina.screen.scanner.nocave"), x + 120, y + 20, 0xFF_FF0000, true);
 				break;
 			case 3:
 				drawAttribute(stack, PlanetAttributeTypesInit.DISTANCE, x + 20, y + 20);

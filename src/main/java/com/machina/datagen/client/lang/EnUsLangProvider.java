@@ -120,6 +120,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("scanner", "tab3", "4. Solar Status");
 		addScreen("scanner", "location", "Location: ");
 		addScreen("scanner", "nodata", "Data Unavailable.");
+		addScreen("scanner", "nocave", "There are no caves on this planet!");
 		
 		addScreen("ship_console", "missing", "Missing Items");
 		addScreen("ship_console", "craft_ready", "Craft Ready");
