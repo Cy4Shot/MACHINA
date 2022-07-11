@@ -1,15 +1,19 @@
-package com.machina.client.renderer.tile;
+package com.machina.client.renderer;
 
 import java.util.List;
 
 import com.machina.block.ShipConsoleBlock;
 import com.machina.block.tile.ShipConsoleTileEntity;
+import com.machina.client.model.RocketModel;
 import com.machina.client.util.TERUtil;
 import com.machina.item.ShipComponentItem;
+import com.machina.util.MachinaRL;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
@@ -18,8 +22,11 @@ import net.minecraft.util.math.BlockPos;
 
 public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntity> {
 
+	protected RocketModel model;
+
 	public ShipConsoleRenderer(TileEntityRendererDispatcher disp) {
 		super(disp);
+		this.model = new RocketModel();
 	}
 
 	@Override
@@ -78,13 +85,26 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 					StringUtils.translateComp("machina.screen.ship_console.crafting"), 0x00ff00, 1f);
 		}
 
-
 		BlockPos o = te.getBlockPos();
 		for (BlockPos p : te.erroredPos) {
 			TERUtil.preview(stack, te.getLevel(), p.immutable().offset(-o.getX(), -o.getY(), -o.getZ()));
 		}
+
+		rocket(partialTicks, stack, buffer, packedLightIn);
+
 	}
-	
+
+	public void rocket(float pPartialTicks, MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight) {
+		pMatrixStack.pushPose();
+		pMatrixStack.scale(-1.0F, -1.0F, 1.0F);
+		pMatrixStack.translate(0.0D, (double) -3.501F, 0.0D);
+		IVertexBuilder ivertexbuilder = pBuffer
+				.getBuffer(this.model.renderType(new MachinaRL("textures/entity/rocket.png")));
+		this.model.renderToBuffer(pMatrixStack, ivertexbuilder, pPackedLight,
+				OverlayTexture.pack(OverlayTexture.u(0), OverlayTexture.v(false)), 1.0F, 1.0F, 1.0F, 0.15F);
+		pMatrixStack.popPose();
+	}
+
 	@Override
 	public boolean shouldRenderOffScreen(ShipConsoleTileEntity pTe) {
 		return true;

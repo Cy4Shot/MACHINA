@@ -1,4 +1,4 @@
-package com.machina.client.renderer.tile;
+package com.machina.client.renderer;
 
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.client.util.TERUtil;
