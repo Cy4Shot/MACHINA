@@ -1,4 +1,4 @@
-package com.machina.client.util;
+package com.machina.client.cinema.effect;
 
 import java.util.Collection;
 

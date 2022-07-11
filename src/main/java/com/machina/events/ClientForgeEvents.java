@@ -2,8 +2,9 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
+import com.machina.client.cinema.CinematicHandler;
+import com.machina.client.cinema.cinematics.TestCinematic;
 import com.machina.client.screen.ComponentAnalyzerScreen;
-import com.machina.client.screen.DevPlanetCreationScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingsInit;
@@ -27,10 +28,11 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeEvents {
 
-	@SuppressWarnings("resource")
+	private static final Minecraft mc = Minecraft.getInstance();
+
 	@SubscribeEvent
 	public static void fogSetup(FogColors event) {
-		RegistryKey<World> dim = Minecraft.getInstance().level.dimension();
+		RegistryKey<World> dim = mc.level.dimension();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
 			PlanetData data = ClientStarchart.getPlanetData(PlanetUtils.getId(dim));
 			Color color = data.getAttribute(PlanetAttributeTypesInit.PALETTE)[4];
@@ -40,25 +42,26 @@ public class ClientForgeEvents {
 			event.setBlue(color.getBlue() / 255f * density);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public static void clientTick(ClientTickEvent event) {
-		Minecraft mc = Minecraft.getInstance();
-		if (mc.screen != null || mc.level == null) { return; }
+		if (mc.screen != null || mc.level == null)
+			return;
 
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.DEV_PLANET_CREATION_SCREEN)) {
-			mc.setScreen(new DevPlanetCreationScreen());
+//			mc.setScreen(new DevPlanetCreationScreen());
+			CinematicHandler.INSTANCE.setCinematic(new TestCinematic(mc.player));
+			System.out.println("AAAA");
 		}
 
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.STARCHART)) {
 			mc.setScreen(new StarchartScreen());
 		}
 	}
-	
-	@SuppressWarnings("resource")
+
 	@SubscribeEvent
 	public static void drawTooltipEvent(RenderTooltipEvent.Color event) {
-		Screen s = Minecraft.getInstance().screen;
+		Screen s = mc.screen;
 		if (s instanceof ShipConsoleScreen || s instanceof ComponentAnalyzerScreen) {
 			event.setBackground(0xFF_232323);
 			event.setBorderEnd(0xFF_1bcccc);

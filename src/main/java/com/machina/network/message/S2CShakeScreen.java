@@ -1,6 +1,6 @@
 package com.machina.network.message;
 
-import com.machina.client.util.ShakeManager;
+import com.machina.client.cinema.effect.ShakeManager;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;

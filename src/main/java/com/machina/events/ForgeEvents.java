@@ -26,10 +26,9 @@ public class ForgeEvents {
 		StarchartData.getDefaultInstance(e.getEntity().getServer()).syncClient((ServerPlayerEntity) e.getPlayer());
 	}
 	
+//	@SuppressWarnings("resource")
 //	@SubscribeEvent
 //	public static void debug(ItemTossEvent event) {
-//		if (event.getEntity().level.isClientSide())
-//			return;
-//		ShakeManager.shakePlayerCameras(Arrays.asList((ServerPlayerEntity) event.getPlayer()), 1.0f, 0.7f);
+//		
 //	}
 }

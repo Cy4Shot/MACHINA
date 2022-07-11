@@ -2,6 +2,8 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
+import com.machina.client.cinema.CinematicHandler;
+import com.machina.client.cinema.effect.ShakeManager;
 import com.machina.client.renderer.tile.CargoCrateRenderer;
 import com.machina.client.renderer.tile.ComponentAnalyzerRenderer;
 import com.machina.client.renderer.tile.ShipConsoleRenderer;
@@ -11,7 +13,6 @@ import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.util.ClientTimer;
-import com.machina.client.util.ShakeManager;
 import com.machina.planet.trait.PlanetTraitSpriteUploader;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
@@ -110,6 +111,7 @@ public class ClientModEvents {
 	public static void registerRenderers(final FMLClientSetupEvent event) {
 		ClientTimer.setup();
 		ShakeManager.setup();
+		CinematicHandler.setup();
 		
 		RenderTypeLookup.setRenderLayer(BlockInit.CARGO_CRATE.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.SHIP_CONSOLE.get(), RenderType.cutout());
