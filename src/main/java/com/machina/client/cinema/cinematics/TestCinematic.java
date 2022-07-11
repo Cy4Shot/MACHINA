@@ -14,6 +14,7 @@ public class TestCinematic extends Cinematic {
 		super(new CameraClientEntity());
 
 		path = CameraPath.builder().addPoint(p.getX(), p.getY(), p.getZ(), p.xRot, p.yRot)
+				.addPoint(p.getX(), p.getY() + 10, p.getZ(), p.xRot, p.yRot)
 				.addPoint(p.getX(), p.getY(), p.getZ(), p.xRot, p.yRot).build();
 	}
 
@@ -26,6 +27,6 @@ public class TestCinematic extends Cinematic {
 
 	@Override
 	public int getDuration() {
-		return 50;
+		return 100;
 	}
 }

@@ -78,7 +78,7 @@ public abstract class Cinematic {
 		if (active) {
 			mc.options.hideGui = true;
 			mc.options.bobView = false;
-			mc.options.setCameraType(PointOfView.THIRD_PERSON_BACK);
+			mc.options.setCameraType(PointOfView.FIRST_PERSON);
 			mc.player.abilities.flying = true;
 //			mc.player.setDeltaMovement(0, 0, 0);
 		}

@@ -14,16 +14,18 @@ public class CameraPath {
 		this.points = ps;
 	}
 
-	public void lerp(PlayerEntity renderView, float percentage, float partial) {
-		int size = points.size() - 1;
-		int point = (int) Math.floor(percentage * size);
+	public void lerp(PlayerEntity renderView, float per, float partial) {
+		// Get Nodes
+		int point = (int) Math.floor(per * (points.size() - 1));
 		CameraNode one = points.get(point);
 		CameraNode two = points.get(point + 1);
-		float dist = (percentage - point * size) / (1f / size);
-		Vector3d pos = one.pos.scale(dist).add(two.pos.scale(1 - dist));
-		float pitch = one.xRot * dist + two.xRot * (1 - dist);
-		float yaw = one.yRot * dist + two.yRot * (1 - dist);
+		
+		// Lerp
+		Vector3d pos = two.pos.scale(per).add(one.pos.scale(1 - per));
+		float pitch = two.xRot * per + one.xRot * (1 - per);
+		float yaw = two.yRot * per + one.yRot * (1 - per);
 
+		// Apply
 		CameraUtil.positionCamera(renderView, partial, pos.x, pos.y, pos.z, renderView.getX(), renderView.getY(),
 				renderView.getZ(), yaw, renderView.yRot, pitch, renderView.xRot);
 	}
