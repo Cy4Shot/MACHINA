@@ -2,6 +2,7 @@ package com.machina.client.cinema.cinematics;
 
 import com.machina.client.cinema.CameraPath;
 import com.machina.client.cinema.Cinematic;
+import com.machina.client.cinema.CameraPath.InterpolationMethod;
 import com.machina.client.cinema.entity.CameraClientEntity;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -13,9 +14,8 @@ public class TestCinematic extends Cinematic {
 	public TestCinematic(ClientPlayerEntity p) {
 		super(new CameraClientEntity());
 
-		path = CameraPath.builder().addPoint(p.getX(), p.getY(), p.getZ(), p.xRot, p.yRot)
-				.addPoint(p.getX(), p.getY() + 10, p.getZ(), p.xRot, p.yRot)
-				.addPoint(p.getX(), p.getY(), p.getZ(), p.xRot, p.yRot).build();
+		path = CameraPath.builder(p.position()).addPoint(0, 0, 0, p.xRot, p.yRot).addPoint(0, 10, 0, p.xRot, p.yRot)
+				.addPoint(0, 0, 0, p.xRot, p.yRot).build(InterpolationMethod.LERP);
 	}
 
 	@Override
