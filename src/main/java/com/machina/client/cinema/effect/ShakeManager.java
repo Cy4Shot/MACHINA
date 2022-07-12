@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import com.machina.network.BaseNetwork;
 import com.machina.network.MachinaNetwork;
-import com.machina.network.message.S2CShakeScreen;
+import com.machina.network.s2c.S2CShakeScreen;
 import com.machina.util.math.MathUtil;
 
 import net.minecraft.client.Minecraft;

@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import com.machina.util.MachinaRL;
 import com.machina.util.color.Color;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -53,6 +54,8 @@ public class UIHelper {
 	public static final ResourceLocation ELEMENTS = new MachinaRL("textures/gui/elements.png");
 	public static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
 	public static final MachinaRL TRMNL_EL = new MachinaRL("textures/gui/trmnl_el.png");
+	public static final MachinaRL STCHT_EL = new MachinaRL("textures/gui/stcht_el.png");
+	public static final MachinaRL STARS_BG = new MachinaRL("textures/gui/stars_bg.png");
 	private static Minecraft mc = Minecraft.getInstance();
 	private static TextureManager tm = mc.getTextureManager();
 
@@ -105,11 +108,11 @@ public class UIHelper {
 		blit(matrixStack, 0, 0, 18, 25, 15, 1);
 		matrixStack.popPose();
 	}
-	
+
 	public static int getWidth(String text) {
 		return mc.font.width(text);
 	}
-	
+
 	public static void drawCenteredStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
 			int borderColor) {
 		drawStringWithBorder(matrixStack, text, x - getWidth(text) / 2, y, color, borderColor);
@@ -213,6 +216,18 @@ public class UIHelper {
 		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / tex, (uOff + w) / tex, vOff / tex, (vOff + h) / tex);
 	}
 
+	public static void blitTransp(MatrixStack ms, float x, float y, float uOff, float vOff, float w, float h,
+			float tex) {
+		RenderSystem.enableBlend();
+		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.blendColor(1f, 1f, 1f, 1f);
+		betterBlit(ms, x, y, uOff, vOff, w, h, tex);
+		RenderSystem.disableBlend();
+		RenderSystem.defaultBlendFunc();
+	}
+
 	private static void innerBlit(Matrix4f pMatrix, float pX1, float pX2, float pY1, float pY2, float pBlitOffset,
 			float pMinU, float pMaxU, float pMinV, float pMaxV) {
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
@@ -270,7 +285,8 @@ public class UIHelper {
 		return (float) text.stream().mapToDouble(manager::stringWidth).max().orElse(0.0D);
 	}
 
-	public static void renderTintedItem(MatrixStack m, ItemStack stack, int x, int y, int r, int g, int b, float alpha) {
+	public static void renderTintedItem(MatrixStack m, ItemStack stack, int x, int y, int r, int g, int b,
+			float alpha) {
 		ItemRenderer renderer = mc.getItemRenderer();
 		renderer.renderAndDecorateFakeItem(stack, x, y);
 		RenderSystem.depthFunc(516);
@@ -278,18 +294,32 @@ public class UIHelper {
 		RenderSystem.depthFunc(515);
 
 	}
-	
+
 	public static void click() {
 		mc.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 	}
-	
+
 	public static void bindScifi() {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		mc.textureManager.bind(SCIFI_EL);
 	}
-	
+
 	public static void bindTrmnl() {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 		mc.textureManager.bind(TRMNL_EL);
+	}
+
+	public static void bindStcht() {
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
+		mc.textureManager.bind(STCHT_EL);
+	}
+
+	public static void bindStars() {
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
+		mc.textureManager.bind(STARS_BG);
+	}
+
+	public static int levelTicks() {
+		return mc.levelRenderer.ticks;
 	}
 }

@@ -2,13 +2,13 @@ package com.machina.network;
 
 import java.util.function.Function;
 
-import com.machina.network.message.C2SCompletePuzzle;
-import com.machina.network.message.C2SDevPlanetCreationGUI;
-import com.machina.network.message.C2SShipConsoleGUIButton;
-import com.machina.network.message.C2SUpdateEnergySide;
-import com.machina.network.message.S2CShakeScreen;
-import com.machina.network.message.S2CStarchartSync;
-import com.machina.network.message.S2CSyncGuiValues;
+import com.machina.network.c2s.C2SCompletePuzzle;
+import com.machina.network.c2s.C2SDevPlanetCreationGUI;
+import com.machina.network.c2s.C2SShipConsoleGUIButton;
+import com.machina.network.c2s.C2SUpdateEnergySide;
+import com.machina.network.s2c.S2CShakeScreen;
+import com.machina.network.s2c.S2CStarchartSync;
+import com.machina.network.s2c.S2CSyncGuiValues;
 import com.machina.util.MachinaRL;
 
 import net.minecraft.network.PacketBuffer;

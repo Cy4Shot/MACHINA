@@ -11,7 +11,7 @@ import com.machina.block.container.PuzzleContainer;
 import com.machina.client.screen.base.TerminalScreen;
 import com.machina.config.ClientConfig;
 import com.machina.network.MachinaNetwork;
-import com.machina.network.message.C2SCompletePuzzle;
+import com.machina.network.c2s.C2SCompletePuzzle;
 import com.machina.util.text.StringUtils;
 
 import net.minecraft.entity.player.PlayerInventory;

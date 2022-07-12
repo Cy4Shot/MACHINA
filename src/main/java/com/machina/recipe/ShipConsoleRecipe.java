@@ -139,4 +139,12 @@ public class ShipConsoleRecipe implements IRecipe<IInventory> {
 			buff.writeInt(recipe.componentId);
 		}
 	}
+	
+	public static class ShipConsoleRecipeType implements IRecipeType<ShipConsoleRecipe> {
+
+		@Override
+		public String toString() {
+			return Machina.MOD_ID + ":ship_console";
+		}
+	}
 }

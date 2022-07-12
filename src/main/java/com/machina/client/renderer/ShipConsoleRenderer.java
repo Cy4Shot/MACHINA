@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntity> {
@@ -95,7 +94,7 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 		}
 
 		rocket(partialTicks, stack, buffer, packedLightIn, d);
-		
+
 		BlockPos o = te.getBlockPos();
 		for (BlockPos p : te.erroredPos) {
 			TERUtil.preview(stack, te.getLevel(), p.immutable().offset(-o.getX(), -o.getY(), -o.getZ()));
@@ -106,8 +105,7 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 	public void rocket(float par, MatrixStack stack, IRenderTypeBuffer pBuffer, int light, Direction d) {
 		stack.pushPose();
 		stack.scale(-1.0F, -1.0F, 1.0F);
-		stack.translate(-0.5D, (double) -1.501F, 0.5D);
-		stack.translate(d.getNormal().getX() * 2, 0, d.getNormal().getZ() * -2);
+		stack.translate(d.getNormal().getX() * 2 - 0.5D, -1.501D, d.getNormal().getZ() * -2 + 0.5D);
 		stack.mulPose(Vector3f.YP.rotationDegrees(180 + d.get2DDataValue() * 90));
 		IVertexBuilder ivertexbuilder = pBuffer
 				.getBuffer(this.model.renderType(new MachinaRL("textures/entity/rocket.png")));

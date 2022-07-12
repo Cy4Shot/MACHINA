@@ -1,6 +1,6 @@
-package com.machina.network.message;
+package com.machina.network.c2s;
 
-import com.machina.block.tile.ShipConsoleTileEntity;
+import com.machina.block.tile.PuzzleTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;
@@ -9,11 +9,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class C2SShipConsoleGUIButton implements INetworkMessage {
+public class C2SCompletePuzzle implements INetworkMessage {
 
 	public final BlockPos pos;
 
-	public C2SShipConsoleGUIButton(BlockPos pos) {
+	public C2SCompletePuzzle(BlockPos pos) {
 		this.pos = pos;
 	}
 
@@ -21,10 +21,10 @@ public class C2SShipConsoleGUIButton implements INetworkMessage {
 	public void handle(Context context) {
 		ServerWorld world = context.getSender().getLevel();
 		TileEntity e = world.getBlockEntity(this.pos);
-		if (e == null || !(e instanceof ShipConsoleTileEntity)) {
+		if (e == null || !(e instanceof PuzzleTileEntity)) {
 			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
 		}
-		((ShipConsoleTileEntity) e).buttonPressed();
+		((PuzzleTileEntity) e).completed();
 	}
 
 	@Override
@@ -32,9 +32,9 @@ public class C2SShipConsoleGUIButton implements INetworkMessage {
 		buffer.writeBlockPos(pos);
 	}
 
-	public static C2SShipConsoleGUIButton decode(PacketBuffer buffer) {
+	public static C2SCompletePuzzle decode(PacketBuffer buffer) {
 		BlockPos pos = buffer.readBlockPos();
-		return new C2SShipConsoleGUIButton(pos);
+		return new C2SCompletePuzzle(pos);
 	}
 
 }

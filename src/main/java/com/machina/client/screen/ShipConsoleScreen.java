@@ -5,7 +5,7 @@ import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.item.ShipComponentItem;
 import com.machina.network.MachinaNetwork;
-import com.machina.network.message.C2SShipConsoleGUIButton;
+import com.machina.network.c2s.C2SShipConsoleGUIButton;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;

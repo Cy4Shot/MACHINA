@@ -4,7 +4,7 @@ import com.machina.block.container.BatteryContainer;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
-import com.machina.network.message.C2SUpdateEnergySide;
+import com.machina.network.c2s.C2SUpdateEnergySide;
 import com.machina.util.math.MathUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;

@@ -3,7 +3,7 @@ package com.machina.registration.init;
 import java.util.Map;
 
 import com.machina.recipe.ShipConsoleRecipe;
-import com.machina.recipe.type.ShipConsoleRecipeType;
+import com.machina.recipe.ShipConsoleRecipe.ShipConsoleRecipeType;
 
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;

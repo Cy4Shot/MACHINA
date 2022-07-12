@@ -3,14 +3,15 @@ package com.machina.client.screen.element;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
+import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.util.color.Color;
 import com.machina.util.math.MathUtil;
+import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -19,15 +20,17 @@ public class PlanetNodeElement extends Widget {
 
 	StarchartScreen screen;
 	PlanetData data;
+	private int icon;
 
-	private static int textureSize = 5;
+	private static int tex = 16;
 
 	public PlanetNodeElement(float pX, float pY, StarchartScreen screen, PlanetData data) {
-		super((int) pX, (int) pY, textureSize, textureSize, new StringTextComponent(""));
+		super((int) pX, (int) pY, tex, tex, StringUtils.EMPTY);
 		this.screen = screen;
 		active = true;
 		visible = true;
 		this.data = data;
+		this.icon = data.getAttribute(PlanetAttributeTypesInit.PLANET_ICON);
 	}
 
 	public PlanetData getData() {
@@ -43,25 +46,25 @@ public class PlanetNodeElement extends Widget {
 
 	@Override
 	public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
-		Minecraft mc = Minecraft.getInstance();
-		mc.getTextureManager().bind(StarchartScreen.SC_RS);
-		Vector2f centre = screen.getNewCentre();
-
-		float offsetC = (float) (8 * Math.cos(mc.levelRenderer.ticks / 10f) + 8);
-
-		double distFromCentre = MathUtil.distance(centre, new Vector2f(x, y));
-
-		if (true) {
-//			UIHelper.line(matrixStack, centre.x, centre.y, x + textureSize / 2f, y + textureSize / 2f, 0xFFFFFFFF, 3f,
-//					StippleType.DASHED);
-			UIHelper.polygon(matrixStack, centre.x, centre.y, (float) distFromCentre + 1, 100, 0x55_FFFFFF, 2f,
-					StippleType.FULL);
+		UIHelper.bindStcht();
+		Vector2f c = screen.getNewCentre();
+		double d = MathUtil.distance(c, new Vector2f(x + tex / 2f, y + tex / 2f));
+		int col = Color.getIntFromColor(0, 254, 254,
+				128 + (int) ((Math.sin(UIHelper.levelTicks() / 4f) + Math.random() * 1.5D) * 25));
+		UIHelper.polygon(matrixStack, c.x, c.y, (float) d + 1, 100, col, 1f, StippleType.FULL);
+		if (screen.selected != null && screen.selected.equals(this)) {
+			UIHelper.line(matrixStack, c.x, c.y, x + tex / 2f, y + tex / 2f, col, 1f, StippleType.DASHED);
 		}
-		UIHelper.betterBlit(matrixStack, x, y, textureSize * (int) offsetC, 0, textureSize, textureSize, 128);
+	}
+
+	public void renderFront(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
+		UIHelper.bindStcht();
+		UIHelper.blitTransp(matrixStack, x - 12 + tex / 2f, y - 12 + tex / 2f, 0, 48, 24, 24, 128);
+		UIHelper.betterBlit(matrixStack, x, y, 48 + (icon % 5) * 16, Math.floorDiv(icon, 5) * 16, tex, tex, 128);
 
 		if (screen.selected != null && screen.selected.equals(this)) {
-			UIHelper.box(matrixStack, x - 2, y - 2, x + textureSize + 2, y + textureSize + 2, 0xFFFFFFFF, 4f,
-					StippleType.FULL);
+			float o = (int) (2 * Math.sin(UIHelper.levelTicks() / 4f));
+			UIHelper.box(matrixStack, x - o, y - o, x + tex + o, y + tex + o, 0xFFFFFFFF, 4f, StippleType.FULL);
 		}
 	}
 

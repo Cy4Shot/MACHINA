@@ -1,6 +1,6 @@
-package com.machina.network.message;
+package com.machina.network.c2s;
 
-import com.machina.block.tile.base.BaseEnergyTileEntity;
+import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;
@@ -9,38 +9,32 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class C2SUpdateEnergySide implements INetworkMessage {
+public class C2SShipConsoleGUIButton implements INetworkMessage {
 
 	public final BlockPos pos;
-	public final int[] data;
 
-	public C2SUpdateEnergySide(BlockPos pos, int[] data) {
+	public C2SShipConsoleGUIButton(BlockPos pos) {
 		this.pos = pos;
-		this.data = data;
 	}
 
 	@Override
 	public void handle(Context context) {
 		ServerWorld world = context.getSender().getLevel();
 		TileEntity e = world.getBlockEntity(this.pos);
-		if (e == null || !(e instanceof BaseEnergyTileEntity)) {
+		if (e == null || !(e instanceof ShipConsoleTileEntity)) {
 			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
 		}
-		BaseEnergyTileEntity et = (BaseEnergyTileEntity) e;
-		et.sides = data;
-		et.sync();
+		((ShipConsoleTileEntity) e).buttonPressed();
 	}
 
 	@Override
 	public void encode(PacketBuffer buffer) {
 		buffer.writeBlockPos(pos);
-		buffer.writeVarIntArray(data);
 	}
 
-	public static C2SUpdateEnergySide decode(PacketBuffer buffer) {
+	public static C2SShipConsoleGUIButton decode(PacketBuffer buffer) {
 		BlockPos pos = buffer.readBlockPos();
-		int[] data = buffer.readVarIntArray();
-		return new C2SUpdateEnergySide(pos, data);
+		return new C2SShipConsoleGUIButton(pos);
 	}
 
 }

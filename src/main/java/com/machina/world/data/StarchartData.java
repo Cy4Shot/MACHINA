@@ -10,7 +10,7 @@ import com.machina.Machina;
 import com.machina.config.CommonConfig;
 import com.machina.network.BaseNetwork;
 import com.machina.network.MachinaNetwork;
-import com.machina.network.message.S2CStarchartSync;
+import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.planet.trait.type.IPlanetTraitType;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.util.MachinaRL;

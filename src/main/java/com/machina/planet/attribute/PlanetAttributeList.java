@@ -18,7 +18,8 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
 
 	@Override
 	public boolean add(PlanetAttribute<?> e) {
-		if (getAttributeForType(e.getAttributeType()).isPresent()) { return false; }
+		if (getAttributeForType(e.getAttributeType()).isPresent())
+			return false;
 		return super.add(e);
 	}
 
@@ -32,7 +33,8 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
 	@SuppressWarnings("unchecked")
 	public <Z> Optional<PlanetAttribute<Z>> getAttributeForType(PlanetAttributeType<Z> type) {
 		for (int i = 0; i < size(); i++) {
-			if (get(i).getAttributeType() == type) { return Optional.ofNullable((PlanetAttribute<Z>) get(i)); }
+			if (get(i).getAttributeType() == type)
+				return Optional.ofNullable((PlanetAttribute<Z>) get(i));
 		}
 		return Optional.empty();
 	}
@@ -48,35 +50,36 @@ public class PlanetAttributeList extends NBTList<PlanetAttribute<?>, CompoundNBT
 	 */
 	public <Z> void setValue(PlanetAttributeType<Z> type, UnaryOperator<Z> value) {
 		getAttributeForType(type).ifPresent(attr -> attr.setValue(value.apply(attr.getValue())));
-		if (!getAttributeForType(type).isPresent()) {
+		if (!getAttributeForType(type).isPresent())
 			add(new PlanetAttribute<>(type, value.apply(null)));
-		}
 	}
-	
+
 	public <Z> Z getValue(PlanetAttributeType<Z> t) {
 		return getAttributeForType(t).get().getValue();
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void set(PlanetAttributeType<?> type, Object value) {
 		getAttributeForType(type).ifPresent(attr -> attr.set(value));
-		if (!getAttributeForType(type).isPresent()) {
+		if (!getAttributeForType(type).isPresent())
 			add(new PlanetAttribute(type, value));
-		}
 	}
-	
+
 	public UnaryOperator<Integer> intOperator(Operation operation, Integer value) {
 		switch (operation) {
-		case ADDITION: return old -> value + old;
-		case SUBSTRACTION: return old -> old - value;
-		case MULTIPLICATION: return old -> value * old;
-		case DIVISON: return old -> old / value;
+		case ADDITION:
+			return old -> value + old;
+		case SUBSTRACTION:
+			return old -> old - value;
+		case MULTIPLICATION:
+			return old -> value * old;
+		case DIVISON:
+			return old -> old / value;
 		}
 		return old -> value;
 	}
-	
+
 	public enum Operation {
 		ADDITION, SUBSTRACTION, MULTIPLICATION, DIVISON;
 	}
-
 }

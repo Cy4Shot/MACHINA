@@ -26,6 +26,7 @@ public final class PlanetAttributeTypesInit {
 	public static final PlanetAttributeType<Float> DISTANCE = create(new FloatSerializer(1.0f, random(0.5f, 10f)), "AU");
 	public static final PlanetAttributeType<Float> GRAVITY = create(new FloatSerializer(1.0f, random(0.1f, 2.0f)), "G");
 	public static final PlanetAttributeType<String> PLANET_NAME = create(new StringSerializer("Planet", PlanetNameGenerator::getName));
+	public static final PlanetAttributeType<Integer> PLANET_ICON = create(new IntSerializer(0, random(0, 14)));
 	public static final PlanetAttributeType<Float> FOG_DENSITY = create(new ChanceSerializer(0.5f, random(0.0f, 1.0f), 100), "%");
 	public static final PlanetAttributeType<Color[]> PALETTE = create(new ColorListSerializer(Color.black, PlanetPaletteGenerator::genPlanetPalette, 5));
 	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = create(new FloatSerializer(1.0f, random(0.1f, 2.0f)), "atm");

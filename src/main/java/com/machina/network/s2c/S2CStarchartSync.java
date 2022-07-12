@@ -1,4 +1,4 @@
-package com.machina.network.message;
+package com.machina.network.s2c;
 
 import com.machina.client.ClientStarchart;
 import com.machina.network.INetworkMessage;

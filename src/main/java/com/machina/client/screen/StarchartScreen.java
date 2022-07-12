@@ -9,23 +9,18 @@ import com.machina.client.util.IBoundedGui;
 import com.machina.client.util.Rectangle;
 import com.machina.client.util.UIHelper;
 import com.machina.registration.init.PlanetAttributeTypesInit;
-import com.machina.util.MachinaRL;
+import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import it.unimi.dsi.fastutil.floats.Float2DoubleFunction;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class StarchartScreen extends Screen implements IBoundedGui {
-
-	public static final ResourceLocation SC_BG = new MachinaRL("textures/gui/starchart/starchart_bg.png");
-	public static final ResourceLocation SC_RS = new MachinaRL("textures/gui/starchart/starchart_rs.png");
 
 	List<Vector2f> positions = new ArrayList<>();
 	List<PlanetNodeElement> nodes = new ArrayList<>();
@@ -33,7 +28,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	public PlanetNodeElement selected = null;
 
 	public StarchartScreen() {
-		super(new TranslationTextComponent("machina.screen.starchart.title"));
+		super(StringUtils.translateComp("machina.screen.starchart.title"));
 	}
 
 	@Override
@@ -91,27 +86,23 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 	@Override
 	public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
-		super.render(matrixStack, pMouseX, pMouseY, pPartialTicks); // Buttons
-
-		Rectangle bound = this.getContainerBounds();
+		super.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
 
 		// Background
 		UIHelper.renderOverflowHidden(matrixStack, this::renderContainerBackground, MatrixStack::toString);
-		minecraft.getTextureManager().bind(SC_RS);
-		UIHelper.blit(matrixStack, this.width / 2 - 32, this.height / 2 - 32, 0, 32, 64, 64);
 
 		// Elements
 		renderStarSystem(matrixStack, pMouseX, pMouseY, pPartialTicks);
 
-		// Border
-		UIHelper.drawStringWithBorder(matrixStack, title.getString(), bound.x0, bound.y0 - 12, 0xFF_cc00ff,
-				0xFF_0e0e0e);
+		// Sun
+		UIHelper.bindStcht();
+		UIHelper.betterBlit(matrixStack, this.width / 2 - 24, this.height / 2 - 24, 0, 0, 48, 48, 128);
 	}
 
 	private void renderContainerBackground(MatrixStack matrixStack) {
 		assert minecraft != null;
 
-		minecraft.getTextureManager().bind(SC_BG);
+		UIHelper.bindStars();
 
 		Rectangle containerBounds = getContainerBounds();
 
@@ -140,11 +131,11 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 	private void renderStarSystem(MatrixStack matrixStack, int mX, int mY, float pTicks) {
 		nodes.forEach(node -> node.render(matrixStack, mX, mY, pTicks));
+		nodes.forEach(node -> node.renderFront(matrixStack, mX, mY, pTicks));
 	}
 
 	@Override
 	public boolean isPauseScreen() {
 		return false;
 	}
-
 }

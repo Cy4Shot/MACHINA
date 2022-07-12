@@ -1,4 +1,4 @@
-package com.machina.network.message;
+package com.machina.network.c2s;
 
 import com.machina.network.INetworkMessage;
 import com.machina.world.DynamicDimensionHelper;
