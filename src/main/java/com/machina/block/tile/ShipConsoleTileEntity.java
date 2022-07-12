@@ -133,14 +133,15 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 				this.stage++;
 				this.isInProgress = false;
 				this.progress = 0;
+				sync();
 			}
 		}
 	}
 
 	public void scan() {
-		int sizeX = 9;
-		int sizeY = 18;
-		int sizeZ = 9;
+		int sizeX = 3;
+		int sizeY = 6;
+		int sizeZ = 3;
 		int halfX = (sizeX - 1) / 2;
 
 		Direction d = getBlockState().getValue(ShipConsoleBlock.FACING);

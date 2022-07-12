@@ -87,7 +87,10 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 		}
 		String buttonText = StringUtils.translate("machina.screen.ship_console.missing");
 		if (this.menu.areSlotsComplete()) {
-			buttonText = StringUtils.translate("machina.screen.ship_console.craft");
+			if (this.menu.te.erroredPos.size() > 0)
+				buttonText = StringUtils.translate("machina.screen.ship_console.obstructed");
+			else
+				buttonText = StringUtils.translate("machina.screen.ship_console.craft");
 		} else if (this.menu.te.progress != 0) {
 			buttonText = StringUtils.translate("machina.screen.ship_console.crafting");
 		}

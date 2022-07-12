@@ -19,6 +19,8 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 
 public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntity> {
 
@@ -74,8 +76,15 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 			}
 
 			if (missing.isEmpty()) {
-				TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z },
-						rot, StringUtils.translateComp("machina.screen.ship_console.craft_ready"), 0x00ff00, 1f);
+				if (te.erroredPos.size() > 0) {
+					TERUtil.renderLabel(stack, buffer, lightLevel,
+							new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
+							StringUtils.translateComp("machina.screen.ship_console.obstructed"), 0xff0000, 1f);
+				} else {
+					TERUtil.renderLabel(stack, buffer, lightLevel,
+							new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
+							StringUtils.translateComp("machina.screen.ship_console.craft_ready"), 0x00ff00, 1f);
+				}
 			} else {
 				TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d - .05d * x, .69d, .5d - .05d * z },
 						rot, StringUtils.translateComp("machina.screen.ship_console.missing"), 0xff0000, 1f);
@@ -85,24 +94,26 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 					StringUtils.translateComp("machina.screen.ship_console.crafting"), 0x00ff00, 1f);
 		}
 
+		rocket(partialTicks, stack, buffer, packedLightIn, d);
+		
 		BlockPos o = te.getBlockPos();
 		for (BlockPos p : te.erroredPos) {
 			TERUtil.preview(stack, te.getLevel(), p.immutable().offset(-o.getX(), -o.getY(), -o.getZ()));
 		}
 
-		rocket(partialTicks, stack, buffer, packedLightIn);
-
 	}
 
-	public void rocket(float pPartialTicks, MatrixStack pMatrixStack, IRenderTypeBuffer pBuffer, int pPackedLight) {
-		pMatrixStack.pushPose();
-		pMatrixStack.scale(-1.0F, -1.0F, 1.0F);
-		pMatrixStack.translate(0.0D, (double) -3.501F, 0.0D);
+	public void rocket(float par, MatrixStack stack, IRenderTypeBuffer pBuffer, int light, Direction d) {
+		stack.pushPose();
+		stack.scale(-1.0F, -1.0F, 1.0F);
+		stack.translate(-0.5D, (double) -1.501F, 0.5D);
+		stack.translate(d.getNormal().getX() * 2, 0, d.getNormal().getZ() * -2);
+		stack.mulPose(Vector3f.YP.rotationDegrees(180 + d.get2DDataValue() * 90));
 		IVertexBuilder ivertexbuilder = pBuffer
 				.getBuffer(this.model.renderType(new MachinaRL("textures/entity/rocket.png")));
-		this.model.renderToBuffer(pMatrixStack, ivertexbuilder, pPackedLight,
+		this.model.renderToBuffer(stack, ivertexbuilder, light,
 				OverlayTexture.pack(OverlayTexture.u(0), OverlayTexture.v(false)), 1.0F, 1.0F, 1.0F, 0.15F);
-		pMatrixStack.popPose();
+		stack.popPose();
 	}
 
 	@Override

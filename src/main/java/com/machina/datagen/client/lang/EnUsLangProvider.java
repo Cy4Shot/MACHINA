@@ -123,6 +123,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("scanner", "nocave", "There are no caves on this planet!");
 		
 		addScreen("ship_console", "missing", "Missing Items");
+		addScreen("ship_console", "obstructed", "Obstructed");
 		addScreen("ship_console", "craft_ready", "Craft Ready");
 		addScreen("ship_console", "crafting", "Crafting...");
 		addScreen("ship_console", "craft", "Craft");

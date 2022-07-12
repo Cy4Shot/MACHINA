@@ -1,6 +1,5 @@
 package com.machina.client.cinema;
 
-import com.machina.client.cinema.effect.ShakeManager;
 import com.machina.client.util.ClientTimer;
 
 import net.minecraft.client.Minecraft;
@@ -48,7 +47,6 @@ public class CinematicHandler {
 		if (!isActive()) {
 			mc.setScreen(null);
 			this.current = c;
-			ShakeManager.shake(c.getDuration(), 0.5f);
 		}
 	}
 

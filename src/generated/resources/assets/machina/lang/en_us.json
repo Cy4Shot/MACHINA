@@ -83,6 +83,7 @@
   "machina.screen.ship_console.craft_ready": "Craft Ready",
   "machina.screen.ship_console.crafting": "Crafting...",
   "machina.screen.ship_console.missing": "Missing Items",
+  "machina.screen.ship_console.obstructed": "Obstructed",
   "machina.screen.ship_console.stage": "Stage",
   "machina.screen.starchart.title": "Starchart",
   "machina.ship_component.core": "Core",
