@@ -17,7 +17,6 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.world.World;
 
@@ -47,7 +46,7 @@ public class ShipComponentItem extends Item {
 
 	@Override
 	public void appendHoverText(ItemStack pStack, World pLevel, List<ITextComponent> pTooltip, ITooltipFlag pFlag) {
-		pTooltip.add(new StringTextComponent(getNameForType(getType(pStack)))
+		pTooltip.add(StringUtils.toComp(getNameForType(getType(pStack)))
 				.setStyle(Style.EMPTY.withColor(Color.fromRgb(0x9D_00fefe))));
 
 		super.appendHoverText(pStack, pLevel, pTooltip, pFlag);

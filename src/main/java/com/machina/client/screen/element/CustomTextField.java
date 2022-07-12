@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 import com.machina.client.util.UIHelper;
+import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -27,7 +28,6 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -78,8 +78,7 @@ public class CustomTextField extends Widget implements IRenderable, IGuiEventLis
 	}
 
 	protected IFormattableTextComponent createNarrationMessage() {
-		ITextComponent itextcomponent = this.getMessage();
-		return new TranslationTextComponent("gui.narrate.editBox", itextcomponent, this.value);
+		return StringUtils.translate("gui.narrate.editBox", this.getMessage(), this.value);
 	}
 
 	public void setValue(String pText) {

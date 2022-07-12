@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.registry.PlanetTraitRegistry;
 import com.machina.util.MachinaRL;
+import com.machina.util.text.StringUtils;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -16,12 +17,11 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
 
 public class PlanetTraitArgument implements ArgumentType<MachinaRL> {
 
 	private static final DynamicCommandExceptionType ERROR_INVALID_VALUE = new DynamicCommandExceptionType(
-			p_212594_0_ -> new TranslationTextComponent("argument.planet_trait.invalid", p_212594_0_));
+			p_212594_0_ -> StringUtils.translate("argument.planet_trait.invalid", p_212594_0_));
 
 	@Override
 	public MachinaRL parse(StringReader reader) throws CommandSyntaxException {

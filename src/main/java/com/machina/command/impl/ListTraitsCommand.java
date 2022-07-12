@@ -1,12 +1,12 @@
 package com.machina.command.impl;
 
+import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.TranslationTextComponent;
 
 public class ListTraitsCommand extends PlanetTraitsCommand {
 
@@ -27,10 +27,10 @@ public class ListTraitsCommand extends PlanetTraitsCommand {
 
 			if (pd.getTraits().isEmpty()) {
 				context.getSource()
-						.sendSuccess(new TranslationTextComponent("command.planet_traits.list_traits.no_traits"), true);
+						.sendSuccess(StringUtils.translateComp("command.planet_traits.list_traits.no_traits"), true);
 			} else {
 				context.getSource()
-						.sendSuccess(new TranslationTextComponent("command.planet_traits.list_traits.success",
+						.sendSuccess(StringUtils.translate("command.planet_traits.list_traits.success",
 								pd.getTraits().toString().replace("[", "").replace("]", "")), true);
 			}
 		}

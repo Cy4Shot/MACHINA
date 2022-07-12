@@ -3,13 +3,13 @@ package com.machina.command.impl;
 import com.machina.command.BaseCommand;
 import com.machina.planet.attribute.PlanetAttribute;
 import com.machina.util.server.PlanetUtils;
+import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.TranslationTextComponent;
 
 public class DebugCommand extends BaseCommand {
 
@@ -41,7 +41,7 @@ public class DebugCommand extends BaseCommand {
 		if (PlanetUtils.isDimensionPlanet(context.getSource().getLevel().dimension())) {
 			return true;
 		} else {
-			context.getSource().sendFailure(new TranslationTextComponent("command.planet_traits.not_planet"));
+			context.getSource().sendFailure(StringUtils.translateComp("command.planet_traits.not_planet"));
 			return false;
 		}
 	}

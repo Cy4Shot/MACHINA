@@ -57,6 +57,10 @@ public class StringUtils {
 	public static TranslationTextComponent translateComp(String key) {
 		return new TranslationTextComponent(key);
 	}
+	
+	public static TranslationTextComponent translate(String key, Object... args) {
+		return new TranslationTextComponent(key, args);
+	}
 
 	public static StringTextComponent toComp(String text) {
 		return new StringTextComponent(cleanString(text));

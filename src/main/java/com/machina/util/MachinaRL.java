@@ -1,18 +1,18 @@
 package com.machina.util;
 
 import com.machina.Machina;
+import com.machina.util.text.StringUtils;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.ResourceLocationException;
-import net.minecraft.util.text.TranslationTextComponent;
 
 public class MachinaRL extends ResourceLocation {
 
 	private static final SimpleCommandExceptionType ERROR_INVALID = new SimpleCommandExceptionType(
-			new TranslationTextComponent("argument.id.invalid"));
+			StringUtils.translateComp("argument.id.invalid"));
 
 	public MachinaRL(int id) {
 		super(Machina.MOD_ID, String.valueOf(id));
