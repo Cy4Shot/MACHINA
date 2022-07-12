@@ -65,15 +65,15 @@ public class MathUtil {
 		return a.add(b.subtract(a).scale(t));
 	}
 
-	public static float bezier(float a, float b, float c, float d, float t) {
-		return (float) (a * (-Math.pow(t, 3) + 3 * Math.pow(t, 2) - 3 * t + 1)
-				+ b * (3 * Math.pow(t, 3) - 6 * Math.pow(t, 2) + 3 * t) + c * (-3 * Math.pow(t, 3) + 3 * Math.pow(t, 2))
-				+ d * (3 * Math.pow(t, 3)));
+	public static float bezier(float t, Float... f) {
+		return (float) (f[0] * (-Math.pow(t, 3) + 3 * Math.pow(t, 2) - 3 * t + 1)
+				+ f[1] * (3 * Math.pow(t, 3) - 6 * Math.pow(t, 2) + 3 * t)
+				+ f[2] * (-3 * Math.pow(t, 3) + 3 * Math.pow(t, 2)) + f[3] * (Math.pow(t, 3)));
 	}
 
-	public static Vector3d bezier(Vector3d a, Vector3d b, Vector3d c, Vector3d d, float t) {
-		return a.scale(-Math.pow(t, 3) + 3 * Math.pow(t, 2) - 3 * t + 1)
-				.add(b.scale(3 * Math.pow(t, 3) - 6 * Math.pow(t, 2) + 3 * t))
-				.add(c.scale(-3 * Math.pow(t, 3) + 3 * Math.pow(t, 2))).add(d.scale(3 * Math.pow(t, 3)));
+	public static Vector3d bezier(float t, Vector3d... f) {
+		return f[0].scale(-Math.pow(t, 3) + 3 * Math.pow(t, 2) - 3 * t + 1)
+				.add(f[1].scale(3 * Math.pow(t, 3) - 6 * Math.pow(t, 2) + 3 * t))
+				.add(f[2].scale(-3 * Math.pow(t, 3) + 3 * Math.pow(t, 2))).add(f[3].scale(Math.pow(t, 3)));
 	}
 }

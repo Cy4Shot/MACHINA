@@ -1,32 +1,24 @@
 package com.machina.client.cinema.cinematics;
 
 import com.machina.client.cinema.CameraPath;
-import com.machina.client.cinema.Cinematic;
 import com.machina.client.cinema.CameraPath.InterpolationMethod;
-import com.machina.client.cinema.entity.CameraClientEntity;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 
-public class TestCinematic extends Cinematic {
-
-	CameraPath path;
+public class TestCinematic extends PathCinematic {
 
 	public TestCinematic(ClientPlayerEntity p) {
-		super(new CameraClientEntity());
-
-		path = CameraPath.builder(p.position()).addPoint(0, 0, 0, p.xRot, p.yRot).addPoint(0, 10, 0, p.xRot, p.yRot)
-				.addPoint(0, 0, 0, p.xRot, p.yRot).build(InterpolationMethod.LERP);
-	}
-
-	@Override
-	public void onClientTick(float per, float par) {
-		if (!this.active)
-			return;
-		path.lerp(this.player, per, par);
-	}
-
-	@Override
-	public int getDuration() {
-		return 100;
+		// @formatter:off
+		super(p, CameraPath.builder(p.position())
+				.addPath(InterpolationMethod.LERP, 100,
+						node(0, 0, 0, p.xRot, p.yRot),
+						node(0, 10, 0, p.xRot, p.yRot))
+				.addPath(InterpolationMethod.BEZIER, 150,
+						node(0, 10, 0, p.xRot, p.yRot),
+						node(-5, 7, 0, p.xRot, p.yRot),
+						node(-5, 3, 0, p.xRot, p.yRot),
+						node(0, 0, 0, p.xRot, p.yRot))
+				.build());
+		// @formatter:on
 	}
 }

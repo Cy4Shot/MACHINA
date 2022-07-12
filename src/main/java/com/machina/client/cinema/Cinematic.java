@@ -25,7 +25,7 @@ public abstract class Cinematic {
 		this.player = p;
 	}
 
-	public abstract void onClientTick(float per, float par);
+	public abstract void onClientTick(int tick, float par);
 
 	public abstract int getDuration();
 
@@ -80,7 +80,7 @@ public abstract class Cinematic {
 			mc.options.bobView = false;
 			mc.options.setCameraType(PointOfView.FIRST_PERSON);
 			mc.player.abilities.flying = true;
-//			mc.player.setDeltaMovement(0, 0, 0);
+			mc.player.setDeltaMovement(0, 0, 0);
 		}
 	}
 

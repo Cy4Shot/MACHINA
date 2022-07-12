@@ -24,11 +24,10 @@ public class CinematicHandler {
 			if (this.isActive()) {
 				current.transform(mc.isPaused() ? 0f : partial);
 
-				if (elapsed == 0) {
+				if (elapsed == 0)
 					current.begin(partial);
-				}
 
-				current.onClientTick((float) elapsed / (float) current.getDuration(), partial);
+				current.onClientTick(elapsed, partial);
 
 				elapsed++;
 				if (elapsed == current.getDuration()) {
