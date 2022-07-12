@@ -2,9 +2,8 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
-import com.machina.client.cinema.CinematicHandler;
-import com.machina.client.cinema.cinematics.TestCinematic;
 import com.machina.client.screen.ComponentAnalyzerScreen;
+import com.machina.client.screen.DevScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingsInit;
@@ -49,9 +48,7 @@ public class ClientForgeEvents {
 			return;
 
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.DEV_PLANET_CREATION_SCREEN)) {
-//			mc.setScreen(new DevPlanetCreationScreen());
-			CinematicHandler.INSTANCE.setCinematic(new TestCinematic(mc.player));
-			System.out.println("AAAA");
+			mc.setScreen(new DevScreen());
 		}
 
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.STARCHART)) {

@@ -44,8 +44,10 @@ public class CinematicHandler {
 	}
 
 	public void setCinematic(Cinematic c) {
-		if (!isActive())
+		if (!isActive()) {
+			mc.setScreen(null);
 			this.current = c;
+		}
 	}
 
 	@SubscribeEvent

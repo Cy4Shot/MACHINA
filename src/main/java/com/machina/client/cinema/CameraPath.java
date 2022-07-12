@@ -84,7 +84,6 @@ public class CameraPath {
 			}
 
 			pos = pos.add(o);
-			System.out.println(pitch);
 
 			CameraUtil.positionCamera(render, par, pos.x, pos.y, pos.z, render.getX(), render.getY(), render.getZ(),
 					yaw, render.yRot, pitch, render.xRot);

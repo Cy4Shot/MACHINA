@@ -59,19 +59,19 @@ public abstract class Cinematic {
 			mc.player.setDeltaMovement(0, 0, 0);
 			this.active = false;
 		}
-		
-		if (mc.level != null) {
-            mc.level.removeEntity(this.clientEntity.getId());
-        }
 
+        CameraUtil.resetCamera();
+	
         if (mc.player != null) {
         	mc.player.setPos(clientEntity.getX(), clientEntity.getY(), clientEntity.getZ());
         	mc.player.xRot = clientEntity.xRot;
         	mc.player.yRot = clientEntity.yRot;
             mc.player.setDeltaMovement(0, 0, 0);
         }
-
-        CameraUtil.resetCamera();
+        
+        if (mc.level != null) {
+            mc.level.removeEntity(this.clientEntity.getId());
+        }
 	}
 
 	public void transform(float partial) {

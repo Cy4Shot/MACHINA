@@ -11,8 +11,7 @@ public class CameraUtil {
 
 	public static void resetCamera() {
 		if (mc.player != null) {
-			PlayerEntity player = mc.player;
-			mc.setCameraEntity(player);
+			mc.setCameraEntity(mc.player);
 			if (mc.screen != null)
 				mc.setScreen(null);
 		}

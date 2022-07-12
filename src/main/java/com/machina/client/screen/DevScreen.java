@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.util.UUID;
 
 import com.machina.client.ClientStarchart;
+import com.machina.client.cinema.CinematicHandler;
+import com.machina.client.cinema.cinematics.TestCinematic;
 import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.message.C2SDevPlanetCreationGUI;
@@ -27,11 +29,12 @@ import net.minecraftforge.fml.common.Mod;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(Dist.CLIENT)
-public class DevPlanetCreationScreen extends Screen {
+public class DevScreen extends Screen {
 
+	private static Minecraft mc = Minecraft.getInstance();
 	private TextFieldWidget dimensionID;
 
-	public DevPlanetCreationScreen() {
+	public DevScreen() {
 		super(StringUtils.EMPTY);
 	}
 
@@ -39,9 +42,12 @@ public class DevPlanetCreationScreen extends Screen {
 	protected void init() {
 		super.init();
 		this.addButton(
-				new Button(width / 2 - 55, 50, 40, 20, StringUtils.toComp("Create"), btn -> this.onCreateButton()));
+				new Button(width / 2 - 50, 50, 50, 20, StringUtils.toComp("Create"), btn -> this.onCreateButton()));
 		this.addButton(new Button(width / 2 - 105, 50, 50, 20, StringUtils.toComp("Teleport"),
 				btn -> this.onTeleportButton()));
+
+		this.addButton(new Button(width / 2 - 150, 75, 150, 20, StringUtils.toComp("Test Cinematic"),
+				btn -> CinematicHandler.INSTANCE.setCinematic(new TestCinematic(mc.player))));
 
 		dimensionID = new TextFieldWidget(font, width / 2 - 150, 50, 40, 20, StringUtils.toComp("Dimension ID"));
 		dimensionID.setMaxLength(10);
@@ -73,7 +79,7 @@ public class DevPlanetCreationScreen extends Screen {
 			return;
 		}
 
-		if (Minecraft.getInstance().screen instanceof DevPlanetCreationScreen) {
+		if (Minecraft.getInstance().screen instanceof DevScreen) {
 			event.setCanceled(true);
 		}
 	}

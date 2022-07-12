@@ -10,10 +10,10 @@ public class TestCinematic extends PathCinematic {
 	public TestCinematic(ClientPlayerEntity p) {
 		// @formatter:off
 		super(p, CameraPath.builder(p.position())
-				.addPath(InterpolationMethod.LERP, 100,
+				.addPath(InterpolationMethod.LERP, 50,
 						node(0, 0, 0, p.xRot, p.yRot),
 						node(0, 10, 0, p.xRot, p.yRot))
-				.addPath(InterpolationMethod.BEZIER, 150,
+				.addPath(InterpolationMethod.BEZIER, 75,
 						node(0, 10, 0, p.xRot, p.yRot),
 						node(-5, 7, 0, p.xRot, p.yRot),
 						node(-5, 3, 0, p.xRot, p.yRot),
