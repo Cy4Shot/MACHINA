@@ -8,12 +8,10 @@ import com.machina.client.screen.element.PlanetNodeElement;
 import com.machina.client.util.IBoundedGui;
 import com.machina.client.util.Rectangle;
 import com.machina.client.util.UIHelper;
-import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import it.unimi.dsi.fastutil.floats.Float2DoubleFunction;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,9 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class StarchartScreen extends Screen implements IBoundedGui {
 
-	List<Vector2f> positions = new ArrayList<>();
 	List<PlanetNodeElement> nodes = new ArrayList<>();
-
 	public PlanetNodeElement selected = null;
 
 	public StarchartScreen() {
@@ -35,7 +31,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	protected void init() {
 		super.init();
 
-		createStarSystem(val -> 20 * val + 10);
+		createStarSystem();
 
 		for (PlanetNodeElement ne : nodes) {
 			this.addWidget(ne);
@@ -47,9 +43,8 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		return new Vector2f(centre.x, centre.y);
 	}
 
-	private void createStarSystem(Float2DoubleFunction func) {
+	private void createStarSystem() {
 
-		positions.clear();
 		nodes.clear();
 		Vector2f centre = getNewCentre();
 
@@ -59,12 +54,10 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 
 			double angle = (Math.PI * 2) / ClientStarchart.getStarchart().size() * i;
 
-			double r = func.apply(ClientStarchart.getPlanetData(i - 1).getAttribute(PlanetAttributeTypesInit.DISTANCE));
+			double r = 150d / (double) ClientStarchart.getStarchart().size() * i + 30D;
 
 			float x = (float) (r * Math.cos(angle));
 			float y = (float) (r * Math.sin(angle));
-
-			positions.add(new Vector2f(centre.x - x, centre.y - y));
 			nodes.add(new PlanetNodeElement(centre.x - x, centre.y - y, this, ClientStarchart.getPlanetData(i - 1)));
 		}
 	}

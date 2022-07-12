@@ -102,7 +102,6 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				draw(stack, StringUtils.translate("machina.screen.scanner.nocave"), x + 120, y + 20, 0xFF_FF0000, true);
 				break;
 			case 3:
-				drawAttribute(stack, PlanetAttributeTypesInit.DISTANCE, x, y + 20);
 				break;
 			}
 			draw(stack,

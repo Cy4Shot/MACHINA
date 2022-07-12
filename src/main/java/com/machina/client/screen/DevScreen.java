@@ -12,7 +12,6 @@ import com.machina.network.c2s.C2SDevPlanetCreationGUI;
 import com.machina.network.c2s.C2SDevPlanetCreationGUI.ActionType;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.util.text.StringUtils;
-import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -131,11 +130,6 @@ public class DevScreen extends Screen {
 		dimensionID.render(stack, pMouseX, pMouseY, pPartialTicks);
 
 		int x = width / 2 - 150;
-
-		PlanetData data = ClientStarchart.getDataForDimension(minecraft.level.dimension().location());
-		for (int i = 0; i < data.getTraits().size(); i++) {
-			data.getTraits().get(i).render(stack, x + (i * 18), 75, true);
-		}
 
 		String size = String.valueOf(ClientStarchart.getStarchart().size());
 		String dim = minecraft.level.dimension().location().toString();

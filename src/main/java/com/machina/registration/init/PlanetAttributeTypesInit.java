@@ -23,7 +23,6 @@ import net.minecraftforge.event.RegistryEvent;
 public final class PlanetAttributeTypesInit {
 
 	//@formatter:off
-	public static final PlanetAttributeType<Float> DISTANCE = create(new FloatSerializer(1.0f, random(0.5f, 10f)), "AU");
 	public static final PlanetAttributeType<Float> GRAVITY = create(new FloatSerializer(1.0f, random(0.1f, 2.0f)), "G");
 	public static final PlanetAttributeType<String> PLANET_NAME = create(new StringSerializer("Planet", PlanetNameGenerator::getName));
 	public static final PlanetAttributeType<Integer> PLANET_ICON = create(new IntSerializer(0, random(0, 14)));

@@ -13,7 +13,6 @@ import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
 import com.machina.client.screen.ShipConsoleScreen;
 import com.machina.client.util.ClientTimer;
-import com.machina.planet.trait.PlanetTraitSpriteUploader;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
@@ -22,15 +21,12 @@ import com.machina.util.color.Color;
 import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
-import net.minecraft.resources.IReloadableResourceManager;
-import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,19 +39,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
-
-	@SubscribeEvent
-	public static void onBlockColourHandler(ColorHandlerEvent.Block event) {
-		Minecraft minecraft = Minecraft.getInstance();
-		PlanetTraitSpriteUploader spriteUploader = new PlanetTraitSpriteUploader(minecraft.textureManager);
-		IResourceManager resourceManager = minecraft.getResourceManager();
-		if (resourceManager instanceof IReloadableResourceManager) {
-			try (IReloadableResourceManager reloadableResourceManager = (IReloadableResourceManager) resourceManager) {
-				reloadableResourceManager.registerReloadListener(spriteUploader);
-			}
-		}
-		PlanetTraitSpriteUploader.setInstance(spriteUploader);
-	}
 
 	public static IBlockColor getPlanetColor(int paletteId) {
 

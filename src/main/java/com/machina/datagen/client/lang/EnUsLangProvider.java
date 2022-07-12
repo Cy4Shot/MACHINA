@@ -75,13 +75,13 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(PlanetAttributeTypesInit.CAVE_LENGTH, "Cave Length");
 		add(PlanetAttributeTypesInit.CAVE_THICKNESS, "Cave Thickness");
 		add(PlanetAttributeTypesInit.CAVES_EXIST, "Caves");
-		add(PlanetAttributeTypesInit.DISTANCE, "Distance from Star");
 		add(PlanetAttributeTypesInit.FLUID_BLOCKS, "Fluids");
 		add(PlanetAttributeTypesInit.FOG_DENSITY, "Fog Density");
 		add(PlanetAttributeTypesInit.GRAVITY, "Gravity");
 		add(PlanetAttributeTypesInit.ISLAND_DENSITY, "Island Density");
 		add(PlanetAttributeTypesInit.PALETTE, "Color Palettte");
 		add(PlanetAttributeTypesInit.PLANET_NAME, "Planet Name");
+		add(PlanetAttributeTypesInit.PLANET_ICON, "Planet Icon");
 		add(PlanetAttributeTypesInit.SURF_BLOCKS, "Surface Blocks");
 		add(PlanetAttributeTypesInit.TEMPERATURE, "Temperature");
 
