@@ -8,12 +8,13 @@ import com.machina.network.message.S2CShakeScreen;
 import com.machina.util.math.MathUtil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 
 public class ShakeManager {
+	private static final Minecraft mc = Minecraft.getInstance();
 	private static float intensity;
 	private static int duration;
 
@@ -23,16 +24,17 @@ public class ShakeManager {
 	}
 
 	public static void tick() {
-		duration--;
+		if (!mc.isPaused() && mc.screen == null) {
+			duration--;
+		}
 	}
 
-	@SuppressWarnings("resource")
 	public static void draw() {
-		if (duration > 0) {
-			PlayerEntity player = Minecraft.getInstance().player;
-			if (player != null) {
-				player.xRot = player.xRot + (float) Math.sin(Math.random() * MathUtil.TWO_PI) * intensity;
-				player.yRot = player.yRot + (float) Math.sin(Math.random() * MathUtil.TWO_PI) * intensity;
+		if (!mc.isPaused() && mc.screen == null && duration > 0) {
+			Entity camera = mc.getCameraEntity();
+			if (camera != null) {
+				camera.xRot = camera.xRot + (float) Math.sin(Math.random() * MathUtil.TWO_PI) * intensity;
+				camera.yRot = camera.yRot + (float) Math.sin(Math.random() * MathUtil.TWO_PI) * intensity;
 			}
 		}
 	}
