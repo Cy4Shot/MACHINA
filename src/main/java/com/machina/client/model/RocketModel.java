@@ -82,14 +82,14 @@ public class RocketModel extends EntityModel<Entity> {
 		thrusters.render(s, buff, l, o, r, g, b, a);
 	}
 
-	public void partRender(MatrixStack s, int l, int o, float r, float g, float b, float a, int p) {
+	public void partRender(MatrixStack s, int l, int o, float r, float g, float b, float a, int p, boolean c) {
 		for (int i = 0; i < 5; i++) {
 			if (p > i) {
 				final ModelRenderer part = modelParts[i];
 				MachinaRenderTypes.doWithType(rocket(), builder -> part.render(s, builder, l, o, r, g, b, a));
 			} else if (p == i) {
 				final ModelRenderer part = modelParts[i];
-				MachinaRenderTypes.doWithType(preview(), builder -> part.render(s, builder, l, o, r, g, b, a));
+				MachinaRenderTypes.doWithType(preview(c), builder -> part.render(s, builder, l, o, r, g, b, a));
 			}
 		}
 	}
@@ -100,8 +100,8 @@ public class RocketModel extends EntityModel<Entity> {
 		return renderType(ROCKET);
 	}
 
-	public RenderType preview() {
-		return MachinaRenderTypes.ROCKET_PREVIEW;
+	public RenderType preview(boolean construct) {
+		return construct ? MachinaRenderTypes.ROCKET_CONSTRUCT : MachinaRenderTypes.ROCKET_MISSING;
 	}
 
 	public void setRotationAngle(ModelRenderer renderer, float x, float y, float z) {

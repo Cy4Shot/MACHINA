@@ -50,7 +50,7 @@ public class PlanetNodeElement extends Widget {
 		Vector2f c = screen.getNewCentre();
 		double d = MathUtil.distance(c, new Vector2f(x + tex / 2f, y + tex / 2f));
 		int col = Color.getIntFromColor(0, 254, 254,
-				128 + (int) ((Math.sin(UIHelper.levelTicks() / 4f) + Math.random() * 1.5D) * 25));
+				128 + (int) ((Math.cos(UIHelper.levelTicks() / 4f) + Math.random() * 1.5D) * 25));
 		UIHelper.polygon(matrixStack, c.x, c.y, (float) d + 1, 100, col, 1f, StippleType.FULL);
 		if (screen.selected != null && screen.selected.equals(this)) {
 			UIHelper.line(matrixStack, c.x, c.y, x + tex / 2f, y + tex / 2f, col, 1f, StippleType.DASHED);
@@ -67,5 +67,4 @@ public class PlanetNodeElement extends Widget {
 			UIHelper.box(matrixStack, x - o, y - o, x + tex + o, y + tex + o, 0xFFFFFFFF, 4f, StippleType.FULL);
 		}
 	}
-
 }

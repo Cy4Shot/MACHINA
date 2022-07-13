@@ -96,10 +96,10 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 						rot, StringUtils.translateComp("machina.screen.ship_console.crafting"), 0x00ff00, 1f);
 			}
 		} else {
-			TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z },
-					rot, StringUtils.translateComp("machina.screen.ship_console.await"), 0x00ff00, 1f);
+			TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
+					StringUtils.translateComp("machina.screen.ship_console.await"), 0x00ff00, 1f);
 		}
-		rocket(stack, buffer, lightLevel, d, te.stage, !te.completed);
+		rocket(stack, buffer, lightLevel, d, te.stage, !te.completed, te.progress > 0);
 
 		BlockPos o = te.getBlockPos();
 		for (BlockPos p : te.erroredPos) {
@@ -108,13 +108,13 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 	}
 
 	public void rocket(MatrixStack stack, IRenderTypeBuffer buff, int light, Direction d, int stage,
-			boolean construction) {
+			boolean construction, boolean progress) {
 		stack.pushPose();
 		stack.scale(-1.0F, -1.0F, 1.0F);
 		stack.translate(d.getNormal().getX() * 2 - 0.5D, -1.501D, d.getNormal().getZ() * -2 + 0.5D);
 		stack.mulPose(Vector3f.YP.rotationDegrees(180 + d.get2DDataValue() * 90));
 		if (construction) {
-			this.model.partRender(stack, light, overlay, 1.0F, 1.0F, 1.0F, 0.15F, stage - 1);
+			this.model.partRender(stack, light, overlay, 1.0F, 1.0F, 1.0F, 0.15F, stage - 1, progress);
 		} else {
 			IVertexBuilder builder = buff.getBuffer(this.model.rocket());
 			this.model.renderToBuffer(stack, builder, light, overlay, 1.0F, 1.0F, 1.0F, 0.15F);
