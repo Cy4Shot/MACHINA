@@ -10,7 +10,6 @@ import com.machina.client.util.IStarchartSelector;
 import com.machina.config.ClientConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SSetShipDestination;
-import com.machina.network.c2s.C2SShipConsoleGUIButton;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.world.data.PlanetData;
 

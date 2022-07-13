@@ -94,7 +94,7 @@
   "machina.ship_component.thrusters": "Thrusters",
   "machina.ship_component.unidentified": "Unidentified",
   "machina.terminal.description.clear": "Clears the console.",
-  "machina.terminal.description.destination": "Set the destination for your rocket.",
+  "machina.terminal.description.destination": "Set the destination.",
   "machina.terminal.description.help": "Shows a list of commands.",
   "machina.terminal.description.neofetch": "Displays info about the OS.",
   "machina.terminal.description.unlock": "Lifts cargo security.",

@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import com.machina.network.c2s.C2SCompletePuzzle;
 import com.machina.network.c2s.C2SDevPlanetCreationGUI;
+import com.machina.network.c2s.C2SSetShipDestination;
 import com.machina.network.c2s.C2SShipConsoleGUIButton;
 import com.machina.network.c2s.C2SUpdateEnergySide;
 import com.machina.network.s2c.S2CShakeScreen;
@@ -21,13 +22,16 @@ public class MachinaNetwork extends BaseNetwork {
 	public static final SimpleChannel CHANNEL = newSimpleChannel("channel");
 
 	public static void init() {
+		// Server -> Client
 		registerServerToClient(S2CStarchartSync.class, S2CStarchartSync::decode);
 		registerServerToClient(S2CShakeScreen.class, S2CShakeScreen::decode);
 
+		// Client -> Server
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
 		registerClientToServer(C2SShipConsoleGUIButton.class, C2SShipConsoleGUIButton::decode);
 		registerClientToServer(C2SUpdateEnergySide.class, C2SUpdateEnergySide::decode);
 		registerClientToServer(C2SCompletePuzzle.class, C2SCompletePuzzle::decode);
+		registerClientToServer(C2SSetShipDestination.class, C2SSetShipDestination::decode);
 
 		BaseNetwork.MACHINA_CHANNEL = CHANNEL;
 	}
