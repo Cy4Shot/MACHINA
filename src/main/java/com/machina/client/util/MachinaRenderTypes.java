@@ -1,9 +1,9 @@
 package com.machina.client.util;
 
+import com.machina.util.MachinaRL;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.AtlasTexture;
@@ -32,7 +32,7 @@ public class MachinaRenderTypes {
 	public static final RenderType ROCKET_PREVIEW = RenderType.create("rocket_glint", DefaultVertexFormats.POSITION_TEX,
 			7, 256,
 			RenderType.State.builder()
-					.setTextureState(new RenderState.TextureState(ItemRenderer.ENCHANT_GLINT_LOCATION, true, false))
+					.setTextureState(new RenderState.TextureState(new MachinaRL("textures/rocket/preview.png"), true, false))
 					.setWriteMaskState(new RenderState.WriteMaskState(true, false))
 					.setCullState(new RenderState.CullState(false))
 					.setDepthTestState(new RenderState.DepthTestState("<=", 515))

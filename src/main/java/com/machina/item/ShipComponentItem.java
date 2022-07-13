@@ -22,18 +22,16 @@ import net.minecraft.world.World;
 
 public class ShipComponentItem extends Item {
 
-	public static final String NBT_TYPE = "type";
-
 	public ShipComponentItem(Properties props) {
 		super(props);
 	}
 
 	public static ShipComponentType getType(ItemStack stack) {
-		return ShipComponentType.fromNBT(stack.getOrCreateTag(), NBT_TYPE);
+		return ShipComponentType.fromNBT(stack.getOrCreateTag(), "type");
 	}
 
 	public static void setType(ItemStack stack, ShipComponentType type) {
-		type.toNBT(stack.getOrCreateTag(), NBT_TYPE);
+		type.toNBT(stack.getOrCreateTag(), "type");
 	}
 
 	public static String getNameForType(ShipComponentType type) {
@@ -84,8 +82,8 @@ public class ShipComponentItem extends Item {
 		REACTOR(1, "reactor"),
 		CORE(2, "core"),
 		THRUSTERS(3, "thrusters"),
-		SHIELDS(4, "shields"),
-		LIFE_SUPPORT(5, "life_support");
+		LIFE_SUPPORT(4, "life_support"),
+		SHIELDS(5, "shields");
 		//@formatter:on
 
 		public final byte nbtID;

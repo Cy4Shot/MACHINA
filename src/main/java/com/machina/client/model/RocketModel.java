@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 // Model by Reider
 public class RocketModel extends EntityModel<Entity> {
 
-	private static final ResourceLocation ROCKET = new MachinaRL("textures/entity/rocket.png");
+	private static final ResourceLocation ROCKET = new MachinaRL("textures/rocket/rocket.png");
 
 	private final ModelRenderer lifesupport;
 	private final ModelRenderer shield;
@@ -68,7 +68,7 @@ public class RocketModel extends EntityModel<Entity> {
 		thrusters.texOffs(100, 0).addBox(-6.0F, -12.0F, 0.0F, 5.0F, 4.0F, 5.0F, 0.0F, false);
 		thrusters.texOffs(100, 0).addBox(1.0F, -12.0F, 0.0F, 5.0F, 4.0F, 5.0F, 0.0F, false);
 
-		modelParts = new ModelRenderer[] { reactor, core, thrusters, shield, lifesupport };
+		modelParts = new ModelRenderer[] { reactor, core, thrusters, lifesupport, shield };
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class RocketModel extends EntityModel<Entity> {
 			}
 		}
 	}
-	
+
 	public RenderType rocket() {
 		return renderType(ROCKET);
 	}
