@@ -4,7 +4,7 @@ import com.machina.Machina;
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.DevScreen;
-import com.machina.client.screen.ShipConsoleScreen;
+import com.machina.client.screen.ShipConstructScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
@@ -59,7 +59,7 @@ public class ClientForgeEvents {
 	@SubscribeEvent
 	public static void drawTooltipEvent(RenderTooltipEvent.Color event) {
 		Screen s = mc.screen;
-		if (s instanceof ShipConsoleScreen || s instanceof ComponentAnalyzerScreen) {
+		if (s instanceof ShipConstructScreen || s instanceof ComponentAnalyzerScreen) {
 			event.setBackground(0xFF_232323);
 			event.setBorderEnd(0xFF_1bcccc);
 			event.setBorderStart(0xFF_00fefe);

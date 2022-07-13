@@ -12,17 +12,19 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.network.PacketBuffer;
 
-public class ShipConsoleContainer extends BaseContainer<ShipConsoleTileEntity> {
+public class ShipConstructContainer extends BaseContainer<ShipConsoleTileEntity> {
 
 	public final ShipConsoleTileEntity te;
 
-	public ShipConsoleContainer(final int windowId, final PlayerInventory playerInv, final ShipConsoleTileEntity te) {
-		super(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), windowId, te);
+	public ShipConstructContainer(final int windowId, final PlayerInventory playerInv, final ShipConsoleTileEntity te) {
+		super(ContainerTypesInit.SHIP_CONSTRUCT_CONTAINER_TYPE.get(), windowId, te);
 		this.te = te;
-
 		recreateSlots(playerInv);
 
 		createData(() -> te.getData());
+		if (te.completed) {
+			this.clearContainer(playerInv.player, playerInv.player.level, te);
+		}
 	}
 
 	public void recreateSlots(final PlayerInventory playerInv) {
@@ -36,7 +38,7 @@ public class ShipConsoleContainer extends BaseContainer<ShipConsoleTileEntity> {
 		}
 	}
 
-	public ShipConsoleContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
+	public ShipConstructContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
 		this(windowId, playerInv, getTileEntity(playerInv, data));
 	}
 

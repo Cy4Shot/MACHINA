@@ -5,8 +5,6 @@ import com.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -15,8 +13,6 @@ import net.minecraft.util.ResourceLocation;
 
 // Model by Reider
 public class RocketModel extends EntityModel<Entity> {
-
-	private static final ResourceLocation ROCKET = new MachinaRL("textures/rocket/rocket.png");
 
 	private final ModelRenderer lifesupport;
 	private final ModelRenderer shield;
@@ -78,37 +74,39 @@ public class RocketModel extends EntityModel<Entity> {
 	}
 
 	@Override
-	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay,
-			float red, float green, float blue, float alpha) {
-		lifesupport.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		shield.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		core.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		reactor.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		thrusters.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(MatrixStack s, IVertexBuilder buff, int l, int o, float r, float g, float b, float a) {
+		lifesupport.render(s, buff, l, o, r, g, b, a);
+		shield.render(s, buff, l, o, r, g, b, a);
+		core.render(s, buff, l, o, r, g, b, a);
+		reactor.render(s, buff, l, o, r, g, b, a);
+		thrusters.render(s, buff, l, o, r, g, b, a);
 	}
 
 	public void partRender(MatrixStack s, int l, int o, float r, float g, float b, float a, int p) {
-		IRenderTypeBuffer.Impl buffers = Minecraft.getInstance().renderBuffers().bufferSource();
 		for (int i = 0; i < 5; i++) {
 			if (p > i) {
-				IVertexBuilder buffer = buffers.getBuffer(rocket());
-				modelParts[i].render(s, buffer, l, o, r, g, b, a);
-				buffers.endBatch(rocket());
+				final ModelRenderer part = modelParts[i];
+				MachinaRenderTypes.doWithType(rocket(), builder -> part.render(s, builder, l, o, r, g, b, a));
 			} else if (p == i) {
-				IVertexBuilder buffer = buffers.getBuffer(MachinaRenderTypes.ROCKET_PREVIEW);
-				modelParts[i].render(s, buffer, l, o, r, g, b, a);
-				buffers.endBatch(MachinaRenderTypes.ROCKET_PREVIEW);
+				final ModelRenderer part = modelParts[i];
+				MachinaRenderTypes.doWithType(preview(), builder -> part.render(s, builder, l, o, r, g, b, a));
 			}
 		}
 	}
+
+	private static final ResourceLocation ROCKET = new MachinaRL("textures/rocket/rocket.png");
 
 	public RenderType rocket() {
 		return renderType(ROCKET);
 	}
 
-	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.xRot = x;
-		modelRenderer.yRot = y;
-		modelRenderer.zRot = z;
+	public RenderType preview() {
+		return MachinaRenderTypes.ROCKET_PREVIEW;
+	}
+
+	public void setRotationAngle(ModelRenderer renderer, float x, float y, float z) {
+		renderer.xRot = x;
+		renderer.yRot = y;
+		renderer.zRot = z;
 	}
 }

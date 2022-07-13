@@ -4,7 +4,8 @@ import com.machina.Machina;
 import com.machina.block.container.BatteryContainer;
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.container.PuzzleContainer;
-import com.machina.block.container.ShipConsoleContainer;
+import com.machina.block.container.ShipConstructContainer;
+import com.machina.block.container.ShipLaunchContainer;
 import com.machina.item.container.ScannerContainer;
 
 import net.minecraft.inventory.container.Container;
@@ -19,8 +20,11 @@ public class ContainerTypesInit {
 	public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPES = DeferredRegister
 			.create(ForgeRegistries.CONTAINERS, Machina.MOD_ID);
 
-	public static final RegistryObject<ContainerType<ShipConsoleContainer>> SHIP_CONSOLE_CONTAINER_TYPE = register(
-			"ship_console", ShipConsoleContainer::new);
+	public static final RegistryObject<ContainerType<ShipConstructContainer>> SHIP_CONSTRUCT_CONTAINER_TYPE = register(
+			"ship_construct", ShipConstructContainer::new);
+
+	public static final RegistryObject<ContainerType<ShipLaunchContainer>> SHIP_LAUNCH_CONTAINER_TYPE = register(
+			"ship_launch", ShipLaunchContainer::new);
 
 	public static final RegistryObject<ContainerType<ComponentAnalyzerContainer>> COMPONENT_ANALYZER_CONTAINER_TYPE = register(
 			"component_analyzer", ComponentAnalyzerContainer::new);

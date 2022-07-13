@@ -81,10 +81,8 @@ public class TERUtil {
 	}
 
 	public static void preview(MatrixStack ms, World world, BlockPos pos) {
-		IRenderTypeBuffer.Impl buffers = mc.renderBuffers().bufferSource();
-		IVertexBuilder buffer = buffers.getBuffer(MachinaRenderTypes.PREVIEW_TYPE);
-		renderBlockAt(ms, buffer, Blocks.WHITE_CONCRETE.defaultBlockState(), pos, 1.01f);
-		buffers.endBatch(MachinaRenderTypes.PREVIEW_TYPE);
+		MachinaRenderTypes.doWithType(MachinaRenderTypes.PREVIEW_TYPE,
+				builder -> renderBlockAt(ms, builder, Blocks.WHITE_CONCRETE.defaultBlockState(), pos, 1.01f));
 	}
 
 	private static void renderBlockAt(MatrixStack ms, IVertexBuilder buffer, BlockState state, BlockPos pos,

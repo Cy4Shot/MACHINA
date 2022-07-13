@@ -322,4 +322,8 @@ public class UIHelper {
 	public static int levelTicks() {
 		return mc.levelRenderer.ticks;
 	}
+	
+	public static void close() {
+		mc.forceSetScreen(null);
+	}
 }

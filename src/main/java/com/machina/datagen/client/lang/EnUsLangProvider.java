@@ -111,7 +111,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		
 		addScreen("cargo_crate", "open", "Right Click to Loot");
 		
-		addScreen("starchart", "title", "Starchart");
+		addScreen("starchart_select", "noselect", "Please select a planet.");
 		
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");
@@ -128,6 +128,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("ship_console", "crafting", "Crafting...");
 		addScreen("ship_console", "craft", "Craft");
 		addScreen("ship_console", "stage", "Stage");
+		addScreen("ship_console", "await", "Awaiting Launch");
 
 		// Terminal
 		addTerminalCommand("clear", "Clears the console.");
@@ -141,6 +142,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalFeedback("neofetch", "mach_os", "OS: MachOS CyberSec Edition");
 		addTerminalFeedback("neofetch", "mach_cpu", "CPU: SM-908172U @ 64.0 MHz");
 		addTerminalFeedback("neofetch", "mach_status", "Status: LISTENING");
+		addTerminalFeedback("neofetch", "star_os", "OS: StarOS - Your Journey Awaits.");
+		addTerminalFeedback("neofetch", "star_cpu", "CPU: LC-00012S @ 1.7 GHz");
+		addTerminalFeedback("neofetch", "star_status", "Status: IDLE");
 
 		addTerminalCommand("unlock", "Lifts cargo security.");
 		addTerminalFeedback("unlock", "already_complete", "Cargo security already lifted.");
@@ -148,5 +152,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalFeedback("unlock", "translate", "Translate: ");
 		addTerminalFeedback("unlock", "incorrect", "Incorrect.");
 		addTerminalFeedback("unlock", "permission_granted", "Permission granted.");
+		
+		addTerminalCommand("destination", "Set the destination.");
+		addTerminalFeedback("destination", "loading", "Initializing Starchart...");
+		addTerminalFeedback("destination", "set", "Destination set: ");
 	}
 }

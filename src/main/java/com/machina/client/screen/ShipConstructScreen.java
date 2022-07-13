@@ -1,6 +1,6 @@
 package com.machina.client.screen;
 
-import com.machina.block.container.ShipConsoleContainer;
+import com.machina.block.container.ShipConstructContainer;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.item.ShipComponentItem;
@@ -14,9 +14,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
-public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer> {
+public class ShipConstructScreen extends NoJeiContainerScreen<ShipConstructContainer> {
 
-	public ShipConsoleScreen(ShipConsoleContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
+	public ShipConstructScreen(ShipConstructContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
 	}
 
@@ -32,6 +32,16 @@ public class ShipConsoleScreen extends NoJeiContainerScreen<ShipConsoleContainer
 			return 0x00_FFFFFF;
 		else
 			return super.getSlotColor(index);
+	}
+	
+	@Override
+	public void tick() {
+		super.tick();
+		
+		if (menu.te.completed) {
+			UIHelper.close();
+			this.onClose();
+		}
 	}
 
 	@Override

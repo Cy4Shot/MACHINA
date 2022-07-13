@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.machina.block.ShipConsoleBlock;
-import com.machina.block.container.ShipConsoleContainer;
+import com.machina.block.container.ShipConstructContainer;
+import com.machina.block.container.ShipLaunchContainer;
 import com.machina.block.tile.base.BaseLockableTileEntity;
 import com.machina.recipe.ShipConsoleRecipe;
 import com.machina.registration.init.RecipeInit;
@@ -29,7 +30,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITickableTileEntity {
 
-	public int stage = 1, progress = 0;
+	public int stage = 1, progress = 0, destination = 0;
 	public boolean isInProgress = false, completed = false;
 	public List<BlockPos> erroredPos = new ArrayList<>();
 
@@ -42,6 +43,8 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 				return ShipConsoleTileEntity.this.progress;
 			case 2:
 				return ShipConsoleTileEntity.this.completed ? 1 : 0;
+			case 3:
+				return ShipConsoleTileEntity.this.destination;
 			default:
 				return 0;
 			}
@@ -58,12 +61,15 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 			case 2:
 				ShipConsoleTileEntity.this.completed = (value == 1);
 				break;
+			case 3:
+				ShipConsoleTileEntity.this.destination = value;
+				break;
 			}
 		}
 
 		@Override
 		public int getCount() {
-			return 3;
+			return 4;
 		}
 	};
 
@@ -171,7 +177,11 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
-		return new ShipConsoleContainer(id, player, this);
+		if (this.completed) {
+			return new ShipLaunchContainer(id, player, this);
+		} else {
+			return new ShipConstructContainer(id, player, this);
+		}
 	}
 
 	@Override
@@ -187,6 +197,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		nbt.putInt("Progress", this.progress);
 		nbt.putBoolean("InProgress", this.isInProgress);
 		nbt.putBoolean("Completed", this.completed);
+		nbt.putInt("Destination", this.destination);
 
 		return super.save(nbt);
 	}
@@ -203,6 +214,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		this.progress = nbt.getInt("Progress");
 		this.isInProgress = nbt.getBoolean("InProgress");
 		this.completed = nbt.getBoolean("Completed");
+		this.destination = nbt.getInt("Destination");
 		super.load(state, nbt);
 	}
 

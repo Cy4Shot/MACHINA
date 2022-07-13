@@ -1,9 +1,14 @@
 package com.machina.client.util;
 
+import java.util.function.Consumer;
+
 import com.machina.util.MachinaRL;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.AtlasTexture;
@@ -60,4 +65,11 @@ public class MachinaRenderTypes {
 						RenderSystem.popMatrix();
 						RenderSystem.matrixMode(5888);
 					})).createCompositeState(false));
+	
+	public static void doWithType(RenderType type, Consumer<IVertexBuilder> code) {
+		IRenderTypeBuffer.Impl buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+		IVertexBuilder buffer = buffers.getBuffer(type);
+		code.accept(buffer);
+		buffers.endBatch(type);
+	}
 }

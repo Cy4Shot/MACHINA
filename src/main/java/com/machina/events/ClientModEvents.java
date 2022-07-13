@@ -11,7 +11,8 @@ import com.machina.client.screen.BatteryScreen;
 import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
-import com.machina.client.screen.ShipConsoleScreen;
+import com.machina.client.screen.ShipConstructScreen;
+import com.machina.client.screen.ShipLaunchScreen;
 import com.machina.client.util.ClientTimer;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
@@ -102,7 +103,8 @@ public class ClientModEvents {
 		RenderTypeLookup.setRenderLayer(BlockInit.STEEL_CHASSIS.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.IRON_CHASSIS.get(), RenderType.cutout());
 
-		ScreenManager.register(ContainerTypesInit.SHIP_CONSOLE_CONTAINER_TYPE.get(), ShipConsoleScreen::new);
+		ScreenManager.register(ContainerTypesInit.SHIP_CONSTRUCT_CONTAINER_TYPE.get(), ShipConstructScreen::new);
+		ScreenManager.register(ContainerTypesInit.SHIP_LAUNCH_CONTAINER_TYPE.get(), ShipLaunchScreen::new);
 		ScreenManager.register(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), ComponentAnalyzerScreen::new);
 		ScreenManager.register(ContainerTypesInit.BATTERY_CONTAINER_TYPE.get(), BatteryScreen::new);
 		ScreenManager.register(ContainerTypesInit.SCANNER_CONTAINER_TYPE.get(), ScannerScreen::new);

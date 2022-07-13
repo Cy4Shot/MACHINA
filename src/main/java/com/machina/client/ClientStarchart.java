@@ -3,6 +3,7 @@ package com.machina.client;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.machina.util.MachinaRL;
 import com.machina.util.server.PlanetUtils;
@@ -26,7 +27,7 @@ public class ClientStarchart {
 	public static PlanetData getPlanetData(int id) {
 		return getDataForDimension(new MachinaRL(id));
 	}
-	
+
 	public static PlanetData getPlanetData(RegistryKey<World> dim) {
 		return getPlanetData(PlanetUtils.getId(dim));
 	}
@@ -37,5 +38,14 @@ public class ClientStarchart {
 
 	public static List<PlanetData> planets() {
 		return new ArrayList<PlanetData>(starchart.values());
+	}
+
+	public static ResourceLocation getId(PlanetData value) {
+		for (Map.Entry<ResourceLocation, PlanetData> entry : starchart.entrySet()) {
+			if (Objects.equals(value, entry.getValue())) {
+				return entry.getKey();
+			}
+		}
+		return null;
 	}
 }
