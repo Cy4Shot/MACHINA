@@ -17,6 +17,7 @@ public class ClientConfig {
 	public static ForgeConfigSpec.IntValue maxPuzzleSize;
 	public static ForgeConfigSpec.IntValue puzzleLoadDuration;
 	public static ForgeConfigSpec.IntValue starchartLoadDuration;
+	public static ForgeConfigSpec.IntValue refuelDuration;
 
 	private static void setupConfig(ForgeConfigSpec.Builder builder) {
 
@@ -36,6 +37,7 @@ public class ClientConfig {
 			builder.comment(" Settings for the ship launch interface.");
 			builder.push("Ship Console Options");
 			starchartLoadDuration = builder.defineInRange("starchart_load_duration", 40, 10, 100);
+			refuelDuration = builder.defineInRange("refuel_duration", 40, 10, 100);
 			builder.pop();
 		}
 		builder.pop();

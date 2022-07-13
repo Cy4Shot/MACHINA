@@ -9,6 +9,7 @@ import com.machina.client.screen.base.TerminalScreen;
 import com.machina.client.util.IStarchartSelector;
 import com.machina.config.ClientConfig;
 import com.machina.network.MachinaNetwork;
+import com.machina.network.c2s.C2SRefuel;
 import com.machina.network.c2s.C2SSetShipDestination;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.world.data.PlanetData;
@@ -64,6 +65,31 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 								new C2SSetShipDestination(ShipLaunchScreen.this.menu.te.getBlockPos(), id));
 					}
 				});
+			});
+		}));
+
+		// Fuel
+		list.add(new TerminalCommand("fuel", t -> {
+			space();
+			add(t.getFeedback("stored") + this.menu.te.fuel);
+		}));
+
+		// Refuel
+		list.add(new TerminalCommand("refuel", t -> {
+			space();
+			add(t, "info");
+			add(t, "await");
+			awaitResponse(s -> {
+				space();
+				add(t, "progress");
+				final int oldFuel = this.menu.te.fuel;
+				MachinaNetwork.CHANNEL.sendToServer(new C2SRefuel(this.menu.te.getBlockPos()));
+				createTimer(ClientConfig.refuelDuration.get(), () -> {
+					space();
+					add(t, "complete");
+					add(t.getFeedback("gain") + (this.menu.te.fuel - oldFuel));
+				});
+				return true;
 			});
 		}));
 

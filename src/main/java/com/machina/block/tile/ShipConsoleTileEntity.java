@@ -30,7 +30,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITickableTileEntity {
 
-	public int stage = 1, progress = 0, destination = 0;
+	public int stage = 1, progress = 0, destination = 0, fuel = 0;
 	public boolean isInProgress = false, completed = false;
 	public List<BlockPos> erroredPos = new ArrayList<>();
 
@@ -45,6 +45,8 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 				return ShipConsoleTileEntity.this.completed ? 1 : 0;
 			case 3:
 				return ShipConsoleTileEntity.this.destination;
+			case 4:
+				return ShipConsoleTileEntity.this.fuel;
 			default:
 				return 0;
 			}
@@ -64,12 +66,14 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 			case 3:
 				ShipConsoleTileEntity.this.destination = value;
 				break;
+			case 4:
+				ShipConsoleTileEntity.this.fuel = value;
 			}
 		}
 
 		@Override
 		public int getCount() {
-			return 4;
+			return 5;
 		}
 	};
 
@@ -174,6 +178,12 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 
 		sync();
 	}
+	
+	public void refuel() {
+		this.fuel += 100;
+		
+		sync();
+	}
 
 	@Override
 	protected Container createMenu(int id, PlayerInventory player) {
@@ -198,6 +208,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		nbt.putBoolean("InProgress", this.isInProgress);
 		nbt.putBoolean("Completed", this.completed);
 		nbt.putInt("Destination", this.destination);
+		nbt.putInt("Fuel", this.fuel);
 
 		return super.save(nbt);
 	}
@@ -215,6 +226,8 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		this.isInProgress = nbt.getBoolean("InProgress");
 		this.completed = nbt.getBoolean("Completed");
 		this.destination = nbt.getInt("Destination");
+		this.fuel = nbt.getInt("Fuel");
+		
 		super.load(state, nbt);
 	}
 

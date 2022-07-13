@@ -156,5 +156,15 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalCommand("destination", "Set the destination.");
 		addTerminalFeedback("destination", "loading", "Initializing Starchart...");
 		addTerminalFeedback("destination", "set", "Destination set: ");
+		
+		addTerminalCommand("fuel", "Check fuel status.");
+		addTerminalFeedback("fuel", "stored", "Fuel stored: ");
+		
+		addTerminalCommand("refuel", "Refuel the ship.");
+		addTerminalFeedback("refuel", "info", "Place fuel barrel adjacent to the console.");
+		addTerminalFeedback("refuel", "await", "Press ENTER to confirm.");
+		addTerminalFeedback("refuel", "progress", "Refuelling...");
+		addTerminalFeedback("refuel", "complete", "Refuel complete!");
+		addTerminalFeedback("refuel", "gain", "Gained: ");
 	}
 }
