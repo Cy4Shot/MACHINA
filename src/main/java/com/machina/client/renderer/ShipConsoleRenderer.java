@@ -7,7 +7,6 @@ import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.client.model.RocketModel;
 import com.machina.client.util.TERUtil;
 import com.machina.item.ShipComponentItem;
-import com.machina.util.MachinaRL;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -22,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntity> {
+	private static final int overlay = OverlayTexture.pack(OverlayTexture.u(0), OverlayTexture.v(false));
 
 	protected RocketModel model;
 
@@ -92,25 +92,26 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 			TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
 					StringUtils.translateComp("machina.screen.ship_console.crafting"), 0x00ff00, 1f);
 		}
-
-		rocket(partialTicks, stack, buffer, packedLightIn, d);
+		rocket(stack, buffer, lightLevel, d, te.stage, !te.completed);
 
 		BlockPos o = te.getBlockPos();
 		for (BlockPos p : te.erroredPos) {
 			TERUtil.preview(stack, te.getLevel(), p.immutable().offset(-o.getX(), -o.getY(), -o.getZ()));
 		}
-
 	}
 
-	public void rocket(float par, MatrixStack stack, IRenderTypeBuffer pBuffer, int light, Direction d) {
+	public void rocket(MatrixStack stack, IRenderTypeBuffer buff, int light, Direction d, int stage,
+			boolean construction) {
 		stack.pushPose();
 		stack.scale(-1.0F, -1.0F, 1.0F);
 		stack.translate(d.getNormal().getX() * 2 - 0.5D, -1.501D, d.getNormal().getZ() * -2 + 0.5D);
 		stack.mulPose(Vector3f.YP.rotationDegrees(180 + d.get2DDataValue() * 90));
-		IVertexBuilder ivertexbuilder = pBuffer
-				.getBuffer(this.model.renderType(new MachinaRL("textures/entity/rocket.png")));
-		this.model.renderToBuffer(stack, ivertexbuilder, light,
-				OverlayTexture.pack(OverlayTexture.u(0), OverlayTexture.v(false)), 1.0F, 1.0F, 1.0F, 0.15F);
+		if (construction) {
+			this.model.partRender(stack, light, overlay, 1.0F, 1.0F, 1.0F, 0.15F, stage - 1);
+		} else {
+			IVertexBuilder builder = buff.getBuffer(this.model.rocket());
+			this.model.renderToBuffer(stack, builder, light, overlay, 1.0F, 1.0F, 1.0F, 0.15F);
+		}
 		stack.popPose();
 	}
 
