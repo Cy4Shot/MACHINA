@@ -2,6 +2,7 @@ package com.machina.datagen.client;
 
 import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.util.MachinaRL;
 
@@ -49,7 +50,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		makeSimpleBlockItem(BlockInit.CABLE.get());
 		makeSimpleBlockItem(BlockInit.CREATIVE_BATTERY.get());
 		makeSimpleBlockItem(BlockInit.REINFORCED_TILE.get());
-		
+
 		oneLayerItem(ItemInit.SHIP_COMPONENT.get());
 		oneLayerItem(ItemInit.REINFORCED_STICK.get());
 		oneLayerItem(ItemInit.STEEL_INGOT.get());
@@ -61,9 +62,13 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		oneLayerItem(ItemInit.SILICON.get());
 		oneLayerItem(ItemInit.SCANNER.get());
 		oneLayerItem(ItemInit.TRANSISTOR.get());
+		
+		bucket(FluidInit.OXYGEN.get());
+		bucket(FluidInit.HYDROGEN.get());
+		bucket(FluidInit.LIQUID_HYDROGEN.get());
 	}
 
-	protected void createBucketModel(FlowingFluid stillFluid) {
+	protected void bucket(FlowingFluid stillFluid) {
 		DynamicBucketModelBuilder<ItemModelBuilder> builder = withExistingParent(
 				stillFluid.getBucket().getRegistryName().getPath(), new ResourceLocation("forge", "item/bucket"))
 						.customLoader(DynamicBucketModelBuilder::begin);
@@ -77,7 +82,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		getBuilder(block.asItem().getRegistryName().toString())
 				.parent(getExistingFile(new MachinaRL("block/" + block.asItem().getRegistryName().getPath())));
 	}
-	
+
 	protected void oneLayerItem(Item item, ResourceLocation texture) {
 		ResourceLocation itemTexture = new ResourceLocation(texture.getNamespace(), "item/" + texture.getPath());
 		if (existingFileHelper.exists(itemTexture, ResourcePackType.CLIENT_RESOURCES, ".png", "textures")) {
@@ -88,7 +93,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 					"Texture for " + item.getRegistryName().toString() + " not present at " + itemTexture.toString());
 		}
 	}
-	
+
 	protected void oneLayerItem(Item item) {
 		oneLayerItem(item, item.getRegistryName());
 	}

@@ -1,6 +1,7 @@
 package com.machina.datagen.client.lang;
 
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.PlanetTraitInit;
@@ -58,6 +59,14 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.PROCESSOR.get(), "Processor");
 		add(ItemInit.SILICON.get(), "Silicon");
 		add(ItemInit.TRANSISTOR.get(), "Transistor");
+		
+		// Fluids
+		add(FluidInit.OXYGEN.get(), "Oxygen");
+		add(FluidInit.HYDROGEN.get(), "Hydrogen");
+		add(FluidInit.LIQUID_HYDROGEN.get(), "Liquid Hydrogen");
+		add(FluidInit.OXYGEN_BUCKET.get(), "Oxygen Bucket");
+		add(FluidInit.HYDROGEN_BUCKET.get(), "Hydrogen Bucket");
+		add(FluidInit.LIQUID_HYDROGEN_BUCKET.get(), "Liquid Hydrogen Bucket");
 
 		// Traits
 		add(PlanetTraitInit.WATER_WORLD, "Water World");

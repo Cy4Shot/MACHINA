@@ -2,6 +2,7 @@ package com.machina.datagen.client;
 
 import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.FluidInit;
 import com.machina.util.MachinaRL;
 
 import net.minecraft.block.Block;
@@ -44,6 +45,8 @@ public class BlockStatesProvider extends BlockStateProvider {
 		
 		simpleOrientableBlock(BlockInit.BATTERY.get());
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
+		
+		fluid(FluidInit.LIQUID_HYDROGEN_BLOCK.get());
 		
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_BLOCK.get());

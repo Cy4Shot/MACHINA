@@ -5,6 +5,7 @@ import com.machina.datagen.client.BlockStatesProvider;
 import com.machina.datagen.client.ItemModelProvider;
 import com.machina.datagen.client.lang.EnUsLangProvider;
 import com.machina.datagen.common.BlockTagsProvider;
+import com.machina.datagen.common.FluidTagsProvider;
 import com.machina.datagen.common.ItemTagsProvider;
 import com.machina.datagen.common.LootTableProvider;
 import com.machina.datagen.common.PlanetTraitPoolsProvider;
@@ -34,6 +35,7 @@ public class DataGenProvider {
 		BlockTagsProvider blockTags = new BlockTagsProvider(gen, existingFileHelper);
 		gen.addProvider(blockTags);
 		gen.addProvider(new ItemTagsProvider(gen, blockTags, existingFileHelper));
+		gen.addProvider(new FluidTagsProvider(gen, existingFileHelper));
 		gen.addProvider(new PlanetTraitPoolsProvider(gen));
 		gen.addProvider(new LootTableProvider(gen));
 		gen.addProvider(new RecipesProvider(gen));

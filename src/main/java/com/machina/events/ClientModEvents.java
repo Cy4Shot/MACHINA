@@ -16,6 +16,7 @@ import com.machina.client.screen.ShipLaunchScreen;
 import com.machina.client.util.ClientTimer;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.TileEntityTypesInit;
 import com.machina.util.color.Color;
@@ -93,6 +94,7 @@ public class ClientModEvents {
 
 	@SubscribeEvent
 	public static void registerRenderers(final FMLClientSetupEvent event) {
+		//@formatter:off
 		ClientTimer.setup();
 		ShakeManager.setup();
 		CinematicHandler.setup();
@@ -102,6 +104,13 @@ public class ClientModEvents {
 		RenderTypeLookup.setRenderLayer(BlockInit.COMPONENT_ANALYZER.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.STEEL_CHASSIS.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.IRON_CHASSIS.get(), RenderType.cutout());
+		RenderTypeLookup.setRenderLayer(FluidInit.OXYGEN.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(FluidInit.OXYGEN_FLOWING.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(FluidInit.HYDROGEN.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(FluidInit.HYDROGEN_FLOWING.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(FluidInit.LIQUID_HYDROGEN.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(FluidInit.LIQUID_HYDROGEN_FLOWING.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(FluidInit.LIQUID_HYDROGEN_BLOCK.get(), RenderType.translucent());
 
 		ScreenManager.register(ContainerTypesInit.SHIP_CONSTRUCT_CONTAINER_TYPE.get(), ShipConstructScreen::new);
 		ScreenManager.register(ContainerTypesInit.SHIP_LAUNCH_CONTAINER_TYPE.get(), ShipLaunchScreen::new);
@@ -113,5 +122,6 @@ public class ClientModEvents {
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.SHIP_CONSOLE.get(), ShipConsoleRenderer::new);
+		//@formatter:on
 	}
 }

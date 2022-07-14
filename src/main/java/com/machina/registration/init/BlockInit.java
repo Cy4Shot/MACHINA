@@ -102,10 +102,11 @@ public class BlockInit {
 	}
 
 	public static void registerBlockItems(final RegistryEvent.Register<Item> event) {
-		BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
-			event.getRegistry()
-					.register(new BlockItem(block, new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP))
-							.setRegistryName(block.getRegistryName()));
-		});
+		BLOCKS.getEntries().stream().filter(ro -> !FluidInit.BLOCKS.contains(ro.getId().getPath()))
+				.map(RegistryObject::get).forEach(block -> {
+					event.getRegistry()
+							.register(new BlockItem(block, new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP))
+									.setRegistryName(block.getRegistryName()));
+				});
 	}
 }

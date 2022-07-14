@@ -15,6 +15,7 @@ import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.CommandInit;
 import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.PlanetAttributeTypesInit;
 import com.machina.registration.init.PlanetTraitInit;
@@ -90,6 +91,7 @@ public class Registration {
 
 		BlockInit.BLOCKS.register(bus);
 		ItemInit.ITEMS.register(bus);
+		FluidInit.FLUIDS.register(bus);
 		ContainerTypesInit.CONTAINER_TYPES.register(bus);
 		TileEntityTypesInit.TILES.register(bus);
 		StructureInit.STRUCTURES.register(bus);

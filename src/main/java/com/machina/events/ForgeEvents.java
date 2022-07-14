@@ -2,10 +2,12 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.registration.Registration;
+import com.machina.registration.init.FluidInit;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,9 +28,11 @@ public class ForgeEvents {
 		StarchartData.getDefaultInstance(e.getEntity().getServer()).syncClient((ServerPlayerEntity) e.getPlayer());
 	}
 	
-//	@SuppressWarnings("resource")
-//	@SubscribeEvent
-//	public static void debug(ItemTossEvent event) {
-//		
-//	}
+	@SubscribeEvent
+	public static void debug(ItemTossEvent event) {
+		System.out.println(FluidInit.LIQUID_HYDROGEN.get().getAttributes().getFlowingTexture());
+		System.out.println(FluidInit.LIQUID_HYDROGEN.get().getAttributes().getStillTexture());
+		System.out.println(FluidInit.LIQUID_HYDROGEN.get().getAttributes().getOverlayTexture());
+		System.out.println(FluidInit.LIQUID_HYDROGEN.get().getAttributes().getLuminosity());
+	}
 }
