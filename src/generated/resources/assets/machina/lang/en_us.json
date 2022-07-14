@@ -102,7 +102,7 @@
   "machina.screen.ship_console.missing": "Missing Items",
   "machina.screen.ship_console.obstructed": "Obstructed",
   "machina.screen.ship_console.stage": "Stage",
-  "machina.screen.starchart_select.noselect": "Please select a planet.",
+  "machina.screen.starchart.noselect": "Please select a planet.",
   "machina.ship_component.core": "Core",
   "machina.ship_component.life_support": "Life Support",
   "machina.ship_component.reactor": "Reactor",

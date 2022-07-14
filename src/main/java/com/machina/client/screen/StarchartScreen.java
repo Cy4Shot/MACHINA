@@ -8,6 +8,8 @@ import com.machina.client.screen.element.PlanetNodeElement;
 import com.machina.client.util.IBoundedGui;
 import com.machina.client.util.Rectangle;
 import com.machina.client.util.UIHelper;
+import com.machina.planet.trait.PlanetTrait;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -78,18 +80,39 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	}
 
 	@Override
-	public void render(MatrixStack matrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
-		super.render(matrixStack, pMouseX, pMouseY, pPartialTicks);
+	public void render(MatrixStack stack, int pMouseX, int pMouseY, float pPartialTicks) {
+		super.render(stack, pMouseX, pMouseY, pPartialTicks);
 
 		// Background
-		UIHelper.renderOverflowHidden(matrixStack, this::renderContainerBackground, MatrixStack::toString);
+		UIHelper.renderOverflowHidden(stack, this::renderContainerBackground, MatrixStack::toString);
 
 		// Elements
-		renderStarSystem(matrixStack, pMouseX, pMouseY, pPartialTicks);
+		renderStarSystem(stack, pMouseX, pMouseY, pPartialTicks);
 
 		// Sun
 		UIHelper.bindStcht();
-		UIHelper.betterBlit(matrixStack, this.width / 2 - 24, this.height / 2 - 24, 0, 0, 48, 48, 128);
+		UIHelper.betterBlit(stack, this.width / 2 - 24, this.height / 2 - 24, 0, 0, 48, 48, 128);
+
+		// Select UI
+		int x = this.width - 50;
+		int y = this.height - 50;
+		if (this.selected == null) {
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translate("machina.screen.starchart.noselect"),
+					this.width / 2, this.height / 2 + 30, 0xFF_ff0000, 0xFF_0e0e0e);
+		} else {
+			UIHelper.bindScifi();
+			this.blit(stack, x - 49, y - 62, 151, 103, 88, 81);
+			this.blit(stack, x - 37, y - 42, 4, 130, 69, 1);
+			UIHelper.drawCenteredStringWithBorder(stack,
+					selected.getData().getAttributeFormatted(AttributeInit.PLANET_NAME), x - 2, y - 53, 0xFF_00fefe,
+					0xFF_0e0e0e);
+			int i = 0;
+			for (PlanetTrait t : selected.getData().getTraits()) {
+				UIHelper.drawCenteredStringWithBorder(stack, t.toString(), x - 2, y - 38 + i * 10, t.getColor(),
+						0xFF_0e0e0e);
+				i++;
+			}
+		}
 	}
 
 	private void renderContainerBackground(MatrixStack matrixStack) {

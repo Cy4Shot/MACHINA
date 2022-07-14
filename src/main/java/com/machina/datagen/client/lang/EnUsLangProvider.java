@@ -130,7 +130,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		
 		addScreen("cargo_crate", "open", "Right Click to Loot");
 		
-		addScreen("starchart_select", "noselect", "Please select a planet.");
+		addScreen("starchart", "noselect", "Please select a planet.");
 		
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");
