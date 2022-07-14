@@ -76,4 +76,8 @@ public class MathUtil {
 				.add(f[1].scale(3 * Math.pow(t, 3) - 6 * Math.pow(t, 2) + 3 * t))
 				.add(f[2].scale(-3 * Math.pow(t, 3) + 3 * Math.pow(t, 2))).add(f[3].scale(Math.pow(t, 3)));
 	}
+	
+	public static double[] dirichlet(int size, long seed) {
+		return new Dirichlet(size).nextDistribution(seed);
+	}
 }
