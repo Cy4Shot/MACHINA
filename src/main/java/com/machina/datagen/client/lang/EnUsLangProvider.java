@@ -25,6 +25,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.BATTERY.get(), "Battery");
 		add(BlockInit.CREATIVE_BATTERY.get(), "Creative Battery");
 		add(BlockInit.STEEL_BLOCK.get(), "Steel Block");
+		add(BlockInit.ALUMINUM_BLOCK.get(), "Aluminum Block");
+		add(BlockInit.ALUMINUM_ORE.get(), "Aluminum Ore");
 		add(BlockInit.STEEL_CHASSIS.get(), "Steel Chassis");
 		add(BlockInit.IRON_CHASSIS.get(), "Iron Chassis");
 		add(BlockInit.ALIEN_STONE.get(), "Alien Stone");
@@ -44,16 +46,15 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.REINFORCED_TILE.get(), "Reinforced Tile");
 
 		// Items
-		add(ItemInit.THERMAL_REGULATING_HELMET.get(), "Thermal Regulating Helmet");
-		add(ItemInit.THERMAL_REGULATING_CHESTPLATE.get(), "Thermal Regulating Chestplate");
-		add(ItemInit.THERMAL_REGULATING_LEGGINGS.get(), "Thermal Regulating Leggings");
-		add(ItemInit.THERMAL_REGULATING_BOOTS.get(), "Thermal Regulating Boots");
 		add(ItemInit.WRENCH.get(), "Wrench");
 		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
 		add(ItemInit.SCANNER.get(), "Scanner");
 		add(ItemInit.REINFORCED_STICK.get(), "Reinforced Stick");
 		add(ItemInit.STEEL_INGOT.get(), "Steel Ingot");
 		add(ItemInit.STEEL_NUGGET.get(), "Steel Nugget");
+		add(ItemInit.ALUMINUM_INGOT.get(), "Aluminum Ingot");
+		add(ItemInit.ALUMINUM_NUGGET.get(), "Aluminum Nugget");
+		add(ItemInit.IRON_CATALYST.get(), "Iron Catalyst");
 		add(ItemInit.PROCESSOR.get(), "Processor");
 		add(ItemInit.SILICON.get(), "Silicon");
 		add(ItemInit.TRANSISTOR.get(), "Transistor");

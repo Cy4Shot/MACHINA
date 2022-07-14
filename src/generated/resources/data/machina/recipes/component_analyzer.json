@@ -14,7 +14,7 @@
       "item": "machina:iron_chassis"
     },
     "s": {
-      "item": "machina:steel_ingot"
+      "tag": "forge:ingots/steel"
     },
     "b": {
       "item": "minecraft:heavy_weighted_pressure_plate"

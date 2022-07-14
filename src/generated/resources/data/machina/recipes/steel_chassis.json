@@ -11,7 +11,7 @@
       "item": "machina:iron_chassis"
     },
     "s": {
-      "item": "machina:steel_ingot"
+      "tag": "forge:ingots/steel"
     }
   },
   "result": {

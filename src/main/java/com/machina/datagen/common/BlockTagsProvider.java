@@ -28,6 +28,7 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
 		tag(BlockTags.WALLS).add(BlockInit.WASTELAND_SANDSTONE_WALL.get());
 		tag(BlockTags.SAND).add(BlockInit.WASTELAND_SAND.get());
 		tag(TagHelper.getForgeBlockTag("storage_blocks/steel")).add(BlockInit.STEEL_BLOCK.get());
+		tag(TagHelper.getForgeBlockTag("storage_blocks/aluminum")).add(BlockInit.ALUMINUM_BLOCK.get());
 	}
 
 }

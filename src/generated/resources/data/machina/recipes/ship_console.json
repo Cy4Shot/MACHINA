@@ -17,10 +17,10 @@
       "item": "machina:steel_chassis"
     },
     "s": {
-      "item": "machina:steel_ingot"
+      "tag": "forge:ingots/steel"
     },
     "b": {
-      "item": "machina:steel_block"
+      "tag": "forge:storage_blocks/steel"
     },
     "p": {
       "item": "machina:processor"

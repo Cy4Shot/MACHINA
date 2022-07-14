@@ -10,6 +10,7 @@ import com.machina.datagen.builder.CustomShapelessRecipeBuilder;
 import com.machina.datagen.builder.CustomSmithingRecipeBuilder;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.util.server.TagHelper;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
@@ -30,6 +31,10 @@ public class RecipesProvider extends RecipeProvider {
 	protected void buildShapelessRecipes(Consumer<IFinishedRecipe> f) {
 		add9x9AndBack(f, ItemInit.STEEL_NUGGET.get(), ItemInit.STEEL_INGOT.get());
 		add9x9AndBack(f, ItemInit.STEEL_INGOT.get(), BlockInit.STEEL_BLOCK.get());
+		add9x9AndBack(f, ItemInit.ALUMINUM_NUGGET.get(), ItemInit.ALUMINUM_INGOT.get());
+		add9x9AndBack(f, ItemInit.ALUMINUM_INGOT.get(), BlockInit.ALUMINUM_BLOCK.get());
+		
+		addSmelting(f, BlockInit.ALUMINUM_ORE.get(), ItemInit.ALUMINUM_INGOT.get(), 1f, 100);
 		
 		addSmithing(f, Items.STICK, Items.IRON_INGOT, ItemInit.REINFORCED_STICK.get());
 		addSmithing(f, Items.IRON_INGOT, ItemInit.SILICON.get(), ItemInit.TRANSISTOR.get());
@@ -37,6 +42,17 @@ public class RecipesProvider extends RecipeProvider {
 		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.IRON_INGOT, Items.COAL);
 		
 		addBlasting(f, Blocks.GRAVEL, ItemInit.SILICON.get(), 0.5f, 100);
+		
+		addShaped(f, ItemInit.IRON_CATALYST.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', Items.IRON_INGOT)
+					.define('s', ItemInit.SILICON.get())
+					.pattern(" i ")
+					.pattern("isi")
+					.pattern(" i ");
+			//@formatter:on
+		});
 		
 		addShaped(f, ItemInit.PROCESSOR.get(), 1, builder -> {
 			//@formatter:off
@@ -56,8 +72,8 @@ public class RecipesProvider extends RecipeProvider {
 					.define('t', ItemInit.TRANSISTOR.get())
 					.define('g', Items.GLOWSTONE_DUST)
 					.define('c', BlockInit.STEEL_CHASSIS.get())
-					.define('s', ItemInit.STEEL_INGOT.get())
-					.define('b', BlockInit.STEEL_BLOCK.get())
+					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
+					.define('b', TagHelper.getForgeItemTag("storage_blocks/steel"))
 					.define('p', ItemInit.PROCESSOR.get())
 					.pattern("gpg")
 					.pattern("tct")
@@ -70,7 +86,7 @@ public class RecipesProvider extends RecipeProvider {
 			return builder
 					.define('t', ItemInit.TRANSISTOR.get())
 					.define('c', BlockInit.IRON_CHASSIS.get())
-					.define('s', ItemInit.STEEL_INGOT.get())
+					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
 					.define('b', Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE)
 					.define('r', Items.REDSTONE)
 					.define('p', ItemInit.PROCESSOR.get())
@@ -95,7 +111,7 @@ public class RecipesProvider extends RecipeProvider {
 			//@formatter:off
 			return builder
 					.define('c', BlockInit.IRON_CHASSIS.get())
-					.define('s', ItemInit.STEEL_INGOT.get())
+					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
 					.pattern("sss")
 					.pattern("scs")
 					.pattern("sss");

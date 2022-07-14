@@ -40,6 +40,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
 		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_WALL.get());
 		makeSimpleBlockItem(BlockInit.STEEL_BLOCK.get());
+		makeSimpleBlockItem(BlockInit.ALUMINUM_BLOCK.get());
+		makeSimpleBlockItem(BlockInit.ALUMINUM_ORE.get());
 		makeSimpleBlockItem(BlockInit.STEEL_CHASSIS.get());
 		makeSimpleBlockItem(BlockInit.IRON_CHASSIS.get());
 		makeSimpleBlockItem(BlockInit.PUZZLE_BLOCK.get());
@@ -52,6 +54,9 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		oneLayerItem(ItemInit.REINFORCED_STICK.get());
 		oneLayerItem(ItemInit.STEEL_INGOT.get());
 		oneLayerItem(ItemInit.STEEL_NUGGET.get());
+		oneLayerItem(ItemInit.ALUMINUM_INGOT.get());
+		oneLayerItem(ItemInit.ALUMINUM_NUGGET.get());
+		oneLayerItem(ItemInit.IRON_CATALYST.get());
 		oneLayerItem(ItemInit.PROCESSOR.get());
 		oneLayerItem(ItemInit.SILICON.get());
 		oneLayerItem(ItemInit.SCANNER.get());

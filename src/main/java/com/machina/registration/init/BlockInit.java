@@ -46,6 +46,8 @@ public class BlockInit {
 	public static final RegistryObject<Block> STEEL_CHASSIS = register("steel_chassis", Blocks.IRON_BLOCK,
 			a -> a.noOcclusion(), Block::new);
 	public static final RegistryObject<Block> STEEL_BLOCK = register("steel_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> ALUMINUM_BLOCK = register("aluminum_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> ALUMINUM_ORE = register("aluminum_ore", Blocks.IRON_ORE);
 	public static final RegistryObject<Block> ALIEN_STONE = register("alien_stone", Blocks.STONE);
 	public static final RegistryObject<StairsBlock> ALIEN_STONE_STAIRS = stair("alien_stone_stairs", Blocks.STONE_SLAB);
 	public static final RegistryObject<SlabBlock> ALIEN_STONE_SLAB = register("alien_stone_slab", Blocks.STONE_SLAB,
@@ -69,8 +71,6 @@ public class BlockInit {
 			Blocks.SANDSTONE_WALL, WallBlock::new);
 	public static final RegistryObject<Block> REINFORCED_TILE = register("reinforced_tile", Blocks.NETHERITE_BLOCK);
 
-	
-	
 	private static <T extends Block> Supplier<T> of(Block block,
 			Function<AbstractBlock.Properties, AbstractBlock.Properties> extra,
 			Function<AbstractBlock.Properties, T> constructor) {

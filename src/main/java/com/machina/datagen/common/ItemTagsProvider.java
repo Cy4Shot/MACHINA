@@ -28,5 +28,8 @@ public class ItemTagsProvider extends net.minecraft.data.ItemTagsProvider {
 		tag(TagHelper.getForgeItemTag("ingots/steel")).add(ItemInit.STEEL_INGOT.get());
 		tag(TagHelper.getForgeItemTag("nuggets/steel")).add(ItemInit.STEEL_NUGGET.get());
 		tag(TagHelper.getForgeItemTag("storage_blocks/steel")).add(BlockInit.STEEL_BLOCK.get().asItem());
+		tag(TagHelper.getForgeItemTag("ingots/aluminum")).add(ItemInit.ALUMINUM_INGOT.get());
+		tag(TagHelper.getForgeItemTag("nuggets/aluminum")).add(ItemInit.ALUMINUM_NUGGET.get());
+		tag(TagHelper.getForgeItemTag("storage_blocks/aluminum")).add(BlockInit.ALUMINUM_BLOCK.get().asItem());
 	}
 }
