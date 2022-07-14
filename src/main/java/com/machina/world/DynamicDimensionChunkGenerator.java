@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import com.machina.Machina;
 import com.machina.planet.attribute.PlanetAttributeList;
 import com.machina.planet.trait.type.IWorldTrait;
-import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.MachinaRL;
 import com.machina.util.math.OpenSimplex2F;
 import com.machina.util.server.PlanetUtils;
@@ -154,13 +154,13 @@ public class DynamicDimensionChunkGenerator extends ChunkGenerator {
 
 		// Attributes
 		PlanetAttributeList attr = StarchartData.getStarchartForServer(server).get(key.location()).getAttributes();
-		this.cavesExist = attr.getValue(PlanetAttributeTypesInit.CAVES_EXIST) == 1;
-		this.caveChance = attr.getValue(PlanetAttributeTypesInit.CAVE_CHANCE);
-		this.caveLength = attr.getValue(PlanetAttributeTypesInit.CAVE_LENGTH);
-		this.caveThickness = attr.getValue(PlanetAttributeTypesInit.CAVE_THICKNESS);
-		this.baseBlocks = PlanetBlocksGenerator.getBasePalette(attr.getValue(PlanetAttributeTypesInit.BASE_BLOCKS));
-		this.surfBlocks = PlanetBlocksGenerator.getSurfPalette(attr.getValue(PlanetAttributeTypesInit.SURF_BLOCKS));
-		this.fluidBlocks = PlanetBlocksGenerator.getFluidPalette(attr.getValue(PlanetAttributeTypesInit.FLUID_BLOCKS));
+		this.cavesExist = attr.getValue(AttributeInit.CAVES_EXIST) == 1;
+		this.caveChance = attr.getValue(AttributeInit.CAVE_CHANCE);
+		this.caveLength = attr.getValue(AttributeInit.CAVE_LENGTH);
+		this.caveThickness = attr.getValue(AttributeInit.CAVE_THICKNESS);
+		this.baseBlocks = PlanetBlocksGenerator.getBasePalette(attr.getValue(AttributeInit.BASE_BLOCKS));
+		this.surfBlocks = PlanetBlocksGenerator.getSurfPalette(attr.getValue(AttributeInit.SURF_BLOCKS));
+		this.fluidBlocks = PlanetBlocksGenerator.getFluidPalette(attr.getValue(AttributeInit.FLUID_BLOCKS));
 
 		// Post Init
 		this.carvers = new ArrayList<>();

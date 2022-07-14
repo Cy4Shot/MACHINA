@@ -1,7 +1,7 @@
 package com.machina.block;
 
 import com.machina.block.tile.BatteryTileEntity;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
@@ -33,7 +33,7 @@ public class BatteryBlock extends HorizontalFacingBlock {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityTypesInit.BATTERY.get().create();
+		return TileEntityInit.BATTERY.get().create();
 	}
 
 	@Override

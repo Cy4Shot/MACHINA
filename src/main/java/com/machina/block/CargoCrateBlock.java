@@ -1,7 +1,7 @@
 package com.machina.block;
 
 import com.machina.block.tile.CargoCrateTileEntity;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -75,7 +75,7 @@ public class CargoCrateBlock extends Block {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityTypesInit.CARGO_CRATE.get().create();
+		return TileEntityInit.CARGO_CRATE.get().create();
 	}
 
 }

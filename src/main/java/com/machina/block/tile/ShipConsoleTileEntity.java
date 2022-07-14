@@ -10,7 +10,7 @@ import com.machina.block.container.ShipLaunchContainer;
 import com.machina.block.tile.base.BaseLockableTileEntity;
 import com.machina.recipe.ShipConsoleRecipe;
 import com.machina.registration.init.RecipeInit;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 import com.machina.util.MachinaRL;
 
 import net.minecraft.block.BlockState;
@@ -82,7 +82,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 	}
 
 	public ShipConsoleTileEntity() {
-		this(TileEntityTypesInit.SHIP_CONSOLE.get());
+		this(TileEntityInit.SHIP_CONSOLE.get());
 	}
 
 	public List<ItemStack> getItemsForStage() {

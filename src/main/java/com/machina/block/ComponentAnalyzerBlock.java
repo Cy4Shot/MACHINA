@@ -1,7 +1,7 @@
 package com.machina.block;
 
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -34,7 +34,7 @@ public class ComponentAnalyzerBlock extends Block {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityTypesInit.COMPONENT_ANALYZER.get().create();
+		return TileEntityInit.COMPONENT_ANALYZER.get().create();
 	}
 
 	@Override

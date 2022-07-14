@@ -24,7 +24,7 @@ import com.machina.world.gen.PlanetPaletteGenerator;
 
 import net.minecraftforge.event.RegistryEvent;
 
-public final class PlanetAttributeTypesInit {
+public final class AttributeInit {
 
 	//@formatter:off
 	public static final PlanetAttributeType<Float> GRAVITY = create(new FloatSerializer(1.0f, random(0.1f, 2.0f)), "G");
@@ -54,7 +54,7 @@ public final class PlanetAttributeTypesInit {
 	}
 
 	public static void register(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
-		ClassHelper.<PlanetAttributeType<?>>doWithStatics(PlanetAttributeTypesInit.class,
+		ClassHelper.<PlanetAttributeType<?>>doWithStatics(AttributeInit.class,
 				(name, data) -> register(name.toLowerCase(), data));
 	}
 

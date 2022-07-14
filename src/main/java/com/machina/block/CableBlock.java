@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 import com.machina.block.tile.CableTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 import com.machina.util.math.DirectionUtil;
 import com.machina.util.math.MathUtil;
 
@@ -72,7 +72,7 @@ public class CableBlock extends Block {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityTypesInit.CABLE.get().create();
+		return TileEntityInit.CABLE.get().create();
 	}
 
 	@Override

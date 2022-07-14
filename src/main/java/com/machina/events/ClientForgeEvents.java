@@ -7,7 +7,7 @@ import com.machina.client.screen.DevScreen;
 import com.machina.client.screen.ShipConstructScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingsInit;
-import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.color.Color;
 import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
@@ -34,8 +34,8 @@ public class ClientForgeEvents {
 		RegistryKey<World> dim = mc.level.dimension();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
 			PlanetData data = ClientStarchart.getPlanetData(PlanetUtils.getId(dim));
-			Color color = data.getAttribute(PlanetAttributeTypesInit.PALETTE)[4];
-			Float density = data.getAttribute(PlanetAttributeTypesInit.FOG_DENSITY);
+			Color color = data.getAttribute(AttributeInit.PALETTE)[4];
+			Float density = data.getAttribute(AttributeInit.FOG_DENSITY);
 			event.setRed(color.getRed() / 255f * density);
 			event.setGreen(color.getGreen() / 255f * density);
 			event.setBlue(color.getBlue() / 255f * density);

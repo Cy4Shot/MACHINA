@@ -15,10 +15,10 @@ import com.machina.client.screen.ShipConstructScreen;
 import com.machina.client.screen.ShipLaunchScreen;
 import com.machina.client.util.ClientTimer;
 import com.machina.registration.init.BlockInit;
-import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.ContainerInit;
 import com.machina.registration.init.FluidInit;
-import com.machina.registration.init.PlanetAttributeTypesInit;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.AttributeInit;
+import com.machina.registration.init.TileEntityInit;
 import com.machina.util.color.Color;
 import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
@@ -60,7 +60,7 @@ public class ClientModEvents {
 				RegistryKey<World> dim = world.dimension();
 				if (PlanetUtils.isDimensionPlanet(dim)) {
 					PlanetData data = ClientStarchart.getPlanetData(PlanetUtils.getId(dim));
-					Color color = data.getAttribute(PlanetAttributeTypesInit.PALETTE)[paletteId];
+					Color color = data.getAttribute(AttributeInit.PALETTE)[paletteId];
 					return color.getRGB();
 				}
 			}
@@ -112,16 +112,16 @@ public class ClientModEvents {
 		RenderTypeLookup.setRenderLayer(FluidInit.LIQUID_HYDROGEN_FLOWING.get(), RenderType.translucent());
 		RenderTypeLookup.setRenderLayer(FluidInit.LIQUID_HYDROGEN_BLOCK.get(), RenderType.translucent());
 
-		ScreenManager.register(ContainerTypesInit.SHIP_CONSTRUCT_CONTAINER_TYPE.get(), ShipConstructScreen::new);
-		ScreenManager.register(ContainerTypesInit.SHIP_LAUNCH_CONTAINER_TYPE.get(), ShipLaunchScreen::new);
-		ScreenManager.register(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), ComponentAnalyzerScreen::new);
-		ScreenManager.register(ContainerTypesInit.BATTERY_CONTAINER_TYPE.get(), BatteryScreen::new);
-		ScreenManager.register(ContainerTypesInit.SCANNER_CONTAINER_TYPE.get(), ScannerScreen::new);
-		ScreenManager.register(ContainerTypesInit.PUZZLE_CONTAINER_TYPE.get(), PuzzleScreen::new);
+		ScreenManager.register(ContainerInit.SHIP_CONSTRUCT.get(), ShipConstructScreen::new);
+		ScreenManager.register(ContainerInit.SHIP_LAUNCH.get(), ShipLaunchScreen::new);
+		ScreenManager.register(ContainerInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerScreen::new);
+		ScreenManager.register(ContainerInit.BATTERY.get(), BatteryScreen::new);
+		ScreenManager.register(ContainerInit.SCANNER.get(), ScannerScreen::new);
+		ScreenManager.register(ContainerInit.PUZZLE.get(), PuzzleScreen::new);
 		
-		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityTypesInit.SHIP_CONSOLE.get(), ShipConsoleRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityInit.SHIP_CONSOLE.get(), ShipConsoleRenderer::new);
 		//@formatter:on
 	}
 }

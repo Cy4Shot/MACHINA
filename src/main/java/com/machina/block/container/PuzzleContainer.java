@@ -3,7 +3,7 @@ package com.machina.block.container;
 import com.machina.block.container.base.BaseContainer;
 import com.machina.block.tile.PuzzleTileEntity;
 import com.machina.registration.init.BlockInit;
-import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.ContainerInit;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,7 +14,7 @@ public class PuzzleContainer extends BaseContainer<PuzzleTileEntity> {
 	public final PuzzleTileEntity te;
 
 	public PuzzleContainer(final int windowId, final PuzzleTileEntity te) {
-		super(ContainerTypesInit.PUZZLE_CONTAINER_TYPE.get(), windowId, te);
+		super(ContainerInit.PUZZLE.get(), windowId, te);
 		this.te = te;
 	}
 

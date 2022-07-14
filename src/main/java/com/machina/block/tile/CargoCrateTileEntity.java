@@ -2,7 +2,7 @@ package com.machina.block.tile;
 
 import com.machina.block.CargoCrateBlock;
 import com.machina.block.tile.base.BaseLockableTileEntity;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,7 +29,7 @@ public class CargoCrateTileEntity extends BaseLockableTileEntity implements IAni
 	}
 
 	public CargoCrateTileEntity() {
-		this(TileEntityTypesInit.CARGO_CRATE.get());
+		this(TileEntityInit.CARGO_CRATE.get());
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

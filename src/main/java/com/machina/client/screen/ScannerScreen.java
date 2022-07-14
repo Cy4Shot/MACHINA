@@ -6,7 +6,7 @@ import com.machina.client.util.UIHelper;
 import com.machina.item.container.ScannerContainer;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
-import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.color.Color;
 import com.machina.util.server.PlanetUtils;
 import com.machina.util.text.StringUtils;
@@ -87,16 +87,16 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				}
 				break;
 			case 1:
-				drawAttribute(stack, PlanetAttributeTypesInit.GRAVITY, x, y + 20);
-				drawAttribute(stack, PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, x, y + 30);
-				drawAttribute(stack, PlanetAttributeTypesInit.TEMPERATURE, x, y + 40);
-				drawAttribute(stack, PlanetAttributeTypesInit.FOG_DENSITY, x, y + 50);
+				drawAttribute(stack, AttributeInit.GRAVITY, x, y + 20);
+				drawAttribute(stack, AttributeInit.ATMOSPHERIC_PRESSURE, x, y + 30);
+				drawAttribute(stack, AttributeInit.TEMPERATURE, x, y + 40);
+				drawAttribute(stack, AttributeInit.FOG_DENSITY, x, y + 50);
 				break;
 			case 2:
-				if (data.getAttribute(PlanetAttributeTypesInit.CAVES_EXIST) == 1) {
-					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_CHANCE, x, y + 20);
-					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_THICKNESS, x, y + 30);
-					drawAttribute(stack, PlanetAttributeTypesInit.CAVE_LENGTH, x, y + 40);
+				if (data.getAttribute(AttributeInit.CAVES_EXIST) == 1) {
+					drawAttribute(stack, AttributeInit.CAVE_CHANCE, x, y + 20);
+					drawAttribute(stack, AttributeInit.CAVE_THICKNESS, x, y + 30);
+					drawAttribute(stack, AttributeInit.CAVE_LENGTH, x, y + 40);
 					break;
 				}
 				draw(stack, StringUtils.translate("machina.screen.scanner.nocave"), x + 120, y + 20, 0xFF_FF0000, true);
@@ -105,8 +105,8 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				break;
 			}
 			draw(stack,
-					PlanetAttributeTypesInit.PLANET_NAME.getName() + ": "
-							+ data.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME),
+					AttributeInit.PLANET_NAME.getName() + ": "
+							+ data.getAttributeFormatted(AttributeInit.PLANET_NAME),
 					x + 117, y - 18, 0xFF_00fefe, true);
 		} else {
 			draw(stack,
@@ -124,7 +124,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
 		String title = type.getName() + ": ";
 		String value = data.getAttributeFormatted(type);
-		Color[] colors = data.getAttribute(PlanetAttributeTypesInit.PALETTE);
+		Color[] colors = data.getAttribute(AttributeInit.PALETTE);
 		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);
 		draw(stack, value, x + 120 + UIHelper.getWidth(title) / 2, y, colors[4].maxBrightness().toInt(), true);
 	}

@@ -4,7 +4,7 @@ import com.machina.block.container.BatteryContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseEnergyTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,7 +13,7 @@ import net.minecraft.inventory.container.Container;
 public class BatteryTileEntity extends BaseEnergyTileEntity implements IMachinaContainerProvider {
 
 	public BatteryTileEntity() {
-		super(TileEntityTypesInit.BATTERY.get());
+		super(TileEntityInit.BATTERY.get());
 		
 		this.sides = new int[] {1, 1, 1, 1, 1, 1};
 	}

@@ -2,12 +2,12 @@ package com.machina.block.tile;
 
 import com.machina.block.tile.base.BaseEnergyTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 public class CreativeBatteryTileEntity extends BaseEnergyTileEntity {
 
 	public CreativeBatteryTileEntity() {
-		super(TileEntityTypesInit.CREATIVE_BATTERY.get());
+		super(TileEntityInit.CREATIVE_BATTERY.get());
 		
 		this.sides = new int[] {2, 2, 2, 2, 2, 2};
 	}

@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
@@ -23,6 +23,6 @@ public class CreativeBatteryBlock extends HorizontalFacingBlock {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityTypesInit.CREATIVE_BATTERY.get().create();
+		return TileEntityInit.CREATIVE_BATTERY.get().create();
 	}
 }

@@ -10,7 +10,7 @@ import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.capability.DirectionalLazyOptionalCache;
 import com.machina.capability.energy.CableEnergyStorage;
 import com.machina.registration.init.BlockInit;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 import com.machina.util.math.DirectionUtil;
 
 import net.minecraft.block.Block;
@@ -55,7 +55,7 @@ public class CableTileEntity extends BaseTileEntity implements ITickableTileEnti
 	}
 
 	public CableTileEntity() {
-		this(TileEntityTypesInit.CABLE.get());
+		this(TileEntityInit.CABLE.get());
 	}
 
 	@Override

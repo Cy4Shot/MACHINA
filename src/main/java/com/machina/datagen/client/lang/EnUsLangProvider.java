@@ -3,8 +3,8 @@ package com.machina.datagen.client.lang;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
-import com.machina.registration.init.PlanetAttributeTypesInit;
-import com.machina.registration.init.PlanetTraitInit;
+import com.machina.registration.init.AttributeInit;
+import com.machina.registration.init.TraitInit;
 
 import net.minecraft.data.DataGenerator;
 
@@ -19,6 +19,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 		// Blocks
 		add(BlockInit.SHIP_CONSOLE.get(), "Ship Console");
+		add(BlockInit.ATMOSPHERIC_SEPERATOR.get(), "Atmospheric Seperator");
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
 		add(BlockInit.PUZZLE_BLOCK.get(), "Puzzle Block");
@@ -77,31 +78,31 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.LIQUID_AMMONIA_BUCKET.get(), "Liquid Ammonia Bucket");
 
 		// Traits
-		add(PlanetTraitInit.WATER_WORLD, "Water World");
-		add(PlanetTraitInit.CONTINENTAL, "Continental");
-		add(PlanetTraitInit.MOUNTAINOUS, "Mountainous");
-		add(PlanetTraitInit.HILLY, "Hilly");
-		add(PlanetTraitInit.FLAT, "Flat");
-		add(PlanetTraitInit.LAKES, "Lakes");
-		add(PlanetTraitInit.FROZEN, "Frozen");
-		add(PlanetTraitInit.ISLANDS, "Islands");
+		add(TraitInit.WATER_WORLD, "Water World");
+		add(TraitInit.CONTINENTAL, "Continental");
+		add(TraitInit.MOUNTAINOUS, "Mountainous");
+		add(TraitInit.HILLY, "Hilly");
+		add(TraitInit.FLAT, "Flat");
+		add(TraitInit.LAKES, "Lakes");
+		add(TraitInit.FROZEN, "Frozen");
+		add(TraitInit.ISLANDS, "Islands");
 		
 		// Attributes
-		add(PlanetAttributeTypesInit.ATMOSPHERIC_PRESSURE, "Atmospheric Pressure");
-		add(PlanetAttributeTypesInit.BASE_BLOCKS, "Blocks");
-		add(PlanetAttributeTypesInit.CAVE_CHANCE, "Cave Density");
-		add(PlanetAttributeTypesInit.CAVE_LENGTH, "Cave Length");
-		add(PlanetAttributeTypesInit.CAVE_THICKNESS, "Cave Thickness");
-		add(PlanetAttributeTypesInit.CAVES_EXIST, "Caves");
-		add(PlanetAttributeTypesInit.FLUID_BLOCKS, "Fluids");
-		add(PlanetAttributeTypesInit.FOG_DENSITY, "Fog Density");
-		add(PlanetAttributeTypesInit.GRAVITY, "Gravity");
-		add(PlanetAttributeTypesInit.ISLAND_DENSITY, "Island Density");
-		add(PlanetAttributeTypesInit.PALETTE, "Color Palettte");
-		add(PlanetAttributeTypesInit.PLANET_NAME, "Planet Name");
-		add(PlanetAttributeTypesInit.PLANET_ICON, "Planet Icon");
-		add(PlanetAttributeTypesInit.SURF_BLOCKS, "Surface Blocks");
-		add(PlanetAttributeTypesInit.TEMPERATURE, "Temperature");
+		add(AttributeInit.ATMOSPHERIC_PRESSURE, "Atmospheric Pressure");
+		add(AttributeInit.BASE_BLOCKS, "Blocks");
+		add(AttributeInit.CAVE_CHANCE, "Cave Density");
+		add(AttributeInit.CAVE_LENGTH, "Cave Length");
+		add(AttributeInit.CAVE_THICKNESS, "Cave Thickness");
+		add(AttributeInit.CAVES_EXIST, "Caves");
+		add(AttributeInit.FLUID_BLOCKS, "Fluids");
+		add(AttributeInit.FOG_DENSITY, "Fog Density");
+		add(AttributeInit.GRAVITY, "Gravity");
+		add(AttributeInit.ISLAND_DENSITY, "Island Density");
+		add(AttributeInit.PALETTE, "Color Palettte");
+		add(AttributeInit.PLANET_NAME, "Planet Name");
+		add(AttributeInit.PLANET_ICON, "Planet Icon");
+		add(AttributeInit.SURF_BLOCKS, "Surface Blocks");
+		add(AttributeInit.TEMPERATURE, "Temperature");
 
 		// Item Groups
 		addItemGroup("machinaItemGroup", "Machina");

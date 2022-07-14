@@ -12,7 +12,7 @@ import com.machina.network.BaseNetwork;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.planet.trait.type.IPlanetTraitType;
-import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.MachinaRL;
 import com.machina.util.nbt.BaseNBTMap;
 import com.machina.util.server.PlanetUtils;
@@ -127,7 +127,7 @@ public class StarchartData extends WorldSavedData {
 		for (int i = 0; i < starchart.size(); i++) {
 			PlanetData p = starchart.values().stream().collect(Collectors.toList()).get(i);
 			StringUtils.printlnUtf8((i == starchart.values().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F)
-					+ StringUtils.TREE_H + p.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME));
+					+ StringUtils.TREE_H + p.getAttributeFormatted(AttributeInit.PLANET_NAME));
 			for (int j = 0; j < p.getTraits().size(); j++) {
 				StringUtils.printlnUtf8((i == starchart.values().size() - 1 ? " " : StringUtils.TREE_V) + " "
 						+ (j == p.getTraits().size() - 1 ? StringUtils.TREE_L : StringUtils.TREE_F) + StringUtils.TREE_H

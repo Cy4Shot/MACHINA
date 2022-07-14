@@ -12,7 +12,7 @@ import com.machina.world.settings.DynamicNoiseSettings;
 
 import net.minecraftforge.event.RegistryEvent;
 
-public final class PlanetTraitInit {
+public final class TraitInit {
 
 	public static final PlanetTrait NONE = new PlanetTrait(0);
 	public static final PlanetTrait WATER_WORLD = new WaterHeightTrait(0x169fde, 100);
@@ -25,7 +25,7 @@ public final class PlanetTraitInit {
 	public static final PlanetTrait ISLANDS = new NoiseSettingsTrait(0x48dde8, DynamicNoiseSettings.ISLAND_TYPE);
 
 	public static void register(final RegistryEvent.Register<PlanetTrait> event) {
-		ClassHelper.<PlanetTrait>doWithStatics(PlanetTraitInit.class,
+		ClassHelper.<PlanetTrait>doWithStatics(TraitInit.class,
 				(name, data) -> register(name.toLowerCase(), data));
 	}
 

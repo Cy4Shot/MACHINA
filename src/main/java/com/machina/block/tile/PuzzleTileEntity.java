@@ -5,7 +5,7 @@ import com.machina.block.container.PuzzleContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.registration.init.BlockInit;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 import com.machina.util.math.DirectionUtil;
 
 import net.minecraft.block.BlockState;
@@ -26,7 +26,7 @@ public class PuzzleTileEntity extends BaseTileEntity implements IMachinaContaine
 	}
 
 	public PuzzleTileEntity() {
-		this(TileEntityTypesInit.PUZZLE.get());
+		this(TileEntityInit.PUZZLE.get());
 	}
 
 	public void completed() {

@@ -20,8 +20,8 @@ public abstract class BaseContainer<T extends TileEntity> extends Container {
 	protected final IWorldPosCallable canInteractWithCallable;
 	public IIntArray data;
 
-	protected BaseContainer(ContainerType<?> pMenuType, int pContainerId, T te) {
-		super(pMenuType, pContainerId);
+	public BaseContainer(ContainerType<?> type, int id, T te) {
+		super(type, id);
 		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
 	}
 

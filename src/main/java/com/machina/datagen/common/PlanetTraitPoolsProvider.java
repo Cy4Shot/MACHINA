@@ -4,7 +4,7 @@ import com.machina.Machina;
 import com.machina.datagen.trait_pools.TraitPool;
 import com.machina.datagen.trait_pools.TraitPoolEntry;
 import com.machina.datagen.trait_pools.TraitPoolsGenProvider;
-import com.machina.registration.init.PlanetTraitInit;
+import com.machina.registration.init.TraitInit;
 
 import net.minecraft.data.DataGenerator;
 
@@ -19,10 +19,10 @@ public class PlanetTraitPoolsProvider extends TraitPoolsGenProvider {
 
 		// @formatter:off
 		addPool("geographical_traits", new TraitPool(3, 3).withEntries(
-				new TraitPoolEntry(25, PlanetTraitInit.MOUNTAINOUS, PlanetTraitInit.HILLY, PlanetTraitInit.FLAT),
-				new TraitPoolEntry(5,  PlanetTraitInit.CONTINENTAL, PlanetTraitInit.WATER_WORLD),
-				new TraitPoolEntry(5,  PlanetTraitInit.FROZEN),
-				new TraitPoolEntry(5,  PlanetTraitInit.ISLANDS)));
+				new TraitPoolEntry(25, TraitInit.MOUNTAINOUS, TraitInit.HILLY, TraitInit.FLAT),
+				new TraitPoolEntry(5,  TraitInit.CONTINENTAL, TraitInit.WATER_WORLD),
+				new TraitPoolEntry(5,  TraitInit.FROZEN),
+				new TraitPoolEntry(5,  TraitInit.ISLANDS)));
 		// @formatter:on
 	}
 

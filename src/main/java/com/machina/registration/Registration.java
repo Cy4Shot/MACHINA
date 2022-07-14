@@ -14,14 +14,14 @@ import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.CommandInit;
-import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.ContainerInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
-import com.machina.registration.init.PlanetAttributeTypesInit;
-import com.machina.registration.init.PlanetTraitInit;
+import com.machina.registration.init.AttributeInit;
+import com.machina.registration.init.TraitInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.StructureInit;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.registration.registry.PlanetTraitRegistry;
 import com.machina.world.DynamicDimensionHelper;
@@ -92,8 +92,8 @@ public class Registration {
 		BlockInit.BLOCKS.register(bus);
 		ItemInit.ITEMS.register(bus);
 		FluidInit.FLUIDS.register(bus);
-		ContainerTypesInit.CONTAINER_TYPES.register(bus);
-		TileEntityTypesInit.TILES.register(bus);
+		ContainerInit.CONTAINERS.register(bus);
+		TileEntityInit.TILES.register(bus);
 		StructureInit.STRUCTURES.register(bus);
 
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, Registration::addDimensionalSpacing);
@@ -123,11 +123,11 @@ public class Registration {
 	}
 
 	private static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
-		PlanetTraitInit.register(event);
+		TraitInit.register(event);
 	}
 
 	private static void registerPlanetAttributes(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
-		PlanetAttributeTypesInit.register(event);
+		AttributeInit.register(event);
 	}
 
 	private static void registerConfig(ModConfig.Type type, ForgeConfigSpec spec) {

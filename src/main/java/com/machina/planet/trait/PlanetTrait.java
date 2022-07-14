@@ -1,6 +1,6 @@
 package com.machina.planet.trait;
 
-import com.machina.registration.init.PlanetTraitInit;
+import com.machina.registration.init.TraitInit;
 import com.machina.util.text.StringUtils;
 
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -19,7 +19,7 @@ public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
 	}
 
 	public boolean exists() {
-		return this != PlanetTraitInit.NONE;
+		return this != TraitInit.NONE;
 	}
 
 	public int getColor() {

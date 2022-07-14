@@ -11,7 +11,7 @@ import com.machina.config.ClientConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SRefuel;
 import com.machina.network.c2s.C2SSetShipDestination;
-import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.registration.init.AttributeInit;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
@@ -60,7 +60,7 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 						PlanetData data = ClientStarchart.getPlanetData(id);
 						Minecraft.getInstance().setScreen(ShipLaunchScreen.this);
 						space();
-						add(t.getFeedback("set") + data.getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME));
+						add(t.getFeedback("set") + data.getAttributeFormatted(AttributeInit.PLANET_NAME));
 						MachinaNetwork.CHANNEL.sendToServer(
 								new C2SSetShipDestination(ShipLaunchScreen.this.menu.te.getBlockPos(), id));
 					}

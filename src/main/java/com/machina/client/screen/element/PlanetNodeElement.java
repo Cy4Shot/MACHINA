@@ -3,7 +3,7 @@ package com.machina.client.screen.element;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
-import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.color.Color;
 import com.machina.util.math.MathUtil;
 import com.machina.util.text.StringUtils;
@@ -30,7 +30,7 @@ public class PlanetNodeElement extends Widget {
 		active = true;
 		visible = true;
 		this.data = data;
-		this.icon = data.getAttribute(PlanetAttributeTypesInit.PLANET_ICON);
+		this.icon = data.getAttribute(AttributeInit.PLANET_ICON);
 	}
 
 	public PlanetData getData() {

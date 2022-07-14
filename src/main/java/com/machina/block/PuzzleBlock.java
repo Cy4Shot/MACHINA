@@ -1,7 +1,7 @@
 package com.machina.block;
 
 import com.machina.block.tile.PuzzleTileEntity;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
@@ -28,7 +28,7 @@ public class PuzzleBlock extends HorizontalFacingBlock {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityTypesInit.PUZZLE.get().create();
+		return TileEntityInit.PUZZLE.get().create();
 	}
 
 	@Override

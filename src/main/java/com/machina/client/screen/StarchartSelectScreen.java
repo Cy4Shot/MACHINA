@@ -4,7 +4,7 @@ import com.machina.client.ClientStarchart;
 import com.machina.client.util.IStarchartSelector;
 import com.machina.client.util.UIHelper;
 import com.machina.planet.trait.PlanetTrait;
-import com.machina.registration.init.PlanetAttributeTypesInit;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -37,7 +37,7 @@ public class StarchartSelectScreen extends StarchartScreen {
 			this.blit(stack, x - 49, y - 62, 151, 103, 88, 81);
 			this.blit(stack, x - 37, y - 42, 4, 130, 69, 1);
 			UIHelper.drawCenteredStringWithBorder(stack,
-					selected.getData().getAttributeFormatted(PlanetAttributeTypesInit.PLANET_NAME), x - 2, y - 53,
+					selected.getData().getAttributeFormatted(AttributeInit.PLANET_NAME), x - 2, y - 53,
 					0xFF_00fefe, 0xFF_0e0e0e);
 			int i = 0;
 			for (PlanetTrait t : selected.getData().getTraits()) {

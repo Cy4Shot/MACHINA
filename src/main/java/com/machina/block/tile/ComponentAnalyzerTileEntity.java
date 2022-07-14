@@ -3,7 +3,7 @@ package com.machina.block.tile;
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.tile.base.BaseLockableTileEntity;
 import com.machina.item.ShipComponentItem;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.ParticleUtil;
 
 import net.minecraft.block.BlockState;
@@ -48,7 +48,7 @@ public class ComponentAnalyzerTileEntity extends BaseLockableTileEntity implemen
 	}
 
 	public ComponentAnalyzerTileEntity() {
-		this(TileEntityTypesInit.COMPONENT_ANALYZER.get());
+		this(TileEntityInit.COMPONENT_ANALYZER.get());
 	}
 
 	public IIntArray getData() {

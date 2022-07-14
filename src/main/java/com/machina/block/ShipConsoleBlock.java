@@ -1,7 +1,7 @@
 package com.machina.block;
 
 import com.machina.block.tile.ShipConsoleTileEntity;
-import com.machina.registration.init.TileEntityTypesInit;
+import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -110,7 +110,7 @@ public class ShipConsoleBlock extends Block {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityTypesInit.SHIP_CONSOLE.get().create();
+		return TileEntityInit.SHIP_CONSOLE.get().create();
 	}
 
 	@Override

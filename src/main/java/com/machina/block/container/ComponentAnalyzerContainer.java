@@ -5,7 +5,7 @@ import com.machina.block.container.slot.AcceptSlot;
 import com.machina.block.container.slot.ResultSlot;
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.registration.init.BlockInit;
-import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.ContainerInit;
 import com.machina.registration.init.ItemInit;
 
 import net.minecraft.block.Block;
@@ -20,7 +20,7 @@ public class ComponentAnalyzerContainer extends BaseContainer<ComponentAnalyzerT
 
 	public ComponentAnalyzerContainer(final int windowId, final PlayerInventory playerInv,
 			final ComponentAnalyzerTileEntity te) {
-		super(ContainerTypesInit.COMPONENT_ANALYZER_CONTAINER_TYPE.get(), windowId, te);
+		super(ContainerInit.COMPONENT_ANALYZER.get(), windowId, te);
 		this.te = te;
 
 		recreateSlots(playerInv);

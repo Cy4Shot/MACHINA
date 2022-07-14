@@ -3,7 +3,7 @@ package com.machina.block.container;
 import com.machina.block.container.base.BaseContainer;
 import com.machina.block.tile.BatteryTileEntity;
 import com.machina.registration.init.BlockInit;
-import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.ContainerInit;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,7 +14,7 @@ public class BatteryContainer extends BaseContainer<BatteryTileEntity> {
 	public final BatteryTileEntity te;
 
 	public BatteryContainer(final int windowId, final BatteryTileEntity te) {
-		super(ContainerTypesInit.BATTERY_CONTAINER_TYPE.get(), windowId, te);
+		super(ContainerInit.BATTERY.get(), windowId, te);
 		this.te = te;
 		
 		createData(() -> te.getData());

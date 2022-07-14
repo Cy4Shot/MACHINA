@@ -1,6 +1,6 @@
 package com.machina.item.container;
 
-import com.machina.registration.init.ContainerTypesInit;
+import com.machina.registration.init.ContainerInit;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Container;
@@ -12,7 +12,7 @@ public class ScannerContainer extends Container {
 	private RegistryKey<World> dim;
 
 	public ScannerContainer(int windowId, RegistryKey<World> key) {
-		super(ContainerTypesInit.SCANNER_CONTAINER_TYPE.get(), windowId);
+		super(ContainerInit.SCANNER.get(), windowId);
 		this.dim = key;
 	}
 
