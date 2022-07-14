@@ -136,7 +136,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("scanner", "tab0", "1. Planet Traits");
 		addScreen("scanner", "tab1", "2. Planet Info");
 		addScreen("scanner", "tab2", "3. Cave Info");
-		addScreen("scanner", "tab3", "4. Solar Status");
+		addScreen("scanner", "tab3", "4. Atmosphere Composition");
 		addScreen("scanner", "location", "Location: ");
 		addScreen("scanner", "nodata", "Data Unavailable.");
 		addScreen("scanner", "nocave", "There are no caves on this planet!");

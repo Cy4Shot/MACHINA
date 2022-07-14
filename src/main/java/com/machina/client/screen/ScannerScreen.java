@@ -1,5 +1,7 @@
 package com.machina.client.screen;
 
+import java.text.DecimalFormat;
+
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
@@ -7,6 +9,7 @@ import com.machina.item.container.ScannerContainer;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.AttributeInit;
+import com.machina.registration.init.FluidInit.ChemicalValues;
 import com.machina.util.color.Color;
 import com.machina.util.server.PlanetUtils;
 import com.machina.util.text.StringUtils;
@@ -102,11 +105,15 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				draw(stack, StringUtils.translate("machina.screen.scanner.nocave"), x + 120, y + 20, 0xFF_FF0000, true);
 				break;
 			case 3:
+				drawChemical(stack, ChemicalValues.OXYGEN, x, y + 20);
+				drawChemical(stack, ChemicalValues.NITROGEN, x, y + 30);
+				drawChemical(stack, ChemicalValues.AMMONIA, x, y + 40);
+				drawChemical(stack, ChemicalValues.CARBON_DIOXIDE, x, y + 50);
+				drawChemical(stack, ChemicalValues.HYDROGEN, x, y + 60);
 				break;
 			}
 			draw(stack,
-					AttributeInit.PLANET_NAME.getName() + ": "
-							+ data.getAttributeFormatted(AttributeInit.PLANET_NAME),
+					AttributeInit.PLANET_NAME.getName() + ": " + data.getAttributeFormatted(AttributeInit.PLANET_NAME),
 					x + 117, y - 18, 0xFF_00fefe, true);
 		} else {
 			draw(stack,
@@ -118,6 +125,15 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 
 		// Footer
 		draw(stack, "MACHINA://SCANNER-" + (tab + 1) + "/", x + 8, y + 82, 0xFF_00fefe, false);
+	}
+
+	private void drawChemical(MatrixStack stack, ChemicalValues chem, int x, int y) {
+		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
+		String title = chem.getDisplayName() + ": ";
+		String value = new DecimalFormat("##.##").format(PlanetUtils.getAtmosphereChemical(data, chem) * 100) + "%";
+		Color[] colors = data.getAttribute(AttributeInit.PALETTE);
+		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);
+		draw(stack, value, x + 120 + UIHelper.getWidth(title) / 2, y, colors[4].maxBrightness().toInt(), true);
 	}
 
 	private void drawAttribute(MatrixStack stack, PlanetAttributeType<?> type, int x, int y) {

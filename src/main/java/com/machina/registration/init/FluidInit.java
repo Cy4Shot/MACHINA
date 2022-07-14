@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 import com.machina.Machina;
 import com.machina.registration.Registration;
+import com.machina.util.text.StringUtils;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
@@ -131,13 +132,13 @@ public class FluidInit {
 	public enum ChemicalValues {
 
 		//@formatter:off
-		OXYGEN("oxygen", 0xFF_FFFFFF, 0, 90.19F, -1_143),
-		NITROGEN("nitrogen", 0xFF_6be5fa, 0, 90.19F, -1_161),
-		AMMONIA("ammonia", 0xFF_44db6c, 0, 90.19F, -0_730),
-		CARBON_DIOXIDE("carbon_dioxide", 0xFF_f7e4c1, 0, 90.19F, -1_870),
-		HYDROGEN("hydrogen", 0xFF_6CE2FF, 0, 90.19F, -70.85F),
-		LIQUID_HYDROGEN("liquid_hydrogen", 0xFF_898FFF, 0, 20.28F, 70.85F),
-		LIQUID_AMMONIA("liquid_ammonia", 0xFF_1e6e33, 0, 20.28F, 0_730);
+		OXYGEN("oxygen", 0xFF_FFFFFF, 0, 90.19F, -1_143, 0),
+		NITROGEN("nitrogen", 0xFF_6be5fa, 0, 90.19F, -1_161, 1),
+		AMMONIA("ammonia", 0xFF_44db6c, 0, 90.19F, -0_730, 2),
+		CARBON_DIOXIDE("carbon_dioxide", 0xFF_f7e4c1, 0, 90.19F, -1_870, 3),
+		HYDROGEN("hydrogen", 0xFF_6CE2FF, 0, 90.19F, -70.85F, 4),
+		LIQUID_HYDROGEN("liquid_hydrogen", 0xFF_898FFF, 0, 20.28F, 70.85F, -1),
+		LIQUID_AMMONIA("liquid_ammonia", 0xFF_1e6e33, 0, 20.28F, 0_730, -1);
 		//@formatter:on
 
 		private final String name;
@@ -145,17 +146,23 @@ public class FluidInit {
 		private final int luminosity;
 		private final float temperature;
 		private final float density;
+		private final int atmosphere;
 
-		ChemicalValues(String name, int color, int luminosity, float temperature, float density) {
+		ChemicalValues(String name, int color, int luminosity, float temperature, float density, int atmosphere) {
 			this.name = name;
 			this.color = color;
 			this.luminosity = luminosity;
 			this.temperature = temperature;
 			this.density = density;
+			this.atmosphere = atmosphere;
 		}
 
 		public String getName() {
 			return name;
+		}
+		
+		public String getDisplayName() {
+			return StringUtils.translate("fluid." + Machina.MOD_ID + "." + name);
 		}
 
 		public int getColor() {
@@ -172,6 +179,10 @@ public class FluidInit {
 
 		public int getLuminosity() {
 			return luminosity;
+		}
+		
+		public int getAtmosphereId() {
+			return atmosphere;
 		}
 	}
 }
