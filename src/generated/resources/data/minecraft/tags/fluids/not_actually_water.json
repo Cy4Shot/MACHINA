@@ -6,6 +6,14 @@
     "machina:hydrogen",
     "machina:hydrogen_flowing",
     "machina:liquid_hydrogen",
-    "machina:liquid_hydrogen_flowing"
+    "machina:liquid_hydrogen_flowing",
+    "machina:nitrogen",
+    "machina:nitrogen_flowing",
+    "machina:ammonia",
+    "machina:ammonia_flowing",
+    "machina:carbon_dioxide",
+    "machina:carbon_dioxide_flowing",
+    "machina:liquid_ammonia",
+    "machina:liquid_ammonia_flowing"
   ]
 }

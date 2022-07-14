@@ -64,8 +64,12 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		oneLayerItem(ItemInit.TRANSISTOR.get());
 		
 		bucket(FluidInit.OXYGEN.get());
+		bucket(FluidInit.NITROGEN.get());
+		bucket(FluidInit.AMMONIA.get());
+		bucket(FluidInit.CARBON_DIOXIDE.get());
 		bucket(FluidInit.HYDROGEN.get());
 		bucket(FluidInit.LIQUID_HYDROGEN.get());
+		bucket(FluidInit.LIQUID_AMMONIA.get());
 	}
 
 	protected void bucket(FlowingFluid stillFluid) {

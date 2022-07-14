@@ -62,11 +62,19 @@ public class EnUsLangProvider extends BaseLangProvider {
 		
 		// Fluids
 		add(FluidInit.OXYGEN.get(), "Oxygen");
+		add(FluidInit.NITROGEN.get(), "Nitrogen");
+		add(FluidInit.AMMONIA.get(), "Ammonia");
+		add(FluidInit.CARBON_DIOXIDE.get(), "Carbon Dioxide");
 		add(FluidInit.HYDROGEN.get(), "Hydrogen");
 		add(FluidInit.LIQUID_HYDROGEN.get(), "Liquid Hydrogen");
+		add(FluidInit.LIQUID_AMMONIA.get(), "Liquid Ammonia");
 		add(FluidInit.OXYGEN_BUCKET.get(), "Oxygen Bucket");
+		add(FluidInit.NITROGEN_BUCKET.get(), "Nitrogen Bucket");
+		add(FluidInit.AMMONIA_BUCKET.get(), "Ammonia Bucket");
+		add(FluidInit.CARBON_DIOXIDE_BUCKET.get(), "Carbon Dioxide Bucket");
 		add(FluidInit.HYDROGEN_BUCKET.get(), "Hydrogen Bucket");
 		add(FluidInit.LIQUID_HYDROGEN_BUCKET.get(), "Liquid Hydrogen Bucket");
+		add(FluidInit.LIQUID_AMMONIA_BUCKET.get(), "Liquid Ammonia Bucket");
 
 		// Traits
 		add(PlanetTraitInit.WATER_WORLD, "Water World");

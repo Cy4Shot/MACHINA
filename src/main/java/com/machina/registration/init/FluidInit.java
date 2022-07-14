@@ -33,19 +33,32 @@ public class FluidInit {
 	
 	//Blocks
 	public static final RegistryObject<FlowingFluidBlock> LIQUID_HYDROGEN_BLOCK = block("liquid_hydrogen_block", () -> FluidInit.LIQUID_HYDROGEN.get());
+	public static final RegistryObject<FlowingFluidBlock> LIQUID_AMMONIA_BLOCK = block("liquid_ammonia_block", () -> FluidInit.LIQUID_AMMONIA.get());
 	
 	// Items
 	public static final RegistryObject<BucketItem> OXYGEN_BUCKET = bucket("oxygen_bucket", () -> FluidInit.OXYGEN.get());
+	public static final RegistryObject<BucketItem> NITROGEN_BUCKET = bucket("nitrogen_bucket", () -> FluidInit.NITROGEN.get());
+	public static final RegistryObject<BucketItem> AMMONIA_BUCKET = bucket("ammonia_bucket", () -> FluidInit.AMMONIA.get());
+	public static final RegistryObject<BucketItem> CARBON_DIOXIDE_BUCKET = bucket("carbon_dioxide_bucket", () -> FluidInit.CARBON_DIOXIDE.get());
 	public static final RegistryObject<BucketItem> HYDROGEN_BUCKET = bucket("hydrogen_bucket", () -> FluidInit.HYDROGEN.get());
 	public static final RegistryObject<BucketItem> LIQUID_HYDROGEN_BUCKET = bucket("liquid_hydrogen_bucket", () -> FluidInit.LIQUID_HYDROGEN.get());
+	public static final RegistryObject<BucketItem> LIQUID_AMMONIA_BUCKET = bucket("liquid_ammonia_bucket", () -> FluidInit.LIQUID_AMMONIA.get());
 	
 	// Fluids
 	public static final RegistryObject<ForgeFlowingFluid> OXYGEN = register("oxygen", Prop.OXYGEN, false);
 	public static final RegistryObject<ForgeFlowingFluid> OXYGEN_FLOWING = register("oxygen", Prop.OXYGEN, true);
+	public static final RegistryObject<ForgeFlowingFluid> NITROGEN = register("nitrogen", Prop.NITROGEN, false);
+	public static final RegistryObject<ForgeFlowingFluid> NITROGEN_FLOWING = register("nitrogen", Prop.NITROGEN, true);
+	public static final RegistryObject<ForgeFlowingFluid> AMMONIA = register("ammonia", Prop.AMMONIA, false);
+	public static final RegistryObject<ForgeFlowingFluid> AMMONIA_FLOWING = register("ammonia", Prop.AMMONIA, true);
+	public static final RegistryObject<ForgeFlowingFluid> CARBON_DIOXIDE = register("carbon_dioxide", Prop.CARBON_DIOXIDE, false);
+	public static final RegistryObject<ForgeFlowingFluid> CARBON_DIOXIDE_FLOWING = register("carbon_dioxide", Prop.CARBON_DIOXIDE, true);
 	public static final RegistryObject<ForgeFlowingFluid> HYDROGEN = register("hydrogen", Prop.HYDROGEN, false);
 	public static final RegistryObject<ForgeFlowingFluid> HYDROGEN_FLOWING = register("hydrogen", Prop.HYDROGEN, true);
 	public static final RegistryObject<ForgeFlowingFluid> LIQUID_HYDROGEN = register("liquid_hydrogen", Prop.LIQUID_HYDROGEN, false);
 	public static final RegistryObject<ForgeFlowingFluid> LIQUID_HYDROGEN_FLOWING = register("liquid_hydrogen", Prop.LIQUID_HYDROGEN, true);
+	public static final RegistryObject<ForgeFlowingFluid> LIQUID_AMMONIA = register("liquid_ammonia", Prop.LIQUID_AMMONIA, false);
+	public static final RegistryObject<ForgeFlowingFluid> LIQUID_AMMONIA_FLOWING = register("liquid_ammonia", Prop.LIQUID_AMMONIA, true);
 
 	//@formatter:on
 
@@ -75,6 +88,15 @@ public class FluidInit {
 
 		public static final ForgeFlowingFluid.Properties OXYGEN = gas(ChemicalValues.OXYGEN,
 				() -> FluidInit.OXYGEN.get(), () -> OXYGEN_FLOWING.get(), () -> OXYGEN_BUCKET.get());
+		
+		public static final ForgeFlowingFluid.Properties NITROGEN = gas(ChemicalValues.NITROGEN,
+				() -> FluidInit.NITROGEN.get(), () -> NITROGEN_FLOWING.get(), () -> NITROGEN_BUCKET.get());
+		
+		public static final ForgeFlowingFluid.Properties AMMONIA = gas(ChemicalValues.AMMONIA,
+				() -> FluidInit.AMMONIA.get(), () -> AMMONIA_FLOWING.get(), () -> AMMONIA_BUCKET.get());
+		
+		public static final ForgeFlowingFluid.Properties CARBON_DIOXIDE = gas(ChemicalValues.CARBON_DIOXIDE,
+				() -> FluidInit.CARBON_DIOXIDE.get(), () -> CARBON_DIOXIDE_FLOWING.get(), () -> CARBON_DIOXIDE_BUCKET.get());
 
 		public static final ForgeFlowingFluid.Properties HYDROGEN = gas(ChemicalValues.HYDROGEN,
 				() -> FluidInit.HYDROGEN.get(), () -> HYDROGEN_FLOWING.get(), () -> HYDROGEN_BUCKET.get());
@@ -82,6 +104,10 @@ public class FluidInit {
 		public static final ForgeFlowingFluid.Properties LIQUID_HYDROGEN = liquid(ChemicalValues.LIQUID_HYDROGEN,
 				() -> FluidInit.LIQUID_HYDROGEN.get(), () -> LIQUID_HYDROGEN_FLOWING.get(),
 				() -> LIQUID_HYDROGEN_BUCKET.get(), () -> LIQUID_HYDROGEN_BLOCK.get());
+		
+		public static final ForgeFlowingFluid.Properties LIQUID_AMMONIA = liquid(ChemicalValues.LIQUID_AMMONIA,
+				() -> FluidInit.LIQUID_AMMONIA.get(), () -> LIQUID_AMMONIA_FLOWING.get(),
+				() -> LIQUID_AMMONIA_BUCKET.get(), () -> LIQUID_AMMONIA_BLOCK.get());
 
 		private static ForgeFlowingFluid.Properties gas(ChemicalValues value, Supplier<FlowingFluid> still,
 				Supplier<FlowingFluid> flowing, Supplier<BucketItem> bucket) {
@@ -105,9 +131,13 @@ public class FluidInit {
 	public enum ChemicalValues {
 
 		//@formatter:off
-		OXYGEN("oxygen", 0xFF_FFFFFF, 0, 90.19F, -1_141),
-		HYDROGEN("hydrogen", 0xFF_6CE2FF, 0, 20.28F, -70.85F),
-		LIQUID_HYDROGEN("liquid_hydrogen", 0xFF_898FFF, 0, 20.28F, 70.85F);
+		OXYGEN("oxygen", 0xFF_FFFFFF, 0, 90.19F, -1_143),
+		NITROGEN("nitrogen", 0xFF_6be5fa, 0, 90.19F, -1_161),
+		AMMONIA("ammonia", 0xFF_44db6c, 0, 90.19F, -0_730),
+		CARBON_DIOXIDE("carbon_dioxide", 0xFF_f7e4c1, 0, 90.19F, -1_870),
+		HYDROGEN("hydrogen", 0xFF_6CE2FF, 0, 90.19F, -70.85F),
+		LIQUID_HYDROGEN("liquid_hydrogen", 0xFF_898FFF, 0, 20.28F, 70.85F),
+		LIQUID_AMMONIA("liquid_ammonia", 0xFF_1e6e33, 0, 20.28F, 0_730);
 		//@formatter:on
 
 		private final String name;

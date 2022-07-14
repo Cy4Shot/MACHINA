@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "machina:block/liquid_ammonia_block"
+    }
+  }
+}
