@@ -104,13 +104,7 @@ public class ClientModEvents {
 		RenderTypeLookup.setRenderLayer(BlockInit.COMPONENT_ANALYZER.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.STEEL_CHASSIS.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.IRON_CHASSIS.get(), RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(FluidInit.OXYGEN.get(), RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(FluidInit.OXYGEN_FLOWING.get(), RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(FluidInit.HYDROGEN.get(), RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(FluidInit.HYDROGEN_FLOWING.get(), RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(FluidInit.LIQUID_HYDROGEN.get(), RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(FluidInit.LIQUID_HYDROGEN_FLOWING.get(), RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(FluidInit.LIQUID_HYDROGEN_BLOCK.get(), RenderType.translucent());
+		FluidInit.setRenderLayers();
 
 		ScreenManager.register(ContainerInit.SHIP_CONSTRUCT.get(), ShipConstructScreen::new);
 		ScreenManager.register(ContainerInit.SHIP_LAUNCH.get(), ShipLaunchScreen::new);

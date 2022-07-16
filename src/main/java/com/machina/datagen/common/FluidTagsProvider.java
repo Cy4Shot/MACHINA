@@ -5,6 +5,7 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.TagInit;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.fluid.Fluid;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class FluidTagsProvider extends net.minecraft.data.FluidTagsProvider {
@@ -15,11 +16,7 @@ public class FluidTagsProvider extends net.minecraft.data.FluidTagsProvider {
 
 	@Override
 	protected void addTags() {
-		tag(TagInit.Fluids.NOT_ACTUALLY_WATER).add(FluidInit.OXYGEN.get(), FluidInit.OXYGEN_FLOWING.get(),
-				FluidInit.HYDROGEN.get(), FluidInit.HYDROGEN_FLOWING.get(), FluidInit.LIQUID_HYDROGEN.get(),
-				FluidInit.LIQUID_HYDROGEN_FLOWING.get(), FluidInit.NITROGEN.get(), FluidInit.NITROGEN_FLOWING.get(),
-				FluidInit.AMMONIA.get(), FluidInit.AMMONIA_FLOWING.get(), FluidInit.CARBON_DIOXIDE.get(),
-				FluidInit.CARBON_DIOXIDE_FLOWING.get(), FluidInit.LIQUID_AMMONIA.get(),
-				FluidInit.LIQUID_AMMONIA_FLOWING.get());
+		tag(TagInit.Fluids.NOT_ACTUALLY_WATER)
+				.add(FluidInit.FLUIDS.getEntries().stream().map(ro -> ro.get()).toArray(Fluid[]::new));
 	}
 }

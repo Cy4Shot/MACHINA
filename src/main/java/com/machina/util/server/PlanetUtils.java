@@ -2,7 +2,7 @@ package com.machina.util.server;
 
 import com.machina.Machina;
 import com.machina.registration.init.AttributeInit;
-import com.machina.registration.init.FluidInit.ChemicalValues;
+import com.machina.registration.init.FluidInit.Chemical;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.util.RegistryKey;
@@ -22,8 +22,8 @@ public class PlanetUtils {
 	public static int getIdDim(RegistryKey<Dimension> dim) {
 		return Integer.valueOf(dim.location().getPath());
 	}
-	
-	public static double getAtmosphereChemical(PlanetData data, ChemicalValues chemical) {
+
+	public static double getAtmosphereChemical(PlanetData data, Chemical chemical) {
 		return data.getAttribute(AttributeInit.ATMOSPHERE)[chemical.getAtmosphereId()];
 	}
 

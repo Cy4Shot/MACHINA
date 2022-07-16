@@ -62,20 +62,13 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.TRANSISTOR.get(), "Transistor");
 		
 		// Fluids
-		add(FluidInit.OXYGEN.get(), "Oxygen");
-		add(FluidInit.NITROGEN.get(), "Nitrogen");
-		add(FluidInit.AMMONIA.get(), "Ammonia");
-		add(FluidInit.CARBON_DIOXIDE.get(), "Carbon Dioxide");
-		add(FluidInit.HYDROGEN.get(), "Hydrogen");
-		add(FluidInit.LIQUID_HYDROGEN.get(), "Liquid Hydrogen");
-		add(FluidInit.LIQUID_AMMONIA.get(), "Liquid Ammonia");
-		add(FluidInit.OXYGEN_BUCKET.get(), "Oxygen Bucket");
-		add(FluidInit.NITROGEN_BUCKET.get(), "Nitrogen Bucket");
-		add(FluidInit.AMMONIA_BUCKET.get(), "Ammonia Bucket");
-		add(FluidInit.CARBON_DIOXIDE_BUCKET.get(), "Carbon Dioxide Bucket");
-		add(FluidInit.HYDROGEN_BUCKET.get(), "Hydrogen Bucket");
-		add(FluidInit.LIQUID_HYDROGEN_BUCKET.get(), "Liquid Hydrogen Bucket");
-		add(FluidInit.LIQUID_AMMONIA_BUCKET.get(), "Liquid Ammonia Bucket");
+		add(FluidInit.OXYGEN, "Oxygen", "Bucket");
+		add(FluidInit.NITROGEN, "Nitrogen", "Bucket");
+		add(FluidInit.AMMONIA, "Ammonia", "Bucket");
+		add(FluidInit.CARBON_DIOXIDE, "Carbon Dioxide", "Bucket");
+		add(FluidInit.HYDROGEN, "Hydrogen", "Bucket");
+		add(FluidInit.LIQUID_HYDROGEN, "Liquid Hydrogen", "Bucket");
+		add(FluidInit.LIQUID_AMMONIA, "Liquid Ammonia", "Bucket");
 
 		// Traits
 		add(TraitInit.WATER_WORLD, "Water World");

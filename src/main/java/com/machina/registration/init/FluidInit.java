@@ -2,6 +2,7 @@ package com.machina.registration.init;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
@@ -11,6 +12,8 @@ import com.machina.util.text.StringUtils;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
@@ -27,128 +30,160 @@ public class FluidInit {
 
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS,
 			Machina.MOD_ID);
-
 	public static final List<String> BLOCKS = new ArrayList<>();
 
 	//@formatter:off
+
+	// Gases
+	public static final FluidObject OXYGEN = gas("oxygen", b -> b.col(0xFF_ffffff).tem(90.19F).den(1143f).atm(0));
+	public static final FluidObject NITROGEN = gas("nitrogen", b -> b.col(0xFF_6be5fa).tem(90.19F).den(1161f).atm(1));
+	public static final FluidObject AMMONIA = gas("ammonia", b -> b.col(0xFF_44db6c).tem(90.19F).den(730f).atm(2));
+	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", b -> b.col(0xFF_f7e4c1).tem(1870f).den(1143).atm(3));
+	public static final FluidObject HYDROGEN = gas("hydrogen", b -> b.col(0xFF_6CE2FF).tem(90.19F).den(70.86f).atm(4));
 	
-	//Blocks
-	public static final RegistryObject<FlowingFluidBlock> LIQUID_HYDROGEN_BLOCK = block("liquid_hydrogen_block", () -> FluidInit.LIQUID_HYDROGEN.get());
-	public static final RegistryObject<FlowingFluidBlock> LIQUID_AMMONIA_BLOCK = block("liquid_ammonia_block", () -> FluidInit.LIQUID_AMMONIA.get());
-	
-	// Items
-	public static final RegistryObject<BucketItem> OXYGEN_BUCKET = bucket("oxygen_bucket", () -> FluidInit.OXYGEN.get());
-	public static final RegistryObject<BucketItem> NITROGEN_BUCKET = bucket("nitrogen_bucket", () -> FluidInit.NITROGEN.get());
-	public static final RegistryObject<BucketItem> AMMONIA_BUCKET = bucket("ammonia_bucket", () -> FluidInit.AMMONIA.get());
-	public static final RegistryObject<BucketItem> CARBON_DIOXIDE_BUCKET = bucket("carbon_dioxide_bucket", () -> FluidInit.CARBON_DIOXIDE.get());
-	public static final RegistryObject<BucketItem> HYDROGEN_BUCKET = bucket("hydrogen_bucket", () -> FluidInit.HYDROGEN.get());
-	public static final RegistryObject<BucketItem> LIQUID_HYDROGEN_BUCKET = bucket("liquid_hydrogen_bucket", () -> FluidInit.LIQUID_HYDROGEN.get());
-	public static final RegistryObject<BucketItem> LIQUID_AMMONIA_BUCKET = bucket("liquid_ammonia_bucket", () -> FluidInit.LIQUID_AMMONIA.get());
-	
-	// Fluids
-	public static final RegistryObject<ForgeFlowingFluid> OXYGEN = register("oxygen", Prop.OXYGEN, false);
-	public static final RegistryObject<ForgeFlowingFluid> OXYGEN_FLOWING = register("oxygen", Prop.OXYGEN, true);
-	public static final RegistryObject<ForgeFlowingFluid> NITROGEN = register("nitrogen", Prop.NITROGEN, false);
-	public static final RegistryObject<ForgeFlowingFluid> NITROGEN_FLOWING = register("nitrogen", Prop.NITROGEN, true);
-	public static final RegistryObject<ForgeFlowingFluid> AMMONIA = register("ammonia", Prop.AMMONIA, false);
-	public static final RegistryObject<ForgeFlowingFluid> AMMONIA_FLOWING = register("ammonia", Prop.AMMONIA, true);
-	public static final RegistryObject<ForgeFlowingFluid> CARBON_DIOXIDE = register("carbon_dioxide", Prop.CARBON_DIOXIDE, false);
-	public static final RegistryObject<ForgeFlowingFluid> CARBON_DIOXIDE_FLOWING = register("carbon_dioxide", Prop.CARBON_DIOXIDE, true);
-	public static final RegistryObject<ForgeFlowingFluid> HYDROGEN = register("hydrogen", Prop.HYDROGEN, false);
-	public static final RegistryObject<ForgeFlowingFluid> HYDROGEN_FLOWING = register("hydrogen", Prop.HYDROGEN, true);
-	public static final RegistryObject<ForgeFlowingFluid> LIQUID_HYDROGEN = register("liquid_hydrogen", Prop.LIQUID_HYDROGEN, false);
-	public static final RegistryObject<ForgeFlowingFluid> LIQUID_HYDROGEN_FLOWING = register("liquid_hydrogen", Prop.LIQUID_HYDROGEN, true);
-	public static final RegistryObject<ForgeFlowingFluid> LIQUID_AMMONIA = register("liquid_ammonia", Prop.LIQUID_AMMONIA, false);
-	public static final RegistryObject<ForgeFlowingFluid> LIQUID_AMMONIA_FLOWING = register("liquid_ammonia", Prop.LIQUID_AMMONIA, true);
+	// Liquids
+	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", b -> b.col(0xFF_898fff).tem(20.28F).den(70.86f));
+	public static final FluidObject LIQUID_AMMONIA = liquid("liquid_ammonia", b -> b.col(0xFF_1e6e33).tem(20.28F).den(730f));
 
 	//@formatter:on
 
-	public static final RegistryObject<ForgeFlowingFluid> register(String name, ForgeFlowingFluid.Properties p,
-			boolean f) {
-		if (f)
-			return FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(p));
-		else
-			return FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(p));
+	public static FluidObject gas(String name, Function<ChemicalBuilder, ChemicalBuilder> builder) {
+		return new FluidObject(name, true, builder);
 	}
 
-	private static RegistryObject<FlowingFluidBlock> block(String name, Supplier<? extends FlowingFluid> sup) {
-		BLOCKS.add(name);
-		return BlockInit.register(name, () -> new FlowingFluidBlock(sup, AbstractBlock.Properties.copy(Blocks.WATER)));
+	public static FluidObject liquid(String name, Function<ChemicalBuilder, ChemicalBuilder> builder) {
+		return new FluidObject(name, false, builder);
 	}
 
-	private static RegistryObject<BucketItem> bucket(String name, Supplier<FlowingFluid> fluid) {
-		return ItemInit.register(name, () -> new BucketItem(fluid,
-				new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).stacksTo(1).craftRemainder(Items.BUCKET)));
-	}
+	public static class FluidObject {
 
-	public static class Prop {
-		
-		public static final ResourceLocation STILL_RL = new ResourceLocation("block/water_still");
-		public static final ResourceLocation FLOWING_RL = new ResourceLocation("block/water_flow");
-		public static final ResourceLocation OVERLAY_RL = new ResourceLocation("block/water_overlay");
+		private static final ResourceLocation STILL_RL = new ResourceLocation("block/water_still");
+		private static final ResourceLocation FLOWING_RL = new ResourceLocation("block/water_flow");
+		private static final ResourceLocation OVERLAY_RL = new ResourceLocation("block/water_overlay");
+		private static final Item.Properties BUCKET_PROP = new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP)
+				.stacksTo(1).craftRemainder(Items.BUCKET);
+		private static final AbstractBlock.Properties BLOCK_PROP = AbstractBlock.Properties.copy(Blocks.WATER);
 
-		public static final ForgeFlowingFluid.Properties OXYGEN = gas(ChemicalValues.OXYGEN,
-				() -> FluidInit.OXYGEN.get(), () -> OXYGEN_FLOWING.get(), () -> OXYGEN_BUCKET.get());
-		
-		public static final ForgeFlowingFluid.Properties NITROGEN = gas(ChemicalValues.NITROGEN,
-				() -> FluidInit.NITROGEN.get(), () -> NITROGEN_FLOWING.get(), () -> NITROGEN_BUCKET.get());
-		
-		public static final ForgeFlowingFluid.Properties AMMONIA = gas(ChemicalValues.AMMONIA,
-				() -> FluidInit.AMMONIA.get(), () -> AMMONIA_FLOWING.get(), () -> AMMONIA_BUCKET.get());
-		
-		public static final ForgeFlowingFluid.Properties CARBON_DIOXIDE = gas(ChemicalValues.CARBON_DIOXIDE,
-				() -> FluidInit.CARBON_DIOXIDE.get(), () -> CARBON_DIOXIDE_FLOWING.get(), () -> CARBON_DIOXIDE_BUCKET.get());
+		private Chemical CHEM;
+		private ForgeFlowingFluid.Properties PROPS;
+		private RegistryObject<FlowingFluidBlock> BLOCK;
+		private RegistryObject<BucketItem> BUCKET;
+		private RegistryObject<ForgeFlowingFluid> FLUID;
+		private RegistryObject<ForgeFlowingFluid> FLOWING;
 
-		public static final ForgeFlowingFluid.Properties HYDROGEN = gas(ChemicalValues.HYDROGEN,
-				() -> FluidInit.HYDROGEN.get(), () -> HYDROGEN_FLOWING.get(), () -> HYDROGEN_BUCKET.get());
+		public FluidObject(String name, boolean gas, Function<ChemicalBuilder, ChemicalBuilder> builder) {
 
-		public static final ForgeFlowingFluid.Properties LIQUID_HYDROGEN = liquid(ChemicalValues.LIQUID_HYDROGEN,
-				() -> FluidInit.LIQUID_HYDROGEN.get(), () -> LIQUID_HYDROGEN_FLOWING.get(),
-				() -> LIQUID_HYDROGEN_BUCKET.get(), () -> LIQUID_HYDROGEN_BLOCK.get());
+			Supplier<FlowingFluid> sFluid = () -> FLUID.get();
+			Supplier<FlowingFluid> sFlowing = () -> FLOWING.get();
+			Supplier<BucketItem> sBucket = () -> BUCKET.get();
+			Supplier<FlowingFluidBlock> sBlock = () -> BLOCK.get();
+			CHEM = builder.apply(ChemicalBuilder.init()).build(gas, name);
+
+			if (gas) {
+				PROPS = gas(CHEM, sFluid, sFlowing, sBucket);
+			} else {
+				PROPS = liquid(CHEM, sFluid, sFlowing, sBucket, sBlock);
+				BLOCK = BlockInit.register(name + "_block", () -> new FlowingFluidBlock(sFluid, BLOCK_PROP));
+				BLOCKS.add(name);
+			}
+
+			BUCKET = ItemInit.register(name + "_bucket", () -> new BucketItem(sFluid, BUCKET_PROP));
+			FLUID = FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(PROPS));
+			FLOWING = FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(PROPS));
+		}
+
+		public FlowingFluidBlock block() {
+			return BLOCK.get();
+		}
 		
-		public static final ForgeFlowingFluid.Properties LIQUID_AMMONIA = liquid(ChemicalValues.LIQUID_AMMONIA,
-				() -> FluidInit.LIQUID_AMMONIA.get(), () -> LIQUID_AMMONIA_FLOWING.get(),
-				() -> LIQUID_AMMONIA_BUCKET.get(), () -> LIQUID_AMMONIA_BLOCK.get());
+		public BucketItem bucket() {
+			return BUCKET.get();
+		}
+		
+		public ForgeFlowingFluid fluid() {
+			return FLUID.get();
+		}
+		
+		public ForgeFlowingFluid flowing() {
+			return FLOWING.get();
+		}
+		
+		public Chemical chem() {
+			return CHEM;
+		}
 
-		private static ForgeFlowingFluid.Properties gas(ChemicalValues value, Supplier<FlowingFluid> still,
+		private static ForgeFlowingFluid.Properties gas(Chemical value, Supplier<FlowingFluid> still,
 				Supplier<FlowingFluid> flowing, Supplier<BucketItem> bucket) {
-			return new ForgeFlowingFluid.Properties(still, flowing,
-					FluidAttributes.builder(STILL_RL, FLOWING_RL).color(value.getColor())
-							.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
-							.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
-							.overlay(OVERLAY_RL).gaseous()).bucket(bucket);
+			return new ForgeFlowingFluid.Properties(still, flowing, builder(value).gaseous()).bucket(bucket);
 		}
 
-		private static ForgeFlowingFluid.Properties liquid(ChemicalValues value, Supplier<FlowingFluid> still,
+		private static ForgeFlowingFluid.Properties liquid(Chemical value, Supplier<FlowingFluid> still,
 				Supplier<FlowingFluid> flowing, Supplier<BucketItem> bucket, Supplier<FlowingFluidBlock> block) {
-			return new ForgeFlowingFluid.Properties(still, flowing,
-					FluidAttributes.builder(STILL_RL, FLOWING_RL).color(value.getColor())
-							.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
-							.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
-							.overlay(OVERLAY_RL)).bucket(bucket).block(block);
+			return new ForgeFlowingFluid.Properties(still, flowing, builder(value)).bucket(bucket).block(block);
+		}
+
+		private static FluidAttributes.Builder builder(Chemical value) {
+			return FluidAttributes.builder(STILL_RL, FLOWING_RL).color(value.getColor())
+					.density(Math.round(value.getDensity())).viscosity(Math.round(value.getDensity()))
+					.temperature(Math.round(value.getTemperature())).luminosity(value.getLuminosity())
+					.overlay(OVERLAY_RL);
 		}
 	}
 
-	public enum ChemicalValues {
+	public static class ChemicalBuilder {
 
-		//@formatter:off
-		OXYGEN("oxygen", 0xFF_FFFFFF, 0, 90.19F, -1_143, 0),
-		NITROGEN("nitrogen", 0xFF_6be5fa, 0, 90.19F, -1_161, 1),
-		AMMONIA("ammonia", 0xFF_44db6c, 0, 90.19F, -0_730, 2),
-		CARBON_DIOXIDE("carbon_dioxide", 0xFF_f7e4c1, 0, 90.19F, -1_870, 3),
-		HYDROGEN("hydrogen", 0xFF_6CE2FF, 0, 90.19F, -70.85F, 4),
-		LIQUID_HYDROGEN("liquid_hydrogen", 0xFF_898FFF, 0, 20.28F, 70.85F, -1),
-		LIQUID_AMMONIA("liquid_ammonia", 0xFF_1e6e33, 0, 20.28F, 0_730, -1);
-		//@formatter:on
+		private Chemical c;
 
-		private final String name;
-		private final int color;
-		private final int luminosity;
-		private final float temperature;
-		private final float density;
-		private final int atmosphere;
+		private ChemicalBuilder() {
+			c = new Chemical("", 0, 0, 50F, 1, -1);
+		}
 
-		ChemicalValues(String name, int color, int luminosity, float temperature, float density, int atmosphere) {
+		public ChemicalBuilder col(int v) {
+			c.color = v;
+			return this;
+		}
+
+		public ChemicalBuilder lum(int v) {
+			c.luminosity = v;
+			return this;
+		}
+
+		public ChemicalBuilder den(float v) {
+			c.density = v;
+			return this;
+		}
+
+		public ChemicalBuilder tem(float v) {
+			c.temperature = v;
+			return this;
+		}
+
+		public ChemicalBuilder atm(int id) {
+			c.atmosphere = id;
+			return this;
+		}
+
+		public Chemical build(boolean gas, String name) {
+			c.name = name;
+			if (gas)
+				c.density *= -1;
+			return c;
+		}
+
+		public static ChemicalBuilder init() {
+			return new ChemicalBuilder();
+		}
+	}
+
+	public static class Chemical {
+		private String name;
+		private int color;
+		private int luminosity;
+		private float temperature;
+		private float density;
+		private int atmosphere;
+
+		public Chemical(String name, int color, int luminosity, float temperature, float density, int atmosphere) {
 			this.name = name;
 			this.color = color;
 			this.luminosity = luminosity;
@@ -160,7 +195,7 @@ public class FluidInit {
 		public String getName() {
 			return name;
 		}
-		
+
 		public String getDisplayName() {
 			return StringUtils.translate("fluid." + Machina.MOD_ID + "." + name);
 		}
@@ -180,9 +215,15 @@ public class FluidInit {
 		public int getLuminosity() {
 			return luminosity;
 		}
-		
+
 		public int getAtmosphereId() {
 			return atmosphere;
 		}
+	}
+
+	public static void setRenderLayers() {
+		FLUIDS.getEntries().forEach(ro -> {
+			RenderTypeLookup.setRenderLayer(ro.get(), RenderType.translucent());
+		});
 	}
 }

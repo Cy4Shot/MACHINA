@@ -3,6 +3,7 @@ package com.machina.datagen.client.lang;
 import com.machina.Machina;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
+import com.machina.registration.init.FluidInit.FluidObject;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
@@ -29,6 +30,12 @@ public abstract class BaseLangProvider extends LanguageProvider{
 
 	protected void add(Fluid fluid, String name) {
 		add(new FluidStack(fluid, 2).getTranslationKey(), name);
+	}
+	
+	protected void add(FluidObject obj, String name, String bucket) {
+		add(obj.fluid(), name);
+		add(obj.flowing(), name);
+		add(obj.bucket(), name + " " + bucket);
 	}
 
 	protected void addCommandFeedback(String key, String name) {

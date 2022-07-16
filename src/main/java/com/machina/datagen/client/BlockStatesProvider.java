@@ -3,6 +3,7 @@ package com.machina.datagen.client;
 import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.util.MachinaRL;
 
 import net.minecraft.block.Block;
@@ -46,8 +47,8 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleOrientableBlock(BlockInit.BATTERY.get());
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
 		
-		fluid(FluidInit.LIQUID_HYDROGEN_BLOCK.get());
-		fluid(FluidInit.LIQUID_AMMONIA_BLOCK.get());
+		fluid(FluidInit.LIQUID_HYDROGEN);
+		fluid(FluidInit.LIQUID_AMMONIA);
 		
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_BLOCK.get());
@@ -56,9 +57,9 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
 	}
 
-	public void fluid(Block block) {
-		getVariantBuilder(block).partialState().modelForState()
-				.modelFile(models().cubeAll(name(block), new ResourceLocation("block/water_still"))).addModel();
+	public void fluid(FluidObject obj) {
+		getVariantBuilder(obj.block()).partialState().modelForState()
+				.modelFile(models().cubeAll(name(obj.block()), new ResourceLocation("block/water_still"))).addModel();
 	}
 
 	public void simpleTintedBlock(Block block) {

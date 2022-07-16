@@ -3,12 +3,12 @@ package com.machina.datagen.client;
 import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
 import com.machina.util.MachinaRL;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.item.Item;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.util.ResourceLocation;
@@ -63,24 +63,24 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		oneLayerItem(ItemInit.SILICON.get());
 		oneLayerItem(ItemInit.SCANNER.get());
 		oneLayerItem(ItemInit.TRANSISTOR.get());
-		
-		bucket(FluidInit.OXYGEN.get());
-		bucket(FluidInit.NITROGEN.get());
-		bucket(FluidInit.AMMONIA.get());
-		bucket(FluidInit.CARBON_DIOXIDE.get());
-		bucket(FluidInit.HYDROGEN.get());
-		bucket(FluidInit.LIQUID_HYDROGEN.get());
-		bucket(FluidInit.LIQUID_AMMONIA.get());
+
+		bucket(FluidInit.OXYGEN);
+		bucket(FluidInit.NITROGEN);
+		bucket(FluidInit.AMMONIA);
+		bucket(FluidInit.CARBON_DIOXIDE);
+		bucket(FluidInit.HYDROGEN);
+		bucket(FluidInit.LIQUID_HYDROGEN);
+		bucket(FluidInit.LIQUID_AMMONIA);
 	}
 
-	protected void bucket(FlowingFluid stillFluid) {
+	protected void bucket(FluidObject obj) {
 		DynamicBucketModelBuilder<ItemModelBuilder> builder = withExistingParent(
-				stillFluid.getBucket().getRegistryName().getPath(), new ResourceLocation("forge", "item/bucket"))
+				obj.fluid().getBucket().getRegistryName().getPath(), new ResourceLocation("forge", "item/bucket"))
 						.customLoader(DynamicBucketModelBuilder::begin);
-		if (stillFluid.getAttributes().isGaseous()) {
+		if (obj.fluid().getAttributes().isGaseous()) {
 			builder.flipGas(true);
 		}
-		builder.fluid(stillFluid);
+		builder.fluid(obj.fluid());
 	}
 
 	protected void makeSimpleBlockItem(Block block) {
