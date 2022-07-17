@@ -1,7 +1,10 @@
 package com.machina.client.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
@@ -11,16 +14,22 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import mekanism.client.render.MekanismRenderer.FluidType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
@@ -35,6 +44,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidStack;
 
 @OnlyIn(Dist.CLIENT)
 public class UIHelper {
@@ -55,6 +65,7 @@ public class UIHelper {
 	public static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
 	public static final MachinaRL TRMNL_EL = new MachinaRL("textures/gui/trmnl_el.png");
 	public static final MachinaRL STCHT_EL = new MachinaRL("textures/gui/stcht_el.png");
+	public static final MachinaRL LARGE_EL = new MachinaRL("textures/gui/large_el.png");
 	public static final MachinaRL STARS_BG = new MachinaRL("textures/gui/stars_bg.png");
 	private static Minecraft mc = Minecraft.getInstance();
 	private static TextureManager tm = mc.getTextureManager();
@@ -295,35 +306,353 @@ public class UIHelper {
 
 	}
 
+	public static void renderFluid(MatrixStack m, FluidStack fluid, int x, int y, int sx, int sy, int blit) {
+		if (fluid.getFluid() != Fluids.EMPTY) {
+			TextureAtlasSprite icon = getFluidTexture(fluid, FluidType.STILL);
+			if (icon != null) {
+				color(fluid);
+				drawTiledSprite(m, x, y, sy - 1, sx - 1, sy - 1, icon, 16, 16, blit, TilingDirection.DOWN_LEFT);
+				resetColor();
+			}
+		}
+	}
+
+	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
+	public static void drawTiledSprite(MatrixStack matrix, int xPosition, int yPosition, int yOffset, int desiredWidth,
+			int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
+			TilingDirection tilingDirection) {
+		drawTiledSprite(matrix, xPosition, yPosition, yOffset, desiredWidth, desiredHeight, sprite, textureWidth,
+				textureHeight, zLevel, tilingDirection, true);
+	}
+
+	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
+	public static void drawTiledSprite(MatrixStack matrix, int xPosition, int yPosition, int yOffset, int desiredWidth,
+			int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
+			TilingDirection tilingDirection, boolean blendAlpha) {
+		if (desiredWidth == 0 || desiredHeight == 0 || textureWidth == 0 || textureHeight == 0) {
+			return;
+		}
+		tm.bind(AtlasTexture.LOCATION_BLOCKS);
+		int xTileCount = desiredWidth / textureWidth;
+		int xRemainder = desiredWidth - (xTileCount * textureWidth);
+		int yTileCount = desiredHeight / textureHeight;
+		int yRemainder = desiredHeight - (yTileCount * textureHeight);
+		int yStart = yPosition + yOffset;
+		float uMin = sprite.getU0();
+		float uMax = sprite.getU1();
+		float vMin = sprite.getV0();
+		float vMax = sprite.getV1();
+		float uDif = uMax - uMin;
+		float vDif = vMax - vMin;
+		if (blendAlpha) {
+			RenderSystem.enableBlend();
+			RenderSystem.enableAlphaTest();
+		}
+		BufferBuilder vertexBuffer = Tessellator.getInstance().getBuilder();
+		vertexBuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+		Matrix4f matrix4f = matrix.last().pose();
+		for (int xTile = 0; xTile <= xTileCount; xTile++) {
+			int width = (xTile == xTileCount) ? xRemainder : textureWidth;
+			if (width == 0) {
+				break;
+			}
+			int x = xPosition + (xTile * textureWidth);
+			int maskRight = textureWidth - width;
+			int shiftedX = x + textureWidth - maskRight;
+			float uLocalDif = uDif * maskRight / textureWidth;
+			float uLocalMin;
+			float uLocalMax;
+			if (tilingDirection.right) {
+				uLocalMin = uMin;
+				uLocalMax = uMax - uLocalDif;
+			} else {
+				uLocalMin = uMin + uLocalDif;
+				uLocalMax = uMax;
+			}
+			for (int yTile = 0; yTile <= yTileCount; yTile++) {
+				int height = (yTile == yTileCount) ? yRemainder : textureHeight;
+				if (height == 0) {
+					break;
+				}
+				int y = yStart - ((yTile + 1) * textureHeight);
+				int maskTop = textureHeight - height;
+				float vLocalDif = vDif * maskTop / textureHeight;
+				float vLocalMin;
+				float vLocalMax;
+				if (tilingDirection.down) {
+					vLocalMin = vMin;
+					vLocalMax = vMax - vLocalDif;
+				} else {
+					vLocalMin = vMin + vLocalDif;
+					vLocalMax = vMax;
+				}
+				vertexBuffer.vertex(matrix4f, x, y + textureHeight, zLevel).uv(uLocalMin, vLocalMax).endVertex();
+				vertexBuffer.vertex(matrix4f, shiftedX, y + textureHeight, zLevel).uv(uLocalMax, vLocalMax).endVertex();
+				vertexBuffer.vertex(matrix4f, shiftedX, y + maskTop, zLevel).uv(uLocalMax, vLocalMin).endVertex();
+				vertexBuffer.vertex(matrix4f, x, y + maskTop, zLevel).uv(uLocalMin, vLocalMin).endVertex();
+			}
+		}
+		vertexBuffer.end();
+		WorldVertexBufferUploader.end(vertexBuffer);
+		if (blendAlpha) {
+			RenderSystem.disableAlphaTest();
+			RenderSystem.disableBlend();
+		}
+	}
+
+	public static TextureAtlasSprite getFluidTexture(@Nonnull FluidStack fluidStack, @Nonnull FluidType type) {
+		Fluid fluid = fluidStack.getFluid();
+		ResourceLocation spriteLocation;
+		if (type == FluidType.STILL) {
+			spriteLocation = fluid.getAttributes().getStillTexture(fluidStack);
+		} else {
+			spriteLocation = fluid.getAttributes().getFlowingTexture(fluidStack);
+		}
+		return getSprite(spriteLocation);
+	}
+
+	public static TextureAtlasSprite getSprite(ResourceLocation spriteLocation) {
+		return mc.getTextureAtlas(AtlasTexture.LOCATION_BLOCKS).apply(spriteLocation);
+	}
+
+	public static void resetColor() {
+		RenderSystem.color4f(1f, 1f, 1f, 1f);
+	}
+
+	public static void color(@Nonnull FluidStack fluid) {
+		if (!fluid.isEmpty()) {
+			color(fluid.getFluid().getAttributes().getColor(fluid));
+		}
+	}
+
+	public static float getRed(int color) {
+		return (color >> 16 & 0xFF) / 255.0F;
+	}
+
+	public static float getGreen(int color) {
+		return (color >> 8 & 0xFF) / 255.0F;
+	}
+
+	public static float getBlue(int color) {
+		return (color & 0xFF) / 255.0F;
+	}
+
+	public static float getAlpha(int color) {
+		return (color >> 24 & 0xFF) / 255.0F;
+	}
+
+	public static void color(int color) {
+		RenderSystem.color4f(getRed(color), getGreen(color), getBlue(color), getAlpha(color));
+	}
+
 	public static void click() {
 		mc.getSoundManager().play(SimpleSound.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 	}
 
 	public static void bindScifi() {
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		mc.textureManager.bind(SCIFI_EL);
+		;
+		bind(SCIFI_EL);
 	}
 
 	public static void bindTrmnl() {
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		mc.textureManager.bind(TRMNL_EL);
+		bind(TRMNL_EL);
 	}
 
 	public static void bindStcht() {
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		mc.textureManager.bind(STCHT_EL);
+		bind(STCHT_EL);
 	}
 
 	public static void bindStars() {
-		RenderSystem.color4f(1f, 1f, 1f, 1f);
-		mc.textureManager.bind(STARS_BG);
+		bind(STARS_BG);
+	}
+
+	public static void bindLarge() {
+		bind(LARGE_EL);
+	}
+
+	public static void bind(ResourceLocation rl) {
+		resetColor();
+		mc.textureManager.bind(rl);
 	}
 
 	public static int levelTicks() {
 		return mc.levelRenderer.ticks;
 	}
-	
+
 	public static void close() {
 		mc.forceSetScreen(null);
+	}
+
+	public static void renderLabel(MatrixStack stack, List<? extends ITextProperties> text, int mouseX, int mouseY,
+			int bgCol, int borColStart, int borColEnd) {
+		drawHoveringText(stack, text, mouseX, mouseY, mc.screen.width, mc.screen.height, -1, bgCol, borColStart,
+				borColEnd, mc.font);
+	}
+
+	public static void drawHoveringText(MatrixStack stack, List<? extends ITextProperties> text, int mouseX, int mouseY,
+			int screenWidth, int screenHeight, int maxTextWidth, int backgroundColor, int borderColorStart,
+			int borderColorEnd, FontRenderer font) {
+		if (!text.isEmpty()) {
+
+			RenderSystem.disableRescaleNormal();
+			RenderSystem.disableDepthTest();
+			int tooltipTextWidth = 0;
+
+			for (ITextProperties textLine : text) {
+				int textLineWidth = font.width(textLine);
+				if (textLineWidth > tooltipTextWidth)
+					tooltipTextWidth = textLineWidth;
+			}
+
+			boolean needsWrap = false;
+
+			int titleLinesCount = 1;
+			int tooltipX = mouseX + 12;
+			if (tooltipX + tooltipTextWidth + 4 > screenWidth) {
+				tooltipX = mouseX - 16 - tooltipTextWidth;
+				if (tooltipX < 4) // if the tooltip doesn't fit on the screen
+				{
+					if (mouseX > screenWidth / 2)
+						tooltipTextWidth = mouseX - 12 - 8;
+					else
+						tooltipTextWidth = screenWidth - 16 - mouseX;
+					needsWrap = true;
+				}
+			}
+
+			if (maxTextWidth > 0 && tooltipTextWidth > maxTextWidth) {
+				tooltipTextWidth = maxTextWidth;
+				needsWrap = true;
+			}
+
+			if (needsWrap) {
+				int wrappedTooltipWidth = 0;
+				List<ITextProperties> wrappedTextLines = new ArrayList<>();
+				for (int i = 0; i < text.size(); i++) {
+					ITextProperties textLine = text.get(i);
+					List<ITextProperties> wrappedLine = font.getSplitter().splitLines(textLine, tooltipTextWidth,
+							Style.EMPTY);
+					if (i == 0)
+						titleLinesCount = wrappedLine.size();
+
+					for (ITextProperties line : wrappedLine) {
+						int lineWidth = font.width(line);
+						if (lineWidth > wrappedTooltipWidth)
+							wrappedTooltipWidth = lineWidth;
+						wrappedTextLines.add(line);
+					}
+				}
+				tooltipTextWidth = wrappedTooltipWidth;
+				text = wrappedTextLines;
+
+				if (mouseX > screenWidth / 2)
+					tooltipX = mouseX - 16 - tooltipTextWidth;
+				else
+					tooltipX = mouseX + 12;
+			}
+
+			int tooltipY = mouseY - 12;
+			int tooltipHeight = 8;
+
+			if (text.size() > 1) {
+				tooltipHeight += (text.size() - 1) * 10;
+				if (text.size() > titleLinesCount)
+					tooltipHeight += 2; // gap between title lines and next lines
+			}
+
+			if (tooltipY < 4)
+				tooltipY = 4;
+			else if (tooltipY + tooltipHeight + 4 > screenHeight)
+				tooltipY = screenHeight - tooltipHeight - 4;
+
+			final int zLevel = 400;
+
+			stack.pushPose();
+			Matrix4f mat = stack.last().pose();
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY - 4, tooltipX + tooltipTextWidth + 3, tooltipY - 3,
+					backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY + tooltipHeight + 3, tooltipX + tooltipTextWidth + 3,
+					tooltipY + tooltipHeight + 4, backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY - 3, tooltipX + tooltipTextWidth + 3,
+					tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX - 4, tooltipY - 3, tooltipX - 3, tooltipY + tooltipHeight + 3,
+					backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX + tooltipTextWidth + 3, tooltipY - 3,
+					tooltipX + tooltipTextWidth + 4, tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY - 3 + 1, tooltipX - 3 + 1,
+					tooltipY + tooltipHeight + 3 - 1, borderColorStart, borderColorEnd);
+			drawGradientRect(mat, zLevel, tooltipX + tooltipTextWidth + 2, tooltipY - 3 + 1,
+					tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 3 - 1, borderColorStart,
+					borderColorEnd);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY - 3, tooltipX + tooltipTextWidth + 3, tooltipY - 3 + 1,
+					borderColorStart, borderColorStart);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY + tooltipHeight + 2, tooltipX + tooltipTextWidth + 3,
+					tooltipY + tooltipHeight + 3, borderColorEnd, borderColorEnd);
+
+			IRenderTypeBuffer.Impl renderType = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuilder());
+			stack.translate(0.0D, 0.0D, zLevel);
+
+			for (int lineNumber = 0; lineNumber < text.size(); ++lineNumber) {
+				ITextProperties line = text.get(lineNumber);
+				if (line != null)
+					font.drawInBatch(LanguageMap.getInstance().getVisualOrder(line), (float) tooltipX, (float) tooltipY,
+							-1, true, mat, renderType, false, 0, 15728880);
+
+				if (lineNumber + 1 == titleLinesCount)
+					tooltipY += 2;
+
+				tooltipY += 10;
+			}
+
+			renderType.endBatch();
+			stack.popPose();
+
+			RenderSystem.enableDepthTest();
+			RenderSystem.enableRescaleNormal();
+		}
+	}
+
+	public static void drawGradientRect(Matrix4f mat, int zLevel, int left, int top, int right, int bottom,
+			int startColor, int endColor) {
+		float startAlpha = (float) (startColor >> 24 & 255) / 255.0F;
+		float startRed = (float) (startColor >> 16 & 255) / 255.0F;
+		float startGreen = (float) (startColor >> 8 & 255) / 255.0F;
+		float startBlue = (float) (startColor & 255) / 255.0F;
+		float endAlpha = (float) (endColor >> 24 & 255) / 255.0F;
+		float endRed = (float) (endColor >> 16 & 255) / 255.0F;
+		float endGreen = (float) (endColor >> 8 & 255) / 255.0F;
+		float endBlue = (float) (endColor & 255) / 255.0F;
+
+		RenderSystem.enableDepthTest();
+		RenderSystem.disableTexture();
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+		RenderSystem.shadeModel(GL11.GL_SMOOTH);
+
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuilder();
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+		buffer.vertex(mat, right, top, zLevel).color(startRed, startGreen, startBlue, startAlpha).endVertex();
+		buffer.vertex(mat, left, top, zLevel).color(startRed, startGreen, startBlue, startAlpha).endVertex();
+		buffer.vertex(mat, left, bottom, zLevel).color(endRed, endGreen, endBlue, endAlpha).endVertex();
+		buffer.vertex(mat, right, bottom, zLevel).color(endRed, endGreen, endBlue, endAlpha).endVertex();
+		tessellator.end();
+
+		RenderSystem.shadeModel(GL11.GL_FLAT);
+		RenderSystem.disableBlend();
+		RenderSystem.enableTexture();
+	}
+
+	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
+	public enum TilingDirection {
+		DOWN_RIGHT(true, true), DOWN_LEFT(true, false), UP_RIGHT(false, true), UP_LEFT(false, false);
+
+		private final boolean down;
+		private final boolean right;
+
+		TilingDirection(boolean down, boolean right) {
+			this.down = down;
+			this.right = right;
+		}
 	}
 }

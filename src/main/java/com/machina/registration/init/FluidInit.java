@@ -1,6 +1,7 @@
 package com.machina.registration.init;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -35,15 +36,18 @@ public class FluidInit {
 	//@formatter:off
 
 	// Gases
-	public static final FluidObject OXYGEN = gas("oxygen", b -> b.col(0xFF_ffffff).tem(90.19F).den(1143f).atm(0));
-	public static final FluidObject NITROGEN = gas("nitrogen", b -> b.col(0xFF_6be5fa).tem(90.19F).den(1161f).atm(1));
-	public static final FluidObject AMMONIA = gas("ammonia", b -> b.col(0xFF_44db6c).tem(90.19F).den(730f).atm(2));
-	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", b -> b.col(0xFF_f7e4c1).tem(1870f).den(1143).atm(3));
-	public static final FluidObject HYDROGEN = gas("hydrogen", b -> b.col(0xFF_6CE2FF).tem(90.19F).den(70.86f).atm(4));
+	public static final FluidObject OXYGEN = gas("oxygen", b -> b.col(0xFF_ffffff).tem(90.19F).den(1143f));
+	public static final FluidObject NITROGEN = gas("nitrogen", b -> b.col(0xFF_6be5fa).tem(90.19F).den(1161f));
+	public static final FluidObject AMMONIA = gas("ammonia", b -> b.col(0xFF_44db6c).tem(90.19F).den(730f));
+	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", b -> b.col(0xFF_f7e4c1).tem(1870f).den(1143));
+	public static final FluidObject HYDROGEN = gas("hydrogen", b -> b.col(0xFF_6CE2FF).tem(90.19F).den(70.86f));
 	
 	// Liquids
 	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", b -> b.col(0xFF_898fff).tem(20.28F).den(70.86f));
 	public static final FluidObject LIQUID_AMMONIA = liquid("liquid_ammonia", b -> b.col(0xFF_1e6e33).tem(20.28F).den(730f));
+	
+	// Atmosphere 
+	public static final List<FluidObject> ATMOSPHERE = Arrays.asList(OXYGEN, NITROGEN, AMMONIA, CARBON_DIOXIDE, HYDROGEN);
 
 	//@formatter:on
 
@@ -135,7 +139,7 @@ public class FluidInit {
 		private Chemical c;
 
 		private ChemicalBuilder() {
-			c = new Chemical("", 0, 0, 50F, 1, -1);
+			c = new Chemical("", 0, 0, 50F, 1);
 		}
 
 		public ChemicalBuilder col(int v) {
@@ -158,11 +162,6 @@ public class FluidInit {
 			return this;
 		}
 
-		public ChemicalBuilder atm(int id) {
-			c.atmosphere = id;
-			return this;
-		}
-
 		public Chemical build(boolean gas, String name) {
 			c.name = name;
 			if (gas)
@@ -181,15 +180,13 @@ public class FluidInit {
 		private int luminosity;
 		private float temperature;
 		private float density;
-		private int atmosphere;
 
-		public Chemical(String name, int color, int luminosity, float temperature, float density, int atmosphere) {
+		public Chemical(String name, int color, int luminosity, float temperature, float density) {
 			this.name = name;
 			this.color = color;
 			this.luminosity = luminosity;
 			this.temperature = temperature;
 			this.density = density;
-			this.atmosphere = atmosphere;
 		}
 
 		public String getName() {
@@ -214,10 +211,6 @@ public class FluidInit {
 
 		public int getLuminosity() {
 			return luminosity;
-		}
-
-		public int getAtmosphereId() {
-			return atmosphere;
 		}
 	}
 

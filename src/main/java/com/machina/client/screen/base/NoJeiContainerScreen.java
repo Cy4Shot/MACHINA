@@ -78,10 +78,10 @@ public abstract class NoJeiContainerScreen<T extends Container> extends Screen i
 	private boolean doubleclick;
 	private ItemStack lastQuickMoved = ItemStack.EMPTY;
 
-	public NoJeiContainerScreen(T pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
-		super(pTitle);
-		this.menu = pMenu;
-		this.inventory = pPlayerInventory;
+	public NoJeiContainerScreen(T menu, PlayerInventory inv, ITextComponent title) {
+		super(title);
+		this.menu = menu;
+		this.inventory = inv;
 		this.skipNextRelease = true;
 		this.titleLabelX = 8;
 		this.titleLabelY = 6;
@@ -95,14 +95,13 @@ public abstract class NoJeiContainerScreen<T extends Container> extends Screen i
 		this.topPos = (this.height - this.imageHeight) / 2;
 	}
 
-	public void render(MatrixStack pMatrixStack, int pMouseX, int pMouseY, float pPartialTicks) {
+	public void render(MatrixStack stack, int pX, int pY, float par) {
 		int i = this.leftPos;
 		int j = this.topPos;
-		this.renderBg(pMatrixStack, pPartialTicks, pMouseX, pMouseY);
-//	      net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiContainerEvent.DrawBackground(this, pMatrixStack, pMouseX, pMouseY));
+		this.renderBg(stack, par, pX, pY);
 		RenderSystem.disableRescaleNormal();
 		RenderSystem.disableDepthTest();
-		super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
+		super.render(stack, pX, pY, par);
 		RenderSystem.pushMatrix();
 		RenderSystem.translatef((float) i, (float) j, 0.0F);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -114,24 +113,23 @@ public abstract class NoJeiContainerScreen<T extends Container> extends Screen i
 		for (int i1 = 0; i1 < this.menu.slots.size(); ++i1) {
 			Slot slot = this.menu.slots.get(i1);
 			if (slot.isActive()) {
-				this.renderSlot(pMatrixStack, slot);
+				this.renderSlot(stack, slot);
 			}
 
-			if (this.isHovering(slot, (double) pMouseX, (double) pMouseY) && slot.isActive()) {
+			if (this.isHovering(slot, (double) pX, (double) pY) && slot.isActive()) {
 				this.hoveredSlot = slot;
 				RenderSystem.disableDepthTest();
 				int j1 = slot.x;
 				int k1 = slot.y;
 				RenderSystem.colorMask(true, true, true, false);
 				int slotColor = this.getSlotColor(i1);
-				this.fillGradient(pMatrixStack, j1, k1, j1 + 16, k1 + 16, slotColor, slotColor);
+				this.fillGradient(stack, j1, k1, j1 + 16, k1 + 16, slotColor, slotColor);
 				RenderSystem.colorMask(true, true, true, true);
 				RenderSystem.enableDepthTest();
 			}
 		}
 
-		this.renderLabels(pMatrixStack, pMouseX, pMouseY);
-//	      net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiContainerEvent.DrawForeground(this, pMatrixStack, pMouseX, pMouseY));
+		this.renderLabels(stack, pX, pY);
 		PlayerInventory playerinventory = this.minecraft.player.inventory;
 		ItemStack itemstack = this.draggingItem.isEmpty() ? playerinventory.getCarried() : this.draggingItem;
 		if (!itemstack.isEmpty()) {
@@ -148,7 +146,7 @@ public abstract class NoJeiContainerScreen<T extends Container> extends Screen i
 				}
 			}
 
-			this.renderFloatingItem(itemstack, pMouseX - i - 8, pMouseY - j - k2, s);
+			this.renderFloatingItem(itemstack, pX - i - 8, pY - j - k2, s);
 		}
 
 		if (!this.snapbackItem.isEmpty()) {
@@ -197,13 +195,13 @@ public abstract class NoJeiContainerScreen<T extends Container> extends Screen i
 		this.itemRenderer.blitOffset = 0.0F;
 	}
 
-	protected void renderLabels(MatrixStack pMatrixStack, int pX, int pY) {
-		this.font.draw(pMatrixStack, this.title, (float) this.titleLabelX, (float) this.titleLabelY, 4210752);
-		this.font.draw(pMatrixStack, this.inventory.getDisplayName(), (float) this.inventoryLabelX,
+	protected void renderLabels(MatrixStack stack, int pX, int pY) {
+		this.font.draw(stack, this.title, (float) this.titleLabelX, (float) this.titleLabelY, 4210752);
+		this.font.draw(stack, this.inventory.getDisplayName(), (float) this.inventoryLabelX,
 				(float) this.inventoryLabelY, 4210752);
 	}
 
-	protected abstract void renderBg(MatrixStack pMatrixStack, float pPartialTicks, int pX, int pY);
+	protected abstract void renderBg(MatrixStack stack, float par, int pX, int pY);
 
 	private void renderSlot(MatrixStack pPoseStack, Slot pSlot) {
 		int i = pSlot.x;

@@ -10,7 +10,7 @@ import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.FluidInit;
-import com.machina.registration.init.FluidInit.Chemical;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.util.color.Color;
 import com.machina.util.server.PlanetUtils;
 import com.machina.util.text.StringUtils;
@@ -106,11 +106,9 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				draw(stack, StringUtils.translate("machina.screen.scanner.nocave"), x + 120, y + 20, 0xFF_FF0000, true);
 				break;
 			case 3:
-				drawChemical(stack, FluidInit.OXYGEN.chem(), x, y + 20);
-				drawChemical(stack, FluidInit.NITROGEN.chem(), x, y + 30);
-				drawChemical(stack, FluidInit.AMMONIA.chem(), x, y + 40);
-				drawChemical(stack, FluidInit.CARBON_DIOXIDE.chem(), x, y + 50);
-				drawChemical(stack, FluidInit.HYDROGEN.chem(), x, y + 60);
+				for (int f = 0; f < FluidInit.ATMOSPHERE.size(); f++) {
+					drawChemical(stack, FluidInit.ATMOSPHERE.get(f), x, y + 20 + f * 10);
+				}
 				break;
 			}
 			draw(stack,
@@ -128,9 +126,9 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		draw(stack, "MACHINA://SCANNER-" + (tab + 1) + "/", x + 8, y + 82, 0xFF_00fefe, false);
 	}
 
-	private void drawChemical(MatrixStack stack, Chemical chem, int x, int y) {
+	private void drawChemical(MatrixStack stack, FluidObject chem, int x, int y) {
 		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
-		String title = chem.getDisplayName() + ": ";
+		String title = chem.chem().getDisplayName() + ": ";
 		String value = new DecimalFormat("##.##").format(PlanetUtils.getAtmosphereChemical(data, chem) * 100) + "%";
 		Color[] colors = data.getAttribute(AttributeInit.PALETTE);
 		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);
