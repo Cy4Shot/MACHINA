@@ -53,7 +53,7 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity implements IM
 		this.selected = id;
 		PlanetData data = StarchartData.getDataOrNone(ServerHelper.server(), this.level.dimension());
 		Double atm = data.getAttribute(AttributeInit.ATMOSPHERE)[id];
-		this.rate = 0.05f * (float) atm.doubleValue();
+		this.rate = 0.02f * (float) atm.doubleValue();
 		this.sync();
 	}
 
