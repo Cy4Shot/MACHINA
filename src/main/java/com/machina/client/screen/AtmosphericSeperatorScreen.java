@@ -45,17 +45,22 @@ public class AtmosphericSeperatorScreen extends NoJeiContainerScreen<Atmospheric
 
 	@Override
 	protected void renderBg(MatrixStack stack, float par, int pX, int pY) {
+		
+		int size = FluidInit.ATMOSPHERE.size();
+		
 		UIHelper.bindLarge();
-		int xSize = 237, ySize = 211;
+		int xSize = 237, ySize = 4 + size * 20 + 19;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 0, 0, xSize, ySize);
+		this.blit(stack, x, y, 0, 0, xSize, 4);
 
-		for (int i = 0; i < FluidInit.ATMOSPHERE.size(); i++) {
+		for (int i = 0; i < size; i++) {
 			boolean s = i == this.menu.te.selected;
 			UIHelper.bindLarge();
 			int newX = x + 4;
 			int newY = y + 4 + i * 20;
+			
+			this.blit(stack, x, newY, 0, 4, xSize, 20);
 
 			FluidObject obj = FluidInit.ATMOSPHERE.get(i);
 
@@ -91,14 +96,17 @@ public class AtmosphericSeperatorScreen extends NoJeiContainerScreen<Atmospheric
 			UIHelper.drawStringWithBorder(stack, obj.chem().getDisplayName(), newX + 24, newY + 4, 0xFF_00fefe,
 					0xFF_0e0e0e);
 		}
+		
+		UIHelper.bindLarge();
+		this.blit(stack, x, y + 4 + size * 20, 0, 192, xSize, 19);
 
-		UIHelper.drawStringWithBorder(stack, "MACHINA://ATM_SEPERATOR/", x + 6, y + 194, 0xFF_00fefe, 0xFF_0e0e0e);
+		UIHelper.drawStringWithBorder(stack, "MACHINA://ATM_SEPERATOR/", x + 5, y + 8 + size * 20, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
 
 	@Override
 	public boolean mouseReleased(double pX, double pY, int button) {
 		if (button == 0) {
-			int xSize = 237, ySize = 211;
+			int xSize = 237, ySize = 4 + FluidInit.ATMOSPHERE.size() * 20 + 19;
 			for (int i = 0; i < FluidInit.ATMOSPHERE.size(); i++) {
 				int newX = (this.width - xSize) / 2 + 4;
 				int newY = (this.height - ySize) / 2 + 4 + i * 20;
