@@ -6,8 +6,11 @@ import java.util.List;
 import com.machina.block.container.AtmosphericSeperatorContainer;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
+import com.machina.network.MachinaNetwork;
+import com.machina.network.c2s.C2SAtmosphericSeperatorSelect;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
+import com.machina.util.math.MathUtil;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -49,36 +52,64 @@ public class AtmosphericSeperatorScreen extends NoJeiContainerScreen<Atmospheric
 		this.blit(stack, x, y, 0, 0, xSize, ySize);
 
 		for (int i = 0; i < FluidInit.ATMOSPHERE.size(); i++) {
+			boolean s = i == this.menu.te.selected;
 			UIHelper.bindLarge();
 			int newX = x + 4;
 			int newY = y + 4 + i * 20;
 
 			FluidObject obj = FluidInit.ATMOSPHERE.get(i);
 
-			if (pX > newX && pX < newX + 94 && pY > newY && pY < newY + 18) {
-				this.blit(stack, newX, newY, 0, 229, 94, 18);
+			if (pX > newX + 20 && pX < newX + 20 + 94 && pY > newY && pY < newY + 18) {
+				this.blit(stack, newX + 20, newY, 0, 229, 94, 18);
 			} else {
-				if (i == this.menu.te.selected) {
-					this.blit(stack, newX, newY, 0, 211, 94, 18);
+				if (s) {
+					this.blit(stack, newX + 20, newY, 0, 211, 94, 18);
 				} else {
-					this.blit(stack, newX, newY, 94, 211, 94, 18);
+					this.blit(stack, newX + 20, newY, 94, 211, 94, 18);
 				}
 			}
 
-			this.blit(stack, newX + 96, newY, 94, 211, 94, 18);
-			UIHelper.renderFluid(stack, new FluidStack(obj.fluid(), 1), newX + 97, newY + 1, 91, 15, getBlitOffset());
+			this.blit(stack, newX, newY, 94, 229, 18, 18);
+			UIHelper.renderFluid(stack, new FluidStack(obj.fluid(), 1), newX + 1, newY + 1, 15, 15, getBlitOffset());
 
-			if (pX > newX + 96 && pX < newX + 96 + 94 && pY > newY && pY < newY + 18) {
+			if (pX > newX && pX < newX + 18 && pY > newY && pY < newY + 18) {
 				List<ITextComponent> tooltip = new ArrayList<>();
 				tooltip.add(StringUtils.toComp(obj.chem().getDisplayName()));
 				UIHelper.renderLabel(stack, tooltip, pX, pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			}
 
-			UIHelper.drawStringWithBorder(stack, obj.chem().getDisplayName(), newX + 4, newY + 4, 0xFF_00fefe,
+			if (s) {
+				UIHelper.drawStringWithBorder(stack,
+						StringUtils.translate("machina.screen.atmospheric_seperator.producing")
+								+ MathUtil.engineering(this.menu.te.rate, "B/t"),
+						newX + 116, newY + 4, 0xFF_00fefe, 0xFF_0e0e0e);
+			} else {
+				UIHelper.drawStringWithBorder(stack, StringUtils.translate("machina.screen.atmospheric_seperator.no"),
+						newX + 116, newY + 4, 0xFF_ff0000, 0xFF_0e0e0e);
+			}
+
+			UIHelper.drawStringWithBorder(stack, obj.chem().getDisplayName(), newX + 24, newY + 4, 0xFF_00fefe,
 					0xFF_0e0e0e);
 		}
 
 		UIHelper.drawStringWithBorder(stack, "MACHINA://ATM_SEPERATOR/", x + 6, y + 194, 0xFF_00fefe, 0xFF_0e0e0e);
+	}
+
+	@Override
+	public boolean mouseReleased(double pX, double pY, int button) {
+		if (button == 0) {
+			int xSize = 237, ySize = 211;
+			for (int i = 0; i < FluidInit.ATMOSPHERE.size(); i++) {
+				int newX = (this.width - xSize) / 2 + 4;
+				int newY = (this.height - ySize) / 2 + 4 + i * 20;
+				if (pX > newX + 20 && pX < newX + 20 + 94 && pY > newY && pY < newY + 18) {
+					MachinaNetwork.CHANNEL.sendToServer(new C2SAtmosphericSeperatorSelect(menu.te.getBlockPos(), i));
+					UIHelper.click();
+					return true;
+				}
+			}
+		}
+		return super.mouseReleased(pX, pY, button);
 	}
 
 	@Override

@@ -92,6 +92,8 @@
   "machina.planet_trait.lakes": "Lakes",
   "machina.planet_trait.mountainous": "Mountainous",
   "machina.planet_trait.water_world": "Water World",
+  "machina.screen.atmospheric_seperator.no": "Not Producing ",
+  "machina.screen.atmospheric_seperator.producing": "Producing: ",
   "machina.screen.cargo_crate.open": "Right Click to Loot",
   "machina.screen.component_analyzer.insert": "Insert Component",
   "machina.screen.scanner.location": "Location: ",

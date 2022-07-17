@@ -1,9 +1,11 @@
 package com.machina.world.data;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.machina.planet.PlanetTraitPoolManager;
+import com.machina.planet.attribute.PlanetAttribute;
 import com.machina.planet.attribute.PlanetAttributeList;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTraitList;
@@ -23,7 +25,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 		pd.deserializeNBT(nbt);
 		return pd;
 	}
-	
+
 	public static PlanetData fromRand(Random rand) {
 		PlanetData pd = new PlanetData();
 		pd.generate(rand);
@@ -75,14 +77,20 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	public PlanetAttributeList getAttributes() {
 		return attributes;
 	}
-	
+
 	public <T> T getAttribute(PlanetAttributeType<T> type) {
-		return attributes.getAttributeForType(type).get().getValue();
+		Optional<PlanetAttribute<T>> op = attributes.getAttributeForType(type);
+		if (op.isPresent())
+			return op.get().getValue();
+		else {
+			return type.ser.def();
+		}
 	}
-	
+
 	public <T> String getAttributeFormatted(PlanetAttributeType<T> type) {
-		return String.valueOf(attributes.getAttributeForType(type).get().getValueFormatted()) + " " + type.getMeasureUnit();
+		return String.valueOf(attributes.getAttributeForType(type).get().getValueFormatted()) + " "
+				+ type.getMeasureUnit();
 	}
-	
+
 	public static PlanetData NONE = new PlanetData();
 }

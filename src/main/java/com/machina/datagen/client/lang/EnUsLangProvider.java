@@ -60,7 +60,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.PROCESSOR.get(), "Processor");
 		add(ItemInit.SILICON.get(), "Silicon");
 		add(ItemInit.TRANSISTOR.get(), "Transistor");
-		
+
 		// Fluids
 		add(FluidInit.OXYGEN, "Oxygen", "Bucket");
 		add(FluidInit.NITROGEN, "Nitrogen", "Bucket");
@@ -79,7 +79,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(TraitInit.LAKES, "Lakes");
 		add(TraitInit.FROZEN, "Frozen");
 		add(TraitInit.ISLANDS, "Islands");
-		
+
 		// Attributes
 		add(AttributeInit.ATMOSPHERIC_PRESSURE, "Atmospheric Pressure");
 		add(AttributeInit.BASE_BLOCKS, "Blocks");
@@ -120,11 +120,11 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 		// GUI
 		addScreen("component_analyzer", "insert", "Insert Component");
-		
+
 		addScreen("cargo_crate", "open", "Right Click to Loot");
-		
+
 		addScreen("starchart", "noselect", "Please select a planet.");
-		
+
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");
 		addScreen("scanner", "tab1", "2. Planet Info");
@@ -133,7 +133,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("scanner", "location", "Location: ");
 		addScreen("scanner", "nodata", "Data Unavailable.");
 		addScreen("scanner", "nocave", "There are no caves on this planet!");
-		
+
 		addScreen("ship_console", "missing", "Missing Items");
 		addScreen("ship_console", "obstructed", "Obstructed");
 		addScreen("ship_console", "craft_ready", "Craft Ready");
@@ -141,6 +141,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("ship_console", "craft", "Craft");
 		addScreen("ship_console", "stage", "Stage");
 		addScreen("ship_console", "await", "Awaiting Launch");
+
+		addScreen("atmospheric_seperator", "producing", "Producing: ");
+		addScreen("atmospheric_seperator", "no", "Not Producing ");
 
 		// Terminal
 		addTerminalCommand("clear", "Clears the console.");
@@ -164,14 +167,14 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalFeedback("unlock", "translate", "Translate: ");
 		addTerminalFeedback("unlock", "incorrect", "Incorrect.");
 		addTerminalFeedback("unlock", "permission_granted", "Permission granted.");
-		
+
 		addTerminalCommand("destination", "Set the destination.");
 		addTerminalFeedback("destination", "loading", "Initializing Starchart...");
 		addTerminalFeedback("destination", "set", "Destination set: ");
-		
+
 		addTerminalCommand("fuel", "Check fuel status.");
 		addTerminalFeedback("fuel", "stored", "Fuel stored: ");
-		
+
 		addTerminalCommand("refuel", "Refuel the ship.");
 		addTerminalFeedback("refuel", "info", "Place fuel barrel adjacent to the console.");
 		addTerminalFeedback("refuel", "await", "Press ENTER to confirm.");

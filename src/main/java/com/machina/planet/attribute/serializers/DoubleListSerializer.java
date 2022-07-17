@@ -14,8 +14,8 @@ public class DoubleListSerializer extends AttributeSerializer<Double[]> {
 
 	private int size;
 
-	public DoubleListSerializer(Double def, Function<Random, Double[]> gen, int s) {
-		super(new Double[] { def }, gen);
+	public DoubleListSerializer(Double[] def, Function<Random, Double[]> gen, int s) {
+		super(def, gen);
 		this.size = s;
 	}
 

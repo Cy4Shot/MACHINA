@@ -48,6 +48,7 @@ public class FluidInit {
 	
 	// Atmosphere 
 	public static final List<FluidObject> ATMOSPHERE = Arrays.asList(OXYGEN, NITROGEN, AMMONIA, CARBON_DIOXIDE, HYDROGEN);
+	public static final Double[] ATM_DEFAULT = new Double[] {0.20946D, 0.78084D, 0D, 0.00417D, 0D};
 
 	//@formatter:on
 

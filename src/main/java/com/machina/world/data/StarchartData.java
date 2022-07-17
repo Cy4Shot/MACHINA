@@ -16,6 +16,7 @@ import com.machina.registration.init.AttributeInit;
 import com.machina.util.MachinaRL;
 import com.machina.util.nbt.BaseNBTMap;
 import com.machina.util.server.PlanetUtils;
+import com.machina.util.server.ServerHelper;
 import com.machina.util.text.StringUtils;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -144,6 +145,10 @@ public class StarchartData extends WorldSavedData {
 	
 	public static PlanetData getDataForDimension(MinecraftServer server, RegistryKey<World> dim) {
 		return getDataForDimension(server, PlanetUtils.getId(dim));
+	}
+	
+	public static PlanetData getDataOrNone(MinecraftServer server, RegistryKey<World> dim) {
+		return PlanetUtils.isDimensionPlanet(dim) ? StarchartData.getDataForDimension(ServerHelper.server(), dim) : PlanetData.NONE;
 	}
 	
 	public static PlanetData getDataForDimension(MinecraftServer server, int id) {

@@ -42,7 +42,7 @@ public final class AttributeInit {
 	public static final PlanetAttributeType<Integer> CAVE_LENGTH = create(new IntSerializer(3, random(1, 5), t -> t * 16), "m");
 	public static final PlanetAttributeType<Float> CAVE_THICKNESS = create(new ChanceSerializer(0.03f, random(0.01f, 0.06f, 1.7f), 250), "m");
 	public static final PlanetAttributeType<Float> ISLAND_DENSITY = create(new ChanceSerializer(0.5f, random(0.3f, 0.7f), 100), "%");
-	public static final PlanetAttributeType<Double[]> ATMOSPHERE = create(new DoubleListSerializer(0D, dirichlet(FluidInit.ATMOSPHERE.size()), FluidInit.ATMOSPHERE.size()));
+	public static final PlanetAttributeType<Double[]> ATMOSPHERE = create(new DoubleListSerializer(FluidInit.ATM_DEFAULT, dirichlet(FluidInit.ATMOSPHERE.size()), FluidInit.ATMOSPHERE.size()));
 	//@formatter:on
 
 	public static <T> PlanetAttributeType<T> create(AttributeSerializer<T> ser) {

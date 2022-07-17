@@ -29,6 +29,10 @@ public abstract class AttributeSerializer<T> {
 		return format.apply(in);
 	}
 	
+	public T def() {
+		return def;
+	}
+	
 	public abstract INBT save(T data);
 	public abstract T load(INBT data);
 }
