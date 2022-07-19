@@ -1,7 +1,7 @@
 package com.machina.registration.init;
 
 import com.machina.Machina;
-import com.machina.block.container.AtmosphericSeperatorContainer;
+import com.machina.block.container.AtmosphericSeparatorContainer;
 import com.machina.block.container.BatteryContainer;
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.container.PuzzleContainer;
@@ -25,7 +25,7 @@ public class ContainerInit {
 	//@formatter:off
 	public static final RegistryObject<ContainerType<ShipConstructContainer>> SHIP_CONSTRUCT = register("ship_construct", ShipConstructContainer::new);
 	public static final RegistryObject<ContainerType<ShipLaunchContainer>> SHIP_LAUNCH = register("ship_launch", ShipLaunchContainer::new);
-	public static final RegistryObject<ContainerType<AtmosphericSeperatorContainer>> ATMOSPHERIC_SEPERATOR = register("atmospheric_seperator", AtmosphericSeperatorContainer::new);
+	public static final RegistryObject<ContainerType<AtmosphericSeparatorContainer>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorContainer::new);
 	public static final RegistryObject<ContainerType<ComponentAnalyzerContainer>> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerContainer::new);
 	public static final RegistryObject<ContainerType<BatteryContainer>> BATTERY = register("battery", BatteryContainer::new);
 	public static final RegistryObject<ContainerType<TankContainer>> TANK = register("tank", TankContainer::new);

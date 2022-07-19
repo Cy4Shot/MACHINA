@@ -25,7 +25,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	@Override
 	protected void registerModels() {
 		makeSimpleBlockItem(BlockInit.SHIP_CONSOLE.get());
-		makeSimpleBlockItem(BlockInit.ATMOSPHERIC_SEPERATOR.get());
+		makeSimpleBlockItem(BlockInit.ATMOSPHERIC_SEPARATOR.get());
 		makeSimpleBlockItem(BlockInit.COMPONENT_ANALYZER.get());
 		makeSimpleBlockItem(BlockInit.ALIEN_STONE.get());
 		makeSimpleBlockItem(BlockInit.ALIEN_STONE_SLAB.get());
@@ -48,6 +48,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		makeSimpleBlockItem(BlockInit.IRON_CHASSIS.get());
 		makeSimpleBlockItem(BlockInit.PUZZLE_BLOCK.get());
 		makeSimpleBlockItem(BlockInit.BATTERY.get());
+		makeSimpleBlockItem(BlockInit.TANK.get());
 		makeSimpleBlockItem(BlockInit.CABLE.get());
 		makeSimpleBlockItem(BlockInit.CREATIVE_BATTERY.get());
 		makeSimpleBlockItem(BlockInit.REINFORCED_TILE.get());

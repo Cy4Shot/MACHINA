@@ -3,12 +3,12 @@ package com.machina.client.screen;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.machina.block.container.AtmosphericSeperatorContainer;
+import com.machina.block.container.AtmosphericSeparatorContainer;
 import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
-import com.machina.network.c2s.C2SAtmosphericSeperatorSelect;
+import com.machina.network.c2s.C2SAtmosphericSeparatorSelect;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.util.math.MathUtil;
@@ -19,9 +19,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.FluidStack;
 
-public class AtmosphericSeperatorScreen extends NoJeiContainerScreen<AtmosphericSeperatorContainer> {
+public class AtmosphericSeparatorScreen extends NoJeiContainerScreen<AtmosphericSeparatorContainer> {
 
-	public AtmosphericSeperatorScreen(AtmosphericSeperatorContainer menu, PlayerInventory inv, ITextComponent title) {
+	public AtmosphericSeparatorScreen(AtmosphericSeparatorContainer menu, PlayerInventory inv, ITextComponent title) {
 		super(menu, inv, title);
 	}
 
@@ -121,7 +121,7 @@ public class AtmosphericSeperatorScreen extends NoJeiContainerScreen<Atmospheric
 				int newX = (this.width - xSize) / 2 + 4;
 				int newY = (this.height - ySize) / 2 + 4 + i * 20;
 				if (pX > newX + 20 && pX < newX + 20 + 94 && pY > newY && pY < newY + 18) {
-					MachinaNetwork.CHANNEL.sendToServer(new C2SAtmosphericSeperatorSelect(menu.te.getBlockPos(), i));
+					MachinaNetwork.CHANNEL.sendToServer(new C2SAtmosphericSeparatorSelect(menu.te.getBlockPos(), i));
 					UIHelper.click();
 					return true;
 				}

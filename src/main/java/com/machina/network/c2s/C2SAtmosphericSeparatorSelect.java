@@ -1,6 +1,6 @@
 package com.machina.network.c2s;
 
-import com.machina.block.tile.AtmosphericSeperatorTileEntity;
+import com.machina.block.tile.AtmosphericSeparatorTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;
@@ -8,12 +8,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class C2SAtmosphericSeperatorSelect implements INetworkMessage {
+public class C2SAtmosphericSeparatorSelect implements INetworkMessage {
 
 	public final BlockPos pos;
 	public final int id;
 
-	public C2SAtmosphericSeperatorSelect(BlockPos pos, int id) {
+	public C2SAtmosphericSeparatorSelect(BlockPos pos, int id) {
 		this.pos = pos;
 		this.id = id;
 	}
@@ -21,11 +21,11 @@ public class C2SAtmosphericSeperatorSelect implements INetworkMessage {
 	@Override
 	public void handle(Context context) {
 		TileEntity e = context.getSender().getLevel().getBlockEntity(this.pos);
-		if (e == null || !(e instanceof AtmosphericSeperatorTileEntity)) {
+		if (e == null || !(e instanceof AtmosphericSeparatorTileEntity)) {
 			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
 		}
 
-		((AtmosphericSeperatorTileEntity) e).setId(id);
+		((AtmosphericSeparatorTileEntity) e).setId(id);
 	}
 
 	@Override
@@ -34,10 +34,10 @@ public class C2SAtmosphericSeperatorSelect implements INetworkMessage {
 		buffer.writeInt(id);
 	}
 
-	public static C2SAtmosphericSeperatorSelect decode(PacketBuffer buffer) {
+	public static C2SAtmosphericSeparatorSelect decode(PacketBuffer buffer) {
 		BlockPos pos = buffer.readBlockPos();
 		int id = buffer.readInt();
-		return new C2SAtmosphericSeperatorSelect(pos, id);
+		return new C2SAtmosphericSeparatorSelect(pos, id);
 	}
 
 }

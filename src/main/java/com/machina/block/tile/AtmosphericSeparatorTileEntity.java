@@ -3,8 +3,8 @@ package com.machina.block.tile;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.machina.block.AtmosphericSeperatorBlock;
-import com.machina.block.container.AtmosphericSeperatorContainer;
+import com.machina.block.AtmosphericSeparatorBlock;
+import com.machina.block.container.AtmosphericSeparatorContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.block.tile.base.IFluidTileEntity;
@@ -32,7 +32,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class AtmosphericSeperatorTileEntity extends BaseTileEntity
+public class AtmosphericSeparatorTileEntity extends BaseTileEntity
 		implements IMachinaContainerProvider, IFluidTileEntity, ITickableTileEntity {
 
 	public int selected = -1;
@@ -65,8 +65,8 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity
 		}
 	};
 
-	public AtmosphericSeperatorTileEntity() {
-		super(TileEntityInit.ATMOSPHERIC_SEPERATOR.get());
+	public AtmosphericSeparatorTileEntity() {
+		super(TileEntityInit.ATMOSPHERIC_SEPARATOR.get());
 	}
 
 	public void setId(int id) {
@@ -84,7 +84,7 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity
 
 	@Override
 	public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
-		return new AtmosphericSeperatorContainer(id, this);
+		return new AtmosphericSeparatorContainer(id, this);
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity
 
 		tank.setFluid(new FluidStack(fluid, capacity() - stored()));
 
-		Direction facing = getBlockState().getValue(AtmosphericSeperatorBlock.FACING);
+		Direction facing = getBlockState().getValue(AtmosphericSeparatorBlock.FACING);
 		TileEntity te = getLevel().getBlockEntity(getBlockPos().relative(facing));
 		if (te == null)
 			return;

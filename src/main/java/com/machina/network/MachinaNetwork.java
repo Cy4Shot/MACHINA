@@ -2,7 +2,7 @@ package com.machina.network;
 
 import java.util.function.Function;
 
-import com.machina.network.c2s.C2SAtmosphericSeperatorSelect;
+import com.machina.network.c2s.C2SAtmosphericSeparatorSelect;
 import com.machina.network.c2s.C2SCompletePuzzle;
 import com.machina.network.c2s.C2SDevPlanetCreationGUI;
 import com.machina.network.c2s.C2SRefuel;
@@ -37,7 +37,7 @@ public class MachinaNetwork extends BaseNetwork {
 		registerClientToServer(C2SCompletePuzzle.class, C2SCompletePuzzle::decode);
 		registerClientToServer(C2SSetShipDestination.class, C2SSetShipDestination::decode);
 		registerClientToServer(C2SRefuel.class, C2SRefuel::decode);
-		registerClientToServer(C2SAtmosphericSeperatorSelect.class, C2SAtmosphericSeperatorSelect::decode);
+		registerClientToServer(C2SAtmosphericSeparatorSelect.class, C2SAtmosphericSeparatorSelect::decode);
 
 		BaseNetwork.MACHINA_CHANNEL = CHANNEL;
 	}

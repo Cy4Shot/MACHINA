@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.AtmosphericSeperatorTileEntity;
+import com.machina.block.tile.AtmosphericSeparatorTileEntity;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
@@ -28,11 +28,11 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class AtmosphericSeperatorBlock extends Block {
+public class AtmosphericSeparatorBlock extends Block {
 
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
-	public AtmosphericSeperatorBlock() {
+	public AtmosphericSeparatorBlock() {
 		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).harvestLevel(1).strength(6f)
 				.noOcclusion().sound(SoundType.METAL).noOcclusion());
 
@@ -67,7 +67,7 @@ public class AtmosphericSeperatorBlock extends Block {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityInit.ATMOSPHERIC_SEPERATOR.get().create();
+		return TileEntityInit.ATMOSPHERIC_SEPARATOR.get().create();
 	}
 
 	@Override
@@ -75,8 +75,8 @@ public class AtmosphericSeperatorBlock extends Block {
 			BlockRayTraceResult pHit) {
 		if (!level.isClientSide()) {
 			TileEntity te = level.getBlockEntity(pos);
-			if (te instanceof AtmosphericSeperatorTileEntity)
-				NetworkHooks.openGui((ServerPlayerEntity) player, (AtmosphericSeperatorTileEntity) te, pos);
+			if (te instanceof AtmosphericSeparatorTileEntity)
+				NetworkHooks.openGui((ServerPlayerEntity) player, (AtmosphericSeparatorTileEntity) te, pos);
 		}
 		return ActionResultType.SUCCESS;
 	}

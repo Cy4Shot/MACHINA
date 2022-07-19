@@ -7,7 +7,7 @@ import com.machina.client.cinema.effect.ShakeManager;
 import com.machina.client.renderer.CargoCrateRenderer;
 import com.machina.client.renderer.ComponentAnalyzerRenderer;
 import com.machina.client.renderer.ShipConsoleRenderer;
-import com.machina.client.screen.AtmosphericSeperatorScreen;
+import com.machina.client.screen.AtmosphericSeparatorScreen;
 import com.machina.client.screen.BatteryScreen;
 import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.PuzzleScreen;
@@ -115,7 +115,7 @@ public class ClientModEvents {
 		ScreenManager.register(ContainerInit.TANK.get(), TankScreen::new);
 		ScreenManager.register(ContainerInit.SCANNER.get(), ScannerScreen::new);
 		ScreenManager.register(ContainerInit.PUZZLE.get(), PuzzleScreen::new);
-		ScreenManager.register(ContainerInit.ATMOSPHERIC_SEPERATOR.get(), AtmosphericSeperatorScreen::new);
+		ScreenManager.register(ContainerInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
 		
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);

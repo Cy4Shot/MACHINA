@@ -4,7 +4,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
-import com.machina.block.AtmosphericSeperatorBlock;
+import com.machina.block.AtmosphericSeparatorBlock;
 import com.machina.block.BatteryBlock;
 import com.machina.block.CableBlock;
 import com.machina.block.CargoCrateBlock;
@@ -36,7 +36,7 @@ public class BlockInit {
 
 	//@formatter:off
 	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console", ShipConsoleBlock::new);
-	public static final RegistryObject<AtmosphericSeperatorBlock> ATMOSPHERIC_SEPERATOR = register("atmospheric_seperator", AtmosphericSeperatorBlock::new);
+	public static final RegistryObject<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorBlock::new);
 	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate", CargoCrateBlock::new);
 	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerBlock::new);
 	public static final RegistryObject<TankBlock> TANK = register("tank", TankBlock::new);

@@ -1,0 +1,28 @@
+{
+	"variants": {
+		"facing=up": {
+			"model": "machina:block/atmospheric_separator",
+			"x": 270
+		},
+		"facing=down": {
+			"model": "machina:block/atmospheric_separator",
+			"x": 90
+		},
+		"facing=north": {
+			"model": "machina:block/atmospheric_separator",
+			"y": 0
+		},
+		"facing=south": {
+			"model": "machina:block/atmospheric_separator",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "machina:block/atmospheric_separator",
+			"y": 90
+		},
+		"facing=west": {
+			"model": "machina:block/atmospheric_separator",
+			"y": 270
+		}
+	}
+}

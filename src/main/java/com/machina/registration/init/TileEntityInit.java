@@ -3,7 +3,7 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
-import com.machina.block.tile.AtmosphericSeperatorTileEntity;
+import com.machina.block.tile.AtmosphericSeparatorTileEntity;
 import com.machina.block.tile.BatteryTileEntity;
 import com.machina.block.tile.CableTileEntity;
 import com.machina.block.tile.CargoCrateTileEntity;
@@ -34,7 +34,7 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<TankTileEntity>> TANK = register("tank", TankTileEntity::new, () -> BlockInit.TANK.get());
 	public static final RegistryObject<TileEntityType<CreativeBatteryTileEntity>> CREATIVE_BATTERY = register("creative_battery", CreativeBatteryTileEntity::new, () -> BlockInit.CREATIVE_BATTERY.get());
 	public static final RegistryObject<TileEntityType<CableTileEntity>> CABLE = register("cable", CableTileEntity::new, () -> BlockInit.CABLE.get());
-	public static final RegistryObject<TileEntityType<AtmosphericSeperatorTileEntity>> ATMOSPHERIC_SEPERATOR = register("atmospheric_seperator", AtmosphericSeperatorTileEntity::new, () -> BlockInit.ATMOSPHERIC_SEPERATOR.get());
+	public static final RegistryObject<TileEntityType<AtmosphericSeparatorTileEntity>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorTileEntity::new, () -> BlockInit.ATMOSPHERIC_SEPARATOR.get());
 	//@formatter:on
 
 	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String n, Supplier<T> s,

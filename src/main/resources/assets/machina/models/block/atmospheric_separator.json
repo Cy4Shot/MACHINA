@@ -1,7 +1,7 @@
 {
 	"textures": {
-		"1": "machina:block/atmospheric_seperator",
-		"particle": "machina:block/atmospheric_seperator"
+		"1": "machina:block/atmospheric_separator",
+		"particle": "machina:block/atmospheric_separator"
 	},
 	"elements": [
 		{

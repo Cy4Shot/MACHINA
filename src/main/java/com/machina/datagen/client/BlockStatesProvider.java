@@ -53,6 +53,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_ORE.get());
+		simpleBlock(BlockInit.TANK.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
 	}
