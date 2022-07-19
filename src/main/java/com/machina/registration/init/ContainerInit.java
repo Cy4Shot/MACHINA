@@ -7,6 +7,7 @@ import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.container.PuzzleContainer;
 import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
+import com.machina.block.container.TankContainer;
 import com.machina.item.container.ScannerContainer;
 
 import net.minecraft.inventory.container.Container;
@@ -27,6 +28,7 @@ public class ContainerInit {
 	public static final RegistryObject<ContainerType<AtmosphericSeperatorContainer>> ATMOSPHERIC_SEPERATOR = register("atmospheric_seperator", AtmosphericSeperatorContainer::new);
 	public static final RegistryObject<ContainerType<ComponentAnalyzerContainer>> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerContainer::new);
 	public static final RegistryObject<ContainerType<BatteryContainer>> BATTERY = register("battery", BatteryContainer::new);
+	public static final RegistryObject<ContainerType<TankContainer>> TANK = register("tank", TankContainer::new);
 	public static final RegistryObject<ContainerType<PuzzleContainer>> PUZZLE = register("puzzle", PuzzleContainer::new);
 	public static final RegistryObject<ContainerType<ScannerContainer>> SCANNER = register("scanner", (w, i, b) -> new ScannerContainer(w, i.player.level.dimension()));
 	//@formatter:on

@@ -37,10 +37,10 @@ public class FluidInit {
 
 	// Gases
 	public static final FluidObject OXYGEN = gas("oxygen", b -> b.col(0xFF_ffffff).tem(90.19F).den(1143f));
-	public static final FluidObject NITROGEN = gas("nitrogen", b -> b.col(0xFF_6be5fa).tem(90.19F).den(1161f));
+	public static final FluidObject NITROGEN = gas("nitrogen", b -> b.col(0xFF_b2d4db).tem(90.19F).den(1161f));
 	public static final FluidObject AMMONIA = gas("ammonia", b -> b.col(0xFF_44db6c).tem(90.19F).den(730f));
-	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", b -> b.col(0xFF_f7e4c1).tem(1870f).den(1143));
-	public static final FluidObject HYDROGEN = gas("hydrogen", b -> b.col(0xFF_6CE2FF).tem(90.19F).den(70.86f));
+	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", b -> b.col(0xFF_f7e4c1).tem(1870f).den(1143f));
+	public static final FluidObject HYDROGEN = gas("hydrogen", b -> b.col(0xFF_6ce2ff).tem(90.19F).den(70.86f));
 	
 	// Liquids
 	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", b -> b.col(0xFF_898fff).tem(20.28F).den(70.86f));

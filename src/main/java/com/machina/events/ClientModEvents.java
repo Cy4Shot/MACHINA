@@ -14,6 +14,7 @@ import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
 import com.machina.client.screen.ShipConstructScreen;
 import com.machina.client.screen.ShipLaunchScreen;
+import com.machina.client.screen.TankScreen;
 import com.machina.client.util.ClientTimer;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
@@ -111,6 +112,7 @@ public class ClientModEvents {
 		ScreenManager.register(ContainerInit.SHIP_LAUNCH.get(), ShipLaunchScreen::new);
 		ScreenManager.register(ContainerInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerScreen::new);
 		ScreenManager.register(ContainerInit.BATTERY.get(), BatteryScreen::new);
+		ScreenManager.register(ContainerInit.TANK.get(), TankScreen::new);
 		ScreenManager.register(ContainerInit.SCANNER.get(), ScannerScreen::new);
 		ScreenManager.register(ContainerInit.PUZZLE.get(), PuzzleScreen::new);
 		ScreenManager.register(ContainerInit.ATMOSPHERIC_SEPERATOR.get(), AtmosphericSeperatorScreen::new);

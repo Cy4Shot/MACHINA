@@ -3,6 +3,8 @@ package com.machina.network;
 import java.util.Optional;
 import java.util.function.Function;
 
+import com.machina.util.server.ServerHelper;
+
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -16,7 +18,7 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public abstract class BaseNetwork {
-	
+
 	public static SimpleChannel MACHINA_CHANNEL = null;
 
 	protected static int ID = 0;
@@ -67,6 +69,10 @@ public abstract class BaseNetwork {
 
 	public static <MSG> void sendToAll(SimpleChannel channel, MSG message) {
 		channel.send(PacketDistributor.ALL.noArg(), message);
+	}
+
+	public static <MSG> void sendToClients(SimpleChannel channel, MSG message) {
+		ServerHelper.server().getPlayerList().getPlayers().forEach(p -> sendTo(channel, message, p));
 	}
 
 	/**

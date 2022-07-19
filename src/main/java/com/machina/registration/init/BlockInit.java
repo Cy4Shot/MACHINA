@@ -12,6 +12,7 @@ import com.machina.block.ComponentAnalyzerBlock;
 import com.machina.block.CreativeBatteryBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
+import com.machina.block.TankBlock;
 import com.machina.registration.Registration;
 
 import net.minecraft.block.AbstractBlock;
@@ -38,6 +39,7 @@ public class BlockInit {
 	public static final RegistryObject<AtmosphericSeperatorBlock> ATMOSPHERIC_SEPERATOR = register("atmospheric_seperator", AtmosphericSeperatorBlock::new);
 	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate", CargoCrateBlock::new);
 	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerBlock::new);
+	public static final RegistryObject<TankBlock> TANK = register("tank", TankBlock::new);
 	public static final RegistryObject<BatteryBlock> BATTERY = register("battery", BatteryBlock::new);
 	public static final RegistryObject<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery", CreativeBatteryBlock::new);
 	public static final RegistryObject<PuzzleBlock> PUZZLE_BLOCK = register("puzzle_block", PuzzleBlock::new);

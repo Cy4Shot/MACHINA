@@ -11,6 +11,7 @@ import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.block.tile.CreativeBatteryTileEntity;
 import com.machina.block.tile.PuzzleTileEntity;
 import com.machina.block.tile.ShipConsoleTileEntity;
+import com.machina.block.tile.TankTileEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -30,6 +31,7 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<ComponentAnalyzerTileEntity>> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerTileEntity::new, () -> BlockInit.COMPONENT_ANALYZER.get());
 	public static final RegistryObject<TileEntityType<PuzzleTileEntity>> PUZZLE = register("puzzle", PuzzleTileEntity::new, () -> BlockInit.PUZZLE_BLOCK.get());
 	public static final RegistryObject<TileEntityType<BatteryTileEntity>> BATTERY = register("battery", BatteryTileEntity::new, () -> BlockInit.BATTERY.get());
+	public static final RegistryObject<TileEntityType<TankTileEntity>> TANK = register("tank", TankTileEntity::new, () -> BlockInit.TANK.get());
 	public static final RegistryObject<TileEntityType<CreativeBatteryTileEntity>> CREATIVE_BATTERY = register("creative_battery", CreativeBatteryTileEntity::new, () -> BlockInit.CREATIVE_BATTERY.get());
 	public static final RegistryObject<TileEntityType<CableTileEntity>> CABLE = register("cable", CableTileEntity::new, () -> BlockInit.CABLE.get());
 	public static final RegistryObject<TileEntityType<AtmosphericSeperatorTileEntity>> ATMOSPHERIC_SEPERATOR = register("atmospheric_seperator", AtmosphericSeperatorTileEntity::new, () -> BlockInit.ATMOSPHERIC_SEPERATOR.get());

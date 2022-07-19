@@ -9,6 +9,7 @@ import com.machina.network.c2s.C2SRefuel;
 import com.machina.network.c2s.C2SSetShipDestination;
 import com.machina.network.c2s.C2SShipConsoleGUIButton;
 import com.machina.network.c2s.C2SUpdateEnergySide;
+import com.machina.network.s2c.S2CFluidSync;
 import com.machina.network.s2c.S2CShakeScreen;
 import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.util.MachinaRL;
@@ -27,6 +28,7 @@ public class MachinaNetwork extends BaseNetwork {
 		// Server -> Client
 		registerServerToClient(S2CStarchartSync.class, S2CStarchartSync::decode);
 		registerServerToClient(S2CShakeScreen.class, S2CShakeScreen::decode);
+		registerServerToClient(S2CFluidSync.class, S2CFluidSync::decode);
 
 		// Client -> Server
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
