@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.machina.block.container.AtmosphericSeperatorContainer;
+import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
@@ -45,9 +46,9 @@ public class AtmosphericSeperatorScreen extends NoJeiContainerScreen<Atmospheric
 
 	@Override
 	protected void renderBg(MatrixStack stack, float par, int pX, int pY) {
-		
+
 		int size = FluidInit.ATMOSPHERE.size();
-		
+
 		UIHelper.bindLarge();
 		int xSize = 237, ySize = 4 + size * 20 + 19;
 		int x = (this.width - xSize) / 2;
@@ -59,7 +60,7 @@ public class AtmosphericSeperatorScreen extends NoJeiContainerScreen<Atmospheric
 			UIHelper.bindLarge();
 			int newX = x + 4;
 			int newY = y + 4 + i * 20;
-			
+
 			this.blit(stack, x, newY, 0, 4, xSize, 20);
 
 			FluidObject obj = FluidInit.ATMOSPHERE.get(i);
@@ -84,23 +85,32 @@ public class AtmosphericSeperatorScreen extends NoJeiContainerScreen<Atmospheric
 			}
 
 			if (s) {
-				UIHelper.drawStringWithBorder(stack,
-						StringUtils.translate("machina.screen.atmospheric_seperator.producing")
-								+ MathUtil.engineering(this.menu.te.rate, "B/t"),
-						newX + 116, newY + 4, 0xFF_00fefe, 0xFF_0e0e0e);
+
+				if ((int) (this.menu.te.rate * IFluidTileEntity.BUCKET) > 0) {
+					UIHelper.drawStringWithBorder(stack,
+							StringUtils.translate("machina.screen.atmospheric_seperator.producing")
+									+ MathUtil.engineering(this.menu.te.rate, "B/t"),
+							newX + 116, newY + 4, 0xFF_00fefe, 0xFF_0e0e0e);
+				} else {
+					UIHelper.drawStringWithBorder(stack,
+							StringUtils.translate("machina.screen.atmospheric_seperator.not_enough"), newX + 116,
+							newY + 4, 0xFF_ff0000, 0xFF_0e0e0e);
+				}
 			} else {
 				UIHelper.drawStringWithBorder(stack, StringUtils.translate("machina.screen.atmospheric_seperator.no"),
 						newX + 116, newY + 4, 0xFF_ff0000, 0xFF_0e0e0e);
+
 			}
 
 			UIHelper.drawStringWithBorder(stack, obj.chem().getDisplayName(), newX + 24, newY + 4, 0xFF_00fefe,
 					0xFF_0e0e0e);
 		}
-		
+
 		UIHelper.bindLarge();
 		this.blit(stack, x, y + 4 + size * 20, 0, 192, xSize, 19);
 
-		UIHelper.drawStringWithBorder(stack, "MACHINA://ATM_SEPERATOR/", x + 5, y + 8 + size * 20, 0xFF_00fefe, 0xFF_0e0e0e);
+		UIHelper.drawStringWithBorder(stack, "MACHINA://ATM_SEPERATOR/", x + 5, y + 8 + size * 20, 0xFF_00fefe,
+				0xFF_0e0e0e);
 	}
 
 	@Override

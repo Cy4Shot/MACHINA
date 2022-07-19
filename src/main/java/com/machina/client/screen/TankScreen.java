@@ -1,14 +1,11 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.TankContainer;
-import com.machina.client.ClientStarchart;
+import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
-import com.machina.registration.init.AttributeInit;
-import com.machina.util.color.Color;
 import com.machina.util.math.MathUtil;
 import com.machina.util.text.StringUtils;
-import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -46,7 +43,6 @@ public class TankScreen extends NoJeiContainerScreen<TankContainer> {
 
 	@Override
 	protected void renderBg(MatrixStack stack, float pPartialTicks, int pX, int pY) {
-
 		UIHelper.bindScifi();
 
 		// Back
@@ -62,21 +58,14 @@ public class TankScreen extends NoJeiContainerScreen<TankContainer> {
 		UIHelper.renderFluid(stack, fluid, x + 51, y + 39, percentage, 15, this.getBlitOffset());
 
 		UIHelper.drawCenteredStringWithBorder(stack,
-				MathUtil.engineering(this.menu.te.stored(), "B") + " / "
-						+ MathUtil.engineering(this.menu.te.capacity(), "B") + " - "
-						+ String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
+				MathUtil.engineering((double) this.menu.te.stored() / (double) IFluidTileEntity.BUCKET, "B") + " / "
+						+ MathUtil.engineering((double) this.menu.te.capacity() / (double) IFluidTileEntity.BUCKET, "B")
+						+ " - " + String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
 				x + 117, y + 26, 0xFF_00fefe, 0xFF_0e0e0e);
 
-//		String name = fluid.getDisplayName().getString();
-//
-//		UIHelper.drawCenteredStringWithBorder(stack, "Stored: ", x + 117 - UIHelper.getWidth(name) / 2, y + 60,
-//				0xFF_00fefe, 0xFF_0e0e0e);
-//
-//		UIHelper.drawCenteredStringWithBorder(stack, name, x + 117 + UIHelper.getWidth(name) / 2, y + 60,
-//				fluid.getFluid().getAttributes().getColor(), 0xFF_0e0e0e);
-
-		String title = "Stored: ";
-		String value = fluid.isEmpty() ? "None " : fluid.getDisplayName().getString();
+		String title = StringUtils.translate("machina.screen.tank.stored");
+		String value = fluid.isEmpty() ? StringUtils.translate("machina.screen.tank.none")
+				: fluid.getDisplayName().getString();
 		UIHelper.drawCenteredStringWithBorder(stack, title, x + 118 - UIHelper.getWidth(value) / 2, y + 60, 0xFF_00fefe,
 				0xFF_0e0e0e);
 		UIHelper.drawCenteredStringWithBorder(stack, value, x + 118 + UIHelper.getWidth(title) / 2, y + 60,

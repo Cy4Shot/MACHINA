@@ -144,6 +144,10 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 		addScreen("atmospheric_seperator", "producing", "Producing: ");
 		addScreen("atmospheric_seperator", "no", "Not Producing ");
+		addScreen("atmospheric_seperator", "not_enough", "Fluid Too Thin");
+
+		addScreen("tank", "stored", "Stored: ");
+		addScreen("tank", "none", "None ");
 
 		// Terminal
 		addTerminalCommand("clear", "Clears the console.");

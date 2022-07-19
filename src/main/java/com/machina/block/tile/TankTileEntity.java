@@ -23,7 +23,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TankTileEntity extends BaseTileEntity implements IMachinaContainerProvider, ITickableTileEntity, IFluidTileEntity {
+public class TankTileEntity extends BaseTileEntity
+		implements IMachinaContainerProvider, ITickableTileEntity, IFluidTileEntity {
 
 	private MachinaTank tank = new MachinaTank(this, 10000, p -> true);
 	private final LazyOptional<IFluidHandler> cap = LazyOptional.of(() -> tank);
@@ -61,24 +62,30 @@ public class TankTileEntity extends BaseTileEntity implements IMachinaContainerP
 		return super.getCapability(c, direction);
 	}
 
+	@Override
+	protected void invalidateCaps() {
+		cap.invalidate();
+		super.invalidateCaps();
+	}
+
+	@Override
 	public void setFluid(FluidStack fluid) {
 		tank.setFluid(fluid);
 	}
-	
+
+	@Override
 	public FluidStack getFluid() {
 		return tank.getFluid();
 	}
 
+	@Override
 	public int stored() {
 		return tank.getFluidAmount();
 	}
 
+	@Override
 	public int capacity() {
 		return tank.getCapacity();
-	}
-
-	public float propFull() {
-		return (float) stored() / (float) capacity();
 	}
 
 	@Override

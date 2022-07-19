@@ -6,6 +6,7 @@ import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CFluidSync;
 
+import net.minecraft.fluid.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -18,6 +19,7 @@ public class MachinaTank extends FluidTank {
 	public MachinaTank(BaseTileEntity tile, int capacity, Predicate<FluidStack> validator) {
 		super(capacity, validator);
 		this.tile = tile;
+		this.setFluid(new FluidStack(Fluids.EMPTY, 0));
 	}
 
 	@Override

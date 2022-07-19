@@ -1,5 +1,8 @@
 package com.machina.block.tile;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.machina.block.AtmosphericSeperatorBlock;
 import com.machina.block.container.AtmosphericSeperatorContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
@@ -9,7 +12,6 @@ import com.machina.capability.fluid.MachinaTank;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.FluidUtils;
 import com.machina.util.server.ServerHelper;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
@@ -17,6 +19,7 @@ import com.machina.world.data.StarchartData;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -26,6 +29,7 @@ import net.minecraft.util.IIntArray;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class AtmosphericSeperatorTileEntity extends BaseTileEntity
@@ -34,8 +38,8 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity
 	public int selected = -1;
 	public float rate = 0;
 
-//	public final MachinaTank tank = new MachinaTank(this, getCapacity(), p -> true);
-//	private final LazyOptional<IFluidHandler> fluidCap = LazyOptional.of(() -> tank);
+	private MachinaTank tank = new MachinaTank(this, 0, p -> true);
+	private final LazyOptional<IFluidHandler> cap = LazyOptional.of(() -> tank);
 
 	protected final IIntArray data = new IIntArray() {
 		public int get(int index) {
@@ -70,6 +74,11 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity
 		PlanetData data = StarchartData.getDataOrNone(ServerHelper.server(), this.level.dimension());
 		Double atm = data.getAttribute(AttributeInit.ATMOSPHERE)[id];
 		this.rate = 0.02f * (float) atm.doubleValue();
+
+		tank.setCapacity((int) (rate * BUCKET));
+		if (stored() > capacity()) {
+			getFluid().setAmount(capacity());
+		}
 		this.sync();
 	}
 
@@ -82,7 +91,7 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity
 	public CompoundNBT save(CompoundNBT compound) {
 		compound.putInt("selected", this.selected);
 		compound.putFloat("rate", this.rate);
-//		write(compound);
+		tank.writeToNBT(compound);
 		return super.save(compound);
 	}
 
@@ -90,7 +99,7 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity
 	public void load(BlockState state, CompoundNBT compound) {
 		this.selected = compound.getInt("selected");
 		this.rate = compound.getFloat("rate");
-//		read(compound);
+		tank.readFromNBT(compound);
 		super.load(state, compound);
 	}
 
@@ -98,61 +107,63 @@ public class AtmosphericSeperatorTileEntity extends BaseTileEntity
 		return this.data;
 	}
 
-//	@Override
-//	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-//		return cast(cap, side, (c, s) -> super.getCapability(c, s));
-//	}
-//
-//	@Override
-//	protected void invalidateCaps() {
-//		invalidate();
-//		super.invalidateCaps();
-//	}
-//
-//	@Override
-//	public int getCapacity() {
-//		return getTransfer();
-//	}
-//
-//	@Override
-//	public int getTransfer() {
-//		return (int) (rate * BUCKET);
-//	}
-//
-//	@Override
-//	public MachinaTank getTank() {
-//		return tank;
-//	}
-//
-//	@Override
-//	public LazyOptional<IFluidHandler> getCap() {
-//		return fluidCap;
-//	}
-//
-//	@Override
-//	public BaseTileEntity getTe() {
-//		return this;
-//	}
+	@Nonnull
+	@Override
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> c, @Nullable Direction direction) {
+		if (c == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+			return cap.cast();
+		}
+
+		return super.getCapability(c, direction);
+	}
+
+	@Override
+	protected void invalidateCaps() {
+		cap.invalidate();
+		super.invalidateCaps();
+	}
+
+	@Override
+	public void setFluid(FluidStack fluid) {
+		tank.setFluid(fluid);
+	}
+
+	@Override
+	public FluidStack getFluid() {
+		return tank.getFluid();
+	}
+
+	@Override
+	public int stored() {
+		return tank.getFluidAmount();
+	}
+
+	@Override
+	public int capacity() {
+		return tank.getCapacity();
+	}
 
 	@Override
 	public void tick() {
 		if (level.isClientSide() || selected == -1)
 			return;
 
-//		tank.setFluid(new FluidStack(FluidInit.ATMOSPHERE.get(selected).fluid(), getCapacity() - getFluidAmount()));
+		Fluid fluid = FluidInit.ATMOSPHERE.get(selected).fluid();
+
+		tank.setFluid(new FluidStack(fluid, capacity() - stored()));
 
 		Direction facing = getBlockState().getValue(AtmosphericSeperatorBlock.FACING);
 		TileEntity te = getLevel().getBlockEntity(getBlockPos().relative(facing));
-		if (te != null) {
-			if (FluidUtils.hasFluid(te, facing)) {
-//				FluidUtils.tryFill(level, worldPosition, facing, tank, getTransfer());
-			}
-		}
-	}
+		if (te == null)
+			return;
 
-	@Override
-	public void setFluid(FluidStack fluid) {
-		// TODO Auto-generated method stub
-		
+		IFluidHandler handler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, facing.getOpposite())
+				.orElse(null);
+
+		if (handler != null && handler.getFluidInTank(0) != null) {
+			FluidStack toFill = new FluidStack(fluid, (int) (rate * BUCKET));
+
+			tank.drain(handler.fill(toFill, IFluidHandler.FluidAction.EXECUTE), IFluidHandler.FluidAction.EXECUTE);
+		}
 	}
 }
