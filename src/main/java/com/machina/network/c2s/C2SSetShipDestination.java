@@ -37,9 +37,7 @@ public class C2SSetShipDestination implements INetworkMessage {
 	}
 
 	public static C2SSetShipDestination decode(PacketBuffer buffer) {
-		BlockPos pos = buffer.readBlockPos();
-		int destination = buffer.readInt();
-		return new C2SSetShipDestination(pos, destination);
+		return new C2SSetShipDestination(buffer.readBlockPos(), buffer.readInt());
 	}
 
 }

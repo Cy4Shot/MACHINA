@@ -33,8 +33,7 @@ public class C2SRefuel implements INetworkMessage {
 	}
 
 	public static C2SRefuel decode(PacketBuffer buffer) {
-		BlockPos pos = buffer.readBlockPos();
-		return new C2SRefuel(pos);
+		return new C2SRefuel(buffer.readBlockPos());
 	}
 
 }

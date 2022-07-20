@@ -38,7 +38,7 @@ public class AtmosphericSeparatorTileEntity extends BaseTileEntity
 	public int selected = -1;
 	public float rate = 0;
 
-	private MachinaTank tank = new MachinaTank(this, 0, p -> true);
+	private MachinaTank tank = new MachinaTank(this, 0, p -> true, 0);
 	private final LazyOptional<IFluidHandler> cap = LazyOptional.of(() -> tank);
 
 	protected final IIntArray data = new IIntArray() {

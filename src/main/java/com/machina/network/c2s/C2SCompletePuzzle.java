@@ -33,8 +33,7 @@ public class C2SCompletePuzzle implements INetworkMessage {
 	}
 
 	public static C2SCompletePuzzle decode(PacketBuffer buffer) {
-		BlockPos pos = buffer.readBlockPos();
-		return new C2SCompletePuzzle(pos);
+		return new C2SCompletePuzzle(buffer.readBlockPos());
 	}
 
 }

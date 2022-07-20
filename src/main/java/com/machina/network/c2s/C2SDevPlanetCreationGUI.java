@@ -34,9 +34,7 @@ public class C2SDevPlanetCreationGUI implements INetworkMessage {
 	}
 
 	public static C2SDevPlanetCreationGUI decode(PacketBuffer buffer) {
-		ActionType action = buffer.readEnum(ActionType.class);
-		int dimensionID = buffer.readInt();
-		return new C2SDevPlanetCreationGUI(action, dimensionID);
+		return new C2SDevPlanetCreationGUI(buffer.readEnum(ActionType.class), buffer.readInt());
 	}
 
 	public enum ActionType {

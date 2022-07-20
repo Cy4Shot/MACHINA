@@ -155,8 +155,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("pressurized_chamber", "start", "Start");
 		addScreen("pressurized_chamber", "pause", "Pause");
 		addScreen("pressurized_chamber", "waiting", "Awaiting input...");
-		addScreen("pressurized_chamber", "ready", "Clear for conversion");
-		addScreen("pressurized_chamber", "crafting", "Conversion in progress");
+		addScreen("pressurized_chamber", "ready", "Clear to Craft");
+		addScreen("pressurized_chamber", "crafting", "In Progress...");
 		addScreen("pressurized_chamber", "recipe", "Recipe Found: ");
 		addScreen("pressurized_chamber", "no_recipe", "No Recipe Found");
 		addScreen("pressurized_chamber", "extract", "Use Fluid Hopper To Extract");

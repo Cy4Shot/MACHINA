@@ -35,9 +35,7 @@ public class C2SAtmosphericSeparatorSelect implements INetworkMessage {
 	}
 
 	public static C2SAtmosphericSeparatorSelect decode(PacketBuffer buffer) {
-		BlockPos pos = buffer.readBlockPos();
-		int id = buffer.readInt();
-		return new C2SAtmosphericSeparatorSelect(pos, id);
+		return new C2SAtmosphericSeparatorSelect(buffer.readBlockPos(), buffer.readInt());
 	}
 
 }

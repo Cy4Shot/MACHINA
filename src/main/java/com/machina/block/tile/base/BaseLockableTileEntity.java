@@ -45,7 +45,7 @@ public abstract class BaseLockableTileEntity extends LockableLootTileEntity {
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
 		this.load(this.getBlockState(), pkt.getTag());
 	}
-	
+
 	@Override
 	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
 		this.load(state, tag);
@@ -76,7 +76,7 @@ public abstract class BaseLockableTileEntity extends LockableLootTileEntity {
 		this.items = pItems;
 		this.sync();
 	}
-	
+
 	@Override
 	public void setItem(int pIndex, ItemStack pStack) {
 		super.setItem(pIndex, pStack);
@@ -87,7 +87,7 @@ public abstract class BaseLockableTileEntity extends LockableLootTileEntity {
 	protected ITextComponent getDefaultName() {
 		return StringUtils.EMPTY;
 	}
-	
+
 	public ItemStack getItem(int id) {
 		return this.items.get(id);
 	}

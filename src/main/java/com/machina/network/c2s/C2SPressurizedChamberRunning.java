@@ -1,6 +1,6 @@
 package com.machina.network.c2s;
 
-import com.machina.block.tile.base.BaseEnergyTileEntity;
+import com.machina.block.tile.PressurizedChamberTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;
@@ -9,36 +9,31 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
-public class C2SUpdateEnergySide implements INetworkMessage {
+public class C2SPressurizedChamberRunning implements INetworkMessage {
 
 	public final BlockPos pos;
-	public final int[] data;
 
-	public C2SUpdateEnergySide(BlockPos pos, int[] data) {
+	public C2SPressurizedChamberRunning(BlockPos pos) {
 		this.pos = pos;
-		this.data = data;
 	}
 
 	@Override
 	public void handle(Context context) {
 		ServerWorld world = context.getSender().getLevel();
 		TileEntity e = world.getBlockEntity(this.pos);
-		if (e == null || !(e instanceof BaseEnergyTileEntity)) {
+		if (e == null || !(e instanceof PressurizedChamberTileEntity)) {
 			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
 		}
-		BaseEnergyTileEntity et = (BaseEnergyTileEntity) e;
-		et.sides = data;
-		et.sync();
+		((PressurizedChamberTileEntity) e).runToggle();
 	}
 
 	@Override
 	public void encode(PacketBuffer buffer) {
 		buffer.writeBlockPos(pos);
-		buffer.writeVarIntArray(data);
 	}
 
-	public static C2SUpdateEnergySide decode(PacketBuffer buffer) {
-		return new C2SUpdateEnergySide(buffer.readBlockPos(), buffer.readVarIntArray());
+	public static C2SPressurizedChamberRunning decode(PacketBuffer buffer) {
+		return new C2SPressurizedChamberRunning(buffer.readBlockPos());
 	}
 
 }

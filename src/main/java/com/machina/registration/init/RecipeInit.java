@@ -2,6 +2,8 @@ package com.machina.registration.init;
 
 import java.util.Map;
 
+import com.machina.recipe.PressurizedChamberRecipe;
+import com.machina.recipe.PressurizedChamberRecipe.PressurizedChamberRecipeType;
 import com.machina.recipe.ShipConsoleRecipe;
 import com.machina.recipe.ShipConsoleRecipe.ShipConsoleRecipeType;
 
@@ -15,9 +17,11 @@ import net.minecraftforge.event.RegistryEvent.Register;
 
 public class RecipeInit {
 	public static final IRecipeType<ShipConsoleRecipe> SHIP_CONSOLE_RECIPE = new ShipConsoleRecipeType();
+	public static final IRecipeType<PressurizedChamberRecipe> PRESSURIZED_CHAMBER_RECIPE = new PressurizedChamberRecipeType();
 
 	public static void registerRecipes(Register<IRecipeSerializer<?>> event) {
 		registerRecipe(event, SHIP_CONSOLE_RECIPE, ShipConsoleRecipe.SERIALIZER);
+		registerRecipe(event, PRESSURIZED_CHAMBER_RECIPE, PressurizedChamberRecipe.SERIALIZER);
 	}
 
 	private static void registerRecipe(Register<IRecipeSerializer<?>> event, IRecipeType<?> type,

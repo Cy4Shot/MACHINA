@@ -33,8 +33,7 @@ public class C2SShipConsoleGUIButton implements INetworkMessage {
 	}
 
 	public static C2SShipConsoleGUIButton decode(PacketBuffer buffer) {
-		BlockPos pos = buffer.readBlockPos();
-		return new C2SShipConsoleGUIButton(pos);
+		return new C2SShipConsoleGUIButton(buffer.readBlockPos());
 	}
 
 }
