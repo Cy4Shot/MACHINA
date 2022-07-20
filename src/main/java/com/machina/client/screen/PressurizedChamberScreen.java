@@ -6,6 +6,7 @@ import com.machina.block.container.PressurizedChamberContainer;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.registration.init.FluidInit;
+import com.machina.util.math.MathUtil;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -104,34 +105,50 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 
 		this.blit(stack, x + 32, y + 212, 3, 200, 174, 30);
 
+		this.blit(stack, x + 80, y + 20, 3, 130, 135, 18);
+		this.blit(stack, x + 82, y + 22, 3, 103, 129, 12);
+
+		this.blit(stack, x + 80, y + 56, 3, 130, 135, 18);
+		this.blit(stack, x + 82, y + 58, 3, 115, 129, 12);
+
+		UIHelper.drawCenteredStringWithBorder(stack,
+				MathUtil.engineering(this.menu.te.getEnergy(), "RF") + " / "
+						+ MathUtil.engineering(this.menu.te.getMaxEnergy(), "RF") + " - "
+						+ String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
+				x + 145, y + 8, 0xFF_00fefe, 0xFF_0e0e0e);
+
+		UIHelper.drawCenteredStringWithBorder(stack, MathUtil.engineering(0, "K") + " / "
+				+ MathUtil.engineering(1000, "K") + " - " + String.format("%.01f", 0 * 100f) + "%", x + 145, y + 44,
+				0xFF_00fefe, 0xFF_0e0e0e);
+
 		UIHelper.bindPrgrs();
 
 		this.blit(stack, x + 18, y + 171, 0, 239, 29, 17);
-		
+
 		if (true) {
 			this.blit(stack, x + 11, y + 114, 0, 0, 19, 29);
 		} else {
 			this.blit(stack, x + 11, y + 114, 42, 0, 19, 29);
 		}
-		
+
 		if (false) {
 			this.blit(stack, x + 31, y + 114, 20, 0, 2, 26);
 		} else {
 			this.blit(stack, x + 31, y + 114, 62, 0, 2, 26);
 		}
-		
+
 		if (true) {
 			this.blit(stack, x + 34, y + 114, 23, 0, 19, 29);
 		} else {
 			this.blit(stack, x + 34, y + 114, 65, 0, 19, 29);
 		}
-		
+
 		if (false) {
 			this.blit(stack, x + 31, y + 144, 20, 30, 2, 26);
 		} else {
 			this.blit(stack, x + 31, y + 144, 62, 30, 2, 26);
 		}
-		
+
 		if (true) {
 			this.blit(stack, x + 30, y + 140, 19, 26, 4, 4);
 		} else {
@@ -145,7 +162,7 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 	public int getXSize() {
 		return 236;
 	}
-	
+
 	@Override
 	public int getYSize() {
 		return 240;
