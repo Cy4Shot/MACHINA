@@ -14,6 +14,7 @@ public class LootTableProvider extends BaseLootTableProvider {
 	@Override
 	protected void addTables() {
 		dropSelf(BlockInit.SHIP_CONSOLE.get());
+		dropSelf(BlockInit.PRESSURIZED_CHAMBER.get());
 		dropSelf(BlockInit.COMPONENT_ANALYZER.get());
 		dropSelf(BlockInit.TWILIGHT_DIRT.get());
 		dropSelf(BlockInit.TWILIGHT_DIRT_SLAB.get());

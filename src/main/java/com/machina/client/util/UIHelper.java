@@ -1,6 +1,7 @@
 package com.machina.client.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -66,6 +67,7 @@ public class UIHelper {
 	public static final MachinaRL TRMNL_EL = new MachinaRL("textures/gui/trmnl_el.png");
 	public static final MachinaRL STCHT_EL = new MachinaRL("textures/gui/stcht_el.png");
 	public static final MachinaRL LARGE_EL = new MachinaRL("textures/gui/large_el.png");
+	public static final MachinaRL PRGRS_EL = new MachinaRL("textures/gui/prgrs_el.png");
 	public static final MachinaRL STARS_BG = new MachinaRL("textures/gui/stars_bg.png");
 	private static Minecraft mc = Minecraft.getInstance();
 	private static TextureManager tm = mc.getTextureManager();
@@ -306,13 +308,20 @@ public class UIHelper {
 
 	}
 
-	public static void renderFluid(MatrixStack m, FluidStack fluid, int x, int y, int sx, int sy, int blit) {
+	public static void renderFluid(MatrixStack m, FluidStack fluid, int x, int y, int sx, int sy, int fx, int fy,
+			int blit, int pX, int pY) {
 		if (fluid.getFluid() != Fluids.EMPTY) {
 			TextureAtlasSprite icon = getFluidTexture(fluid, FluidType.STILL);
 			if (icon != null) {
 				color(fluid);
-				drawTiledSprite(m, x, y, sy - 1, sx - 1, sy - 1, icon, 16, 16, blit, TilingDirection.DOWN_LEFT);
+				drawTiledSprite(m, x, y + fy - sy, sy - 1, sx - 1, sy - 1, icon, 16, 16, blit, TilingDirection.UP_LEFT);
 				resetColor();
+
+				if (pX > x - 1 && pX < x - 1 + fx && pY > y - 1 && pY < y - 1 + fy) {
+					int color = new Color(fluid.getFluid().getAttributes().getColor()).maxBrightness().toInt();
+					renderLabel(m, Arrays.asList(fluid.getDisplayName()), pX, pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc,
+							color);
+				}
 			}
 		}
 	}
@@ -470,6 +479,10 @@ public class UIHelper {
 		bind(LARGE_EL);
 	}
 
+	public static void bindPrgrs() {
+		bind(PRGRS_EL);
+	}
+
 	public static void bind(ResourceLocation rl) {
 		resetColor();
 		mc.textureManager.bind(rl);
@@ -486,12 +499,18 @@ public class UIHelper {
 	public static void renderLabel(MatrixStack stack, List<? extends ITextProperties> text, int mouseX, int mouseY,
 			int bgCol, int borColStart, int borColEnd) {
 		drawHoveringText(stack, text, mouseX, mouseY, mc.screen.width, mc.screen.height, -1, bgCol, borColStart,
-				borColEnd, mc.font);
+				borColEnd, -1, mc.font);
+	}
+
+	public static void renderLabel(MatrixStack stack, List<? extends ITextProperties> text, int mouseX, int mouseY,
+			int bgCol, int borColStart, int borColEnd, int fgCol) {
+		drawHoveringText(stack, text, mouseX, mouseY, mc.screen.width, mc.screen.height, -1, bgCol, borColStart,
+				borColEnd, fgCol, mc.font);
 	}
 
 	public static void drawHoveringText(MatrixStack stack, List<? extends ITextProperties> text, int mouseX, int mouseY,
 			int screenWidth, int screenHeight, int maxTextWidth, int backgroundColor, int borderColorStart,
-			int borderColorEnd, FontRenderer font) {
+			int borderColorEnd, int fgCol, FontRenderer font) {
 		if (!text.isEmpty()) {
 
 			RenderSystem.disableRescaleNormal();
@@ -596,7 +615,7 @@ public class UIHelper {
 				ITextProperties line = text.get(lineNumber);
 				if (line != null)
 					font.drawInBatch(LanguageMap.getInstance().getVisualOrder(line), (float) tooltipX, (float) tooltipY,
-							-1, true, mat, renderType, false, 0, 15728880);
+							fgCol, true, mat, renderType, false, 0, 15728880);
 
 				if (lineNumber + 1 == titleLinesCount)
 					tooltipY += 2;

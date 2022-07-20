@@ -23,6 +23,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
 		add(BlockInit.PUZZLE_BLOCK.get(), "Puzzle Block");
+		add(BlockInit.PRESSURIZED_CHAMBER.get(), "Pressurized Chamber");
 		add(BlockInit.CABLE.get(), "Cable");
 		add(BlockInit.TANK.get(), "Tank");
 		add(BlockInit.BATTERY.get(), "Battery");
@@ -149,6 +150,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 		addScreen("tank", "stored", "Stored: ");
 		addScreen("tank", "none", "None ");
+		
+		addScreen("pressurized_chamber", "clear", "Clear");
 
 		// Terminal
 		addTerminalCommand("clear", "Clears the console.");

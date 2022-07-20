@@ -1,8 +1,5 @@
 package com.machina.client.screen;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.machina.block.container.AtmosphericSeparatorContainer;
 import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
@@ -76,13 +73,8 @@ public class AtmosphericSeparatorScreen extends NoJeiContainerScreen<Atmospheric
 			}
 
 			this.blit(stack, newX, newY, 94, 229, 18, 18);
-			UIHelper.renderFluid(stack, new FluidStack(obj.fluid(), 1), newX + 1, newY + 1, 15, 15, getBlitOffset());
-
-			if (pX > newX && pX < newX + 18 && pY > newY && pY < newY + 18) {
-				List<ITextComponent> tooltip = new ArrayList<>();
-				tooltip.add(StringUtils.toComp(obj.chem().getDisplayName()));
-				UIHelper.renderLabel(stack, tooltip, pX, pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
-			}
+			FluidStack f = new FluidStack(obj.fluid(), 1);
+			UIHelper.renderFluid(stack, f, newX + 1, newY + 1, 15, 15, 15, 15, getBlitOffset(), pX, pY);
 
 			if (s) {
 

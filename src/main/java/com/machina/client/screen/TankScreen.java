@@ -55,7 +55,7 @@ public class TankScreen extends NoJeiContainerScreen<TankContainer> {
 		FluidStack fluid = this.menu.te.getFluid();
 		int percentage = (int) (this.menu.te.propFull() * 132f);
 		this.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
-		UIHelper.renderFluid(stack, fluid, x + 51, y + 39, percentage, 15, this.getBlitOffset());
+		UIHelper.renderFluid(stack, fluid, x + 51, y + 39, percentage, 15, 132, 15, getBlitOffset(), pX, pY);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
 				MathUtil.engineering((double) this.menu.te.stored() / (double) IFluidTileEntity.BUCKET, "B") + " / "

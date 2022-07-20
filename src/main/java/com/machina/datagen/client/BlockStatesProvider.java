@@ -45,6 +45,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleTintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
 		
 		simpleOrientableBlock(BlockInit.BATTERY.get());
+		simpleOrientableBlock(BlockInit.PRESSURIZED_CHAMBER.get());
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
 		
 		fluid(FluidInit.LIQUID_HYDROGEN);
