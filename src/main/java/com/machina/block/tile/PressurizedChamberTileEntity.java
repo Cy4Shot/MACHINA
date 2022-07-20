@@ -20,7 +20,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyTileEntity implement
 
 	@Override
 	public Container createMenu(int windowId, PlayerInventory inv, PlayerEntity player) {
-		return new PressurizedChamberContainer(windowId, this);
+		return new PressurizedChamberContainer(windowId, inv, this);
 	}
 
 	@Override

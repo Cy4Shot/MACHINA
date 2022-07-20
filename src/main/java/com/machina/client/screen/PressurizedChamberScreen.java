@@ -3,6 +3,7 @@ package com.machina.client.screen;
 import java.util.Arrays;
 
 import com.machina.block.container.PressurizedChamberContainer;
+import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.registration.init.FluidInit;
@@ -99,6 +100,31 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 			this.blit(stack, x + 44, y + 4, 237, 0, 17, 17);
 		}
 
+		this.blit(stack, x + 80, y + 84, 0, 202, 117, 32);
+
+		// Running
+		if (false) {
+			if (pX > x + 197 && pX < x + 197 + 17 && pY > y + 91 && pY < y + 91 + 17) {
+				this.blit(stack, x + 197, y + 91, 237, 141, 17, 17);
+				UIHelper.renderLabel(stack,
+						Arrays.asList(StringUtils.translateComp("machina.screen.pressurized_chamber.pause")), pX, pY,
+						0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+				UIHelper.bindTrmnl();
+			} else {
+				this.blit(stack, x + 197, y + 91, 237, 124, 17, 17);
+			}
+		} else {
+			if (pX > x + 197 && pX < x + 197 + 17 && pY > y + 91 && pY < y + 91 + 17) {
+				this.blit(stack, x + 197, y + 91, 237, 107, 17, 17);
+				UIHelper.renderLabel(stack,
+						Arrays.asList(StringUtils.translateComp("machina.screen.pressurized_chamber.start")), pX, pY,
+						0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+				UIHelper.bindTrmnl();
+			} else {
+				this.blit(stack, x + 197, y + 91, 237, 90, 17, 17);
+			}
+		}
+
 		UIHelper.bindScifi();
 
 		this.blit(stack, x + 23, y + 170, 228, 184, 19, 19);
@@ -111,6 +137,9 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		this.blit(stack, x + 80, y + 56, 3, 130, 135, 18);
 		this.blit(stack, x + 82, y + 58, 3, 115, 129, 12);
 
+		this.blit(stack, x + 80, y + 151, 3, 130, 135, 18);
+		this.blit(stack, x + 137, y + 170, 228, 184, 19, 19);
+
 		UIHelper.drawCenteredStringWithBorder(stack,
 				MathUtil.engineering(this.menu.te.getEnergy(), "RF") + " / "
 						+ MathUtil.engineering(this.menu.te.getMaxEnergy(), "RF") + " - "
@@ -121,38 +150,91 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 				+ MathUtil.engineering(1000, "K") + " - " + String.format("%.01f", 0 * 100f) + "%", x + 145, y + 44,
 				0xFF_00fefe, 0xFF_0e0e0e);
 
+		FluidStack s4 = new FluidStack(FluidInit.AMMONIA.fluid(), 1);
+		UIHelper.renderFluid(stack, s4, x + 81, y + 152, 132, 15, 132, 15, getBlitOffset(), pX, pY);
+
+		UIHelper.drawCenteredStringWithBorder(stack,
+				MathUtil.engineering((double) 0 / (double) IFluidTileEntity.BUCKET, "B") + " / "
+						+ MathUtil.engineering((double) 10000 / (double) IFluidTileEntity.BUCKET, "B") + " - "
+						+ String.format("%.01f", 0 * 100f) + "%",
+				x + 146, y + 128, 0xFF_00fefe, 0xFF_0e0e0e);
+
+		String title = StringUtils.translate("machina.screen.tank.stored");
+		String value = s4.isEmpty() ? StringUtils.translate("machina.screen.tank.none")
+				: s4.getDisplayName().getString();
+		UIHelper.drawCenteredStringWithBorder(stack, title, x + 146 - UIHelper.getWidth(value) / 2, y + 140,
+				0xFF_00fefe, 0xFF_0e0e0e);
+		UIHelper.drawCenteredStringWithBorder(stack, value, x + 146 + UIHelper.getWidth(title) / 2, y + 140,
+				s4.isEmpty() ? 0xFF_ff0000 : s4.getFluid().getAttributes().getColor(), 0xFF_0e0e0e);
+
+		// In Progress
+		if (false) {
+			UIHelper.drawCenteredStringWithBorder(stack,
+					StringUtils.translate("machina.screen.pressurized_chamber.crafting"), x + 137, y + 89, 0xFF_00fefe,
+					0xFF_0e0e0e);
+		} else {
+			// Has Required Items
+			if (false) {
+				UIHelper.drawCenteredStringWithBorder(stack,
+						StringUtils.translate("machina.screen.pressurized_chamber.ready"), x + 137, y + 89, 0xFF_00fefe,
+						0xFF_0e0e0e);
+			} else {
+				UIHelper.drawCenteredStringWithBorder(stack,
+						StringUtils.translate("machina.screen.pressurized_chamber.waiting"), x + 137, y + 89,
+						0xFF_ff0000, 0xFF_0e0e0e);
+			}
+		}
+
+		// Recipe found
+		if (false) {
+			UIHelper.drawCenteredStringWithBorder(stack,
+					StringUtils.translate("machina.screen.pressurized_chamber.recipe"), x + 138, y + 100, 0xFF_00fefe,
+					0xFF_0e0e0e);
+		} else {
+			UIHelper.drawCenteredStringWithBorder(stack,
+					StringUtils.translate("machina.screen.pressurized_chamber.no_recipe"), x + 138, y + 100,
+					0xFF_ff0000, 0xFF_0e0e0e);
+		}
+
 		UIHelper.bindPrgrs();
 
 		this.blit(stack, x + 18, y + 171, 0, 239, 29, 17);
+		this.blit(stack, x + 132, y + 171, 0, 239, 29, 17);
+		this.blit(stack, x + 112, y + 168, 29, 243, 68, 13);
 
+		// Left
 		if (true) {
-			this.blit(stack, x + 11, y + 114, 0, 0, 19, 29);
+			this.blit(stack, x + 10, y + 115, 0, 0, 20, 30);
 		} else {
-			this.blit(stack, x + 11, y + 114, 42, 0, 19, 29);
+			this.blit(stack, x + 10, y + 115, 44, 0, 20, 30);
 		}
 
-		if (false) {
-			this.blit(stack, x + 31, y + 114, 20, 0, 2, 26);
-		} else {
-			this.blit(stack, x + 31, y + 114, 62, 0, 2, 26);
-		}
-
+		// Middle
 		if (true) {
-			this.blit(stack, x + 34, y + 114, 23, 0, 19, 29);
+			this.blit(stack, x + 30, y + 115, 20, 0, 4, 26);
 		} else {
-			this.blit(stack, x + 34, y + 114, 65, 0, 19, 29);
+			this.blit(stack, x + 30, y + 115, 64, 0, 4, 26);
 		}
 
-		if (false) {
-			this.blit(stack, x + 31, y + 144, 20, 30, 2, 26);
-		} else {
-			this.blit(stack, x + 31, y + 144, 62, 30, 2, 26);
-		}
-
+//		// Right
 		if (true) {
-			this.blit(stack, x + 30, y + 140, 19, 26, 4, 4);
+			this.blit(stack, x + 34, y + 115, 24, 0, 20, 30);
 		} else {
-			this.blit(stack, x + 30, y + 140, 61, 26, 4, 4);
+			this.blit(stack, x + 34, y + 115, 68, 0, 20, 30);
+		}
+//
+//		// Catalyst
+		if (true) {
+			this.blit(stack, x + 30, y + 144, 20, 29, 4, 27);
+		} else {
+			this.blit(stack, x + 30, y + 144, 64, 29, 4, 27);
+		}
+//
+//		// Centre Node
+		if (true) {
+			this.blit(stack, x + 31, y + 141, 21, 26, 2, 2);
+		} else {
+			this.blit(stack, x + 31, y + 141, 65, 26, 2, 2);
 		}
 
 		UIHelper.drawStringWithBorder(stack, "MACHINA://PRESS_CHAMBER/", x + 6, y + 195, 0xFF_00fefe, 0xFF_0e0e0e);
