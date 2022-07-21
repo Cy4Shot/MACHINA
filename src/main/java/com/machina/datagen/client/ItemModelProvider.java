@@ -26,6 +26,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	protected void registerModels() {
 		makeSimpleBlockItem(BlockInit.SHIP_CONSOLE.get());
 		makeSimpleBlockItem(BlockInit.ATMOSPHERIC_SEPARATOR.get());
+		makeSimpleBlockItem(BlockInit.TEMPERATURE_REGULATOR.get());
 		makeSimpleBlockItem(BlockInit.COMPONENT_ANALYZER.get());
 		makeSimpleBlockItem(BlockInit.ALIEN_STONE.get());
 		makeSimpleBlockItem(BlockInit.ALIEN_STONE_SLAB.get());

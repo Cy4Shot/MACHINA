@@ -20,6 +20,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		// Blocks
 		add(BlockInit.SHIP_CONSOLE.get(), "Ship Console");
 		add(BlockInit.ATMOSPHERIC_SEPARATOR.get(), "Atmospheric Separator");
+		add(BlockInit.TEMPERATURE_REGULATOR.get(), "Temperature Regulator");
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
 		add(BlockInit.PUZZLE_BLOCK.get(), "Puzzle Block");
@@ -160,6 +161,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("pressurized_chamber", "recipe", "Recipe Found: ");
 		addScreen("pressurized_chamber", "no_recipe", "No Recipe Found");
 		addScreen("pressurized_chamber", "extract", "Use Fluid Hopper To Extract");
+		
+		addScreen("temperature_regulator", "stored", "Current Temperature: ");
 
 		// Terminal
 		addTerminalCommand("clear", "Clears the console.");

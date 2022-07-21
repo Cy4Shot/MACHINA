@@ -13,12 +13,18 @@ public class CommonConfig {
 
 	public static ForgeConfigSpec.IntValue minPlanets;
 	public static ForgeConfigSpec.IntValue maxPlanets;
+	public static ForgeConfigSpec.IntValue maxHeat;
 
 	private static void setupConfig(ForgeConfigSpec.Builder builder) {
 		builder.comment(" This category holds options for Starchart Generation.");
 		builder.push("Starchart Options");
 		minPlanets = builder.defineInRange("min_planets", 5, 2, 20);
 		maxPlanets = builder.defineInRange("max_planets", 10, 3, 21);
+		builder.pop();
+		
+		builder.comment(" Machinery Options.");
+		builder.push("Heat Options");
+		maxHeat = builder.defineInRange("max_heat", 1000, 0, 2000);
 		builder.pop();
 	}
 }

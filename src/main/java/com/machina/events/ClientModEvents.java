@@ -16,6 +16,7 @@ import com.machina.client.screen.ScannerScreen;
 import com.machina.client.screen.ShipConstructScreen;
 import com.machina.client.screen.ShipLaunchScreen;
 import com.machina.client.screen.TankScreen;
+import com.machina.client.screen.TemperatureRegulatorScreen;
 import com.machina.client.util.ClientTimer;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
@@ -117,6 +118,7 @@ public class ClientModEvents {
 		ScreenManager.register(ContainerInit.SCANNER.get(), ScannerScreen::new);
 		ScreenManager.register(ContainerInit.PUZZLE.get(), PuzzleScreen::new);
 		ScreenManager.register(ContainerInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
+		ScreenManager.register(ContainerInit.TEMPERATURE_REGULATOR.get(), TemperatureRegulatorScreen::new);
 		ScreenManager.register(ContainerInit.PRESSURIZED_CHAMBER.get(), PressurizedChamberScreen::new);
 		
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CARGO_CRATE.get(), CargoCrateRenderer::new);

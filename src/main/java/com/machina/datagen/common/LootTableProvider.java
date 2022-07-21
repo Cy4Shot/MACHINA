@@ -40,5 +40,7 @@ public class LootTableProvider extends BaseLootTableProvider {
 		dropSelf(BlockInit.REINFORCED_TILE.get());
 		dropSelf(BlockInit.TANK.get());
 		dropSelf(BlockInit.ATMOSPHERIC_SEPARATOR.get());
+		dropSelf(BlockInit.TEMPERATURE_REGULATOR.get());
+		dropSelf(BlockInit.PRESSURIZED_CHAMBER.get());
 	}
 }

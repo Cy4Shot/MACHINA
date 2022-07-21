@@ -33,7 +33,7 @@ public final class AttributeInit {
 	public static final PlanetAttributeType<Float> FOG_DENSITY = create(new ChanceSerializer(0.5f, random(0.0f, 1.0f), 100), "%");
 	public static final PlanetAttributeType<Color[]> PALETTE = create(new ColorListSerializer(Color.black, PlanetPaletteGenerator::genPlanetPalette, 5));
 	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = create(new FloatSerializer(1.0f, random(0.1f, 2.0f)), "atm");
-	public static final PlanetAttributeType<Float> TEMPERATURE = create(new FloatSerializer(350.0f, random(100f, 1000f)), "K");
+	public static final PlanetAttributeType<Float> TEMPERATURE = create(new FloatSerializer(287.05f, random(100f, 1000f)), "K");
 	public static final PlanetAttributeType<Integer> BASE_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomBase));
 	public static final PlanetAttributeType<Integer> SURF_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomSurf));
 	public static final PlanetAttributeType<Integer> FLUID_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomFluid));

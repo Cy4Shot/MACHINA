@@ -6,6 +6,7 @@ import com.machina.block.container.PressurizedChamberContainer;
 import com.machina.block.tile.base.IMultiFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
+import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SPressurizedChamberClear;
 import com.machina.network.c2s.C2SPressurizedChamberRunning;
@@ -151,9 +152,10 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 						+ String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
 				x + 145, y + 8, 0xFF_00fefe, 0xFF_0e0e0e);
 
-		UIHelper.drawCenteredStringWithBorder(stack, MathUtil.engineering(0, "K") + " / "
-				+ MathUtil.engineering(1000, "K") + " - " + String.format("%.01f", 0 * 100f) + "%", x + 145, y + 44,
-				0xFF_00fefe, 0xFF_0e0e0e);
+		UIHelper.drawCenteredStringWithBorder(stack,
+				MathUtil.engineering(0, "K") + " / " + MathUtil.engineering(CommonConfig.maxHeat.get(), "K") + " - "
+						+ String.format("%.01f", 0 * 100f) + "%",
+				x + 145, y + 44, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		FluidStack s4 = this.menu.te.getFluid(3);
 		int p4 = (int) ((float) s4.getAmount() / (float) this.menu.te.tanks.get(3).getCapacity() * 132f);

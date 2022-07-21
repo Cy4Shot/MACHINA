@@ -13,6 +13,7 @@ import com.machina.block.tile.PressurizedChamberTileEntity;
 import com.machina.block.tile.PuzzleTileEntity;
 import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.block.tile.TankTileEntity;
+import com.machina.block.tile.TemperatureRegulatorTileEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -37,6 +38,7 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<CreativeBatteryTileEntity>> CREATIVE_BATTERY = register("creative_battery", CreativeBatteryTileEntity::new, () -> BlockInit.CREATIVE_BATTERY.get());
 	public static final RegistryObject<TileEntityType<CableTileEntity>> CABLE = register("cable", CableTileEntity::new, () -> BlockInit.CABLE.get());
 	public static final RegistryObject<TileEntityType<AtmosphericSeparatorTileEntity>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorTileEntity::new, () -> BlockInit.ATMOSPHERIC_SEPARATOR.get());
+	public static final RegistryObject<TileEntityType<TemperatureRegulatorTileEntity>> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorTileEntity::new, () -> BlockInit.TEMPERATURE_REGULATOR.get());
 	//@formatter:on
 
 	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String n, Supplier<T> s,

@@ -9,6 +9,7 @@ import com.machina.block.container.PuzzleContainer;
 import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
 import com.machina.block.container.TankContainer;
+import com.machina.block.container.TemperatureRegulatorContainer;
 import com.machina.item.container.ScannerContainer;
 
 import net.minecraft.inventory.container.Container;
@@ -27,6 +28,7 @@ public class ContainerInit {
 	public static final RegistryObject<ContainerType<ShipConstructContainer>> SHIP_CONSTRUCT = register("ship_construct", ShipConstructContainer::new);
 	public static final RegistryObject<ContainerType<ShipLaunchContainer>> SHIP_LAUNCH = register("ship_launch", ShipLaunchContainer::new);
 	public static final RegistryObject<ContainerType<AtmosphericSeparatorContainer>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorContainer::new);
+	public static final RegistryObject<ContainerType<TemperatureRegulatorContainer>> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorContainer::new);
 	public static final RegistryObject<ContainerType<ComponentAnalyzerContainer>> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerContainer::new);
 	public static final RegistryObject<ContainerType<PressurizedChamberContainer>> PRESSURIZED_CHAMBER = register("pressurized_chamber", PressurizedChamberContainer::new);
 	public static final RegistryObject<ContainerType<BatteryContainer>> BATTERY = register("battery", BatteryContainer::new);
