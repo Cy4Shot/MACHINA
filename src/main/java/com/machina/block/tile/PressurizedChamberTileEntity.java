@@ -44,6 +44,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 
 	public boolean isRunning = false;
 	public float heat = 0;
+	public float reqHeat = 0;
 	public String result = "";
 
 	public Predicate<FluidStack> exclusiveTank(int id) {
@@ -92,11 +93,12 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 				continue;
 
 			// Set result and return if not running
+			reqHeat = recipe.heat;
 			if (!recipe.fOut.isEmpty())
 				result = recipe.fOut.getTranslationKey();
 			if (!recipe.iOut.isEmpty())
 				result = recipe.iOut.getItem().getDescriptionId();
-			if (!isRunning) {
+			if (!isRunning || heat < reqHeat) {
 				sync();
 				return;
 			}
@@ -190,6 +192,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		compound.putBoolean("Running", isRunning);
 		compound.putString("Result", result);
 		compound.putFloat("Heat", heat);
+		compound.putFloat("ReqHeat", reqHeat);
 		return super.save(compound);
 	}
 
@@ -199,6 +202,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		isRunning = compound.getBoolean("Running");
 		result = compound.getString("Result");
 		heat = compound.getFloat("Heat");
+		reqHeat = compound.getFloat("ReqHeat");
 		super.load(state, compound);
 	}
 

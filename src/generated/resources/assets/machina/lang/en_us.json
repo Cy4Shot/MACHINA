@@ -102,7 +102,7 @@
   "machina.screen.component_analyzer.insert": "Insert Component",
   "machina.screen.pressurized_chamber.clear": "Clear",
   "machina.screen.pressurized_chamber.crafting": "In Progress...",
-  "machina.screen.pressurized_chamber.extract": "Use Fluid Hopper To Extract",
+  "machina.screen.pressurized_chamber.heat": "Not Enough Heat",
   "machina.screen.pressurized_chamber.no_recipe": "No Recipe Found",
   "machina.screen.pressurized_chamber.pause": "Pause",
   "machina.screen.pressurized_chamber.ready": "Clear to Craft",

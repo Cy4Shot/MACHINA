@@ -11,6 +11,7 @@ import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SPressurizedChamberClear;
 import com.machina.network.c2s.C2SPressurizedChamberRunning;
 import com.machina.util.math.MathUtil;
+import com.machina.util.server.HeatUtils;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -183,14 +184,19 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 					StringUtils.translate("machina.screen.pressurized_chamber.recipe")
 							+ StringUtils.translate(this.menu.te.result),
 					x + 138, y + 100, 0xFF_00fefe, 0xFF_0e0e0e);
-
-			if (this.menu.te.isRunning) {
-				UIHelper.drawCenteredStringWithBorder(stack,
-						StringUtils.translate("machina.screen.pressurized_chamber.crafting"), x + 138, y + 89,
-						0xFF_00fefe, 0xFF_0e0e0e);
+			if (this.menu.te.heat >= this.menu.te.reqHeat) {
+				if (this.menu.te.isRunning) {
+					UIHelper.drawCenteredStringWithBorder(stack,
+							StringUtils.translate("machina.screen.pressurized_chamber.crafting"), x + 138, y + 89,
+							0xFF_00fefe, 0xFF_0e0e0e);
+				} else {
+					UIHelper.drawCenteredStringWithBorder(stack,
+							StringUtils.translate("machina.screen.pressurized_chamber.ready"), x + 138, y + 89,
+							0xFF_00fefe, 0xFF_0e0e0e);
+				}
 			} else {
 				UIHelper.drawCenteredStringWithBorder(stack,
-						StringUtils.translate("machina.screen.pressurized_chamber.ready"), x + 138, y + 89, 0xFF_00fefe,
+						StringUtils.translate("machina.screen.pressurized_chamber.heat"), x + 138, y + 89, 0xFF_ff0000,
 						0xFF_0e0e0e);
 			}
 
@@ -206,6 +212,11 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		// Draw decorators
 
 		UIHelper.bindPrgrs();
+
+		if (this.menu.te.result != "") {
+			int req = (int) (HeatUtils.propFull(this.menu.te.reqHeat, this.menu.te.getLevel().dimension()) * 129f);
+			this.blit(stack, x + 82 + req, y + 57, 97, 242, 2, 14);
+		}
 
 		this.blit(stack, x + 18, y + 171, 0, 239, 29, 17);
 		this.blit(stack, x + 132, y + 171, 0, 239, 29, 17);

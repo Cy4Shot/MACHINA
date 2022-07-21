@@ -160,7 +160,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("pressurized_chamber", "crafting", "In Progress...");
 		addScreen("pressurized_chamber", "recipe", "Recipe Found: ");
 		addScreen("pressurized_chamber", "no_recipe", "No Recipe Found");
-		addScreen("pressurized_chamber", "extract", "Use Fluid Hopper To Extract");
+		addScreen("pressurized_chamber", "heat", "Not Enough Heat");
 		
 		addScreen("temperature_regulator", "stored", "Current Temperature: ");
 
