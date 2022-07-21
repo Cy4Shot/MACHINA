@@ -20,7 +20,9 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
@@ -48,7 +50,11 @@ public class FluidInit {
 	
 	// Atmosphere 
 	public static final List<FluidObject> ATMOSPHERE = Arrays.asList(OXYGEN, NITROGEN, AMMONIA, CARBON_DIOXIDE, HYDROGEN);
-	public static final Double[] ATM_DEFAULT = new Double[] {0.20946D, 0.78084D, 0D, 0.00417D, 0D};
+	public static final Double[] atmForDim(RegistryKey<World> dim) {
+		if (dim.equals(World.NETHER))
+			return new Double[] {0.1D, 0D, 0D, 0.6D, 0.3D};
+		return new Double[] {0.20946D, 0.78084D, 0D, 0.00417D, 0D};
+	}
 
 	//@formatter:on
 
@@ -100,19 +106,19 @@ public class FluidInit {
 		public FlowingFluidBlock block() {
 			return BLOCK.get();
 		}
-		
+
 		public BucketItem bucket() {
 			return BUCKET.get();
 		}
-		
+
 		public ForgeFlowingFluid fluid() {
 			return FLUID.get();
 		}
-		
+
 		public ForgeFlowingFluid flowing() {
 			return FLOWING.get();
 		}
-		
+
 		public Chemical chem() {
 			return CHEM;
 		}

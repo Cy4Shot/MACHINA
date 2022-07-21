@@ -9,14 +9,18 @@ import com.machina.util.nbt.BaseNBTList;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 
 public class DoubleListSerializer extends AttributeSerializer<Double[]> {
 
 	private int size;
+	public Function<RegistryKey<World>, Double[]> func;
 
-	public DoubleListSerializer(Double[] def, Function<Random, Double[]> gen, int s) {
-		super(def, gen);
+	public DoubleListSerializer(Function<RegistryKey<World>, Double[]> def, Function<Random, Double[]> gen, int s) {
+		super(def.apply(World.OVERWORLD), gen);
 		this.size = s;
+		this.func = def;
 	}
 
 	public Function<INBT, Double> doubleDeserializer() {

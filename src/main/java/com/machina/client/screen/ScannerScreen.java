@@ -107,7 +107,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				break;
 			case 3:
 				for (int f = 0; f < FluidInit.ATMOSPHERE.size(); f++) {
-					drawChemical(stack, FluidInit.ATMOSPHERE.get(f), x, y + 20 + f * 10);
+					drawChemical(stack, FluidInit.ATMOSPHERE.get(f), x, y + 20 + f * 10, dim);
 				}
 				break;
 			}
@@ -126,10 +126,10 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		draw(stack, "MACHINA://SCANNER-" + (tab + 1) + "/", x + 8, y + 82, 0xFF_00fefe, false);
 	}
 
-	private void drawChemical(MatrixStack stack, FluidObject chem, int x, int y) {
+	private void drawChemical(MatrixStack stack, FluidObject chem, int x, int y, RegistryKey<World> dim) {
 		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
 		String title = chem.chem().getDisplayName() + ": ";
-		String value = new DecimalFormat("##.##").format(PlanetUtils.getAtmosphereChemical(data, chem) * 100) + "%";
+		String value = new DecimalFormat("##.##").format(PlanetUtils.getAtmosphereChemical(data, chem, dim) * 100) + "%";
 		Color[] colors = data.getAttribute(AttributeInit.PALETTE);
 		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);
 		draw(stack, value, x + 120 + UIHelper.getWidth(title) / 2, y, colors[4].maxBrightness().toInt(), true);

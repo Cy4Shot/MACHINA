@@ -9,7 +9,6 @@ import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.capability.fluid.MachinaTank;
-import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.ServerHelper;
@@ -26,6 +25,8 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -71,8 +72,9 @@ public class AtmosphericSeparatorTileEntity extends BaseTileEntity
 
 	public void setId(int id) {
 		this.selected = id;
-		PlanetData data = StarchartData.getDataOrNone(ServerHelper.server(), this.level.dimension());
-		Double atm = data.getAttribute(AttributeInit.ATMOSPHERE)[id];
+		RegistryKey<World> dim = this.level.dimension();
+		PlanetData data = StarchartData.getDataOrNone(ServerHelper.server(), dim);
+		Double atm = data.getAtmosphere(dim)[id];
 		this.rate = 0.02f * (float) atm.doubleValue();
 
 		tank.setCapacity((int) (rate * BUCKET));

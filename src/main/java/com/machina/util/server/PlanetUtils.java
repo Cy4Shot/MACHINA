@@ -1,7 +1,6 @@
 package com.machina.util.server;
 
 import com.machina.Machina;
-import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.world.data.PlanetData;
@@ -24,8 +23,8 @@ public class PlanetUtils {
 		return Integer.valueOf(dim.location().getPath());
 	}
 
-	public static double getAtmosphereChemical(PlanetData data, FluidObject chemical) {
-		return data.getAttribute(AttributeInit.ATMOSPHERE)[FluidInit.ATMOSPHERE.indexOf(chemical)];
+	public static double getAtmosphereChemical(PlanetData data, FluidObject chemical, RegistryKey<World> dim) {
+		return data.getAtmosphere(dim)[FluidInit.ATMOSPHERE.indexOf(chemical)];
 	}
 
 }

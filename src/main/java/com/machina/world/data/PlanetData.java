@@ -8,11 +8,15 @@ import com.machina.planet.PlanetTraitPoolManager;
 import com.machina.planet.attribute.PlanetAttribute;
 import com.machina.planet.attribute.PlanetAttributeList;
 import com.machina.planet.attribute.PlanetAttributeType;
+import com.machina.planet.attribute.serializers.DoubleListSerializer;
 import com.machina.planet.trait.PlanetTraitList;
+import com.machina.registration.init.AttributeInit;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.registration.registry.PlanetTraitRegistry;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class PlanetData implements INBTSerializable<CompoundNBT> {
@@ -84,6 +88,15 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 			return op.get().getValue();
 		else {
 			return type.ser.def();
+		}
+	}
+
+	public Double[] getAtmosphere(RegistryKey<World> dim) {
+		Optional<PlanetAttribute<Double[]>> op = attributes.getAttributeForType(AttributeInit.ATMOSPHERE);
+		if (op.isPresent())
+			return op.get().getValue();
+		else {
+			return ((DoubleListSerializer) AttributeInit.ATMOSPHERE.ser).func.apply(dim);
 		}
 	}
 
