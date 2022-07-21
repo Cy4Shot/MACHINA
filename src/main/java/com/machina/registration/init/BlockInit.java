@@ -10,6 +10,7 @@ import com.machina.block.CableBlock;
 import com.machina.block.CargoCrateBlock;
 import com.machina.block.ComponentAnalyzerBlock;
 import com.machina.block.CreativeBatteryBlock;
+import com.machina.block.FuelStorageUnitBlock;
 import com.machina.block.PressurizedChamberBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
@@ -39,10 +40,11 @@ public class BlockInit {
 	//@formatter:off
 	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console", ShipConsoleBlock::new);
 	public static final RegistryObject<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorBlock::new);
+	public static final RegistryObject<TemperatureRegulatorBlock> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorBlock::new);
+	public static final RegistryObject<FuelStorageUnitBlock> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitBlock::new);
 	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate", CargoCrateBlock::new);
 	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerBlock::new);
 	public static final RegistryObject<PressurizedChamberBlock> PRESSURIZED_CHAMBER = register("pressurized_chamber", PressurizedChamberBlock::new);
-	public static final RegistryObject<TemperatureRegulatorBlock> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorBlock::new);
 	public static final RegistryObject<TankBlock> TANK = register("tank", TankBlock::new);
 	public static final RegistryObject<BatteryBlock> BATTERY = register("battery", BatteryBlock::new);
 	public static final RegistryObject<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery", CreativeBatteryBlock::new);

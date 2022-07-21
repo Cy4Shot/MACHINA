@@ -4,6 +4,7 @@ import com.machina.Machina;
 import com.machina.block.container.AtmosphericSeparatorContainer;
 import com.machina.block.container.BatteryContainer;
 import com.machina.block.container.ComponentAnalyzerContainer;
+import com.machina.block.container.FuelStorageUnitContainer;
 import com.machina.block.container.PressurizedChamberContainer;
 import com.machina.block.container.PuzzleContainer;
 import com.machina.block.container.ShipConstructContainer;
@@ -30,6 +31,7 @@ public class ContainerInit {
 	public static final RegistryObject<ContainerType<AtmosphericSeparatorContainer>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorContainer::new);
 	public static final RegistryObject<ContainerType<TemperatureRegulatorContainer>> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorContainer::new);
 	public static final RegistryObject<ContainerType<ComponentAnalyzerContainer>> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerContainer::new);
+	public static final RegistryObject<ContainerType<FuelStorageUnitContainer>> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitContainer::new);
 	public static final RegistryObject<ContainerType<PressurizedChamberContainer>> PRESSURIZED_CHAMBER = register("pressurized_chamber", PressurizedChamberContainer::new);
 	public static final RegistryObject<ContainerType<BatteryContainer>> BATTERY = register("battery", BatteryContainer::new);
 	public static final RegistryObject<ContainerType<TankContainer>> TANK = register("tank", TankContainer::new);

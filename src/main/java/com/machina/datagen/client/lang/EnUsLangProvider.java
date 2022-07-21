@@ -49,6 +49,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "Wasteland Sandstone Stairs");
 		add(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "Wasteland Sandstone Wall");
 		add(BlockInit.REINFORCED_TILE.get(), "Reinforced Tile");
+		add(BlockInit.FUEL_STORAGE_UNIT.get(), "Rocket Fuel Container");
 
 		// Items
 		add(ItemInit.WRENCH.get(), "Wrench");
@@ -163,6 +164,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("pressurized_chamber", "heat", "Not Enough Heat");
 		
 		addScreen("temperature_regulator", "stored", "Current Temperature: ");
+		
+		addScreen("fuel_storage", "stored", "Current Temperature: ");
+		addScreen("fuel_storage", "depleting", "WARNING: DEPLETING");
 
 		// Terminal
 		addTerminalCommand("clear", "Clears the console.");

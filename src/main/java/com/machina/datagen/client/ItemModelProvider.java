@@ -54,6 +54,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		makeSimpleBlockItem(BlockInit.CABLE.get());
 		makeSimpleBlockItem(BlockInit.CREATIVE_BATTERY.get());
 		makeSimpleBlockItem(BlockInit.REINFORCED_TILE.get());
+		makeSimpleBlockItem(BlockInit.FUEL_STORAGE_UNIT.get());
 
 		oneLayerItem(ItemInit.SHIP_COMPONENT.get());
 		oneLayerItem(ItemInit.REINFORCED_STICK.get());

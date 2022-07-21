@@ -26,7 +26,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 public class TankTileEntity extends BaseTileEntity
 		implements IMachinaContainerProvider, ITickableTileEntity, IFluidTileEntity {
 
-	private MachinaTank tank = new MachinaTank(this, 10000, p -> true, 0);
+	private MachinaTank tank = new MachinaTank(this, 10000, p -> true, true, 0);
 	private final LazyOptional<IFluidHandler> cap = LazyOptional.of(() -> tank);
 
 	public TankTileEntity() {

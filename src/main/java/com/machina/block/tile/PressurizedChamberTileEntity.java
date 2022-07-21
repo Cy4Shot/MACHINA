@@ -37,9 +37,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		implements IMachinaContainerProvider, IMultiFluidTileEntity, IHeatTileEntity {
 
-	public LinkedList<MachinaTank> tanks = new LinkedList<>(Arrays.asList(
-			new MachinaTank(this, 10000, exclusiveTank(0), 0), new MachinaTank(this, 10000, exclusiveTank(1), 1),
-			new MachinaTank(this, 10000, exclusiveTank(2), 2), new MachinaTank(this, 10000, p -> false, 3)));
+	public LinkedList<MachinaTank> tanks = new LinkedList<>(
+			Arrays.asList(new MachinaTank(this, 10000, exclusiveTank(0), false, 0),
+					new MachinaTank(this, 10000, exclusiveTank(1), false, 1),
+					new MachinaTank(this, 10000, exclusiveTank(2), false, 2),
+					new MachinaTank(this, 10000, p -> false, true, 3)));
 	private final LazyOptional<MultiTankCapability> cap = LazyOptional.of(() -> new MultiTankCapability(tanks));
 
 	public boolean isRunning = false;
@@ -131,11 +133,11 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		result = "";
 		sync();
 	}
-	
+
 	public float heatFull() {
 		return HeatUtils.propFull(heat, this.level.dimension());
 	}
-	
+
 	public float normalized() {
 		return HeatUtils.normalizeHeat(heat, this.level.dimension());
 	}

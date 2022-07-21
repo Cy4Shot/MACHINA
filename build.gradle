@@ -33,7 +33,7 @@ mixin {
     debug.export = true
 }
 
-version = 'A1.0'
+version = 'Alpha-0.1'
 group = 'com.cy4.machina'
 archivesBaseName = 'machina'
 
@@ -86,25 +86,6 @@ minecraft {
 
             mods {
             	machina.sources((SourceSet[]) [sourceSets.main])
-            }
-        }
-        
-        test {
-        	parent runs.client
-            workingDirectory project.file('testRun')
-            property 'mixin.env.remapRefMap', 'true'
-      		property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-			arg "-mixin.config=machina.mixins.json"
-			
-			environment 'MOD_CLASSES', 'dummy'
-
-            main 'net.minecraftforge.userdev.LaunchTesting'
-
-            mods {
-           		tests {
-           			source sourceSets.main
-           			source sourceSets.test
-           		}
             }
         }
 

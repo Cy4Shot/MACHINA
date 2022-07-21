@@ -2,12 +2,12 @@ package com.machina.capability.fluid;
 
 import java.util.function.Predicate;
 
-import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CFluidSync;
 
 import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -15,13 +15,15 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public class MachinaTank extends FluidTank {
 
-	private BaseTileEntity tile;
+	private TileEntity tile;
 	public int id;
+	public boolean output;
 
-	public MachinaTank(BaseTileEntity tile, int capacity, Predicate<FluidStack> validator, int id) {
+	public MachinaTank(TileEntity tile, int capacity, Predicate<FluidStack> validator, boolean output, int id) {
 		super(capacity, validator);
 		this.tile = tile;
 		this.id = id;
+		this.output = output;
 		this.setFluid(new FluidStack(Fluids.EMPTY, 0));
 	}
 
@@ -51,6 +53,13 @@ public class MachinaTank extends FluidTank {
 		if (!tile.getLevel().isClientSide()) {
 			MachinaNetwork.sendToClients(MachinaNetwork.CHANNEL, new S2CFluidSync(tile.getBlockPos(), getFluid(), id));
 		}
+	}
+
+	@Override
+	public FluidStack drain(FluidStack resource, FluidAction action) {
+		if (!output)
+			return FluidStack.EMPTY;
+		return super.drain(resource, action);
 	}
 
 	public int rawFill(FluidStack resource, FluidAction action) {

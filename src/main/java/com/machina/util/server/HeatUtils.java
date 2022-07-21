@@ -39,12 +39,12 @@ public class HeatUtils {
 	};
 
 	public static float calculateTemperatureRegulators(BlockPos pos, World world) {
-		float max = -Float.MAX_VALUE;
+		float max = 0;
 		for (Direction d : Direction.values()) {
 			TileEntity te = world.getBlockEntity(pos.relative(d));
 			if (te != null && te instanceof IHeatTileEntity) {
 				IHeatTileEntity hte = (IHeatTileEntity) te;
-				if (hte.isGenerator() && hte.getHeat() > max)
+				if (hte.isGenerator() && Math.abs(hte.getHeat()) > max)
 					max = hte.getHeat();
 			}
 		}
