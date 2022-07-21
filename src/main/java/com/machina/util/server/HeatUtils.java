@@ -3,12 +3,14 @@ package com.machina.util.server;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.machina.block.tile.base.IHeatTileEntity;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.AttributeInit;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
@@ -35,6 +37,19 @@ public class HeatUtils {
 			put(Blocks.BLUE_ICE, -26f);
 		}
 	};
+
+	public static float calculateTemperatureRegulators(BlockPos pos, World world) {
+		float max = -Float.MAX_VALUE;
+		for (Direction d : Direction.values()) {
+			TileEntity te = world.getBlockEntity(pos.relative(d));
+			if (te != null && te instanceof IHeatTileEntity) {
+				IHeatTileEntity hte = (IHeatTileEntity) te;
+				if (hte.isGenerator() && hte.getHeat() > max)
+					max = hte.getHeat();
+			}
+		}
+		return max;
+	}
 
 	public static float getHeatOffset(BlockPos pos, World world) {
 		float builder = 0f;

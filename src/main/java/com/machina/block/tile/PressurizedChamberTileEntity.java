@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import com.machina.block.container.PressurizedChamberContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseEnergyLootTileEntity;
+import com.machina.block.tile.base.IHeatTileEntity;
 import com.machina.block.tile.base.IMultiFluidTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.capability.fluid.MachinaTank;
@@ -17,6 +18,7 @@ import com.machina.capability.fluid.MultiTankCapability;
 import com.machina.recipe.PressurizedChamberRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.server.HeatUtils;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +35,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
-		implements IMachinaContainerProvider, IMultiFluidTileEntity {
+		implements IMachinaContainerProvider, IMultiFluidTileEntity, IHeatTileEntity {
 
 	public LinkedList<MachinaTank> tanks = new LinkedList<>(Arrays.asList(
 			new MachinaTank(this, 10000, exclusiveTank(0), 0), new MachinaTank(this, 10000, exclusiveTank(1), 1),
@@ -41,6 +43,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	private final LazyOptional<MultiTankCapability> cap = LazyOptional.of(() -> new MultiTankCapability(tanks));
 
 	public boolean isRunning = false;
+	public float heat = 0;
 	public String result = "";
 
 	public Predicate<FluidStack> exclusiveTank(int id) {
@@ -65,6 +68,10 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 
 		if (this.level.isClientSide())
 			return;
+
+		float target = HeatUtils.calculateTemperatureRegulators(worldPosition, level);
+		heat = HeatUtils.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
+		sync();
 
 		for (IRecipe<?> r : RecipeInit.getRecipes(RecipeInit.PRESSURIZED_CHAMBER_RECIPE, level.getRecipeManager())
 				.values()) {
@@ -122,6 +129,14 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		result = "";
 		sync();
 	}
+	
+	public float heatFull() {
+		return HeatUtils.propFull(heat, this.level.dimension());
+	}
+	
+	public float normalized() {
+		return HeatUtils.normalizeHeat(heat, this.level.dimension());
+	}
 
 	public boolean contains(NonNullList<FluidStack> fluids) {
 		for (FluidStack stack : fluids) {
@@ -174,6 +189,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		tanks.forEach(tank -> tank.writeToNBT(compound));
 		compound.putBoolean("Running", isRunning);
 		compound.putString("Result", result);
+		compound.putFloat("Heat", heat);
 		return super.save(compound);
 	}
 
@@ -182,6 +198,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		tanks.forEach(tank -> tank.readFromNBT(compound));
 		isRunning = compound.getBoolean("Running");
 		result = compound.getString("Result");
+		heat = compound.getFloat("Heat");
 		super.load(state, compound);
 	}
 
@@ -219,5 +236,15 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	@Override
 	public int capacity(int index) {
 		return tanks.get(index).getCapacity();
+	}
+
+	@Override
+	public float getHeat() {
+		return heat;
+	}
+
+	@Override
+	public boolean isGenerator() {
+		return false;
 	}
 }

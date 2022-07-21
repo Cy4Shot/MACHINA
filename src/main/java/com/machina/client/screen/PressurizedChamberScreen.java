@@ -137,11 +137,12 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		this.blit(stack, x + 32, y + 212, 3, 200, 174, 30);
 
 		this.blit(stack, x + 80, y + 20, 3, 130, 135, 18);
-		int percentage = (int) (this.menu.te.propFull() * 129f);
-		this.blit(stack, x + 82, y + 22, 3, 103, percentage, 12);
+		int energy = (int) (this.menu.te.propFull() * 129f);
+		this.blit(stack, x + 82, y + 22, 3, 103, energy, 12);
 
 		this.blit(stack, x + 80, y + 56, 3, 130, 135, 18);
-		this.blit(stack, x + 82, y + 58, 3, 115, 129, 12);
+		int heat = (int) (this.menu.te.heatFull() * 129f);
+		this.blit(stack, x + 82, y + 58, 3, 115, heat, 12);
 
 		this.blit(stack, x + 80, y + 151, 3, 130, 135, 18);
 		this.blit(stack, x + 137, y + 170, 228, 184, 19, 19);
@@ -153,8 +154,9 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 				x + 145, y + 8, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
-				MathUtil.engineering(0, "K") + " / " + MathUtil.engineering(CommonConfig.maxHeat.get(), "K") + " - "
-						+ String.format("%.01f", 0 * 100f) + "%",
+				MathUtil.engineering(this.menu.te.normalized(), "K") + " / "
+						+ MathUtil.engineering(CommonConfig.maxHeat.get(), "K") + " - "
+						+ String.format("%.01f", this.menu.te.heatFull() * 100f) + "%",
 				x + 145, y + 44, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		FluidStack s4 = this.menu.te.getFluid(3);

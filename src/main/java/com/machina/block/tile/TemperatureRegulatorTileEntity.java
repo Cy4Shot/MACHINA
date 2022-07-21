@@ -62,4 +62,9 @@ public class TemperatureRegulatorTileEntity extends BaseTileEntity
 		super.load(state, compound);
 		this.heat = compound.getFloat("Heat");
 	}
+
+	@Override
+	public boolean isGenerator() {
+		return true;
+	}
 }
