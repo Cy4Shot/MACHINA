@@ -9,6 +9,7 @@ import com.machina.block.tile.CableTileEntity;
 import com.machina.block.tile.CargoCrateTileEntity;
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.block.tile.CreativeBatteryTileEntity;
+import com.machina.block.tile.FluidHopperTileEntity;
 import com.machina.block.tile.FuelStorageUnitTileEntity;
 import com.machina.block.tile.PressurizedChamberTileEntity;
 import com.machina.block.tile.PuzzleTileEntity;
@@ -31,6 +32,7 @@ public class TileEntityInit {
 	// @formatter:off
 	public static final RegistryObject<TileEntityType<CargoCrateTileEntity>> CARGO_CRATE = register("cargo_crate", CargoCrateTileEntity::new, () -> BlockInit.CARGO_CRATE.get());
 	public static final RegistryObject<TileEntityType<ShipConsoleTileEntity>> SHIP_CONSOLE = register("ship_console", ShipConsoleTileEntity::new, () -> BlockInit.SHIP_CONSOLE.get());
+	public static final RegistryObject<TileEntityType<FluidHopperTileEntity>> FLUID_HOPPER = register("fluid_hopper", FluidHopperTileEntity::new, () -> BlockInit.FLUID_HOPPER.get());
 	public static final RegistryObject<TileEntityType<ComponentAnalyzerTileEntity>> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerTileEntity::new, () -> BlockInit.COMPONENT_ANALYZER.get());
 	public static final RegistryObject<TileEntityType<PuzzleTileEntity>> PUZZLE = register("puzzle", PuzzleTileEntity::new, () -> BlockInit.PUZZLE_BLOCK.get());
 	public static final RegistryObject<TileEntityType<PressurizedChamberTileEntity>> PRESSURIZED_CHAMBER = register("pressurized_chamber", PressurizedChamberTileEntity::new, () -> BlockInit.PRESSURIZED_CHAMBER.get());

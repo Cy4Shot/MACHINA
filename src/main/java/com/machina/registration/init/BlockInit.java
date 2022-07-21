@@ -10,6 +10,7 @@ import com.machina.block.CableBlock;
 import com.machina.block.CargoCrateBlock;
 import com.machina.block.ComponentAnalyzerBlock;
 import com.machina.block.CreativeBatteryBlock;
+import com.machina.block.FluidHopperBlock;
 import com.machina.block.FuelStorageUnitBlock;
 import com.machina.block.PressurizedChamberBlock;
 import com.machina.block.PuzzleBlock;
@@ -39,6 +40,7 @@ public class BlockInit {
 
 	//@formatter:off
 	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console", ShipConsoleBlock::new);
+	public static final RegistryObject<FluidHopperBlock> FLUID_HOPPER = register("fluid_hopper", FluidHopperBlock::new);
 	public static final RegistryObject<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorBlock::new);
 	public static final RegistryObject<TemperatureRegulatorBlock> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorBlock::new);
 	public static final RegistryObject<FuelStorageUnitBlock> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitBlock::new);

@@ -5,9 +5,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockUtils {
@@ -26,4 +30,12 @@ public class BlockUtils {
 				fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
 	}
 
+	public static <C> LazyOptional<C> getCapability(IBlockReader world, BlockPos pos, Direction side,
+			Capability<C> capability) {
+		TileEntity tile = world.getBlockEntity(pos);
+		if (tile != null) {
+			return tile.getCapability(capability, side);
+		}
+		return LazyOptional.empty();
+	}
 }

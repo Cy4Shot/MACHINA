@@ -49,7 +49,8 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 
 		// Deplete
 		if (heat > maxTemp) {
-			tank.getFluid().setAmount(tank.getFluidAmount() - 30);
+			if (!tank.isEmpty())
+				tank.getFluid().setAmount(tank.getFluidAmount() - 30);
 			Random r = new Random();
 			if (r.nextInt(50) == 0) {
 				this.getItem(0).shrink(1);

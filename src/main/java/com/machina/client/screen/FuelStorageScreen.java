@@ -81,7 +81,6 @@ public class FuelStorageScreen extends NoJeiContainerScreen<FuelStorageUnitConta
 
 		RegistryKey<World> dim = this.menu.te.getLevel().dimension();
 		float max = FuelStorageUnitTileEntity.maxTemp;
-		System.out.println();
 		float heat = this.menu.te.normalizedHeat();
 
 		int req = (int) (HeatUtils.propFull(max, dim) * 129f);
