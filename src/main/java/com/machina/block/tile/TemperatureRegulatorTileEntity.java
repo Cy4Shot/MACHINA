@@ -26,21 +26,25 @@ public class TemperatureRegulatorTileEntity extends BaseTileEntity
 	public void tick() {
 		if (this.level.isClientSide())
 			return;
+
+		float target = HeatUtils.getHeatOffset(worldPosition, level);
+		heat = HeatUtils.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
+		sync();
 	}
 
 	@Override
 	public float getHeat() {
 		return heat;
 	}
-	
+
 	public float propFull() {
 		return HeatUtils.propFull(heat, this.level.dimension());
 	}
-	
+
 	public float normalizedHeat() {
 		return HeatUtils.normalizeHeat(heat, this.level.dimension());
 	}
-	
+
 	@Override
 	public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
 		return new TemperatureRegulatorContainer(id, this);
@@ -58,5 +62,4 @@ public class TemperatureRegulatorTileEntity extends BaseTileEntity
 		super.load(state, compound);
 		this.heat = compound.getFloat("Heat");
 	}
-
 }
