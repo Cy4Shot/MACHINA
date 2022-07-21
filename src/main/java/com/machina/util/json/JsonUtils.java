@@ -16,6 +16,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class JsonUtils {
 	public static FluidStack fluidFromJson(JsonObject obj) {
 		String s = JSONUtils.getAsString(obj, "fluid");
+		
+		if (s.equals("EMPTY"))
+			return FluidStack.EMPTY;
+		
 		Registry.FLUID.getOptional(new ResourceLocation(s)).orElseThrow(() -> {
 			return new JsonSyntaxException("Unknown fluid '" + s + "'");
 		});

@@ -61,6 +61,10 @@ public class MachinaTank extends FluidTank {
 			return FluidStack.EMPTY;
 		return super.drain(resource, action);
 	}
+	
+	public FluidStack drainRaw(FluidStack resource, FluidAction action) {
+		return super.drain(resource, action);
+	}
 
 	public int rawFill(FluidStack resource, FluidAction action) {
 		if (resource.isEmpty()) {

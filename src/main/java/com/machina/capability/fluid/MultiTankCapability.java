@@ -60,6 +60,16 @@ public class MultiTankCapability implements IFluidHandler {
 		}
 		return FluidStack.EMPTY;
 	}
+	
+	@Nonnull
+	public FluidStack drainRaw(FluidStack resource, FluidAction action) {
+		for (MachinaTank tank : tanks) {
+			if (!tank.drainRaw(resource, FluidAction.SIMULATE).isEmpty()) {
+				return tank.drainRaw(resource, action);
+			}
+		}
+		return FluidStack.EMPTY;
+	}
 
 	@Nonnull
 	@Override

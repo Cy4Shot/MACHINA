@@ -32,6 +32,7 @@ public final class ItemInit {
 	public static final RegistryObject<Item> PROCESSOR = basic("processor");
 	public static final RegistryObject<Item> SILICON = basic("silicon");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
+	public static final RegistryObject<Item> AMMONIUM_NITRATE = basic("ammonium_nitrate");
 	//@formatter:on
 
 	public static RegistryObject<Item> basic(String name) {

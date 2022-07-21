@@ -65,6 +65,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.PROCESSOR.get(), "Processor");
 		add(ItemInit.SILICON.get(), "Silicon");
 		add(ItemInit.TRANSISTOR.get(), "Transistor");
+		add(ItemInit.AMMONIUM_NITRATE.get(), "Ammonium Nitrate");
 
 		// Fluids
 		add(FluidInit.OXYGEN, "Oxygen", "Bucket");
@@ -160,7 +161,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("pressurized_chamber", "waiting", "Awaiting input...");
 		addScreen("pressurized_chamber", "ready", "Clear to Craft");
 		addScreen("pressurized_chamber", "crafting", "In Progress...");
-		addScreen("pressurized_chamber", "recipe", "Recipe Found: ");
 		addScreen("pressurized_chamber", "no_recipe", "No Recipe Found");
 		addScreen("pressurized_chamber", "heat", "Not Enough Heat");
 		

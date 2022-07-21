@@ -10,6 +10,7 @@ import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SPressurizedChamberClear;
 import com.machina.network.c2s.C2SPressurizedChamberRunning;
+import com.machina.util.color.Color;
 import com.machina.util.math.MathUtil;
 import com.machina.util.server.HeatUtils;
 import com.machina.util.text.StringUtils;
@@ -180,10 +181,8 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 				s4.isEmpty() ? 0xFF_ff0000 : s4.getFluid().getAttributes().getColor(), 0xFF_0e0e0e);
 
 		if (this.menu.te.result != "") {
-			UIHelper.drawCenteredStringWithBorder(stack,
-					StringUtils.translate("machina.screen.pressurized_chamber.recipe")
-							+ StringUtils.translate(this.menu.te.result),
-					x + 138, y + 100, 0xFF_00fefe, 0xFF_0e0e0e);
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translate(this.menu.te.result), x + 138, y + 100,
+					new Color(this.menu.te.color).maxBrightness().toInt(), 0xFF_0e0e0e);
 			if (this.menu.te.heat >= this.menu.te.reqHeat) {
 				if (this.menu.te.isRunning) {
 					UIHelper.drawCenteredStringWithBorder(stack,

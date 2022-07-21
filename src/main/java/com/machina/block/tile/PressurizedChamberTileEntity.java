@@ -48,6 +48,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	public float heat = 0;
 	public float reqHeat = 0;
 	public String result = "";
+	public int color = 0xFF_ff0000;
 
 	public Predicate<FluidStack> exclusiveTank(int id) {
 		return fluid -> {
@@ -81,12 +82,14 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 			PressurizedChamberRecipe recipe = (PressurizedChamberRecipe) r;
 
 			// Tests
-			if (!contains(recipe.fluids))
+			if (!contains(recipe.fluids, false))
 				continue;
 			if (!tanks.get(3).isEmpty() && !tanks.get(3).getFluid().isFluidEqual(recipe.fOut))
 				continue;
 			if (!getItem(1).isEmpty() && !getItem(1).getItem().equals(recipe.iOut.getItem()))
 				continue;
+			if (getItem(1).getCount() >= getItem(1).getMaxStackSize())
+				return;
 			if (tanks.get(3).getFluidAmount() + recipe.fOut.getAmount() > tanks.get(3).getCapacity())
 				continue;
 			if (!getItem(0).getItem().equals(recipe.catalyst.getItem()))
@@ -96,18 +99,20 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 
 			// Set result and return if not running
 			reqHeat = recipe.heat;
+			color = recipe.col;
 			if (!recipe.fOut.isEmpty())
 				result = recipe.fOut.getTranslationKey();
 			if (!recipe.iOut.isEmpty())
 				result = recipe.iOut.getItem().getDescriptionId();
-			if (!isRunning || heat < reqHeat) {
+			if (!isRunning || heat < reqHeat || !contains(recipe.fluids, true)) {
+				
 				sync();
 				return;
 			}
 
 			// Consume
 			for (FluidStack stack : recipe.fluids) {
-				cap.orElseGet(() -> new MultiTankCapability(new LinkedList<>())).drain(stack, FluidAction.EXECUTE);
+				cap.orElseGet(() -> new MultiTankCapability(new LinkedList<>())).drainRaw(stack, FluidAction.EXECUTE);
 			}
 			this.energyDef.consumeEnergy(recipe.power);
 			getItem(0).setDamageValue(getItem(0).getDamageValue() + 1);
@@ -117,13 +122,13 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 
 			// Output
 			if (!recipe.fOut.isEmpty()) {
-				tanks.get(3).rawFill(recipe.fOut, FluidAction.EXECUTE);
+				tanks.get(3).rawFill(recipe.fOut.copy(), FluidAction.EXECUTE);
 			}
 			if (!recipe.iOut.isEmpty()) {
 				if (getItem(1).isEmpty()) {
-					setItem(1, recipe.iOut);
+					setItem(1, recipe.iOut.copy());
 				} else {
-					getItem(1).grow(recipe.iOut.getCount());
+					getItem(1).grow(recipe.iOut.copy().getCount());
 				}
 			}
 			sync();
@@ -131,6 +136,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		}
 
 		result = "";
+		color = 0xFF_ff0000;
 		sync();
 	}
 
@@ -142,27 +148,27 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		return HeatUtils.normalizeHeat(heat, this.level.dimension());
 	}
 
-	public boolean contains(NonNullList<FluidStack> fluids) {
+	public boolean contains(NonNullList<FluidStack> fluids, boolean amount) {
 		for (FluidStack stack : fluids) {
-			if (!anyTankContains(stack))
+			if (!anyTankContains(stack, amount))
 				return false;
 		}
 		return true;
 	}
 
-	public boolean anyTankContains(FluidStack stack) {
+	public boolean anyTankContains(FluidStack stack, boolean amount) {
 		for (MachinaTank tank : tanks) {
-			if (tankContains(tank, stack))
+			if (tankContains(tank, stack, amount))
 				return true;
 		}
 
 		return false;
 	}
 
-	public boolean tankContains(MachinaTank tank, FluidStack stack) {
+	public boolean tankContains(MachinaTank tank, FluidStack stack, boolean amount) {
 		if (!tank.getFluid().isFluidEqual(stack))
 			return false;
-		if (tank.getFluid().getAmount() < stack.getAmount())
+		if (tank.getFluid().getAmount() < stack.getAmount() && amount)
 			return false;
 
 		return true;
@@ -195,6 +201,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		compound.putString("Result", result);
 		compound.putFloat("Heat", heat);
 		compound.putFloat("ReqHeat", reqHeat);
+		compound.putInt("Color", color);
 		return super.save(compound);
 	}
 
@@ -205,6 +212,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		result = compound.getString("Result");
 		heat = compound.getFloat("Heat");
 		reqHeat = compound.getFloat("ReqHeat");
+		color = compound.getInt("Color");
 		super.load(state, compound);
 	}
 

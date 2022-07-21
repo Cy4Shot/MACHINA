@@ -11,7 +11,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.NonNullList;
@@ -30,10 +29,11 @@ public class PressurizedChamberRecipe implements IRecipe<IInventory> {
 	public final ItemStack catalyst;
 	public final int heat;
 	public final int power;
+	public final int col;
 	public final ResourceLocation id;
 
 	public PressurizedChamberRecipe(ResourceLocation id, NonNullList<FluidStack> f, FluidStack fO, ItemStack iO,
-			ItemStack c, int h, int p) {
+			ItemStack c, int h, int p, int col) {
 		this.id = id;
 		this.fluids = f;
 		this.fOut = fO;
@@ -41,6 +41,7 @@ public class PressurizedChamberRecipe implements IRecipe<IInventory> {
 		this.catalyst = c;
 		this.heat = h;
 		this.power = p;
+		this.col = col;
 	}
 
 	@Override
@@ -96,12 +97,13 @@ public class PressurizedChamberRecipe implements IRecipe<IInventory> {
 			JSONUtils.getAsJsonArray(json, "input").forEach(el -> {
 				f.add(JsonUtils.fluidFromJson(el.getAsJsonObject()));
 			});
-			ItemStack cat = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "catalyst"));
+			ItemStack cat = JsonUtils.itemFromJson(JSONUtils.getAsJsonObject(json, "catalyst"));
 			final int h = JSONUtils.getAsInt(json, "heat", 0);
 			final int p = JSONUtils.getAsInt(json, "power", 0);
+			final int c = JSONUtils.getAsInt(json, "color", 0xFF_ff0000);
 			FluidStack fO = JsonUtils.fluidFromJson(JSONUtils.getAsJsonObject(json, "output").getAsJsonObject("fluid"));
 			ItemStack iO = JsonUtils.itemFromJson(JSONUtils.getAsJsonObject(json, "output").getAsJsonObject("item"));
-			return new PressurizedChamberRecipe(id, f, fO, iO, cat, h, p);
+			return new PressurizedChamberRecipe(id, f, fO, iO, cat, h, p, c);
 		}
 
 		@Override
@@ -116,9 +118,10 @@ public class PressurizedChamberRecipe implements IRecipe<IInventory> {
 			ItemStack cat = buff.readItem();
 			int h = buff.readInt();
 			int p = buff.readInt();
+			int c = buff.readInt();
 			FluidStack fO = buff.readFluidStack();
 			ItemStack iO = buff.readItem();
-			return new PressurizedChamberRecipe(id, f, fO, iO, cat, h, p);
+			return new PressurizedChamberRecipe(id, f, fO, iO, cat, h, p, c);
 		}
 
 		@Override
@@ -132,6 +135,7 @@ public class PressurizedChamberRecipe implements IRecipe<IInventory> {
 			buff.writeItem(recipe.catalyst);
 			buff.writeInt(recipe.heat);
 			buff.writeInt(recipe.power);
+			buff.writeInt(recipe.col);
 			buff.writeFluidStack(recipe.fOut);
 			buff.writeItem(recipe.iOut);
 		}
