@@ -54,7 +54,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.FURNACE_GENERATOR.get(), "Furnace Generator");
 
 		// Items
-		add(ItemInit.WRENCH.get(), "Wrench");
 		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
 		add(ItemInit.SCANNER.get(), "Scanner");
 		add(ItemInit.REINFORCED_STICK.get(), "Reinforced Stick");

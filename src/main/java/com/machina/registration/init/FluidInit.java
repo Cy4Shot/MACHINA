@@ -95,7 +95,7 @@ public class FluidInit {
 			} else {
 				PROPS = liquid(CHEM, sFluid, sFlowing, sBucket, sBlock);
 				BLOCK = BlockInit.register(name + "_block", () -> new FlowingFluidBlock(sFluid, BLOCK_PROP));
-				BLOCKS.add(name);
+				BLOCKS.add(name + "_block");
 			}
 
 			BUCKET = ItemInit.register(name + "_bucket", () -> new BucketItem(sFluid, BUCKET_PROP));
