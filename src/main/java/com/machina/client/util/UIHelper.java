@@ -307,6 +307,17 @@ public class UIHelper {
 		RenderSystem.depthFunc(515);
 
 	}
+	
+	public static void withAlpha(Runnable run, float alpha) {
+		RenderSystem.enableBlend();
+		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.color4f(1f, 1f, 1f, alpha);
+		run.run();
+		RenderSystem.disableBlend();
+		RenderSystem.defaultBlendFunc();
+	}
 
 	public static void renderFluid(MatrixStack m, FluidStack fluid, int x, int y, int sx, int sy, int fx, int fy,
 			int blit, int pX, int pY) {

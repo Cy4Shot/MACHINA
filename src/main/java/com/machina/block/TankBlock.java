@@ -2,6 +2,7 @@ package com.machina.block;
 
 import com.machina.block.tile.TankTileEntity;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.server.SoundUtils;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -14,10 +15,14 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class TankBlock extends Block {
@@ -38,9 +43,23 @@ public class TankBlock extends Block {
 	}
 
 	@Override
-	public ActionResultType use(BlockState pState, World level, BlockPos pos, PlayerEntity player, Hand pHand,
-			BlockRayTraceResult pHit) {
+	public ActionResultType use(BlockState pState, World level, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit) {
 		if (!level.isClientSide()) {
+			TileEntity tank = level.getBlockEntity(pos);
+			if (tank != null) {
+				IFluidHandler handler = tank
+						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, hit.getDirection())
+						.orElse(null);
+				if (FluidUtil.interactWithFluidHandler(player, hand, handler)) {
+					if (player instanceof ServerPlayerEntity)
+						SoundUtils.playSoundFromServer((ServerPlayerEntity) player, SoundEvents.BUCKET_FILL);
+				}
+			}
+
+			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent())
+				return ActionResultType.SUCCESS;
+
 			TileEntity te = level.getBlockEntity(pos);
 			if (te instanceof TankTileEntity)
 				NetworkHooks.openGui((ServerPlayerEntity) player, (TankTileEntity) te, pos);
