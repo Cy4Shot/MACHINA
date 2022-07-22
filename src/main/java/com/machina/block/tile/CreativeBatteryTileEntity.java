@@ -8,10 +8,10 @@ public class CreativeBatteryTileEntity extends BaseEnergyTileEntity {
 
 	public CreativeBatteryTileEntity() {
 		super(TileEntityInit.CREATIVE_BATTERY.get());
-		
-		this.sides = new int[] {2, 2, 2, 2, 2, 2};
+
+		this.sides = new int[] { 2, 2, 2, 2, 2, 2 };
 	}
-	
+
 	@Override
 	public MachinaEnergyStorage createStorage() {
 		return new MachinaEnergyStorage(this, Integer.MAX_VALUE, 1000, 1000);
@@ -22,5 +22,4 @@ public class CreativeBatteryTileEntity extends BaseEnergyTileEntity {
 		fillEnergy();
 		sendOutPower();
 	}
-
 }

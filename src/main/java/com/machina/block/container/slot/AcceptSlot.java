@@ -17,5 +17,4 @@ public class AcceptSlot extends Slot {
 	public boolean mayPlace(ItemStack pStack) {
 		return pStack.getItem().equals(this.item.getItem()) && this.item.getTag().equals(pStack.getTag());
 	}
-
 }

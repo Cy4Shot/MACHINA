@@ -43,5 +43,6 @@ public class LootTableProvider extends BaseLootTableProvider {
 		dropSelf(BlockInit.TEMPERATURE_REGULATOR.get());
 		dropSelf(BlockInit.PRESSURIZED_CHAMBER.get());
 		dropSelf(BlockInit.FUEL_STORAGE_UNIT.get());
+		dropSelf(BlockInit.FURNACE_GENERATOR.get());
 	}
 }

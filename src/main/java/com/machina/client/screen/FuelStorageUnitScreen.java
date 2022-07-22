@@ -18,8 +18,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
-public class FuelStorageScreen extends NoJeiContainerScreen<FuelStorageUnitContainer> {
-	public FuelStorageScreen(FuelStorageUnitContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
+public class FuelStorageUnitScreen extends NoJeiContainerScreen<FuelStorageUnitContainer> {
+	public FuelStorageUnitScreen(FuelStorageUnitContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
 	}
 

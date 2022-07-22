@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "machina:block/furnace_generator"
+    },
+    "facing=south": {
+      "model": "machina:block/furnace_generator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "machina:block/furnace_generator",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "machina:block/furnace_generator",
+      "y": 90
+    }
+  }
+}

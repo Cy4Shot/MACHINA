@@ -51,6 +51,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.REINFORCED_TILE.get(), "Reinforced Tile");
 		add(BlockInit.FUEL_STORAGE_UNIT.get(), "Rocket Fuel Container");
 		add(BlockInit.FLUID_HOPPER.get(), "Fluid Hopper");
+		add(BlockInit.FURNACE_GENERATOR.get(), "Furnace Generator");
 
 		// Items
 		add(ItemInit.WRENCH.get(), "Wrench");

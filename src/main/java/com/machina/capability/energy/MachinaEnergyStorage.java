@@ -68,6 +68,10 @@ public class MachinaEnergyStorage extends EnergyStorage implements ICapabilityPr
 	public void setEnergyDirectly(int amount) {
 		this.energy = amount;
 	}
+	
+	public boolean isFull() {
+		return this.energy == this.capacity;
+	}
 
 	public LazyOptional<IEnergyStorage> getEnergy(Direction side) {
 		return this.connections.get(side).cast();

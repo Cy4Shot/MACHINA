@@ -3,10 +3,13 @@ package com.machina.util.server;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraftforge.common.ForgeHooks;
 
 public class ItemStackUtil {
+
 	public static CompoundNBT saveAllItems(CompoundNBT pTag, List<ItemStack> pList, String extra) {
 		ListNBT listnbt = new ListNBT();
 
@@ -35,6 +38,17 @@ public class ItemStackUtil {
 				pList.set(j, ItemStack.of(compoundnbt));
 			}
 		}
+	}
 
+	public static int burnTime(ItemStack stack) {
+		return ForgeHooks.getBurnTime(stack);
+	}
+
+	public static boolean isFuel(ItemStack stack) {
+		return burnTime(stack) > 0;
+	}
+
+	public static boolean isBucket(ItemStack stack) {
+		return stack.getItem() == Items.BUCKET;
 	}
 }

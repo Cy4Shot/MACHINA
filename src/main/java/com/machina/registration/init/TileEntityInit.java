@@ -11,6 +11,7 @@ import com.machina.block.tile.ComponentAnalyzerTileEntity;
 import com.machina.block.tile.CreativeBatteryTileEntity;
 import com.machina.block.tile.FluidHopperTileEntity;
 import com.machina.block.tile.FuelStorageUnitTileEntity;
+import com.machina.block.tile.FurnaceGeneratorTileEntity;
 import com.machina.block.tile.PressurizedChamberTileEntity;
 import com.machina.block.tile.PuzzleTileEntity;
 import com.machina.block.tile.ShipConsoleTileEntity;
@@ -43,6 +44,7 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<AtmosphericSeparatorTileEntity>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorTileEntity::new, () -> BlockInit.ATMOSPHERIC_SEPARATOR.get());
 	public static final RegistryObject<TileEntityType<TemperatureRegulatorTileEntity>> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorTileEntity::new, () -> BlockInit.TEMPERATURE_REGULATOR.get());
 	public static final RegistryObject<TileEntityType<FuelStorageUnitTileEntity>> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitTileEntity::new, () -> BlockInit.FUEL_STORAGE_UNIT.get());
+	public static final RegistryObject<TileEntityType<FurnaceGeneratorTileEntity>> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorTileEntity::new, () -> BlockInit.FURNACE_GENERATOR.get());
 	//@formatter:on
 
 	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String n, Supplier<T> s,

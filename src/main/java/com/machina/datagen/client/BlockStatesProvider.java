@@ -47,6 +47,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleOrientableBlock(BlockInit.BATTERY.get());
 		simpleOrientableBlock(BlockInit.PRESSURIZED_CHAMBER.get());
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
+		simpleOrientableBlock(BlockInit.FURNACE_GENERATOR.get());
 		
 		fluid(FluidInit.LIQUID_HYDROGEN);
 		fluid(FluidInit.LIQUID_AMMONIA);

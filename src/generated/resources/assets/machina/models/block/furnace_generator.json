@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "side": "machina:block/furnace_generator",
+    "front": "machina:block/furnace_generator_front",
+    "top": "machina:block/furnace_generator_top"
+  }
+}

@@ -10,7 +10,8 @@ import com.machina.client.renderer.ShipConsoleRenderer;
 import com.machina.client.screen.AtmosphericSeparatorScreen;
 import com.machina.client.screen.BatteryScreen;
 import com.machina.client.screen.ComponentAnalyzerScreen;
-import com.machina.client.screen.FuelStorageScreen;
+import com.machina.client.screen.FuelStorageUnitScreen;
+import com.machina.client.screen.FurnaceGeneratorScreen;
 import com.machina.client.screen.PressurizedChamberScreen;
 import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
@@ -121,7 +122,8 @@ public class ClientModEvents {
 		ScreenManager.register(ContainerInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
 		ScreenManager.register(ContainerInit.TEMPERATURE_REGULATOR.get(), TemperatureRegulatorScreen::new);
 		ScreenManager.register(ContainerInit.PRESSURIZED_CHAMBER.get(), PressurizedChamberScreen::new);
-		ScreenManager.register(ContainerInit.FUEL_STORAGE_UNIT.get(), FuelStorageScreen::new);
+		ScreenManager.register(ContainerInit.FUEL_STORAGE_UNIT.get(), FuelStorageUnitScreen::new);
+		ScreenManager.register(ContainerInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
 		
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);

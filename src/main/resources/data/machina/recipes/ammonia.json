@@ -1,6 +1,6 @@
 {
 	"type": "machina:pressurized_chamber",
-	"heat": 500,
+	"heat": 300,
 	"power": 30,
 	"color": 4279341363,
 	"catalyst": {
