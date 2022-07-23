@@ -33,19 +33,6 @@ public class CameraClientEntity extends ClientPlayerEntity {
 		this.cameraFocus = cameraFocus;
 	}
 
-//    public void transformToFocusOnPoint(Vector3d toFocus, float pTicks, boolean propagate) {
-//        Vector3 angles = Vector3.atEntityCorner(this).subtract(toFocus).copyToPolar();
-//        Vector3 prevAngles = new Vector3(prevPosX, prevPosY, prevPosZ).subtract(toFocus).copyToPolar();
-//        double pitch = 90 - angles.getY();
-//        double pitchPrev = 90 - prevAngles.getY();
-//        double yaw = -angles.getZ();
-//        double yawPrev = -prevAngles.getZ();
-//
-//        if (propagate) {
-//            ClientCameraUtil.positionCamera(this, pTicks, getPosX(), getPosY(), getPosZ(), prevPosX, prevPosY, prevPosZ, yaw, yawPrev, pitch, pitchPrev);
-//        }
-//    }
-
 	@Override
 	public boolean isSpectator() {
 		return false;

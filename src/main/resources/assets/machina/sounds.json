@@ -1,0 +1,8 @@
+{
+	"rocket_launch": {
+		"subtitle": "machina.subtitle.rocket_launch",
+		"sounds": [
+			"machina:rocket_launch"
+		]
+	}
+}

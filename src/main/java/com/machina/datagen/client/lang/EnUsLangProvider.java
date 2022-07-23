@@ -3,6 +3,7 @@ package com.machina.datagen.client.lang;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.TraitInit;
 
@@ -103,6 +104,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(AttributeInit.PLANET_ICON, "Planet Icon");
 		add(AttributeInit.SURF_BLOCKS, "Surface Blocks");
 		add(AttributeInit.TEMPERATURE, "Temperature");
+		
+		// Sounds
+		add(SoundInit.ROCKET_LAUNCH, "Rocket Launch");
 
 		// Item Groups
 		addItemGroup("machinaItemGroup", "Machina");
@@ -172,9 +176,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalFeedback("help", "list", "The following is a list of commands:");
 		addTerminalFeedback("help", "unrecognised", "Unrecognised command: ");
 		addTerminalCommand("neofetch", "Displays info about the OS.");
-		addTerminalFeedback("neofetch", "mach_os", "OS: MachOS CyberSec Edition");
-		addTerminalFeedback("neofetch", "mach_cpu", "CPU: SM-908172U @ 64.0 MHz");
-		addTerminalFeedback("neofetch", "mach_status", "Status: LISTENING");
+		addTerminalFeedback("neofetch", "ship_os", "OS: ShipOS CyberSec Edition");
+		addTerminalFeedback("neofetch", "ship_cpu", "CPU: SM-908172U @ 64.0 MHz");
+		addTerminalFeedback("neofetch", "ship_status", "Status: LISTENING");
 		addTerminalFeedback("neofetch", "star_os", "OS: StarOS - Your Journey Awaits.");
 		addTerminalFeedback("neofetch", "star_cpu", "CPU: LC-00012S @ 1.7 GHz");
 		addTerminalFeedback("neofetch", "star_status", "Status: IDLE");
@@ -206,5 +210,53 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalFeedback("refuel", "water", "Water: ");
 		addTerminalFeedback("refuel", "aluminium", "Aluminium: ");
 		addTerminalFeedback("refuel", "ammonium_nitrate", "Ammonium Nitrate: ");
+		addTerminalCommand("launch", "Launch the ship.");
+		addTerminalFeedback("launch", "unset", "Please set a destination.");
+		addTerminalFeedback("launch", "dest", "Destination: ");
+		addTerminalFeedback("launch", "dist", "Distance: ");
+		addTerminalFeedback("launch", "required", "Required Materials:");
+		addTerminalFeedback("launch", "water", "Water: ");
+		addTerminalFeedback("launch", "aluminium", "Aluminium: ");
+		addTerminalFeedback("launch", "ammonium_nitrate", "Ammonium Nitrate: ");
+		addTerminalFeedback("launch", "await", "Press ENTER to continue.");
+		addTerminalFeedback("launch", "load_booting", "Booting systems...");
+		addTerminalFeedback("launch", "load_booting_1", "OS: MachOS - GO BEYOND.");
+		addTerminalFeedback("launch", "load_booting_2", "CPU: CY4-22.08-209147125 @ 7.71GHz");
+		addTerminalFeedback("launch", "load_booting_3", "MEMORY: 92GB / 512GB @ 5600MHz");
+		addTerminalFeedback("launch", "load_booting_4", "VERSION: GB-8.12");
+		addTerminalFeedback("launch", "load_booting_5", "STATUS: BOOTING");
+		addTerminalFeedback("launch", "load_reactor", "Spooling reactor...");
+		addTerminalFeedback("launch", "load_reactor_1", "Reactor spooled!");
+		addTerminalFeedback("launch", "load_reactor_2", "TEMP: 367.34K");
+		addTerminalFeedback("launch", "load_reactor_3", "PRESSURE: 287.01kPa");
+		addTerminalFeedback("launch", "load_reactor_4", "STATUS: READY");
+		addTerminalFeedback("launch", "load_thrusters", "Heating thrusters...");
+		addTerminalFeedback("launch", "load_thrusters_1", "Thrusters heated!");
+		addTerminalFeedback("launch", "load_thrusters_2", "TEMP: 390.21K");
+		addTerminalFeedback("launch", "load_thrusters_3", "STATUS: READY");
+		addTerminalFeedback("launch", "load_navigation", "Initializing navigation...");
+		addTerminalFeedback("launch", "load_navigation_1", "> Aquired destination.");
+		addTerminalFeedback("launch", "load_navigation_2", "> Route established.");
+		addTerminalFeedback("launch", "load_navigation_3", "> Fuel requirements calculated.");
+		addTerminalFeedback("launch", "load_navigation_4", "> All obstacles accounted for.");
+		addTerminalFeedback("launch", "load_comms", "Establishing comms link...");
+		addTerminalFeedback("launch", "load_comms_1", "Comms link esablished.");
+		addTerminalFeedback("launch", "load_comms_2", "STATUS: LISTENING ON IP:");
+		addTerminalFeedback("launch", "load_comms_3", "9e2563950fd265ff805fa1a086411f06");
+		addTerminalFeedback("launch", "load_comms_4", "CONNECTED TO COMMS NETWORK");
+		addTerminalFeedback("launch", "load_comms_5", "CONNECTIONS: 2984");
+		addTerminalFeedback("launch", "load_preparing", "Preparing for launch...");
+		addTerminalFeedback("launch", "load_preparing_1", "Core status.. OK");
+		addTerminalFeedback("launch", "load_preparing_2", "Reactor status.. OK");
+		addTerminalFeedback("launch", "load_preparing_3", "Engine status.. OK");
+		addTerminalFeedback("launch", "load_preparing_4", "Life Support status.. OK");
+		addTerminalFeedback("launch", "load_preparing_5", "Shields status.. OK");
+		addTerminalFeedback("launch", "load_preparing_6", "Navigation status.. OK");
+		addTerminalFeedback("launch", "load_preparing_7", "Other systems.. OK");
+		addTerminalFeedback("launch", "load_preparing_8", "ALL SYSTEMS READY FOR LAUNCH");
+		addTerminalFeedback("launch", "confirm", "Enter CONFIRM to confirm launch.");
+		addTerminalFeedback("launch", "warning", "WARNING: THIS IS IRREVERSIBLE.");
+		addTerminalFeedback("launch", "seated", "Please wait for rocket door to open.");
+		addTerminalFeedback("launch", "init", "Life support initializing...");
 	}
 }

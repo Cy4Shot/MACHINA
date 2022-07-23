@@ -19,6 +19,8 @@ public class ClientConfig {
 	public static ForgeConfigSpec.IntValue starchartLoadDuration;
 	public static ForgeConfigSpec.IntValue fuelCalculateDuration;
 	public static ForgeConfigSpec.IntValue refuelDuration;
+	public static ForgeConfigSpec.IntValue launchInitDuration;
+	public static ForgeConfigSpec.IntValue lifeSupportInitDuration;
 
 	private static void setupConfig(ForgeConfigSpec.Builder builder) {
 
@@ -40,6 +42,8 @@ public class ClientConfig {
 			starchartLoadDuration = builder.defineInRange("starchart_load_duration", 40, 10, 100);
 			fuelCalculateDuration = builder.defineInRange("fuel_calculate_duration", 40, 10, 100);
 			refuelDuration = builder.defineInRange("refuel_duration", 40, 10, 100);
+			launchInitDuration = builder.defineInRange("launch_init_duration", 20, 10, 100);
+			lifeSupportInitDuration = builder.defineInRange("life_support_init_duration", 60, 10, 100);
 			builder.pop();
 		}
 		builder.pop();

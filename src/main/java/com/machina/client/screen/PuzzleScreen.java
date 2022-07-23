@@ -41,9 +41,9 @@ public class PuzzleScreen extends TerminalScreen<PuzzleContainer> {
 			add("\u2588\u2581\u2581\u2581\u2588\u2581\u2588\u2581\u2588\u2581\u2588\u2581\u2581\u2581\u2588\u2581\u2588");
 			add("\u2588\u2581\u2581\u2581\u2588\u2581\u2588\u2581\u2588\u2581\u2588\u2588\u2588\u2581\u2588\u2581\u2588");
 			space();
-			add(t, "mach_os");
-			add(t, "mach_cpu");
-			add(t, "mach_status");
+			add(t, "ship_os");
+			add(t, "ship_cpu");
+			add(t, "ship_status");
 		}));
 
 		// Unlock

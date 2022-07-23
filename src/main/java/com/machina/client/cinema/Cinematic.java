@@ -27,6 +27,8 @@ public abstract class Cinematic {
 
 	public abstract void onClientTick(int tick, float par);
 
+	public abstract void onRenderTick(int tick, float par);
+
 	public abstract int getDuration();
 
 	public void begin(float partial) {
@@ -53,30 +55,23 @@ public abstract class Cinematic {
 			mc.options.hideGui = hideGui;
 			mc.options.setCameraType(cameraType);
 			mc.player.abilities.flying = flying;
-			mc.player.setPos(pos.x, pos.y, pos.z);
+			mc.player.moveTo(pos.x, pos.y, pos.z);
 			mc.player.xRot = yaw;
 			mc.player.yRot = pitch;
 			mc.player.setDeltaMovement(0, 0, 0);
 			this.active = false;
 		}
 
-        CameraUtil.resetCamera();
-	
-        if (mc.player != null) {
-        	mc.player.setPos(clientEntity.getX(), clientEntity.getY(), clientEntity.getZ());
-        	mc.player.xRot = clientEntity.xRot;
-        	mc.player.yRot = clientEntity.yRot;
-            mc.player.setDeltaMovement(0, 0, 0);
-        }
-        
-        if (mc.level != null) {
-            mc.level.removeEntity(this.clientEntity.getId());
-        }
+		CameraUtil.resetCamera();
+
+		if (mc.level != null) {
+			mc.level.removeEntity(this.clientEntity.getId());
+		}
 	}
 
 	public void transform(float partial) {
 		if (active) {
-			mc.options.hideGui = true;
+			mc.options.hideGui = false;
 			mc.options.bobView = false;
 			mc.options.setCameraType(PointOfView.FIRST_PERSON);
 			mc.player.abilities.flying = true;

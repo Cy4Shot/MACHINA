@@ -3,6 +3,7 @@ package com.machina.block.tile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import com.machina.block.ShipConsoleBlock;
 import com.machina.block.container.ShipConstructContainer;
@@ -10,18 +11,22 @@ import com.machina.block.container.ShipLaunchContainer;
 import com.machina.block.tile.base.BaseLockableTileEntity;
 import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.config.CommonConfig;
+import com.machina.network.MachinaNetwork;
+import com.machina.network.s2c.S2CLaunchShip;
 import com.machina.recipe.ShipConsoleRecipe;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.RecipeInit;
+import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.MachinaRL;
+import com.machina.util.math.DirectionUtil;
 import com.machina.util.server.ServerHelper;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluids;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -32,6 +37,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
@@ -39,9 +45,10 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITickableTileEntity {
 
-	public int stage = 1, progress = 0, destination = 0;
+	public int stage = 1, progress = 0, destination = -1;
 	public int waterFuel = 0, aluminiumFuel = 0, ammoniaNitrateFuel = 0;
 	public int hWaterFuel = 0, hAluminiumFuel = 0, hAmmoniaNitrateFuel = 0;
+	public int animTick = 0;
 	public boolean isInProgress = false, completed = false;
 	public List<BlockPos> erroredPos = new ArrayList<>();
 
@@ -220,6 +227,11 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 
 		sync();
 	}
+	
+	public void launchAnim(int tick) {
+		this.animTick = tick;
+		sync();
+	}
 
 	public void calculateFuel() {
 		if (this.level.isClientSide())
@@ -237,6 +249,15 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		this.waterFuel = (int) (temp * CommonConfig.waterMult.get()) * IFluidTileEntity.BUCKET;
 
 		sync();
+	}
+
+	public void launch(UUID id) {
+		ServerPlayerEntity play = ServerHelper.server().getPlayerList().getPlayer(id);
+		Direction dir = this.getBlockState().getValue(ShipConsoleBlock.FACING);
+		BlockPos p = worldPosition.relative(dir, -2);
+		play.connection.teleport(p.getX() + 0.5D, p.getY() + 2.6D, p.getZ() + 0.5D, DirectionUtil.toYaw(dir), 0);
+		this.level.playSound(null, p.above(2), SoundInit.ROCKET_LAUNCH, SoundCategory.MASTER, 1f, 1f);
+		MachinaNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CLaunchShip(worldPosition), play);
 	}
 
 	@Override
@@ -268,6 +289,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		nbt.putInt("HasWaterFuel", this.hWaterFuel);
 		nbt.putInt("HasAluminiumFuel", this.hAluminiumFuel);
 		nbt.putInt("HasAmmoniaNitrateFuel", this.hAmmoniaNitrateFuel);
+		nbt.putInt("AnimTick", this.animTick);
 
 		return super.save(nbt);
 	}
@@ -291,6 +313,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		this.hWaterFuel = nbt.getInt("HasWaterFuel");
 		this.hAluminiumFuel = nbt.getInt("HasAluminiumFuel");
 		this.hAmmoniaNitrateFuel = nbt.getInt("HasAmmoniaNitrateFuel");
+		this.animTick = nbt.getInt("AnimTick");
 
 		super.load(state, nbt);
 	}

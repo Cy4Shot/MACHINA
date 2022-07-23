@@ -3,7 +3,6 @@ package com.machina.events;
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
 import com.machina.client.cinema.CinematicHandler;
-import com.machina.client.cinema.effect.ShakeManager;
 import com.machina.client.renderer.CargoCrateRenderer;
 import com.machina.client.renderer.ComponentAnalyzerRenderer;
 import com.machina.client.renderer.ShipConsoleRenderer;
@@ -103,7 +102,6 @@ public class ClientModEvents {
 	public static void registerRenderers(final FMLClientSetupEvent event) {
 		//@formatter:off
 		ClientTimer.setup();
-		ShakeManager.setup();
 		CinematicHandler.setup();
 		
 		RenderTypeLookup.setRenderLayer(BlockInit.CARGO_CRATE.get(), RenderType.cutout());

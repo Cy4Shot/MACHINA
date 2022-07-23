@@ -6,14 +6,17 @@ import com.machina.network.c2s.C2SAtmosphericSeparatorSelect;
 import com.machina.network.c2s.C2SCalculateRocketFuel;
 import com.machina.network.c2s.C2SCompletePuzzle;
 import com.machina.network.c2s.C2SDevPlanetCreationGUI;
+import com.machina.network.c2s.C2SLaunchShip;
 import com.machina.network.c2s.C2SPressurizedChamberClear;
 import com.machina.network.c2s.C2SPressurizedChamberRunning;
 import com.machina.network.c2s.C2SRefuel;
 import com.machina.network.c2s.C2SSetShipDestination;
 import com.machina.network.c2s.C2SShipConsoleGUIButton;
+import com.machina.network.c2s.C2SShipLaunchEffect;
+import com.machina.network.c2s.C2SSpawnParticle;
 import com.machina.network.c2s.C2SUpdateEnergySide;
 import com.machina.network.s2c.S2CFluidSync;
-import com.machina.network.s2c.S2CShakeScreen;
+import com.machina.network.s2c.S2CLaunchShip;
 import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.util.MachinaRL;
 
@@ -30,8 +33,8 @@ public class MachinaNetwork extends BaseNetwork {
 	public static void init() {
 		// Server -> Client
 		registerServerToClient(S2CStarchartSync.class, S2CStarchartSync::decode);
-		registerServerToClient(S2CShakeScreen.class, S2CShakeScreen::decode);
 		registerServerToClient(S2CFluidSync.class, S2CFluidSync::decode);
+		registerServerToClient(S2CLaunchShip.class, S2CLaunchShip::decode);
 
 		// Client -> Server
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
@@ -44,6 +47,9 @@ public class MachinaNetwork extends BaseNetwork {
 		registerClientToServer(C2SPressurizedChamberRunning.class, C2SPressurizedChamberRunning::decode);
 		registerClientToServer(C2SPressurizedChamberClear.class, C2SPressurizedChamberClear::decode);
 		registerClientToServer(C2SCalculateRocketFuel.class, C2SCalculateRocketFuel::decode);
+		registerClientToServer(C2SLaunchShip.class, C2SLaunchShip::decode);
+		registerClientToServer(C2SSpawnParticle.class, C2SSpawnParticle::decode);
+		registerClientToServer(C2SShipLaunchEffect.class, C2SShipLaunchEffect::decode);
 
 		BaseNetwork.MACHINA_CHANNEL = CHANNEL;
 	}

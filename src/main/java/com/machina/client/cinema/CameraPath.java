@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.machina.client.cinema.effect.CameraEffect;
 import com.machina.util.math.MathUtil;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,6 +34,19 @@ public class CameraPath {
 		}
 	}
 
+	public void renderTick(PlayerEntity renderView, int tick, float partial) {
+		int elapsed = 0;
+		for (Map.Entry<SinglePath, Integer> path : paths.entrySet()) {
+			if (elapsed + path.getValue() >= tick) {
+				for (CameraEffect e : path.getKey().effects)
+					e.tickEffect(tick - elapsed);
+				return;
+			} else {
+				elapsed += path.getValue();
+			}
+		}
+	}
+
 	public int duration() {
 		return paths.values().stream().mapToInt(Integer::intValue).sum();
 	}
@@ -49,8 +63,9 @@ public class CameraPath {
 			this.o = origin;
 		}
 
-		public Builder addPath(InterpolationMethod method, int duration, CameraNode... points) {
-			p.put(new SinglePath(method, o, points), duration);
+		public Builder addPath(InterpolationMethod method, int duration, List<CameraEffect> effects,
+				CameraNode... points) {
+			p.put(new SinglePath(method, o, effects, points), duration);
 			return this;
 		}
 
@@ -62,13 +77,17 @@ public class CameraPath {
 	public static class SinglePath {
 		private InterpolationMethod method;
 		private List<CameraNode> points;
+		private List<CameraEffect> effects;
 
-		public SinglePath(InterpolationMethod method, Vector3d origin, CameraNode... nodes) {
+		public SinglePath(InterpolationMethod method, Vector3d origin, List<CameraEffect> effects,
+				CameraNode... nodes) {
 			this.method = method;
+			this.effects = effects;
 			this.points = Arrays.asList(nodes);
 		}
 
 		public void interpolate(PlayerEntity render, float per, float par, Vector3d o) {
+
 			Vector3d pos = render.position();
 			float pitch = render.xRot;
 			float yaw = render.yRot;
