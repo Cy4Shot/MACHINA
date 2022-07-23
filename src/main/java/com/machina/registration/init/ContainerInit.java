@@ -10,6 +10,7 @@ import com.machina.block.container.PressurizedChamberContainer;
 import com.machina.block.container.PuzzleContainer;
 import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
+import com.machina.block.container.StateConverterContainer;
 import com.machina.block.container.TankContainer;
 import com.machina.block.container.TemperatureRegulatorContainer;
 import com.machina.item.container.ScannerContainer;
@@ -35,6 +36,7 @@ public class ContainerInit {
 	public static final RegistryObject<ContainerType<FuelStorageUnitContainer>> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitContainer::new);
 	public static final RegistryObject<ContainerType<FurnaceGeneratorContainer>> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorContainer::new);
 	public static final RegistryObject<ContainerType<PressurizedChamberContainer>> PRESSURIZED_CHAMBER = register("pressurized_chamber", PressurizedChamberContainer::new);
+	public static final RegistryObject<ContainerType<StateConverterContainer>> STATE_CONVERTER = register("state_converter", StateConverterContainer::new);
 	public static final RegistryObject<ContainerType<BatteryContainer>> BATTERY = register("battery", BatteryContainer::new);
 	public static final RegistryObject<ContainerType<TankContainer>> TANK = register("tank", TankContainer::new);
 	public static final RegistryObject<ContainerType<PuzzleContainer>> PUZZLE = register("puzzle", PuzzleContainer::new);

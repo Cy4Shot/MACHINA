@@ -30,7 +30,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 		implements IHeatTileEntity, IMachinaContainerProvider, IFluidTileEntity, ITickableTileEntity {
 
-	private MachinaTank tank = new MachinaTank(this, 10000, p -> p.getFluid().isSame(Fluids.WATER), false, 0);
+	private MachinaTank tank = new MachinaTank(this, 100000, p -> p.getFluid().isSame(Fluids.WATER), false, 0);
 	private final LazyOptional<IFluidHandler> cap = LazyOptional.of(() -> tank);
 	public float heat = 0;
 	public static float maxTemp = -80f;

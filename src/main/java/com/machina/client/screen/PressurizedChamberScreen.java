@@ -80,9 +80,8 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 
 		if (pX > x + 4 && pX < x + 4 + 17 && pY > y + 4 && pY < y + 4 + 17) {
 			this.blit(stack, x + 4, y + 4, 237, 17, 17, 17);
-			UIHelper.renderLabel(stack,
-					Arrays.asList(StringUtils.translateComp("machina.screen.pressurized_chamber.clear")), pX, pY,
-					0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+			UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateCompScreen("pressurized_chamber.clear")), pX,
+					pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			UIHelper.bindTrmnl();
 		} else {
 			this.blit(stack, x + 4, y + 4, 237, 0, 17, 17);
@@ -90,9 +89,8 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 
 		if (pX > x + 24 && pX < x + 24 + 17 && pY > y + 4 && pY < y + 4 + 17) {
 			this.blit(stack, x + 24, y + 4, 237, 17, 17, 17);
-			UIHelper.renderLabel(stack,
-					Arrays.asList(StringUtils.translateComp("machina.screen.pressurized_chamber.clear")), pX, pY,
-					0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+			UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateCompScreen("pressurized_chamber.clear")), pX,
+					pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			UIHelper.bindTrmnl();
 		} else {
 			this.blit(stack, x + 24, y + 4, 237, 0, 17, 17);
@@ -100,9 +98,8 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 
 		if (pX > x + 44 && pX < x + 44 + 17 && pY > y + 4 && pY < y + 4 + 17) {
 			this.blit(stack, x + 44, y + 4, 237, 17, 17, 17);
-			UIHelper.renderLabel(stack,
-					Arrays.asList(StringUtils.translateComp("machina.screen.pressurized_chamber.clear")), pX, pY,
-					0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+			UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateCompScreen("pressurized_chamber.clear")), pX,
+					pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			UIHelper.bindTrmnl();
 		} else {
 			this.blit(stack, x + 44, y + 4, 237, 0, 17, 17);
@@ -113,9 +110,8 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		if (this.menu.te.isRunning) {
 			if (pX > x + 197 && pX < x + 197 + 17 && pY > y + 91 && pY < y + 91 + 17) {
 				this.blit(stack, x + 197, y + 91, 237, 141, 17, 17);
-				UIHelper.renderLabel(stack,
-						Arrays.asList(StringUtils.translateComp("machina.screen.pressurized_chamber.pause")), pX, pY,
-						0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+				UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateCompScreen("pressurized_chamber.pause")),
+						pX, pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 				UIHelper.bindTrmnl();
 			} else {
 				this.blit(stack, x + 197, y + 91, 237, 124, 17, 17);
@@ -123,9 +119,8 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		} else {
 			if (pX > x + 197 && pX < x + 197 + 17 && pY > y + 91 && pY < y + 91 + 17) {
 				this.blit(stack, x + 197, y + 91, 237, 107, 17, 17);
-				UIHelper.renderLabel(stack,
-						Arrays.asList(StringUtils.translateComp("machina.screen.pressurized_chamber.start")), pX, pY,
-						0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+				UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateCompScreen("pressurized_chamber.start")),
+						pX, pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 				UIHelper.bindTrmnl();
 			} else {
 				this.blit(stack, x + 197, y + 91, 237, 90, 17, 17);
@@ -172,8 +167,8 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 						+ " - " + String.format("%.01f", this.menu.te.tanks.get(3).propFull() * 100f) + "%",
 				x + 146, y + 128, 0xFF_00fefe, 0xFF_0e0e0e);
 
-		String title = StringUtils.translate("machina.screen.tank.stored");
-		String value = s4.isEmpty() ? StringUtils.translate("machina.screen.tank.none")
+		String title = StringUtils.translateScreen("pressurized_chamber.stored");
+		String value = s4.isEmpty() ? StringUtils.translateScreen("pressurized_chamber.none")
 				: s4.getDisplayName().getString();
 		UIHelper.drawCenteredStringWithBorder(stack, title, x + 146 - UIHelper.getWidth(value) / 2, y + 140,
 				0xFF_00fefe, 0xFF_0e0e0e);
@@ -186,26 +181,23 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 			if (this.menu.te.heat >= this.menu.te.reqHeat) {
 				if (this.menu.te.isRunning) {
 					UIHelper.drawCenteredStringWithBorder(stack,
-							StringUtils.translate("machina.screen.pressurized_chamber.crafting"), x + 138, y + 89,
-							0xFF_00fefe, 0xFF_0e0e0e);
+							StringUtils.translateScreen("pressurized_chamber.crafting"), x + 138, y + 89, 0xFF_00fefe,
+							0xFF_0e0e0e);
 				} else {
 					UIHelper.drawCenteredStringWithBorder(stack,
-							StringUtils.translate("machina.screen.pressurized_chamber.ready"), x + 138, y + 89,
-							0xFF_00fefe, 0xFF_0e0e0e);
+							StringUtils.translateScreen("pressurized_chamber.ready"), x + 138, y + 89, 0xFF_00fefe,
+							0xFF_0e0e0e);
 				}
 			} else {
-				UIHelper.drawCenteredStringWithBorder(stack,
-						StringUtils.translate("machina.screen.pressurized_chamber.heat"), x + 138, y + 89, 0xFF_ff0000,
-						0xFF_0e0e0e);
+				UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("pressurized_chamber.heat"),
+						x + 138, y + 89, 0xFF_ff0000, 0xFF_0e0e0e);
 			}
 
 		} else {
-			UIHelper.drawCenteredStringWithBorder(stack,
-					StringUtils.translate("machina.screen.pressurized_chamber.waiting"), x + 138, y + 89, 0xFF_ff0000,
-					0xFF_0e0e0e);
-			UIHelper.drawCenteredStringWithBorder(stack,
-					StringUtils.translate("machina.screen.pressurized_chamber.no_recipe"), x + 138, y + 100,
-					0xFF_ff0000, 0xFF_0e0e0e);
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("pressurized_chamber.waiting"),
+					x + 138, y + 89, 0xFF_ff0000, 0xFF_0e0e0e);
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("pressurized_chamber.no_recipe"),
+					x + 138, y + 100, 0xFF_ff0000, 0xFF_0e0e0e);
 		}
 
 		// Draw decorators

@@ -6,6 +6,8 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Random;
 
+import com.machina.Machina;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -46,16 +48,25 @@ public class StringUtils {
 		return capitalizeWord.trim();
 	}
 
-	public static String translate(String key) {
-		return translateComp(key).getString();
-	}
 
 	public static String prettyItemStack(ItemStack stack) {
 		return String.valueOf(stack.getCount()) + "x " + stack.getItem().getName(stack).getString();
 	}
 
+	public static String translate(String key) {
+		return translateComp(key).getString();
+	}
+	
+	public static String translateScreen(String key) {
+		return translateComp(Machina.MOD_ID + ".screen." + key).getString();
+	}
+
 	public static TranslationTextComponent translateComp(String key) {
 		return new TranslationTextComponent(key);
+	}
+	
+	public static TranslationTextComponent translateCompScreen(String key) {
+		return new TranslationTextComponent(Machina.MOD_ID + ".screen." + key);
 	}
 	
 	public static TranslationTextComponent translate(String key, Object... args) {

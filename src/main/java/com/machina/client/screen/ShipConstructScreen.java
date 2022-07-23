@@ -33,11 +33,11 @@ public class ShipConstructScreen extends NoJeiContainerScreen<ShipConstructConta
 		else
 			return super.getSlotColor(index);
 	}
-	
+
 	@Override
 	public void tick() {
 		super.tick();
-		
+
 		if (menu.te.completed) {
 			UIHelper.close();
 			this.onClose();
@@ -95,19 +95,19 @@ public class ShipConstructScreen extends NoJeiContainerScreen<ShipConstructConta
 		} else {
 			this.blit(stack, x + 74, y + 49, 56, 150, 95, 18);
 		}
-		String buttonText = StringUtils.translate("machina.screen.ship_console.missing");
+		String buttonText = StringUtils.translateScreen("ship_console.missing");
 		if (this.menu.areSlotsComplete()) {
 			if (this.menu.te.erroredPos.size() > 0)
-				buttonText = StringUtils.translate("machina.screen.ship_console.obstructed");
+				buttonText = StringUtils.translateScreen("ship_console.obstructed");
 			else
-				buttonText = StringUtils.translate("machina.screen.ship_console.craft");
+				buttonText = StringUtils.translateScreen("ship_console.craft");
 		} else if (this.menu.te.progress != 0) {
-			buttonText = StringUtils.translate("machina.screen.ship_console.crafting");
+			buttonText = StringUtils.translateScreen("ship_console.crafting");
 		}
 		UIHelper.drawStringWithBorder(stack, buttonText, x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		// Text
-		String stage = String.format(StringUtils.translate("machina.screen.ship_console.stage") + " %d / 5",
+		String stage = String.format(StringUtils.translateScreen("machina.screen.ship_console.stage") + " %d / 5",
 				this.menu.te.stage);
 		String comp = ShipComponentItem.getNameForStage(this.menu.te.stage);
 		UIHelper.drawStringWithBorder(stack, stage, x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);

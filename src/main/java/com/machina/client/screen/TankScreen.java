@@ -61,7 +61,7 @@ public class TankScreen extends NoJeiContainerScreen<TankContainer> {
 		UIHelper.bindPrgrs();
 		this.blit(stack, x + 20, y + 38, 0, 239, 29, 17);
 		this.blit(stack, x + 185, y + 38, 0, 239, 29, 17);
-		
+
 		UIHelper.withAlpha(() -> {
 			this.blit(stack, x + 29, y + 41, 101, 246, 10, 10);
 			this.blit(stack, x + 194, y + 41, 111, 246, 10, 10);
@@ -80,9 +80,8 @@ public class TankScreen extends NoJeiContainerScreen<TankContainer> {
 						+ " - " + String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
 				x + 117, y + 26, 0xFF_00fefe, 0xFF_0e0e0e);
 
-		String title = StringUtils.translate("machina.screen.tank.stored");
-		String value = fluid.isEmpty() ? StringUtils.translate("machina.screen.tank.none")
-				: fluid.getDisplayName().getString();
+		String title = StringUtils.translateScreen("tank.stored");
+		String value = fluid.isEmpty() ? StringUtils.translateScreen("tank.none") : fluid.getDisplayName().getString();
 		UIHelper.drawCenteredStringWithBorder(stack, title, x + 118 - UIHelper.getWidth(value) / 2, y + 60, 0xFF_00fefe,
 				0xFF_0e0e0e);
 		UIHelper.drawCenteredStringWithBorder(stack, value, x + 118 + UIHelper.getWidth(title) / 2, y + 60,

@@ -52,6 +52,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.FUEL_STORAGE_UNIT.get(), "Rocket Fuel Container");
 		add(BlockInit.FLUID_HOPPER.get(), "Fluid Hopper");
 		add(BlockInit.FURNACE_GENERATOR.get(), "Furnace Generator");
+		add(BlockInit.STATE_CONVERTER.get(), "State Converter");
 
 		// Items
 		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
@@ -126,11 +127,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 		// GUI
 		addScreen("component_analyzer", "insert", "Insert Component");
-
 		addScreen("cargo_crate", "open", "Right Click to Loot");
-
 		addScreen("starchart", "noselect", "Please select a planet.");
-
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");
 		addScreen("scanner", "tab1", "2. Planet Info");
@@ -139,7 +137,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("scanner", "location", "Location: ");
 		addScreen("scanner", "nodata", "Data Unavailable.");
 		addScreen("scanner", "nocave", "There are no caves on this planet!");
-
 		addScreen("ship_console", "missing", "Missing Items");
 		addScreen("ship_console", "obstructed", "Obstructed");
 		addScreen("ship_console", "craft_ready", "Craft Ready");
@@ -147,14 +144,11 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("ship_console", "craft", "Craft");
 		addScreen("ship_console", "stage", "Stage");
 		addScreen("ship_console", "await", "Awaiting Launch");
-
 		addScreen("atmospheric_seperator", "producing", "Producing: ");
 		addScreen("atmospheric_seperator", "no", "Not Producing ");
 		addScreen("atmospheric_seperator", "not_enough", "Fluid Too Thin");
-
 		addScreen("tank", "stored", "Stored: ");
 		addScreen("tank", "none", "None ");
-		
 		addScreen("pressurized_chamber", "clear", "Clear");
 		addScreen("pressurized_chamber", "start", "Start");
 		addScreen("pressurized_chamber", "pause", "Pause");
@@ -163,20 +157,20 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("pressurized_chamber", "crafting", "In Progress...");
 		addScreen("pressurized_chamber", "no_recipe", "No Recipe Found");
 		addScreen("pressurized_chamber", "heat", "Not Enough Heat");
-		
+		addScreen("pressurized_chamber", "stored", "Stored: ");
+		addScreen("pressurized_chamber", "none", "None ");
 		addScreen("temperature_regulator", "stored", "Current Temperature: ");
-		
 		addScreen("fuel_storage", "stored", "Current Temperature: ");
 		addScreen("fuel_storage", "depleting", "WARNING: DEPLETING");
+		addScreen("state_converter", "stored", "Current Temperature: ");
+		addScreen("state_converter", "none", "None");
 
 		// Terminal
 		addTerminalCommand("clear", "Clears the console.");
-
 		addTerminalCommand("help", "Shows a list of commands.");
 		addTerminalFeedback("help", "prompt", "Type 'help' to see a list of commands.");
 		addTerminalFeedback("help", "list", "The following is a list of commands:");
 		addTerminalFeedback("help", "unrecognised", "Unrecognised command: ");
-
 		addTerminalCommand("neofetch", "Displays info about the OS.");
 		addTerminalFeedback("neofetch", "mach_os", "OS: MachOS CyberSec Edition");
 		addTerminalFeedback("neofetch", "mach_cpu", "CPU: SM-908172U @ 64.0 MHz");
@@ -184,21 +178,17 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalFeedback("neofetch", "star_os", "OS: StarOS - Your Journey Awaits.");
 		addTerminalFeedback("neofetch", "star_cpu", "CPU: LC-00012S @ 1.7 GHz");
 		addTerminalFeedback("neofetch", "star_status", "Status: IDLE");
-
 		addTerminalCommand("unlock", "Lifts cargo security.");
 		addTerminalFeedback("unlock", "already_complete", "Cargo security already lifted.");
 		addTerminalFeedback("unlock", "verification_needed", "Security verification needed.");
 		addTerminalFeedback("unlock", "translate", "Translate: ");
 		addTerminalFeedback("unlock", "incorrect", "Incorrect.");
 		addTerminalFeedback("unlock", "permission_granted", "Permission granted.");
-
 		addTerminalCommand("destination", "Set the destination.");
 		addTerminalFeedback("destination", "loading", "Initializing Starchart...");
 		addTerminalFeedback("destination", "set", "Destination set: ");
-
 		addTerminalCommand("fuel", "Check fuel status.");
 		addTerminalFeedback("fuel", "stored", "Fuel stored: ");
-
 		addTerminalCommand("refuel", "Refuel the ship.");
 		addTerminalFeedback("refuel", "info", "Place fuel barrel adjacent to the console.");
 		addTerminalFeedback("refuel", "await", "Press ENTER to confirm.");

@@ -15,6 +15,7 @@ import com.machina.block.tile.FurnaceGeneratorTileEntity;
 import com.machina.block.tile.PressurizedChamberTileEntity;
 import com.machina.block.tile.PuzzleTileEntity;
 import com.machina.block.tile.ShipConsoleTileEntity;
+import com.machina.block.tile.StateConverterTileEntity;
 import com.machina.block.tile.TankTileEntity;
 import com.machina.block.tile.TemperatureRegulatorTileEntity;
 
@@ -45,6 +46,7 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<TemperatureRegulatorTileEntity>> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorTileEntity::new, () -> BlockInit.TEMPERATURE_REGULATOR.get());
 	public static final RegistryObject<TileEntityType<FuelStorageUnitTileEntity>> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitTileEntity::new, () -> BlockInit.FUEL_STORAGE_UNIT.get());
 	public static final RegistryObject<TileEntityType<FurnaceGeneratorTileEntity>> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorTileEntity::new, () -> BlockInit.FURNACE_GENERATOR.get());
+	public static final RegistryObject<TileEntityType<StateConverterTileEntity>> STATE_CONVERTER = register("state_converter", StateConverterTileEntity::new, () -> BlockInit.STATE_CONVERTER.get());
 	//@formatter:on
 
 	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String n, Supplier<T> s,

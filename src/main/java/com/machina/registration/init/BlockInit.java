@@ -16,6 +16,7 @@ import com.machina.block.FurnaceGeneratorBlock;
 import com.machina.block.PressurizedChamberBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
+import com.machina.block.StateConverterBlock;
 import com.machina.block.TankBlock;
 import com.machina.block.TemperatureRegulatorBlock;
 import com.machina.registration.Registration;
@@ -47,6 +48,7 @@ public class BlockInit {
 	public static final RegistryObject<FluidHopperBlock> FLUID_HOPPER = register("fluid_hopper", FluidHopperBlock::new);
 	public static final RegistryObject<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorBlock::new);
 	public static final RegistryObject<TemperatureRegulatorBlock> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorBlock::new);
+	public static final RegistryObject<StateConverterBlock> STATE_CONVERTER = register("state_converter", StateConverterBlock::new);
 	public static final RegistryObject<FuelStorageUnitBlock> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitBlock::new);
 	public static final RegistryObject<FurnaceGeneratorBlock> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorBlock::new);
 	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate", CargoCrateBlock::new);

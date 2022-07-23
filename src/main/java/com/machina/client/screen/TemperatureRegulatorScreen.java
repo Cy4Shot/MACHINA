@@ -56,7 +56,7 @@ public class TemperatureRegulatorScreen extends NoJeiContainerScreen<Temperature
 		this.blit(stack, x + 52, y + 40, 3, 115, percentage, 12);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
-				StringUtils.translate("machina.screen.temperature_regulator.stored")
+				StringUtils.translateScreen("temperature_regulator.stored")
 						+ MathUtil.engineering(this.menu.te.normalizedHeat(), "K"),
 				x + 117, y + 26, 0xFF_00fefe, 0xFF_0e0e0e);
 

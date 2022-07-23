@@ -26,7 +26,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 	public PlanetNodeElement selected = null;
 
 	public StarchartScreen() {
-		super(StringUtils.translateComp("machina.screen.starchart.title"));
+		super(StringUtils.translateCompScreen("starchart.title"));
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class StarchartScreen extends Screen implements IBoundedGui {
 		int x = this.width - 50;
 		int y = this.height - 50;
 		if (this.selected == null) {
-			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translate("machina.screen.starchart.noselect"),
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("starchart.noselect"),
 					this.width / 2, this.height / 2 + 30, 0xFF_ff0000, 0xFF_0e0e0e);
 		} else {
 			UIHelper.bindScifi();

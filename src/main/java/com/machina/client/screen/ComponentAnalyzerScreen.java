@@ -69,8 +69,8 @@ public class ComponentAnalyzerScreen extends NoJeiContainerScreen<ComponentAnaly
 
 		// Text
 		if (this.menu.te.progress == 0)
-			UIHelper.drawStringWithBorder(stack, StringUtils.translate("machina.screen.component_analyzer.insert"),
-					x + 73, y + 42, 0xFF_00fefe, 0xFF_0e0e0e);
+			UIHelper.drawStringWithBorder(stack, StringUtils.translateScreen("component_analyzer.insert"), x + 73,
+					y + 42, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, "MACHINA://COMP_ANALYZER/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
 

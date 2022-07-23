@@ -81,7 +81,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		RegistryKey<World> dim = this.menu.getDim();
 		if (PlanetUtils.isDimensionPlanet(dim)) {
 			PlanetData data = ClientStarchart.getPlanetData(dim);
-			draw(stack, StringUtils.translate("machina.screen.scanner.tab" + tab), x + 120, y + 6, 0xFF_00fefe, true);
+			draw(stack, StringUtils.translateScreen("scanner.tab" + tab), x + 120, y + 6, 0xFF_00fefe, true);
 			switch (tab) {
 			case 0:
 				int i = 0;
@@ -103,7 +103,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 					drawAttribute(stack, AttributeInit.CAVE_LENGTH, x, y + 40);
 					break;
 				}
-				draw(stack, StringUtils.translate("machina.screen.scanner.nocave"), x + 120, y + 20, 0xFF_FF0000, true);
+				draw(stack, StringUtils.translateScreen("scanner.nocave"), x + 120, y + 20, 0xFF_FF0000, true);
 				break;
 			case 3:
 				for (int f = 0; f < FluidInit.ATMOSPHERE.size(); f++) {
@@ -116,10 +116,10 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 					x + 117, y - 18, 0xFF_00fefe, true);
 		} else {
 			draw(stack,
-					StringUtils.translate("machina.screen.scanner.location")
+					StringUtils.translateScreen("scanner.location")
 							+ StringUtils.capitalizeWord(dim.location().getPath().replace("_", " ")),
 					x + 117, y - 18, 0xFF_00fefe, true);
-			draw(stack, StringUtils.translate("machina.screen.scanner.nodata"), x + 120, y + 6, 0xFF_00fefe, true);
+			draw(stack, StringUtils.translateScreen("scanner.nodata"), x + 120, y + 6, 0xFF_00fefe, true);
 		}
 
 		// Footer
@@ -129,7 +129,8 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 	private void drawChemical(MatrixStack stack, FluidObject chem, int x, int y, RegistryKey<World> dim) {
 		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
 		String title = chem.chem().getDisplayName() + ": ";
-		String value = new DecimalFormat("##.##").format(PlanetUtils.getAtmosphereChemical(data, chem, dim) * 100) + "%";
+		String value = new DecimalFormat("##.##").format(PlanetUtils.getAtmosphereChemical(data, chem, dim) * 100)
+				+ "%";
 		Color[] colors = data.getAttribute(AttributeInit.PALETTE);
 		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);
 		draw(stack, value, x + 120 + UIHelper.getWidth(title) / 2, y, colors[4].maxBrightness().toInt(), true);

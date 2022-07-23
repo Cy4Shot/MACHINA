@@ -87,18 +87,19 @@ public class FuelStorageUnitScreen extends NoJeiContainerScreen<FuelStorageUnitC
 		this.blit(stack, x + 51 + req, y + 21, 99, 242, 2, 14);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
-				StringUtils.translate("machina.screen.fuel_storage.stored") + MathUtil.engineering(heat, "K"), x + 117,
+				StringUtils.translateScreen("fuel_storage.stored") + MathUtil.engineering(heat, "K"), x + 117,
 				y + 7, heat > HeatUtils.normalizeHeat(max, dim) ? 0xFF_ff0000 : 0xFF_00fefe, 0xFF_0e0e0e);
 
 		if (heat > HeatUtils.normalizeHeat(max, dim)) {
-			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translate("machina.screen.fuel_storage.depleting"),
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("fuel_storage.depleting"),
 					x + 117, y + 46, 0xFF_ff0000, 0xFF_0e0e0e);
 		} else {
 			UIHelper.drawCenteredStringWithBorder(stack,
 					MathUtil.engineering((double) this.menu.te.stored() / (double) IMultiFluidTileEntity.BUCKET, "B")
 							+ " / "
 							+ MathUtil.engineering(
-									(double) this.menu.te.capacity() / (double) IMultiFluidTileEntity.BUCKET, "B")
+									(double) this.menu.te.capacity() / (double) IMultiFluidTileEntity.BUCKET,
+									"B")
 							+ " - " + String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
 					x + 117, y + 46, 0xFF_00fefe, 0xFF_0e0e0e);
 		}

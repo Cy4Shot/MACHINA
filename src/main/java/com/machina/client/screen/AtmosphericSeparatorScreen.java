@@ -80,16 +80,16 @@ public class AtmosphericSeparatorScreen extends NoJeiContainerScreen<Atmospheric
 
 				if ((int) (this.menu.te.rate * IMultiFluidTileEntity.BUCKET) > 0) {
 					UIHelper.drawStringWithBorder(stack,
-							StringUtils.translate("machina.screen.atmospheric_seperator.producing")
+							StringUtils.translateScreen("atmospheric_seperator.producing")
 									+ MathUtil.engineering(this.menu.te.rate, "B/t"),
 							newX + 116, newY + 4, 0xFF_00fefe, 0xFF_0e0e0e);
 				} else {
 					UIHelper.drawStringWithBorder(stack,
-							StringUtils.translate("machina.screen.atmospheric_seperator.not_enough"), newX + 116,
-							newY + 4, 0xFF_ff0000, 0xFF_0e0e0e);
+							StringUtils.translateScreen("atmospheric_seperator.not_enough"), newX + 116, newY + 4,
+							0xFF_ff0000, 0xFF_0e0e0e);
 				}
 			} else {
-				UIHelper.drawStringWithBorder(stack, StringUtils.translate("machina.screen.atmospheric_seperator.no"),
+				UIHelper.drawStringWithBorder(stack, StringUtils.translateScreen("atmospheric_seperator.no"),
 						newX + 116, newY + 4, 0xFF_ff0000, 0xFF_0e0e0e);
 
 			}

@@ -60,6 +60,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
 		simpleBlock(BlockInit.TEMPERATURE_REGULATOR.get());
 		simpleBlock(BlockInit.FUEL_STORAGE_UNIT.get());
+		simpleBlock(BlockInit.STATE_CONVERTER.get());
 	}
 
 	public void fluid(FluidObject obj) {
