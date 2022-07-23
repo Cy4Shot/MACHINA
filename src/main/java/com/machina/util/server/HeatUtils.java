@@ -38,17 +38,17 @@ public class HeatUtils {
 		}
 	};
 
-	public static float calculateTemperatureRegulators(BlockPos pos, World world) {
-		float max = 0;
+	public static float calculateTemperatureRegulators(BlockPos pos, World world, boolean above) {
+		float ret = 0;
 		for (Direction d : Direction.values()) {
 			TileEntity te = world.getBlockEntity(pos.relative(d));
 			if (te != null && te instanceof IHeatTileEntity) {
 				IHeatTileEntity hte = (IHeatTileEntity) te;
-				if (hte.isGenerator() && Math.abs(hte.getHeat()) > max)
-					max = hte.getHeat();
+				if (hte.isGenerator() && (above ? hte.getHeat() > ret : hte.getHeat() < ret))
+					ret = hte.getHeat();
 			}
 		}
-		return max;
+		return ret;
 	}
 
 	public static float getHeatOffset(BlockPos pos, World world) {

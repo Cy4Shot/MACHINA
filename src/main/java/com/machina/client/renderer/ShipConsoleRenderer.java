@@ -58,8 +58,8 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 
 		if (!te.completed) {
 
-			String stage = String.format(StringUtils.translate("machina.screen.ship_console.stage") + " %d / 5 - ",
-					te.stage) + ShipComponentItem.getNameForStage(te.stage);
+			String stage = String.format(StringUtils.translateScreen("ship_console.stage") + " %d / 5 - ", te.stage)
+					+ ShipComponentItem.getNameForStage(te.stage);
 			TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d - .15d * x, .72d, .5d - .15d * z }, rot,
 					StringUtils.toComp(stage), 0xffffff, .5f);
 
@@ -80,24 +80,24 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 					if (te.erroredPos.size() > 0) {
 						TERUtil.renderLabel(stack, buffer, lightLevel,
 								new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
-								StringUtils.translateComp("machina.screen.ship_console.obstructed"), 0xff0000, 1f);
+								StringUtils.translateCompScreen("ship_console.obstructed"), 0xff0000, 1f);
 					} else {
 						TERUtil.renderLabel(stack, buffer, lightLevel,
 								new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
-								StringUtils.translateComp("machina.screen.ship_console.craft_ready"), 0x00ff00, 1f);
+								StringUtils.translateCompScreen("ship_console.craft_ready"), 0x00ff00, 1f);
 					}
 				} else {
 					TERUtil.renderLabel(stack, buffer, lightLevel,
 							new double[] { .5d - .05d * x, .69d, .5d - .05d * z }, rot,
-							StringUtils.translateComp("machina.screen.ship_console.missing"), 0xff0000, 1f);
+							StringUtils.translateCompScreen("ship_console.missing"), 0xff0000, 1f);
 				}
 			} else {
 				TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z },
-						rot, StringUtils.translateComp("machina.screen.ship_console.crafting"), 0x00ff00, 1f);
+						rot, StringUtils.translateCompScreen("ship_console.crafting"), 0x00ff00, 1f);
 			}
 		} else {
 			TERUtil.renderLabel(stack, buffer, lightLevel, new double[] { .5d + .05d * x, .65d, .5d + .05d * z }, rot,
-					StringUtils.translateComp("machina.screen.ship_console.await"), 0x00ff00, 1f);
+					StringUtils.translateCompScreen("ship_console.await"), 0x00ff00, 1f);
 		}
 		rocket(stack, buffer, lightLevel, d, te.stage, !te.completed, te.progress > 0);
 

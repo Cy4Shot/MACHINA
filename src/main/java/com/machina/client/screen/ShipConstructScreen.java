@@ -107,7 +107,7 @@ public class ShipConstructScreen extends NoJeiContainerScreen<ShipConstructConta
 		UIHelper.drawStringWithBorder(stack, buttonText, x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		// Text
-		String stage = String.format(StringUtils.translateScreen("machina.screen.ship_console.stage") + " %d / 5",
+		String stage = String.format(StringUtils.translateScreen("ship_console.stage") + " %d / 5",
 				this.menu.te.stage);
 		String comp = ShipComponentItem.getNameForStage(this.menu.te.stage);
 		UIHelper.drawStringWithBorder(stack, stage, x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);

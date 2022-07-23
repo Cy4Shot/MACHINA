@@ -29,8 +29,8 @@ public class FuelStorageUnitContainer extends BaseContainer<FuelStorageUnitTileE
 		this.slots.clear();
 		this.addSlot(new CompletableSlot((IInventory) te, 0, -5, 92,
 				() -> new ItemStack(ItemInit.ALUMINUM_INGOT.get(), 64), false));
-		this.addSlot(new CompletableSlot((IInventory) te, 1, 162, 92, () -> new ItemStack(ItemInit.PROCESSOR.get(), 64),
-				false));
+		this.addSlot(new CompletableSlot((IInventory) te, 1, 162, 92,
+				() -> new ItemStack(ItemInit.AMMONIUM_NITRATE.get(), 64), false));
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInv, col, 8 + col * 18, 142));
 		}

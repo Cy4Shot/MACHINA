@@ -53,7 +53,7 @@ public class StateConverterTileEntity extends BaseTileEntity
 		if (this.level.isClientSide())
 			return;
 
-		float target = HeatUtils.calculateTemperatureRegulators(worldPosition, level);
+		float target = HeatUtils.calculateTemperatureRegulators(worldPosition, level, above);
 		heat = HeatUtils.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
 		sync();
 

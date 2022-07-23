@@ -8,29 +8,40 @@ import com.machina.block.ShipConsoleBlock;
 import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
 import com.machina.block.tile.base.BaseLockableTileEntity;
+import com.machina.block.tile.base.IFluidTileEntity;
+import com.machina.config.CommonConfig;
 import com.machina.recipe.ShipConsoleRecipe;
+import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.MachinaRL;
+import com.machina.util.server.ServerHelper;
+import com.machina.world.data.PlanetData;
+import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fluids.FluidStack;
 
 public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITickableTileEntity {
 
-	public int stage = 1, progress = 0, destination = 0, fuel = 0;
+	public int stage = 1, progress = 0, destination = 0;
+	public int waterFuel = 0, aluminiumFuel = 0, ammoniaNitrateFuel = 0;
+	public int hWaterFuel = 0, hAluminiumFuel = 0, hAmmoniaNitrateFuel = 0;
 	public boolean isInProgress = false, completed = false;
 	public List<BlockPos> erroredPos = new ArrayList<>();
 
@@ -45,8 +56,6 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 				return ShipConsoleTileEntity.this.completed ? 1 : 0;
 			case 3:
 				return ShipConsoleTileEntity.this.destination;
-			case 4:
-				return ShipConsoleTileEntity.this.fuel;
 			default:
 				return 0;
 			}
@@ -66,14 +75,12 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 			case 3:
 				ShipConsoleTileEntity.this.destination = value;
 				break;
-			case 4:
-				ShipConsoleTileEntity.this.fuel = value;
 			}
 		}
 
 		@Override
 		public int getCount() {
-			return 5;
+			return 4;
 		}
 	};
 
@@ -125,7 +132,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		scan();
 		if (this.erroredPos.size() > 0)
 			return;
-		
+
 		if (this.stage <= 5 && this.progress == 0) {
 			this.isInProgress = true;
 			clear();
@@ -178,10 +185,57 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 
 		sync();
 	}
-	
+
 	public void refuel() {
-		this.fuel += 100;
-		
+		for (Direction d : Direction.values()) {
+			TileEntity te = level.getBlockEntity(worldPosition.relative(d));
+			if (te != null && te instanceof FuelStorageUnitTileEntity) {
+				FuelStorageUnitTileEntity fte = (FuelStorageUnitTileEntity) te;
+				FluidStack water = fte.getFluid();
+				ItemStack aluminium = fte.getItem(0);
+				ItemStack ammonium_nitrate = fte.getItem(1);
+
+				if (!water.isEmpty() && this.hWaterFuel < this.waterFuel) {
+					int displaced = water.getAmount()
+							- Math.max(0, (water.getAmount() + this.hWaterFuel) - this.waterFuel);
+					water.setAmount(water.getAmount() - displaced);
+					this.hWaterFuel += displaced;
+				}
+
+				if (!aluminium.isEmpty() && this.hAluminiumFuel < this.aluminiumFuel) {
+					int displaced = aluminium.getCount()
+							- Math.max(0, (aluminium.getCount() + this.hAluminiumFuel) - this.aluminiumFuel);
+					aluminium.setCount(aluminium.getCount() - displaced);
+					this.hAluminiumFuel += displaced;
+				}
+
+				if (!ammonium_nitrate.isEmpty() && this.hAmmoniaNitrateFuel < this.ammoniaNitrateFuel) {
+					int displaced = ammonium_nitrate.getCount() - Math.max(0,
+							(ammonium_nitrate.getCount() + this.hAmmoniaNitrateFuel) - this.ammoniaNitrateFuel);
+					ammonium_nitrate.setCount(ammonium_nitrate.getCount() - displaced);
+					this.hAmmoniaNitrateFuel += displaced;
+				}
+			}
+		}
+
+		sync();
+	}
+
+	public void calculateFuel() {
+		if (this.level.isClientSide())
+			return;
+
+		PlanetData dest = StarchartData.getDataForDimension(ServerHelper.server(), this.destination);
+		PlanetData orig = StarchartData.getDataForDimension(ServerHelper.server(), this.level.dimension());
+		float dist = dest.getAttribute(AttributeInit.DISTANCE) - orig.getAttribute(AttributeInit.DISTANCE);
+		float temp = dest.getAttribute(AttributeInit.TEMPERATURE) + orig.getAttribute(AttributeInit.TEMPERATURE);
+		float atmo = dest.getAttribute(AttributeInit.ATMOSPHERIC_PRESSURE)
+				+ orig.getAttribute(AttributeInit.ATMOSPHERIC_PRESSURE);
+
+		this.ammoniaNitrateFuel = (int) (dist * CommonConfig.ammoniaNitrateMult.get());
+		this.aluminiumFuel = (int) (atmo * CommonConfig.aluminiumMult.get());
+		this.waterFuel = (int) (temp * CommonConfig.waterMult.get()) * IFluidTileEntity.BUCKET;
+
 		sync();
 	}
 
@@ -208,7 +262,12 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		nbt.putBoolean("InProgress", this.isInProgress);
 		nbt.putBoolean("Completed", this.completed);
 		nbt.putInt("Destination", this.destination);
-		nbt.putInt("Fuel", this.fuel);
+		nbt.putInt("WaterFuel", this.waterFuel);
+		nbt.putInt("AluminiumFuel", this.aluminiumFuel);
+		nbt.putInt("AmmoniaNitrateFuel", this.ammoniaNitrateFuel);
+		nbt.putInt("HasWaterFuel", this.hWaterFuel);
+		nbt.putInt("HasAluminiumFuel", this.hAluminiumFuel);
+		nbt.putInt("HasAmmoniaNitrateFuel", this.hAmmoniaNitrateFuel);
 
 		return super.save(nbt);
 	}
@@ -226,8 +285,13 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		this.isInProgress = nbt.getBoolean("InProgress");
 		this.completed = nbt.getBoolean("Completed");
 		this.destination = nbt.getInt("Destination");
-		this.fuel = nbt.getInt("Fuel");
-		
+		this.waterFuel = nbt.getInt("WaterFuel");
+		this.aluminiumFuel = nbt.getInt("AluminiumFuel");
+		this.ammoniaNitrateFuel = nbt.getInt("AmmoniaNitrateFuel");
+		this.hWaterFuel = nbt.getInt("HasWaterFuel");
+		this.hAluminiumFuel = nbt.getInt("HasAluminiumFuel");
+		this.hAmmoniaNitrateFuel = nbt.getInt("HasAmmoniaNitrateFuel");
+
 		super.load(state, nbt);
 	}
 

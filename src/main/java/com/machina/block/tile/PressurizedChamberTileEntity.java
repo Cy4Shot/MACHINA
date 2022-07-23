@@ -73,7 +73,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 		if (this.level.isClientSide())
 			return;
 
-		float target = HeatUtils.calculateTemperatureRegulators(worldPosition, level);
+		float target = HeatUtils.calculateTemperatureRegulators(worldPosition, level, reqHeat > 0);
 		heat = HeatUtils.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
 		sync();
 

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.machina.block.container.ShipLaunchContainer;
+import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.base.TerminalScreen;
 import com.machina.client.util.IStarchartSelector;
 import com.machina.config.ClientConfig;
 import com.machina.network.MachinaNetwork;
+import com.machina.network.c2s.C2SCalculateRocketFuel;
 import com.machina.network.c2s.C2SRefuel;
 import com.machina.network.c2s.C2SSetShipDestination;
 import com.machina.registration.init.AttributeInit;
+import com.machina.util.math.MathUtil;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
@@ -57,12 +60,28 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 					@Override
 					public void accept(ResourceLocation loc) {
 						int id = Integer.valueOf(loc.getPath());
+						MachinaNetwork.CHANNEL.sendToServer(
+								new C2SSetShipDestination(ShipLaunchScreen.this.menu.te.getBlockPos(), id));
+						MachinaNetwork.CHANNEL
+								.sendToServer(new C2SCalculateRocketFuel(ShipLaunchScreen.this.menu.te.getBlockPos()));
 						PlanetData data = ClientStarchart.getPlanetData(id);
 						Minecraft.getInstance().setScreen(ShipLaunchScreen.this);
 						space();
 						add(t.getFeedback("set") + data.getAttributeFormatted(AttributeInit.PLANET_NAME));
-						MachinaNetwork.CHANNEL.sendToServer(
-								new C2SSetShipDestination(ShipLaunchScreen.this.menu.te.getBlockPos(), id));
+						add(t, "calculating");
+						createTimer(ClientConfig.fuelCalculateDuration.get(), () -> {
+							space();
+							add(t, "required");
+							add(t.getFeedback("water")
+									+ MathUtil.engineering(
+											ShipLaunchScreen.this.menu.te.hWaterFuel / IFluidTileEntity.BUCKET, "B")
+									+ " / " + MathUtil.engineering(
+											ShipLaunchScreen.this.menu.te.waterFuel / IFluidTileEntity.BUCKET, "B"));
+							add(t.getFeedback("aluminium") + ShipLaunchScreen.this.menu.te.hAluminiumFuel + " / "
+									+ ShipLaunchScreen.this.menu.te.aluminiumFuel);
+							add(t.getFeedback("ammonium_nitrate") + ShipLaunchScreen.this.menu.te.hAmmoniaNitrateFuel
+									+ " / " + ShipLaunchScreen.this.menu.te.ammoniaNitrateFuel);
+						});
 					}
 				});
 			});
@@ -71,7 +90,15 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 		// Fuel
 		list.add(new TerminalCommand("fuel", t -> {
 			space();
-			add(t.getFeedback("stored") + this.menu.te.fuel);
+			add(t, "stored");
+			add(t.getFeedback("water")
+					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.hWaterFuel / IFluidTileEntity.BUCKET, "B")
+					+ " / "
+					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.waterFuel / IFluidTileEntity.BUCKET, "B"));
+			add(t.getFeedback("aluminium") + ShipLaunchScreen.this.menu.te.hAluminiumFuel + " / "
+					+ ShipLaunchScreen.this.menu.te.aluminiumFuel);
+			add(t.getFeedback("ammonium_nitrate") + ShipLaunchScreen.this.menu.te.hAmmoniaNitrateFuel + " / "
+					+ ShipLaunchScreen.this.menu.te.ammoniaNitrateFuel);
 		}));
 
 		// Refuel
@@ -82,12 +109,19 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 			awaitResponse(s -> {
 				space();
 				add(t, "progress");
-				final int oldFuel = this.menu.te.fuel;
+				final int oldWater = this.menu.te.hWaterFuel;
+				final int oldAluminium = this.menu.te.hAluminiumFuel;
+				final int oldAmmoniaNitrate = this.menu.te.hAmmoniaNitrateFuel;
 				MachinaNetwork.CHANNEL.sendToServer(new C2SRefuel(this.menu.te.getBlockPos()));
 				createTimer(ClientConfig.refuelDuration.get(), () -> {
 					space();
 					add(t, "complete");
-					add(t.getFeedback("gain") + (this.menu.te.fuel - oldFuel));
+					add(t, "gain");
+					add(t.getFeedback("water") + MathUtil.engineering(
+							(ShipLaunchScreen.this.menu.te.hWaterFuel - oldWater) / IFluidTileEntity.BUCKET, "B"));
+					add(t.getFeedback("aluminium") + (ShipLaunchScreen.this.menu.te.hAluminiumFuel - oldAluminium));
+					add(t.getFeedback("ammonium_nitrate")
+							+ (ShipLaunchScreen.this.menu.te.hAmmoniaNitrateFuel - oldAmmoniaNitrate));
 				});
 				return true;
 			});

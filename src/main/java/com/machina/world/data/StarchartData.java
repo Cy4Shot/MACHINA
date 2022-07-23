@@ -87,7 +87,7 @@ public class StarchartData extends WorldSavedData {
 	public void syncWithClients() {
 		BaseNetwork.sendToAll(MachinaNetwork.CHANNEL, new S2CStarchartSync(starchart));
 	}
-	
+
 	public void syncClient(ServerPlayerEntity player) {
 		BaseNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CStarchartSync(starchart), player);
 	}
@@ -118,7 +118,7 @@ public class StarchartData extends WorldSavedData {
 			MinecraftServer server) {
 		return StarchartData.getDefaultInstance(server).getStarchart();
 	}
-	
+
 	public int getNumPlanets() {
 		return this.starchart.size();
 	}
@@ -136,21 +136,22 @@ public class StarchartData extends WorldSavedData {
 			}
 		}
 	}
-	
+
 	public static BaseNBTMap<ResourceLocation, PlanetData, StringNBT, CompoundNBT> createEmptyStarchart() {
-		return new BaseNBTMap<>(
-				rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
+		return new BaseNBTMap<>(rl -> StringNBT.valueOf(rl.toString()), PlanetData::serializeNBT,
 				nbt -> new ResourceLocation(nbt.getAsString()), PlanetData::fromNBT);
 	}
-	
+
 	public static PlanetData getDataForDimension(MinecraftServer server, RegistryKey<World> dim) {
-		return getDataForDimension(server, PlanetUtils.getId(dim));
+		return PlanetUtils.isDimensionPlanet(dim) ? getDataForDimension(server, PlanetUtils.getId(dim))
+				: PlanetData.NONE;
 	}
-	
+
 	public static PlanetData getDataOrNone(MinecraftServer server, RegistryKey<World> dim) {
-		return PlanetUtils.isDimensionPlanet(dim) ? StarchartData.getDataForDimension(ServerHelper.server(), dim) : PlanetData.NONE;
+		return PlanetUtils.isDimensionPlanet(dim) ? StarchartData.getDataForDimension(ServerHelper.server(), dim)
+				: PlanetData.NONE;
 	}
-	
+
 	public static PlanetData getDataForDimension(MinecraftServer server, int id) {
 		return getStarchartForServer(server).computeIfAbsent(new MachinaRL(id), rl -> PlanetData.NONE);
 	}

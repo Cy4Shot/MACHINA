@@ -187,13 +187,24 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalCommand("destination", "Set the destination.");
 		addTerminalFeedback("destination", "loading", "Initializing Starchart...");
 		addTerminalFeedback("destination", "set", "Destination set: ");
+		addTerminalFeedback("destination", "calculating", "Calculating Required Fuel...");
+		addTerminalFeedback("destination", "required", "Required Materials:");
+		addTerminalFeedback("destination", "water", "Water: ");
+		addTerminalFeedback("destination", "aluminium", "Aluminium: ");
+		addTerminalFeedback("destination", "ammonium_nitrate", "Ammonium Nitrate: ");
 		addTerminalCommand("fuel", "Check fuel status.");
 		addTerminalFeedback("fuel", "stored", "Fuel stored: ");
+		addTerminalFeedback("fuel", "water", "Water: ");
+		addTerminalFeedback("fuel", "aluminium", "Aluminium: ");
+		addTerminalFeedback("fuel", "ammonium_nitrate", "Ammonium Nitrate: ");
 		addTerminalCommand("refuel", "Refuel the ship.");
 		addTerminalFeedback("refuel", "info", "Place fuel barrel adjacent to the console.");
 		addTerminalFeedback("refuel", "await", "Press ENTER to confirm.");
 		addTerminalFeedback("refuel", "progress", "Refuelling...");
 		addTerminalFeedback("refuel", "complete", "Refuel complete!");
 		addTerminalFeedback("refuel", "gain", "Gained: ");
+		addTerminalFeedback("refuel", "water", "Water: ");
+		addTerminalFeedback("refuel", "aluminium", "Aluminium: ");
+		addTerminalFeedback("refuel", "ammonium_nitrate", "Ammonium Nitrate: ");
 	}
 }
