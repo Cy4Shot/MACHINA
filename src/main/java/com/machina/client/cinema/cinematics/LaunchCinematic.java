@@ -35,7 +35,7 @@ public class LaunchCinematic extends PathCinematic {
 
 		Vector3d o = p.position();
 
-		CameraEffect SHAKE1 = new ShakeEffect(0.4f);
+		CameraEffect SHAKE1 = new ShakeEffect(0.3f);
 		CameraEffect SHAKE2 = new ShakeEffect(0.75f);
 		CameraEffect SMOKE = new ParticleEffect(ParticleTypes.CAMPFIRE_COSY_SMOKE, p.position().add(0, -2.1D, 0), 0.05D,
 				0f, 0.8f);
@@ -61,10 +61,10 @@ public class LaunchCinematic extends PathCinematic {
 			if (tick == 1) {
 				OverlayEffect.rl = new MachinaRL("textures/gui/machina.png");
 				OverlayEffect.render = true;
-			} else if (tick == 199) {
+			} else if (tick == 179) {
 				OverlayEffect.render = false;
 			}
-			OverlayEffect.opacity = Math.max(0f, (float) (tick - 100) / 100f);
+			OverlayEffect.opacity = Math.max(0f, (float) (tick - 100) / 80f);
 		});
 
 		// @formatter:off
@@ -75,7 +75,7 @@ public class LaunchCinematic extends PathCinematic {
 		.addPath(InterpolationMethod.LERP, 200, effects(SHAKE1, SMOKE, EXPLOSIONS),
 				node(d.getStepX() * 10, 0, d.getStepZ() * 10, p.xRot, yaw),
 				node(d.getStepX() * 10, 1, d.getStepZ() * 10, p.xRot, yaw))
-		.addPath(InterpolationMethod.BEZIER, 200, effects(SHAKE2, LAUNCH, OVERLAY),
+		.addPath(InterpolationMethod.BEZIER, 180, effects(SHAKE2, LAUNCH, OVERLAY),
 				node(d.getStepX() * 10, 1, d.getStepZ() * 10, p.xRot, yaw),
 				node(d.getStepX() * 10, 1, d.getStepZ() * 10, -80, yaw),
 				node(d.getStepX() * 10, 1, d.getStepZ() * 10, -85, yaw),
