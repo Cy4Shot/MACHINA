@@ -19,7 +19,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
 
 public class LaunchCinematic extends PathCinematic {
 
@@ -29,8 +28,7 @@ public class LaunchCinematic extends PathCinematic {
 		super(p);
 		this.pos = pos;
 
-		World world = p.level;
-		Direction d = world.getBlockState(pos).getValue(ShipConsoleBlock.FACING);
+		Direction d = p.level.getBlockState(pos).getValue(ShipConsoleBlock.FACING);
 		int yaw = DirectionUtil.toYaw(d.getOpposite());
 
 		Vector3d o = p.position();
@@ -41,8 +39,8 @@ public class LaunchCinematic extends PathCinematic {
 				0f, 0.8f);
 		CameraEffect EXPLOSIONS = new ParticleEffect(ParticleTypes.EXPLOSION, p.position().add(0, -2.1D, 0), 0.05D, 1f,
 				0.1f);
-		CameraEffect LAUNCH = new ActionEffect((tick) -> {
-			if (tick < 10) {
+		CameraEffect LAUNCH = new ActionEffect(ting -> {
+			if (ting < 10) {
 				MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.ANGRY_VILLAGER, 0f, 30,
 						p.position().add(0, -2.1D, 0), new Vector3d(0.05D, 0.05D, 0.05D)));
 				MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.EXPLOSION, 0f, 10,
@@ -52,19 +50,19 @@ public class LaunchCinematic extends PathCinematic {
 				MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.FLAME, 0f, 30,
 						p.position().add(0, -2.1D, 0), new Vector3d(0.05D, 0.05D, 0.05D)));
 			}
-			double off = Math.pow(Math.E, (double) tick / 9D) - 1D;
+			double off = Math.pow(Math.E, (double) ting / 9D) - 1D;
 			clientEntity.moveTo(o.add(0, off, 0));
-			MachinaNetwork.CHANNEL.sendToServer(new C2SShipLaunchEffect(pos, tick));
+			MachinaNetwork.CHANNEL.sendToServer(new C2SShipLaunchEffect(pos, ting));
 		});
 
-		CameraEffect OVERLAY = new ActionEffect((tick) -> {
-			if (tick == 1) {
+		CameraEffect OVERLAY = new ActionEffect(ting -> {
+			if (ting == 1) {
 				OverlayEffect.rl = new MachinaRL("textures/gui/machina.png");
 				OverlayEffect.render = true;
-			} else if (tick == 179) {
+			} else if (ting == 179) {
 				OverlayEffect.render = false;
 			}
-			OverlayEffect.opacity = Math.max(0f, (float) (tick - 100) / 80f);
+			OverlayEffect.opacity = Math.max(0f, (float) (ting - 100) / 80f);
 		});
 
 		// @formatter:off
