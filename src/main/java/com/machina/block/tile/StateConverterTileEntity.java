@@ -70,7 +70,7 @@ public class StateConverterTileEntity extends BaseTileEntity
 
 			above = recipe.above;
 			reqHeat = recipe.heat;
-			if (above ? (heat > reqHeat) : (reqHeat < heat) || !tankContains(tanks.get(0), recipe.input, true)) {
+			if ((above ? (normalized() > reqHeat) : (reqHeat < normalized())) || !tankContains(tanks.get(0), recipe.input, true)) {
 				sync();
 				return;
 			}
@@ -91,7 +91,7 @@ public class StateConverterTileEntity extends BaseTileEntity
 	}
 
 	public float heatFull() {
-		return HeatUtils.propFull(heat, this.level.dimension());
+		return HeatUtils.propFull(normalized(), this.level.dimension());
 	}
 
 	public float normalized() {

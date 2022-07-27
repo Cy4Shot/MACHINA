@@ -21,9 +21,10 @@ public class FluidHopperTileEntity extends BaseTileEntity implements ITickableTi
 
 		MachinaTank med = new MachinaTank(this, Integer.MAX_VALUE, p -> true, true, 0);
 		Direction facing = level.getBlockState(worldPosition).getValue(FluidHopperBlock.FACING);
-		if (FluidUtils.canTake(facing, worldPosition, level, rate) == rate) {
-			FluidUtils.pullFluidsFromTank(facing, worldPosition, level, med, rate);
-			FluidUtils.pushFluidsToTank(facing, worldPosition, level, med, rate);
+		if (FluidUtils.pullFluidsFromTank(facing, worldPosition, level, med, rate)) {
+			if (!FluidUtils.pushFluidsToTank(facing, worldPosition, level, med, rate)) {
+				FluidUtils.pushFluidsToTank(facing.getOpposite(), worldPosition, level, med, rate);
+			}
 		}
 	}
 }

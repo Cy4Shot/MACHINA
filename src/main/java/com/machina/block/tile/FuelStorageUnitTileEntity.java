@@ -33,7 +33,7 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 	private MachinaTank tank = new MachinaTank(this, 100000, p -> p.getFluid().isSame(Fluids.WATER), false, 0);
 	private final LazyOptional<IFluidHandler> cap = LazyOptional.of(() -> tank);
 	public float heat = 0;
-	public static float maxTemp = -80f;
+	public static float maxTemp = 180f;
 
 	public FuelStorageUnitTileEntity() {
 		super(TileEntityInit.FUEL_STORAGE_UNIT.get(), 2);
@@ -48,7 +48,7 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 		heat = HeatUtils.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
 
 		// Deplete
-		if (heat > maxTemp) {
+		if (normalizedHeat() > maxTemp) {
 			if (!tank.isEmpty())
 				tank.getFluid().setAmount(tank.getFluidAmount() - 30);
 			Random r = new Random();
@@ -93,7 +93,7 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 	}
 
 	public float heatFull() {
-		return HeatUtils.propFull(heat, this.level.dimension());
+		return HeatUtils.propFull(normalizedHeat(), this.level.dimension());
 	}
 
 	public float normalizedHeat() {

@@ -104,8 +104,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 				result = recipe.fOut.getTranslationKey();
 			if (!recipe.iOut.isEmpty())
 				result = recipe.iOut.getItem().getDescriptionId();
-			if (!isRunning || heat < reqHeat || !contains(recipe.fluids, true)) {
-				
+			if (!isRunning || normalized() < reqHeat || !contains(recipe.fluids, true)) {
 				sync();
 				return;
 			}
@@ -141,7 +140,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	}
 
 	public float heatFull() {
-		return HeatUtils.propFull(heat, this.level.dimension());
+		return HeatUtils.propFull(normalized(), this.level.dimension());
 	}
 
 	public float normalized() {

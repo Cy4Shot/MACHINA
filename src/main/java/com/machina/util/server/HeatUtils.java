@@ -64,7 +64,7 @@ public class HeatUtils {
 	}
 
 	public static float propFull(float heat, RegistryKey<World> dim) {
-		return normalizeHeat(heat, dim) / (float) getRange();
+		return heat / (float) getRange();
 	}
 
 	public static float getHeat(RegistryKey<World> dim) {

@@ -38,7 +38,7 @@ public class TemperatureRegulatorTileEntity extends BaseTileEntity
 	}
 
 	public float propFull() {
-		return HeatUtils.propFull(heat, this.level.dimension());
+		return HeatUtils.propFull(normalizedHeat(), this.level.dimension());
 	}
 
 	public float normalizedHeat() {

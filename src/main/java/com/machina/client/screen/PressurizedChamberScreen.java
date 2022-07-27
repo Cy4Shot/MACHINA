@@ -178,7 +178,7 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		if (this.menu.te.result != "") {
 			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translate(this.menu.te.result), x + 138, y + 100,
 					new Color(this.menu.te.color).maxBrightness().toInt(), 0xFF_0e0e0e);
-			if (this.menu.te.heat >= this.menu.te.reqHeat) {
+			if (this.menu.te.normalized() >= this.menu.te.reqHeat) {
 				if (this.menu.te.isRunning) {
 					UIHelper.drawCenteredStringWithBorder(stack,
 							StringUtils.translateScreen("pressurized_chamber.crafting"), x + 138, y + 89, 0xFF_00fefe,

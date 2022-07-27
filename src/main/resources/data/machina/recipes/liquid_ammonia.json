@@ -1,6 +1,6 @@
 {
 	"type": "machina:state_converter",
-	"heat": -100,
+	"heat": 180,
 	"above": false,
 	"input": {
 		"fluid": "machina:ammonia",
