@@ -69,6 +69,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		oneLayerItem(ItemInit.SILICON.get());
 		oneLayerItem(ItemInit.SCANNER.get());
 		oneLayerItem(ItemInit.TRANSISTOR.get());
+		oneLayerItem(ItemInit.AMMONIUM_NITRATE.get());
 
 		bucket(FluidInit.OXYGEN);
 		bucket(FluidInit.NITROGEN);

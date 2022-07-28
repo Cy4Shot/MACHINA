@@ -4,10 +4,10 @@ import com.machina.Machina;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.FluidInit.FluidObject;
+import com.machina.registration.init.SoundInit.Sound;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -39,8 +39,8 @@ public abstract class BaseLangProvider extends LanguageProvider {
 		add(obj.bucket(), name + " " + bucket);
 	}
 
-	protected void add(SoundEvent event, String name) {
-		add("machina.subtitle." + event.getRegistryName().getPath(), name);
+	protected void add(Sound sound, String name) {
+		add("machina.subtitle." + sound.name(), name);
 	}
 
 	protected void addCommandFeedback(String key, String name) {

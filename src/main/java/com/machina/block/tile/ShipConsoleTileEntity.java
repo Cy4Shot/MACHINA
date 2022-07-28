@@ -256,7 +256,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		Direction dir = this.getBlockState().getValue(ShipConsoleBlock.FACING);
 		BlockPos p = worldPosition.relative(dir, -2);
 		play.connection.teleport(p.getX() + 0.5D, p.getY() + 2.6D, p.getZ() + 0.5D, DirectionUtil.toYaw(dir), 0);
-		this.level.playSound(null, p.above(2), SoundInit.ROCKET_LAUNCH, SoundCategory.MASTER, 1f, 1f);
+		this.level.playSound(null, p.above(2), SoundInit.ROCKET_LAUNCH.sound(), SoundCategory.MASTER, 1f, 1f);
 		MachinaNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CLaunchShip(worldPosition), play);
 	}
 
