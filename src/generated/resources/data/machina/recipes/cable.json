@@ -1,20 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "steel_chassis",
+  "group": "cable",
   "pattern": [
-    " s ",
-    "scs",
-    " s "
+    "asa"
   ],
   "key": {
-    "c": {
-      "item": "machina:iron_chassis"
+    "a": {
+      "item": "machina:aluminum_ingot"
     },
     "s": {
       "tag": "forge:ingots/steel"
     }
   },
   "result": {
-    "item": "machina:steel_chassis"
+    "item": "machina:cable",
+    "count": 6
   }
 }

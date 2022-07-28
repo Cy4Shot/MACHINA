@@ -37,11 +37,22 @@ public class RecipesProvider extends RecipeProvider {
 		addSmelting(f, BlockInit.ALUMINUM_ORE.get(), ItemInit.ALUMINUM_INGOT.get(), 1f, 100);
 		
 		addSmithing(f, Items.STICK, Items.IRON_INGOT, ItemInit.REINFORCED_STICK.get());
-		addSmithing(f, Items.IRON_INGOT, ItemInit.SILICON.get(), ItemInit.TRANSISTOR.get());
 		
 		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.IRON_INGOT, Items.COAL);
 		
 		addBlasting(f, Blocks.GRAVEL, ItemInit.SILICON.get(), 0.5f, 100);
+		
+		addShaped(f, ItemInit.TRANSISTOR.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('n', Items.IRON_NUGGET)
+					.define('s', ItemInit.SILICON.get())
+					.define('r', Items.REDSTONE)
+					.pattern(" s ")
+					.pattern("nrn")
+					.pattern(" s ");
+			//@formatter:on
+		});
 		
 		addShaped(f, ItemInit.IRON_CATALYST.get(), 1, builder -> {
 			//@formatter:off
@@ -86,7 +97,7 @@ public class RecipesProvider extends RecipeProvider {
 			return builder
 					.define('t', ItemInit.TRANSISTOR.get())
 					.define('c', BlockInit.IRON_CHASSIS.get())
-					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
+					.define('s', TagHelper.getForgeItemTag("ingots/aluminum"))
 					.define('b', Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE)
 					.define('r', Items.REDSTONE)
 					.define('p', ItemInit.PROCESSOR.get())
@@ -101,9 +112,11 @@ public class RecipesProvider extends RecipeProvider {
 			return builder
 					.define('r', ItemInit.REINFORCED_STICK.get())
 					.define('s', Blocks.SCAFFOLDING)
-					.pattern("rrr")
+					.define('g', Blocks.GLASS_PANE)
+					.define('b', ItemInit.SILICON.get())
+					.pattern("bgb")
 					.pattern("rsr")
-					.pattern("rrr");
+					.pattern("bgb");
 			//@formatter:off
 		});
 		
@@ -112,9 +125,32 @@ public class RecipesProvider extends RecipeProvider {
 			return builder
 					.define('c', BlockInit.IRON_CHASSIS.get())
 					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
-					.pattern("sss")
+					.pattern(" s ")
 					.pattern("scs")
-					.pattern("sss");
+					.pattern(" s ");
+			//@formatter:on
+		});
+		
+		addShaped(f, ItemInit.SCANNER.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('c', ItemInit.PROCESSOR.get())
+					.define('t', ItemInit.TRANSISTOR.get())
+					.define('r', Items.REDSTONE)
+					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
+					.define('g', Items.GLOWSTONE_DUST)
+					.pattern("tgt")
+					.pattern("rcr")
+					.pattern(" s ");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.CABLE.get(), 6, builder -> {
+			//@formatter:off
+			return builder
+					.define('a', ItemInit.ALUMINUM_INGOT.get())
+					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
+					.pattern("asa");
 			//@formatter:on
 		});
 	}
