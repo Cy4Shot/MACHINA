@@ -3,7 +3,7 @@ package com.machina.recipe;
 import com.google.gson.JsonObject;
 import com.machina.Machina;
 import com.machina.registration.init.RecipeInit;
-import com.machina.util.json.JsonUtils;
+import com.machina.util.ser.JsonUtils;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

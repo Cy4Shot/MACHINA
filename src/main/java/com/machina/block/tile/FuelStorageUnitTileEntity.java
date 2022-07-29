@@ -12,7 +12,7 @@ import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.block.tile.base.IHeatTileEntity;
 import com.machina.capability.fluid.MachinaTank;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.HeatUtils;
+import com.machina.util.server.HeatHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
@@ -44,8 +44,8 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 		if (this.level.isClientSide())
 			return;
 
-		float target = HeatUtils.calculateTemperatureRegulators(worldPosition, level, false);
-		heat = HeatUtils.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
+		float target = HeatHelper.calculateTemperatureRegulators(worldPosition, level, false);
+		heat = HeatHelper.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
 
 		// Deplete
 		if (normalizedHeat() > maxTemp) {
@@ -93,11 +93,11 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 	}
 
 	public float heatFull() {
-		return HeatUtils.propFull(normalizedHeat(), this.level.dimension());
+		return HeatHelper.propFull(normalizedHeat(), this.level.dimension());
 	}
 
 	public float normalizedHeat() {
-		return HeatUtils.normalizeHeat(heat, this.level.dimension());
+		return HeatHelper.normalizeHeat(heat, this.level.dimension());
 	}
 
 	@Nonnull

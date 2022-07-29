@@ -3,7 +3,7 @@ package com.machina.block.tile.base;
 import com.machina.capability.energy.IEnergyContainer;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.util.math.DirectionUtil;
-import com.machina.util.server.EnergyUtils;
+import com.machina.util.server.EnergyHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -110,7 +110,7 @@ public abstract class BaseEnergyTileEntity extends BaseTileEntity implements ITi
 	protected void sendOutPower() {
 		DirectionUtil.DIRECTIONS.forEach(dir -> {
 			if (canTransfer(dir))
-				EnergyUtils.trySendTo(level, worldPosition, this, energyDef.getMaxExtract(), dir);
+				EnergyHelper.trySendTo(level, worldPosition, this, energyDef.getMaxExtract(), dir);
 		});
 	}
 

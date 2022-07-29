@@ -6,9 +6,9 @@ import com.machina.trait.FrozenTrait;
 import com.machina.trait.HeightMultiplierTrait;
 import com.machina.trait.NoiseSettingsTrait;
 import com.machina.trait.WaterHeightTrait;
-import com.machina.util.MachinaRL;
 import com.machina.util.reflection.ClassHelper;
-import com.machina.world.settings.DynamicNoiseSettings;
+import com.machina.util.text.MachinaRL;
+import com.machina.world.settings.PlanetNoiseSettings;
 
 import net.minecraftforge.event.RegistryEvent;
 
@@ -22,7 +22,7 @@ public final class TraitInit {
 	public static final PlanetTrait FLAT = new HeightMultiplierTrait(0x449e41, 0.5f);
 	public static final PlanetTrait LAKES = new PlanetTrait(0x098aed);
 	public static final PlanetTrait FROZEN = new FrozenTrait(0x0aabf5);
-	public static final PlanetTrait ISLANDS = new NoiseSettingsTrait(0x48dde8, DynamicNoiseSettings.ISLAND_TYPE);
+	public static final PlanetTrait ISLANDS = new NoiseSettingsTrait(0x48dde8, PlanetNoiseSettings.ISLAND_TYPE);
 
 	public static void register(final RegistryEvent.Register<PlanetTrait> event) {
 		ClassHelper.<PlanetTrait>doWithStatics(TraitInit.class,

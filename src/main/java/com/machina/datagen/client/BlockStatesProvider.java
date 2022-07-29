@@ -4,7 +4,7 @@ import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
-import com.machina.util.MachinaRL;
+import com.machina.util.text.MachinaRL;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;

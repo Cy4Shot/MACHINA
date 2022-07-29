@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
-import com.machina.util.nbt.NBTList;
+import com.machina.util.ser.NBTList;
 
 import net.minecraft.nbt.CompoundNBT;
 

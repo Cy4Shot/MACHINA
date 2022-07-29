@@ -1,6 +1,6 @@
 package com.machina.block.container.slot;
 
-import com.machina.util.server.ItemStackUtil;
+import com.machina.util.server.ItemStackHelper;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
@@ -13,10 +13,10 @@ public class FuelSlot extends Slot {
 	}
 
 	public boolean mayPlace(ItemStack pStack) {
-		return ItemStackUtil.isFuel(pStack) || ItemStackUtil.isBucket(pStack);
+		return ItemStackHelper.isFuel(pStack) || ItemStackHelper.isBucket(pStack);
 	}
 
 	public int getMaxStackSize(ItemStack pStack) {
-		return ItemStackUtil.isBucket(pStack) ? 1 : super.getMaxStackSize(pStack);
+		return ItemStackHelper.isBucket(pStack) ? 1 : super.getMaxStackSize(pStack);
 	}
 }

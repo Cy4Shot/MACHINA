@@ -2,7 +2,7 @@ package com.machina.client.util;
 
 import java.util.function.Consumer;
 
-import com.machina.util.MachinaRL;
+import com.machina.util.text.MachinaRL;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

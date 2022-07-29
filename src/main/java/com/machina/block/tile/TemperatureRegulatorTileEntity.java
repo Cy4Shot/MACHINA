@@ -5,7 +5,7 @@ import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.block.tile.base.IHeatTileEntity;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.HeatUtils;
+import com.machina.util.server.HeatHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,8 +27,8 @@ public class TemperatureRegulatorTileEntity extends BaseTileEntity
 		if (this.level.isClientSide())
 			return;
 
-		float target = HeatUtils.getHeatOffset(worldPosition, level);
-		heat = HeatUtils.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
+		float target = HeatHelper.getHeatOffset(worldPosition, level);
+		heat = HeatHelper.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
 		sync();
 	}
 
@@ -38,11 +38,11 @@ public class TemperatureRegulatorTileEntity extends BaseTileEntity
 	}
 
 	public float propFull() {
-		return HeatUtils.propFull(normalizedHeat(), this.level.dimension());
+		return HeatHelper.propFull(normalizedHeat(), this.level.dimension());
 	}
 
 	public float normalizedHeat() {
-		return HeatUtils.normalizeHeat(heat, this.level.dimension());
+		return HeatHelper.normalizeHeat(heat, this.level.dimension());
 	}
 
 	@Override

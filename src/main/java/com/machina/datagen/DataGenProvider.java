@@ -4,12 +4,12 @@ import com.machina.Machina;
 import com.machina.datagen.client.BlockStatesProvider;
 import com.machina.datagen.client.ItemModelProvider;
 import com.machina.datagen.client.lang.EnUsLangProvider;
-import com.machina.datagen.common.BlockTagsProvider;
-import com.machina.datagen.common.FluidTagsProvider;
-import com.machina.datagen.common.ItemTagsProvider;
-import com.machina.datagen.common.LootTableProvider;
-import com.machina.datagen.common.PlanetTraitPoolsProvider;
-import com.machina.datagen.common.RecipesProvider;
+import com.machina.datagen.common.TraitPoolsProvider;
+import com.machina.datagen.common.loot.LootTableProvider;
+import com.machina.datagen.common.recipe.RecipesProvider;
+import com.machina.datagen.common.tags.BlockTagsProvider;
+import com.machina.datagen.common.tags.FluidTagsProvider;
+import com.machina.datagen.common.tags.ItemTagsProvider;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -36,7 +36,7 @@ public class DataGenProvider {
 		gen.addProvider(blockTags);
 		gen.addProvider(new ItemTagsProvider(gen, blockTags, existingFileHelper));
 		gen.addProvider(new FluidTagsProvider(gen, existingFileHelper));
-		gen.addProvider(new PlanetTraitPoolsProvider(gen));
+		gen.addProvider(new TraitPoolsProvider(gen));
 		gen.addProvider(new LootTableProvider(gen));
 		gen.addProvider(new RecipesProvider(gen));
 	}

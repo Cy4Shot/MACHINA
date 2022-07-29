@@ -16,7 +16,7 @@ import com.machina.capability.fluid.MultiTankCapability;
 import com.machina.recipe.StateConverterRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.HeatUtils;
+import com.machina.util.server.HeatHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -53,8 +53,8 @@ public class StateConverterTileEntity extends BaseTileEntity
 		if (this.level.isClientSide())
 			return;
 
-		float target = HeatUtils.calculateTemperatureRegulators(worldPosition, level, above);
-		heat = HeatUtils.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
+		float target = HeatHelper.calculateTemperatureRegulators(worldPosition, level, above);
+		heat = HeatHelper.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
 		sync();
 
 		for (IRecipe<?> r : RecipeInit.getRecipes(RecipeInit.STATE_CONVERTER_RECIPE, level.getRecipeManager())
@@ -91,11 +91,11 @@ public class StateConverterTileEntity extends BaseTileEntity
 	}
 
 	public float heatFull() {
-		return HeatUtils.propFull(normalized(), this.level.dimension());
+		return HeatHelper.propFull(normalized(), this.level.dimension());
 	}
 
 	public float normalized() {
-		return HeatUtils.normalizeHeat(heat, this.level.dimension());
+		return HeatHelper.normalizeHeat(heat, this.level.dimension());
 	}
 
 	public boolean tankContains(MachinaTank tank, FluidStack stack, boolean amount) {

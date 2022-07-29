@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.registry.PlanetTraitRegistry;
-import com.machina.util.MachinaRL;
+import com.machina.util.text.MachinaRL;
 import com.machina.util.text.StringUtils;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;

@@ -2,7 +2,7 @@ package com.machina.trait;
 
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.planet.trait.type.IWorldTrait;
-import com.machina.world.DynamicDimensionChunkGenerator;
+import com.machina.world.PlanetChunkGenerator;
 
 public class WaterHeightTrait extends PlanetTrait implements IWorldTrait {
 	
@@ -15,7 +15,7 @@ public class WaterHeightTrait extends PlanetTrait implements IWorldTrait {
 	}
 	
 	@Override
-	public void init(DynamicDimensionChunkGenerator chunkGenerator) {
+	public void init(PlanetChunkGenerator chunkGenerator) {
 		chunkGenerator.seaLevel = height;
 	}
 

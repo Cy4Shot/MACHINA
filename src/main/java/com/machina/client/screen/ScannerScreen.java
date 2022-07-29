@@ -11,8 +11,8 @@ import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
-import com.machina.util.color.Color;
-import com.machina.util.server.PlanetUtils;
+import com.machina.util.Color;
+import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -79,7 +79,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 
 		// Data
 		RegistryKey<World> dim = this.menu.getDim();
-		if (PlanetUtils.isDimensionPlanet(dim)) {
+		if (PlanetHelper.isDimensionPlanet(dim)) {
 			PlanetData data = ClientStarchart.getPlanetData(dim);
 			draw(stack, StringUtils.translateScreen("scanner.tab" + tab), x + 120, y + 6, 0xFF_00fefe, true);
 			switch (tab) {
@@ -129,7 +129,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 	private void drawChemical(MatrixStack stack, FluidObject chem, int x, int y, RegistryKey<World> dim) {
 		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
 		String title = chem.chem().getDisplayName() + ": ";
-		String value = new DecimalFormat("##.##").format(PlanetUtils.getAtmosphereChemical(data, chem, dim) * 100)
+		String value = new DecimalFormat("##.##").format(PlanetHelper.getAtmosphereChemical(data, chem, dim) * 100)
 				+ "%";
 		Color[] colors = data.getAttribute(AttributeInit.PALETTE);
 		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);

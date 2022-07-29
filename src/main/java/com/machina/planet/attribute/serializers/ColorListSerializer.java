@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
 
-import com.machina.util.color.Color;
-import com.machina.util.nbt.BaseNBTList;
+import com.machina.util.Color;
+import com.machina.util.ser.BaseNBTList;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;

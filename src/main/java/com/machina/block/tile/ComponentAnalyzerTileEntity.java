@@ -4,7 +4,7 @@ import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.tile.base.BaseLockableTileEntity;
 import com.machina.item.ShipComponentItem;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.ParticleUtil;
+import com.machina.util.server.ParticleHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
@@ -61,7 +61,7 @@ public class ComponentAnalyzerTileEntity extends BaseLockableTileEntity implemen
 			this.progress++;
 
 			if (this.progress % 3 == 0) {
-				ParticleUtil.spawnParticle(level, ParticleTypes.END_ROD, getBlockPos(), 0.1D, null);
+				ParticleHelper.spawnParticle(level, ParticleTypes.END_ROD, getBlockPos(), 0.1D, null);
 			}
 
 			if (this.progress == 100) {
@@ -69,7 +69,7 @@ public class ComponentAnalyzerTileEntity extends BaseLockableTileEntity implemen
 				this.getItem(0).shrink(1);
 				this.setItem(1, ShipComponentItem.randomComponent());
 				for (int i = 0; i < 10; i++) {
-					ParticleUtil.spawnParticle(level, ParticleTypes.CAMPFIRE_COSY_SMOKE, getBlockPos(), 0.1D, null);
+					ParticleHelper.spawnParticle(level, ParticleTypes.CAMPFIRE_COSY_SMOKE, getBlockPos(), 0.1D, null);
 				}
 			}
 		} else {

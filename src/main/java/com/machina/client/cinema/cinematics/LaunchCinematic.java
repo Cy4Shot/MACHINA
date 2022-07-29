@@ -11,8 +11,8 @@ import com.machina.client.cinema.effect.ShakeEffect;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SShipLaunchEffect;
 import com.machina.network.c2s.C2SSpawnParticle;
-import com.machina.util.MachinaRL;
 import com.machina.util.math.DirectionUtil;
+import com.machina.util.text.MachinaRL;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.particles.ParticleTypes;

@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.machina.Machina;
-import com.machina.util.MachinaRL;
+import com.machina.util.text.MachinaRL;
 import com.machina.world.structure.ShipStructure;
 
 import net.minecraft.util.registry.Registry;

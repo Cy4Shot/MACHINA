@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.machina.registration.init.AttributeInit;
-import com.machina.util.server.PlanetUtils;
+import com.machina.util.server.PlanetHelper;
 import com.machina.util.server.ServerHelper;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
@@ -37,7 +37,7 @@ public abstract class LivingEntityMixin extends Entity {
 	private void getAttribute(Attribute pAttribute, CallbackInfoReturnable<ModifiableAttributeInstance> callback) {
 		if (pAttribute.equals(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get())) {
 			RegistryKey<World> dim = this.level.dimension();
-			if (PlanetUtils.isDimensionPlanet(dim)) {
+			if (PlanetHelper.isDimensionPlanet(dim)) {
 				PlanetData data = StarchartData.getDataForDimension(ServerHelper.server(), dim);
 				float gravity = data.getAttribute(AttributeInit.GRAVITY);
 				ModifiableAttributeInstance attr = getAttributes().getInstance(pAttribute);

@@ -2,7 +2,7 @@ package com.machina.block;
 
 import com.machina.block.tile.TankTileEntity;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.SoundUtils;
+import com.machina.util.server.SoundHelper;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -53,7 +53,7 @@ public class TankBlock extends Block {
 						.orElse(null);
 				if (FluidUtil.interactWithFluidHandler(player, hand, handler)) {
 					if (player instanceof ServerPlayerEntity)
-						SoundUtils.playSoundFromServer((ServerPlayerEntity) player, SoundEvents.BUCKET_FILL);
+						SoundHelper.playSoundFromServer((ServerPlayerEntity) player, SoundEvents.BUCKET_FILL);
 				}
 			}
 

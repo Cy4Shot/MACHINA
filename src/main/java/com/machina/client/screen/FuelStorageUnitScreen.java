@@ -6,7 +6,7 @@ import com.machina.block.tile.base.IMultiFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.util.math.MathUtil;
-import com.machina.util.server.HeatUtils;
+import com.machina.util.server.HeatHelper;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -84,7 +84,7 @@ public class FuelStorageUnitScreen extends NoJeiContainerScreen<FuelStorageUnitC
 		float max = FuelStorageUnitTileEntity.maxTemp;
 		float heat = this.menu.te.normalizedHeat();
 
-		int req = (int) (HeatUtils.propFull(max, dim) * 129f);
+		int req = (int) (HeatHelper.propFull(max, dim) * 129f);
 		this.blit(stack, x + 51 + req, y + 21, 99, 242, 2, 14);
 
 		UIHelper.drawCenteredStringWithBorder(stack,

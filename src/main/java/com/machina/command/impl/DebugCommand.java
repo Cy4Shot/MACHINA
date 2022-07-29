@@ -2,7 +2,7 @@ package com.machina.command.impl;
 
 import com.machina.command.BaseCommand;
 import com.machina.planet.attribute.PlanetAttribute;
-import com.machina.util.server.PlanetUtils;
+import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
@@ -28,7 +28,7 @@ public class DebugCommand extends BaseCommand {
 			PlanetData pd = StarchartData.getStarchartForServer(context.getSource().getServer())
 					.get(context.getSource().getLevel().dimension().location());
 
-			System.out.println("Attributes for " + String.valueOf(PlanetUtils.getId(context.getSource().getLevel().dimension())));
+			System.out.println("Attributes for " + String.valueOf(PlanetHelper.getId(context.getSource().getLevel().dimension())));
 			for (PlanetAttribute<?> attribute : pd.getAttributes()) {
 				System.out.println(attribute.getAttributeType().getRegistryName().getPath() + "\t - \t"
 						+ attribute.getValue().toString());
@@ -38,7 +38,7 @@ public class DebugCommand extends BaseCommand {
 	}
 
 	protected boolean checkDimension(CommandContext<CommandSource> context) {
-		if (PlanetUtils.isDimensionPlanet(context.getSource().getLevel().dimension())) {
+		if (PlanetHelper.isDimensionPlanet(context.getSource().getLevel().dimension())) {
 			return true;
 		} else {
 			context.getSource().sendFailure(StringUtils.translateComp("command.planet_traits.not_planet"));

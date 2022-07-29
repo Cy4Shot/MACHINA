@@ -3,9 +3,9 @@ package com.machina.client.screen;
 import com.machina.block.container.StateConverterContainer;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
-import com.machina.util.color.Color;
+import com.machina.util.Color;
 import com.machina.util.math.MathUtil;
-import com.machina.util.server.HeatUtils;
+import com.machina.util.server.HeatHelper;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -92,7 +92,7 @@ public class StateConverterScreen extends NoJeiContainerScreen<StateConverterCon
 		UIHelper.bindPrgrs();
 		RegistryKey<World> dim = this.menu.te.getLevel().dimension();
 
-		int req = (int) (HeatUtils.propFull(this.menu.te.reqHeat, dim) * 129f);
+		int req = (int) (HeatHelper.propFull(this.menu.te.reqHeat, dim) * 129f);
 		if (this.menu.te.above)
 			this.blit(stack, x + 51 + req, y + 21, 97, 242, 2, 14);
 		else

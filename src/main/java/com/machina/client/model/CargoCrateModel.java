@@ -1,7 +1,7 @@
 package com.machina.client.model;
 
 import com.machina.block.tile.CargoCrateTileEntity;
-import com.machina.util.MachinaRL;
+import com.machina.util.text.MachinaRL;
 
 import net.minecraft.util.ResourceLocation;
 import software.bernie.geckolib3.model.AnimatedGeoModel;

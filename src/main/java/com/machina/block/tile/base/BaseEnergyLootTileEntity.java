@@ -4,7 +4,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.machina.util.server.ItemStackUtil;
 import com.machina.util.text.StringUtils;
 
 import net.minecraft.advancements.CriteriaTriggers;
@@ -101,7 +100,7 @@ public abstract class BaseEnergyLootTileEntity extends BaseEnergyTileEntity impl
 		}
 
 		if (!this.trySaveLootTable(compound)) {
-			ItemStackUtil.saveAllItems(compound, this.items, "I");
+			 com.machina.util.server.ItemStackHelper.saveAllItems(compound, this.items, "I");
 		}
 		return compound;
 	}
@@ -115,7 +114,7 @@ public abstract class BaseEnergyLootTileEntity extends BaseEnergyTileEntity impl
 		}
 		this.items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
 		if (!this.tryLoadLootTable(compound)) {
-			ItemStackUtil.loadAllItems(compound, this.items, "I");
+			 com.machina.util.server.ItemStackHelper.loadAllItems(compound, this.items, "I");
 		}
 	}
 

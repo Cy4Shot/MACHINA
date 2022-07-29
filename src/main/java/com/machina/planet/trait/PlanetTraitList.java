@@ -3,7 +3,7 @@ package com.machina.planet.trait;
 import java.util.Collection;
 
 import com.machina.registration.registry.PlanetTraitRegistry;
-import com.machina.util.nbt.BaseNBTList;
+import com.machina.util.ser.BaseNBTList;
 
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;

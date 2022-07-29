@@ -27,9 +27,9 @@ import com.machina.registration.init.ContainerInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.MachinaRL;
-import com.machina.util.color.Color;
-import com.machina.util.server.PlanetUtils;
+import com.machina.util.Color;
+import com.machina.util.server.PlanetHelper;
+import com.machina.util.text.MachinaRL;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.gui.ScreenManager;
@@ -68,8 +68,8 @@ public class ClientModEvents {
 
 			if (world != null) {
 				RegistryKey<World> dim = world.dimension();
-				if (PlanetUtils.isDimensionPlanet(dim)) {
-					PlanetData data = ClientStarchart.getPlanetData(PlanetUtils.getId(dim));
+				if (PlanetHelper.isDimensionPlanet(dim)) {
+					PlanetData data = ClientStarchart.getPlanetData(PlanetHelper.getId(dim));
 					Color color = data.getAttribute(AttributeInit.PALETTE)[paletteId];
 					return color.getRGB();
 				}

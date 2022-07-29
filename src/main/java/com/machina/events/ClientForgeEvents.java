@@ -7,8 +7,8 @@ import com.machina.client.screen.StarchartScreen;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.KeyBindingsInit;
-import com.machina.util.color.Color;
-import com.machina.util.server.PlanetUtils;
+import com.machina.util.Color;
+import com.machina.util.server.PlanetHelper;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
@@ -31,8 +31,8 @@ public class ClientForgeEvents {
 	@SubscribeEvent
 	public static void fogSetup(FogColors event) {
 		RegistryKey<World> dim = mc.level.dimension();
-		if (PlanetUtils.isDimensionPlanet(dim)) {
-			PlanetData data = ClientStarchart.getPlanetData(PlanetUtils.getId(dim));
+		if (PlanetHelper.isDimensionPlanet(dim)) {
+			PlanetData data = ClientStarchart.getPlanetData(PlanetHelper.getId(dim));
 			Color color = data.getAttribute(AttributeInit.PALETTE)[4];
 			Float density = data.getAttribute(AttributeInit.FOG_DENSITY);
 			event.setRed(color.getRed() / 255f * density);

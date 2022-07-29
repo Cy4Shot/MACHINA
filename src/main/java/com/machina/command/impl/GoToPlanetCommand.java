@@ -1,7 +1,7 @@
 package com.machina.command.impl;
 
 import com.machina.command.BaseCommand;
-import com.machina.world.DynamicDimensionHelper;
+import com.machina.world.PlanetRegistrationHandler;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -24,10 +24,10 @@ public class GoToPlanetCommand extends BaseCommand {
 	}
 
 	protected int execute(CommandContext<CommandSource> context, int planetId) {
-		ServerWorld world = DynamicDimensionHelper.createPlanet(context.getSource().getServer(),
+		ServerWorld world = PlanetRegistrationHandler.createPlanet(context.getSource().getServer(),
 				String.valueOf(planetId));
 		try {
-			DynamicDimensionHelper.sendPlayerToDimension(context.getSource().getPlayerOrException(), world,
+			PlanetRegistrationHandler.sendPlayerToDimension(context.getSource().getPlayerOrException(), world,
 					context.getSource().getPosition());
 		} catch (CommandSyntaxException e) {}
 

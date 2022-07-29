@@ -13,10 +13,10 @@ import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.planet.trait.type.IPlanetTraitType;
 import com.machina.registration.init.AttributeInit;
-import com.machina.util.MachinaRL;
-import com.machina.util.nbt.BaseNBTMap;
-import com.machina.util.server.PlanetUtils;
+import com.machina.util.ser.BaseNBTMap;
+import com.machina.util.server.PlanetHelper;
 import com.machina.util.server.ServerHelper;
+import com.machina.util.text.MachinaRL;
 import com.machina.util.text.StringUtils;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -143,12 +143,12 @@ public class StarchartData extends WorldSavedData {
 	}
 
 	public static PlanetData getDataForDimension(MinecraftServer server, RegistryKey<World> dim) {
-		return PlanetUtils.isDimensionPlanet(dim) ? getDataForDimension(server, PlanetUtils.getId(dim))
+		return PlanetHelper.isDimensionPlanet(dim) ? getDataForDimension(server, PlanetHelper.getId(dim))
 				: PlanetData.NONE;
 	}
 
 	public static PlanetData getDataOrNone(MinecraftServer server, RegistryKey<World> dim) {
-		return PlanetUtils.isDimensionPlanet(dim) ? StarchartData.getDataForDimension(ServerHelper.server(), dim)
+		return PlanetHelper.isDimensionPlanet(dim) ? StarchartData.getDataForDimension(ServerHelper.server(), dim)
 				: PlanetData.NONE;
 	}
 

@@ -5,7 +5,7 @@ import com.machina.block.container.slot.AcceptSlot;
 import com.machina.block.tile.TankTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
-import com.machina.util.server.ItemStackUtil;
+import com.machina.util.server.ItemStackHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerInventory;
@@ -33,7 +33,7 @@ public class TankContainer extends BaseContainer<TankTileEntity> {
 		this.slots.clear();
 		this.addSlot(new AcceptSlot((IInventory) te, 0, -4, 72,
 				stack -> stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()));
-		this.addSlot(new AcceptSlot((IInventory) te, 1, 161, 72, stack -> ItemStackUtil.isBucket(stack)));
+		this.addSlot(new AcceptSlot((IInventory) te, 1, 161, 72, stack -> ItemStackHelper.isBucket(stack)));
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(inv, col, 8 + col * 18, 142));
 		}

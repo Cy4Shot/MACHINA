@@ -9,8 +9,8 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
-import com.machina.util.MachinaRL;
-import com.machina.util.color.Color;
+import com.machina.util.Color;
+import com.machina.util.text.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;

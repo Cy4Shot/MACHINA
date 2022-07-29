@@ -2,7 +2,7 @@ package com.machina.network.s2c;
 
 import com.machina.client.ClientStarchart;
 import com.machina.network.INetworkMessage;
-import com.machina.util.nbt.BaseNBTMap;
+import com.machina.util.ser.BaseNBTMap;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 

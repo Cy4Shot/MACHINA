@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.machina.Machina;
-import com.machina.client.dimension.CustomDimensionRenderInfo;
+import com.machina.client.dimension.MachinaDimRenderer;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
@@ -24,7 +24,7 @@ import com.machina.registration.init.StructureInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.registration.registry.PlanetTraitRegistry;
-import com.machina.world.DynamicDimensionHelper;
+import com.machina.world.PlanetRegistrationHandler;
 import com.machina.world.data.PlanetDimensionData;
 import com.machina.world.data.StarchartData;
 import com.mojang.serialization.Codec;
@@ -72,12 +72,12 @@ public class Registration {
 		}
 	};
 
-	public static PlanetTraitPoolManager planetTraitPoolManager = new PlanetTraitPoolManager();
+	public static PlanetTraitPoolManager TRAIT_POOL_MANAGER = new PlanetTraitPoolManager();
 
 	public static void register(IEventBus bus) {
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			CustomDimensionRenderInfo.registerDimensionRenderInfo();
+			MachinaDimRenderer.registerDimensionRenderInfo();
 		});
 
 		registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
@@ -114,7 +114,7 @@ public class Registration {
 
 	public static void onCommonSetup(final FMLCommonSetupEvent event) {
 		MachinaNetwork.init();
-		PlanetTraitPoolManager.INSTANCE = planetTraitPoolManager;
+		PlanetTraitPoolManager.INSTANCE = TRAIT_POOL_MANAGER;
 
 		event.enqueueWork(() -> {
 			StructureInit.setupStructures();
@@ -141,7 +141,7 @@ public class Registration {
 		MinecraftServer server = event.getServer();
 
 		PlanetDimensionData.getDefaultInstance(server).dimensionIds
-				.forEach(id -> DynamicDimensionHelper.createPlanet(server, id));
+				.forEach(id -> PlanetRegistrationHandler.createPlanet(server, id));
 
 		StarchartData.getDefaultInstance(server).generateIf(server.getLevel(World.OVERWORLD).getSeed());
 	}

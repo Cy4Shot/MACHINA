@@ -10,9 +10,9 @@ import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SPressurizedChamberClear;
 import com.machina.network.c2s.C2SPressurizedChamberRunning;
-import com.machina.util.color.Color;
+import com.machina.util.Color;
 import com.machina.util.math.MathUtil;
-import com.machina.util.server.HeatUtils;
+import com.machina.util.server.HeatHelper;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -205,7 +205,7 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		UIHelper.bindPrgrs();
 
 		if (this.menu.te.result != "") {
-			int req = (int) (HeatUtils.propFull(this.menu.te.reqHeat, this.menu.te.getLevel().dimension()) * 129f);
+			int req = (int) (HeatHelper.propFull(this.menu.te.reqHeat, this.menu.te.getLevel().dimension()) * 129f);
 			this.blit(stack, x + 82 + req, y + 57, 97, 242, 2, 14);
 		}
 

@@ -1,7 +1,7 @@
 package com.machina.network.c2s;
 
 import com.machina.network.INetworkMessage;
-import com.machina.world.DynamicDimensionHelper;
+import com.machina.world.PlanetRegistrationHandler;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.server.ServerWorld;
@@ -20,10 +20,10 @@ public class C2SDevPlanetCreationGUI implements INetworkMessage {
 
 	@Override
 	public void handle(Context context) {
-		ServerWorld world = DynamicDimensionHelper.createPlanet(context.getSender().getServer(),
+		ServerWorld world = PlanetRegistrationHandler.createPlanet(context.getSender().getServer(),
 				String.valueOf(dimensionID));
 		if (action == ActionType.TELEPORT) {
-			DynamicDimensionHelper.sendPlayerToDimension(context.getSender(), world, context.getSender().position());
+			PlanetRegistrationHandler.sendPlayerToDimension(context.getSender(), world, context.getSender().position());
 		}
 	}
 

@@ -4,7 +4,7 @@ import com.machina.client.screen.StarchartScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
 import com.machina.registration.init.AttributeInit;
-import com.machina.util.color.Color;
+import com.machina.util.Color;
 import com.machina.util.math.MathUtil;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;

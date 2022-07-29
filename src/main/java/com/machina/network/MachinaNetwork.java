@@ -18,7 +18,7 @@ import com.machina.network.c2s.C2SUpdateEnergySide;
 import com.machina.network.s2c.S2CFluidSync;
 import com.machina.network.s2c.S2CLaunchShip;
 import com.machina.network.s2c.S2CStarchartSync;
-import com.machina.util.MachinaRL;
+import com.machina.util.text.MachinaRL;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkRegistry;

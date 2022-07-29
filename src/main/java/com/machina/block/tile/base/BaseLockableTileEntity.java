@@ -1,6 +1,6 @@
 package com.machina.block.tile.base;
 
-import com.machina.util.server.ItemStackUtil;
+import com.machina.util.server.ItemStackHelper;
 import com.machina.util.text.StringUtils;
 
 import net.minecraft.block.BlockState;
@@ -99,7 +99,7 @@ public abstract class BaseLockableTileEntity extends LockableLootTileEntity {
 	public CompoundNBT save(CompoundNBT compound) {
 		super.save(compound);
 		if (!this.trySaveLootTable(compound)) {
-			ItemStackUtil.saveAllItems(compound, this.items, "I");
+			ItemStackHelper.saveAllItems(compound, this.items, "I");
 		}
 		return compound;
 	}
@@ -109,7 +109,7 @@ public abstract class BaseLockableTileEntity extends LockableLootTileEntity {
 		super.load(state, compound);
 		this.items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
 		if (!this.tryLoadLootTable(compound)) {
-			ItemStackUtil.loadAllItems(compound, this.items, "I");
+			ItemStackHelper.loadAllItems(compound, this.items, "I");
 		}
 	}
 

@@ -5,7 +5,7 @@ import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseEnergyLootTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.ItemStackUtil;
+import com.machina.util.server.ItemStackHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,7 +40,7 @@ public class FurnaceGeneratorTileEntity extends BaseEnergyLootTileEntity impleme
 				this.energyDef.receiveEnergy(400, false);
 				flag1 = true;
 			} else {
-				this.litTime = ItemStackUtil.burnTime(itemstack);
+				this.litTime = ItemStackHelper.burnTime(itemstack);
 				if (this.isLit()) {
 					flag1 = true;
 					if (itemstack.hasContainerItem())

@@ -1,6 +1,6 @@
 package com.machina.registration.init;
 
-import com.machina.util.MachinaRL;
+import com.machina.util.text.MachinaRL;
 
 import net.minecraft.util.SoundEvent;
 
