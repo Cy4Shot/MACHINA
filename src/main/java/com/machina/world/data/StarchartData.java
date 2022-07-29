@@ -147,13 +147,23 @@ public class StarchartData extends WorldSavedData {
 				: PlanetData.NONE;
 	}
 
+	public static PlanetData getDataForDimension(RegistryKey<World> dim) {
+		return getDataForDimension(ServerHelper.server(), dim);
+	}
+
 	public static PlanetData getDataOrNone(MinecraftServer server, RegistryKey<World> dim) {
-		return PlanetHelper.isDimensionPlanet(dim) ? StarchartData.getDataForDimension(ServerHelper.server(), dim)
-				: PlanetData.NONE;
+		return PlanetHelper.isDimensionPlanet(dim) ? StarchartData.getDataForDimension(dim) : PlanetData.NONE;
+	}
+
+	public static PlanetData getDataOrNone(RegistryKey<World> dim) {
+		return getDataOrNone(ServerHelper.server(), dim);
 	}
 
 	public static PlanetData getDataForDimension(MinecraftServer server, int id) {
 		return getStarchartForServer(server).computeIfAbsent(new MachinaRL(id), rl -> PlanetData.NONE);
 	}
 
+	public static PlanetData getDataForDimension(int id) {
+		return getDataForDimension(ServerHelper.server(), id);
+	}
 }

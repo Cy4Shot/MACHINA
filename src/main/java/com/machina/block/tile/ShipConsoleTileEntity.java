@@ -237,8 +237,8 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		if (this.level.isClientSide())
 			return;
 
-		PlanetData dest = StarchartData.getDataForDimension(ServerHelper.server(), this.destination);
-		PlanetData orig = StarchartData.getDataForDimension(ServerHelper.server(), this.level.dimension());
+		PlanetData dest = StarchartData.getDataForDimension(this.destination);
+		PlanetData orig = StarchartData.getDataForDimension(this.level.dimension());
 		float dist = dest.getAttribute(AttributeInit.DISTANCE) - orig.getAttribute(AttributeInit.DISTANCE);
 		float temp = dest.getAttribute(AttributeInit.TEMPERATURE) + orig.getAttribute(AttributeInit.TEMPERATURE);
 		float atmo = dest.getAttribute(AttributeInit.ATMOSPHERIC_PRESSURE)

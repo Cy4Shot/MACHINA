@@ -11,7 +11,6 @@ import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.capability.fluid.MachinaTank;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.ServerHelper;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 
@@ -73,7 +72,7 @@ public class AtmosphericSeparatorTileEntity extends BaseTileEntity
 	public void setId(int id) {
 		this.selected = id;
 		RegistryKey<World> dim = this.level.dimension();
-		PlanetData data = StarchartData.getDataOrNone(ServerHelper.server(), dim);
+		PlanetData data = StarchartData.getDataOrNone(dim);
 		Double atm = data.getAtmosphere(dim)[id];
 		this.rate = 0.02f * (float) atm.doubleValue();
 

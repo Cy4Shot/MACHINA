@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.server.PlanetHelper;
-import com.machina.util.server.ServerHelper;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 
@@ -41,7 +40,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 			float gravity = 1f;
 			if (PlanetHelper.isDimensionPlanet(dim)) {
-				PlanetData data = StarchartData.getDataForDimension(ServerHelper.server(), dim);
+				PlanetData data = StarchartData.getDataForDimension(dim);
 				gravity = data.getAttribute(AttributeInit.GRAVITY);
 			}
 

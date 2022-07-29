@@ -69,7 +69,7 @@ public class HeatHelper {
 
 	public static float getHeat(RegistryKey<World> dim) {
 		if (PlanetHelper.isDimensionPlanet(dim)) {
-			return StarchartData.getDataForDimension(ServerHelper.server(), dim)
+			return StarchartData.getDataForDimension(dim)
 					.getAttribute(AttributeInit.TEMPERATURE);
 		} else {
 			return AttributeInit.TEMPERATURE.ser.def();
