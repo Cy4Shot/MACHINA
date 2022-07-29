@@ -20,6 +20,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeMod;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -34,16 +35,19 @@ public abstract class LivingEntityMixin extends Entity {
 	}
 
 	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/entity/LivingEntity;getAttribute(Lnet/minecraft/entity/ai/attributes/Attribute;)Lnet/minecraft/entity/ai/attributes/ModifiableAttributeInstance;", cancellable = true)
-	private void getAttribute(Attribute pAttribute, CallbackInfoReturnable<ModifiableAttributeInstance> callback) {
-		if (pAttribute.equals(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get())) {
+	private void getAttribute(Attribute attribute, CallbackInfoReturnable<ModifiableAttributeInstance> cb) {
+		if (attribute.equals(ForgeMod.ENTITY_GRAVITY.get())) {
 			RegistryKey<World> dim = this.level.dimension();
+
+			float gravity = 1f;
 			if (PlanetHelper.isDimensionPlanet(dim)) {
 				PlanetData data = StarchartData.getDataForDimension(ServerHelper.server(), dim);
-				float gravity = data.getAttribute(AttributeInit.GRAVITY);
-				ModifiableAttributeInstance attr = getAttributes().getInstance(pAttribute);
-				attr.setBaseValue(0.08f * gravity);
-				callback.setReturnValue(attr);
+				gravity = data.getAttribute(AttributeInit.GRAVITY);
 			}
+
+			ModifiableAttributeInstance attr = getAttributes().getInstance(attribute);
+			attr.setBaseValue(0.08f * gravity);
+			cb.setReturnValue(attr);
 		}
 	}
 }
