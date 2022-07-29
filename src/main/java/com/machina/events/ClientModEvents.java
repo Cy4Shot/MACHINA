@@ -20,11 +20,14 @@ import com.machina.client.screen.StateConverterScreen;
 import com.machina.client.screen.TankScreen;
 import com.machina.client.screen.TemperatureRegulatorScreen;
 import com.machina.client.util.ClientTimer;
+import com.machina.item.ShipComponentItem;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
 import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.MachinaRL;
 import com.machina.util.color.Color;
 import com.machina.util.server.PlanetUtils;
 import com.machina.world.data.PlanetData;
@@ -35,6 +38,7 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -128,6 +132,12 @@ public class ClientModEvents {
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.SHIP_CONSOLE.get(), ShipConsoleRenderer::new);
+		
+		event.enqueueWork(() -> {
+			ItemModelsProperties.register(ItemInit.SHIP_COMPONENT.get(), new MachinaRL("type"), (stack, level, living) -> {
+				return (int) ShipComponentItem.getType(stack).nbtID;
+			});
+		});
 		//@formatter:on
 	}
 }

@@ -58,7 +58,6 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		makeSimpleBlockItem(BlockInit.FURNACE_GENERATOR.get());
 		makeSimpleBlockItem(BlockInit.STATE_CONVERTER.get());
 
-		oneLayerItem(ItemInit.SHIP_COMPONENT.get());
 		oneLayerItem(ItemInit.REINFORCED_STICK.get());
 		oneLayerItem(ItemInit.STEEL_INGOT.get());
 		oneLayerItem(ItemInit.STEEL_NUGGET.get());

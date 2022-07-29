@@ -1,0 +1,44 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "machina:item/ship_component_0"
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"machina:type": 0
+			},
+			"model": "machina:item/ship_component/ship_component_0"
+		},
+		{
+			"predicate": {
+				"machina:type": 1
+			},
+			"model": "machina:item/ship_component/ship_component_1"
+		},
+		{
+			"predicate": {
+				"machina:type": 2
+			},
+			"model": "machina:item/ship_component/ship_component_2"
+		},
+		{
+			"predicate": {
+				"machina:type": 3
+			},
+			"model": "machina:item/ship_component/ship_component_3"
+		},
+		{
+			"predicate": {
+				"machina:type": 4
+			},
+			"model": "machina:item/ship_component/ship_component_4"
+		},
+		{
+			"predicate": {
+				"machina:type": 5
+			},
+			"model": "machina:item/ship_component/ship_component_5"
+		}
+	]
+}

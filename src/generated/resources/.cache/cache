@@ -102,7 +102,6 @@ c8507c38e0e1913c331c85fb06cdd78a076e0d00 assets/machina/models/item/puzzle_block
 6c517bf50021a51922a88e32546d7aa60679a188 assets/machina/models/item/reinforced_stick.json
 d6b35b5805aedf13f68923279fc736f5f42e6ee2 assets/machina/models/item/reinforced_tile.json
 f1823ba425f9833479c50f14a88468fe3224106d assets/machina/models/item/scanner.json
-7f6fba6425e7d0f94b898e38fabc0c7f91ae8f5d assets/machina/models/item/ship_component.json
 f6d33677a33b8698bdcb68b391f996896f5134e0 assets/machina/models/item/ship_console.json
 5f76c756c2ef6d2d6ed767ae452c581bcd7eb05b assets/machina/models/item/silicon.json
 bb7276584f42a397bcd92cdf6f5d64b1a655ade1 assets/machina/models/item/state_converter.json
@@ -126,8 +125,10 @@ a0e6e3d9a9669b6ee393dfc17a193d09227e2e48 assets/machina/models/item/wasteland_sa
 c9e85589a36ad45c1c3f1b3c27fb63d594df1ab0 assets/machina/models/item/wasteland_sandstone_wall.json
 36bc4cccb398808e170f0dea4f5797be752da357 data/forge/tags/blocks/storage_blocks/aluminum.json
 06a7865d54068bfffcba92ccff804ac1140e9eaf data/forge/tags/blocks/storage_blocks/steel.json
+701d9fea52f1ef5e91bc46ca2a2c93f6dacc0c1e data/forge/tags/items/ingots.json
 094267a72c106fd05c0e45a95ec52a2b24f40102 data/forge/tags/items/ingots/aluminum.json
 bca466b0af78a42c88fde647747900140ab380a1 data/forge/tags/items/ingots/steel.json
+48d8526c7a54bc1594c9c8e3430d6d36f1f9eae8 data/forge/tags/items/nuggets.json
 c75cb18f1f03acf3ce0c6ca4ed8a6ef5eb278698 data/forge/tags/items/nuggets/aluminum.json
 2ae45bf2a0e176cdc3bebeb391249e777cd95ca8 data/forge/tags/items/nuggets/steel.json
 36bc4cccb398808e170f0dea4f5797be752da357 data/forge/tags/items/storage_blocks/aluminum.json
