@@ -12,16 +12,17 @@ import com.machina.network.MachinaNetwork;
 import com.machina.planet.PlanetTraitPoolManager;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
+import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.CommandInit;
 import com.machina.registration.init.ContainerInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
-import com.machina.registration.init.AttributeInit;
-import com.machina.registration.init.TraitInit;
 import com.machina.registration.init.RecipeInit;
+import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.StructureInit;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.registration.init.TraitInit;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.registration.registry.PlanetTraitRegistry;
 import com.machina.world.PlanetRegistrationHandler;
@@ -95,6 +96,7 @@ public class Registration {
 		ContainerInit.CONTAINERS.register(bus);
 		TileEntityInit.TILES.register(bus);
 		StructureInit.STRUCTURES.register(bus);
+		SoundInit.SOUNDS.register(bus);
 
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, Registration::addDimensionalSpacing);
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, Registration::onServerStart);

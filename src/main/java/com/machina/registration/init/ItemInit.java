@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.machina.Machina;
 import com.machina.item.CatalystItem;
+import com.machina.item.MachinaDiscItem;
 import com.machina.item.ScannerItem;
 import com.machina.item.ShipComponentItem;
 import com.machina.registration.Registration;
@@ -11,6 +12,7 @@ import com.machina.registration.Registration;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.MusicDiscItem;
 import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -33,6 +35,7 @@ public final class ItemInit {
 	public static final RegistryObject<Item> SILICON = basic("silicon");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
 	public static final RegistryObject<Item> AMMONIUM_NITRATE = basic("ammonium_nitrate");
+	public static final RegistryObject<MachinaDiscItem> BEYOND_MUSIC_DISC = basic("beyond_music_disc", p -> new MachinaDiscItem(() -> SoundInit.BEYOND.sound()));
 	//@formatter:on
 
 	public static RegistryObject<Item> basic(String name) {

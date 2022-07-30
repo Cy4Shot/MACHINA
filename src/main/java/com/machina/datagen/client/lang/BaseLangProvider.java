@@ -8,6 +8,7 @@ import com.machina.registration.init.SoundInit.Sound;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -66,5 +67,10 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	protected void addShipComponent(String id, String locale) {
 		add("machina.ship_component." + id, locale);
 	}
+	
+	public void addMusicDisc(Item key, String desc) {
+        add(key.getDescriptionId(), "Music Disc");
+        add(key.getDescriptionId() + ".desc", desc);
+    }
 
 }

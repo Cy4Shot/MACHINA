@@ -68,6 +68,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.SILICON.get(), "Silicon");
 		add(ItemInit.TRANSISTOR.get(), "Transistor");
 		add(ItemInit.AMMONIUM_NITRATE.get(), "Ammonium Nitrate");
+		
+		// Music Discs
+		addMusicDisc(ItemInit.BEYOND_MUSIC_DISC.get(), "Cy4 - Beyond (Machina OST)");
 
 		// Fluids
 		add(FluidInit.OXYGEN, "Oxygen", "Bucket");
@@ -107,6 +110,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		
 		// Sounds
 		add(SoundInit.ROCKET_LAUNCH, "Rocket Launch");
+		add(SoundInit.BEYOND, "Cy4 - Beyond (MACHINA OST)");
 
 		// Item Groups
 		addItemGroup("machinaItemGroup", "Machina");

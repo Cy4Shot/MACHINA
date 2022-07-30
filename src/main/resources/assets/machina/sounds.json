@@ -4,5 +4,14 @@
 		"sounds": [
 			"machina:rocket_launch"
 		]
+	},
+	"beyond": {
+		"subtitle": "machina.subtitle.beyond",
+		"sounds": [
+			{
+				"name": "machina:beyond",
+				"stream": true
+			}
+		]
 	}
 }
