@@ -6,7 +6,13 @@
 		"fog_color": 0,
 		"sky_color": 0,
 		"water_color": 4159204,
-		"water_fog_color": 329011
+		"water_fog_color": 329011,
+		"music": {
+			"sound": "machina:music",
+			"min_delay": 400,
+			"max_delay": 1200,
+			"replace_current_music": true
+		}
 	},
 	"precipitation": "none",
 	"temperature": 0.8,

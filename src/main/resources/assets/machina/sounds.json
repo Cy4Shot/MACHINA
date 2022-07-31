@@ -9,7 +9,15 @@
 		"subtitle": "machina.subtitle.beyond",
 		"sounds": [
 			{
-				"name": "machina:beyond",
+				"name": "machina:music/disc/beyond",
+				"stream": true
+			}
+		]
+	},
+	"music": {
+		"sounds": [
+			{
+				"name": "machina:music/machina_01",
 				"stream": true
 			}
 		]

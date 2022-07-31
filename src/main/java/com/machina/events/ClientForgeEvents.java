@@ -53,6 +53,11 @@ public class ClientForgeEvents {
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.STARCHART)) {
 			mc.setScreen(new StarchartScreen());
 		}
+
+		// Ugly hack so that music plays!
+		if (PlanetHelper.isDimensionPlanet(mc.player.level.dimension()) && mc.getMusicManager().nextSongDelay > 1200) {
+			mc.getMusicManager().nextSongDelay = 1200;
+		}
 	}
 
 	@SubscribeEvent

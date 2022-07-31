@@ -12,7 +12,6 @@ import com.machina.registration.Registration;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.MusicDiscItem;
 import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

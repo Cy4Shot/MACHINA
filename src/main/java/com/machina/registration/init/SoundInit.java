@@ -14,6 +14,7 @@ public class SoundInit {
 
 	public static final Sound ROCKET_LAUNCH = create("rocket_launch");
 	public static final Sound BEYOND = create("beyond");
+	public static final Sound MUSIC = create("music");
 
 	
 	public static final Sound create(String name) {
