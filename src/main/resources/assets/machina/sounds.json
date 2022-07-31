@@ -19,6 +19,10 @@
 			{
 				"name": "machina:music/machina_01",
 				"stream": true
+			},
+			{
+				"name": "machina:music/machina_02",
+				"stream": true
 			}
 		]
 	}
