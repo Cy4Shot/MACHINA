@@ -73,11 +73,11 @@ public class PlanetNameGenerator {
 				sb.append(" " + toRoman(rand.nextInt(8) + 1));
 			else {
 				if (rand.nextBoolean()) {
-					sb.append("-" + String.format("%04d", rand.nextInt(10000)));
+					sb.append(" " + String.format("%04d", rand.nextInt(10000)));
 					if (rand.nextBoolean())
 						sb.append("B");
 				} else
-					sb.append("-" + RandomStringUtils.randomAlphanumeric(4).toUpperCase());
+					sb.append(" " + RandomStringUtils.randomAlphanumeric(4).toUpperCase());
 			}
 		}
 		return sb.toString();

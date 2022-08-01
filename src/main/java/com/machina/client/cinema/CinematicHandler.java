@@ -1,5 +1,6 @@
 package com.machina.client.cinema;
 
+import com.machina.Machina;
 import com.machina.client.cinema.effect.OverlayEffect;
 import com.machina.client.util.ClientTimer;
 
@@ -92,5 +93,7 @@ public class CinematicHandler {
 				e.setCanceled(true);
 			}
 		});
+		
+		Machina.LOGGER.info("Cinematics set up.");
 	}
 }

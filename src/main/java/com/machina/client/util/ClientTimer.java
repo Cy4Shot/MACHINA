@@ -1,5 +1,7 @@
 package com.machina.client.util;
 
+import com.machina.Machina;
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -42,5 +44,7 @@ public final class ClientTimer {
 			else
 				renderTickFinish();
 		});
+		
+		Machina.LOGGER.info("Client timers set up.");
 	}
 }

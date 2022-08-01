@@ -1,6 +1,7 @@
 package com.machina.client.screen.element;
 
 import com.machina.client.screen.StarchartScreen;
+import com.machina.client.tts.TTSPlayer;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
 import com.machina.registration.init.AttributeInit;
@@ -40,8 +41,11 @@ public class PlanetNodeElement extends Widget {
 	@Override
 	public void onClick(double pMouseX, double pMouseY) {
 		super.onClick(pMouseX, pMouseY);
+		
 		UIHelper.click();
 		screen.selected = this;
+		String name = data.getAttributeFormatted(AttributeInit.PLANET_NAME).split(" ")[0];
+		TTSPlayer.play(name);
 	}
 
 	@Override
