@@ -152,7 +152,6 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
     
     // Dependencies
-    shadow fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
     shadow group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
     shadow group: 'cc.mallet', name: 'mallet', version: '2.0.8'
 	shadow group: 'de.dfki.mary', name: 'voice-cmu-slt-hsmm', version: '5.2.1', {
@@ -162,8 +161,8 @@ dependencies {
 	}
 	shadow files('/lib/patched-marytts-runtime.jar')
     
-    // Shutup Experimental Settings
-    implementation fg.deobf("curse.maven:shutup-407174:3188120")
+    // Geckolib
+    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
     
     // JEI
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
@@ -172,9 +171,15 @@ dependencies {
     // Testing Deps.
     implementation fg.deobf("curse.maven:immersive-231951:3573683")
     implementation fg.deobf("curse.maven:mekanism-268560:3659389")
+    implementation fg.deobf("curse.maven:shutup-407174:3188120")
     
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+}
+
+configurations {
+	shadow
+	implementation.extendsFrom shadow
 }
 
 configurations {
@@ -191,17 +196,38 @@ shadowJar {
 	relocate 'cc.mallet', "com.machina.shadow_jar.cc.mallet"
 	relocate 'de.dfki.mary', "com.machina.shadow_jar.de.dfki.mary"
 	relocate 'it.unimi.dsi', "com.machina.shadow_jar.it.unimi.dsi"
+	relocate 'de.dfki.lt.tools.tokenizer', "com.machina.shadow_jar.de.dfki.lt.tools.tokenizer"
+	relocate 'gnu.trove', "com.machina.shadow_jar.gnu.trove"
+	relocate 'emotionml', "com.machina.shadow_jar.emotionml"
+	relocate 'com.twmacinta', "com.machina.shadow_jar.com.twmacinta"
+	relocate 'com.ibm.icu', "com.machina.shadow_jar.com.ibm.icu"
+	relocate 'com.google.common', "com.machina.shadow_jar.com.google.common"
+	relocate 'bsh', "com.machina.shadow_jar.bsh"
+	relocate 'Jampack', "com.machina.shadow_jar.Jampack"
+	relocate 'Jama', "com.machina.shadow_jar.Jama"
+	relocate 'groovyjarjarantlr', "com.machina.shadow_jar.groovyjarjarantlr"
+	relocate 'groovyjarjarasm.asm', "com.machina.shadow_jar.groovyjarjarasm.asm"
+	relocate 'groovyjarjarcommonscli', "com.machina.shadow_jar.groovyjarjarcommonscli"
+	relocate 'jtok', "com.machina.shadow_jar.jtok"
+	relocate 'jtok-user.jtok.en', "com.machina.shadow_jar.jtok-user.jtok.en"
+	relocate 'junit', "com.machina.shadow_jar.junit"
+	relocate 'marytts', "com.machina.shadow_jar.marytts"
+	relocate 'net.didion.jwnl', "com.machina.shadow_jar.net.didion.jwnl"
+	relocate 'no.uib.cipr.matrix', "com.machina.shadow_jar.no.uib.cipr.matrix"
+	relocate 'opennlp', "com.machina.shadow_jar.opennlp"
+	relocate 'groovy', "com.machina.shadow_jar.groovy"
+	relocate 'org', "com.machina.shadow_jar.org"
+	relocate 'Doc', "com.machina.shadow_jar.Doc"
 }
-
 jar {
     manifest {
         attributes([
-            "Specification-Title": "machina",
-            "Specification-Vendor": "The Machina Team and Cy4's community",
+            "Specification-Title": "MACHINA",
+            "Specification-Vendor": "Cy4",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"The Machina Team and Cy4's community",
+            "Implementation-Vendor" :"Cy4",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "MixinConfigs": "machina.mixins.json"
         ])
@@ -217,12 +243,12 @@ task mainJar(type: Jar) {
     afterEvaluate { finalizedBy reobfMainJar }
     manifest {
         attributes([
-            "Specification-Title": "machina",
-            "Specification-Vendor": "The Machina Team and Cy4's community",
+            "Specification-Title": "MACHINA",
+            "Specification-Vendor": "Cy4",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"The Machina Team and Cy4's community",
+            "Implementation-Vendor" :"Cy4",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "MixinConfigs": "machina.mixins.json"
         ])
