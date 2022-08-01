@@ -33,7 +33,7 @@ mixin {
     debug.export = true
 }
 
-version = 'Alpha-0.1'
+version = 'alpha-0.1'
 group = 'com.cy4.machina'
 archivesBaseName = 'machina'
 
@@ -160,7 +160,7 @@ dependencies {
 		exclude group: 'gov.nist.math', module: 'Jampack'
 		exclude group: 'de.dfki.mary', module: 'marytts-runtime'
 	}
-	shadow files('/lib/marytts-runtime-5.2.1.jar')
+	shadow files('/lib/patched-marytts-runtime.jar')
     
     // Shutup Experimental Settings
     implementation fg.deobf("curse.maven:shutup-407174:3188120")
@@ -175,7 +175,6 @@ dependencies {
     
     // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-    
 }
 
 configurations {
