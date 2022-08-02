@@ -12,7 +12,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin {
+public class EntityMixin {
 
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;updateFluidHeightAndDoFluidPushing(Lnet/minecraft/tags/ITag;D)Z"), method = "updateInWaterStateAndDoWaterCurrentPushing")
 	private boolean machina$doNotActuallyWaterPushing(Entity entity, ITag<Fluid> fluid, double motionScale) {

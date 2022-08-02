@@ -2,14 +2,13 @@
 	"required": true,
 	"package": "com.machina.mixin",
 	"compatibilityLevel": "JAVA_8",
-	"refmap": "machina.refmap.json",
+	"refmap": "machina.mixins.refmap.json",
 	"mixins": [
 		"EntityMixin",
 		"PlayerEntityMixin",
 		"SwimTaskMixin",
 		"SugarCaneBlockMixin",
-		"LivingEntityMixin",
-		"forge.LanguageProviderMixin"
+		"LivingEntityMixin"
 	],
 	"client": [
 		"client.ClientFontMixin",

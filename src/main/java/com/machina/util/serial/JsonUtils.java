@@ -1,4 +1,4 @@
-package com.machina.util.ser;
+package com.machina.util.serial;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;

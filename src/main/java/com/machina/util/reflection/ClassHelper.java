@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.function.BiConsumer;
 
+import org.apache.commons.lang.Validate;
+
 public final class ClassHelper {
 
 	/**
@@ -32,4 +34,25 @@ public final class ClassHelper {
 		}
 	}
 
+	public static void removeFinalModifier(final Field field) {
+		Validate.notNull(field, "field");
+
+		try {
+			if (Modifier.isFinal(field.getModifiers())) {
+				final Field modifiersField = Field.class.getDeclaredField("modifiers");
+				final boolean doForceAccess = !modifiersField.isAccessible();
+				if (doForceAccess) {
+					modifiersField.setAccessible(true);
+				}
+				try {
+					modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+				} finally {
+					if (doForceAccess) {
+						modifiersField.setAccessible(false);
+					}
+				}
+			}
+		} catch (final NoSuchFieldException | IllegalAccessException e) {
+		}
+	}
 }

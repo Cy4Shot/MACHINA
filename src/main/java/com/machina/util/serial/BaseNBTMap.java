@@ -1,4 +1,4 @@
-package com.machina.util.ser;
+package com.machina.util.serial;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

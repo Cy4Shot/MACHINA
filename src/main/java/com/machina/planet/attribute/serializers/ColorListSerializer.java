@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 import com.machina.util.Color;
-import com.machina.util.ser.BaseNBTList;
+import com.machina.util.serial.BaseNBTList;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;

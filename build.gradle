@@ -1,15 +1,15 @@
 buildscript {
     repositories {
-   		maven { url = 'https://maven.parchmentmc.org' }
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-        jcenter()
-        mavenCentral()
+		maven { url 'https://maven.parchmentmc.org' }
+		maven { url 'https://maven.minecraftforge.net' }
+		maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
+		jcenter()
+		mavenCentral()
     }
     dependencies {
-    classpath 'org.parchmentmc:librarian:1.+'
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+		classpath 'org.parchmentmc:librarian:1.+'
+		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+		classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
     }
 }
 
@@ -19,240 +19,214 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'eclipse'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+version = '1.16.5-alpha-0.1.0'
+group = 'com.cy4.machina'
+archivesBaseName = 'machina'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 mixin {
-    add sourceSets.main, "machina.refmap.json"
+    add sourceSets.main, "machina.mixins.refmap.json"
     config "machina.mixins.json"
     
     debug.verbose = true
     debug.export = true
 }
 
-version = 'alpha-0.1'
-group = 'com.cy4.machina'
-archivesBaseName = 'machina'
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
-
 sourceSets {
-
 	main {
 		java {
-			srcDirs = [
-				"$rootDir/src/main/java"
-			]
+			srcDirs = [ "$rootDir/src/main/java" ]
 		}
 		resources {
-			srcDirs = [
-				"$rootDir/src/main/resources",
-				"$rootDir/src/generated/resources"
-			]
+			srcDirs = [ "$rootDir/src/main/resources", "$rootDir/src/generated/resources" ]
 			exclude '.cache'
 		}
 	}
-        
-	test {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-	
-		java {
-			srcDirs = [
-				"$rootDir/src/test/java"
-			]
+}
+
+println('Welcome to MACHINA!')
+println(' + Using Java: ' + System.getProperty('java.version'))
+println(' + Using JVM:  ' + System.getProperty('java.vm.version') + ' - ' + System.getProperty('java.vendor'))
+println(' + Using Arch: ' + System.getProperty('os.arch'))
+println()
+println('Starting Tasks...')
+
+minecraft {
+	mappings channel: 'parchment', version: '2021.10.17-1.16.5'
+	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+	runs {
+		client {
+			workingDirectory project.file('run')
+			arg "-mixin.config=machina.mixins.json"
+			mods { machina.sources((SourceSet[]) [sourceSets.main]) }
 		}
-		resources {
-			srcDirs = [
-				"$rootDir/src/test/resources"
-			]
+
+		server {
+			workingDirectory project.file('run/server')
+			arg "-mixin.config=machina.mixins.json"
+			mods { machina.sources((SourceSet[]) [sourceSets.main]) }
+		}
+
+		data {
+			workingDirectory project.file('run')
+			args '--mod', 'machina', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+			mods { machina.sources((SourceSet[]) [sourceSets.main]) }
 		}
 	}
 }
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-minecraft {
-    mappings channel: 'parchment', version: '2021.10.17-1.16.5'
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    runs {
-        client {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-      		property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-			arg "-mixin.config=machina.mixins.json"
-
-            mods {
-            	machina.sources((SourceSet[]) [sourceSets.main])
-            }
-        }
-
-        server {
-            workingDirectory project.file('run/server')
-            property 'mixin.env.remapRefMap', 'true'
-      		property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            arg "-mixin.config=machina.mixins.json"
-
-            mods {
-            	machina.sources((SourceSet[]) [sourceSets.main])
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-            
-            args '--mod', 'machina', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
-            mods {
-            	machina.sources((SourceSet[]) [sourceSets.main])
-            }
-        }
-    }
-}
 
 repositories {
+	maven { url "https://dvs1.progwml6.com/files/maven/" }
+	maven { url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
+	maven { url "https://maven.theillusivec4.top/" }
+	maven { url 'https://jitpack.io' }
 	maven {
-		url "https://dvs1.progwml6.com/files/maven/"
+		name 'tterrag maven'
+		url "http://maven.tterrag.com/"
+		allowInsecureProtocol = true
 	}
+
 	maven {
-		url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+		url "https://cursemaven.com"
+		content { includeGroup "curse.maven" }
 	}
-	maven {
-	   	name 'tterrag maven'
-	   	url "http://maven.tterrag.com/"
-	   	allowInsecureProtocol = true
+
+	exclusiveContent {
+		forRepository {
+			maven { url 'https://mlt.jfrog.io/artifactory/mlt-mvn-releases-local' }
+		}
+		filter { includeGroup 'de.dfki.lt.jtok' }
 	}
-	maven {
-        url = "https://maven.theillusivec4.top/"
-    }
-    maven { url 'https://jitpack.io' }
-    
-    maven {
-        url "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-    
-    exclusiveContent {
-      forRepository {
-         maven {
-            url 'https://mlt.jfrog.io/artifactory/mlt-mvn-releases-local'
-         }
-      }
-      filter {
-         includeGroup 'de.dfki.lt.jtok'
-      }
-   }
+}
+
+configurations {
+	shade
+	implementation.extendsFrom shade
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
-    
-    // Dependencies
-    shadow group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
-    shadow group: 'cc.mallet', name: 'mallet', version: '2.0.8'
-	shadow group: 'de.dfki.mary', name: 'voice-cmu-slt-hsmm', version: '5.2.1', {
+	minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
+
+	// Dependencies
+	shade group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
+	shade group: 'cc.mallet', name: 'mallet', version: '2.0.8'
+	shade group: 'de.dfki.mary', name: 'voice-cmu-slt-hsmm', version: '5.2.1', {
 		exclude group: 'com.twmacinta', module: 'fast-md5'
 		exclude group: 'gov.nist.math', module: 'Jampack'
 		exclude group: 'de.dfki.mary', module: 'marytts-runtime'
 	}
-	shadow files('/lib/patched-marytts-runtime.jar')
-    
-    // Geckolib
-    implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
-    
-    // JEI
-    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-    
-    // Testing Deps.
-    implementation fg.deobf("curse.maven:immersive-231951:3573683")
-    implementation fg.deobf("curse.maven:mekanism-268560:3659389")
-    implementation fg.deobf("curse.maven:shutup-407174:3188120")
-    
-    // .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-}
+	shade files('/lib/patched-marytts-runtime.jar')
 
-configurations {
-	shadow
-	implementation.extendsFrom shadow
-}
+	// Geckolib
+	implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
 
-configurations {
-	shadow
-	implementation.extendsFrom shadow
+	// JEI
+	compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130:api")
+	runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130")
+
+	// Testing Deps.
+	implementation fg.deobf("curse.maven:immersive-231951:3573683")
+	implementation fg.deobf("curse.maven:mekanism-268560:3659389")
+	implementation fg.deobf("curse.maven:shutup-407174:3188120")
+
+	// .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
+	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 shadowJar {
+	archiveClassifier = ''
+	configurations = [project.configurations.shade]
 	classifier = ''
-	configurations = [project.configurations.shadow]
 	
-	// Relocate Shadows
-	relocate 'it.unimi.dsi', "com.machina.shadow_jar.it.unimi.dsi"
-	relocate 'cc.mallet', "com.machina.shadow_jar.cc.mallet"
-	relocate 'de.dfki.mary', "com.machina.shadow_jar.de.dfki.mary"
-	relocate 'it.unimi.dsi', "com.machina.shadow_jar.it.unimi.dsi"
-	relocate 'de.dfki.lt.tools.tokenizer', "com.machina.shadow_jar.de.dfki.lt.tools.tokenizer"
-	relocate 'gnu.trove', "com.machina.shadow_jar.gnu.trove"
-	relocate 'emotionml', "com.machina.shadow_jar.emotionml"
-	relocate 'com.twmacinta', "com.machina.shadow_jar.com.twmacinta"
-	relocate 'com.ibm.icu', "com.machina.shadow_jar.com.ibm.icu"
-	relocate 'com.google.common', "com.machina.shadow_jar.com.google.common"
-	relocate 'bsh', "com.machina.shadow_jar.bsh"
-	relocate 'Jampack', "com.machina.shadow_jar.Jampack"
-	relocate 'Jama', "com.machina.shadow_jar.Jama"
-	relocate 'groovyjarjarantlr', "com.machina.shadow_jar.groovyjarjarantlr"
-	relocate 'groovyjarjarasm.asm', "com.machina.shadow_jar.groovyjarjarasm.asm"
-	relocate 'groovyjarjarcommonscli', "com.machina.shadow_jar.groovyjarjarcommonscli"
-	relocate 'jtok', "com.machina.shadow_jar.jtok"
-	relocate 'jtok-user.jtok.en', "com.machina.shadow_jar.jtok-user.jtok.en"
-	relocate 'junit', "com.machina.shadow_jar.junit"
-	relocate 'marytts', "com.machina.shadow_jar.marytts"
-	relocate 'net.didion.jwnl', "com.machina.shadow_jar.net.didion.jwnl"
-	relocate 'no.uib.cipr.matrix', "com.machina.shadow_jar.no.uib.cipr.matrix"
-	relocate 'opennlp', "com.machina.shadow_jar.opennlp"
-	relocate 'groovy', "com.machina.shadow_jar.groovy"
-	relocate 'org', "com.machina.shadow_jar.org"
-	relocate 'Doc', "com.machina.shadow_jar.Doc"
+	// Relocate Shadows (This seems like a terrible idea. I need to make sure I don't touch any forge deps later).
+	relocate 'it.unimi.dsi', "com.machina.shadows.it.unimi.dsi"
+	relocate 'cc.mallet', "com.machina.shadows.cc.mallet"
+	relocate 'de.dfki.mary', "com.machina.shadows.de.dfki.mary"
+	relocate 'it.unimi.dsi', "com.machina.shadows.it.unimi.dsi"
+	relocate 'de.dfki.lt.tools.tokenizer', "com.machina.shadows.de.dfki.lt.tools.tokenizer"
+	relocate 'gnu.trove', "com.machina.shadows.gnu.trove"
+	relocate 'emotionml', "com.machina.shadows.emotionml"
+	relocate 'com.twmacinta', "com.machina.shadows.com.twmacinta"
+	relocate 'com.ibm.icu', "com.machina.shadows.com.ibm.icu"
+	relocate 'com.google.common', "com.machina.shadows.com.google.common"
+	relocate 'bsh', "com.machina.shadows.bsh"
+	relocate 'Jampack', "com.machina.shadows.Jampack"
+	relocate 'Jama', "com.machina.shadows.Jama"
+	relocate 'groovyjarjarantlr', "com.machina.shadows.groovyjarjarantlr"
+	relocate 'groovyjarjarasm.asm', "com.machina.shadows.groovyjarjarasm.asm"
+	relocate 'groovyjarjarcommonscli', "com.machina.shadows.groovyjarjarcommonscli"
+	relocate 'jtok', "com.machina.shadows.jtok"
+	relocate 'jtok-user.jtok.en', "com.machina.shadows.jtok-user.jtok.en"
+	relocate 'junit', "com.machina.shadows.junit"
+	relocate 'marytts', "com.machina.shadows.marytts"
+	relocate 'net.didion.jwnl', "com.machina.shadows.net.didion.jwnl"
+	relocate 'no.uib.cipr.matrix', "com.machina.shadows.no.uib.cipr.matrix"
+	relocate 'opennlp', "com.machina.shadows.opennlp"
+	relocate 'groovy', "com.machina.shadows.groovy"
+	relocate 'Doc', "com.machina.shadows.Doc"
+	relocate 'org._3pq.jgrapht', "com.machina.shadows.org._3pq.jgrapht"
+	relocate 'org.apache.commons.collections', "com.machina.shadows.org.apache.commons.collections"
+	relocate 'org.apache.commons.io', "com.machina.shadows.org.apache.commons.io"
+	relocate 'org.apache.commons.lang', "com.machina.shadows.org.apache.commons.lang"
+	relocate 'org.apache.commons.logging', "com.machina.shadows.org.apache.commons.logging"
+	relocate 'org.apache.http', "com.machina.shadows.org.apache.http"
+	relocate 'org.apache.log4j', "com.machina.shadows.org.apache.log4j"
+	relocate 'org.apache.logging.log4j', "com.machina.shadows.org.apache.logging.log4j"
+	relocate 'org.codehaus.groovy', "com.machina.shadows.org.codehaus.groovy"
+	relocate 'org.hamcrest', "com.machina.shadows.org.hamcrest"
+	relocate 'org.hsqldb', "com.machina.shadows.org.hsqldb"
+	relocate 'org.j_paine.formatter', "com.machina.shadows.org.j_paine.formatter"
+	relocate 'org.jdesktop.layout', "com.machina.shadows.org.jdesktop.layout"
+	relocate 'org.jdom', "com.machina.shadows.org.jdom"
+	relocate 'org.jsresources', "com.machina.shadows.org.jsresources"
+	relocate 'org.junit', "com.machina.shadows.org.junit"
+	relocate 'org.netlib', "com.machina.shadows.org.netlib"
+	relocate 'org.slf4j', "com.machina.shadows.org.slf4j"
 }
+
 jar {
-    manifest {
-        attributes([
-            "Specification-Title": "MACHINA",
-            "Specification-Vendor": "Cy4",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"Cy4",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "machina.mixins.json"
-        ])
-    }
-    finalizedBy 'reobfJar'
+	archiveClassifier = 'shadowless'
+	manifest {
+		attributes([
+			"Specification-Title": "MACHINA",
+			"Specification-Vendor": "Cy4",
+			"Specification-Version": "1", // We are version 1 of ourselves
+			"Implementation-Title": project.name,
+			"Implementation-Version": "${version}",
+			"Implementation-Vendor" :"Cy4",
+			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"MixinConfigs": "machina.mixins.json"
+		])
+	}
+	finalizedBy 'reobfJar'
 }
 
 task mainJar(type: Jar) {
-    duplicatesStrategy(DuplicatesStrategy.FAIL)
-    destinationDirectory = file("$rootDir/build-out")
-    archiveClassifier.set("main")
-    from sourceSets.main.output
-    afterEvaluate { finalizedBy reobfMainJar }
-    manifest {
-        attributes([
-            "Specification-Title": "MACHINA",
-            "Specification-Vendor": "Cy4",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"Cy4",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "machina.mixins.json"
-        ])
-    }
+	duplicatesStrategy(DuplicatesStrategy.FAIL)
+	destinationDirectory = file("$rootDir/build-out")
+	archiveClassifier.set("main")
+	from sourceSets.main.output
+	afterEvaluate { finalizedBy reobfMainJar }
+	manifest {
+		attributes([
+			"Specification-Title": "MACHINA",
+			"Specification-Vendor": "Cy4",
+			"Specification-Version": "1", // We are version 1 of ourselves
+			"Implementation-Title": project.name,
+			"Implementation-Version": "${version}",
+			"Implementation-Vendor" :"Cy4",
+			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+			"MixinConfigs": "machina.mixins.json"
+		])
+	}
 }
 
 task allJar(type: Jar) {
@@ -264,12 +238,11 @@ task allJar(type: Jar) {
 }
 
 artifacts {
-    archives jar, shadowJar
+	archives jar, shadowJar
 }
 
 reobf {
-    shadowJar { }
-    
+	shadowJar { classpath.from(sourceSets.main.compileClasspath) }
 	jar { classpath.from(sourceSets.main.compileClasspath) }
 	mainJar { classpath.from(sourceSets.main.compileClasspath) }
 }
@@ -278,14 +251,10 @@ tasks.build.dependsOn reobfShadowJar
 jar.finalizedBy('reobfShadowJar')
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact allJar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
+	publications {
+		mavenJava(MavenPublication) { artifact allJar }
+	}
+	repositories {
+		maven { url "file:///${project.projectDir}/mcmodsrepo" }
+	}
 }

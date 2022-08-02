@@ -3,9 +3,8 @@ package com.machina.registration.registry;
 import java.lang.reflect.Field;
 import java.util.Optional;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
-
 import com.machina.Machina;
+import com.machina.util.reflection.ClassHelper;
 import com.machina.util.reflection.TargetField;
 
 import net.minecraft.util.ResourceLocation;
@@ -38,7 +37,7 @@ public class RegistryHelper {
 		try {
 			Field registryField = targetField.getField();
 			registryField.setAccessible(true);
-			FieldUtils.removeFinalModifier(registryField);
+			ClassHelper.removeFinalModifier(registryField);
 			IForgeRegistry<T> newRegistry = registryBuilder.create();
 			registryField.set(targetField.targetFieldClass, newRegistry);
 			Machina.LOGGER.info("Created Machina Registry For {}!", registryName);

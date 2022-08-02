@@ -18,10 +18,9 @@ public abstract class ClientPlayerEntityMixin {
 	private boolean machina$getWaterVision(ClientPlayerEntity player, ITag<Fluid> fluid) {
 		return !player.isEyeInFluid(FluidTags.WATER) && !player.isEyeInFluid(TagInit.Fluids.NOT_ACTUALLY_WATER);
 	}
-	
+
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/player/ClientPlayerEntity;isEyeInFluid(Lnet/minecraft/tags/ITag;)Z"), method = "aiStep")
 	private boolean machina$aiStep(ClientPlayerEntity player, ITag<Fluid> fluid) {
 		return !player.isEyeInFluid(FluidTags.WATER) && !player.isEyeInFluid(TagInit.Fluids.NOT_ACTUALLY_WATER);
 	}
-	
 }
