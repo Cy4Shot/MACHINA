@@ -2,19 +2,14 @@ package com.machina.util.reflection;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Objects;
 import java.util.function.BiConsumer;
-
-import org.apache.commons.lang.Validate;
 
 public final class ClassHelper {
 
 	/**
 	 * Ugly hack to transform a class of T into a wildcard typed T class <br>
 	 * <strong>THIS DOES NO CHECKING. USE AT YOUR OWN RISK</strong>
-	 * 
-	 * @param <T>
-	 * @param cls
-	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> withWildcard(Class<?> cls) {
@@ -35,21 +30,59 @@ public final class ClassHelper {
 	}
 
 	public static void removeFinalModifier(final Field field) {
-		Validate.notNull(field, "field");
+		Objects.requireNonNull(field);
 
 		try {
 			if (Modifier.isFinal(field.getModifiers())) {
 				final Field modifiersField = Field.class.getDeclaredField("modifiers");
 				final boolean doForceAccess = !modifiersField.isAccessible();
-				if (doForceAccess) {
+				if (doForceAccess)
 					modifiersField.setAccessible(true);
-				}
 				try {
 					modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 				} finally {
-					if (doForceAccess) {
+					if (doForceAccess)
 						modifiersField.setAccessible(false);
-					}
+				}
+			}
+		} catch (final NoSuchFieldException | IllegalAccessException e) {
+		}
+	}
+
+	public static void removePrivateModifier(final Field field) {
+		Objects.requireNonNull(field);
+
+		try {
+			if (Modifier.isPrivate(field.getModifiers())) {
+				final Field modifiersField = Field.class.getDeclaredField("modifiers");
+				final boolean doForceAccess = !modifiersField.isAccessible();
+				if (doForceAccess)
+					modifiersField.setAccessible(true);
+				try {
+					modifiersField.setInt(field, field.getModifiers() & ~Modifier.PRIVATE);
+				} finally {
+					if (doForceAccess)
+						modifiersField.setAccessible(false);
+				}
+			}
+		} catch (final NoSuchFieldException | IllegalAccessException e) {
+		}
+	}
+
+	public static void removeProtectedModifier(final Field field) {
+		Objects.requireNonNull(field);
+
+		try {
+			if (Modifier.isProtected(field.getModifiers())) {
+				final Field modifiersField = Field.class.getDeclaredField("modifiers");
+				final boolean doForceAccess = !modifiersField.isAccessible();
+				if (doForceAccess)
+					modifiersField.setAccessible(true);
+				try {
+					modifiersField.setInt(field, field.getModifiers() & ~Modifier.PROTECTED);
+				} finally {
+					if (doForceAccess)
+						modifiersField.setAccessible(false);
 				}
 			}
 		} catch (final NoSuchFieldException | IllegalAccessException e) {

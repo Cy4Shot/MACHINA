@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+
 buildscript {
     repositories {
 		maven { url 'https://maven.parchmentmc.org' }
@@ -19,11 +21,11 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'eclipse'
-apply plugin: 'com.github.johnrengelman.shadow'
 
 version = '1.16.5-alpha-0.1.0'
 group = 'com.cy4.machina'
@@ -56,10 +58,10 @@ println(' + Using Java: ' + System.getProperty('java.version'))
 println(' + Using JVM:  ' + System.getProperty('java.vm.version') + ' - ' + System.getProperty('java.vendor'))
 println(' + Using Arch: ' + System.getProperty('os.arch'))
 println()
-println('Starting Tasks...')
+println('Running Tasks...')
 
 minecraft {
-	mappings channel: 'parchment', version: '2021.10.17-1.16.5'
+	mappings channel: 'parchment', version: '2022.03.06-1.16.5'
 	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 	runs {
 		client {
@@ -113,10 +115,9 @@ configurations {
 }
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
+	minecraft 'net.minecraftforge:forge:1.16.5-36.2.33'
 
 	// Dependencies
-	shade group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.6'
 	shade group: 'cc.mallet', name: 'mallet', version: '2.0.8'
 	shade group: 'de.dfki.mary', name: 'voice-cmu-slt-hsmm', version: '5.2.1', {
 		exclude group: 'com.twmacinta', module: 'fast-md5'
@@ -125,14 +126,12 @@ dependencies {
 	}
 	shade files('/lib/patched-marytts-runtime.jar')
 
-	// Geckolib
+	// Actual Dependencies
 	implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
 
-	// JEI
+	// Testing Deps
 	compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130:api")
 	runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130")
-
-	// Testing Deps.
 	implementation fg.deobf("curse.maven:immersive-231951:3573683")
 	implementation fg.deobf("curse.maven:mekanism-268560:3659389")
 	implementation fg.deobf("curse.maven:shutup-407174:3188120")
@@ -142,55 +141,17 @@ dependencies {
 }
 
 shadowJar {
-	archiveClassifier = ''
 	configurations = [project.configurations.shade]
+	archiveClassifier = ''
 	classifier = ''
-	
-	// Relocate Shadows (This seems like a terrible idea. I need to make sure I don't touch any forge deps later).
-	relocate 'it.unimi.dsi', "com.machina.shadows.it.unimi.dsi"
-	relocate 'cc.mallet', "com.machina.shadows.cc.mallet"
-	relocate 'de.dfki.mary', "com.machina.shadows.de.dfki.mary"
-	relocate 'it.unimi.dsi', "com.machina.shadows.it.unimi.dsi"
-	relocate 'de.dfki.lt.tools.tokenizer', "com.machina.shadows.de.dfki.lt.tools.tokenizer"
-	relocate 'gnu.trove', "com.machina.shadows.gnu.trove"
-	relocate 'emotionml', "com.machina.shadows.emotionml"
-	relocate 'com.twmacinta', "com.machina.shadows.com.twmacinta"
-	relocate 'com.ibm.icu', "com.machina.shadows.com.ibm.icu"
-	relocate 'com.google.common', "com.machina.shadows.com.google.common"
-	relocate 'bsh', "com.machina.shadows.bsh"
-	relocate 'Jampack', "com.machina.shadows.Jampack"
-	relocate 'Jama', "com.machina.shadows.Jama"
-	relocate 'groovyjarjarantlr', "com.machina.shadows.groovyjarjarantlr"
-	relocate 'groovyjarjarasm.asm', "com.machina.shadows.groovyjarjarasm.asm"
-	relocate 'groovyjarjarcommonscli', "com.machina.shadows.groovyjarjarcommonscli"
-	relocate 'jtok', "com.machina.shadows.jtok"
-	relocate 'jtok-user.jtok.en', "com.machina.shadows.jtok-user.jtok.en"
-	relocate 'junit', "com.machina.shadows.junit"
-	relocate 'marytts', "com.machina.shadows.marytts"
-	relocate 'net.didion.jwnl', "com.machina.shadows.net.didion.jwnl"
-	relocate 'no.uib.cipr.matrix', "com.machina.shadows.no.uib.cipr.matrix"
-	relocate 'opennlp', "com.machina.shadows.opennlp"
-	relocate 'groovy', "com.machina.shadows.groovy"
-	relocate 'Doc', "com.machina.shadows.Doc"
-	relocate 'org._3pq.jgrapht', "com.machina.shadows.org._3pq.jgrapht"
-	relocate 'org.apache.commons.collections', "com.machina.shadows.org.apache.commons.collections"
-	relocate 'org.apache.commons.io', "com.machina.shadows.org.apache.commons.io"
-	relocate 'org.apache.commons.lang', "com.machina.shadows.org.apache.commons.lang"
-	relocate 'org.apache.commons.logging', "com.machina.shadows.org.apache.commons.logging"
-	relocate 'org.apache.http', "com.machina.shadows.org.apache.http"
-	relocate 'org.apache.log4j', "com.machina.shadows.org.apache.log4j"
-	relocate 'org.apache.logging.log4j', "com.machina.shadows.org.apache.logging.log4j"
-	relocate 'org.codehaus.groovy', "com.machina.shadows.org.codehaus.groovy"
-	relocate 'org.hamcrest', "com.machina.shadows.org.hamcrest"
-	relocate 'org.hsqldb', "com.machina.shadows.org.hsqldb"
-	relocate 'org.j_paine.formatter', "com.machina.shadows.org.j_paine.formatter"
-	relocate 'org.jdesktop.layout', "com.machina.shadows.org.jdesktop.layout"
-	relocate 'org.jdom', "com.machina.shadows.org.jdom"
-	relocate 'org.jsresources', "com.machina.shadows.org.jsresources"
-	relocate 'org.junit', "com.machina.shadows.org.junit"
-	relocate 'org.netlib', "com.machina.shadows.org.netlib"
-	relocate 'org.slf4j', "com.machina.shadows.org.slf4j"
 }
+
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+	target = tasks.shadowJar
+	prefix = "com.machina.shadows"
+}
+
+tasks.shadowJar.dependsOn tasks.relocateShadowJar
 
 jar {
 	archiveClassifier = 'shadowless'

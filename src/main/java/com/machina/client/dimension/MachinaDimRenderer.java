@@ -2,6 +2,7 @@ package com.machina.client.dimension;
 
 import org.lwjgl.opengl.GL11;
 
+import com.machina.Machina;
 import com.machina.client.util.QuadBufferRenderer;
 import com.machina.util.text.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -30,7 +31,8 @@ import net.minecraftforge.client.IWeatherRenderHandler;
 public class MachinaDimRenderer extends DimensionRenderInfo {
 
 	public static void registerDimensionRenderInfo() {
-//		DimensionRenderInfo.EFFECTS.put(Machina.MACHINA_ID, new MachinaDimRenderer());
+		Machina.LOGGER.info("Registering Machina Planet Render Info.");
+		DimensionRenderInfo.EFFECTS.put(Machina.MACHINA_ID, new MachinaDimRenderer());
 	}
 
 	public MachinaDimRenderer() {
@@ -52,7 +54,6 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 		return true;
 	}
 
-	// No idea what the inputs are.
 	@Override
 	public float[] getSunriseColor(float p_230492_1_, float p_230492_2_) {
 		return null;
