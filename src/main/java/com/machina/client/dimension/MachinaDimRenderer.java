@@ -31,7 +31,7 @@ import net.minecraftforge.client.IWeatherRenderHandler;
 public class MachinaDimRenderer extends DimensionRenderInfo {
 
 	public static void registerDimensionRenderInfo() {
-		Machina.LOGGER.info("Registering Machina Planet Render Info.");
+		Machina.LOGGER.warn("Registering Machina Planet Render Info.");
 		DimensionRenderInfo.EFFECTS.put(Machina.MACHINA_ID, new MachinaDimRenderer());
 	}
 

@@ -15,6 +15,7 @@ import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.CommandInit;
+import com.machina.registration.init.ConfiguredFeatureInit;
 import com.machina.registration.init.ContainerInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
@@ -120,7 +121,7 @@ public class Registration {
 
 		event.enqueueWork(() -> {
 			StructureInit.setupStructures();
-			StructureInit.registerConfiguredStructures();
+			ConfiguredFeatureInit.registerConfiguredStructures();
 		});
 	}
 
@@ -149,7 +150,7 @@ public class Registration {
 	}
 
 	public static void biomeModification(final BiomeLoadingEvent event) {
-		event.getGeneration().getStructures().add(() -> StructureInit.CONFIGURED_SHIP);
+		event.getGeneration().getStructures().add(() -> ConfiguredFeatureInit.CONFIGURED_SHIP);
 	}
 
 	private static Method GETCODEC_METHOD;
@@ -158,7 +159,6 @@ public class Registration {
 	public static void addDimensionalSpacing(final WorldEvent.Load event) {
 		if (event.getWorld() instanceof ServerWorld) {
 			ServerWorld serverWorld = (ServerWorld) event.getWorld();
-
 			try {
 				if (GETCODEC_METHOD == null)
 					GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
@@ -171,7 +171,6 @@ public class Registration {
 				Machina.LOGGER.error("Was unable to check if " + serverWorld.dimension().location()
 						+ " is using Terraforged's ChunkGenerator.");
 			}
-
 			if (serverWorld.getChunkSource().getGenerator() instanceof FlatChunkGenerator
 					&& serverWorld.dimension().equals(World.OVERWORLD)) {
 				return;

@@ -6,15 +6,10 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.machina.Machina;
-import com.machina.util.text.MachinaRL;
 import com.machina.world.structure.ShipStructure;
 
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.FlatGenerationSettings;
-import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 import net.minecraft.world.gen.settings.StructureSeparationSettings;
@@ -30,18 +25,8 @@ public class StructureInit {
 	public static final RegistryObject<Structure<NoFeatureConfig>> SHIP = STRUCTURES.register("ship",
 			() -> new ShipStructure(NoFeatureConfig.CODEC));
 
-	public static StructureFeature<?, ?> CONFIGURED_SHIP;
-
 	public static void setupStructures() {
 		setupMapSpacingAndLand(SHIP.get(), new StructureSeparationSettings(10, 5, 1234567890), true);
-	}
-
-	public static void registerConfiguredStructures() {
-		CONFIGURED_SHIP = SHIP.get().configured(IFeatureConfig.NONE);
-		Registry<StructureFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
-		Registry.register(registry, new MachinaRL("configured_ship"), CONFIGURED_SHIP);
-
-		FlatGenerationSettings.STRUCTURE_FEATURES.put(SHIP.get(), CONFIGURED_SHIP);
 	}
 
 	public static <F extends Structure<?>> void setupMapSpacingAndLand(F structure,
