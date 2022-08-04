@@ -14,8 +14,8 @@ import com.machina.util.text.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.text2speech.Narrator;
 
-import mekanism.client.render.MekanismRenderer.FluidType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.AbstractGui;
@@ -672,6 +672,12 @@ public class UIHelper {
 		RenderSystem.disableBlend();
 		RenderSystem.enableTexture();
 	}
+	
+	// https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/client/render/MekanismRenderer.java
+	public enum FluidType {
+        STILL,
+        FLOWING
+    }
 
 	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
 	public enum TilingDirection {
@@ -684,5 +690,9 @@ public class UIHelper {
 			this.down = down;
 			this.right = right;
 		}
+	}
+	
+	public static void tts(String text) {
+		Narrator.getNarrator().say(text, false);
 	}
 }

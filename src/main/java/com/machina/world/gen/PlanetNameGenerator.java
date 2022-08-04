@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 public class PlanetNameGenerator {
 
@@ -62,7 +62,7 @@ public class PlanetNameGenerator {
 		StringBuilder sb = new StringBuilder();
 
 		if (rand.nextBoolean()) {
-			sb.append(StringUtils.capitalise(syllables.get(rand.nextInt(syllables.size()))));
+			sb.append(StringUtils.capitalize(syllables.get(rand.nextInt(syllables.size()))));
 			for (int i = 0; i < rand.nextInt(3); i++)
 				sb.append(syllables.get(rand.nextInt(syllables.size())));
 			if (rand.nextBoolean())
