@@ -67,7 +67,7 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
 
 	@Override
 	public String getName() {
-		return "Machina Loottables";
+		return "Loot Tables: " + Machina.MOD_ID;
 	}
 
 	public void add(Block block, LootTable.Builder loottable) {

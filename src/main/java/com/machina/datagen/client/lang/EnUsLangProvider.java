@@ -177,6 +177,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("fuel_storage", "depleting", "WARNING: DEPLETING");
 		addScreen("state_converter", "stored", "Current Temperature: ");
 		addScreen("state_converter", "none", "None");
+		addScreen("go_beyond", "title", "MACHINA - Alpha 0.1");
+		addScreen("go_beyond", "desc1", "Travelling between planets isn't yet available!");
+		addScreen("go_beyond", "desc2", "This feature will be introduced in Alpha 0.2.");
 
 		// Terminal
 		addTerminalCommand("clear", "Clears the console.");

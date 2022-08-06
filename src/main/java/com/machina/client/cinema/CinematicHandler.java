@@ -2,6 +2,7 @@ package com.machina.client.cinema;
 
 import com.machina.Machina;
 import com.machina.client.cinema.effect.OverlayEffect;
+import com.machina.client.screen.GoBeyondScreen;
 import com.machina.client.util.ClientTimer;
 
 import net.minecraft.client.Minecraft;
@@ -42,6 +43,7 @@ public class CinematicHandler {
 						current.finish(partial);
 						current = null;
 						elapsed = 0;
+						mc.forceSetScreen(new GoBeyondScreen());
 					}
 				} else if (type == TickEvent.Type.RENDER) {
 					current.onRenderTick(elapsed, partial);
