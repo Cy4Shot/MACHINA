@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
-    "all": "machina:block/fuel_storage_unit"
+    "side": "machina:block/fuel_storage_unit_side",
+    "front": "machina:block/fuel_storage_unit_front",
+    "bottom": "machina:block/fuel_storage_unit_bottom",
+    "top": "machina:block/fuel_storage_unit_top"
   }
 }

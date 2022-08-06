@@ -44,10 +44,11 @@ public class BlockStatesProvider extends BlockStateProvider {
 		tintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
 
 		simpleOrientableBlock(BlockInit.BATTERY.get());
-		simpleOrientableBlock(BlockInit.PRESSURIZED_CHAMBER.get());
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
-		simpleOrientableBlock(BlockInit.FURNACE_GENERATOR.get());
 		
+		frontOrientableBlock(BlockInit.PRESSURIZED_CHAMBER.get());
+		frontOrientableBlock(BlockInit.FUEL_STORAGE_UNIT.get());
+		frontOrientableBlock(BlockInit.FURNACE_GENERATOR.get());
 		frontOrientableBlock(BlockInit.TEMPERATURE_REGULATOR.get());
 		frontOrientableBlock(BlockInit.STATE_CONVERTER.get());
 
@@ -62,7 +63,6 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.TANK.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
-		simpleBlock(BlockInit.FUEL_STORAGE_UNIT.get());
 	}
 
 	public void fluid(FluidObject obj) {
