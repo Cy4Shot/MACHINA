@@ -117,7 +117,7 @@ public class BlockInit {
 		BLOCKS.getEntries().stream().filter(ro -> !FluidInit.BLOCKS.contains(ro.getId().getPath()))
 				.map(RegistryObject::get).forEach(block -> {
 					event.getRegistry()
-							.register(new BlockItem(block, new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP))
+							.register(new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
 									.setRegistryName(block.getRegistryName()));
 				});
 	}

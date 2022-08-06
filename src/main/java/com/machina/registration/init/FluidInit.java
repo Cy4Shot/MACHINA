@@ -71,7 +71,7 @@ public class FluidInit {
 		private static final ResourceLocation STILL_RL = new ResourceLocation("block/water_still");
 		private static final ResourceLocation FLOWING_RL = new ResourceLocation("block/water_flow");
 		private static final ResourceLocation OVERLAY_RL = new ResourceLocation("block/water_overlay");
-		private static final Item.Properties BUCKET_PROP = new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP)
+		private static final Item.Properties BUCKET_PROP = new Item.Properties().tab(Registration.MAIN_GROUP)
 				.stacksTo(1).craftRemainder(Items.BUCKET);
 		private static final AbstractBlock.Properties BLOCK_PROP = AbstractBlock.Properties.copy(Blocks.WATER);
 

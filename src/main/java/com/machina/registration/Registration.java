@@ -33,7 +33,6 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
@@ -67,12 +66,8 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD)
 public class Registration {
 
-	public static final ItemGroup MACHINA_ITEM_GROUP = new ItemGroup(ItemGroup.TABS.length, "machinaItemGroup") {
-		@Override
-		public ItemStack makeIcon() {
-			return BlockInit.SHIP_CONSOLE.get().asItem().getDefaultInstance();
-		}
-	};
+	public static final ItemGroup MAIN_GROUP = new MachinaItemGroup(() -> ItemInit.TRANSISTOR.get(), "main");
+	public static final ItemGroup PLANET_GROUP = new MachinaItemGroup(() -> ItemInit.SCANNER.get(), "planet");
 
 	public static PlanetTraitPoolManager TRAIT_POOL_MANAGER = new PlanetTraitPoolManager();
 

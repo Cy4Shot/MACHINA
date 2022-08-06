@@ -9,6 +9,8 @@ import com.machina.registration.init.SoundInit.Sound;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -18,8 +20,8 @@ public abstract class BaseLangProvider extends LanguageProvider {
 		super(gen, Machina.MOD_ID, locale);
 	}
 
-	protected void addItemGroup(String key, String name) {
-		add("itemGroup." + key, name);
+	protected void addItemGroup(ItemGroup key, String name) {
+		add(((TranslationTextComponent) key.getDisplayName()).getKey(), name);
 	}
 
 	protected void add(PlanetTrait trait, String name) {
@@ -67,10 +69,10 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	protected void addShipComponent(String id, String locale) {
 		add("machina.ship_component." + id, locale);
 	}
-	
+
 	public void addMusicDisc(Item key, String desc) {
-        add(key.getDescriptionId(), "Music Disc");
-        add(key.getDescriptionId() + ".desc", desc);
-    }
+		add(key.getDescriptionId(), "Music Disc");
+		add(key.getDescriptionId() + ".desc", desc);
+	}
 
 }

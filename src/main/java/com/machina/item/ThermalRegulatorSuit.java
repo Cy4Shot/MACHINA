@@ -22,7 +22,7 @@ public class ThermalRegulatorSuit extends Item {
 	public final EquipmentSlotType slot;
 
 	public ThermalRegulatorSuit(EquipmentSlotType slot) {
-		super(new Item.Properties().tab(Registration.MACHINA_ITEM_GROUP).defaultDurability(512));
+		super(new Item.Properties().tab(Registration.MAIN_GROUP).defaultDurability(512));
 		this.slot = slot;
 	}
 

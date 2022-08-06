@@ -4,6 +4,7 @@ import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.SoundInit;
+import com.machina.registration.Registration;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.TraitInit;
 
@@ -118,7 +119,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(SoundInit.BEYOND, "Cy4 - Beyond (MACHINA OST)");
 
 		// Item Groups
-		addItemGroup("machinaItemGroup", "Machina");
+		addItemGroup(Registration.MAIN_GROUP, "Machina");
+		addItemGroup(Registration.PLANET_GROUP, "Machina: Worldgen");
 
 		// Commands
 		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");
