@@ -38,14 +38,14 @@ public class HeatHelper {
 		}
 	};
 
-	public static float calculateTemperatureRegulators(BlockPos pos, World world, boolean above) {
+	public static float calculateTemperatureRegulators(BlockPos pos, World world) {
 		float ret = 0;
 		for (Direction d : Direction.values()) {
 			TileEntity te = world.getBlockEntity(pos.relative(d));
 			if (te != null && te instanceof IHeatTileEntity) {
 				IHeatTileEntity hte = (IHeatTileEntity) te;
-				if (hte.isGenerator() && (above ? hte.getHeat() > ret : hte.getHeat() < ret))
-					ret = hte.getHeat();
+				if (hte.isGenerator())
+					ret += hte.getHeat();
 			}
 		}
 		return ret;

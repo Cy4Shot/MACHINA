@@ -44,7 +44,7 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 		if (this.level.isClientSide())
 			return;
 
-		float target = HeatHelper.calculateTemperatureRegulators(worldPosition, level, false);
+		float target = HeatHelper.calculateTemperatureRegulators(worldPosition, level);
 		heat = HeatHelper.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
 
 		// Deplete
