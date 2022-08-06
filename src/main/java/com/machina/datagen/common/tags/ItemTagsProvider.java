@@ -25,13 +25,24 @@ public class ItemTagsProvider extends net.minecraft.data.ItemTagsProvider {
 				BlockInit.WASTELAND_DIRT_STAIRS.get().asItem());
 		tag(ItemTags.WALLS).add(BlockInit.WASTELAND_SANDSTONE_WALL.get().asItem());
 		tag(ItemTags.SAND).add(BlockInit.WASTELAND_SAND.get().asItem());
-		tag(TagHelper.getForgeItemTag("ingots")).add(ItemInit.STEEL_INGOT.get(), ItemInit.ALUMINUM_INGOT.get());
-		tag(TagHelper.getForgeItemTag("nuggets")).add(ItemInit.STEEL_NUGGET.get(), ItemInit.ALUMINUM_NUGGET.get());
+		tag(TagHelper.getForgeItemTag("ingots")).add(ItemInit.STEEL_INGOT.get(), ItemInit.ALUMINUM_INGOT.get(),
+				ItemInit.COPPER_INGOT.get());
+		tag(TagHelper.getForgeItemTag("nuggets")).add(ItemInit.STEEL_NUGGET.get(), ItemInit.ALUMINUM_NUGGET.get(),
+				ItemInit.COPPER_NUGGET.get());
+		tag(TagHelper.getForgeItemTag("storage_blocks")).add(BlockInit.STEEL_BLOCK.get().asItem(),
+				BlockInit.ALUMINUM_BLOCK.get().asItem(), BlockInit.COPPER_BLOCK.get().asItem());
+		tag(TagHelper.getForgeItemTag("ores")).add(BlockInit.ALUMINUM_ORE.get().asItem(),
+				BlockInit.COPPER_ORE.get().asItem());
 		tag(TagHelper.getForgeItemTag("ingots/steel")).add(ItemInit.STEEL_INGOT.get());
 		tag(TagHelper.getForgeItemTag("nuggets/steel")).add(ItemInit.STEEL_NUGGET.get());
 		tag(TagHelper.getForgeItemTag("storage_blocks/steel")).add(BlockInit.STEEL_BLOCK.get().asItem());
 		tag(TagHelper.getForgeItemTag("ingots/aluminum")).add(ItemInit.ALUMINUM_INGOT.get());
 		tag(TagHelper.getForgeItemTag("nuggets/aluminum")).add(ItemInit.ALUMINUM_NUGGET.get());
 		tag(TagHelper.getForgeItemTag("storage_blocks/aluminum")).add(BlockInit.ALUMINUM_BLOCK.get().asItem());
+		tag(TagHelper.getForgeItemTag("ores/aluminum")).add(BlockInit.ALUMINUM_ORE.get().asItem());
+		tag(TagHelper.getForgeItemTag("ingots/copper")).add(ItemInit.COPPER_INGOT.get());
+		tag(TagHelper.getForgeItemTag("nuggets/copper")).add(ItemInit.COPPER_NUGGET.get());
+		tag(TagHelper.getForgeItemTag("storage_blocks/copper")).add(BlockInit.COPPER_BLOCK.get().asItem());
+		tag(TagHelper.getForgeItemTag("ores/copper")).add(BlockInit.COPPER_ORE.get().asItem());
 	}
 }

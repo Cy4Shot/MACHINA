@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "machina:steel_ingot",
-    "machina:aluminum_ingot"
+    "machina:aluminum_ingot",
+    "machina:copper_ingot"
   ]
 }

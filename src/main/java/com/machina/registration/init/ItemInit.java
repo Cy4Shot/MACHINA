@@ -30,6 +30,9 @@ public final class ItemInit {
 	public static final RegistryObject<Item> STEEL_NUGGET = basic("steel_nugget");
 	public static final RegistryObject<Item> ALUMINUM_INGOT = basic("aluminum_ingot");
 	public static final RegistryObject<Item> ALUMINUM_NUGGET = basic("aluminum_nugget");
+	public static final RegistryObject<Item> COPPER_INGOT = basic("copper_ingot");
+	public static final RegistryObject<Item> COPPER_NUGGET = basic("copper_nugget");
+	public static final RegistryObject<Item> COPPER_COIL = basic("copper_coil");
 	public static final RegistryObject<Item> PROCESSOR = basic("processor");
 	public static final RegistryObject<Item> SILICON = basic("silicon");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");

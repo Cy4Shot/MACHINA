@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shaped_cable",
+  "pattern": [
+    "asa"
+  ],
+  "key": {
+    "a": {
+      "item": "machina:aluminum_ingot"
+    },
+    "s": {
+      "tag": "forge:ingots/steel"
+    }
+  },
+  "result": {
+    "item": "machina:cable",
+    "count": 6
+  }
+}

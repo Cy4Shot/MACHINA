@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:shaped_scanner"
+    ]
+  },
+  "criteria": {
+    "has_processor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:processor"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:shaped_scanner"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_processor",
+      "has_the_recipe"
+    ]
+  ]
+}

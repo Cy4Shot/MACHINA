@@ -30,6 +30,7 @@ public class FeatureInit {
 
 		} else {
 			addOre(event, FillerBlockType.NATURAL_STONE, BlockInit.ALUMINUM_ORE.get(), 4, 0, 60, 20);
+			addOre(event, FillerBlockType.NATURAL_STONE, BlockInit.COPPER_ORE.get(), 12, 32, 100, 15);
 		}
 	}
 

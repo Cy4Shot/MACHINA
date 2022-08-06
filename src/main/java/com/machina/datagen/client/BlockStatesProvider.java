@@ -25,24 +25,23 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		simpleTintedBlock(BlockInit.ALIEN_STONE.get());
-		simpleTintedBlock(BlockInit.WASTELAND_DIRT.get());
-		simpleTintedBlock(BlockInit.TWILIGHT_DIRT.get());
-		simpleTintedBlock(BlockInit.WASTELAND_SANDSTONE.get());
-		simpleTintedBlock(BlockInit.WASTELAND_SAND.get());
+		tintedBlock(BlockInit.ALIEN_STONE.get());
+		tintedBlock(BlockInit.WASTELAND_DIRT.get());
+		tintedBlock(BlockInit.TWILIGHT_DIRT.get());
+		tintedBlock(BlockInit.WASTELAND_SANDSTONE.get());
+		tintedBlock(BlockInit.WASTELAND_SAND.get());
 		
-		simpleTintedSlab(BlockInit.ALIEN_STONE_SLAB.get(), "alien_stone", false);
-		simpleTintedSlab(BlockInit.WASTELAND_DIRT_SLAB.get(), "wasteland_dirt", false);
-		simpleTintedSlab(BlockInit.TWILIGHT_DIRT_SLAB.get(), "twilight_dirt", false);
-		simpleTintedSlab(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "wasteland_sandstone", true);
+		tintedSlab(BlockInit.ALIEN_STONE_SLAB.get(), "alien_stone", false);
+		tintedSlab(BlockInit.WASTELAND_DIRT_SLAB.get(), "wasteland_dirt", false);
+		tintedSlab(BlockInit.TWILIGHT_DIRT_SLAB.get(), "twilight_dirt", false);
+		tintedSlab(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "wasteland_sandstone", true);
 		
-
-		simpleTintedStairs(BlockInit.ALIEN_STONE_STAIRS.get(), "alien_stone", false);
-		simpleTintedStairs(BlockInit.WASTELAND_DIRT_STAIRS.get(), "wasteland_dirt", false);
-		simpleTintedStairs(BlockInit.TWILIGHT_DIRT_STAIRS.get(), "twilight_dirt", false);
-		simpleTintedStairs(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "wasteland_sandstone", true);
+		tintedStairs(BlockInit.ALIEN_STONE_STAIRS.get(), "alien_stone", false);
+		tintedStairs(BlockInit.WASTELAND_DIRT_STAIRS.get(), "wasteland_dirt", false);
+		tintedStairs(BlockInit.TWILIGHT_DIRT_STAIRS.get(), "twilight_dirt", false);
+		tintedStairs(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "wasteland_sandstone", true);
 		
-		simpleTintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
+		tintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
 		
 		simpleOrientableBlock(BlockInit.BATTERY.get());
 		simpleOrientableBlock(BlockInit.PRESSURIZED_CHAMBER.get());
@@ -55,6 +54,8 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_ORE.get());
+		simpleBlock(BlockInit.COPPER_BLOCK.get());
+		simpleBlock(BlockInit.COPPER_ORE.get());
 		simpleBlock(BlockInit.TANK.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
@@ -68,7 +69,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 				.modelFile(models().cubeAll(name(obj.block()), new ResourceLocation("block/water_still"))).addModel();
 	}
 
-	public void simpleTintedBlock(Block block) {
+	public void tintedBlock(Block block) {
 		simpleBlock(block, tinted(block));
 	}
 
@@ -88,7 +89,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 			slabBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl), blockLoc(rl));
 	}
 
-	public void simpleTintedSlab(SlabBlock block, String rl, boolean sep) {
+	public void tintedSlab(SlabBlock block, String rl, boolean sep) {
 		if (sep)
 			tintedSlabBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl + "_bottom"), blockLoc(rl + "_top"));
 		else
@@ -102,7 +103,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 			stairsBlock(block, blockLoc(rl), blockLoc(rl), blockLoc(rl));
 	}
 
-	public void simpleTintedStairs(StairsBlock block, String rl, boolean sep) {
+	public void tintedStairs(StairsBlock block, String rl, boolean sep) {
 		if (sep)
 			tintedStairsBlock(block, blockLoc(rl), blockLoc(rl + "_bottom"), blockLoc(rl + "_top"));
 		else
@@ -114,7 +115,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		models().wallInventory(block.getRegistryName().toString(), blockLoc(rl));
 	}
 
-	public void simpleTintedWall(WallBlock block, String rl) {
+	public void tintedWall(WallBlock block, String rl) {
 		tintedWallBlock(block, blockLoc(rl));
 		models().wallInventory(block.getRegistryName().toString(), blockLoc(rl));
 	}

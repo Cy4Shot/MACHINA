@@ -24,52 +24,57 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 
 	@Override
 	protected void registerModels() {
-		makeSimpleBlockItem(BlockInit.SHIP_CONSOLE.get());
-		makeSimpleBlockItem(BlockInit.ATMOSPHERIC_SEPARATOR.get());
-		makeSimpleBlockItem(BlockInit.TEMPERATURE_REGULATOR.get());
-		makeSimpleBlockItem(BlockInit.COMPONENT_ANALYZER.get());
-		makeSimpleBlockItem(BlockInit.ALIEN_STONE.get());
-		makeSimpleBlockItem(BlockInit.ALIEN_STONE_SLAB.get());
-		makeSimpleBlockItem(BlockInit.ALIEN_STONE_STAIRS.get());
-		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT.get());
-		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT_SLAB.get());
-		makeSimpleBlockItem(BlockInit.TWILIGHT_DIRT_STAIRS.get());
-		makeSimpleBlockItem(BlockInit.WASTELAND_DIRT.get());
-		makeSimpleBlockItem(BlockInit.WASTELAND_DIRT_SLAB.get());
-		makeSimpleBlockItem(BlockInit.WASTELAND_DIRT_STAIRS.get());
-		makeSimpleBlockItem(BlockInit.WASTELAND_SAND.get());
-		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE.get());
-		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_SLAB.get());
-		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
-		makeSimpleBlockItem(BlockInit.WASTELAND_SANDSTONE_WALL.get());
-		makeSimpleBlockItem(BlockInit.STEEL_BLOCK.get());
-		makeSimpleBlockItem(BlockInit.ALUMINUM_BLOCK.get());
-		makeSimpleBlockItem(BlockInit.ALUMINUM_ORE.get());
-		makeSimpleBlockItem(BlockInit.STEEL_CHASSIS.get());
-		makeSimpleBlockItem(BlockInit.IRON_CHASSIS.get());
-		makeSimpleBlockItem(BlockInit.PUZZLE_BLOCK.get());
-		makeSimpleBlockItem(BlockInit.PRESSURIZED_CHAMBER.get());
-		makeSimpleBlockItem(BlockInit.BATTERY.get());
-		makeSimpleBlockItem(BlockInit.TANK.get());
-		makeSimpleBlockItem(BlockInit.CABLE.get());
-		makeSimpleBlockItem(BlockInit.CREATIVE_BATTERY.get());
-		makeSimpleBlockItem(BlockInit.REINFORCED_TILE.get());
-		makeSimpleBlockItem(BlockInit.FUEL_STORAGE_UNIT.get());
-		makeSimpleBlockItem(BlockInit.FURNACE_GENERATOR.get());
-		makeSimpleBlockItem(BlockInit.STATE_CONVERTER.get());
+		block(BlockInit.SHIP_CONSOLE.get());
+		block(BlockInit.ATMOSPHERIC_SEPARATOR.get());
+		block(BlockInit.TEMPERATURE_REGULATOR.get());
+		block(BlockInit.COMPONENT_ANALYZER.get());
+		block(BlockInit.ALIEN_STONE.get());
+		block(BlockInit.ALIEN_STONE_SLAB.get());
+		block(BlockInit.ALIEN_STONE_STAIRS.get());
+		block(BlockInit.TWILIGHT_DIRT.get());
+		block(BlockInit.TWILIGHT_DIRT_SLAB.get());
+		block(BlockInit.TWILIGHT_DIRT_STAIRS.get());
+		block(BlockInit.WASTELAND_DIRT.get());
+		block(BlockInit.WASTELAND_DIRT_SLAB.get());
+		block(BlockInit.WASTELAND_DIRT_STAIRS.get());
+		block(BlockInit.WASTELAND_SAND.get());
+		block(BlockInit.WASTELAND_SANDSTONE.get());
+		block(BlockInit.WASTELAND_SANDSTONE_SLAB.get());
+		block(BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
+		block(BlockInit.WASTELAND_SANDSTONE_WALL.get());
+		block(BlockInit.STEEL_BLOCK.get());
+		block(BlockInit.ALUMINUM_BLOCK.get());
+		block(BlockInit.ALUMINUM_ORE.get());
+		block(BlockInit.COPPER_BLOCK.get());
+		block(BlockInit.COPPER_ORE.get());
+		block(BlockInit.STEEL_CHASSIS.get());
+		block(BlockInit.IRON_CHASSIS.get());
+		block(BlockInit.PUZZLE_BLOCK.get());
+		block(BlockInit.PRESSURIZED_CHAMBER.get());
+		block(BlockInit.BATTERY.get());
+		block(BlockInit.TANK.get());
+		block(BlockInit.CABLE.get());
+		block(BlockInit.CREATIVE_BATTERY.get());
+		block(BlockInit.REINFORCED_TILE.get());
+		block(BlockInit.FUEL_STORAGE_UNIT.get());
+		block(BlockInit.FURNACE_GENERATOR.get());
+		block(BlockInit.STATE_CONVERTER.get());
 
-		oneLayerItem(ItemInit.REINFORCED_STICK.get());
-		oneLayerItem(ItemInit.STEEL_INGOT.get());
-		oneLayerItem(ItemInit.STEEL_NUGGET.get());
-		oneLayerItem(ItemInit.ALUMINUM_INGOT.get());
-		oneLayerItem(ItemInit.ALUMINUM_NUGGET.get());
-		oneLayerItem(ItemInit.IRON_CATALYST.get());
-		oneLayerItem(ItemInit.PROCESSOR.get());
-		oneLayerItem(ItemInit.SILICON.get());
-		oneLayerItem(ItemInit.SCANNER.get());
-		oneLayerItem(ItemInit.TRANSISTOR.get());
-		oneLayerItem(ItemInit.AMMONIUM_NITRATE.get());
-		oneLayerItem(ItemInit.BEYOND_MUSIC_DISC.get());
+		item(ItemInit.REINFORCED_STICK.get());
+		item(ItemInit.STEEL_INGOT.get());
+		item(ItemInit.STEEL_NUGGET.get());
+		item(ItemInit.ALUMINUM_INGOT.get());
+		item(ItemInit.ALUMINUM_NUGGET.get());
+		item(ItemInit.COPPER_INGOT.get());
+		item(ItemInit.COPPER_NUGGET.get());
+		item(ItemInit.COPPER_COIL.get());
+		item(ItemInit.IRON_CATALYST.get());
+		item(ItemInit.PROCESSOR.get());
+		item(ItemInit.SILICON.get());
+		item(ItemInit.SCANNER.get());
+		item(ItemInit.TRANSISTOR.get());
+		item(ItemInit.AMMONIUM_NITRATE.get());
+		item(ItemInit.BEYOND_MUSIC_DISC.get());
 
 		bucket(FluidInit.OXYGEN);
 		bucket(FluidInit.NITROGEN);
@@ -90,12 +95,12 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		builder.fluid(obj.fluid());
 	}
 
-	protected void makeSimpleBlockItem(Block block) {
+	protected void block(Block block) {
 		getBuilder(block.asItem().getRegistryName().toString())
 				.parent(getExistingFile(new MachinaRL("block/" + block.asItem().getRegistryName().getPath())));
 	}
 
-	protected void oneLayerItem(Item item, ResourceLocation texture) {
+	protected void item(Item item, ResourceLocation texture) {
 		ResourceLocation itemTexture = new ResourceLocation(texture.getNamespace(), "item/" + texture.getPath());
 		if (existingFileHelper.exists(itemTexture, ResourcePackType.CLIENT_RESOURCES, ".png", "textures")) {
 			getBuilder(item.getRegistryName().getPath()).parent(getExistingFile(mcLoc("item/generated")))
@@ -106,8 +111,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		}
 	}
 
-	protected void oneLayerItem(Item item) {
-		oneLayerItem(item, item.getRegistryName());
+	protected void item(Item item) {
+		item(item, item.getRegistryName());
 	}
 
 }

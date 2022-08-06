@@ -33,6 +33,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.STEEL_BLOCK.get(), "Steel Block");
 		add(BlockInit.ALUMINUM_BLOCK.get(), "Aluminum Block");
 		add(BlockInit.ALUMINUM_ORE.get(), "Aluminum Ore");
+		add(BlockInit.COPPER_BLOCK.get(), "Copper Block");
+		add(BlockInit.COPPER_ORE.get(), "Copper Ore");
 		add(BlockInit.STEEL_CHASSIS.get(), "Steel Chassis");
 		add(BlockInit.IRON_CHASSIS.get(), "Iron Chassis");
 		add(BlockInit.ALIEN_STONE.get(), "Alien Stone");
@@ -63,6 +65,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.STEEL_NUGGET.get(), "Steel Nugget");
 		add(ItemInit.ALUMINUM_INGOT.get(), "Aluminum Ingot");
 		add(ItemInit.ALUMINUM_NUGGET.get(), "Aluminum Nugget");
+		add(ItemInit.COPPER_INGOT.get(), "Copper Ingot");
+		add(ItemInit.COPPER_NUGGET.get(), "Copper Nugget");
+		add(ItemInit.COPPER_COIL.get(), "Copper Coil");
 		add(ItemInit.IRON_CATALYST.get(), "Iron Catalyst");
 		add(ItemInit.PROCESSOR.get(), "Processor");
 		add(ItemInit.SILICON.get(), "Silicon");

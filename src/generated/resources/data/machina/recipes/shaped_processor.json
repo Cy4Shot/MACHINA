@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shaped_processor",
+  "pattern": [
+    "tct",
+    "rdr",
+    "tct"
+  ],
+  "key": {
+    "t": {
+      "item": "machina:transistor"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "r": {
+      "item": "minecraft:redstone_torch"
+    },
+    "c": {
+      "item": "machina:copper_coil"
+    }
+  },
+  "result": {
+    "item": "machina:processor"
+  }
+}
