@@ -1,6 +1,5 @@
 package com.machina.world.cave;
 
-import com.google.common.collect.ImmutableSet;
 import com.machina.registration.init.TagInit;
 import com.machina.util.math.OpenSimplex2F;
 import com.machina.util.server.BlockHelper;
@@ -18,14 +17,12 @@ import net.minecraft.world.chunk.IChunk;
 // https://github.com/Melonslise/Subterranean-Wilderness/blob/84d3b6ffe4c268dfa73b5d066fa69b31a7f5107c/src/main/java/melonslise/subwild/common/world/gen/feature/cavetype/BasicCaveType.java#L94
 public class PlanetCaveDecorator {
 
-	public static final ImmutableSet<Direction> dirs = ImmutableSet.of(Direction.NORTH, Direction.EAST, Direction.SOUTH,
-			Direction.WEST, Direction.UP, Direction.DOWN);
-
-	public static void decorateCavesAt(IChunk chunk, BlockPos pos, PlanetChunkGenerator gen,
+	public static void decorateCavesAt(IChunk chunk, BlockPos pos,
+			PlanetChunkGenerator gen,
 			boolean allowVerticalConnections) {
 		BlockPos.Mutable adjecent = new BlockPos.Mutable();
 
-		for (Direction dir : dirs) {
+		for (Direction dir : Direction.values()) {
 			adjecent.set(pos).move(dir);
 
 			if (canGenSide(chunk, chunk.getBlockState(adjecent), dir)) {
@@ -49,7 +46,7 @@ public class PlanetCaveDecorator {
 			}
 		}
 
-		for (Direction dir : dirs) {
+		for (Direction dir : Direction.values()) {
 			adjecent.set(pos).move(dir);
 			if (canGenExtra(chunk, chunk.getBlockState(pos), chunk.getBlockState(adjecent), dir)) {
 				switch (dir) {

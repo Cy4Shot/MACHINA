@@ -256,15 +256,15 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 						if (column.getBlockState(a.above()).isAir()) {
 							pos.add(a.above());
 						}
-						if(column.getBlockState(a.below()).isAir()) {
+						if (column.getBlockState(a.below()).isAir()) {
 							pos.add(a.below());
 						}
 					}
 				}
 			}
 		}
-		
-		for(BlockPos p : pos) {
+
+		for (BlockPos p : pos) {
 			PlanetCaveDecorator.decorateCavesAt(chunk, p, this, false);
 		}
 
@@ -354,9 +354,9 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		// Add cave decoration
 		for (int a = 0; a < bitset.length(); ++a) {
 			if (bitset.get(a)) {
-				BlockPos pos = new BlockPos(chunkpos.getMinBlockX() + (a & 15), a >> 8,
+				BlockPos pos = new BlockPos(chunkpos.getMinBlockX() + (a & 15), (a >> 8) + 1,
 						chunkpos.getMinBlockZ() + (a >> 4 & 15));
-				PlanetCaveDecorator.decorateCavesAt(pChunk, pos.above(), this, true);
+				PlanetCaveDecorator.decorateCavesAt(pChunk, pos, this, true);
 			}
 		}
 

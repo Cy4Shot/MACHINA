@@ -38,6 +38,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.FlatChunkGenerator;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -145,6 +146,14 @@ public class Registration {
 	}
 
 	public static void biomeModification(final BiomeLoadingEvent event) {
+		
+		// Don't add to MACHINA dimensions, nether, or end.
+		if (event.getName() == null || event.getName().getNamespace().equals(Machina.MOD_ID))
+			return;
+		Category cat = event.getCategory();
+		if (cat.equals(Category.NETHER) || cat.equals(Category.THEEND))
+			return;
+		
 		event.getGeneration().getStructures().add(() -> ConfiguredFeatureInit.CONFIGURED_SHIP);
 	}
 
