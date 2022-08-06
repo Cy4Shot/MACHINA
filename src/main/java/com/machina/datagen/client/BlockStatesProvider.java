@@ -49,6 +49,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleOrientableBlock(BlockInit.FURNACE_GENERATOR.get());
 		
 		frontOrientableBlock(BlockInit.TEMPERATURE_REGULATOR.get());
+		frontOrientableBlock(BlockInit.STATE_CONVERTER.get());
 
 		fluid(FluidInit.LIQUID_HYDROGEN);
 		fluid(FluidInit.LIQUID_AMMONIA);
@@ -62,7 +63,6 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
 		simpleBlock(BlockInit.FUEL_STORAGE_UNIT.get());
-		simpleBlock(BlockInit.STATE_CONVERTER.get());
 	}
 
 	public void fluid(FluidObject obj) {

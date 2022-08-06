@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "machina:block/state_converter"
+    },
+    "facing=south": {
+      "model": "machina:block/state_converter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "machina:block/state_converter",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "machina:block/state_converter",
+      "y": 90
     }
   }
 }
