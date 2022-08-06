@@ -15,12 +15,14 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.IChunk;
 
+// https://github.com/Melonslise/Subterranean-Wilderness/blob/84d3b6ffe4c268dfa73b5d066fa69b31a7f5107c/src/main/java/melonslise/subwild/common/world/gen/feature/cavetype/BasicCaveType.java#L94
 public class PlanetCaveDecorator {
 
 	public static final ImmutableSet<Direction> dirs = ImmutableSet.of(Direction.NORTH, Direction.EAST, Direction.SOUTH,
 			Direction.WEST, Direction.UP, Direction.DOWN);
 
-	public static void decorateCavesAt(IChunk chunk, BlockPos pos, PlanetChunkGenerator gen) {
+	public static void decorateCavesAt(IChunk chunk, BlockPos pos, PlanetChunkGenerator gen,
+			boolean allowVerticalConnections) {
 		BlockPos.Mutable adjecent = new BlockPos.Mutable();
 
 		for (Direction dir : dirs) {
@@ -38,7 +40,6 @@ public class PlanetCaveDecorator {
 					final double d = getNoise(gen.getCaveDecoNoise(), adjecent, 0.125d);
 					if (d < -0.3d)
 						chunk.setBlockState(adjecent, gen.baseBlocks.getSecondaryBlock(), false);
-
 					break;
 				default:
 					// Gen Wall
@@ -72,7 +73,7 @@ public class PlanetCaveDecorator {
 					if (dir == Direction.NORTH && (adjecent.getZ() + 1) % 16 == 0)
 						break;
 
-					genSlope(chunk, pos, dir, gen);
+					genSlope(chunk, pos, dir, gen, allowVerticalConnections);
 					break;
 				}
 			}
@@ -84,39 +85,44 @@ public class PlanetCaveDecorator {
 		}
 	}
 
-	public static void genSlope(IChunk world, BlockPos pos, Direction wallDir, PlanetChunkGenerator gen) {
+	public static void genSlope(IChunk world, BlockPos pos, Direction wallDir, PlanetChunkGenerator gen,
+			boolean allowVerticalConnections) {
 
-		// Initialize
 		BlockPos.Mutable mutPos = new BlockPos.Mutable().set(pos);
+
 		mutPos.set(pos).move(0, -1, 0);
-		final boolean isDown = world.getBlockState(mutPos.set(pos).move(0, -1, 0)).is(TagInit.Blocks.CARVEABLE_BLOCKS);
-		final boolean isUp = world.getBlockState(mutPos.set(pos).move(0, 1, 0)).is(TagInit.Blocks.CARVEABLE_BLOCKS);
+		final boolean isDown = world.getBlockState(mutPos).is(TagInit.Blocks.CARVEABLE_BLOCKS);
+		mutPos.set(pos).move(0, 1, 0);
+		final boolean isUp = world.getBlockState(mutPos).is(TagInit.Blocks.CARVEABLE_BLOCKS);
 		if (!isDown && !isUp)
 			return;
-		mutPos.set(pos);
 
-		// Chance to generate
+		if (!allowVerticalConnections) {
+			if (world.getBlockState(pos.north()).isAir() && world.getBlockState(pos.east()).isAir()
+					&& world.getBlockState(pos.south()).isAir() && world.getBlockState(pos.west()).isAir())
+				return;
+		}
+
+		mutPos.set(pos);
 		int air = 0;
 		Direction oppDir = wallDir.getOpposite();
 		while (air < 16 && !world.getBlockState(mutPos.move(oppDir)).isFaceSturdy(world, mutPos, wallDir))
 			++air;
+
 		int chance = 4;
 		if (air <= 3)
 			chance = 2;
 		if (gen.random.nextInt(10) >= chance)
 			return;
-
-		// Generate
-		if (gen.random.nextInt(5) <= 2) {
+		if (gen.random.nextInt(5) <= 2)
 			genBlock(world, pos,
 					BlockHelper.waterlog(
 							gen.baseBlocks.getStairBlock().setValue(BlockStateProperties.HORIZONTAL_FACING, wallDir)
 									.setValue(BlockStateProperties.HALF, isDown ? Half.BOTTOM : Half.TOP),
 							world, pos));
-		} else {
+		else
 			genBlock(world, pos, BlockHelper.waterlog(gen.baseBlocks.getSlabBlock()
 					.setValue(BlockStateProperties.SLAB_TYPE, isDown ? SlabType.BOTTOM : SlabType.TOP), world, pos));
-		}
 	}
 
 	public static boolean genBlock(IChunk world, BlockPos pos, BlockState state) {

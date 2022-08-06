@@ -30,27 +30,29 @@ public class BlockStatesProvider extends BlockStateProvider {
 		tintedBlock(BlockInit.TWILIGHT_DIRT.get());
 		tintedBlock(BlockInit.WASTELAND_SANDSTONE.get());
 		tintedBlock(BlockInit.WASTELAND_SAND.get());
-		
+
 		tintedSlab(BlockInit.ALIEN_STONE_SLAB.get(), "alien_stone", false);
 		tintedSlab(BlockInit.WASTELAND_DIRT_SLAB.get(), "wasteland_dirt", false);
 		tintedSlab(BlockInit.TWILIGHT_DIRT_SLAB.get(), "twilight_dirt", false);
 		tintedSlab(BlockInit.WASTELAND_SANDSTONE_SLAB.get(), "wasteland_sandstone", true);
-		
+
 		tintedStairs(BlockInit.ALIEN_STONE_STAIRS.get(), "alien_stone", false);
 		tintedStairs(BlockInit.WASTELAND_DIRT_STAIRS.get(), "wasteland_dirt", false);
 		tintedStairs(BlockInit.TWILIGHT_DIRT_STAIRS.get(), "twilight_dirt", false);
 		tintedStairs(BlockInit.WASTELAND_SANDSTONE_STAIRS.get(), "wasteland_sandstone", true);
-		
+
 		tintedWall(BlockInit.WASTELAND_SANDSTONE_WALL.get(), "wasteland_sandstone");
-		
+
 		simpleOrientableBlock(BlockInit.BATTERY.get());
 		simpleOrientableBlock(BlockInit.PRESSURIZED_CHAMBER.get());
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
 		simpleOrientableBlock(BlockInit.FURNACE_GENERATOR.get());
 		
+		frontOrientableBlock(BlockInit.TEMPERATURE_REGULATOR.get());
+
 		fluid(FluidInit.LIQUID_HYDROGEN);
 		fluid(FluidInit.LIQUID_AMMONIA);
-		
+
 		simpleBlock(BlockInit.STEEL_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_ORE.get());
@@ -59,7 +61,6 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.TANK.get());
 		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
-		simpleBlock(BlockInit.TEMPERATURE_REGULATOR.get());
 		simpleBlock(BlockInit.FUEL_STORAGE_UNIT.get());
 		simpleBlock(BlockInit.STATE_CONVERTER.get());
 	}
@@ -76,6 +77,14 @@ public class BlockStatesProvider extends BlockStateProvider {
 	public void simpleOrientableBlock(Block block) {
 		horizontalBlock(block, models().orientable(name(block), blockTexture(block),
 				extend(blockTexture(block), "_front"), extend(blockTexture(block), "_top")));
+	}
+
+	public void frontOrientableBlock(Block block) {
+		horizontalBlock(block,
+				models().orientableWithBottom(name(block), extend(blockTexture(block), "_side"),
+						extend(blockTexture(block), "_front"), extend(blockTexture(block), "_bottom"),
+						extend(blockTexture(block), "_top")));
+
 	}
 
 	public ModelFile tinted(Block block) {

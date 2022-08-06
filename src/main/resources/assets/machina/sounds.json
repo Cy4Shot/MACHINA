@@ -6,27 +6,33 @@
 		]
 	},
 	"beyond": {
+		"category": "music",
 		"subtitle": "machina.subtitle.beyond",
 		"sounds": [
 			{
 				"name": "machina:music/disc/beyond",
-				"stream": true
+				"stream": true,
+				"preload": true
 			}
 		]
 	},
 	"music": {
+		"category": "music",
 		"sounds": [
 			{
 				"name": "machina:music/machina_01",
-				"stream": true
+				"stream": true,
+				"preload": true
 			},
 			{
 				"name": "machina:music/machina_02",
-				"stream": true
+				"stream": true,
+				"preload": true
 			},
 			{
 				"name": "machina:music/machina_03",
-				"stream": true
+				"stream": true,
+				"preload": true
 			}
 		]
 	}

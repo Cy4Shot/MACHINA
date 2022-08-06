@@ -250,6 +250,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 				for (int y = 0; y < getGenDepth(); y++) {
 					blockpos$mutable.set(k1, y, l1);
 					chunk.setBlockState(blockpos$mutable, column.getBlockState(blockpos$mutable), false);
+					PlanetCaveDecorator.decorateCavesAt(chunk, blockpos$mutable, this, false);
 
 //					if (column.getBlockState(blockpos$mutable.above()).getBlock().equals(Blocks.AIR)) {
 //						if (!column.getBlockState(blockpos$mutable).getBlock().equals(Blocks.AIR)) {
@@ -262,6 +263,15 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 //						}
 //					}
 				}
+			}
+		}
+		
+		for (int i1 = 0; i1 < 16; ++i1) {
+			for (int j1 = 0; j1 < 16; ++j1) {
+				int k1 = chunkpos.getMinBlockX() + i1;
+				int l1 = chunkpos.getMinBlockZ() + j1;
+					blockpos$mutable.set(k1, getBaseHeight(k1, l1, Type.WORLD_SURFACE), l1);
+					PlanetCaveDecorator.decorateCavesAt(chunk, blockpos$mutable, this, false);
 			}
 		}
 
@@ -353,7 +363,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 			if (bitset.get(a)) {
 				BlockPos pos = new BlockPos(chunkpos.getMinBlockX() + (a & 15), a >> 8,
 						chunkpos.getMinBlockZ() + (a >> 4 & 15));
-				PlanetCaveDecorator.decorateCavesAt(pChunk, pos, this);
+				PlanetCaveDecorator.decorateCavesAt(pChunk, pos.above(), this, true);
 			}
 		}
 
