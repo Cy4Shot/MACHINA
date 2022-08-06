@@ -238,6 +238,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 //				new DynamicDimensionNoiseSurfaceBuilder(SurfaceBuilderConfig.CODEC, baseBlock, topLayer),
 //				new SurfaceBuilderConfig(baseBlock, baseBlock, baseBlock));
 
+		List<BlockPos> pos = new ArrayList<>();
 		ChunkPos chunkpos = chunk.getPos();
 		this.random.setBaseChunkSeed(chunkpos.x, chunkpos.z);
 		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
@@ -250,29 +251,21 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 				for (int y = 0; y < getGenDepth(); y++) {
 					blockpos$mutable.set(k1, y, l1);
 					chunk.setBlockState(blockpos$mutable, column.getBlockState(blockpos$mutable), false);
-					PlanetCaveDecorator.decorateCavesAt(chunk, blockpos$mutable, this, false);
-
-//					if (column.getBlockState(blockpos$mutable.above()).getBlock().equals(Blocks.AIR)) {
-//						if (!column.getBlockState(blockpos$mutable).getBlock().equals(Blocks.AIR)) {
-//
-//							double d1 = surfaceNoise.getSurfaceNoiseValue(k1 * 0.0625D, 0.0625D, l1 * 0.0625D, 0.0625D)
-//									* 15.0D;
-//
-//							surf.apply(this.random, chunk, null, i1, j1, y, d1, baseBlock,
-//									Blocks.WATER.defaultBlockState(), seaLevel, seed);
-//						}
-//					}
+					BlockPos a = blockpos$mutable.immutable();
+					if (!column.getBlockState(a).isAir()) {
+						if (column.getBlockState(a.above()).isAir()) {
+							pos.add(a.above());
+						}
+						if(column.getBlockState(a.below()).isAir()) {
+							pos.add(a.below());
+						}
+					}
 				}
 			}
 		}
 		
-		for (int i1 = 0; i1 < 16; ++i1) {
-			for (int j1 = 0; j1 < 16; ++j1) {
-				int k1 = chunkpos.getMinBlockX() + i1;
-				int l1 = chunkpos.getMinBlockZ() + j1;
-					blockpos$mutable.set(k1, getBaseHeight(k1, l1, Type.WORLD_SURFACE), l1);
-					PlanetCaveDecorator.decorateCavesAt(chunk, blockpos$mutable, this, false);
-			}
+		for(BlockPos p : pos) {
+			PlanetCaveDecorator.decorateCavesAt(chunk, p, this, false);
 		}
 
 		this.placeBedrock(chunk, this.random);
