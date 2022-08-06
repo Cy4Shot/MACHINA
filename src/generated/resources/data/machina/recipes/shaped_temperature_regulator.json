@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shaped_temperature_regulator",
+  "pattern": [
+    "rpr",
+    "csc",
+    "ici"
+  ],
+  "key": {
+    "i": {
+      "item": "machina:copper_ingot"
+    },
+    "s": {
+      "item": "machina:iron_chassis"
+    },
+    "c": {
+      "item": "machina:copper_coil"
+    },
+    "p": {
+      "item": "machina:processor"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "machina:temperature_regulator"
+  }
+}

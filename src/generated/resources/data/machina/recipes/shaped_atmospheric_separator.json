@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shaped_atmospheric_separator",
+  "pattern": [
+    " i ",
+    "rcr",
+    "apa"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_bars"
+    },
+    "r": {
+      "item": "machina:reinforced_stick"
+    },
+    "c": {
+      "item": "machina:iron_catalyst"
+    },
+    "p": {
+      "item": "machina:processor"
+    },
+    "a": {
+      "item": "machina:aluminum_ingot"
+    }
+  },
+  "result": {
+    "item": "machina:atmospheric_separator"
+  }
+}

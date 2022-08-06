@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shaped_furnace_generator",
+  "pattern": [
+    "rpr",
+    "ctc",
+    "iai"
+  ],
+  "key": {
+    "i": {
+      "item": "machina:aluminum_ingot"
+    },
+    "t": {
+      "item": "machina:battery"
+    },
+    "c": {
+      "item": "minecraft:furnace"
+    },
+    "p": {
+      "item": "machina:processor"
+    },
+    "r": {
+      "item": "machina:transistor"
+    },
+    "a": {
+      "item": "machina:cable"
+    }
+  },
+  "result": {
+    "item": "machina:furnace_generator"
+  }
+}

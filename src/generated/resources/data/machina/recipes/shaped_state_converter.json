@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shaped_state_converter",
+  "pattern": [
+    "rpr",
+    "csc",
+    "ici"
+  ],
+  "key": {
+    "i": {
+      "item": "machina:steel_ingot"
+    },
+    "s": {
+      "item": "machina:steel_chassis"
+    },
+    "c": {
+      "item": "machina:copper_coil"
+    },
+    "p": {
+      "item": "machina:processor"
+    },
+    "r": {
+      "item": "machina:transistor"
+    }
+  },
+  "result": {
+    "item": "machina:state_converter"
+  }
+}

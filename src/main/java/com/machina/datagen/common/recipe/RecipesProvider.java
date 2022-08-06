@@ -166,6 +166,132 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("iii");
 			//@formatter:on
 		});
+		
+		addShaped(f, BlockInit.FLUID_HOPPER.get(), 6, builder -> {
+			//@formatter:off
+			return builder
+					.define('t', BlockInit.TANK.get())
+					.define('h', Blocks.HOPPER)
+					.pattern("hth");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.ATMOSPHERIC_SEPARATOR.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', Blocks.IRON_BARS)
+					.define('r', ItemInit.REINFORCED_STICK.get())
+					.define('c', ItemInit.IRON_CATALYST.get())
+					.define('p', ItemInit.PROCESSOR.get())
+					.define('a', ItemInit.ALUMINUM_INGOT.get())
+					.pattern(" i ")
+					.pattern("rcr")
+					.pattern("apa");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.TEMPERATURE_REGULATOR.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.COPPER_INGOT.get())
+					.define('s', BlockInit.IRON_CHASSIS.get())
+					.define('c', ItemInit.COPPER_COIL.get())
+					.define('p', ItemInit.PROCESSOR.get())
+					.define('r', Items.REDSTONE)
+					.pattern("rpr")
+					.pattern("csc")
+					.pattern("ici");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.STATE_CONVERTER.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.STEEL_INGOT.get())
+					.define('s', BlockInit.STEEL_CHASSIS.get())
+					.define('c', ItemInit.COPPER_COIL.get())
+					.define('p', ItemInit.PROCESSOR.get())
+					.define('r', ItemInit.TRANSISTOR.get())
+					.pattern("rpr")
+					.pattern("csc")
+					.pattern("ici");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.FUEL_STORAGE_UNIT.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.ALUMINUM_INGOT.get())
+					.define('t', BlockInit.TANK.get())
+					.define('c', ItemInit.COPPER_COIL.get())
+					.define('p', ItemInit.PROCESSOR.get())
+					.define('r', ItemInit.TRANSISTOR.get())
+					.pattern("rpr")
+					.pattern("ctc")
+					.pattern("ici");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.FURNACE_GENERATOR.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.ALUMINUM_INGOT.get())
+					.define('t', BlockInit.BATTERY.get())
+					.define('c', Blocks.FURNACE)
+					.define('p', ItemInit.PROCESSOR.get())
+					.define('r', ItemInit.TRANSISTOR.get())
+					.define('a', BlockInit.CABLE.get())
+					.pattern("rpr")
+					.pattern("ctc")
+					.pattern("iai");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.PRESSURIZED_CHAMBER.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.STEEL_INGOT.get())
+					.define('b', BlockInit.BATTERY.get())
+					.define('t', BlockInit.TANK.get())
+					.define('c', BlockInit.STEEL_CHASSIS.get())
+					.define('p', ItemInit.PROCESSOR.get())
+					.define('r', ItemInit.COPPER_COIL.get())
+					.define('a', BlockInit.TEMPERATURE_REGULATOR.get())
+					.pattern("rpr")
+					.pattern("tcb")
+					.pattern("iai");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.TANK.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.COPPER_INGOT.get())
+					.define('b', Items.BUCKET)
+					.define('c', BlockInit.IRON_CHASSIS.get())
+					.define('p', ItemInit.PROCESSOR.get())
+					.define('r', Blocks.OBSIDIAN)
+					.define('a', ItemInit.COPPER_COIL.get())
+					.pattern("rpr")
+					.pattern("bcb")
+					.pattern("iai");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.BATTERY.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', Items.REDSTONE)
+					.define('b', ItemInit.COPPER_COIL.get())
+					.define('c', BlockInit.IRON_CHASSIS.get())
+					.define('p', ItemInit.PROCESSOR.get())
+					.define('r', ItemInit.TRANSISTOR.get())
+					.define('a', BlockInit.CABLE.get())
+					.pattern("rpr")
+					.pattern("bcb")
+					.pattern("iai");
+			//@formatter:on
+		});
 	}
 
 	public void addShaped(Consumer<IFinishedRecipe> f, IItemProvider out, int count,
