@@ -6,6 +6,7 @@ import com.machina.client.cinema.CinematicHandler;
 import com.machina.client.renderer.CargoCrateRenderer;
 import com.machina.client.renderer.ComponentAnalyzerRenderer;
 import com.machina.client.renderer.ShipConsoleRenderer;
+import com.machina.client.renderer.TankRenderer;
 import com.machina.client.screen.AtmosphericSeparatorScreen;
 import com.machina.client.screen.BatteryScreen;
 import com.machina.client.screen.ComponentAnalyzerScreen;
@@ -133,6 +134,7 @@ public class ClientModEvents {
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.SHIP_CONSOLE.get(), ShipConsoleRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityInit.TANK.get(), TankRenderer::new);
 		
 		event.enqueueWork(() -> {
 			ItemModelsProperties.register(ItemInit.SHIP_COMPONENT.get(), new MachinaRL("type"), (stack, level, living) -> {

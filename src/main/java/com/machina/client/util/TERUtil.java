@@ -10,9 +10,12 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -21,6 +24,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
 
 public class TERUtil {
 
@@ -102,5 +106,71 @@ public class TERUtil {
 		int bLight = world.getBrightness(LightType.BLOCK, pos);
 		int sLight = world.getBrightness(LightType.SKY, pos);
 		return LightTexture.pack(bLight, sLight);
+	}
+
+	public static void renderFluid(MatrixStack stack, FluidStack fluid, IRenderTypeBuffer buff, float minX, float maxX,
+			float minY, float maxY, float minZ, float maxZ, float a) {
+		if (fluid == null || fluid.isEmpty())
+			return;
+
+		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(PlayerContainer.BLOCK_ATLAS)
+				.apply(fluid.getFluid().getAttributes().getStillTexture(fluid));
+
+		IVertexBuilder builder = buff.getBuffer(RenderType.translucent());
+
+		int color = fluid.getFluid().getAttributes().getColor();
+		float r = (color >> 16 & 0xFF) / 255.0F;
+		float g = (color >> 8 & 0xFF) / 255.0F;
+		float b = (color & 0xFF) / 255.0F;
+
+		stack.pushPose();
+		add(builder, stack, minX, maxY, maxZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, maxY, maxZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, maxY, minZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, maxY, minZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, maxZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, maxY, maxZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, maxY, minZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, minZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, maxZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, maxY, maxZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, minY, maxZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, minY, maxZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, minY, minZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, minY, minZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, maxY, minZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, minZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, minZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, maxY, minZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, minY, minZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, minY, minZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, minY, maxZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, minY, maxZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, maxY, maxZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, maxZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		stack.mulPose(Vector3f.YP.rotationDegrees(90));
+		stack.translate(-1f, 0, 0);
+		add(builder, stack, maxX, maxY, maxZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, maxY, maxZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, minY, maxZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, minY, maxZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, minY, minZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, minY, minZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, maxY, minZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, minZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, minZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, maxY, minZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, minX, minY, minZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, minY, minZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, maxX, minY, maxZ, sprite.getU0(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, minY, maxZ, sprite.getU1(), sprite.getV1(), r, g, b, a);
+		add(builder, stack, minX, maxY, maxZ, sprite.getU1(), sprite.getV0(), r, g, b, a);
+		add(builder, stack, maxX, maxY, maxZ, sprite.getU0(), sprite.getV0(), r, g, b, a);
+		stack.popPose();
+	}
+
+	private static void add(IVertexBuilder c, MatrixStack s, float x, float y, float z, float u, float v, float r,
+			float g, float b, float a) {
+		c.vertex(s.last().pose(), x, y, z).color(r, g, b, a).uv(u, v).uv2(0, 240).normal(1, 0, 0).endVertex();
 	}
 }
