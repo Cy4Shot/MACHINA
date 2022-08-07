@@ -5,12 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 
 import cc.mallet.types.Alphabet;
-import cc.mallet.types.Multinomial;
 import cc.mallet.util.Randoms;
 import gnu.trove.TIntHashSet;
 import gnu.trove.TIntIntHashMap;
@@ -1444,47 +1441,4 @@ public class Dirichlet {
 	public double[] randomVector(Randoms r) {
 		return randomRawMultinomial(r);
 	}
-
-	public static abstract class Estimator {
-		ArrayList<Multinomial> multinomials;
-
-		public Estimator() {
-			this.multinomials = new ArrayList<Multinomial>();
-		}
-
-		public Estimator(Collection<Multinomial> multinomialsTraining) {
-			this.multinomials = new ArrayList<Multinomial>(multinomialsTraining);
-			for (int i = 1; i < multinomials.size(); i++)
-				if (((Multinomial) multinomials.get(i - 1)).size() != ((Multinomial) multinomials.get(i)).size()
-						|| ((Multinomial) multinomials.get(i - 1)).getAlphabet() != ((Multinomial) multinomials.get(i))
-								.getAlphabet())
-					throw new IllegalArgumentException("All multinomials must have same size and Alphabet.");
-		}
-
-		public void addMultinomial(Multinomial m) {
-			// xxx Assert that it is the right class and size
-			multinomials.add(m);
-		}
-
-		public abstract Dirichlet estimate();
-
-	}
-
-	public static class MethodOfMomentsEstimator extends Estimator {
-		public Dirichlet estimate() {
-			int dims = multinomials.get(0).size();
-			double[] alphas = new double[dims];
-			for (int i = 1; i < multinomials.size(); i++)
-				multinomials.get(i).addProbabilitiesTo(alphas);
-			double alphaSum = 0;
-			for (int i = 0; i < alphas.length; i++)
-				alphaSum += alphas[i];
-			for (int i = 0; i < alphas.length; i++)
-				alphas[i] /= alphaSum; // xxx Fix this to set sum by variance matching
-			throw new UnsupportedOperationException("Not yet implemented.");
-			// return new Dirichlet(alphas);
-		}
-
-	}
-
 }

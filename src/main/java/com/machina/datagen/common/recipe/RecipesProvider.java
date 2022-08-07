@@ -169,7 +169,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("iii");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.FLUID_HOPPER.get(), 6, builder -> {
 			//@formatter:off
 			return builder
@@ -178,7 +178,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("hth");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.ATMOSPHERIC_SEPARATOR.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -192,7 +192,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("apa");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.TEMPERATURE_REGULATOR.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -206,7 +206,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("ici");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.STATE_CONVERTER.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -220,7 +220,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("ici");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.FUEL_STORAGE_UNIT.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -234,7 +234,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("ici");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.FURNACE_GENERATOR.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -249,7 +249,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("iai");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.PRESSURIZED_CHAMBER.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -265,7 +265,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("iai");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.TANK.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -280,7 +280,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("iai");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.BATTERY.get(), 1, builder -> {
 			//@formatter:off
 			return builder
