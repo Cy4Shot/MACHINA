@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "machina:block/tank"
+    },
+    "facing=south": {
+      "model": "machina:block/tank",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "machina:block/tank",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "machina:block/tank",
+      "y": 90
     }
   }
 }

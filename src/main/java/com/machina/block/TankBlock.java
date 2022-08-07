@@ -5,7 +5,6 @@ import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.SoundHelper;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -25,11 +24,11 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class TankBlock extends Block {
+public class TankBlock extends HorizontalFacingBlock {
 
 	public TankBlock() {
 		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).harvestLevel(2).strength(6f)
-				.sound(SoundType.METAL));
+				.sound(SoundType.METAL).noOcclusion());
 	}
 
 	@Override
