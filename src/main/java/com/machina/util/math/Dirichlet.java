@@ -6,13 +6,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
-import cc.mallet.types.Alphabet;
-import cc.mallet.util.Randoms;
-import gnu.trove.TIntHashSet;
-import gnu.trove.TIntIntHashMap;
-import gnu.trove.TIntIterator;
-
+// Modified from: https://github.com/mimno/Mallet
 public class Dirichlet {
 
 	Alphabet dict;
@@ -21,7 +19,6 @@ public class Dirichlet {
 
 	Randoms random = null;
 
-	/** Actually the negative Euler-Mascheroni constant */
 	public static final double EULER_MASCHERONI = -0.5772156649015328606065121;
 	public static final double PI_SQUARED_OVER_SIX = Math.PI * Math.PI / 6;
 	public static final double HALF_LOG_TWO_PI = Math.log(2 * Math.PI) / 2;
@@ -40,37 +37,15 @@ public class Dirichlet {
 	public static final double DIGAMMA_LARGE = 9.5;
 	public static final double DIGAMMA_SMALL = .000001;
 
-	/**
-	 * A dirichlet parameterized by a distribution and a magnitude
-	 * 
-	 * @param m The magnitude of the Dirichlet: sum_i alpha_i
-	 * @param p A probability distribution: p_i = alpha_i / m
-	 */
 	public Dirichlet(double m, double[] p) {
 		magnitude = m;
 		partition = p;
 	}
 
-	/**
-	 * A symmetric dirichlet: E(X_i) = E(X_j) for all i, j
-	 * 
-	 * @param m The magnitude of the Dirichlet: sum_i alpha_i
-	 * @param n The number of dimensions
-	 */
-	/*
-	 * public Dirichlet (double m, int n) { magnitude = m; partition = new
-	 * double[n];
-	 * 
-	 * partition[0] = 1.0 / n; for (int i=1; i<n; i++) { partition[i] =
-	 * partition[0]; } }
-	 */
-
-	/** A dirichlet parameterized with a single vector of positive reals */
 	public Dirichlet(double[] p) {
 		magnitude = 0;
 		partition = new double[p.length];
 
-		// Add up the total
 		for (int i = 0; i < p.length; i++) {
 			magnitude += p[i];
 		}
@@ -80,9 +55,6 @@ public class Dirichlet {
 		}
 	}
 
-	/**
-	 * Constructor that takes an alphabet representing the meaning of each dimension
-	 */
 	public Dirichlet(double[] alphas, Alphabet dict) {
 		this(alphas);
 		if (dict != null && alphas.length != dict.size())
@@ -92,37 +64,20 @@ public class Dirichlet {
 			dict.stopGrowth();
 	}
 
-	/**
-	 * A symmetric Dirichlet with alpha_i = 1.0 and the number of dimensions of the
-	 * given alphabet.
-	 */
 	public Dirichlet(Alphabet dict) {
 		this(dict, 1.0);
 	}
 
-	/**
-	 * A symmetric Dirichlet with alpha_i = <code>alpha</code> and the number of
-	 * dimensions of the given alphabet.
-	 */
 	public Dirichlet(Alphabet dict, double alpha) {
 		this(dict.size(), alpha);
 		this.dict = dict;
 		dict.stopGrowth();
 	}
 
-	/**
-	 * A symmetric Dirichlet with alpha_i = 1.0 and <code>size</code> dimensions
-	 */
 	public Dirichlet(int size) {
 		this(size, 1.0);
 	}
 
-	/**
-	 * A symmetric dirichlet: E(X_i) = E(X_j) for all i, j
-	 * 
-	 * @param n     The number of dimensions
-	 * @param alpha The parameter for each dimension
-	 */
 	public Dirichlet(int size, double alpha) {
 		magnitude = size * alpha;
 
@@ -145,7 +100,6 @@ public class Dirichlet {
 		initRandom();
 		this.random.setSeed(seed);
 
-//		For each dimension, draw a sample from Gamma(mp_i, 1)
 		double sum = 0;
 		for (int i = 0; i < distribution.length; i++) {
 			distribution[i] = random.nextGamma(partition[i] * magnitude, 1);
@@ -155,17 +109,12 @@ public class Dirichlet {
 			sum += distribution[i];
 		}
 
-//		Normalize
 		for (int i = 0; i < distribution.length; i++) {
 			distribution[i] /= sum;
 		}
 
 		return distribution;
 	}
-
-	/**
-	 * Create a printable list of alpha_i parameters
-	 */
 
 	public static String distributionToString(double magnitude, double[] distribution) {
 		StringBuffer output = new StringBuffer();
@@ -181,9 +130,6 @@ public class Dirichlet {
 		return output.toString();
 	}
 
-	/**
-	 * Write the parameters alpha_i to the specified file, one per line
-	 */
 	public void toFile(String filename) throws IOException {
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filename)));
 		for (int i = 0; i < partition.length; i++) {
@@ -193,10 +139,6 @@ public class Dirichlet {
 		out.close();
 	}
 
-	/**
-	 * Dirichlet-multinomial: draw a distribution from the dirichlet, then draw n
-	 * samples from that multinomial.
-	 */
 	public int[] drawObservation(int n) {
 		initRandom();
 
@@ -205,12 +147,6 @@ public class Dirichlet {
 		return drawObservation(n, distribution);
 	}
 
-	/**
-	 * Draw a count vector from the probability distribution provided.
-	 * 
-	 * @param n The <i>expected</i> total number of counts in the returned vector.
-	 *          The actual number is ~ Poisson(<code>n</code>)
-	 */
 	public int[] drawObservation(int n, double[] distribution) {
 		initRandom();
 
@@ -220,12 +156,9 @@ public class Dirichlet {
 
 		int count;
 
-//		I was using a poisson, but the poisson variate generator
-//		goes berzerk for lambda above ~500.
 		if (n < 100) {
 			count = random.nextPoisson();
 		} else {
-			// p(N(100, 10) <= 0) = 7.619853e-24
 
 			count = (int) Math.round(random.nextGaussian(n, n));
 		}
@@ -237,10 +170,6 @@ public class Dirichlet {
 		return histogram;
 	}
 
-	/**
-	 * Create a set of d draws from a dirichlet-multinomial, each with an average of
-	 * n observations.
-	 */
 	public Object[] drawObservations(int d, int n) {
 		Object[] observations = new Object[d];
 		for (int i = 0; i < d; i++) {
@@ -249,10 +178,6 @@ public class Dirichlet {
 		return observations;
 	}
 
-	/**
-	 * This calculates a log gamma function exactly. It's extremely inefficient --
-	 * use this for comparison only.
-	 */
 	public static double logGammaDefinition(double z) {
 		double result = EULER_MASCHERONI * z - Math.log(z);
 		for (int k = 1; k < 10000000; k++) {
@@ -261,11 +186,6 @@ public class Dirichlet {
 		return result;
 	}
 
-	/**
-	 * This directly calculates the difference between two log gamma functions using
-	 * a recursive formula. The break-even with the Stirling approximation is about
-	 * n=2, so it's not necessarily worth using this.
-	 */
 	public static double logGammaDifference(double z, int n) {
 		double result = 0.0;
 		for (int i = 0; i < n; i++) {
@@ -274,19 +194,10 @@ public class Dirichlet {
 		return result;
 	}
 
-	/** Currently aliased to <code>logGammaStirling</code> */
 	public static double logGamma(double z) {
 		return logGammaStirling(z);
 	}
 
-	/**
-	 * Use a fifth order Stirling's approximation.
-	 * 
-	 * @param z Note that Stirling's approximation is increasingly unstable as
-	 *          <code>z</code> approaches 0. If <code>z</code> is less than 2, we
-	 *          shift it up, calculate the approximation, and then shift the answer
-	 *          back down.
-	 */
 	public static double logGammaStirling(double z) {
 		int shift = 0;
 		while (z < 2) {
@@ -306,28 +217,18 @@ public class Dirichlet {
 		return result;
 	}
 
-	/** Gergo Nemes' approximation */
-
 	public static double logGammaNemes(double z) {
 		double result = HALF_LOG_TWO_PI - (Math.log(z) / 2) + z * (Math.log(z + (1 / (12 * z - (1 / (10 * z))))) - 1);
 		return result;
 	}
 
-	/**
-	 * Calculate digamma using an asymptotic expansion involving Bernoulli numbers.
-	 */
 	public static double digamma(double z) {
-//		This is based on matlab code by Tom Minka
-
-//		if (z < 0) { System.out.println(" less than zero"); }
 
 		double psi = 0;
 
 		if (z < DIGAMMA_SMALL) {
-			psi = EULER_MASCHERONI - (1 / z); // + (PI_SQUARED_OVER_SIX * z);
-			/*
-			 * for (int n=1; n<100000; n++) { psi += z / (n * (n + z)); }
-			 */
+			psi = EULER_MASCHERONI - (1 / z);
+
 			return psi;
 		}
 
@@ -379,33 +280,10 @@ public class Dirichlet {
 		return result;
 	}
 
-	/**
-	 * Learn the concentration parameter of a symmetric Dirichlet using frequency
-	 * histograms. Since all parameters are the same, we only need to keep track of
-	 * the number of observation/dimension pairs with count N
-	 *
-	 * @param countHistogram     An array of frequencies. If the matrix X represents
-	 *                           observations such that x<sub>dt</sub> is how many
-	 *                           times word t occurs in document d,
-	 *                           <code>countHistogram[3]</code> is the total number
-	 *                           of cells <i>in any column</i> that equal 3.
-	 * @param observationLengths A histogram of sample lengths, for example
-	 *                           <code>observationLengths[20]</code> could be the
-	 *                           number of documents that are exactly 20 tokens
-	 *                           long.
-	 * @param numDimensions      The total number of dimensions.
-	 * @param currentValue       An initial starting value.
-	 */
-
 	public static double learnSymmetricConcentration(int[] countHistogram, int[] observationLengths, int numDimensions,
 			double currentValue) {
 		double currentDigamma;
 
-		// The histogram arrays are presumably allocated before
-		// we knew what went in them. It is therefore likely that
-		// the largest non-zero value may be much closer to the
-		// beginning than the end. We don't want to iterate over
-		// a whole bunch of zeros, so keep track of the last value.
 		int largestNonZeroCount = 0;
 		int[] nonZeroLengthIndex = new int[observationLengths.length];
 
@@ -429,18 +307,13 @@ public class Dirichlet {
 
 			double currentParameter = currentValue / numDimensions;
 
-			// Calculate the numerator
-
 			currentDigamma = 0;
 			double numerator = 0;
 
-			// Counts of 0 don't matter, so start with 1
 			for (int index = 1; index <= largestNonZeroCount; index++) {
 				currentDigamma += 1.0 / (currentParameter + index - 1);
 				numerator += countHistogram[index] * currentDigamma;
 			}
-
-			// Now calculate the denominator, a sum over all observation lengths
 
 			currentDigamma = 0;
 			double denominator = 0;
@@ -452,12 +325,10 @@ public class Dirichlet {
 				int length = nonZeroLengthIndex[denseIndex];
 
 				if (length - previousLength > 20) {
-					// If the next length is sufficiently far from the previous,
-					// it's faster to recalculate from scratch.
+
 					currentDigamma = digamma(currentValue + length) - cachedDigamma;
 				} else {
-					// Otherwise iterate up. This looks slightly different
-					// from the previous version (no -1) because we're indexing differently.
+
 					for (int index = previousLength; index < length; index++) {
 						currentDigamma += 1.0 / (currentValue + index);
 					}
@@ -468,8 +339,6 @@ public class Dirichlet {
 
 			currentValue = currentParameter * numerator / denominator;
 
-			/// System.out.println(currentValue + " = " + currentParameter + " * " +
-			/// numerator + " / " + denominator);
 		}
 
 		return currentValue;
@@ -513,53 +382,16 @@ public class Dirichlet {
 
 	}
 
-	/**
-	 * Learn Dirichlet parameters using frequency histograms
-	 * 
-	 * @param parameters         A reference to the current values of the
-	 *                           parameters, which will be updated in place
-	 * @param observations       An array of count histograms.
-	 *                           <code>observations[10][3]</code> could be the
-	 *                           number of documents that contain exactly 3 tokens
-	 *                           of word type 10.
-	 * @param observationLengths A histogram of sample lengths, for example
-	 *                           <code>observationLengths[20]</code> could be the
-	 *                           number of documents that are exactly 20 tokens
-	 *                           long.
-	 * @returns The sum of the learned parameters.
-	 */
 	public static double learnParameters(double[] parameters, int[][] observations, int[] observationLengths) {
 
 		return learnParameters(parameters, observations, observationLengths, 1.00001, 1.0, 200);
 	}
 
-	/**
-	 * Learn Dirichlet parameters using frequency histograms
-	 * 
-	 * @param parameters         A reference to the current values of the
-	 *                           parameters, which will be updated in place
-	 * @param observations       An array of count histograms.
-	 *                           <code>observations[10][3]</code> could be the
-	 *                           number of documents that contain exactly 3 tokens
-	 *                           of word type 10.
-	 * @param observationLengths A histogram of sample lengths, for example
-	 *                           <code>observationLengths[20]</code> could be the
-	 *                           number of documents that are exactly 20 tokens
-	 *                           long.
-	 * @param shape              Gamma prior E(X) = shape * scale, var(X) = shape *
-	 *                           scale<sup>2</sup>
-	 * @param scale
-	 * @param numIterations      200 to 1000 generally insures convergence, but 1-5
-	 *                           is often enough to step in the right direction
-	 * @returns The sum of the learned parameters.
-	 */
 	public static double learnParameters(double[] parameters, int[][] observations, int[] observationLengths,
 			double shape, double scale, int numIterations) {
 		int i, k;
 
 		double parametersSum = 0;
-
-		// Initialize the parameter sum
 
 		for (k = 0; k < parameters.length; k++) {
 			parametersSum += parameters[k];
@@ -573,48 +405,36 @@ public class Dirichlet {
 		int[] nonZeroLimits = new int[observations.length];
 		Arrays.fill(nonZeroLimits, -1);
 
-		// The histogram arrays go up to the size of the largest document,
-		// but the non-zero values will almost always cluster in the low end.
-		// We avoid looping over empty arrays by saving the index of the largest
-		// non-zero value.
-
 		int[] histogram;
 
 		for (i = 0; i < observations.length; i++) {
 			histogram = observations[i];
 
-			// StringBuffer out = new StringBuffer();
 			for (k = 0; k < histogram.length; k++) {
 				if (histogram[k] > 0) {
 					nonZeroLimits[i] = k;
-					// out.append(k + ":" + histogram[k] + " ");
+
 				}
 			}
-			// System.out.println(out);
+
 		}
 
 		for (int iteration = 0; iteration < numIterations; iteration++) {
 
-			// Calculate the denominator
 			denominator = 0;
 			currentDigamma = 0;
 
-			// Iterate over the histogram:
 			for (i = 1; i < observationLengths.length; i++) {
 				currentDigamma += 1 / (parametersSum + i - 1);
 				denominator += observationLengths[i] * currentDigamma;
 			}
 
-			// Bayesian estimation Part I
 			denominator -= 1 / scale;
-
-			// Calculate the individual parameters
 
 			parametersSum = 0;
 
 			for (k = 0; k < parameters.length; k++) {
 
-				// What's the largest non-zero element in the histogram?
 				nonZeroLimit = nonZeroLimits[k];
 
 				oldParametersK = parameters[k];
@@ -628,7 +448,6 @@ public class Dirichlet {
 					parameters[k] += histogram[i] * currentDigamma;
 				}
 
-				// Bayesian estimation part II
 				parameters[k] = oldParametersK * (parameters[k] + shape) / denominator;
 
 				parametersSum += parameters[k];
@@ -642,7 +461,6 @@ public class Dirichlet {
 		return parametersSum;
 	}
 
-	/** Use the fixed point iteration described by Tom Minka. */
 	public long learnParametersWithHistogram(Object[] observations) {
 
 		int maxLength = 0;
@@ -667,19 +485,14 @@ public class Dirichlet {
 			}
 		}
 
-//		Arrays start at zero, so I'm sacrificing one int for greater clarity
-//		later on...
 		int[][] binCountHistograms = new int[partition.length][];
 		for (int bin = 0; bin < partition.length; bin++) {
 			binCountHistograms[bin] = new int[maxBinCounts[bin] + 1];
 			Arrays.fill(binCountHistograms[bin], 0);
 		}
 
-//		System.out.println("got mem: " + (System.currentTimeMillis() - start));
-
 		int[] lengthHistogram = new int[maxLength + 1];
 		Arrays.fill(lengthHistogram, 0);
-//		System.out.println("got lengths: " + (System.currentTimeMillis() - start));
 
 		for (int i = 0; i < observations.length; i++) {
 			int length = 0;
@@ -714,7 +527,6 @@ public class Dirichlet {
 
 		for (int iteration = 0; iteration < 1000; iteration++) {
 
-			// Calculate the denominator
 			denominator = 0;
 			currentDigamma = 0;
 
@@ -728,8 +540,6 @@ public class Dirichlet {
 
 			parametersSum = 0.0;
 
-			// Calculate the individual parameters
-
 			for (k = 0; k < partition.length; k++) {
 
 				alphaK = newParameters[k];
@@ -737,7 +547,7 @@ public class Dirichlet {
 				currentDigamma = 0;
 
 				int[] histogram = binCountHistograms[k];
-				if (histogram.length <= 1) { // Since histogram[0] is for 0...
+				if (histogram.length <= 1) {
 					newParameters[k] = 0.000001;
 				} else {
 					for (i = 1; i < histogram.length; i++) {
@@ -763,13 +573,6 @@ public class Dirichlet {
 				parametersSum += newParameters[k];
 			}
 
-			/*
-			 * try { if (iteration % 25 == 0) {
-			 * //System.out.println(distributionToString(parametersSum, newParameters));
-			 * //toFile("../newsgroups/direct/iteration" + iteration);
-			 * //System.out.println(iteration + ": " + (System.currentTimeMillis() -
-			 * start)); } } catch (Exception e) { System.out.println(e); }
-			 */
 		}
 
 		for (k = 0; k < partition.length; k++) {
@@ -777,18 +580,14 @@ public class Dirichlet {
 			magnitude = parametersSum;
 		}
 
-//		System.out.println(distributionToString(magnitude, partition));
 		return System.currentTimeMillis() - start;
 	}
 
-	/** Use the fixed point iteration described by Tom Minka. */
 	public long learnParametersWithDigamma(Object[] observations) {
 
 		int[][] binCounts = new int[partition.length][observations.length];
-//		System.out.println("got mem: " + (System.currentTimeMillis() - start));
 
 		int[] observationLengths = new int[observations.length];
-//		System.out.println("got lengths: " + (System.currentTimeMillis() - start));
 
 		for (int i = 0; i < observations.length; i++) {
 			int[] observation = (int[]) observations[i];
@@ -797,7 +596,6 @@ public class Dirichlet {
 				observationLengths[i] += observation[bin];
 			}
 		}
-//		System.out.println("init: " + (System.currentTimeMillis() - start));
 
 		return learnParametersWithDigamma(binCounts, observationLengths);
 	}
@@ -818,15 +616,12 @@ public class Dirichlet {
 		for (int iteration = 0; iteration < 1000; iteration++) {
 			newMagnitude = 0;
 
-			// Calculate the denominator
 			denominator = 0;
 
 			for (i = 0; i < observationLengths.length; i++) {
 				denominator += digamma(magnitude + observationLengths[i]);
 			}
 			denominator -= observationLengths.length * digamma(magnitude);
-
-			// Calculate the individual parameters
 
 			for (k = 0; k < partition.length; k++) {
 				newParameters[k] = 0;
@@ -860,33 +655,19 @@ public class Dirichlet {
 
 				newMagnitude += newParameters[k];
 
-				// System.out.println("finished dimension " + k);
 			}
 
 			magnitude = newMagnitude;
 			for (k = 0; k < partition.length; k++) {
 				partition[k] = newParameters[k] / magnitude;
-				/*
-				 * if (k < 20) {
-				 * System.out.println(partition[k]+" = "+newParameters[k]+" / "+magnitude); }
-				 */
+
 			}
 
-			/*
-			 * try { if (iteration % 25 == 0) { toFile("../newsgroups/digamma/iteration" +
-			 * iteration); //System.out.println(iteration + ": " +
-			 * (System.currentTimeMillis() - start)); } } catch (Exception e) {
-			 * System.out.println(e); }
-			 */
 		}
-//		System.out.println(distributionToString(magnitude, partition));
 
 		return System.currentTimeMillis() - start;
 	}
 
-	/**
-	 * Estimate a dirichlet with the moment matching method described by Ronning.
-	 */
 	public long learnParametersWithMoments(Object[] observations) {
 		long start = System.currentTimeMillis();
 
@@ -899,12 +680,9 @@ public class Dirichlet {
 		Arrays.fill(observationLengths, 0);
 		Arrays.fill(variances, 0.0);
 
-//		Find E[p_k]'s
-
 		for (i = 0; i < observations.length; i++) {
 			int[] observation = (int[]) observations[i];
 
-			// Find the sum of counts in each bin
 			for (bin = 0; bin < partition.length; bin++) {
 				observationLengths[i] += observation[bin];
 			}
@@ -918,24 +696,19 @@ public class Dirichlet {
 			partition[bin] /= observations.length;
 		}
 
-//		Find var[p_k]'s
-
 		double difference;
 		for (i = 0; i < observations.length; i++) {
 			int[] observation = (int[]) observations[i];
 
 			for (bin = 0; bin < partition.length; bin++) {
 				difference = ((double) observation[bin] / observationLengths[i]) - partition[bin];
-				variances[bin] += difference * difference; // avoiding Math.pow...
+				variances[bin] += difference * difference;
 			}
 		}
 
 		for (bin = 0; bin < partition.length; bin++) {
 			variances[bin] /= observations.length - 1;
 		}
-
-//		Now calculate the magnitude:
-//		log \sum_k \alpha_k = 1/(K-1) \sum_k log[ ( E[p_k](1 - E[p_k]) / var[p_k] ) - 1 ]
 
 		double sum = 0.0;
 
@@ -948,18 +721,14 @@ public class Dirichlet {
 
 		magnitude = Math.exp(sum / (partition.length - 1));
 
-		// System.out.println(distributionToString(magnitude, partition));
-
 		return System.currentTimeMillis() - start;
 	}
 
 	public long learnParametersWithLeaveOneOut(Object[] observations) {
 
 		int[][] binCounts = new int[partition.length][observations.length];
-//		System.out.println("got mem: " + (System.currentTimeMillis() - start));
 
 		int[] observationLengths = new int[observations.length];
-//		System.out.println("got lengths: " + (System.currentTimeMillis() - start));
 
 		for (int i = 0; i < observations.length; i++) {
 			int[] observation = (int[]) observations[i];
@@ -968,12 +737,10 @@ public class Dirichlet {
 				observationLengths[i] += observation[bin];
 			}
 		}
-//		System.out.println("init: " + (System.currentTimeMillis() - start));
 
 		return learnParametersWithLeaveOneOut(binCounts, observationLengths);
 	}
 
-	/** Learn parameters using Minka's Leave-One-Out (LOO) likelihood */
 	public long learnParametersWithLeaveOneOut(int[][] binCounts, int[] observationLengths) {
 		long start = System.currentTimeMillis();
 
@@ -984,9 +751,6 @@ public class Dirichlet {
 		double observationSum = 0.0;
 		double parameterSum = 0.0;
 		int[] counts;
-
-//		Uniform initialization
-//		Arrays.fill(partition, 1.0 / partition.length);
 
 		for (int iteration = 0; iteration < 1000; iteration++) {
 
@@ -1022,18 +786,11 @@ public class Dirichlet {
 			}
 			magnitude = parameterSum;
 
-			/*
-			 * if (iteration % 50 == 0) { System.out.println(iteration + ": " + magnitude);
-			 * }
-			 */
 		}
-
-//		System.out.println(distributionToString(magnitude, partition));
 
 		return System.currentTimeMillis() - start;
 	}
 
-	/** Compute the L1 residual between two dirichlets */
 	public double absoluteDifference(Dirichlet other) {
 		if (partition.length != other.partition.length) {
 			throw new IllegalArgumentException("dirichlets must have the same dimension to be compared");
@@ -1048,7 +805,6 @@ public class Dirichlet {
 		return residual;
 	}
 
-	/** Compute the L2 residual between two dirichlets */
 	public double squaredDifference(Dirichlet other) {
 		if (partition.length != other.partition.length) {
 			throw new IllegalArgumentException("dirichlets must have the same dimension to be compared");
@@ -1098,11 +854,8 @@ public class Dirichlet {
 		uniformDirichlet = new Dirichlet(k, sum / k);
 
 		dirichlet = new Dirichlet(sum, uniformDirichlet.nextDistribution(0));
-//		System.out.println("real: " + distributionToString(dirichlet.magnitude, 
-//		dirichlet.partition));
-		Object[] observations = dirichlet.drawObservations(n, w);
 
-//		System.out.println("Done drawing...");
+		Object[] observations = dirichlet.drawObservations(n, w);
 
 		long time;
 
@@ -1120,40 +873,17 @@ public class Dirichlet {
 
 		time = estimatedDirichlet.learnParametersWithMoments(observations);
 		output.append(time + "\t" + dirichlet.absoluteDifference(estimatedDirichlet) + "\t");
-//		System.out.println("Moments: " + time + ", " + 
-//		dirichlet.absoluteDifference(estimatedDirichlet));
 
 		estimatedDirichlet = new Dirichlet(k, sum / k);
 
 		time = estimatedDirichlet.learnParametersWithLeaveOneOut(observations);
 		output.append(time + "\t" + dirichlet.absoluteDifference(estimatedDirichlet) + "\t");
-//		System.out.println("Leave One Out: " + time + ", " + 
-//		dirichlet.absoluteDifference(estimatedDirichlet));
 
 		return output.toString();
 	}
 
-	/**
-	 * What is the probability that these two observations were drawn from the same
-	 * multinomial with symmetric Dirichlet prior alpha, relative to the probability
-	 * that they were drawn from different multinomials both drawn from this
-	 * Dirichlet?
-	 */
-	public static double dirichletMultinomialLikelihoodRatio(TIntIntHashMap countsX, TIntIntHashMap countsY,
-			double alpha, double alphaSum) {
-//		The likelihood for one DCM is 
-//		Gamma( alpha_sum )	 prod Gamma( alpha + N_i )
-//		prod Gamma ( alpha )   Gamma ( alpha_sum + N )
-
-//		When we divide this by the product of two other DCMs with the same
-//		alpha parameter, the first term in the numerator cancels with the 
-//		first term in the denominator. Then moving the remaining alpha-only
-//		term to the numerator, we get
-//		prod Gamma(alpha)	  prod Gamma( alpha + X_i + Y_i )
-//		Gamma (alpha_sum)	 Gamma( alpha_sum + X_sum + Y_sum )
-//		----------------------------------------------------------
-//		prod Gamma(alpha + X_i)		  prod Gamma(alpha + Y_i)
-//		Gamma( alpha_sum + X_sum )	  Gamma( alpha_sum + Y_sum )
+	public static double dirichletMultinomialLikelihoodRatio(HashMap<Integer, Integer> countsX,
+			HashMap<Integer, Integer> countsY, double alpha, double alphaSum) {
 
 		double logLikelihood = 0.0;
 
@@ -1162,11 +892,11 @@ public class Dirichlet {
 
 		int key, x, y;
 
-		TIntHashSet distinctKeys = new TIntHashSet();
-		distinctKeys.addAll(countsX.keys());
-		distinctKeys.addAll(countsY.keys());
+		HashSet<Integer> distinctKeys = new HashSet<Integer>();
+		distinctKeys.addAll(countsX.keySet());
+		distinctKeys.addAll(countsY.keySet());
 
-		TIntIterator iterator = distinctKeys.iterator();
+		Iterator<Integer> iterator = distinctKeys.iterator();
 		while (iterator.hasNext()) {
 			key = iterator.next();
 
@@ -1192,16 +922,8 @@ public class Dirichlet {
 		return logLikelihood;
 	}
 
-	/**
-	 * What is the probability that these two observations were drawn from the same
-	 * multinomial with symmetric Dirichlet prior alpha, relative to the probability
-	 * that they were drawn from different multinomials both drawn from this
-	 * Dirichlet?
-	 */
 	public static double dirichletMultinomialLikelihoodRatio(int[] countsX, int[] countsY, double alpha,
 			double alphaSum) {
-//		This is exactly the same as the method that takes
-//		Trove hashmaps, but with fixed size arrays.
 
 		if (countsX.length != countsY.length) {
 			throw new IllegalArgumentException("both arrays must contain the same number of dimensions");
@@ -1231,7 +953,6 @@ public class Dirichlet {
 		return logLikelihood;
 	}
 
-	/** This version uses a non-symmetric Dirichlet prior */
 	public double dirichletMultinomialLikelihoodRatio(int[] countsX, int[] countsY) {
 
 		if (countsX.length != countsY.length || countsX.length != partition.length) {
@@ -1264,11 +985,6 @@ public class Dirichlet {
 		return logLikelihood;
 	}
 
-	/**
-	 * Similar to the Dirichlet-multinomial test,s this is a likelihood ratio based
-	 * on the Ewens Sampling Formula, which can be considered the distribution of
-	 * partitions of integers generated by the Chinese restaurant process.
-	 */
 	public static double ewensLikelihoodRatio(int[] countsX, int[] countsY, double lambda) {
 
 		if (countsX.length != countsY.length) {
@@ -1283,7 +999,6 @@ public class Dirichlet {
 
 		int x, y;
 
-//		First count up the totals
 		for (int key = 0; key < countsX.length; key++) {
 			x = countsX[key];
 			y = countsY[key];
@@ -1292,9 +1007,6 @@ public class Dirichlet {
 			totalY += y;
 			total += x + y;
 		}
-
-//		Now allocate some arrays for the sufficient statisitics 
-//		(the number of classes that contain x elements)
 
 		int[] countHistogramX = new int[total + 1];
 		int[] countHistogramY = new int[total + 1];
@@ -1346,9 +1058,8 @@ public class Dirichlet {
 					for (int l = 0; l < 5; l++) {
 						System.out.println(dimensions + "\t" + dimensions + "\t" + documents + "\t" + meanSize);
 
-						// Finally, run this ten times.
 						for (int m = 0; m < 10; m++) {
-							// always use Dir(1, 1, 1, ... 1) for now...
+
 							out.println(compare(dimensions, dimensions, documents, meanSize));
 						}
 						out.flush();
@@ -1371,29 +1082,6 @@ public class Dirichlet {
 
 		testSymmetricConcentration(1000, 100, 1000);
 
-		/*
-		 * 
-		 * Dirichlet prior = new Dirichlet(100, 1.0); double[] distribution; int[] x, y;
-		 * 
-		 * for (int i=0; i<50; i++) {
-		 * 
-		 * Dirichlet nonSymmetric = new Dirichlet(100, prior.nextDistribution());
-		 * 
-		 * // Two observations from same multinomial distribution =
-		 * nonSymmetric.nextDistribution(); x = nonSymmetric.drawObservation(100,
-		 * distribution); y = nonSymmetric.drawObservation(100, distribution);
-		 * 
-		 * System.out.print(nonSymmetric.dirichletMultinomialLikelihoodRatio(x, y) +
-		 * "\t"); System.out.print(ewensLikelihoodRatio(x, y, 1) + "\t");
-		 * 
-		 * // Two observations from different multinomials
-		 * 
-		 * x = nonSymmetric.drawObservation(100); y = nonSymmetric.drawObservation(100);
-		 * 
-		 * System.out.print(ewensLikelihoodRatio(x, y, 0.1) + "\t");
-		 * System.out.println(nonSymmetric.dirichletMultinomialLikelihoodRatio(x, y)); }
-		 * 
-		 */
 	}
 
 	public Alphabet getAlphabet() {
@@ -1418,9 +1106,7 @@ public class Dirichlet {
 		double sum = 0;
 		double[] pr = new double[this.partition.length];
 		for (int i = 0; i < this.partition.length; i++) {
-//			if (alphas[i] < 0)
-//			for (int j = 0; j < alphas.length; j++)
-//			System.out.println (dict.lookupSymbol(j).toString() + "=" + alphas[j]);
+
 			pr[i] = r.nextGamma(magnitude * partition[i]);
 			sum += pr[i];
 		}
@@ -1432,7 +1118,7 @@ public class Dirichlet {
 	public Dirichlet randomDirichlet(Randoms r, double averageAlpha) {
 		double[] pr = randomRawMultinomial(r);
 		double alphaSum = pr.length * averageAlpha;
-		// System.out.println ("randomDirichlet alphaSum = "+alphaSum);
+
 		for (int i = 0; i < pr.length; i++)
 			pr[i] *= alphaSum;
 		return new Dirichlet(pr, dict);

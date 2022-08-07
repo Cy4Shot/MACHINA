@@ -116,9 +116,6 @@ configurations {
 
 dependencies {
 	minecraft 'net.minecraftforge:forge:1.16.5-36.2.33'
-
-	// Jar Dependencies
-	shade group: 'cc.mallet', name: 'mallet', version: '2.0.8'
     
 	// Mod Dependencies
 	implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
@@ -126,7 +123,6 @@ dependencies {
 	// Testing Dependencies
 	compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130:api")
 	runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130")
-	implementation fg.deobf("curse.maven:immersive-231951:3573683")
 	implementation fg.deobf("curse.maven:mekanism-268560:3659389")
 	implementation fg.deobf("curse.maven:shutup-407174:3188120")
 
