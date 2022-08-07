@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "group": "shaped_cable",
   "pattern": [
-    "asa"
+    "ccc",
+    "asa",
+    "ccc"
   ],
   "key": {
     "a": {
@@ -10,6 +12,9 @@
     },
     "s": {
       "tag": "forge:ingots/steel"
+    },
+    "c": {
+      "tag": "forge:nuggets/copper"
     }
   },
   "result": {

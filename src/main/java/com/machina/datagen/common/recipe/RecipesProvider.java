@@ -152,7 +152,10 @@ public class RecipesProvider extends RecipeProvider {
 			return builder
 					.define('a', ItemInit.ALUMINUM_INGOT.get())
 					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
-					.pattern("asa");
+					.define('c', TagHelper.getForgeItemTag("nuggets/copper"))
+					.pattern("ccc")
+					.pattern("asa")
+					.pattern("ccc");
 			//@formatter:on
 		});
 
