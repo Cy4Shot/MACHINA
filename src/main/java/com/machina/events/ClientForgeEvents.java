@@ -46,7 +46,7 @@ public class ClientForgeEvents {
 		if (mc.screen != null || mc.level == null)
 			return;
 
-		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.DEV_PLANET_CREATION_SCREEN)) {
+		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.DEV_SCREEN) && Machina.isDevEnvironment()) {
 			mc.setScreen(new DevScreen());
 		}
 

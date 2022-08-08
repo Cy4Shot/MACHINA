@@ -1,11 +1,11 @@
 package com.machina.datagen.client.lang;
 
-import com.machina.Machina;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.SoundInit.Sound;
 
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -16,8 +16,11 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class BaseLangProvider extends LanguageProvider {
 
-	public BaseLangProvider(DataGenerator gen, String locale) {
-		super(gen, Machina.MOD_ID, locale);
+	String modid;
+
+	public BaseLangProvider(DataGenerator gen, String locale, String modid) {
+		super(gen, modid, locale);
+		this.modid = modid;
 	}
 
 	protected void addItemGroup(ItemGroup key, String name) {
@@ -43,7 +46,15 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	}
 
 	protected void add(Sound sound, String name) {
-		add("machina.subtitle." + sound.name(), name);
+		add(modid + ".subtitle." + sound.name(), name);
+	}
+
+	protected void add(KeyBinding key, String name) {
+		add(key.getName(), name);
+	}
+
+	protected void addKeyCategory(String category, String name) {
+		add("key.category." + category, name);
 	}
 
 	protected void addCommandFeedback(String key, String name) {
@@ -55,19 +66,19 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	}
 
 	protected void addTerminalCommand(String name, String desc) {
-		add("machina.terminal.description." + name, desc);
+		add(modid + ".terminal.description." + name, desc);
 	}
 
 	protected void addTerminalFeedback(String comm, String id, String text) {
-		add("machina.terminal.feedback." + comm + "." + id, text);
+		add(modid + ".terminal.feedback." + comm + "." + id, text);
 	}
 
 	protected void addScreen(String screen, String id, String locale) {
-		add("machina.screen." + screen + "." + id, locale);
+		add(modid + ".screen." + screen + "." + id, locale);
 	}
 
 	protected void addShipComponent(String id, String locale) {
-		add("machina.ship_component." + id, locale);
+		add(modid + ".ship_component." + id, locale);
 	}
 
 	public void addMusicDisc(Item key, String desc) {

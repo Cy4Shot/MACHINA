@@ -3,7 +3,9 @@ package com.machina.datagen.client.lang;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.KeyBindingsInit;
 import com.machina.registration.init.SoundInit;
+import com.machina.Machina;
 import com.machina.registration.Registration;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.TraitInit;
@@ -13,7 +15,7 @@ import net.minecraft.data.DataGenerator;
 public class EnUsLangProvider extends BaseLangProvider {
 
 	public EnUsLangProvider(DataGenerator gen) {
-		super(gen, "en_us");
+		super(gen, "en_us", Machina.MOD_ID);
 	}
 
 	@Override
@@ -74,7 +76,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.SILICON.get(), "Silicon");
 		add(ItemInit.TRANSISTOR.get(), "Transistor");
 		add(ItemInit.AMMONIUM_NITRATE.get(), "Ammonium Nitrate");
-		
+
 		// Music Discs
 		addMusicDisc(ItemInit.BEYOND_MUSIC_DISC.get(), "Cy4 - Beyond (Machina OST)");
 
@@ -113,7 +115,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(AttributeInit.PLANET_ICON, "Planet Icon");
 		add(AttributeInit.SURF_BLOCKS, "Surface Blocks");
 		add(AttributeInit.TEMPERATURE, "Temperature");
-		
+
 		// Sounds
 		add(SoundInit.ROCKET_LAUNCH, "Rocket Launch");
 		add(SoundInit.BEYOND, "Cy4 - Beyond (MACHINA OST)");
@@ -121,6 +123,11 @@ public class EnUsLangProvider extends BaseLangProvider {
 		// Item Groups
 		addItemGroup(Registration.MAIN_GROUP, "Machina");
 		addItemGroup(Registration.PLANET_GROUP, "Machina: Worldgen");
+
+		// Keybindings
+		addKeyCategory("machina", "Machina");
+		add(KeyBindingsInit.DEV_SCREEN, "Dev Screen");
+		add(KeyBindingsInit.STARCHART, "Open Starchart");
 
 		// Commands
 		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");

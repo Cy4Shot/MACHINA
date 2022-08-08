@@ -19,7 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 @Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
 public final class KeyBindingsInit {
 
-	public static final KeyBinding DEV_PLANET_CREATION_SCREEN = create("dev_planet_creation_screen", KeyEvent.VK_C);
+	public static final KeyBinding DEV_SCREEN = create("dev_screen", KeyEvent.VK_C);
 	public static final KeyBinding STARCHART = create("starchart", KeyEvent.VK_P);
 
 	@SubscribeEvent

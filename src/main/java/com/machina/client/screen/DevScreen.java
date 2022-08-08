@@ -60,7 +60,7 @@ public class DevScreen extends Screen {
 	public void tick() {
 		super.tick();
 		if (dimensionID.getValue().equalsIgnoreCase(
-				KeyEvent.getKeyText(KeyBindingsInit.DEV_PLANET_CREATION_SCREEN.getKey().getValue()))) {
+				KeyEvent.getKeyText(KeyBindingsInit.DEV_SCREEN.getKey().getValue()))) {
 			dimensionID.setValue("");
 		}
 	}
