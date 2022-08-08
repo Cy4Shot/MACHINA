@@ -51,6 +51,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		frontOrientableBlock(BlockInit.TEMPERATURE_REGULATOR.get());
 		frontOrientableBlock(BlockInit.STATE_CONVERTER.get());
 		frontOrientableBlock(BlockInit.BATTERY.get());
+		frontOrientableBlock(BlockInit.CREATIVE_BATTERY.get());
 		frontOrientableBlock(BlockInit.TANK.get());
 
 		fluid(FluidInit.LIQUID_HYDROGEN);
@@ -61,7 +62,6 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.ALUMINUM_ORE.get());
 		simpleBlock(BlockInit.COPPER_BLOCK.get());
 		simpleBlock(BlockInit.COPPER_ORE.get());
-		simpleBlock(BlockInit.CREATIVE_BATTERY.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
 	}
 

@@ -1,6 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/orientable_with_bottom",
   "textures": {
-    "all": "machina:block/creative_battery"
+    "side": "machina:block/creative_battery_side",
+    "front": "machina:block/creative_battery_front",
+    "bottom": "machina:block/creative_battery_bottom",
+    "top": "machina:block/creative_battery_top"
   }
 }
