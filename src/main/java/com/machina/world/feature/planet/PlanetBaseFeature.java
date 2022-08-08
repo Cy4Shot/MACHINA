@@ -2,6 +2,8 @@ package com.machina.world.feature.planet;
 
 import java.util.Random;
 
+import com.machina.world.PlanetChunkGenerator;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -19,10 +21,10 @@ public abstract class PlanetBaseFeature extends Feature<NoFeatureConfig> {
 
 	@Override
 	public boolean place(ISeedReader region, ChunkGenerator chunk, Random rand, BlockPos pos, NoFeatureConfig conf) {
-		return place(region, chunk, rand, pos);
+		return place(region, (PlanetChunkGenerator) chunk, rand, pos); // DODGE!!
 	}
 	
-	public abstract boolean place(ISeedReader region, ChunkGenerator chunk, Random rand, BlockPos pos);
+	public abstract boolean place(ISeedReader region, PlanetChunkGenerator chunk, Random rand, BlockPos pos);
 
 	public ConfiguredFeature<NoFeatureConfig, ?> config() {
 		return this.configured(new NoFeatureConfig());
