@@ -21,11 +21,12 @@ import com.machina.util.server.ServerHelper;
 import com.machina.util.text.MachinaRL;
 import com.machina.world.cave.PlanetCarver;
 import com.machina.world.data.StarchartData;
+import com.machina.world.feature.PlanetDecorator;
+import com.machina.world.feature.planet.PlanetTreeFeature;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetBlocksGenerator.BlockPalette;
 import com.machina.world.settings.PlanetNoiseSettings;
 import com.machina.world.settings.PlanetStructureSettings;
-import com.machina.world.surface.PlanetDecorator;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -58,15 +59,9 @@ import net.minecraft.world.gen.ImprovedNoiseGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
 import net.minecraft.world.gen.SimplexNoiseGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
-import net.minecraft.world.gen.feature.BlockStateProvidingFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureSpreadConfig;
 import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.gen.placement.NoPlacementConfig;
-import net.minecraft.world.gen.placement.Placement;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
 public class PlanetChunkGenerator extends ChunkGenerator {
@@ -168,10 +163,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.traits.forEach(trait -> this.carvers.addAll(trait.addCarvers(this)));
 
 		this.features = new ArrayList<>();
-		this.features.add(() -> Feature.BLOCK_PILE
-				.configured(new BlockStateProvidingFeatureConfig(
-						new SimpleBlockStateProvider(Blocks.STONE_BRICKS.defaultBlockState())))
-				.decorated(Placement.COUNT_MULTILAYER.configured(new FeatureSpreadConfig(5))));
+		this.features.add(() -> new PlanetTreeFeature().count(5));
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
 
 		// Noise
@@ -295,7 +287,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 
 		return blockstate;
 	}
-	
+
 	@Override
 	public void applyBiomeDecoration(WorldGenRegion pRegion, StructureManager pStructureManager) {
 		this.placeFeatures(pRegion);

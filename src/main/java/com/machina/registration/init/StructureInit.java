@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.machina.Machina;
-import com.machina.world.structure.ShipStructure;
+import com.machina.world.feature.ShipStructure;
 
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.feature.NoFeatureConfig;

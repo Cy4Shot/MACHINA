@@ -1,4 +1,4 @@
-package com.machina.world.structure;
+package com.machina.world.feature;
 
 import java.util.List;
 

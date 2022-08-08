@@ -1,4 +1,4 @@
-package com.machina.world.surface;
+package com.machina.world.feature;
 
 import com.machina.registration.init.TagInit;
 import com.machina.util.math.OpenSimplex2F;
