@@ -1,4 +1,4 @@
-package com.machina.world.cave;
+package com.machina.world.surface;
 
 import com.machina.registration.init.TagInit;
 import com.machina.util.math.OpenSimplex2F;
@@ -6,7 +6,6 @@ import com.machina.util.server.BlockHelper;
 import com.machina.world.PlanetChunkGenerator;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
@@ -15,15 +14,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.IChunk;
 
 // https://github.com/Melonslise/Subterranean-Wilderness/blob/84d3b6ffe4c268dfa73b5d066fa69b31a7f5107c/src/main/java/melonslise/subwild/common/world/gen/feature/cavetype/BasicCaveType.java#L94
-public class PlanetCaveDecorator {
+public class PlanetDecorator {
 
-	public static void decorateCavesAt(IChunk chunk, BlockPos pos,
-			PlanetChunkGenerator gen,
+	public static void decorateAt(IChunk chunk, BlockPos pos, PlanetChunkGenerator gen,
 			boolean allowVerticalConnections) {
-		BlockPos.Mutable adjecent = new BlockPos.Mutable();
-
 		for (Direction dir : Direction.values()) {
-			adjecent.set(pos).move(dir);
+
+			BlockPos adjecent = pos.relative(dir);
 
 			if (canGenSide(chunk, chunk.getBlockState(adjecent), dir)) {
 				switch (dir) {
@@ -47,8 +44,8 @@ public class PlanetCaveDecorator {
 		}
 
 		for (Direction dir : Direction.values()) {
-			adjecent.set(pos).move(dir);
-			if (canGenExtra(chunk, chunk.getBlockState(pos), chunk.getBlockState(adjecent), dir)) {
+			BlockPos adjecent = pos.relative(dir);
+			if (canGenExtra(chunk.getBlockState(pos), chunk.getBlockState(adjecent))) {
 				switch (dir) {
 				case UP:
 					// Gen Ceil Extra
@@ -59,7 +56,6 @@ public class PlanetCaveDecorator {
 
 					break;
 				default:
-					// Gen Wall Extra
 
 					if (dir == Direction.EAST && adjecent.getX() % 16 == 0)
 						break;
@@ -74,11 +70,6 @@ public class PlanetCaveDecorator {
 					break;
 				}
 			}
-		}
-
-		// Fill
-		if (canGenFill(chunk, chunk.getBlockState(pos))) {
-
 		}
 	}
 
@@ -136,12 +127,7 @@ public class PlanetCaveDecorator {
 		return state.is(TagInit.Blocks.CARVEABLE_BLOCKS);
 	}
 
-	public static boolean canGenExtra(IChunk chunk, BlockState state, BlockState sState, Direction dir) {
-		return state.isAir() && (sState.getMaterial() == Material.WOOD || sState.is(TagInit.Blocks.CARVEABLE_BLOCKS));
+	public static boolean canGenExtra(BlockState state, BlockState sState) {
+		return state.isAir() && sState.is(TagInit.Blocks.CARVEABLE_BLOCKS);
 	}
-
-	public static boolean canGenFill(IChunk chunk, BlockState state) {
-		return state.isAir();
-	}
-
 }

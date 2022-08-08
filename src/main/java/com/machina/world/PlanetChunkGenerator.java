@@ -20,12 +20,12 @@ import com.machina.util.server.PlanetHelper;
 import com.machina.util.server.ServerHelper;
 import com.machina.util.text.MachinaRL;
 import com.machina.world.cave.PlanetCarver;
-import com.machina.world.cave.PlanetCaveDecorator;
 import com.machina.world.data.StarchartData;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetBlocksGenerator.BlockPalette;
 import com.machina.world.settings.PlanetNoiseSettings;
 import com.machina.world.settings.PlanetStructureSettings;
+import com.machina.world.surface.PlanetDecorator;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -47,7 +47,6 @@ import net.minecraft.world.Dimension;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.biome.provider.EndBiomeProvider;
 import net.minecraft.world.biome.provider.SingleBiomeProvider;
 import net.minecraft.world.chunk.ChunkPrimer;
@@ -59,14 +58,9 @@ import net.minecraft.world.gen.ImprovedNoiseGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
 import net.minecraft.world.gen.SimplexNoiseGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
-import net.minecraft.world.gen.feature.BlockStateProvidingFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.gen.placement.NoPlacementConfig;
-import net.minecraft.world.gen.placement.Placement;
 
 // https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
 public class PlanetChunkGenerator extends ChunkGenerator {
@@ -96,7 +90,6 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 
 	// Random Settings
 	public final SharedSeedRandom random;
-//	private final INoiseGenerator surfaceNoise;
 	private final OpenSimplex2F caveDecoNoise;
 	private final SimplexNoiseGenerator islandNoise;
 	private final OctavesNoiseGenerator depthNoise;
@@ -169,10 +162,10 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.traits.forEach(trait -> this.carvers.addAll(trait.addCarvers(this)));
 
 		this.features = new ArrayList<>();
-		this.features.add(() -> Feature.BLOCK_PILE
-				.configured(new BlockStateProvidingFeatureConfig(
-						new SimpleBlockStateProvider(Blocks.ACACIA_LOG.defaultBlockState())))
-				.decorated(Placement.HEIGHTMAP_WORLD_SURFACE.configured(new NoPlacementConfig())));
+//		this.features.add(() -> Feature.BLOCK_PILE
+//				.configured(new BlockStateProvidingFeatureConfig(
+//						new SimpleBlockStateProvider(Blocks.ACACIA_LOG.defaultBlockState())))
+//				.decorated(Placement.HEIGHTMAP_WORLD_SURFACE.configured(new NoPlacementConfig())));
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
 
 		// Noise
@@ -234,10 +227,6 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	@Override
 	public void buildSurfaceAndBedrock(WorldGenRegion worldGenRegion, IChunk chunk) {
 
-//		ConfiguredSurfaceBuilder<SurfaceBuilderConfig> surf = new ConfiguredSurfaceBuilder<SurfaceBuilderConfig>(
-//				new DynamicDimensionNoiseSurfaceBuilder(SurfaceBuilderConfig.CODEC, baseBlock, topLayer),
-//				new SurfaceBuilderConfig(baseBlock, baseBlock, baseBlock));
-
 		List<BlockPos> pos = new ArrayList<>();
 		ChunkPos chunkpos = chunk.getPos();
 		this.random.setBaseChunkSeed(chunkpos.x, chunkpos.z);
@@ -250,25 +239,28 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 				IBlockReader column = getBaseColumn(k1, l1);
 				for (int y = 0; y < getGenDepth(); y++) {
 					blockpos$mutable.set(k1, y, l1);
-					chunk.setBlockState(blockpos$mutable, column.getBlockState(blockpos$mutable), false);
-					BlockPos a = blockpos$mutable.immutable();
-					if (!column.getBlockState(a).isAir()) {
-						if (column.getBlockState(a.above()).isAir()) {
-							pos.add(a.above());
+					BlockState state = column.getBlockState(blockpos$mutable);
+					chunk.setBlockState(blockpos$mutable, state, false);
+					if (!state.isAir()) {
+						blockpos$mutable.move(0, 1, 0);
+						if (column.getBlockState(blockpos$mutable).isAir()) {
+							pos.add(blockpos$mutable.immutable());
 						}
-						if (column.getBlockState(a.below()).isAir()) {
-							pos.add(a.below());
+						blockpos$mutable.move(0, -2, 0);
+						if (column.getBlockState(blockpos$mutable).isAir()) {
+							pos.add(blockpos$mutable.immutable());
 						}
 					}
 				}
 			}
 		}
 
-		for (BlockPos p : pos) {
-			PlanetCaveDecorator.decorateCavesAt(chunk, p, this, false);
-		}
-
 		this.placeBedrock(chunk, this.random);
+		this.placeCaves(seed, chunk);
+		for (BlockPos p : pos) {
+			PlanetDecorator.decorateAt(chunk, p, this, false);
+		}
+		this.placeFeatures(worldGenRegion);
 	}
 
 	public boolean isIslands() {
@@ -299,64 +291,65 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		return blockstate;
 	}
 
-	@Override
-	public void applyBiomeDecoration(WorldGenRegion region, StructureManager pStructureManager) {
+	public void placeFeatures(WorldGenRegion region) {
 
-		BlockPos pos = new BlockPos(region.getCenterX() * 16, 0, region.getCenterZ() * 16);
+		int i = region.getCenterX();
+		int j = region.getCenterZ();
+		int k = i * 16;
+		int l = j * 16;
+		BlockPos blockpos = new BlockPos(k, 0, l);
+		SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
+		long i1 = sharedseedrandom.setDecorationSeed(region.getSeed(), k, l);
 
-		for (int i3 = 0; i3 < 16; ++i3) {
-			for (int j3 = 0; j3 < 16; ++j3) {
-				for (Supplier<ConfiguredFeature<?, ?>> supplier : this.features) {
-					ConfiguredFeature<?, ?> configuredfeature = supplier.get();
+		try {
+			int k1 = 0;
+			for (Supplier<ConfiguredFeature<?, ?>> supplier : features) {
+				ConfiguredFeature<?, ?> configuredfeature = supplier.get();
+				sharedseedrandom.setFeatureSeed(i1, k1, 0);
 
-					try {
-						configuredfeature.place(region, this, this.random, pos);
-					} catch (Exception exception1) {
-						CrashReport crashreport1 = CrashReport.forThrowable(exception1, "Feature placement");
-						crashreport1.addCategory("Feature")
-								.setDetail("Id", Registry.FEATURE.getKey(configuredfeature.feature))
-								.setDetail("Config", configuredfeature.config).setDetail("Description", () -> {
-									return configuredfeature.feature.toString();
-								});
-						throw new ReportedException(crashreport1);
-					}
+				try {
+					configuredfeature.place(region, this, sharedseedrandom, blockpos);
+				} catch (Exception e) {
+					throw new RuntimeException(e);
 				}
-			}
-		}
 
-		super.applyBiomeDecoration(region, pStructureManager);
+				++k1;
+			}
+		} catch (Exception exception) {
+			CrashReport crashreport = CrashReport.forThrowable(exception, "Biome decoration");
+			crashreport.addCategory("Generation").setDetail("CenterX", i).setDetail("CenterZ", j).setDetail("Seed", i1);
+			throw new ReportedException(crashreport);
+		}
 	}
 
-	@Override
-	public void applyCarvers(long pSeed, BiomeManager pBiomeManager, IChunk pChunk, Carving pCarving) {
+	public void placeCaves(long seed, IChunk chunk) {
 
 		Function<BlockPos, Biome> getBiome = (pos) -> biome;
-		ChunkPos chunkpos = pChunk.getPos();
+		ChunkPos chunkpos = chunk.getPos();
 		int j = chunkpos.x;
 		int k = chunkpos.z;
-		BitSet bitset = ((ChunkPrimer) pChunk).getOrCreateCarvingMask(pCarving);
+		BitSet bitset = ((ChunkPrimer) chunk).getOrCreateCarvingMask(Carving.AIR);
 
 		for (int l = j - 8; l <= j + 8; ++l) {
 			for (int i1 = k - 8; i1 <= k + 8; ++i1) {
 				int l1 = 0;
 				for (Supplier<ConfiguredCarver<?>> supplier : this.carvers) {
 					ConfiguredCarver<?> configuredcarver = supplier.get();
-					this.random.setLargeFeatureSeed(pSeed + (long) l1, l, i1);
-					configuredcarver.carve(pChunk, getBiome, this.random, this.getSeaLevel(), l, i1, j, k, bitset);
+					this.random.setLargeFeatureSeed(seed + (long) l1, l, i1);
+					configuredcarver.carve(chunk, getBiome, this.random, this.getSeaLevel(), l, i1, j, k, bitset);
 					if (configuredcarver.isStartChunk(this.random, l, i1)) {
-						configuredcarver.carve(pChunk, getBiome, this.random, this.getSeaLevel(), l, i1, j, k, bitset);
+						configuredcarver.carve(chunk, getBiome, this.random, this.getSeaLevel(), l, i1, j, k, bitset);
 					}
 					l1++;
 				}
 			}
 		}
 
-		// Add cave decoration
 		for (int a = 0; a < bitset.length(); ++a) {
 			if (bitset.get(a)) {
-				BlockPos pos = new BlockPos(chunkpos.getMinBlockX() + (a & 15), (a >> 8) + 1,
+				BlockPos pos = new BlockPos(chunkpos.getMinBlockX() + (a & 15), (a >> 8),
 						chunkpos.getMinBlockZ() + (a >> 4 & 15));
-				PlanetCaveDecorator.decorateCavesAt(pChunk, pos, this, true);
+				PlanetDecorator.decorateAt(chunk, pos.above(), this, true);
 			}
 		}
 
@@ -537,7 +530,6 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public void fillFromNoise(IWorld world, StructureManager structure, IChunk chunk) {
-
 	}
 
 	public int getId() {
