@@ -80,6 +80,6 @@ public final class AttributeInit {
 	}
 
 	public static Function<Random, Double[]> dirichlet(int size) {
-		return r -> ArrayUtils.toObject(MathUtil.dirichlet(size, r.nextLong()));
+		return r -> ArrayUtils.toObject(MathUtil.dirichlet(size, r.nextInt()));
 	}
 }
