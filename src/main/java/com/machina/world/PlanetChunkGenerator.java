@@ -163,7 +163,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.traits.forEach(trait -> this.carvers.addAll(trait.addCarvers(this)));
 
 		this.features = new ArrayList<>();
-		this.features.add(() -> new PlanetTreeFeature().count(5));
+		this.features.add(() -> new PlanetTreeFeature().count(1));
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
 
 		// Noise
