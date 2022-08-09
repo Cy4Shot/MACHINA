@@ -1,6 +1,8 @@
 package com.machina.events;
 
 import com.machina.Machina;
+import com.machina.block.tile.TintedTileEntity;
+import com.machina.block.tinted.ITinted;
 import com.machina.client.ClientStarchart;
 import com.machina.client.cinema.CinematicHandler;
 import com.machina.client.renderer.CargoCrateRenderer;
@@ -40,6 +42,7 @@ import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -68,6 +71,18 @@ public class ClientModEvents {
 				world = ((ChunkRenderCache) reader).level;
 
 			if (world != null) {
+				if (ITinted.class.isInstance(state.getBlock())) {
+					TileEntity te = world.getBlockEntity(pos);
+					if (te != null && te instanceof TintedTileEntity) {
+						int id = ((TintedTileEntity) te).id;
+						if (id != -1) {
+							PlanetData data = ClientStarchart.getPlanetData(id);
+							Color color = data.getAttribute(AttributeInit.PALETTE)[paletteId];
+							return color.getRGB();
+						}
+					}
+				}
+				
 				RegistryKey<World> dim = world.dimension();
 				if (PlanetHelper.isDimensionPlanet(dim)) {
 					PlanetData data = ClientStarchart.getPlanetData(PlanetHelper.getId(dim));

@@ -1,5 +1,6 @@
 package com.machina.item;
 
+import com.machina.block.tile.TintedTileEntity;
 import com.machina.client.ClientStarchart;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.text.StringUtils;
@@ -7,10 +8,15 @@ import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.World;
 
 public class TintedItem extends BlockItem {
 
@@ -32,11 +38,32 @@ public class TintedItem extends BlockItem {
 				data = ClientStarchart.getPlanetData(id);
 			}
 			if (data != null) {
-				String name = data.getAttributeFormatted(AttributeInit.PLANET_NAME);
+				String name = data.getAttributeFormatted(AttributeInit.PLANET_NAME).trim();
 				old = old + " (" + name + ")";
 			}
 		}
 		return StringUtils.toComp(old);
+	}
+
+	@Override
+	protected boolean updateCustomBlockEntityTag(BlockPos pPos, World pLevel, PlayerEntity pPlayer, ItemStack pStack,
+			BlockState pState) {
+		super.updateCustomBlockEntityTag(pPos, pLevel, pPlayer, pStack, pState);
+		TileEntity tileentity = pLevel.getBlockEntity(pPos);
+		if (tileentity != null && tileentity instanceof TintedTileEntity) {
+			if (!pLevel.isClientSide && tileentity.onlyOpCanSetNbt()
+					&& (pPlayer == null || !pPlayer.canUseGameMasterBlocks())) {
+				return false;
+			}
+			
+			TintedTileEntity te = (TintedTileEntity) tileentity;
+			te.id = getFromStack(pStack);
+			te.sync();
+
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

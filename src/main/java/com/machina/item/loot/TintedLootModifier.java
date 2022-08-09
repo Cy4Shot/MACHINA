@@ -26,7 +26,6 @@ public class TintedLootModifier extends LootModifier {
 	@Nonnull
 	@Override
 	public List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-		System.out.println("HJIHAUDLKJASHD");
 		for (ItemStack stack : generatedLoot) {
 			if (stack.getItem() instanceof TintedItem) {
 				RegistryKey<World> dim = context.getLevel().dimension();

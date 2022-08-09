@@ -1,5 +1,7 @@
 package com.machina.registration.init;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
@@ -18,6 +20,8 @@ import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.block.tile.StateConverterTileEntity;
 import com.machina.block.tile.TankTileEntity;
 import com.machina.block.tile.TemperatureRegulatorTileEntity;
+import com.machina.block.tile.TintedTileEntity;
+import com.machina.block.tinted.ITinted;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -47,11 +51,25 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<FuelStorageUnitTileEntity>> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitTileEntity::new, () -> BlockInit.FUEL_STORAGE_UNIT.get());
 	public static final RegistryObject<TileEntityType<FurnaceGeneratorTileEntity>> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorTileEntity::new, () -> BlockInit.FURNACE_GENERATOR.get());
 	public static final RegistryObject<TileEntityType<StateConverterTileEntity>> STATE_CONVERTER = register("state_converter", StateConverterTileEntity::new, () -> BlockInit.STATE_CONVERTER.get());
+	public static final RegistryObject<TileEntityType<TintedTileEntity>> TINTED = tinted("tinted", TintedTileEntity::new);
 	//@formatter:on
 
 	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String n, Supplier<T> s,
 			Supplier<Block> b) {
 		return TILES.register(n, () -> TileEntityType.Builder.of(s, b.get()).build(null));
+	}
+
+	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> tinted(String n, Supplier<T> s) {
+		return TILES.register(n, () -> {
+			List<Block> blocks = new ArrayList<>();
+			BlockInit.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
+				if (ITinted.class.isInstance(block)) {
+					blocks.add(block);
+				}
+			});
+			Block[] tinted = blocks.toArray(new Block[blocks.size()]);
+			return TileEntityType.Builder.of(s, tinted).build(null);
+		});
 	}
 
 }
