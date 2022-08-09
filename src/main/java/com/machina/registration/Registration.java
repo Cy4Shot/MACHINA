@@ -8,7 +8,6 @@ import com.machina.Machina;
 import com.machina.client.dimension.MachinaDimRenderer;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
-import com.machina.item.loot.TintedLootModifier;
 import com.machina.network.MachinaNetwork;
 import com.machina.planet.PlanetTraitPoolManager;
 import com.machina.planet.attribute.PlanetAttributeType;
@@ -27,7 +26,6 @@ import com.machina.registration.init.TileEntityInit;
 import com.machina.registration.init.TraitInit;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.registration.registry.PlanetTraitRegistry;
-import com.machina.util.text.MachinaRL;
 import com.machina.world.PlanetRegistrationHandler;
 import com.machina.world.data.PlanetDimensionData;
 import com.machina.world.data.StarchartData;
@@ -50,7 +48,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -109,11 +106,6 @@ public class Registration {
 	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
 		PlanetTraitRegistry.createRegistry(event);
 		PlanetAttributeRegistry.createRegistry(event);
-	}
-
-	@SubscribeEvent
-	public static void registerModifierSerializers(final Register<GlobalLootModifierSerializer<?>> event) {
-		event.getRegistry().register(new TintedLootModifier.Serializer().setRegistryName(new MachinaRL("tinted")));
 	}
 
 	public static void onRegisterCommands(final RegisterCommandsEvent event) {

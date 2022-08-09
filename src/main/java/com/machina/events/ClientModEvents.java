@@ -166,7 +166,6 @@ public class ClientModEvents {
 				col.register((stack, index) -> {
 					ITinted block = (ITinted) ((TintedItem) item).getBlock();
 					int id = TintedItem.getFromStack(stack);
-					System.out.println(id);
 					return getColorFromId(id, block.getTintIndex());
 				}, item);
 			}
