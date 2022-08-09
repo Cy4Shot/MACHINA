@@ -11,12 +11,16 @@ import net.minecraft.world.IBlockReader;
 
 public class TintedStairs extends StairsBlock implements ITinted {
 
-	public TintedStairs(BlockState pBaseState, Properties pProperties) {
+	int tintIndex;
+
+	public TintedStairs(BlockState pBaseState, Properties pProperties, int tintIndex) {
 		super(pBaseState, pProperties);
+		this.tintIndex = tintIndex;
 	}
 
-	public TintedStairs(Supplier<BlockState> state, Properties properties) {
+	public TintedStairs(Supplier<BlockState> state, Properties properties, int tintIndex) {
 		super(state, properties);
+		this.tintIndex = tintIndex;
 	}
 
 	@Override
@@ -27,5 +31,10 @@ public class TintedStairs extends StairsBlock implements ITinted {
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
+	}
+
+	@Override
+	public int getTintIndex() {
+		return tintIndex;
 	}
 }

@@ -24,6 +24,7 @@ import com.machina.client.screen.TankScreen;
 import com.machina.client.screen.TemperatureRegulatorScreen;
 import com.machina.client.util.ClientTimer;
 import com.machina.item.ShipComponentItem;
+import com.machina.item.TintedItem;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
@@ -41,13 +42,16 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -55,68 +59,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
-
-	public static IBlockColor getPlanetColor(int paletteId) {
-
-		final int defVal = 8947848;
-
-		return (state, reader, pos, num) -> {
-
-			World world = null;
-
-			if (reader instanceof World)
-				world = (World) reader;
-
-			if (reader instanceof ChunkRenderCache)
-				world = ((ChunkRenderCache) reader).level;
-
-			if (world != null) {
-				if (ITinted.class.isInstance(state.getBlock())) {
-					TileEntity te = world.getBlockEntity(pos);
-					if (te != null && te instanceof TintedTileEntity) {
-						int id = ((TintedTileEntity) te).id;
-						if (id != -1) {
-							PlanetData data = ClientStarchart.getPlanetData(id);
-							Color color = data.getAttribute(AttributeInit.PALETTE)[paletteId];
-							return color.getRGB();
-						}
-					}
-				}
-				
-				RegistryKey<World> dim = world.dimension();
-				if (PlanetHelper.isDimensionPlanet(dim)) {
-					PlanetData data = ClientStarchart.getPlanetData(PlanetHelper.getId(dim));
-					Color color = data.getAttribute(AttributeInit.PALETTE)[paletteId];
-					return color.getRGB();
-				}
-			}
-
-			return defVal;
-		};
-	}
-
-	@SubscribeEvent
-	public static void registerBlockColorsEvent(ColorHandlerEvent.Block event) {
-		BlockColors col = event.getBlockColors();
-
-		// ID 0
-		col.register(getPlanetColor(0), BlockInit.ALIEN_STONE.get());
-		col.register(getPlanetColor(0), BlockInit.ALIEN_STONE_SLAB.get());
-		col.register(getPlanetColor(0), BlockInit.ALIEN_STONE_STAIRS.get());
-		col.register(getPlanetColor(0), BlockInit.TWILIGHT_DIRT.get());
-		col.register(getPlanetColor(0), BlockInit.TWILIGHT_DIRT_SLAB.get());
-		col.register(getPlanetColor(0), BlockInit.TWILIGHT_DIRT_STAIRS.get());
-		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT.get());
-		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT_SLAB.get());
-		col.register(getPlanetColor(0), BlockInit.WASTELAND_DIRT_STAIRS.get());
-
-		// ID 1
-		col.register(getPlanetColor(1), BlockInit.WASTELAND_SAND.get());
-		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE.get());
-		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE_SLAB.get());
-		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
-		col.register(getPlanetColor(1), BlockInit.WASTELAND_SANDSTONE_WALL.get());
-	}
 
 	@SubscribeEvent
 	public static void registerRenderers(final FMLClientSetupEvent event) {
@@ -157,5 +99,77 @@ public class ClientModEvents {
 			});
 		});
 		//@formatter:on
+	}
+
+	static final int defVal = 8947848;
+
+	public static int getColorFromId(int id, int paletteId) {
+		if (id != -1) {
+			PlanetData data = ClientStarchart.getPlanetData(id);
+			Color color = data.getAttribute(AttributeInit.PALETTE)[paletteId];
+			return color.getRGB();
+		}
+		return defVal;
+	}
+
+	public static IBlockColor getBlockColor(int paletteId) {
+
+		return (state, reader, pos, num) -> {
+
+			World world = null;
+
+			if (reader instanceof World)
+				world = (World) reader;
+
+			if (reader instanceof ChunkRenderCache)
+				world = ((ChunkRenderCache) reader).level;
+
+			if (world != null) {
+				if (ITinted.class.isInstance(state.getBlock())) {
+					TileEntity te = world.getBlockEntity(pos);
+					if (te != null && te instanceof TintedTileEntity) {
+						int id = ((TintedTileEntity) te).id;
+						if (id != -1) {
+							return getColorFromId(id, paletteId);
+						}
+					}
+				}
+
+				RegistryKey<World> dim = world.dimension();
+				if (PlanetHelper.isDimensionPlanet(dim)) {
+					return getColorFromId(PlanetHelper.getId(dim), paletteId);
+				}
+			}
+
+			return defVal;
+		};
+	}
+
+	@SubscribeEvent
+	public static void registerBlockColorsEvent(ColorHandlerEvent.Block event) {
+		BlockColors col = event.getBlockColors();
+
+		BlockInit.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
+			if (ITinted.class.isInstance(block)) {
+				int index = ((ITinted) block).getTintIndex();
+				col.register(getBlockColor(index), block);
+			}
+		});
+	}
+
+	@SubscribeEvent
+	public static void registerItemColorsEvent(ColorHandlerEvent.Item event) {
+		ItemColors col = event.getItemColors();
+
+		Registry.ITEM.forEach(item -> {
+			if (item instanceof TintedItem) {
+				col.register((stack, index) -> {
+					ITinted block = (ITinted) ((TintedItem) item).getBlock();
+					int id = TintedItem.getFromStack(stack);
+					System.out.println(id);
+					return getColorFromId(id, block.getTintIndex());
+				}, item);
+			}
+		});
 	}
 }

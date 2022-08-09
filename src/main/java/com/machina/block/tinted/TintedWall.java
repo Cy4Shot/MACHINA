@@ -9,8 +9,11 @@ import net.minecraft.world.IBlockReader;
 
 public class TintedWall extends WallBlock implements ITinted {
 
-	public TintedWall(Properties p_i48301_1_) {
-		super(p_i48301_1_);
+	int tintIndex;
+
+	public TintedWall(Properties p_i48401_1_l, int tintIndex) {
+		super(p_i48401_1_l);
+		this.tintIndex = tintIndex;
 	}
 
 	@Override
@@ -21,5 +24,10 @@ public class TintedWall extends WallBlock implements ITinted {
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
+	}
+
+	@Override
+	public int getTintIndex() {
+		return tintIndex;
 	}
 }

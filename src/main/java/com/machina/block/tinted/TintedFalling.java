@@ -8,9 +8,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
 public class TintedFalling extends FallingBlock implements ITinted {
+	
+	int tintIndex;
 
-	public TintedFalling(Properties p_i48401_1_) {
-		super(p_i48401_1_);
+	public TintedFalling(Properties p_i48401_1_l, int tintIndex) {
+		super(p_i48401_1_l);
+		this.tintIndex = tintIndex;
 	}
 
 	@Override
@@ -21,5 +24,10 @@ public class TintedFalling extends FallingBlock implements ITinted {
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
+	}
+
+	@Override
+	public int getTintIndex() {
+		return tintIndex;
 	}
 }
