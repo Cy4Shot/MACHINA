@@ -19,16 +19,19 @@ import com.machina.block.ShipConsoleBlock;
 import com.machina.block.StateConverterBlock;
 import com.machina.block.TankBlock;
 import com.machina.block.TemperatureRegulatorBlock;
+import com.machina.block.tinted.ITinted;
+import com.machina.block.tinted.TintedBlock;
+import com.machina.block.tinted.TintedFalling;
+import com.machina.block.tinted.TintedSlab;
+import com.machina.block.tinted.TintedStairs;
+import com.machina.block.tinted.TintedWall;
+import com.machina.item.TintedItem;
 import com.machina.registration.Registration;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.FallingBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.WallBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
@@ -66,20 +69,20 @@ public class BlockInit {
 	public static final RegistryObject<Block> ALUMINUM_ORE = register("aluminum_ore", Blocks.IRON_ORE);
 	public static final RegistryObject<Block> COPPER_BLOCK = register("copper_block", Blocks.IRON_BLOCK);
 	public static final RegistryObject<Block> COPPER_ORE = register("copper_ore", Blocks.IRON_ORE);
-	public static final RegistryObject<Block> ALIEN_STONE = register("alien_stone", Blocks.STONE);
-	public static final RegistryObject<StairsBlock> ALIEN_STONE_STAIRS = stair("alien_stone_stairs", Blocks.STONE_SLAB);
-	public static final RegistryObject<SlabBlock> ALIEN_STONE_SLAB = register("alien_stone_slab", Blocks.STONE_SLAB, SlabBlock::new);
-	public static final RegistryObject<Block> TWILIGHT_DIRT = register("twilight_dirt", Blocks.DIRT);
-	public static final RegistryObject<StairsBlock> TWILIGHT_DIRT_STAIRS = stair("twilight_dirt_stairs", Blocks.DIRT);
-	public static final RegistryObject<SlabBlock> TWILIGHT_DIRT_SLAB = register("twilight_dirt_slab", Blocks.DIRT, SlabBlock::new);
-	public static final RegistryObject<Block> WASTELAND_DIRT = register("wasteland_dirt", Blocks.DIRT);
-	public static final RegistryObject<StairsBlock> WASTELAND_DIRT_STAIRS = stair("wasteland_dirt_stairs", Blocks.DIRT);
-	public static final RegistryObject<SlabBlock> WASTELAND_DIRT_SLAB = register("wasteland_dirt_slab", Blocks.DIRT, SlabBlock::new);
-	public static final RegistryObject<FallingBlock> WASTELAND_SAND = register("wasteland_sand", Blocks.SAND, FallingBlock::new);
-	public static final RegistryObject<Block> WASTELAND_SANDSTONE = register("wasteland_sandstone", Blocks.SANDSTONE);
-	public static final RegistryObject<StairsBlock> WASTELAND_SANDSTONE_STAIRS = stair("wasteland_sandstone_stairs", Blocks.SANDSTONE_SLAB);
-	public static final RegistryObject<SlabBlock> WASTELAND_SANDSTONE_SLAB = register("wasteland_sandstone_slab", Blocks.SANDSTONE_SLAB, SlabBlock::new);
-	public static final RegistryObject<WallBlock> WASTELAND_SANDSTONE_WALL = register("wasteland_sandstone_wall", Blocks.SANDSTONE_WALL, WallBlock::new);
+	public static final RegistryObject<TintedBlock> ALIEN_STONE = tintedBlock("alien_stone", Blocks.STONE);
+	public static final RegistryObject<TintedStairs> ALIEN_STONE_STAIRS = tintedStairs("alien_stone_stairs", Blocks.STONE_SLAB);
+	public static final RegistryObject<TintedSlab> ALIEN_STONE_SLAB = tintedSlab("alien_stone_slab", Blocks.STONE_SLAB);
+	public static final RegistryObject<TintedBlock> TWILIGHT_DIRT = tintedBlock("twilight_dirt", Blocks.DIRT);
+	public static final RegistryObject<TintedStairs> TWILIGHT_DIRT_STAIRS = tintedStairs("twilight_dirt_stairs", Blocks.DIRT);
+	public static final RegistryObject<TintedSlab> TWILIGHT_DIRT_SLAB = tintedSlab("twilight_dirt_slab", Blocks.DIRT);
+	public static final RegistryObject<TintedBlock> WASTELAND_DIRT = tintedBlock("wasteland_dirt", Blocks.DIRT);
+	public static final RegistryObject<TintedStairs> WASTELAND_DIRT_STAIRS = tintedStairs("wasteland_dirt_stairs", Blocks.DIRT);
+	public static final RegistryObject<TintedSlab> WASTELAND_DIRT_SLAB = tintedSlab("wasteland_dirt_slab", Blocks.DIRT);
+	public static final RegistryObject<TintedFalling> WASTELAND_SAND = tintedFalling("wasteland_sand", Blocks.SAND);
+	public static final RegistryObject<TintedBlock> WASTELAND_SANDSTONE = tintedBlock("wasteland_sandstone", Blocks.SANDSTONE);
+	public static final RegistryObject<TintedStairs> WASTELAND_SANDSTONE_STAIRS = tintedStairs("wasteland_sandstone_stairs", Blocks.SANDSTONE_SLAB);
+	public static final RegistryObject<TintedSlab> WASTELAND_SANDSTONE_SLAB = tintedSlab("wasteland_sandstone_slab", Blocks.SANDSTONE_SLAB);
+	public static final RegistryObject<TintedWall> WASTELAND_SANDSTONE_WALL = tintedWall("wasteland_sandstone_wall", Blocks.SANDSTONE_WALL);
 	public static final RegistryObject<Block> REINFORCED_TILE = register("reinforced_tile", Blocks.NETHERITE_BLOCK);
 	//@formatter:on
 
@@ -108,17 +111,39 @@ public class BlockInit {
 		return register(name, BlockInit.<T>of(prop, extra, constructor));
 	}
 
-	public static RegistryObject<StairsBlock> stair(String name, Block prop) {
+	public static RegistryObject<TintedBlock> tintedBlock(String name, Block prop) {
+		return register(name, prop, a -> a, TintedBlock::new);
+	}
+
+	public static RegistryObject<TintedSlab> tintedSlab(String name, Block prop) {
+		return register(name, prop, a -> a, TintedSlab::new);
+	}
+
+	public static RegistryObject<TintedWall> tintedWall(String name, Block prop) {
+		return register(name, prop, a -> a, TintedWall::new);
+	}
+
+	public static RegistryObject<TintedFalling> tintedFalling(String name, Block prop) {
+		return register(name, prop, a -> a, TintedFalling::new);
+	}
+
+	public static RegistryObject<TintedStairs> tintedStairs(String name, Block prop) {
 		return register(name,
-				() -> new StairsBlock(() -> prop.defaultBlockState(), AbstractBlock.Properties.copy(prop)));
+				() -> new TintedStairs(() -> prop.defaultBlockState(), AbstractBlock.Properties.copy(prop)));
 	}
 
 	public static void registerBlockItems(final RegistryEvent.Register<Item> event) {
 		BLOCKS.getEntries().stream().filter(ro -> !FluidInit.BLOCKS.contains(ro.getId().getPath()))
 				.map(RegistryObject::get).forEach(block -> {
-					event.getRegistry()
-							.register(new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
-									.setRegistryName(block.getRegistryName()));
+					if (ITinted.class.isInstance(block)) {
+						event.getRegistry()
+								.register(new TintedItem(block, new Item.Properties().tab(Registration.PLANET_GROUP))
+										.setRegistryName(block.getRegistryName()));
+					} else {
+						event.getRegistry()
+								.register(new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
+										.setRegistryName(block.getRegistryName()));
+					}
 				});
 	}
 

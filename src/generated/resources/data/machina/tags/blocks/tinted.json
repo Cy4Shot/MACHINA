@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "machina:alien_stone",
+    "machina:alien_stone_stairs",
+    "machina:alien_stone_slab",
+    "machina:twilight_dirt",
+    "machina:twilight_dirt_stairs",
+    "machina:twilight_dirt_slab",
+    "machina:wasteland_dirt",
+    "machina:wasteland_dirt_stairs",
+    "machina:wasteland_dirt_slab",
+    "machina:wasteland_sand",
+    "machina:wasteland_sandstone",
+    "machina:wasteland_sandstone_stairs",
+    "machina:wasteland_sandstone_slab",
+    "machina:wasteland_sandstone_wall"
+  ]
+}

@@ -8,6 +8,7 @@ import com.machina.Machina;
 import com.machina.client.dimension.MachinaDimRenderer;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
+import com.machina.item.loot.TintedLootModifier;
 import com.machina.network.MachinaNetwork;
 import com.machina.planet.PlanetTraitPoolManager;
 import com.machina.planet.attribute.PlanetAttributeType;
@@ -26,6 +27,7 @@ import com.machina.registration.init.TileEntityInit;
 import com.machina.registration.init.TraitInit;
 import com.machina.registration.registry.PlanetAttributeRegistry;
 import com.machina.registration.registry.PlanetTraitRegistry;
+import com.machina.util.text.MachinaRL;
 import com.machina.world.PlanetRegistrationHandler;
 import com.machina.world.data.PlanetDimensionData;
 import com.machina.world.data.StarchartData;
@@ -48,8 +50,10 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -107,6 +111,11 @@ public class Registration {
 		PlanetAttributeRegistry.createRegistry(event);
 	}
 
+	@SubscribeEvent
+	public static void registerModifierSerializers(final Register<GlobalLootModifierSerializer<?>> event) {
+		event.getRegistry().register(new TintedLootModifier.Serializer().setRegistryName(new MachinaRL("tinted")));
+	}
+
 	public static void onRegisterCommands(final RegisterCommandsEvent event) {
 		CommandInit.registerCommands(event);
 	}
@@ -121,11 +130,11 @@ public class Registration {
 		});
 	}
 
-	private static void registerPlanetTraits(final RegistryEvent.Register<PlanetTrait> event) {
+	private static void registerPlanetTraits(final Register<PlanetTrait> event) {
 		TraitInit.register(event);
 	}
 
-	private static void registerPlanetAttributes(final RegistryEvent.Register<PlanetAttributeType<?>> event) {
+	private static void registerPlanetAttributes(final Register<PlanetAttributeType<?>> event) {
 		AttributeInit.register(event);
 	}
 
@@ -146,14 +155,14 @@ public class Registration {
 	}
 
 	public static void biomeModification(final BiomeLoadingEvent event) {
-		
+
 		// Don't add to MACHINA dimensions, nether, or end.
 		if (event.getName() == null || event.getName().getNamespace().equals(Machina.MOD_ID))
 			return;
 		Category cat = event.getCategory();
 		if (cat.equals(Category.NETHER) || cat.equals(Category.THEEND))
 			return;
-		
+
 		event.getGeneration().getStructures().add(() -> ConfiguredFeatureInit.CONFIGURED_SHIP);
 	}
 
