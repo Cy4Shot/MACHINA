@@ -53,6 +53,8 @@ public class FluidInit {
 	public static final Double[] atmForDim(RegistryKey<World> dim) {
 		if (dim.equals(World.NETHER))
 			return new Double[] {0.1D, 0D, 0D, 0.6D, 0.3D};
+		if (dim.equals(World.END))
+				return new Double[] {0D, 0.0868D, 0D, 0D, 0.9132D};
 		return new Double[] {0.20946D, 0.78084D, 0D, 0.00417D, 0D};
 	}
 
