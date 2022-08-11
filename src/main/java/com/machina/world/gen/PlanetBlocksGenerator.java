@@ -8,6 +8,7 @@ import com.machina.registration.init.BlockInit;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
 
 public class PlanetBlocksGenerator {
 
@@ -58,6 +59,20 @@ public class PlanetBlocksGenerator {
 	    		null,
 	    		null));
 	}};
+	
+	@SuppressWarnings("serial")
+	private static Map<Integer, BlockPalette> treePalette = new HashMap<Integer, BlockPalette>() {{
+	    put(0, new BlockPalette(
+	    		Blocks.OAK_LOG.defaultBlockState(),
+	    		Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true),
+	    		null,
+	    		null));
+	    put(1, new BlockPalette(
+	    		Blocks.SPRUCE_LOG.defaultBlockState(),
+	    		Blocks.SPRUCE_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true),
+	    		null,
+	    		null));
+	}};
 	//@formatter:on
 
 	public static int getRandomBase(Random rand) {
@@ -72,6 +87,10 @@ public class PlanetBlocksGenerator {
 		return getRandom(fluidPalette, rand);
 	}
 
+	public static int getRandomTree(Random rand) {
+		return getRandom(treePalette, rand);
+	}
+
 	public static BlockPalette getBasePalette(int id) {
 		return basePalette.get(id);
 	}
@@ -82,6 +101,10 @@ public class PlanetBlocksGenerator {
 
 	public static BlockPalette getFluidPalette(int id) {
 		return fluidPalette.get(id);
+	}
+
+	public static BlockPalette getTreePalette(int id) {
+		return treePalette.get(id);
 	}
 
 	private static int getRandom(Map<?, ?> p, Random rand) {

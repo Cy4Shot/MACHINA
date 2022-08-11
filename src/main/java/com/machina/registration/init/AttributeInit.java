@@ -25,6 +25,17 @@ import com.machina.world.gen.PlanetPaletteGenerator;
 import net.minecraftforge.event.RegistryEvent;
 
 public final class AttributeInit {
+	
+	float leafNoiseScale = 0.5f;
+	float leafStartPercentage = 0.5f;
+	float leafChance = 0.8f;
+	float leafMaxRadius = 5;
+	float leafMinRadius = 2;
+	float leafRadiusDropoff = 0.7f;
+	int leafInterval = 4;
+	int leafLayers = 3;
+	int leavesLayerHeight = 2;
+	int treeType = 0;
 
 	//@formatter:off
 	public static final PlanetAttributeType<Float> GRAVITY = create(new FloatSerializer(1f, random(0.3f, 1.7f)), "G");
@@ -38,11 +49,30 @@ public final class AttributeInit {
 	public static final PlanetAttributeType<Integer> BASE_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomBase));
 	public static final PlanetAttributeType<Integer> SURF_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomSurf));
 	public static final PlanetAttributeType<Integer> FLUID_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomFluid));
+	public static final PlanetAttributeType<Integer> TREE_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomTree));
 	public static final PlanetAttributeType<Integer> CAVES_EXIST = create(new IntSerializer(0, random(0, 1)));
 	public static final PlanetAttributeType<Float> CAVE_CHANCE = create(new ChanceSerializer(0.01f, random(0f, 0.02f), 5000), "%");
 	public static final PlanetAttributeType<Integer> CAVE_LENGTH = create(new IntSerializer(3, random(1, 5), t -> t * 16), "m");
 	public static final PlanetAttributeType<Float> CAVE_THICKNESS = create(new ChanceSerializer(0.03f, random(0.01f, 0.06f, 1.7f), 250), "m");
 	public static final PlanetAttributeType<Float> ISLAND_DENSITY = create(new ChanceSerializer(0.5f, random(0.3f, 0.7f), 100), "%");
+	public static final PlanetAttributeType<Float> TRUNK_MIN_HEIGHT = create(new FloatSerializer(15f, random(5f, 20f)), "m");
+	public static final PlanetAttributeType<Float> TRUNK_MAX_HEIGHT = create(new FloatSerializer(25f, random(20f, 30f)), "m");
+	public static final PlanetAttributeType<Float> TRUNK_WIDTH_RAND = create(new FloatSerializer(10f, random(5f, 20f)), "m");
+	public static final PlanetAttributeType<Float> TRUNK_MIN_RADIUS = create(new FloatSerializer(2f, random(1f, 2f)), "m");
+	public static final PlanetAttributeType<Float> TRUNK_MAX_RADIUS = create(new FloatSerializer(3f, random(2f, 4f)), "m");
+	public static final PlanetAttributeType<Float> TRUNK_NOISE_SCAL = create(new FloatSerializer(0.5f, random(0f, 1f)));
+	public static final PlanetAttributeType<Integer> TRUNK_RNDMNESS_W = create(new IntSerializer(5, random(2, 10)), "m");
+	public static final PlanetAttributeType<Integer> TRUNK_RNDMNESS_H = create(new IntSerializer(8, random(2, 15)), "m");
+	public static final PlanetAttributeType<Float> LEAF_NOISE_SCALE = create(new FloatSerializer(0.5f, random(0f, 1f)));
+	public static final PlanetAttributeType<Float> LEAF_START_PRCNT = create(new FloatSerializer(0.5f, random(0.3f, 0.5f)));
+	public static final PlanetAttributeType<Float> LEAF_SPWN_CHANCE = create(new FloatSerializer(0.8f, random(0.6f, 1f)));
+	public static final PlanetAttributeType<Float> LEAF_LOG_DIS_MIN = create(new FloatSerializer(2f, random(1f, 4f)));
+	public static final PlanetAttributeType<Float> LEAF_LOG_DIS_MAX = create(new FloatSerializer(5f, random(4f, 8f)));
+	public static final PlanetAttributeType<Float> LEAF_LOG_DIS_DRP = create(new FloatSerializer(0.7f, random(0.5f, 0.9f)));
+	public static final PlanetAttributeType<Integer> LEAF_LAYER_INTER = create(new IntSerializer(4, random(1, 6)));
+	public static final PlanetAttributeType<Integer> LEAF_LAYER_COUNT = create(new IntSerializer(3, random(1, 5)));
+	public static final PlanetAttributeType<Integer> LEAF_LAYER_WIDTH = create(new IntSerializer(2, random(1, 3)));
+	public static final PlanetAttributeType<Integer> TREE_TYPE = create(new IntSerializer(0, random(0, 1)));
 	public static final PlanetAttributeType<Double[]> ATMOSPHERE = create(new DoubleListSerializer(FluidInit::atmForDim, dirichlet(FluidInit.ATMOSPHERE.size()), FluidInit.ATMOSPHERE.size()));
 	//@formatter:on
 

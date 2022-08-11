@@ -23,7 +23,6 @@ import com.machina.world.cave.PlanetCarver;
 import com.machina.world.data.StarchartData;
 import com.machina.world.feature.PlanetDecorator;
 import com.machina.world.feature.planet.PlanetTreeFeature;
-import com.machina.world.feature.planet.PlanetTreeFeature.LeafType;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetBlocksGenerator.BlockPalette;
 import com.machina.world.settings.PlanetNoiseSettings;
@@ -164,7 +163,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.traits.forEach(trait -> this.carvers.addAll(trait.addCarvers(this)));
 
 		this.features = new ArrayList<>();
-		this.features.add(() -> new PlanetTreeFeature().count(1));
+		this.features.add(() -> new PlanetTreeFeature(attr).count(1));
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
 
 		// Noise
@@ -541,9 +540,5 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 
 	public OpenSimplex2F getCaveDecoNoise() {
 		return caveDecoNoise;
-	}
-
-	public LeafType getLeafType() {
-		return LeafType.LAYERS;
 	}
 }

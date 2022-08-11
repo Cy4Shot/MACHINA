@@ -2,6 +2,7 @@ package com.machina.world.feature.planet;
 
 import java.util.Random;
 
+import com.machina.planet.attribute.PlanetAttributeList;
 import com.machina.world.PlanetChunkGenerator;
 
 import net.minecraft.util.math.BlockPos;
@@ -14,9 +15,12 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.Placement;
 
 public abstract class PlanetBaseFeature extends Feature<NoFeatureConfig> {
+	
+	protected PlanetAttributeList attr;
 
-	public PlanetBaseFeature() {
+	public PlanetBaseFeature(PlanetAttributeList attr) {
 		super(NoFeatureConfig.CODEC);
+		this.attr = attr;
 	}
 
 	@Override
