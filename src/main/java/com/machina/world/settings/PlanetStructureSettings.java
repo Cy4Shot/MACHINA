@@ -8,5 +8,4 @@ public class PlanetStructureSettings extends DimensionStructuresSettings {
 		super(false);
 		structureConfig.clear();
 	}
-
 }

@@ -73,15 +73,17 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		).apply(instance, PlanetChunkGenerator::new));
 	//@formatter:on
 
-	private static final float[] BIOME_WEIGHTS = Util.make(new float[25], (p_236092_0_) -> {
+	// Biome Weights
+	private static final float[] BIOME_WEIGHTS = Util.make(new float[25], (arr) -> {
 		for (int i = -2; i <= 2; ++i) {
 			for (int j = -2; j <= 2; ++j) {
-				p_236092_0_[i + 2 + (j + 2) * 5] = 10.0F / MathHelper.sqrt((float) (i * i + j * j) + 0.2F);
+				arr[i + 2 + (j + 2) * 5] = 10.0F / MathHelper.sqrt((float) (i * i + j * j) + 0.2F);
 			}
 		}
 
 	});
 
+	// Blockstates
 	public static final BlockState AIR = Blocks.AIR.defaultBlockState();
 	public static final BlockState BEDROCK = Blocks.BEDROCK.defaultBlockState();
 

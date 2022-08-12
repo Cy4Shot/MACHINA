@@ -8,5 +8,4 @@ public class LakesTrait extends PlanetTrait implements IWorldTrait {
 	public LakesTrait(int color) {
 		super(color);
 	}
-
 }

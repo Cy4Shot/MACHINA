@@ -122,7 +122,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 		// Item Groups
 		addItemGroup(Registration.MAIN_GROUP, "Machina");
-		addItemGroup(Registration.PLANET_GROUP, "Machina: Worldgen");
+		addItemGroup(Registration.WORLDGEN_GROUP, "Machina: Worldgen");
 
 		// Keybindings
 		addKeyCategory("machina", "Machina");

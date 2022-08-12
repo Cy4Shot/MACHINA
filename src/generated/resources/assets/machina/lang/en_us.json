@@ -83,7 +83,7 @@
   "item.machina.steel_nugget": "Steel Nugget",
   "item.machina.transistor": "Transistor",
   "itemGroup.machina.main": "Machina",
-  "itemGroup.machina.planet": "Machina: Worldgen",
+  "itemGroup.machina.worldgen": "Machina: Worldgen",
   "key.category.machina": "Machina",
   "key.machina.dev_screen": "Dev Screen",
   "key.machina.starchart": "Open Starchart",

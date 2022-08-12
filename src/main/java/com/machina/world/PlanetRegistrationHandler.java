@@ -51,7 +51,6 @@ public class PlanetRegistrationHandler {
 	}
 
 	public static ServerWorld createPlanet(MinecraftServer server, String id) {
-
 		PlanetDimensionData.getDefaultInstance(server).addId(id);
 
 		ServerWorld world = getOrCreateWorld(server, RegistryKey.create(Registry.DIMENSION_REGISTRY, new MachinaRL(id)),

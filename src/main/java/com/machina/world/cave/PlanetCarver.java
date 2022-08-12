@@ -193,8 +193,6 @@ public class PlanetCarver extends WorldCarver<PlanetCarverConfig> {
 	@Override
 	protected boolean canReplaceBlock(BlockState state, BlockState aboveState) {
 		return this.canReplaceBlock(state)
-				|| (state.is(Blocks.SAND) || state.is(Blocks.GRAVEL) || state.is(TagInit.Blocks.CARVEABLE_BLOCKS))
-						&& !aboveState.getFluidState().is(FluidTags.WATER);
+				|| state.is(TagInit.Blocks.CARVEABLE_BLOCKS) && !aboveState.getFluidState().is(FluidTags.WATER);
 	}
-
 }

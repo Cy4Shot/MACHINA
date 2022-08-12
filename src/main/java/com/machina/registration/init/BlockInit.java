@@ -137,7 +137,7 @@ public class BlockInit {
 				.map(RegistryObject::get).forEach(block -> {
 					if (ITinted.class.isInstance(block)) {
 						event.getRegistry()
-								.register(new TintedItem(block, new Item.Properties().tab(Registration.PLANET_GROUP))
+								.register(new TintedItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
 										.setRegistryName(block.getRegistryName()));
 					} else {
 						event.getRegistry()

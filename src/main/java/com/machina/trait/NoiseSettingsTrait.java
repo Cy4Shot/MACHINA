@@ -6,12 +6,12 @@ import com.machina.world.PlanetChunkGenerator;
 import com.machina.world.settings.PlanetNoiseSettings;
 
 public class NoiseSettingsTrait extends PlanetTrait implements IWorldTrait {
-	
+
 	private final PlanetNoiseSettings settings;
 
 	public NoiseSettingsTrait(int color, PlanetNoiseSettings settings) {
 		super(color);
-		
+
 		this.settings = settings;
 	}
 
@@ -19,5 +19,4 @@ public class NoiseSettingsTrait extends PlanetTrait implements IWorldTrait {
 	public void init(PlanetChunkGenerator chunkGenerator) {
 		chunkGenerator.noisesettings = this.settings;
 	}
-
 }
