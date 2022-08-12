@@ -16,6 +16,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 	public EnUsLangProvider(DataGenerator gen) {
 		super(gen, "en_us", Machina.MOD_ID);
+		
+		// Generic Music Disc Translation.
+		this.music_disc = "Music Disc";
 	}
 
 	@Override

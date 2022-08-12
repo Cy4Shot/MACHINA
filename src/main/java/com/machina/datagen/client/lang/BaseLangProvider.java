@@ -17,6 +17,7 @@ import net.minecraftforge.fluids.FluidStack;
 public abstract class BaseLangProvider extends LanguageProvider {
 
 	String modid;
+	String music_disc;
 
 	public BaseLangProvider(DataGenerator gen, String locale, String modid) {
 		super(gen, modid, locale);
@@ -82,7 +83,7 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	}
 
 	public void addMusicDisc(Item key, String desc) {
-		add(key.getDescriptionId(), "Music Disc");
+		add(key.getDescriptionId(), this.music_disc);
 		add(key.getDescriptionId() + ".desc", desc);
 	}
 
