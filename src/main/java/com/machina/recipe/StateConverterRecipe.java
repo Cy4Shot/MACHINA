@@ -36,6 +36,11 @@ public class StateConverterRecipe implements IRecipe<IInventory> {
 		this.heat = heat;
 		this.above = above;
 	}
+	
+	@Override
+	public boolean isSpecial() {
+		return true;
+	}
 
 	@Override
 	public boolean matches(IInventory pInv, World pLevel) {

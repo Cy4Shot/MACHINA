@@ -37,6 +37,11 @@ public class ShipConsoleRecipe implements IRecipe<IInventory> {
 		this.id = id;
 		this.componentId = cId;
 	}
+	
+	@Override
+	public boolean isSpecial() {
+		return true;
+	}
 
 	@Override
 	public boolean matches(IInventory pInv, World pLevel) {

@@ -43,6 +43,11 @@ public class PressurizedChamberRecipe implements IRecipe<IInventory> {
 		this.power = p;
 		this.col = col;
 	}
+	
+	@Override
+	public boolean isSpecial() {
+		return true;
+	}
 
 	@Override
 	public boolean matches(IInventory pInv, World pLevel) {
