@@ -115,9 +115,9 @@ public class StarchartScreen extends Screen {
 		float gridSize = 7000;
 
 		Matrix4f mat = stack.last().pose().copy();
+		mat.translate(new Vector3f(posX / 2, posY / 2, 0));
 		mat.multiply(new Quaternion(new Vector3f(1, 0, 0), rotY, true));
 		mat.multiply(new Quaternion(new Vector3f(0, 0, 1), rotX, true));
-		mat.translate(new Vector3f(posX / 2, posY / 2, 0));
 		mat.multiply(zoom);
 
 		gridSize += gridScale / 2;
@@ -224,7 +224,7 @@ public class StarchartScreen extends Screen {
 				i++;
 			}
 		}
-		
+
 		renderAdditional(stack, pMouseX, pMouseY, pPartialTicks);
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -233,9 +233,8 @@ public class StarchartScreen extends Screen {
 		GL11.glLoadIdentity();
 
 	}
-	
+
 	public void renderAdditional(MatrixStack stack, int mX, int mY, float par) {
-		
 	}
 
 	@Override
@@ -276,6 +275,9 @@ public class StarchartScreen extends Screen {
 
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1) {
 			for (Planet planet : planets) {
+
+				if (planet == selected)
+					continue;
 
 				double time = planet.getAngle();
 				double rX = (planet.dist * Math.cos(rotY) * zoom) / 2;
