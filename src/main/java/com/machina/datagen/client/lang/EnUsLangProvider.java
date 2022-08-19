@@ -153,7 +153,11 @@ public class EnUsLangProvider extends BaseLangProvider {
 		// GUI
 		addScreen("component_analyzer", "insert", "Insert Component");
 		addScreen("cargo_crate", "open", "Right Click to Loot");
-		addScreen("starchart", "noselect", "Please select a planet.");
+		addScreen("starchart", "sel", "Select");
+		addScreen("starchart", "rot", "Rotate");
+		addScreen("starchart", "pan", "Pan");
+		addScreen("starchart", "zoo", "Zoom");
+		addScreen("starchart", "cls", "Close");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");
 		addScreen("scanner", "tab1", "2. Planet Info");

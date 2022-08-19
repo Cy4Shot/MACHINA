@@ -15,6 +15,7 @@
     }
   },
   "result": {
-    "item": "machina:copper_coil"
+    "item": "machina:copper_coil",
+    "count": 2
   }
 }

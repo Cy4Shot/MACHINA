@@ -30,7 +30,9 @@ public final class AttributeInit {
 	public static final PlanetAttributeType<Float> GRAVITY = create(new FloatSerializer(1f, random(0.3f, 1.7f)), "G");
 	public static final PlanetAttributeType<String> PLANET_NAME = create(new StringSerializer("Planet", PlanetNameGenerator::getName));
 	public static final PlanetAttributeType<Integer> PLANET_ICON = create(new IntSerializer(0, random(0, 14)));
-	public static final PlanetAttributeType<Float> DISTANCE = create(new FloatSerializer(0f, random(1f, 20f, 1.7f)), "AU");
+	public static final PlanetAttributeType<Float> DISTANCE = create(new FloatSerializer(0f, random(1f, 20f)), "AU");
+	public static final PlanetAttributeType<Float> ORBITAL_SPEED = create(new FloatSerializer(1f, random(0.3f, 1f)));
+	public static final PlanetAttributeType<Float> PHASE_SHIFT = create(new FloatSerializer(0f, random(0f, 360f)));
 	public static final PlanetAttributeType<Float> FOG_DENSITY = create(new ChanceSerializer(0.5f, random(0.0f, 1f), 100), "%");
 	public static final PlanetAttributeType<Color[]> PALETTE = create(new ColorListSerializer(Color.black, PlanetPaletteGenerator::genPlanetPalette, 5));
 	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = create(new FloatSerializer(1f, random(0.1f, 2f)), "atm");

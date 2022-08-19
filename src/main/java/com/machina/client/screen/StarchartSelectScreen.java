@@ -20,17 +20,18 @@ public class StarchartSelectScreen extends StarchartScreen {
 	}
 
 	@Override
-	public void render(MatrixStack stack, int pX, int pY, float pPartialTicks) {
-		super.render(stack, pX, pY, pPartialTicks);
-
-		int x = this.width - 50;
-		int y = this.height - 50;
-		if (this.selected != null) {
+	public void renderAdditional(MatrixStack stack, int pX, int pY, float pPartialTicks) {
+		if (selected != null) {
 			UIHelper.bindTrmnl();
-			if (pX > x - 46 && pX < x - 46 + 17 && pY > y && pY < y + 17) {
-				this.blit(stack, x - 46, y, 237, 73, 17, 17);
+
+			float x = this.width / 2 - 50;
+			float y = this.height / 2 - 50;
+			int mX = (int) (pX - this.width / 2);
+			int mY = (int) (pY - this.height / 2);
+			if (mX > x - 46 && mX < x - 46 + 17 && mY > y && mY < y + 17) {
+				UIHelper.betterBlit(stack, x - 46, y, 237, 73, 17, 17, 256);
 			} else {
-				this.blit(stack, x - 46, y, 237, 56, 17, 17);
+				UIHelper.betterBlit(stack, x - 46, y, 237, 56, 17, 17, 256);
 			}
 		}
 
@@ -39,12 +40,14 @@ public class StarchartSelectScreen extends StarchartScreen {
 	@Override
 	public boolean mouseReleased(double pX, double pY, int pButton) {
 		if (pButton == 0) {
-			int x = this.width - 50;
-			int y = this.height - 50;
-
-			if (pX > x - 46 && pX < x - 46 + 17 && pY > y && pY < y + 17 && this.selected != null) {
+			int x = this.width / 2 - 50;
+			int y = this.height / 2 - 50;
+			int mX = (int) (pX - this.width / 2);
+			int mY = (int) (pY - this.height / 2);
+			if (mX > x - 46 && mX < x - 46 + 17 && mY > y && mY < y + 17 && this.selected != null) {
 				onSelected();
 				UIHelper.click();
+				return true;
 			}
 		}
 		return super.mouseReleased(pX, pY, pButton);
@@ -52,8 +55,7 @@ public class StarchartSelectScreen extends StarchartScreen {
 
 	public void onSelected() {
 		if (this.selected != null) {
-			selector.accept(ClientStarchart.getId(this.selected.getData()));
+			selector.accept(ClientStarchart.getId(this.selected.data));
 		}
 	}
-
 }

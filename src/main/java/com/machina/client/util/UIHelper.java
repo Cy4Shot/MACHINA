@@ -62,7 +62,6 @@ public class UIHelper {
 		}
 	}
 
-	public static final ResourceLocation ELEMENTS = new MachinaRL("textures/gui/elements.png");
 	public static final MachinaRL SCIFI_EL = new MachinaRL("textures/gui/scifi_el.png");
 	public static final MachinaRL TRMNL_EL = new MachinaRL("textures/gui/trmnl_el.png");
 	public static final MachinaRL STCHT_EL = new MachinaRL("textures/gui/stcht_el.png");
@@ -93,32 +92,6 @@ public class UIHelper {
 		matrixStack.translate(0, 0, 950);
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderSystem.disableDepthTest();
-		matrixStack.popPose();
-	}
-
-	public static void renderContainerBorder(MatrixStack matrixStack, Rectangle rec) {
-		tm.bind(ELEMENTS);
-		RenderSystem.enableBlend();
-
-		blit(matrixStack, rec.x0 - 9, rec.y0 - 18, 0, 0, 15, 24);
-		blit(matrixStack, rec.x1 - 7, rec.y0 - 18, 18, 0, 15, 24);
-		blit(matrixStack, rec.x0 - 9, rec.y1 - 7, 0, 27, 15, 16);
-		blit(matrixStack, rec.x1 - 7, rec.y1 - 7, 18, 27, 15, 16);
-
-		matrixStack.pushPose();
-		matrixStack.translate(rec.x0 + 6, rec.y0 - 18, 0);
-		matrixStack.scale(rec.x1 - rec.x0 - 13, 1, 1);
-		blit(matrixStack, 0, 0, 16, 0, 1, 24);
-		matrixStack.translate(0, rec.y1 - rec.y0 + 11, 0);
-		blit(matrixStack, 0, 0, 16, 27, 1, 16);
-		matrixStack.popPose();
-
-		matrixStack.pushPose();
-		matrixStack.translate(rec.x0 - 9, rec.y0 + 6, 0);
-		matrixStack.scale(1, rec.y1 - rec.y0 - 13, 1);
-		blit(matrixStack, 0, 0, 0, 25, 15, 1);
-		matrixStack.translate(rec.x1 - rec.x0 + 2, 0, 0);
-		blit(matrixStack, 0, 0, 18, 25, 15, 1);
 		matrixStack.popPose();
 	}
 
@@ -153,7 +126,7 @@ public class UIHelper {
 		innerLine(pPoseStack.last().pose(), pMinX, pMinY, pMaxX, pMaxY, pColor, width, stippleType);
 	}
 
-	private static void innerLine(Matrix4f pMatrix, float pMinX, float pMinY, float pMaxX, float pMaxY, int pColor,
+	public static void innerLine(Matrix4f pMatrix, float pMinX, float pMinY, float pMaxX, float pMaxY, int pColor,
 			float width, StippleType stippleType) {
 		float f3 = (pColor >> 24 & 255) / 255.0F;
 		float f = (pColor >> 16 & 255) / 255.0F;
@@ -220,6 +193,53 @@ public class UIHelper {
 		RenderSystem.disableBlend();
 	}
 
+	public static void ellipse(MatrixStack stack, float cX, float cY, float rX, float rY, int sides, float angle,
+			int col, float width, StippleType type) {
+
+		float f3 = (col >> 24 & 255) / 255.0F;
+		float f = (col >> 16 & 255) / 255.0F;
+		float f1 = (col >> 8 & 255) / 255.0F;
+		float f2 = (col & 255) / 255.0F;
+
+		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
+		RenderSystem.enableBlend();
+		RenderSystem.disableTexture();
+		RenderSystem.defaultBlendFunc();
+		RenderSystem.lineWidth(width);
+		GL11.glLineStipple(1, type.code);
+		GL11.glEnable(GL11.GL_LINE_STIPPLE);
+
+		bufferbuilder.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+
+		float xo = 0;
+		float yo = 0;
+		float xn = 0;
+		float yn = 0;
+
+		for (int i = 0; i < (sides + 1); i++) {
+			xn = (float) (Math.sin(Math.toRadians(angle)) * rX);
+			yn = (float) (Math.cos(Math.toRadians(angle)) * rY);
+			if (i > 0) {
+				bufferbuilder.vertex(cX + xo, cY + yo, 0F).color(f, f1, f2, f3).endVertex();
+				if (i == sides) {
+					bufferbuilder.vertex(cX + xn, cY + yn, 0F).color(f, f1, f2, f3).endVertex();
+				}
+			}
+			xo = xn;
+			yo = yn;
+			angle += (360f / sides);
+		}
+
+		bufferbuilder.end();
+
+		WorldVertexBufferUploader.end(bufferbuilder);
+		GL11.glDisable(GL11.GL_LINE_STIPPLE);
+		GL11.glLineStipple(1, StippleType.FULL.code);
+		RenderSystem.lineWidth(1f);
+		RenderSystem.enableTexture();
+		RenderSystem.disableBlend();
+	}
+
 	public static void blit(MatrixStack ms, int x, int y, int uOff, int vOff, int w, int h) {
 		betterBlit(ms, x, y, uOff, vOff, w, h, 256);
 	}
@@ -249,6 +269,32 @@ public class UIHelper {
 		bufferbuilder.vertex(pMatrix, pX2, pY2, pBlitOffset).uv(pMaxU, pMaxV).endVertex();
 		bufferbuilder.vertex(pMatrix, pX2, pY1, pBlitOffset).uv(pMaxU, pMinV).endVertex();
 		bufferbuilder.vertex(pMatrix, pX1, pY1, pBlitOffset).uv(pMinU, pMinV).endVertex();
+		bufferbuilder.end();
+		RenderSystem.enableAlphaTest();
+		WorldVertexBufferUploader.end(bufferbuilder);
+	}
+
+	public static void sizedBlitTransp(MatrixStack poseStack, float x, float y,float width, float height,
+			float srcX, float srcY, float srcWidth, float srcHeight, float tex) {
+		RenderSystem.enableBlend();
+		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.blendColor(1f, 1f, 1f, 1f);
+		sizedBlit(poseStack, x, y, width, height, srcX, srcY, srcWidth, srcHeight, tex);
+		RenderSystem.disableBlend();
+		RenderSystem.defaultBlendFunc();
+	}
+
+	public static void sizedBlit(MatrixStack poseStack, float x, float y, float width, float height,
+			float srcX, float srcY, float srcW, float srcH, float tex) {
+		Matrix4f pose = poseStack.last().pose();
+		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		bufferbuilder.vertex(pose, x, y + height, 0).uv((srcX / tex), (srcY + srcH) / tex).endVertex();
+		bufferbuilder.vertex(pose, x + width, y + height, 0).uv((srcX + srcW) / tex, (srcY + srcH) / tex).endVertex();
+		bufferbuilder.vertex(pose, x + width, y, 0).uv((srcX + srcW) / tex, srcY / tex).endVertex();
+		bufferbuilder.vertex(pose, x, y, 0).uv(srcX / tex, srcY / tex).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableAlphaTest();
 		WorldVertexBufferUploader.end(bufferbuilder);
@@ -307,7 +353,7 @@ public class UIHelper {
 		RenderSystem.depthFunc(515);
 
 	}
-	
+
 	public static void withAlpha(Runnable run, float alpha) {
 		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
@@ -672,12 +718,11 @@ public class UIHelper {
 		RenderSystem.disableBlend();
 		RenderSystem.enableTexture();
 	}
-	
+
 	// https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/client/render/MekanismRenderer.java
 	public enum FluidType {
-        STILL,
-        FLOWING
-    }
+		STILL, FLOWING
+	}
 
 	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
 	public enum TilingDirection {
@@ -691,7 +736,7 @@ public class UIHelper {
 			this.right = right;
 		}
 	}
-	
+
 	public static void tts(String text) {
 		Narrator.getNarrator().say(text, false);
 	}

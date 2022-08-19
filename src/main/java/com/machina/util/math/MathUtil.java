@@ -47,6 +47,12 @@ public class MathUtil {
 		}
 		return String.format("%.01f", tval) + prefixes.get(order) + unit;
 	}
+	
+	public static float distance(float x1, float x2, float y1, float y2) {
+		float dx = Math.abs(x2 - x1);
+		float dy = Math.abs(y2 - y1);
+		return (float) Math.sqrt(dx * dx + dy * dy);
+	}
 
 	public static int numTrue(boolean... bs) {
 		int num = 0;

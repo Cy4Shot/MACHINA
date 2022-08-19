@@ -2,8 +2,8 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
-import com.machina.client.screen.DevScreen;
 import com.machina.client.screen.StarchartScreen;
+import com.machina.client.screen.DevScreen;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.KeyBindingsInit;

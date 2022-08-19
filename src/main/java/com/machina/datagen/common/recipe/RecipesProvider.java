@@ -159,7 +159,7 @@ public class RecipesProvider extends RecipeProvider {
 			//@formatter:on
 		});
 
-		addShaped(f, ItemInit.COPPER_COIL.get(), 1, builder -> {
+		addShaped(f, ItemInit.COPPER_COIL.get(), 2, builder -> {
 			//@formatter:off
 			return builder
 					.define('i', ItemInit.COPPER_INGOT.get())
