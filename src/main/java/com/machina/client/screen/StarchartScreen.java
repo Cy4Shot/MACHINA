@@ -2,6 +2,7 @@ package com.machina.client.screen;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.lwjgl.BufferUtils;
@@ -48,18 +49,12 @@ public class StarchartScreen extends Screen {
 	protected void init() {
 		super.init();
 
-		createStarSystem();
-	}
-
-	private void createStarSystem() {
-
 		planets.clear();
 
 		for (int i = 0; i < ClientStarchart.getStarchart().size(); i++) {
-			if (ClientStarchart.getPlanetData(i - 1).equals(PlanetData.NONE))
-				continue;
-
-			planets.add(new Planet(ClientStarchart.getPlanetData(i)));
+			PlanetData data = ClientStarchart.getPlanetData(i);
+			if (!data.equals(PlanetData.NONE))
+				planets.add(new Planet(data));
 		}
 	}
 
@@ -274,6 +269,7 @@ public class StarchartScreen extends Screen {
 	public boolean mouseReleased(double pX, double pY, int pButton) {
 
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1) {
+			Collections.shuffle(planets);
 			for (Planet planet : planets) {
 
 				if (planet == selected)

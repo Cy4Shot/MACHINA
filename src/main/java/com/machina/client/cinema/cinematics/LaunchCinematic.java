@@ -40,18 +40,18 @@ public class LaunchCinematic extends PathCinematic {
 		CameraEffect EXPLOSIONS = new ParticleEffect(ParticleTypes.EXPLOSION, p.position().add(0, -2.1D, 0), 0.05D, 1f,
 				0.1f);
 		CameraEffect LAUNCH = new ActionEffect(ting -> {
-			if (ting < 10) {
-				MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.ANGRY_VILLAGER, 0f, 30,
-						p.position().add(0, -2.1D, 0), new Vector3d(0.05D, 0.05D, 0.05D)));
-				MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.EXPLOSION, 0f, 10,
-						p.position().add(0, -2.1D, 0), new Vector3d(0.05D, 0.05D, 0.05D)));
-				MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, 0f, 30,
-						p.position().add(0, -2.1D, 0), new Vector3d(0.05D, 0.05D, 0.05D)));
-				MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.FLAME, 0f, 30,
-						p.position().add(0, -2.1D, 0), new Vector3d(0.05D, 0.05D, 0.05D)));
-			}
 			double off = Math.pow(Math.E, (double) ting / 9D) - 1D;
 			clientEntity.moveTo(o.add(0, off, 0));
+			MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.FLAME, -0.1f, 20,
+					o.add(0, off - 2.1D, 0), new Vector3d(0d, 1d, 0d)));
+			MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.ANGRY_VILLAGER, -0.1f, 2,
+					o.add(0, off - 2.1D, 0), new Vector3d(1d, 1d, 1d)));
+			MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
+					o.add(0, off - 2.1D, 0), new Vector3d(0.1d, 1d, 0.1d)));
+			MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 10,
+					o.add(0, off - 2.1D, 0), new Vector3d(0d, 1d, 0d)));
+			MachinaNetwork.CHANNEL.sendToServer(new C2SSpawnParticle(ParticleTypes.EXPLOSION, -0.1f, 6,
+					o.add(0, off - 2.1D, 0), new Vector3d(0d, 1d, 0d)));
 			MachinaNetwork.CHANNEL.sendToServer(new C2SShipLaunchEffect(pos, ting));
 		});
 
