@@ -1,10 +1,10 @@
 {
 	"variants": {
 		"open=false": {
-			"model": "minecraft:block/air"
+			"model": "machina:block/cargo_crate"
 		},
 		"open=true": {
-			"model": "minecraft:block/air"
+			"model": "machina:block/cargo_crate"
 		}
 	}
 }

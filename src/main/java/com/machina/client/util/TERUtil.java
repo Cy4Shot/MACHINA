@@ -19,7 +19,6 @@ import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.LightType;
@@ -30,11 +29,13 @@ public class TERUtil {
 
 	private static Minecraft mc = Minecraft.getInstance();
 
-	public static void renderItem(ItemStack stack, double[] translation, Quaternion rotation, MatrixStack matrixStack,
+	public static void renderItem(ItemStack stack, double[] translation, Vector3f rotation, MatrixStack matrixStack,
 			IRenderTypeBuffer buffer, float partialTicks, int combinedOverlay, int lightLevel, float scale) {
 		matrixStack.pushPose();
 		matrixStack.translate(translation[0], translation[1], translation[2]);
-		matrixStack.mulPose(rotation);
+		matrixStack.mulPose(Vector3f.XP.rotationDegrees(rotation.x()));
+		matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation.y()));
+		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(rotation.z()));
 		matrixStack.scale(scale, scale, scale);
 
 		IBakedModel model = mc.getItemRenderer().getModel(stack, null, null);

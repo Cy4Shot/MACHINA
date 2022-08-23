@@ -13,6 +13,7 @@ import com.machina.block.CreativeBatteryBlock;
 import com.machina.block.FluidHopperBlock;
 import com.machina.block.FuelStorageUnitBlock;
 import com.machina.block.FurnaceGeneratorBlock;
+import com.machina.block.IAnimatedBlock;
 import com.machina.block.PressurizedChamberBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
@@ -25,6 +26,8 @@ import com.machina.block.tinted.TintedFalling;
 import com.machina.block.tinted.TintedSlab;
 import com.machina.block.tinted.TintedStairs;
 import com.machina.block.tinted.TintedWall;
+import com.machina.client.model.CustomBlockModel;
+import com.machina.item.AnimatableBlockItem;
 import com.machina.item.TintedItem;
 import com.machina.registration.Registration;
 
@@ -135,14 +138,22 @@ public class BlockInit {
 	public static void registerBlockItems(final RegistryEvent.Register<Item> event) {
 		BLOCKS.getEntries().stream().filter(ro -> !FluidInit.BLOCKS.contains(ro.getId().getPath()))
 				.map(RegistryObject::get).forEach(block -> {
-					if (ITinted.class.isInstance(block)) {
+					if (IAnimatedBlock.class.isInstance(block)) {
+						CustomBlockModel<?> model = ((IAnimatedBlock) block).getBlockModel();
 						event.getRegistry()
-								.register(new TintedItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
-										.setRegistryName(block.getRegistryName()));
+								.register(new AnimatableBlockItem(block,
+										new Item.Properties().tab(Registration.MAIN_GROUP), model)
+												.setRegistryName(block.getRegistryName()));
 					} else {
-						event.getRegistry()
-								.register(new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
-										.setRegistryName(block.getRegistryName()));
+						if (ITinted.class.isInstance(block)) {
+							event.getRegistry().register(
+									new TintedItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
+											.setRegistryName(block.getRegistryName()));
+						} else {
+							event.getRegistry()
+									.register(new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
+											.setRegistryName(block.getRegistryName()));
+						}
 					}
 				});
 	}

@@ -1,6 +1,8 @@
 package com.machina.block;
 
 import com.machina.block.tile.CargoCrateTileEntity;
+import com.machina.client.model.CargoCrateModel;
+import com.machina.client.model.CustomBlockModel;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
@@ -23,7 +25,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class CargoCrateBlock extends Block {
+public class CargoCrateBlock extends Block implements IAnimatedBlock {
 
 	public static final BooleanProperty OPEN = BooleanProperty.create("open");
 
@@ -78,4 +80,8 @@ public class CargoCrateBlock extends Block {
 		return TileEntityInit.CARGO_CRATE.get().create();
 	}
 
+	@Override
+	public CustomBlockModel<?> getBlockModel() {
+		return new CargoCrateModel();
+	}
 }

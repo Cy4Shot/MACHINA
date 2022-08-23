@@ -1,10 +1,11 @@
 package com.machina.block;
 
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
+import com.machina.client.model.ComponentAnalyzerModel;
+import com.machina.client.model.CustomBlockModel;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -20,13 +21,13 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class ComponentAnalyzerBlock extends Block {
+public class ComponentAnalyzerBlock extends HorizontalFacingBlock implements IAnimatedBlock {
 
 	public ComponentAnalyzerBlock() {
 		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).harvestLevel(2).strength(6f)
 				.noOcclusion().sound(SoundType.METAL));
 	}
-	
+
 	@Override
 	public boolean hasTileEntity(BlockState state) {
 		return true;
@@ -48,4 +49,8 @@ public class ComponentAnalyzerBlock extends Block {
 		return ActionResultType.SUCCESS;
 	}
 
+	@Override
+	public CustomBlockModel<?> getBlockModel() {
+		return new ComponentAnalyzerModel();
+	}
 }

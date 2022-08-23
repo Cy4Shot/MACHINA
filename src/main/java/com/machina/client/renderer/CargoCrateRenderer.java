@@ -29,9 +29,8 @@ public class CargoCrateRenderer extends GeoBlockRenderer<CargoCrateTileEntity> {
 		CargoCrateTileEntity ccte = (CargoCrateTileEntity) te;
 		int lightLevel = TERUtil.getLightLevel(te.getLevel(), te.getBlockPos());
 
-		TERUtil.renderItem(ccte.getItem(0), new double[] { .5d, .4d, .5d },
-				Vector3f.YP.rotationDegrees(180f - mc.player.yRot), stack, bufferIn, partialTicks, combinedOverlayIn,
-				lightLevel, 0.8f);
+		TERUtil.renderItem(ccte.getItem(0), new double[] { .5d, .4d, .5d }, new Vector3f(0, 180f - mc.player.yRot, 0),
+				stack, bufferIn, partialTicks, combinedOverlayIn, lightLevel, 0.8f);
 
 		if (ccte.open && !ccte.getItem(0).isEmpty()) {
 			TERUtil.renderLabel(stack, bufferIn, lightLevel, new double[] { .5d, .9d, .5d },

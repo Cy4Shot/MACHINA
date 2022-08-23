@@ -14,9 +14,13 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ComponentAnalyzerTileEntity extends BaseLockableTileEntity implements ITickableTileEntity {
+public class ComponentAnalyzerTileEntity extends BaseLockableTileEntity implements ITickableTileEntity, IAnimatable {
 
+	private final AnimationFactory manager = new AnimationFactory(this);
 	public int progress = 0;
 
 	protected final IIntArray data = new IIntArray() {
@@ -93,5 +97,14 @@ public class ComponentAnalyzerTileEntity extends BaseLockableTileEntity implemen
 	public void load(BlockState state, CompoundNBT compound) {
 		super.load(state, compound);
 		this.progress = compound.getInt("Progress");
+	}
+
+	@Override
+	public void registerControllers(AnimationData data) {
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.manager;
 	}
 }
