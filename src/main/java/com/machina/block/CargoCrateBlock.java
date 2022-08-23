@@ -1,7 +1,6 @@
 package com.machina.block;
 
 import com.machina.block.tile.CargoCrateTileEntity;
-import com.machina.client.model.CargoCrateModel;
 import com.machina.client.model.CustomBlockModel;
 import com.machina.registration.init.TileEntityInit;
 
@@ -82,6 +81,6 @@ public class CargoCrateBlock extends Block implements IAnimatedBlock {
 
 	@Override
 	public CustomBlockModel<?> getBlockModel() {
-		return new CargoCrateModel();
+		return CustomBlockModel.create("cargo_crate");
 	}
 }

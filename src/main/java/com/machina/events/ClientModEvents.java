@@ -7,6 +7,7 @@ import com.machina.client.ClientStarchart;
 import com.machina.client.cinema.CinematicHandler;
 import com.machina.client.renderer.CargoCrateRenderer;
 import com.machina.client.renderer.ComponentAnalyzerRenderer;
+import com.machina.client.renderer.CustomModelRenderer;
 import com.machina.client.renderer.ShipConsoleRenderer;
 import com.machina.client.renderer.TankRenderer;
 import com.machina.client.screen.AtmosphericSeparatorScreen;
@@ -91,6 +92,7 @@ public class ClientModEvents {
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.SHIP_CONSOLE.get(), ShipConsoleRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CUSTOM_MODEL.get(), CustomModelRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.TANK.get(), TankRenderer::new);
 		
 		event.enqueueWork(() -> {

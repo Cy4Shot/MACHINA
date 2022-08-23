@@ -1,7 +1,7 @@
 package com.machina.client.renderer;
 
 import com.machina.block.tile.CargoCrateTileEntity;
-import com.machina.client.model.CargoCrateModel;
+import com.machina.client.model.CustomBlockModel;
 import com.machina.client.util.TERUtil;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -18,7 +18,7 @@ public class CargoCrateRenderer extends GeoBlockRenderer<CargoCrateTileEntity> {
 	private Minecraft mc = Minecraft.getInstance();
 
 	public CargoCrateRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-		super(rendererDispatcherIn, new CargoCrateModel());
+		super(rendererDispatcherIn, CustomBlockModel.create("cargo_crate"));
 	}
 
 	@Override

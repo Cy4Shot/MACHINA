@@ -1,7 +1,6 @@
 package com.machina.block;
 
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
-import com.machina.client.model.ComponentAnalyzerModel;
 import com.machina.client.model.CustomBlockModel;
 import com.machina.registration.init.TileEntityInit;
 
@@ -51,6 +50,6 @@ public class ComponentAnalyzerBlock extends HorizontalFacingBlock implements IAn
 
 	@Override
 	public CustomBlockModel<?> getBlockModel() {
-		return new ComponentAnalyzerModel();
+		return CustomBlockModel.create("component_analyzer");
 	}
 }

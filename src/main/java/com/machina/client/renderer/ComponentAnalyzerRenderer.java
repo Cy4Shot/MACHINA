@@ -2,7 +2,7 @@ package com.machina.client.renderer;
 
 import com.machina.block.ComponentAnalyzerBlock;
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
-import com.machina.client.model.ComponentAnalyzerModel;
+import com.machina.client.model.CustomBlockModel;
 import com.machina.client.util.TERUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -17,7 +17,7 @@ import software.bernie.geckolib3.renderers.geo.GeoBlockRenderer;
 public class ComponentAnalyzerRenderer extends GeoBlockRenderer<ComponentAnalyzerTileEntity> {
 
 	public ComponentAnalyzerRenderer(TileEntityRendererDispatcher disp) {
-		super(disp, new ComponentAnalyzerModel());
+		super(disp, CustomBlockModel.create("component_analyzer"));
 	}
 
 	@Override
