@@ -3,6 +3,7 @@ package com.machina.datagen;
 import com.machina.Machina;
 import com.machina.datagen.client.BlockStatesProvider;
 import com.machina.datagen.client.ItemModelProvider;
+import com.machina.datagen.client.anim.AnimationProvider;
 import com.machina.datagen.client.lang.EnUsLangProvider;
 import com.machina.datagen.common.TraitPoolsProvider;
 import com.machina.datagen.common.loot.LootTableProvider;
@@ -30,6 +31,7 @@ public class DataGenProvider {
 		gen.addProvider(new EnUsLangProvider(gen));
 		gen.addProvider(new BlockStatesProvider(gen, existingFileHelper));
 		gen.addProvider(new ItemModelProvider(gen, existingFileHelper));
+		gen.addProvider(new AnimationProvider(gen));
 
 		// Server
 		BlockTagsProvider blockTags = new BlockTagsProvider(gen, existingFileHelper);

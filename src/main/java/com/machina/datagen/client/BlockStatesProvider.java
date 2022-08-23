@@ -7,6 +7,7 @@ import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.util.text.MachinaRL;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.WallBlock;
@@ -63,11 +64,25 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.COPPER_BLOCK.get());
 		simpleBlock(BlockInit.COPPER_ORE.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
+
+		orientableGeo(BlockInit.COMPONENT_ANALYZER.get(), BlockInit.ALUMINUM_BLOCK.get());
+		geo(BlockInit.IRON_CHASSIS.get(), Blocks.IRON_BLOCK);
+		geo(BlockInit.CARGO_CRATE.get(), BlockInit.ALUMINUM_BLOCK.get());
 	}
 
 	public void fluid(FluidObject obj) {
 		getVariantBuilder(obj.block()).partialState().modelForState()
 				.modelFile(models().cubeAll(name(obj.block()), new ResourceLocation("block/water_still"))).addModel();
+	}
+
+	public void geo(Block block, Block particle) {
+		simpleBlock(block, models().singleTexture(name(block), new ResourceLocation("block/block"), "particle",
+				blockTexture(particle)));
+	}
+
+	public void orientableGeo(Block block, Block particle) {
+		horizontalBlock(block, models().singleTexture(name(block), new ResourceLocation("block/block"), "particle",
+				blockTexture(particle)));
 	}
 
 	public void tintedBlock(Block block) {

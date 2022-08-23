@@ -47,7 +47,6 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.COPPER_BLOCK.get());
 		block(BlockInit.COPPER_ORE.get());
 		block(BlockInit.STEEL_CHASSIS.get());
-		block(BlockInit.IRON_CHASSIS.get());
 		block(BlockInit.PUZZLE_BLOCK.get());
 		block(BlockInit.PRESSURIZED_CHAMBER.get());
 		block(BlockInit.BATTERY.get());
@@ -58,6 +57,10 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FUEL_STORAGE_UNIT.get());
 		block(BlockInit.FURNACE_GENERATOR.get());
 		block(BlockInit.STATE_CONVERTER.get());
+		
+		geo(BlockInit.IRON_CHASSIS.get());
+		geo(BlockInit.COMPONENT_ANALYZER.get());
+		geo(BlockInit.CARGO_CRATE.get());
 
 		item(ItemInit.REINFORCED_STICK.get());
 		item(ItemInit.STEEL_INGOT.get());
@@ -92,6 +95,10 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 			builder.flipGas(true);
 		}
 		builder.fluid(obj.fluid());
+	}
+
+	protected void geo(Block block) {
+		getBuilder(block.asItem().getRegistryName().toString()).parent(getExistingFile(new MachinaRL("item/geo_item")));
 	}
 
 	protected void block(Block block) {
