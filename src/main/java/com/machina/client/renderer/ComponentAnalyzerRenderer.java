@@ -49,5 +49,9 @@ public class ComponentAnalyzerRenderer extends GeoBlockRenderer<ComponentAnalyze
 		TERUtil.renderItem(item, new double[] { .5d + .15d * d.getStepX(), .3d, .5d + .15d * d.getStepZ()}, rot, stack, bufferIn,
 				partialTicks, combinedOverlayIn, lightLevel, 0.8f);
 	}
-
+	
+	@Override
+	public boolean shouldRenderOffScreen(TileEntity pTe) {
+		return true;
+	}
 }
