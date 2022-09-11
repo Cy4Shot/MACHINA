@@ -21,8 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntity> {
-	private static final int overlay = OverlayTexture.pack(OverlayTexture.u(0), OverlayTexture.v(false));
-
 	protected RocketModel model;
 
 	public ShipConsoleRenderer(TileEntityRendererDispatcher disp) {
@@ -116,10 +114,11 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 		stack.translate(d.getNormal().getX() * 2 - 0.5D, -1.501D - vOff, d.getNormal().getZ() * -2 + 0.5D);
 		stack.mulPose(Vector3f.YP.rotationDegrees(180 + d.get2DDataValue() * 90));
 		if (construction) {
-			this.model.partRender(stack, light, overlay, 1.0F, 1.0F, 1.0F, 0.15F, stage - 1, progress);
+			this.model.partRender(stack, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.15F, stage - 1,
+					progress);
 		} else {
 			IVertexBuilder builder = buff.getBuffer(this.model.rocket());
-			this.model.renderToBuffer(stack, builder, light, overlay, 1.0F, 1.0F, 1.0F, 0.15F);
+			this.model.renderToBuffer(stack, builder, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.15F);
 		}
 		stack.popPose();
 	}

@@ -27,10 +27,10 @@ import net.minecraftforge.fml.network.NetworkHooks;
 public class ComponentAnalyzerBlock extends HorizontalFacingBlock implements IAnimatedBlock {
 
 	public static final VoxelShape BASE = Block.box(1, 0, 1, 15, 4.6D, 15);
-	public static final VoxelShape SHAPE_N = Block.box(1.6D, 4.6D, 11, 14.4D, 14.6D, 15);
-	public static final VoxelShape SHAPE_E = Block.box(1, 4.6D, 1.6D, 5, 14.6D, 14.4D);
-	public static final VoxelShape SHAPE_S = Block.box(1.6D, 4.6D, 1, 14.4D, 14.6D, 5);
-	public static final VoxelShape SHAPE_W = Block.box(11, 4.6D, 1.6D, 15, 14.6D, 14.4D);
+	public static final VoxelShape SHAPE_N = VoxelShapes.or(BASE, Block.box(1.6D, 4.6D, 11, 14.4D, 14.6D, 15));
+	public static final VoxelShape SHAPE_E = VoxelShapes.or(BASE, Block.box(1, 4.6D, 1.6D, 5, 14.6D, 14.4D));
+	public static final VoxelShape SHAPE_S = VoxelShapes.or(BASE, Block.box(1.6D, 4.6D, 1, 14.4D, 14.6D, 5));
+	public static final VoxelShape SHAPE_W = VoxelShapes.or(BASE, Block.box(11, 4.6D, 1.6D, 15, 14.6D, 14.4D));
 
 	public ComponentAnalyzerBlock() {
 		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).harvestLevel(2).strength(6f)
@@ -41,13 +41,13 @@ public class ComponentAnalyzerBlock extends HorizontalFacingBlock implements IAn
 	public VoxelShape getShape(BlockState pState, IBlockReader pLevel, BlockPos pPos, ISelectionContext pContext) {
 		switch (pState.getValue(FACING)) {
 		case EAST:
-			return VoxelShapes.or(BASE, SHAPE_E);
+			return SHAPE_E;
 		case SOUTH:
-			return VoxelShapes.or(BASE, SHAPE_S);
+			return SHAPE_S;
 		case WEST:
-			return VoxelShapes.or(BASE, SHAPE_W);
+			return SHAPE_W;
 		default:
-			return VoxelShapes.or(BASE, SHAPE_N);
+			return SHAPE_N;
 		}
 	}
 
