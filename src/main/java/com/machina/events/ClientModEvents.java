@@ -128,6 +128,8 @@ public class ClientModEvents {
 
 			if (world != null) {
 				if (ITinted.class.isInstance(state.getBlock())) {
+					if (!world.isLoaded(pos))
+						return defVal;
 					TileEntity te = world.getBlockEntity(pos);
 					if (te != null && te instanceof TintedTileEntity) {
 						int id = ((TintedTileEntity) te).id;

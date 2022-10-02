@@ -35,5 +35,38 @@
 				"preload": true
 			}
 		]
+	},
+	"boss_01": {
+		"category": "music",
+		"subtitle": "machina.subtitle.boss_01",
+		"sounds": [
+			{
+				"name": "machina:music/boss/danjohansen_01",
+				"stream": true,
+				"preload": true
+			}
+		]
+	},
+	"boss_02": {
+		"category": "music",
+		"subtitle": "machina.subtitle.boss_02",
+		"sounds": [
+			{
+				"name": "machina:music/boss/danjohansen_02",
+				"stream": true,
+				"preload": true
+			}
+		]
+	},
+	"boss_03": {
+		"category": "music",
+		"subtitle": "machina.subtitle.boss_03",
+		"sounds": [
+			{
+				"name": "machina:music/boss/danjohansen_03",
+				"stream": true,
+				"preload": true
+			}
+		]
 	}
 }

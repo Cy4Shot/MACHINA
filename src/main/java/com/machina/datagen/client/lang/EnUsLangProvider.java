@@ -122,6 +122,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		// Sounds
 		add(SoundInit.ROCKET_LAUNCH, "Rocket Launch");
 		add(SoundInit.BEYOND, "Cy4 - Beyond (MACHINA OST)");
+		add(SoundInit.BOSS_01, "Dan Johansen - Overlord Of Chaos Pt. 1");
+		add(SoundInit.BOSS_02, "Dan Johansen - Overlord Of Chaos Pt. 2");
+		add(SoundInit.BOSS_03, "Dan Johansen - Overlord Of Chaos Pt. 3");
 
 		// Item Groups
 		addItemGroup(Registration.MAIN_GROUP, "Machina");
