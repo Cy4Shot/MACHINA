@@ -57,6 +57,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FUEL_STORAGE_UNIT.get());
 		block(BlockInit.FURNACE_GENERATOR.get());
 		block(BlockInit.STATE_CONVERTER.get());
+		block(BlockInit.FLUID_HOPPER.get());
 		
 		geo(BlockInit.IRON_CHASSIS.get());
 		geo(BlockInit.COMPONENT_ANALYZER.get());

@@ -1,0 +1,32 @@
+{
+	"variants": {
+		"facing=up": {
+			"model": "machina:block/fluid_hopper",
+			"x": 0
+		},
+		"facing=down": {
+			"model": "machina:block/fluid_hopper",
+			"x": 180
+		},
+		"facing=north": {
+			"model": "machina:block/fluid_hopper",
+			"x": 90,
+			"z": 180
+		},
+		"facing=south": {
+			"model": "machina:block/fluid_hopper",
+			"x": 270,
+			"z": 180
+		},
+		"facing=east": {
+			"model": "machina:block/fluid_hopper",
+			"x": 270,
+			"y": 270
+		},
+		"facing=west": {
+			"model": "machina:block/fluid_hopper",
+			"x": 90,
+			"y": 270
+		}
+	}
+}

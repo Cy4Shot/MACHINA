@@ -106,6 +106,7 @@ b81588e063f7a1e1fbe0fa2947105df97d08c648 assets/machina/models/item/copper_ingot
 05ed647a79f4b268a8d94924a6329ccd9ca4e0bb assets/machina/models/item/copper_nugget.json
 768415416747fcb84de557e1a3a01ecdeac5fcc0 assets/machina/models/item/copper_ore.json
 841517c41289e79541b21cc83c54eae5b977b1be assets/machina/models/item/creative_battery.json
+c164fad090f625496a93e8acff024c1a93f62d54 assets/machina/models/item/fluid_hopper.json
 83e1b416e66f2a5ab7520cf008d97150a0c4925d assets/machina/models/item/fuel_storage_unit.json
 bf3056fb7e9d8e628ca6eb7a8318c0c83702929a assets/machina/models/item/furnace_generator.json
 19503d0d4d68e5a7ee43da84c6f42dda2b31d007 assets/machina/models/item/hydrogen_bucket.json
