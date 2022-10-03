@@ -1,5 +1,7 @@
 package com.machina.events;
 
+import java.util.ConcurrentModificationException;
+
 import com.machina.Machina;
 import com.machina.block.tile.TintedTileEntity;
 import com.machina.block.tinted.ITinted;
@@ -130,13 +132,19 @@ public class ClientModEvents {
 				if (ITinted.class.isInstance(state.getBlock())) {
 					if (!world.isLoaded(pos))
 						return defVal;
-					TileEntity te = world.getBlockEntity(pos);
-					if (te != null && te instanceof TintedTileEntity) {
-						int id = ((TintedTileEntity) te).id;
-						if (id != -1) {
-							return getColorFromId(id, paletteId);
+					try {
+						TileEntity te = world.getBlockEntity(pos);
+						if (te != null && te instanceof TintedTileEntity) {
+							int id = ((TintedTileEntity) te).id;
+							if (id != -1) {
+								return getColorFromId(id, paletteId);
+							}
 						}
+					} catch (ConcurrentModificationException cme) {
+						cme.printStackTrace();
+						return defVal;
 					}
+					
 				}
 
 				RegistryKey<World> dim = world.dimension();
