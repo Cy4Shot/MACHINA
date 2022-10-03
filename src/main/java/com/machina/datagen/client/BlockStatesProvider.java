@@ -67,6 +67,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 		orientableGeo(BlockInit.COMPONENT_ANALYZER.get(), BlockInit.ALUMINUM_BLOCK.get());
 		geo(BlockInit.IRON_CHASSIS.get(), Blocks.IRON_BLOCK);
+		geo(BlockInit.STEEL_CHASSIS.get(), BlockInit.STEEL_BLOCK.get());
 		geo(BlockInit.CARGO_CRATE.get(), BlockInit.ALUMINUM_BLOCK.get());
 	}
 

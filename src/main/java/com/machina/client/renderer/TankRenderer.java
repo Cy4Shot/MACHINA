@@ -17,7 +17,7 @@ public class TankRenderer extends TileEntityRenderer<TankTileEntity> {
 	@Override
 	public void render(TankTileEntity te, float partialTicks, MatrixStack stack, IRenderTypeBuffer buff,
 			int packedLightIn, int pCombinedOverlay) {
-		float height = 0.05f + 0.9f * te.propFull();
-		TERUtil.renderFluid(stack, te.getFluid(), buff, 0.05f, 0.95f, 0.05f, height, 0.05f, 0.95f, 1f);
+		float height = 0.1f + 0.8f * te.propFull();
+		TERUtil.renderFluid(stack, te.getFluid(), buff, 0.1f, 0.9f, 0.1f, height, 0.1f, 0.9f, 1f);
 	}
 }

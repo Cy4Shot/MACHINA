@@ -60,6 +60,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FLUID_HOPPER.get());
 		
 		geo(BlockInit.IRON_CHASSIS.get());
+		geo(BlockInit.STEEL_CHASSIS.get());
 		geo(BlockInit.COMPONENT_ANALYZER.get());
 		geo(BlockInit.CARGO_CRATE.get());
 

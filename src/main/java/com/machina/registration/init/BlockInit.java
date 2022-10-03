@@ -67,7 +67,7 @@ public class BlockInit {
 	public static final RegistryObject<PuzzleBlock> PUZZLE_BLOCK = register("puzzle_block", PuzzleBlock::new);
 	public static final RegistryObject<CableBlock> CABLE = register("cable", CableBlock::new);
 	public static final RegistryObject<CustomModelBlock> IRON_CHASSIS = register("iron_chassis", Blocks.IRON_BLOCK, p -> new CustomModelBlock(p, "iron_chassis"));
-	public static final RegistryObject<Block> STEEL_CHASSIS = register("steel_chassis", Blocks.IRON_BLOCK, a -> a.noOcclusion().isViewBlocking(BlockInit::never), Block::new);
+	public static final RegistryObject<CustomModelBlock> STEEL_CHASSIS = register("steel_chassis", Blocks.IRON_BLOCK, p -> new CustomModelBlock(p, "steel_chassis"));
 	public static final RegistryObject<Block> STEEL_BLOCK = register("steel_block", Blocks.IRON_BLOCK);
 	public static final RegistryObject<Block> ALUMINUM_BLOCK = register("aluminum_block", Blocks.IRON_BLOCK);
 	public static final RegistryObject<Block> ALUMINUM_ORE = register("aluminum_ore", Blocks.IRON_ORE);

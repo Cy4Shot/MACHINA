@@ -15,5 +15,6 @@ public class AnimationProvider extends BaseAnimationProvider {
 	public void createAnimations() {
 		noAnim(BlockInit.COMPONENT_ANALYZER.get());
 		noAnim(BlockInit.IRON_CHASSIS.get());
+		noAnim(BlockInit.STEEL_CHASSIS.get());
 	}
 }

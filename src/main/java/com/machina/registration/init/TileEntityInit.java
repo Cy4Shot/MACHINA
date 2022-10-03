@@ -53,7 +53,7 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<FurnaceGeneratorTileEntity>> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorTileEntity::new, () -> BlockInit.FURNACE_GENERATOR.get());
 	public static final RegistryObject<TileEntityType<StateConverterTileEntity>> STATE_CONVERTER = register("state_converter", StateConverterTileEntity::new, () -> BlockInit.STATE_CONVERTER.get());
 	public static final RegistryObject<TileEntityType<TintedTileEntity>> TINTED = tinted("tinted", TintedTileEntity::new);
-	public static final RegistryObject<TileEntityType<CustomModelTileEntity>> CUSTOM_MODEL = registerMany("custom_model", CustomModelTileEntity::new, () -> new Block[] { BlockInit.IRON_CHASSIS.get() });
+	public static final RegistryObject<TileEntityType<CustomModelTileEntity>> CUSTOM_MODEL = registerMany("custom_model", CustomModelTileEntity::new, () -> new Block[] { BlockInit.IRON_CHASSIS.get(), BlockInit.STEEL_CHASSIS.get() });
 	//@formatter:on
 
 	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String n, Supplier<T> s,
@@ -78,5 +78,4 @@ public class TileEntityInit {
 			return TileEntityType.Builder.of(s, tinted).build(null);
 		});
 	}
-
 }
