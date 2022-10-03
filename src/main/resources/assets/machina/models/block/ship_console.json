@@ -1,87 +1,48 @@
 {
-	"parent": "minecraft:block/block",
+	"credit": "Made by reider",
 	"texture_size": [64, 64],
 	"textures": {
-		"1": "machina:block/ship_console",
-		"2": "machina:block/ship_console_top",
-		"particle": "minecraft:block/anvil"
+		"1": "machina:block/ship_console"
 	},
 	"elements": [
 		{
-			"from": [0, 0, 0],
-			"to": [16, 1, 16],
+			"from": [0, 12.58972, -0.1173],
+			"to": [16, 15.58972, 13.8827],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [9, 14.08972, 6.8827]},
 			"faces": {
-				"north": {"uv": [8, 1.5, 12, 1.75], "texture": "#1", "cullface": "north"},
-				"east": {"uv": [8, 1.75, 12, 2], "texture": "#1", "cullface": "east"},
-				"south": {"uv": [8, 2, 12, 2.25], "texture": "#1", "cullface": "south"},
-				"west": {"uv": [8, 2.25, 12, 2.5], "texture": "#1", "cullface": "west"},
-				"up": {"uv": [4, 4, 0, 0], "texture": "#1"},
-				"down": {"uv": [4, 4, 0, 8], "texture": "#1", "cullface": "down"}
+				"north": {"uv": [8, 4, 12, 4.75], "texture": "#1"},
+				"east": {"uv": [8, 5.5, 11.5, 6.25], "texture": "#1"},
+				"south": {"uv": [8, 4.75, 12, 5.5], "texture": "#1"},
+				"west": {"uv": [9, 6.25, 12.5, 7], "texture": "#1"},
+				"up": {"uv": [4, 3.5, 0, 0], "texture": "#1"},
+				"down": {"uv": [4, 3.5, 0, 7], "texture": "#1"}
 			}
 		},
 		{
-			"from": [6, 1, 6],
-			"to": [10, 15, 10],
+			"from": [0, 0, 2],
+			"to": [16, 1, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, -1]},
 			"faces": {
-				"north": {"uv": [4, 6.5, 5, 10], "texture": "#1"},
-				"east": {"uv": [5, 6.5, 6, 10], "texture": "#1"},
-				"south": {"uv": [6, 6.5, 6.75, 10], "texture": "#1"},
-				"west": {"uv": [7, 6.5, 8, 10], "texture": "#1"},
-				"up": {"uv": [9, 3.5, 8, 2.5], "texture": "#1"},
-				"down": {"uv": [9, 3.5, 8, 4.5], "texture": "#1"}
-			}
-		},
-		{
-			"from": [0.0125, 14, 3],
-			"to": [15.9875, 16, 16],
-			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 8, 8]},
-			"faces": {
-				"north": {"uv": [0, 8, 4, 8.5], "texture": "#1"},
-				"east": {"uv": [8, 0.5, 11.25, 1], "texture": "#1"},
-				"south": {"uv": [8, 0, 12, 0.5], "texture": "#1"},
-				"west": {"uv": [8, 1, 11.25, 1.5], "texture": "#1"},
-				"up": {"uv": [16, 14.25, 0, 0], "texture": "#2"},
+				"north": {"uv": [9, 7, 13, 7.25], "texture": "#1"},
+				"east": {"uv": [9, 7.5, 12.25, 7.75], "texture": "#1"},
+				"south": {"uv": [9, 7.25, 13, 7.5], "texture": "#1"},
+				"west": {"uv": [9, 7.75, 12.25, 8], "texture": "#1"},
+				"up": {"uv": [8, 3.25, 4, 0], "texture": "#1"},
 				"down": {"uv": [8, 3.25, 4, 6.5], "texture": "#1"}
 			}
-		}
-	],
-	"display": {
-		"thirdperson_righthand": {
-			"rotation": [75, 45, 0],
-			"translation": [0, 2.5, 0],
-			"scale": [0.375, 0.375, 0.375]
 		},
-		"thirdperson_lefthand": {
-			"rotation": [75, 45, 0],
-			"translation": [0, 2.5, 0],
-			"scale": [0.375, 0.375, 0.375]
-		},
-		"firstperson_righthand": {
-			"rotation": [0, 45, 0],
-			"scale": [0.4, 0.4, 0.4]
-		},
-		"firstperson_lefthand": {
-			"rotation": [0, 225, 0],
-			"scale": [0.4, 0.4, 0.4]
-		},
-		"ground": {
-			"translation": [0, 3, 0],
-			"scale": [0.25, 0.25, 0.25]
-		},
-		"gui": {
-			"rotation": [30, 225, 0],
-			"scale": [0.625, 0.625, 0.625]
-		},
-		"fixed": {
-			"scale": [0.5, 0.5, 0.5]
-		}
-	},
-	"groups": [
 		{
-			"name": "console",
-			"origin": [8, 8, 8],
-			"color": 0,
-			"children": [0, 1, 2]
+			"from": [3, 1, 5],
+			"to": [13, 15, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, -1]},
+			"faces": {
+				"north": {"uv": [4, 6.5, 6.5, 10], "texture": "#1"},
+				"east": {"uv": [0, 7, 2, 10.5], "texture": "#1"},
+				"south": {"uv": [6.5, 6.5, 9, 10], "texture": "#1"},
+				"west": {"uv": [2, 7, 4, 10.5], "texture": "#1"},
+				"up": {"uv": [10.5, 2, 8, 0], "texture": "#1"},
+				"down": {"uv": [10.5, 2, 8, 4], "texture": "#1"}
+			}
 		}
 	]
 }
