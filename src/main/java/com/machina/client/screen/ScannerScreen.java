@@ -110,6 +110,11 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 					drawChemical(stack, FluidInit.ATMOSPHERE.get(f), x, y + 20 + f * 10, dim);
 				}
 				break;
+			case 4:
+				drawAttribute(stack, AttributeInit.SURFACE_SCALE, x, y + 20);
+				drawAttribute(stack, AttributeInit.SURFACE_DETAIL, x, y + 30);
+				drawAttribute(stack, AttributeInit.SURFACE_ROUGHNESS, x, y + 40);
+				drawAttribute(stack, AttributeInit.SURFACE_DISTORTION, x, y + 50);
 			}
 			draw(stack,
 					AttributeInit.PLANET_NAME.getName() + ": " + data.getAttributeFormatted(AttributeInit.PLANET_NAME),

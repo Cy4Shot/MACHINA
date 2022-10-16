@@ -117,6 +117,10 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(AttributeInit.PLANET_NAME, "Planet Name");
 		add(AttributeInit.PLANET_ICON, "Planet Icon");
 		add(AttributeInit.SURF_BLOCKS, "Surface Blocks");
+		add(AttributeInit.SURFACE_SCALE, "Surface Scale");
+		add(AttributeInit.SURFACE_DETAIL, "Surface Detail");
+		add(AttributeInit.SURFACE_ROUGHNESS, "Surface Roughness");
+		add(AttributeInit.SURFACE_DISTORTION, "Surface Distortion");
 		add(AttributeInit.TEMPERATURE, "Temperature");
 
 		// Sounds
@@ -163,9 +167,10 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("starchart", "cls", "Close");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");
-		addScreen("scanner", "tab1", "2. Planet Info");
-		addScreen("scanner", "tab2", "3. Cave Info");
+		addScreen("scanner", "tab1", "2. Planet Attributes");
+		addScreen("scanner", "tab2", "3. Cave Structures");
 		addScreen("scanner", "tab3", "4. Atmosphere Composition");
+		addScreen("scanner", "tab4", "5. Terrain Information");
 		addScreen("scanner", "location", "Location: ");
 		addScreen("scanner", "nodata", "Data Unavailable.");
 		addScreen("scanner", "nocave", "There are no caves on this planet!");
