@@ -25,8 +25,6 @@ import com.machina.world.feature.planet.PlanetTreeFeature;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetBlocksGenerator.BlockPalette;
 import com.machina.world.gen.PlanetTerrainGenerator;
-import com.machina.world.settings.PlanetNoiseSettings;
-import com.machina.world.settings.PlanetStructureSettings;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -57,8 +55,8 @@ import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.structure.StructureManager;
+import net.minecraft.world.gen.settings.DimensionStructuresSettings;
 
-// https://gist.github.com/Commoble/7db2ef25f94952a4d2e2b7e3d4be53e0
 public class PlanetChunkGenerator extends ChunkGenerator {
 
 	//@formatter:off
@@ -82,7 +80,6 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	private final PlanetTerrainGenerator terrainGenerator;
 
 	// Noise Settings
-	public PlanetNoiseSettings noisesettings = PlanetNoiseSettings.OVERWORLD_TYPE;
 	public double surfscale = 1D;
 	public double surfdetail = 1D;
 	public double surfroughness = 0.5D;
@@ -98,10 +95,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	List<Supplier<ConfiguredFeature<?, ?>>> features = new ArrayList<>();
 
 	// Chunk generator config
-	public int seaLevel = -1;
-	public float heightMultiplier = 1f;
 	public boolean cavesExist = false;
-	public boolean frozen = false;
 	public float caveChance = 0f;
 	public int caveLength = 0;
 	public float caveThickness = 0f;
@@ -139,7 +133,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.features = new ArrayList<>();
 		this.features.add(() -> new PlanetTreeFeature(attr).count(1));
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
-		
+
 		// Noise
 		this.surfscale = attr.getValue(AttributeInit.SURFACE_SCALE);
 		this.surfdetail = attr.getValue(AttributeInit.SURFACE_DETAIL);
@@ -215,32 +209,8 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		}
 	}
 
-	public boolean isIslands() {
-		return this.noisesettings.equals(PlanetNoiseSettings.ISLAND_TYPE);
-	}
-
-	public boolean isLayered() {
-		return this.noisesettings.equals(PlanetNoiseSettings.LAYERED_TYPE);
-	}
-
-	protected BlockState generateBaseState(double chance, int y) {
-
-		int newSea = seaLevel;
-		if (isIslands())
-			newSea *= 0;
-		else if (isLayered())
-			newSea *= 2;
-
-		BlockState blockstate;
-		if (chance > 0.0D) {
-			blockstate = baseBlocks.getBaseBlock();
-		} else if (frozen && y == newSea - 1) {
-			blockstate = fluidBlocks.getSecondaryBlock();
-		} else {
-			blockstate = y < newSea ? fluidBlocks.getBaseBlock() : AIR;
-		}
-
-		return blockstate;
+	protected BlockState generateBaseState(double chance) {
+		return chance > 0D ? baseBlocks.getBaseBlock() : AIR;
 	}
 
 	@Override
@@ -313,24 +283,13 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	}
 
 	private void placeBedrock(IChunk chunk, Random random) {
-
-		boolean layered = isLayered();
-
-		if (!isIslands()) {
-			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-			int i = chunk.getPos().getMinBlockX();
-			int j = chunk.getPos().getMinBlockZ();
-			for (BlockPos blockpos : BlockPos.betweenClosed(i, 0, j, i + 15, 0, j + 15)) {
-				for (int k1 = 4; k1 >= 0; --k1) {
-					if (k1 <= random.nextInt(5)) {
-						chunk.setBlockState(blockpos$mutable.set(blockpos.getX(), k1, blockpos.getZ()), BEDROCK, false);
-
-						if (layered) {
-							chunk.setBlockState(
-									blockpos$mutable.set(blockpos.getX(), getGenDepth() - k1 - 1, blockpos.getZ()),
-									BEDROCK, false);
-						}
-					}
+		BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+		int i = chunk.getPos().getMinBlockX();
+		int j = chunk.getPos().getMinBlockZ();
+		for (BlockPos blockpos : BlockPos.betweenClosed(i, 0, j, i + 15, 0, j + 15)) {
+			for (int k1 = 4; k1 >= 0; --k1) {
+				if (k1 <= random.nextInt(5)) {
+					chunk.setBlockState(blockpos$mutable.set(blockpos.getX(), k1, blockpos.getZ()), BEDROCK, false);
 				}
 			}
 		}
@@ -385,7 +344,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 				double d10 = (double) j1 / (double) this.chunkHeight;
 				double d11 = MathHelper.lerp3(d10, d0, d1, d2, d6, d4, d8, d3, d7, d5, d9);
 				int y = i1 * this.chunkHeight + j1;
-				BlockState blockstate = this.generateBaseState(d11, y);
+				BlockState blockstate = this.generateBaseState(d11);
 				if (column != null) {
 					column[y] = blockstate;
 				}
@@ -409,5 +368,13 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 
 	public OpenSimplex2F getCaveDecoNoise() {
 		return caveDecoNoise;
+	}
+
+	public static class PlanetStructureSettings extends DimensionStructuresSettings {
+
+		public PlanetStructureSettings() {
+			super(false);
+			structureConfig.clear();
+		}
 	}
 }

@@ -1,32 +1,11 @@
 {
-  "minRolls": 3,
-  "maxRolls": 3,
+  "minRolls": 1,
+  "maxRolls": 1,
   "entries": [
     {
-      "weight": 25,
+      "weight": 1,
       "values": [
-        "machina:mountainous",
-        "machina:hilly",
-        "machina:flat"
-      ]
-    },
-    {
-      "weight": 5,
-      "values": [
-        "machina:continental",
-        "machina:water_world"
-      ]
-    },
-    {
-      "weight": 5,
-      "values": [
-        "machina:frozen"
-      ]
-    },
-    {
-      "weight": 5,
-      "values": [
-        "machina:islands"
+        "machina:none"
       ]
     }
   ]

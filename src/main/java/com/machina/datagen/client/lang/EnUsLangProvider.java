@@ -1,14 +1,13 @@
 package com.machina.datagen.client.lang;
 
+import com.machina.Machina;
+import com.machina.registration.Registration;
+import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.registration.init.SoundInit;
-import com.machina.Machina;
-import com.machina.registration.Registration;
-import com.machina.registration.init.AttributeInit;
-import com.machina.registration.init.TraitInit;
 
 import net.minecraft.data.DataGenerator;
 
@@ -93,14 +92,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.LIQUID_AMMONIA, "Liquid Ammonia", "Bucket");
 
 		// Traits
-		add(TraitInit.WATER_WORLD, "Water World");
-		add(TraitInit.CONTINENTAL, "Continental");
-		add(TraitInit.MOUNTAINOUS, "Mountainous");
-		add(TraitInit.HILLY, "Hilly");
-		add(TraitInit.FLAT, "Flat");
-		add(TraitInit.LAKES, "Lakes");
-		add(TraitInit.FROZEN, "Frozen");
-		add(TraitInit.ISLANDS, "Islands");
 
 		// Attributes
 		add(AttributeInit.ATMOSPHERIC_PRESSURE, "Atmospheric Pressure");

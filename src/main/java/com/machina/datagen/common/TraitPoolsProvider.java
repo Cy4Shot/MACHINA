@@ -18,11 +18,8 @@ public class TraitPoolsProvider extends TraitPoolsGenProvider {
 	protected void addPools() {
 
 		// @formatter:off
-		addPool("geographical_traits", new TraitPool(3, 3).withEntries(
-				new TraitPoolEntry(25, TraitInit.MOUNTAINOUS, TraitInit.HILLY, TraitInit.FLAT),
-				new TraitPoolEntry(5,  TraitInit.CONTINENTAL, TraitInit.WATER_WORLD),
-				new TraitPoolEntry(5,  TraitInit.FROZEN),
-				new TraitPoolEntry(5,  TraitInit.ISLANDS)));
+		addPool("geographical_traits", new TraitPool(1, 1).withEntries(
+				new TraitPoolEntry(1, TraitInit.NONE)));
 		// @formatter:on
 	}
 
