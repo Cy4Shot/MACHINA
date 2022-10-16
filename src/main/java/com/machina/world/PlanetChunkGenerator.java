@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
 
 import javax.annotation.Nullable;
 
@@ -25,6 +24,7 @@ import com.machina.world.feature.PlanetDecorator;
 import com.machina.world.feature.planet.PlanetTreeFeature;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetBlocksGenerator.BlockPalette;
+import com.machina.world.gen.PlanetTerrainGenerator;
 import com.machina.world.settings.PlanetNoiseSettings;
 import com.machina.world.settings.PlanetStructureSettings;
 import com.mojang.serialization.Codec;
@@ -37,7 +37,6 @@ import net.minecraft.crash.ReportedException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SharedSeedRandom;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -48,16 +47,12 @@ import net.minecraft.world.Dimension;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.EndBiomeProvider;
 import net.minecraft.world.biome.provider.SingleBiomeProvider;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage.Carving;
 import net.minecraft.world.gen.Heightmap.Type;
-import net.minecraft.world.gen.ImprovedNoiseGenerator;
-import net.minecraft.world.gen.OctavesNoiseGenerator;
-import net.minecraft.world.gen.SimplexNoiseGenerator;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -73,16 +68,6 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		).apply(instance, PlanetChunkGenerator::new));
 	//@formatter:on
 
-	// Biome Weights
-	private static final float[] BIOME_WEIGHTS = Util.make(new float[25], (arr) -> {
-		for (int i = -2; i <= 2; ++i) {
-			for (int j = -2; j <= 2; ++j) {
-				arr[i + 2 + (j + 2) * 5] = 10.0F / MathHelper.sqrt((float) (i * i + j * j) + 0.2F);
-			}
-		}
-
-	});
-
 	// Blockstates
 	public static final BlockState AIR = Blocks.AIR.defaultBlockState();
 	public static final BlockState BEDROCK = Blocks.BEDROCK.defaultBlockState();
@@ -94,27 +79,14 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	// Random Settings
 	public final SharedSeedRandom random;
 	private final OpenSimplex2F caveDecoNoise;
-	private final SimplexNoiseGenerator islandNoise;
-	private final OctavesNoiseGenerator depthNoise;
-	private final OctavesNoiseGenerator minLimitPerlinNoise;
-	private final OctavesNoiseGenerator maxLimitPerlinNoise;
-	private final OctavesNoiseGenerator mainPerlinNoise;
+	private final PlanetTerrainGenerator terrainGenerator;
 
 	// Noise Settings
 	public PlanetNoiseSettings noisesettings = PlanetNoiseSettings.OVERWORLD_TYPE;
-	private double xzscale = 0D;
-	private double yscale = 0D;
-	private double xzfactor = 0D;
-	private double yfactor = 0D;
-	private double topTarget = 0D;
-	private double topSize = 0D;
-	private double topOffset = 0D;
-	private double botTarget = 0D;
-	private double botSize = 0D;
-	private double botOffset = 0D;
-	private boolean randDensityEnabled = false;
-	private double randFactor = 0D;
-	private double randOffset = 0D;
+	public double surfscale = 1D;
+	public double surfdetail = 1D;
+	public double surfroughness = 0.5D;
+	public double surfdistortion = 0D;
 
 	// Chunk Generator Properties
 	private final Registry<Biome> biomes;
@@ -167,20 +139,12 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.features = new ArrayList<>();
 		this.features.add(() -> new PlanetTreeFeature(attr).count(1));
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
-
+		
 		// Noise
-		this.xzscale = 684.412D * this.noisesettings.noiseSamplingSettings().xzScale();
-		this.yscale = 684.412D * this.noisesettings.noiseSamplingSettings().yScale() * (1f / this.heightMultiplier);
-		this.xzfactor = this.xzscale / this.noisesettings.noiseSamplingSettings().xzFactor();
-		this.yfactor = this.yscale / this.noisesettings.noiseSamplingSettings().yFactor();
-		this.topTarget = (double) this.noisesettings.topSlideSettings().target();
-		this.topSize = (double) this.noisesettings.topSlideSettings().size();
-		this.topOffset = (double) this.noisesettings.topSlideSettings().offset();
-		this.botSize = (double) this.noisesettings.bottomSlideSettings().size();
-		this.botOffset = (double) this.noisesettings.bottomSlideSettings().offset();
-		this.randDensityEnabled = this.noisesettings.randomDensityOffset();
-		this.randFactor = this.noisesettings.densityFactor();
-		this.randOffset = this.noisesettings.densityOffset();
+		this.surfscale = attr.getValue(AttributeInit.SURFACE_SCALE);
+		this.surfdetail = attr.getValue(AttributeInit.SURFACE_DETAIL);
+		this.surfroughness = attr.getValue(AttributeInit.SURFACE_ROUGHNESS);
+		this.surfdistortion = attr.getValue(AttributeInit.SURFACE_DISTORTION);
 
 	}
 
@@ -197,19 +161,8 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.random = new SharedSeedRandom(this.seed);
 
 		// NOISEE
-//		this.surfaceNoise = (new PerlinNoiseGenerator(this.random, IntStream.rangeClosed(-3, 0)));
-		this.minLimitPerlinNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
-		this.maxLimitPerlinNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
-		this.mainPerlinNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-7, 0));
-		this.random.consumeCount(2600);
-		this.depthNoise = new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-15, 0));
-		if (noisesettings.islandNoiseOverride()) {
-			this.random.consumeCount(17292);
-			this.islandNoise = new SimplexNoiseGenerator(this.random);
-		} else {
-			this.islandNoise = null;
-		}
 		this.caveDecoNoise = new OpenSimplex2F(this.seed);
+		this.terrainGenerator = new PlanetTerrainGenerator(this.seed, this);
 
 	}
 
@@ -402,95 +355,9 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	}
 
 	private void fillNoiseColumn(double[] out, int x, int z) {
-		double height;
-		double heightMul;
-		if (this.islandNoise != null) {
-			height = (double) (EndBiomeProvider.getHeightValue(this.islandNoise, x, z) - 8.0F);
-			heightMul = height > 0.0D ? 0.25D : 1.0D;
-		} else {
-			float f = 0.0F;
-			float f1 = 0.0F;
-			float f2 = 0.0F;
-
-			for (int k = -2; k <= 2; ++k) {
-				for (int l = -2; l <= 2; ++l) {
-					float depth = 0f;
-					float scale = 1f;
-					float f9 = BIOME_WEIGHTS[k + 2 + (l + 2) * 5] / (depth + 2.0F);
-					f += scale * f9;
-					f1 += depth * f9;
-					f2 += f9;
-				}
-			}
-
-			height = (double) (f1 / f2 * 0.5F - 0.125F) * 0.265625D;
-			heightMul = 96.0D / (double) (f / f2 * 0.9F + 0.1F);
-		}
-		double randDensity = this.randDensityEnabled ? this.getRandomDensity(x, z) : 0.0D;
-
 		for (int i1 = 0; i1 <= getGenDepth() / this.chunkHeight; ++i1) {
-			double noise = this.sampleAndClampNoise(x, i1, z, this.xzscale, this.yscale, this.xzfactor, this.yfactor);
-			double rand = 1.0D - (double) i1 * 2.0D / (double) (getGenDepth() / this.chunkHeight) + randDensity;
-			double totalHeight = (rand * this.randFactor + this.randOffset + height) * heightMul;
-			noise += totalHeight > 0.0D ? totalHeight * 4.0D : totalHeight;
-
-			if (this.topSize > 0.0D) {
-				double d11 = ((double) (getGenDepth() / this.chunkHeight - i1) - this.topOffset) / this.topSize;
-				noise = MathHelper.clampedLerp(this.topTarget, noise, d11);
-			}
-
-			if (this.botSize > 0.0D) {
-				double d22 = ((double) i1 - this.botOffset) / this.botSize;
-				noise = MathHelper.clampedLerp(this.botTarget, noise, d22);
-			}
-
-			out[i1] = noise;
+			out[i1] = terrainGenerator.at(x, i1, z);
 		}
-
-	}
-
-	private double getRandomDensity(int x, int z) {
-		double noise = this.depthNoise.getValue((double) (x * 200), 10.0D, (double) (z * 200), 1.0D, 0.0D, true);
-		double d2 = (noise < 0.0D ? -noise * 0.3D : noise) * 24.575625D - 2.0D;
-		return d2 < 0.0D ? d2 * 0.009486607142857142D : Math.min(d2, 1.0D) * 0.006640625D;
-	}
-
-	private double sampleAndClampNoise(int x, int y, int z, double xzSize, double ySize, double xzFactor,
-			double yFactor) {
-		double minNoise = 0.0D;
-		double maxNoise = 0.0D;
-		double mainNoise = 0.0D;
-		double scale = 1.0D;
-
-		for (int i = 0; i < 16; ++i) {
-			double xWrapped = OctavesNoiseGenerator.wrap((double) x * xzSize * scale);
-			double yWrapped = OctavesNoiseGenerator.wrap((double) y * ySize * scale);
-			double zWrapped = OctavesNoiseGenerator.wrap((double) z * xzSize * scale);
-			double wWrapped = ySize * scale;
-			ImprovedNoiseGenerator minGen = this.minLimitPerlinNoise.getOctaveNoise(i);
-			if (minGen != null) {
-				minNoise += minGen.noise(xWrapped, yWrapped, zWrapped, wWrapped, (double) y * wWrapped) / scale;
-			}
-
-			ImprovedNoiseGenerator maxGen = this.maxLimitPerlinNoise.getOctaveNoise(i);
-			if (maxGen != null) {
-				maxNoise += maxGen.noise(xWrapped, yWrapped, zWrapped, wWrapped, (double) y * wWrapped) / scale;
-			}
-
-			if (i < 8) {
-				ImprovedNoiseGenerator mainGen = this.mainPerlinNoise.getOctaveNoise(i);
-				if (mainGen != null) {
-					mainNoise += mainGen.noise(OctavesNoiseGenerator.wrap((double) x * xzFactor * scale),
-							OctavesNoiseGenerator.wrap((double) y * yFactor * scale),
-							OctavesNoiseGenerator.wrap((double) z * xzFactor * scale), yFactor * scale,
-							(double) y * yFactor * scale) / scale;
-				}
-			}
-
-			scale /= 2.0D;
-		}
-
-		return MathHelper.clampedLerp(minNoise / 512.0D, maxNoise / 512.0D, (mainNoise / 10.0D + 1.0D) / 2.0D);
 	}
 
 	private int iterateNoiseColumn(int x, int z, @Nullable BlockState[] column, @Nullable Predicate<BlockState> test) {

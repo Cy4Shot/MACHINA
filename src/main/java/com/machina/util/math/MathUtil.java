@@ -86,4 +86,8 @@ public class MathUtil {
 	public static double[] dirichlet(int size, int seed) {
 		return new Dirichlet(size).nextDistribution(seed);
 	}
+	
+	public static double clamp(double val, double min, double max) {
+	    return Math.max(min, Math.min(max, val));
+	}
 }
