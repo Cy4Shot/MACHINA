@@ -115,6 +115,8 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				drawAttribute(stack, AttributeInit.SURFACE_DETAIL, x, y + 30);
 				drawAttribute(stack, AttributeInit.SURFACE_ROUGHNESS, x, y + 40);
 				drawAttribute(stack, AttributeInit.SURFACE_DISTORTION, x, y + 50);
+				drawAttribute(stack, AttributeInit.SURFACE_SHAPE, x, y + 60);
+				drawAttribute(stack, AttributeInit.SURFACE_MODIFIER, x, y + 70);
 			}
 			draw(stack,
 					AttributeInit.PLANET_NAME.getName() + ": " + data.getAttributeFormatted(AttributeInit.PLANET_NAME),

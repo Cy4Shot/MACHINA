@@ -41,6 +41,8 @@ public final class AttributeInit {
 	public static final PlanetAttributeType<Float> SURFACE_DETAIL = create(new FloatSerializer(2f, random(0.5f, 5f)));
 	public static final PlanetAttributeType<Float> SURFACE_ROUGHNESS = create(new FloatSerializer(0.5f, random(0f, 0.7f)));
 	public static final PlanetAttributeType<Float> SURFACE_DISTORTION = create(new FloatSerializer(0f, random(-0.7f, 0.7f)));
+	public static final PlanetAttributeType<Float> SURFACE_MODIFIER = create(new FloatSerializer(0.5f, random(0f, 1f)));
+	public static final PlanetAttributeType<Integer> SURFACE_SHAPE = create(new IntSerializer(-1, random(0, 1)));
 	public static final PlanetAttributeType<Integer> BASE_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomBase));
 	public static final PlanetAttributeType<Integer> SURF_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomSurf));
 	public static final PlanetAttributeType<Integer> FLUID_BLOCKS = create(new IntSerializer(0, PlanetBlocksGenerator::getRandomFluid));

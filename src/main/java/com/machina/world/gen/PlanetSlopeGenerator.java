@@ -1,4 +1,4 @@
-package com.machina.world.feature;
+package com.machina.world.gen;
 
 import com.machina.registration.init.TagInit;
 import com.machina.util.math.OpenSimplex2F;
@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.IChunk;
 
 // https://github.com/Melonslise/Subterranean-Wilderness/blob/84d3b6ffe4c268dfa73b5d066fa69b31a7f5107c/src/main/java/melonslise/subwild/common/world/gen/feature/cavetype/BasicCaveType.java#L94
-public class PlanetDecorator {
+public class PlanetSlopeGenerator {
 
 	public static void decorateAt(IChunk chunk, BlockPos pos, PlanetChunkGenerator gen,
 			boolean allowVerticalConnections) {

@@ -112,6 +112,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(AttributeInit.SURFACE_DETAIL, "Surface Detail");
 		add(AttributeInit.SURFACE_ROUGHNESS, "Surface Roughness");
 		add(AttributeInit.SURFACE_DISTORTION, "Surface Distortion");
+		add(AttributeInit.SURFACE_SHAPE, "Surface Shape");
+		add(AttributeInit.SURFACE_MODIFIER, "Surface Modifier");
 		add(AttributeInit.TEMPERATURE, "Temperature");
 
 		// Sounds
