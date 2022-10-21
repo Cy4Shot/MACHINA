@@ -151,6 +151,11 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addShipComponent("life_support", "Life Support");
 
 		// GUI
+		addScreen("vlc", "warning1", "WARNING: You are playing Machina on MacOS / Linux.");
+		addScreen("vlc", "warning2", "In order for some features to run correctly, you must install VLC.");
+		addScreen("vlc", "warning3", "Make sure to install VLC 4.0.");
+		addScreen("vlc", "link", "Install VLC 4.0");
+		addScreen("vlc", "title", "I have installed VLC");
 		addScreen("component_analyzer", "insert", "Insert Component");
 		addScreen("cargo_crate", "open", "Right Click to Loot");
 		addScreen("starchart", "sel", "Select");

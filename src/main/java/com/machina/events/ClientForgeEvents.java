@@ -3,6 +3,7 @@ package com.machina.events;
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.StarchartScreen;
+import com.machina.client.screen.VLCWarningScreen;
 import com.machina.client.screen.DevScreen;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.registration.init.AttributeInit;
@@ -12,11 +13,13 @@ import com.machina.util.server.PlanetHelper;
 import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -68,6 +71,14 @@ public class ClientForgeEvents {
 			event.setBackground(0xFF_232323);
 			event.setBorderEnd(0xFF_1bcccc);
 			event.setBorderStart(0xFF_00fefe);
+		}
+	}
+
+	@SubscribeEvent
+	public static void loadMainMenu(GuiOpenEvent event) {
+		Screen gui = event.getGui();
+		if (gui instanceof MainMenuScreen && !Machina.isOsWindows() && !VLCWarningScreen.accepted) {
+			event.setGui(new VLCWarningScreen());
 		}
 	}
 }
