@@ -116,6 +116,7 @@ public class ClientModEvents {
 		return defVal;
 	}
 
+	// TODO: Find why this function breaks in so many different ways.
 	public static IBlockColor getBlockColor(int paletteId) {
 
 		return (state, reader, pos, num) -> {
@@ -133,7 +134,6 @@ public class ClientModEvents {
 					if (!world.isLoaded(pos))
 						return defVal;
 					try {
-						
 						TileEntity te = world.getBlockEntity(pos);
 						if (te != null && te instanceof TintedTileEntity) {
 							int id = ((TintedTileEntity) te).id;
@@ -141,7 +141,7 @@ public class ClientModEvents {
 								return getColorFromId(id, paletteId);
 							}
 						}
-					} catch (ConcurrentModificationException | IllegalArgumentException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 						return defVal;
 					}
