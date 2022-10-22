@@ -15,6 +15,19 @@ MACHINA is a mod about tech and space exploration.
 '''
 
 [[dependencies.machina]]
+    modId="fancyvideo-api"
+    mandatory=true
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.machina]]
+    modId="geckolib3"
+    mandatory=true
+    versionRange="[3.0.54,)"
+    ordering="BEFORE"
+    side="BOTH"
+
+[[dependencies.machina]]
     modId="forge"
     mandatory=true
     versionRange="[36,)"
