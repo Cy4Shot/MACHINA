@@ -133,6 +133,7 @@ public class ClientModEvents {
 					if (!world.isLoaded(pos))
 						return defVal;
 					try {
+						
 						TileEntity te = world.getBlockEntity(pos);
 						if (te != null && te instanceof TintedTileEntity) {
 							int id = ((TintedTileEntity) te).id;
@@ -140,8 +141,8 @@ public class ClientModEvents {
 								return getColorFromId(id, paletteId);
 							}
 						}
-					} catch (ConcurrentModificationException cme) {
-						cme.printStackTrace();
+					} catch (ConcurrentModificationException | IllegalArgumentException e) {
+						e.printStackTrace();
 						return defVal;
 					}
 					
