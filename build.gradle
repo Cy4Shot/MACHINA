@@ -119,7 +119,8 @@ dependencies {
     
 	// Mod Dependencies
 	implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
-	shade fg.deobf("curse.maven:video-591686:3727953")
+	runtimeOnly fg.deobf("curse.maven:video-591686:3727953")
+	compileOnly "curse.maven:video-591686:3727953"
     
 	// Testing Dependencies
 	compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130:api")

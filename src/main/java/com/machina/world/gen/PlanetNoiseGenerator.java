@@ -69,5 +69,4 @@ public class PlanetNoiseGenerator {
 		}
 		return sum / mamp;
 	}
-
 }

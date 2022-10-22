@@ -4,6 +4,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.machina.config.ClientConfig;
 import com.machina.registration.Registration;
 import com.machina.util.text.MachinaRL;
 
@@ -27,7 +28,7 @@ public class Machina {
 	}
 
 	public static boolean isDevEnvironment() {
-		return !FMLEnvironment.production;
+		return !FMLEnvironment.production || ClientConfig.devMode.get();
 	}
 
 	public static boolean isOsWindows() {

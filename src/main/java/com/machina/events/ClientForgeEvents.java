@@ -2,9 +2,8 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
-import com.machina.client.cinema.CinematicHandler;
-import com.machina.client.cinema.cinematics.TestCinematic;
 import com.machina.client.screen.DevScreen;
+import com.machina.client.screen.StarchartScreen;
 import com.machina.client.screen.VLCWarningScreen;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.registration.init.AttributeInit;
@@ -55,8 +54,7 @@ public class ClientForgeEvents {
 		}
 
 		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.STARCHART)) {
-//			mc.setScreen(new StarchartScreen());
-			CinematicHandler.INSTANCE.setCinematic(new TestCinematic(mc.player, mc.player.blockPosition()));
+			mc.setScreen(new StarchartScreen());
 		}
 
 		// Ugly hack so that music plays!
