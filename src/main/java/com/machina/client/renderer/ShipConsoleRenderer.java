@@ -27,6 +27,7 @@ public class ShipConsoleRenderer extends TileEntityRenderer<ShipConsoleTileEntit
 		super(disp);
 		this.model = new RocketModel();
 	}
+	
 
 	@Override
 	public void render(ShipConsoleTileEntity te, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer,
