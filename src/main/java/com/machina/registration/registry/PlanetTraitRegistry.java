@@ -10,7 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class PlanetTraitRegistry {
-	public static final IForgeRegistry<PlanetTrait> REGISTRY = null;
+	public static IForgeRegistry<PlanetTrait> REGISTRY = null;
 
 	public static void createRegistry(RegistryEvent.NewRegistry event) {
 		RegistryHelper.<PlanetTrait>registerRegistry(new TargetField(PlanetTraitRegistry.class, "REGISTRY"),

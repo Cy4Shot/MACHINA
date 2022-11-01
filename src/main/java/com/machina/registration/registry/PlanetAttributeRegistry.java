@@ -11,7 +11,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class PlanetAttributeRegistry {
-	public static final IForgeRegistry<PlanetAttributeType<?>> REGISTRY = null;
+	public static IForgeRegistry<PlanetAttributeType<?>> REGISTRY = null;
 
 	public static void createRegistry(RegistryEvent.NewRegistry event) {
 		RegistryHelper.<PlanetAttributeType<?>>registerRegistry(

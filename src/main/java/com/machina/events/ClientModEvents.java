@@ -1,7 +1,5 @@
 package com.machina.events;
 
-import java.util.ConcurrentModificationException;
-
 import com.machina.Machina;
 import com.machina.block.tile.TintedTileEntity;
 import com.machina.block.tinted.ITinted;
@@ -39,6 +37,7 @@ import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.MachinaRL;
 import com.machina.world.data.PlanetData;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -129,7 +128,7 @@ public class ClientModEvents {
 			if (reader instanceof ChunkRenderCache)
 				world = ((ChunkRenderCache) reader).level;
 
-			if (world != null) {
+			if (world != null && world.equals(Minecraft.getInstance().level)) {
 				if (ITinted.class.isInstance(state.getBlock())) {
 					if (!world.isLoaded(pos))
 						return defVal;
