@@ -13,8 +13,8 @@ import net.minecraft.command.CommandSource;
 
 public class DebugCommand extends BaseCommand {
 
-	public DebugCommand(int permissionLevel, boolean enabled) {
-		super(permissionLevel, enabled);
+	public DebugCommand(int permissionLevel) {
+		super(permissionLevel);
 	}
 
 	@Override
@@ -28,7 +28,8 @@ public class DebugCommand extends BaseCommand {
 			PlanetData pd = StarchartData.getStarchartForServer(context.getSource().getServer())
 					.get(context.getSource().getLevel().dimension().location());
 
-			System.out.println("Attributes for " + String.valueOf(PlanetHelper.getId(context.getSource().getLevel().dimension())));
+			System.out.println(
+					"Attributes for " + String.valueOf(PlanetHelper.getId(context.getSource().getLevel().dimension())));
 			for (PlanetAttribute<?> attribute : pd.getAttributes()) {
 				System.out.println(attribute.getAttributeType().getRegistryName().getPath() + "\t - \t"
 						+ attribute.getValue().toString());
@@ -51,4 +52,9 @@ public class DebugCommand extends BaseCommand {
 		return "debug";
 	}
 
+	@Override
+	public LiteralArgumentBuilder<CommandSource> buildPath(LiteralArgumentBuilder<CommandSource> source,
+			LiteralArgumentBuilder<CommandSource> command) {
+		return source.then(command);
+	}
 }

@@ -9,27 +9,30 @@ import net.minecraft.command.Commands;
 public abstract class BaseCommand {
 
 	protected LiteralArgumentBuilder<CommandSource> builder;
-	boolean enabled;
 	int permissionLevel;
 
-	protected BaseCommand(int permissionLevel, boolean enabled) {
+	protected BaseCommand(int permissionLevel) {
 		builder = Commands.literal(getName()).requires(source -> source.hasPermission(permissionLevel));
-		this.enabled = enabled;
 		this.permissionLevel = permissionLevel;
 	}
 
-	public int getPermissionLevel() { return permissionLevel; }
+	public int getPermissionLevel() {
+		return permissionLevel;
+	}
 
-	public LiteralArgumentBuilder<CommandSource> getBuilder() { return builder; }
+	public LiteralArgumentBuilder<CommandSource> getBuilder() {
+		return builder;
+	}
 
 	public abstract void build(LiteralArgumentBuilder<CommandSource> builder);
-
-	public boolean isEnabled() { return enabled; }
 
 	public abstract String getName();
 
 	protected int execute(CommandContext<CommandSource> context) {
 		return 0;
 	}
+
+	public abstract LiteralArgumentBuilder<CommandSource> buildPath(LiteralArgumentBuilder<CommandSource> source,
+			LiteralArgumentBuilder<CommandSource> command);
 
 }

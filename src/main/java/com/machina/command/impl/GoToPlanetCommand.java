@@ -13,8 +13,8 @@ import net.minecraft.world.server.ServerWorld;
 
 public class GoToPlanetCommand extends BaseCommand {
 
-	public GoToPlanetCommand(int permissionLevel, boolean enabled) {
-		super(permissionLevel, enabled);
+	public GoToPlanetCommand(int permissionLevel) {
+		super(permissionLevel);
 	}
 
 	@Override
@@ -29,12 +29,21 @@ public class GoToPlanetCommand extends BaseCommand {
 		try {
 			PlanetRegistrationHandler.sendPlayerToDimension(context.getSource().getPlayerOrException(), world,
 					context.getSource().getPosition());
-		} catch (CommandSyntaxException e) {}
+		} catch (CommandSyntaxException e) {
+		}
 
 		return 0;
 	}
 
 	@Override
-	public String getName() { return "go_to_planet"; }
+	public String getName() {
+		return "go_to_planet";
+	}
+
+	@Override
+	public LiteralArgumentBuilder<CommandSource> buildPath(LiteralArgumentBuilder<CommandSource> source,
+			LiteralArgumentBuilder<CommandSource> command) {
+		return source.then(Commands.literal("planet").then(command));
+	}
 
 }

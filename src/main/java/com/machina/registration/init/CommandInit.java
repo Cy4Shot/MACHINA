@@ -1,13 +1,10 @@
 package com.machina.registration.init;
 
-import java.util.ArrayList;
-
 import com.machina.Machina;
 import com.machina.command.BaseCommand;
 import com.machina.command.impl.DebugCommand;
 import com.machina.command.impl.GoToPlanetCommand;
 import com.machina.command.impl.ListTraitsCommand;
-import com.machina.command.impl.PlanetTraitsCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
@@ -23,28 +20,20 @@ public final class CommandInit {
 	public static final int BAN_KICK_OP = 3;
 	public static final int STOP_THE_SERVER = 4;
 
-	private static final ArrayList<BaseCommand> commands = new ArrayList<>();
-
 	public static void registerCommands(final RegisterCommandsEvent event) {
+		registerCommand(event, new GoToPlanetCommand(STOP_THE_SERVER));
+		
+		if (Machina.isDevEnvironment()) {
+			registerCommand(event, new DebugCommand(STOP_THE_SERVER));
+			registerCommand(event, new ListTraitsCommand(STOP_THE_SERVER));	
+		}
+	}
+
+	public static void registerCommand(final RegisterCommandsEvent event, BaseCommand command) {
 		CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
-
-		commands.add(new ListTraitsCommand(GIVE_CLEAR, true));
-		commands.add(new DebugCommand(STOP_THE_SERVER, Machina.isDevEnvironment()));
-		commands.add(new GoToPlanetCommand(STOP_THE_SERVER, true));
-
-		commands.forEach(command -> {
-			if (command.isEnabled()) {
-				LiteralArgumentBuilder<CommandSource> builder = Commands.literal(command.getName());
-				builder.requires(sender -> sender.hasPermission(command.getPermissionLevel()));
-				command.build(builder);
-				if (command instanceof PlanetTraitsCommand) {
-					dispatcher.register(
-							Commands.literal(Machina.MOD_ID).then(Commands.literal("planet_traits").then(builder)));
-				} else {
-					dispatcher.register(Commands.literal(Machina.MOD_ID).then(builder));
-				}
-			}
-		});
-
+		LiteralArgumentBuilder<CommandSource> builder = Commands.literal(command.getName());
+		builder.requires(sender -> sender.hasPermission(command.getPermissionLevel()));
+		command.build(builder);
+		dispatcher.register(command.buildPath(Commands.literal(Machina.MOD_ID), builder));
 	}
 }

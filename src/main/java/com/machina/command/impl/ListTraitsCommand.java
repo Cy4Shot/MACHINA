@@ -1,17 +1,21 @@
 package com.machina.command.impl;
 
+import com.machina.command.BaseCommand;
+import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
 
-public class ListTraitsCommand extends PlanetTraitsCommand {
+public class ListTraitsCommand extends BaseCommand {
 
-	public ListTraitsCommand(int permissionLevel, boolean enabled) {
-		super(permissionLevel, enabled);
+	public ListTraitsCommand(int permissionLevel) {
+		super(permissionLevel);
 	}
 
 	@Override
@@ -34,12 +38,26 @@ public class ListTraitsCommand extends PlanetTraitsCommand {
 								pd.getTraits().toString().replace("[", "").replace("]", "")), true);
 			}
 		}
-		return super.execute(context);
+		return Command.SINGLE_SUCCESS;
 	}
 
 	@Override
 	public String getName() {
 		return "list_traits";
 	}
-
+	
+	protected boolean checkDimension(CommandContext<CommandSource> context) {
+		if (PlanetHelper.isDimensionPlanet(context.getSource().getLevel().dimension())) {
+			return true;
+		} else {
+			context.getSource().sendFailure(StringUtils.translateComp("command.planet_traits.not_planet"));
+			return false;
+		}
+	}
+	
+	@Override
+	public LiteralArgumentBuilder<CommandSource> buildPath(LiteralArgumentBuilder<CommandSource> source,
+			LiteralArgumentBuilder<CommandSource> command) {
+		return source.then(Commands.literal("debug").then(command));
+	}
 }
