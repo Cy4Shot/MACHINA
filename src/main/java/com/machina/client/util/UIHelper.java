@@ -248,6 +248,11 @@ public class UIHelper {
 			float tex) {
 		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / tex, (uOff + w) / tex, vOff / tex, (vOff + h) / tex);
 	}
+	
+	public static void betterBlit(MatrixStack ms, float x, float y, float uOff, float vOff, float w, float h,
+			float texX, float texY) {
+		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / texX, (uOff + w) / texX, vOff / texY, (vOff + h) / texY);
+	}
 
 	public static void blitTransp(MatrixStack ms, float x, float y, float uOff, float vOff, float w, float h,
 			float tex) {
