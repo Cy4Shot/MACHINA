@@ -37,7 +37,7 @@ public class GoToPlanetCommand extends BaseCommand {
 
 	@Override
 	public String getName() {
-		return "go_to_planet";
+		return "tp";
 	}
 
 	@Override
