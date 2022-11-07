@@ -1,11 +1,15 @@
 package com.machina.config;
 
+import java.util.Map;
+
+import com.machina.registration.init.AttributeInit;
+
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CommonConfig {
-	public static final ForgeConfigSpec COMMON_SPEC;
+	public static ForgeConfigSpec COMMON_SPEC;
 
-	static {
+	public static void init() {
 		ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
 		setupConfig(configBuilder);
 		COMMON_SPEC = configBuilder.build();
@@ -18,6 +22,8 @@ public class CommonConfig {
 	public static ForgeConfigSpec.DoubleValue ammoniaNitrateMult;
 	public static ForgeConfigSpec.DoubleValue aluminiumMult;
 	public static ForgeConfigSpec.DoubleValue waterMult;
+	
+	public static Map<String, Map<String, ForgeConfigSpec.ConfigValue<?>>> attributeConf;
 
 	private static void setupConfig(ForgeConfigSpec.Builder builder) {
 		builder.comment(" This category holds options for Starchart Generation.");
@@ -36,6 +42,11 @@ public class CommonConfig {
 		builder.comment(" Machinery Options.");
 		builder.push("Heat Options");
 		maxHeat = builder.defineInRange("max_heat", 1000, 0, 2000);
+		builder.pop();
+		
+		builder.comment(" Planet Attributes.");
+		builder.push("Planet Attribute Options");
+		attributeConf = AttributeInit.generateConfig(builder);
 		builder.pop();
 	}
 }

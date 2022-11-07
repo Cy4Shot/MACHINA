@@ -79,6 +79,7 @@ public class Registration {
 			MachinaDimRenderer.registerDimensionRenderInfo();
 		});
 
+		CommonConfig.init();
 		registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
 		registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 
