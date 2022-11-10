@@ -11,7 +11,6 @@ import com.machina.registration.init.TagInit;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -90,104 +89,77 @@ public class PlanetCarver extends WorldCarver<PlanetCarverConfig> {
 		return r.nextInt(r.nextInt(120) + 8);
 	}
 
-	protected void genRoom(IChunk chunk, Function<BlockPos, Biome> biome, long seed, int p_227205_5_, int p_227205_6_,
-			int p_227205_7_, double p_227205_8_, double p_227205_10_, double p_227205_12_, float p_227205_14_,
-			double p_227205_15_, BitSet bitset) {
-		double d0 = 1.5D + (double) (MathHelper.sin(((float) Math.PI / 2F)) * p_227205_14_);
-		double d1 = d0 * p_227205_15_;
-		this.carveSphere(chunk, biome, seed, p_227205_5_, p_227205_6_, p_227205_7_, p_227205_8_ + 1.0D, p_227205_10_,
-				p_227205_12_, d0, d1, bitset);
+	protected void genRoom(IChunk chunk, Function<BlockPos, Biome> biome, long seed, int sea, int cX, int cZ, double rX,
+			double rY, double rZ, float size, double yScale, BitSet bitset) {
+		double d0 = 1.5D + (double) (MathHelper.sin(((float) Math.PI / 2F)) * size);
+		this.carveSphere(chunk, biome, seed, sea, cX, cZ, rX + 1.0D, rY, rZ, d0, d0 * yScale, bitset);
 	}
 
-	protected void genTunnel(IChunk chunk, Function<BlockPos, Biome> biome, long seed, int p_227206_5_, int p_227206_6_,
-			int p_227206_7_, double p_227206_8_, double p_227206_10_, double p_227206_12_, float p_227206_14_,
-			float p_227206_15_, float p_227206_16_, int p_227206_17_, int p_227206_18_, double p_227206_19_,
+	protected void genTunnel(IChunk chunk, Function<BlockPos, Biome> biome, long seed, int sea, int cX, int cZ,
+			double rX, double rY, double rZ, float thickness, float rA, float rB, int start, int end, double yScale,
 			BitSet bitset) {
 		Random random = new Random(seed);
-		int i = random.nextInt(p_227206_18_ / 2) + p_227206_18_ / 4;
+		int i = random.nextInt(end / 2) + end / 4;
 		boolean flag = random.nextInt(6) == 0;
 		float f = 0.0F;
 		float f1 = 0.0F;
 
-		for (int j = p_227206_17_; j < p_227206_18_; ++j) {
-			double d0 = 1.5D
-					+ (double) (MathHelper.sin((float) Math.PI * (float) j / (float) p_227206_18_) * p_227206_14_);
-			double d1 = d0 * p_227206_19_;
-			float f2 = MathHelper.cos(p_227206_16_);
-			p_227206_8_ += (double) (MathHelper.cos(p_227206_15_) * f2);
-			p_227206_10_ += (double) MathHelper.sin(p_227206_16_);
-			p_227206_12_ += (double) (MathHelper.sin(p_227206_15_) * f2);
-			p_227206_16_ = p_227206_16_ * (flag ? 0.92F : 0.7F);
-			p_227206_16_ = p_227206_16_ + f1 * 0.1F;
-			p_227206_15_ += f * 0.1F;
-			f1 = f1 * 0.9F;
-			f = f * 0.75F;
-			f1 = f1 + (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2.0F;
-			f = f + (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0F;
-			if (j == i && p_227206_14_ > 1.0F) {
-				this.genTunnel(chunk, biome, random.nextLong(), p_227206_5_, p_227206_6_, p_227206_7_, p_227206_8_,
-						p_227206_10_, p_227206_12_, random.nextFloat() * 0.5F + 0.5F,
-						p_227206_15_ - ((float) Math.PI / 2F), p_227206_16_ / 3.0F, j, p_227206_18_, 1.0D, bitset);
-				this.genTunnel(chunk, biome, random.nextLong(), p_227206_5_, p_227206_6_, p_227206_7_, p_227206_8_,
-						p_227206_10_, p_227206_12_, random.nextFloat() * 0.5F + 0.5F,
-						p_227206_15_ + ((float) Math.PI / 2F), p_227206_16_ / 3.0F, j, p_227206_18_, 1.0D, bitset);
+		for (int j = start; j < end; ++j) {
+			double d0 = 1.5D + (double) (MathHelper.sin((float) Math.PI * (float) j / (float) end) * thickness);
+			float f2 = MathHelper.cos(rB);
+			rX += (double) (MathHelper.cos(rA) * f2);
+			rY += (double) MathHelper.sin(rB);
+			rZ += (double) (MathHelper.sin(rA) * f2);
+			rB *= (flag ? 0.92F : 0.7F);
+			rB += f1 * 0.1F;
+			rA += f * 0.1F;
+			f1 *= 0.9F;
+			f *= 0.75F;
+			f1 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2.0F;
+			f += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0F;
+			if (j == i && thickness > 1.0F) {
+				this.genTunnel(chunk, biome, random.nextLong(), sea, cX, cZ, rX, rY, rZ,
+						random.nextFloat() * 0.5F + 0.5F, rA - ((float) Math.PI / 2F), rB / 3.0F, j, end, 1.0D, bitset);
+				this.genTunnel(chunk, biome, random.nextLong(), sea, cX, cZ, rX, rY, rZ,
+						random.nextFloat() * 0.5F + 0.5F, rA + ((float) Math.PI / 2F), rB / 3.0F, j, end, 1.0D, bitset);
 				return;
 			}
 
 			if (random.nextInt(4) != 0) {
-				if (!this.canReach(p_227206_6_, p_227206_7_, p_227206_8_, p_227206_12_, j, p_227206_18_,
-						p_227206_14_)) {
+				if (!this.canReach(cX, cZ, rX, rZ, j, end, thickness)) {
 					return;
 				}
 
-				this.carveSphere(chunk, biome, seed, p_227206_5_, p_227206_6_, p_227206_7_, p_227206_8_, p_227206_10_,
-						p_227206_12_, d0, d1, bitset);
+				this.carveSphere(chunk, biome, seed, sea, cX, cZ, rX, rY, rZ, d0, d0 * yScale, bitset);
 			}
 		}
 
 	}
 
 	@Override
-	protected boolean carveBlock(IChunk p_230358_1_, Function<BlockPos, Biome> p_230358_2_, BitSet p_230358_3_,
-			Random p_230358_4_, BlockPos.Mutable p_230358_5_, BlockPos.Mutable p_230358_6_,
-			BlockPos.Mutable p_230358_7_, int p_230358_8_, int p_230358_9_, int p_230358_10_, int p_230358_11_,
-			int p_230358_12_, int p_230358_13_, int p_230358_14_, int p_230358_15_, MutableBoolean p_230358_16_) {
-		int i = p_230358_13_ | p_230358_15_ << 4 | p_230358_14_ << 8;
-		if (p_230358_3_.get(i)) {
-			return false;
-		} else {
-			p_230358_3_.set(i);
-			p_230358_5_.set(p_230358_11_, p_230358_14_, p_230358_12_);
-			BlockState blockstate = p_230358_1_.getBlockState(p_230358_5_);
-			BlockState blockstate1 = p_230358_1_.getBlockState(p_230358_6_.setWithOffset(p_230358_5_, Direction.UP));
-			if (blockstate.is(Blocks.GRASS_BLOCK) || blockstate.is(Blocks.MYCELIUM)) {
-				p_230358_16_.setTrue();
-			}
+	protected boolean carveBlock(IChunk chunk, Function<BlockPos, Biome> biome, BitSet bitset, Random rand,
+			BlockPos.Mutable pos, BlockPos.Mutable pos1, BlockPos.Mutable _p, int _1, int _2, int _3, int cX, int cY,
+			int x, int y, int z, MutableBoolean dirt) {
+		int i = x | z << 4 | y << 8;
 
-			if (!this.canReplaceBlock(blockstate, blockstate1)) {
-				return false;
-			} else {
-				if (p_230358_14_ < 11) {
-					p_230358_1_.setBlockState(p_230358_5_, LAVA.createLegacyBlock(), false);
-				} else {
-					p_230358_1_.setBlockState(p_230358_5_, CAVE_AIR, false);
-					if (p_230358_16_.isTrue()) {
-						p_230358_7_.setWithOffset(p_230358_5_, Direction.DOWN);
-						if (p_230358_1_.getBlockState(p_230358_7_).is(Blocks.DIRT)) {
-							p_230358_1_.setBlockState(p_230358_7_, p_230358_2_.apply(p_230358_5_)
-									.getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial(), false);
-						}
-					}
-				}
+		if (!bitset.get(i)) {
+			bitset.set(i);
+			pos.set(cX, y, cY);
+			BlockState state = chunk.getBlockState(pos);
+			BlockState above = chunk.getBlockState(pos1.setWithOffset(pos, Direction.UP));
 
+			if (this.canReplaceBlock(state, above)) {
+				chunk.setBlockState(pos, CAVE_AIR, false);
 				return true;
 			}
 		}
+
+		return false;
 	}
 
-	protected boolean skip(double p_222708_1_, double p_222708_3_, double p_222708_5_, int p_222708_7_) {
-		return p_222708_3_ <= -0.7D
-				|| p_222708_1_ * p_222708_1_ + p_222708_3_ * p_222708_3_ + p_222708_5_ * p_222708_5_ >= 1.0D;
+	@Override
+	protected boolean skip(double x, double y, double z, int a) {
+		return y <= -0.7D || x * x + y * y + z * z >= 1.0D;
 	}
 
 	@Override
