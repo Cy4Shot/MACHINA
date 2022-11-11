@@ -35,9 +35,14 @@ public final class ItemInit {
 	public static final RegistryObject<Item> COPPER_COIL = basic("copper_coil");
 	public static final RegistryObject<Item> PROCESSOR = basic("processor");
 	public static final RegistryObject<Item> SILICON = basic("silicon");
+	public static final RegistryObject<Item> SILICON_BOLUS = basic("silicon_bolus");
+	public static final RegistryObject<Item> HIGH_PURITY_SILICON = basic("high_purity_silicon");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
 	public static final RegistryObject<Item> AMMONIUM_NITRATE = basic("ammonium_nitrate");
 	public static final RegistryObject<MachinaDiscItem> BEYOND_MUSIC_DISC = basic("beyond_music_disc", p -> new MachinaDiscItem(() -> SoundInit.BEYOND.sound()));
+	public static final RegistryObject<MachinaDiscItem> BOSS_01_DISC = basic("boss_01_disc", p -> new MachinaDiscItem(() -> SoundInit.BOSS_01.sound()));
+	public static final RegistryObject<MachinaDiscItem> BOSS_02_DISC = basic("boss_02_disc", p -> new MachinaDiscItem(() -> SoundInit.BOSS_02.sound()));
+	public static final RegistryObject<MachinaDiscItem> BOSS_03_DISC = basic("boss_03_disc", p -> new MachinaDiscItem(() -> SoundInit.BOSS_03.sound()));
 	//@formatter:on
 
 	public static RegistryObject<Item> basic(String name) {

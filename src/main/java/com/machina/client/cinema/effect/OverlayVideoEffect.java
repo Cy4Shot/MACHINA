@@ -42,5 +42,4 @@ public class OverlayVideoEffect {
 		AbstractGui.blit(event.getMatrixStack(), 0, 0, 0.0F, 0.0F, width, height, width, height);
 		RenderSystem.disableBlend();
 	}
-
 }

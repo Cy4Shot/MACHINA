@@ -76,11 +76,16 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.IRON_CATALYST.get(), "Iron Catalyst");
 		add(ItemInit.PROCESSOR.get(), "Processor");
 		add(ItemInit.SILICON.get(), "Silicon");
+		add(ItemInit.SILICON_BOLUS.get(), "Silicon Bolus");
+		add(ItemInit.HIGH_PURITY_SILICON.get(), "High Purity Silicon");
 		add(ItemInit.TRANSISTOR.get(), "Transistor");
 		add(ItemInit.AMMONIUM_NITRATE.get(), "Ammonium Nitrate");
 
 		// Music Discs
 		addMusicDisc(ItemInit.BEYOND_MUSIC_DISC.get(), "Cy4 - Beyond (Machina OST)");
+		addMusicDisc(ItemInit.BOSS_01_DISC.get(), "Dan Johansen - Overlord Of Chaos Pt.1");
+		addMusicDisc(ItemInit.BOSS_02_DISC.get(), "Dan Johansen - Overlord Of Chaos Pt.2");
+		addMusicDisc(ItemInit.BOSS_03_DISC.get(), "Dan Johansen - Overlord Of Chaos Pt.3");
 
 		// Fluids
 		add(FluidInit.OXYGEN, "Oxygen", "Bucket");

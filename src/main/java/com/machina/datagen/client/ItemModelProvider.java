@@ -79,6 +79,9 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		item(ItemInit.TRANSISTOR.get());
 		item(ItemInit.AMMONIUM_NITRATE.get());
 		item(ItemInit.BEYOND_MUSIC_DISC.get());
+		item(ItemInit.BOSS_01_DISC.get());
+		item(ItemInit.BOSS_02_DISC.get());
+		item(ItemInit.BOSS_03_DISC.get());
 
 		bucket(FluidInit.OXYGEN);
 		bucket(FluidInit.NITROGEN);
