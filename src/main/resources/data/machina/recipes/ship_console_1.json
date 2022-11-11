@@ -11,12 +11,12 @@
 			"count": 1
 		},
 		{
-			"item": "minecraft:iron_block",
-			"count": 2
+			"item": "machina:steel_ingot",
+			"count": 16
 		},
 		{
-			"item": "minecraft:netherite_ingot",
-			"count": 1
+			"item": "machina:copper_coil",
+			"count": 4
 		}
 	]
 }

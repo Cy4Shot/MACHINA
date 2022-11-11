@@ -7,11 +7,11 @@
 			"count": 1
 		},
 		{
-			"item": "machina:steel_chassis",
-			"count": 1
+			"item": "machina:transistor",
+			"count": 16
 		},
 		{
-			"item": "minecraft:iron_block",
+			"item": "machina:steel_ingot",
 			"count": 2
 		},
 		{

@@ -7,16 +7,16 @@
 			"count": 1
 		},
 		{
-			"item": "machina:steel_chassis",
+			"item": "machina:transistor",
+			"count": 16
+		},
+		{
+			"item": "machina:temperature_regulator",
 			"count": 1
 		},
 		{
-			"item": "minecraft:iron_block",
-			"count": 2
-		},
-		{
-			"item": "minecraft:netherite_ingot",
-			"count": 1
+			"item": "machina:processor",
+			"count": 8
 		}
 	]
 }

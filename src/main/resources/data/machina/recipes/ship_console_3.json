@@ -7,12 +7,12 @@
 			"count": 1
 		},
 		{
-			"item": "machina:steel_chassis",
-			"count": 1
+			"item": "machina:tank",
+			"count": 3
 		},
 		{
-			"item": "minecraft:iron_block",
-			"count": 2
+			"item": "machina:copper_coil",
+			"count": 4
 		},
 		{
 			"item": "minecraft:netherite_ingot",
