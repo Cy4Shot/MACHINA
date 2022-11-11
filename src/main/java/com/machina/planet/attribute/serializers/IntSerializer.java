@@ -14,18 +14,18 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
 public class IntSerializer extends AttributeSerializer<Integer> {
-	
+
 	public static Function<Random, Integer> random(Supplier<Integer> min, Supplier<Integer> max) {
-		return r -> min.get() + r.nextInt() * (max.get() - min.get());
+		return r -> min.get() + r.nextInt(max.get() - min.get() + 1);
 	}
 
 	public static int val(String name, String key) {
 		return (int) CommonConfig.attributeConf.get(name).get(key).get();
 	}
-	
+
 	private final int d, mi, ma;
-	
-	public IntSerializer(String name, int d,  Function<Random, Integer> gen) {
+
+	public IntSerializer(String name, int d, Function<Random, Integer> gen) {
 		super(name, () -> val(name, "def"), gen);
 		this.d = d;
 		this.mi = -1;
@@ -38,14 +38,14 @@ public class IntSerializer extends AttributeSerializer<Integer> {
 		this.mi = mi;
 		this.ma = ma;
 	}
-	
+
 	public IntSerializer(String name, int d, int mi, int ma, Function<Integer, Integer> format) {
 		super(name, () -> val(name, "def"), random(() -> val(name, "min"), () -> val(name, "max")), format);
 		this.d = d;
 		this.mi = mi;
 		this.ma = ma;
 	}
-	
+
 	@Override
 	public Map<String, ConfigValue<?>> generateConf(ForgeConfigSpec.Builder builder) {
 		Map<String, ConfigValue<?>> map = new HashMap<>();
