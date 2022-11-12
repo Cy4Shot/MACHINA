@@ -43,6 +43,10 @@ public class FluidInit {
 	public static final FluidObject AMMONIA = gas("ammonia", b -> b.col(0xFF_44db6c).tem(90.19F).den(730f));
 	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", b -> b.col(0xFF_f7e4c1).tem(1870f).den(1143f));
 	public static final FluidObject HYDROGEN = gas("hydrogen", b -> b.col(0xFF_6ce2ff).tem(90.19F).den(70.86f));
+	public static final FluidObject ETHANE = gas("ethane", b -> b.col(0xFF_bbd68d).tem(90.19F).den(1282f));
+	public static final FluidObject PROPANE = gas("propane", b -> b.col(0xFF_3472cf).tem(90.19F).den(493f));
+	public static final FluidObject ETHYLENE = gas("ethylene", b -> b.col(0xFF_8dd6be).tem(90.19F).den(118f));
+	public static final FluidObject PROPYLENE = gas("propylene", b -> b.col(0xFF_6092bd).tem(90.19F).den(174f));
 	
 	// Liquids
 	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", b -> b.col(0xFF_898fff).tem(20.28F).den(70.86f));

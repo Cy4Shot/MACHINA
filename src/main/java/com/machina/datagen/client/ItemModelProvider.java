@@ -91,6 +91,10 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		bucket(FluidInit.HYDROGEN);
 		bucket(FluidInit.LIQUID_HYDROGEN);
 		bucket(FluidInit.LIQUID_AMMONIA);
+		bucket(FluidInit.ETHANE);
+		bucket(FluidInit.PROPANE);
+		bucket(FluidInit.ETHYLENE);
+		bucket(FluidInit.PROPYLENE);
 	}
 
 	protected void bucket(FluidObject obj) {

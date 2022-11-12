@@ -96,6 +96,10 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.HYDROGEN, "Hydrogen", "Bucket");
 		add(FluidInit.LIQUID_HYDROGEN, "Liquid Hydrogen", "Bucket");
 		add(FluidInit.LIQUID_AMMONIA, "Liquid Ammonia", "Bucket");
+		add(FluidInit.ETHANE, "Ethane", "Bucket");
+		add(FluidInit.PROPANE, "Propane", "Bucket");
+		add(FluidInit.ETHYLENE, "Ethylene", "Bucket");
+		add(FluidInit.PROPYLENE, "Propylene", "Bucket");
 
 		// Traits
 
