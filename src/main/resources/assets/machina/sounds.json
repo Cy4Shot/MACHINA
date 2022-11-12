@@ -16,6 +16,17 @@
 			}
 		]
 	},
+	"look_up": {
+		"category": "music",
+		"subtitle": "machina.subtitle.look_up",
+		"sounds": [
+			{
+				"name": "machina:music/disc/look_up",
+				"stream": true,
+				"preload": true
+			}
+		]
+	},
 	"music": {
 		"category": "music",
 		"sounds": [

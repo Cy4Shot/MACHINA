@@ -68,7 +68,7 @@ public class ClientForgeEvents {
 		Screen s = mc.screen;
 		if (s instanceof NoJeiContainerScreen
 				|| event.getStack().getItem().getRegistryName().getNamespace().equals(Machina.MOD_ID)) {
-			event.setBackground(0xFF_232323);
+			event.setBackground(0xFF_202020);
 			event.setBorderEnd(0xFF_1bcccc);
 			event.setBorderStart(0xFF_00fefe);
 		}
