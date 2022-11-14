@@ -4,10 +4,12 @@ import java.util.function.Supplier;
 
 import com.machina.Machina;
 import com.machina.item.CatalystItem;
+import com.machina.item.ChemicalItem;
 import com.machina.item.MachinaDiscItem;
 import com.machina.item.ScannerItem;
 import com.machina.item.ShipComponentItem;
 import com.machina.registration.Registration;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
@@ -17,6 +19,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+@SuppressWarnings("unchecked")
 public final class ItemInit {
 
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Machina.MOD_ID);
@@ -33,12 +36,15 @@ public final class ItemInit {
 	public static final RegistryObject<Item> COPPER_INGOT = basic("copper_ingot");
 	public static final RegistryObject<Item> COPPER_NUGGET = basic("copper_nugget");
 	public static final RegistryObject<Item> COPPER_COIL = basic("copper_coil");
-	public static final RegistryObject<Item> PROCESSOR = basic("processor");
-	public static final RegistryObject<Item> SILICON = basic("silicon");
-	public static final RegistryObject<Item> SILICON_BOLUS = basic("silicon_bolus");
-	public static final RegistryObject<Item> HIGH_PURITY_SILICON = basic("high_purity_silicon");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
-	public static final RegistryObject<Item> AMMONIUM_NITRATE = basic("ammonium_nitrate");
+	public static final RegistryObject<Item> PROCESSOR = basic("processor");
+	public static final RegistryObject<Item> SILICON = basic("silicon", p -> new ChemicalItem(p, new Pair<>("Si", 1)));
+	public static final RegistryObject<Item> SILICON_BOLUS = basic("silicon_bolus", p -> new ChemicalItem(p, new Pair<>("Si", 1)));
+	public static final RegistryObject<Item> HIGH_PURITY_SILICON = basic("high_purity_silicon", p -> new ChemicalItem(p, new Pair<>("Si", 1)));
+	public static final RegistryObject<Item> AMMONIUM_NITRATE = basic("ammonium_nitrate", p -> new ChemicalItem(p, new Pair<>("N", 1), new Pair<>("H", 4), new Pair<>("N", 1), new Pair<>("O", 3)));
+	public static final RegistryObject<Item> LDPE = basic("ldpe", p -> new ChemicalItem(p, "ldpe", new Pair<>("C", 1), new Pair<>("H", 2), new Pair<>("C", 1), new Pair<>("H", 2)));
+	public static final RegistryObject<Item> HDPE = basic("hdpe", p -> new ChemicalItem(p, "hdpe", new Pair<>("C", 1), new Pair<>("H", 2), new Pair<>("C", 1), new Pair<>("H", 2)));
+	public static final RegistryObject<Item> UHMWPE = basic("uhmwpe", p -> new ChemicalItem(p, "uhmwpe", new Pair<>("C", 1), new Pair<>("H", 2), new Pair<>("C", 1), new Pair<>("H", 2)));
 	public static final RegistryObject<MachinaDiscItem> BEYOND_DISC = basic("beyond_disc", p -> new MachinaDiscItem(() -> SoundInit.BEYOND.sound()));
 	public static final RegistryObject<MachinaDiscItem> LOOK_UP_DISC = basic("look_up_disc", p -> new MachinaDiscItem(() -> SoundInit.LOOK_UP.sound()));
 	public static final RegistryObject<MachinaDiscItem> BOSS_01_DISC = basic("boss_01_disc", p -> new MachinaDiscItem(() -> SoundInit.BOSS_01.sound()));

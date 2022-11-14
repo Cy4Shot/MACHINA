@@ -84,9 +84,11 @@
   "item.machina.copper_nugget": "Copper Nugget",
   "item.machina.ethane_bucket": "Ethane Bucket",
   "item.machina.ethylene_bucket": "Ethylene Bucket",
+  "item.machina.hdpe": "HDPE",
   "item.machina.high_purity_silicon": "High Purity Silicon",
   "item.machina.hydrogen_bucket": "Hydrogen Bucket",
   "item.machina.iron_catalyst": "Iron Catalyst",
+  "item.machina.ldpe": "LDPE",
   "item.machina.liquid_ammonia_bucket": "Liquid Ammonia Bucket",
   "item.machina.liquid_hydrogen_bucket": "Liquid Hydrogen Bucket",
   "item.machina.look_up_disc": "Music Disc",
@@ -104,6 +106,7 @@
   "item.machina.steel_ingot": "Steel Ingot",
   "item.machina.steel_nugget": "Steel Nugget",
   "item.machina.transistor": "Transistor",
+  "item.machina.uhmwpe": "UHMWPE",
   "itemGroup.machina.main": "Machina",
   "itemGroup.machina.worldgen": "Machina: Worldgen",
   "key.category.machina": "Machina",
@@ -280,5 +283,8 @@
   "machina.terminal.feedback.unlock.incorrect": "Incorrect.",
   "machina.terminal.feedback.unlock.permission_granted": "Permission granted.",
   "machina.terminal.feedback.unlock.translate": "Translate: ",
-  "machina.terminal.feedback.unlock.verification_needed": "Security verification needed."
+  "machina.terminal.feedback.unlock.verification_needed": "Security verification needed.",
+  "machina.tooltip.hdpe": "High Density Polyethylene",
+  "machina.tooltip.ldpe": "Low Density Polyethylene",
+  "machina.tooltip.uhmwpe": "Ultra High Molecular Weight Polyethylene"
 }

@@ -4,9 +4,11 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import com.machina.Machina;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -48,7 +50,6 @@ public class StringUtils {
 		return capitalizeWord.trim();
 	}
 
-
 	public static String prettyItemStack(ItemStack stack) {
 		return String.valueOf(stack.getCount()) + "x " + stack.getItem().getName(stack).getString();
 	}
@@ -56,7 +57,7 @@ public class StringUtils {
 	public static String translate(String key) {
 		return translateComp(key).getString();
 	}
-	
+
 	public static String translateScreen(String key) {
 		return translateComp(Machina.MOD_ID + ".screen." + key).getString();
 	}
@@ -64,11 +65,11 @@ public class StringUtils {
 	public static TranslationTextComponent translateComp(String key) {
 		return new TranslationTextComponent(key);
 	}
-	
+
 	public static TranslationTextComponent translateCompScreen(String key) {
 		return new TranslationTextComponent(Machina.MOD_ID + ".screen." + key);
 	}
-	
+
 	public static TranslationTextComponent translate(String key, Object... args) {
 		return new TranslationTextComponent(key, args);
 	}
@@ -88,5 +89,27 @@ public class StringUtils {
 	public static String random() {
 		Random r = new Random();
 		return Character.toString((char) (r.nextInt(26) + 'a'));
+	}
+
+	public static String getSubscript(String pString) {
+		final int subscriptZeroCodepoint = 0x2080;
+		StringBuilder builder = new StringBuilder();
+		for (char character : pString.toCharArray()) {
+			builder.append(Character.toChars(subscriptZeroCodepoint + Character.getNumericValue(character)));
+		}
+		return builder.toString();
+	}
+
+	public static String buildCompound(List<Pair<String, Integer>> compound) {
+		StringBuilder builder = new StringBuilder();
+
+		for (Pair<String, Integer> el : compound) {
+			builder.append(el.getFirst());
+			int count = el.getSecond();
+			if (count > 1) {
+				builder.append(getSubscript(Integer.toString(count)));
+			}
+		}
+		return builder.toString();
 	}
 }

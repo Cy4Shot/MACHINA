@@ -80,6 +80,14 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.HIGH_PURITY_SILICON.get(), "High Purity Silicon");
 		add(ItemInit.TRANSISTOR.get(), "Transistor");
 		add(ItemInit.AMMONIUM_NITRATE.get(), "Ammonium Nitrate");
+		add(ItemInit.LDPE.get(), "LDPE");
+		add(ItemInit.HDPE.get(), "HDPE");
+		add(ItemInit.UHMWPE.get(), "UHMWPE");
+		
+		// Tooltips
+		addTooltip("ldpe", "Low Density Polyethylene");
+		addTooltip("hdpe", "High Density Polyethylene");
+		addTooltip("uhmwpe", "Ultra High Molecular Weight Polyethylene");
 
 		// Music Discs
 		addMusicDisc(ItemInit.BEYOND_DISC.get(), "Cy4 - Beyond (Machina OST)");

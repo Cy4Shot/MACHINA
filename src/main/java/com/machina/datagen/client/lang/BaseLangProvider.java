@@ -49,6 +49,10 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	protected void add(Sound sound, String name) {
 		add(modid + ".subtitle." + sound.name(), name);
 	}
+	
+	protected void addTooltip(String item, String name) {
+		add(modid + ".tooltip." + item, name);
+	}
 
 	protected void add(KeyBinding key, String name) {
 		add(key.getName(), name);
