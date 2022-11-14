@@ -35,23 +35,25 @@ public class ShipConsoleBlock extends Block {
 
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-	public static final VoxelShape SHAPE_BASE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
+	public static final VoxelShape SHAPE_BASE_N = Block.box(0.0D, 0.0D, 2.0D, 16.0D, 1.0D, 15.0D);
+	public static final VoxelShape SHAPE_BASE_W = Block.box(2.0D, 0.0D, 0.0D, 15.0D, 1.0D, 16.0D);
+	public static final VoxelShape SHAPE_BASE_S = Block.box(0.0D, 0.0D, 1.0D, 16.0D, 1.0D, 14.0D);
+	public static final VoxelShape SHAPE_BASE_E = Block.box(1.0D, 0.0D, 0.0D, 14.0D, 1.0D, 16.0D);
 	public static final VoxelShape SHAPE_POST = Block.box(6.0D, 2.0D, 6.0D, 10.0D, 14.0D, 10.0D);
-	public static final VoxelShape SHAPE_COMMON = VoxelShapes.or(SHAPE_BASE, SHAPE_POST);
-	public static final VoxelShape SHAPE_TOP_PLATE = Block.box(0.0D, 15.0D, 0.0D, 16.0D, 15.0D, 16.0D);
-	public static final VoxelShape SHAPE_COLLISION = VoxelShapes.or(SHAPE_COMMON, SHAPE_TOP_PLATE);
+	public static final VoxelShape SHAPE_COLLISION = VoxelShapes.or(Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D),
+			SHAPE_POST, Block.box(0.0D, 15.0D, 0.0D, 16.0D, 15.0D, 16.0D));
 	public static final VoxelShape SHAPE_WEST = VoxelShapes.or(Block.box(1.0D, 11.0D, 0.0D, 5.333333D, 15.0D, 16.0D),
 			Block.box(5.333333D, 13.0D, 0.0D, 9.666667D, 17.0D, 16.0D),
-			Block.box(9.666667D, 15.0D, 0.0D, 14.0D, 19.0D, 16.0D), SHAPE_COMMON);
+			Block.box(9.666667D, 15.0D, 0.0D, 14.0D, 19.0D, 16.0D), SHAPE_BASE_W, SHAPE_POST);
 	public static final VoxelShape SHAPE_NORTH = VoxelShapes.or(Block.box(0.0D, 11.0D, 1.0D, 16.0D, 15.0D, 5.333333D),
 			Block.box(0.0D, 13.0D, 5.333333D, 16.0D, 17.0D, 9.666667D),
-			Block.box(0.0D, 15.0D, 9.666667D, 16.0D, 19.0D, 14.0D), SHAPE_COMMON);
+			Block.box(0.0D, 15.0D, 9.666667D, 16.0D, 19.0D, 14.0D), SHAPE_BASE_N, SHAPE_POST);
 	public static final VoxelShape SHAPE_EAST = VoxelShapes.or(Block.box(15.0D, 11.0D, 0.0D, 10.666667D, 15.0D, 16.0D),
 			Block.box(10.666667D, 13.0D, 0.0D, 6.333333D, 17.0D, 16.0D),
-			Block.box(6.333333D, 15.0D, 0.0D, 2.0D, 19.0D, 16.0D), SHAPE_COMMON);
+			Block.box(6.333333D, 15.0D, 0.0D, 2.0D, 19.0D, 16.0D), SHAPE_BASE_E, SHAPE_POST);
 	public static final VoxelShape SHAPE_SOUTH = VoxelShapes.or(Block.box(0.0D, 11.0D, 15.0D, 16.0D, 15.0D, 10.666667D),
 			Block.box(0.0D, 13.0D, 10.666667D, 16.0D, 17.0D, 6.333333D),
-			Block.box(0.0D, 15.0D, 6.333333D, 16.0D, 19.0D, 2.0D), SHAPE_COMMON);
+			Block.box(0.0D, 15.0D, 6.333333D, 16.0D, 19.0D, 2.0D), SHAPE_BASE_S, SHAPE_POST);
 
 	public ShipConsoleBlock() {
 		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).harvestLevel(2).strength(6f)
@@ -72,7 +74,7 @@ public class ShipConsoleBlock extends Block {
 		case WEST:
 			return SHAPE_WEST;
 		default:
-			return SHAPE_COMMON;
+			return SHAPE_POST;
 		}
 	}
 

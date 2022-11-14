@@ -27,23 +27,17 @@ public class StringUtils {
 
 	public static void printlnUtf8(String msg) {
 		try {
-			byte[] sourceBytes = msg.getBytes("UTF-8");
-			String data = new String(sourceBytes, defaultCharset.name());
-
-			PrintStream out = new PrintStream(System.out, true, utf8Charset.name());
-			out.println(data);
+			new PrintStream(System.out, true, utf8Charset.name())
+					.println(new String(msg.getBytes("UTF-8"), defaultCharset.name()));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static String capitalizeWord(String str) {
-		String words[] = str.split("\\s");
 		String capitalizeWord = "";
-		for (String w : words) {
-			String first = w.substring(0, 1);
-			String afterfirst = w.substring(1);
-			capitalizeWord += first.toUpperCase() + afterfirst + " ";
+		for (String w : str.split("\\s")) {
+			capitalizeWord += w.substring(0, 1).toUpperCase() + w.substring(1) + " ";
 		}
 		return capitalizeWord.trim();
 	}
@@ -85,8 +79,7 @@ public class StringUtils {
 	}
 
 	public static String random() {
-		Random r = new Random();
-		return Character.toString((char) (r.nextInt(26) + 'a'));
+		return Character.toString((char) (new Random().nextInt(26) + 'a'));
 	}
 
 	public static String chemical(String data) {
