@@ -4,11 +4,9 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import com.machina.Machina;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -91,24 +89,19 @@ public class StringUtils {
 		return Character.toString((char) (r.nextInt(26) + 'a'));
 	}
 
+	public static String chemical(String data) {
+		StringBuilder out = new StringBuilder();
+		for (char c : data.toCharArray()) {
+			out.append(Character.isDigit(c) ? getSubscript(Integer.toString(c - '0')) : c);
+		}
+		return out.toString();
+	}
+
 	public static String getSubscript(String pString) {
 		final int subscriptZeroCodepoint = 0x2080;
 		StringBuilder builder = new StringBuilder();
 		for (char character : pString.toCharArray()) {
 			builder.append(Character.toChars(subscriptZeroCodepoint + Character.getNumericValue(character)));
-		}
-		return builder.toString();
-	}
-
-	public static String buildCompound(List<Pair<String, Integer>> compound) {
-		StringBuilder builder = new StringBuilder();
-
-		for (Pair<String, Integer> el : compound) {
-			builder.append(el.getFirst());
-			int count = el.getSecond();
-			if (count > 1) {
-				builder.append(getSubscript(Integer.toString(count)));
-			}
 		}
 		return builder.toString();
 	}

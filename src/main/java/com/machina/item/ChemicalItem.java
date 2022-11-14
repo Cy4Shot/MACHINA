@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.machina.Machina;
 import com.machina.util.text.StringUtils;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
@@ -17,22 +16,20 @@ import net.minecraft.world.World;
 public class ChemicalItem extends Item {
 
 	private final String toolTipKey;
-	private final List<Pair<String, Integer>> compound;
+	private final String chem;
 
-	@SuppressWarnings("unchecked")
-	public ChemicalItem(Properties pProperties, String toolTipKey, Pair<String, Integer>... els) {
+	public ChemicalItem(Properties pProperties, String toolTipKey, String chem) {
 		super(pProperties);
 
 		this.toolTipKey = toolTipKey;
-		this.compound = List.of(els);
+		this.chem = chem;
 	}
 
-	@SuppressWarnings("unchecked")
-	public ChemicalItem(Properties pProperties, Pair<String, Integer>... els) {
+	public ChemicalItem(Properties pProperties, String chem) {
 		super(pProperties);
 
 		this.toolTipKey = "";
-		this.compound = List.of(els);
+		this.chem = chem;
 	}
 
 	@Override
@@ -41,7 +38,7 @@ public class ChemicalItem extends Item {
 			tip.add(StringUtils.translateComp(Machina.MOD_ID + ".tooltip." + toolTipKey)
 					.setStyle(Style.EMPTY.withColor(Color.fromRgb(0x9D_00fefe))));
 		}
-		tip.add(StringUtils.toComp(StringUtils.buildCompound(compound))
+		tip.add(StringUtils.toComp(StringUtils.chemical(chem))
 				.setStyle(Style.EMPTY.withColor(Color.fromRgb(0x9D_AAAAAA))));
 		super.appendHoverText(pStack, pLevel, tip, pFlag);
 	}
