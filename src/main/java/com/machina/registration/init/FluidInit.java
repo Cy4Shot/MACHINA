@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.item.MachinaBucket;
 import com.machina.registration.Registration;
 import com.machina.util.text.StringUtils;
 
@@ -17,7 +18,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.RegistryKey;
@@ -38,19 +38,19 @@ public class FluidInit {
 	//@formatter:off
 
 	// Gases
-	public static final FluidObject OXYGEN = gas("oxygen", b -> b.col(0xFF_ffffff).tem(90.19F).den(1143f));
-	public static final FluidObject NITROGEN = gas("nitrogen", b -> b.col(0xFF_b2d4db).tem(90.19F).den(1161f));
-	public static final FluidObject AMMONIA = gas("ammonia", b -> b.col(0xFF_44db6c).tem(90.19F).den(730f));
-	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", b -> b.col(0xFF_f7e4c1).tem(1870f).den(1143f));
-	public static final FluidObject HYDROGEN = gas("hydrogen", b -> b.col(0xFF_6ce2ff).tem(90.19F).den(70.86f));
-	public static final FluidObject ETHANE = gas("ethane", b -> b.col(0xFF_bbd68d).tem(90.19F).den(1282f));
-	public static final FluidObject PROPANE = gas("propane", b -> b.col(0xFF_3472cf).tem(90.19F).den(493f));
-	public static final FluidObject ETHYLENE = gas("ethylene", b -> b.col(0xFF_8dd6be).tem(90.19F).den(118f));
-	public static final FluidObject PROPYLENE = gas("propylene", b -> b.col(0xFF_6092bd).tem(90.19F).den(174f));
+	public static final FluidObject OXYGEN = gas("oxygen", "O2", b -> b.col(0xFF_ffffff).tem(90.19F).den(1143f));
+	public static final FluidObject NITROGEN = gas("nitrogen", "N2", b -> b.col(0xFF_b2d4db).tem(90.19F).den(1161f));
+	public static final FluidObject AMMONIA = gas("ammonia", "NH3", b -> b.col(0xFF_44db6c).tem(90.19F).den(730f));
+	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", "CO2", b -> b.col(0xFF_f7e4c1).tem(90.19F).den(1143f));
+	public static final FluidObject HYDROGEN = gas("hydrogen", "H2", b -> b.col(0xFF_6ce2ff).tem(90.19F).den(70.86f));
+	public static final FluidObject ETHANE = gas("ethane", "C2H6", b -> b.col(0xFF_bbd68d).tem(90.19F).den(1282f));
+	public static final FluidObject PROPANE = gas("propane", "C3H8", b -> b.col(0xFF_3472cf).tem(90.19F).den(493f));
+	public static final FluidObject ETHYLENE = gas("ethylene", "C2H4", b -> b.col(0xFF_8dd6be).tem(90.19F).den(118f));
+	public static final FluidObject PROPYLENE = gas("propylene", "C3H6", b -> b.col(0xFF_6092bd).tem(90.19F).den(174f));
 	
 	// Liquids
-	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", b -> b.col(0xFF_898fff).tem(20.28F).den(70.86f));
-	public static final FluidObject LIQUID_AMMONIA = liquid("liquid_ammonia", b -> b.col(0xFF_1e6e33).tem(20.28F).den(730f));
+	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", "H2", b -> b.col(0xFF_898fff).tem(20.28F).den(70.86f));
+	public static final FluidObject LIQUID_AMMONIA = liquid("liquid_ammonia", "NH3", b -> b.col(0xFF_1e6e33).tem(20.28F).den(730f));
 	
 	// Atmosphere 
 	public static final List<FluidObject> ATMOSPHERE = Arrays.asList(OXYGEN, NITROGEN, AMMONIA, CARBON_DIOXIDE, HYDROGEN);
@@ -64,12 +64,12 @@ public class FluidInit {
 
 	//@formatter:on
 
-	public static FluidObject gas(String name, Function<ChemicalBuilder, ChemicalBuilder> builder) {
-		return new FluidObject(name, true, builder);
+	public static FluidObject gas(String name, String code, Function<ChemicalBuilder, ChemicalBuilder> builder) {
+		return new FluidObject(name, code, true, builder);
 	}
 
-	public static FluidObject liquid(String name, Function<ChemicalBuilder, ChemicalBuilder> builder) {
-		return new FluidObject(name, false, builder);
+	public static FluidObject liquid(String name, String code, Function<ChemicalBuilder, ChemicalBuilder> builder) {
+		return new FluidObject(name, code, false, builder);
 	}
 
 	public static class FluidObject {
@@ -84,15 +84,15 @@ public class FluidInit {
 		private Chemical CHEM;
 		private ForgeFlowingFluid.Properties PROPS;
 		private RegistryObject<FlowingFluidBlock> BLOCK;
-		private RegistryObject<BucketItem> BUCKET;
+		private RegistryObject<MachinaBucket> BUCKET;
 		private RegistryObject<ForgeFlowingFluid> FLUID;
 		private RegistryObject<ForgeFlowingFluid> FLOWING;
 
-		public FluidObject(String name, boolean gas, Function<ChemicalBuilder, ChemicalBuilder> builder) {
+		public FluidObject(String name, String code, boolean gas, Function<ChemicalBuilder, ChemicalBuilder> builder) {
 
 			Supplier<FlowingFluid> sFluid = () -> FLUID.get();
 			Supplier<FlowingFluid> sFlowing = () -> FLOWING.get();
-			Supplier<BucketItem> sBucket = () -> BUCKET.get();
+			Supplier<MachinaBucket> sBucket = () -> BUCKET.get();
 			Supplier<FlowingFluidBlock> sBlock = () -> BLOCK.get();
 			CHEM = builder.apply(ChemicalBuilder.init()).build(gas, name);
 
@@ -104,7 +104,7 @@ public class FluidInit {
 				BLOCKS.add(name + "_block");
 			}
 
-			BUCKET = ItemInit.register(name + "_bucket", () -> new BucketItem(sFluid, BUCKET_PROP));
+			BUCKET = ItemInit.register(name + "_bucket", () -> new MachinaBucket(sFluid, BUCKET_PROP, code));
 			FLUID = FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(PROPS));
 			FLOWING = FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(PROPS));
 		}
@@ -113,7 +113,7 @@ public class FluidInit {
 			return BLOCK.get();
 		}
 
-		public BucketItem bucket() {
+		public MachinaBucket bucket() {
 			return BUCKET.get();
 		}
 
@@ -130,12 +130,12 @@ public class FluidInit {
 		}
 
 		private static ForgeFlowingFluid.Properties gas(Chemical value, Supplier<FlowingFluid> still,
-				Supplier<FlowingFluid> flowing, Supplier<BucketItem> bucket) {
+				Supplier<FlowingFluid> flowing, Supplier<MachinaBucket> bucket) {
 			return new ForgeFlowingFluid.Properties(still, flowing, builder(value).gaseous()).bucket(bucket);
 		}
 
 		private static ForgeFlowingFluid.Properties liquid(Chemical value, Supplier<FlowingFluid> still,
-				Supplier<FlowingFluid> flowing, Supplier<BucketItem> bucket, Supplier<FlowingFluidBlock> block) {
+				Supplier<FlowingFluid> flowing, Supplier<MachinaBucket> bucket, Supplier<FlowingFluidBlock> block) {
 			return new ForgeFlowingFluid.Properties(still, flowing, builder(value)).bucket(bucket).block(block);
 		}
 
