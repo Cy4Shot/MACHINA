@@ -83,6 +83,9 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		item(ItemInit.BOSS_01_DISC.get());
 		item(ItemInit.BOSS_02_DISC.get());
 		item(ItemInit.BOSS_03_DISC.get());
+		item(ItemInit.LDPE.get());
+		item(ItemInit.HDPE.get());
+		item(ItemInit.UHMWPE.get());
 
 		bucket(FluidInit.OXYGEN);
 		bucket(FluidInit.NITROGEN);
