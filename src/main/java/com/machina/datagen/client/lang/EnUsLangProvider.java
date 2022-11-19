@@ -151,6 +151,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addKeyCategory("machina", "Machina");
 		add(KeyBindingsInit.DEV_SCREEN, "Dev Screen");
 		add(KeyBindingsInit.STARCHART, "Open Starchart");
+		add(KeyBindingsInit.SCAN, "Scan Terrain");
 
 		// Commands
 		addCommandFeedback("planet_traits.add_trait.success", "Trait added!");

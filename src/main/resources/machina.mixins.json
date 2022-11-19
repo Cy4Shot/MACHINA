@@ -13,7 +13,8 @@
 	"client": [
 		"client.ClientFontMixin",
 		"client.ClientOverlayRendererMixin",
-		"client.ClientPlayerEntityMixin"
+		"client.ClientPlayerEntityMixin",
+		"client.ClientWorldRendererMixin"
 	],
 	"minVersion": "0.8"
 }

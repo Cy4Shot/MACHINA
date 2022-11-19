@@ -23,6 +23,7 @@ import com.machina.client.screen.ShipLaunchScreen;
 import com.machina.client.screen.StateConverterScreen;
 import com.machina.client.screen.TankScreen;
 import com.machina.client.screen.TemperatureRegulatorScreen;
+import com.machina.client.shader.ShaderHandler;
 import com.machina.client.util.ClientTimer;
 import com.machina.item.ShipComponentItem;
 import com.machina.item.TintedItem;
@@ -67,6 +68,7 @@ public class ClientModEvents {
 		//@formatter:off
 		ClientTimer.setup();
 		CinematicHandler.setup();
+		ShaderHandler.setup();
 		
 		RenderTypeLookup.setRenderLayer(BlockInit.CARGO_CRATE.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.SHIP_CONSOLE.get(), RenderType.cutout());

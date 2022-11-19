@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.base.NoJeiContainerScreen;
+import com.machina.client.shader.renderer.ScannerRenderer;
 import com.machina.client.util.UIHelper;
 import com.machina.item.container.ScannerContainer;
 import com.machina.planet.attribute.PlanetAttributeType;
@@ -18,6 +19,7 @@ import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.text.ITextComponent;
@@ -30,10 +32,14 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		super(pMenu, pPlayerInventory, pTitle);
 	}
 
+	@SuppressWarnings("resource")
 	@Override
 	protected void init() {
 		super.init();
 		this.leftPos = (this.width - 176) / 2;
+
+		// Ping effect :D
+		ScannerRenderer.INSTANCE.ping(Minecraft.getInstance().player.position());
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import com.machina.client.screen.DevScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.client.screen.VLCWarningScreen;
 import com.machina.client.screen.base.NoJeiContainerScreen;
+import com.machina.client.shader.renderer.ScannerRenderer;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.util.Color;
@@ -49,12 +50,16 @@ public class ClientForgeEvents {
 		if (mc.screen != null || mc.level == null)
 			return;
 
-		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.DEV_SCREEN) && Machina.isDevEnvironment()) {
+		if (KeyBindingsInit.isKeyPressed(KeyBindingsInit.DEV_SCREEN) && Machina.isDevEnvironment()) {
 			mc.setScreen(new DevScreen());
 		}
 
-		if (KeyBindingsInit.isKeyDown(KeyBindingsInit.STARCHART)) {
+		if (KeyBindingsInit.isKeyPressed(KeyBindingsInit.STARCHART)) {
 			mc.setScreen(new StarchartScreen());
+		}
+		
+		if (KeyBindingsInit.isKeyPressed(KeyBindingsInit.SCAN)) {
+			ScannerRenderer.INSTANCE.ping(mc.player.position());
 		}
 
 		// Ugly hack so that music plays!

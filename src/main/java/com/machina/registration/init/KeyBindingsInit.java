@@ -21,6 +21,7 @@ public final class KeyBindingsInit {
 
 	public static final KeyBinding DEV_SCREEN = create("dev_screen", KeyEvent.VK_C);
 	public static final KeyBinding STARCHART = create("starchart", KeyEvent.VK_P);
+	public static final KeyBinding SCAN = create("scan", 258); // Tab
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
@@ -34,5 +35,21 @@ public final class KeyBindingsInit {
 
 	public static boolean isKeyDown(KeyBinding key) {
 		return key != null && key.isDown();
+	}
+
+	public static boolean isKeyPressed(KeyBinding key) {
+		if (key == null)
+			return false;
+
+		if (key.isDown()) {
+			if (key.clickCount == 1) {
+				key.clickCount = 2;
+				return true;
+			}
+		} else {
+			key.clickCount = 0;
+		}
+
+		return false;
 	}
 }
