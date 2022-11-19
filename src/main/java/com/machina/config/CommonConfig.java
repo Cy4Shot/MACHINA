@@ -22,6 +22,7 @@ public class CommonConfig {
 	public static ForgeConfigSpec.DoubleValue ammoniaNitrateMult;
 	public static ForgeConfigSpec.DoubleValue aluminiumMult;
 	public static ForgeConfigSpec.DoubleValue waterMult;
+	public static ForgeConfigSpec.DoubleValue minAtmOxygen;
 	
 	public static Map<String, Map<String, ForgeConfigSpec.ConfigValue<?>>> attributeConf;
 
@@ -42,6 +43,11 @@ public class CommonConfig {
 		builder.comment(" Machinery Options.");
 		builder.push("Heat Options");
 		maxHeat = builder.defineInRange("max_heat", 1000, 0, 2000);
+		builder.pop();
+		
+		builder.comment(" Planet Options.");
+		builder.push("Planet Options");
+		minAtmOxygen = builder.defineInRange("min_oxygen_for_breathing", 0.195D, 0D, 1D);
 		builder.pop();
 		
 		builder.comment(" Planet Attributes.");

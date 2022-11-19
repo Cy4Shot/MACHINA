@@ -17,6 +17,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
@@ -48,5 +50,11 @@ public abstract class LivingEntityMixin extends Entity {
 			attr.setBaseValue(0.08f * gravity);
 			cb.setReturnValue(attr);
 		}
+	}
+
+	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/entity/LivingEntity;isEyeInFluid(Lnet/minecraft/tags/ITag;)Z", cancellable = true)
+	private void isEyeInFluid(ITag<Fluid> pTag, CallbackInfoReturnable<Boolean> cb) {
+		if (!PlanetHelper.canBreath(this.level.dimension()))
+			cb.setReturnValue(true);
 	}
 }
