@@ -45,7 +45,7 @@ public class PlanetTreeFeature extends PlanetBaseFeature {
 	final int leafLayers;
 	final int leavesLayerHeight;
 	final int treeType;
-	
+
 	final BlockState LOG;
 	final BlockState LEAVES;
 
@@ -70,7 +70,7 @@ public class PlanetTreeFeature extends PlanetBaseFeature {
 		this.leafLayers = attr.getValue(AttributeInit.LEAF_LAYER_COUNT);
 		this.leavesLayerHeight = attr.getValue(AttributeInit.LEAF_LAYER_WIDTH);
 		this.treeType = attr.getValue(AttributeInit.TREE_TYPE);
-		
+
 		BlockPalette palette = PlanetBlocksGenerator.getTreePalette(attr.getValue(AttributeInit.TREE_BLOCKS));
 		this.LOG = palette.getBaseBlock();
 		this.LEAVES = palette.getSecondaryBlock();
@@ -97,9 +97,11 @@ public class PlanetTreeFeature extends PlanetBaseFeature {
 	}
 
 	public boolean placeA(ISeedReader region, PlanetChunkGenerator gen, Random rand, BlockPos pos) {
-		while (pos.getY() > 1 && isAirOrLeaves(region, pos)) {
+		while (pos.getY() > 10 && isAirOrLeaves(region, pos)) {
 			pos = pos.below();
 		}
+		if (pos.getY() < 11)
+			return false;
 
 		float trunkHeight = trunkMinHeight + rand.nextFloat() * (trunkMaxHeight - trunkMinHeight);
 		float leafRadius = leafMinRadius + rand.nextFloat() * (leafMaxRadius - leafMinRadius);
