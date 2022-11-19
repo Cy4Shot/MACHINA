@@ -4,9 +4,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.machina.registration.init.AttributeInit;
+import com.machina.registration.init.DamageSourceInit;
 import com.machina.util.server.PlanetHelper;
 import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
@@ -17,9 +19,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.tags.ITag;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
 
@@ -52,9 +56,34 @@ public abstract class LivingEntityMixin extends Entity {
 		}
 	}
 
-	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/entity/LivingEntity;isEyeInFluid(Lnet/minecraft/tags/ITag;)Z", cancellable = true)
-	private void isEyeInFluid(ITag<Fluid> pTag, CallbackInfoReturnable<Boolean> cb) {
+	@Inject(at = @At("TAIL"), method = "Lnet/minecraft/entity/LivingEntity;baseTick()V")
+	private void baseTick(CallbackInfo cb) {
+		Entity e = this.getEntity();
+		boolean inv = e instanceof PlayerEntity && ((PlayerEntity) e).abilities.invulnerable;
+		if (this.isAlive()) {
+			if (!PlanetHelper.canBreath(this.level.dimension()) && !inv) {
+				this.setAirSupply(this.getAirSupply() - 1);
+				if (this.getAirSupply() == -20) {
+					this.setAirSupply(0);
+					Vector3d vector3d = this.getDeltaMovement();
+
+					for (int i = 0; i < 8; ++i) {
+						double d2 = this.random.nextDouble() - this.random.nextDouble();
+						double d3 = this.random.nextDouble() - this.random.nextDouble();
+						double d4 = this.random.nextDouble() - this.random.nextDouble();
+						this.level.addParticle(ParticleTypes.BUBBLE, this.getX() + d2, this.getY() + d3,
+								this.getZ() + d4, vector3d.x, vector3d.y, vector3d.z);
+					}
+
+					this.hurt(DamageSourceInit.SUFFOCATE, 2.0F);
+				}
+			}
+		}
+	}
+
+	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/entity/LivingEntity;increaseAirSupply(I)I", cancellable = true)
+	protected void increaseAirSupply(int pCurrentAir, CallbackInfoReturnable<Integer> cb) {
 		if (!PlanetHelper.canBreath(this.level.dimension()))
-			cb.setReturnValue(true);
+			cb.setReturnValue(pCurrentAir);
 	}
 }

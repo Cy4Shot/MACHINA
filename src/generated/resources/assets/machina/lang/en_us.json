@@ -44,6 +44,8 @@
   "command.planet_traits.not_planet": "This dimension is not a planet!",
   "command.planet_traits.remove_trait.not_existing": "This planet does not have the trait %s!",
   "command.planet_traits.remove_trait.success": "Trait removed!",
+  "death.attack.machina.suffocate": "%1$s suffocated in a thin atmosphere.",
+  "death.attack.machina.suffocate.player": "%1$s was suffocated in a thin atmosphere by %2$s.",
   "fluid.machina.ammonia": "Ammonia",
   "fluid.machina.ammonia_flowing": "Ammonia",
   "fluid.machina.carbon_dioxide": "Carbon Dioxide",

@@ -4,6 +4,7 @@ import com.machina.Machina;
 import com.machina.registration.Registration;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.DamageSourceInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.KeyBindingsInit;
@@ -311,5 +312,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalFeedback("launch", "warning", "WARNING: THIS IS IRREVERSIBLE.");
 		addTerminalFeedback("launch", "seated", "Please wait for rocket door to open.");
 		addTerminalFeedback("launch", "init", "Life support initializing...");
+		
+		// Damage Source
+		addDamageSource(DamageSourceInit.SUFFOCATE, "%1$s suffocated in a thin atmosphere.");
+		addDamageSourceAttacker(DamageSourceInit.SUFFOCATE, "%1$s was suffocated in a thin atmosphere by %2$s.");
 	}
 }

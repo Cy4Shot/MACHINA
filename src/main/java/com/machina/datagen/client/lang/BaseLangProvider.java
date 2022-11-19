@@ -10,6 +10,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
@@ -56,6 +57,14 @@ public abstract class BaseLangProvider extends LanguageProvider {
 
 	protected void add(KeyBinding key, String name) {
 		add(key.getName(), name);
+	}
+	
+	protected void addDamageSource(DamageSource source, String message) {
+		add("death.attack." + source.getMsgId(), message);
+	}
+	
+	protected void addDamageSourceAttacker(DamageSource source, String message) {
+		add("death.attack." + source.getMsgId() + ".player", message);
 	}
 
 	protected void addKeyCategory(String category, String name) {
