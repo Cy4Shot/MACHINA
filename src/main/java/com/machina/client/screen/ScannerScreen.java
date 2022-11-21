@@ -27,19 +27,27 @@ import net.minecraft.world.World;
 
 public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 	private static int tab = 0;
-
-	public ScannerScreen(ScannerContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
-		super(pMenu, pPlayerInventory, pTitle);
-	}
+	private int ticks;
 
 	@SuppressWarnings("resource")
+	public ScannerScreen(ScannerContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
+		super(pMenu, pPlayerInventory, pTitle);
+
+		ticks = 0;
+
+		// Ping effect :D
+		ScannerRenderer.INSTANCE.ping(Minecraft.getInstance().player.position());
+	}
+
 	@Override
 	protected void init() {
 		super.init();
 		this.leftPos = (this.width - 176) / 2;
+	}
 
-		// Ping effect :D
-		ScannerRenderer.INSTANCE.ping(Minecraft.getInstance().player.position());
+	@Override
+	public void tick() {
+		ticks++;
 	}
 
 	@Override
@@ -47,7 +55,10 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		RenderSystem.color4f(1f, 1f, 1f, 1f);
 
 		// Darker background
-		this.renderBackground(stack);
+		if (ticks < 40)
+			this.fillGradient(stack, 0, 0, this.width, this.height, 0x70_000000, 0x70_000000);
+		else
+			this.renderBackground(stack);
 
 		// Render
 		super.render(stack, pMouseX, pMouseY, pPartialTicks);
@@ -60,12 +71,25 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 
 	@Override
 	protected void renderBg(MatrixStack stack, float pPartialTicks, int pX, int pY) {
-		UIHelper.bindScifi();
 
-		// Back
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
+
+		UIHelper.bindScifi();
+
+		if (ticks < 40) {
+			// Progress
+			int percentage = (int) (((float) ticks / 40f) * 129f);
+			this.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
+			this.blit(stack, x + 52, y + 40, 3, 103, percentage, 12);
+
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("scanner.loading"), x + 117, y + 28,
+					0xFF_00fefe, 0xFF_0e0e0e);
+			return;
+		}
+
+		// Back
 		this.blit(stack, x, y, 2, 3, xSize, ySize);
 		this.blit(stack, x + 50, y - 22, 3, 130, 135, 18);
 		this.blit(stack, x + 24, y - 26, 3, 150, 23, 23);

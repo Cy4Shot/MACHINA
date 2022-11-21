@@ -21,7 +21,7 @@ public final class KeyBindingsInit {
 
 	public static final KeyBinding DEV_SCREEN = create("dev_screen", KeyEvent.VK_C);
 	public static final KeyBinding STARCHART = create("starchart", KeyEvent.VK_P);
-	public static final KeyBinding SCAN = create("scan", 258); // Tab
+	public static final KeyBinding SCAN = create("scan", 258); // 258 is Tab.
 
 	@SubscribeEvent
 	public static void clientSetup(FMLClientSetupEvent event) {
