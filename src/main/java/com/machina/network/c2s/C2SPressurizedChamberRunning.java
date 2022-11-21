@@ -1,5 +1,6 @@
 package com.machina.network.c2s;
 
+import com.machina.Machina;
 import com.machina.block.tile.PressurizedChamberTileEntity;
 import com.machina.network.INetworkMessage;
 
@@ -22,7 +23,7 @@ public class C2SPressurizedChamberRunning implements INetworkMessage {
 		ServerWorld world = context.getSender().getLevel();
 		TileEntity e = world.getBlockEntity(this.pos);
 		if (e == null || !(e instanceof PressurizedChamberTileEntity)) {
-			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
+			Machina.LOGGER.error("TE IS A NULL AAAAAAAAAAA");
 		}
 		((PressurizedChamberTileEntity) e).runToggle();
 	}

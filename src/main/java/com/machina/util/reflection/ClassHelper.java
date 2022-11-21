@@ -5,6 +5,8 @@ import java.lang.reflect.Modifier;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
+import com.machina.Machina;
+
 public final class ClassHelper {
 
 	/**
@@ -23,7 +25,7 @@ public final class ClassHelper {
 				try {
 					func.accept(field.getName(), (T) field.get(null));
 				} catch (Exception e) {
-					System.out.println(e);
+					Machina.LOGGER.error(e);
 				}
 			}
 		}

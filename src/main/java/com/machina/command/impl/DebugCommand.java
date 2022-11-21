@@ -1,5 +1,6 @@
 package com.machina.command.impl;
 
+import com.machina.Machina;
 import com.machina.command.BaseCommand;
 import com.machina.planet.attribute.PlanetAttribute;
 import com.machina.util.server.PlanetHelper;
@@ -28,10 +29,10 @@ public class DebugCommand extends BaseCommand {
 			PlanetData pd = StarchartData.getStarchartForServer(context.getSource().getServer())
 					.get(context.getSource().getLevel().dimension().location());
 
-			System.out.println(
+			Machina.LOGGER.debug(
 					"Attributes for " + String.valueOf(PlanetHelper.getId(context.getSource().getLevel().dimension())));
 			for (PlanetAttribute<?> attribute : pd.getAttributes()) {
-				System.out.println(attribute.getAttributeType().getRegistryName().getPath() + "\t - \t"
+				Machina.LOGGER.debug(attribute.getAttributeType().getRegistryName().getPath() + "\t - \t"
 						+ attribute.getValue().toString());
 			}
 		}

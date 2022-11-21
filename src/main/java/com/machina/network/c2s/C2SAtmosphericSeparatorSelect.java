@@ -1,5 +1,6 @@
 package com.machina.network.c2s;
 
+import com.machina.Machina;
 import com.machina.block.tile.AtmosphericSeparatorTileEntity;
 import com.machina.network.INetworkMessage;
 
@@ -22,7 +23,7 @@ public class C2SAtmosphericSeparatorSelect implements INetworkMessage {
 	public void handle(Context context) {
 		TileEntity e = context.getSender().getLevel().getBlockEntity(this.pos);
 		if (e == null || !(e instanceof AtmosphericSeparatorTileEntity)) {
-			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
+			Machina.LOGGER.error("TE IS A NULL AAAAAAAAAAA");
 		}
 
 		((AtmosphericSeparatorTileEntity) e).setId(id);

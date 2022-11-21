@@ -1,5 +1,6 @@
 package com.machina.network.c2s;
 
+import com.machina.Machina;
 import com.machina.block.tile.ShipConsoleTileEntity;
 import com.machina.network.INetworkMessage;
 
@@ -22,7 +23,7 @@ public class C2SRefuel implements INetworkMessage {
 		ServerWorld world = context.getSender().getLevel();
 		TileEntity e = world.getBlockEntity(this.pos);
 		if (e == null || !(e instanceof ShipConsoleTileEntity)) {
-			System.out.println("[ERROR] TE IS A NULL AAAAAAAAAAA");
+			Machina.LOGGER.error("TE IS A NULL AAAAAAAAAAA");
 		}
 		((ShipConsoleTileEntity) e).refuel();
 	}

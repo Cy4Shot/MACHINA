@@ -58,7 +58,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FURNACE_GENERATOR.get());
 		block(BlockInit.STATE_CONVERTER.get());
 		block(BlockInit.FLUID_HOPPER.get());
-		
+
 		geo(BlockInit.IRON_CHASSIS.get());
 		geo(BlockInit.STEEL_CHASSIS.get());
 		geo(BlockInit.COMPONENT_ANALYZER.get());
@@ -103,7 +103,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	protected void bucket(FluidObject obj) {
 		DynamicBucketModelBuilder<ItemModelBuilder> builder = withExistingParent(
 				obj.fluid().getBucket().getRegistryName().getPath(), new ResourceLocation("forge", "item/bucket"))
-						.customLoader(DynamicBucketModelBuilder::begin);
+				.customLoader(DynamicBucketModelBuilder::begin);
 		if (obj.fluid().getAttributes().isGaseous()) {
 			builder.flipGas(true);
 		}
@@ -125,7 +125,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 			getBuilder(item.getRegistryName().getPath()).parent(getExistingFile(mcLoc("item/generated")))
 					.texture("layer0", itemTexture);
 		} else {
-			System.out.println(
+			Machina.LOGGER.warn(
 					"Texture for " + item.getRegistryName().toString() + " not present at " + itemTexture.toString());
 		}
 	}
