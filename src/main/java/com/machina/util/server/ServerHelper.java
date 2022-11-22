@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
@@ -22,7 +21,7 @@ public class ServerHelper {
 	}
 	
 	public static long getSeed() {
-		return server().getLevel(World.OVERWORLD).getSeed();
+		return server().getAllLevels().iterator().next().getSeed();
 	}
 	
 	public static MinecraftServer server() {

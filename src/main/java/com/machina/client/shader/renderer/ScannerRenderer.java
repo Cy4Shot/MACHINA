@@ -114,12 +114,6 @@ public enum ScannerRenderer {
 		ShaderHandler.SCANNER.setUniform("radius", radius);
 		ShaderHandler.SCANNER.setUniform("target", computeTargetRadius());
 
-		// This is a bit of a hack; blend state is changed from many places in MC, and
-		// if there's
-		// no other shader active at all, our shader will not properly apply its blend
-		// settings.
-		// So we use a dummy blend state to change the reference to the last applied one
-		// to force it.
 		RESET_BLEND_STATE.apply();
 		ShaderHandler.SCANNER.bind();
 		blit(framebuffer);
@@ -138,13 +132,9 @@ public enum ScannerRenderer {
 
 		depthCopyFbo = GlStateManager.glGenFramebuffers();
 
-		// We don't use the color attachment on this FBO, but it's required for a
-		// complete FBO.
 		depthCopyColorBuffer = createTexture(framebuffer.width, framebuffer.height, GL11.GL_RGBA8, GL11.GL_RGBA,
 				GL11.GL_UNSIGNED_BYTE);
 
-		// Main reason why we create this FBO: readable depth buffer into which we can
-		// copy the MC one.
 		depthCopyDepthBuffer = createTexture(framebuffer.width, framebuffer.height, GL30.GL_DEPTH_COMPONENT,
 				GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT);
 

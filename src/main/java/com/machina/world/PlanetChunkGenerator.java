@@ -17,7 +17,6 @@ import com.machina.registration.init.AttributeInit;
 import com.machina.util.math.OpenSimplex2F;
 import com.machina.util.server.PlanetHelper;
 import com.machina.util.server.ServerHelper;
-import com.machina.util.text.MachinaRL;
 import com.machina.world.cave.PlanetCarver;
 import com.machina.world.data.StarchartData;
 import com.machina.world.feature.planet.PlanetTreeFeature;
@@ -77,9 +76,9 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	private final int chunkHeight = 16;
 
 	// Random Settings
-	public final SharedSeedRandom random;
-	private final OpenSimplex2F caveDecoNoise;
-	private final PlanetNoiseGenerator noiseGenerator;
+	public SharedSeedRandom random;
+	private OpenSimplex2F caveDecoNoise;
+	private PlanetNoiseGenerator noiseGenerator;
 
 	// Noise Settings
 	public IPlanetTerrainProcessor surfproc;
@@ -93,7 +92,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	private final Registry<Biome> biomes;
 	private final Biome biome;
 	private int id;
-	private long seed = 0L;
+	private long seed;
 	private List<? extends IWorldTrait> traits;
 	List<Supplier<ConfiguredCarver<?>>> carvers = new ArrayList<>();
 	List<Supplier<ConfiguredFeature<?, ?>>> features = new ArrayList<>();
@@ -150,7 +149,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 
 	public PlanetChunkGenerator(Registry<Biome> biomes, int id) {
 		super(new SingleBiomeProvider(
-				biomes.getOrThrow(RegistryKey.create(Registry.BIOME_REGISTRY, new MachinaRL(Machina.MOD_ID)))),
+				biomes.getOrThrow(RegistryKey.create(Registry.BIOME_REGISTRY, Machina.MACHINA_ID))),
 				new PlanetStructureSettings());
 
 		// Settings
@@ -163,7 +162,6 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		// NOISEE
 		this.caveDecoNoise = new OpenSimplex2F(this.seed);
 		this.noiseGenerator = new PlanetNoiseGenerator(this.seed, this);
-
 	}
 
 	@Override
@@ -174,6 +172,9 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	@Override
 	public ChunkGenerator withSeed(long seed) {
 		this.seed = seed;
+		this.random = new SharedSeedRandom(this.seed);
+		this.caveDecoNoise = new OpenSimplex2F(this.seed);
+		this.noiseGenerator = new PlanetNoiseGenerator(this.seed, this);
 		return this;
 	}
 
