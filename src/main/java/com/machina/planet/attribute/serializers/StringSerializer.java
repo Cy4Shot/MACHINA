@@ -25,9 +25,10 @@ public class StringSerializer extends AttributeSerializer<String> {
 		this.d = def;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
-	public Map<String, ConfigValue<?>> generateConf(ForgeConfigSpec.Builder builder) {
-		Map<String, ConfigValue<?>> map = new HashMap<>();
+	public Map<String, ConfigValue> generateConf(ForgeConfigSpec.Builder builder) {
+		Map<String, ConfigValue> map = new HashMap<>();
 		map.put("def", builder.define("def", d));
 		return map;
 	}

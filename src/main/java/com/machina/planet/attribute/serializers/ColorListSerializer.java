@@ -50,13 +50,14 @@ public class ColorListSerializer extends AttributeSerializer<Color[]> {
 		return color -> IntNBT.valueOf(color.getRGB());
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
-	public Map<String, ConfigValue<?>> generateConf(ForgeConfigSpec.Builder builder) {
+	public Map<String, ConfigValue> generateConf(ForgeConfigSpec.Builder builder) {
 		Integer[] out = new Integer[d.length];
 		for(int i = 0; i < d.length; i++) {
 			out[i] = d[i].getRGB();
 		}
-		Map<String, ConfigValue<?>> map = new HashMap<>();
+		Map<String, ConfigValue> map = new HashMap<>();
 		map.put("def", builder.defineList("def", Arrays.asList(out), entry -> true)); 
 		return map;
 	}

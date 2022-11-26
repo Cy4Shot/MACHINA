@@ -39,9 +39,10 @@ public class FloatSerializer extends AttributeSerializer<Float> {
 		this.ma = ma;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public Map<String, ConfigValue<?>> generateConf(ForgeConfigSpec.Builder builder) {
-		Map<String, ConfigValue<?>> map = new HashMap<>();
+	public Map<String, ConfigValue> generateConf(ForgeConfigSpec.Builder builder) {
+		Map<String, ConfigValue> map = new HashMap<>();
 		map.put("def", builder.defineInRange("def", d, -999999f, 999999f));
 		map.put("min", builder.defineInRange("min", mi, -999999f, 999999f));
 		map.put("max", builder.defineInRange("max", ma, -999999f, 999999f));

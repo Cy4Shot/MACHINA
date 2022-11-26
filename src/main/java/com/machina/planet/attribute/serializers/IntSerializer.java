@@ -46,9 +46,10 @@ public class IntSerializer extends AttributeSerializer<Integer> {
 		this.ma = ma;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public Map<String, ConfigValue<?>> generateConf(ForgeConfigSpec.Builder builder) {
-		Map<String, ConfigValue<?>> map = new HashMap<>();
+	public Map<String, ConfigValue> generateConf(ForgeConfigSpec.Builder builder) {
+		Map<String, ConfigValue> map = new HashMap<>();
 		map.put("def", builder.defineInRange("def", d, -999999, 999999));
 		map.put("min", builder.defineInRange("min", mi, -999999, 999999));
 		map.put("max", builder.defineInRange("max", ma, -999999, 999999));

@@ -24,7 +24,8 @@ public class CommonConfig {
 	public static ForgeConfigSpec.DoubleValue waterMult;
 	public static ForgeConfigSpec.DoubleValue minAtmOxygen;
 	
-	public static Map<String, Map<String, ForgeConfigSpec.ConfigValue<?>>> attributeConf;
+	@SuppressWarnings("rawtypes")
+	public static Map<String, Map<String, ForgeConfigSpec.ConfigValue>> attributeConf;
 
 	private static void setupConfig(ForgeConfigSpec.Builder builder) {
 		builder.comment(" This category holds options for Starchart Generation.");

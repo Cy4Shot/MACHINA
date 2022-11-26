@@ -43,5 +43,6 @@ public abstract class AttributeSerializer<T> {
 
 	public abstract T load(INBT data);
 
-	public abstract Map<String, ConfigValue<?>> generateConf(ForgeConfigSpec.Builder builder);
+	@SuppressWarnings("rawtypes")
+	public abstract Map<String, ConfigValue> generateConf(ForgeConfigSpec.Builder builder);
 }

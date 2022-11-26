@@ -26,6 +26,10 @@ public class Machina {
 		GeckoLib.initialize();
 		MinecraftForge.EVENT_BUS.register(this);
 	}
+	
+	public static String getVersion() {
+		return "Alpha 0.1.0";
+	}
 
 	public static boolean isDevEnvironment() {
 		return !FMLEnvironment.production || ClientConfig.devMode.get();

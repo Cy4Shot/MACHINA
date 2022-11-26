@@ -133,9 +133,10 @@ public final class AttributeInit {
 
 	}
 
-	public static Map<String, Map<String, ForgeConfigSpec.ConfigValue<?>>> generateConfig(
+	@SuppressWarnings("rawtypes")
+	public static Map<String, Map<String, ForgeConfigSpec.ConfigValue>> generateConfig(
 			ForgeConfigSpec.Builder builder) {
-		Map<String, Map<String, ForgeConfigSpec.ConfigValue<?>>> out = new HashMap<>();
+		Map<String, Map<String, ForgeConfigSpec.ConfigValue>> out = new HashMap<>();
 		ClassHelper.<PlanetAttributeType<?>>doWithStatics(AttributeInit.class, (name, data) -> {
 			builder.push(data.ser.name);
 			out.put(data.ser.name, data.ser.generateConf(builder));

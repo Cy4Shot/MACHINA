@@ -57,8 +57,9 @@ public class DoubleListSerializer extends AttributeSerializer<Double[]> {
 		return def.get();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public Map<String, ConfigValue<?>> generateConf(Builder builder) {
+	public Map<String, ConfigValue> generateConf(Builder builder) {
 		return new HashMap<>();
 	}
 }
