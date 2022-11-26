@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shaped_steel_scaffolding",
+  "pattern": [
+    " i ",
+    "isi",
+    " i "
+  ],
+  "key": {
+    "i": {
+      "item": "machina:steel_ingot"
+    },
+    "s": {
+      "item": "minecraft:scaffolding"
+    }
+  },
+  "result": {
+    "item": "machina:steel_scaffolding",
+    "count": 16
+  }
+}

@@ -42,6 +42,50 @@ public class RecipesProvider extends RecipeProvider {
 		addSmithing(f, Items.STICK, Items.IRON_INGOT, ItemInit.REINFORCED_STICK.get());
 
 		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.IRON_INGOT, Items.COAL);
+		
+		addShaped(f, BlockInit.IRON_SCAFFOLDING.get(), 16, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', Items.IRON_INGOT)
+					.define('s', Blocks.SCAFFOLDING)
+					.pattern(" i ")
+					.pattern("isi")
+					.pattern(" i ");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.STEEL_SCAFFOLDING.get(), 16, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.STEEL_INGOT.get())
+					.define('s', Blocks.SCAFFOLDING)
+					.pattern(" i ")
+					.pattern("isi")
+					.pattern(" i ");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.ALUMINUM_SCAFFOLDING.get(), 16, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.ALUMINUM_INGOT.get())
+					.define('s', Blocks.SCAFFOLDING)
+					.pattern(" i ")
+					.pattern("isi")
+					.pattern(" i ");
+			//@formatter:on
+		});
+		
+		addShaped(f, BlockInit.COPPER_SCAFFOLDING.get(), 16, builder -> {
+			//@formatter:off
+			return builder
+					.define('i', ItemInit.COPPER_INGOT.get())
+					.define('s', Blocks.SCAFFOLDING)
+					.pattern(" i ")
+					.pattern("isi")
+					.pattern(" i ");
+			//@formatter:on
+		});
 
 		addShaped(f, ItemInit.TRANSISTOR.get(), 1, builder -> {
 			//@formatter:off

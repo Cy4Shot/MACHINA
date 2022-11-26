@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "shaped_aluminum_scaffolding",
+  "pattern": [
+    " i ",
+    "isi",
+    " i "
+  ],
+  "key": {
+    "i": {
+      "item": "machina:aluminum_ingot"
+    },
+    "s": {
+      "item": "minecraft:scaffolding"
+    }
+  },
+  "result": {
+    "item": "machina:aluminum_scaffolding",
+    "count": 16
+  }
+}

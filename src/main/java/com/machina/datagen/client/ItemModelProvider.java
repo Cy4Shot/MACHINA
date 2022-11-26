@@ -46,7 +46,10 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.ALUMINUM_ORE.get());
 		block(BlockInit.COPPER_BLOCK.get());
 		block(BlockInit.COPPER_ORE.get());
-		block(BlockInit.STEEL_CHASSIS.get());
+		block(BlockInit.IRON_SCAFFOLDING.get());
+		block(BlockInit.STEEL_SCAFFOLDING.get());
+		block(BlockInit.ALUMINUM_SCAFFOLDING.get());
+		block(BlockInit.COPPER_SCAFFOLDING.get());
 		block(BlockInit.PUZZLE_BLOCK.get());
 		block(BlockInit.PRESSURIZED_CHAMBER.get());
 		block(BlockInit.BATTERY.get());
@@ -58,9 +61,13 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FURNACE_GENERATOR.get());
 		block(BlockInit.STATE_CONVERTER.get());
 		block(BlockInit.FLUID_HOPPER.get());
+		block(BlockInit.IRON_CHASSIS.get());
+		block(BlockInit.STEEL_CHASSIS.get());
 
-		geo(BlockInit.IRON_CHASSIS.get());
-		geo(BlockInit.STEEL_CHASSIS.get());
+		geo(BlockInit.IRON_SCAFFOLDING.get());
+		geo(BlockInit.STEEL_SCAFFOLDING.get());
+		geo(BlockInit.ALUMINUM_SCAFFOLDING.get());
+		geo(BlockInit.COPPER_SCAFFOLDING.get());
 		geo(BlockInit.COMPONENT_ANALYZER.get());
 		geo(BlockInit.CARGO_CRATE.get());
 

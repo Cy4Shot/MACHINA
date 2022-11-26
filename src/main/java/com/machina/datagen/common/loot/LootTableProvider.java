@@ -16,12 +16,14 @@ public class LootTableProvider extends BaseLootTableProvider {
 		dropSelf(BlockInit.PRESSURIZED_CHAMBER.get());
 		dropSelf(BlockInit.COMPONENT_ANALYZER.get());
 		dropSelf(BlockInit.STEEL_BLOCK.get());
-		dropSelf(BlockInit.STEEL_CHASSIS.get());
+		dropSelf(BlockInit.STEEL_SCAFFOLDING.get());
+		dropSelf(BlockInit.IRON_SCAFFOLDING.get());
+		dropSelf(BlockInit.ALUMINUM_SCAFFOLDING.get());
+		dropSelf(BlockInit.COPPER_SCAFFOLDING.get());
 		dropSelf(BlockInit.ALUMINUM_BLOCK.get());
 		dropSelf(BlockInit.ALUMINUM_ORE.get());
 		dropSelf(BlockInit.COPPER_BLOCK.get());
 		dropSelf(BlockInit.COPPER_ORE.get());
-		dropSelf(BlockInit.IRON_CHASSIS.get());
 		dropSelf(BlockInit.BATTERY.get());
 		dropSelf(BlockInit.CABLE.get());
 		dropSelf(BlockInit.REINFORCED_TILE.get());
@@ -32,5 +34,7 @@ public class LootTableProvider extends BaseLootTableProvider {
 		dropSelf(BlockInit.FUEL_STORAGE_UNIT.get());
 		dropSelf(BlockInit.FURNACE_GENERATOR.get());
 		dropSelf(BlockInit.STATE_CONVERTER.get());
+		dropSelf(BlockInit.IRON_CHASSIS.get());
+		dropSelf(BlockInit.STEEL_CHASSIS.get());
 	}
 }

@@ -14,7 +14,9 @@ public class AnimationProvider extends BaseAnimationProvider {
 	@Override
 	public void createAnimations() {
 		noAnim(BlockInit.COMPONENT_ANALYZER.get());
-		noAnim(BlockInit.IRON_CHASSIS.get());
-		noAnim(BlockInit.STEEL_CHASSIS.get());
+		noAnim(BlockInit.IRON_SCAFFOLDING.get());
+		noAnim(BlockInit.STEEL_SCAFFOLDING.get());
+		noAnim(BlockInit.ALUMINUM_SCAFFOLDING.get());
+		noAnim(BlockInit.COPPER_SCAFFOLDING.get());
 	}
 }

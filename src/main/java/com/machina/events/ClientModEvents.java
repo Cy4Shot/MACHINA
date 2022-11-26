@@ -73,8 +73,10 @@ public class ClientModEvents {
 		RenderTypeLookup.setRenderLayer(BlockInit.CARGO_CRATE.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.SHIP_CONSOLE.get(), RenderType.cutout());
 		RenderTypeLookup.setRenderLayer(BlockInit.COMPONENT_ANALYZER.get(), RenderType.cutout());
-		RenderTypeLookup.setRenderLayer(BlockInit.STEEL_CHASSIS.get(), RenderType.translucent());
-		RenderTypeLookup.setRenderLayer(BlockInit.IRON_CHASSIS.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(BlockInit.STEEL_SCAFFOLDING.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(BlockInit.IRON_SCAFFOLDING.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(BlockInit.ALUMINUM_SCAFFOLDING.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(BlockInit.COPPER_SCAFFOLDING.get(), RenderType.translucent());
 		RenderTypeLookup.setRenderLayer(BlockInit.TANK.get(), RenderType.translucent());
 		FluidInit.setRenderLayers();
 

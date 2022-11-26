@@ -41,8 +41,12 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.ALUMINUM_ORE.get(), "Aluminum Ore");
 		add(BlockInit.COPPER_BLOCK.get(), "Copper Block");
 		add(BlockInit.COPPER_ORE.get(), "Copper Ore");
-		add(BlockInit.STEEL_CHASSIS.get(), "Steel Chassis");
+		add(BlockInit.STEEL_SCAFFOLDING.get(), "Steel Scaffolding");
+		add(BlockInit.IRON_SCAFFOLDING.get(), "Iron Scaffolding");
+		add(BlockInit.ALUMINUM_SCAFFOLDING.get(), "Aluminum Scaffolding");
+		add(BlockInit.COPPER_SCAFFOLDING.get(), "Copper Scaffolding");
 		add(BlockInit.IRON_CHASSIS.get(), "Iron Chassis");
+		add(BlockInit.STEEL_CHASSIS.get(), "Steel Chassis");
 		add(BlockInit.ALIEN_STONE.get(), "Alien Stone");
 		add(BlockInit.ALIEN_STONE_SLAB.get(), "Alien Stone Slab");
 		add(BlockInit.ALIEN_STONE_STAIRS.get(), "Alien Stone Stairs");

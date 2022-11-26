@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/block",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "particle": "minecraft:block/iron_block"
+    "side": "machina:block/iron_chassis_side",
+    "end": "machina:block/iron_chassis_end"
   }
 }

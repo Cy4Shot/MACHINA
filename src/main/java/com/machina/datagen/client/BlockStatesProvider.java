@@ -55,6 +55,9 @@ public class BlockStatesProvider extends BlockStateProvider {
 		frontOrientableBlock(BlockInit.CREATIVE_BATTERY.get());
 		frontOrientableBlock(BlockInit.TANK.get());
 
+		verticalColumnBlock(BlockInit.IRON_CHASSIS.get());
+		verticalColumnBlock(BlockInit.STEEL_CHASSIS.get());
+
 		fluid(FluidInit.LIQUID_HYDROGEN);
 		fluid(FluidInit.LIQUID_AMMONIA);
 
@@ -66,8 +69,10 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
 
 		orientableGeo(BlockInit.COMPONENT_ANALYZER.get(), BlockInit.ALUMINUM_BLOCK.get());
-		geo(BlockInit.IRON_CHASSIS.get(), Blocks.IRON_BLOCK);
-		geo(BlockInit.STEEL_CHASSIS.get(), BlockInit.STEEL_BLOCK.get());
+		geo(BlockInit.IRON_SCAFFOLDING.get(), Blocks.IRON_BLOCK);
+		geo(BlockInit.STEEL_SCAFFOLDING.get(), BlockInit.STEEL_BLOCK.get());
+		geo(BlockInit.ALUMINUM_SCAFFOLDING.get(), BlockInit.ALUMINUM_BLOCK.get());
+		geo(BlockInit.COPPER_SCAFFOLDING.get(), BlockInit.COPPER_BLOCK.get());
 		geo(BlockInit.CARGO_CRATE.get(), BlockInit.ALUMINUM_BLOCK.get());
 	}
 
@@ -100,6 +105,12 @@ public class BlockStatesProvider extends BlockStateProvider {
 				models().orientableWithBottom(name(block), extend(blockTexture(block), "_side"),
 						extend(blockTexture(block), "_front"), extend(blockTexture(block), "_bottom"),
 						extend(blockTexture(block), "_top")));
+
+	}
+
+	public void verticalColumnBlock(Block block) {
+		simpleBlock(block, models().cubeColumn(name(block), extend(blockTexture(block), "_side"),
+				extend(blockTexture(block), "_end")));
 
 	}
 
