@@ -22,7 +22,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 public class ScannerItem extends Item {
 
 	public ScannerItem(Properties props) {
-		super(props);
+		super(props.stacksTo(1));
 	}
 
 	@Override
