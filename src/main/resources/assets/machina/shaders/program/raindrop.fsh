@@ -1,5 +1,7 @@
 #version 120
 
+// This code is extremely cool. :D
+
 uniform mat4 invViewMat;
 uniform mat4 invProjMat;
 uniform vec3 pos;
@@ -61,6 +63,7 @@ vec4 backProject(vec4 vec) {
     return tmp / tmp.w;
 }
 
+// Get the normal vector. This should not be this complex, mojank.
 vec3 getNormal() {
 		bool inctrl = inControl(texCoord * screen, screen.x) > -1;
 		vec2 normCoord = texCoord;
@@ -94,7 +97,7 @@ void main() {
 	float depth = texture2D(depthTex, texCoord).r;
     vec3 wpos = floor(worldpos(depth) * 16) / 16;
 	vec2 displacement = vec2(0.0, 0.0);
-	float loop_time = 2.6;
+	float loop_time = 1.6;
 	float ripple_width_inverse = 20. + rand(vec2(texCoord) * time) * 20.;
 	float limits = PI / ripple_width_inverse;
 	int num_ripples = 6;
