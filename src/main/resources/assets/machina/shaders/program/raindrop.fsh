@@ -13,13 +13,11 @@ varying vec2 oneTexel;
 #define PI 3.1415936535
 #define NUMCONTROLS 27
 #define THRESH 0.5
-#define FPRECISION 4000000.0
-#define PROJNEAR 0.05
-#define FUDGE 32.0
 #define SNAPRANGE 100.0
 
 const vec4 waterColor = vec4(0.3, 0.63, 0.7, 0.5);
 const float radius = 15.;
+const float opacity = .04;
 
 vec3 worldpos(float depth) {
     float z = depth * 2.0 - 1.0;
@@ -93,34 +91,33 @@ vec3 getNormal() {
 }
 
 void main() {
-	float intensity = 0.5;
-	vec2 displacement = vec2(0.0, 0.0);
-	float loop_time = 1.6;
-	float ripple_width_inverse = 40.0;
-	float limits = PI / ripple_width_inverse;
-	int num_ripples = 10;
-	float scale = 0.5;
-	float strength_control = 5.0 + (float(num_ripples) - 5.0) * intensity;
-	
 	float depth = texture2D(depthTex, texCoord).r;
-    vec3 wpos = worldpos(depth);
+    vec3 wpos = floor(worldpos(depth) * 16) / 16;
+	vec2 displacement = vec2(0.0, 0.0);
+	float loop_time = 2.6;
+	float ripple_width_inverse = 20. + rand(vec2(texCoord) * time) * 20.;
+	float limits = PI / ripple_width_inverse;
+	int num_ripples = 6;
+	float strength_control =(float(num_ripples) - 5.0);
     
-	vec2 screen_window_ripple = (wpos.xz  * 2 - 1) / scale;
+	vec2 screen_window_ripple = (wpos.xz  * 2 - 1);
 	
 	for (float i = 0.0; i < float(num_ripples); ++i) {
+		float intensity = 0.2 + 0.3 * rand(vec2(i, 7.714673));
+		float scale = 0.5 + 0.3 * rand(vec2(i, 49.4949));
 	    vec2 origin = vec2(919.,154.) * i;
 	    float min_mirror_size = 2.0 * loop_time;
 	    float mirror_size = (1.0 + rand(vec2(i * 0.2, i * 0.17))) * min_mirror_size;
 	    float mirror_correction = mirror_size / 2.0;
 	    vec2 corr = origin - mirror_correction;
-	    vec2 mirrored_window = mod(screen_window_ripple - corr, mirror_size) + corr;
-	    vec2 cell_num = floor((screen_window_ripple - corr) / mirror_size);
+	    vec2 mirrored_window = mod(screen_window_ripple / scale - corr, mirror_size) + corr;
+	    vec2 cell_num = floor((screen_window_ripple / scale - corr) / mirror_size);
 	    vec2 dist = mirrored_window - origin;
 	    float time_offset = i * 0.12 + 23.0 * rand(cell_num);
 	    float t = length(dist) - mod(time_offset + time, loop_time);
 	    float t_one_period = clamp(t, -limits, limits);
 	    vec2 amplitude = dist / (Square(dot(dist, dist)) + 1e-3);
-	    amplitude *= max(0.0, min(0.2 * (strength_control -  i + 1.0), 1.0));
+	    amplitude *= max(0.0, min(0.2 * (strength_control * intensity - i + 6.0), 1.0));
 	    displacement += amplitude * sin(ripple_width_inverse * t_one_period);
 	}
 	vec3 up = vec3(0., 1., 0.);
@@ -133,5 +130,5 @@ void main() {
         diffuse = clamp(NdotL * vec4(1), 0, 1);
     }
 	
-	gl_FragColor = diffuse * waterColor * (radius - distance(wpos, pos));
+	gl_FragColor = diffuse * waterColor * (radius - distance(wpos, pos)) * opacity;
 }
