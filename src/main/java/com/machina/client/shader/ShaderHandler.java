@@ -13,6 +13,7 @@ public class ShaderHandler {
 
 	//@formatter:off
 	public static final MachinaShader SCANNER = create("scanner", "invViewMat", "invProjMat", "pos", "center", "radius", "target");
+	public static final MachinaShader RAINDROP = create("raindrop", "invViewMat", "invProjMat", "pos", "screen");
 	//@formatter:on
 
 	public static void setup() {

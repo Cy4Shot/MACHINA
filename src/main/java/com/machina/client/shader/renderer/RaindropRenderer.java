@@ -18,13 +18,13 @@ import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.client.shader.FramebufferConstants;
 import net.minecraft.client.util.JSONBlendingMode;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-// https://github.com/MightyPirates/Scannable/blob/1.16-forge/src/main/java/li/cil/scannable/client/renderer/ScannerRenderer.java
 @OnlyIn(Dist.CLIENT)
-public enum ScannerRenderer {
+public enum RaindropRenderer {
 	INSTANCE;
 
 	private int depthCopyFbo;
@@ -33,93 +33,42 @@ public enum ScannerRenderer {
 
 	private static final JSONBlendingMode RESET_BLEND_STATE = new JSONBlendingMode();
 
-	private long currentStart;
-
-	public void ping(final Vector3d pos) {
-		currentStart = System.currentTimeMillis();
-		ShaderHandler.SCANNER.setUniform("center", pos);
-	}
-
 	public static void render(final MatrixStack matrixStack, final Matrix4f projectionMatrix) {
 		INSTANCE.doRender(matrixStack, projectionMatrix);
 	}
 
-	@SuppressWarnings("resource")
-	private static float computeTargetRadius() {
-		return Minecraft.getInstance().gameRenderer.getRenderDistance();
-	}
-
-	public static final int SCAN_INITIAL_RADIUS = 10;
-	public static final int SCAN_TIME_OFFSET = 200;
-	public static final int SCAN_GROWTH_DURATION = 2000;
-	public static final int REFERENCE_RENDER_DISTANCE = 12;
-
-	public static float computeRadius(final long start, final float duration) {
-
-		final float r1 = computeTargetRadius();
-		final float t1 = duration;
-		final float b = SCAN_TIME_OFFSET;
-		final float n = 1f / ((t1 + b) * (t1 + b) - b * b);
-		final float a = -r1 * b * b * n;
-		final float c = r1 * n;
-
-		final float t = (float) (System.currentTimeMillis() - start);
-
-		return SCAN_INITIAL_RADIUS + a + (t + b) * (t + b) * c;
-	}
-
-	@SuppressWarnings("resource")
-	public static int computeScanGrowthDuration() {
-		return SCAN_GROWTH_DURATION * Minecraft.getInstance().options.renderDistance / REFERENCE_RENDER_DISTANCE;
-	}
-
-	public void doRender(final MatrixStack matrixStack, final Matrix4f projectionMatrix) {
-		final int adjustedDuration = computeScanGrowthDuration();
-		final boolean shouldRender = currentStart > 0
-				&& adjustedDuration > (int) (System.currentTimeMillis() - currentStart);
-		if (shouldRender) {
-			if (depthCopyFbo == 0) {
-				createDepthCopyFramebuffer();
-			}
-
-			render(matrixStack.last().pose(), projectionMatrix);
-			
-			deleteDepthCopyFramebuffer();
-		} else {
-			if (depthCopyFbo != 0) {
-				deleteDepthCopyFramebuffer();
-			}
-
-			currentStart = 0;
+	public void doRender(final MatrixStack matrixStack, final Matrix4f projectionMatrix) {		
+		if (depthCopyFbo == 0) {
+			createDepthCopyFramebuffer();
 		}
+
+		render(matrixStack.last().pose(), projectionMatrix);
+		
+		deleteDepthCopyFramebuffer();
 	}
 
 	private void render(final Matrix4f viewMatrix, final Matrix4f projectionMatrix) {
 		final Minecraft mc = Minecraft.getInstance();
 		final Framebuffer framebuffer = mc.getMainRenderTarget();
-
 		updateDepthTexture(framebuffer);
 
 		final Matrix4f invertedViewMatrix = new Matrix4f(viewMatrix);
 		invertedViewMatrix.invert();
-		ShaderHandler.SCANNER.setUniform("invViewMat", invertedViewMatrix);
+		ShaderHandler.RAINDROP.setUniform("invViewMat", invertedViewMatrix);
 
 		final Matrix4f invertedProjectionMatrix = new Matrix4f(projectionMatrix);
 		invertedProjectionMatrix.invert();
-		ShaderHandler.SCANNER.setUniform("invProjMat", invertedProjectionMatrix);
+		ShaderHandler.RAINDROP.setUniform("invProjMat", invertedProjectionMatrix);
+		
+		ShaderHandler.RAINDROP.setUniform("screen", new Vector2f(mc.getWindow().getWidth(), mc.getWindow().getHeight()));
 
 		final Vector3d position = mc.gameRenderer.getMainCamera().getPosition();
-		ShaderHandler.SCANNER.setUniform("pos", position);
-
-		final int adjustedDuration = computeScanGrowthDuration();
-		final float radius = computeRadius(currentStart, (float) adjustedDuration);
-		ShaderHandler.SCANNER.setUniform("radius", radius);
-		ShaderHandler.SCANNER.setUniform("target", computeTargetRadius());
-
+		ShaderHandler.RAINDROP.setUniform("pos", position);
+		
 		RESET_BLEND_STATE.apply();
-		ShaderHandler.SCANNER.bind();
+		ShaderHandler.RAINDROP.bind();
 		blit(framebuffer);
-		ShaderHandler.SCANNER.unbind();
+		ShaderHandler.RAINDROP.unbind();
 	}
 
 	private void updateDepthTexture(final Framebuffer framebuffer) {
@@ -147,11 +96,11 @@ public enum ScannerRenderer {
 				FramebufferConstants.GL_DEPTH_ATTACHMENT, GL11.GL_TEXTURE_2D, depthCopyDepthBuffer, 0);
 		GlStateManager._glBindFramebuffer(FramebufferConstants.GL_FRAMEBUFFER, 0);
 
-		ShaderHandler.SCANNER.setSampler("depthTex", depthCopyDepthBuffer);
+		ShaderHandler.RAINDROP.setSampler("depthTex", depthCopyDepthBuffer);
 	}
-
+	
 	private void deleteDepthCopyFramebuffer() {
-		ShaderHandler.SCANNER.setSampler("depthTex", 0);
+		ShaderHandler.RAINDROP.setSampler("depthTex", 0);
 
 		GlStateManager._glDeleteFramebuffers(depthCopyFbo);
 		depthCopyFbo = 0;

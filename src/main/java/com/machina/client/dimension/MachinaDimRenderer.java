@@ -10,6 +10,7 @@ import com.machina.util.text.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -22,9 +23,12 @@ import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.client.world.DimensionRenderInfo;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.biome.ParticleEffectAmbience;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ICloudRenderHandler;
@@ -154,7 +158,7 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			QuadBufferRenderer.render(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
 			matrixStack.pushPose();
 			matrixStack.last().pose().multiply(new Quaternion(0, -time * 4, 0, false));
-			
+
 			createStars();
 			RenderSystem.depthMask(true);
 			RenderSystem.disableTexture();
@@ -167,12 +171,11 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			RenderSystem.disableBlend();
 			RenderSystem.enableTexture();
 			RenderSystem.depthMask(false);
-			
+
 			tm.bind(FOG);
 			QuadBufferRenderer.render(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed,
 					FogRenderer.fogGreen, FogRenderer.fogBlue, 1f);
 			matrixStack.popPose();
-			
 
 			RenderSystem.depthMask(true);
 			RenderSystem.disableTexture();
@@ -199,7 +202,30 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 
 		@Override
 		public void render(int ticks, ClientWorld world, Minecraft mc, ActiveRenderInfo activeRenderInfoIn) {
+			ParticleEffectAmbience particle = new ParticleEffectAmbience(ParticleTypes.BUBBLE_POP, 0.5f);
+			BlockPos p = activeRenderInfoIn.getBlockPosition();
+			Random random = new Random();
+			BlockPos.Mutable mut = new BlockPos.Mutable();
+			for (int j = 0; j < 667; ++j) {
+				this.spawnWeatherParticle(p.getX(), p.getY(), p.getZ(), 16, random, mut, world, particle);
+				this.spawnWeatherParticle(p.getX(), p.getY(), p.getZ(), 32, random, mut, world, particle);
+			}
+		}
 
+		public void spawnWeatherParticle(int x, int y, int z, int range, Random rand, BlockPos.Mutable p,
+				ClientWorld level, ParticleEffectAmbience particle) {
+			int i = x + rand.nextInt(range) - rand.nextInt(range);
+			int j = y + rand.nextInt(range) - rand.nextInt(range);
+			int k = z + rand.nextInt(range) - rand.nextInt(range);
+			p.set(i, j, k);
+			BlockState blockstate = level.getBlockState(p);
+			if (!blockstate.isCollisionShapeFullBlock(level, p) && particle.canSpawn(rand)) {
+				if (particle.canSpawn(rand)) {
+					level.addParticle(particle.getOptions(), (double) p.getX() + rand.nextDouble(),
+							(double) p.getY() + rand.nextDouble(), (double) p.getZ() + rand.nextDouble(), 0.0D, 0.0D,
+							0.0D);
+				}
+			}
 		}
 	}
 }

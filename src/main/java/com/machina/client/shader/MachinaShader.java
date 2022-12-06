@@ -13,6 +13,7 @@ import net.minecraft.client.shader.ShaderDefault;
 import net.minecraft.client.shader.ShaderInstance;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 
 public class MachinaShader {
@@ -38,6 +39,10 @@ public class MachinaShader {
 
 	public void setUniform(final String name, final Vector3d value) {
 		defaults.get(name).set((float) value.x(), (float) value.y(), (float) value.z());
+	}
+	
+	public void setUniform(final String name, final Vector2f value) {
+		defaults.get(name).set(value.x, value.y);
 	}
 
 	public void setUniform(final String name, final float value) {

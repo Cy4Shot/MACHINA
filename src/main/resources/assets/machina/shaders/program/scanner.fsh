@@ -20,7 +20,7 @@ const vec4 innerColor = vec4(0.0, 1.0, 1.0, 1.0);
 const vec4 scanlineColor = vec4(0.6, 1.0, 0.2, 1.0);
 
 float scanlines() {
-    return sin(gl_FragCoord.y)*0.5+0.5;
+    return sin(gl_FragCoord.y) * 0.5 + 0.5;
 }
 
 vec3 worldpos(float depth) {

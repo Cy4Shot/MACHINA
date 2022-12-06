@@ -24,5 +24,4 @@ public class ScannerContainer extends Container {
 	public RegistryKey<World> getDim() {
 		return dim;
 	}
-
 }

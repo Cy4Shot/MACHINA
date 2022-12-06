@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.machina.client.shader.renderer.RaindropRenderer;
 import com.machina.client.shader.renderer.ScannerRenderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -21,6 +22,7 @@ public class ClientWorldRendererMixin {
 	public void renderLevel(MatrixStack pMatrixStack, float pPartialTicks, long pFinishTimeNano,
 			boolean pDrawBlockOutline, ActiveRenderInfo pActiveRenderInfo, GameRenderer pGameRenderer,
 			LightTexture pLightmap, Matrix4f pProjection, CallbackInfo ci) {
+		RaindropRenderer.render(pMatrixStack, pProjection);
 		ScannerRenderer.render(pMatrixStack, pProjection);
 	}
 }
