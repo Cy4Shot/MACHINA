@@ -4,11 +4,16 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
 
+import com.machina.client.ClientStarchart;
 import com.machina.client.shader.ShaderHandler;
+import com.machina.registration.init.AttributeInit;
+import com.machina.util.Color;
+import com.machina.util.server.PlanetHelper;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -19,7 +24,8 @@ import net.minecraft.client.shader.FramebufferConstants;
 import net.minecraft.client.util.JSONBlendingMode;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.math.vector.Vector4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -37,14 +43,19 @@ public enum RaindropRenderer {
 		INSTANCE.doRender(matrixStack, projectionMatrix);
 	}
 
-	public void doRender(final MatrixStack matrixStack, final Matrix4f projectionMatrix) {		
-		if (depthCopyFbo == 0) {
-			createDepthCopyFramebuffer();
-		}
+	@SuppressWarnings("resource")
+	public void doRender(final MatrixStack matrixStack, final Matrix4f projectionMatrix) {
+		if (PlanetHelper.isDimensionPlanet(Minecraft.getInstance().level.dimension())) {
+			if (depthCopyFbo == 0) {
+				createDepthCopyFramebuffer();
+			}
 
-		render(matrixStack.last().pose(), projectionMatrix);
-		
-		deleteDepthCopyFramebuffer();
+			render(matrixStack.last().pose(), projectionMatrix);
+
+			deleteDepthCopyFramebuffer();
+		} else if (depthCopyFbo != 0) {
+			deleteDepthCopyFramebuffer();
+		}
 	}
 
 	private void render(final Matrix4f viewMatrix, final Matrix4f projectionMatrix) {
@@ -59,12 +70,14 @@ public enum RaindropRenderer {
 		final Matrix4f invertedProjectionMatrix = new Matrix4f(projectionMatrix);
 		invertedProjectionMatrix.invert();
 		ShaderHandler.RAINDROP.setUniform("invProjMat", invertedProjectionMatrix);
-		
-		ShaderHandler.RAINDROP.setUniform("screen", new Vector2f(mc.getWindow().getWidth(), mc.getWindow().getHeight()));
 
-		final Vector3d position = mc.gameRenderer.getMainCamera().getPosition();
-		ShaderHandler.RAINDROP.setUniform("pos", position);
-		
+		MainWindow w = mc.getWindow();
+		ShaderHandler.RAINDROP.setUniform("screen", new Vector2f(w.getWidth(), w.getHeight()));
+		ShaderHandler.RAINDROP.setUniform("pos", new Vector3f(mc.gameRenderer.getMainCamera().getPosition()));
+
+		Color c = ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.PALETTE)[3];
+		ShaderHandler.RAINDROP.setUniform("col", new Vector4f(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, 0.5f));
+
 		RESET_BLEND_STATE.apply();
 		ShaderHandler.RAINDROP.bind();
 		blit(framebuffer);
@@ -98,7 +111,7 @@ public enum RaindropRenderer {
 
 		ShaderHandler.RAINDROP.setSampler("depthTex", depthCopyDepthBuffer);
 	}
-	
+
 	private void deleteDepthCopyFramebuffer() {
 		ShaderHandler.RAINDROP.setSampler("depthTex", 0);
 

@@ -14,7 +14,8 @@ import net.minecraft.client.shader.ShaderInstance;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.math.vector.Vector4f;
 
 public class MachinaShader {
 
@@ -36,9 +37,13 @@ public class MachinaShader {
 	public void setUniform(final String name, final Matrix4f value) {
 		defaults.get(name).set(value);
 	}
+	
+	public void setUniform(final String name, final Vector4f value) {
+		defaults.get(name).set(value.x(), value.y(), value.z(), value.w());
+	}
 
-	public void setUniform(final String name, final Vector3d value) {
-		defaults.get(name).set((float) value.x(), (float) value.y(), (float) value.z());
+	public void setUniform(final String name, final Vector3f value) {
+		defaults.get(name).set(value.x(), value.y(), value.z());
 	}
 	
 	public void setUniform(final String name, final Vector2f value) {

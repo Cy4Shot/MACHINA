@@ -22,6 +22,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
@@ -36,7 +37,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		ticks = 0;
 
 		// Ping effect :D
-		ScannerRenderer.INSTANCE.ping(Minecraft.getInstance().player.position());
+		ScannerRenderer.INSTANCE.ping(new Vector3f(Minecraft.getInstance().player.position()));
 	}
 
 	@Override

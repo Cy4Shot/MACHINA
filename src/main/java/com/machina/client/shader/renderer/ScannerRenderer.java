@@ -18,7 +18,7 @@ import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.client.shader.FramebufferConstants;
 import net.minecraft.client.util.JSONBlendingMode;
 import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -35,7 +35,7 @@ public enum ScannerRenderer {
 
 	private long currentStart;
 
-	public void ping(final Vector3d pos) {
+	public void ping(final Vector3f pos) {
 		currentStart = System.currentTimeMillis();
 		ShaderHandler.SCANNER.setUniform("center", pos);
 	}
@@ -108,7 +108,7 @@ public enum ScannerRenderer {
 		invertedProjectionMatrix.invert();
 		ShaderHandler.SCANNER.setUniform("invProjMat", invertedProjectionMatrix);
 
-		final Vector3d position = mc.gameRenderer.getMainCamera().getPosition();
+		final Vector3f position = new Vector3f(mc.gameRenderer.getMainCamera().getPosition());
 		ShaderHandler.SCANNER.setUniform("pos", position);
 
 		final int adjustedDuration = computeScanGrowthDuration();

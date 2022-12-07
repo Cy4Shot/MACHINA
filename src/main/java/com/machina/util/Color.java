@@ -594,6 +594,22 @@ public class Color {
 	}
 
 	/**
+	 * Creates a new {@code Color} that has a different brightness to {@code Color}.
+	 * <p>
+	 * This method applies an arbitrary scale factor to each of the three RGB
+	 * components of this {@code Color} to create a different version of this
+	 * {@code Color}. The {@code alpha} value is preserved. 
+	 * 
+	 * @return a new {@code Color} object that has a different brightness to
+	 *         {@code Color} with the same {@code alpha} value.
+	 * @since MACHINA!
+	 */
+	public Color scale(float fac) {
+		return new Color(Math.max((int) (getRed() * fac), 0), Math.max((int) (getGreen() * fac), 0),
+				Math.max((int) (getBlue() * fac), 0), getAlpha());
+	}
+
+	/**
 	 * Computes the hash code for this {@code Color}.
 	 * 
 	 * @return a hash code value for this object.

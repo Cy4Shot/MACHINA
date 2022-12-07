@@ -8,6 +8,7 @@ uniform vec3 pos;
 uniform vec2 screen;
 uniform float time;
 uniform sampler2D depthTex;
+uniform vec4 col;
 
 varying vec2 texCoord;
 varying vec2 oneTexel;
@@ -17,9 +18,9 @@ varying vec2 oneTexel;
 #define THRESH 0.5
 #define SNAPRANGE 100.0
 
-const vec4 waterColor = vec4(0.3, 0.63, 0.7, 0.5);
 const float radius = 15.;
 const float opacity = .04;
+const int num_ripples = 2;
 
 vec3 worldpos(float depth) {
     float z = depth * 2.0 - 1.0;
@@ -100,7 +101,6 @@ void main() {
 	float loop_time = 1.6;
 	float ripple_width_inverse = 20. + rand(vec2(texCoord) * time) * 20.;
 	float limits = PI / ripple_width_inverse;
-	int num_ripples = 6;
 	float strength_control =(float(num_ripples) - 5.0);
     
 	vec2 screen_window_ripple = (wpos.xz  * 2 - 1);
@@ -108,7 +108,7 @@ void main() {
 	for (float i = 0.0; i < float(num_ripples); ++i) {
 		float intensity = 0.2 + 0.3 * rand(vec2(i, 7.714673));
 		float scale = 0.5 + 0.3 * rand(vec2(i, 49.4949));
-	    vec2 origin = vec2(919.,154.) * i;
+	    vec2 origin = vec2(rand(vec2(919.,154.)), rand(vec2(490.,690.))) * i;
 	    float min_mirror_size = 2.0 * loop_time;
 	    float mirror_size = (1.0 + rand(vec2(i * 0.2, i * 0.17))) * min_mirror_size;
 	    float mirror_correction = mirror_size / 2.0;
@@ -126,12 +126,12 @@ void main() {
 	vec3 up = vec3(0., 1., 0.);
 	vec3 normal = normalize((invViewMat * vec4(getNormal(), 0.0)).xyz);
 	vec2 ripple = displacement * dot(vec3(displacement, 1.0), up);
-	vec3 col = vec3(clamp(ripple.x, 0., 1.), clamp(ripple.y, 0., 1.), 1.0) * clamp(1 - up.y + normal.y, 0., 1.);
-    float NdotL = max(dot(col, vec3(0, 1, 0)), 0.0);
+	vec3 colgen = vec3(clamp(ripple.x, 0., 1.), clamp(ripple.y, 0., 1.), 1.0) * clamp(1 - up.y + normal.y, 0., 1.);
+    float NdotL = max(dot(colgen, vec3(0, 1, 0)), 0.0);
     vec4 diffuse = vec4(0);
     if(NdotL > 0) {
         diffuse = clamp(NdotL * vec4(1), 0, 1);
     }
 	
-	gl_FragColor = diffuse * waterColor * (radius - distance(wpos, pos)) * opacity;
+	gl_FragColor = diffuse * col * (radius - distance(wpos, pos)) * opacity;
 }

@@ -17,6 +17,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
@@ -59,7 +60,7 @@ public class ClientForgeEvents {
 		}
 		
 		if (KeyBindingsInit.isKeyPressed(KeyBindingsInit.SCAN)) {
-			ScannerRenderer.INSTANCE.ping(mc.player.position());
+			ScannerRenderer.INSTANCE.ping(new Vector3f(mc.player.position()));
 		}
 
 		// Ugly hack so that music plays!

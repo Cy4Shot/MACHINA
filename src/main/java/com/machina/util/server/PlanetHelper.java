@@ -16,6 +16,8 @@ import net.minecraft.world.World;
 public class PlanetHelper {
 
 	public static boolean isDimensionPlanet(RegistryKey<World> dim) {
+		if (dim == null)
+			return false;
 		return dim.location().getNamespace().equals(Machina.MOD_ID);
 	}
 
@@ -26,7 +28,7 @@ public class PlanetHelper {
 	public static int getIdDim(RegistryKey<Dimension> dim) {
 		return Integer.valueOf(dim.location().getPath());
 	}
-	
+
 	public static RegistryKey<Dimension> getDim(int id) {
 		return RegistryKey.create(Registry.LEVEL_STEM_REGISTRY, new MachinaRL(id));
 	}

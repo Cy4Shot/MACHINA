@@ -202,7 +202,7 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 
 		@Override
 		public void render(int ticks, ClientWorld world, Minecraft mc, ActiveRenderInfo activeRenderInfoIn) {
-			ParticleEffectAmbience particle = new ParticleEffectAmbience(ParticleTypes.BUBBLE_POP, 0.5f);
+			ParticleEffectAmbience particle = new ParticleEffectAmbience(ParticleTypes.DRAGON_BREATH, 0.5f);
 			BlockPos p = activeRenderInfoIn.getBlockPosition();
 			Random random = new Random();
 			BlockPos.Mutable mut = new BlockPos.Mutable();
@@ -222,7 +222,7 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			if (!blockstate.isCollisionShapeFullBlock(level, p) && particle.canSpawn(rand)) {
 				if (particle.canSpawn(rand)) {
 					level.addParticle(particle.getOptions(), (double) p.getX() + rand.nextDouble(),
-							(double) p.getY() + rand.nextDouble(), (double) p.getZ() + rand.nextDouble(), 0.0D, 0.0D,
+							(double) p.getY() + rand.nextDouble(), (double) p.getZ() + rand.nextDouble(), 0.0D, -0.1D,
 							0.0D);
 				}
 			}
