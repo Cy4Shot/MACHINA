@@ -76,7 +76,7 @@ public enum RaindropRenderer {
 		ShaderHandler.RAINDROP.setUniform("pos", new Vector3f(mc.gameRenderer.getMainCamera().getPosition()));
 
 		Color c = ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.PALETTE)[3];
-		ShaderHandler.RAINDROP.setUniform("col", new Vector4f(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, 0.5f));
+		ShaderHandler.RAINDROP.setUniform("col", new Vector4f(c.r(), c.g(), c.b(), 0.5f));
 
 		RESET_BLEND_STATE.apply();
 		ShaderHandler.RAINDROP.bind();

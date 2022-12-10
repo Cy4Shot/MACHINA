@@ -133,5 +133,5 @@ void main() {
         diffuse = clamp(NdotL * vec4(1), 0, 1);
     }
 	
-	gl_FragColor = diffuse * col * (radius - distance(wpos, pos)) * opacity;
+	gl_FragColor = diffuse * col * (radius - distance(wpos.xz, pos.xz)) * opacity;
 }

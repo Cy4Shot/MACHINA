@@ -598,7 +598,7 @@ public class Color {
 	 * <p>
 	 * This method applies an arbitrary scale factor to each of the three RGB
 	 * components of this {@code Color} to create a different version of this
-	 * {@code Color}. The {@code alpha} value is preserved. 
+	 * {@code Color}. The {@code alpha} value is preserved.
 	 * 
 	 * @return a new {@code Color} object that has a different brightness to
 	 *         {@code Color} with the same {@code alpha} value.
@@ -1120,5 +1120,38 @@ public class Color {
 		b = b & 0x000000FF;
 
 		return a | r | g | b;
+	}
+	
+	
+	/**
+	 * Returns a {@code float} containing the red value of the color (0-255)
+	 * @return The red component of the color, {@code float}.
+	 */
+	public float r() {
+		return ((float) getRed()) / 255f;
+	}
+	
+	/**
+	 * Returns a {@code float} containing the green value of the color (0-255)
+	 * @return The green component of the color, {@code float}.
+	 */
+	public float g() {
+		return ((float) getGreen()) / 255f;
+	}
+	
+	/**
+	 * Returns a {@code float} containing the blue value of the color (0-255)
+	 * @return The blue component of the color, {@code float}.
+	 */
+	public float b() {
+		return ((float) getBlue()) / 255f;
+	}
+	
+	/**
+	 * Returns a {@code float} containing the alpha value of the color (0-255)
+	 * @return The alpha component of the color, {@code float}.
+	 */
+	public float a() {
+		return ((float) getAlpha()) / 255f;
 	}
 }
