@@ -85,12 +85,13 @@ vec3 getNormal() {
         p5 = p5 - fragpos;
         vec3 normal = normalize(cross(p2, p3)) + normalize(cross(-p4, p3)) + normalize(cross(p2, -p5)) + normalize(cross(-p4, -p5));
         normal = normal == vec3(0.0) ? vec3(0.0, 1.0, 0.0) : normalize(-normal);
-        normal = normal.x >  (1.0 - 0.05 * clamp(length(fragpos) / SNAPRANGE, 0.0, 1.0)) ? vec3(1.0, 0.0, 0.0) : normal;
-        normal = normal.x < -(1.0 - 0.05 * clamp(length(fragpos) / SNAPRANGE, 0.0, 1.0)) ? vec3(-1.0, 0.0, 0.0) : normal;
-        normal = normal.y >  (1.0 - 0.05 * clamp(length(fragpos) / SNAPRANGE, 0.0, 1.0)) ? vec3(0.0, 1.0, 0.0) : normal;
-        normal = normal.y < -(1.0 - 0.05 * clamp(length(fragpos) / SNAPRANGE, 0.0, 1.0)) ? vec3(0.0, -1.0, 0.0) : normal;
-        normal = normal.z >  (1.0 - 0.05 * clamp(length(fragpos) / SNAPRANGE, 0.0, 1.0)) ? vec3(0.0, 0.0, 1.0) : normal;
-        normal = normal.z < -(1.0 - 0.05 * clamp(length(fragpos) / SNAPRANGE, 0.0, 1.0)) ? vec3(0.0, 0.0, -1.0) : normal;
+        float bonk = 1.0 - 0.05 * clamp(length(fragpos) / SNAPRANGE, 0.0, 1.0);
+        normal = normal.x >  bonk ? vec3(1.0, 0.0, 0.0) : normal;
+        normal = normal.x < -bonk ? vec3(-1.0, 0.0, 0.0) : normal;
+        normal = normal.y >  bonk ? vec3(0.0, 1.0, 0.0) : normal;
+        normal = normal.y < -bonk ? vec3(0.0, -1.0, 0.0) : normal;
+        normal = normal.z >  bonk ? vec3(0.0, 0.0, 1.0) : normal;
+        normal = normal.z < -bonk ? vec3(0.0, 0.0, -1.0) : normal;
         return normal;
 }
 

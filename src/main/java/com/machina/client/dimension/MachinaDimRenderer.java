@@ -17,6 +17,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.FogRenderer;
@@ -39,7 +40,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockDisplayReader;
@@ -323,6 +323,15 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			lm.turnOffLightLayer();
 		}
 
+		private ParticleStatus stat(Minecraft mc) {
+			ParticleStatus particlestatus = mc.options.particles;
+			if (particlestatus == ParticleStatus.DECREASED && mc.level.random.nextInt(3) == 0) {
+				particlestatus = ParticleStatus.MINIMAL;
+			}
+
+			return particlestatus;
+		}
+
 		public void tickRain(ClientWorld world, Minecraft mc, ActiveRenderInfo c) {
 			float f = 1 / (Minecraft.useFancyGraphics() ? 1.0F : 2.0F);
 			Random random = new Random((long) mc.levelRenderer.ticks * 312987231L);
@@ -346,14 +355,20 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 					double d1 = random.nextDouble();
 					BlockState blockstate = world.getBlockState(blockpos2);
 					FluidState fluidstate = world.getFluidState(blockpos2);
-					VoxelShape voxelshape = blockstate.getCollisionShape(world, blockpos2);
-					double d2 = voxelshape.max(Direction.Axis.Y, d0, d1);
-					double d3 = (double) fluidstate.getHeight(world, blockpos2);
-					double d4 = Math.max(d2, d3);
+					double pX = (double) blockpos2.getX() + d0;
+					double pY = (double) blockpos2.getY()
+							+ Math.max(blockstate.getCollisionShape(world, blockpos2).max(Direction.Axis.Y, d0, d1),
+									(double) fluidstate.getHeight(world, blockpos2));
+					double pZ = (double) blockpos2.getZ() + d1;
+
 					IParticleData iparticledata = !fluidstate.is(FluidTags.LAVA) && !blockstate.is(Blocks.MAGMA_BLOCK)
 							&& !CampfireBlock.isLitCampfire(blockstate) ? ParticleTypes.RAIN : ParticleTypes.SMOKE;
-					world.addParticle(iparticledata, (double) blockpos2.getX() + d0, (double) blockpos2.getY() + d4,
-							(double) blockpos2.getZ() + d1, 0.0D, 0.0D, 0.0D);
+					if (c.getPosition().distanceToSqr(pX, pY, pZ) <= 1024.0D && stat(mc) != ParticleStatus.MINIMAL) {
+						Particle o = mc.particleEngine.createParticle(iparticledata, pX, pY, pZ, 0D, 0D, 0D);
+						Color col = ClientStarchart.getPlanetData(world.dimension())
+								.getAttribute(AttributeInit.PALETTE)[3];
+						o.setColor(col.r(), col.g(), col.b());
+					}
 				}
 			}
 
@@ -380,7 +395,8 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			RenderSystem.depthMask(true);
 			RenderSystem.popMatrix();
 
-//			this.tickRain(world, mc, mc.gameRenderer.getMainCamera());
+			if (!mc.isPaused())
+				this.tickRain(world, mc, mc.gameRenderer.getMainCamera());
 		}
 
 		public static int getLightColor(IBlockDisplayReader pLightReader, BlockPos pBlockPos) {
@@ -406,26 +422,6 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 
 		@Override
 		public void render(int ticks, ClientWorld world, Minecraft mc, ActiveRenderInfo activeRenderInfoIn) {
-
-//			BlockPos p = activeRenderInfoIn.getBlockPosition();
-//			Random random = new Random();
-//			BlockPos.Mutable mut = new BlockPos.Mutable();
-//			for (int j = 0; j < 667; ++j) {
-//				this.spawnWeatherParticle(p.getX(), p.getY(), p.getZ(), 16, random, mut, world, 0.5f);
-//				this.spawnWeatherParticle(p.getX(), p.getY(), p.getZ(), 32, random, mut, world, 0.5f);
-//			}
-		}
-
-		public void spawnWeatherParticle(int x, int y, int z, int range, Random rand, BlockPos.Mutable p,
-				ClientWorld level, float chance) {
-			p.set(x + rand.nextInt(range) - rand.nextInt(range), y + rand.nextInt(range) - rand.nextInt(range),
-					z + rand.nextInt(range) - rand.nextInt(range));
-			BlockState blockstate = level.getBlockState(p);
-			if (!blockstate.isCollisionShapeFullBlock(level, p) && rand.nextFloat() < chance) {
-				level.addParticle(ParticleTypes.RAIN, (double) p.getX() + rand.nextDouble(),
-						(double) p.getY() + rand.nextDouble(), (double) p.getZ() + rand.nextDouble(), 0.0D, -0.1D,
-						0.0D);
-			}
 		}
 	}
 }
