@@ -7,6 +7,7 @@ import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.shader.renderer.ScannerRenderer;
 import com.machina.client.util.UIHelper;
 import com.machina.item.container.ScannerContainer;
+import com.machina.planet.PlanetData;
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.AttributeInit;
@@ -15,7 +16,6 @@ import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.util.Color;
 import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.StringUtils;
-import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

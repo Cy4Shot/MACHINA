@@ -27,6 +27,7 @@ import com.machina.client.ter.TankRenderer;
 import com.machina.client.util.ClientTimer;
 import com.machina.item.ShipComponentItem;
 import com.machina.item.TintedItem;
+import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
@@ -36,7 +37,6 @@ import com.machina.registration.init.TileEntityInit;
 import com.machina.util.Color;
 import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.MachinaRL;
-import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;

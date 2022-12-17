@@ -2,9 +2,9 @@ package com.machina.item;
 
 import com.machina.block.tile.TintedTileEntity;
 import com.machina.client.ClientStarchart;
+import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.text.StringUtils;
-import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.Block;

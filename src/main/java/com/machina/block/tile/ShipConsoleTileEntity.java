@@ -13,6 +13,7 @@ import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CLaunchShip;
+import com.machina.planet.PlanetData;
 import com.machina.recipe.ShipConsoleRecipe;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.RecipeInit;
@@ -21,7 +22,6 @@ import com.machina.registration.init.TileEntityInit;
 import com.machina.util.math.DirectionUtil;
 import com.machina.util.server.ServerHelper;
 import com.machina.util.text.MachinaRL;
-import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.BlockState;

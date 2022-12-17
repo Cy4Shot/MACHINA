@@ -17,6 +17,7 @@ import com.machina.network.c2s.C2SSpawnParticle;
 import com.machina.network.c2s.C2SUpdateEnergySide;
 import com.machina.network.s2c.S2CFluidSync;
 import com.machina.network.s2c.S2CLaunchShip;
+import com.machina.network.s2c.S2CResearchSync;
 import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.util.text.MachinaRL;
 
@@ -33,6 +34,7 @@ public class MachinaNetwork extends BaseNetwork {
 	public static void init() {
 		// Server -> Client
 		registerServerToClient(S2CStarchartSync.class, S2CStarchartSync::decode);
+		registerServerToClient(S2CResearchSync.class, S2CResearchSync::decode);
 		registerServerToClient(S2CFluidSync.class, S2CFluidSync::decode);
 		registerServerToClient(S2CLaunchShip.class, S2CLaunchShip::decode);
 

@@ -3,15 +3,17 @@ package com.machina.events;
 import com.machina.Machina;
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.DevScreen;
+import com.machina.client.screen.ResearchScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.client.screen.VLCWarningScreen;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.shader.renderer.ScannerRenderer;
+import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.util.Color;
 import com.machina.util.server.PlanetHelper;
-import com.machina.world.data.PlanetData;
+import com.machina.util.text.StringUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MainMenuScreen;
@@ -61,6 +63,7 @@ public class ClientForgeEvents {
 		
 		if (KeyBindingsInit.isKeyPressed(KeyBindingsInit.SCAN)) {
 			ScannerRenderer.INSTANCE.ping(new Vector3f(mc.player.position()));
+			mc.setScreen(new ResearchScreen(StringUtils.EMPTY));
 		}
 
 		// Ugly hack so that music plays!

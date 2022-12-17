@@ -2,9 +2,11 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.registration.Registration;
+import com.machina.world.data.ResearchData;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -24,7 +26,10 @@ public class CommonForgeEvents {
 	public static void onPlayerLogin(final PlayerLoggedInEvent e) {
 		if (e.getEntity().level.isClientSide())
 			return;
-		StarchartData.getDefaultInstance(e.getEntity().getServer()).syncClient((ServerPlayerEntity) e.getPlayer());
+		MinecraftServer server = e.getEntity().getServer();
+		ServerPlayerEntity player = (ServerPlayerEntity) e.getPlayer();
+		StarchartData.getDefaultInstance(server).syncClient(player);
+		ResearchData.getDefaultInstance(server).syncClient(player);
 	}
 
 	// Debug Event.

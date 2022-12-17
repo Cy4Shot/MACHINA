@@ -248,10 +248,11 @@ public class UIHelper {
 			float tex) {
 		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / tex, (uOff + w) / tex, vOff / tex, (vOff + h) / tex);
 	}
-	
+
 	public static void betterBlit(MatrixStack ms, float x, float y, float uOff, float vOff, float w, float h,
 			float texX, float texY) {
-		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / texX, (uOff + w) / texX, vOff / texY, (vOff + h) / texY);
+		innerBlit(ms.last().pose(), x, x + w, y, y + h, 0f, uOff / texX, (uOff + w) / texX, vOff / texY,
+				(vOff + h) / texY);
 	}
 
 	public static void blitTransp(MatrixStack ms, float x, float y, float uOff, float vOff, float w, float h,
@@ -279,8 +280,8 @@ public class UIHelper {
 		WorldVertexBufferUploader.end(bufferbuilder);
 	}
 
-	public static void sizedBlitTransp(MatrixStack poseStack, float x, float y,float width, float height,
-			float srcX, float srcY, float srcWidth, float srcHeight, float tex) {
+	public static void sizedBlitTransp(MatrixStack poseStack, float x, float y, float width, float height, float srcX,
+			float srcY, float srcWidth, float srcHeight, float tex) {
 		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
 				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
@@ -291,8 +292,8 @@ public class UIHelper {
 		RenderSystem.defaultBlendFunc();
 	}
 
-	public static void sizedBlit(MatrixStack poseStack, float x, float y, float width, float height,
-			float srcX, float srcY, float srcW, float srcH, float tex) {
+	public static void sizedBlit(MatrixStack poseStack, float x, float y, float width, float height, float srcX,
+			float srcY, float srcW, float srcH, float tex) {
 		Matrix4f pose = poseStack.last().pose();
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -521,7 +522,6 @@ public class UIHelper {
 	}
 
 	public static void bindScifi() {
-		;
 		bind(SCIFI_EL);
 	}
 

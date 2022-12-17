@@ -13,10 +13,10 @@ import com.machina.client.ClientStarchart;
 import com.machina.client.util.ClientTimer;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
+import com.machina.planet.PlanetData;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.text.StringUtils;
-import com.machina.world.data.PlanetData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

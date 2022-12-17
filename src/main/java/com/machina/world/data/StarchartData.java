@@ -11,6 +11,7 @@ import com.machina.config.CommonConfig;
 import com.machina.network.BaseNetwork;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CStarchartSync;
+import com.machina.planet.PlanetData;
 import com.machina.planet.trait.type.IPlanetTraitType;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.serial.BaseNBTMap;

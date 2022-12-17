@@ -7,10 +7,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.DamageSourceInit;
 import com.machina.util.server.PlanetHelper;
-import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.entity.Entity;

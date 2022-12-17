@@ -15,9 +15,9 @@ import com.machina.network.c2s.C2SCalculateRocketFuel;
 import com.machina.network.c2s.C2SLaunchShip;
 import com.machina.network.c2s.C2SRefuel;
 import com.machina.network.c2s.C2SSetShipDestination;
+import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.math.MathUtil;
-import com.machina.world.data.PlanetData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;

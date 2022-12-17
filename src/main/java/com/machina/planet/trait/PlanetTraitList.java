@@ -16,22 +16,14 @@ public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 		super(trait -> StringNBT.valueOf(trait.getRegistryName().toString()),
 				nbt -> PlanetTraitRegistry.REGISTRY.getValue(new ResourceLocation(nbt.getAsString())));
 	}
-
-	/**
-	 * @deprecated Use {@link #addTrait} so that the attributes are updated
-	 * @param e
-	 */
+	
 	@Deprecated
 	@Override
 	public boolean add(PlanetTrait e) {
 		if (contains(e) || !e.exists()) { return false; }
 		return super.add(e);
 	}
-
-	/**
-	 * @deprecated Use {@link #addTrait} so that the attributes are updated
-	 * @param e
-	 */
+	
 	@Deprecated
 	@Override
 	public void add(int index, PlanetTrait element) {
@@ -46,24 +38,8 @@ public class PlanetTraitList extends BaseNBTList<PlanetTrait, StringNBT> {
 		return oldSize != size();
 	}
 	
-	/**
-	 * Adds a trait to the list, whilst also calling {@link #update(PlanetTrait, ChangeType)}
-	 * @param trait
-	 * @return
-	 */
 	public boolean addTrait(PlanetTrait trait) {
 		boolean result = add(trait);
 		return result;
 	}
-	
-	/**
-	 * Removes a trait from the list, whilst also calling {@link #update(PlanetTrait, ChangeType)}
-	 * @param trait
-	 * @return
-	 */
-	public boolean removeTrait(PlanetTrait trait) {
-		boolean result = remove(trait);
-		return result;
-	}
-
 }

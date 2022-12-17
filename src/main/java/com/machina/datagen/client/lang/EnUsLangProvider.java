@@ -188,6 +188,10 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("starchart", "pan", "Pan");
 		addScreen("starchart", "zoo", "Zoom");
 		addScreen("starchart", "cls", "Close");
+		addScreen("research", "sel", "Select");
+		addScreen("research", "pan", "Pan");
+		addScreen("research", "zoo", "Zoom");
+		addScreen("research", "cls", "Close");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");

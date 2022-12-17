@@ -1,10 +1,9 @@
-package com.machina.world.data;
+package com.machina.planet;
 
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import com.machina.planet.PlanetTraitPoolManager;
 import com.machina.planet.attribute.PlanetAttribute;
 import com.machina.planet.attribute.PlanetAttributeList;
 import com.machina.planet.attribute.PlanetAttributeType;

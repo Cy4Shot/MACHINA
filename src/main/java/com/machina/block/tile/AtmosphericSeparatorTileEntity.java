@@ -9,9 +9,9 @@ import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseTileEntity;
 import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.capability.fluid.MachinaTank;
+import com.machina.planet.PlanetData;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.BlockState;

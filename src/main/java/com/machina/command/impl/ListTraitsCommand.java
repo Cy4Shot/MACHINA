@@ -1,9 +1,9 @@
 package com.machina.command.impl;
 
 import com.machina.command.BaseCommand;
+import com.machina.planet.PlanetData;
 import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.StringUtils;
-import com.machina.world.data.PlanetData;
 import com.machina.world.data.StarchartData;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;

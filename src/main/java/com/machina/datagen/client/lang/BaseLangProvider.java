@@ -4,6 +4,7 @@ import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.SoundInit.Sound;
+import com.machina.research.Research;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.data.DataGenerator;
@@ -59,6 +60,11 @@ public abstract class BaseLangProvider extends LanguageProvider {
 		add(key.getName(), name);
 	}
 	
+	protected void add(Research r, String name, String desc) {
+		add(r.getNameKey(), name);
+		add(r.getDescKey(), desc);
+	}
+	
 	protected void addDamageSource(DamageSource source, String message) {
 		add("death.attack." + source.getMsgId(), message);
 	}
@@ -99,5 +105,4 @@ public abstract class BaseLangProvider extends LanguageProvider {
 		add(key.getDescriptionId(), this.music_disc);
 		add(key.getDescriptionId() + ".desc", desc);
 	}
-
 }
