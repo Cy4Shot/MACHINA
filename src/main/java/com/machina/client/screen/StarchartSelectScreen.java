@@ -17,6 +17,7 @@ public class StarchartSelectScreen extends StarchartScreen {
 
 	public StarchartSelectScreen(IStarchartSelector s) {
 		this.selector = s;
+		this.hasTopButtons = false;
 	}
 
 	@Override

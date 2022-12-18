@@ -51,7 +51,11 @@ public class StringUtils {
 	}
 
 	public static String translateScreen(String key) {
-		return translateComp(Machina.MOD_ID + ".screen." + key).getString();
+		return translateScreenComp(key).getString();
+	}
+	
+	public static TranslationTextComponent translateScreenComp(String key) {
+		return translateComp(Machina.MOD_ID + ".screen." + key);
 	}
 
 	public static TranslationTextComponent translateComp(String key) {

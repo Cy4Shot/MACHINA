@@ -570,6 +570,82 @@ public class UIHelper {
 				borColEnd, fgCol, mc.font);
 	}
 
+	public static void renderUnboundLabel(MatrixStack stack, List<? extends ITextProperties> text, int mouseX,
+			int mouseY, int bgCol, int borColStart, int borColEnd) {
+		renderUnboundLabel(stack, text, mouseX, mouseY, bgCol, borColStart, borColEnd, -1, mc.font);
+	}
+
+	public static void renderUnboundLabel(MatrixStack stack, List<? extends ITextProperties> text, int mouseX,
+			int mouseY, int backgroundColor, int borderColorStart, int borderColorEnd, int fgCol, FontRenderer font) {
+		if (!text.isEmpty()) {
+
+			RenderSystem.disableRescaleNormal();
+			RenderSystem.disableDepthTest();
+			int tooltipTextWidth = 0;
+
+			for (ITextProperties textLine : text) {
+				int textLineWidth = font.width(textLine);
+				if (textLineWidth > tooltipTextWidth)
+					tooltipTextWidth = textLineWidth;
+			}
+
+			int tooltipX = mouseX + 12;
+			int tooltipY = mouseY - 12;
+			int tooltipHeight = 8;
+
+			if (text.size() > 1) {
+				tooltipHeight += (text.size() - 1) * 10;
+				if (text.size() > 1)
+					tooltipHeight += 2; // gap between title lines and next lines
+			}
+
+			final int zLevel = 400;
+
+			stack.pushPose();
+			Matrix4f mat = stack.last().pose();
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY - 4, tooltipX + tooltipTextWidth + 3, tooltipY - 3,
+					backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY + tooltipHeight + 3, tooltipX + tooltipTextWidth + 3,
+					tooltipY + tooltipHeight + 4, backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY - 3, tooltipX + tooltipTextWidth + 3,
+					tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX - 4, tooltipY - 3, tooltipX - 3, tooltipY + tooltipHeight + 3,
+					backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX + tooltipTextWidth + 3, tooltipY - 3,
+					tooltipX + tooltipTextWidth + 4, tooltipY + tooltipHeight + 3, backgroundColor, backgroundColor);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY - 3 + 1, tooltipX - 3 + 1,
+					tooltipY + tooltipHeight + 3 - 1, borderColorStart, borderColorEnd);
+			drawGradientRect(mat, zLevel, tooltipX + tooltipTextWidth + 2, tooltipY - 3 + 1,
+					tooltipX + tooltipTextWidth + 3, tooltipY + tooltipHeight + 3 - 1, borderColorStart,
+					borderColorEnd);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY - 3, tooltipX + tooltipTextWidth + 3, tooltipY - 3 + 1,
+					borderColorStart, borderColorStart);
+			drawGradientRect(mat, zLevel, tooltipX - 3, tooltipY + tooltipHeight + 2, tooltipX + tooltipTextWidth + 3,
+					tooltipY + tooltipHeight + 3, borderColorEnd, borderColorEnd);
+
+			IRenderTypeBuffer.Impl renderType = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuilder());
+			stack.translate(0.0D, 0.0D, zLevel);
+
+			for (int lineNumber = 0; lineNumber < text.size(); ++lineNumber) {
+				ITextProperties line = text.get(lineNumber);
+				if (line != null)
+					font.drawInBatch(LanguageMap.getInstance().getVisualOrder(line), (float) tooltipX, (float) tooltipY,
+							fgCol, true, mat, renderType, false, 0, 15728880);
+
+				if (lineNumber + 1 == 1)
+					tooltipY += 2;
+
+				tooltipY += 10;
+			}
+
+			renderType.endBatch();
+			stack.popPose();
+
+			RenderSystem.enableDepthTest();
+			RenderSystem.enableRescaleNormal();
+		}
+	}
+
 	public static void drawHoveringText(MatrixStack stack, List<? extends ITextProperties> text, int mouseX, int mouseY,
 			int screenWidth, int screenHeight, int maxTextWidth, int backgroundColor, int borderColorStart,
 			int borderColorEnd, int fgCol, FontRenderer font) {
