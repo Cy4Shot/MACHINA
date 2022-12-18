@@ -15,9 +15,14 @@ import com.machina.registration.init.ResearchInit;
 import com.machina.research.Research;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldVertexBufferUploader;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3f;
@@ -62,6 +67,35 @@ public class ResearchScreen extends Screen {
 		fb.clear();
 		GL11.glMultMatrixf(fb);
 		GL11.glPopMatrix();
+
+		// Background Grid
+		float gridScale = height / 3 / 4.9F;
+		float gridSize = 7000;
+		int col = 0x44_00fefe;
+		float f3 = (col >> 24 & 255) / 255.0F;
+		float f = (col >> 16 & 255) / 255.0F;
+		float f1 = (col >> 8 & 255) / 255.0F;
+		float f2 = (col & 255) / 255.0F;
+		Matrix4f mat = stack.last().pose().copy();
+		gridSize += gridScale / 2;
+		for (float v = -gridSize; v <= gridSize; v += gridScale) {
+
+			BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
+			RenderSystem.enableBlend();
+			RenderSystem.disableTexture();
+			RenderSystem.defaultBlendFunc();
+			RenderSystem.lineWidth(1);
+			bufferbuilder.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION_COLOR);
+			bufferbuilder.vertex(mat, v, gridSize, 0.0F).color(f, f1, f2, f3).endVertex();
+			bufferbuilder.vertex(mat, v, -gridSize, 0.0F).color(f, f1, f2, f3).endVertex();
+			bufferbuilder.vertex(mat, gridSize, v, 0.0F).color(f, f1, f2, f3).endVertex();
+			bufferbuilder.vertex(mat, -gridSize, v, 0.0F).color(f, f1, f2, f3).endVertex();
+			bufferbuilder.end();
+			WorldVertexBufferUploader.end(bufferbuilder);
+			RenderSystem.lineWidth(1f);
+			RenderSystem.enableTexture();
+			RenderSystem.disableBlend();
+		}
 
 		// Draw the tree
 		UIHelper.bindScifi();
@@ -210,7 +244,17 @@ public class ResearchScreen extends Screen {
 
 	@Override
 	public boolean mouseReleased(double mX, double mY, int pButton) {
+
+		if (pButton != GLFW.GLFW_MOUSE_BUTTON_1)
+			return super.mouseReleased(mX, mY, pButton);
+
 		float x = this.width / 2;
+		if (mX > x - 24 && mX < x - 5 && mY > 10 && mY < 29) {
+			UIHelper.click();
+			Minecraft.getInstance().setScreen(new StarchartScreen());
+			return true;
+		}
+
 		float y = this.height / 2;
 		float s = 19 * zoom;
 		List<String> researched = ClientResearch.getResearch().getResearched();
@@ -218,22 +262,14 @@ public class ResearchScreen extends Screen {
 			if (res.getParent() == null || researched.contains(res.getParent().getId())) {
 				Vector2f pos = getResPos(res);
 				if (mX > x + pos.x && mX < x + pos.x + s && mY > y + pos.y && mY < y + pos.y + s) {
-					if (pButton == 0) {
-						UIHelper.click();
-						this.selected = res;
-					}
+					UIHelper.click();
+					this.selected = res;
 					return true;
 				}
 			}
 		}
 
-		if (pButton == 0 && mX > x - 24 && mX < x - 5 && mY > 10 && mY < 29) {
-			UIHelper.click();
-			Minecraft.getInstance().setScreen(new StarchartScreen());
-			return true;
-		}
-
-		if (pButton == 0 && this.selected != null) {
+		if (this.selected != null) {
 			if (!super.mouseReleased(mX, mY, pButton)) {
 				this.selected = null;
 				UIHelper.click();

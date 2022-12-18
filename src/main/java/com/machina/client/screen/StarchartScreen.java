@@ -117,14 +117,15 @@ public class StarchartScreen extends Screen {
 		mat.multiply(new Quaternion(new Vector3f(0, 0, 1), rotX, true));
 		mat.multiply(zoom);
 
+		int col = 0x44_00fefe;
+		float f3 = (col >> 24 & 255) / 255.0F;
+		float f = (col >> 16 & 255) / 255.0F;
+		float f1 = (col >> 8 & 255) / 255.0F;
+		float f2 = (col & 255) / 255.0F;
+
 		gridSize += gridScale / 2;
 		for (float v = -gridSize; v <= gridSize; v += gridScale) {
 
-			int col = 0x44_00fefe;
-			float f3 = (col >> 24 & 255) / 255.0F;
-			float f = (col >> 16 & 255) / 255.0F;
-			float f1 = (col >> 8 & 255) / 255.0F;
-			float f2 = (col & 255) / 255.0F;
 			BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
 
 			RenderSystem.enableBlend();
@@ -281,6 +282,13 @@ public class StarchartScreen extends Screen {
 
 	@Override
 	public boolean mouseReleased(double pX, double pY, int pButton) {
+		
+		float xw = this.width / 2;
+		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1 && hasTopButtons && pX > xw + 6 && pX < xw + 25 && pY > 10 && pY < 29) {
+			UIHelper.click();
+			Minecraft.getInstance().setScreen(new ResearchScreen());
+			return true;
+		}
 
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1) {
 			Collections.shuffle(planets);
@@ -313,13 +321,6 @@ public class StarchartScreen extends Screen {
 				followZoom = false;
 				return true;
 			}
-		}
-
-		float x = this.width / 2;
-		if (pButton == 0 && hasTopButtons && pX > x + 6 && pX < x + 25 && pY > 10 && pY < 29) {
-			UIHelper.click();
-			Minecraft.getInstance().setScreen(new ResearchScreen());
-			return true;
 		}
 
 		return super.mouseReleased(pX, pY, pButton);
