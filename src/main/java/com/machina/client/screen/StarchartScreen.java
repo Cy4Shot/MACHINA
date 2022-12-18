@@ -222,6 +222,24 @@ public class StarchartScreen extends Screen {
 				i++;
 			}
 		}
+		
+		if (hasTopButtons) {
+			float x1 = this.width / 2;
+			// Switch Tab Buttons
+			UIHelper.bindScifi();
+			UIHelper.betterBlit(stack, -9 + 15, -y - 40, 228, 184, 19, 19, 256);
+			UIHelper.betterBlit(stack, -9 - 15, -y - 40, 162, 230, 19, 19, 256);
+			UIHelper.betterBlit(stack, -9 - 14, -y - 39, 112, 240, 16, 16, 256);
+			UIHelper.betterBlit(stack, -9 + 16, -y - 39, 128, 240, 16, 16, 256);
+			if (pMouseX > x1 + 6 && pMouseX < x1 + 25 && pMouseY > 10 && pMouseY < 29) {
+				UIHelper.betterBlit(stack, -9 + 15, -y - 40, 181, 230, 18, 18, 256);
+			}
+			UIHelper.bindPrgrs();
+			UIHelper.betterBlit(stack, -9 + 10, -y - 39, 0, 239, 29, 17, 256);
+			UIHelper.betterBlit(stack, -9 - 20, -y - 39, 0, 222, 29, 17, 256);
+			UIHelper.betterBlit(stack, -9 - 41, -y - 42, 29, 243, 19, 13, 256);
+			UIHelper.betterBlit(stack, -9 + 40, -y - 42, 78, 243, 19, 13, 256);
+		}
 
 		renderAdditional(stack, pMouseX, pMouseY, pPartialTicks);
 
@@ -233,18 +251,6 @@ public class StarchartScreen extends Screen {
 	}
 
 	public void renderAdditional(MatrixStack stack, int mX, int mY, float par) {
-		float y = this.height / 2 - 50;
-		// Switch Tab Buttons
-		UIHelper.bindScifi();
-		UIHelper.betterBlit(stack, -9 + 15, -y - 40, 228, 184, 19, 19, 256);
-		UIHelper.betterBlit(stack, -9 - 15, -y - 40, 162, 230, 19, 19, 256);
-		UIHelper.betterBlit(stack, -9 - 14, -y - 39, 112, 240, 16, 16, 256);
-		UIHelper.betterBlit(stack, -9 + 16, -y - 39, 128, 240, 16, 16, 256);
-		UIHelper.bindPrgrs();
-		UIHelper.betterBlit(stack, -9 + 10, -y - 39, 0, 239, 29, 17, 256);
-		UIHelper.betterBlit(stack, -9 - 20, -y - 39, 0, 222, 29, 17, 256);
-		UIHelper.betterBlit(stack, -9 - 41, -y - 42, 29, 243, 19, 13, 256);
-		UIHelper.betterBlit(stack, -9 + 40, -y - 42, 78, 243, 19, 13, 256);
 	}
 
 	@Override
@@ -282,7 +288,7 @@ public class StarchartScreen extends Screen {
 
 	@Override
 	public boolean mouseReleased(double pX, double pY, int pButton) {
-		
+
 		float xw = this.width / 2;
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1 && hasTopButtons && pX > xw + 6 && pX < xw + 25 && pY > 10 && pY < 29) {
 			UIHelper.click();

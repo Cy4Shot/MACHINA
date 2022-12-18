@@ -115,8 +115,8 @@ public class ResearchScreen extends Screen {
 			renderLines(stack, selected);
 			render(stack, selected, mX, mY);
 		}
-
-		float x = this.width / 2 - 50;
+		float x1 = this.width / 2;
+		float x = x1 - 50;
 		float y = this.height / 2 - 50;
 		// Switch Tab Buttons
 		UIHelper.bindScifi();
@@ -124,6 +124,9 @@ public class ResearchScreen extends Screen {
 		UIHelper.betterBlit(stack, -9 - 15, -y - 40, 228, 184, 19, 19, 256);
 		UIHelper.betterBlit(stack, -9 - 14, -y - 39, 144, 240, 16, 16, 256);
 		UIHelper.betterBlit(stack, -9 + 16, -y - 39, 96, 240, 16, 16, 256);
+		if (mX > x1 - 24 && mX < x1 - 5 && mY > 10 && mY < 29) {
+			UIHelper.betterBlit(stack, -9 - 15, -y - 40, 181, 230, 18, 18, 256);
+		}
 		UIHelper.bindPrgrs();
 		UIHelper.betterBlit(stack, -9 + 10, -y - 39, 0, 222, 29, 17, 256);
 		UIHelper.betterBlit(stack, -9 - 20, -y - 39, 0, 239, 29, 17, 256);
