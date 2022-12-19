@@ -160,6 +160,7 @@
   "machina.screen.pressurized_chamber.start": "Start",
   "machina.screen.pressurized_chamber.stored": "Stored: ",
   "machina.screen.pressurized_chamber.waiting": "Awaiting input...",
+  "machina.screen.research.click": "Right click for research menu.",
   "machina.screen.research.cls": "Close",
   "machina.screen.research.pan": "Pan",
   "machina.screen.research.sel": "Select",
@@ -298,5 +299,7 @@
   "machina.terminal.feedback.unlock.verification_needed": "Security verification needed.",
   "machina.tooltip.hdpe": "High Density Polyethylene",
   "machina.tooltip.ldpe": "Low Density Polyethylene",
-  "machina.tooltip.uhmwpe": "Ultra High Molecular Weight Polyethylene"
+  "machina.tooltip.uhmwpe": "Ultra High Molecular Weight Polyethylene",
+  "research.machina.desc.root": "As eventide falls afresh over known earths, the player gazes up at the uncharted cosmos. I wonder, what strange an incomprehensible worlds await them?",
+  "research.machina.root": "MACHINA"
 }

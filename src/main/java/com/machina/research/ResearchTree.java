@@ -1,6 +1,8 @@
 package com.machina.research;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.machina.registration.init.ResearchInit;
 import com.machina.util.serial.BaseNBTList;
@@ -42,5 +44,22 @@ public class ResearchTree implements INBTSerializable<CompoundNBT> {
 	
 	public List<String> getResearched() {
 		return this.researched;
+	}
+	
+	public void complete(Research r) {
+		researched.add(r.getId());
+	}
+	
+	public List<Research> unlockedResearches() {
+		List<Research> unlocked = new ArrayList<>();
+		for (Map.Entry<String, Research> r : ResearchInit.RESEARCHES.entrySet()) {
+			if (!researched.contains(r.getKey())) {
+				Research parent = r.getValue().getParent();
+				if (parent != null && researched.contains(parent.getId())) {
+					unlocked.add(r.getValue());
+				}
+			}
+		}
+		return unlocked;
 	}
 }

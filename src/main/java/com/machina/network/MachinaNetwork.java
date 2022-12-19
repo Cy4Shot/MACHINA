@@ -18,6 +18,7 @@ import com.machina.network.c2s.C2SUpdateEnergySide;
 import com.machina.network.s2c.S2CFluidSync;
 import com.machina.network.s2c.S2CLaunchShip;
 import com.machina.network.s2c.S2CResearchSync;
+import com.machina.network.s2c.S2CResearchToast;
 import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.util.text.MachinaRL;
 
@@ -37,6 +38,7 @@ public class MachinaNetwork extends BaseNetwork {
 		registerServerToClient(S2CResearchSync.class, S2CResearchSync::decode);
 		registerServerToClient(S2CFluidSync.class, S2CFluidSync::decode);
 		registerServerToClient(S2CLaunchShip.class, S2CLaunchShip::decode);
+		registerServerToClient(S2CResearchToast.class, S2CResearchToast::decode);
 
 		// Client -> Server
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);

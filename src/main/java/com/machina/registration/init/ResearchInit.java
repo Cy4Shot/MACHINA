@@ -1,30 +1,33 @@
 package com.machina.registration.init;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.machina.research.Research;
 import com.machina.research.ResearchTreeNode;
 import com.machina.util.text.StringUtils;
+
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.IItemProvider;
 
 public class ResearchInit {
 
 	public static Map<String, Research> RESEARCHES = new HashMap<>();
 
 	public static Research ROOT = create("root", null);
-	public static Research TEST_A = create("research_branch_a", ROOT);
-	public static Research TEST_B = create("research_branch_b", ROOT);
-	public static Research TEST_C = create("research_part_1", TEST_A);
-	public static Research TEST_D = create("multiple_children_a", TEST_B);
-	public static Research TEST_E = create("multiple_children_b", TEST_B);
-	public static Research TEST_F = create("research_part_2", TEST_C);
+	public static Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get());
+	public static Research ANALYSIS_2 = create("analysis2", ROOT, ItemInit.AMMONIUM_NITRATE.get());
 
 	static {
 		ResearchTreeNode.run(ROOT);
 	}
 
-	private static Research create(String id, Research parent) {
-		Research r = new Research(id, parent);
+	private static Research create(String id, Research parent, IItemProvider... i) {
+		List<Ingredient> req = Arrays.asList(i).stream().map(o -> Ingredient.of(o)).collect(Collectors.toList());
+		Research r = new Research(id, parent, req);
 		RESEARCHES.put(id, r);
 		return r;
 	}

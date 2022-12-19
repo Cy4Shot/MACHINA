@@ -8,6 +8,7 @@ import com.machina.registration.init.DamageSourceInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.KeyBindingsInit;
+import com.machina.registration.init.ResearchInit;
 import com.machina.registration.init.SoundInit;
 
 import net.minecraft.data.DataGenerator;
@@ -174,6 +175,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addShipComponent("thrusters", "Thrusters");
 		addShipComponent("shields", "Shields");
 		addShipComponent("life_support", "Life Support");
+		
+		// Researches
+		add(ResearchInit.ROOT, "MACHINA", "As eventide falls afresh over known earths, the player gazes up at the uncharted cosmos. I wonder, what strange an incomprehensible worlds await them?");
 
 		// GUI
 		addScreen("vlc", "warning1", "WARNING: You are playing Machina on MacOS / Linux.");
@@ -192,6 +196,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("research", "pan", "Pan");
 		addScreen("research", "zoo", "Zoom");
 		addScreen("research", "cls", "Close");
+		addScreen("research", "click", "Right click for research menu.");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");

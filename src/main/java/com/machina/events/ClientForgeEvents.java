@@ -6,13 +6,16 @@ import com.machina.client.screen.DevScreen;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.client.screen.VLCWarningScreen;
 import com.machina.client.screen.base.NoJeiContainerScreen;
+import com.machina.client.screen.overlay.ResearchToastOverlay;
 import com.machina.client.shader.renderer.ScannerRenderer;
 import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.util.Color;
 import com.machina.util.server.PlanetHelper;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -22,6 +25,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -58,7 +63,7 @@ public class ClientForgeEvents {
 		if (KeyBindingsInit.isKeyPressed(KeyBindingsInit.STARCHART)) {
 			mc.setScreen(new StarchartScreen());
 		}
-		
+
 		if (KeyBindingsInit.isKeyPressed(KeyBindingsInit.SCAN)) {
 			ScannerRenderer.INSTANCE.ping(new Vector3f(mc.player.position()));
 		}
@@ -78,6 +83,15 @@ public class ClientForgeEvents {
 			event.setBorderEnd(0xFF_1bcccc);
 			event.setBorderStart(0xFF_00fefe);
 		}
+	}
+
+	@SubscribeEvent
+	public static void drawOverlayEvent(RenderGameOverlayEvent.Post event) {
+		if (event.getType() != ElementType.ALL)
+			return;
+		MatrixStack stack = event.getMatrixStack();
+		MainWindow window = event.getWindow();
+		ResearchToastOverlay.render(stack, window);
 	}
 
 	@SubscribeEvent
