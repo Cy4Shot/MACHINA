@@ -23,9 +23,14 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.LanguageMap;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentUtils;
 
 public class ResearchScreen extends Screen {
 
@@ -37,6 +42,7 @@ public class ResearchScreen extends Screen {
 	float posY = 0;
 	float zoom = 1f;
 	Research selected = null;
+	boolean openMenu = false;
 
 	@Override
 	public void render(MatrixStack stack, int mX, int mY, float pPartialTicks) {
@@ -118,13 +124,14 @@ public class ResearchScreen extends Screen {
 		float x1 = this.width / 2;
 		float x = x1 - 50;
 		float y = this.height / 2 - 50;
+
 		// Switch Tab Buttons
 		UIHelper.bindScifi();
 		UIHelper.betterBlit(stack, -9 + 15, -y - 40, 162, 230, 19, 19, 256);
 		UIHelper.betterBlit(stack, -9 - 15, -y - 40, 228, 184, 19, 19, 256);
 		UIHelper.betterBlit(stack, -9 - 14, -y - 39, 144, 240, 16, 16, 256);
 		UIHelper.betterBlit(stack, -9 + 16, -y - 39, 96, 240, 16, 16, 256);
-		if (mX > x1 - 24 && mX < x1 - 5 && mY > 10 && mY < 29) {
+		if (!openMenu && mX > x1 - 24 && mX < x1 - 5 && mY > 10 && mY < 29) {
 			UIHelper.betterBlit(stack, -9 - 15, -y - 40, 181, 230, 18, 18, 256);
 		}
 		UIHelper.bindPrgrs();
@@ -147,6 +154,68 @@ public class ResearchScreen extends Screen {
 				0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, StringUtils.translateScreen("research.cls"), x, -y + 24, 0xFF_00fefe,
 				0xFF_0e0e0e);
+
+		// Render Overlay
+		if (openMenu && this.selected != null) {
+			int halfw = this.width / 2;
+			int halfh = this.height / 2;
+			int xSize = 236, ySize = 99;
+			int x2 = -xSize / 2;
+			int y2 = -ySize / 2;
+			this.fillGradient(stack, -halfw, -halfh, halfw, halfh, -1072689136, -804253680);
+
+			// Back
+			UIHelper.bindScifi();
+			UIHelper.blit(stack, x2, y2, 2, 3, xSize, ySize);
+			UIHelper.blit(stack, x2 + 51, y2 + 57, 228, 184, 19, 19);
+			UIHelper.blit(stack, x2 + 166, y2 + 57, 228, 184, 19, 19);
+
+			// Deco
+			UIHelper.bindPrgrs();
+			UIHelper.blit(stack, x2 + 161, y2 + 58, 0, 239, 29, 17);
+			UIHelper.blit(stack, x2 + 46, y2 + 58, 0, 239, 29, 17);
+			UIHelper.blit(stack, x2 + 4, y2 + 64, 88, 0, 40, 4);
+			UIHelper.blit(stack, x2 + 191, y2 + 64, 88, 0, 40, 4);
+			UIHelper.blit(stack, x2 + 84, y2 + 61, 121, 246, 6, 10);
+			UIHelper.blit(stack, x2 + 104, y2 + 61, 121, 246, 6, 10);
+			UIHelper.blit(stack, x2 + 124, y2 + 61, 121, 246, 6, 10);
+			UIHelper.blit(stack, x2 + 144, y2 + 61, 121, 246, 6, 10);
+
+			// Close
+			UIHelper.bindTrmnl();
+			if (mX > x2 + 214 + halfw && mX < x2 + 214 + 17 + halfw && mY > y2 + 3 + halfh
+					&& mY < y2 + 3 + 17 + halfh) {
+				UIHelper.blit(stack, x2 + 215, y2 + 3, 237, 17, 17, 17);
+			} else {
+				UIHelper.blit(stack, x2 + 215, y2 + 3, 237, 0, 17, 17);
+			}
+
+			// Text
+			UIHelper.drawCenteredStringWithBorder(stack,
+					StringUtils.translateScreen("research.res") + StringUtils.translate(this.selected.getNameKey()),
+					x2 + 118, y2 + 4, 0xFF_00fefe, 0xFF_0e0e0e);
+			List<IReorderingProcessor> desc = LanguageMap.getInstance().getVisualOrder(
+					StringUtils.findOptimalLines(StringUtils.translateComp(this.selected.getDescKey()), 270));
+
+			RenderSystem.scalef(0.7f, 0.7f, 0.7f);
+			for (int k1 = 0; k1 < desc.size(); ++k1) {
+				UIHelper.drawCenteredStringWithBorder(stack, desc.get(k1), x2 + 118, y2 + 10 + k1 * 9, 0xFF_00fefe,
+						0xFF_0e0e0e);
+			}
+
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("research.in"), x2 + 35, y2 + 50,
+					0xFF_00fefe, 0xFF_0e0e0e);
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("research.out"), x2 + 201, y2 + 50,
+					0xFF_00fefe, 0xFF_0e0e0e);
+
+			UIHelper.bindPrgrs();
+			UIHelper.blit(stack, x2 + 115, y2 - 2, 88, 4, 6, 6);
+			UIHelper.blit(stack, x2 + 55, y2 - 1, 88, 0, 60, 4);
+			UIHelper.blit(stack, x2 + 121, y2 - 1, 88, 0, 60, 4);
+
+			RenderSystem.scalef(1.42857142857f, 1.42857142857f, 1.42857142857f); // lol
+			UIHelper.drawStringWithBorder(stack, "MACHINA://RESEARCH_INFO/", x2 + 8, y2 + 82, 0xFF_00fefe, 0xFF_0e0e0e);
+		}
 	}
 
 	private void renderLines(MatrixStack stack, Research res) {
@@ -176,10 +245,13 @@ public class ResearchScreen extends Screen {
 		float x = this.width / 2;
 		float y = this.height / 2;
 		float s = 19 * zoom;
-		if (mX > x + c.x && mX < x + c.x + s && mY > y + c.y && mY < y + c.y + s) {
+		if (!openMenu && mX > x + c.x && mX < x + c.x + s && mY > y + c.y && mY < y + c.y + s) {
 			UIHelper.renderUnboundLabel(stack,
-					Arrays.asList(StringUtils.translateComp(res.getNameKey()),
-							StringUtils.translateScreenComp("research.click")),
+					Arrays.asList(
+							TextComponentUtils.mergeStyles(StringUtils.translateComp(res.getNameKey()),
+									Style.EMPTY.withBold(true)),
+							TextComponentUtils.mergeStyles(StringUtils.translateScreenComp("research.click"),
+									Style.EMPTY.withItalic(true).withColor(Color.fromRgb(0xFF_00fefe)))),
 					mX - (int) x, mY - (int) y, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			UIHelper.bindScifi();
 		}
@@ -251,6 +323,21 @@ public class ResearchScreen extends Screen {
 		if (pButton != GLFW.GLFW_MOUSE_BUTTON_1)
 			return super.mouseReleased(mX, mY, pButton);
 
+		if (openMenu) {
+			int halfw = this.width / 2;
+			int halfh = this.height / 2;
+			int xSize = 236, ySize = 99;
+			int x2 = -xSize / 2;
+			int y2 = -ySize / 2;
+			if (mX > x2 + 214 + halfw && mX < x2 + 214 + 17 + halfw && mY > y2 + 3 + halfh
+					&& mY < y2 + 3 + 17 + halfh) {
+				UIHelper.click();
+				this.openMenu = false;
+				return true;
+			}
+			return false;
+		}
+
 		float x = this.width / 2;
 		if (mX > x - 24 && mX < x - 5 && mY > 10 && mY < 29) {
 			UIHelper.click();
@@ -267,6 +354,7 @@ public class ResearchScreen extends Screen {
 				if (mX > x + pos.x && mX < x + pos.x + s && mY > y + pos.y && mY < y + pos.y + s) {
 					UIHelper.click();
 					this.selected = res;
+					this.openMenu = true;
 					return true;
 				}
 			}

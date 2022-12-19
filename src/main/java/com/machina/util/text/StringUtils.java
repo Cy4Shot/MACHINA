@@ -4,16 +4,23 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import com.machina.Machina;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.CharacterManager;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 
 public class StringUtils {
+
+	private static final Minecraft mc = Minecraft.getInstance();
 
 	public static final String TREE_V = "\u2502";
 	public static final String TREE_H = "\u2500";
@@ -24,6 +31,8 @@ public class StringUtils {
 	public static final Charset defaultCharset = Charset.defaultCharset();
 
 	public static final ITextComponent EMPTY = new StringTextComponent("");
+
+	private static final int[] TEST_SPLIT_OFFSETS = new int[] { 0, 10, -10, 25, -25 };
 
 	public static void printlnUtf8(String msg) {
 		try {
@@ -53,7 +62,7 @@ public class StringUtils {
 	public static String translateScreen(String key) {
 		return translateScreenComp(key).getString();
 	}
-	
+
 	public static TranslationTextComponent translateScreenComp(String key) {
 		return translateComp(Machina.MOD_ID + ".screen." + key);
 	}
@@ -101,5 +110,30 @@ public class StringUtils {
 			builder.append(Character.toChars(subscriptZeroCodepoint + Character.getNumericValue(character)));
 		}
 		return builder.toString();
+	}
+
+	private static float getMaxWidth(CharacterManager pManager, List<ITextProperties> pText) {
+		return (float) pText.stream().mapToDouble(pManager::stringWidth).max().orElse(0.0D);
+	}
+
+	public static List<ITextProperties> findOptimalLines(ITextComponent pComponent, int pMaxWidth) {
+		CharacterManager charactermanager = mc.font.getSplitter();
+		List<ITextProperties> list = null;
+		float f = Float.MAX_VALUE;
+
+		for (int i : TEST_SPLIT_OFFSETS) {
+			List<ITextProperties> list1 = charactermanager.splitLines(pComponent, pMaxWidth - i, Style.EMPTY);
+			float f1 = Math.abs(getMaxWidth(charactermanager, list1) - (float) pMaxWidth);
+			if (f1 <= 10.0F) {
+				return list1;
+			}
+
+			if (f1 < f) {
+				f = f1;
+				list = list1;
+			}
+		}
+
+		return list;
 	}
 }

@@ -65,7 +65,8 @@ public class ResearchToastOverlay {
 		height = MathHelper.ceil(height / scale);
 		float alpha = 1f;
 		int a = (int) (alpha * 256) << 24;
-		String text = "Research Complete: " + StringUtils.translate(current.res.getNameKey());
+		String text = StringUtils
+				.translateScreen("research_toast.complete") + StringUtils.translate(current.res.getNameKey());
 		int w = UIHelper.getWidth(text);
 
 		RenderSystem.pushMatrix();

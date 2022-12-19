@@ -196,7 +196,11 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("research", "pan", "Pan");
 		addScreen("research", "zoo", "Zoom");
 		addScreen("research", "cls", "Close");
-		addScreen("research", "click", "Right click for research menu.");
+		addScreen("research", "click", "Click for research menu.");
+		addScreen("research", "res", "Research: ");
+		addScreen("research", "in", "Needs");
+		addScreen("research", "out", "Unlocks");
+		addScreen("research_toast", "complete", "Research Complete: ");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");

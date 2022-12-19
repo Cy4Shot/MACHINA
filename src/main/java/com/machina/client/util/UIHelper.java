@@ -99,6 +99,10 @@ public class UIHelper {
 		return mc.font.width(text);
 	}
 
+	public static int getWidth(IReorderingProcessor text) {
+		return mc.font.width(text);
+	}
+
 	public static void drawCenteredStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
 			int borderColor) {
 		drawStringWithBorder(matrixStack, text, x - getWidth(text) / 2, y, color, borderColor);
@@ -106,6 +110,20 @@ public class UIHelper {
 
 	public static int drawStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
 			int borderColor) {
+		mc.font.draw(matrixStack, text, x - 1, y, borderColor);
+		mc.font.draw(matrixStack, text, x + 1, y, borderColor);
+		mc.font.draw(matrixStack, text, x, y - 1, borderColor);
+		mc.font.draw(matrixStack, text, x, y + 1, borderColor);
+		return mc.font.draw(matrixStack, text, x, y, color) + 2;
+	}
+
+	public static void drawCenteredStringWithBorder(MatrixStack matrixStack, IReorderingProcessor text, float x,
+			float y, int color, int borderColor) {
+		drawStringWithBorder(matrixStack, text, x - getWidth(text) / 2, y, color, borderColor);
+	}
+
+	public static int drawStringWithBorder(MatrixStack matrixStack, IReorderingProcessor text, float x, float y,
+			int color, int borderColor) {
 		mc.font.draw(matrixStack, text, x - 1, y, borderColor);
 		mc.font.draw(matrixStack, text, x + 1, y, borderColor);
 		mc.font.draw(matrixStack, text, x, y - 1, borderColor);
