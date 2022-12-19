@@ -17,12 +17,15 @@ import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector2f;
@@ -103,6 +106,23 @@ public class ResearchScreen extends Screen {
 			RenderSystem.disableBlend();
 		}
 
+		// Lines to menu
+
+		int halfw = this.width / 2;
+		int halfh = this.height / 2;
+		int xSize = 236, ySize = 99;
+		int x2 = -xSize / 2;
+		int y2 = -ySize / 2;
+		float z = 18 * zoom;
+		if (openMenu && this.selected != null) {
+			Vector2f c = getResPos(this.selected);
+
+			UIHelper.line(stack, c.x, c.y, x2, y2, 0x60_00fefe, 1, StippleType.DASHED);
+			UIHelper.line(stack, c.x + z, c.y, x2 + xSize, y2, 0x60_00fefe, 1, StippleType.DASHED);
+			UIHelper.line(stack, c.x, c.y + z, x2, y2 + ySize - 2, 0x60_00fefe, 1, StippleType.DASHED);
+			UIHelper.line(stack, c.x + z, c.y + z, x2 + xSize, y2 + ySize - 17, 0x60_00fefe, 1, StippleType.DASHED);
+		}
+
 		// Draw the tree
 		UIHelper.bindScifi();
 		List<String> researched = ClientResearch.getResearch().getResearched();
@@ -157,12 +177,8 @@ public class ResearchScreen extends Screen {
 
 		// Render Overlay
 		if (openMenu && this.selected != null) {
-			int halfw = this.width / 2;
-			int halfh = this.height / 2;
-			int xSize = 236, ySize = 99;
-			int x2 = -xSize / 2;
-			int y2 = -ySize / 2;
-			this.fillGradient(stack, -halfw, -halfh, halfw, halfh, -1072689136, -804253680);
+			// + 50 to account for bordered fullscreen
+			this.fillGradient(stack, -halfw, -halfh, halfw, halfh + 50, -1072689136, -804253680);
 
 			// Back
 			UIHelper.bindScifi();
@@ -215,6 +231,12 @@ public class ResearchScreen extends Screen {
 
 			RenderSystem.scalef(1.42857142857f, 1.42857142857f, 1.42857142857f); // lol
 			UIHelper.drawStringWithBorder(stack, "MACHINA://RESEARCH_INFO/", x2 + 8, y2 + 82, 0xFF_00fefe, 0xFF_0e0e0e);
+
+			// Items
+			Ingredient n = this.selected.getNeeds();
+			Ingredient u = this.selected.getUnlock();
+			UIHelper.renderItem(n == null ? new ItemStack(Blocks.BARRIER) : n.getItems()[0], x2 + 52, y2 + 58);
+			UIHelper.renderItem(u == null ? new ItemStack(Blocks.BARRIER) : u.getItems()[0], x2 + 167, y2 + 58);
 		}
 	}
 

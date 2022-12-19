@@ -2,6 +2,7 @@ package com.machina.util.server;
 
 import java.util.List;
 
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -50,5 +51,19 @@ public class ItemStackHelper {
 
 	public static boolean isBucket(ItemStack stack) {
 		return stack.getItem() == Items.BUCKET;
+	}
+
+	public static int getSlotFor(PlayerInventory inventory, ItemStack stack) {
+		for (int i = 0; i < inventory.items.size(); ++i) {
+			if (!inventory.items.get(i).isEmpty() && stackEqualExact(stack, inventory.items.get(i))) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	private static boolean stackEqualExact(ItemStack stack1, ItemStack stack2) {
+		return stack1.getItem() == stack2.getItem() && ItemStack.tagMatches(stack1, stack2);
 	}
 }

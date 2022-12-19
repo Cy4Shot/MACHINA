@@ -7,6 +7,7 @@ import java.util.Map;
 import com.machina.registration.init.ResearchInit;
 import com.machina.util.serial.BaseNBTList;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -61,5 +62,16 @@ public class ResearchTree implements INBTSerializable<CompoundNBT> {
 			}
 		}
 		return unlocked;
+	}
+	
+	public boolean canCraft(ItemStack stack) {
+		for (Map.Entry<String, Research> r : ResearchInit.RESEARCHES.entrySet()) {
+			if (!researched.contains(r.getKey())) {
+				if (r.getValue().getUnlock().getItems()[0].getItem().equals(stack.getItem())) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

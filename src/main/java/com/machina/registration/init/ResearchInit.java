@@ -1,10 +1,7 @@
 package com.machina.registration.init;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.machina.research.Research;
 import com.machina.research.ResearchTreeNode;
@@ -17,17 +14,15 @@ public class ResearchInit {
 
 	public static Map<String, Research> RESEARCHES = new HashMap<>();
 
-	public static Research ROOT = create("root", null);
-	public static Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get());
-	public static Research ANALYSIS_2 = create("analysis2", ROOT, ItemInit.AMMONIUM_NITRATE.get());
+	public static Research ROOT = create("root", null, null, null);
+	public static Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get(), BlockInit.COMPONENT_ANALYZER.get());
 
 	static {
 		ResearchTreeNode.run(ROOT);
 	}
 
-	private static Research create(String id, Research parent, IItemProvider... i) {
-		List<Ingredient> req = Arrays.asList(i).stream().map(o -> Ingredient.of(o)).collect(Collectors.toList());
-		Research r = new Research(id, parent, req);
+	private static Research create(String id, Research parent, IItemProvider in, IItemProvider out) {
+		Research r = new Research(id, parent, in == null ? null : Ingredient.of(in), out == null ? null : Ingredient.of(out));
 		RESEARCHES.put(id, r);
 		return r;
 	}

@@ -22,7 +22,6 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.texture.AtlasTexture;
@@ -367,11 +366,14 @@ public class UIHelper {
 	private static float getTextWidth(CharacterManager manager, List<ITextProperties> text) {
 		return (float) text.stream().mapToDouble(manager::stringWidth).max().orElse(0.0D);
 	}
+	
+	public static void renderItem(ItemStack stack, int x, int y) {
+		mc.getItemRenderer().renderAndDecorateFakeItem(stack, x, y);
+	}
 
 	public static void renderTintedItem(MatrixStack m, ItemStack stack, int x, int y, int r, int g, int b,
 			float alpha) {
-		ItemRenderer renderer = mc.getItemRenderer();
-		renderer.renderAndDecorateFakeItem(stack, x, y);
+		mc.getItemRenderer().renderAndDecorateFakeItem(stack, x, y);
 		RenderSystem.depthFunc(516);
 		AbstractGui.fill(m, x, y, x + 16, y + 16, Color.getIntFromColor(r, g, b, (int) (alpha * 255f)));
 		RenderSystem.depthFunc(515);

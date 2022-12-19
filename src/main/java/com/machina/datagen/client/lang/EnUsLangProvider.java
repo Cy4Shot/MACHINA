@@ -177,7 +177,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addShipComponent("life_support", "Life Support");
 		
 		// Researches
-		add(ResearchInit.ROOT, "MACHINA", "As eventide falls afresh over known earths, the player gazes up at the uncharted cosmos. I wonder, what strange an incomprehensible worlds await them?");
+		add(ResearchInit.ROOT, "MACHINA", "As eventide falls afresh over known earths, the player gazes up at the uncharted cosmos. I wonder, what strange and incomprehensible worlds await them?");
 
 		// GUI
 		addScreen("vlc", "warning1", "WARNING: You are playing Machina on MacOS / Linux.");
