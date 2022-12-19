@@ -355,6 +355,7 @@ public class ResearchScreen extends Screen {
 					&& mY < y2 + 3 + 17 + halfh) {
 				UIHelper.click();
 				this.openMenu = false;
+				this.selected = null;
 				return true;
 			}
 			return false;

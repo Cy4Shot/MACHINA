@@ -12,12 +12,12 @@ import net.minecraft.util.math.vector.Vector2f;
 
 public class Research {
 
-	private String id;
-	private Research parent;
+	private final String id;
+	private final Research parent;
 	private Vector2f location = new Vector2f(0, 0);
-	private List<Research> children = new ArrayList<>();
-	private Ingredient needs;
-	private Ingredient unlock;
+	private final List<Research> children = new ArrayList<>();
+	private final Ingredient needs;
+	private final Ingredient unlock;
 
 	public Research(String id, Research parent, Ingredient req, Ingredient out) {
 		this.id = id;

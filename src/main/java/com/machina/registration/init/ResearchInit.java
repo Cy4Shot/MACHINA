@@ -14,8 +14,8 @@ public class ResearchInit {
 
 	public static Map<String, Research> RESEARCHES = new HashMap<>();
 
-	public static Research ROOT = create("root", null, null, null);
-	public static Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get(), BlockInit.COMPONENT_ANALYZER.get());
+	public static final Research ROOT = create("root", null, null, null);
+	public static final Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get(), BlockInit.COMPONENT_ANALYZER.get());
 
 	static {
 		ResearchTreeNode.run(ROOT);
