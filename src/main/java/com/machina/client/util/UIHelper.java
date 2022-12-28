@@ -66,6 +66,7 @@ public class UIHelper {
 	public static final MachinaRL STCHT_EL = new MachinaRL("textures/gui/stcht_el.png");
 	public static final MachinaRL LARGE_EL = new MachinaRL("textures/gui/large_el.png");
 	public static final MachinaRL PRGRS_EL = new MachinaRL("textures/gui/prgrs_el.png");
+	public static final MachinaRL BLPRT_EL = new MachinaRL("textures/gui/blprt_el.png");
 	public static final MachinaRL STARS_BG = new MachinaRL("textures/gui/stars_bg.png");
 	private static Minecraft mc = Minecraft.getInstance();
 	private static TextureManager tm = mc.getTextureManager();
@@ -563,6 +564,10 @@ public class UIHelper {
 
 	public static void bindPrgrs() {
 		bind(PRGRS_EL);
+	}
+	
+	public static void bindBlprt() {
+		bind(BLPRT_EL);
 	}
 
 	public static void bind(ResourceLocation rl) {

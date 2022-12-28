@@ -7,6 +7,7 @@ import com.machina.client.ClientStarchart;
 import com.machina.client.cinema.CinematicHandler;
 import com.machina.client.screen.AtmosphericSeparatorScreen;
 import com.machina.client.screen.BatteryScreen;
+import com.machina.client.screen.BlueprinterScreen;
 import com.machina.client.screen.ComponentAnalyzerScreen;
 import com.machina.client.screen.FuelStorageUnitScreen;
 import com.machina.client.screen.FurnaceGeneratorScreen;
@@ -80,6 +81,7 @@ public class ClientModEvents {
 		RenderTypeLookup.setRenderLayer(BlockInit.TANK.get(), RenderType.translucent());
 		FluidInit.setRenderLayers();
 
+		ScreenManager.register(ContainerInit.BLUEPRINTER.get(), BlueprinterScreen::new);
 		ScreenManager.register(ContainerInit.SHIP_CONSTRUCT.get(), ShipConstructScreen::new);
 		ScreenManager.register(ContainerInit.SHIP_LAUNCH.get(), ShipLaunchScreen::new);
 		ScreenManager.register(ContainerInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerScreen::new);

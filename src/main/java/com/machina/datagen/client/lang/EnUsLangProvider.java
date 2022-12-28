@@ -26,6 +26,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 	protected void addTranslations() {
 
 		// Blocks
+		add(BlockInit.BLUEPRINTER.get(), "Blueprinter");
 		add(BlockInit.SHIP_CONSOLE.get(), "Ship Console");
 		add(BlockInit.ATMOSPHERIC_SEPARATOR.get(), "Atmospheric Separator");
 		add(BlockInit.TEMPERATURE_REGULATOR.get(), "Temperature Regulator");

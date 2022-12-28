@@ -12,6 +12,7 @@ public class LootTableProvider extends BaseLootTableProvider {
 
 	@Override
 	protected void addTables() {
+		dropSelf(BlockInit.BLUEPRINTER.get());
 		dropSelf(BlockInit.SHIP_CONSOLE.get());
 		dropSelf(BlockInit.PRESSURIZED_CHAMBER.get());
 		dropSelf(BlockInit.COMPONENT_ANALYZER.get());

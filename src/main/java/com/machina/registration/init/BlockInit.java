@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.block.AtmosphericSeparatorBlock;
 import com.machina.block.BatteryBlock;
+import com.machina.block.BlueprinterBlock;
 import com.machina.block.CableBlock;
 import com.machina.block.CargoCrateBlock;
 import com.machina.block.ComponentAnalyzerBlock;
@@ -51,6 +52,7 @@ public class BlockInit {
 			Machina.MOD_ID);
 
 	//@formatter:off
+	public static final RegistryObject<BlueprinterBlock> BLUEPRINTER = register("blueprinter", BlueprinterBlock::new);
 	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console", ShipConsoleBlock::new);
 	public static final RegistryObject<FluidHopperBlock> FLUID_HOPPER = register("fluid_hopper", FluidHopperBlock::new);
 	public static final RegistryObject<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorBlock::new);

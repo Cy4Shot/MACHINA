@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.block.tile.AtmosphericSeparatorTileEntity;
 import com.machina.block.tile.BatteryTileEntity;
+import com.machina.block.tile.BlueprinterTileEntity;
 import com.machina.block.tile.CableTileEntity;
 import com.machina.block.tile.CargoCrateTileEntity;
 import com.machina.block.tile.ComponentAnalyzerTileEntity;
@@ -37,6 +38,7 @@ public class TileEntityInit {
 			.create(ForgeRegistries.TILE_ENTITIES, Machina.MOD_ID);
 
 	// @formatter:off
+	public static final RegistryObject<TileEntityType<BlueprinterTileEntity>> BLUEPRINTER = register("blueprinter", BlueprinterTileEntity::new, () -> BlockInit.BLUEPRINTER.get());
 	public static final RegistryObject<TileEntityType<CargoCrateTileEntity>> CARGO_CRATE = register("cargo_crate", CargoCrateTileEntity::new, () -> BlockInit.CARGO_CRATE.get());
 	public static final RegistryObject<TileEntityType<ShipConsoleTileEntity>> SHIP_CONSOLE = register("ship_console", ShipConsoleTileEntity::new, () -> BlockInit.SHIP_CONSOLE.get());
 	public static final RegistryObject<TileEntityType<FluidHopperTileEntity>> FLUID_HOPPER = register("fluid_hopper", FluidHopperTileEntity::new, () -> BlockInit.FLUID_HOPPER.get());

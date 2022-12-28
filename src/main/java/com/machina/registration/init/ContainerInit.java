@@ -3,6 +3,7 @@ package com.machina.registration.init;
 import com.machina.Machina;
 import com.machina.block.container.AtmosphericSeparatorContainer;
 import com.machina.block.container.BatteryContainer;
+import com.machina.block.container.BlueprinterContainer;
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.container.FuelStorageUnitContainer;
 import com.machina.block.container.FurnaceGeneratorContainer;
@@ -28,6 +29,7 @@ public class ContainerInit {
 			.create(ForgeRegistries.CONTAINERS, Machina.MOD_ID);
 
 	//@formatter:off
+	public static final RegistryObject<ContainerType<BlueprinterContainer>> BLUEPRINTER = register("blueprinter", BlueprinterContainer::new);
 	public static final RegistryObject<ContainerType<ShipConstructContainer>> SHIP_CONSTRUCT = register("ship_construct", ShipConstructContainer::new);
 	public static final RegistryObject<ContainerType<ShipLaunchContainer>> SHIP_LAUNCH = register("ship_launch", ShipLaunchContainer::new);
 	public static final RegistryObject<ContainerType<AtmosphericSeparatorContainer>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorContainer::new);
