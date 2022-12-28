@@ -44,7 +44,7 @@ public class RecipesProvider extends RecipeProvider {
 		addShaped(f, ItemInit.BLUEPRINT.get(), 1, builder -> {
 			//@formatter:off
 			return builder
-					.define('d', "#forge:dyes/blue")
+					.define('d', "forge:dyes/blue")
 					.define('p', Items.PAPER)
 					.pattern(" d ")
 					.pattern("dpd")
@@ -66,7 +66,7 @@ public class RecipesProvider extends RecipeProvider {
 		addShaped(f, BlockInit.STEEL_SCAFFOLDING.get(), 16, builder -> {
 			//@formatter:off
 			return builder
-					.define('i', "#forge:ingots/steel")
+					.define('i', "forge:ingots/steel")
 					.define('s', Blocks.SCAFFOLDING)
 					.pattern(" i ")
 					.pattern("isi")
@@ -77,7 +77,7 @@ public class RecipesProvider extends RecipeProvider {
 		addShaped(f, BlockInit.ALUMINUM_SCAFFOLDING.get(), 16, builder -> {
 			//@formatter:off
 			return builder
-					.define('i', "#forge:ingots/aluminum")
+					.define('i', "forge:ingots/aluminum")
 					.define('s', Blocks.SCAFFOLDING)
 					.pattern(" i ")
 					.pattern("isi")
@@ -88,7 +88,7 @@ public class RecipesProvider extends RecipeProvider {
 		addShaped(f, BlockInit.COPPER_SCAFFOLDING.get(), 16, builder -> {
 			//@formatter:off
 			return builder
-					.define('i', "#forge:ingots/copper")
+					.define('i', "forge:ingots/copper")
 					.define('s', Blocks.SCAFFOLDING)
 					.pattern(" i ")
 					.pattern("isi")
@@ -135,7 +135,7 @@ public class RecipesProvider extends RecipeProvider {
 		addShaped(f, ItemInit.COPPER_COIL.get(), 2, builder -> {
 			//@formatter:off
 			return builder
-					.define('i', "#forge:ingots/copper")
+					.define('i', "forge:ingots/copper")
 					.define('s', Items.STICK)
 					.pattern("iii")
 					.pattern("isi")

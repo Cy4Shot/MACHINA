@@ -7,7 +7,9 @@
     " d "
   ],
   "key": {
-    "d": "#forge:dyes/blue",
+    "d": {
+      "tag": "forge:dyes/blue"
+    },
     "p": {
       "item": "minecraft:paper"
     }

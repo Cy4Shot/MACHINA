@@ -14,7 +14,6 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.machina.util.text.MachinaRL;
 
 import net.minecraft.advancements.Advancement;
@@ -59,7 +58,9 @@ public class MachinaShapedRecipeBuilder {
 		} else if (pSymbol == ' ') {
 			throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
 		} else {
-			this.key.put(pSymbol, new JsonPrimitive(tag));
+			JsonObject obj = new JsonObject();
+			obj.addProperty("tag", tag);
+			this.key.put(pSymbol, obj);
 			return this;
 		}
 	}
