@@ -12,7 +12,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.machina.util.text.MachinaRL;
 
 import net.minecraft.advancements.Advancement;
@@ -33,9 +35,10 @@ public class MachinaShapedRecipeBuilder {
 	private final Item result;
 	private final int count;
 	private final List<String> rows = Lists.newArrayList();
-	public final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
+	public final Map<Character, JsonElement> key = Maps.newLinkedHashMap();
 	private final Advancement.Builder advancement = Advancement.Builder.advancement();
 	private String group;
+	public Ingredient has;
 
 	public MachinaShapedRecipeBuilder(IItemProvider pResult, int pCount) {
 		this.result = pResult.asItem();
@@ -49,6 +52,18 @@ public class MachinaShapedRecipeBuilder {
 	public static MachinaShapedRecipeBuilder shaped(IItemProvider pResult, int pCount) {
 		return new MachinaShapedRecipeBuilder(pResult, pCount);
 	}
+	
+	public MachinaShapedRecipeBuilder define(Character pSymbol, String tag) {
+		if (this.key.containsKey(pSymbol)) {
+			throw new IllegalArgumentException("Symbol '" + pSymbol + "' is already defined!");
+		} else if (pSymbol == ' ') {
+			throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
+		} else {
+			this.key.put(pSymbol, new JsonPrimitive(tag));
+			return this;
+		}
+	}
+
 
 	public MachinaShapedRecipeBuilder define(Character pSymbol, ITag<Item> pTag) {
 		return this.define(pSymbol, Ingredient.of(pTag));
@@ -59,12 +74,15 @@ public class MachinaShapedRecipeBuilder {
 	}
 
 	public MachinaShapedRecipeBuilder define(Character pSymbol, Ingredient pIngredient) {
+		if (this.has == null) {
+			this.has = pIngredient;
+		}
 		if (this.key.containsKey(pSymbol)) {
 			throw new IllegalArgumentException("Symbol '" + pSymbol + "' is already defined!");
 		} else if (pSymbol == ' ') {
 			throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
 		} else {
-			this.key.put(pSymbol, pIngredient);
+			this.key.put(pSymbol, pIngredient.toJson());
 			return this;
 		}
 	}
@@ -150,12 +168,12 @@ public class MachinaShapedRecipeBuilder {
 		private final int count;
 		private final String group;
 		private final List<String> pattern;
-		private final Map<Character, Ingredient> key;
+		private final Map<Character, JsonElement> key;
 		private final Advancement.Builder advancement;
 		private final ResourceLocation advancementId;
 
 		public Result(ResourceLocation p_i48271_2_, Item p_i48271_3_, int p_i48271_4_, String p_i48271_5_,
-				List<String> p_i48271_6_, Map<Character, Ingredient> p_i48271_7_, Advancement.Builder p_i48271_8_,
+				List<String> p_i48271_6_, Map<Character, JsonElement> p_i48271_7_, Advancement.Builder p_i48271_8_,
 				ResourceLocation p_i48271_9_) {
 			this.id = p_i48271_2_;
 			this.result = p_i48271_3_;
@@ -181,8 +199,8 @@ public class MachinaShapedRecipeBuilder {
 			pJson.add("pattern", jsonarray);
 			JsonObject jsonobject = new JsonObject();
 
-			for (Entry<Character, Ingredient> entry : this.key.entrySet()) {
-				jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
+			for (Entry<Character, JsonElement> entry : this.key.entrySet()) {
+				jsonobject.add(String.valueOf(entry.getKey()), entry.getValue());
 			}
 
 			pJson.add("key", jsonobject);

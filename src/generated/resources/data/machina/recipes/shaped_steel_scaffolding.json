@@ -7,9 +7,7 @@
     " i "
   ],
   "key": {
-    "i": {
-      "item": "machina:steel_ingot"
-    },
+    "i": "#forge:ingots/steel",
     "s": {
       "item": "minecraft:scaffolding"
     }

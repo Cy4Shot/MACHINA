@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "machina:shaped_cable"
+      "machina:shaped_blueprint"
     ]
   },
   "criteria": {
-    "has_aluminum_ingot": {
+    "has_paper": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "machina:aluminum_ingot"
+            "item": "minecraft:paper"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "machina:shaped_cable"
+        "recipe": "machina:shaped_blueprint"
       }
     }
   },
   "requirements": [
     [
-      "has_aluminum_ingot",
+      "has_paper",
       "has_the_recipe"
     ]
   ]

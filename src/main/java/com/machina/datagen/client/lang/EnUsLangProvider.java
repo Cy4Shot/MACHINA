@@ -69,6 +69,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.STATE_CONVERTER.get(), "State Converter");
 
 		// Items
+		add(ItemInit.BLUEPRINT.get(), "Blueprint");
 		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
 		add(ItemInit.SCANNER.get(), "Scanner");
 		add(ItemInit.REINFORCED_STICK.get(), "Reinforced Stick");

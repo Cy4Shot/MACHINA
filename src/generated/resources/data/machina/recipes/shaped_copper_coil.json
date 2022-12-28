@@ -7,9 +7,7 @@
     "iii"
   ],
   "key": {
-    "i": {
-      "item": "machina:copper_ingot"
-    },
+    "i": "#forge:ingots/copper",
     "s": {
       "item": "minecraft:stick"
     }

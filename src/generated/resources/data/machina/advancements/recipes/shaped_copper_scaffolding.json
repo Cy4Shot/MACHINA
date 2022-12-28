@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_copper_ingot": {
+    "has_scaffolding": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "machina:copper_ingot"
+            "item": "minecraft:scaffolding"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_copper_ingot",
+      "has_scaffolding",
       "has_the_recipe"
     ]
   ]

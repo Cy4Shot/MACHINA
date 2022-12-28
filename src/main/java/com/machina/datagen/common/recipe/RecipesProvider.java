@@ -2,11 +2,9 @@ package com.machina.datagen.common.recipe;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
-import com.machina.util.server.TagHelper;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
@@ -42,7 +40,18 @@ public class RecipesProvider extends RecipeProvider {
 		addSmithing(f, Items.STICK, Items.IRON_INGOT, ItemInit.REINFORCED_STICK.get());
 
 		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.IRON_INGOT, Items.COAL);
-		
+
+		addShaped(f, ItemInit.BLUEPRINT.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('d', "#forge:dyes/blue")
+					.define('p', Items.PAPER)
+					.pattern(" d ")
+					.pattern("dpd")
+					.pattern(" d ");
+			//@formatter:on
+		});
+
 		addShaped(f, BlockInit.IRON_SCAFFOLDING.get(), 16, builder -> {
 			//@formatter:off
 			return builder
@@ -53,33 +62,33 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern(" i ");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.STEEL_SCAFFOLDING.get(), 16, builder -> {
 			//@formatter:off
 			return builder
-					.define('i', ItemInit.STEEL_INGOT.get())
+					.define('i', "#forge:ingots/steel")
 					.define('s', Blocks.SCAFFOLDING)
 					.pattern(" i ")
 					.pattern("isi")
 					.pattern(" i ");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.ALUMINUM_SCAFFOLDING.get(), 16, builder -> {
 			//@formatter:off
 			return builder
-					.define('i', ItemInit.ALUMINUM_INGOT.get())
+					.define('i', "#forge:ingots/aluminum")
 					.define('s', Blocks.SCAFFOLDING)
 					.pattern(" i ")
 					.pattern("isi")
 					.pattern(" i ");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, BlockInit.COPPER_SCAFFOLDING.get(), 16, builder -> {
 			//@formatter:off
 			return builder
-					.define('i', ItemInit.COPPER_INGOT.get())
+					.define('i', "#forge:ingots/copper")
 					.define('s', Blocks.SCAFFOLDING)
 					.pattern(" i ")
 					.pattern("isi")
@@ -123,220 +132,14 @@ public class RecipesProvider extends RecipeProvider {
 			//@formatter:on
 		});
 
-		addShaped(f, BlockInit.SHIP_CONSOLE.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('t', ItemInit.TRANSISTOR.get())
-					.define('g', Items.GLOWSTONE_DUST)
-					.define('c', BlockInit.STEEL_CHASSIS.get())
-					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
-					.define('b', TagHelper.getForgeItemTag("storage_blocks/steel"))
-					.define('p', ItemInit.PROCESSOR.get())
-					.pattern("gpg")
-					.pattern("tct")
-					.pattern("sbs");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.COMPONENT_ANALYZER.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('t', ItemInit.TRANSISTOR.get())
-					.define('c', BlockInit.IRON_CHASSIS.get())
-					.define('s', TagHelper.getForgeItemTag("ingots/aluminum"))
-					.define('b', Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE)
-					.define('r', Items.REDSTONE)
-					.define('p', ItemInit.PROCESSOR.get())
-					.pattern("rpr")
-					.pattern("tct")
-					.pattern("sbs");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.IRON_CHASSIS.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('r', ItemInit.REINFORCED_STICK.get())
-					.define('s', Blocks.SCAFFOLDING)
-					.define('g', Blocks.GLASS_PANE)
-					.define('b', ItemInit.SILICON.get())
-					.pattern("bgb")
-					.pattern("rsr")
-					.pattern("bgb");
-			//@formatter:off
-		});
-		
-		addShaped(f, BlockInit.STEEL_CHASSIS.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('c', BlockInit.IRON_CHASSIS.get())
-					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
-					.pattern(" s ")
-					.pattern("scs")
-					.pattern(" s ");
-			//@formatter:on
-		});
-
-		addShaped(f, ItemInit.SCANNER.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('c', ItemInit.PROCESSOR.get())
-					.define('t', ItemInit.TRANSISTOR.get())
-					.define('r', Items.REDSTONE)
-					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
-					.define('g', Items.GLOWSTONE_DUST)
-					.pattern("tgt")
-					.pattern("rcr")
-					.pattern(" s ");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.CABLE.get(), 6, builder -> {
-			//@formatter:off
-			return builder
-					.define('a', ItemInit.ALUMINUM_INGOT.get())
-					.define('s', TagHelper.getForgeItemTag("ingots/steel"))
-					.define('c', TagHelper.getForgeItemTag("nuggets/copper"))
-					.pattern("ccc")
-					.pattern("asa")
-					.pattern("ccc");
-			//@formatter:on
-		});
-
 		addShaped(f, ItemInit.COPPER_COIL.get(), 2, builder -> {
 			//@formatter:off
 			return builder
-					.define('i', ItemInit.COPPER_INGOT.get())
+					.define('i', "#forge:ingots/copper")
 					.define('s', Items.STICK)
 					.pattern("iii")
 					.pattern("isi")
 					.pattern("iii");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.FLUID_HOPPER.get(), 6, builder -> {
-			//@formatter:off
-			return builder
-					.define('t', BlockInit.TANK.get())
-					.define('h', Blocks.HOPPER)
-					.pattern("hth");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.ATMOSPHERIC_SEPARATOR.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('i', Blocks.IRON_BARS)
-					.define('r', ItemInit.REINFORCED_STICK.get())
-					.define('c', ItemInit.IRON_CATALYST.get())
-					.define('p', ItemInit.PROCESSOR.get())
-					.define('a', ItemInit.ALUMINUM_INGOT.get())
-					.pattern(" i ")
-					.pattern("rcr")
-					.pattern("apa");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.TEMPERATURE_REGULATOR.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('i', ItemInit.COPPER_INGOT.get())
-					.define('s', BlockInit.IRON_CHASSIS.get())
-					.define('c', ItemInit.COPPER_COIL.get())
-					.define('p', ItemInit.PROCESSOR.get())
-					.define('r', Items.REDSTONE)
-					.pattern("rpr")
-					.pattern("csc")
-					.pattern("ici");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.STATE_CONVERTER.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('i', ItemInit.STEEL_INGOT.get())
-					.define('s', BlockInit.STEEL_CHASSIS.get())
-					.define('c', ItemInit.COPPER_COIL.get())
-					.define('p', ItemInit.PROCESSOR.get())
-					.define('r', ItemInit.TRANSISTOR.get())
-					.pattern("rpr")
-					.pattern("csc")
-					.pattern("ici");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.FUEL_STORAGE_UNIT.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('i', ItemInit.ALUMINUM_INGOT.get())
-					.define('t', BlockInit.TANK.get())
-					.define('c', ItemInit.COPPER_COIL.get())
-					.define('p', ItemInit.PROCESSOR.get())
-					.define('r', ItemInit.TRANSISTOR.get())
-					.pattern("rpr")
-					.pattern("ctc")
-					.pattern("ici");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.FURNACE_GENERATOR.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('i', ItemInit.ALUMINUM_INGOT.get())
-					.define('t', BlockInit.BATTERY.get())
-					.define('c', Blocks.FURNACE)
-					.define('p', ItemInit.PROCESSOR.get())
-					.define('r', ItemInit.TRANSISTOR.get())
-					.define('a', BlockInit.CABLE.get())
-					.pattern("rpr")
-					.pattern("ctc")
-					.pattern("iai");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.PRESSURIZED_CHAMBER.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('i', ItemInit.STEEL_INGOT.get())
-					.define('b', BlockInit.BATTERY.get())
-					.define('t', BlockInit.TANK.get())
-					.define('c', BlockInit.STEEL_CHASSIS.get())
-					.define('p', ItemInit.PROCESSOR.get())
-					.define('r', ItemInit.COPPER_COIL.get())
-					.define('a', BlockInit.TEMPERATURE_REGULATOR.get())
-					.pattern("rpr")
-					.pattern("tcb")
-					.pattern("iai");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.TANK.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('i', ItemInit.COPPER_INGOT.get())
-					.define('b', Items.BUCKET)
-					.define('c', BlockInit.IRON_CHASSIS.get())
-					.define('p', ItemInit.PROCESSOR.get())
-					.define('r', Blocks.OBSIDIAN)
-					.define('a', ItemInit.COPPER_COIL.get())
-					.pattern("rpr")
-					.pattern("bcb")
-					.pattern("iai");
-			//@formatter:on
-		});
-
-		addShaped(f, BlockInit.BATTERY.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('i', Items.REDSTONE)
-					.define('b', ItemInit.COPPER_COIL.get())
-					.define('c', BlockInit.IRON_CHASSIS.get())
-					.define('p', ItemInit.PROCESSOR.get())
-					.define('r', ItemInit.TRANSISTOR.get())
-					.define('a', BlockInit.CABLE.get())
-					.pattern("rpr")
-					.pattern("bcb")
-					.pattern("iai");
 			//@formatter:on
 		});
 	}
@@ -345,7 +148,7 @@ public class RecipesProvider extends RecipeProvider {
 			Function<MachinaShapedRecipeBuilder, MachinaShapedRecipeBuilder> apply) {
 		MachinaShapedRecipeBuilder b = MachinaShapedRecipeBuilder.shaped(out, count);
 		MachinaShapedRecipeBuilder a = apply.apply(b);
-		Item i = a.key.values().stream().collect(Collectors.toList()).get(0).getItems()[0].getItem();
+		Item i = a.has.getItems()[0].getItem();
 		String p = "shaped_" + out.asItem().getRegistryName().getPath();
 		a.group(p).unlockedBy("has_" + i, has(i)).save(f, p);
 	}

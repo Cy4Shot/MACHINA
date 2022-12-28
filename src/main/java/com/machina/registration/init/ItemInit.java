@@ -3,6 +3,7 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.item.BlueprintItem;
 import com.machina.item.CatalystItem;
 import com.machina.item.ChemicalItem;
 import com.machina.item.MachinaDiscItem;
@@ -23,6 +24,7 @@ public final class ItemInit {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Machina.MOD_ID);
 
 	//@formatter:off
+	public static final RegistryObject<BlueprintItem> BLUEPRINT = basic("blueprint", BlueprintItem::new);
 	public static final RegistryObject<ShipComponentItem> SHIP_COMPONENT = basic("ship_component", ShipComponentItem::new);
 	public static final RegistryObject<ScannerItem> SCANNER = basic("scanner", ScannerItem::new);
 	public static final RegistryObject<CatalystItem> IRON_CATALYST = basic("iron_catalyst", p -> new CatalystItem(p, 500));

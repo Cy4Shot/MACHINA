@@ -71,6 +71,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		geo(BlockInit.COMPONENT_ANALYZER.get());
 		geo(BlockInit.CARGO_CRATE.get());
 
+		item(ItemInit.BLUEPRINT.get());
 		item(ItemInit.REINFORCED_STICK.get());
 		item(ItemInit.STEEL_INGOT.get());
 		item(ItemInit.STEEL_NUGGET.get());

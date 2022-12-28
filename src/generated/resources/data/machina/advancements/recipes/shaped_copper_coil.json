@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_copper_ingot": {
+    "has_stick": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "machina:copper_ingot"
+            "item": "minecraft:stick"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_copper_ingot",
+      "has_stick",
       "has_the_recipe"
     ]
   ]
