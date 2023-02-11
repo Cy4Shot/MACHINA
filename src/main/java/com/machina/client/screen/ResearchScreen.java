@@ -31,7 +31,9 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.Color;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.LanguageMap;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentUtils;
 
@@ -237,6 +239,24 @@ public class ResearchScreen extends Screen {
 			Ingredient u = this.selected.getUnlock();
 			UIHelper.renderItem(n == null ? new ItemStack(Blocks.BARRIER) : n.getItems()[0], x2 + 52, y2 + 58);
 			UIHelper.renderItem(u == null ? new ItemStack(Blocks.BARRIER) : u.getItems()[0], x2 + 167, y2 + 58);
+
+			// Labels
+			if (n != null && mX > halfw + x2 + 50 && mX < halfw + x2 + 69 && mY > halfh + y2 + 56
+					&& mY < halfh + y2 + 75) {
+				UIHelper.renderUnboundLabel(stack,
+						Arrays.asList(TextComponentUtils.mergeStyles(
+								(new StringTextComponent("")).append(n.getItems()[0].getHoverName()),
+								Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
+						mX - halfw, mY - halfh, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+			}
+			if (u != null && mX > halfw + x2 + 165 && mX < halfw + x2 + 184 && mY > halfh + y2 + 56
+					&& mY < halfh + y2 + 75) {
+				UIHelper.renderUnboundLabel(stack,
+						Arrays.asList(TextComponentUtils.mergeStyles(
+								(new StringTextComponent("")).append(u.getItems()[0].getHoverName()),
+								Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
+						mX - halfw, mY - halfh, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+			}
 		}
 	}
 
