@@ -2,7 +2,6 @@ package com.machina.client.cinema;
 
 import com.machina.Machina;
 import com.machina.client.cinema.effect.OverlayEffect;
-import com.machina.client.cinema.effect.OverlayVideoEffect;
 import com.machina.client.screen.GoBeyondScreen;
 import com.machina.client.util.ClientTimer;
 
@@ -79,7 +78,6 @@ public class CinematicHandler {
 		MinecraftForge.EVENT_BUS.addListener((RenderGameOverlayEvent.Pre e) -> {
 			if (INSTANCE.isActive() && !mc.isPaused()) {
 				OverlayEffect.overlay(e);
-				OverlayVideoEffect.video(e);
 				e.setCanceled(true);
 			}
 		});

@@ -222,7 +222,7 @@ public class StarchartScreen extends Screen {
 				i++;
 			}
 		}
-		
+
 		if (hasTopButtons) {
 			float x1 = this.width / 2;
 			// Switch Tab Buttons
@@ -263,8 +263,8 @@ public class StarchartScreen extends Screen {
 			this.rotX -= (float) pDragX / (float) width * 180f;
 		}
 
-		// Pan - Middle Click
-		if (pButton == GLFW.GLFW_MOUSE_BUTTON_3) {
+		// Pan - Middle Click or Left Click
+		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1 || pButton == GLFW.GLFW_MOUSE_BUTTON_3) {
 
 			followPos = false;
 			followZoom = false;
@@ -287,15 +287,7 @@ public class StarchartScreen extends Screen {
 	}
 
 	@Override
-	public boolean mouseReleased(double pX, double pY, int pButton) {
-
-		float xw = this.width / 2;
-		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1 && hasTopButtons && pX > xw + 6 && pX < xw + 25 && pY > 10 && pY < 29) {
-			UIHelper.click();
-			Minecraft.getInstance().setScreen(new ResearchScreen());
-			return true;
-		}
-
+	public boolean mouseClicked(double pX, double pY, int pButton) {
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1) {
 			Collections.shuffle(planets);
 			for (Planet planet : planets) {
@@ -327,6 +319,19 @@ public class StarchartScreen extends Screen {
 				followZoom = false;
 				return true;
 			}
+		}
+
+		return super.mouseClicked(pX, pY, pButton);
+	}
+
+	@Override
+	public boolean mouseReleased(double pX, double pY, int pButton) {
+
+		float xw = this.width / 2;
+		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1 && hasTopButtons && pX > xw + 6 && pX < xw + 25 && pY > 10 && pY < 29) {
+			UIHelper.click();
+			Minecraft.getInstance().setScreen(new ResearchScreen());
+			return true;
 		}
 
 		return super.mouseReleased(pX, pY, pButton);

@@ -8,6 +8,7 @@ import com.machina.Machina;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.vector.Vector2f;
 
 public class Research {
@@ -16,14 +17,16 @@ public class Research {
 	private final Research parent;
 	private Vector2f location = new Vector2f(0, 0);
 	private final List<Research> children = new ArrayList<>();
+	private final ItemStack icon;
 	private final Ingredient needs;
 	private final Ingredient unlock;
 
-	public Research(String id, Research parent, Ingredient req, Ingredient out) {
+	public Research(String id, Research parent, Ingredient req, Ingredient out, IItemProvider icon) {
 		this.id = id;
 		this.parent = parent;
 		this.needs = req;
 		this.unlock = out;
+		this.icon = new ItemStack(icon);
 		if (parent != null) {
 			parent.registerChild(this);
 		}
@@ -67,6 +70,10 @@ public class Research {
 	
 	public Ingredient getUnlock() {
 		return unlock;
+	}
+	
+	public ItemStack getIcon() {
+		return icon;
 	}
 
 	public boolean isComplete(PlayerInventory inv) {

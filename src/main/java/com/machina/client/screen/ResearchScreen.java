@@ -264,19 +264,31 @@ public class ResearchScreen extends Screen {
 			UIHelper.sizedBlitTransp(stack, c.x, c.y, 18 * zoom, 18 * zoom, 181, 230, 18, 18, 256);
 		}
 
-		float x = this.width / 2;
-		float y = this.height / 2;
-		float s = 19 * zoom;
-		if (!openMenu && mX > x + c.x && mX < x + c.x + s && mY > y + c.y && mY < y + c.y + s) {
-			UIHelper.renderUnboundLabel(stack,
-					Arrays.asList(
-							TextComponentUtils.mergeStyles(StringUtils.translateComp(res.getNameKey()),
-									Style.EMPTY.withBold(true)),
-							TextComponentUtils.mergeStyles(StringUtils.translateScreenComp("research.click"),
-									Style.EMPTY.withItalic(true).withColor(Color.fromRgb(0xFF_00fefe)))),
-					mX - (int) x, mY - (int) y, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
-			UIHelper.bindScifi();
+		if (!openMenu) {
+			float scale = zoom * 0.9f;
+			float scaleInv = 1 / scale;
+			int xp = (int) (c.x / scale + 1.5f);
+			int yp = (int) (c.y / scale + 1.5f);
+			RenderSystem.scalef(scale, scale, scale);
+			ItemStack n = res.getIcon();
+			UIHelper.renderItem(n == null ? new ItemStack(Blocks.BARRIER) : n, xp, yp);
+			RenderSystem.scalef(scaleInv, scaleInv, scaleInv);
+
+			float x = this.width / 2;
+			float y = this.height / 2;
+			float s = 19 * zoom;
+			if (mX > x + c.x && mX < x + c.x + s && mY > y + c.y && mY < y + c.y + s) {
+				UIHelper.renderUnboundLabel(stack,
+						Arrays.asList(
+								TextComponentUtils.mergeStyles(StringUtils.translateComp(res.getNameKey()),
+										Style.EMPTY.withBold(true)),
+								TextComponentUtils.mergeStyles(StringUtils.translateScreenComp("research.click"),
+										Style.EMPTY.withItalic(true).withColor(Color.fromRgb(0xFF_00fefe)))),
+						mX - (int) x, mY - (int) y, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+			}
+
 		}
+		UIHelper.bindScifi();
 	}
 
 	private Vector2f getResPos(Research res) {
@@ -319,8 +331,8 @@ public class ResearchScreen extends Screen {
 
 	@Override
 	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-		// Pan - Middle Click
-		if (pButton == GLFW.GLFW_MOUSE_BUTTON_3) {
+		// Pan - Middle Click or Left Click
+		if (!openMenu && (pButton == GLFW.GLFW_MOUSE_BUTTON_1 || pButton == GLFW.GLFW_MOUSE_BUTTON_3)) {
 
 			this.posX += pDragX / 2;
 			this.posY += pDragY / 2;
@@ -340,7 +352,7 @@ public class ResearchScreen extends Screen {
 	}
 
 	@Override
-	public boolean mouseReleased(double mX, double mY, int pButton) {
+	public boolean mouseClicked(double mX, double mY, int pButton) {
 
 		if (pButton != GLFW.GLFW_MOUSE_BUTTON_1)
 			return super.mouseReleased(mX, mY, pButton);

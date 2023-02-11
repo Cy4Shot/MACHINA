@@ -4,7 +4,6 @@ import com.machina.Machina;
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.DevScreen;
 import com.machina.client.screen.StarchartScreen;
-import com.machina.client.screen.VLCWarningScreen;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.screen.overlay.ResearchToastOverlay;
 import com.machina.client.shader.renderer.ScannerRenderer;
@@ -17,14 +16,12 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.MainMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderTooltipEvent;
@@ -92,13 +89,5 @@ public class ClientForgeEvents {
 		MatrixStack stack = event.getMatrixStack();
 		MainWindow window = event.getWindow();
 		ResearchToastOverlay.render(stack, window);
-	}
-
-	@SubscribeEvent
-	public static void loadMainMenu(GuiOpenEvent event) {
-		Screen gui = event.getGui();
-		if (gui instanceof MainMenuScreen && !Machina.isOsWindows() && !VLCWarningScreen.accepted) {
-			event.setGui(new VLCWarningScreen());
-		}
 	}
 }

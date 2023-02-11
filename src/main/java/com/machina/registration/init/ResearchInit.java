@@ -14,15 +14,19 @@ public class ResearchInit {
 
 	public static Map<String, Research> RESEARCHES = new HashMap<>();
 
-	public static final Research ROOT = create("root", null, null, null);
-	public static final Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get(), BlockInit.COMPONENT_ANALYZER.get());
+	//@formatter:off
+	public static final Research ROOT = create("root", null, null, null, ItemInit.SCANNER.get());
+	public static final Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get(), BlockInit.COMPONENT_ANALYZER.get(), ItemInit.SHIP_COMPONENT.get());
+	//@formatter:on
 
 	static {
 		ResearchTreeNode.run(ROOT);
 	}
 
-	private static Research create(String id, Research parent, IItemProvider in, IItemProvider out) {
-		Research r = new Research(id, parent, in == null ? null : Ingredient.of(in), out == null ? null : Ingredient.of(out));
+	private static Research create(String id, Research parent, IItemProvider in, IItemProvider out,
+			IItemProvider icon) {
+		Research r = new Research(id, parent, in == null ? null : Ingredient.of(in),
+				out == null ? null : Ingredient.of(out), icon);
 		RESEARCHES.put(id, r);
 		return r;
 	}
