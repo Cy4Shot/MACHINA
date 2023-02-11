@@ -42,15 +42,15 @@ public class ResearchTree implements INBTSerializable<CompoundNBT> {
 	private static BaseNBTList<String, StringNBT> createResearchList() {
 		return new BaseNBTList<>(s -> StringNBT.valueOf(s), s -> s.getAsString());
 	}
-	
+
 	public List<String> getResearched() {
 		return this.researched;
 	}
-	
+
 	public void complete(Research r) {
 		researched.add(r.getId());
 	}
-	
+
 	public List<Research> unlockedResearches() {
 		List<Research> unlocked = new ArrayList<>();
 		for (Map.Entry<String, Research> r : ResearchInit.RESEARCHES.entrySet()) {
@@ -63,11 +63,11 @@ public class ResearchTree implements INBTSerializable<CompoundNBT> {
 		}
 		return unlocked;
 	}
-	
+
 	public boolean canCraft(ItemStack stack) {
 		for (Map.Entry<String, Research> r : ResearchInit.RESEARCHES.entrySet()) {
 			if (!researched.contains(r.getKey())) {
-				if (r.getValue().getUnlock().getItems()[0].getItem().equals(stack.getItem())) {
+				if (r.getValue().getUnlock().has(stack)) {
 					return false;
 				}
 			}

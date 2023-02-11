@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.machina.Machina;
+import com.machina.blueprint.BlueprintGroup;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -17,16 +18,14 @@ public class Research {
 	private final Research parent;
 	private Vector2f location = new Vector2f(0, 0);
 	private final List<Research> children = new ArrayList<>();
-	private final ItemStack icon;
 	private final Ingredient needs;
-	private final Ingredient unlock;
+	private final BlueprintGroup unlock;
 
-	public Research(String id, Research parent, Ingredient req, Ingredient out, IItemProvider icon) {
+	public Research(String id, Research parent, IItemProvider in, BlueprintGroup bg) {
 		this.id = id;
 		this.parent = parent;
-		this.needs = req;
-		this.unlock = out;
-		this.icon = new ItemStack(icon);
+		this.needs = in == null ? null : Ingredient.of(in);
+		this.unlock = bg == null ? BlueprintGroup.EMPTY : bg;
 		if (parent != null) {
 			parent.registerChild(this);
 		}
@@ -68,12 +67,8 @@ public class Research {
 		return needs;
 	}
 	
-	public Ingredient getUnlock() {
+	public BlueprintGroup getUnlock() {
 		return unlock;
-	}
-	
-	public ItemStack getIcon() {
-		return icon;
 	}
 
 	public boolean isComplete(PlayerInventory inv) {

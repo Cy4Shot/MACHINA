@@ -3,11 +3,11 @@ package com.machina.registration.init;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.machina.blueprint.BlueprintGroup;
 import com.machina.research.Research;
 import com.machina.research.ResearchTreeNode;
 import com.machina.util.text.StringUtils;
 
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
 
 public class ResearchInit {
@@ -15,18 +15,16 @@ public class ResearchInit {
 	public static Map<String, Research> RESEARCHES = new HashMap<>();
 
 	//@formatter:off
-	public static final Research ROOT = create("root", null, null, null, ItemInit.SCANNER.get());
-	public static final Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get(), BlockInit.COMPONENT_ANALYZER.get(), ItemInit.SHIP_COMPONENT.get());
+	public static final Research ROOT = create("root", null, null, null);
+	public static final Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get(), BlueprintInit.ANALYSIS);
 	//@formatter:on
 
 	static {
 		ResearchTreeNode.run(ROOT);
 	}
 
-	private static Research create(String id, Research parent, IItemProvider in, IItemProvider out,
-			IItemProvider icon) {
-		Research r = new Research(id, parent, in == null ? null : Ingredient.of(in),
-				out == null ? null : Ingredient.of(out), icon);
+	private static Research create(String id, Research parent, IItemProvider in, BlueprintGroup out) {
+		Research r = new Research(id, parent, in, out);
 		RESEARCHES.put(id, r);
 		return r;
 	}
