@@ -13,6 +13,8 @@ import com.machina.blueprint.Blueprint.BlueprintCategory;
 import com.machina.client.ClientResearch;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
+import com.machina.network.MachinaNetwork;
+import com.machina.network.c2s.C2SEtchBlueprint;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -26,6 +28,7 @@ import net.minecraft.util.text.LanguageMap;
 public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer> {
 
 	private int tab = -1;
+	private Blueprint selected = null;
 
 	public BlueprinterScreen(BlueprinterContainer pMenu, PlayerInventory pPlayerInventory, ITextComponent pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
@@ -104,8 +107,9 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 			for (Map.Entry<Blueprint, Boolean> e : bps.entrySet()) {
 				if (e.getValue()) {
 					UIHelper.blit(stack, bx + bpx * 20, by + bpy * 20, 237, 72, 19, 19);
-					if (pX > bx - 1 + bpx * 20 && pX < bx + 18 + bpx * 20 && pY > by - 1 + bpy * 20
-							&& pY < by + 18 + bpy * 20) {
+					if ((this.selected != null && this.selected.getId().equals(e.getKey().getId()))
+							|| (pX > bx - 1 + bpx * 20 && pX < bx + 18 + bpx * 20 && pY > by - 1 + bpy * 20
+									&& pY < by + 18 + bpy * 20)) {
 						UIHelper.blit(stack, bx + bpx * 20, by + bpy * 20, 237, 110, 18, 18);
 					}
 					UIHelper.renderItem(e.getKey().getItem(), bx + 1 + bpx * 20, by + 1 + bpy * 20);
@@ -148,19 +152,42 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 						(x + 180) * 1.25f, (y + 36) * 1.25f, 0xFF_ff0000, 0xFF_0e0e0e);
 				RenderSystem.scalef(1.25f, 1.25f, 1.25f);
 			} else {
-				UIHelper.bindTrmnl();
-				if (pX > x + 172 && pX < x + 172 + 16 && pY > y + 80 && pY < y + 80 + 16) {
-					UIHelper.blit(stack, x + 172, y + 80, 237, 73, 17, 17);
-					UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateCompScreen("blueprint.etch")), pX,
-							pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
-					UIHelper.bindTrmnl();
+				if (this.selected == null) {
+					UIHelper.bindBlprt();
+					UIHelper.blit(stack, x + 172, y + 80, 237, 166, 17, 17);
+					RenderSystem.scalef(0.8f, 0.8f, 0.8f);
+					UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("blueprint.unselected"),
+							(x + 180) * 1.25f, (y + 36) * 1.25f, 0xFF_ff0000, 0xFF_0e0e0e);
+					RenderSystem.scalef(1.25f, 1.25f, 1.25f);
 				} else {
-					UIHelper.blit(stack, x + 172, y + 80, 237, 56, 17, 17);
+					if (!this.menu.te.getItem(1).isEmpty()) {
+						UIHelper.bindBlprt();
+						UIHelper.blit(stack, x + 172, y + 80, 237, 166, 17, 17);
+						RenderSystem.scalef(0.8f, 0.8f, 0.8f);
+						UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("blueprint.full"),
+								(x + 180) * 1.25f, (y + 36) * 1.25f, 0xFF_ff0000, 0xFF_0e0e0e);
+						RenderSystem.scalef(1.25f, 1.25f, 1.25f);
+					} else {
+						UIHelper.bindTrmnl();
+						if (pX > x + 172 && pX < x + 172 + 16 && pY > y + 80 && pY < y + 80 + 16) {
+							UIHelper.blit(stack, x + 172, y + 80, 237, 73, 17, 17);
+							UIHelper.renderLabel(stack,
+									Arrays.asList(StringUtils.translateCompScreen("blueprint.etch")), pX, pY,
+									0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+							UIHelper.bindTrmnl();
+						} else {
+							UIHelper.blit(stack, x + 172, y + 80, 237, 56, 17, 17);
+						}
+						RenderSystem.scalef(0.8f, 0.8f, 0.8f);
+						UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("blueprint.ready"),
+								(x + 180) * 1.25f, (y + 36) * 1.25f, 0xFF_00fefe, 0xFF_0e0e0e);
+						RenderSystem.scalef(1.25f, 1.25f, 1.25f);
+					}
 				}
-				RenderSystem.scalef(0.8f, 0.8f, 0.8f);
-				UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("blueprint.ready"),
-						(x + 180) * 1.25f, (y + 36) * 1.25f, 0xFF_00fefe, 0xFF_0e0e0e);
-				RenderSystem.scalef(1.25f, 1.25f, 1.25f);
+			}
+
+			if (this.selected != null && this.menu.te.getItem(1).isEmpty()) {
+				UIHelper.renderTintedItem(stack, this.selected.getItem(), x + 196, y + 50, 35, 35, 35, 0.7f);
 			}
 
 			float inv = 1 / 0.7f;
@@ -191,6 +218,7 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 
 	@Override
 	public boolean mouseReleased(double pX, double pY, int pB) {
+		int tabs = BlueprintCategory.values().length;
 		if (pB == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
 			int xSize = 237, ySize = 201;
 			int x = (this.width - xSize) / 2;
@@ -201,7 +229,6 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 				return true;
 			}
 
-			int tabs = BlueprintCategory.values().length;
 			for (int i = 0; i < tabs; i++) {
 				if (tab != i && ClientResearch.getResearch().categoryUnlocked(BlueprintCategory.values()[i])) {
 					if (pX > x + i * 22 - 1 && pX < x + i * 22 + 20 && pY > y - 19 && pY < y) {
@@ -211,9 +238,41 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 					}
 				}
 			}
+
+			if (tab >= 0 && tab < tabs) {
+				if (!this.menu.te.getItem(0).isEmpty() && this.selected != null && pX > x + 172 && pX < x + 172 + 16
+						&& pY > y + 80 && pY < y + 80 + 16 && this.menu.te.getItem(1).isEmpty()) {
+					MachinaNetwork.CHANNEL
+							.sendToServer(new C2SEtchBlueprint(this.menu.te.getBlockPos(), this.selected.getId()));
+					UIHelper.click();
+					return true;
+				}
+				int bpx = 0;
+				int bpy = 0;
+				int bx = x + 8;
+				int by = y + 32;
+				LinkedHashMap<Blueprint, Boolean> bps = ClientResearch.getResearch()
+						.getCategory(BlueprintCategory.values()[tab]);
+				for (Map.Entry<Blueprint, Boolean> e : bps.entrySet()) {
+					if (e.getValue()) {
+						if (pX > bx - 1 + bpx * 20 && pX < bx + 18 + bpx * 20 && pY > by - 1 + bpy * 20
+								&& pY < by + 18 + bpy * 20) {
+							this.selected = e.getKey();
+							UIHelper.click();
+							return true;
+						}
+					}
+					bpx++;
+					if (bpx >= 6) {
+						bpx = 0;
+						bpy++;
+					}
+				}
+
+			}
 		}
 
-		if (tab >= 0 && tab < BlueprintCategory.values().length)
+		if (tab >= 0 && tab < tabs)
 			return super.mouseReleased(pX, pY, pB);
 		else
 			return true;
