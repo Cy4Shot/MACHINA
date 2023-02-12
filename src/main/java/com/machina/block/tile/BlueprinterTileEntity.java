@@ -22,12 +22,4 @@ public class BlueprinterTileEntity extends BaseLockableTileEntity {
 	protected Container createMenu(int id, PlayerInventory player) {
 		return new BlueprinterContainer(id, player, this);
 	}
-	
-	public int getTabCount() {
-		return 4;
-	}
-	
-	public int[] getUnlocked() {
-		return new int[] {0, 1, 2};
-	}
 }

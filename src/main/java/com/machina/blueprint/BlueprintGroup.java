@@ -3,12 +3,12 @@ package com.machina.blueprint;
 import java.util.Arrays;
 import java.util.List;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 public class BlueprintGroup {
 
-	public static final BlueprintGroup EMPTY = new BlueprintGroup(new ItemStack(Blocks.DIRT));
+	public static final BlueprintGroup EMPTY = new BlueprintGroup(new ItemStack(Items.BARRIER));
 
 	private final ItemStack icon;
 	private final List<Blueprint> bps;

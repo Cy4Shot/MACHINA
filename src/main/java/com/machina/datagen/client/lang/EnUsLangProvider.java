@@ -183,11 +183,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ResearchInit.ANALYSIS, "Analysis", "Crashed ships litter the landscape like a flock of sheep. A legend says, hacking the terminals inside will yield rewards unkown.");
 
 		// GUI
-		addScreen("vlc", "warning1", "WARNING: You are playing Machina on MacOS / Linux.");
-		addScreen("vlc", "warning2", "In order for some features to run correctly, you must install VLC.");
-		addScreen("vlc", "warning3", "Make sure to install VLC 4.0.");
-		addScreen("vlc", "link", "Install VLC 4.0");
-		addScreen("vlc", "title", "I have installed VLC");
 		addScreen("component_analyzer", "insert", "Insert Component");
 		addScreen("cargo_crate", "open", "Right Click to Loot");
 		addScreen("starchart", "sel", "Select");
@@ -204,6 +199,10 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("research", "in", "Needs");
 		addScreen("research", "out", "Unlocks");
 		addScreen("research_toast", "complete", "Research Complete: ");
+		addScreen("blueprint", "tab0", "Components");
+		addScreen("blueprint", "tab1", "Machines");
+		addScreen("blueprint", "tab2", "Tools");
+		addScreen("blueprint", "tab3", "[PH] Suits");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");

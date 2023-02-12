@@ -17,6 +17,7 @@ public class ResearchInit {
 	//@formatter:off
 	public static final Research ROOT = create("root", null, null, null);
 	public static final Research ANALYSIS = create("analysis", ROOT, ItemInit.SHIP_COMPONENT.get(), BlueprintInit.ANALYSIS);
+	public static final Research B = create("b", ROOT, ItemInit.BLUEPRINT.get(), BlueprintInit.B);
 	//@formatter:on
 
 	static {
