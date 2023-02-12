@@ -18,8 +18,7 @@ public class BlueprinterContainer extends BaseContainer<BlueprinterTileEntity> {
 
 	public BlueprinterTileEntity te;
 
-	public BlueprinterContainer(final int windowId, final PlayerInventory playerInv,
-			final BlueprinterTileEntity te) {
+	public BlueprinterContainer(final int windowId, final PlayerInventory playerInv, final BlueprinterTileEntity te) {
 		super(ContainerInit.BLUEPRINTER.get(), windowId, te);
 		this.te = te;
 
@@ -28,9 +27,9 @@ public class BlueprinterContainer extends BaseContainer<BlueprinterTileEntity> {
 
 	public void recreateSlots(final PlayerInventory playerInv) {
 		this.slots.clear();
-		this.addSlot(new AcceptSlot((IInventory) te, 0, -2, 74,
-				stack -> stack.equals(ItemInit.BLUEPRINT.get().getDefaultInstance(), true)));
-		this.addSlot(new ResultSlot((IInventory) te, 1, 159, 74));
+		this.addSlot(
+				new AcceptSlot((IInventory) te, 0, 118, 33, stack -> stack.getItem().equals(ItemInit.BLUEPRINT.get())));
+		this.addSlot(new ResultSlot((IInventory) te, 1, 165, 33));
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInv, col, 7 + col * 18, 176));
 		}

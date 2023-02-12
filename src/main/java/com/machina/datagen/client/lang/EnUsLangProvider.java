@@ -203,6 +203,12 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("blueprint", "tab1", "Machines");
 		addScreen("blueprint", "tab2", "Tools");
 		addScreen("blueprint", "tab3", "[PH] Suits");
+		addScreen("blueprint", "etch", "Etch");
+		addScreen("blueprint", "ready", "Etch Ready");
+		addScreen("blueprint", "missing", "Missing Blueprint");
+		addScreen("blueprint", "crafttip", "In order to etch a blueprint, input a blueprint into the slot, then select a type on the left and etch it. Insert blueprints into the fabrication bench in order to use them.");
+		addScreen("blueprint", "tabtip1", "Please select a tab to start making blueprints. If no tabs are available, you haven't completed enough research yet. Open the research menu by pressing '");
+		addScreen("blueprint", "tabtip2", "'.");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");

@@ -1,6 +1,8 @@
 package com.machina.client.screen;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.glfw.GLFW;
@@ -11,12 +13,15 @@ import com.machina.blueprint.Blueprint.BlueprintCategory;
 import com.machina.client.ClientResearch;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
+import com.machina.registration.init.KeyBindingsInit;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.LanguageMap;
 
 public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer> {
 
@@ -34,10 +39,7 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 
 	@Override
 	public int getSlotColor(int index) {
-		if (index < this.menu.te.getContainerSize())
-			return 0x00_FFFFFF;
-		else
-			return super.getSlotColor(index);
+		return 0x44_FFFFFF;
 	}
 
 	@Override
@@ -49,8 +51,12 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 		this.renderBackground(stack);
 
 		// Render
-		super.render(stack, pMouseX, pMouseY, pPartialTicks);
-		this.renderTooltip(stack, pMouseX, pMouseY);
+		if (tab >= 0 && tab < BlueprintCategory.values().length) {
+			super.render(stack, pMouseX, pMouseY, pPartialTicks);
+			this.renderTooltip(stack, pMouseX, pMouseY);
+		} else {
+			this.renderBg(stack, pPartialTicks, pMouseX, pMouseY);
+		}
 	}
 
 	@Override
@@ -120,9 +126,66 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 			UIHelper.blit(stack, bx + 62, by - 11, 88, 0, 56, 4);
 			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("blueprint.tab" + tab), bx + 60,
 					by - 24, 0xFF_00fefe, 0xFF_0e0e0e);
+
+			// Craft
+			UIHelper.bindPrgrs();
+			UIHelper.blit(stack, x + 137, y + 24, 163, 175, 93, 81);
+
+			UIHelper.bindScifi();
+			UIHelper.blit(stack, x + 148, y + 49, 228, 184, 19, 19);
+			UIHelper.blit(stack, x + 195, y + 49, 228, 184, 19, 19);
+
+			UIHelper.bindPrgrs();
+			UIHelper.blit(stack, x + 143, y + 50, 0, 239, 29, 17);
+			UIHelper.blit(stack, x + 190, y + 50, 0, 239, 29, 17);
+			UIHelper.blit(stack, x + 178, y + 53, 121, 246, 6, 10);
+
+			if (this.menu.te.getItem(0).isEmpty()) {
+				UIHelper.bindBlprt();
+				UIHelper.blit(stack, x + 172, y + 80, 237, 166, 17, 17);
+				RenderSystem.scalef(0.8f, 0.8f, 0.8f);
+				UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("blueprint.missing"),
+						(x + 180) * 1.25f, (y + 36) * 1.25f, 0xFF_ff0000, 0xFF_0e0e0e);
+				RenderSystem.scalef(1.25f, 1.25f, 1.25f);
+			} else {
+				UIHelper.bindTrmnl();
+				if (pX > x + 172 && pX < x + 172 + 16 && pY > y + 80 && pY < y + 80 + 16) {
+					UIHelper.blit(stack, x + 172, y + 80, 237, 73, 17, 17);
+					UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateCompScreen("blueprint.etch")), pX,
+							pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+					UIHelper.bindTrmnl();
+				} else {
+					UIHelper.blit(stack, x + 172, y + 80, 237, 56, 17, 17);
+				}
+				RenderSystem.scalef(0.8f, 0.8f, 0.8f);
+				UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("blueprint.ready"),
+						(x + 180) * 1.25f, (y + 36) * 1.25f, 0xFF_00fefe, 0xFF_0e0e0e);
+				RenderSystem.scalef(1.25f, 1.25f, 1.25f);
+			}
+
+			float inv = 1 / 0.7f;
+			List<IReorderingProcessor> desc = LanguageMap.getInstance().getVisualOrder(
+					StringUtils.findOptimalLines(StringUtils.translateCompScreen("blueprint.crafttip"), 270));
+			RenderSystem.scalef(0.7f, 0.7f, 0.7f);
+			for (int k1 = 0; k1 < desc.size(); ++k1) {
+				UIHelper.drawCenteredStringWithBorder(stack, desc.get(k1), (x + 118) * inv, (y + 120 + k1 * 9) * inv,
+						0xFF_00fefe, 0xFF_0e0e0e);
+			}
+			RenderSystem.scalef(inv, inv, inv); // lol
+		} else {
+			float inv = 1 / 0.7f;
+			List<IReorderingProcessor> desc = LanguageMap.getInstance().getVisualOrder(
+					StringUtils.findOptimalLines(StringUtils.toComp(StringUtils.translateScreen("blueprint.tabtip1")
+							+ KeyBindingsInit.STARCHART.getKey().getDisplayName().getString().toUpperCase()
+							+ StringUtils.translateScreen("blueprint.tabtip2")), 270));
+			RenderSystem.scalef(0.7f, 0.7f, 0.7f);
+			for (int k1 = 0; k1 < desc.size(); ++k1) {
+				UIHelper.drawCenteredStringWithBorder(stack, desc.get(k1), (x + 118) * inv, (y + 74 + k1 * 9) * inv,
+						0xFF_00fefe, 0xFF_0e0e0e);
+			}
+			RenderSystem.scalef(inv, inv, inv); // lol
 		}
 
-		// Text
 		UIHelper.drawStringWithBorder(stack, "MACHINA://BLUEPRINTER_TABLE/", x + 8, y + 170, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
 
@@ -150,7 +213,18 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 			}
 		}
 
-		return super.mouseReleased(pX, pY, pB);
+		if (tab >= 0 && tab < BlueprintCategory.values().length)
+			return super.mouseReleased(pX, pY, pB);
+		else
+			return true;
+	}
+
+	@Override
+	public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+		if (tab >= 0 && tab < BlueprintCategory.values().length)
+			return super.mouseClicked(pMouseX, pMouseY, pButton);
+		else
+			return true;
 	}
 
 	@Override
