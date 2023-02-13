@@ -15,7 +15,7 @@ public class FabricatorContainer extends BaseContainer<FabricatorTileEntity> {
 	public FabricatorTileEntity te;
 
 	public FabricatorContainer(final int windowId, final PlayerInventory playerInv, final FabricatorTileEntity te) {
-		super(ContainerInit.BLUEPRINTER.get(), windowId, te);
+		super(ContainerInit.FABRICATOR.get(), windowId, te);
 		this.te = te;
 
 		recreateSlots(playerInv);
