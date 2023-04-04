@@ -9,6 +9,8 @@ import net.minecraft.util.Direction;
 public class DirectionUtil {
 
 	public static final List<Direction> DIRECTIONS = Lists.newArrayList(Direction.values());
+	
+	public static final List<Direction> HORIZONTAL = Lists.newArrayList(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
 	public static int rotations(Direction dir) {
 		switch (dir) {

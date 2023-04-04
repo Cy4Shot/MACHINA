@@ -22,7 +22,7 @@ public class ClientWorldRendererMixin {
 	public void renderLevel(MatrixStack pMatrixStack, float pPartialTicks, long pFinishTimeNano,
 			boolean pDrawBlockOutline, ActiveRenderInfo pActiveRenderInfo, GameRenderer pGameRenderer,
 			LightTexture pLightmap, Matrix4f pProjection, CallbackInfo ci) {
-		RaindropRenderer.render(pMatrixStack, pProjection);
+//		RaindropRenderer.render(pMatrixStack, pProjection);
 		ScannerRenderer.render(pMatrixStack, pProjection);
 	}
 }

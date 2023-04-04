@@ -391,7 +391,7 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			RenderSystem.pushMatrix();
 			RenderSystem.depthMask(false);
 			Color c = ClientStarchart.getPlanetData(world.dimension()).getAttribute(AttributeInit.PALETTE)[3];
-			this.renderRain(world, mc, lightmapIn, partialTicks, xIn, yIn, zIn, c.r(), c.g(), c.b());
+//			this.renderRain(world, mc, lightmapIn, partialTicks, xIn, yIn, zIn, c.r(), c.g(), c.b());
 			RenderSystem.depthMask(true);
 			RenderSystem.popMatrix();
 

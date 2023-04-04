@@ -6,6 +6,7 @@ import com.machina.command.impl.DebugCommand;
 import com.machina.command.impl.GoToPlanetCommand;
 import com.machina.command.impl.ListAttributesCommand;
 import com.machina.command.impl.ListTraitsCommand;
+import com.machina.command.impl.SpawnTreeCommand;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
@@ -23,11 +24,12 @@ public final class CommandInit {
 
 	public static void registerCommands(final RegisterCommandsEvent event) {
 		registerCommand(event, new GoToPlanetCommand(STOP_THE_SERVER));
-		
+
 		if (Machina.isDevEnvironment()) {
 			registerCommand(event, new DebugCommand(STOP_THE_SERVER));
 			registerCommand(event, new ListTraitsCommand(STOP_THE_SERVER));
 			registerCommand(event, new ListAttributesCommand(STOP_THE_SERVER));
+			registerCommand(event, new SpawnTreeCommand(STOP_THE_SERVER));
 		}
 	}
 

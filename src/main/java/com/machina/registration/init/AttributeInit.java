@@ -55,63 +55,52 @@ public final class AttributeInit {
 	public static final PlanetAttributeType<Integer> CAVE_LENGTH = create("CAVE_LENGTH", 3, 1, 5);
 	public static final PlanetAttributeType<Float> CAVE_THICKNESS = create("CAVE_THICKNESS", 0.03f, 0.01f, 0.06f, 250, "m");
 	public static final PlanetAttributeType<Float> ISLAND_DENSITY = create("ISLAND_DENSITY", 0.5f, 0.3f, 0.7f, 100, "%");
-	public static final PlanetAttributeType<Float> TRUNK_MIN_HEIGHT = create("TRUNK_MIN_HEIGHT", 15f, 5f, 20f, "m");
-	public static final PlanetAttributeType<Float> TRUNK_MAX_HEIGHT = create("TRUNK_MAX_HEIGHT", 25f, 20f, 30f, "m");
-	public static final PlanetAttributeType<Float> TRUNK_WIDTH_RAND = create("TRUNK_WIDTH_RAND", 10f, 5f, 20f, "m");
-	public static final PlanetAttributeType<Float> TRUNK_MIN_RADIUS = create("TRUNK_MIN_RADIUS", 2f, 1f, 2f, "m");
-	public static final PlanetAttributeType<Float> TRUNK_MAX_RADIUS = create("TRUNK_MAX_RADIUS", 3f, 2f, 4f, "m");
-	public static final PlanetAttributeType<Float> TRUNK_NOISE_SCAL = create("TRUNK_NOISE_SCAL", 0.5f, 0f, 1f);
-	public static final PlanetAttributeType<Integer> TRUNK_RNDMNESS_W = create("TRUNK_RNDMNESS_W", 5, 2, 10, "m");
-	public static final PlanetAttributeType<Integer> TRUNK_RNDMNESS_H = create("TRUNK_RNDMNESS_H", 8, 2, 15, "m");
-	public static final PlanetAttributeType<Float> LEAF_NOISE_SCALE = create("LEAF_NOISE_SCALE", 0.5f, 0f, 1f, 100, "%");
-	public static final PlanetAttributeType<Float> LEAF_START_PRCNT = create("LEAF_START_PRCNT", 0.5f, 0.3f, 0.5f, 100, "%");
-	public static final PlanetAttributeType<Float> LEAF_SPWN_CHANCE = create("LEAF_SPWN_CHANCE", 0.8f, 0.6f, 1f, 100, "%");
-	public static final PlanetAttributeType<Float> LEAF_LOG_DIS_MIN = create("LEAF_LOG_DIS_MIN", 2f, 1f, 4f, "m");
-	public static final PlanetAttributeType<Float> LEAF_LOG_DIS_MAX = create("LEAF_LOG_DIS_MAX", 5f, 4f, 8f, "m");
-	public static final PlanetAttributeType<Float> LEAF_LOG_DIS_DRP = create("LEAF_LOG_DIS_DRP", 0.7f, 0.5f, 0.9f, 100, "%");
-	public static final PlanetAttributeType<Integer> LEAF_LAYER_INTER = create("LEAF_LAYER_INTER", 4, 1, 6, "m");
-	public static final PlanetAttributeType<Integer> LEAF_LAYER_COUNT = create("LEAF_LAYER_COUNT", 3, 1, 5, "m");
-	public static final PlanetAttributeType<Integer> LEAF_LAYER_WIDTH = create("LEAF_LAYER_WIDTH", 2, 1, 3, "m");
-	public static final PlanetAttributeType<Integer> TREE_TYPE = create("TREE_TYPE", 0, 0, 1);
+	public static final PlanetAttributeType<Integer> TREE_CHANCE = create("TREE_CHANCE", 20, 1, 50);
+	public static final PlanetAttributeType<Integer> TREE_COUNT = create("TREE_COUNT", 5, 3, 30);
+	public static final PlanetAttributeType<Integer> TREE_TYPE_SEED = create("TREE_TYPE_SEED", 0, 0, 999999999);
+	public static final PlanetAttributeType<Float> TRUNK_HEIGHT = create("TRUNK_HEIGHT", 0f, 0f, 1f);
+	public static final PlanetAttributeType<Float> TRUNK_RADIUS = create("TRUNK_RADIUS", 0f, 0f, 1f);
+	public static final PlanetAttributeType<Float> LEAVES_HEIGHT = create("LEAVES_HEIGHT", 0f, 0f, 1f);
+	public static final PlanetAttributeType<Float> LEAVES_RADIUS = create("LEAVES_RADIUS", 0f, 0f, 1f);
 	public static final PlanetAttributeType<Double[]> ATMOSPHERE = create(new DoubleListSerializer(FluidInit::atmForDim, dirichlet(FluidInit.ATMOSPHERE.size()), FluidInit.ATMOSPHERE.size()));
 	//@formatter:on
-	
+
 	public static PlanetAttributeType<Float> create(String name, float def, float min, float max) {
 		return create(new FloatSerializer(name, def, min, max));
 	}
-	
+
 	public static PlanetAttributeType<Float> create(String name, float def, float min, float max, String unit) {
 		return create(new FloatSerializer(name, def, min, max), unit);
 	}
-	
+
 	public static PlanetAttributeType<Float> create(String name, float def, float min, float max, int s) {
 		return create(new ChanceSerializer(name, def, min, max, s));
 	}
-	
+
 	public static PlanetAttributeType<Float> create(String name, float def, float min, float max, int s, String unit) {
 		return create(new ChanceSerializer(name, def, min, max, s), unit);
 	}
-	
-	public static PlanetAttributeType<Integer> create(String name, int def,  Function<Random, Integer> gen) {
+
+	public static PlanetAttributeType<Integer> create(String name, int def, Function<Random, Integer> gen) {
 		return create(new IntSerializer(name, def, gen));
 	}
-	
+
 	public static PlanetAttributeType<Integer> create(String name, int def, int min, int max) {
 		return create(new IntSerializer(name, def, min, max));
 	}
-	
+
 	public static PlanetAttributeType<Integer> create(String name, int def, int min, int max, String unit) {
 		return create(new IntSerializer(name, def, min, max), unit);
 	}
-	
-	public static PlanetAttributeType<String> create(String name, String def,  Function<Random, String> gen) {
+
+	public static PlanetAttributeType<String> create(String name, String def, Function<Random, String> gen) {
 		return create(new StringSerializer(name, def, gen));
 	}
-	
-	public static PlanetAttributeType<Color[]> create(String name, Color[] def,  Function<Random, Color[]> gen, int size) {
+
+	public static PlanetAttributeType<Color[]> create(String name, Color[] def, Function<Random, Color[]> gen,
+			int size) {
 		return create(new ColorListSerializer(name, def, gen, size));
 	}
-
 
 	public static <T> PlanetAttributeType<T> create(AttributeSerializer<T> ser) {
 		return create(ser, "");
