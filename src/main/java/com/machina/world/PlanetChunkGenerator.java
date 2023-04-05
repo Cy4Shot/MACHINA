@@ -134,7 +134,8 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.traits.forEach(trait -> this.carvers.addAll(trait.addCarvers(this)));
 
 		this.features = new ArrayList<>();
-		this.features.add(() -> new PlanetTreeFeature(attr).countchance(attr.getValue(AttributeInit.TREE_COUNT), attr.getValue(AttributeInit.TREE_CHANCE)));
+		this.features.add(() -> new PlanetTreeFeature(attr).countchance(attr.getValue(AttributeInit.TREE_COUNT),
+				attr.getValue(AttributeInit.TREE_CHANCE)));
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
 
 		// Noise
@@ -232,26 +233,20 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		int k = i * 16;
 		int l = j * 16;
 		BlockPos blockpos = new BlockPos(k, 0, l);
-		SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
-		long i1 = sharedseedrandom.setDecorationSeed(region.getSeed(), k, l);
 
 		try {
-			int k1 = 0;
 			for (Supplier<ConfiguredFeature<?, ?>> supplier : features) {
 				ConfiguredFeature<?, ?> configuredfeature = supplier.get();
-				sharedseedrandom.setFeatureSeed(i1, k1, 0);
 
 				try {
-					configuredfeature.place(region, this, sharedseedrandom, blockpos);
+					configuredfeature.place(region, this, new Random(this.random.nextLong()), blockpos);
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
-
-				++k1;
 			}
 		} catch (Exception exception) {
 			CrashReport crashreport = CrashReport.forThrowable(exception, "Biome decoration");
-			crashreport.addCategory("Generation").setDetail("CenterX", i).setDetail("CenterZ", j).setDetail("Seed", i1);
+			crashreport.addCategory("Generation").setDetail("CenterX", i).setDetail("CenterZ", j);
 			throw new ReportedException(crashreport);
 		}
 	}

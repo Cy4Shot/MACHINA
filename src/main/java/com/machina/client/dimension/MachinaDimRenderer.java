@@ -395,8 +395,8 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			RenderSystem.depthMask(true);
 			RenderSystem.popMatrix();
 
-			if (!mc.isPaused())
-				this.tickRain(world, mc, mc.gameRenderer.getMainCamera());
+//			if (!mc.isPaused())
+//				this.tickRain(world, mc, mc.gameRenderer.getMainCamera());
 		}
 
 		public static int getLightColor(IBlockDisplayReader pLightReader, BlockPos pBlockPos) {

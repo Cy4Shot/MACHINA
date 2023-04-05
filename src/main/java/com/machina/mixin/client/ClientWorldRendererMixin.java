@@ -5,7 +5,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.machina.client.shader.renderer.RaindropRenderer;
 import com.machina.client.shader.renderer.ScannerRenderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 

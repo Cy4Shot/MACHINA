@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.machina.util.math.MathUtil;
 import com.machina.util.sdf.operator.SDFUnion;
 import com.machina.util.sdf.primitive.SDFLine;
+import com.machina.util.sdf.primitive.SDFSphere;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -126,6 +127,20 @@ public class SplineUtil {
 		return true;
 	}
 
+	public static boolean fillSplineRad(List<Vector3f> spline, ISeedReader world, BlockState state, BlockPos pos,
+			Function<Float, Float> rad, Function<BlockState, Boolean> replace) {
+		Vector3f startPos = spline.get(0);
+		for (int i = 1; i < spline.size(); i++) {
+			Vector3f endPos = spline.get(i);
+			if (!(fillLineRad(startPos, endPos, world, state, pos, rad.apply((float) i / (float) spline.size()), replace))) {
+				return false;
+			}
+			startPos = endPos;
+		}
+
+		return true;
+	}
+
 	public static void fillSplineForce(List<Vector3f> spline, ISeedReader world, BlockState state, BlockPos pos,
 			Function<BlockState, Boolean> replace) {
 		Vector3f startPos = spline.get(0);
@@ -178,6 +193,55 @@ public class SplineUtil {
 			bState = world.getBlockState(bPos);
 			if (down && bState.equals(state) || replace.apply(bState)) {
 				world.setBlock(bPos, state, 18);
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean fillLineRad(Vector3f start, Vector3f end, ISeedReader world, BlockState state, BlockPos pos,
+			float rad, Function<BlockState, Boolean> replace) {
+		float dx = end.x() - start.x();
+		float dy = end.y() - start.y();
+		float dz = end.z() - start.z();
+		float max = MathUtil.max(Math.abs(dx), Math.abs(dy), Math.abs(dz));
+		int count = MathUtil.floor(max + 1);
+		dx /= max;
+		dy /= max;
+		dz /= max;
+		float x = start.x();
+		float y = start.y();
+		float z = start.z();
+		boolean down = Math.abs(dy) > 0.2;
+
+		BlockState bState;
+		BlockPos.Mutable bPos = new BlockPos.Mutable();
+		for (int i = 0; i < count; i++) {
+			bPos.set(x + pos.getX(), y + pos.getY(), z + pos.getZ());
+			bState = world.getBlockState(bPos);
+			if (bState.equals(state) || replace.apply(bState)) {
+				new SDFSphere().setRadius(rad).setBlock(state).fillRecursive(world, bPos);
+				bPos.setY(bPos.getY() - 1);
+				bState = world.getBlockState(bPos);
+				if (down && bState.equals(state) || replace.apply(bState)) {
+					new SDFSphere().setRadius(rad).setBlock(state).fillRecursive(world, bPos);
+				}
+			} else {
+				return false;
+			}
+			x += dx;
+			y += dy;
+			z += dz;
+		}
+		bPos.set(end.x() + pos.getX(), end.y() + pos.getY(), end.z() + pos.getZ());
+		bState = world.getBlockState(bPos);
+		if (bState.equals(state) || replace.apply(bState)) {
+			new SDFSphere().setRadius(rad).setBlock(state).fillRecursive(world, bPos);
+			bPos.setY(bPos.getY() - 1);
+			bState = world.getBlockState(bPos);
+			if (down && bState.equals(state) || replace.apply(bState)) {
+				new SDFSphere().setRadius(rad).setBlock(state).fillRecursive(world, bPos);
 			}
 			return true;
 		} else {
@@ -342,5 +406,17 @@ public class SplineUtil {
 		for (Vector3f v : spline) {
 			v.set(offset.x() + v.x(), offset.y() + v.y(), offset.z() + v.z());
 		}
+	}
+
+	public static boolean isBackwards(List<Vector3f> spline, Vector3f point, float anglelimit) {
+		if (spline.size() < 2)
+			return false;
+		Vector3f prev1 = spline.get(spline.size() - 1);
+		Vector3f prev2 = spline.get(spline.size() - 2);
+		Vector3f vec1 = new Vector3f(point.x() - prev1.x(), point.y() - prev1.y(), point.z() - prev1.z());
+		Vector3f vec2 = new Vector3f(point.x() - prev2.x(), point.y() - prev2.y(), point.z() - prev2.z());
+		vec1.normalize();
+		vec2.normalize();
+		return vec1.dot(vec2) < MathHelper.cos(anglelimit);
 	}
 }

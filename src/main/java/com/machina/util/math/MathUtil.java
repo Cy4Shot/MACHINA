@@ -7,6 +7,7 @@ import java.util.Random;
 
 import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 
 public class MathUtil {
 
@@ -152,4 +153,9 @@ public class MathUtil {
         return min + random.nextFloat() * (max - min);
     }
 
+    public static Vector3f randVec(Random rand) {
+    	Vector3f out = new Vector3f(randRange(-1f, 1f, rand), randRange(-1f, 1f, rand), randRange(-1f, 1f, rand));
+    	out.normalize();
+    	return out;
+    }
 }

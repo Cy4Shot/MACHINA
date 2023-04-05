@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 
 public class PlanetTreeFeature extends PlanetBaseFeature {
-	
+
 	public static final int TYPES = 9;
 
 	PlanetTreeConfig conf;
@@ -43,12 +43,31 @@ public class PlanetTreeFeature extends PlanetBaseFeature {
 
 		TrunkBuilder trunk;
 		LeavesBuilder leaves;
-		
+
 		// I have hardcoded all of the trees.
 		// There is no point making this configurable, no one will configure it.
-		// If you are reading this, and would like to tweak a tree to make it work better, create a PR.
+		// If you are reading this, and would like to tweak a tree to make it work
+		// better, create a PR.
+		
+		// Maybe at some point, these will load from a datapack. Maybe.
 
 		switch (id) {
+		case 11:
+			// Vine A
+			trunk = Trunks.vine(3, 3 + height, rad + 2f, 1.5f);
+			leaves = Leaves.ball(conf.leavesRadius * 2f + 2f, Processor.of(Processor.disp(1.5f)));
+			break;
+		case 10:
+			// Large multipine
+			trunk = Trunks.umbrella(height + 12, height + height + 15, 3, rad + 1, rad);
+			leaves = Leaves.cone(conf.leavesRadius * 2 + 4, height2 + 5, height2 * 2.3f + 9,
+					Processor.of(Processor.noise(0.2f, 0.5f), Processor.disp(0.7f)));
+			break;
+		case 9:
+			// Large multiball
+			trunk = Trunks.umbrella(height + 12, height + height + 15, 3, rad + 1, rad);
+			leaves = Leaves.ball(conf.leavesRadius * 2f + 4f, Processor.of(Processor.disp(1.5f)));
+			break;
 		case 8:
 			// Medium multiball
 			trunk = Trunks.lines(height + 12, height + height + 15);
