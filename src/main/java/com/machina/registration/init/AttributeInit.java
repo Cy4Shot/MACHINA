@@ -37,7 +37,7 @@ public final class AttributeInit {
 	public static final PlanetAttributeType<Float> ORBITAL_SPEED = create("ORBITAL_SPEED", 1f, 0.3f, 1f);
 	public static final PlanetAttributeType<Float> PHASE_SHIFT = create("PHASE_SHIFT", 0f, 0f, 360f);
 	public static final PlanetAttributeType<Float> FOG_DENSITY = create("FOG_DENSITY", 0.5f, 0.0f, 1f, 100, "%");
-	public static final PlanetAttributeType<Color[]> PALETTE = create("PALETTE", PlanetPaletteGenerator.DEFAULT_PALETTE, PlanetPaletteGenerator::genPlanetPalette, 5);
+	public static final PlanetAttributeType<Integer> PALETTE = create("PALETTE", 0, 0, PlanetPaletteGenerator.count() - 1);
 	public static final PlanetAttributeType<Float> ATMOSPHERIC_PRESSURE = create("ATMOSPHERIC_PRESSURE", 1f, 0.1f, 2f, "atm");
 	public static final PlanetAttributeType<Float> TEMPERATURE = create("TEMPERATURE", 287.05f, 100f, 1000f, "K");
 	public static final PlanetAttributeType<Float> SURFACE_SCALE = create("SURFACE_SCALE", 2f, 0.5f, 5f);

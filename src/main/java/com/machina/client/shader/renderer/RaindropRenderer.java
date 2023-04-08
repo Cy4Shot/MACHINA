@@ -9,6 +9,7 @@ import com.machina.client.shader.ShaderHandler;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.Color;
 import com.machina.util.server.PlanetHelper;
+import com.machina.world.gen.PlanetPaletteGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -75,7 +76,8 @@ public enum RaindropRenderer {
 		ShaderHandler.RAINDROP.setUniform("screen", new Vector2f(w.getWidth(), w.getHeight()));
 		ShaderHandler.RAINDROP.setUniform("pos", new Vector3f(mc.gameRenderer.getMainCamera().getPosition()));
 
-		Color c = ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.PALETTE)[3];
+		Color c = PlanetPaletteGenerator
+				.getPalette(ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.PALETTE))[4];
 		ShaderHandler.RAINDROP.setUniform("col", new Vector4f(c.r(), c.g(), c.b(), 0.5f));
 
 		RESET_BLEND_STATE.apply();

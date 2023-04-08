@@ -10,6 +10,7 @@ import com.machina.client.util.QuadBufferRenderer;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.Color;
 import com.machina.util.text.MachinaRL;
+import com.machina.world.gen.PlanetPaletteGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -208,7 +209,7 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 
 	public static class CustomWeatherRenderer implements IWeatherRenderHandler {
 
-		private static final ResourceLocation RAIN_LOCATION = new MachinaRL("textures/environment/rain.png");
+//		private static final ResourceLocation RAIN_LOCATION = new MachinaRL("textures/environment/rain.png");
 
 		private int rainSoundTime;
 		private final float[] rainSizeX = new float[1024];
@@ -226,102 +227,102 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			}
 		}
 
-		private void renderRain(ClientWorld world, Minecraft mc, LightTexture lm, float t, double pX, double pY,
-				double pZ, float r, float g, float b) {
-			lm.turnOnLightLayer();
-			int i = MathHelper.floor(pX);
-			int j = MathHelper.floor(pY);
-			int k = MathHelper.floor(pZ);
-			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder bufferbuilder = tessellator.getBuilder();
-			RenderSystem.enableAlphaTest();
-			RenderSystem.disableCull();
-			RenderSystem.normal3f(0.0F, 1.0F, 0.0F);
-			RenderSystem.enableBlend();
-			RenderSystem.defaultBlendFunc();
-			RenderSystem.defaultAlphaFunc();
-			RenderSystem.enableDepthTest();
-			int l = 5;
-			if (Minecraft.useFancyGraphics()) {
-				l = 10;
-			}
-
-			RenderSystem.depthMask(Minecraft.useShaderTransparency());
-			int i1 = -1;
-			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-
-			for (int j1 = k - l; j1 <= k + l; ++j1) {
-				for (int k1 = i - l; k1 <= i + l; ++k1) {
-					int l1 = (j1 - k + 16) * 32 + k1 - i + 16;
-					double d0 = (double) this.rainSizeX[l1] * 0.5D;
-					double d1 = (double) this.rainSizeZ[l1] * 0.5D;
-					blockpos$mutable.set(k1, 0, j1);
-					int i2 = world.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING, blockpos$mutable).getY();
-					int j2 = j - l;
-					int k2 = j + l;
-					if (j2 < i2) {
-						j2 = i2;
-					}
-
-					if (k2 < i2) {
-						k2 = i2;
-					}
-
-					int l2 = i2;
-					if (i2 < j) {
-						l2 = j;
-					}
-
-					if (j2 != k2) {
-						Random random = new Random(
-								(long) (k1 * k1 * 3121 + k1 * 45238971 ^ j1 * j1 * 418711 + j1 * 13761));
-						blockpos$mutable.set(k1, j2, j1);
-						if (i1 != 0) {
-							if (i1 >= 0) {
-								tessellator.end();
-							}
-
-							i1 = 0;
-							mc.getTextureManager().bind(RAIN_LOCATION);
-							bufferbuilder.begin(7, DefaultVertexFormats.PARTICLE);
-						}
-
-						int i3 = mc.levelRenderer.ticks + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761
-								& 31;
-						float f3 = -((float) i3 + t) / 32.0F * (3.0F + random.nextFloat());
-						double d2 = (double) ((float) k1 + 0.5F) - pX;
-						double d4 = (double) ((float) j1 + 0.5F) - pZ;
-						float f4 = MathHelper.sqrt(d2 * d2 + d4 * d4) / (float) l;
-						float f5 = ((1.0F - f4 * f4) * 0.5F + 0.5F);
-						blockpos$mutable.set(k1, l2, j1);
-						int j3 = getLightColor(world, blockpos$mutable);
-						bufferbuilder
-								.vertex((double) k1 - pX - d0 + 0.5D, (double) k2 - pY, (double) j1 - pZ - d1 + 0.5D)
-								.uv(0.0F, (float) j2 * 0.25F + f3).color(r, g, b, f5).uv2(j3).endVertex();
-						bufferbuilder
-								.vertex((double) k1 - pX + d0 + 0.5D, (double) k2 - pY, (double) j1 - pZ + d1 + 0.5D)
-								.uv(1.0F, (float) j2 * 0.25F + f3).color(r, g, b, f5).uv2(j3).endVertex();
-						bufferbuilder
-								.vertex((double) k1 - pX + d0 + 0.5D, (double) j2 - pY, (double) j1 - pZ + d1 + 0.5D)
-								.uv(1.0F, (float) k2 * 0.25F + f3).color(r, g, b, f5).uv2(j3).endVertex();
-						bufferbuilder
-								.vertex((double) k1 - pX - d0 + 0.5D, (double) j2 - pY, (double) j1 - pZ - d1 + 0.5D)
-								.uv(0.0F, (float) k2 * 0.25F + f3).color(r, g, b, f5).uv2(j3).endVertex();
-					}
-				}
-			}
-
-			if (i1 >= 0) {
-				tessellator.end();
-			}
-
-			RenderSystem.enableCull();
-			RenderSystem.disableBlend();
-			RenderSystem.defaultAlphaFunc();
-			RenderSystem.disableAlphaTest();
-			lm.turnOffLightLayer();
-		}
+//		private void renderRain(ClientWorld world, Minecraft mc, LightTexture lm, float t, double pX, double pY,
+//				double pZ, float r, float g, float b) {
+//			lm.turnOnLightLayer();
+//			int i = MathHelper.floor(pX);
+//			int j = MathHelper.floor(pY);
+//			int k = MathHelper.floor(pZ);
+//			Tessellator tessellator = Tessellator.getInstance();
+//			BufferBuilder bufferbuilder = tessellator.getBuilder();
+//			RenderSystem.enableAlphaTest();
+//			RenderSystem.disableCull();
+//			RenderSystem.normal3f(0.0F, 1.0F, 0.0F);
+//			RenderSystem.enableBlend();
+//			RenderSystem.defaultBlendFunc();
+//			RenderSystem.defaultAlphaFunc();
+//			RenderSystem.enableDepthTest();
+//			int l = 5;
+//			if (Minecraft.useFancyGraphics()) {
+//				l = 10;
+//			}
+//
+//			RenderSystem.depthMask(Minecraft.useShaderTransparency());
+//			int i1 = -1;
+//			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+//			BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+//
+//			for (int j1 = k - l; j1 <= k + l; ++j1) {
+//				for (int k1 = i - l; k1 <= i + l; ++k1) {
+//					int l1 = (j1 - k + 16) * 32 + k1 - i + 16;
+//					double d0 = (double) this.rainSizeX[l1] * 0.5D;
+//					double d1 = (double) this.rainSizeZ[l1] * 0.5D;
+//					blockpos$mutable.set(k1, 0, j1);
+//					int i2 = world.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING, blockpos$mutable).getY();
+//					int j2 = j - l;
+//					int k2 = j + l;
+//					if (j2 < i2) {
+//						j2 = i2;
+//					}
+//
+//					if (k2 < i2) {
+//						k2 = i2;
+//					}
+//
+//					int l2 = i2;
+//					if (i2 < j) {
+//						l2 = j;
+//					}
+//
+//					if (j2 != k2) {
+//						Random random = new Random(
+//								(long) (k1 * k1 * 3121 + k1 * 45238971 ^ j1 * j1 * 418711 + j1 * 13761));
+//						blockpos$mutable.set(k1, j2, j1);
+//						if (i1 != 0) {
+//							if (i1 >= 0) {
+//								tessellator.end();
+//							}
+//
+//							i1 = 0;
+//							mc.getTextureManager().bind(RAIN_LOCATION);
+//							bufferbuilder.begin(7, DefaultVertexFormats.PARTICLE);
+//						}
+//
+//						int i3 = mc.levelRenderer.ticks + k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761
+//								& 31;
+//						float f3 = -((float) i3 + t) / 32.0F * (3.0F + random.nextFloat());
+//						double d2 = (double) ((float) k1 + 0.5F) - pX;
+//						double d4 = (double) ((float) j1 + 0.5F) - pZ;
+//						float f4 = MathHelper.sqrt(d2 * d2 + d4 * d4) / (float) l;
+//						float f5 = ((1.0F - f4 * f4) * 0.5F + 0.5F);
+//						blockpos$mutable.set(k1, l2, j1);
+//						int j3 = getLightColor(world, blockpos$mutable);
+//						bufferbuilder
+//								.vertex((double) k1 - pX - d0 + 0.5D, (double) k2 - pY, (double) j1 - pZ - d1 + 0.5D)
+//								.uv(0.0F, (float) j2 * 0.25F + f3).color(r, g, b, f5).uv2(j3).endVertex();
+//						bufferbuilder
+//								.vertex((double) k1 - pX + d0 + 0.5D, (double) k2 - pY, (double) j1 - pZ + d1 + 0.5D)
+//								.uv(1.0F, (float) j2 * 0.25F + f3).color(r, g, b, f5).uv2(j3).endVertex();
+//						bufferbuilder
+//								.vertex((double) k1 - pX + d0 + 0.5D, (double) j2 - pY, (double) j1 - pZ + d1 + 0.5D)
+//								.uv(1.0F, (float) k2 * 0.25F + f3).color(r, g, b, f5).uv2(j3).endVertex();
+//						bufferbuilder
+//								.vertex((double) k1 - pX - d0 + 0.5D, (double) j2 - pY, (double) j1 - pZ - d1 + 0.5D)
+//								.uv(0.0F, (float) k2 * 0.25F + f3).color(r, g, b, f5).uv2(j3).endVertex();
+//					}
+//				}
+//			}
+//
+//			if (i1 >= 0) {
+//				tessellator.end();
+//			}
+//
+//			RenderSystem.enableCull();
+//			RenderSystem.disableBlend();
+//			RenderSystem.defaultAlphaFunc();
+//			RenderSystem.disableAlphaTest();
+//			lm.turnOffLightLayer();
+//		}
 
 		private ParticleStatus stat(Minecraft mc) {
 			ParticleStatus particlestatus = mc.options.particles;
@@ -365,8 +366,8 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 							&& !CampfireBlock.isLitCampfire(blockstate) ? ParticleTypes.RAIN : ParticleTypes.SMOKE;
 					if (c.getPosition().distanceToSqr(pX, pY, pZ) <= 1024.0D && stat(mc) != ParticleStatus.MINIMAL) {
 						Particle o = mc.particleEngine.createParticle(iparticledata, pX, pY, pZ, 0D, 0D, 0D);
-						Color col = ClientStarchart.getPlanetData(world.dimension())
-								.getAttribute(AttributeInit.PALETTE)[3];
+						Color col = PlanetPaletteGenerator.getPalette(ClientStarchart.getPlanetData(world.dimension())
+								.getAttribute(AttributeInit.PALETTE))[4];
 						o.setColor(col.r(), col.g(), col.b());
 					}
 				}
@@ -390,7 +391,7 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 				double xIn, double yIn, double zIn) {
 			RenderSystem.pushMatrix();
 			RenderSystem.depthMask(false);
-			Color c = ClientStarchart.getPlanetData(world.dimension()).getAttribute(AttributeInit.PALETTE)[3];
+//			Color c = ClientStarchart.getPlanetData(world.dimension()).getAttribute(AttributeInit.PALETTE)[3];
 //			this.renderRain(world, mc, lightmapIn, partialTicks, xIn, yIn, zIn, c.r(), c.g(), c.b());
 			RenderSystem.depthMask(true);
 			RenderSystem.popMatrix();

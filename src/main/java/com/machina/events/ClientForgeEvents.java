@@ -12,6 +12,7 @@ import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.util.Color;
 import com.machina.util.server.PlanetHelper;
+import com.machina.world.gen.PlanetPaletteGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.MainWindow;
@@ -40,7 +41,7 @@ public class ClientForgeEvents {
 		RegistryKey<World> dim = mc.level.dimension();
 		if (PlanetHelper.isDimensionPlanet(dim)) {
 			PlanetData data = ClientStarchart.getPlanetData(PlanetHelper.getId(dim));
-			Color color = data.getAttribute(AttributeInit.PALETTE)[4];
+			Color color = PlanetPaletteGenerator.getPalette(data.getAttribute(AttributeInit.PALETTE))[4];
 			Float density = data.getAttribute(AttributeInit.FOG_DENSITY);
 			event.setRed(color.getRed() / 255f * density);
 			event.setGreen(color.getGreen() / 255f * density);

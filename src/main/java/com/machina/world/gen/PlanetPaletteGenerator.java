@@ -1,33 +1,38 @@
 package com.machina.world.gen;
 
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.machina.util.Color;
 
 public class PlanetPaletteGenerator {
 
-	public static final Color[] DEFAULT_PALETTE = new Color[] { new Color(9055202), new Color(4857502),
-			new Color(11086818), new Color(2971618), new Color(2047390) };
+	public static final Color[] DEFAULT_PALETTE = new Color[] { new Color(0x55C93F), new Color(0x3B912B),
+			new Color(0x3EC87B), new Color(0x40CAA6), new Color(0x87CEEB) };
 
-	public static Color[] getAnalogousPalette(Random r, int similarity, int len) {
-		Color[] cols = new Color[len];
-		float[] c = Color.random(r).getHSB();
-		float[] hues = new float[len];
+	private static final Map<Integer, Color[]> PALETTES = new HashMap<>();
 
-		hues[0] = c[0] * 255.0f;
-		for (int i = 1; i < len; i++) {
-			hues[i] = (hues[i - 1] + r.nextInt(similarity)) % 360;
-		}
+	// 1. Surface A
+	// 2. Surface B
+	// 3. Stone A
+	// 4. Stone B
+	// 5. Fog / Sky
 
-		for (int i = 0; i < len; i++) {
-			c[0] = hues[i] / 255.0f;
-			cols[i] = Color.getHSBColor(c);
-		}
-
-		return cols;
+	static {
+		register(0x55C93F, 0x3B912B, 0x3EC87B, 0x40CAA6, 0x87CEEB);
 	}
 
-	public static Color[] genPlanetPalette(Random r) {
-		return getAnalogousPalette(r, 50, 5);
+	private static void register(int c1, int c2, int c3, int c4, int c5) {
+		PALETTES.put(PALETTES.size(),
+				new Color[] { new Color(c1), new Color(c2), new Color(c3), new Color(c4), new Color(c5) });
+	}
+
+	public static Color[] getPalette(int colorid) {
+		System.out.println(colorid);
+		return PALETTES.getOrDefault(colorid, DEFAULT_PALETTE);
+	}
+
+	public static int count() {
+		return PALETTES.size();
 	}
 }

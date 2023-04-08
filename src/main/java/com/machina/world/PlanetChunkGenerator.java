@@ -278,7 +278,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 			if (bitset.get(a)) {
 				BlockPos pos = new BlockPos(chunkpos.getMinBlockX() + (a & 15), (a >> 8),
 						chunkpos.getMinBlockZ() + (a >> 4 & 15));
-				PlanetSlopeGenerator.decorateAt(chunk, pos.above(), this, true);
+				PlanetSlopeGenerator.decorateAt(chunk, pos, this, true);
 			}
 		}
 

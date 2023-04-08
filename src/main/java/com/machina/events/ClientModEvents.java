@@ -39,6 +39,7 @@ import com.machina.registration.init.TileEntityInit;
 import com.machina.util.Color;
 import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.MachinaRL;
+import com.machina.world.gen.PlanetPaletteGenerator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
@@ -117,7 +118,7 @@ public class ClientModEvents {
 	public static int getColorFromId(int id, int paletteId) {
 		if (id != -1) {
 			PlanetData data = ClientStarchart.getPlanetData(id);
-			Color color = data.getAttribute(AttributeInit.PALETTE)[paletteId];
+			Color color = PlanetPaletteGenerator.getPalette(data.getAttribute(AttributeInit.PALETTE))[paletteId];
 			return color.getRGB();
 		}
 		return defVal;
