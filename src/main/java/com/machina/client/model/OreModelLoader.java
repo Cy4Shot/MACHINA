@@ -1,14 +1,12 @@
 package com.machina.client.model;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import com.machina.registration.init.BlockInit;
 import com.machina.util.text.MachinaRL;
 import com.mojang.datafixers.util.Pair;
 
@@ -21,7 +19,6 @@ import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.IModelLoader;
 import net.minecraftforge.client.model.geometry.IModelGeometry;
@@ -48,17 +45,11 @@ public class OreModelLoader implements IModelLoader<OreModelLoader.OreModelGeome
 			return new OreModel(modelTransform, overrides, owner.getCameraTransforms());
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public Collection<RenderMaterial> getTextures(IModelConfiguration owner,
 				Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-			Set<RenderMaterial> textures = new HashSet<>();
-			BlockInit.ORE_MAP.values().forEach(m -> {
-				m.values().forEach(b -> {
-					textures.addAll(modelGetter.apply(b.get().getRegistryName()).getDependencies().stream()
-							.map(rl -> ForgeHooksClient.getBlockMaterial(rl)).collect(Collectors.toList()));
-				});
-			});
-			return textures;
+			return Collections.EMPTY_LIST;
 		}
 	}
 }
