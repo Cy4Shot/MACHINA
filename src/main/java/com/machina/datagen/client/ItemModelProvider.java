@@ -63,6 +63,11 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FLUID_HOPPER.get());
 		block(BlockInit.IRON_CHASSIS.get());
 		block(BlockInit.STEEL_CHASSIS.get());
+		BlockInit.ORE_MAP.values().forEach(m -> {
+			m.values().forEach(b -> {
+				block(b.get());
+			});
+		});
 
 		geo(BlockInit.IRON_SCAFFOLDING.get());
 		geo(BlockInit.STEEL_SCAFFOLDING.get());
@@ -111,7 +116,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	protected void bucket(FluidObject obj) {
 		DynamicBucketModelBuilder<ItemModelBuilder> builder = withExistingParent(
 				obj.fluid().getBucket().getRegistryName().getPath(), new ResourceLocation("forge", "item/bucket"))
-				.customLoader(DynamicBucketModelBuilder::begin);
+						.customLoader(DynamicBucketModelBuilder::begin);
 		if (obj.fluid().getAttributes().isGaseous()) {
 			builder.flipGas(true);
 		}

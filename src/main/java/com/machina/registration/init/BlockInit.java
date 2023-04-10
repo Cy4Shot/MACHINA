@@ -1,5 +1,8 @@
 package com.machina.registration.init;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -17,13 +20,14 @@ import com.machina.block.FluidHopperBlock;
 import com.machina.block.FuelStorageUnitBlock;
 import com.machina.block.FurnaceGeneratorBlock;
 import com.machina.block.IAnimatedBlock;
-import com.machina.block.OreBlock;
 import com.machina.block.PressurizedChamberBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.block.StateConverterBlock;
 import com.machina.block.TankBlock;
 import com.machina.block.TemperatureRegulatorBlock;
+import com.machina.block.ore.OreBlock;
+import com.machina.block.ore.OreType;
 import com.machina.block.tinted.ITinted;
 import com.machina.block.tinted.TintedBlock;
 import com.machina.block.tinted.TintedFalling;
@@ -32,6 +36,7 @@ import com.machina.block.tinted.TintedStairs;
 import com.machina.block.tinted.TintedWall;
 import com.machina.client.model.CustomBlockModel;
 import com.machina.item.AnimatableBlockItem;
+import com.machina.item.OreBlockItem;
 import com.machina.item.TintedItem;
 import com.machina.registration.Registration;
 
@@ -97,8 +102,26 @@ public class BlockInit {
 	public static final RegistryObject<TintedSlab> WASTELAND_SANDSTONE_SLAB = tintedSlab("wasteland_sandstone_slab", Blocks.SANDSTONE_SLAB, 1);
 	public static final RegistryObject<TintedWall> WASTELAND_SANDSTONE_WALL = tintedWall("wasteland_sandstone_wall", Blocks.SANDSTONE_WALL, 1);
 	public static final RegistryObject<Block> REINFORCED_TILE = register("reinforced_tile", Blocks.NETHERITE_BLOCK);
-	public static final RegistryObject<Block> ORE_BLOCK = register("ore_block", Blocks.IRON_ORE, p -> new OreBlock(p, "glob", () -> ALIEN_STONE));
 	//@formatter:on
+
+	@SuppressWarnings("unchecked")
+	public static final Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ORE_MAP = ores(
+			ALIEN_STONE, TWILIGHT_DIRT, WASTELAND_DIRT);
+
+	@SuppressWarnings("unchecked")
+	private static Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ores(
+			RegistryObject<? extends Block>... bases) {
+		Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ret = new HashMap<>();
+		for (OreType ore : Arrays.asList(OreType.values())) {
+			Map<RegistryObject<? extends Block>, RegistryObject<Block>> ores = new HashMap<>();
+			for (RegistryObject<? extends Block> base : bases) {
+				ores.put(base, register(ore.toString().toLowerCase() + "_" + base.getId().getPath(), Blocks.IRON_ORE,
+						p -> new OreBlock(p, ore, base)));
+			}
+			ret.put(ore, ores);
+		}
+		return ret;
+	};
 
 	private static <T extends Block> Supplier<T> of(Block block,
 			Function<AbstractBlock.Properties, AbstractBlock.Properties> extra,
@@ -161,9 +184,15 @@ public class BlockInit {
 									new TintedItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
 											.setRegistryName(block.getRegistryName()));
 						} else {
-							event.getRegistry()
-									.register(new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
-											.setRegistryName(block.getRegistryName()));
+							if (OreBlock.class.isInstance(block)) {
+								event.getRegistry().register(
+										new OreBlockItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
+												.setRegistryName(block.getRegistryName()));
+							} else {
+								event.getRegistry().register(
+										new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
+												.setRegistryName(block.getRegistryName()));
+							}
 						}
 					}
 				});

@@ -1,6 +1,9 @@
 package com.machina.datagen.client.lang;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import com.machina.Machina;
+import com.machina.block.ore.OreBlock;
 import com.machina.registration.Registration;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
@@ -17,7 +20,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 	public EnUsLangProvider(DataGenerator gen) {
 		super(gen, "en_us", Machina.MOD_ID);
-		
+
 		// Generic Music Disc Translation.
 		this.music_disc = "Music Disc";
 	}
@@ -69,6 +72,13 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.FLUID_HOPPER.get(), "Fluid Hopper");
 		add(BlockInit.FURNACE_GENERATOR.get(), "Furnace Generator");
 		add(BlockInit.STATE_CONVERTER.get(), "State Converter");
+		BlockInit.ORE_MAP.values().forEach(m -> {
+			m.values().forEach(b -> {
+				OreBlock ore = (OreBlock) b.get();
+				add(b.get(), WordUtils.capitalize(ore.getType().name().toLowerCase()) + " "
+						+ data.get(ore.getBg().getDescriptionId()) + " Ore");
+			});
+		});
 
 		// Items
 		add(ItemInit.BLUEPRINT.get(), "Blueprint");
@@ -92,7 +102,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.LDPE.get(), "LDPE");
 		add(ItemInit.HDPE.get(), "HDPE");
 		add(ItemInit.UHMWPE.get(), "UHMWPE");
-		
+
 		// Tooltips
 		addTooltip("ldpe", "Low Density Polyethylene");
 		addTooltip("hdpe", "High Density Polyethylene");
@@ -178,10 +188,12 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addShipComponent("thrusters", "Thrusters");
 		addShipComponent("shields", "Shields");
 		addShipComponent("life_support", "Life Support");
-		
+
 		// Researches
-		add(ResearchInit.ROOT, "MACHINA", "As eventide falls afresh over known earths, the player gazes up at the uncharted cosmos. I wonder, what strange and incomprehensible worlds await them?");
-		add(ResearchInit.ANALYSIS, "Analysis", "Crashed ships litter the landscape like a flock of sheep. A legend says, hacking the terminals inside will yield rewards unkown.");
+		add(ResearchInit.ROOT, "MACHINA",
+				"As eventide falls afresh over known earths, the player gazes up at the uncharted cosmos. I wonder, what strange and incomprehensible worlds await them?");
+		add(ResearchInit.ANALYSIS, "Analysis",
+				"Crashed ships litter the landscape like a flock of sheep. A legend says, hacking the terminals inside will yield rewards unkown.");
 
 		// GUI
 		addScreen("component_analyzer", "insert", "Insert Component");
@@ -209,8 +221,10 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("blueprint", "missing", "Missing Blueprint");
 		addScreen("blueprint", "unselected", "Nothing Selected");
 		addScreen("blueprint", "full", "Output Full");
-		addScreen("blueprint", "crafttip", "In order to etch a blueprint, input a blueprint into the slot, then select a type on the left and etch it. Insert blueprints into the fabrication bench in order to use them.");
-		addScreen("blueprint", "tabtip1", "Please select a tab to start making blueprints. If no tabs are available, you haven't completed enough research yet. Open the research menu by pressing '");
+		addScreen("blueprint", "crafttip",
+				"In order to etch a blueprint, input a blueprint into the slot, then select a type on the left and etch it. Insert blueprints into the fabrication bench in order to use them.");
+		addScreen("blueprint", "tabtip1",
+				"Please select a tab to start making blueprints. If no tabs are available, you haven't completed enough research yet. Open the research menu by pressing '");
 		addScreen("blueprint", "tabtip2", "'.");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
@@ -342,7 +356,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addTerminalFeedback("launch", "warning", "WARNING: THIS IS IRREVERSIBLE.");
 		addTerminalFeedback("launch", "seated", "Please wait for rocket door to open.");
 		addTerminalFeedback("launch", "init", "Life support initializing...");
-		
+
 		// Damage Source
 		addDamageSource(DamageSourceInit.SUFFOCATE, "%1$s suffocated in a thin atmosphere.");
 		addDamageSourceAttacker(DamageSourceInit.SUFFOCATE, "%1$s was suffocated in a thin atmosphere by %2$s.");

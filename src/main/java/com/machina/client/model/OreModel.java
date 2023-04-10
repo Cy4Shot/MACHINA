@@ -9,8 +9,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
-import com.machina.block.OreBlock;
-import com.machina.util.text.MachinaRL;
+import com.machina.block.ore.OreBlock;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -20,9 +19,9 @@ import net.minecraft.client.renderer.model.BlockModel;
 import net.minecraft.client.renderer.model.BlockPart;
 import net.minecraft.client.renderer.model.BlockPartFace;
 import net.minecraft.client.renderer.model.FaceBakery;
+import net.minecraft.client.renderer.model.IModelTransform;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ItemOverrideList;
-import net.minecraft.client.renderer.model.ModelRotation;
 import net.minecraft.client.renderer.model.SimpleBakedModel;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -58,7 +57,14 @@ public class OreModel implements IDynamicBakedModel {
 
 	}
 
-	public OreModel(ResourceLocation bg, ResourceLocation fg) {
+	private final IModelTransform modelState;
+	private final ItemOverrideList overrides;
+	private final ItemCameraTransforms transforms;
+
+	public OreModel(IModelTransform modelState, ItemOverrideList overrides, ItemCameraTransforms transforms) {
+		this.modelState = modelState;
+		this.overrides = overrides;
+		this.transforms = transforms;
 		this.bm = new BlockModel(null, new ArrayList<>(), new HashMap<>(), false, BlockModel.GuiLight.FRONT,
 				ItemCameraTransforms.NO_TRANSFORMS, ItemOverrideList.EMPTY.getOverrides());
 	}
@@ -72,9 +78,8 @@ public class OreModel implements IDynamicBakedModel {
 		}
 
 		OreBlock block = (OreBlock) state.getBlock();
-		ResourceLocation loc = block.getBg().getRegistryName();
-		TextureAtlasSprite bg = getTexture(new ResourceLocation(loc.getNamespace(), "block/" + loc.getPath()));
-		TextureAtlasSprite fg = getTexture(new MachinaRL("ore/" + block.getType()));
+		TextureAtlasSprite bg = getTexture(block.getBgTexturePath());
+		TextureAtlasSprite fg = getTexture(block.getFgTexturePath());
 
 		SimpleBakedModel.Builder builderB = new SimpleBakedModel.Builder(this.bm.customData, ItemOverrideList.EMPTY)
 				.particle(bg);
@@ -82,11 +87,11 @@ public class OreModel implements IDynamicBakedModel {
 				.particle(fg);
 
 		for (Map.Entry<Direction, BlockPartFace> e : partB.faces.entrySet()) {
-			builderB.addUnculledFace(makeBakedQuad(partB, e.getValue(), bg, e.getKey(), ModelRotation.X0_Y0, null));
+			builderB.addUnculledFace(makeBakedQuad(partB, e.getValue(), bg, e.getKey(), modelState, null));
 		}
 
 		for (Map.Entry<Direction, BlockPartFace> e : partF.faces.entrySet()) {
-			builderF.addUnculledFace(makeBakedQuad(partF, e.getValue(), fg, e.getKey(), ModelRotation.X0_Y0, null));
+			builderF.addUnculledFace(makeBakedQuad(partF, e.getValue(), fg, e.getKey(), modelState, null));
 		}
 
 		quads.addAll(builderB.build().getQuads(null, side, rand, extraData));
@@ -121,7 +126,12 @@ public class OreModel implements IDynamicBakedModel {
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		return ItemOverrideList.EMPTY;
+		return overrides;
+	}
+
+	@Override
+	public ItemCameraTransforms getTransforms() {
+		return transforms;
 	}
 
 	public static TextureAtlasSprite getTexture(ResourceLocation resLoc) {
@@ -133,7 +143,7 @@ public class OreModel implements IDynamicBakedModel {
 	}
 
 	public static BakedQuad makeBakedQuad(BlockPart blockPart, BlockPartFace partFace, TextureAtlasSprite atlasSprite,
-			Direction dir, ModelRotation modelRotation, ResourceLocation modelResLoc) {
+			Direction dir, IModelTransform modelRotation, ResourceLocation modelResLoc) {
 		return new FaceBakery().bakeQuad(blockPart.from, blockPart.to, partFace, atlasSprite, dir, modelRotation,
 				blockPart.rotation, true, modelResLoc);
 	}

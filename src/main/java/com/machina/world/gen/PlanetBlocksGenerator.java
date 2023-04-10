@@ -3,6 +3,7 @@ package com.machina.world.gen;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Supplier;
 
 import com.machina.registration.init.BlockInit;
 
@@ -14,64 +15,64 @@ public class PlanetBlocksGenerator {
 
 	//@formatter:off
 	@SuppressWarnings("serial")
-	private static Map<Integer, BlockPalette> basePalette = new HashMap<Integer, BlockPalette>() {{
+	public static Map<Integer, BlockPalette> basePalette = new HashMap<Integer, BlockPalette>() {{
 	    put(0, new BlockPalette(
-	    		BlockInit.ALIEN_STONE.get().defaultBlockState(),
-	    		BlockInit.WASTELAND_SAND.get().defaultBlockState(),
-	    		BlockInit.ALIEN_STONE_STAIRS.get().defaultBlockState(),
-	    		BlockInit.ALIEN_STONE_SLAB.get().defaultBlockState()));
+	    		() -> BlockInit.ALIEN_STONE.get().defaultBlockState(),
+	    		() -> BlockInit.WASTELAND_SAND.get().defaultBlockState(),
+	    		() -> BlockInit.ALIEN_STONE_STAIRS.get().defaultBlockState(),
+	    		() -> BlockInit.ALIEN_STONE_SLAB.get().defaultBlockState()));
 	    put(1, new BlockPalette(
-	    		BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
-	    		BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
-	    		BlockInit.TWILIGHT_DIRT_STAIRS.get().defaultBlockState(),
-	    		BlockInit.TWILIGHT_DIRT_SLAB.get().defaultBlockState()));
+	    		() -> BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
+	    		() -> BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
+	    		() -> BlockInit.TWILIGHT_DIRT_STAIRS.get().defaultBlockState(),
+	    		() -> BlockInit.TWILIGHT_DIRT_SLAB.get().defaultBlockState()));
 	    put(2, new BlockPalette(
-	    		BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
-	    		BlockInit.WASTELAND_SAND.get().defaultBlockState(),
-	    		BlockInit.WASTELAND_DIRT_STAIRS.get().defaultBlockState(),
-	    		BlockInit.WASTELAND_DIRT_SLAB.get().defaultBlockState()));
+	    		() -> BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
+	    		() -> BlockInit.WASTELAND_SAND.get().defaultBlockState(),
+	    		() -> BlockInit.WASTELAND_DIRT_STAIRS.get().defaultBlockState(),
+	    		() -> BlockInit.WASTELAND_DIRT_SLAB.get().defaultBlockState()));
 	}};
 	
 	@SuppressWarnings("serial")
 	private static Map<Integer, BlockPalette> surfacePalette = new HashMap<Integer, BlockPalette>() {{
 	    put(0, new BlockPalette(
-	    		BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
-	    		Blocks.DIRT.defaultBlockState(),
-	    		null,
-	    		null));
+	    		() -> BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
+	    		() -> Blocks.DIRT.defaultBlockState(),
+	    		() -> null,
+	    		() -> null));
 	    put(1, new BlockPalette(
-	    		BlockInit.ALIEN_STONE.get().defaultBlockState(),
-	    		Blocks.MAGMA_BLOCK.defaultBlockState(),
-	    		null,
-	    		null));
+	    		() -> BlockInit.ALIEN_STONE.get().defaultBlockState(),
+	    		() -> Blocks.MAGMA_BLOCK.defaultBlockState(),
+	    		() -> null,
+	    		() -> null));
 	}};
 	
 	@SuppressWarnings("serial")
 	private static Map<Integer, BlockPalette> fluidPalette = new HashMap<Integer, BlockPalette>() {{
 	    put(0, new BlockPalette(
-	    		Blocks.WATER.defaultBlockState(),
-	    		Blocks.ICE.defaultBlockState(),
-	    		null,
-	    		null));
+	    		() -> Blocks.WATER.defaultBlockState(),
+	    		() -> Blocks.ICE.defaultBlockState(),
+	    		() -> null,
+	    		() -> null));
 	    put(1, new BlockPalette(
-	    		Blocks.LAVA.defaultBlockState(),
-	    		Blocks.MAGMA_BLOCK.defaultBlockState(),
-	    		null,
-	    		null));
+	    		() -> Blocks.LAVA.defaultBlockState(),
+	    		() -> Blocks.MAGMA_BLOCK.defaultBlockState(),
+	    		() -> null,
+	    		() -> null));
 	}};
 	
 	@SuppressWarnings("serial")
 	private static Map<Integer, BlockPalette> treePalette = new HashMap<Integer, BlockPalette>() {{
 	    put(0, new BlockPalette(
-	    		Blocks.OAK_LOG.defaultBlockState(),
-	    		Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true),
-	    		null,
-	    		null));
+	    		() -> Blocks.OAK_LOG.defaultBlockState(),
+	    		() -> Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true),
+	    		() -> null,
+	    		() -> null));
 	    put(1, new BlockPalette(
-	    		Blocks.SPRUCE_LOG.defaultBlockState(),
-	    		Blocks.SPRUCE_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true),
-	    		null,
-	    		null));
+	    		() -> Blocks.SPRUCE_LOG.defaultBlockState(),
+	    		() -> Blocks.SPRUCE_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true),
+	    		() -> null,
+	    		() -> null));
 	}};
 	//@formatter:on
 
@@ -113,10 +114,10 @@ public class PlanetBlocksGenerator {
 
 	public static class BlockPalette {
 
-		private BlockState baseBlock, secondaryBlock, stairBlock, slabBlock;
+		private Supplier<BlockState> baseBlock, secondaryBlock, stairBlock, slabBlock;
 
-		public BlockPalette(BlockState baseBlock, BlockState secondaryBlock, BlockState stairBlock,
-				BlockState slabBlock) {
+		public BlockPalette(Supplier<BlockState> baseBlock, Supplier<BlockState> secondaryBlock,
+				Supplier<BlockState> stairBlock, Supplier<BlockState> slabBlock) {
 			this.baseBlock = baseBlock;
 			this.secondaryBlock = secondaryBlock;
 			this.stairBlock = stairBlock;
@@ -124,19 +125,19 @@ public class PlanetBlocksGenerator {
 		}
 
 		public BlockState getBaseBlock() {
-			return baseBlock;
+			return baseBlock.get();
 		}
 
 		public BlockState getSecondaryBlock() {
-			return secondaryBlock;
+			return secondaryBlock.get();
 		}
 
 		public BlockState getStairBlock() {
-			return stairBlock;
+			return stairBlock.get();
 		}
 
 		public BlockState getSlabBlock() {
-			return slabBlock;
+			return slabBlock.get();
 		}
 	}
 }

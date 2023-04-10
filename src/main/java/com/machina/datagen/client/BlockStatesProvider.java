@@ -1,6 +1,7 @@
 package com.machina.datagen.client;
 
 import com.machina.Machina;
+import com.machina.client.model.OreModelLoader;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -15,6 +16,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.CustomLoaderBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -74,6 +76,17 @@ public class BlockStatesProvider extends BlockStateProvider {
 		geo(BlockInit.ALUMINUM_SCAFFOLDING.get(), BlockInit.ALUMINUM_BLOCK.get());
 		geo(BlockInit.COPPER_SCAFFOLDING.get(), BlockInit.COPPER_BLOCK.get());
 		geo(BlockInit.CARGO_CRATE.get(), BlockInit.ALUMINUM_BLOCK.get());
+
+		BlockInit.ORE_MAP.values().forEach(m -> {
+			m.values().forEach(b -> {
+				BlockModelBuilder generatorModel = models().getBuilder(b.get().getRegistryName().getPath())
+						.customLoader((bmb, h) -> {
+							return new CustomLoaderBuilder<BlockModelBuilder>(OreModelLoader.ID, bmb, h) {
+							};
+						}).end();
+				simpleBlock(b.get(), generatorModel);
+			});
+		});
 	}
 
 	public void fluid(FluidObject obj) {

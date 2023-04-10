@@ -1,5 +1,8 @@
 package com.machina.datagen.client.lang;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.machina.planet.attribute.PlanetAttributeType;
 import com.machina.planet.trait.PlanetTrait;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -17,6 +20,8 @@ import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 
 public abstract class BaseLangProvider extends LanguageProvider {
+
+	protected final Map<String, String> data = new TreeMap<>();
 
 	String modid;
 	String music_disc;
@@ -51,7 +56,7 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	protected void add(Sound sound, String name) {
 		add(modid + ".subtitle." + sound.name(), name);
 	}
-	
+
 	protected void addTooltip(String item, String name) {
 		add(modid + ".tooltip." + item, name);
 	}
@@ -59,16 +64,16 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	protected void add(KeyBinding key, String name) {
 		add(key.getName(), name);
 	}
-	
+
 	protected void add(Research r, String name, String desc) {
 		add(r.getNameKey(), name);
 		add(r.getDescKey(), desc);
 	}
-	
+
 	protected void addDamageSource(DamageSource source, String message) {
 		add("death.attack." + source.getMsgId(), message);
 	}
-	
+
 	protected void addDamageSourceAttacker(DamageSource source, String message) {
 		add("death.attack." + source.getMsgId() + ".player", message);
 	}
@@ -104,5 +109,11 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	public void addMusicDisc(Item key, String desc) {
 		add(key.getDescriptionId(), this.music_disc);
 		add(key.getDescriptionId() + ".desc", desc);
+	}
+
+	public void add(String key, String value) {
+		if (data.put(key, value) != null)
+			throw new IllegalStateException("Duplicate translation key " + key);
+		super.add(key, value);
 	}
 }
