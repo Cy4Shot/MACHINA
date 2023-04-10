@@ -35,8 +35,7 @@ public class PlanetTreeConfig {
 		this.leavesRadius = attr.getValue(AttributeInit.LEAVES_RADIUS);
 
 		Random random = new Random(attr.getValue(AttributeInit.TREE_TYPE_SEED));
-//		this.treeType = MathUtil.randRange(0, PlanetTreeFeature.TYPES - 1, random);
-		this.treeType = 11;
+		this.treeType = MathUtil.randRange(0, PlanetTreeFeature.TYPES - 1, random);
 	}
 
 	public BlockState getLog() {

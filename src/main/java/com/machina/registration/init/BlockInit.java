@@ -17,6 +17,7 @@ import com.machina.block.FluidHopperBlock;
 import com.machina.block.FuelStorageUnitBlock;
 import com.machina.block.FurnaceGeneratorBlock;
 import com.machina.block.IAnimatedBlock;
+import com.machina.block.OreBlock;
 import com.machina.block.PressurizedChamberBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
@@ -96,6 +97,7 @@ public class BlockInit {
 	public static final RegistryObject<TintedSlab> WASTELAND_SANDSTONE_SLAB = tintedSlab("wasteland_sandstone_slab", Blocks.SANDSTONE_SLAB, 1);
 	public static final RegistryObject<TintedWall> WASTELAND_SANDSTONE_WALL = tintedWall("wasteland_sandstone_wall", Blocks.SANDSTONE_WALL, 1);
 	public static final RegistryObject<Block> REINFORCED_TILE = register("reinforced_tile", Blocks.NETHERITE_BLOCK);
+	public static final RegistryObject<Block> ORE_BLOCK = register("ore_block", Blocks.IRON_ORE, p -> new OreBlock(p, "glob", () -> ALIEN_STONE));
 	//@formatter:on
 
 	private static <T extends Block> Supplier<T> of(Block block,

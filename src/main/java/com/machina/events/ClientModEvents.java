@@ -5,6 +5,7 @@ import com.machina.block.tile.TintedTileEntity;
 import com.machina.block.tinted.ITinted;
 import com.machina.client.ClientStarchart;
 import com.machina.client.cinema.CinematicHandler;
+import com.machina.client.model.OreModel;
 import com.machina.client.screen.AtmosphericSeparatorScreen;
 import com.machina.client.screen.BatteryScreen;
 import com.machina.client.screen.BlueprinterScreen;
@@ -49,6 +50,9 @@ import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
@@ -56,6 +60,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -81,6 +87,7 @@ public class ClientModEvents {
 		RenderTypeLookup.setRenderLayer(BlockInit.ALUMINUM_SCAFFOLDING.get(), RenderType.translucent());
 		RenderTypeLookup.setRenderLayer(BlockInit.COPPER_SCAFFOLDING.get(), RenderType.translucent());
 		RenderTypeLookup.setRenderLayer(BlockInit.TANK.get(), RenderType.translucent());
+		RenderTypeLookup.setRenderLayer(BlockInit.ORE_BLOCK.get(), RenderType.cutout());
 		FluidInit.setRenderLayers();
 
 		ScreenManager.register(ContainerInit.BLUEPRINTER.get(), BlueprinterScreen::new);
@@ -153,7 +160,7 @@ public class ClientModEvents {
 						e.printStackTrace();
 						return defVal;
 					}
-					
+
 				}
 
 				RegistryKey<World> dim = world.dimension();
@@ -191,5 +198,17 @@ public class ClientModEvents {
 				}, item);
 			}
 		});
+	}
+
+	@SubscribeEvent
+	public static void textureStich(TextureStitchEvent.Pre event) {
+		// Register all ore textures.
+		event.addSprite(new MachinaRL("ore/glob"));
+	}
+
+	@SubscribeEvent
+	public static void onModelBake(ModelBakeEvent event) {
+		event.getModelRegistry().put(new ModelResourceLocation(BlockInit.ORE_BLOCK.get().getRegistryName(), ""),
+				new OreModel(new MachinaRL("block/reinforced_tile"), new MachinaRL("item/scanner")));
 	}
 }
