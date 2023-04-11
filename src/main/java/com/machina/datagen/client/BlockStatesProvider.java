@@ -1,6 +1,7 @@
 package com.machina.datagen.client;
 
 import com.machina.Machina;
+import com.machina.block.ore.OreBlock;
 import com.machina.client.model.OreModelLoader;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
@@ -79,12 +80,15 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 		BlockInit.ORE_MAP.values().forEach(m -> {
 			m.values().forEach(b -> {
-				BlockModelBuilder generatorModel = models().getBuilder(b.get().getRegistryName().getPath())
+				OreBlock ore = (OreBlock) b.get();
+				BlockModelBuilder generatorModel = models().getBuilder(ore.getRegistryName().getPath())
+						.parent(models().getExistingFile(mcLoc("block"))).texture("particle", ore.getBgTexturePath())
+						.texture("bg", ore.getBgTexturePath()).texture("fg", ore.getFgTexturePath())
 						.customLoader((bmb, h) -> {
 							return new CustomLoaderBuilder<BlockModelBuilder>(OreModelLoader.ID, bmb, h) {
 							};
 						}).end();
-				simpleBlock(b.get(), generatorModel);
+				simpleBlock(ore, generatorModel);
 			});
 		});
 	}

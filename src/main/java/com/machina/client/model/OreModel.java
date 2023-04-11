@@ -1,72 +1,39 @@
 package com.machina.client.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableList;
 import com.machina.block.ore.OreBlock;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.BlockFaceUV;
-import net.minecraft.client.renderer.model.BlockModel;
-import net.minecraft.client.renderer.model.BlockPart;
-import net.minecraft.client.renderer.model.BlockPartFace;
-import net.minecraft.client.renderer.model.FaceBakery;
-import net.minecraft.client.renderer.model.IModelTransform;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.model.ItemOverrideList;
-import net.minecraft.client.renderer.model.SimpleBakedModel;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.VertexFormatElement;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.client.model.data.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.pipeline.BakedQuadBuilder;
 
 public class OreModel implements IDynamicBakedModel {
 
-	BlockModel bm;
+	private final ResourceLocation pt;
+	private final ResourceLocation bg;
+	private final ResourceLocation fg;
 
-	static BlockPart partB;
-	static BlockPart partF;
-
-	static {
-		float EP = 0.01f;
-		Vector3f f1 = new Vector3f(0, 0, 0);
-		Vector3f t1 = new Vector3f(16, 16, 16);
-		Vector3f f2 = new Vector3f(0 - EP, 0 - EP, 0 - EP);
-		Vector3f t2 = new Vector3f(16 + EP, 16 + EP, 16 + EP);
-
-		Map<Direction, BlockPartFace> mapFacesIn = Maps.newEnumMap(Direction.class);
-
-		for (Direction face : Direction.values()) {
-			BlockFaceUV uvface = new BlockFaceUV(new float[] { 0, 0, 16, 16 }, 0);
-			mapFacesIn.put(face, new BlockPartFace(null, -1, null, uvface));
-		}
-
-		partB = new BlockPart(f1, t1, mapFacesIn, null, true);
-		partF = new BlockPart(f2, t2, mapFacesIn, null, true);
-
-	}
-
-	private final IModelTransform modelState;
-	private final ItemOverrideList overrides;
-	private final ItemCameraTransforms transforms;
-
-	public OreModel(IModelTransform modelState, ItemOverrideList overrides, ItemCameraTransforms transforms) {
-		this.modelState = modelState;
-		this.overrides = overrides;
-		this.transforms = transforms;
-		this.bm = new BlockModel(null, new ArrayList<>(), new HashMap<>(), false, BlockModel.GuiLight.FRONT,
-				ItemCameraTransforms.NO_TRANSFORMS, ItemOverrideList.EMPTY.getOverrides());
+	public OreModel(ResourceLocation pt, ResourceLocation bg, ResourceLocation fg) {
+		this.pt = pt;
+		this.bg = bg;
+		this.fg = fg;
 	}
 
 	@Nullable
@@ -77,26 +44,83 @@ public class OreModel implements IDynamicBakedModel {
 			return quads;
 		}
 
-		OreBlock block = (OreBlock) state.getBlock();
-		TextureAtlasSprite bg = getTexture(block.getBgTexturePath());
-		TextureAtlasSprite fg = getTexture(block.getFgTexturePath());
+		TextureAtlasSprite b = getTexture(bg);
+		TextureAtlasSprite f = getTexture(fg);
 
-		SimpleBakedModel.Builder builderB = new SimpleBakedModel.Builder(this.bm.customData, ItemOverrideList.EMPTY)
-				.particle(bg);
-		SimpleBakedModel.Builder builderF = new SimpleBakedModel.Builder(this.bm.customData, ItemOverrideList.EMPTY)
-				.particle(fg);
+		double l = 0f;
+		double r = 1f;
+		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), b));
+		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), b));
+		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), b));
+		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), b));
+		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), b));
+		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), b));
 
-		for (Map.Entry<Direction, BlockPartFace> e : partB.faces.entrySet()) {
-			builderB.addUnculledFace(makeBakedQuad(partB, e.getValue(), bg, e.getKey(), modelState, null));
-		}
-
-		for (Map.Entry<Direction, BlockPartFace> e : partF.faces.entrySet()) {
-			builderF.addUnculledFace(makeBakedQuad(partF, e.getValue(), fg, e.getKey(), modelState, null));
-		}
-
-		quads.addAll(builderB.build().getQuads(null, side, rand, extraData));
-		quads.addAll(builderF.build().getQuads(null, side, rand, extraData));
+		l = -0.01f;
+		r = 1.01f;
+		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), f));
+		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), f));
+		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), f));
+		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), f));
+		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), f));
+		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), f));
 		return quads;
+	}
+
+	private void putVertex(BakedQuadBuilder builder, Vector3d normal, double x, double y, double z, float u, float v,
+			TextureAtlasSprite sprite, float r, float g, float b) {
+
+		ImmutableList<VertexFormatElement> elements = builder.getVertexFormat().getElements().asList();
+		for (int j = 0; j < elements.size(); j++) {
+			VertexFormatElement e = elements.get(j);
+			switch (e.getUsage()) {
+			case POSITION:
+				builder.put(j, (float) x, (float) y, (float) z, 1.0f);
+				break;
+			case COLOR:
+				builder.put(j, r, g, b, 1.0f);
+				break;
+			case UV:
+				switch (e.getIndex()) {
+				case 0:
+					float iu = sprite.getU(u);
+					float iv = sprite.getV(v);
+					builder.put(j, iu, iv);
+					break;
+				case 2:
+					builder.put(j, (short) 0, (short) 0);
+					break;
+				default:
+					builder.put(j);
+					break;
+				}
+				break;
+			case NORMAL:
+				builder.put(j, (float) normal.x, (float) normal.y, (float) normal.z);
+				break;
+			default:
+				builder.put(j);
+				break;
+			}
+		}
+	}
+
+	private BakedQuad createQuad(Vector3d v1, Vector3d v2, Vector3d v3, Vector3d v4, TextureAtlasSprite sprite) {
+		Vector3d normal = v3.subtract(v2).cross(v1.subtract(v2)).normalize();
+		int tw = sprite.getWidth();
+		int th = sprite.getHeight();
+
+		BakedQuadBuilder builder = new BakedQuadBuilder(sprite);
+		builder.setQuadOrientation(Direction.getNearest(normal.x, normal.y, normal.z));
+		putVertex(builder, normal, v1.x, v1.y, v1.z, 0, 0, sprite, 1.0f, 1.0f, 1.0f);
+		putVertex(builder, normal, v2.x, v2.y, v2.z, 0, th, sprite, 1.0f, 1.0f, 1.0f);
+		putVertex(builder, normal, v3.x, v3.y, v3.z, tw, th, sprite, 1.0f, 1.0f, 1.0f);
+		putVertex(builder, normal, v4.x, v4.y, v4.z, tw, 0, sprite, 1.0f, 1.0f, 1.0f);
+		return builder.build();
+	}
+
+	private static Vector3d v(double x, double y, double z) {
+		return new Vector3d(x, y, z);
 	}
 
 	@Override
@@ -121,17 +145,17 @@ public class OreModel implements IDynamicBakedModel {
 
 	@Override
 	public TextureAtlasSprite getParticleIcon() {
-		return getTexture(new ResourceLocation("block/stone"));
+		return getTexture(pt);
 	}
 
 	@Override
 	public ItemOverrideList getOverrides() {
-		return overrides;
+		return ItemOverrideList.EMPTY;
 	}
 
 	@Override
 	public ItemCameraTransforms getTransforms() {
-		return transforms;
+		return ItemCameraTransforms.NO_TRANSFORMS;
 	}
 
 	public static TextureAtlasSprite getTexture(ResourceLocation resLoc) {
@@ -140,11 +164,5 @@ public class OreModel implements IDynamicBakedModel {
 
 	public static TextureAtlasSprite getTexture(ResourceLocation resLoc, ResourceLocation atlasResLoc) {
 		return Minecraft.getInstance().getTextureAtlas(atlasResLoc).apply(resLoc);
-	}
-
-	public static BakedQuad makeBakedQuad(BlockPart blockPart, BlockPartFace partFace, TextureAtlasSprite atlasSprite,
-			Direction dir, IModelTransform modelRotation, ResourceLocation modelResLoc) {
-		return new FaceBakery().bakeQuad(blockPart.from, blockPart.to, partFace, atlasSprite, dir, modelRotation,
-				blockPart.rotation, true, modelResLoc);
 	}
 }

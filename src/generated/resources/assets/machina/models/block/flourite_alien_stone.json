@@ -1,3 +1,9 @@
 {
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "machina:block/alien_stone",
+    "bg": "machina:block/alien_stone",
+    "fg": "machina:ore/flourite"
+  },
   "loader": "machina:ore_model_loader"
 }
