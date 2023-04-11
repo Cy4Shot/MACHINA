@@ -82,7 +82,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 			m.values().forEach(b -> {
 				OreBlock ore = (OreBlock) b.get();
 				BlockModelBuilder generatorModel = models().getBuilder(ore.getRegistryName().getPath())
-						.parent(models().getExistingFile(mcLoc("block"))).texture("particle", ore.getBgTexturePath())
+						.texture("particle", ore.getBgTexturePath())
 						.texture("bg", ore.getBgTexturePath()).texture("fg", ore.getFgTexturePath())
 						.customLoader((bmb, h) -> {
 							return new CustomLoaderBuilder<BlockModelBuilder>(OreModelLoader.ID, bmb, h) {

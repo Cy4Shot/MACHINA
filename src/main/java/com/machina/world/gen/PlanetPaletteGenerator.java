@@ -28,7 +28,6 @@ public class PlanetPaletteGenerator {
 	}
 
 	public static Color[] getPalette(int colorid) {
-		System.out.println(colorid);
 		return PALETTES.getOrDefault(colorid, DEFAULT_PALETTE);
 	}
 

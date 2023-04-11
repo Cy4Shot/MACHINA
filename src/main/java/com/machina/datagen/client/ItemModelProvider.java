@@ -63,9 +63,10 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FLUID_HOPPER.get());
 		block(BlockInit.IRON_CHASSIS.get());
 		block(BlockInit.STEEL_CHASSIS.get());
+		
 		BlockInit.ORE_MAP.values().forEach(m -> {
 			m.values().forEach(b -> {
-				block(b.get());
+				empty(b.get());
 			});
 		});
 
@@ -125,6 +126,10 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 
 	protected void geo(Block block) {
 		getBuilder(block.asItem().getRegistryName().toString()).parent(getExistingFile(new MachinaRL("item/geo_item")));
+	}
+	
+	protected void empty(Block block) {
+		getBuilder(block.asItem().getRegistryName().toString()).parent(getExistingFile(new MachinaRL("item/empty")));
 	}
 
 	protected void block(Block block) {

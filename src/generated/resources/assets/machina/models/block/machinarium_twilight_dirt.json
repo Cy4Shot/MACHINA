@@ -1,5 +1,4 @@
 {
-  "parent": "minecraft:block/block",
   "textures": {
     "particle": "machina:block/twilight_dirt",
     "bg": "machina:block/twilight_dirt",

@@ -1,25 +1,30 @@
 package com.machina.client.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
-import com.machina.block.ore.OreBlock;
+import com.machina.util.math.VecUtil;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.model.ItemOverrideList;
+import net.minecraft.client.renderer.model.ItemTransformVec3f;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.model.data.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.pipeline.BakedQuadBuilder;
@@ -36,35 +41,9 @@ public class OreModel implements IDynamicBakedModel {
 		this.fg = fg;
 	}
 
-	@Nullable
 	@Override
-	public List<BakedQuad> getQuads(BlockState state, Direction side, Random rand, IModelData extraData) {
-		List<BakedQuad> quads = new ArrayList<>();
-		if (state == null || !(state.getBlock() instanceof OreBlock)) {
-			return quads;
-		}
-
-		TextureAtlasSprite b = getTexture(bg);
-		TextureAtlasSprite f = getTexture(fg);
-
-		double l = 0f;
-		double r = 1f;
-		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), b));
-		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), b));
-		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), b));
-		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), b));
-		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), b));
-		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), b));
-
-		l = -0.01f;
-		r = 1.01f;
-		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), f));
-		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), f));
-		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), f));
-		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), f));
-		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), f));
-		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), f));
-		return quads;
+	public boolean usesBlockLight() {
+		return false;
 	}
 
 	private void putVertex(BakedQuadBuilder builder, Vector3d normal, double x, double y, double z, float u, float v,
@@ -123,6 +102,40 @@ public class OreModel implements IDynamicBakedModel {
 		return new Vector3d(x, y, z);
 	}
 
+	@Nonnull
+	@Override
+	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand,
+			@Nonnull IModelData extraData) {
+
+		if (side != null) {
+			return Collections.emptyList();
+		}
+
+		TextureAtlasSprite b = getTexture(bg);
+		TextureAtlasSprite f = getTexture(fg);
+		List<BakedQuad> quads = new ArrayList<>();
+		float s = 1f;
+		double l = 1 - s;
+		double r = s;
+		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), b));
+		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), b));
+		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), b));
+		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), b));
+		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), b));
+		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), b));
+
+		l -= 0.01f;
+		r += 0.01f;
+		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), f));
+		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), f));
+		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), f));
+		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), f));
+		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), f));
+		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), f));
+
+		return quads;
+	}
+
 	@Override
 	public boolean useAmbientOcclusion() {
 		return true;
@@ -130,12 +143,7 @@ public class OreModel implements IDynamicBakedModel {
 
 	@Override
 	public boolean isGui3d() {
-		return false;
-	}
-
-	@Override
-	public boolean usesBlockLight() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -155,14 +163,44 @@ public class OreModel implements IDynamicBakedModel {
 
 	@Override
 	public ItemCameraTransforms getTransforms() {
-		return ItemCameraTransforms.NO_TRANSFORMS;
+		return getAllTransforms();
 	}
 
-	public static TextureAtlasSprite getTexture(ResourceLocation resLoc) {
-		return getTexture(resLoc, AtlasTexture.LOCATION_BLOCKS);
+	private static ItemCameraTransforms getAllTransforms() {
+		ItemTransformVec3f tpLeft = getTransform(TransformType.THIRD_PERSON_LEFT_HAND);
+		ItemTransformVec3f tpRight = getTransform(TransformType.THIRD_PERSON_RIGHT_HAND);
+		ItemTransformVec3f fpLeft = getTransform(TransformType.FIRST_PERSON_LEFT_HAND);
+		ItemTransformVec3f fpRight = getTransform(TransformType.FIRST_PERSON_RIGHT_HAND);
+		ItemTransformVec3f head = getTransform(TransformType.HEAD);
+		ItemTransformVec3f gui = getTransform(TransformType.GUI);
+		ItemTransformVec3f ground = getTransform(TransformType.GROUND);
+		ItemTransformVec3f fixed = getTransform(TransformType.FIXED);
+		return new ItemCameraTransforms(tpLeft, tpRight, fpLeft, fpRight, head, gui, ground, fixed);
 	}
 
-	public static TextureAtlasSprite getTexture(ResourceLocation resLoc, ResourceLocation atlasResLoc) {
-		return Minecraft.getInstance().getTextureAtlas(atlasResLoc).apply(resLoc);
+	// Default block rotations.
+	private static ItemTransformVec3f getTransform(TransformType type) {
+		switch (type) {
+		case GUI:
+			return new ItemTransformVec3f(new Vector3f(30, 45, 0), VecUtil.F3_0, VecUtil.vec3f(0.625f));
+		case GROUND:
+			return new ItemTransformVec3f(VecUtil.F3_0, new Vector3f(0, 0.06f, 0), VecUtil.vec3f(0.25f));
+		case FIXED:
+			return new ItemTransformVec3f(VecUtil.F3_0, VecUtil.F3_0, VecUtil.vec3f(0.5f));
+		case THIRD_PERSON_RIGHT_HAND:
+			return new ItemTransformVec3f(new Vector3f(75, 45, 0), new Vector3f(0, 0.15f, 0), VecUtil.vec3f(0.375f));
+		case THIRD_PERSON_LEFT_HAND:
+			return new ItemTransformVec3f(new Vector3f(75, 225, 0), new Vector3f(0, 0.15f, 0), VecUtil.vec3f(0.375f));
+		case FIRST_PERSON_RIGHT_HAND:
+			return new ItemTransformVec3f(new Vector3f(0, 45, 0), VecUtil.F3_0, VecUtil.vec3f(0.4f));
+		case FIRST_PERSON_LEFT_HAND:
+			return new ItemTransformVec3f(new Vector3f(0, 225, 0), VecUtil.F3_0, VecUtil.vec3f(0.4f));
+		default:
+			return ItemTransformVec3f.NO_TRANSFORM;
+		}
+	}
+
+	private static TextureAtlasSprite getTexture(ResourceLocation resLoc) {
+		return Minecraft.getInstance().getTextureAtlas(AtlasTexture.LOCATION_BLOCKS).apply(resLoc);
 	}
 }
