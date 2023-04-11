@@ -35,7 +35,7 @@ public class OreBlockItemRenderer extends ItemStackTileEntityRenderer {
 	private void render(MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, ItemStack itemStack,
 			int overlay) {
 		matrixStack.pushPose();
-		matrixStack.translate(0.5f, 0.5f, 0f);
+		matrixStack.translate(0.5f, 0.5f, 0.5f);
 		OreBlock ore = (OreBlock) ((OreBlockItem) itemStack.getItem()).getBlock();
 		Minecraft.getInstance().getItemRenderer().render(itemStack, ItemCameraTransforms.TransformType.GUI, false,
 				matrixStack, bufferIn, combinedLightIn, overlay,

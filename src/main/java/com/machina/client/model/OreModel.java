@@ -84,7 +84,7 @@ public class OreModel implements IDynamicBakedModel {
 		}
 	}
 
-	private BakedQuad createQuad(Vector3d v1, Vector3d v2, Vector3d v3, Vector3d v4, TextureAtlasSprite sprite) {
+	private BakedQuad createQuad(Vector3d v1, Vector3d v2, Vector3d v3, Vector3d v4, TextureAtlasSprite sprite, int tintindex) {
 		Vector3d normal = v3.subtract(v2).cross(v1.subtract(v2)).normalize();
 		int tw = sprite.getWidth();
 		int th = sprite.getHeight();
@@ -95,6 +95,7 @@ public class OreModel implements IDynamicBakedModel {
 		putVertex(builder, normal, v2.x, v2.y, v2.z, 0, th, sprite, 1.0f, 1.0f, 1.0f);
 		putVertex(builder, normal, v3.x, v3.y, v3.z, tw, th, sprite, 1.0f, 1.0f, 1.0f);
 		putVertex(builder, normal, v4.x, v4.y, v4.z, tw, 0, sprite, 1.0f, 1.0f, 1.0f);
+		builder.setQuadTint(tintindex);
 		return builder.build();
 	}
 
@@ -117,21 +118,21 @@ public class OreModel implements IDynamicBakedModel {
 		float s = 1f;
 		double l = 1 - s;
 		double r = s;
-		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), b));
-		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), b));
-		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), b));
-		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), b));
-		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), b));
-		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), b));
+		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), b, 0));
+		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), b, 0));
+		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), b, 0));
+		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), b, 0));
+		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), b, 0));
+		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), b, 0));
 
 		l -= 0.01f;
 		r += 0.01f;
-		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), f));
-		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), f));
-		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), f));
-		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), f));
-		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), f));
-		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), f));
+		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), f, -1));
+		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), f, -1));
+		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), f, -1));
+		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), f, -1));
+		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), f, -1));
+		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), f, -1));
 
 		return quads;
 	}

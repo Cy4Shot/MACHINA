@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 
 public class TintedItem extends BlockItem {
 
-	private static final String PLANET_ID = "PlanetID";
+	protected static final String PLANET_ID = "PlanetID";
 
 	public TintedItem(Block pBlock, Properties pProperties) {
 		super(pBlock, pProperties);

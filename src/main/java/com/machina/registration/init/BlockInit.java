@@ -179,14 +179,14 @@ public class BlockInit {
 										new Item.Properties().tab(Registration.MAIN_GROUP), model)
 												.setRegistryName(block.getRegistryName()));
 					} else {
-						if (ITinted.class.isInstance(block)) {
+						if (OreBlock.class.isInstance(block)) {
 							event.getRegistry().register(
-									new TintedItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
+									new OreBlockItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
 											.setRegistryName(block.getRegistryName()));
 						} else {
-							if (OreBlock.class.isInstance(block)) {
+							if (ITinted.class.isInstance(block)) {
 								event.getRegistry().register(
-										new OreBlockItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
+										new TintedItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
 												.setRegistryName(block.getRegistryName()));
 							} else {
 								event.getRegistry().register(
