@@ -37,7 +37,7 @@ public class ShipComponentItem extends Item {
 	public static String getNameForType(ShipComponentType type) {
 		return StringUtils.translate("machina.ship_component." + type.getSerializedName());
 	}
-	
+
 	public static String getNameForStage(int stage) {
 		return getNameForType(ShipComponentType.fromId((byte) stage).get());
 	}
@@ -77,14 +77,12 @@ public class ShipComponentItem extends Item {
 	}
 
 	public enum ShipComponentType implements IStringSerializable {
-		//@formatter:off
 		UNIDENTIFIED(0, "unidentified"),
 		REACTOR(1, "reactor"),
 		CORE(2, "core"),
 		THRUSTERS(3, "thrusters"),
 		LIFE_SUPPORT(4, "life_support"),
 		SHIELDS(5, "shields");
-		//@formatter:on
 
 		public final byte nbtID;
 		private final String name;

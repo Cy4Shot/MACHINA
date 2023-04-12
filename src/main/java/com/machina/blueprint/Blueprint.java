@@ -38,7 +38,10 @@ public class Blueprint {
 	}
 
 	public enum BlueprintCategory {
-		COMP, MACH, TOOL, SUIT
+		COMP,
+		MACH,
+		TOOL,
+		SUIT
 	}
 
 	public CompoundNBT toNBT() {

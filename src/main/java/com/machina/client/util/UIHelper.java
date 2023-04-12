@@ -50,8 +50,10 @@ import net.minecraftforge.fluids.FluidStack;
 public class UIHelper {
 
 	public enum StippleType {
-
-		NONE((short) 0x0000), FULL((short) 0xFFFF), DOTTED((short) 0x0101), DASHED((short) 0x00FF),
+		NONE((short) 0x0000),
+		FULL((short) 0xFFFF),
+		DOTTED((short) 0x0101),
+		DASHED((short) 0x00FF),
 		DOT_DASH((short) 0x1C47);
 
 		public final short code;
@@ -367,7 +369,7 @@ public class UIHelper {
 	private static float getTextWidth(CharacterManager manager, List<ITextProperties> text) {
 		return (float) text.stream().mapToDouble(manager::stringWidth).max().orElse(0.0D);
 	}
-	
+
 	public static void renderItem(ItemStack stack, int x, int y) {
 		mc.getItemRenderer().renderAndDecorateFakeItem(stack, x, y);
 	}
@@ -565,7 +567,7 @@ public class UIHelper {
 	public static void bindPrgrs() {
 		bind(PRGRS_EL);
 	}
-	
+
 	public static void bindBlprt() {
 		bind(BLPRT_EL);
 	}
@@ -827,12 +829,16 @@ public class UIHelper {
 
 	// https://github.com/mekanism/Mekanism/blob/1.16.x/src/main/java/mekanism/client/render/MekanismRenderer.java
 	public enum FluidType {
-		STILL, FLOWING
+		STILL,
+		FLOWING
 	}
 
 	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
 	public enum TilingDirection {
-		DOWN_RIGHT(true, true), DOWN_LEFT(true, false), UP_RIGHT(false, true), UP_LEFT(false, false);
+		DOWN_RIGHT(true, true),
+		DOWN_LEFT(true, false),
+		UP_RIGHT(false, true),
+		UP_LEFT(false, false);
 
 		private final boolean down;
 		private final boolean right;

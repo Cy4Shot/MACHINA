@@ -69,6 +69,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 public class Registration {
 
 	public static final ItemGroup MAIN_GROUP = new MachinaItemGroup(() -> ItemInit.TRANSISTOR.get(), "main");
+	public static final ItemGroup CHEMISTRY_GROUP = new MachinaItemGroup(() -> ItemInit.AMMONIUM_NITRATE.get(), "chemistyr");
 	public static final ItemGroup WORLDGEN_GROUP = new MachinaItemGroup(() -> ItemInit.SCANNER.get(), "worldgen");
 
 	public static PlanetTraitPoolManager TRAIT_POOL_MANAGER = new PlanetTraitPoolManager();

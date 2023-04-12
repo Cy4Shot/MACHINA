@@ -63,7 +63,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FLUID_HOPPER.get());
 		block(BlockInit.IRON_CHASSIS.get());
 		block(BlockInit.STEEL_CHASSIS.get());
-		
+
 		BlockInit.ORE_MAP.values().forEach(m -> {
 			m.values().forEach(b -> {
 				empty(b.get());
@@ -106,12 +106,31 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		bucket(FluidInit.AMMONIA);
 		bucket(FluidInit.CARBON_DIOXIDE);
 		bucket(FluidInit.HYDROGEN);
+		bucket(FluidInit.ETHANE);
+		bucket(FluidInit.ETHYLENE);
+		bucket(FluidInit.CHLORINE);
+		bucket(FluidInit.BORON_TRIFLUORIDE);
+		bucket(FluidInit.FORMALDEHYDE);
+
 		bucket(FluidInit.LIQUID_HYDROGEN);
 		bucket(FluidInit.LIQUID_AMMONIA);
-		bucket(FluidInit.ETHANE);
-		bucket(FluidInit.PROPANE);
-		bucket(FluidInit.ETHYLENE);
-		bucket(FluidInit.PROPYLENE);
+		bucket(FluidInit.BRINE);
+		bucket(FluidInit.SULPHUR_TRIOXIDE);
+		bucket(FluidInit.HYDROCHLORIC_ACID);
+		bucket(FluidInit.SULPHURIC_ACID);
+		bucket(FluidInit.BROMINE);
+		bucket(FluidInit.BENZENE);
+		bucket(FluidInit.TOULENE);
+		bucket(FluidInit.METHANOL);
+		bucket(FluidInit.HYDROGEN_FLUORIDE);
+		bucket(FluidInit.ACETALDEHYDE);
+		bucket(FluidInit.BENZYL_CHLORIDE);
+		bucket(FluidInit.NITRIC_ACID);
+		bucket(FluidInit.BROMOBENZENE);
+		bucket(FluidInit.GLYOXAL);
+		bucket(FluidInit.BENZYLAMINE);
+		bucket(FluidInit.HNIW);
+		bucket(FluidInit.HEXOGEN);
 	}
 
 	protected void bucket(FluidObject obj) {
@@ -127,7 +146,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	protected void geo(Block block) {
 		getBuilder(block.asItem().getRegistryName().toString()).parent(getExistingFile(new MachinaRL("item/geo_item")));
 	}
-	
+
 	protected void empty(Block block) {
 		getBuilder(block.asItem().getRegistryName().toString()).parent(getExistingFile(new MachinaRL("item/empty")));
 	}

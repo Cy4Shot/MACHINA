@@ -83,7 +83,7 @@ public enum ScannerRenderer {
 			}
 
 			render(matrixStack.last().pose(), projectionMatrix);
-			
+
 			deleteDepthCopyFramebuffer();
 		} else {
 			if (depthCopyFbo != 0) {

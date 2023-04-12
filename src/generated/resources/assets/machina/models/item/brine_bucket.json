@@ -1,6 +1,5 @@
 {
   "parent": "forge:item/bucket",
   "loader": "forge:bucket",
-  "fluid": "machina:propylene",
-  "flipGas": true
+  "fluid": "machina:brine"
 }

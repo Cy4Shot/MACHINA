@@ -102,6 +102,12 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.LDPE.get(), "LDPE");
 		add(ItemInit.HDPE.get(), "HDPE");
 		add(ItemInit.UHMWPE.get(), "UHMWPE");
+		add(ItemInit.SODIUM_HYDROXIDE.get(), "Sodium Hydroxide");
+		add(ItemInit.CALCIUM_SULPHATE.get(), "Calcium Sulphate");
+		add(ItemInit.PALLADIUM_CHLORIDE.get(), "Palladium Chloride");
+		add(ItemInit.PALLADIUM_ON_CARBON.get(), "Palladium on Carbon");
+		add(ItemInit.HEXAMINE.get(), "Hexamine");
+		add(ItemInit.NITRONIUM_TETRAFLUOROBORATE.get(), "Nitronium Tetrafluoroborate");
 
 		// Tooltips
 		addTooltip("ldpe", "Low Density Polyethylene");
@@ -121,12 +127,30 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.AMMONIA, "Ammonia", "Bucket");
 		add(FluidInit.CARBON_DIOXIDE, "Carbon Dioxide", "Bucket");
 		add(FluidInit.HYDROGEN, "Hydrogen", "Bucket");
+		add(FluidInit.ETHANE, "Ethane", "Bucket");
+		add(FluidInit.ETHYLENE, "Ethylene", "Bucket");
+		add(FluidInit.CHLORINE, "Chlorine", "Bucket");
+		add(FluidInit.BORON_TRIFLUORIDE, "Boron Trifluoride", "Bucket");
+		add(FluidInit.FORMALDEHYDE, "Formaldehyde", "Bucket");
+
 		add(FluidInit.LIQUID_HYDROGEN, "Liquid Hydrogen", "Bucket");
 		add(FluidInit.LIQUID_AMMONIA, "Liquid Ammonia", "Bucket");
-		add(FluidInit.ETHANE, "Ethane", "Bucket");
-		add(FluidInit.PROPANE, "Propane", "Bucket");
-		add(FluidInit.ETHYLENE, "Ethylene", "Bucket");
-		add(FluidInit.PROPYLENE, "Propylene", "Bucket");
+		add(FluidInit.BRINE, "Brine", "Bucket");
+		add(FluidInit.HYDROCHLORIC_ACID, "Hydrochloric Acid", "Bucket");
+		add(FluidInit.SULPHURIC_ACID, "Sulphuric Acid", "Bucket");
+		add(FluidInit.BROMINE, "Bromine", "Bucket");
+		add(FluidInit.BENZENE, "Benzene", "Bucket");
+		add(FluidInit.TOULENE, "Toulene", "Bucket");
+		add(FluidInit.METHANOL, "Methanol", "Bucket");
+		add(FluidInit.HYDROGEN_FLUORIDE, "Hydrogen Fluoride", "Bucket");
+		add(FluidInit.ACETALDEHYDE, "Acetaldehyde", "Bucket");
+		add(FluidInit.BENZYL_CHLORIDE, "Benzyl Chloride", "Bucket");
+		add(FluidInit.NITRIC_ACID, "Nitric Acid", "Bucket");
+		add(FluidInit.BROMOBENZENE, "Bromobenzene", "Bucket");
+		add(FluidInit.GLYOXAL, "Glyoxal", "Bucket");
+		add(FluidInit.BENZYLAMINE, "Benzylamine", "Bucket");
+		add(FluidInit.HNIW, "HNIW (CL-20)", "Bucket");
+		add(FluidInit.HEXOGEN, "Hexogen (RDX)", "Bucket");
 
 		// Traits
 
@@ -163,6 +187,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 		// Item Groups
 		addItemGroup(Registration.MAIN_GROUP, "Machina");
+		addItemGroup(Registration.CHEMISTRY_GROUP, "Machina: Resources");
 		addItemGroup(Registration.WORLDGEN_GROUP, "Machina: Worldgen");
 
 		// Keybindings

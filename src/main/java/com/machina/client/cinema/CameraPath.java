@@ -121,6 +121,7 @@ public class CameraPath {
 	}
 
 	public enum InterpolationMethod {
-		BEZIER, LERP
+		BEZIER,
+		LERP
 	}
 }

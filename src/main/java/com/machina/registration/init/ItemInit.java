@@ -38,6 +38,7 @@ public final class ItemInit {
 	public static final RegistryObject<Item> COPPER_COIL = basic("copper_coil");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
 	public static final RegistryObject<Item> PROCESSOR = basic("processor");
+	
 	public static final RegistryObject<Item> SILICON = basic("silicon", p -> new ChemicalItem(p, "Si"));
 	public static final RegistryObject<Item> SILICON_BOLUS = basic("silicon_bolus", p -> new ChemicalItem(p, "Si"));
 	public static final RegistryObject<Item> HIGH_PURITY_SILICON = basic("high_purity_silicon", p -> new ChemicalItem(p, "Si"));
@@ -45,6 +46,13 @@ public final class ItemInit {
 	public static final RegistryObject<Item> LDPE = basic("ldpe", p -> new ChemicalItem(p, "ldpe", "(CH2CH2)"));
 	public static final RegistryObject<Item> HDPE = basic("hdpe", p -> new ChemicalItem(p, "hdpe","(CH2CH2)"));
 	public static final RegistryObject<Item> UHMWPE = basic("uhmwpe", p -> new ChemicalItem(p, "uhmwpe", "(CH2CH2)"));
+	public static final RegistryObject<Item> SODIUM_HYDROXIDE = basic("sodium_hydroxide", p -> new ChemicalItem(p, "NaOH"));
+	public static final RegistryObject<Item> CALCIUM_SULPHATE = basic("calcium_sulphate", p -> new ChemicalItem(p, "CaSO4"));
+	public static final RegistryObject<Item> PALLADIUM_CHLORIDE = basic("palladium_chloride", p -> new ChemicalItem(p, "PdCl2"));
+	public static final RegistryObject<Item> PALLADIUM_ON_CARBON = basic("palladium_on_carbon", p -> new ChemicalItem(p, "Pd/C"));
+	public static final RegistryObject<Item> HEXAMINE = basic("hexamine", p -> new ChemicalItem(p, "(CH2)6N4"));
+	public static final RegistryObject<Item> NITRONIUM_TETRAFLUOROBORATE = basic("nitronium_tetrafluoroborate", p -> new ChemicalItem(p, "NO2BF4"));
+	
 	public static final RegistryObject<MachinaDiscItem> BEYOND_DISC = basic("beyond_disc", p -> new MachinaDiscItem(() -> SoundInit.BEYOND.sound()));
 	public static final RegistryObject<MachinaDiscItem> LOOK_UP_DISC = basic("look_up_disc", p -> new MachinaDiscItem(() -> SoundInit.LOOK_UP.sound()));
 	public static final RegistryObject<MachinaDiscItem> BOSS_01_DISC = basic("boss_01_disc", p -> new MachinaDiscItem(() -> SoundInit.BOSS_01.sound()));

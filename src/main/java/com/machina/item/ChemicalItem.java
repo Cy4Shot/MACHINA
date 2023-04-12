@@ -3,6 +3,7 @@ package com.machina.item;
 import java.util.List;
 
 import com.machina.Machina;
+import com.machina.registration.Registration;
 import com.machina.util.text.StringUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -19,14 +20,14 @@ public class ChemicalItem extends Item {
 	private final String chem;
 
 	public ChemicalItem(Properties pProperties, String toolTipKey, String chem) {
-		super(pProperties);
+		super(pProperties.tab(Registration.CHEMISTRY_GROUP));
 
 		this.toolTipKey = toolTipKey;
 		this.chem = chem;
 	}
 
 	public ChemicalItem(Properties pProperties, String chem) {
-		super(pProperties);
+		super(pProperties.tab(Registration.CHEMISTRY_GROUP));
 
 		this.toolTipKey = "";
 		this.chem = chem;

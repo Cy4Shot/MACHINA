@@ -38,7 +38,7 @@ public class C2SDevPlanetCreationGUI implements INetworkMessage {
 	}
 
 	public enum ActionType {
-		CREATE, TELEPORT;
+		CREATE,
+		TELEPORT;
 	}
-
 }

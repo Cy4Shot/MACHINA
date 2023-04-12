@@ -35,41 +35,59 @@ public class FluidInit {
 			Machina.MOD_ID);
 	public static final List<String> BLOCKS = new ArrayList<>();
 
-	//@formatter:off
-
 	// Gases
-	public static final FluidObject OXYGEN = gas("oxygen", "O2", b -> b.col(0xFF_ffffff).tem(90.19F).den(1143f));
-	public static final FluidObject NITROGEN = gas("nitrogen", "N2", b -> b.col(0xFF_b2d4db).tem(90.19F).den(1161f));
-	public static final FluidObject AMMONIA = gas("ammonia", "NH3", b -> b.col(0xFF_44db6c).tem(90.19F).den(730f));
-	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", "CO2", b -> b.col(0xFF_f7e4c1).tem(90.19F).den(1143f));
-	public static final FluidObject HYDROGEN = gas("hydrogen", "H2", b -> b.col(0xFF_6ce2ff).tem(90.19F).den(70.86f));
-	public static final FluidObject ETHANE = gas("ethane", "C2H6", b -> b.col(0xFF_bbd68d).tem(90.19F).den(1282f));
-	public static final FluidObject PROPANE = gas("propane", "C3H8", b -> b.col(0xFF_3472cf).tem(90.19F).den(493f));
-	public static final FluidObject ETHYLENE = gas("ethylene", "C2H4", b -> b.col(0xFF_8dd6be).tem(90.19F).den(118f));
-	public static final FluidObject PROPYLENE = gas("propylene", "C3H6", b -> b.col(0xFF_6092bd).tem(90.19F).den(174f));
-	
+	public static final FluidObject OXYGEN = gas("oxygen", "O2", 0xFF_ffffff);
+	public static final FluidObject NITROGEN = gas("nitrogen", "N2", 0xFF_b2d4db);
+	public static final FluidObject AMMONIA = gas("ammonia", "NH3", 0xFF_44db6c);
+	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", "CO2", 0xFF_f7e4c1);
+	public static final FluidObject HYDROGEN = gas("hydrogen", "H2", 0xFF_6ce2ff);
+	public static final FluidObject ETHANE = gas("ethane", "C2H6", 0xFF_bbd68d);
+	public static final FluidObject ETHYLENE = gas("ethylene", "C2H4", 0xFF_8dd6be);
+	public static final FluidObject CHLORINE = gas("clorine", "Cl2", 0xFF_bfd25f);
+	public static final FluidObject BORON_TRIFLUORIDE = gas("boron_trifluoride", "BF3", 0xFF_f8f9fa);
+	public static final FluidObject FORMALDEHYDE = gas("formaldehyde", "CH2O", 0xFF_f5f5f5);
+
 	// Liquids
-	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", "H2", b -> b.col(0xFF_898fff).tem(20.28F).den(70.86f));
-	public static final FluidObject LIQUID_AMMONIA = liquid("liquid_ammonia", "NH3", b -> b.col(0xFF_1e6e33).tem(20.28F).den(730f));
-	
-	// Atmosphere 
-	public static final List<FluidObject> ATMOSPHERE = Arrays.asList(OXYGEN, NITROGEN, AMMONIA, CARBON_DIOXIDE, HYDROGEN);
+	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", "H2", 0xFF_898fff);
+	public static final FluidObject LIQUID_AMMONIA = liquid("liquid_ammonia", "NH3", 0xFF_1e6e33);
+	public static final FluidObject BRINE = liquid("brine", "NaCl", 0xFF_63d1ea);
+	public static final FluidObject SULPHUR_TRIOXIDE = liquid("sulphur_trioxide", "SO3", 0xFF_fafafa);
+	public static final FluidObject HYDROCHLORIC_ACID = liquid("hydrochloric_acid", "HCl", 0xFF_fafbf8);
+	public static final FluidObject SULPHURIC_ACID = liquid("sulphuric_acid", "H2SO4", 0xFF_fcfff8);
+	public static final FluidObject BROMINE = liquid("bromine", "Br2", 0xFF_fc6f37);
+	public static final FluidObject BENZENE = liquid("benzene", "C6H6", 0xFF_c9cbc6);
+	public static final FluidObject TOULENE = liquid("toulene", "C6H5CH3", 0xFF_d7dadb);
+	public static final FluidObject METHANOL = liquid("methanol", "CH3OH", 0xFF_ecefe6);
+	public static final FluidObject HYDROGEN_FLUORIDE = liquid("hydrogen_fluoride", "HF", 0xFF_e6e7eb);
+	public static final FluidObject ACETALDEHYDE = liquid("acetaldehyde", "CH3CHO", 0xFF_f2f2f2);
+	public static final FluidObject BENZYL_CHLORIDE = liquid("benzyl_chloride", "C6H5CH2Cl", 0xFF_dbdbdc);
+	public static final FluidObject NITRIC_ACID = liquid("nitric_acid", "HNO3", 0xFF_ecf0f0);
+	public static final FluidObject BROMOBENZENE = liquid("bromobenzene", "C6H5Br", 0xFF_c0bf8d);
+	public static final FluidObject GLYOXAL = liquid("glyoxal", "OCHCHO", 0xFF_dad4d6);
+	public static final FluidObject BENZYLAMINE = liquid("benzylamine", "C6H5CH2NH2", 0xFF_cacec5);
+	public static final FluidObject HNIW = liquid("hniw", "C6H6N12O12", 0xFF_bf433f);
+	public static final FluidObject HEXOGEN = liquid("hexogen", "(O2N2CH2)3", 0xFF_eece45);
+
+	// Atmosphere
+	public static final List<FluidObject> ATMOSPHERE = Arrays.asList(OXYGEN, NITROGEN, AMMONIA, CARBON_DIOXIDE,
+			HYDROGEN);
+
 	public static final Double[] atmForDim(RegistryKey<World> dim) {
 		if (dim.equals(World.NETHER))
-			return new Double[] {0.1D, 0D, 0D, 0.6D, 0.3D};
+			return new Double[] { 0.1D, 0D, 0D, 0.6D, 0.3D };
 		if (dim.equals(World.END))
-				return new Double[] {0D, 0.0868D, 0D, 0D, 0.9132D};
-		return new Double[] {0.20946D, 0.78084D, 0D, 0.00417D, 0D};
+			return new Double[] { 0D, 0.0868D, 0D, 0D, 0.9132D };
+		return new Double[] { 0.20946D, 0.78084D, 0D, 0.00417D, 0D };
 	}
 
 	//@formatter:on
 
-	public static FluidObject gas(String name, String code, Function<ChemicalBuilder, ChemicalBuilder> builder) {
-		return new FluidObject(name, code, true, builder);
+	public static FluidObject gas(String name, String code, int col) {
+		return new FluidObject(name, code, true, b -> b.col(col));
 	}
 
-	public static FluidObject liquid(String name, String code, Function<ChemicalBuilder, ChemicalBuilder> builder) {
-		return new FluidObject(name, code, false, builder);
+	public static FluidObject liquid(String name, String code, int col) {
+		return new FluidObject(name, code, false, b -> b.col(col));
 	}
 
 	public static class FluidObject {
@@ -77,7 +95,7 @@ public class FluidInit {
 		private static final ResourceLocation STILL_RL = new ResourceLocation("block/water_still");
 		private static final ResourceLocation FLOWING_RL = new ResourceLocation("block/water_flow");
 		private static final ResourceLocation OVERLAY_RL = new ResourceLocation("block/water_overlay");
-		private static final Item.Properties BUCKET_PROP = new Item.Properties().tab(Registration.MAIN_GROUP)
+		private static final Item.Properties BUCKET_PROP = new Item.Properties().tab(Registration.CHEMISTRY_GROUP)
 				.stacksTo(1).craftRemainder(Items.BUCKET);
 		private static final AbstractBlock.Properties BLOCK_PROP = AbstractBlock.Properties.copy(Blocks.WATER);
 
@@ -152,7 +170,7 @@ public class FluidInit {
 		private Chemical c;
 
 		private ChemicalBuilder() {
-			c = new Chemical("", 0, 0, 50F, 1);
+			c = new Chemical("", 0, 0, 300F, 1);
 		}
 
 		public ChemicalBuilder col(int v) {
@@ -162,16 +180,6 @@ public class FluidInit {
 
 		public ChemicalBuilder lum(int v) {
 			c.luminosity = v;
-			return this;
-		}
-
-		public ChemicalBuilder den(float v) {
-			c.density = v;
-			return this;
-		}
-
-		public ChemicalBuilder tem(float v) {
-			c.temperature = v;
 			return this;
 		}
 
