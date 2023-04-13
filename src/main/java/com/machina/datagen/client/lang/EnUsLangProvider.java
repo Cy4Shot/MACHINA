@@ -251,6 +251,14 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("blueprint", "tabtip1",
 				"Please select a tab to start making blueprints. If no tabs are available, you haven't completed enough research yet. Open the research menu by pressing '");
 		addScreen("blueprint", "tabtip2", "'.");
+		addScreen("fabricator", "title", "Fabricator");
+		addScreen("fabricator", "missing", "Missing Materials");
+		addScreen("fabricator", "ready", "Craft Ready!");
+		addScreen("fabricator", "no_bp", "No Blueprint Found");
+		addScreen("fabricator", "extra", " + # More...");
+		addScreen("fabricator", "prompt1", "Click the button below to craft.");
+		addScreen("fabricator", "prompt2", "WARNING: This will consume all required items.");
+		addScreen("fabricator", "craft", "Craft");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");

@@ -55,6 +55,14 @@ public class StringUtils {
 		return String.valueOf(stack.getCount()) + "x " + stack.getItem().getName(stack).getString();
 	}
 
+	public static String toEllipsis(String input, int maxCharacters, int charactersAfterEllipse) {
+		if (input == null || input.length() < maxCharacters) {
+			return input;
+		}
+		return input.substring(0, maxCharacters - charactersAfterEllipse) + "..."
+				+ input.substring(input.length() - charactersAfterEllipse);
+	}
+
 	public static String translate(String key) {
 		return translateComp(key).getString();
 	}
