@@ -1,0 +1,18 @@
+{
+	"type": "machina:fabricator",
+	"blueprint": "component_analyzer",
+	"input": [
+		{
+			"item": "minecraft:stick",
+			"count": 33
+		},
+		{
+			"item": "minecraft:diamond",
+			"count": 12
+		},
+		{
+			"item": "machina:steel_chassis",
+			"count": 12
+		}
+	]
+}

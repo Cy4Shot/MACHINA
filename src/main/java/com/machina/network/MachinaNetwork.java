@@ -7,6 +7,7 @@ import com.machina.network.c2s.C2SCalculateRocketFuel;
 import com.machina.network.c2s.C2SCompletePuzzle;
 import com.machina.network.c2s.C2SDevPlanetCreationGUI;
 import com.machina.network.c2s.C2SEtchBlueprint;
+import com.machina.network.c2s.C2SFabricatorFabricate;
 import com.machina.network.c2s.C2SLaunchShip;
 import com.machina.network.c2s.C2SPressurizedChamberClear;
 import com.machina.network.c2s.C2SPressurizedChamberRunning;
@@ -56,6 +57,7 @@ public class MachinaNetwork extends BaseNetwork {
 		registerClientToServer(C2SSpawnParticle.class, C2SSpawnParticle::decode);
 		registerClientToServer(C2SShipLaunchEffect.class, C2SShipLaunchEffect::decode);
 		registerClientToServer(C2SEtchBlueprint.class, C2SEtchBlueprint::decode);
+		registerClientToServer(C2SFabricatorFabricate.class, C2SFabricatorFabricate::decode);
 
 		BaseNetwork.MACHINA_CHANNEL = CHANNEL;
 	}

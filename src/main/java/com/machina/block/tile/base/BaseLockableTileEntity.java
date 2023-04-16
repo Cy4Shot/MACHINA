@@ -84,6 +84,13 @@ public abstract class BaseLockableTileEntity extends LockableLootTileEntity {
 	}
 
 	@Override
+	public ItemStack removeItem(int pIndex, int pCount) {
+		ItemStack stack = super.removeItem(pIndex, pCount);
+		this.sync();
+		return stack;
+	}
+
+	@Override
 	protected ITextComponent getDefaultName() {
 		return StringUtils.EMPTY;
 	}

@@ -47,4 +47,11 @@ public class BlueprintItem extends Item {
 		set(stack, Blueprint.EMPTY);
 		return stack;
 	}
+
+	public static boolean isEtched(ItemStack stack) {
+		if (!(stack.getItem() instanceof BlueprintItem))
+			return false;
+
+		return get(stack) != Blueprint.EMPTY;
+	}
 }

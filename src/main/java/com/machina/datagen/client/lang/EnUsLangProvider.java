@@ -258,6 +258,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("fabricator", "extra", " + # More...");
 		addScreen("fabricator", "prompt1", "Click the button below to craft.");
 		addScreen("fabricator", "prompt2", "WARNING: This will consume all required items.");
+		addScreen("fabricator", "full", "Output Full");
+		addScreen("fabricator", "fullp", "Please empty the output slot in order to craft.");
 		addScreen("fabricator", "craft", "Craft");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");

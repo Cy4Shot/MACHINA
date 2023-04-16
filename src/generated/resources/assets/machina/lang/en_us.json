@@ -247,6 +247,8 @@
   "machina.screen.component_analyzer.insert": "Insert Component",
   "machina.screen.fabricator.craft": "Craft",
   "machina.screen.fabricator.extra": " + # More...",
+  "machina.screen.fabricator.full": "Output Full",
+  "machina.screen.fabricator.fullp": "Please empty the output slot in order to craft.",
   "machina.screen.fabricator.missing": "Missing Materials",
   "machina.screen.fabricator.no_bp": "No Blueprint Found",
   "machina.screen.fabricator.prompt1": "Click the button below to craft.",
