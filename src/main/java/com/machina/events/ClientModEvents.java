@@ -53,6 +53,7 @@ import net.minecraft.client.renderer.chunk.ChunkRenderCache;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.RegistryKey;
@@ -206,9 +207,11 @@ public class ClientModEvents {
 	}
 
 	@SubscribeEvent
-	public static void textureStich(TextureStitchEvent.Pre event) {
-		for (OreType ore : Arrays.asList(OreType.values())) {
-			event.addSprite(ore.getTexturePath());
+	public static void textureStitch(TextureStitchEvent.Pre event) {
+		if (event.getMap().location().equals(AtlasTexture.LOCATION_BLOCKS)) {
+			for (OreType ore : Arrays.asList(OreType.values())) {
+				event.addSprite(ore.getTexturePath());
+			}
 		}
 	}
 
