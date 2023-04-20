@@ -5,7 +5,12 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import com.machina.Machina;
+import com.machina.client.ClientStarchart;
 import com.machina.client.util.QuadBufferRenderer;
+import com.machina.client.util.UIHelper;
+import com.machina.util.math.MathUtil;
+import com.machina.util.math.VecUtil;
+import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,8 +28,10 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ICloudRenderHandler;
@@ -68,6 +75,7 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 
 		public static final ResourceLocation STARS = new MachinaRL("textures/environment/sky/sky.png");
 		public static final ResourceLocation FOG = new MachinaRL("textures/environment/sky/fog.png");
+		public static final ResourceLocation PLANETS = new MachinaRL("textures/gui/planets.png");
 
 		private VertexBuffer sky;
 		private VertexBuffer fog;
@@ -135,7 +143,6 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 					}
 				}
 			}
-
 		}
 
 		@Override
@@ -173,8 +180,60 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 					FogRenderer.fogGreen, FogRenderer.fogBlue, 1f);
 			matrixStack.popPose();
 
+			drawPlanets(matrixStack, world, partialTicks);
+
 			RenderSystem.depthMask(true);
 			RenderSystem.disableTexture();
+		}
+
+		// Some code here was ~~stolen~~ BORROWED from Botania, which is a mod by Vazkii
+		@SuppressWarnings("resource")
+		private void drawPlanets(MatrixStack ms, ClientWorld world, float partialTicks) {
+			Tessellator tessellator = Tessellator.getInstance();
+
+			float rain = 1.0F - world.getRainLevel(partialTicks);
+			float celAng = world.getTimeOfDay(partialTicks);
+			float effCelAng = celAng;
+			if (celAng > 0.5) {
+				effCelAng = 0.5F - (celAng - 0.5F);
+			}
+			float scale = 20F;
+			float lowA = Math.max(0F, effCelAng - 0.3F) * rain;
+			float a = Math.max(0.1F, lowA);
+
+			RenderSystem.blendFuncSeparate(770, 771, 1, 0);
+			ms.pushPose();
+			RenderSystem.color4f(1F, 1F, 1F, a * 4);
+			ms.mulPose(new Vector3f(0.5F, 0.5F, 0F).rotationDegrees(90));
+
+			for (int p = 0; p < ClientStarchart.getStarchart().size(); p++) {
+				if (PlanetHelper.getId(world.dimension()) == p)
+					continue;
+
+				Random g = new Random(p);
+				ms.mulPose(VecUtil.randNorm(g).rotationDegrees(g.nextFloat() * 360));
+				scale = MathUtil.randRange(10F, 10F, g);
+
+				float tx = 0.01f;
+				float t1 = (world.getGameTime() + partialTicks + g.nextFloat() * 10000) * tx;
+				float t2 = (world.getGameTime() + partialTicks + g.nextFloat() * 10000) * tx;
+				float t3 = (world.getGameTime() + partialTicks + g.nextFloat() * 10000) * tx;
+				ms.mulPose(Vector3f.XP.rotationDegrees(t1));
+				ms.mulPose(Vector3f.YP.rotationDegrees(t2));
+				ms.mulPose(Vector3f.ZP.rotationDegrees(t3));
+
+				// Todo: Manually detect planet positions
+				Minecraft.getInstance().textureManager.bind(PLANETS);
+				Matrix4f mat = ms.last().pose();
+				tessellator.getBuilder().begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+				tessellator.getBuilder().vertex(mat, -scale, 100, -scale).uv(0.5F, 0.0F).endVertex();
+				tessellator.getBuilder().vertex(mat, scale, 100, -scale).uv(1F, 0.0F).endVertex();
+				tessellator.getBuilder().vertex(mat, scale, 100, scale).uv(1F, 0.015625F).endVertex();
+				tessellator.getBuilder().vertex(mat, -scale, 100, scale).uv(0.5F, 0.015625F).endVertex();
+				tessellator.end();
+			}
+			UIHelper.resetColor();
+			ms.popPose();
 		}
 	}
 
@@ -188,13 +247,9 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 
 	public static class CustomWeatherRenderer implements IWeatherRenderHandler {
 
-		public CustomWeatherRenderer() {
-		}
-
 		@Override
 		public void render(int ticks, float partialTicks, ClientWorld world, Minecraft mc, LightTexture lightmapIn,
 				double xIn, double yIn, double zIn) {
-			
 		}
 	}
 
