@@ -1,7 +1,5 @@
 #version 120
 
-// From Scannable mod
-
 uniform mat4 invViewMat;
 uniform mat4 invProjMat;
 uniform vec3 col;
