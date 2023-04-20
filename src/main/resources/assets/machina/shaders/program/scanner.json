@@ -4,7 +4,7 @@
     "srcrgb": "one",
     "dstrgb": "one"
   },
-  "vertex": "machina:scanner",
+  "vertex": "machina:pass",
   "fragment": "machina:scanner",
   "samplers": [
     { "name": "depthTex" }
