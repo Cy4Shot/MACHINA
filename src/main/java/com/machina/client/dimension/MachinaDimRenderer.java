@@ -176,8 +176,8 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			RenderSystem.depthMask(false);
 
 			tm.bind(FOG);
-			QuadBufferRenderer.render(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed,
-					FogRenderer.fogGreen, FogRenderer.fogBlue, 1f);
+//			QuadBufferRenderer.render(matrixStack, fog, DefaultVertexFormats.POSITION_TEX, FogRenderer.fogRed,
+//					FogRenderer.fogGreen, FogRenderer.fogBlue, 1f);
 			matrixStack.popPose();
 
 			drawPlanets(matrixStack, world, partialTicks);

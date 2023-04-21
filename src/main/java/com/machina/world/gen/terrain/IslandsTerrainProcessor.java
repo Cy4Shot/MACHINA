@@ -23,4 +23,9 @@ public class IslandsTerrainProcessor implements IPlanetTerrainProcessor {
 	public boolean hasTopBedrock() {
 		return false;
 	}
+
+	@Override
+	public boolean isGas() {
+		return true;
+	}
 }

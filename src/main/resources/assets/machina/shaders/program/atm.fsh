@@ -12,9 +12,9 @@ varying vec2 texCoord;
 const float R0 = 6360e3; // Surface radius
 const float Ra = 6380e3; // Atmosphere top radius
 const vec3 bR = vec3(58e-7, 135e-7, 331e-7); // Rayleigh scattering coefficient RANDOMISE THESE AT SOME POINT???
-const vec3 bMs = vec3(2e-5); // Mie scattering coefficients RANDOMISE THESE AT SOME POINT???
+const vec3 bMs = vec3(2e-5); // Mie scattering coefficient
 const vec3 bMe = bMs * 1.1;
-const float I = 5.; // Sun intensity
+const float I = 7.; // Sun intensity
 const vec3 C = vec3(0., -R0, 0.); // Planet center point
 
 vec2 densitiesRM(vec3 p) {
@@ -81,14 +81,11 @@ void main() {
 	float depth = texture2D(depthTex, texCoord).r;
     vec3 pos = worldpos(depth);
     float dist = distance(pos, center);
-    vec3 O = center;
-    vec3 D = normalize(pos - center);
-    
-	sundir = normalize(vec3(.5, .4 * (1. + sin(.5 * .3)), -1.));
-    
     vec3 c = vec3(0.);
-    
-    if (dist > render * 2) {
+ 	if (dist > render * 2) {
+        vec3 O = center;
+	    vec3 D = normalize(pos - center);
+		sundir = normalize(vec3(.5, 1., -1.));
 	    float L = escape(O, D, Ra);
 	    c = scatter(O, D, L, col);
     }

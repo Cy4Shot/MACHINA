@@ -12,6 +12,7 @@ public class PlanetTerrainGenerator {
 		double postprocess(double height, double noise, double worldHeight, double surfmodifier);
 		boolean hasBotBedrock();
 		boolean hasTopBedrock();
+		boolean isGas();
 	}
 
 	public static IPlanetTerrainProcessor getProcessor(int processor) {
