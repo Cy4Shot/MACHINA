@@ -108,12 +108,8 @@ public enum ScannerRenderer {
 		invertedProjectionMatrix.invert();
 		ShaderHandler.SCANNER.setUniform("invProjMat", invertedProjectionMatrix);
 
-		final Vector3f position = new Vector3f(mc.gameRenderer.getMainCamera().getPosition());
-		ShaderHandler.SCANNER.setUniform("pos", position);
-
-		final int adjustedDuration = computeScanGrowthDuration();
-		final float radius = computeRadius(currentStart, (float) adjustedDuration);
-		ShaderHandler.SCANNER.setUniform("radius", radius);
+		ShaderHandler.SCANNER.setUniform("pos", new Vector3f(mc.gameRenderer.getMainCamera().getPosition()));
+		ShaderHandler.SCANNER.setUniform("radius", computeRadius(currentStart, computeScanGrowthDuration()));
 		ShaderHandler.SCANNER.setUniform("target", computeTargetRadius());
 
 		RESET_BLEND_STATE.apply();

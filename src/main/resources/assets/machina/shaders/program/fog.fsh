@@ -25,6 +25,5 @@ void main() {
     vec3 pos = worldpos(depth);
     float dist = distance(pos, center);
     float r = render / 2;
-    vec4 color = vec4(col * clamp((dist - r) / r, 0, 1), 0);
-    gl_FragColor = color;
+    gl_FragColor = vec4(0); //vec4(col * clamp((dist - r) / r, 0, 1), 0);
 }

@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL30;
 import com.machina.client.ClientStarchart;
 import com.machina.client.shader.ShaderHandler;
 import com.machina.registration.init.AttributeInit;
-import com.machina.util.Color;
 import com.machina.util.server.PlanetHelper;
 import com.machina.world.gen.PlanetPaletteGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -73,19 +72,14 @@ public enum FogRenderer {
 		invertedProjectionMatrix.invert();
 		ShaderHandler.FOG.setUniform("invProjMat", invertedProjectionMatrix);
 
-		final Vector3f position = new Vector3f(mc.gameRenderer.getMainCamera().getPosition());
-		ShaderHandler.FOG.setUniform("center", position);
-
-		Color c = PlanetPaletteGenerator
-				.getPalette(ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.PALETTE))[4];
-		ShaderHandler.FOG.setUniform("col", new Vector3f(c.r(), c.g(), c.b()));
-
-		final float density = ClientStarchart.getPlanetData(mc.level.dimension())
-				.getAttribute(AttributeInit.FOG_DENSITY);
-		ShaderHandler.FOG.setUniform("density", density);
-		
-		final float dist = mc.options.renderDistance * 16;
-		ShaderHandler.FOG.setUniform("render", dist);
+		ShaderHandler.FOG.setUniform("center", new Vector3f(mc.gameRenderer.getMainCamera().getPosition()));
+		ShaderHandler.FOG.setUniform("col",
+				PlanetPaletteGenerator.getPalette(
+						ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.PALETTE))[4]
+								.vec());
+		ShaderHandler.FOG.setUniform("density",
+				ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.FOG_DENSITY));
+		ShaderHandler.FOG.setUniform("render", mc.options.renderDistance * 16);
 
 		RESET_BLEND_STATE.apply();
 		ShaderHandler.FOG.bind();

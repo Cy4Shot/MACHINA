@@ -23,6 +23,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderTooltipEvent;
@@ -46,6 +47,16 @@ public class ClientForgeEvents {
 			event.setRed(color.getRed() / 255f * density);
 			event.setGreen(color.getGreen() / 255f * density);
 			event.setBlue(color.getBlue() / 255f * density);
+		}
+	}
+	
+	// TODO: Config!
+	@SubscribeEvent
+	public static void fogDensity(FogDensity event) {
+		RegistryKey<World> dim = mc.level.dimension();
+		if (PlanetHelper.isDimensionPlanet(dim)) {
+			event.setDensity(0F);
+			event.setCanceled(true);
 		}
 	}
 

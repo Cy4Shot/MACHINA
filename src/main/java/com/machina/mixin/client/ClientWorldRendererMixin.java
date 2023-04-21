@@ -22,10 +22,10 @@ public class ClientWorldRendererMixin {
 	@Inject(method = "Lnet/minecraft/client/renderer/WorldRenderer;renderLevel(Lcom/mojang/blaze3d/matrix/MatrixStack;FJZLnet/minecraft/client/renderer/ActiveRenderInfo;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lnet/minecraft/util/math/vector/Matrix4f;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/OutlineLayerBuffer;endOutlineBatch()V", shift = At.Shift.AFTER))
 	public void renderLevel(MatrixStack pMatrixStack, float pPartialTicks, long pFinishTimeNano,
 			boolean pDrawBlockOutline, ActiveRenderInfo pActiveRenderInfo, GameRenderer pGameRenderer,
-			LightTexture pLightmap, Matrix4f pProjection, CallbackInfo ci) {
-//		RaindropRenderer.render(pMatrixStack, pProjection);
-		AtmRenderer.render(pMatrixStack, pProjection);
+			LightTexture pLightmap, Matrix4f pProjection, CallbackInfo ci) {		
+		// TODO: Config!
 		FogRenderer.render(pMatrixStack, pProjection);
+		AtmRenderer.render(pMatrixStack, pProjection);
 		ScannerRenderer.render(pMatrixStack, pProjection);
 	}
 }

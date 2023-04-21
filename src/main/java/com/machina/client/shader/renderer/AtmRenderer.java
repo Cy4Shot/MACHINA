@@ -4,8 +4,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
 
+import com.machina.client.ClientStarchart;
 import com.machina.client.shader.ShaderHandler;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.server.PlanetHelper;
+import com.machina.world.gen.PlanetPaletteGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -69,8 +72,12 @@ public enum AtmRenderer {
 		invertedProjectionMatrix.invert();
 		ShaderHandler.ATM.setUniform("invProjMat", invertedProjectionMatrix);
 
-		final Vector3f position = new Vector3f(mc.gameRenderer.getMainCamera().getPosition());
-		ShaderHandler.ATM.setUniform("center", position);
+		ShaderHandler.ATM.setUniform("center", new Vector3f(mc.gameRenderer.getMainCamera().getPosition()));
+		ShaderHandler.ATM.setUniform("col",
+				PlanetPaletteGenerator.getPalette(
+						ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.PALETTE))[4]
+								.vec());
+		ShaderHandler.ATM.setUniform("render", mc.options.renderDistance * 16);
 
 		RESET_BLEND_STATE.apply();
 		ShaderHandler.ATM.bind();

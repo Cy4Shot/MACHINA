@@ -13,9 +13,8 @@ public class ShaderHandler {
 
 	//@formatter:off
 	public static final MachinaShader SCANNER = create("scanner", "invViewMat", "invProjMat", "pos", "center", "radius", "target");
-	public static final MachinaShader RAINDROP = create("raindrop", "invViewMat", "invProjMat", "pos", "screen", "col");
 	public static final MachinaShader FOG = create("fog", "invViewMat", "invProjMat", "col", "center", "density", "render");
-	public static final MachinaShader ATM = create("atm", "invViewMat", "invProjMat", "center");
+	public static final MachinaShader ATM = create("atm", "invViewMat", "invProjMat", "col", "center", "render");
 	//@formatter:on
 
 	public static void setup() {

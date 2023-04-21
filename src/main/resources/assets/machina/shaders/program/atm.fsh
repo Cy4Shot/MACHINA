@@ -3,7 +3,9 @@
 uniform mat4 invViewMat;
 uniform mat4 invProjMat;
 uniform vec3 center;
+uniform vec3 col;
 uniform sampler2D depthTex;
+uniform float render;
 
 varying vec2 texCoord;
 
@@ -12,7 +14,7 @@ const float Ra = 6380e3; // Atmosphere top radius
 const vec3 bR = vec3(58e-7, 135e-7, 331e-7); // Rayleigh scattering coefficient RANDOMISE THESE AT SOME POINT???
 const vec3 bMs = vec3(2e-5); // Mie scattering coefficients RANDOMISE THESE AT SOME POINT???
 const vec3 bMe = bMs * 1.1;
-const float I = 10.; // Sun intensity
+const float I = 5.; // Sun intensity
 const vec3 C = vec3(0., -R0, 0.); // Planet center point
 
 vec2 densitiesRM(vec3 p) {
@@ -76,14 +78,20 @@ vec3 worldpos(float depth) {
 }
 
 void main() {
+	float depth = texture2D(depthTex, texCoord).r;
+    vec3 pos = worldpos(depth);
+    float dist = distance(pos, center);
+    vec3 O = center;
+    vec3 D = normalize(pos - center);
+    
 	sundir = normalize(vec3(.5, .4 * (1. + sin(.5 * .3)), -1.));
     
-    vec3 O = vec3(0., 0., 0.);
-    vec3 D = normalize(vec3(texCoord, -2.));
+    vec3 c = vec3(0.);
     
-    vec3 col = vec3(0.);
-    float L = escape(O, D, Ra);
-    col = scatter(O, D, L, col);
+    if (dist > render * 2) {
+	    float L = escape(O, D, Ra);
+	    c = scatter(O, D, L, col);
+    }
 
-    gl_FragColor = vec4(sqrt(col), 1.);
+    gl_FragColor = vec4(sqrt(c), 0);
 }
