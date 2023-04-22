@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL30;
 import com.machina.client.ClientStarchart;
 import com.machina.client.shader.ShaderHandler;
 import com.machina.registration.init.AttributeInit;
+import com.machina.util.math.MathUtil;
 import com.machina.util.server.PlanetHelper;
 import com.machina.world.gen.PlanetPaletteGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -78,6 +79,8 @@ public enum AtmRenderer {
 						ClientStarchart.getPlanetData(mc.level.dimension()).getAttribute(AttributeInit.PALETTE))[4]
 								.vec());
 		ShaderHandler.ATM.setUniform("render", mc.options.renderDistance * 16);
+		
+		ShaderHandler.ATM.setUniform("daytime", ((float)(mc.level.getDayTime() % 24000L)) / 24000f * (float) MathUtil.TWO_PI);
 
 		RESET_BLEND_STATE.apply();
 		ShaderHandler.ATM.bind();

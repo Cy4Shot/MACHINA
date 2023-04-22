@@ -6,6 +6,7 @@ uniform vec3 center;
 uniform vec3 col;
 uniform sampler2D depthTex;
 uniform float render;
+uniform float daytime;
 
 varying vec2 texCoord;
 
@@ -77,6 +78,14 @@ vec3 worldpos(float depth) {
     return center + worldSpacePosition.xyz;
 }
 
+vec3 getPointOnSphere(vec3 center, float radius, float theta, float phi) {
+  vec3 point;
+  point.y = center.x + radius * sin(theta) * cos(phi);
+  point.x = center.y + radius * sin(theta) * sin(phi);
+  point.z = center.z + radius * cos(theta);
+  return point;
+}
+
 void main() {
 	float depth = texture2D(depthTex, texCoord).r;
     vec3 pos = worldpos(depth);
@@ -85,10 +94,10 @@ void main() {
  	if (dist > render * 2) {
         vec3 O = center;
 	    vec3 D = normalize(pos - center);
-		sundir = normalize(vec3(.5, 1., -1.));
+		sundir = normalize(getPointOnSphere(vec3(0.), 1., daytime, 0.));
 	    float L = escape(O, D, Ra);
 	    c = scatter(O, D, L, col);
     }
 
-    gl_FragColor = vec4(sqrt(c), 0);
+    gl_FragColor = vec4(sqrt(c) * clamp((sundir.y + 0.3) * 5, 0, 1), 0);
 }

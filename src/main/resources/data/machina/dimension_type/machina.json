@@ -4,12 +4,11 @@
 	"piglin_safe": false,
 	"respawn_anchor_works": false,
 	"bed_works": false,
-	"has_raids": true,
+	"has_raids": false,
 	"has_skylight": false,
 	"has_ceiling": false,
 	"coordinate_scale": 1,
 	"ambient_light": 0,
-	"fixed_time": 6000,
 	"logical_height": 256,
 	"effects": "machina:machina",
 	"infiniburn": "minecraft:infiniburn_end"
