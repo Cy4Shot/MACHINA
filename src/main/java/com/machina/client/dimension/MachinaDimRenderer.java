@@ -8,10 +8,12 @@ import com.machina.Machina;
 import com.machina.client.ClientStarchart;
 import com.machina.client.util.QuadBufferRenderer;
 import com.machina.client.util.UIHelper;
+import com.machina.registration.init.AttributeInit;
 import com.machina.util.math.MathUtil;
 import com.machina.util.math.VecUtil;
 import com.machina.util.server.PlanetHelper;
 import com.machina.util.text.MachinaRL;
+import com.machina.world.gen.PlanetTerrainGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -26,11 +28,13 @@ import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.client.world.DimensionRenderInfo;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ICloudRenderHandler;
@@ -47,7 +51,7 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 	}
 
 	public MachinaDimRenderer() {
-		super(Float.NaN, false, FogType.NONE, true, false);
+		super(Float.NaN, true, FogType.NONE, false, false);
 
 		this.setSkyRenderHandler(new CustomSkyRenderer());
 		this.setCloudRenderHandler(new CustomCloudRenderer());
@@ -68,6 +72,23 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 	@Override
 	public float[] getSunriseColor(float p_230492_1_, float p_230492_2_) {
 		return null;
+	}
+
+	@Override
+	public boolean forceBrightLightmap() {
+		Minecraft mc = Minecraft.getInstance();
+		if (mc.level == null)
+			return false;
+
+		RegistryKey<World> dim = mc.level.dimension();
+		if (!PlanetHelper.isDimensionPlanet(dim))
+			return false;
+
+		if (PlanetTerrainGenerator
+				.getProcessor(ClientStarchart.getPlanetData(dim).getAttribute(AttributeInit.SURFACE_SHAPE)).isGas())
+			return true;
+
+		return false;
 	}
 
 	public static class CustomSkyRenderer implements ISkyRenderHandler {
@@ -157,14 +178,14 @@ public class MachinaDimRenderer extends DimensionRenderInfo {
 			RenderSystem.depthMask(false);
 
 			tm.bind(STARS);
-			QuadBufferRenderer.render(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 1f);
+			QuadBufferRenderer.render(matrixStack, sky, DefaultVertexFormats.POSITION_TEX, 1f, 1f, 1f, 0.2f);
 			matrixStack.pushPose();
 			matrixStack.last().pose().multiply(new Quaternion(0, -time * 4, 0, false));
 
 			createStars();
 			RenderSystem.depthMask(true);
 			RenderSystem.disableTexture();
-			RenderSystem.color4f(1f, 1f, 1f, 0.7f);
+			RenderSystem.color4f(1f, 1f, 1f, .7f);
 			stars.bind();
 			starFormat.setupBufferState(0L);
 			stars.draw(matrixStack.last().pose(), 7);
