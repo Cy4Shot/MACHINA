@@ -19,6 +19,7 @@ import com.machina.util.server.PlanetHelper;
 import com.machina.util.server.ServerHelper;
 import com.machina.world.cave.PlanetCarver;
 import com.machina.world.data.StarchartData;
+import com.machina.world.feature.planet.PlanetOreFeature;
 import com.machina.world.feature.planet.tree.PlanetTreeFeature;
 import com.machina.world.gen.PlanetBlocksGenerator;
 import com.machina.world.gen.PlanetBlocksGenerator.BlockPalette;
@@ -136,6 +137,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.features = new ArrayList<>();
 		this.features.add(() -> new PlanetTreeFeature(attr).countchance(attr.getValue(AttributeInit.TREE_COUNT),
 				attr.getValue(AttributeInit.TREE_CHANCE)));
+		this.features.add(() -> new PlanetOreFeature(attr).count(1000));
 		this.traits.forEach(trait -> this.features.addAll(trait.addFeatures(this)));
 
 		// Noise

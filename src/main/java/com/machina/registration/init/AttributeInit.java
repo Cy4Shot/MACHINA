@@ -62,6 +62,7 @@ public final class AttributeInit {
 	public static final PlanetAttributeType<Float> TRUNK_RADIUS = create("TRUNK_RADIUS", 0f, 0f, 1f);
 	public static final PlanetAttributeType<Float> LEAVES_HEIGHT = create("LEAVES_HEIGHT", 0f, 0f, 1f);
 	public static final PlanetAttributeType<Float> LEAVES_RADIUS = create("LEAVES_RADIUS", 0f, 0f, 1f);
+	public static final PlanetAttributeType<Integer> ORE_COUNT = create("ORE_COUNT", 500, 100, 1000);
 	public static final PlanetAttributeType<Double[]> ATMOSPHERE = create(new DoubleListSerializer(FluidInit::atmForDim, dirichlet(FluidInit.ATMOSPHERE.size()), FluidInit.ATMOSPHERE.size()));
 	//@formatter:on
 

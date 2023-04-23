@@ -39,6 +39,7 @@ import com.machina.item.AnimatableBlockItem;
 import com.machina.item.OreBlockItem;
 import com.machina.item.TintedItem;
 import com.machina.registration.Registration;
+import com.machina.world.gen.PlanetBlocksGenerator;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -104,9 +105,8 @@ public class BlockInit {
 	public static final RegistryObject<Block> REINFORCED_TILE = register("reinforced_tile", Blocks.NETHERITE_BLOCK);
 	//@formatter:on
 
-	@SuppressWarnings("unchecked")
 	public static final Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ORE_MAP = ores(
-			ALIEN_STONE, TWILIGHT_DIRT, WASTELAND_DIRT);
+			PlanetBlocksGenerator.getAllBases());
 
 	@SuppressWarnings("unchecked")
 	private static Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ores(

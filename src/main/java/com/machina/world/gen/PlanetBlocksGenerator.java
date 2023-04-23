@@ -7,26 +7,31 @@ import java.util.function.Supplier;
 
 import com.machina.registration.init.BlockInit;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
+import net.minecraftforge.fml.RegistryObject;
 
 public class PlanetBlocksGenerator {
 
 	//@formatter:off
 	@SuppressWarnings("serial")
-	public static Map<Integer, BlockPalette> basePalette = new HashMap<Integer, BlockPalette>() {{
-	    put(0, new BlockPalette(
+	public static Map<Integer, BasePalette> basePalette = new HashMap<Integer, BasePalette>() {{
+	    put(0, new BasePalette(
+	    		BlockInit.ALIEN_STONE,
 	    		() -> BlockInit.ALIEN_STONE.get().defaultBlockState(),
 	    		() -> BlockInit.WASTELAND_SAND.get().defaultBlockState(),
 	    		() -> BlockInit.ALIEN_STONE_STAIRS.get().defaultBlockState(),
 	    		() -> BlockInit.ALIEN_STONE_SLAB.get().defaultBlockState()));
-	    put(1, new BlockPalette(
+	    put(1, new BasePalette(
+	    		BlockInit.TWILIGHT_DIRT,
 	    		() -> BlockInit.TWILIGHT_DIRT.get().defaultBlockState(),
 	    		() -> BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
 	    		() -> BlockInit.TWILIGHT_DIRT_STAIRS.get().defaultBlockState(),
 	    		() -> BlockInit.TWILIGHT_DIRT_SLAB.get().defaultBlockState()));
-	    put(2, new BlockPalette(
+	    put(2, new BasePalette(
+	    		BlockInit.WASTELAND_DIRT,
 	    		() -> BlockInit.WASTELAND_DIRT.get().defaultBlockState(),
 	    		() -> BlockInit.WASTELAND_SAND.get().defaultBlockState(),
 	    		() -> BlockInit.WASTELAND_DIRT_STAIRS.get().defaultBlockState(),
@@ -92,7 +97,7 @@ public class PlanetBlocksGenerator {
 		return getRandom(treePalette, rand);
 	}
 
-	public static BlockPalette getBasePalette(int id) {
+	public static BasePalette getBasePalette(int id) {
 		return basePalette.get(id);
 	}
 
@@ -114,7 +119,7 @@ public class PlanetBlocksGenerator {
 
 	public static class BlockPalette {
 
-		private Supplier<BlockState> baseBlock, secondaryBlock, stairBlock, slabBlock;
+		private final Supplier<BlockState> baseBlock, secondaryBlock, stairBlock, slabBlock;
 
 		public BlockPalette(Supplier<BlockState> baseBlock, Supplier<BlockState> secondaryBlock,
 				Supplier<BlockState> stairBlock, Supplier<BlockState> slabBlock) {
@@ -139,5 +144,26 @@ public class PlanetBlocksGenerator {
 		public BlockState getSlabBlock() {
 			return slabBlock.get();
 		}
+	}
+
+	public static class BasePalette extends BlockPalette {
+
+		private final RegistryObject<? extends Block> baseReg;
+
+		public BasePalette(RegistryObject<? extends Block> baseReg, Supplier<BlockState> baseBlock,
+				Supplier<BlockState> secondaryBlock, Supplier<BlockState> stairBlock, Supplier<BlockState> slabBlock) {
+			super(baseBlock, secondaryBlock, stairBlock, slabBlock);
+
+			this.baseReg = baseReg;
+		}
+
+		public RegistryObject<? extends Block> getBaseReg() {
+			return baseReg;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static RegistryObject<? extends Block>[] getAllBases() {
+		return basePalette.values().stream().map(base -> base.getBaseReg()).toArray(RegistryObject[]::new);
 	}
 }
