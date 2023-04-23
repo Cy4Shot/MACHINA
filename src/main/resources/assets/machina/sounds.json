@@ -49,6 +49,11 @@
 				"name": "machina:music/machina_04",
 				"stream": true,
 				"preload": true
+			},
+			{
+				"name": "machina:music/machina_05",
+				"stream": true,
+				"preload": true
 			}
 		]
 	},
