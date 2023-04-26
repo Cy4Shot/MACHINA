@@ -2,10 +2,12 @@ package com.machina.datagen.common.tags;
 
 import static com.machina.Machina.MOD_ID;
 
+import com.machina.block.ore.OreType;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.TagInit;
 import com.machina.util.server.TagHelper;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -35,6 +37,11 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
 		tag(TagHelper.getForgeBlockTag("storage_blocks/copper")).add(BlockInit.COPPER_BLOCK.get());
 		tag(TagHelper.getForgeBlockTag("ores/aluminum")).add(BlockInit.ALUMINUM_ORE.get());
 		tag(TagHelper.getForgeBlockTag("ores/copper")).add(BlockInit.COPPER_ORE.get());
+
+		for (OreType type : OreType.values()) {
+			tag(TagInit.Blocks.ORE_TAGS.get(type))
+					.add(BlockInit.ORE_MAP.get(type).values().stream().map(obj -> obj.get()).toArray(Block[]::new));
+		}
 	}
 
 }

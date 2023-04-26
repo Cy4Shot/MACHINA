@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "machina:flourite_wasteland_dirt"
-  },
-  "result": "machina:flourite",
-  "experience": 1.0,
-  "cookingtime": 200
-}

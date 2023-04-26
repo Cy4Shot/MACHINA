@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:boron_wasteland_dirt"
-  },
-  "result": "machina:boron",
-  "experience": 1.0,
-  "cookingtime": 100
-}

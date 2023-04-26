@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "machina:boron_twilight_dirt",
+    "machina:boron_wasteland_dirt",
+    "machina:boron_alien_stone"
+  ]
+}

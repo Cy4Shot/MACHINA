@@ -1,11 +1,14 @@
 package com.machina.datagen.common.tags;
 
 import com.machina.Machina;
+import com.machina.block.ore.OreType;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.TagInit;
 import com.machina.util.server.TagHelper;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -25,10 +28,10 @@ public class ItemTagsProvider extends net.minecraft.data.ItemTagsProvider {
 				BlockInit.WASTELAND_DIRT_STAIRS.get().asItem());
 		tag(ItemTags.WALLS).add(BlockInit.WASTELAND_SANDSTONE_WALL.get().asItem());
 		tag(ItemTags.SAND).add(BlockInit.WASTELAND_SAND.get().asItem());
-		tag(TagHelper.getForgeItemTag("ingots")).add(ItemInit.LOW_GRADE_STEEL_INGOT.get(), ItemInit.ALUMINUM_INGOT.get(),
-				ItemInit.COPPER_INGOT.get());
-		tag(TagHelper.getForgeItemTag("nuggets")).add(ItemInit.LOW_GRADE_STEEL_NUGGET.get(), ItemInit.ALUMINUM_NUGGET.get(),
-				ItemInit.COPPER_NUGGET.get());
+		tag(TagHelper.getForgeItemTag("ingots")).add(ItemInit.LOW_GRADE_STEEL_INGOT.get(),
+				ItemInit.ALUMINUM_INGOT.get(), ItemInit.COPPER_INGOT.get());
+		tag(TagHelper.getForgeItemTag("nuggets")).add(ItemInit.LOW_GRADE_STEEL_NUGGET.get(),
+				ItemInit.ALUMINUM_NUGGET.get(), ItemInit.COPPER_NUGGET.get());
 		tag(TagHelper.getForgeItemTag("storage_blocks")).add(BlockInit.LOW_GRADE_STEEL_BLOCK.get().asItem(),
 				BlockInit.ALUMINUM_BLOCK.get().asItem(), BlockInit.COPPER_BLOCK.get().asItem());
 		tag(TagHelper.getForgeItemTag("ores")).add(BlockInit.ALUMINUM_ORE.get().asItem(),
@@ -44,5 +47,10 @@ public class ItemTagsProvider extends net.minecraft.data.ItemTagsProvider {
 		tag(TagHelper.getForgeItemTag("nuggets/copper")).add(ItemInit.COPPER_NUGGET.get());
 		tag(TagHelper.getForgeItemTag("storage_blocks/copper")).add(BlockInit.COPPER_BLOCK.get().asItem());
 		tag(TagHelper.getForgeItemTag("ores/copper")).add(BlockInit.COPPER_ORE.get().asItem());
+
+		for (OreType type : OreType.values()) {
+			tag(TagInit.Items.ORE_TAGS.get(type)).add(
+					BlockInit.ORE_MAP.get(type).values().stream().map(obj -> obj.get().asItem()).toArray(Item[]::new));
+		}
 	}
 }

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:silver_alien_stone"
-  },
-  "result": "machina:silver",
-  "experience": 1.0,
-  "cookingtime": 100
-}

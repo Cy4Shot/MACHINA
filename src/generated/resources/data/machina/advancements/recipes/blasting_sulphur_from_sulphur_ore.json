@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:blasting_sulphur_from_sulphur_ore"
+    ]
+  },
+  "criteria": {
+    "has_sulphur_ore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "machina:sulphur_ore"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:blasting_sulphur_from_sulphur_ore"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sulphur_ore",
+      "has_the_recipe"
+    ]
+  ]
+}

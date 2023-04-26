@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "machina:lead_twilight_dirt",
+    "machina:lead_wasteland_dirt",
+    "machina:lead_alien_stone"
+  ]
+}

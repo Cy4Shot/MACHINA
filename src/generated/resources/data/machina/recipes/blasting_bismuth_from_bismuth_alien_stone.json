@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:bismuth_alien_stone"
-  },
-  "result": "machina:bismuth",
-  "experience": 1.0,
-  "cookingtime": 100
-}

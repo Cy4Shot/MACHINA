@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "machina:boron_twilight_dirt"
-  },
-  "result": "machina:boron",
-  "experience": 1.0,
-  "cookingtime": 200
-}

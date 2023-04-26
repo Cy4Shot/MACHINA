@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "machina:bismuth_twilight_dirt",
+    "machina:bismuth_wasteland_dirt",
+    "machina:bismuth_alien_stone"
+  ]
+}

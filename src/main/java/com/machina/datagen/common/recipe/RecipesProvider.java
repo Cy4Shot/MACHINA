@@ -3,8 +3,10 @@ package com.machina.datagen.common.recipe;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import com.machina.block.ore.OreType;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.TagInit;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
@@ -13,6 +15,7 @@ import net.minecraft.data.RecipeProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 
 public class RecipesProvider extends RecipeProvider {
@@ -31,7 +34,7 @@ public class RecipesProvider extends RecipeProvider {
 		add9x9AndBack(f, ItemInit.COPPER_INGOT.get(), BlockInit.COPPER_BLOCK.get());
 		add9x9AndBack(f, ItemInit.TRANSISTOR.get(), ItemInit.LOGIC_UNIT.get());
 		add9x9AndBack(f, ItemInit.LOGIC_UNIT.get(), ItemInit.PROCESSOR_CORE.get());
-		
+
 		addSmelting(f, BlockInit.ALUMINUM_ORE.get(), ItemInit.ALUMINUM_INGOT.get(), 1f, 200);
 		addSmelting(f, BlockInit.COPPER_ORE.get(), ItemInit.COPPER_INGOT.get(), 1f, 200);
 		addSmelting(f, ItemInit.RAW_PIG_IRON.get(), ItemInit.LOW_GRADE_STEEL_INGOT.get(), 1f, 200);
@@ -42,15 +45,14 @@ public class RecipesProvider extends RecipeProvider {
 		addBlasting(f, BlockInit.COPPER_ORE.get(), ItemInit.COPPER_INGOT.get(), 1f, 100);
 		addBlasting(f, ItemInit.RAW_PIG_IRON.get(), ItemInit.LOW_GRADE_STEEL_INGOT.get(), 1f, 100);
 		addBlasting(f, ItemInit.RAW_SILICON_BLEND.get(), ItemInit.SILICON.get(), 1f, 100);
-		
+
 		// Ores
-		BlockInit.ORE_MAP.entrySet().forEach(e -> {
-			e.getValue().values().forEach(b -> {
-				IItemProvider out = ItemInit.ore(e.getKey()).get();
-				addSmelting(f, b.get(), out, 1f, 200);
-				addBlasting(f, b.get(), out, 1f, 100);
-			});
-		});
+		for (OreType type : OreType.values()) {
+			ITag.INamedTag<Item> in = TagInit.Items.ORE_TAGS.get(type);
+			IItemProvider out = ItemInit.ore(type).get();
+			addSmelting(f, in, out, 1f, 200);
+			addBlasting(f, in, out, 1f, 100);
+		}
 
 		addSmithing(f, Items.STICK, Items.IRON_INGOT, ItemInit.REINFORCED_STICK.get());
 
@@ -76,7 +78,7 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern("ba");
 			//@formatter:on
 		});
-		
+
 		addShaped(f, ItemInit.PROCESSOR.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -215,6 +217,18 @@ public class RecipesProvider extends RecipeProvider {
 
 	public void addBlasting(Consumer<IFinishedRecipe> f, IItemProvider in, IItemProvider out, float exp, int time) {
 		String i = in.asItem().getRegistryName().getPath();
+		MachinaCookingRecipeBuilder.blasting(Ingredient.of(in), out, exp, time).unlockedBy("has_" + i, has(in)).save(f,
+				"blasting_" + out.asItem().getRegistryName().getPath() + "_from_" + i);
+	}
+
+	public void addSmelting(Consumer<IFinishedRecipe> f, ITag.INamedTag<Item> in, IItemProvider out, float exp, int time) {
+		String i = in.getName().getPath();
+		MachinaCookingRecipeBuilder.smelting(Ingredient.of(in), out, exp, time).unlockedBy("has_" + i, has(in)).save(f,
+				"smelting_" + out.asItem().getRegistryName().getPath() + "_from_" + i);
+	}
+
+	public void addBlasting(Consumer<IFinishedRecipe> f, ITag.INamedTag<Item> in, IItemProvider out, float exp, int time) {
+		String i = in.getName().getPath();
 		MachinaCookingRecipeBuilder.blasting(Ingredient.of(in), out, exp, time).unlockedBy("has_" + i, has(in)).save(f,
 				"blasting_" + out.asItem().getRegistryName().getPath() + "_from_" + i);
 	}

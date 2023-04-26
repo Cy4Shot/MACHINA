@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "machina:salt_ore"
+  },
+  "result": "machina:salt",
+  "experience": 1.0,
+  "cookingtime": 200
+}

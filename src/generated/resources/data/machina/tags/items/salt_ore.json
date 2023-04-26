@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "machina:salt_twilight_dirt",
+    "machina:salt_wasteland_dirt",
+    "machina:salt_alien_stone"
+  ]
+}

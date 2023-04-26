@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "machina:sulphur_wasteland_dirt"
-  },
-  "result": "machina:sulphur",
-  "experience": 1.0,
-  "cookingtime": 200
-}

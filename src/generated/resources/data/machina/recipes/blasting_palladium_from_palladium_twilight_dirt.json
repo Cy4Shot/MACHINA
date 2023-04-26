@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:palladium_twilight_dirt"
-  },
-  "result": "machina:palladium",
-  "experience": 1.0,
-  "cookingtime": 100
-}

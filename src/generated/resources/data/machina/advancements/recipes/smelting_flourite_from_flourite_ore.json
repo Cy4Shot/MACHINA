@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:smelting_flourite_from_flourite_ore"
+    ]
+  },
+  "criteria": {
+    "has_flourite_ore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "machina:flourite_ore"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:smelting_flourite_from_flourite_ore"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_flourite_ore",
+      "has_the_recipe"
+    ]
+  ]
+}

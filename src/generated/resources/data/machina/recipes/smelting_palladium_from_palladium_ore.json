@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "machina:palladium_ore"
+  },
+  "result": "machina:palladium",
+  "experience": 1.0,
+  "cookingtime": 200
+}

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "machina:machinarium_alien_stone"
-  },
-  "result": "machina:machinarium",
-  "experience": 1.0,
-  "cookingtime": 200
-}

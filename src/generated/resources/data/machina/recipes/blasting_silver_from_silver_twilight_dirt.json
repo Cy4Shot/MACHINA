@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:silver_twilight_dirt"
-  },
-  "result": "machina:silver",
-  "experience": 1.0,
-  "cookingtime": 100
-}
