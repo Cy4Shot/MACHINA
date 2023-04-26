@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "machina:palladium_alien_stone"
+  },
+  "result": "machina:palladium",
+  "experience": 1.0,
+  "cookingtime": 200
+}

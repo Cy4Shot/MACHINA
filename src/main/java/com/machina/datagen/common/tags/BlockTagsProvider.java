@@ -27,10 +27,10 @@ public class BlockTagsProvider extends net.minecraft.data.BlockTagsProvider {
 				BlockInit.TWILIGHT_DIRT_STAIRS.get(), BlockInit.WASTELAND_DIRT_STAIRS.get());
 		tag(BlockTags.WALLS).add(BlockInit.WASTELAND_SANDSTONE_WALL.get());
 		tag(BlockTags.SAND).add(BlockInit.WASTELAND_SAND.get());
-		tag(TagHelper.getForgeBlockTag("storage_blocks")).add(BlockInit.STEEL_BLOCK.get(),
+		tag(TagHelper.getForgeBlockTag("storage_blocks")).add(BlockInit.LOW_GRADE_STEEL_BLOCK.get(),
 				BlockInit.ALUMINUM_BLOCK.get(), BlockInit.COPPER_BLOCK.get());
 		tag(TagHelper.getForgeBlockTag("ores")).add(BlockInit.ALUMINUM_ORE.get(), BlockInit.COPPER_ORE.get());
-		tag(TagHelper.getForgeBlockTag("storage_blocks/steel")).add(BlockInit.STEEL_BLOCK.get());
+		tag(TagHelper.getForgeBlockTag("storage_blocks/steel")).add(BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		tag(TagHelper.getForgeBlockTag("storage_blocks/aluminum")).add(BlockInit.ALUMINUM_BLOCK.get());
 		tag(TagHelper.getForgeBlockTag("storage_blocks/copper")).add(BlockInit.COPPER_BLOCK.get());
 		tag(TagHelper.getForgeBlockTag("ores/aluminum")).add(BlockInit.ALUMINUM_ORE.get());

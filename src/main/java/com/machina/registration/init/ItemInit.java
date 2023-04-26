@@ -1,12 +1,16 @@
 package com.machina.registration.init;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.block.ore.OreType;
 import com.machina.item.BlueprintItem;
 import com.machina.item.CatalystItem;
 import com.machina.item.ChemicalItem;
 import com.machina.item.MachinaDiscItem;
+import com.machina.item.OreItem;
 import com.machina.item.ScannerItem;
 import com.machina.item.ShipComponentItem;
 import com.machina.registration.Registration;
@@ -29,15 +33,19 @@ public final class ItemInit {
 	public static final RegistryObject<ScannerItem> SCANNER = basic("scanner", ScannerItem::new);
 	public static final RegistryObject<CatalystItem> IRON_CATALYST = basic("iron_catalyst", p -> new CatalystItem(p, 500));
 	public static final RegistryObject<Item> REINFORCED_STICK = basic("reinforced_stick");
-	public static final RegistryObject<Item> STEEL_INGOT = basic("steel_ingot");
-	public static final RegistryObject<Item> STEEL_NUGGET = basic("steel_nugget");
+	public static final RegistryObject<Item> LOW_GRADE_STEEL_INGOT = basic("low_grade_steel_ingot");
+	public static final RegistryObject<Item> LOW_GRADE_STEEL_NUGGET = basic("low_grade_steel_nugget");
 	public static final RegistryObject<Item> ALUMINUM_INGOT = basic("aluminum_ingot");
 	public static final RegistryObject<Item> ALUMINUM_NUGGET = basic("aluminum_nugget");
+	public static final RegistryObject<Item> RAW_PIG_IRON = basic("pig_iron");
 	public static final RegistryObject<Item> COPPER_INGOT = basic("copper_ingot");
 	public static final RegistryObject<Item> COPPER_NUGGET = basic("copper_nugget");
 	public static final RegistryObject<Item> COPPER_COIL = basic("copper_coil");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
+	public static final RegistryObject<Item> LOGIC_UNIT = basic("logic_unit");
+	public static final RegistryObject<Item> PROCESSOR_CORE = basic("processor_core");
 	public static final RegistryObject<Item> PROCESSOR = basic("processor");
+	public static final RegistryObject<Item> RAW_SILICON_BLEND = basic("raw_silicon_blend");
 	
 	public static final RegistryObject<Item> SILICON = basic("silicon", p -> new ChemicalItem(p, "Si"));
 	public static final RegistryObject<Item> SILICON_BOLUS = basic("silicon_bolus", p -> new ChemicalItem(p, "Si"));
@@ -58,7 +66,22 @@ public final class ItemInit {
 	public static final RegistryObject<MachinaDiscItem> BOSS_01_DISC = basic("boss_01_disc", p -> new MachinaDiscItem(() -> SoundInit.BOSS_01.sound()));
 	public static final RegistryObject<MachinaDiscItem> BOSS_02_DISC = basic("boss_02_disc", p -> new MachinaDiscItem(() -> SoundInit.BOSS_02.sound()));
 	public static final RegistryObject<MachinaDiscItem> BOSS_03_DISC = basic("boss_03_disc", p -> new MachinaDiscItem(() -> SoundInit.BOSS_03.sound()));
+	
+	public static final Map<OreType, RegistryObject<OreItem>> ORES = createOres();
+	
 	//@formatter:on
+	
+	public static RegistryObject<OreItem> ore(OreType type) {
+		return ORES.getOrDefault(type, null);
+	}
+
+	public static Map<OreType, RegistryObject<OreItem>> createOres() {
+		Map<OreType, RegistryObject<OreItem>> map = new HashMap<>();
+		for (OreType type : OreType.values()) {
+			map.put(type, basic(type.name().toLowerCase(), p -> new OreItem(p, type)));
+		}
+		return map;
+	}
 
 	public static RegistryObject<Item> basic(String name) {
 		return register(name, () -> ItemBuilder.basicItem());

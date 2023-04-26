@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:smelting_high_purity_silicon_from_silicon_bolus"
+    ]
+  },
+  "criteria": {
+    "has_silicon_bolus": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:silicon_bolus"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:smelting_high_purity_silicon_from_silicon_bolus"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_silicon_bolus",
+      "has_the_recipe"
+    ]
+  ]
+}

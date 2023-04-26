@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "machina:steel_block",
+    "machina:low_grade_steel_block",
     "machina:aluminum_block",
     "machina:copper_block"
   ]

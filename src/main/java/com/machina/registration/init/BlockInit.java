@@ -45,6 +45,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
@@ -83,7 +84,7 @@ public class BlockInit {
 	public static final RegistryObject<CustomModelBlock> STEEL_SCAFFOLDING = register("steel_scaffolding", Blocks.IRON_BLOCK, p -> new CustomModelBlock(p, "steel_scaffolding"));
 	public static final RegistryObject<CustomModelBlock> ALUMINUM_SCAFFOLDING = register("aluminum_scaffolding", Blocks.IRON_BLOCK, p -> new CustomModelBlock(p, "aluminum_scaffolding"));
 	public static final RegistryObject<CustomModelBlock> COPPER_SCAFFOLDING = register("copper_scaffolding", Blocks.IRON_BLOCK, p -> new CustomModelBlock(p, "copper_scaffolding"));
-	public static final RegistryObject<Block> STEEL_BLOCK = register("steel_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> LOW_GRADE_STEEL_BLOCK = register("low_grade_steel_block", Blocks.IRON_BLOCK);
 	public static final RegistryObject<Block> ALUMINUM_BLOCK = register("aluminum_block", Blocks.IRON_BLOCK);
 	public static final RegistryObject<Block> ALUMINUM_ORE = register("aluminum_ore", Blocks.IRON_ORE);
 	public static final RegistryObject<Block> COPPER_BLOCK = register("copper_block", Blocks.IRON_BLOCK);
@@ -103,6 +104,7 @@ public class BlockInit {
 	public static final RegistryObject<TintedSlab> WASTELAND_SANDSTONE_SLAB = tintedSlab("wasteland_sandstone_slab", Blocks.SANDSTONE_SLAB, 1);
 	public static final RegistryObject<TintedWall> WASTELAND_SANDSTONE_WALL = tintedWall("wasteland_sandstone_wall", Blocks.SANDSTONE_WALL, 1);
 	public static final RegistryObject<Block> REINFORCED_TILE = register("reinforced_tile", Blocks.NETHERITE_BLOCK);
+	public static final RegistryObject<FallingBlock> SILICA_SAND = falling("silica_sand", Blocks.SAND);
 	//@formatter:on
 
 	public static final Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ORE_MAP = ores(
@@ -167,6 +169,10 @@ public class BlockInit {
 	public static RegistryObject<TintedStairs> tintedStairs(String name, Block prop, int tintIndex) {
 		return register(name,
 				() -> new TintedStairs(() -> prop.defaultBlockState(), AbstractBlock.Properties.copy(prop), tintIndex));
+	}
+	
+	public static RegistryObject<FallingBlock> falling(String name, Block prop) {
+		return register(name, prop, a -> a, FallingBlock::new);
 	}
 
 	public static void registerBlockItems(final RegistryEvent.Register<Item> event) {

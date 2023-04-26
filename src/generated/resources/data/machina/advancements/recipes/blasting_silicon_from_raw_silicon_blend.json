@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:blasting_silicon_from_raw_silicon_blend"
+    ]
+  },
+  "criteria": {
+    "has_raw_silicon_blend": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:raw_silicon_blend"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:blasting_silicon_from_raw_silicon_blend"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_raw_silicon_blend",
+      "has_the_recipe"
+    ]
+  ]
+}

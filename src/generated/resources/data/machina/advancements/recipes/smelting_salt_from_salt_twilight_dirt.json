@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:smelting_salt_from_salt_twilight_dirt"
+    ]
+  },
+  "criteria": {
+    "has_salt_twilight_dirt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:salt_twilight_dirt"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:smelting_salt_from_salt_twilight_dirt"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_salt_twilight_dirt",
+      "has_the_recipe"
+    ]
+  ]
+}

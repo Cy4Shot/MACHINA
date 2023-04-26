@@ -41,7 +41,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.WASTELAND_SANDSTONE_SLAB.get());
 		block(BlockInit.WASTELAND_SANDSTONE_STAIRS.get());
 		block(BlockInit.WASTELAND_SANDSTONE_WALL.get());
-		block(BlockInit.STEEL_BLOCK.get());
+		block(BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		block(BlockInit.ALUMINUM_BLOCK.get());
 		block(BlockInit.ALUMINUM_ORE.get());
 		block(BlockInit.COPPER_BLOCK.get());
@@ -79,8 +79,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 
 		item(ItemInit.BLUEPRINT.get());
 		item(ItemInit.REINFORCED_STICK.get());
-		item(ItemInit.STEEL_INGOT.get());
-		item(ItemInit.STEEL_NUGGET.get());
+		item(ItemInit.LOW_GRADE_STEEL_INGOT.get());
+		item(ItemInit.LOW_GRADE_STEEL_NUGGET.get());
 		item(ItemInit.ALUMINUM_INGOT.get());
 		item(ItemInit.ALUMINUM_NUGGET.get());
 		item(ItemInit.COPPER_INGOT.get());

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "machina:bismuth_twilight_dirt"
+  },
+  "result": "machina:bismuth",
+  "experience": 1.0,
+  "cookingtime": 200
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "machina:boron_wasteland_dirt"
+  },
+  "result": "machina:boron",
+  "experience": 1.0,
+  "cookingtime": 200
+}

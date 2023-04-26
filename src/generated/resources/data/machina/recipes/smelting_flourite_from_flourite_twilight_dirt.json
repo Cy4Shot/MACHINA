@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "machina:flourite_twilight_dirt"
+  },
+  "result": "machina:flourite",
+  "experience": 1.0,
+  "cookingtime": 200
+}

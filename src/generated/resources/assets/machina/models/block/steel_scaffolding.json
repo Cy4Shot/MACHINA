@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "particle": "machina:block/steel_block"
+    "particle": "machina:block/low_grade_steel_block"
   }
 }

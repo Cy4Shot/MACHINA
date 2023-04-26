@@ -42,7 +42,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.TANK.get(), "Tank");
 		add(BlockInit.BATTERY.get(), "Battery");
 		add(BlockInit.CREATIVE_BATTERY.get(), "Creative Battery");
-		add(BlockInit.STEEL_BLOCK.get(), "Steel Block");
+		add(BlockInit.LOW_GRADE_STEEL_BLOCK.get(), "Low Grade Steel Block");
 		add(BlockInit.ALUMINUM_BLOCK.get(), "Aluminum Block");
 		add(BlockInit.ALUMINUM_ORE.get(), "Aluminum Ore");
 		add(BlockInit.COPPER_BLOCK.get(), "Copper Block");
@@ -72,6 +72,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.FLUID_HOPPER.get(), "Fluid Hopper");
 		add(BlockInit.FURNACE_GENERATOR.get(), "Furnace Generator");
 		add(BlockInit.STATE_CONVERTER.get(), "State Converter");
+		add(BlockInit.SILICA_SAND.get(), "Silica Sand");
+
+		// Ores
 		BlockInit.ORE_MAP.values().forEach(m -> {
 			m.values().forEach(b -> {
 				OreBlock ore = (OreBlock) b.get();
@@ -80,13 +83,17 @@ public class EnUsLangProvider extends BaseLangProvider {
 			});
 		});
 
+		ItemInit.ORES.entrySet().forEach(e -> {
+			add(e.getValue().get(), WordUtils.capitalize(e.getKey().name().toLowerCase()));
+		});
+
 		// Items
 		add(ItemInit.BLUEPRINT.get(), "Blueprint");
 		add(ItemInit.SHIP_COMPONENT.get(), "Ship Component");
 		add(ItemInit.SCANNER.get(), "Scanner");
 		add(ItemInit.REINFORCED_STICK.get(), "Reinforced Stick");
-		add(ItemInit.STEEL_INGOT.get(), "Steel Ingot");
-		add(ItemInit.STEEL_NUGGET.get(), "Steel Nugget");
+		add(ItemInit.LOW_GRADE_STEEL_INGOT.get(), "Low Grade Steel Ingot");
+		add(ItemInit.LOW_GRADE_STEEL_NUGGET.get(), "Low Grade Steel Nugget");
 		add(ItemInit.ALUMINUM_INGOT.get(), "Aluminum Ingot");
 		add(ItemInit.ALUMINUM_NUGGET.get(), "Aluminum Nugget");
 		add(ItemInit.COPPER_INGOT.get(), "Copper Ingot");
@@ -94,6 +101,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.COPPER_COIL.get(), "Copper Coil");
 		add(ItemInit.IRON_CATALYST.get(), "Iron Catalyst");
 		add(ItemInit.PROCESSOR.get(), "Processor");
+		add(ItemInit.RAW_SILICON_BLEND.get(), "Raw Silicon Blend");
 		add(ItemInit.SILICON.get(), "Silicon");
 		add(ItemInit.SILICON_BOLUS.get(), "Silicon Bolus");
 		add(ItemInit.HIGH_PURITY_SILICON.get(), "High Purity Silicon");
@@ -108,6 +116,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.PALLADIUM_ON_CARBON.get(), "Palladium on Carbon");
 		add(ItemInit.HEXAMINE.get(), "Hexamine");
 		add(ItemInit.NITRONIUM_TETRAFLUOROBORATE.get(), "Nitronium Tetrafluoroborate");
+		add(ItemInit.RAW_PIG_IRON.get(), "Raw Pig Iron");
+		add(ItemInit.LOGIC_UNIT.get(), "Logic Unit");
+		add(ItemInit.PROCESSOR_CORE.get(), "Processor Core");
 
 		// Tooltips
 		addTooltip("ldpe", "Low Density Polyethylene");

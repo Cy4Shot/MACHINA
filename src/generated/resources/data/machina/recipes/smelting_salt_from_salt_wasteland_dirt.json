@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "machina:salt_wasteland_dirt"
+  },
+  "result": "machina:salt",
+  "experience": 1.0,
+  "cookingtime": 200
+}

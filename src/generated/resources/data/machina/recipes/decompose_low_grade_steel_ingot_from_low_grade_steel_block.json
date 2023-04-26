@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "machina:low_grade_steel_block"
+    }
+  ],
+  "result": {
+    "item": "machina:low_grade_steel_ingot",
+    "count": 9
+  }
+}

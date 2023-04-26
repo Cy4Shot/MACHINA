@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "machina:logic_unit"
+    }
+  ],
+  "result": {
+    "item": "machina:transistor",
+    "count": 9
+  }
+}

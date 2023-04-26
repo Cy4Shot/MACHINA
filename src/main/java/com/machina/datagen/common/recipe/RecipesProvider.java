@@ -23,23 +23,71 @@ public class RecipesProvider extends RecipeProvider {
 
 	@Override
 	protected void buildShapelessRecipes(Consumer<IFinishedRecipe> f) {
-		add9x9AndBack(f, ItemInit.STEEL_NUGGET.get(), ItemInit.STEEL_INGOT.get());
-		add9x9AndBack(f, ItemInit.STEEL_INGOT.get(), BlockInit.STEEL_BLOCK.get());
+		add9x9AndBack(f, ItemInit.LOW_GRADE_STEEL_NUGGET.get(), ItemInit.LOW_GRADE_STEEL_INGOT.get());
+		add9x9AndBack(f, ItemInit.LOW_GRADE_STEEL_INGOT.get(), BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		add9x9AndBack(f, ItemInit.ALUMINUM_NUGGET.get(), ItemInit.ALUMINUM_INGOT.get());
 		add9x9AndBack(f, ItemInit.ALUMINUM_INGOT.get(), BlockInit.ALUMINUM_BLOCK.get());
 		add9x9AndBack(f, ItemInit.COPPER_NUGGET.get(), ItemInit.COPPER_INGOT.get());
 		add9x9AndBack(f, ItemInit.COPPER_INGOT.get(), BlockInit.COPPER_BLOCK.get());
-
+		add9x9AndBack(f, ItemInit.TRANSISTOR.get(), ItemInit.LOGIC_UNIT.get());
+		add9x9AndBack(f, ItemInit.LOGIC_UNIT.get(), ItemInit.PROCESSOR_CORE.get());
+		
 		addSmelting(f, BlockInit.ALUMINUM_ORE.get(), ItemInit.ALUMINUM_INGOT.get(), 1f, 200);
 		addSmelting(f, BlockInit.COPPER_ORE.get(), ItemInit.COPPER_INGOT.get(), 1f, 200);
+		addSmelting(f, ItemInit.RAW_PIG_IRON.get(), ItemInit.LOW_GRADE_STEEL_INGOT.get(), 1f, 200);
+		addSmelting(f, ItemInit.RAW_SILICON_BLEND.get(), ItemInit.SILICON.get(), 1f, 200);
+		addSmelting(f, ItemInit.SILICON_BOLUS.get(), ItemInit.HIGH_PURITY_SILICON.get(), 1f, 200);
 
 		addBlasting(f, BlockInit.ALUMINUM_ORE.get(), ItemInit.ALUMINUM_INGOT.get(), 1f, 100);
 		addBlasting(f, BlockInit.COPPER_ORE.get(), ItemInit.COPPER_INGOT.get(), 1f, 100);
-		addBlasting(f, Blocks.GRAVEL, ItemInit.SILICON.get(), 0.5f, 100);
+		addBlasting(f, ItemInit.RAW_PIG_IRON.get(), ItemInit.LOW_GRADE_STEEL_INGOT.get(), 1f, 100);
+		addBlasting(f, ItemInit.RAW_SILICON_BLEND.get(), ItemInit.SILICON.get(), 1f, 100);
+		
+		// Ores
+		BlockInit.ORE_MAP.entrySet().forEach(e -> {
+			e.getValue().values().forEach(b -> {
+				IItemProvider out = ItemInit.ore(e.getKey()).get();
+				addSmelting(f, b.get(), out, 1f, 200);
+				addBlasting(f, b.get(), out, 1f, 100);
+			});
+		});
 
 		addSmithing(f, Items.STICK, Items.IRON_INGOT, ItemInit.REINFORCED_STICK.get());
 
-		addShapeless(f, ItemInit.STEEL_INGOT.get(), 1, Items.IRON_INGOT, Items.IRON_INGOT, Items.COAL);
+		addShapeless(f, ItemInit.RAW_PIG_IRON.get(), 1, Items.IRON_INGOT, Items.IRON_INGOT, Items.COAL);
+		addShapeless(f, ItemInit.TRANSISTOR.get(), 1, ItemInit.HIGH_PURITY_SILICON.get(), Items.REDSTONE_TORCH);
+
+		addShaped(f, ItemInit.RAW_SILICON_BLEND.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('a', Items.QUARTZ)
+					.define('b', Blocks.GRAVEL)
+					.pattern("ab")
+					.pattern("ba");
+			//@formatter:on
+		});
+
+		addShaped(f, BlockInit.SILICA_SAND.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('a', ItemInit.SILICON.get())
+					.define('b', Blocks.SAND)
+					.pattern("ab")
+					.pattern("ba");
+			//@formatter:on
+		});
+		
+		addShaped(f, ItemInit.PROCESSOR.get(), 1, builder -> {
+			//@formatter:off
+			return builder
+					.define('a', Items.REDSTONE)
+					.define('b', ItemInit.PROCESSOR_CORE.get())
+					.define('c', ItemInit.LDPE.get())
+					.pattern("aba")
+					.pattern("bcb")
+					.pattern("aba");
+			//@formatter:on
+		});
 
 		addShaped(f, ItemInit.BLUEPRINT.get(), 1, builder -> {
 			//@formatter:off
@@ -96,18 +144,6 @@ public class RecipesProvider extends RecipeProvider {
 			//@formatter:on
 		});
 
-		addShaped(f, ItemInit.TRANSISTOR.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('n', Items.IRON_NUGGET)
-					.define('s', ItemInit.SILICON.get())
-					.define('r', Items.REDSTONE)
-					.pattern(" s ")
-					.pattern("nrn")
-					.pattern(" s ");
-			//@formatter:on
-		});
-
 		addShaped(f, ItemInit.IRON_CATALYST.get(), 1, builder -> {
 			//@formatter:off
 			return builder
@@ -116,19 +152,6 @@ public class RecipesProvider extends RecipeProvider {
 					.pattern(" i ")
 					.pattern("isi")
 					.pattern(" i ");
-			//@formatter:on
-		});
-
-		addShaped(f, ItemInit.PROCESSOR.get(), 1, builder -> {
-			//@formatter:off
-			return builder
-					.define('t', ItemInit.TRANSISTOR.get())
-					.define('d', Items.DIAMOND)
-					.define('r', Items.REDSTONE_TORCH)
-					.define('c', ItemInit.COPPER_COIL.get())
-					.pattern("tct")
-					.pattern("rdr")
-					.pattern("tct");
 			//@formatter:on
 		});
 

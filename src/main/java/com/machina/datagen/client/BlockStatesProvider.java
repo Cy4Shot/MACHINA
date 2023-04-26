@@ -63,8 +63,25 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 		fluid(FluidInit.LIQUID_HYDROGEN);
 		fluid(FluidInit.LIQUID_AMMONIA);
+		fluid(FluidInit.BRINE);
+		fluid(FluidInit.SULPHUR_TRIOXIDE);
+		fluid(FluidInit.HYDROCHLORIC_ACID);
+		fluid(FluidInit.SULPHURIC_ACID);
+		fluid(FluidInit.BROMINE);
+		fluid(FluidInit.BENZENE);
+		fluid(FluidInit.TOULENE);
+		fluid(FluidInit.METHANOL);
+		fluid(FluidInit.HYDROGEN_FLUORIDE);
+		fluid(FluidInit.ACETALDEHYDE);
+		fluid(FluidInit.BENZYL_CHLORIDE);
+		fluid(FluidInit.NITRIC_ACID);
+		fluid(FluidInit.BROMOBENZENE);
+		fluid(FluidInit.GLYOXAL);
+		fluid(FluidInit.BENZYLAMINE);
+		fluid(FluidInit.HNIW);
+		fluid(FluidInit.HEXOGEN);
 
-		simpleBlock(BlockInit.STEEL_BLOCK.get());
+		simpleBlock(BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_ORE.get());
 		simpleBlock(BlockInit.COPPER_BLOCK.get());
@@ -73,7 +90,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 		orientableGeo(BlockInit.COMPONENT_ANALYZER.get(), BlockInit.ALUMINUM_BLOCK.get());
 		geo(BlockInit.IRON_SCAFFOLDING.get(), Blocks.IRON_BLOCK);
-		geo(BlockInit.STEEL_SCAFFOLDING.get(), BlockInit.STEEL_BLOCK.get());
+		geo(BlockInit.STEEL_SCAFFOLDING.get(), BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		geo(BlockInit.ALUMINUM_SCAFFOLDING.get(), BlockInit.ALUMINUM_BLOCK.get());
 		geo(BlockInit.COPPER_SCAFFOLDING.get(), BlockInit.COPPER_BLOCK.get());
 		geo(BlockInit.CARGO_CRATE.get(), BlockInit.ALUMINUM_BLOCK.get());

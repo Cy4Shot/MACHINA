@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:smelting_sulphur_from_sulphur_alien_stone"
+    ]
+  },
+  "criteria": {
+    "has_sulphur_alien_stone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:sulphur_alien_stone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:smelting_sulphur_from_sulphur_alien_stone"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sulphur_alien_stone",
+      "has_the_recipe"
+    ]
+  ]
+}

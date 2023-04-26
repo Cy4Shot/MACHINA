@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:9x9_processor_core_from_logic_unit"
+    ]
+  },
+  "criteria": {
+    "has_logic_unit": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:logic_unit"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:9x9_processor_core_from_logic_unit"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_logic_unit",
+      "has_the_recipe"
+    ]
+  ]
+}

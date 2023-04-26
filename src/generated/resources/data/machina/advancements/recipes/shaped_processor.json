@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_transistor": {
+    "has_redstone": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "machina:transistor"
+            "item": "minecraft:redstone"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_transistor",
+      "has_redstone",
       "has_the_recipe"
     ]
   ]

@@ -16,7 +16,7 @@ public class LootTableProvider extends BaseLootTableProvider {
 		dropSelf(BlockInit.SHIP_CONSOLE.get());
 		dropSelf(BlockInit.PRESSURIZED_CHAMBER.get());
 		dropSelf(BlockInit.COMPONENT_ANALYZER.get());
-		dropSelf(BlockInit.STEEL_BLOCK.get());
+		dropSelf(BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		dropSelf(BlockInit.STEEL_SCAFFOLDING.get());
 		dropSelf(BlockInit.IRON_SCAFFOLDING.get());
 		dropSelf(BlockInit.ALUMINUM_SCAFFOLDING.get());

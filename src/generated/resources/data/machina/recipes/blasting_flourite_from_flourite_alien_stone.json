@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "machina:flourite_alien_stone"
+  },
+  "result": "machina:flourite",
+  "experience": 1.0,
+  "cookingtime": 100
+}

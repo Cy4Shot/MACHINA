@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:smelting_salt_from_salt_alien_stone"
+    ]
+  },
+  "criteria": {
+    "has_salt_alien_stone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:salt_alien_stone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:smelting_salt_from_salt_alien_stone"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_salt_alien_stone",
+      "has_the_recipe"
+    ]
+  ]
+}

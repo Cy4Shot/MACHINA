@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "machina:sulphur_alien_stone"
+  },
+  "result": "machina:sulphur",
+  "experience": 1.0,
+  "cookingtime": 100
+}

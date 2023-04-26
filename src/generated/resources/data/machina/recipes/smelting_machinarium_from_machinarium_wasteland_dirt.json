@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "machina:machinarium_wasteland_dirt"
+  },
+  "result": "machina:machinarium",
+  "experience": 1.0,
+  "cookingtime": 200
+}
