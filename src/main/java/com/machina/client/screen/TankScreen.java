@@ -1,7 +1,6 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.TankContainer;
-import com.machina.block.tile.base.IMultiFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.util.math.MathUtil;
@@ -73,11 +72,9 @@ public class TankScreen extends NoJeiContainerScreen<TankContainer> {
 		UIHelper.renderFluid(stack, fluid, x + 51, y + 39, percentage, 15, 132, 15, getBlitOffset(), pX, pY);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
-				MathUtil.engineering((double) this.menu.te.stored() / (double) IMultiFluidTileEntity.BUCKET, "B")
-						+ " / "
-						+ MathUtil.engineering((double) this.menu.te.capacity() / (double) IMultiFluidTileEntity.BUCKET,
-								"B")
-						+ " - " + String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
+				MathUtil.engineering((double) this.menu.te.stored() / 1000D, "B") + " / "
+						+ MathUtil.engineering((double) this.menu.te.capacity() / 1000D, "B") + " - "
+						+ String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
 				x + 117, y + 26, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		String title = StringUtils.translateScreen("tank.stored");

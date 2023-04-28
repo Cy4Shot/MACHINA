@@ -1,18 +1,11 @@
 package com.machina.block.tile;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.machina.block.container.StateConverterContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.BaseTileEntity;
+import com.machina.block.tile.base.CustomTE;
 import com.machina.block.tile.base.IHeatTileEntity;
-import com.machina.block.tile.base.IMultiFluidTileEntity;
-import com.machina.capability.fluid.MachinaTank;
-import com.machina.capability.fluid.MultiTankCapability;
+import com.machina.capability.CustomFluidStorage;
+import com.machina.capability.MachinaTank;
 import com.machina.recipe.StateConverterRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
@@ -25,19 +18,11 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
-public class StateConverterTileEntity extends BaseTileEntity
-		implements IHeatTileEntity, ITickableTileEntity, IMachinaContainerProvider, IMultiFluidTileEntity {
-
-	public LinkedList<MachinaTank> tanks = new LinkedList<>(Arrays.asList(
-			new MachinaTank(this, 10000, p -> true, false, 0), new MachinaTank(this, 10000, p -> false, true, 1)));
-	private final LazyOptional<MultiTankCapability> cap = LazyOptional.of(() -> new MultiTankCapability(tanks));
+public class StateConverterTileEntity extends CustomTE
+		implements IHeatTileEntity, ITickableTileEntity, IMachinaContainerProvider {
 
 	public float heat = 0;
 	public float reqHeat = 0;
@@ -46,6 +31,14 @@ public class StateConverterTileEntity extends BaseTileEntity
 
 	public StateConverterTileEntity() {
 		super(TileEntityInit.STATE_CONVERTER.get());
+	}
+
+	CustomFluidStorage fluid;
+
+	@Override
+	public void createStorages() {
+		this.fluid = add(new MachinaTank(this, 10000, p -> true, false, 0),
+				new MachinaTank(this, 10000, p -> false, true, 1));
 	}
 
 	@Override
@@ -61,27 +54,27 @@ public class StateConverterTileEntity extends BaseTileEntity
 				.values()) {
 			StateConverterRecipe recipe = (StateConverterRecipe) r;
 
-			if (!tankContains(tanks.get(0), recipe.input, false))
+			if (!tankContains(fluid.tank(0), recipe.input, false))
 				continue;
-			if (!tanks.get(1).isEmpty() && !tanks.get(1).getFluid().isFluidEqual(recipe.output))
+			if (!fluid.tank(1).isEmpty() && !fluid.getFluidInTank(1).isFluidEqual(recipe.output))
 				continue;
-			if (tanks.get(1).getFluidAmount() + recipe.output.getAmount() > tanks.get(1).getCapacity())
+			if (fluid.getFluidInTank(1).getAmount() + recipe.output.getAmount() > fluid.getTankCapacity(1))
 				continue;
 
 			above = recipe.above;
 			reqHeat = recipe.heat;
-			if ((above ? (normalized() > reqHeat) : (reqHeat < normalized())) || !tankContains(tanks.get(0), recipe.input, true)) {
+			if ((above ? (normalized() > reqHeat) : (reqHeat < normalized()))
+					|| !tankContains(fluid.tank(0), recipe.input, true)) {
 				sync();
 				return;
 			}
 
 			// Consume
-			cap.orElseGet(() -> new MultiTankCapability(new LinkedList<>())).drainRaw(recipe.input,
-					FluidAction.EXECUTE);
+			fluid.tank(0).drain(recipe.input, FluidAction.EXECUTE);
 
 			// Output
 			if (!recipe.output.isEmpty()) {
-				tanks.get(1).rawFill(recipe.output.copy(), FluidAction.EXECUTE);
+				fluid.tank(1).fill(recipe.output.copy(), FluidAction.EXECUTE);
 			}
 			sync();
 			return;
@@ -108,7 +101,7 @@ public class StateConverterTileEntity extends BaseTileEntity
 	}
 
 	public void clear() {
-		this.tanks.get(0).setFluid(FluidStack.EMPTY);
+		fluid.tank(0).setFluid(FluidStack.EMPTY);
 		sync();
 	}
 
@@ -119,7 +112,6 @@ public class StateConverterTileEntity extends BaseTileEntity
 
 	@Override
 	public CompoundNBT save(CompoundNBT compound) {
-		tanks.forEach(tank -> tank.writeToNBT(compound));
 		compound.putFloat("Heat", heat);
 		compound.putFloat("ReqHeat", reqHeat);
 		compound.putBoolean("Above", above);
@@ -129,48 +121,11 @@ public class StateConverterTileEntity extends BaseTileEntity
 
 	@Override
 	public void load(BlockState state, CompoundNBT compound) {
-		tanks.forEach(tank -> tank.readFromNBT(compound));
 		heat = compound.getFloat("Heat");
 		reqHeat = compound.getFloat("ReqHeat");
 		above = compound.getBoolean("Above");
 		recipe = compound.getBoolean("Recipe");
 		super.load(state, compound);
-	}
-
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> c, @Nullable Direction direction) {
-		if (c == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return cap.cast();
-		}
-
-		return super.getCapability(c, direction);
-	}
-
-	@Override
-	protected void invalidateCaps() {
-		cap.invalidate();
-		super.invalidateCaps();
-	}
-
-	@Override
-	public void setFluid(FluidStack fluid, int index) {
-		tanks.get(index).setFluid(fluid);
-	}
-
-	@Override
-	public FluidStack getFluid(int index) {
-		return tanks.get(index).getFluid();
-	}
-
-	@Override
-	public int stored(int index) {
-		return tanks.get(index).getFluidAmount();
-	}
-
-	@Override
-	public int capacity(int index) {
-		return tanks.get(index).getCapacity();
 	}
 
 	@Override
@@ -181,5 +136,21 @@ public class StateConverterTileEntity extends BaseTileEntity
 	@Override
 	public boolean isGenerator() {
 		return false;
+	}
+
+	public FluidStack getFluid(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getFluid();
+	}
+
+	public int stored(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getFluidAmount();
+	}
+
+	public int capacity(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getCapacity();
+	}
+
+	public float propFull(int id) {
+		return (float) stored(id) / (float) capacity(id);
 	}
 }

@@ -1,25 +1,30 @@
 package com.machina.block.tile;
 
-import com.machina.block.tile.base.BaseEnergyTileEntity;
-import com.machina.capability.energy.MachinaEnergyStorage;
+import com.machina.block.tile.base.CustomTE;
+import com.machina.capability.CustomEnergyStorage;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.server.EnergyHelper;
 
-public class CreativeBatteryTileEntity extends BaseEnergyTileEntity {
+import net.minecraft.tileentity.ITickableTileEntity;
+
+public class CreativeBatteryTileEntity extends CustomTE implements ITickableTileEntity {
 
 	public CreativeBatteryTileEntity() {
 		super(TileEntityInit.CREATIVE_BATTERY.get());
-
-		this.sides = new int[] { 2, 2, 2, 2, 2, 2 };
 	}
 
+	CustomEnergyStorage energy;
+
 	@Override
-	public MachinaEnergyStorage createStorage() {
-		return new MachinaEnergyStorage(this, Integer.MAX_VALUE, 1000, 1000);
+	public void createStorages() {
+		add(new CustomEnergyStorage(10000, 1000));
 	}
 
 	@Override
 	public void tick() {
-		fillEnergy();
-		sendOutPower();
+		if (level.isClientSide())
+			return;
+		this.energy.addEnergy(this.energy.getMaxEnergyStored() - this.energy.getEnergyStored());
+		EnergyHelper.sendOutPower(energy, level, worldPosition, () -> setChanged());
 	}
 }

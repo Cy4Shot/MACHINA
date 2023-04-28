@@ -1,13 +1,11 @@
 package com.machina.block.tile;
 
 import com.machina.block.CargoCrateBlock;
-import com.machina.block.tile.base.BaseLockableTileEntity;
+import com.machina.block.tile.base.CustomTE;
+import com.machina.capability.CustomItemStorage;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -19,17 +17,24 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class CargoCrateTileEntity extends BaseLockableTileEntity implements IAnimatable {
+public class CargoCrateTileEntity extends CustomTE implements IAnimatable {
 
 	private final AnimationFactory manager = new AnimationFactory(this);
 	public boolean open = false;
 
 	public CargoCrateTileEntity(TileEntityType<?> type) {
-		super(type, 1);
+		super(type);
 	}
 
 	public CargoCrateTileEntity() {
 		this(TileEntityInit.CARGO_CRATE.get());
+	}
+	
+	CustomItemStorage items;
+
+	@Override
+	public void createStorages() {
+		this.items = add(new CustomItemStorage(1));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -59,16 +64,6 @@ public class CargoCrateTileEntity extends BaseLockableTileEntity implements IAni
 	}
 
 	@Override
-	public boolean canOpen(PlayerEntity pPlayer) {
-		return false;
-	}
-
-	@Override
-	protected Container createMenu(int pId, PlayerInventory pPlayer) {
-		return null;
-	}
-
-	@Override
 	public CompoundNBT save(CompoundNBT compound) {
 		compound.putBoolean("open", this.open);
 		return super.save(compound);
@@ -79,7 +74,7 @@ public class CargoCrateTileEntity extends BaseLockableTileEntity implements IAni
 		this.open = compound.getBoolean("open");
 		super.load(state, compound);
 	}
-	
+
 	public void setOpen() {
 		this.open = true;
 		this.sync();

@@ -1,20 +1,15 @@
 package com.machina.block.tile;
 
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import com.machina.block.container.PressurizedChamberContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.BaseEnergyLootTileEntity;
+import com.machina.block.tile.base.CustomTE;
 import com.machina.block.tile.base.IHeatTileEntity;
-import com.machina.block.tile.base.IMultiFluidTileEntity;
-import com.machina.capability.energy.MachinaEnergyStorage;
-import com.machina.capability.fluid.MachinaTank;
-import com.machina.capability.fluid.MultiTankCapability;
+import com.machina.capability.CustomEnergyStorage;
+import com.machina.capability.CustomFluidStorage;
+import com.machina.capability.MachinaTank;
+import com.machina.capability.CustomItemStorage;
 import com.machina.recipe.PressurizedChamberRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
@@ -26,23 +21,13 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
-public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
-		implements IMachinaContainerProvider, IMultiFluidTileEntity, IHeatTileEntity {
-
-	public LinkedList<MachinaTank> tanks = new LinkedList<>(
-			Arrays.asList(new MachinaTank(this, 10000, exclusiveTank(0), false, 0),
-					new MachinaTank(this, 10000, exclusiveTank(1), false, 1),
-					new MachinaTank(this, 10000, exclusiveTank(2), false, 2),
-					new MachinaTank(this, 10000, p -> false, true, 3)));
-	private final LazyOptional<MultiTankCapability> cap = LazyOptional.of(() -> new MultiTankCapability(tanks));
+public class PressurizedChamberTileEntity extends CustomTE
+		implements IMachinaContainerProvider, IHeatTileEntity, ITickableTileEntity {
 
 	public boolean isRunning = false;
 	public float heat = 0;
@@ -50,26 +35,40 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	public String result = "";
 	public int color = 0xFF_ff0000;
 
+	public PressurizedChamberTileEntity() {
+		super(TileEntityInit.PRESSURIZED_CHAMBER.get());
+	}
+
+	CustomItemStorage items;
+	CustomFluidStorage fluid;
+	CustomEnergyStorage energy;
+	
+	public MachinaTank getById(int id) {
+		return this.fluid.tank(id);
+	}
+
 	public Predicate<FluidStack> exclusiveTank(int id) {
 		return fluid -> {
-			for (MachinaTank tank : tanks) {
-				if (tank.id != id && tank.getFluid().isFluidEqual(fluid))
+			for (int i = 0; i < 4; i++) {
+				if (i != id && this.fluid.getFluidInTank(id).isFluidEqual(fluid))
 					return false;
 			}
 			return true;
 		};
 	}
 
-	public PressurizedChamberTileEntity() {
-		super(TileEntityInit.PRESSURIZED_CHAMBER.get(), 2);
-
-		this.sides = new int[] { 1, 1, 1, 1, 1, 1 };
+	@Override
+	public void createStorages() {
+		this.items = add(new CustomItemStorage(2));
+		this.fluid = add(new MachinaTank(this, 10000, exclusiveTank(0), false, 0),
+				new MachinaTank(this, 10000, exclusiveTank(1), false, 1),
+				new MachinaTank(this, 10000, exclusiveTank(2), false, 2),
+				new MachinaTank(this, 10000, p -> false, true, 3));
+		this.energy = add(new CustomEnergyStorage(1000000, 1000));
 	}
 
 	@Override
 	public void tick() {
-		super.tick();
-
 		if (this.level.isClientSide())
 			return;
 
@@ -84,17 +83,17 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 			// Tests
 			if (!contains(recipe.fluids, false))
 				continue;
-			if (!tanks.get(3).isEmpty() && !tanks.get(3).getFluid().isFluidEqual(recipe.fOut))
+			if (!fluid.tank(3).isEmpty() && !fluid.getFluidInTank(3).isFluidEqual(recipe.fOut))
 				continue;
-			if (!getItem(1).isEmpty() && !getItem(1).getItem().equals(recipe.iOut.getItem()))
+			if (!items.getStackInSlot(1).isEmpty() && !items.getStackInSlot(1).getItem().equals(recipe.iOut.getItem()))
 				continue;
-			if (getItem(1).getCount() >= getItem(1).getMaxStackSize())
+			if (items.getStackInSlot(1).getCount() >= items.getStackInSlot(1).getMaxStackSize())
 				return;
-			if (tanks.get(3).getFluidAmount() + recipe.fOut.getAmount() > tanks.get(3).getCapacity())
+			if (fluid.getFluidInTank(3).getAmount() + recipe.fOut.getAmount() > fluid.getTankCapacity(3))
 				continue;
-			if (!getItem(0).getItem().equals(recipe.catalyst.getItem()))
+			if (!items.getStackInSlot(0).getItem().equals(recipe.catalyst.getItem()))
 				continue;
-			if (getEnergyStored() < recipe.power)
+			if (energy.getEnergyStored() < recipe.power)
 				continue;
 
 			// Set result and return if not running
@@ -111,23 +110,25 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 
 			// Consume
 			for (FluidStack stack : recipe.fluids) {
-				cap.orElseGet(() -> new MultiTankCapability(new LinkedList<>())).drainRaw(stack, FluidAction.EXECUTE);
+				for (int i = 0; i < fluid.getTanks(); i++) {
+					fluid.tank(i).drainRaw(stack, FluidAction.EXECUTE);
+				}
 			}
-			this.energyDef.consumeEnergy(recipe.power);
-			getItem(0).setDamageValue(getItem(0).getDamageValue() + 1);
-			if (getItem(0).getDamageValue() >= getItem(0).getMaxDamage()) {
-				getItem(0).shrink(1);
+			this.energy.consumeEnergy(recipe.power);
+			items.getStackInSlot(0).setDamageValue(items.getStackInSlot(0).getDamageValue() + 1);
+			if (items.getStackInSlot(0).getDamageValue() >= items.getStackInSlot(0).getMaxDamage()) {
+				items.getStackInSlot(0).shrink(1);
 			}
 
 			// Output
 			if (!recipe.fOut.isEmpty()) {
-				tanks.get(3).rawFill(recipe.fOut.copy(), FluidAction.EXECUTE);
+				fluid.tank(3).rawFill(recipe.fOut.copy(), FluidAction.EXECUTE);
 			}
 			if (!recipe.iOut.isEmpty()) {
-				if (getItem(1).isEmpty()) {
-					setItem(1, recipe.iOut.copy());
+				if (items.getStackInSlot(1).isEmpty()) {
+					items.setStackInSlot(1, recipe.iOut.copy());
 				} else {
-					getItem(1).grow(recipe.iOut.copy().getCount());
+					items.getStackInSlot(1).grow(recipe.iOut.copy().getCount());
 				}
 			}
 			sync();
@@ -156,8 +157,8 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	}
 
 	public boolean anyTankContains(FluidStack stack, boolean amount) {
-		for (MachinaTank tank : tanks) {
-			if (tankContains(tank, stack, amount))
+		for (int i = 0; i < fluid.getTanks(); i++) {
+			if (tankContains(fluid.tank(i), stack, amount))
 				return true;
 		}
 
@@ -179,7 +180,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	}
 
 	public void clear(int id) {
-		this.tanks.get(id).setFluid(FluidStack.EMPTY);
+		fluid.setFluidInTank(id, FluidStack.EMPTY);
 		sync();
 	}
 
@@ -189,13 +190,7 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	}
 
 	@Override
-	public MachinaEnergyStorage createStorage() {
-		return new MachinaEnergyStorage(this, 1000000, 1000, 0);
-	}
-
-	@Override
 	public CompoundNBT save(CompoundNBT compound) {
-		tanks.forEach(tank -> tank.writeToNBT(compound));
 		compound.putBoolean("Running", isRunning);
 		compound.putString("Result", result);
 		compound.putFloat("Heat", heat);
@@ -206,49 +201,12 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 
 	@Override
 	public void load(BlockState state, CompoundNBT compound) {
-		tanks.forEach(tank -> tank.readFromNBT(compound));
 		isRunning = compound.getBoolean("Running");
 		result = compound.getString("Result");
 		heat = compound.getFloat("Heat");
 		reqHeat = compound.getFloat("ReqHeat");
 		color = compound.getInt("Color");
 		super.load(state, compound);
-	}
-
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> c, @Nullable Direction direction) {
-		if (c == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return cap.cast();
-		}
-
-		return super.getCapability(c, direction);
-	}
-
-	@Override
-	protected void invalidateCaps() {
-		cap.invalidate();
-		super.invalidateCaps();
-	}
-
-	@Override
-	public void setFluid(FluidStack fluid, int index) {
-		tanks.get(index).setFluid(fluid);
-	}
-
-	@Override
-	public FluidStack getFluid(int index) {
-		return tanks.get(index).getFluid();
-	}
-
-	@Override
-	public int stored(int index) {
-		return tanks.get(index).getFluidAmount();
-	}
-
-	@Override
-	public int capacity(int index) {
-		return tanks.get(index).getCapacity();
 	}
 
 	@Override
@@ -259,5 +217,17 @@ public class PressurizedChamberTileEntity extends BaseEnergyLootTileEntity
 	@Override
 	public boolean isGenerator() {
 		return false;
+	}
+
+	public int getEnergy() {
+		return this.energy.getEnergyStored();
+	}
+
+	public int getMaxEnergy() {
+		return this.energy.getMaxEnergyStored();
+	}
+
+	public float propFull() {
+		return (float) this.getEnergy() / (float) this.getMaxEnergy();
 	}
 }

@@ -2,7 +2,6 @@ package com.machina.client.screen;
 
 import com.machina.block.container.FuelStorageUnitContainer;
 import com.machina.block.tile.FuelStorageUnitTileEntity;
-import com.machina.block.tile.base.IMultiFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.util.math.MathUtil;
@@ -96,11 +95,9 @@ public class FuelStorageUnitScreen extends NoJeiContainerScreen<FuelStorageUnitC
 					y + 46, 0xFF_ff0000, 0xFF_0e0e0e);
 		} else {
 			UIHelper.drawCenteredStringWithBorder(stack,
-					MathUtil.engineering((double) this.menu.te.stored() / (double) IMultiFluidTileEntity.BUCKET, "B")
-							+ " / "
-							+ MathUtil.engineering(
-									(double) this.menu.te.capacity() / (double) IMultiFluidTileEntity.BUCKET, "B")
-							+ " - " + String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
+					MathUtil.engineering((double) this.menu.te.stored() / (double) 1000, "B") + " / "
+							+ MathUtil.engineering((double) this.menu.te.capacity() / (double) 1000, "B") + " - "
+							+ String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
 					x + 117, y + 46, 0xFF_00fefe, 0xFF_0e0e0e);
 		}
 

@@ -22,9 +22,6 @@ public class ShipConstructContainer extends BaseContainer<ShipConsoleTileEntity>
 		recreateSlots(playerInv);
 
 		createData(() -> te.getData());
-		if (te.completed) {
-			this.clearContainer(playerInv.player, playerInv.player.level, te);
-		}
 	}
 
 	public void recreateSlots(final PlayerInventory playerInv) {

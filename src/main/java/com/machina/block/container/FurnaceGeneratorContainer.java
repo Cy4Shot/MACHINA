@@ -22,8 +22,6 @@ public class FurnaceGeneratorContainer extends BaseContainer<FurnaceGeneratorTil
 		this.te = te;
 
 		recreateSlots(inv);
-
-		createData(() -> te.getData());
 	}
 
 	public void recreateSlots(final PlayerInventory playerInv) {

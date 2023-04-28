@@ -16,8 +16,6 @@ public class BatteryContainer extends BaseContainer<BatteryTileEntity> {
 	public BatteryContainer(final int windowId, final BatteryTileEntity te) {
 		super(ContainerInit.BATTERY.get(), windowId, te);
 		this.te = te;
-		
-		createData(() -> te.getData());
 	}
 
 	public BatteryContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {

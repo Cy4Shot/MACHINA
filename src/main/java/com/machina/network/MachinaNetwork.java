@@ -16,7 +16,6 @@ import com.machina.network.c2s.C2SSetShipDestination;
 import com.machina.network.c2s.C2SShipConsoleGUIButton;
 import com.machina.network.c2s.C2SShipLaunchEffect;
 import com.machina.network.c2s.C2SSpawnParticle;
-import com.machina.network.c2s.C2SUpdateEnergySide;
 import com.machina.network.s2c.S2CFluidSync;
 import com.machina.network.s2c.S2CLaunchShip;
 import com.machina.network.s2c.S2CResearchSync;
@@ -45,7 +44,6 @@ public class MachinaNetwork extends BaseNetwork {
 		// Client -> Server
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);
 		registerClientToServer(C2SShipConsoleGUIButton.class, C2SShipConsoleGUIButton::decode);
-		registerClientToServer(C2SUpdateEnergySide.class, C2SUpdateEnergySide::decode);
 		registerClientToServer(C2SCompletePuzzle.class, C2SCompletePuzzle::decode);
 		registerClientToServer(C2SSetShipDestination.class, C2SSetShipDestination::decode);
 		registerClientToServer(C2SRefuel.class, C2SRefuel::decode);

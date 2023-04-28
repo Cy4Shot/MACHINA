@@ -21,8 +21,6 @@ public class PressurizedChamberContainer extends BaseContainer<PressurizedChambe
 		this.te = te;
 		
 		recreateSlots(playerInv);
-
-		createData(() -> te.getData());
 	}
 	
 	public void recreateSlots(final PlayerInventory playerInv) {

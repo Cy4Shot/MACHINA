@@ -1,4 +1,4 @@
-package com.machina.capability.energy;
+package com.machina.capability;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.machina.block.tile.CableTileEntity;
-import com.machina.block.tile.base.BaseEnergyTileEntity;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.tileentity.TileEntity;
@@ -91,16 +90,11 @@ public class CableEnergyStorage implements IEnergyStorage {
 			int index = (i + p) % connections.size();
 
 			CableTileEntity.Connection connection = connections.get(index);
-			BlockPos pos = connection.getPos().relative(connection.getDirection());
 			IEnergyStorage destination = getEnergyStorage(tileEntity,
 					connection.getPos().relative(connection.getDirection()), connection.getDirection().getOpposite());
 
 			if (destination != null) {
 				boolean canRecieve = destination.canReceive();
-				TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
-				if (te instanceof BaseEnergyTileEntity)
-					canRecieve = ((BaseEnergyTileEntity) te).canRecieve(connection.getDirection().getOpposite());
-
 				if (canRecieve && destination.receiveEnergy(1, true) >= 1)
 					destinations.add(destination);
 			}
@@ -138,16 +132,11 @@ public class CableEnergyStorage implements IEnergyStorage {
 			int index = (i + p) % connections.size();
 
 			CableTileEntity.Connection connection = connections.get(index);
-			BlockPos pos = connection.getPos().relative(connection.getDirection());
 			IEnergyStorage destination = getEnergyStorage(tileEntity,
 					connection.getPos().relative(connection.getDirection()), connection.getDirection().getOpposite());
 
 			if (destination != null) {
 				boolean canRecieve = destination.canReceive();
-				TileEntity te = tileEntity.getLevel().getBlockEntity(pos);
-				if (te instanceof BaseEnergyTileEntity)
-					canRecieve = ((BaseEnergyTileEntity) te).canRecieve(connection.getDirection().getOpposite());
-
 				if (canRecieve && destination.receiveEnergy(1, true) >= 1)
 					destinations.add(new Pair<>(destination, index));
 			}

@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 import com.machina.block.CableBlock;
 import com.machina.block.tile.base.BaseTileEntity;
+import com.machina.capability.CableEnergyStorage;
 import com.machina.capability.DirectionalLazyOptionalCache;
-import com.machina.capability.energy.CableEnergyStorage;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.math.DirectionUtil;

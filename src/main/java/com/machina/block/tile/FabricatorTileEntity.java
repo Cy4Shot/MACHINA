@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.machina.block.container.FabricatorContainer;
-import com.machina.block.tile.base.BaseLockableTileEntity;
+import com.machina.block.container.base.IMachinaContainerProvider;
+import com.machina.block.tile.base.CustomTE;
 import com.machina.blueprint.Blueprint;
+import com.machina.capability.CustomItemStorage;
 import com.machina.item.BlueprintItem;
 import com.machina.recipe.FabricatorRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
@@ -20,24 +23,31 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntityType;
 
-public class FabricatorTileEntity extends BaseLockableTileEntity {
+public class FabricatorTileEntity extends CustomTE implements IMachinaContainerProvider {
 
 	public FabricatorTileEntity(TileEntityType<?> type) {
-		super(type, 18);
+		super(type);
 	}
 
 	public FabricatorTileEntity() {
 		this(TileEntityInit.FABRICATOR.get());
 	}
 
+	CustomItemStorage items;
+
 	@Override
-	protected Container createMenu(int id, PlayerInventory player) {
+	public void createStorages() {
+		this.items = add(new CustomItemStorage(18));
+	}
+
+	@Override
+	public Container createMenu(int id, PlayerInventory player, PlayerEntity e) {
 		return new FabricatorContainer(id, player, this);
 	}
 
 	public void fabricate() {
 		if (getReqItems().size() == 0) {
-			Blueprint bp = BlueprintItem.get(this.getItem(0));
+			Blueprint bp = BlueprintItem.get(items.getStackInSlot(0));
 			String id = bp.getId();
 			for (IRecipe<?> r : RecipeInit.getRecipes(RecipeInit.FABRICATOR_RECIPE, this.level.getRecipeManager())
 					.values()) {
@@ -46,7 +56,7 @@ public class FabricatorTileEntity extends BaseLockableTileEntity {
 					recipe.items().forEach(item -> {
 						this.remove(item.getItem(), item.getCount());
 					});
-					this.setItem(17, bp.getItem());
+					items.setStackInSlot(17, bp.getItem());
 					return;
 				}
 			}
@@ -55,13 +65,13 @@ public class FabricatorTileEntity extends BaseLockableTileEntity {
 
 	@SuppressWarnings("unchecked")
 	public List<ItemStack> getReqItems() {
-		if (this.getItem(0).isEmpty())
+		if (items.getStackInSlot(0).isEmpty())
 			return Collections.EMPTY_LIST;
 
-		if (!(this.getItem(0).getItem() instanceof BlueprintItem))
+		if (!(items.getStackInSlot(0).getItem() instanceof BlueprintItem))
 			return Collections.EMPTY_LIST;
 
-		Blueprint bp = BlueprintItem.get(this.getItem(0));
+		Blueprint bp = BlueprintItem.get(items.getStackInSlot(0));
 		String id = bp.getId();
 
 		for (IRecipe<?> r : RecipeInit.getRecipes(RecipeInit.FABRICATOR_RECIPE, this.level.getRecipeManager())
@@ -84,7 +94,7 @@ public class FabricatorTileEntity extends BaseLockableTileEntity {
 
 	public int count(Item item) {
 		int total = 0;
-		for (ItemStack stack : this.items.subList(1, 17).stream().filter(stack -> stack.getItem().equals(item))
+		for (ItemStack stack : items.items().subList(1, 17).stream().filter(stack -> stack.getItem().equals(item))
 				.collect(Collectors.toList())) {
 			total += stack.getCount();
 		}
@@ -94,17 +104,17 @@ public class FabricatorTileEntity extends BaseLockableTileEntity {
 	public void remove(Item item, int count) {
 		int total = 0;
 		for (int i = 1; i < 17; i++) {
-			ItemStack stack = this.items.get(i);
+			ItemStack stack = items.getStackInSlot(i);
 			if (!stack.getItem().equals(item))
 				continue;
 			int rem = count - total;
 			if (stack.getCount() < rem) {
 				total += stack.getCount();
-				this.removeItem(i, stack.getCount());
+				items.extractItem(i, stack.getCount(), false);
 				if (count - total == 0)
 					return;
 			} else {
-				this.removeItem(i, rem);
+				items.extractItem(i, rem, false);
 				return;
 			}
 		}

@@ -1,7 +1,6 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.AtmosphericSeparatorContainer;
-import com.machina.block.tile.base.IMultiFluidTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.network.MachinaNetwork;
@@ -78,7 +77,7 @@ public class AtmosphericSeparatorScreen extends NoJeiContainerScreen<Atmospheric
 
 			if (s) {
 
-				if ((int) (this.menu.te.rate * IMultiFluidTileEntity.BUCKET) > 0) {
+				if ((int) (this.menu.te.rate * 1000) > 0) {
 					UIHelper.drawStringWithBorder(stack,
 							StringUtils.translateScreen("atmospheric_seperator.producing")
 									+ MathUtil.engineering(this.menu.te.rate, "B/t"),

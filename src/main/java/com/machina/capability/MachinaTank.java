@@ -1,4 +1,4 @@
-package com.machina.capability.fluid;
+package com.machina.capability;
 
 import java.util.function.Predicate;
 
@@ -14,6 +14,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public class MachinaTank extends FluidTank {
+	
+	protected Runnable onChanged;
 
 	private TileEntity tile;
 	public int id;
@@ -42,17 +44,6 @@ public class MachinaTank extends FluidTank {
 
 	public float propFull() {
 		return (float) getFluidAmount() / (float) getCapacity();
-	}
-
-	@Override
-	public void onContentsChanged() {
-		IFluidHandler handler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).orElse(null);
-		if (handler == null || getFluid() == null) {
-			return;
-		}
-		if (!tile.getLevel().isClientSide()) {
-			MachinaNetwork.sendToClients(MachinaNetwork.CHANNEL, new S2CFluidSync(tile.getBlockPos(), getFluid(), id));
-		}
 	}
 
 	@Override
@@ -108,5 +99,17 @@ public class MachinaTank extends FluidTank {
 		if (filled > 0)
 			onContentsChanged();
 		return filled;
+	}
+
+	@Override
+	protected void onContentsChanged() {
+		IFluidHandler handler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).orElse(null);
+		if (handler == null || getFluid() == null) {
+			return;
+		}
+		if (!tile.getLevel().isClientSide()) {
+			MachinaNetwork.sendToClients(MachinaNetwork.CHANNEL, new S2CFluidSync(tile.getBlockPos(), getFluid(), id));
+		}
+		onChanged.run();
 	}
 }

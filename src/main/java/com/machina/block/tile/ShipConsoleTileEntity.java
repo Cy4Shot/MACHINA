@@ -8,8 +8,9 @@ import java.util.UUID;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
-import com.machina.block.tile.base.BaseLockableTileEntity;
-import com.machina.block.tile.base.IFluidTileEntity;
+import com.machina.block.container.base.IMachinaContainerProvider;
+import com.machina.block.tile.base.CustomTE;
+import com.machina.capability.CustomItemStorage;
 import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CLaunchShip;
@@ -25,6 +26,7 @@ import com.machina.util.text.MachinaRL;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
@@ -43,7 +45,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.FluidStack;
 
-public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITickableTileEntity {
+public class ShipConsoleTileEntity extends CustomTE implements ITickableTileEntity, IMachinaContainerProvider {
 
 	public int stage = 1, progress = 0, destination = -1;
 	public int waterFuel = 0, aluminiumFuel = 0, ammoniaNitrateFuel = 0;
@@ -92,11 +94,18 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 	};
 
 	public ShipConsoleTileEntity(TileEntityType<?> type) {
-		super(type, 4);
+		super(type);
 	}
 
 	public ShipConsoleTileEntity() {
 		this(TileEntityInit.SHIP_CONSOLE.get());
+	}
+	
+	CustomItemStorage items;
+	
+	@Override
+	public void createStorages() {
+		this.items = add(new CustomItemStorage(4));
 	}
 
 	public List<ItemStack> getItemsForStage() {
@@ -115,7 +124,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 		List<ItemStack> missing = new ArrayList<>();
 		getItemsForStage().forEach(item -> {
 			ItemStack item1 = item.copy();
-			for (ItemStack stack : getItems()) {
+			for (ItemStack stack : items.items()) {
 				if (item1.getItem().equals(stack.getItem())) {
 					item1.shrink(stack.getCount());
 				}
@@ -147,8 +156,8 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 	}
 
 	public void clear() {
-		for (int i = 0; i < getContainerSize(); i++)
-			setItem(i, ItemStack.EMPTY);
+		for (int i = 0; i < items.getSlots(); i++)
+			items.setStackInSlot(i, ItemStack.EMPTY);
 	}
 
 	@Override
@@ -246,7 +255,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 
 		this.ammoniaNitrateFuel = (int) (dist * CommonConfig.ammoniaNitrateMult.get());
 		this.aluminiumFuel = (int) (atmo * CommonConfig.aluminiumMult.get());
-		this.waterFuel = (int) (temp * CommonConfig.waterMult.get()) * IFluidTileEntity.BUCKET;
+		this.waterFuel = (int) (temp * CommonConfig.waterMult.get()) * 1000;
 
 		sync();
 	}
@@ -261,7 +270,7 @@ public class ShipConsoleTileEntity extends BaseLockableTileEntity implements ITi
 	}
 
 	@Override
-	protected Container createMenu(int id, PlayerInventory player) {
+	public Container createMenu(int id, PlayerInventory player, PlayerEntity e) {
 		if (this.completed) {
 			return new ShipLaunchContainer(id, player, this);
 		} else {

@@ -1,17 +1,18 @@
-package com.machina.capability.fluid;
+package com.machina.capability;
 
 import java.util.LinkedList;
 
 import javax.annotation.Nonnull;
 
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class MultiTankCapability implements IFluidHandler {
-
+public class CustomFluidStorage implements IFluidHandler, ICustomStorage {
+	
 	private final LinkedList<MachinaTank> tanks;
 
-	public MultiTankCapability(LinkedList<MachinaTank> tanks) {
+	public CustomFluidStorage(LinkedList<MachinaTank> tanks) {
 		this.tanks = tanks;
 	}
 
@@ -28,6 +29,11 @@ public class MultiTankCapability implements IFluidHandler {
 	@Override
 	public FluidStack getFluidInTank(int tank) {
 		return tanks.get(tank).getFluid();
+	}
+	
+	@Nonnull
+	public void setFluidInTank(int tank, FluidStack stack) {
+		tanks.get(tank).setFluid(stack);
 	}
 
 	@Override
@@ -60,7 +66,7 @@ public class MultiTankCapability implements IFluidHandler {
 		}
 		return FluidStack.EMPTY;
 	}
-	
+
 	@Nonnull
 	public FluidStack drainRaw(FluidStack resource, FluidAction action) {
 		for (MachinaTank tank : tanks) {
@@ -80,5 +86,39 @@ public class MultiTankCapability implements IFluidHandler {
 			}
 		}
 		return FluidStack.EMPTY;
+	}
+
+
+
+	@Override
+	public CompoundNBT serializeNBT() {
+		CompoundNBT tag = new CompoundNBT();
+		for(MachinaTank tank : tanks) {
+			tag.put("fluid_" + tank.id, tank.getFluid().writeToNBT(new CompoundNBT()));
+		}
+		return tag;
+	}
+
+	@Override
+	public void deserializeNBT(CompoundNBT nbt) {
+		for(MachinaTank tank : tanks) {
+			tank.setFluid(FluidStack.loadFluidStackFromNBT(nbt.getCompound("fluid_" + tank.id)));
+		}
+	}
+
+	@Override
+	public void setChanged(Runnable runnable) {
+		for(MachinaTank tank : tanks) {
+			tank.onChanged = runnable;
+		}
+	}
+
+	@Override
+	public String getTag() {
+		return "fluid";
+	}
+	
+	public MachinaTank tank(int i) {
+		return this.tanks.get(i);
 	}
 }

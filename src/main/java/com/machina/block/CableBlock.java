@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import com.machina.block.tile.CableTileEntity;
-import com.machina.capability.energy.MachinaEnergyStorage;
+import com.machina.capability.CustomEnergyStorage;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.math.DirectionUtil;
 import com.machina.util.math.MathUtil;
@@ -154,7 +154,7 @@ public class CableBlock extends Block {
 
 	public boolean isConnectable(IBlockReader world, BlockPos pos, Direction dir) {
 		TileEntity te = world.getBlockEntity(pos.relative(dir));
-		return !(te instanceof CableTileEntity) && MachinaEnergyStorage.hasEnergy(te, dir);
+		return !(te instanceof CableTileEntity) && CustomEnergyStorage.hasEnergy(te, dir);
 	}
 
 	public boolean[] canAttach(IWorld world, BlockPos pos, Direction dir) {

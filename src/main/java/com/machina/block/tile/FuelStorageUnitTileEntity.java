@@ -2,41 +2,42 @@ package com.machina.block.tile;
 
 import java.util.Random;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.machina.block.container.FuelStorageUnitContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.BaseLockableTileEntity;
-import com.machina.block.tile.base.IFluidTileEntity;
+import com.machina.block.tile.base.CustomTE;
 import com.machina.block.tile.base.IHeatTileEntity;
-import com.machina.capability.fluid.MachinaTank;
+import com.machina.capability.MachinaTank;
+import com.machina.capability.CustomFluidStorage;
+import com.machina.capability.CustomItemStorage;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.HeatHelper;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
-		implements IHeatTileEntity, IMachinaContainerProvider, IFluidTileEntity, ITickableTileEntity {
+public class FuelStorageUnitTileEntity extends CustomTE
+		implements IHeatTileEntity, IMachinaContainerProvider, ITickableTileEntity {
 
-	private MachinaTank tank = new MachinaTank(this, 100000, p -> p.getFluid().isSame(Fluids.WATER), false, 0);
-	private final LazyOptional<IFluidHandler> cap = LazyOptional.of(() -> tank);
 	public float heat = 0;
 	public static float maxTemp = 180f;
 
 	public FuelStorageUnitTileEntity() {
-		super(TileEntityInit.FUEL_STORAGE_UNIT.get(), 2);
+		super(TileEntityInit.FUEL_STORAGE_UNIT.get());
+	}
+
+	CustomItemStorage items;
+	CustomFluidStorage fluids;
+
+	@Override
+	public void createStorages() {
+		this.items = add(new CustomItemStorage(2));
+		this.fluids = add(new MachinaTank(this, 100000, p -> p.getFluid().isSame(Fluids.WATER), false, 0));
 	}
 
 	@Override
@@ -49,42 +50,34 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 
 		// Deplete
 		if (normalizedHeat() > maxTemp) {
-			if (!tank.isEmpty())
-				tank.getFluid().setAmount(tank.getFluidAmount() - 30);
+			if (!fluids.isEmpty())
+				fluids.getFluidInTank(0).setAmount(stored() - 30);
 			Random r = new Random();
 			if (r.nextInt(50) == 0) {
-				this.getItem(0).shrink(1);
+				items.getStackInSlot(0).shrink(1);
 			}
 			if (r.nextInt(50) == 0) {
-				this.getItem(1).shrink(1);
+				items.getStackInSlot(1).shrink(1);
 			}
 		}
 
 		sync();
 	}
 
-	@Override
-	public void setFluid(FluidStack fluid) {
-		this.tank.setFluid(fluid);
-	}
-
-	@Override
-	public FluidStack getFluid() {
-		return this.tank.getFluid();
-	}
-
-	@Override
 	public int stored() {
-		return this.tank.getFluidAmount();
+		return fluids.getFluidInTank(0).getAmount();
 	}
 
-	@Override
 	public int capacity() {
-		return this.tank.getCapacity();
+		return fluids.getTankCapacity(0);
 	}
 
 	public float propFull() {
 		return (float) stored() / (float) capacity();
+	}
+
+	public FluidStack getFluid() {
+		return fluids.getFluidInTank(0);
 	}
 
 	@Override
@@ -100,22 +93,6 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 		return HeatHelper.normalizeHeat(heat, this.level.dimension());
 	}
 
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> c, @Nullable Direction direction) {
-		if (c == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return cap.cast();
-		}
-
-		return super.getCapability(c, direction);
-	}
-
-	@Override
-	protected void invalidateCaps() {
-		cap.invalidate();
-		super.invalidateCaps();
-	}
-
 	@Override
 	public boolean isGenerator() {
 		return false;
@@ -124,7 +101,6 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 	@Override
 	public CompoundNBT save(CompoundNBT compound) {
 		super.save(compound);
-		tank.writeToNBT(compound);
 		compound.putFloat("Heat", this.heat);
 		return compound;
 	}
@@ -132,12 +108,11 @@ public class FuelStorageUnitTileEntity extends BaseLockableTileEntity
 	@Override
 	public void load(BlockState state, CompoundNBT compound) {
 		super.load(state, compound);
-		tank.readFromNBT(compound);
 		this.heat = compound.getFloat("Heat");
 	}
 
 	@Override
-	protected Container createMenu(int id, PlayerInventory pPlayer) {
+	public Container createMenu(int id, PlayerInventory pPlayer, PlayerEntity e) {
 		return new FuelStorageUnitContainer(id, pPlayer, this);
 	}
 }

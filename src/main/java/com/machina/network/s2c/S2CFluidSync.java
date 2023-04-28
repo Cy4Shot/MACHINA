@@ -1,7 +1,7 @@
 package com.machina.network.s2c;
 
-import com.machina.block.tile.base.IFluidTileEntity;
-import com.machina.block.tile.base.IMultiFluidTileEntity;
+import com.machina.block.tile.base.CustomTE;
+import com.machina.capability.MachinaTank;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.client.Minecraft;
@@ -9,6 +9,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class S2CFluidSync implements INetworkMessage {
@@ -28,10 +29,12 @@ public class S2CFluidSync implements INetworkMessage {
 	public void handle(Context context) {
 		context.enqueueWork(() -> {
 			TileEntity te = Minecraft.getInstance().level.getBlockEntity(pos);
-			if (te instanceof IFluidTileEntity) {
-				((IFluidTileEntity) te).setFluid(fluid);
-			} else if (te instanceof IMultiFluidTileEntity) {
-				((IMultiFluidTileEntity) te).setFluid(fluid, id);
+			if (te instanceof CustomTE) {
+				((CustomTE) te).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).cast().ifPresent(o -> {
+					if (o instanceof MachinaTank) {
+						((MachinaTank) o).setFluid(fluid);
+					}
+				});
 			}
 		});
 	}

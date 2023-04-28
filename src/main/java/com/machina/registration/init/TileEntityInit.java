@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.block.energy.ExampleTE;
 import com.machina.block.tile.AtmosphericSeparatorTileEntity;
 import com.machina.block.tile.BatteryTileEntity;
 import com.machina.block.tile.BlueprinterTileEntity;

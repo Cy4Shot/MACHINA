@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.machina.block.container.ShipLaunchContainer;
-import com.machina.block.tile.base.IFluidTileEntity;
 import com.machina.client.ClientStarchart;
 import com.machina.client.screen.base.TerminalScreen;
 import com.machina.client.util.IStarchartSelector;
@@ -77,9 +76,9 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 							add(t, "required");
 							add(t.getFeedback("water")
 									+ MathUtil.engineering(
-											ShipLaunchScreen.this.menu.te.hWaterFuel / IFluidTileEntity.BUCKET, "B")
+											ShipLaunchScreen.this.menu.te.hWaterFuel / 1000, "B")
 									+ " / " + MathUtil.engineering(
-											ShipLaunchScreen.this.menu.te.waterFuel / IFluidTileEntity.BUCKET, "B"));
+											ShipLaunchScreen.this.menu.te.waterFuel / 1000, "B"));
 							add(t.getFeedback("aluminium") + ShipLaunchScreen.this.menu.te.hAluminiumFuel + " / "
 									+ ShipLaunchScreen.this.menu.te.aluminiumFuel);
 							add(t.getFeedback("ammonium_nitrate") + ShipLaunchScreen.this.menu.te.hAmmoniaNitrateFuel
@@ -95,9 +94,9 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 			space();
 			add(t, "stored");
 			add(t.getFeedback("water")
-					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.hWaterFuel / IFluidTileEntity.BUCKET, "B")
+					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.hWaterFuel / 1000, "B")
 					+ " / "
-					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.waterFuel / IFluidTileEntity.BUCKET, "B"));
+					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.waterFuel / 1000, "B"));
 			add(t.getFeedback("aluminium") + ShipLaunchScreen.this.menu.te.hAluminiumFuel + " / "
 					+ ShipLaunchScreen.this.menu.te.aluminiumFuel);
 			add(t.getFeedback("ammonium_nitrate") + ShipLaunchScreen.this.menu.te.hAmmoniaNitrateFuel + " / "
@@ -121,7 +120,7 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 					add(t, "complete");
 					add(t, "gain");
 					add(t.getFeedback("water") + MathUtil.engineering(
-							(ShipLaunchScreen.this.menu.te.hWaterFuel - oldWater) / IFluidTileEntity.BUCKET, "B"));
+							(ShipLaunchScreen.this.menu.te.hWaterFuel - oldWater) / 1000, "B"));
 					add(t.getFeedback("aluminium") + (ShipLaunchScreen.this.menu.te.hAluminiumFuel - oldAluminium));
 					add(t.getFeedback("ammonium_nitrate")
 							+ (ShipLaunchScreen.this.menu.te.hAmmoniaNitrateFuel - oldAmmoniaNitrate));
@@ -144,9 +143,9 @@ public class ShipLaunchScreen extends TerminalScreen<ShipLaunchContainer> {
 			space();
 			add(t, "required");
 			add(t.getFeedback("water")
-					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.hWaterFuel / IFluidTileEntity.BUCKET, "B")
+					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.hWaterFuel / 1000, "B")
 					+ " / "
-					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.waterFuel / IFluidTileEntity.BUCKET, "B"));
+					+ MathUtil.engineering(ShipLaunchScreen.this.menu.te.waterFuel / 1000, "B"));
 			add(t.getFeedback("aluminium") + ShipLaunchScreen.this.menu.te.hAluminiumFuel + " / "
 					+ ShipLaunchScreen.this.menu.te.aluminiumFuel);
 			add(t.getFeedback("ammonium_nitrate") + ShipLaunchScreen.this.menu.te.hAmmoniaNitrateFuel + " / "

@@ -1,35 +1,34 @@
 package com.machina.block.tile;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.machina.block.container.TankContainer;
-import com.machina.block.tile.base.BaseLockableTileEntity;
-import com.machina.block.tile.base.IFluidTileEntity;
-import com.machina.capability.fluid.MachinaTank;
+import com.machina.block.container.base.IMachinaContainerProvider;
+import com.machina.block.tile.base.CustomTE;
+import com.machina.capability.MachinaTank;
+import com.machina.capability.CustomFluidStorage;
+import com.machina.capability.CustomItemStorage;
 import com.machina.registration.init.TileEntityInit;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TankTileEntity extends BaseLockableTileEntity implements ITickableTileEntity, IFluidTileEntity {
-
-	private MachinaTank tank = new MachinaTank(this, 10000, p -> true, true, 0);
-	private final LazyOptional<IFluidHandler> cap = LazyOptional.of(() -> tank);
+public class TankTileEntity extends CustomTE implements ITickableTileEntity, IMachinaContainerProvider {
 
 	public TankTileEntity() {
-		super(TileEntityInit.TANK.get(), 2);
+		super(TileEntityInit.TANK.get());
+	}
+
+	CustomItemStorage items;
+	CustomFluidStorage fluid;
+
+	@Override
+	public void createStorages() {
+		this.items = add(new CustomItemStorage(2));
+		this.fluid = add(new MachinaTank(this, 10000, p -> true, true, 0));
 	}
 
 	@Override
@@ -38,70 +37,37 @@ public class TankTileEntity extends BaseLockableTileEntity implements ITickableT
 			return;
 
 		// Update Slots
-		FluidActionResult res0 = FluidUtil.tryEmptyContainerAndStow(this.items.get(0), tank, null, Integer.MAX_VALUE,
-				null, true);
+		FluidActionResult res0 = FluidUtil.tryEmptyContainerAndStow(this.items.getStackInSlot(0), fluid, null,
+				Integer.MAX_VALUE, null, true);
 		if (res0.isSuccess()) {
-			this.items.set(0, res0.getResult());
+			this.items.setStackInSlot(0, res0.getResult());
 		}
 
-		FluidActionResult res1 = FluidUtil.tryFillContainerAndStow(this.items.get(1), tank, null, Integer.MAX_VALUE,
-				null, true);
+		FluidActionResult res1 = FluidUtil.tryFillContainerAndStow(this.items.getStackInSlot(1), fluid, null,
+				Integer.MAX_VALUE, null, true);
 		if (res1.isSuccess()) {
-			this.items.set(1, res1.getResult());
+			this.items.setStackInSlot(1, res1.getResult());
 		}
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT nbt) {
-		super.save(nbt);
-		tank.writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public void load(BlockState state, CompoundNBT nbt) {
-		super.load(state, nbt);
-		tank.readFromNBT(nbt);
-	}
-
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> c, @Nullable Direction direction) {
-		if (c == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-			return cap.cast();
-		}
-
-		return super.getCapability(c, direction);
-	}
-
-	@Override
-	protected void invalidateCaps() {
-		cap.invalidate();
-		super.invalidateCaps();
-	}
-
-	@Override
-	public void setFluid(FluidStack fluid) {
-		tank.setFluid(fluid);
-	}
-
-	@Override
-	public FluidStack getFluid() {
-		return tank.getFluid();
-	}
-
-	@Override
-	public int stored() {
-		return tank.getFluidAmount();
-	}
-
-	@Override
-	public int capacity() {
-		return tank.getCapacity();
-	}
-
-	@Override
-	protected Container createMenu(int id, PlayerInventory p) {
+	public Container createMenu(int id, PlayerInventory p, PlayerEntity e) {
 		return new TankContainer(id, p, this);
+	}
+
+	public FluidStack getFluid() {
+		return fluid.getFluidInTank(0);
+	}
+
+	public int stored() {
+		return getFluid().getAmount();
+	}
+
+	public int capacity() {
+		return fluid.getTankCapacity(0);
+	}
+	
+	public float propFull() {
+		return (float) stored() / (float) capacity();
 	}
 }
