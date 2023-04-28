@@ -3,7 +3,7 @@ package com.machina.network.c2s;
 import java.util.UUID;
 
 import com.machina.Machina;
-import com.machina.block.tile.base.ShipConsoleTileEntity;
+import com.machina.block.tile.machine.ShipConsoleTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;

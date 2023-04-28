@@ -3,7 +3,7 @@ package com.machina.client.ter;
 import java.util.List;
 
 import com.machina.block.ShipConsoleBlock;
-import com.machina.block.tile.base.ShipConsoleTileEntity;
+import com.machina.block.tile.machine.ShipConsoleTileEntity;
 import com.machina.client.model.RocketModel;
 import com.machina.client.util.TERUtil;
 import com.machina.item.ShipComponentItem;

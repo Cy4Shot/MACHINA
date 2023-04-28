@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.base.ShipConsoleTileEntity;
+import com.machina.block.tile.machine.ShipConsoleTileEntity;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;

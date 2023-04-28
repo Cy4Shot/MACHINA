@@ -1,4 +1,4 @@
-package com.machina.block.tile.base;
+package com.machina.block.tile.machine;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +10,6 @@ import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.MachinaTileEntity;
-import com.machina.block.tile.machine.FuelStorageUnitTileEntity;
 import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
