@@ -1,4 +1,4 @@
-package com.machina.block.tile.base;
+package com.machina.capability.heat;
 
 import net.minecraft.tileentity.ITickableTileEntity;
 

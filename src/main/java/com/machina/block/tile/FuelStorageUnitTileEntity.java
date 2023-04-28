@@ -4,11 +4,11 @@ import java.util.Random;
 
 import com.machina.block.container.FuelStorageUnitContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.block.tile.base.IHeatTileEntity;
-import com.machina.capability.MachinaTank;
-import com.machina.capability.CustomFluidStorage;
-import com.machina.capability.CustomItemStorage;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.fluid.MachinaFluidStorage;
+import com.machina.capability.fluid.MachinaTank;
+import com.machina.capability.heat.IHeatTileEntity;
+import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.HeatHelper;
 
@@ -21,7 +21,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraftforge.fluids.FluidStack;
 
-public class FuelStorageUnitTileEntity extends CustomTE
+public class FuelStorageUnitTileEntity extends MachinaTileEntity
 		implements IHeatTileEntity, IMachinaContainerProvider, ITickableTileEntity {
 
 	public float heat = 0;
@@ -31,12 +31,12 @@ public class FuelStorageUnitTileEntity extends CustomTE
 		super(TileEntityInit.FUEL_STORAGE_UNIT.get());
 	}
 
-	CustomItemStorage items;
-	CustomFluidStorage fluids;
+	MachinaItemStorage items;
+	MachinaFluidStorage fluids;
 
 	@Override
 	public void createStorages() {
-		this.items = add(new CustomItemStorage(2));
+		this.items = add(new MachinaItemStorage(2));
 		this.fluids = add(new MachinaTank(this, 100000, p -> p.getFluid().isSame(Fluids.WATER), false, 0));
 	}
 

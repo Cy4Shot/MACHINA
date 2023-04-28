@@ -2,10 +2,10 @@ package com.machina.block.tile;
 
 import com.machina.block.container.FurnaceGeneratorContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.capability.CustomEnergyStorage;
-import com.machina.capability.CustomItemStorage;
-import com.machina.capability.IEnergyTileEntity;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.energy.IEnergyTileEntity;
+import com.machina.capability.energy.MachinaEnergyStorage;
+import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.EnergyHelper;
 import com.machina.util.server.ItemStackHelper;
@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 
-public class FurnaceGeneratorTileEntity extends CustomTE
+public class FurnaceGeneratorTileEntity extends MachinaTileEntity
 		implements IMachinaContainerProvider, ITickableTileEntity, IEnergyTileEntity {
 
 	private int litTime;
@@ -27,13 +27,13 @@ public class FurnaceGeneratorTileEntity extends CustomTE
 		super(TileEntityInit.FURNACE_GENERATOR.get());
 	}
 
-	CustomItemStorage items;
-	CustomEnergyStorage energy;
+	MachinaItemStorage items;
+	MachinaEnergyStorage energy;
 
 	@Override
 	public void createStorages() {
-		this.items = add(new CustomItemStorage(1));
-		this.energy = add(new CustomEnergyStorage(this, 100000, 1000));
+		this.items = add(new MachinaItemStorage(1));
+		this.energy = add(new MachinaEnergyStorage(this, 100000, 1000));
 	}
 
 	@Override

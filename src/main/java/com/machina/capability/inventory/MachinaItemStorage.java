@@ -1,22 +1,24 @@
-package com.machina.capability;
+package com.machina.capability.inventory;
+
+import com.machina.capability.ICustomStorage;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class CustomItemStorage extends ItemStackHandler implements ICustomStorage {
+public class MachinaItemStorage extends ItemStackHandler implements ICustomStorage {
 	
 	private Runnable onChanged;
 	
-	public CustomItemStorage() {
+	public MachinaItemStorage() {
 		super();
 	}
 
-	public CustomItemStorage(int size) {
+	public MachinaItemStorage(int size) {
 		super(size);
 	}
 
-	public CustomItemStorage(NonNullList<ItemStack> stacks) {
+	public MachinaItemStorage(NonNullList<ItemStack> stacks) {
 		super(stacks);
 	}
 	

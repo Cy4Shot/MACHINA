@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 import com.machina.block.container.FabricatorContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
+import com.machina.block.tile.base.MachinaTileEntity;
 import com.machina.blueprint.Blueprint;
-import com.machina.capability.CustomItemStorage;
+import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.item.BlueprintItem;
 import com.machina.recipe.FabricatorRecipe;
 import com.machina.registration.init.RecipeInit;
@@ -23,7 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntityType;
 
-public class FabricatorTileEntity extends CustomTE implements IMachinaContainerProvider {
+public class FabricatorTileEntity extends MachinaTileEntity implements IMachinaContainerProvider {
 
 	public FabricatorTileEntity(TileEntityType<?> type) {
 		super(type);
@@ -33,11 +33,11 @@ public class FabricatorTileEntity extends CustomTE implements IMachinaContainerP
 		this(TileEntityInit.FABRICATOR.get());
 	}
 
-	CustomItemStorage items;
+	MachinaItemStorage items;
 
 	@Override
 	public void createStorages() {
-		this.items = add(new CustomItemStorage(18));
+		this.items = add(new MachinaItemStorage(18));
 	}
 
 	@Override

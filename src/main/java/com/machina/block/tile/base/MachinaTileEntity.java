@@ -8,12 +8,12 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.machina.capability.CustomEnergyStorage;
-import com.machina.capability.CustomFluidStorage;
-import com.machina.capability.CustomItemStorage;
 import com.machina.capability.ICustomStorage;
 import com.machina.capability.LazyOptionalCache;
-import com.machina.capability.MachinaTank;
+import com.machina.capability.energy.MachinaEnergyStorage;
+import com.machina.capability.fluid.MachinaFluidStorage;
+import com.machina.capability.fluid.MachinaTank;
+import com.machina.capability.inventory.MachinaItemStorage;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,36 +30,36 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public abstract class CustomTE extends BaseTileEntity implements IInventory {
+public abstract class MachinaTileEntity extends BaseTileEntity implements IInventory {
 
 	private List<ICustomStorage> storages = new ArrayList<>();
-	private LazyOptionalCache<CustomItemStorage> item = new LazyOptionalCache<>();
-	private LazyOptionalCache<CustomEnergyStorage> energy = new LazyOptionalCache<>();
-	private LazyOptionalCache<CustomFluidStorage> fluid = new LazyOptionalCache<>();
+	private LazyOptionalCache<MachinaItemStorage> item = new LazyOptionalCache<>();
+	private LazyOptionalCache<MachinaEnergyStorage> energy = new LazyOptionalCache<>();
+	private LazyOptionalCache<MachinaFluidStorage> fluid = new LazyOptionalCache<>();
 
 	public abstract void createStorages();
 
-	public CustomItemStorage add(CustomItemStorage item) {
+	public MachinaItemStorage add(MachinaItemStorage item) {
 		this.item.revalidate(() -> item);
 		this.storages.add(item);
 		return item;
 	}
 
-	public CustomEnergyStorage add(CustomEnergyStorage energy) {
+	public MachinaEnergyStorage add(MachinaEnergyStorage energy) {
 		this.energy.revalidate(() -> energy);
 		this.storages.add(energy);
 		return energy;
 	}
 
-	public CustomFluidStorage add(MachinaTank... fluid) {
+	public MachinaFluidStorage add(MachinaTank... fluid) {
 		LinkedList<MachinaTank> tank = new LinkedList<>(Arrays.asList(fluid));
-		CustomFluidStorage f = new CustomFluidStorage(tank);
+		MachinaFluidStorage f = new MachinaFluidStorage(tank);
 		this.fluid.revalidate(() -> f);
 		this.storages.add(f);
 		return f;
 	}
 
-	public CustomTE(TileEntityType<?> type) {
+	public MachinaTileEntity(TileEntityType<?> type) {
 		super(type);
 		createStorages();
 		storages.forEach(storage -> storage.setChanged(() -> setChanged()));
@@ -102,7 +102,7 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Override
 	public int getContainerSize() {
-		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
 		if (storage == null) {
 			return 0;
 		}
@@ -112,7 +112,7 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Override
 	public boolean isEmpty() {
-		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
 		if (storage == null) {
 			return true;
 		}
@@ -122,7 +122,7 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Override
 	public ItemStack getItem(int pIndex) {
-		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
 		if (storage == null) {
 			return null;
 		}
@@ -133,7 +133,7 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 	@Override
 	public ItemStack removeItem(int pIndex, int pCount) {
 
-		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
 		if (storage == null) {
 			return null;
 		}
@@ -148,7 +148,7 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Override
 	public ItemStack removeItemNoUpdate(int pIndex) {
-		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
 		if (storage == null) {
 			return null;
 		}
@@ -157,7 +157,7 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Override
 	public void setItem(int pIndex, ItemStack pStack) {
-		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
 		if (storage == null) {
 			return;
 		}
@@ -182,7 +182,7 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Override
 	public void clearContent() {
-		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
 		if (storage == null) {
 			return;
 		}

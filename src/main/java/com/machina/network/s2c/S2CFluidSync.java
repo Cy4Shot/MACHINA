@@ -1,7 +1,7 @@
 package com.machina.network.s2c;
 
-import com.machina.block.tile.base.CustomTE;
-import com.machina.capability.CustomFluidStorage;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.fluid.MachinaFluidStorage;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.client.Minecraft;
@@ -29,10 +29,10 @@ public class S2CFluidSync implements INetworkMessage {
 	public void handle(Context context) {
 		context.enqueueWork(() -> {
 			TileEntity te = Minecraft.getInstance().level.getBlockEntity(pos);
-			if (te instanceof CustomTE) {
-				((CustomTE) te).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).cast().ifPresent(o -> {
-					if (o instanceof CustomFluidStorage) {
-						((CustomFluidStorage) o).setFluidInTank(id, fluid);
+			if (te instanceof MachinaTileEntity) {
+				((MachinaTileEntity) te).getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).cast().ifPresent(o -> {
+					if (o instanceof MachinaFluidStorage) {
+						((MachinaFluidStorage) o).setFluidInTank(id, fluid);
 					}
 				});
 			}

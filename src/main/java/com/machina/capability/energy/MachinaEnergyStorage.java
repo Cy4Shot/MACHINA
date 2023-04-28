@@ -1,6 +1,8 @@
-package com.machina.capability;
+package com.machina.capability.energy;
 
 import javax.annotation.Nullable;
+
+import com.machina.capability.ICustomStorage;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -9,12 +11,12 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 
-public class CustomEnergyStorage extends EnergyStorage implements ICustomStorage {
+public class MachinaEnergyStorage extends EnergyStorage implements ICustomStorage {
 
 	private Runnable onChanged;
 	private IEnergyTileEntity te;
 
-	public CustomEnergyStorage(IEnergyTileEntity te, int capacity, int maxTransfer) {
+	public MachinaEnergyStorage(IEnergyTileEntity te, int capacity, int maxTransfer) {
 		super(capacity, maxTransfer, maxTransfer);
 		this.te = te;
 	}

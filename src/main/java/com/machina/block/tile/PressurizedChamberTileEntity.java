@@ -4,13 +4,13 @@ import java.util.function.Predicate;
 
 import com.machina.block.container.PressurizedChamberContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.block.tile.base.IHeatTileEntity;
-import com.machina.capability.CustomEnergyStorage;
-import com.machina.capability.CustomFluidStorage;
-import com.machina.capability.MachinaTank;
-import com.machina.capability.CustomItemStorage;
-import com.machina.capability.IEnergyTileEntity;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.energy.IEnergyTileEntity;
+import com.machina.capability.energy.MachinaEnergyStorage;
+import com.machina.capability.fluid.MachinaFluidStorage;
+import com.machina.capability.fluid.MachinaTank;
+import com.machina.capability.heat.IHeatTileEntity;
+import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.recipe.PressurizedChamberRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
@@ -27,7 +27,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
-public class PressurizedChamberTileEntity extends CustomTE
+public class PressurizedChamberTileEntity extends MachinaTileEntity
 		implements IMachinaContainerProvider, IHeatTileEntity, ITickableTileEntity, IEnergyTileEntity {
 
 	public boolean isRunning = false;
@@ -40,18 +40,18 @@ public class PressurizedChamberTileEntity extends CustomTE
 		super(TileEntityInit.PRESSURIZED_CHAMBER.get());
 	}
 
-	CustomItemStorage items;
-	CustomFluidStorage fluid;
-	CustomEnergyStorage energy;
+	MachinaItemStorage items;
+	MachinaFluidStorage fluid;
+	MachinaEnergyStorage energy;
 	
 	public MachinaTank getById(int id) {
 		return this.fluid.tank(id);
 	}
 
 	public Predicate<FluidStack> exclusiveTank(int id) {
-		return fluid -> {
-			for (int i = 0; i < 4; i++) {
-				if (i != id && this.fluid.getFluidInTank(id).isFluidEqual(fluid))
+		return f -> {
+			for (MachinaTank tank : fluid.tanks()) {
+				if (tank.id != id && tank.getFluid().isFluidEqual(f))
 					return false;
 			}
 			return true;
@@ -60,12 +60,12 @@ public class PressurizedChamberTileEntity extends CustomTE
 
 	@Override
 	public void createStorages() {
-		this.items = add(new CustomItemStorage(2));
+		this.items = add(new MachinaItemStorage(2));
 		this.fluid = add(new MachinaTank(this, 10000, exclusiveTank(0), false, 0),
 				new MachinaTank(this, 10000, exclusiveTank(1), false, 1),
 				new MachinaTank(this, 10000, exclusiveTank(2), false, 2),
 				new MachinaTank(this, 10000, p -> false, true, 3));
-		this.energy = add(new CustomEnergyStorage(this, 1000000, 1000));
+		this.energy = add(new MachinaEnergyStorage(this, 1000000, 1000));
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class PressurizedChamberTileEntity extends CustomTE
 
 		float target = HeatHelper.calculateTemperatureRegulators(worldPosition, level);
 		heat = HeatHelper.limitHeat(heat + (target - heat) * 0.05f, level.dimension());
-		sync();
+		setChanged();
 
 		for (IRecipe<?> r : RecipeInit.getRecipes(RecipeInit.PRESSURIZED_CHAMBER_RECIPE, level.getRecipeManager())
 				.values()) {
@@ -105,7 +105,7 @@ public class PressurizedChamberTileEntity extends CustomTE
 			if (!recipe.iOut.isEmpty())
 				result = recipe.iOut.getItem().getDescriptionId();
 			if (!isRunning || normalized() < reqHeat || !contains(recipe.fluids, true)) {
-				sync();
+				setChanged();
 				return;
 			}
 
@@ -132,13 +132,13 @@ public class PressurizedChamberTileEntity extends CustomTE
 					items.getStackInSlot(1).grow(recipe.iOut.copy().getCount());
 				}
 			}
-			sync();
+			setChanged();
 			return;
 		}
 
 		result = "";
 		color = 0xFF_ff0000;
-		sync();
+		setChanged();
 	}
 
 	public float heatFull() {
@@ -177,12 +177,12 @@ public class PressurizedChamberTileEntity extends CustomTE
 
 	public void runToggle() {
 		this.isRunning = !this.isRunning;
-		sync();
+		setChanged();
 	}
 
 	public void clear(int id) {
 		fluid.setFluidInTank(id, FluidStack.EMPTY);
-		sync();
+		setChanged();
 	}
 
 	@Override

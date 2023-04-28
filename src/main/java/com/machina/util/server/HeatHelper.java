@@ -3,7 +3,7 @@ package com.machina.util.server;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.machina.block.tile.base.IHeatTileEntity;
+import com.machina.capability.heat.IHeatTileEntity;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.AttributeInit;
 import com.machina.world.data.StarchartData;

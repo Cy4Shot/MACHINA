@@ -2,9 +2,9 @@ package com.machina.block.tile;
 
 import com.machina.block.container.BlueprinterContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
+import com.machina.block.tile.base.MachinaTileEntity;
 import com.machina.blueprint.Blueprint;
-import com.machina.capability.CustomItemStorage;
+import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.item.BlueprintItem;
 import com.machina.registration.init.BlueprintInit;
 import com.machina.registration.init.ItemInit;
@@ -16,7 +16,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 
-public class BlueprinterTileEntity extends CustomTE implements IMachinaContainerProvider {
+public class BlueprinterTileEntity extends MachinaTileEntity implements IMachinaContainerProvider {
 
 	public BlueprinterTileEntity(TileEntityType<?> type) {
 		super(type);
@@ -26,11 +26,11 @@ public class BlueprinterTileEntity extends CustomTE implements IMachinaContainer
 		this(TileEntityInit.BLUEPRINTER.get());
 	}
 	
-	CustomItemStorage items;
+	MachinaItemStorage items;
 
 	@Override
 	public void createStorages() {
-		items = add(new CustomItemStorage(2));
+		items = add(new MachinaItemStorage(2));
 	}
 
 	public void etch(String id) {

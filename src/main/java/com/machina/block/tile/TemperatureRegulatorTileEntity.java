@@ -3,7 +3,7 @@ package com.machina.block.tile;
 import com.machina.block.container.TemperatureRegulatorContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.BaseTileEntity;
-import com.machina.block.tile.base.IHeatTileEntity;
+import com.machina.capability.heat.IHeatTileEntity;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.HeatHelper;
 

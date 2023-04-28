@@ -1,4 +1,4 @@
-package com.machina.capability;
+package com.machina.capability.fluid;
 
 import java.util.function.Predicate;
 

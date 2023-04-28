@@ -2,7 +2,7 @@ package com.machina.util.server;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.machina.capability.CustomEnergyStorage;
+import com.machina.capability.energy.MachinaEnergyStorage;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -24,7 +24,7 @@ public class EnergyHelper {
 		return te.getCapability(CapabilityEnergy.ENERGY, dir).isPresent();
 	}
 
-	public static void sendOutPower(CustomEnergyStorage storage, World level, BlockPos pos, Runnable onChanged) {
+	public static void sendOutPower(MachinaEnergyStorage storage, World level, BlockPos pos, Runnable onChanged) {
 		AtomicInteger capacity = new AtomicInteger(storage.getEnergyStored());
 		if (capacity.get() > 0) {
 			for (Direction direction : Direction.values()) {

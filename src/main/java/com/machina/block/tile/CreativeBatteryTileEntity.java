@@ -1,24 +1,24 @@
 package com.machina.block.tile;
 
-import com.machina.block.tile.base.CustomTE;
-import com.machina.capability.CustomEnergyStorage;
-import com.machina.capability.IEnergyTileEntity;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.energy.IEnergyTileEntity;
+import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.EnergyHelper;
 
 import net.minecraft.tileentity.ITickableTileEntity;
 
-public class CreativeBatteryTileEntity extends CustomTE implements ITickableTileEntity, IEnergyTileEntity {
+public class CreativeBatteryTileEntity extends MachinaTileEntity implements ITickableTileEntity, IEnergyTileEntity {
 
 	public CreativeBatteryTileEntity() {
 		super(TileEntityInit.CREATIVE_BATTERY.get());
 	}
 
-	CustomEnergyStorage energy;
+	MachinaEnergyStorage energy;
 
 	@Override
 	public void createStorages() {
-		this.energy = add(new CustomEnergyStorage(this, 10000, 1000));
+		this.energy = add(new MachinaEnergyStorage(this, 10000, 1000));
 	}
 
 	@Override

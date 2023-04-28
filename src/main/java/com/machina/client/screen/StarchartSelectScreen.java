@@ -39,7 +39,7 @@ public class StarchartSelectScreen extends StarchartScreen {
 	}
 
 	@Override
-	public boolean mouseReleased(double pX, double pY, int pButton) {
+	public boolean mouseClicked(double pX, double pY, int pButton) {
 		if (pButton == 0) {
 			int x = this.width / 2 - 50;
 			int y = this.height / 2 - 50;
@@ -51,7 +51,7 @@ public class StarchartSelectScreen extends StarchartScreen {
 				return true;
 			}
 		}
-		return super.mouseReleased(pX, pY, pButton);
+		return super.mouseClicked(pX, pY, pButton);
 	}
 
 	public void onSelected() {

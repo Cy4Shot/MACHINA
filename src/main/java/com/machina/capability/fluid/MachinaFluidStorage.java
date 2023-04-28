@@ -1,18 +1,20 @@
-package com.machina.capability;
+package com.machina.capability.fluid;
 
 import java.util.LinkedList;
 
 import javax.annotation.Nonnull;
 
+import com.machina.capability.ICustomStorage;
+
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class CustomFluidStorage implements IFluidHandler, ICustomStorage {
+public class MachinaFluidStorage implements IFluidHandler, ICustomStorage {
 	
 	private final LinkedList<MachinaTank> tanks;
 
-	public CustomFluidStorage(LinkedList<MachinaTank> tanks) {
+	public MachinaFluidStorage(LinkedList<MachinaTank> tanks) {
 		this.tanks = tanks;
 	}
 
@@ -129,5 +131,9 @@ public class CustomFluidStorage implements IFluidHandler, ICustomStorage {
 	
 	public MachinaTank tank(int i) {
 		return this.tanks.get(i);
+	}
+	
+	public LinkedList<MachinaTank> tanks() {
+		return this.tanks;
 	}
 }

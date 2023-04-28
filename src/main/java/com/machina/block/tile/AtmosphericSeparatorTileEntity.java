@@ -3,9 +3,9 @@ package com.machina.block.tile;
 import com.machina.block.AtmosphericSeparatorBlock;
 import com.machina.block.container.AtmosphericSeparatorContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.capability.CustomFluidStorage;
-import com.machina.capability.MachinaTank;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.fluid.MachinaFluidStorage;
+import com.machina.capability.fluid.MachinaTank;
 import com.machina.planet.PlanetData;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.TileEntityInit;
@@ -27,7 +27,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class AtmosphericSeparatorTileEntity extends CustomTE implements IMachinaContainerProvider, ITickableTileEntity {
+public class AtmosphericSeparatorTileEntity extends MachinaTileEntity
+		implements IMachinaContainerProvider, ITickableTileEntity {
 
 	public int selected = -1;
 	public float rate = 0;
@@ -60,7 +61,7 @@ public class AtmosphericSeparatorTileEntity extends CustomTE implements IMachina
 		super(TileEntityInit.ATMOSPHERIC_SEPARATOR.get());
 	}
 
-	CustomFluidStorage fluid;
+	MachinaFluidStorage fluid;
 
 	@Override
 	public void createStorages() {
@@ -74,11 +75,11 @@ public class AtmosphericSeparatorTileEntity extends CustomTE implements IMachina
 		Double atm = data.getAtmosphere(dim)[id];
 		this.rate = 0.02f * (float) atm.doubleValue();
 
-		fluid.getTankCapacity((int) (rate * 1000));
+		fluid.tank(0).setCapacity((int) (rate * 1000));
 		if (fluid.getFluidInTank(0).getAmount() > fluid.getTankCapacity(0)) {
 			fluid.getFluidInTank(0).setAmount(fluid.getTankCapacity(0));
 		}
-		this.sync();
+		this.setChanged();
 	}
 
 	@Override

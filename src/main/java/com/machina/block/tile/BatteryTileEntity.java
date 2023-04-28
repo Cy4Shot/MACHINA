@@ -2,9 +2,9 @@ package com.machina.block.tile;
 
 import com.machina.block.container.BatteryContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.capability.CustomEnergyStorage;
-import com.machina.capability.IEnergyTileEntity;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.energy.IEnergyTileEntity;
+import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +12,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.tileentity.ITickableTileEntity;
 
-public class BatteryTileEntity extends CustomTE implements IMachinaContainerProvider, ITickableTileEntity, IEnergyTileEntity {
+public class BatteryTileEntity extends MachinaTileEntity implements IMachinaContainerProvider, ITickableTileEntity, IEnergyTileEntity {
 
 	public BatteryTileEntity() {
 		super(TileEntityInit.BATTERY.get());
@@ -23,11 +23,11 @@ public class BatteryTileEntity extends CustomTE implements IMachinaContainerProv
 		return new BatteryContainer(windowId, this);
 	}
 
-	CustomEnergyStorage energy;
+	MachinaEnergyStorage energy;
 
 	@Override
 	public void createStorages() {
-		energy = add(new CustomEnergyStorage(this, 10000, 1000));
+		energy = add(new MachinaEnergyStorage(this, 10000, 1000));
 	}
 
 	public int getEnergy() {

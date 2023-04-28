@@ -1,8 +1,8 @@
 package com.machina.block.tile;
 
 import com.machina.block.CargoCrateBlock;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.capability.CustomItemStorage;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.BlockState;
@@ -17,7 +17,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class CargoCrateTileEntity extends CustomTE implements IAnimatable {
+public class CargoCrateTileEntity extends MachinaTileEntity implements IAnimatable {
 
 	private final AnimationFactory manager = new AnimationFactory(this);
 	public boolean open = false;
@@ -30,11 +30,11 @@ public class CargoCrateTileEntity extends CustomTE implements IAnimatable {
 		this(TileEntityInit.CARGO_CRATE.get());
 	}
 	
-	CustomItemStorage items;
+	MachinaItemStorage items;
 
 	@Override
 	public void createStorages() {
-		this.items = add(new CustomItemStorage(1));
+		this.items = add(new MachinaItemStorage(1));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

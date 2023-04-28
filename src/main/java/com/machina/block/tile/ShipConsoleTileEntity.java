@@ -9,8 +9,8 @@ import com.machina.block.ShipConsoleBlock;
 import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.capability.CustomItemStorage;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CLaunchShip;
@@ -45,7 +45,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.FluidStack;
 
-public class ShipConsoleTileEntity extends CustomTE implements ITickableTileEntity, IMachinaContainerProvider {
+public class ShipConsoleTileEntity extends MachinaTileEntity implements ITickableTileEntity, IMachinaContainerProvider {
 
 	public int stage = 1, progress = 0, destination = -1;
 	public int waterFuel = 0, aluminiumFuel = 0, ammoniaNitrateFuel = 0;
@@ -101,11 +101,11 @@ public class ShipConsoleTileEntity extends CustomTE implements ITickableTileEnti
 		this(TileEntityInit.SHIP_CONSOLE.get());
 	}
 	
-	CustomItemStorage items;
+	MachinaItemStorage items;
 	
 	@Override
 	public void createStorages() {
-		this.items = add(new CustomItemStorage(4));
+		this.items = add(new MachinaItemStorage(4));
 	}
 
 	public List<ItemStack> getItemsForStage() {
@@ -211,7 +211,7 @@ public class ShipConsoleTileEntity extends CustomTE implements ITickableTileEnti
 				ItemStack aluminium = fte.getItem(0);
 				ItemStack ammonium_nitrate = fte.getItem(1);
 
-				if (!water.isEmpty() && this.hWaterFuel < this.waterFuel) {
+				if (!fte.getFluid().isEmpty() && this.hWaterFuel < this.waterFuel) {
 					int displaced = water.getAmount()
 							- Math.max(0, (water.getAmount() + this.hWaterFuel) - this.waterFuel);
 					water.setAmount(water.getAmount() - displaced);

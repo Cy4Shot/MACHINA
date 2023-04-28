@@ -2,10 +2,10 @@ package com.machina.block.tile;
 
 import com.machina.block.container.StateConverterContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.block.tile.base.IHeatTileEntity;
-import com.machina.capability.CustomFluidStorage;
-import com.machina.capability.MachinaTank;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.fluid.MachinaFluidStorage;
+import com.machina.capability.fluid.MachinaTank;
+import com.machina.capability.heat.IHeatTileEntity;
 import com.machina.recipe.StateConverterRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
@@ -21,7 +21,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
-public class StateConverterTileEntity extends CustomTE
+public class StateConverterTileEntity extends MachinaTileEntity
 		implements IHeatTileEntity, ITickableTileEntity, IMachinaContainerProvider {
 
 	public float heat = 0;
@@ -33,7 +33,7 @@ public class StateConverterTileEntity extends CustomTE
 		super(TileEntityInit.STATE_CONVERTER.get());
 	}
 
-	CustomFluidStorage fluid;
+	MachinaFluidStorage fluid;
 
 	@Override
 	public void createStorages() {

@@ -2,8 +2,8 @@ package com.machina.block.tile;
 
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.CustomTE;
-import com.machina.capability.CustomItemStorage;
+import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.item.ShipComponentItem;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.ParticleHelper;
@@ -21,7 +21,7 @@ import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class ComponentAnalyzerTileEntity extends CustomTE
+public class ComponentAnalyzerTileEntity extends MachinaTileEntity
 		implements ITickableTileEntity, IAnimatable, IMachinaContainerProvider {
 
 	private final AnimationFactory manager = new AnimationFactory(this);
@@ -59,11 +59,11 @@ public class ComponentAnalyzerTileEntity extends CustomTE
 		this(TileEntityInit.COMPONENT_ANALYZER.get());
 	}
 
-	CustomItemStorage items;
+	MachinaItemStorage items;
 
 	@Override
 	public void createStorages() {
-		this.items = add(new CustomItemStorage(2));
+		this.items = add(new MachinaItemStorage(2));
 	}
 
 	public IIntArray getData() {
