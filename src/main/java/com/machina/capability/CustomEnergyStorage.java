@@ -10,11 +10,13 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 
 public class CustomEnergyStorage extends EnergyStorage implements ICustomStorage {
-	
-	private Runnable onChanged;
 
-	public CustomEnergyStorage(int capacity, int maxTransfer) {
-		super(capacity, maxTransfer);
+	private Runnable onChanged;
+	private IEnergyTileEntity te;
+
+	public CustomEnergyStorage(IEnergyTileEntity te, int capacity, int maxTransfer) {
+		super(capacity, maxTransfer, maxTransfer);
+		this.te = te;
 	}
 
 	protected void onEnergyChanged() {
@@ -43,6 +45,24 @@ public class CustomEnergyStorage extends EnergyStorage implements ICustomStorage
 	}
 
 	@Override
+	public int receiveEnergy(int maxReceive, boolean simulate) {
+		int r = super.receiveEnergy(maxReceive, simulate);
+		if (r > 0) {
+			onEnergyChanged();
+		}
+		return r;
+	}
+
+	@Override
+	public int extractEnergy(int maxExtract, boolean simulate) {
+		int r = super.extractEnergy(maxExtract, simulate);
+		if (r > 0) {
+			onEnergyChanged();
+		}
+		return r;
+	}
+
+	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT tag = new CompoundNBT();
 		tag.putInt("energy", getEnergyStored());
@@ -63,11 +83,21 @@ public class CustomEnergyStorage extends EnergyStorage implements ICustomStorage
 	public String getTag() {
 		return "energy";
 	}
-	
+
+	@Override
+	public boolean canExtract() {
+		return super.canExtract() && te.isGeneratorMode();
+	}
+
+	@Override
+	public boolean canReceive() {
+		return super.canReceive() && !te.isGeneratorMode();
+	}
+
 	public boolean isFull() {
 		return this.capacity == this.energy;
 	}
-	
+
 	public static boolean hasEnergy(@Nullable TileEntity te, @Nullable Direction dir) {
 		return (te == null ? LazyOptional.empty()
 				: te.getCapability(CapabilityEnergy.ENERGY, dir != null ? dir.getOpposite() : null)).isPresent();

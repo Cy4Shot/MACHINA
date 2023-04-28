@@ -55,6 +55,15 @@ public class CustomFluidStorage implements IFluidHandler, ICustomStorage {
 		}
 		return 0;
 	}
+	
+	public int fillRaw(FluidStack resource, FluidAction action) {
+		for (MachinaTank tank : tanks) {
+			if (tank.rawFill(resource, FluidAction.SIMULATE) != 0) {
+				return tank.rawFill(resource, action);
+			}
+		}
+		return 0;
+	}
 
 	@Nonnull
 	@Override

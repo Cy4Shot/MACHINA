@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.machina.capability.CustomEnergyStorage;
 import com.machina.capability.CustomFluidStorage;
@@ -22,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -85,7 +87,7 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Nonnull
 	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
 		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return item.get().cast();
 		}
@@ -155,14 +157,17 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Override
 	public void setItem(int pIndex, ItemStack pStack) {
-		this.item.get().ifPresent(item -> {
-			item.setStackInSlot(pIndex, pStack);
-			if (pStack.getCount() > this.getMaxStackSize()) {
-				pStack.setCount(this.getMaxStackSize());
-			}
+		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		if (storage == null) {
+			return;
+		}
 
-			this.setChanged();
-		});
+		storage.setStackInSlot(pIndex, pStack);
+		if (pStack.getCount() > this.getMaxStackSize()) {
+			pStack.setCount(this.getMaxStackSize());
+		}
+
+		this.setChanged();
 	}
 
 	@Override
@@ -177,8 +182,21 @@ public abstract class CustomTE extends BaseTileEntity implements IInventory {
 
 	@Override
 	public void clearContent() {
-		this.item.get().ifPresent(item -> {
-			item.clear();
-		});
+		CustomItemStorage storage = this.item.get().orElseGet(() -> null);
+		if (storage == null) {
+			return;
+		}
+		
+		storage.clear();
+	}
+
+	@Override
+	public void setChanged() {
+		if (this.level instanceof ServerWorld) {
+			final BlockState state = getBlockState();
+			this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
+			this.level.blockEntityChanged(this.worldPosition, this);
+		}
+		super.setChanged();
 	}
 }

@@ -124,6 +124,9 @@ dependencies {
 	compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130:api")
 	runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130")
 	implementation fg.deobf("curse.maven:shutup-407174:3188120")
+	
+	// TESTING COMPAT
+	implementation fg.deobf("curse.maven:mek-268560:3659389")
 
 	// .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
 	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

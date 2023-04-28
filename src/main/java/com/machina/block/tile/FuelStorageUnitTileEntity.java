@@ -50,7 +50,7 @@ public class FuelStorageUnitTileEntity extends CustomTE
 
 		// Deplete
 		if (normalizedHeat() > maxTemp) {
-			if (!fluids.isEmpty())
+			if (!fluids.getFluidInTank(0).isEmpty())
 				fluids.getFluidInTank(0).setAmount(stored() - 30);
 			Random r = new Random();
 			if (r.nextInt(50) == 0) {

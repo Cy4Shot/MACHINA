@@ -5,7 +5,9 @@ import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.base.CustomTE;
 import com.machina.capability.CustomEnergyStorage;
 import com.machina.capability.CustomItemStorage;
+import com.machina.capability.IEnergyTileEntity;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.server.EnergyHelper;
 import com.machina.util.server.ItemStackHelper;
 
 import net.minecraft.block.BlockState;
@@ -16,7 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 
-public class FurnaceGeneratorTileEntity extends CustomTE implements IMachinaContainerProvider, ITickableTileEntity {
+public class FurnaceGeneratorTileEntity extends CustomTE
+		implements IMachinaContainerProvider, ITickableTileEntity, IEnergyTileEntity {
 
 	private int litTime;
 
@@ -30,7 +33,7 @@ public class FurnaceGeneratorTileEntity extends CustomTE implements IMachinaCont
 	@Override
 	public void createStorages() {
 		this.items = add(new CustomItemStorage(1));
-		this.energy = add(new CustomEnergyStorage(100000, 1000));
+		this.energy = add(new CustomEnergyStorage(this, 100000, 1000));
 	}
 
 	@Override
@@ -68,6 +71,8 @@ public class FurnaceGeneratorTileEntity extends CustomTE implements IMachinaCont
 			flag1 = true;
 		}
 
+		EnergyHelper.sendOutPower(energy, level, worldPosition, () -> setChanged());
+
 		if (flag1) {
 			sync();
 		}
@@ -92,7 +97,7 @@ public class FurnaceGeneratorTileEntity extends CustomTE implements IMachinaCont
 		nbt.putInt("BurnTime", this.litTime);
 		return nbt;
 	}
-	
+
 	public int getEnergy() {
 		return this.energy.getEnergyStored();
 	}
@@ -103,5 +108,10 @@ public class FurnaceGeneratorTileEntity extends CustomTE implements IMachinaCont
 
 	public float propFull() {
 		return (float) this.getEnergy() / (float) this.getMaxEnergy();
+	}
+
+	@Override
+	public boolean isGeneratorMode() {
+		return true;
 	}
 }

@@ -70,11 +70,11 @@ public class StateConverterTileEntity extends CustomTE
 			}
 
 			// Consume
-			fluid.tank(0).drain(recipe.input, FluidAction.EXECUTE);
+			fluid.drainRaw(recipe.input, FluidAction.EXECUTE);
 
 			// Output
 			if (!recipe.output.isEmpty()) {
-				fluid.tank(1).fill(recipe.output.copy(), FluidAction.EXECUTE);
+				fluid.fillRaw(recipe.output.copy(), FluidAction.EXECUTE);
 			}
 			sync();
 			return;

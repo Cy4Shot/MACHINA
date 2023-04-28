@@ -10,6 +10,7 @@ import com.machina.capability.CustomEnergyStorage;
 import com.machina.capability.CustomFluidStorage;
 import com.machina.capability.MachinaTank;
 import com.machina.capability.CustomItemStorage;
+import com.machina.capability.IEnergyTileEntity;
 import com.machina.recipe.PressurizedChamberRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
@@ -27,7 +28,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class PressurizedChamberTileEntity extends CustomTE
-		implements IMachinaContainerProvider, IHeatTileEntity, ITickableTileEntity {
+		implements IMachinaContainerProvider, IHeatTileEntity, ITickableTileEntity, IEnergyTileEntity {
 
 	public boolean isRunning = false;
 	public float heat = 0;
@@ -64,7 +65,7 @@ public class PressurizedChamberTileEntity extends CustomTE
 				new MachinaTank(this, 10000, exclusiveTank(1), false, 1),
 				new MachinaTank(this, 10000, exclusiveTank(2), false, 2),
 				new MachinaTank(this, 10000, p -> false, true, 3));
-		this.energy = add(new CustomEnergyStorage(1000000, 1000));
+		this.energy = add(new CustomEnergyStorage(this, 1000000, 1000));
 	}
 
 	@Override
@@ -229,5 +230,10 @@ public class PressurizedChamberTileEntity extends CustomTE
 
 	public float propFull() {
 		return (float) this.getEnergy() / (float) this.getMaxEnergy();
+	}
+	
+	@Override
+	public boolean isGeneratorMode() {
+		return false;
 	}
 }
