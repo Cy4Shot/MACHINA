@@ -1,6 +1,6 @@
 package com.machina.client.ter;
 
-import com.machina.block.tile.CargoCrateTileEntity;
+import com.machina.block.tile.machine.CargoCrateTileEntity;
 import com.machina.client.model.CustomBlockModel;
 import com.machina.client.util.TERUtil;
 import com.machina.util.text.StringUtils;

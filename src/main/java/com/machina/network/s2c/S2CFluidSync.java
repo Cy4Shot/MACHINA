@@ -1,6 +1,6 @@
 package com.machina.network.s2c;
 
-import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.fluid.MachinaFluidStorage;
 import com.machina.network.INetworkMessage;
 

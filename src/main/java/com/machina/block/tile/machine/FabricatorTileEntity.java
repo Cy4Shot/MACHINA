@@ -1,4 +1,4 @@
-package com.machina.block.tile;
+package com.machina.block.tile.machine;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import com.machina.block.container.FabricatorContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.block.tile.MachinaTileEntity;
 import com.machina.blueprint.Blueprint;
 import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.item.BlueprintItem;

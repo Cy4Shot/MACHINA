@@ -1,4 +1,4 @@
-package com.machina.block.tile.base;
+package com.machina.block.tile;
 
 import java.util.ArrayList;
 import java.util.Arrays;

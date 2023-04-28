@@ -1,6 +1,6 @@
 package com.machina.client.ter;
 
-import com.machina.block.tile.TankTileEntity;
+import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.client.util.TERUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 

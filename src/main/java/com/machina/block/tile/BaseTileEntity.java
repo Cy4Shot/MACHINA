@@ -1,4 +1,4 @@
-package com.machina.block.tile.base;
+package com.machina.block.tile;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;

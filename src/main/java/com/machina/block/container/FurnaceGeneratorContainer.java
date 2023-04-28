@@ -2,7 +2,7 @@ package com.machina.block.container;
 
 import com.machina.block.container.base.BaseContainer;
 import com.machina.block.container.slot.FuelSlot;
-import com.machina.block.tile.FurnaceGeneratorTileEntity;
+import com.machina.block.tile.machine.FurnaceGeneratorTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
 

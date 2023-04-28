@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.TemperatureRegulatorTileEntity;
+import com.machina.block.tile.machine.TemperatureRegulatorTileEntity;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;

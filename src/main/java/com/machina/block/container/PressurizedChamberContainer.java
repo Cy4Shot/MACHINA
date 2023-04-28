@@ -2,7 +2,7 @@ package com.machina.block.container;
 
 import com.machina.block.container.base.BaseContainer;
 import com.machina.block.container.slot.ResultSlot;
-import com.machina.block.tile.PressurizedChamberTileEntity;
+import com.machina.block.tile.machine.PressurizedChamberTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
 

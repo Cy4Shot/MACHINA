@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.PuzzleTileEntity;
+import com.machina.block.tile.base.PuzzleTileEntity;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;

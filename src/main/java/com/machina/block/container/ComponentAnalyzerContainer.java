@@ -3,7 +3,7 @@ package com.machina.block.container;
 import com.machina.block.container.base.BaseContainer;
 import com.machina.block.container.slot.AcceptSlot;
 import com.machina.block.container.slot.ResultSlot;
-import com.machina.block.tile.ComponentAnalyzerTileEntity;
+import com.machina.block.tile.machine.ComponentAnalyzerTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
 import com.machina.registration.init.ItemInit;

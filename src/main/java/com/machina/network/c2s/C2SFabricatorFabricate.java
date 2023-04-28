@@ -1,7 +1,7 @@
 package com.machina.network.c2s;
 
 import com.machina.Machina;
-import com.machina.block.tile.FabricatorTileEntity;
+import com.machina.block.tile.machine.FabricatorTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;

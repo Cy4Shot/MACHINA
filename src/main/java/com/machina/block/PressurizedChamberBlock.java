@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.PressurizedChamberTileEntity;
+import com.machina.block.tile.machine.PressurizedChamberTileEntity;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;

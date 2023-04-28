@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.BlueprinterTileEntity;
+import com.machina.block.tile.machine.BlueprinterTileEntity;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;

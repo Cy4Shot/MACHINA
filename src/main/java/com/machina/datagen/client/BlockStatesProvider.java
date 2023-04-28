@@ -54,7 +54,6 @@ public class BlockStatesProvider extends BlockStateProvider {
 		frontOrientableBlock(BlockInit.FURNACE_GENERATOR.get());
 		frontOrientableBlock(BlockInit.TEMPERATURE_REGULATOR.get());
 		frontOrientableBlock(BlockInit.STATE_CONVERTER.get());
-		frontOrientableBlock(BlockInit.BATTERY.get());
 		frontOrientableBlock(BlockInit.CREATIVE_BATTERY.get());
 		frontOrientableBlock(BlockInit.TANK.get());
 

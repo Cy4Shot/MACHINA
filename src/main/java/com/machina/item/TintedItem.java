@@ -1,6 +1,6 @@
 package com.machina.item;
 
-import com.machina.block.tile.TintedTileEntity;
+import com.machina.block.tile.base.TintedTileEntity;
 import com.machina.client.ClientStarchart;
 import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;

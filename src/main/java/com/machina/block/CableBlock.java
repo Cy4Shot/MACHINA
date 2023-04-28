@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import com.machina.block.tile.CableTileEntity;
+import com.machina.block.tile.base.CableTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.math.DirectionUtil;

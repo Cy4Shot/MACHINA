@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.TankTileEntity;
+import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.SoundHelper;
 

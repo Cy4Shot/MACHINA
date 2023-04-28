@@ -1,7 +1,7 @@
 package com.machina.network.c2s;
 
 import com.machina.Machina;
-import com.machina.block.tile.PressurizedChamberTileEntity;
+import com.machina.block.tile.machine.PressurizedChamberTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;

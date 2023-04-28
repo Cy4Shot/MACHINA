@@ -1,7 +1,7 @@
-package com.machina.block.tile;
+package com.machina.block.tile.machine;
 
 import com.machina.block.FluidHopperBlock;
-import com.machina.block.tile.base.BaseTileEntity;
+import com.machina.block.tile.BaseTileEntity;
 import com.machina.capability.fluid.MachinaTank;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.FluidHelper;

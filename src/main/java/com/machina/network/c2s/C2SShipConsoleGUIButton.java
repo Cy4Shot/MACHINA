@@ -1,7 +1,7 @@
 package com.machina.network.c2s;
 
 import com.machina.Machina;
-import com.machina.block.tile.ShipConsoleTileEntity;
+import com.machina.block.tile.base.ShipConsoleTileEntity;
 import com.machina.network.INetworkMessage;
 
 import net.minecraft.network.PacketBuffer;

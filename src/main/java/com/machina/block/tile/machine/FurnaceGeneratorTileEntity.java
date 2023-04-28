@@ -1,8 +1,8 @@
-package com.machina.block.tile;
+package com.machina.block.tile.machine;
 
 import com.machina.block.container.FurnaceGeneratorContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.energy.IEnergyTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.capability.inventory.MachinaItemStorage;

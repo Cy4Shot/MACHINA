@@ -1,4 +1,4 @@
-package com.machina.block.tile;
+package com.machina.block.tile.base;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.machina.block.CableBlock;
-import com.machina.block.tile.base.BaseTileEntity;
+import com.machina.block.tile.BaseTileEntity;
 import com.machina.capability.DirectionalLazyOptionalCache;
 import com.machina.capability.energy.CableEnergyStorage;
 import com.machina.registration.init.BlockInit;

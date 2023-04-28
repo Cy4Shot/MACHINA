@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.FabricatorTileEntity;
+import com.machina.block.tile.machine.FabricatorTileEntity;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;

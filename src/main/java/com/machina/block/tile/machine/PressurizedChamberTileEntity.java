@@ -1,10 +1,10 @@
-package com.machina.block.tile;
+package com.machina.block.tile.machine;
 
 import java.util.function.Predicate;
 
 import com.machina.block.container.PressurizedChamberContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.energy.IEnergyTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.capability.fluid.MachinaFluidStorage;

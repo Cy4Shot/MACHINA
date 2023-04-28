@@ -1,10 +1,10 @@
-package com.machina.block.tile;
+package com.machina.block.tile.machine;
 
 import java.util.Random;
 
 import com.machina.block.container.FuelStorageUnitContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.fluid.MachinaFluidStorage;
 import com.machina.capability.fluid.MachinaTank;
 import com.machina.capability.heat.IHeatTileEntity;

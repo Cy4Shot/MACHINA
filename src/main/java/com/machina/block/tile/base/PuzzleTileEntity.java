@@ -1,9 +1,10 @@
-package com.machina.block.tile;
+package com.machina.block.tile.base;
 
 import com.machina.block.CargoCrateBlock;
 import com.machina.block.container.PuzzleContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.BaseTileEntity;
+import com.machina.block.tile.BaseTileEntity;
+import com.machina.block.tile.machine.CargoCrateTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.math.DirectionUtil;

@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.machina.Machina;
 import com.machina.block.ore.OreType;
-import com.machina.block.tile.TintedTileEntity;
+import com.machina.block.tile.base.TintedTileEntity;
 import com.machina.block.tinted.ITinted;
 import com.machina.client.ClientStarchart;
 import com.machina.client.cinema.CinematicHandler;

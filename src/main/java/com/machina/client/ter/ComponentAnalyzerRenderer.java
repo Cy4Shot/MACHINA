@@ -1,7 +1,7 @@
 package com.machina.client.ter;
 
 import com.machina.block.ComponentAnalyzerBlock;
-import com.machina.block.tile.ComponentAnalyzerTileEntity;
+import com.machina.block.tile.machine.ComponentAnalyzerTileEntity;
 import com.machina.client.model.CustomBlockModel;
 import com.machina.client.util.TERUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;

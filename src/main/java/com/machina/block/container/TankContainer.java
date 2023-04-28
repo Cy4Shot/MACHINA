@@ -2,7 +2,7 @@ package com.machina.block.container;
 
 import com.machina.block.container.base.BaseContainer;
 import com.machina.block.container.slot.AcceptSlot;
-import com.machina.block.tile.TankTileEntity;
+import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
 import com.machina.util.server.ItemStackHelper;

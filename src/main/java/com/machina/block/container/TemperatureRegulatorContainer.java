@@ -1,7 +1,7 @@
 package com.machina.block.container;
 
 import com.machina.block.container.base.BaseContainer;
-import com.machina.block.tile.TemperatureRegulatorTileEntity;
+import com.machina.block.tile.machine.TemperatureRegulatorTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
 

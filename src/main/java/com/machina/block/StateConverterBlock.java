@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.StateConverterTileEntity;
+import com.machina.block.tile.machine.StateConverterTileEntity;
 import com.machina.registration.init.TileEntityInit;
 
 import net.minecraft.block.AbstractBlock;

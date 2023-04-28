@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "side": "machina:block/battery_side",
-    "front": "machina:block/battery_front",
-    "bottom": "machina:block/battery_bottom",
-    "top": "machina:block/battery_top"
-  }
-}

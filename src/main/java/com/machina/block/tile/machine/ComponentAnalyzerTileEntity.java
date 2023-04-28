@@ -1,8 +1,8 @@
-package com.machina.block.tile;
+package com.machina.block.tile.machine;
 
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
-import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.item.ShipComponentItem;
 import com.machina.registration.init.TileEntityInit;

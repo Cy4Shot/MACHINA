@@ -1,7 +1,7 @@
 package com.machina.client.screen;
 
 import com.machina.block.container.FuelStorageUnitContainer;
-import com.machina.block.tile.FuelStorageUnitTileEntity;
+import com.machina.block.tile.machine.FuelStorageUnitTileEntity;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
 import com.machina.util.math.MathUtil;

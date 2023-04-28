@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.CustomModelTileEntity;
+import com.machina.block.tile.base.CustomModelTileEntity;
 import com.machina.client.model.CustomBlockModel;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.TileEntityInit;

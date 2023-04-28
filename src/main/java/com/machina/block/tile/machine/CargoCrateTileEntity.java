@@ -1,7 +1,7 @@
-package com.machina.block.tile;
+package com.machina.block.tile.machine;
 
 import com.machina.block.CargoCrateBlock;
-import com.machina.block.tile.base.MachinaTileEntity;
+import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.registration.init.TileEntityInit;
 
