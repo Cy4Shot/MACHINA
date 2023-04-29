@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import com.machina.client.jei.category.BaseCategory;
+import com.machina.client.jei.category.PressurizedChamberCategory;
 import com.machina.client.jei.category.StateConverterCategory;
 import com.machina.recipe.IMachinaRecipe;
 import com.machina.registration.init.BlockInit;
@@ -31,8 +32,10 @@ public class MachinaJEI implements IModPlugin {
 	private static List<Entry<? extends IMachinaRecipe>> ENTRIES = new ArrayList<>();
 
 	static {
-		register(RecipeInit.STATE_CONVERTER_RECIPE, StateConverterCategory.UID, BlockInit.STATE_CONVERTER.get(),
-				StateConverterCategory::new);
+		//@formatter:off
+		register(RecipeInit.STATE_CONVERTER_RECIPE, StateConverterCategory.UID, BlockInit.STATE_CONVERTER.get(), StateConverterCategory::new);
+		register(RecipeInit.PRESSURIZED_CHAMBER_RECIPE, PressurizedChamberCategory.UID, BlockInit.PRESSURIZED_CHAMBER.get(), PressurizedChamberCategory::new);
+		//@formatter:on
 	}
 
 	@Override

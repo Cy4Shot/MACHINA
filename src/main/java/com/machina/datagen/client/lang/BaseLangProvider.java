@@ -69,6 +69,10 @@ public abstract class BaseLangProvider extends LanguageProvider {
 		add(r.getNameKey(), name);
 		add(r.getDescKey(), desc);
 	}
+	
+	protected void addJeiCat(String cat, String name) {
+		add("gui.jei.category." + cat, name);
+	}
 
 	protected void addDamageSource(DamageSource source, String message) {
 		add("death.attack." + source.getMsgId(), message);

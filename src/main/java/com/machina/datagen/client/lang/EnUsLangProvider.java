@@ -4,6 +4,7 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import com.machina.Machina;
 import com.machina.block.ore.OreBlock;
+import com.machina.client.jei.MachinaJEI;
 import com.machina.registration.Registration;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
@@ -73,6 +74,10 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.FURNACE_GENERATOR.get(), "Furnace Generator");
 		add(BlockInit.STATE_CONVERTER.get(), "State Converter");
 		add(BlockInit.SILICA_SAND.get(), "Silica Sand");
+		
+		// JEI
+		addJeiCat("state_converter", "State Converter");
+		addJeiCat("pressurized_chamber", "Pressurized Chamber");
 
 		// Ores
 		BlockInit.ORE_MAP.values().forEach(m -> {
