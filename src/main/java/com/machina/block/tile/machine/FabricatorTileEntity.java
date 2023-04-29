@@ -11,7 +11,7 @@ import com.machina.block.tile.MachinaTileEntity;
 import com.machina.blueprint.Blueprint;
 import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.item.BlueprintItem;
-import com.machina.recipe.FabricatorRecipe;
+import com.machina.recipe.impl.FabricatorRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
 

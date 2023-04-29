@@ -1,4 +1,4 @@
-package com.machina.client.item;
+package com.machina.client.ister;
 
 import com.machina.client.model.CustomBlockModel;
 import com.machina.item.AnimatableBlockItem;

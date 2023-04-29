@@ -6,7 +6,7 @@ import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.fluid.MachinaFluidStorage;
 import com.machina.capability.fluid.MachinaTank;
 import com.machina.capability.heat.IHeatTileEntity;
-import com.machina.recipe.StateConverterRecipe;
+import com.machina.recipe.impl.StateConverterRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.server.HeatHelper;

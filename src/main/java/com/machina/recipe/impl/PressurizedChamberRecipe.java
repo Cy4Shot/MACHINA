@@ -1,13 +1,13 @@
-package com.machina.recipe;
+package com.machina.recipe.impl;
 
 import com.google.gson.JsonObject;
 import com.machina.Machina;
+import com.machina.recipe.IMachinaRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.util.serial.JsonUtils;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class PressurizedChamberRecipe implements IRecipe<IInventory> {
+public class PressurizedChamberRecipe implements IMachinaRecipe {
 
 	public static final Serializer SERIALIZER = new Serializer();
 
@@ -43,24 +43,9 @@ public class PressurizedChamberRecipe implements IRecipe<IInventory> {
 		this.power = p;
 		this.col = col;
 	}
-	
-	@Override
-	public boolean isSpecial() {
-		return true;
-	}
 
 	@Override
 	public boolean matches(IInventory pInv, World pLevel) {
-		return true;
-	}
-
-	@Override
-	public ItemStack assemble(IInventory pInv) {
-		return ItemStack.EMPTY;
-	}
-
-	@Override
-	public boolean canCraftInDimensions(int pWidth, int pHeight) {
 		return true;
 	}
 

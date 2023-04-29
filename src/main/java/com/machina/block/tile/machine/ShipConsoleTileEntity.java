@@ -15,7 +15,7 @@ import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CLaunchShip;
 import com.machina.planet.PlanetData;
-import com.machina.recipe.ShipConsoleRecipe;
+import com.machina.recipe.impl.ShipConsoleRecipe;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.SoundInit;

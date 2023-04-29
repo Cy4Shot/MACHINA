@@ -1161,4 +1161,12 @@ public class Color {
 	public Vector3f vec() {
 		return new Vector3f(r(), g(), b());
 	}
+	
+	public static Color interpolate(Color startColor, Color endColor, double t) {
+        int red = (int) (startColor.getRed() * (1 - t) + endColor.getRed() * t);
+        int green = (int) (startColor.getGreen() * (1 - t) + endColor.getGreen() * t);
+        int blue = (int) (startColor.getBlue() * (1 - t) + endColor.getBlue() * t);
+
+        return new Color(red, green, blue);
+    }
 }

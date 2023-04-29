@@ -1,6 +1,6 @@
 package com.machina.item;
 
-import com.machina.client.item.OreBlockItemRenderer;
+import com.machina.client.ister.OreBlockItemRenderer;
 
 import net.minecraft.block.Block;
 

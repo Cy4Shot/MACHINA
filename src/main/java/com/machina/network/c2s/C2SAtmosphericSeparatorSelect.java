@@ -1,11 +1,10 @@
 package com.machina.network.c2s;
 
-import com.machina.Machina;
 import com.machina.block.tile.machine.AtmosphericSeparatorTileEntity;
 import com.machina.network.INetworkMessage;
+import com.machina.util.server.BlockHelper;
 
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
@@ -21,12 +20,7 @@ public class C2SAtmosphericSeparatorSelect implements INetworkMessage {
 
 	@Override
 	public void handle(Context context) {
-		TileEntity e = context.getSender().getLevel().getBlockEntity(this.pos);
-		if (e == null || !(e instanceof AtmosphericSeparatorTileEntity)) {
-			Machina.LOGGER.error("TE IS A NULL AAAAAAAAAAA");
-		}
-
-		((AtmosphericSeparatorTileEntity) e).setId(id);
+		BlockHelper.doWithTe(context, pos, AtmosphericSeparatorTileEntity.class, e -> e.setId(id));	
 	}
 
 	@Override

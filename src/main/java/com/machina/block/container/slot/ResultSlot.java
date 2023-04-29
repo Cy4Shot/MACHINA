@@ -14,5 +14,4 @@ public class ResultSlot extends Slot {
 	public boolean mayPlace(ItemStack pStack) {
 		return false;
 	}
-	
 }

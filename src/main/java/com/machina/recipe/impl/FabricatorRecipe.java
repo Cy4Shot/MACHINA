@@ -1,4 +1,4 @@
-package com.machina.recipe;
+package com.machina.recipe.impl;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.List;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.machina.Machina;
+import com.machina.recipe.IMachinaRecipe;
 import com.machina.registration.init.RecipeInit;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class FabricatorRecipe implements IRecipe<IInventory> {
+public class FabricatorRecipe implements IMachinaRecipe {
 
 	public static final Serializer SERIALIZER = new Serializer();
 
@@ -37,11 +37,6 @@ public class FabricatorRecipe implements IRecipe<IInventory> {
 	}
 
 	@Override
-	public boolean isSpecial() {
-		return true;
-	}
-
-	@Override
 	public boolean matches(IInventory pInv, World pLevel) {
 		for (int i = 0; i < this.items.size(); i++) {
 			if (!pInv.hasAnyOf(Collections.singleton(this.get(i).getItem())))
@@ -52,16 +47,6 @@ public class FabricatorRecipe implements IRecipe<IInventory> {
 
 	public List<ItemStack> createRequirements() {
 		return this.items;
-	}
-
-	@Override
-	public ItemStack assemble(IInventory pInv) {
-		return ItemStack.EMPTY;
-	}
-
-	@Override
-	public boolean canCraftInDimensions(int pWidth, int pHeight) {
-		return true;
 	}
 
 	@Override

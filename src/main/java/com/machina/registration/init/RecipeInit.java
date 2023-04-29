@@ -2,14 +2,14 @@ package com.machina.registration.init;
 
 import java.util.Map;
 
-import com.machina.recipe.FabricatorRecipe;
-import com.machina.recipe.FabricatorRecipe.FabricatorRecipeType;
-import com.machina.recipe.PressurizedChamberRecipe;
-import com.machina.recipe.PressurizedChamberRecipe.PressurizedChamberRecipeType;
-import com.machina.recipe.ShipConsoleRecipe;
-import com.machina.recipe.ShipConsoleRecipe.ShipConsoleRecipeType;
-import com.machina.recipe.StateConverterRecipe;
-import com.machina.recipe.StateConverterRecipe.StateConverterRecipeType;
+import com.machina.recipe.impl.FabricatorRecipe;
+import com.machina.recipe.impl.PressurizedChamberRecipe;
+import com.machina.recipe.impl.ShipConsoleRecipe;
+import com.machina.recipe.impl.StateConverterRecipe;
+import com.machina.recipe.impl.FabricatorRecipe.FabricatorRecipeType;
+import com.machina.recipe.impl.PressurizedChamberRecipe.PressurizedChamberRecipeType;
+import com.machina.recipe.impl.ShipConsoleRecipe.ShipConsoleRecipeType;
+import com.machina.recipe.impl.StateConverterRecipe.StateConverterRecipeType;
 
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;

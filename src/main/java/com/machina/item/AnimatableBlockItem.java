@@ -1,6 +1,6 @@
 package com.machina.item;
 
-import com.machina.client.item.GeoBlockItemRenderer;
+import com.machina.client.ister.GeoBlockItemRenderer;
 import com.machina.client.model.CustomBlockModel;
 
 import net.minecraft.block.Block;
