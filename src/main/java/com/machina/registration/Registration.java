@@ -8,6 +8,7 @@ import com.machina.Machina;
 import com.machina.client.dimension.MachinaDimRenderer;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
+import com.machina.multiblock.MultiblockLoader;
 import com.machina.network.MachinaNetwork;
 import com.machina.planet.PlanetTraitPoolManager;
 import com.machina.planet.attribute.PlanetAttributeType;
@@ -72,6 +73,7 @@ public class Registration {
 	public static final ItemGroup CHEMISTRY_GROUP = new MachinaItemGroup(() -> ItemInit.AMMONIUM_NITRATE.get(), "chemistyr");
 	public static final ItemGroup WORLDGEN_GROUP = new MachinaItemGroup(() -> ItemInit.SCANNER.get(), "worldgen");
 
+	public static MultiblockLoader MULTIBLOCK_MANAGER = new MultiblockLoader();
 	public static PlanetTraitPoolManager TRAIT_POOL_MANAGER = new PlanetTraitPoolManager();
 
 	public static void register(IEventBus bus) {
@@ -116,6 +118,8 @@ public class Registration {
 
 	public static void onCommonSetup(final FMLCommonSetupEvent event) {
 		MachinaNetwork.init();
+		
+		MultiblockLoader.INSTANCE = MULTIBLOCK_MANAGER;
 		PlanetTraitPoolManager.INSTANCE = TRAIT_POOL_MANAGER;
 
 		event.enqueueWork(() -> {
