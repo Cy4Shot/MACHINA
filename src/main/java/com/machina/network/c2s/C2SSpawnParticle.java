@@ -1,7 +1,7 @@
 package com.machina.network.c2s;
 
 import com.machina.network.INetworkMessage;
-import com.machina.util.server.ParticleHelper;
+import com.machina.util.helper.ParticleHelper;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;

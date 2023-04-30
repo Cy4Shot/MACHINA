@@ -1,4 +1,4 @@
-package com.machina.util.server;
+package com.machina.util.helper;
 
 import com.machina.Machina;
 import com.machina.config.CommonConfig;

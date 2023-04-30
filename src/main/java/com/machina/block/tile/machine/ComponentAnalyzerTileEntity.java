@@ -6,7 +6,7 @@ import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.item.ShipComponentItem;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.ParticleHelper;
+import com.machina.util.helper.ParticleHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

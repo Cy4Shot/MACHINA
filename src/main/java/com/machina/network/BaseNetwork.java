@@ -3,7 +3,7 @@ package com.machina.network;
 import java.util.Optional;
 import java.util.function.Function;
 
-import com.machina.util.server.ServerHelper;
+import com.machina.util.helper.ServerHelper;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;

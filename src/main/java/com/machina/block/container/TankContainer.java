@@ -5,7 +5,7 @@ import com.machina.block.container.slot.AcceptSlot;
 import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
-import com.machina.util.server.ItemStackHelper;
+import com.machina.util.helper.ItemStackHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerInventory;

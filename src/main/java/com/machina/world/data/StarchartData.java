@@ -14,9 +14,9 @@ import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.planet.PlanetData;
 import com.machina.planet.trait.type.IPlanetTraitType;
 import com.machina.registration.init.AttributeInit;
+import com.machina.util.helper.PlanetHelper;
+import com.machina.util.helper.ServerHelper;
 import com.machina.util.serial.BaseNBTMap;
-import com.machina.util.server.PlanetHelper;
-import com.machina.util.server.ServerHelper;
 import com.machina.util.text.MachinaRL;
 import com.machina.util.text.StringUtils;
 

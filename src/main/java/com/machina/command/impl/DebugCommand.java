@@ -4,7 +4,7 @@ import com.machina.Machina;
 import com.machina.command.BaseCommand;
 import com.machina.planet.PlanetData;
 import com.machina.planet.attribute.PlanetAttribute;
-import com.machina.util.server.PlanetHelper;
+import com.machina.util.helper.PlanetHelper;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.StarchartData;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;

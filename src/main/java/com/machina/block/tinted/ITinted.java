@@ -2,7 +2,7 @@ package com.machina.block.tinted;
 
 import com.machina.block.tile.base.TintedTileEntity;
 import com.machina.item.TintedItem;
-import com.machina.util.server.PlanetHelper;
+import com.machina.util.helper.PlanetHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.ItemEntity;

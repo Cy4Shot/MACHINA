@@ -5,7 +5,7 @@ import com.machina.block.ore.OreType;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TagInit;
-import com.machina.util.server.TagHelper;
+import com.machina.util.helper.TagHelper;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;

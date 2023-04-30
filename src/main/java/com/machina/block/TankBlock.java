@@ -2,7 +2,7 @@ package com.machina.block;
 
 import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.SoundHelper;
+import com.machina.util.helper.SoundHelper;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;

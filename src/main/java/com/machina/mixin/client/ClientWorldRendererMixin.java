@@ -10,7 +10,7 @@ import com.machina.client.shader.renderer.AtmRenderer;
 import com.machina.client.shader.renderer.FogRenderer;
 import com.machina.client.shader.renderer.ScannerRenderer;
 import com.machina.registration.init.AttributeInit;
-import com.machina.util.server.PlanetHelper;
+import com.machina.util.helper.PlanetHelper;
 import com.machina.world.gen.PlanetTerrainGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 

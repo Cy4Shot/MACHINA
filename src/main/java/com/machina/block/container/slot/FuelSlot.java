@@ -1,6 +1,6 @@
 package com.machina.block.container.slot;
 
-import com.machina.util.server.ItemStackHelper;
+import com.machina.util.helper.ItemStackHelper;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;

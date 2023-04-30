@@ -5,7 +5,7 @@ import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.BaseTileEntity;
 import com.machina.capability.heat.IHeatTileEntity;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.HeatHelper;
+import com.machina.util.helper.HeatHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

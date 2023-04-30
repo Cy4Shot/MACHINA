@@ -8,8 +8,8 @@ import com.machina.network.s2c.S2CResearchToast;
 import com.machina.registration.Registration;
 import com.machina.research.Research;
 import com.machina.research.ResearchTree;
-import com.machina.util.server.ItemStackHelper;
-import com.machina.util.server.ServerHelper;
+import com.machina.util.helper.ItemStackHelper;
+import com.machina.util.helper.ServerHelper;
 import com.machina.world.data.ResearchData;
 import com.machina.world.data.StarchartData;
 
@@ -39,7 +39,6 @@ public class CommonForgeEvents {
 
 	@SubscribeEvent
 	public static void addReloadListeners(AddReloadListenerEvent event) {
-		event.addListener(Registration.MULTIBLOCK_MANAGER);
 		event.addListener(Registration.TRAIT_POOL_MANAGER);
 	}
 

@@ -4,7 +4,7 @@ import com.machina.block.tile.MachinaTileEntity;
 import com.machina.capability.energy.IEnergyTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.EnergyHelper;
+import com.machina.util.helper.EnergyHelper;
 
 import net.minecraft.tileentity.ITickableTileEntity;
 

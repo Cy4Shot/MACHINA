@@ -1,4 +1,4 @@
-package com.machina.util.server;
+package com.machina.util.helper;
 
 import java.util.function.Consumer;
 
@@ -12,15 +12,20 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 public class BlockHelper {
 	
+	public static <T> void doWithTe(Context context, BlockPos pos, Class<T> clazz, Consumer<T> todo) {
+		doWithTe(context.getSender().getLevel(), pos, clazz, todo);
+	}
+	
 	@SuppressWarnings("unchecked")
-	public static <T extends TileEntity> void doWithTe(Context context, BlockPos pos, Class<T> clazz, Consumer<T> todo) {
-		TileEntity e = context.getSender().getLevel().getBlockEntity(pos);
+	public static <T> void doWithTe(World world, BlockPos pos, Class<T> clazz, Consumer<T> todo) {
+		TileEntity e = world.getBlockEntity(pos);
 		if (e == null || !(clazz.isAssignableFrom(e.getClass()))) {
 			Machina.LOGGER.error("TE IS A NULL AAAAAAAAAAA");
 		}

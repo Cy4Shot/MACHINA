@@ -1,4 +1,4 @@
-package com.machina.util.server;
+package com.machina.util.helper;
 
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;

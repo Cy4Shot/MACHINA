@@ -7,8 +7,8 @@ import com.machina.capability.energy.IEnergyTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.EnergyHelper;
-import com.machina.util.server.ItemStackHelper;
+import com.machina.util.helper.EnergyHelper;
+import com.machina.util.helper.ItemStackHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

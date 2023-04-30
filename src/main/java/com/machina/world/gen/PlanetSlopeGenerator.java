@@ -1,8 +1,8 @@
 package com.machina.world.gen;
 
 import com.machina.registration.init.TagInit;
+import com.machina.util.helper.BlockHelper;
 import com.machina.util.math.OpenSimplex2F;
-import com.machina.util.server.BlockHelper;
 import com.machina.world.PlanetChunkGenerator;
 
 import net.minecraft.block.BlockState;

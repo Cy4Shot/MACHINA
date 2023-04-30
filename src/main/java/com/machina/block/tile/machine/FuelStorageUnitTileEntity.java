@@ -10,7 +10,7 @@ import com.machina.capability.fluid.MachinaTank;
 import com.machina.capability.heat.IHeatTileEntity;
 import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.HeatHelper;
+import com.machina.util.helper.HeatHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

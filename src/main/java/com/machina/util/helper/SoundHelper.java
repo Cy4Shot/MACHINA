@@ -1,4 +1,4 @@
-package com.machina.util.server;
+package com.machina.util.helper;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;

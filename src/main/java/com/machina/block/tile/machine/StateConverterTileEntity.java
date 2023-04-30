@@ -9,7 +9,7 @@ import com.machina.capability.heat.IHeatTileEntity;
 import com.machina.recipe.impl.StateConverterRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.server.HeatHelper;
+import com.machina.util.helper.HeatHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

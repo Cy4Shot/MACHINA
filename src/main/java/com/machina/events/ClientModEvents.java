@@ -41,7 +41,7 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.Color;
-import com.machina.util.server.PlanetHelper;
+import com.machina.util.helper.PlanetHelper;
 import com.machina.util.text.MachinaRL;
 import com.machina.world.gen.PlanetPaletteGenerator;
 

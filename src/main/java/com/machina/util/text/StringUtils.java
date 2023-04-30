@@ -79,6 +79,14 @@ public class StringUtils {
 		return new TranslationTextComponent(key);
 	}
 
+	public static TranslationTextComponent translateComp(String key, Object... args) {
+		return new TranslationTextComponent(key, args);
+	}
+	
+	public static TranslationTextComponent translateCompMulti(String key, Object... args) {
+		return new TranslationTextComponent(Machina.MOD_ID + ".multiblock.result." + key, args);
+	}
+
 	public static TranslationTextComponent translateCompScreen(String key) {
 		return new TranslationTextComponent(Machina.MOD_ID + ".screen." + key);
 	}

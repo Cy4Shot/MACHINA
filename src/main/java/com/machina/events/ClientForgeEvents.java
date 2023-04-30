@@ -11,7 +11,7 @@ import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.KeyBindingsInit;
 import com.machina.util.Color;
-import com.machina.util.server.PlanetHelper;
+import com.machina.util.helper.PlanetHelper;
 import com.machina.world.gen.PlanetPaletteGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.machina.planet.PlanetData;
-import com.machina.util.server.PlanetHelper;
+import com.machina.util.helper.PlanetHelper;
 import com.machina.util.text.MachinaRL;
 
 import net.minecraft.util.RegistryKey;

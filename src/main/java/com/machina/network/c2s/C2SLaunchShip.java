@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.machina.block.tile.machine.ShipConsoleTileEntity;
 import com.machina.network.INetworkMessage;
-import com.machina.util.server.BlockHelper;
+import com.machina.util.helper.BlockHelper;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;

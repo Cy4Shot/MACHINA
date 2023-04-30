@@ -20,8 +20,8 @@ import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.helper.ServerHelper;
 import com.machina.util.math.DirectionUtil;
-import com.machina.util.server.ServerHelper;
 import com.machina.util.text.MachinaRL;
 import com.machina.world.data.StarchartData;
 
