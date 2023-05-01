@@ -2,7 +2,7 @@ package com.machina.world.feature.planet.tree;
 
 import java.util.Random;
 
-import com.machina.planet.attribute.PlanetAttributeList;
+import com.machina.planet.attribute.AttributeList;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.math.MathUtil;
 import com.machina.world.gen.PlanetBlocksGenerator;
@@ -23,7 +23,7 @@ public class PlanetTreeConfig {
 
 	public final int treeType;
 
-	public PlanetTreeConfig(PlanetAttributeList attr) {
+	public PlanetTreeConfig(AttributeList attr) {
 		BlockPalette tree = PlanetBlocksGenerator.getTreePalette(attr.getValue(AttributeInit.TREE_BLOCKS));
 		this.log = tree.getBaseBlock();
 		this.leaves = tree.getSecondaryBlock();

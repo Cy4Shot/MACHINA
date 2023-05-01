@@ -3,8 +3,8 @@ package com.machina.datagen.client.lang;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.machina.planet.attribute.PlanetAttributeType;
-import com.machina.planet.trait.PlanetTrait;
+import com.machina.planet.attribute.AttributeType;
+import com.machina.planet.trait.Trait;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.SoundInit.Sound;
 import com.machina.research.Research;
@@ -35,11 +35,11 @@ public abstract class BaseLangProvider extends LanguageProvider {
 		add(((TranslationTextComponent) key.getDisplayName()).getKey(), name);
 	}
 
-	protected void add(PlanetTrait trait, String name) {
+	protected void add(Trait trait, String name) {
 		add(trait.getRegistryName().getNamespace() + ".planet_trait." + trait.getRegistryName().getPath(), name);
 	}
 
-	protected void add(PlanetAttributeType<?> attr, String name) {
+	protected void add(AttributeType<?> attr, String name) {
 		add(attr.getRegistryName().getNamespace() + ".planet_attribute." + attr.getRegistryName().getPath(), name);
 	}
 

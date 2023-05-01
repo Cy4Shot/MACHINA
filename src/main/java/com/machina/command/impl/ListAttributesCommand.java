@@ -2,7 +2,7 @@ package com.machina.command.impl;
 
 import com.machina.command.BaseCommand;
 import com.machina.planet.PlanetData;
-import com.machina.planet.attribute.PlanetAttribute;
+import com.machina.planet.attribute.Attribute;
 import com.machina.util.helper.PlanetHelper;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.StarchartData;
@@ -28,7 +28,7 @@ public class ListAttributesCommand extends BaseCommand {
 		if (checkDimension(context)) {
 			PlanetData pd = StarchartData.getStarchartForServer(context.getSource().getServer())
 					.get(context.getSource().getLevel().dimension().location());
-			for (PlanetAttribute<?> attribute : pd.getAttributes()) {
+			for (Attribute<?> attribute : pd.getAttributes()) {
 				context.getSource().sendSuccess(StringUtils
 						.toComp(attribute.getAttributeType().ser.name + ": " + attribute.getValue().toString()), true);
 			}

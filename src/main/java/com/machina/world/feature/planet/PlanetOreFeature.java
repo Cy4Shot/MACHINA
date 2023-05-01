@@ -4,7 +4,7 @@ import java.util.BitSet;
 import java.util.Random;
 
 import com.machina.block.ore.OreType;
-import com.machina.planet.attribute.PlanetAttributeList;
+import com.machina.planet.attribute.AttributeList;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.util.math.MathUtil;
@@ -24,7 +24,7 @@ public class PlanetOreFeature extends PlanetBaseFeature {
 
 	private final RegistryObject<? extends Block> base;
 
-	public PlanetOreFeature(PlanetAttributeList attr) {
+	public PlanetOreFeature(AttributeList attr) {
 		super(attr);
 
 		this.base = PlanetBlocksGenerator.getBasePalette(attr.getValue(AttributeInit.BASE_BLOCKS)).getBaseReg();

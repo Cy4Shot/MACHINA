@@ -4,14 +4,15 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import com.machina.planet.attribute.PlanetAttribute;
-import com.machina.planet.attribute.PlanetAttributeList;
-import com.machina.planet.attribute.PlanetAttributeType;
+import com.machina.planet.attribute.Attribute;
+import com.machina.planet.attribute.AttributeList;
+import com.machina.planet.attribute.AttributeType;
 import com.machina.planet.attribute.serializers.DoubleListSerializer;
-import com.machina.planet.trait.PlanetTraitList;
+import com.machina.planet.pool.TraitPoolLoader;
+import com.machina.planet.trait.TraitList;
 import com.machina.registration.init.AttributeInit;
-import com.machina.registration.registry.PlanetAttributeRegistry;
-import com.machina.registration.registry.PlanetTraitRegistry;
+import com.machina.registration.registry.AttributeRegistry;
+import com.machina.registration.registry.TraitRegistry;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.RegistryKey;
@@ -20,8 +21,8 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public class PlanetData implements INBTSerializable<CompoundNBT> {
 
-	private final PlanetTraitList traits = new PlanetTraitList();
-	private final PlanetAttributeList attributes = new PlanetAttributeList();
+	private final TraitList traits = new TraitList();
+	private final AttributeList attributes = new AttributeList();
 
 	public static PlanetData fromNBT(CompoundNBT nbt) {
 		PlanetData pd = new PlanetData();
@@ -37,14 +38,14 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 
 	public void generate(Random rand) {
 		// Attributes
-		PlanetAttributeRegistry.REGISTRY.getEntries().forEach(entry -> {
+		AttributeRegistry.REGISTRY.getEntries().forEach(entry -> {
 			attributes.set(entry.getValue(), entry.getValue().ser.rand(rand)); // Kinda Hacky .. dunno
 		});
 
 		// Traits
 		traits.clear();
-		PlanetTraitPoolManager.INSTANCE.forEach((location, pool) -> traits.addAll(
-				pool.roll(rand).stream().map(PlanetTraitRegistry.REGISTRY::getValue).collect(Collectors.toList())));
+		TraitPoolLoader.INSTANCE.forEach((location, pool) -> traits.addAll(
+				pool.roll(rand).stream().map(TraitRegistry.REGISTRY::getValue).collect(Collectors.toList())));
 	}
 
 	@Override
@@ -73,16 +74,16 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 		return data;
 	}
 
-	public PlanetTraitList getTraits() {
+	public TraitList getTraits() {
 		return traits;
 	}
 
-	public PlanetAttributeList getAttributes() {
+	public AttributeList getAttributes() {
 		return attributes;
 	}
 
-	public <T> T getAttribute(PlanetAttributeType<T> type) {
-		Optional<PlanetAttribute<T>> op = attributes.getAttributeForType(type);
+	public <T> T getAttribute(AttributeType<T> type) {
+		Optional<Attribute<T>> op = attributes.getAttributeForType(type);
 		if (op.isPresent())
 			return op.get().getValue();
 		else {
@@ -91,7 +92,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 	}
 
 	public Double[] getAtmosphere(RegistryKey<World> dim) {
-		Optional<PlanetAttribute<Double[]>> op = attributes.getAttributeForType(AttributeInit.ATMOSPHERE);
+		Optional<Attribute<Double[]>> op = attributes.getAttributeForType(AttributeInit.ATMOSPHERE);
 		if (op.isPresent())
 			return op.get().getValue();
 		else {
@@ -99,7 +100,7 @@ public class PlanetData implements INBTSerializable<CompoundNBT> {
 		}
 	}
 
-	public <T> String getAttributeFormatted(PlanetAttributeType<T> type) {
+	public <T> String getAttributeFormatted(AttributeType<T> type) {
 		return String.valueOf(attributes.getAttributeForType(type).get().getValueFormatted()) + " "
 				+ type.getMeasureUnit();
 	}

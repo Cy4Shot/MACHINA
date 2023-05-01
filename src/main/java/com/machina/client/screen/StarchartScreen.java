@@ -14,7 +14,7 @@ import com.machina.client.util.ClientTimer;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
 import com.machina.planet.PlanetData;
-import com.machina.planet.trait.PlanetTrait;
+import com.machina.planet.trait.Trait;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -216,7 +216,7 @@ public class StarchartScreen extends Screen {
 			UIHelper.betterBlit(stack, x - 37, y - 42, 4, 130, 69, 1, 256);
 			UIHelper.drawCenteredStringWithBorder(stack, selected.name, x - 2, y - 53, 0xFF_00fefe, 0xFF_0e0e0e);
 			int i = 0;
-			for (PlanetTrait t : selected.data.getTraits()) {
+			for (Trait t : selected.data.getTraits()) {
 				UIHelper.drawCenteredStringWithBorder(stack, t.toString(), x - 2, y - 38 + i * 10, t.getColor(),
 						0xFF_0e0e0e);
 				i++;

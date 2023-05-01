@@ -9,7 +9,7 @@ import com.machina.world.PlanetChunkGenerator;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
-public interface IWorldTrait extends IPlanetTraitType {
+public interface IWorldTrait extends ITraitType {
 	/**
 	 * This method will be the first thing run during world generation. It will
 	 * update settings in the chunk generator.

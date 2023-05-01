@@ -39,6 +39,7 @@ public class CommonForgeEvents {
 
 	@SubscribeEvent
 	public static void addReloadListeners(AddReloadListenerEvent event) {
+		event.addListener(Registration.MULTIBLOCK_MANAGER);
 		event.addListener(Registration.TRAIT_POOL_MANAGER);
 	}
 

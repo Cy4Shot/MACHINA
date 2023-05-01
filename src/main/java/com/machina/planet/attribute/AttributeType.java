@@ -5,12 +5,12 @@ import com.machina.util.text.StringUtils;
 
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class PlanetAttributeType<T> extends ForgeRegistryEntry<PlanetAttributeType<?>> {
+public class AttributeType<T> extends ForgeRegistryEntry<AttributeType<?>> {
 
 	private final String measureUnit;
 	public final AttributeSerializer<T> ser;
 
-	public PlanetAttributeType(String measureUnit, AttributeSerializer<T> ser) {
+	public AttributeType(String measureUnit, AttributeSerializer<T> ser) {
 		this.measureUnit = measureUnit;
 		this.ser = ser;
 	}

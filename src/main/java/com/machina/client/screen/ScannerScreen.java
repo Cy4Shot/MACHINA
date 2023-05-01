@@ -8,8 +8,8 @@ import com.machina.client.shader.renderer.ScannerRenderer;
 import com.machina.client.util.UIHelper;
 import com.machina.item.container.ScannerContainer;
 import com.machina.planet.PlanetData;
-import com.machina.planet.attribute.PlanetAttributeType;
-import com.machina.planet.trait.PlanetTrait;
+import com.machina.planet.attribute.AttributeType;
+import com.machina.planet.trait.Trait;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -117,7 +117,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 			switch (tab) {
 			case 0:
 				int i = 0;
-				for (PlanetTrait t : data.getTraits()) {
+				for (Trait t : data.getTraits()) {
 					draw(stack, t.toString(), x + 120, y + 20 + i * 10, t.getColor(), true);
 					i++;
 				}
@@ -175,7 +175,7 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		draw(stack, value, x + 120 + UIHelper.getWidth(title) / 2, y, colors[4].maxBrightness().toInt(), true);
 	}
 
-	private void drawAttribute(MatrixStack stack, PlanetAttributeType<?> type, int x, int y) {
+	private void drawAttribute(MatrixStack stack, AttributeType<?> type, int x, int y) {
 		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
 		String title = type.getName() + ": ";
 		String value = data.getAttributeFormatted(type);

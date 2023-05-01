@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.Direction;
+import net.minecraft.util.Rotation;
 
 public class DirectionUtil {
 
@@ -44,6 +45,17 @@ public class DirectionUtil {
 			return 90;
 		default:
 			return 0;
+		}
+	}
+	
+	public static Rotation fixHorizontal(Rotation rot) {
+		switch (rot) {
+		case CLOCKWISE_90:
+			return Rotation.COUNTERCLOCKWISE_90;
+		case COUNTERCLOCKWISE_90:
+			return Rotation.CLOCKWISE_90;
+		default:
+			return rot;
 		}
 	}
 }

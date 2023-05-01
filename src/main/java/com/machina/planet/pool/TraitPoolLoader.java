@@ -1,4 +1,4 @@
-package com.machina.planet;
+package com.machina.planet.pool;
 
 import java.util.Collection;
 import java.util.Map;
@@ -19,14 +19,14 @@ import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 
-public class PlanetTraitPoolManager extends JsonReloadListener {
+public class TraitPoolLoader extends JsonReloadListener {
 
-	public static PlanetTraitPoolManager INSTANCE = new PlanetTraitPoolManager();
+	public static TraitPoolLoader INSTANCE = new TraitPoolLoader();
 
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
-	private Map<ResourceLocation, PlanetTraitPool> traits = ImmutableMap.of();
+	private Map<ResourceLocation, TraitPool> traits = ImmutableMap.of();
 
-	public PlanetTraitPoolManager() {
+	public TraitPoolLoader() {
 		super(GSON, "trait_pools");
 	}
 
@@ -34,7 +34,7 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 	protected void apply(Map<ResourceLocation, JsonElement> pObject, IResourceManager pResourceManager,
 			IProfiler pProfiler) {
 
-		Map<ResourceLocation, PlanetTraitPool> map = Maps.newHashMap();
+		Map<ResourceLocation, TraitPool> map = Maps.newHashMap();
 
 		for (Entry<ResourceLocation, JsonElement> entry : pObject.entrySet()) {
 			ResourceLocation resourcelocation = entry.getKey();
@@ -45,7 +45,7 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 			}
 
 			try {
-				PlanetTraitPool pool = GSON.fromJson(entry.getValue(), PlanetTraitPool.class);
+				TraitPool pool = GSON.fromJson(entry.getValue(), TraitPool.class);
 				if (pool == null) {
 					Machina.LOGGER.error("Trait Pool is NULL!!!! Bit rude, fix pls.");
 					continue;
@@ -61,19 +61,19 @@ public class PlanetTraitPoolManager extends JsonReloadListener {
 		}
 	}
 
-	public PlanetTraitPool getPool(ResourceLocation loc) {
+	public TraitPool getPool(ResourceLocation loc) {
 		return traits.get(loc);
 	}
 
-	public void forEach(BiConsumer<? super ResourceLocation, ? super PlanetTraitPool> c) {
+	public void forEach(BiConsumer<? super ResourceLocation, ? super TraitPool> c) {
 		traits.forEach(c);
 	}
 
-	public Collection<PlanetTraitPool> getPools() {
+	public Collection<TraitPool> getPools() {
 		return traits.values();
 	}
 
-	public Set<Entry<ResourceLocation, PlanetTraitPool>> getEntrySet() {
+	public Set<Entry<ResourceLocation, TraitPool>> getEntrySet() {
 		return traits.entrySet();
 	}
 

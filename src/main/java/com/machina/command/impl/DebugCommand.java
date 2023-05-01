@@ -3,7 +3,7 @@ package com.machina.command.impl;
 import com.machina.Machina;
 import com.machina.command.BaseCommand;
 import com.machina.planet.PlanetData;
-import com.machina.planet.attribute.PlanetAttribute;
+import com.machina.planet.attribute.Attribute;
 import com.machina.util.helper.PlanetHelper;
 import com.machina.util.text.StringUtils;
 import com.machina.world.data.StarchartData;
@@ -31,7 +31,7 @@ public class DebugCommand extends BaseCommand {
 
 			Machina.LOGGER.debug(
 					"Attributes for " + String.valueOf(PlanetHelper.getId(context.getSource().getLevel().dimension())));
-			for (PlanetAttribute<?> attribute : pd.getAttributes()) {
+			for (Attribute<?> attribute : pd.getAttributes()) {
 				Machina.LOGGER.debug(attribute.getAttributeType().getRegistryName().getPath() + "\t - \t"
 						+ attribute.getValue().toString());
 			}

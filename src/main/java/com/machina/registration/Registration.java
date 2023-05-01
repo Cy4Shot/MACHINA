@@ -8,10 +8,11 @@ import com.machina.Machina;
 import com.machina.client.dimension.MachinaDimRenderer;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
+import com.machina.multiblock.MultiblockLoader;
 import com.machina.network.MachinaNetwork;
-import com.machina.planet.PlanetTraitPoolManager;
-import com.machina.planet.attribute.PlanetAttributeType;
-import com.machina.planet.trait.PlanetTrait;
+import com.machina.planet.attribute.AttributeType;
+import com.machina.planet.pool.TraitPoolLoader;
+import com.machina.planet.trait.Trait;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.CommandInit;
@@ -24,8 +25,8 @@ import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.StructureInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.registration.init.TraitInit;
-import com.machina.registration.registry.PlanetAttributeRegistry;
-import com.machina.registration.registry.PlanetTraitRegistry;
+import com.machina.registration.registry.AttributeRegistry;
+import com.machina.registration.registry.TraitRegistry;
 import com.machina.world.PlanetRegistrationHandler;
 import com.machina.world.data.PlanetDimensionData;
 import com.machina.world.data.StarchartData;
@@ -72,7 +73,8 @@ public class Registration {
 	public static final ItemGroup CHEMISTRY_GROUP = new MachinaItemGroup(() -> ItemInit.AMMONIUM_NITRATE.get(), "chemistyr");
 	public static final ItemGroup WORLDGEN_GROUP = new MachinaItemGroup(() -> ItemInit.SCANNER.get(), "worldgen");
 
-	public static PlanetTraitPoolManager TRAIT_POOL_MANAGER = new PlanetTraitPoolManager();
+	public static MultiblockLoader MULTIBLOCK_MANAGER = new MultiblockLoader();
+	public static TraitPoolLoader TRAIT_POOL_MANAGER = new TraitPoolLoader();
 
 	public static void register(IEventBus bus) {
 
@@ -86,8 +88,8 @@ public class Registration {
 
 		bus.addListener(Registration::onCommonSetup);
 		bus.addGenericListener(Item.class, BlockInit::registerBlockItems);
-		bus.addGenericListener(PlanetTrait.class, Registration::registerPlanetTraits);
-		bus.addGenericListener(PlanetAttributeType.class, Registration::registerPlanetAttributes);
+		bus.addGenericListener(Trait.class, Registration::registerPlanetTraits);
+		bus.addGenericListener(AttributeType.class, Registration::registerPlanetAttributes);
 		bus.addGenericListener(IRecipeSerializer.class, RecipeInit::registerRecipes);
 
 		BlockInit.BLOCKS.register(bus);
@@ -106,8 +108,8 @@ public class Registration {
 
 	@SubscribeEvent
 	public static void onNewRegistry(RegistryEvent.NewRegistry event) {
-		PlanetTraitRegistry.createRegistry(event);
-		PlanetAttributeRegistry.createRegistry(event);
+		TraitRegistry.createRegistry(event);
+		AttributeRegistry.createRegistry(event);
 	}
 
 	public static void onRegisterCommands(final RegisterCommandsEvent event) {
@@ -117,7 +119,8 @@ public class Registration {
 	public static void onCommonSetup(final FMLCommonSetupEvent event) {
 		MachinaNetwork.init();
 		
-		PlanetTraitPoolManager.INSTANCE = TRAIT_POOL_MANAGER;
+		MultiblockLoader.INSTANCE = MULTIBLOCK_MANAGER;
+		TraitPoolLoader.INSTANCE = TRAIT_POOL_MANAGER;
 
 		event.enqueueWork(() -> {
 			StructureInit.setupStructures();
@@ -125,11 +128,11 @@ public class Registration {
 		});
 	}
 
-	private static void registerPlanetTraits(final Register<PlanetTrait> event) {
+	private static void registerPlanetTraits(final Register<Trait> event) {
 		TraitInit.register(event);
 	}
 
-	private static void registerPlanetAttributes(final Register<PlanetAttributeType<?>> event) {
+	private static void registerPlanetAttributes(final Register<AttributeType<?>> event) {
 		AttributeInit.register(event);
 	}
 

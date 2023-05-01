@@ -1,0 +1,13 @@
+{
+	"size": [3, 3, 3],
+	"controller": "machina:multiblock",
+	"controller_replacable": "a",
+	"blocks": {
+		"a": ["machina:multiblock2"]
+	},
+	"structure": [
+		["aaa", "aaa", "aaa"],
+		["aaa", "aaa", "aaa"],
+		["aaa", "aaa", "aaa"]
+	]
+}

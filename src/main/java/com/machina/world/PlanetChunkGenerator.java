@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 import javax.annotation.Nullable;
 
 import com.machina.Machina;
-import com.machina.planet.attribute.PlanetAttributeList;
+import com.machina.planet.attribute.AttributeList;
 import com.machina.planet.trait.type.IWorldTrait;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.helper.PlanetHelper;
@@ -119,7 +119,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 		this.traits.forEach(t -> t.init(this));
 
 		// Attributes
-		PlanetAttributeList attr = StarchartData.getStarchartForServer(server).get(key.location()).getAttributes();
+		AttributeList attr = StarchartData.getStarchartForServer(server).get(key.location()).getAttributes();
 		this.cavesExist = attr.getValue(AttributeInit.CAVES_EXIST) == 1;
 		this.caveChance = attr.getValue(AttributeInit.CAVE_CHANCE);
 		this.caveLength = attr.getValue(AttributeInit.CAVE_LENGTH);

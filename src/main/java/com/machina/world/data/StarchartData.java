@@ -12,7 +12,7 @@ import com.machina.network.BaseNetwork;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.planet.PlanetData;
-import com.machina.planet.trait.type.IPlanetTraitType;
+import com.machina.planet.trait.type.ITraitType;
 import com.machina.registration.init.AttributeInit;
 import com.machina.util.helper.PlanetHelper;
 import com.machina.util.helper.ServerHelper;
@@ -68,7 +68,7 @@ public class StarchartData extends WorldSavedData {
 		return starchart;
 	}
 
-	public <TYPE extends IPlanetTraitType> List<TYPE> getTraitsForType(ResourceLocation dimensionId,
+	public <TYPE extends ITraitType> List<TYPE> getTraitsForType(ResourceLocation dimensionId,
 			Class<TYPE> typeClass) {
 		return starchart.computeIfAbsent(dimensionId, k -> new PlanetData()).getTraits().stream()
 				.filter(typeClass::isInstance).map(typeClass::cast).collect(Collectors.toList());

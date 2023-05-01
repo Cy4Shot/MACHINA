@@ -1,17 +1,17 @@
-package com.machina.planet;
+package com.machina.planet.pool;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.machina.planet.trait.PlanetTrait;
-import com.machina.registration.registry.PlanetTraitRegistry;
+import com.machina.planet.trait.Trait;
+import com.machina.registration.registry.TraitRegistry;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedList;
 
-public class PlanetTraitPool {
+public class TraitPool {
 
 	public int minRolls;
 	public int maxRolls;
@@ -45,11 +45,11 @@ public class PlanetTraitPool {
 		return output;
 	}
 
-	public List<PlanetTrait> allTraits() {
-		final List<PlanetTrait> list = new LinkedList<>();
+	public List<Trait> allTraits() {
+		final List<Trait> list = new LinkedList<>();
 		entries.stream().map(entry -> entry.values).forEach(stringList -> {
 			stringList.forEach(stringTrait -> {
-				PlanetTrait trait = PlanetTraitRegistry.REGISTRY.getValue(new ResourceLocation(stringTrait));
+				Trait trait = TraitRegistry.REGISTRY.getValue(new ResourceLocation(stringTrait));
 				if (trait.exists())
 					list.add(trait);
 			});

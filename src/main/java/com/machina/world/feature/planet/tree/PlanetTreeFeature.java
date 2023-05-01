@@ -2,7 +2,7 @@ package com.machina.world.feature.planet.tree;
 
 import java.util.Random;
 
-import com.machina.planet.attribute.PlanetAttributeList;
+import com.machina.planet.attribute.AttributeList;
 import com.machina.world.PlanetChunkGenerator;
 import com.machina.world.feature.planet.PlanetBaseFeature;
 import com.machina.world.feature.planet.tree.Leaves.LeavesBuilder;
@@ -18,7 +18,7 @@ public class PlanetTreeFeature extends PlanetBaseFeature {
 
 	PlanetTreeConfig conf;
 
-	public PlanetTreeFeature(PlanetAttributeList attr) {
+	public PlanetTreeFeature(AttributeList attr) {
 		super(attr);
 		conf = new PlanetTreeConfig(attr);
 	}

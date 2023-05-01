@@ -25,6 +25,8 @@ import com.machina.block.tile.machine.StateConverterTileEntity;
 import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.block.tile.machine.TemperatureRegulatorTileEntity;
 import com.machina.block.tinted.ITinted;
+import com.machina.multiblock.test.MBTestTE;
+import com.machina.multiblock.test.MBTestTE2;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -58,6 +60,9 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<StateConverterTileEntity>> STATE_CONVERTER = register("state_converter", StateConverterTileEntity::new, () -> BlockInit.STATE_CONVERTER.get());
 	public static final RegistryObject<TileEntityType<TintedTileEntity>> TINTED = tinted("tinted", TintedTileEntity::new);
 	public static final RegistryObject<TileEntityType<CustomModelTileEntity>> CUSTOM_MODEL = registerMany("custom_model", CustomModelTileEntity::new, () -> new Block[] { BlockInit.IRON_SCAFFOLDING.get(), BlockInit.STEEL_SCAFFOLDING.get(), BlockInit.ALUMINUM_SCAFFOLDING.get(), BlockInit.COPPER_SCAFFOLDING.get() });
+	
+	public static final RegistryObject<TileEntityType<MBTestTE>> MULTIBLOCK = register("multiblock", MBTestTE::new, () -> BlockInit.MULTIBLOCK.get());
+	public static final RegistryObject<TileEntityType<MBTestTE2>> MULTIBLOCK2 = register("multiblock2", MBTestTE2::new, () -> BlockInit.MULTIBLOCK2.get());
 	//@formatter:on
 
 	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String n, Supplier<T> s,

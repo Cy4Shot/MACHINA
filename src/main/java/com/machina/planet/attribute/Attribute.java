@@ -1,17 +1,17 @@
 package com.machina.planet.attribute;
 
-import com.machina.registration.registry.PlanetAttributeRegistry;
+import com.machina.registration.registry.AttributeRegistry;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
+public class Attribute<T> implements INBTSerializable<CompoundNBT> {
 
-	private PlanetAttributeType<T> attributeType;
+	private AttributeType<T> attributeType;
 	private T value;
 
-	public PlanetAttribute(PlanetAttributeType<T> attributeType, T value) {
+	public Attribute(AttributeType<T> attributeType, T value) {
 		this.attributeType = attributeType;
 		this.value = value;
 	}
@@ -33,7 +33,7 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 		return this.attributeType.ser.formatted(this.value);
 	}
 
-	public PlanetAttributeType<T> getAttributeType() {
+	public AttributeType<T> getAttributeType() {
 		return attributeType;
 	}
 
@@ -48,17 +48,17 @@ public class PlanetAttribute<T> implements INBTSerializable<CompoundNBT> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		this.attributeType = (PlanetAttributeType<T>) PlanetAttributeRegistry.REGISTRY
+		this.attributeType = (AttributeType<T>) AttributeRegistry.REGISTRY
 				.getValue(new ResourceLocation(nbt.getString("type")));
 		this.value = attributeType.ser.load(nbt.get("value"));
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static PlanetAttribute<?> fromNBT(CompoundNBT nbt) {
-		PlanetAttributeType<?> type = PlanetAttributeRegistry.REGISTRY
+	public static Attribute<?> fromNBT(CompoundNBT nbt) {
+		AttributeType<?> type = AttributeRegistry.REGISTRY
 				.getValue(new ResourceLocation(nbt.getString("type")));
 		if (type != null) {
-			return new PlanetAttribute(type, type.ser.load(nbt.get("value")));
+			return new Attribute(type, type.ser.load(nbt.get("value")));
 		}
 		return null;
 	}

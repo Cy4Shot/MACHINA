@@ -5,11 +5,11 @@ import com.machina.util.text.StringUtils;
 
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class PlanetTrait extends ForgeRegistryEntry<PlanetTrait> {
+public class Trait extends ForgeRegistryEntry<Trait> {
 
 	private final int color;
 
-	public PlanetTrait(int color) {
+	public Trait(int color) {
 		this.color = color;
 	}
 
