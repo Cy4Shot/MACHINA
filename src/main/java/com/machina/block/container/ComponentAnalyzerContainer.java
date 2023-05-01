@@ -15,13 +15,9 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.network.PacketBuffer;
 
 public class ComponentAnalyzerContainer extends BaseContainer<ComponentAnalyzerTileEntity> {
-
-	public ComponentAnalyzerTileEntity te;
-
 	public ComponentAnalyzerContainer(final int windowId, final PlayerInventory playerInv,
 			final ComponentAnalyzerTileEntity te) {
 		super(ContainerInit.COMPONENT_ANALYZER.get(), windowId, te);
-		this.te = te;
 
 		recreateSlots(playerInv);
 
@@ -40,11 +36,6 @@ public class ComponentAnalyzerContainer extends BaseContainer<ComponentAnalyzerT
 
 	public ComponentAnalyzerContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
 		this(windowId, playerInv, getTileEntity(playerInv, data));
-	}
-
-	@Override
-	protected int getContainerSize() {
-		return this.te.getContainerSize();
 	}
 
 	@Override

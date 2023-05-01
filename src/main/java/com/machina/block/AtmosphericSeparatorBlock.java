@@ -2,6 +2,7 @@ package com.machina.block;
 
 import com.machina.block.tile.machine.AtmosphericSeparatorTileEntity;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.helper.BlockHelper;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -10,7 +11,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer.Builder;
@@ -26,7 +26,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 public class AtmosphericSeparatorBlock extends Block {
 
@@ -74,9 +73,7 @@ public class AtmosphericSeparatorBlock extends Block {
 	public ActionResultType use(BlockState pState, World level, BlockPos pos, PlayerEntity player, Hand pHand,
 			BlockRayTraceResult pHit) {
 		if (!level.isClientSide()) {
-			TileEntity te = level.getBlockEntity(pos);
-			if (te instanceof AtmosphericSeparatorTileEntity)
-				NetworkHooks.openGui((ServerPlayerEntity) player, (AtmosphericSeparatorTileEntity) te, pos);
+			BlockHelper.openGui(level, pos, player, AtmosphericSeparatorTileEntity.class);
 		}
 		return ActionResultType.SUCCESS;
 	}

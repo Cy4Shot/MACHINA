@@ -32,6 +32,24 @@ public abstract class MultiblockBlock extends Block {
 
 	public abstract boolean isMaster();
 
+	public boolean isFormed(World world, BlockPos pos) {
+		TileEntity e = world.getBlockEntity(pos);
+		if (e == null)
+			return false;
+		
+		if (isMaster()) {
+			if (!MultiblockMasterTileEntity.class.isAssignableFrom(e.getClass())) {
+				return false;
+			}
+			return ((MultiblockMasterTileEntity) e).formed;
+		} else {
+			if (!MultiblockPartTileEntity.class.isAssignableFrom(e.getClass())) {
+				return false;
+			}
+			return ((MultiblockPartTileEntity) e).formed;
+		}
+	}
+
 	@Override
 	public void onPlace(BlockState pState, World pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
 		if (isMaster()) {

@@ -11,11 +11,8 @@ import net.minecraft.network.PacketBuffer;
 
 public class AtmosphericSeparatorContainer extends BaseContainer<AtmosphericSeparatorTileEntity> {
 
-	public final AtmosphericSeparatorTileEntity te;
-
 	public AtmosphericSeparatorContainer(int id, AtmosphericSeparatorTileEntity te) {
 		super(ContainerInit.ATMOSPHERIC_SEPARATOR.get(), id, te);
-		this.te = te;
 
 		createData(() -> te.getData());
 	}

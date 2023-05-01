@@ -16,11 +16,8 @@ import net.minecraft.network.PacketBuffer;
 
 public class BlueprinterContainer extends BaseContainer<BlueprinterTileEntity> {
 
-	public BlueprinterTileEntity te;
-
 	public BlueprinterContainer(final int windowId, final PlayerInventory playerInv, final BlueprinterTileEntity te) {
 		super(ContainerInit.BLUEPRINTER.get(), windowId, te);
-		this.te = te;
 
 		recreateSlots(playerInv);
 	}

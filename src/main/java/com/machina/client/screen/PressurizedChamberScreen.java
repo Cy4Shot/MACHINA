@@ -63,13 +63,13 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		this.blit(stack, x + 24, y + 22, 237, 0, 18, 94);
 		this.blit(stack, x + 44, y + 22, 237, 0, 18, 94);
 
-		FluidStack s1 = this.menu.te.getById(0).getFluid();
-		FluidStack s2 = this.menu.te.getById(1).getFluid();
-		FluidStack s3 = this.menu.te.getById(2).getFluid();
+		FluidStack s1 = this.menu.te.getTank(0).getFluid();
+		FluidStack s2 = this.menu.te.getTank(1).getFluid();
+		FluidStack s3 = this.menu.te.getTank(2).getFluid();
 
-		int p1 = (int) ((float) s1.getAmount() / (float) this.menu.te.getById(0).getCapacity() * 91f);
-		int p2 = (int) ((float) s2.getAmount() / (float) this.menu.te.getById(1).getCapacity() * 91f);
-		int p3 = (int) ((float) s3.getAmount() / (float) this.menu.te.getById(2).getCapacity() * 91f);
+		int p1 = (int) ((float) s1.getAmount() / (float) this.menu.te.getTank(0).getCapacity() * 91f);
+		int p2 = (int) ((float) s2.getAmount() / (float) this.menu.te.getTank(1).getCapacity() * 91f);
+		int p3 = (int) ((float) s3.getAmount() / (float) this.menu.te.getTank(2).getCapacity() * 91f);
 
 		UIHelper.renderFluid(stack, s1, x + 5, y + 23, 15, p1, 15, 91, getBlitOffset(), pX, pY);
 		UIHelper.renderFluid(stack, s2, x + 25, y + 23, 15, p2, 15, 91, getBlitOffset(), pX, pY);
@@ -133,7 +133,7 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		this.blit(stack, x + 32, y + 212, 3, 200, 174, 30);
 
 		this.blit(stack, x + 80, y + 20, 3, 130, 135, 18);
-		int energy = (int) (this.menu.te.propFull() * 129f);
+		int energy = (int) (this.menu.te.getEnergyProp() * 129f);
 		this.blit(stack, x + 82, y + 22, 3, 103, energy, 12);
 
 		this.blit(stack, x + 80, y + 56, 3, 130, 135, 18);
@@ -146,7 +146,7 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		UIHelper.drawCenteredStringWithBorder(stack,
 				MathUtil.engineering(this.menu.te.getEnergy(), "RF") + " / "
 						+ MathUtil.engineering(this.menu.te.getMaxEnergy(), "RF") + " - "
-						+ String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
+						+ String.format("%.01f", this.menu.te.getEnergyProp() * 100f) + "%",
 				x + 145, y + 8, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
@@ -155,15 +155,15 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 						+ String.format("%.01f", this.menu.te.heatFull() * 100f) + "%",
 				x + 145, y + 44, 0xFF_00fefe, 0xFF_0e0e0e);
 
-		FluidStack s4 = this.menu.te.getById(3).getFluid();
-		int p4 = (int) ((float) s4.getAmount() / (float) this.menu.te.getById(3).getCapacity() * 132f);
+		FluidStack s4 = this.menu.te.getTank(3).getFluid();
+		int p4 = (int) ((float) s4.getAmount() / (float) this.menu.te.getTank(3).getCapacity() * 132f);
 		UIHelper.renderFluid(stack, s4, x + 81, y + 152, p4, 15, 132, 15, getBlitOffset(), pX, pY);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
 				MathUtil.engineering((double) s4.getAmount() / (double) 1000, "B") + " / "
-						+ MathUtil.engineering((double) this.menu.te.getById(3).getCapacity()
+						+ MathUtil.engineering((double) this.menu.te.getTank(3).getCapacity()
 								/ (double) 1000, "B")
-						+ " - " + String.format("%.01f", this.menu.te.getById(3).propFull() * 100f) + "%",
+						+ " - " + String.format("%.01f", this.menu.te.getTank(3).propFull() * 100f) + "%",
 				x + 146, y + 128, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		String title = StringUtils.translateScreen("pressurized_chamber.stored");
@@ -212,9 +212,9 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		this.blit(stack, x + 132, y + 171, 0, 239, 29, 17);
 		this.blit(stack, x + 112, y + 168, 29, 243, 68, 13);
 
-		boolean r1 = this.menu.te.getById(0).isEmpty();
-		boolean r2 = this.menu.te.getById(1).isEmpty();
-		boolean r3 = this.menu.te.getById(2).isEmpty();
+		boolean r1 = this.menu.te.getTank(0).isEmpty();
+		boolean r2 = this.menu.te.getTank(1).isEmpty();
+		boolean r3 = this.menu.te.getTank(2).isEmpty();
 		boolean r4 = this.menu.te.getItem(0).isEmpty();
 
 		// Left

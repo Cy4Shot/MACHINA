@@ -3,6 +3,8 @@ package com.machina.block.container.base;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import com.machina.block.tile.MachinaTileEntity;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -19,10 +21,13 @@ public abstract class BaseContainer<T extends TileEntity> extends Container {
 
 	protected final IWorldPosCallable canInteractWithCallable;
 	public IIntArray data;
+	
+	public T te;
 
 	public BaseContainer(ContainerType<?> type, int id, T te) {
 		super(type, id);
 		this.canInteractWithCallable = IWorldPosCallable.create(te.getLevel(), te.getBlockPos());
+		this.te = te;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -47,6 +52,9 @@ public abstract class BaseContainer<T extends TileEntity> extends Container {
 	protected abstract Block getBlock();
 
 	protected int getContainerSize() {
+		if (te.getClass().isAssignableFrom(MachinaTileEntity.class)) {
+			return ((MachinaTileEntity) te).getContainerSize();
+		}
 		return 0;
 	}
 

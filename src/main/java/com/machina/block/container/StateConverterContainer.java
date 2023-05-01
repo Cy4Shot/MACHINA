@@ -11,11 +11,8 @@ import net.minecraft.network.PacketBuffer;
 
 public class StateConverterContainer extends BaseContainer<StateConverterTileEntity> {
 
-	public final StateConverterTileEntity te;
-
 	public StateConverterContainer(int id, StateConverterTileEntity te) {
 		super(ContainerInit.STATE_CONVERTER.get(), id, te);
-		this.te = te;
 	}
 
 	public StateConverterContainer(final int id, final PlayerInventory inv, final PacketBuffer data) {

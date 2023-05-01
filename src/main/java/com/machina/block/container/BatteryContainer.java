@@ -10,12 +10,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
 
 public class BatteryContainer extends BaseContainer<BatteryTileEntity> {
-
-	public final BatteryTileEntity te;
-
 	public BatteryContainer(final int windowId, final BatteryTileEntity te) {
 		super(ContainerInit.BATTERY.get(), windowId, te);
-		this.te = te;
 	}
 
 	public BatteryContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {

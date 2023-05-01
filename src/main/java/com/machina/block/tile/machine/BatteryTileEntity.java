@@ -33,18 +33,6 @@ public class BatteryTileEntity extends MachinaTileEntity
 		this.energy = add(new MachinaEnergyStorage(this, 10000, 1000));
 	}
 
-	public int getEnergy() {
-		return this.energy.getEnergyStored();
-	}
-
-	public int getMaxEnergy() {
-		return this.energy.getMaxEnergyStored();
-	}
-
-	public float propFull() {
-		return (float) this.getEnergy() / (float) this.getMaxEnergy();
-	}
-
 	@Override
 	public void tick() {
 		if (level.isClientSide())

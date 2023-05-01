@@ -15,12 +15,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class TankContainer extends BaseContainer<TankTileEntity> {
-
-	public final TankTileEntity te;
-
 	public TankContainer(final int id, final PlayerInventory inv, final TankTileEntity te) {
 		super(ContainerInit.TANK.get(), id, te);
-		this.te = te;
 
 		recreateSlots(inv);
 	}
@@ -37,11 +33,6 @@ public class TankContainer extends BaseContainer<TankTileEntity> {
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(inv, col, 8 + col * 18, 142));
 		}
-	}
-
-	@Override
-	protected int getContainerSize() {
-		return 2;
 	}
 
 	@Override

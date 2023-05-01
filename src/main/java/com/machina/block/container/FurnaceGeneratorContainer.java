@@ -14,12 +14,9 @@ import net.minecraft.network.PacketBuffer;
 
 public class FurnaceGeneratorContainer extends BaseContainer<FurnaceGeneratorTileEntity> {
 
-	public final FurnaceGeneratorTileEntity te;
-
 	public FurnaceGeneratorContainer(final int windowId, final PlayerInventory inv,
 			final FurnaceGeneratorTileEntity te) {
 		super(ContainerInit.FURNACE_GENERATOR.get(), windowId, te);
-		this.te = te;
 
 		recreateSlots(inv);
 	}
@@ -34,11 +31,6 @@ public class FurnaceGeneratorContainer extends BaseContainer<FurnaceGeneratorTil
 
 	public FurnaceGeneratorContainer(final int windowId, final PlayerInventory inv, final PacketBuffer data) {
 		this(windowId, inv, getTileEntity(inv, data));
-	}
-
-	@Override
-	protected int getContainerSize() {
-		return 1;
 	}
 
 	@Override

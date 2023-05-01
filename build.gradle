@@ -119,6 +119,7 @@ dependencies {
     
 	// Mod Dependencies
 	implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
+	implementation fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.1.5")
     
 	// Testing Dependencies
 	compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130:api")
@@ -126,7 +127,7 @@ dependencies {
 	implementation fg.deobf("curse.maven:shutup-407174:3188120")
 	
 	// TESTING COMPAT
-	implementation fg.deobf("curse.maven:mek-268560:3659389")
+	// implementation fg.deobf("curse.maven:mek-268560:3659389")
 
 	// .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
 	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

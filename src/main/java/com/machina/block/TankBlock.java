@@ -2,6 +2,7 @@ package com.machina.block;
 
 import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.helper.BlockHelper;
 import com.machina.util.helper.SoundHelper;
 
 import net.minecraft.block.AbstractBlock;
@@ -22,7 +23,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 public class TankBlock extends HorizontalFacingBlock {
 
@@ -59,9 +59,7 @@ public class TankBlock extends HorizontalFacingBlock {
 			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent())
 				return ActionResultType.SUCCESS;
 
-			TileEntity te = level.getBlockEntity(pos);
-			if (te instanceof TankTileEntity)
-				NetworkHooks.openGui((ServerPlayerEntity) player, (TankTileEntity) te, pos);
+			BlockHelper.openGui(level, pos, player, TankTileEntity.class);
 		}
 		return ActionResultType.SUCCESS;
 	}

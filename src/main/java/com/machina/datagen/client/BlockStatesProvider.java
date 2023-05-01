@@ -86,6 +86,10 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.COPPER_BLOCK.get());
 		simpleBlock(BlockInit.COPPER_ORE.get());
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
+		simpleBlock(BlockInit.HABER_CASING.get());
+		simpleBlock(BlockInit.HABER_PORT.get());
+		
+		machine(BlockInit.HABER_CONTROLLER.get(), BlockInit.HABER_CASING.get());
 
 		orientableGeo(BlockInit.COMPONENT_ANALYZER.get(), BlockInit.ALUMINUM_BLOCK.get());
 		geo(BlockInit.IRON_SCAFFOLDING.get(), Blocks.IRON_BLOCK);
@@ -98,9 +102,8 @@ public class BlockStatesProvider extends BlockStateProvider {
 			m.values().forEach(b -> {
 				OreBlock ore = (OreBlock) b.get();
 				BlockModelBuilder generatorModel = models().getBuilder(ore.getRegistryName().getPath())
-						.texture("particle", ore.getBgTexturePath())
-						.texture("bg", ore.getBgTexturePath()).texture("fg", ore.getFgTexturePath())
-						.customLoader((bmb, h) -> {
+						.texture("particle", ore.getBgTexturePath()).texture("bg", ore.getBgTexturePath())
+						.texture("fg", ore.getFgTexturePath()).customLoader((bmb, h) -> {
 							return new CustomLoaderBuilder<BlockModelBuilder>(OreModelLoader.ID, bmb, h) {
 							};
 						}).end();
@@ -126,6 +129,11 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 	public void tintedBlock(Block block) {
 		simpleBlock(block, tinted(block));
+	}
+
+	public void machine(Block block, Block base) {
+		horizontalBlock(block, models().withExistingParent(name(block), blockLoc("machine"))
+				.texture("front", blockTexture(block)).texture("sides", blockTexture(base)));
 	}
 
 	public void simpleOrientableBlock(Block block) {

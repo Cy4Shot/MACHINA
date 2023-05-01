@@ -98,18 +98,6 @@ public class FurnaceGeneratorTileEntity extends MachinaTileEntity
 		return nbt;
 	}
 
-	public int getEnergy() {
-		return this.energy.getEnergyStored();
-	}
-
-	public int getMaxEnergy() {
-		return this.energy.getMaxEnergyStored();
-	}
-
-	public float propFull() {
-		return (float) this.getEnergy() / (float) this.getMaxEnergy();
-	}
-
 	@Override
 	public boolean isGeneratorMode() {
 		return true;

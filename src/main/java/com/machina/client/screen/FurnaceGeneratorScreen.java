@@ -51,7 +51,7 @@ public class FurnaceGeneratorScreen extends NoJeiContainerScreen<FurnaceGenerato
 		this.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
 
 		// Progress
-		int percentage = (int) (this.menu.te.propFull() * 129f);
+		int percentage = (int) (this.menu.te.getEnergyProp() * 129f);
 		this.blit(stack, x + 50, y + 31, 3, 130, 135, 18);
 		this.blit(stack, x + 52, y + 33, 3, 103, percentage, 12);
 		
@@ -64,7 +64,7 @@ public class FurnaceGeneratorScreen extends NoJeiContainerScreen<FurnaceGenerato
 		UIHelper.drawCenteredStringWithBorder(stack,
 				MathUtil.engineering(this.menu.te.getEnergy(), "RF") + " / "
 						+ MathUtil.engineering(this.menu.te.getMaxEnergy(), "RF") + " - "
-						+ String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
+						+ String.format("%.01f", this.menu.te.getEnergyProp() * 100f) + "%",
 				x + 117, y + 15, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, "MACHINA://FURNACE_GEN/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}

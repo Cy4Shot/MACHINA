@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.machina.block.tile.machine.BatteryTileEntity;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.helper.BlockHelper;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -13,7 +14,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -25,7 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 public class BatteryBlock extends HorizontalFacingBlock {
 
@@ -52,9 +51,7 @@ public class BatteryBlock extends HorizontalFacingBlock {
 	public ActionResultType use(BlockState pState, World level, BlockPos pos, PlayerEntity player, Hand pHand,
 			BlockRayTraceResult pHit) {
 		if (!level.isClientSide()) {
-			TileEntity te = level.getBlockEntity(pos);
-			if (te instanceof BatteryTileEntity)
-				NetworkHooks.openGui((ServerPlayerEntity) player, (BatteryTileEntity) te, pos);
+			BlockHelper.openGui(level, pos, player, BatteryTileEntity.class);
 		}
 		return ActionResultType.SUCCESS;
 	}

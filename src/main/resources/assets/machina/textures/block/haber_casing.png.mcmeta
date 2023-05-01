@@ -1,0 +1,23 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type": "CTM",
+		"layer": "SOLID",
+		"textures": [
+			"machina:block/haber_casing_ctm"
+		],
+		"extra": {
+			"connect_to": [
+				{
+					"block": "machina:haber_casing"
+				},
+				{
+					"block": "machina:haber_controller"
+				},
+				{
+					"block": "machina:haber_port"
+				}
+			]
+		}
+	}
+}

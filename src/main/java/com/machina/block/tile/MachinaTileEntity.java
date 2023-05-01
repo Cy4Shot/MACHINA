@@ -186,7 +186,7 @@ public abstract class MachinaTileEntity extends BaseTileEntity implements IInven
 		if (storage == null) {
 			return;
 		}
-		
+
 		storage.clear();
 	}
 
@@ -198,5 +198,38 @@ public abstract class MachinaTileEntity extends BaseTileEntity implements IInven
 			this.level.blockEntityChanged(this.worldPosition, this);
 		}
 		super.setChanged();
+	}
+
+	public int getEnergy() {
+		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
+		if (storage == null) {
+			return 0;
+		}
+
+		return storage.getEnergyStored();
+	}
+
+	public int getMaxEnergy() {
+		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
+		if (storage == null) {
+			return 0;
+		}
+		return storage.getMaxEnergyStored();
+	}
+
+	public float getEnergyProp() {
+		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
+		if (storage == null) {
+			return 0;
+		}
+		return (float) storage.getEnergyStored() / (float) storage.getMaxEnergyStored();
+	}
+
+	public MachinaTank getTank(int id) {
+		MachinaFluidStorage storage = this.fluid.get().orElseGet(() -> null);
+		if (storage == null) {
+			return null;
+		}
+		return storage.tank(id);
 	}
 }

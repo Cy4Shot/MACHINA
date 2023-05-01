@@ -14,11 +14,8 @@ import net.minecraft.network.PacketBuffer;
 
 public class PressurizedChamberContainer extends BaseContainer<PressurizedChamberTileEntity> {
 
-	public final PressurizedChamberTileEntity te;
-
 	public PressurizedChamberContainer(final int windowId, final PlayerInventory playerInv, final PressurizedChamberTileEntity te) {
 		super(ContainerInit.PRESSURIZED_CHAMBER.get(), windowId, te);
-		this.te = te;
 		
 		recreateSlots(playerInv);
 	}
@@ -39,10 +36,5 @@ public class PressurizedChamberContainer extends BaseContainer<PressurizedChambe
 	@Override
 	protected Block getBlock() {
 		return BlockInit.PRESSURIZED_CHAMBER.get();
-	}
-	
-	@Override
-	protected int getContainerSize() {
-		return 2;
 	}
 }

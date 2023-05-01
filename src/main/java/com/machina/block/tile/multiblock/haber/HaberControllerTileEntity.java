@@ -1,5 +1,7 @@
 package com.machina.block.tile.multiblock.haber;
 
+import com.machina.block.container.HaberContainer;
+import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.multiblock.MultiblockMasterTileEntity;
 import com.machina.capability.energy.IEnergyTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
@@ -12,6 +14,9 @@ import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.text.MachinaRL;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +24,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class HaberControllerTileEntity extends MultiblockMasterTileEntity
-		implements ITickableTileEntity, IEnergyTileEntity {
+		implements ITickableTileEntity, IEnergyTileEntity, IMachinaContainerProvider {
 
 	public HaberControllerTileEntity() {
 		this(TileEntityInit.HABER_CONTROLLER.get());
@@ -86,5 +91,10 @@ public class HaberControllerTileEntity extends MultiblockMasterTileEntity
 	@Override
 	public boolean isGeneratorMode() {
 		return false;
+	}
+
+	@Override
+	public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
+		return new HaberContainer(id, inventory, this);
 	}
 }

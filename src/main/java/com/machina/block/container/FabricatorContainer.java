@@ -16,11 +16,8 @@ import net.minecraft.network.PacketBuffer;
 
 public class FabricatorContainer extends BaseContainer<FabricatorTileEntity> {
 
-	public FabricatorTileEntity te;
-
 	public FabricatorContainer(final int windowId, final PlayerInventory playerInv, final FabricatorTileEntity te) {
 		super(ContainerInit.FABRICATOR.get(), windowId, te);
-		this.te = te;
 
 		recreateSlots(playerInv);
 	}
@@ -44,11 +41,6 @@ public class FabricatorContainer extends BaseContainer<FabricatorTileEntity> {
 
 	public FabricatorContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
 		this(windowId, playerInv, getTileEntity(playerInv, data));
-	}
-
-	@Override
-	protected int getContainerSize() {
-		return this.te.getContainerSize();
 	}
 
 	@Override

@@ -14,11 +14,8 @@ import net.minecraft.network.PacketBuffer;
 
 public class ShipConstructContainer extends BaseContainer<ShipConsoleTileEntity> {
 
-	public final ShipConsoleTileEntity te;
-
 	public ShipConstructContainer(final int windowId, final PlayerInventory playerInv, final ShipConsoleTileEntity te) {
 		super(ContainerInit.SHIP_CONSTRUCT.get(), windowId, te);
-		this.te = te;
 		recreateSlots(playerInv);
 
 		createData(() -> te.getData());

@@ -10,12 +10,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
 
 public class ShipLaunchContainer extends BaseContainer<ShipConsoleTileEntity> {
-
-	public final ShipConsoleTileEntity te;
-
+	
 	public ShipLaunchContainer(final int windowId, final PlayerInventory playerInv, final ShipConsoleTileEntity te) {
 		super(ContainerInit.SHIP_LAUNCH.get(), windowId, te);
-		this.te = te;
 		createData(() -> te.getData());
 	}
 
@@ -26,10 +23,5 @@ public class ShipLaunchContainer extends BaseContainer<ShipConsoleTileEntity> {
 	@Override
 	protected Block getBlock() {
 		return BlockInit.SHIP_CONSOLE.get();
-	}
-
-	@Override
-	protected int getContainerSize() {
-		return 0;
 	}
 }

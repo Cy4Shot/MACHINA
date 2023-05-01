@@ -43,10 +43,6 @@ public class PressurizedChamberTileEntity extends MachinaTileEntity
 	MachinaItemStorage items;
 	MachinaFluidStorage fluid;
 	MachinaEnergyStorage energy;
-	
-	public MachinaTank getById(int id) {
-		return this.fluid.tank(id);
-	}
 
 	public Predicate<FluidStack> exclusiveTank(int id) {
 		return f -> {
@@ -218,18 +214,6 @@ public class PressurizedChamberTileEntity extends MachinaTileEntity
 	@Override
 	public boolean isGenerator() {
 		return false;
-	}
-
-	public int getEnergy() {
-		return this.energy.getEnergyStored();
-	}
-
-	public int getMaxEnergy() {
-		return this.energy.getMaxEnergyStored();
-	}
-
-	public float propFull() {
-		return (float) this.getEnergy() / (float) this.getMaxEnergy();
 	}
 	
 	@Override

@@ -62,6 +62,9 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.FLUID_HOPPER.get());
 		block(BlockInit.IRON_CHASSIS.get());
 		block(BlockInit.STEEL_CHASSIS.get());
+		block(BlockInit.HABER_CASING.get());
+		block(BlockInit.HABER_CONTROLLER.get());
+		block(BlockInit.HABER_PORT.get());
 
 		BlockInit.ORE_MAP.values().forEach(m -> {
 			m.values().forEach(b -> {

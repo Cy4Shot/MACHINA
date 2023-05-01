@@ -16,11 +16,8 @@ import net.minecraft.network.PacketBuffer;
 
 public class FuelStorageUnitContainer extends BaseContainer<FuelStorageUnitTileEntity> {
 
-	public final FuelStorageUnitTileEntity te;
-
 	public FuelStorageUnitContainer(int id, final PlayerInventory playerInv, FuelStorageUnitTileEntity te) {
 		super(ContainerInit.FUEL_STORAGE_UNIT.get(), id, te);
-		this.te = te;
 
 		recreateSlots(playerInv);
 	}
@@ -43,11 +40,6 @@ public class FuelStorageUnitContainer extends BaseContainer<FuelStorageUnitTileE
 	@Override
 	protected Block getBlock() {
 		return BlockInit.FUEL_STORAGE_UNIT.get();
-	}
-
-	@Override
-	protected int getContainerSize() {
-		return 2;
 	}
 
 	public CompletableSlot getCompletableSlot(int pSlotId) {

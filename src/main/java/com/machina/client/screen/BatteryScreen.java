@@ -51,14 +51,14 @@ public class BatteryScreen extends NoJeiContainerScreen<BatteryContainer> {
 		this.blit(stack, x + 212, y + 4, 228, 184, 19, 19);
 
 		// Progress
-		int percentage = (int) (this.menu.te.propFull() * 129f);
+		int percentage = (int) (this.menu.te.getEnergyProp() * 129f);
 		this.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
 		this.blit(stack, x + 52, y + 40, 3, 103, percentage, 12);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
 				MathUtil.engineering(this.menu.te.getEnergy(), "RF") + " / "
 						+ MathUtil.engineering(this.menu.te.getMaxEnergy(), "RF") + " - "
-						+ String.format("%.01f", this.menu.te.propFull() * 100f) + "%",
+						+ String.format("%.01f", this.menu.te.getEnergyProp() * 100f) + "%",
 				x + 117, y + 22, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawStringWithBorder(stack, "MACHINA://BATTERY/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
