@@ -1,4 +1,4 @@
-package com.machina.multiblock.base;
+package com.machina.block.tile.multiblock;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -45,26 +45,22 @@ public abstract class MultiblockPartTileEntity extends MachinaTileEntity {
 
 	public abstract ResourceLocation getMultiblock();
 
-	public abstract boolean isItemPort();
-
-	public abstract boolean isEnergyPort();
-
-	public abstract boolean isFluidPort();
+	public abstract boolean isPort();
 
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (master == null) {
+		if (master == null || !isPort()) {
 			return super.getCapability(cap, side);
 		}
 
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && isItemPort()) {
+		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
 			return BlockHelper.getCapability(level, master, side, cap);
 		}
-		if (cap == CapabilityEnergy.ENERGY && isEnergyPort()) {
+		if (cap == CapabilityEnergy.ENERGY) {
 			return BlockHelper.getCapability(level, master, side, cap);
 		}
-		if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && isFluidPort()) {
+		if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			return BlockHelper.getCapability(level, master, side, cap);
 		}
 		return super.getCapability(cap, side);

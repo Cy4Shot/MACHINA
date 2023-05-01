@@ -45,6 +45,10 @@ public class MachinaTank extends FluidTank {
 	public float propFull() {
 		return (float) getFluidAmount() / (float) getCapacity();
 	}
+	
+	public boolean isFull() {
+		return getSpace() == 0;
+	}
 
 	@Override
 	public FluidStack drain(FluidStack resource, FluidAction action) {

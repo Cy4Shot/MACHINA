@@ -1,4 +1,4 @@
-package com.machina.multiblock.base;
+package com.machina.block.tile.multiblock;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -138,6 +138,9 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 						break;
 					default: // South
 						key = mb.structure[x][y][z];
+					}
+					if (pos.equals(worldPosition) && !key.equals(mb.controller_replacable)) {
+						return ValidateResult.REJECT;
 					}
 					if (!mb.map.get(key).contains(state) && !pos.equals(worldPosition)) {
 						return ValidateResult.REJECT;

@@ -73,6 +73,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.FURNACE_GENERATOR.get(), "Furnace Generator");
 		add(BlockInit.STATE_CONVERTER.get(), "State Converter");
 		add(BlockInit.SILICA_SAND.get(), "Silica Sand");
+		add(BlockInit.HABER_CASING.get(), "Haber Casing");
+		add(BlockInit.HABER_CONTROLLER.get(), "Haber Controller");
+		add(BlockInit.HABER_PORT.get(), "Haber Port");
 		
 		// JEI
 		addJeiCat("state_converter", "State Converter");
@@ -142,6 +145,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.AMMONIA, "Ammonia", "Bucket");
 		add(FluidInit.CARBON_DIOXIDE, "Carbon Dioxide", "Bucket");
 		add(FluidInit.HYDROGEN, "Hydrogen", "Bucket");
+		add(FluidInit.METHANE, "Methane", "Bucket");
 		add(FluidInit.ETHANE, "Ethane", "Bucket");
 		add(FluidInit.ETHYLENE, "Ethylene", "Bucket");
 		add(FluidInit.CHLORINE, "Chlorine", "Bucket");

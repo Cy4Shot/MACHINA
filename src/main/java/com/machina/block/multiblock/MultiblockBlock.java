@@ -1,5 +1,7 @@
-package com.machina.multiblock.base;
+package com.machina.block.multiblock;
 
+import com.machina.block.tile.multiblock.MultiblockMasterTileEntity;
+import com.machina.block.tile.multiblock.MultiblockPartTileEntity;
 import com.machina.util.helper.BlockHelper;
 
 import net.minecraft.block.Block;

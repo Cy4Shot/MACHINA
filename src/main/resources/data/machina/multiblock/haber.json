@@ -1,0 +1,14 @@
+{
+	"size": [3, 3, 3],
+	"controller": "machina:haber_controller",
+	"controller_replacable": "b",
+	"blocks": {
+		"a": ["machina:haber_casing", "machina:haber_port"],
+		"b": ["machina:haber_casing", "machina:haber_port"]
+	},
+	"structure": [
+		["aaa", "aba", "aaa"],
+		["aaa", "bab", "aaa"],
+		["aaa", "aba", "aaa"]
+	]
+}

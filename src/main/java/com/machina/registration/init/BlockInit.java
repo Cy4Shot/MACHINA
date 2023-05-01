@@ -26,6 +26,9 @@ import com.machina.block.ShipConsoleBlock;
 import com.machina.block.StateConverterBlock;
 import com.machina.block.TankBlock;
 import com.machina.block.TemperatureRegulatorBlock;
+import com.machina.block.multiblock.haber.HaberCasingBlock;
+import com.machina.block.multiblock.haber.HaberControllerBlock;
+import com.machina.block.multiblock.haber.HaberPortBlock;
 import com.machina.block.ore.OreBlock;
 import com.machina.block.ore.OreType;
 import com.machina.block.tinted.ITinted;
@@ -38,8 +41,6 @@ import com.machina.client.model.CustomBlockModel;
 import com.machina.item.AnimatableBlockItem;
 import com.machina.item.OreBlockItem;
 import com.machina.item.TintedItem;
-import com.machina.multiblock.test.MBTest;
-import com.machina.multiblock.test.MBTest2;
 import com.machina.registration.Registration;
 import com.machina.world.gen.PlanetBlocksGenerator;
 
@@ -107,9 +108,9 @@ public class BlockInit {
 	public static final RegistryObject<TintedWall> WASTELAND_SANDSTONE_WALL = tintedWall("wasteland_sandstone_wall", Blocks.SANDSTONE_WALL, 1);
 	public static final RegistryObject<Block> REINFORCED_TILE = register("reinforced_tile", Blocks.NETHERITE_BLOCK);
 	public static final RegistryObject<FallingBlock> SILICA_SAND = falling("silica_sand", Blocks.SAND);
-	
-	public static final RegistryObject<MBTest> MULTIBLOCK = register("multiblock", MBTest::new);
-	public static final RegistryObject<MBTest2> MULTIBLOCK2 = register("multiblock2", MBTest2::new);
+	public static final RegistryObject<HaberControllerBlock> HABER_CONTROLLER = register("haber_controller", HaberControllerBlock::new);
+	public static final RegistryObject<HaberCasingBlock> HABER_CASING = register("haber_casing", HaberCasingBlock::new);
+	public static final RegistryObject<HaberPortBlock> HABER_PORT = register("haber_port", HaberPortBlock::new);
 	//@formatter:on
 
 	public static final Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ORE_MAP = ores(

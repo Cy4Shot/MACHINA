@@ -24,9 +24,10 @@ import com.machina.block.tile.machine.ShipConsoleTileEntity;
 import com.machina.block.tile.machine.StateConverterTileEntity;
 import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.block.tile.machine.TemperatureRegulatorTileEntity;
+import com.machina.block.tile.multiblock.haber.HaberCasingTileEntity;
+import com.machina.block.tile.multiblock.haber.HaberControllerTileEntity;
+import com.machina.block.tile.multiblock.haber.HaberPortTileEntity;
 import com.machina.block.tinted.ITinted;
-import com.machina.multiblock.test.MBTestTE;
-import com.machina.multiblock.test.MBTestTE2;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -58,11 +59,12 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<FuelStorageUnitTileEntity>> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitTileEntity::new, () -> BlockInit.FUEL_STORAGE_UNIT.get());
 	public static final RegistryObject<TileEntityType<FurnaceGeneratorTileEntity>> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorTileEntity::new, () -> BlockInit.FURNACE_GENERATOR.get());
 	public static final RegistryObject<TileEntityType<StateConverterTileEntity>> STATE_CONVERTER = register("state_converter", StateConverterTileEntity::new, () -> BlockInit.STATE_CONVERTER.get());
+	public static final RegistryObject<TileEntityType<HaberCasingTileEntity>> HABER_CASING = register("haber_casing", HaberCasingTileEntity::new, () -> BlockInit.HABER_CASING.get());
+	public static final RegistryObject<TileEntityType<HaberControllerTileEntity>> HABER_CONTROLLER = register("haber_controller", HaberControllerTileEntity::new, () -> BlockInit.HABER_CONTROLLER.get());
+	public static final RegistryObject<TileEntityType<HaberPortTileEntity>> HABER_PORT = register("haber_port", HaberPortTileEntity::new, () -> BlockInit.HABER_PORT.get());
+	
 	public static final RegistryObject<TileEntityType<TintedTileEntity>> TINTED = tinted("tinted", TintedTileEntity::new);
 	public static final RegistryObject<TileEntityType<CustomModelTileEntity>> CUSTOM_MODEL = registerMany("custom_model", CustomModelTileEntity::new, () -> new Block[] { BlockInit.IRON_SCAFFOLDING.get(), BlockInit.STEEL_SCAFFOLDING.get(), BlockInit.ALUMINUM_SCAFFOLDING.get(), BlockInit.COPPER_SCAFFOLDING.get() });
-	
-	public static final RegistryObject<TileEntityType<MBTestTE>> MULTIBLOCK = register("multiblock", MBTestTE::new, () -> BlockInit.MULTIBLOCK.get());
-	public static final RegistryObject<TileEntityType<MBTestTE2>> MULTIBLOCK2 = register("multiblock2", MBTestTE2::new, () -> BlockInit.MULTIBLOCK2.get());
 	//@formatter:on
 
 	private static <T extends TileEntity> RegistryObject<TileEntityType<T>> register(String n, Supplier<T> s,

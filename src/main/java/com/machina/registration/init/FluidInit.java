@@ -41,6 +41,7 @@ public class FluidInit {
 	public static final FluidObject AMMONIA = gas("ammonia", "NH3", 0xFF_44db6c);
 	public static final FluidObject CARBON_DIOXIDE = gas("carbon_dioxide", "CO2", 0xFF_f7e4c1);
 	public static final FluidObject HYDROGEN = gas("hydrogen", "H2", 0xFF_6ce2ff);
+	public static final FluidObject METHANE = gas("methane", "CH4", 0xFF_ece0f9);
 	public static final FluidObject ETHANE = gas("ethane", "C2H6", 0xFF_bbd68d);
 	public static final FluidObject ETHYLENE = gas("ethylene", "C2H4", 0xFF_8dd6be);
 	public static final FluidObject CHLORINE = gas("clorine", "Cl2", 0xFF_bfd25f);
