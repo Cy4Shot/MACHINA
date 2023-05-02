@@ -21,6 +21,7 @@ public class CommonConfig {
 	
 	public static ForgeConfigSpec.IntValue haberMethaneConsumeRate;
 	public static ForgeConfigSpec.IntValue haberNitrogenConsumeRate;
+	public static ForgeConfigSpec.IntValue haberWaterConsumeRate;
 	public static ForgeConfigSpec.IntValue haberAmmoniaOutputRate;
 	public static ForgeConfigSpec.IntValue haberPowerRate;
 	
@@ -56,6 +57,7 @@ public class CommonConfig {
 		builder.push("Haber Process Options");
 		haberMethaneConsumeRate = builder.defineInRange("haber_methane_consume_rate", 10, 0, 100);
 		haberNitrogenConsumeRate = builder.defineInRange("haber_nitrogen_consume_rate", 10, 0, 100);
+		haberWaterConsumeRate = builder.defineInRange("haber_water_consume_rate", 50, 0, 500);
 		haberAmmoniaOutputRate = builder.defineInRange("haber_ammonia_output_rate", 10, 0, 100);
 		haberPowerRate = builder.defineInRange("haber_power_rate", 100, 0, 10000);
 		builder.pop();

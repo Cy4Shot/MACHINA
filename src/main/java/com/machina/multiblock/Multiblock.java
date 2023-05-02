@@ -11,7 +11,9 @@ import com.google.common.base.Joiner;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.command.arguments.BlockStateParser;
 import net.minecraft.util.math.vector.Vector3i;
 
@@ -20,15 +22,20 @@ public class Multiblock {
 	public BlockState controller;
 	public String controller_replacable;
 	public Map<String, List<BlockState>> map;
+	public Map<String, BlockState> renderMap;
 	public List<BlockState> allowed;
+	public List<Block> allowedBlock;
 	public String[][][] structure;
+	public String[][][] renderStructure;
 
 	public class MultiblockJsonInfo {
 		public List<Integer> size;
 		public String controller;
 		public String controller_replacable;
 		public Map<String, List<String>> blocks;
+		public Map<String, String> render_blocks;
 		public List<List<String>> structure;
+		public List<List<String>> render;
 
 		public Multiblock cast() {
 			Multiblock mb = new Multiblock();
@@ -48,12 +55,33 @@ public class Multiblock {
 							return null;
 						}
 					}).collect(Collectors.toList())));
+			mb.renderMap = render_blocks.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> {
+				try {
+					return new BlockStateParser(new StringReader(s.getValue()), true).parse(false).getState();
+				} catch (CommandSyntaxException e) {
+					e.printStackTrace();
+					return Blocks.AIR.defaultBlockState();
+				}
+			}));
+
 			mb.controller_replacable = controller_replacable;
 			mb.structure = structure.stream()
 					.map(l1 -> l1.stream().map(l2 -> l2.split("(?!^)")).toArray(String[][]::new))
 					.toArray(String[][][]::new);
+			mb.renderStructure = render.stream()
+					.map(l1 -> l1.stream().map(l2 -> l2.split("(?!^)")).toArray(String[][]::new))
+					.toArray(String[][][]::new);
 			mb.allowed = mb.map.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+			mb.allowedBlock = mb.allowed.stream().map(b -> b.getBlock()).collect(Collectors.toList());
 			return mb;
+		}
+	}
+
+	public BlockState getRenderAtPos(Vector3i pos) {
+		try {
+			return renderMap.get(renderStructure[pos.getX()][pos.getY()][pos.getZ()]);
+		} catch (IndexOutOfBoundsException e) {
+			return Blocks.AIR.defaultBlockState();
 		}
 	}
 

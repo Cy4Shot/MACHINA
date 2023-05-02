@@ -72,7 +72,7 @@ public class FuelStorageUnitScreen extends NoJeiContainerScreen<FuelStorageUnitC
 		FluidStack fluid = this.menu.te.getFluid();
 		int fl = (int) (this.menu.te.propFull() * 132f);
 		this.blit(stack, x + 50, y + 58, 3, 130, 135, 18);
-		UIHelper.renderFluid(stack, fluid, x + 51, y + 59, fl, 15, 132, 15, getBlitOffset(), pX, pY);
+		UIHelper.renderFluid(stack, fluid, x + 51, y + 59, fl, 15, 132, 15, getBlitOffset(), pX, pY, true);
 
 		// Decorate Slots
 		UIHelper.bindPrgrs();

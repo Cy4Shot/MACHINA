@@ -10,5 +10,14 @@
 		["aaa", "aba", "aaa"],
 		["aaa", "bab", "aaa"],
 		["aaa", "aba", "aaa"]
+	],
+	"render_blocks": {
+		"a": "machina:haber_casing",
+		"b": "machina:haber_controller"
+	},
+	"render": [
+		["aaa", "aaa", "aaa"],
+		["aaa", "baa", "aaa"],
+		["aaa", "aaa", "aaa"]
 	]
 }

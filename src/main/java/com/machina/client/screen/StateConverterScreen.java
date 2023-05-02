@@ -67,8 +67,8 @@ public class StateConverterScreen extends NoJeiContainerScreen<StateConverterCon
 		int p2 = (int) (this.menu.te.propFull(1) * 64f);
 		FluidStack f1 = this.menu.te.getFluid(0);
 		FluidStack f2 = this.menu.te.getFluid(1);
-		UIHelper.renderFluid(stack, f1, x + 51, y + 61, p1, 15, 64, 15, getBlitOffset(), pX, pY);
-		UIHelper.renderFluid(stack, f2, x + 119, y + 61, p2, 15, 64, 15, getBlitOffset(), pX, pY);
+		UIHelper.renderFluid(stack, f1, x + 51, y + 61, p1, 15, 64, 15, getBlitOffset(), pX, pY, true);
+		UIHelper.renderFluid(stack, f2, x + 119, y + 61, p2, 15, 64, 15, getBlitOffset(), pX, pY, true);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
 				StringUtils.translateScreen("state_converter.stored")

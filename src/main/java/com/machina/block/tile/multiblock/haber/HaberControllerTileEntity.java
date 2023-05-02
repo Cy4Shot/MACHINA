@@ -16,6 +16,7 @@ import com.machina.util.text.MachinaRL;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -49,7 +50,8 @@ public class HaberControllerTileEntity extends MultiblockMasterTileEntity
 		this.energy = add(new MachinaEnergyStorage(this, 1000000, 1000));
 		this.fluid = add(new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.METHANE.fluid()), false, 0),
 				new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.NITROGEN.fluid()), false, 1),
-				new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.LIQUID_AMMONIA.fluid()), true, 2));
+				new MachinaTank(this, 10000, s -> s.getFluid().isSame(Fluids.WATER.getFluid()), false, 2),
+				new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.LIQUID_AMMONIA.fluid()), true, 3));
 	}
 
 	@Override
@@ -57,25 +59,17 @@ public class HaberControllerTileEntity extends MultiblockMasterTileEntity
 		if (this.level.isClientSide())
 			return;
 
-		if (fluid.tank(2).isFull())
+		if (!hasCatalyst() || !hasMethane() || !hasNitrogen() || !hasWater() || !hasOutput() || !hasPower()) {
 			return;
-		if (items.getStackInSlot(0).isEmpty())
-			return;
-		if (fluid.getFluidInTank(0).getAmount() < CommonConfig.haberMethaneConsumeRate.get())
-			return;
-		if (fluid.getFluidInTank(1).getAmount() < CommonConfig.haberNitrogenConsumeRate.get())
-			return;
-		if (fluid.getFluidInTank(2).getAmount() + CommonConfig.haberAmmoniaOutputRate.get() > fluid.getTankCapacity(2))
-			return;
-		if (energy.getEnergyStored() < CommonConfig.haberPowerRate.get())
-			return;
+		}
 
 		// Consume
 		fluid.drainRaw(new FluidStack(FluidInit.METHANE.fluid(), CommonConfig.haberMethaneConsumeRate.get()),
 				FluidAction.EXECUTE);
 		fluid.drainRaw(new FluidStack(FluidInit.NITROGEN.fluid(), CommonConfig.haberNitrogenConsumeRate.get()),
 				FluidAction.EXECUTE);
-
+		fluid.drainRaw(new FluidStack(Fluids.WATER.getFluid(), CommonConfig.haberWaterConsumeRate.get()),
+				FluidAction.EXECUTE);
 		this.energy.consumeEnergy(CommonConfig.haberPowerRate.get());
 		items.getStackInSlot(0).setDamageValue(items.getStackInSlot(0).getDamageValue() + 1);
 		if (items.getStackInSlot(0).getDamageValue() >= items.getStackInSlot(0).getMaxDamage()) {
@@ -83,9 +77,34 @@ public class HaberControllerTileEntity extends MultiblockMasterTileEntity
 		}
 
 		// Output
-		fluid.fillRaw(new FluidStack(FluidInit.LIQUID_AMMONIA.flowing(), CommonConfig.haberAmmoniaOutputRate.get()),
+		fluid.fill(new FluidStack(FluidInit.LIQUID_AMMONIA.fluid(), CommonConfig.haberAmmoniaOutputRate.get()),
 				FluidAction.EXECUTE);
 		setChanged();
+	}
+
+	public boolean hasCatalyst() {
+		return !items.getStackInSlot(0).isEmpty();
+	}
+
+	public boolean hasMethane() {
+		return fluid.getFluidInTank(0).getAmount() >= CommonConfig.haberMethaneConsumeRate.get();
+	}
+
+	public boolean hasNitrogen() {
+		return fluid.getFluidInTank(1).getAmount() >= CommonConfig.haberNitrogenConsumeRate.get();
+	}
+
+	public boolean hasWater() {
+		return fluid.getFluidInTank(2).getAmount() >= CommonConfig.haberWaterConsumeRate.get();
+	}
+
+	public boolean hasOutput() {
+		return fluid.getFluidInTank(3).getAmount() + CommonConfig.haberAmmoniaOutputRate.get() <= fluid
+				.getTankCapacity(3);
+	}
+
+	public boolean hasPower() {
+		return energy.getEnergyStored() >= CommonConfig.haberPowerRate.get();
 	}
 
 	@Override

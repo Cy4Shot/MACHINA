@@ -73,7 +73,7 @@ public class AtmosphericSeparatorScreen extends NoJeiContainerScreen<Atmospheric
 
 			this.blit(stack, newX, newY, 94, 229, 18, 18);
 			FluidStack f = new FluidStack(obj.fluid(), 1);
-			UIHelper.renderFluid(stack, f, newX + 1, newY + 1, 15, 15, 15, 15, getBlitOffset(), pX, pY);
+			UIHelper.renderFluid(stack, f, newX + 1, newY + 1, 15, 15, 15, 15, getBlitOffset(), pX, pY, false);
 
 			if (s) {
 

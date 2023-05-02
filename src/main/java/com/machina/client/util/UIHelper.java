@@ -2,6 +2,7 @@ package com.machina.client.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -9,22 +10,29 @@ import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
+import com.machina.multiblock.Multiblock;
 import com.machina.util.Color;
+import com.machina.util.math.MathUtil;
 import com.machina.util.text.MachinaRL;
+import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.text2speech.Narrator;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -34,7 +42,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.math.vector.Vector4f;
 import net.minecraft.util.text.CharacterManager;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -44,6 +56,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fluids.FluidStack;
 
 @OnlyIn(Dist.CLIENT)
@@ -105,6 +118,10 @@ public class UIHelper {
 		return mc.font.width(text);
 	}
 
+	public static int getWidth(ITextComponent text) {
+		return mc.font.width(text);
+	}
+
 	public static void drawCenteredStringWithBorder(MatrixStack matrixStack, String text, float x, float y, int color,
 			int borderColor) {
 		drawStringWithBorder(matrixStack, text, x - getWidth(text) / 2, y, color, borderColor);
@@ -130,6 +147,20 @@ public class UIHelper {
 		mc.font.draw(matrixStack, text, x + 1, y, borderColor);
 		mc.font.draw(matrixStack, text, x, y - 1, borderColor);
 		mc.font.draw(matrixStack, text, x, y + 1, borderColor);
+		return mc.font.draw(matrixStack, text, x, y, color) + 2;
+	}
+
+	public static <T extends IFormattableTextComponent> void drawCenteredStringWithBorder(MatrixStack matrixStack,
+			T text, float x, float y, int color, int borderColor) {
+		drawStringWithBorder(matrixStack, text, x - getWidth(text) / 2, y, color, borderColor);
+	}
+
+	public static <T extends IFormattableTextComponent> int drawStringWithBorder(MatrixStack matrixStack, T text,
+			float x, float y, int color, int borderColor) {
+		mc.font.draw(matrixStack, text.getString(), x - 1, y, borderColor);
+		mc.font.draw(matrixStack, text.getString(), x + 1, y, borderColor);
+		mc.font.draw(matrixStack, text.getString(), x, y - 1, borderColor);
+		mc.font.draw(matrixStack, text.getString(), x, y + 1, borderColor);
 		return mc.font.draw(matrixStack, text, x, y, color) + 2;
 	}
 
@@ -395,7 +426,7 @@ public class UIHelper {
 	}
 
 	public static void renderFluid(MatrixStack m, FluidStack fluid, int x, int y, int sx, int sy, int fx, int fy,
-			int blit, int pX, int pY) {
+			int blit, int pX, int pY, boolean showSize) {
 		if (fluid.getFluid() != Fluids.EMPTY) {
 			TextureAtlasSprite icon = getFluidTexture(fluid, FluidType.STILL);
 			if (icon != null) {
@@ -405,8 +436,14 @@ public class UIHelper {
 
 				if (pX > x - 1 && pX < x - 1 + fx && pY > y - 1 && pY < y - 1 + fy) {
 					int color = new Color(fluid.getFluid().getAttributes().getColor()).maxBrightness().toInt();
-					renderLabel(m, Arrays.asList(fluid.getDisplayName()), pX, pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc,
-							color);
+					renderLabel(
+							m, showSize
+									? Arrays.asList(fluid.getDisplayName(), StringUtils
+											.toComp(MathUtil.engineering((float) fluid.getAmount() / 1000f, "B"))
+											.setStyle(Style.EMPTY
+													.withColor(net.minecraft.util.text.Color.fromRgb(0xFF_00fefe))))
+									: Collections.singletonList(fluid.getDisplayName()),
+							pX, pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc, color);
 				}
 			}
 		}
@@ -851,5 +888,76 @@ public class UIHelper {
 
 	public static void tts(String text) {
 		Narrator.getNarrator().say(text, false);
+	}
+
+	public static void renderMultiblock(MatrixStack ms, Multiblock mb, int xPos, int yPos, int s, float par,
+			float extraRot) {
+		Vector3i size = mb.size;
+		int sizeX = size.getX();
+		int sizeY = size.getY();
+		int sizeZ = size.getZ();
+		float maxX = 90;
+		float maxY = 90;
+		float diag = (float) Math.sqrt(sizeX * sizeX + sizeZ * sizeZ);
+		float scaleX = maxX / diag;
+		float scaleY = maxY / sizeY;
+		float scale = -Math.min(scaleX, scaleY) * s;
+
+		ms.pushPose();
+		ms.translate(xPos, yPos, 100);
+		ms.scale(scale, scale, scale);
+		ms.translate(-(float) sizeX / 2, -(float) sizeY / 2, 0);
+		Vector4f eye = new Vector4f(0, 0, -100, 1);
+		Matrix4f rotMat = new Matrix4f();
+		rotMat.setIdentity();
+		ms.mulPose(Vector3f.XP.rotationDegrees(-30F));
+		rotMat.multiply(Vector3f.XP.rotationDegrees(30));
+
+		float offX = (float) -sizeX / 2;
+		float offZ = (float) -sizeZ / 2 + 1;
+		ms.translate(-offX, 0, -offZ);
+		ms.mulPose(Vector3f.YP.rotationDegrees(extraRot));
+		rotMat.multiply(Vector3f.YP.rotationDegrees(-extraRot));
+		ms.mulPose(Vector3f.YP.rotationDegrees(45));
+		rotMat.multiply(Vector3f.YP.rotationDegrees(-45));
+		ms.translate(offX, 0, offZ);
+
+		eye.transform(rotMat);
+		eye.normalize();
+		renderElements(ms, mb, BlockPos.betweenClosed(BlockPos.ZERO, new BlockPos(sizeX - 1, sizeY - 1, sizeZ - 1)),
+				eye, par);
+
+		ms.popPose();
+	}
+
+	private static void renderElements(MatrixStack ms, Multiblock mb, Iterable<? extends BlockPos> blocks, Vector4f eye,
+			float par) {
+		ms.pushPose();
+		RenderSystem.color4f(1F, 1F, 1F, 1F);
+		ms.translate(0, 0, -1);
+
+		IRenderTypeBuffer.Impl buffers = Minecraft.getInstance().renderBuffers().bufferSource();
+		doWorldRenderPass(ms, mb, blocks, buffers, eye);
+
+		buffers.endBatch();
+		ms.popPose();
+	}
+
+	private static void doWorldRenderPass(MatrixStack ms, Multiblock mb, Iterable<? extends BlockPos> blocks,
+			final @Nonnull IRenderTypeBuffer.Impl buffers, Vector4f eye) {
+		for (BlockPos pos : blocks) {
+			BlockState bs = mb.getRenderAtPos(pos);
+
+			ms.pushPose();
+			ms.translate(pos.getX(), pos.getY(), pos.getZ());
+			for (RenderType layer : RenderType.chunkBufferLayers()) {
+				if (RenderTypeLookup.canRenderInLayer(bs, layer)) {
+					ForgeHooksClient.setRenderLayer(layer);
+					mc.getBlockRenderer().renderSingleBlock(bs, ms, buffers, 15728880, OverlayTexture.NO_OVERLAY);
+					ForgeHooksClient.setRenderLayer(null);
+				}
+			}
+			ms.popPose();
+		}
 	}
 }

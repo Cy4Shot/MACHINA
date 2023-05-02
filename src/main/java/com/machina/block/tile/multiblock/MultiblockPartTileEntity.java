@@ -128,10 +128,10 @@ public abstract class MultiblockPartTileEntity extends MachinaTileEntity {
 				BlockPos offset = ptr.relative(side);
 				if (!traversed.contains(offset)) {
 					BlockState state = level.getBlockState(offset);
-					if (mb.allowed.contains(state)) {
+					if (mb.allowedBlock.contains(state.getBlock())) {
 						openSet.add(offset);
 						traversed.add(offset);
-					} else if (state.equals(mb.controller)) {
+					} else if (state.getBlock().equals(mb.controller.getBlock())) {
 						return offset;
 					}
 				}

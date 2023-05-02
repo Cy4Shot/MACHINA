@@ -12,6 +12,7 @@ import com.machina.multiblock.Multiblock;
 import com.machina.multiblock.MultiblockLoader;
 import com.machina.util.helper.BlockHelper;
 import com.machina.util.math.VecUtil;
+import com.machina.util.text.StringUtils;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.block.BlockState;
@@ -24,14 +25,17 @@ import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.LazyOptional;
 
 public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 
 	private static final Direction[] NEGATIVE = Arrays.stream(Direction.values())
 			.filter(d -> d.getAxisDirection().equals(AxisDirection.NEGATIVE)).toArray(Direction[]::new);
 
-	private Multiblock mb;
+	public Multiblock mb;
 	public boolean formed = false;
 	public Set<BlockPos> parts = new HashSet<>();
 
@@ -42,6 +46,10 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 	}
 
 	public abstract ResourceLocation getMultiblock();
+	
+	public TranslationTextComponent getName() {
+		return StringUtils.translateMultiblockComp(getMultiblock().getPath());
+	}
 
 	public void update() {
 
@@ -191,5 +199,12 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 		public static ValidateResult accept(Set<BlockPos> pos) {
 			return new ValidateResult(true, pos);
 		}
+	}
+
+	@Override
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+		if (!this.formed)
+			return LazyOptional.empty();
+		return super.getCapability(cap, side);
 	}
 }

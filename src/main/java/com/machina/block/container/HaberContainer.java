@@ -24,7 +24,7 @@ public class HaberContainer extends BaseContainer<HaberControllerTileEntity> {
 	public void recreateSlots(final PlayerInventory playerInv) {
 		this.slots.clear();
 		this.addSlot(
-				new AcceptSlot((IInventory) te, 0, -6, 149, i -> i.getItem().equals(ItemInit.IRON_CATALYST.get())));
+				new AcceptSlot((IInventory) te, 0, 57, 119, i -> i.getItem().equals(ItemInit.IRON_CATALYST.get())));
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInv, col, 8 + col * 18, 196));
 		}

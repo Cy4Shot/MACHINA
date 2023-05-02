@@ -109,6 +109,10 @@ public abstract class BaseLangProvider extends LanguageProvider {
 	protected void addShipComponent(String id, String locale) {
 		add(modid + ".ship_component." + id, locale);
 	}
+	
+	protected void addMultiblock(String id, String locale) {
+		add(modid + ".multiblock." + id, locale);
+	}
 
 	public void addMusicDisc(Item key, String desc) {
 		add(key.getDescriptionId(), this.music_disc);

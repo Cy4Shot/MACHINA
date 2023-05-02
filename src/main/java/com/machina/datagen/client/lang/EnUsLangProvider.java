@@ -93,6 +93,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		ItemInit.ORES.entrySet().forEach(e -> {
 			add(e.getValue().get(), WordUtils.capitalize(e.getKey().name().toLowerCase()));
 		});
+		
+		// Multiblock
+		addMultiblock("haber", "Haber Process");
 
 		// Items
 		add(ItemInit.BLUEPRINT.get(), "Blueprint");
@@ -317,6 +320,21 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("fuel_storage", "depleting", "WARNING: DEPLETING");
 		addScreen("state_converter", "stored", "Current Temperature: ");
 		addScreen("state_converter", "none", "None");
+		addScreen("haber", "title", "Haber Process");
+		addScreen("haber", "active", "STATUS: ACTIVE");
+		addScreen("haber", "inactive", "STATUS: INACTIVE");
+		addScreen("haber", "power", "Power: ");
+		addScreen("haber", "methane", "Methane: ");
+		addScreen("haber", "water", "Water: ");
+		addScreen("haber", "nitrogen", "Nitrogen: ");
+		addScreen("haber", "catalyst", "Catalyst: ");
+		addScreen("haber", "output", "Output: ");
+		addScreen("haber", "ok", "OK");
+		addScreen("haber", "missing", "MISSING");
+		addScreen("haber", "empty", "EMPTY");
+		addScreen("haber", "full", "FULL");
+		addScreen("multiblock", "unformed1", "The ");
+		addScreen("multiblock", "unformed2", " multiblock is malformed.");
 		addScreen("go_beyond", "title", "MACHINA - Alpha 0.1");
 		addScreen("go_beyond", "desc1", "Travelling between planets isn't yet available!");
 		addScreen("go_beyond", "desc2", "This feature will be introduced in Alpha 0.2.");

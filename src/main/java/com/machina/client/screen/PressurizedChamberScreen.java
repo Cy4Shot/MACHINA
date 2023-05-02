@@ -71,9 +71,9 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 		int p2 = (int) ((float) s2.getAmount() / (float) this.menu.te.getTank(1).getCapacity() * 91f);
 		int p3 = (int) ((float) s3.getAmount() / (float) this.menu.te.getTank(2).getCapacity() * 91f);
 
-		UIHelper.renderFluid(stack, s1, x + 5, y + 23, 15, p1, 15, 91, getBlitOffset(), pX, pY);
-		UIHelper.renderFluid(stack, s2, x + 25, y + 23, 15, p2, 15, 91, getBlitOffset(), pX, pY);
-		UIHelper.renderFluid(stack, s3, x + 45, y + 23, 15, p3, 15, 91, getBlitOffset(), pX, pY);
+		UIHelper.renderFluid(stack, s1, x + 5, y + 23, 15, p1, 15, 91, getBlitOffset(), pX, pY, true);
+		UIHelper.renderFluid(stack, s2, x + 25, y + 23, 15, p2, 15, 91, getBlitOffset(), pX, pY, true);
+		UIHelper.renderFluid(stack, s3, x + 45, y + 23, 15, p3, 15, 91, getBlitOffset(), pX, pY, true);
 
 		UIHelper.bindTrmnl();
 
@@ -157,7 +157,7 @@ public class PressurizedChamberScreen extends NoJeiContainerScreen<PressurizedCh
 
 		FluidStack s4 = this.menu.te.getTank(3).getFluid();
 		int p4 = (int) ((float) s4.getAmount() / (float) this.menu.te.getTank(3).getCapacity() * 132f);
-		UIHelper.renderFluid(stack, s4, x + 81, y + 152, p4, 15, 132, 15, getBlitOffset(), pX, pY);
+		UIHelper.renderFluid(stack, s4, x + 81, y + 152, p4, 15, 132, 15, getBlitOffset(), pX, pY, true);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
 				MathUtil.engineering((double) s4.getAmount() / (double) 1000, "B") + " / "
