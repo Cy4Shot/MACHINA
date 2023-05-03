@@ -1,6 +1,11 @@
 package com.machina.client.screen;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -8,11 +13,16 @@ import com.machina.block.container.base.BaseContainer;
 import com.machina.block.tile.multiblock.MultiblockMasterTileEntity;
 import com.machina.client.util.UIHelper;
 import com.machina.multiblock.ClientMultiblock;
+import com.machina.multiblock.Multiblock;
+import com.machina.util.math.ArrayUtil;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
@@ -25,6 +35,9 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 	private float rotY = 0f;
 	private ClientMultiblock mb;
 	private Optional<Integer> layer = Optional.empty();
+	private List<Pair<Long, List<BlockState>>> blocks;
+	private int textWidth;
+	private boolean infoWindow = false;
 
 	public UnformedMultiblockScreen(T menu, ITextComponent title) {
 		super(title);
@@ -35,8 +48,20 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 	@Override
 	protected void init() {
 		super.init();
-
-		this.mb = new ClientMultiblock(menu.te.mb);
+		Multiblock m = menu.te.mb;
+		this.blocks = ArrayUtil.flatten(m.structure).map(o -> (String) o)
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream()
+				.map(e -> new Pair<>(e.getValue() - (e.getKey().equals(m.controller_replacable) ? 1 : 0),
+						m.map.get(e.getKey())))
+				.collect(Collectors.toList());
+		this.blocks.add(new Pair<>(1L, Collections.singletonList(m.controller)));
+		this.blocks = this.blocks.stream()
+				.map(f -> new Pair<>(this.blocks.stream().filter(e -> e.getSecond().equals(f.getSecond()))
+						.map(a -> a.getFirst()).reduce(0L, Long::sum), f.getSecond()))
+				.filter(ArrayUtil.distinctByKey(e -> e.getFirst())).collect(Collectors.toList());
+		this.mb = new ClientMultiblock(m);
+		this.textWidth = this.blocks.stream().mapToInt(e -> UIHelper.getWidth(e.getFirst().toString() + "x")).max()
+				.getAsInt();
 	}
 
 	@Override
@@ -87,6 +112,44 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 		UIHelper.blit(stack, x + 115, y + 22, 88, 4, 6, 6);
 		UIHelper.blit(stack, x + 59, y + 23, 88, 0, 56, 4);
 		UIHelper.blit(stack, x + 121, y + 23, 88, 0, 56, 4);
+
+		// Block List
+		UIHelper.bindTrmnl();
+		if (this.infoWindow) {
+			if (pX > x + 214 && pX < x + 214 + 17 && pY > y + 5 && pY < y + 5 + 17) {
+				UIHelper.blit(stack, x + 214, y + 5, 237, 17, 17, 17);
+			} else {
+				UIHelper.blit(stack, x + 214, y + 5, 237, 0, 17, 17);
+			}
+			UIHelper.bindScifi();
+			UIHelper.blit(stack, x + xSize + 4, y, 152, 103, 87, 81);
+
+			for (int i = 0; i < this.blocks.size(); i++) {
+				Pair<Long, List<BlockState>> entry = this.blocks.get(i);
+				String text = entry.getFirst().toString() + "x";
+				UIHelper.drawStringWithBorder(stack, text, x + 255 + textWidth - UIHelper.getWidth(text),
+						y + 12 + i * 16, 0xFF_00fefe, 0xFF_0e0e0e);
+				for (int j = 0; j < entry.getSecond().size(); j++) {
+					int xp = x + textWidth + 257 + j * 16;
+					int yp = y + 8 + i * 16;
+					ItemStack st = new ItemStack(entry.getSecond().get(j).getBlock());
+					UIHelper.renderItem(st, xp, yp);
+					if (pX > xp && pX < xp + 16 && pY > yp && pY < yp + 16) {
+						UIHelper.renderTintedItem(stack, st, xp, yp, 255, 255, 255, 0.2f);
+						UIHelper.renderLabel(stack, Arrays.asList(st.getHoverName()), pX, pY, 0xFF_232323, 0xFF_00fefe,
+								0xFF_1bcccc);
+					}
+				}
+			}
+
+			UIHelper.bindTrmnl();
+		} else {
+			if (pX > x + 214 && pX < x + 214 + 17 && pY > y + 5 && pY < y + 5 + 17) {
+				UIHelper.blit(stack, x + 214, y + 5, 121, 219, 17, 17);
+			} else {
+				UIHelper.blit(stack, x + 214, y + 5, 121, 202, 17, 17);
+			}
+		}
 
 		// Text
 		UIHelper.drawCenteredStringWithBorder(stack, menu.te.getName(), x + xSize / 2, y + 10, 0xFF_00fefe,
@@ -144,6 +207,10 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 				} else {
 					layer = Optional.of(mb.mb.size.getY());
 				}
+				UIHelper.click();
+			}
+			if (pX > x + 214 && pX < x + 214 + 17 && pY > y + 5 && pY < y + 5 + 17) {
+				this.infoWindow = !infoWindow;
 				UIHelper.click();
 			}
 		}

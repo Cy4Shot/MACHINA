@@ -935,18 +935,17 @@ public class UIHelper {
 
 		eye.transform(rotMat);
 		eye.normalize();
-		renderElements(ms, mb, BlockPos.betweenClosed(BlockPos.ZERO, new BlockPos(sizeX - 1, sizeY - 1, sizeZ - 1)),
-				eye, par, transparency);
+		renderElements(ms, mb, size, eye, par, transparency, rotX > -30F);
 
 		ms.popPose();
 	}
 
 	private static IRenderTypeBuffer.Impl mbBuffers = null;
 
-	private static void renderElements(MatrixStack ms, ClientMultiblock mb, Iterable<? extends BlockPos> blocks,
-			Vector4f eye, float par, Predicate<BlockPos> transparency) {
+	private static void renderElements(MatrixStack ms, ClientMultiblock mb, Vector3i dest, Vector4f eye, float par,
+			Predicate<BlockPos> transparency, boolean flip) {
 		if (mbBuffers == null) {
-			mbBuffers = initBuffers(mc.renderBuffers().bufferSource(), 0.4f);
+			mbBuffers = initBuffers(mc.renderBuffers().bufferSource(), 0.2f);
 		}
 
 		IRenderTypeBuffer.Impl buffers = mc.renderBuffers().bufferSource();
@@ -955,41 +954,49 @@ public class UIHelper {
 		RenderSystem.color4f(1F, 1F, 1F, 1F);
 		ms.translate(0, 0, -1);
 
-		doWorldRenderPass(ms, mbBuffers, mb, blocks, eye, transparency, true);
+		doWorldRenderPass(ms, mbBuffers, buffers, mb, dest, eye, transparency, flip);
 		mbBuffers.endBatch();
-		doWorldRenderPass(ms, buffers, mb, blocks, eye, transparency, false);
 		buffers.endBatch();
 
 		ms.popPose();
 	}
 
-	private static void doWorldRenderPass(MatrixStack ms, @Nonnull IRenderTypeBuffer.Impl buffers, ClientMultiblock mb,
-			Iterable<? extends BlockPos> blocks, Vector4f eye, Predicate<BlockPos> transparency, boolean test) {
+	private static void doWorldRenderPass(MatrixStack ms, @Nonnull IRenderTypeBuffer.Impl tpBuffers,
+			@Nonnull IRenderTypeBuffer.Impl nmBuffers, ClientMultiblock mb, Vector3i dest, Vector4f eye,
+			Predicate<BlockPos> transparency, boolean flip) {
 		Random rand = new Random();
 		long seed = rand.nextLong();
-		for (BlockPos pos : blocks) {
-			if (transparency.test(pos) != test) {
-				continue;
-			}
-			mb = mb.restrict(has -> test ? transparency.test(has) : !transparency.test(has));
-			BlockState bs = mb.getBlockState(pos);
+		boolean last = false;
+		for (int y = 0; y < dest.getY(); y++) {
+			for (int x = 0; x < dest.getX(); x++) {
+				for (int z = 0; z < dest.getZ(); z++) {
+					BlockPos pos = new BlockPos(x, flip ? y : dest.getY() - y - 1, z);
+					boolean tp = !transparency.test(pos);
+					if (last != tp) {
+						(last ? nmBuffers : tpBuffers).endBatch();
+					}
+					mb = mb.restrict(has -> tp ? !transparency.test(has) : transparency.test(has));
+					BlockState bs = mb.getBlockState(pos);
 
-			ms.pushPose();
-			ms.translate(pos.getX(), pos.getY(), pos.getZ());
-			for (RenderType layer : RenderType.chunkBufferLayers()) {
-				if (RenderTypeLookup.canRenderInLayer(bs, layer)) {
-					ForgeHooksClient.setRenderLayer(layer);
-					IVertexBuilder buffer = buffers.getBuffer(layer);
-					Vector3d vector3d = bs.getOffset(mb, pos);
-					ms.translate(vector3d.x, vector3d.y, vector3d.z);
-					IBakedModel model = mc.getBlockRenderer().getBlockModel(bs);
-					IModelData modelData = model.getModelData(mb, pos, bs, EmptyModelData.INSTANCE);
-					mc.getBlockRenderer().getModelRenderer().renderModelFlat(mb, model, bs, pos, ms, buffer, test, rand,
-							seed, OverlayTexture.NO_OVERLAY, modelData);
-					ForgeHooksClient.setRenderLayer(null);
+					ms.pushPose();
+					ms.translate(pos.getX(), pos.getY(), pos.getZ());
+					for (RenderType layer : RenderType.chunkBufferLayers()) {
+						if (RenderTypeLookup.canRenderInLayer(bs, layer)) {
+							ForgeHooksClient.setRenderLayer(layer);
+							IVertexBuilder buffer = (tp ? nmBuffers : tpBuffers).getBuffer(layer);
+							Vector3d vector3d = bs.getOffset(mb, pos);
+							ms.translate(vector3d.x, vector3d.y, vector3d.z);
+							IBakedModel model = mc.getBlockRenderer().getBlockModel(bs);
+							IModelData modelData = model.getModelData(mb, pos, bs, EmptyModelData.INSTANCE);
+							mc.getBlockRenderer().getModelRenderer().renderModelFlat(mb, model, bs, pos, ms, buffer,
+									!tp, rand, seed, OverlayTexture.NO_OVERLAY, modelData);
+							ForgeHooksClient.setRenderLayer(null);
+						}
+					}
+					ms.popPose();
+					last = tp;
 				}
 			}
-			ms.popPose();
 		}
 	}
 
@@ -1028,7 +1035,6 @@ public class UIHelper {
 					original.mode(), original.bufferSize(), original.affectsCrumbling(), true, () -> {
 						original.setupRenderState();
 
-						// Alter GL state
 						RenderSystem.disableDepthTest();
 						RenderSystem.enableBlend();
 						RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA,
