@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import com.machina.block.container.base.BaseContainer;
 import com.machina.block.tile.multiblock.MultiblockMasterTileEntity;
 import com.machina.client.util.UIHelper;
+import com.machina.multiblock.ClientMultiblock;
 import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -18,11 +19,19 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 
 	private T menu;
 	private float rot = 0f;
+	private ClientMultiblock mb;
 
 	public UnformedMultiblockScreen(T menu, ITextComponent title) {
 		super(title);
 
 		this.menu = menu;
+	}
+
+	@Override
+	protected void init() {
+		super.init();
+
+		this.mb = new ClientMultiblock(menu.te.mb);
 	}
 
 	@Override
@@ -42,7 +51,7 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 		int y = (this.height - ySize) / 2;
 		UIHelper.blit(stack, x, y, 0, 0, xSize, ySize);
 
-		UIHelper.renderMultiblock(stack, this.menu.te.mb, x + xSize / 2, y + ySize / 2, 1, par, -rot);
+		UIHelper.renderMultiblock(stack, this.mb, x + xSize / 2, y + ySize / 2, 1, par, -rot);
 
 		// Data
 		UIHelper.drawCenteredStringWithBorder(stack,
@@ -54,7 +63,7 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 		// Footer
 		UIHelper.drawStringWithBorder(stack, "MACHINA://404_NOT_FOUND/", x + 6, y + 195, 0xFF_00fefe, 0xFF_0e0e0e);
 	}
-	
+
 	@Override
 	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
 
@@ -65,13 +74,13 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
-	
+
 	@Override
 	public void onClose() {
 		this.minecraft.player.closeContainer();
 		super.onClose();
 	}
-	
+
 	@Override
 	public boolean isPauseScreen() {
 		return false;

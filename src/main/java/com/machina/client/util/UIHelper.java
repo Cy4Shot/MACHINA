@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
 import org.lwjgl.opengl.GL11;
 
-import com.machina.multiblock.Multiblock;
+import com.machina.multiblock.ClientMultiblock;
 import com.machina.util.Color;
 import com.machina.util.math.MathUtil;
 import com.machina.util.text.MachinaRL;
@@ -18,6 +19,7 @@ import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.text2speech.Narrator;
 
 import net.minecraft.block.BlockState;
@@ -31,6 +33,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -44,6 +47,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.math.vector.Vector4f;
@@ -57,6 +61,8 @@ import net.minecraft.util.text.TextComponentUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.fluids.FluidStack;
 
 @OnlyIn(Dist.CLIENT)
@@ -890,9 +896,9 @@ public class UIHelper {
 		Narrator.getNarrator().say(text, false);
 	}
 
-	public static void renderMultiblock(MatrixStack ms, Multiblock mb, int xPos, int yPos, int s, float par,
+	public static void renderMultiblock(MatrixStack ms, ClientMultiblock mb, int xPos, int yPos, int s, float par,
 			float extraRot) {
-		Vector3i size = mb.size;
+		Vector3i size = mb.mb.size;
 		int sizeX = size.getX();
 		int sizeY = size.getY();
 		int sizeZ = size.getZ();
@@ -930,8 +936,8 @@ public class UIHelper {
 		ms.popPose();
 	}
 
-	private static void renderElements(MatrixStack ms, Multiblock mb, Iterable<? extends BlockPos> blocks, Vector4f eye,
-			float par) {
+	private static void renderElements(MatrixStack ms, ClientMultiblock mb, Iterable<? extends BlockPos> blocks,
+			Vector4f eye, float par) {
 		ms.pushPose();
 		RenderSystem.color4f(1F, 1F, 1F, 1F);
 		ms.translate(0, 0, -1);
@@ -943,17 +949,25 @@ public class UIHelper {
 		ms.popPose();
 	}
 
-	private static void doWorldRenderPass(MatrixStack ms, Multiblock mb, Iterable<? extends BlockPos> blocks,
+	private static void doWorldRenderPass(MatrixStack ms, ClientMultiblock mb, Iterable<? extends BlockPos> blocks,
 			final @Nonnull IRenderTypeBuffer.Impl buffers, Vector4f eye) {
+		Random rand = new Random();
+		long seed = rand.nextLong();
 		for (BlockPos pos : blocks) {
-			BlockState bs = mb.getRenderAtPos(pos);
+			BlockState bs = mb.getBlockState(pos);
 
 			ms.pushPose();
 			ms.translate(pos.getX(), pos.getY(), pos.getZ());
 			for (RenderType layer : RenderType.chunkBufferLayers()) {
 				if (RenderTypeLookup.canRenderInLayer(bs, layer)) {
 					ForgeHooksClient.setRenderLayer(layer);
-					mc.getBlockRenderer().renderSingleBlock(bs, ms, buffers, 15728880, OverlayTexture.NO_OVERLAY);
+					IVertexBuilder buffer = buffers.getBuffer(layer);
+					Vector3d vector3d = bs.getOffset(mb, pos);
+					ms.translate(vector3d.x, vector3d.y, vector3d.z);
+					IBakedModel model = mc.getBlockRenderer().getBlockModel(bs);
+					IModelData modelData = model.getModelData(mb, pos, bs, EmptyModelData.INSTANCE);
+					mc.getBlockRenderer().getModelRenderer().renderModelFlat(mb, model, bs, pos, ms, buffer, false,
+							rand, seed, OverlayTexture.NO_OVERLAY, modelData);
 					ForgeHooksClient.setRenderLayer(null);
 				}
 			}
