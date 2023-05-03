@@ -1,0 +1,28 @@
+{
+	"type": "machina:haber",
+	"power": 30,
+	"catalyst": {
+		"item": "machina:iron_catalyst",
+		"count": 1
+	},
+	"input": [
+		{
+			"fluid": "machina:methane",
+			"amount": 10
+		},
+		{
+			"fluid": "minecraft:water",
+			"amount": 50
+		},
+		{
+			"fluid": "machina:nitrogen",
+			"amount": 10
+		}
+	],
+	"output": {
+		"fluid": {
+			"fluid": "machina:ammonia",
+			"amount": 10
+		}
+	}
+}

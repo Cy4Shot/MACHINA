@@ -1,6 +1,5 @@
 package com.machina.client.jei.category;
 
-import com.machina.recipe.IMachinaRecipe;
 import com.machina.util.text.MachinaRL;
 import com.machina.util.text.StringUtils;
 
@@ -11,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class BaseCategory<T extends IMachinaRecipe> implements IRecipeCategory<T> {
+public abstract class BaseCategory<T> implements IRecipeCategory<T> {
 
 	final Class<T> clazz;
 

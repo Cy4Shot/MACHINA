@@ -1,5 +1,7 @@
 package com.machina.block.tile.multiblock.haber;
 
+import java.util.stream.Collectors;
+
 import com.machina.block.container.HaberContainer;
 import com.machina.block.container.base.IMachinaContainerProvider;
 import com.machina.block.tile.multiblock.MultiblockMasterTileEntity;
@@ -8,9 +10,10 @@ import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.capability.fluid.MachinaFluidStorage;
 import com.machina.capability.fluid.MachinaTank;
 import com.machina.capability.inventory.MachinaItemStorage;
-import com.machina.config.CommonConfig;
+import com.machina.recipe.impl.HaberRecipe;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.text.MachinaRL;
 
@@ -21,7 +24,6 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class HaberControllerTileEntity extends MultiblockMasterTileEntity
@@ -43,6 +45,7 @@ public class HaberControllerTileEntity extends MultiblockMasterTileEntity
 	MachinaItemStorage items;
 	MachinaEnergyStorage energy;
 	MachinaFluidStorage fluid;
+	HaberRecipe rec;
 
 	@Override
 	public void createStorages() {
@@ -54,57 +57,67 @@ public class HaberControllerTileEntity extends MultiblockMasterTileEntity
 				new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.LIQUID_AMMONIA.fluid()), true, 3));
 	}
 
+	public void validateRecipe() {
+		if (rec == null) {
+			this.rec = (HaberRecipe) RecipeInit.getRecipes(RecipeInit.HABER_RECIPE, level.getRecipeManager()).values()
+					.stream().collect(Collectors.toList()).get(0);
+		}
+	}
+
 	@Override
 	public void tick() {
 		if (this.level.isClientSide())
 			return;
+
+		validateRecipe();
 
 		if (!hasCatalyst() || !hasMethane() || !hasNitrogen() || !hasWater() || !hasOutput() || !hasPower()) {
 			return;
 		}
 
 		// Consume
-		fluid.drainRaw(new FluidStack(FluidInit.METHANE.fluid(), CommonConfig.haberMethaneConsumeRate.get()),
-				FluidAction.EXECUTE);
-		fluid.drainRaw(new FluidStack(FluidInit.NITROGEN.fluid(), CommonConfig.haberNitrogenConsumeRate.get()),
-				FluidAction.EXECUTE);
-		fluid.drainRaw(new FluidStack(Fluids.WATER.getFluid(), CommonConfig.haberWaterConsumeRate.get()),
-				FluidAction.EXECUTE);
-		this.energy.consumeEnergy(CommonConfig.haberPowerRate.get());
+		fluid.drainRaw(rec.fluids.get(0), FluidAction.EXECUTE);
+		fluid.drainRaw(rec.fluids.get(1), FluidAction.EXECUTE);
+		fluid.drainRaw(rec.fluids.get(2), FluidAction.EXECUTE);
+		this.energy.consumeEnergy(rec.power);
 		items.getStackInSlot(0).setDamageValue(items.getStackInSlot(0).getDamageValue() + 1);
 		if (items.getStackInSlot(0).getDamageValue() >= items.getStackInSlot(0).getMaxDamage()) {
 			items.getStackInSlot(0).shrink(1);
 		}
 
 		// Output
-		fluid.fill(new FluidStack(FluidInit.LIQUID_AMMONIA.fluid(), CommonConfig.haberAmmoniaOutputRate.get()),
-				FluidAction.EXECUTE);
+		fluid.tank(3).rawFill(rec.fOut, FluidAction.EXECUTE);
 		setChanged();
 	}
 
 	public boolean hasCatalyst() {
+		validateRecipe();
 		return !items.getStackInSlot(0).isEmpty();
 	}
 
 	public boolean hasMethane() {
-		return fluid.getFluidInTank(0).getAmount() >= CommonConfig.haberMethaneConsumeRate.get();
+		validateRecipe();
+		return fluid.getFluidInTank(0).getAmount() >= rec.fluids.get(0).getAmount();
 	}
 
 	public boolean hasNitrogen() {
-		return fluid.getFluidInTank(1).getAmount() >= CommonConfig.haberNitrogenConsumeRate.get();
+		validateRecipe();
+		return fluid.getFluidInTank(1).getAmount() >= rec.fluids.get(2).getAmount();
 	}
 
 	public boolean hasWater() {
-		return fluid.getFluidInTank(2).getAmount() >= CommonConfig.haberWaterConsumeRate.get();
+		validateRecipe();
+		return fluid.getFluidInTank(2).getAmount() >= rec.fluids.get(1).getAmount();
 	}
 
 	public boolean hasOutput() {
-		return fluid.getFluidInTank(3).getAmount() + CommonConfig.haberAmmoniaOutputRate.get() <= fluid
-				.getTankCapacity(3);
+		validateRecipe();
+		return fluid.getFluidInTank(3).getAmount() + rec.fOut.getAmount() <= fluid.getTankCapacity(3);
 	}
 
 	public boolean hasPower() {
-		return energy.getEnergyStored() >= CommonConfig.haberPowerRate.get();
+		validateRecipe();
+		return energy.getEnergyStored() >= rec.power;
 	}
 
 	@Override
