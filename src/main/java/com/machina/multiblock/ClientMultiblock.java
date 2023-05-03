@@ -1,6 +1,9 @@
 package com.machina.multiblock;
 
+import java.util.function.Predicate;
+
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.tileentity.TileEntity;
@@ -60,4 +63,25 @@ public class ClientMultiblock implements IBlockDisplayReader {
 		return 15 - pAmount;
 	}
 
+	public ClientMultiblockRestricted restrict(Predicate<BlockPos> has) {
+		return new ClientMultiblockRestricted(mb, has);
+	}
+
+	public class ClientMultiblockRestricted extends ClientMultiblock {
+
+		private final Predicate<BlockPos> has;
+
+		public ClientMultiblockRestricted(Multiblock mb, Predicate<BlockPos> has) {
+			super(mb);
+			this.has = has;
+		}
+
+		@Override
+		public BlockState getBlockState(BlockPos pPos) {
+			if (!has.test(pPos)) {
+				return Blocks.AIR.defaultBlockState();
+			}
+			return super.getBlockState(pPos);
+		}
+	}
 }

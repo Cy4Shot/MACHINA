@@ -3,14 +3,19 @@ package com.machina.client.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.lwjgl.opengl.GL11;
 
+import com.machina.Machina;
 import com.machina.multiblock.ClientMultiblock;
 import com.machina.util.Color;
 import com.machina.util.math.MathUtil;
@@ -22,6 +27,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.text2speech.Narrator;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
@@ -64,6 +70,7 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 @OnlyIn(Dist.CLIENT)
 public class UIHelper {
@@ -897,7 +904,7 @@ public class UIHelper {
 	}
 
 	public static void renderMultiblock(MatrixStack ms, ClientMultiblock mb, int xPos, int yPos, int s, float par,
-			float extraRot) {
+			float rotY, float rotX, Predicate<BlockPos> transparency) {
 		Vector3i size = mb.mb.size;
 		int sizeX = size.getX();
 		int sizeY = size.getY();
@@ -916,44 +923,55 @@ public class UIHelper {
 		Vector4f eye = new Vector4f(0, 0, -100, 1);
 		Matrix4f rotMat = new Matrix4f();
 		rotMat.setIdentity();
-		ms.mulPose(Vector3f.XP.rotationDegrees(-30F));
-		rotMat.multiply(Vector3f.XP.rotationDegrees(30));
+		ms.mulPose(Vector3f.XP.rotationDegrees(-rotX - 30F));
+		rotMat.multiply(Vector3f.XP.rotationDegrees(rotX + 30));
 
 		float offX = (float) -sizeX / 2;
 		float offZ = (float) -sizeZ / 2 + 1;
 		ms.translate(-offX, 0, -offZ);
-		ms.mulPose(Vector3f.YP.rotationDegrees(extraRot));
-		rotMat.multiply(Vector3f.YP.rotationDegrees(-extraRot));
-		ms.mulPose(Vector3f.YP.rotationDegrees(45));
-		rotMat.multiply(Vector3f.YP.rotationDegrees(-45));
+		ms.mulPose(Vector3f.YP.rotationDegrees(rotY + 45));
+		rotMat.multiply(Vector3f.YP.rotationDegrees(-rotY - 45));
 		ms.translate(offX, 0, offZ);
 
 		eye.transform(rotMat);
 		eye.normalize();
 		renderElements(ms, mb, BlockPos.betweenClosed(BlockPos.ZERO, new BlockPos(sizeX - 1, sizeY - 1, sizeZ - 1)),
-				eye, par);
+				eye, par, transparency);
 
 		ms.popPose();
 	}
 
+	private static IRenderTypeBuffer.Impl mbBuffers = null;
+
 	private static void renderElements(MatrixStack ms, ClientMultiblock mb, Iterable<? extends BlockPos> blocks,
-			Vector4f eye, float par) {
+			Vector4f eye, float par, Predicate<BlockPos> transparency) {
+		if (mbBuffers == null) {
+			mbBuffers = initBuffers(mc.renderBuffers().bufferSource(), 0.4f);
+		}
+
+		IRenderTypeBuffer.Impl buffers = mc.renderBuffers().bufferSource();
+
 		ms.pushPose();
 		RenderSystem.color4f(1F, 1F, 1F, 1F);
 		ms.translate(0, 0, -1);
 
-		IRenderTypeBuffer.Impl buffers = Minecraft.getInstance().renderBuffers().bufferSource();
-		doWorldRenderPass(ms, mb, blocks, buffers, eye);
-
+		doWorldRenderPass(ms, mbBuffers, mb, blocks, eye, transparency, true);
+		mbBuffers.endBatch();
+		doWorldRenderPass(ms, buffers, mb, blocks, eye, transparency, false);
 		buffers.endBatch();
+
 		ms.popPose();
 	}
 
-	private static void doWorldRenderPass(MatrixStack ms, ClientMultiblock mb, Iterable<? extends BlockPos> blocks,
-			final @Nonnull IRenderTypeBuffer.Impl buffers, Vector4f eye) {
+	private static void doWorldRenderPass(MatrixStack ms, @Nonnull IRenderTypeBuffer.Impl buffers, ClientMultiblock mb,
+			Iterable<? extends BlockPos> blocks, Vector4f eye, Predicate<BlockPos> transparency, boolean test) {
 		Random rand = new Random();
 		long seed = rand.nextLong();
 		for (BlockPos pos : blocks) {
+			if (transparency.test(pos) != test) {
+				continue;
+			}
+			mb = mb.restrict(has -> test ? transparency.test(has) : !transparency.test(has));
 			BlockState bs = mb.getBlockState(pos);
 
 			ms.pushPose();
@@ -966,12 +984,82 @@ public class UIHelper {
 					ms.translate(vector3d.x, vector3d.y, vector3d.z);
 					IBakedModel model = mc.getBlockRenderer().getBlockModel(bs);
 					IModelData modelData = model.getModelData(mb, pos, bs, EmptyModelData.INSTANCE);
-					mc.getBlockRenderer().getModelRenderer().renderModelFlat(mb, model, bs, pos, ms, buffer, false,
-							rand, seed, OverlayTexture.NO_OVERLAY, modelData);
+					mc.getBlockRenderer().getModelRenderer().renderModelFlat(mb, model, bs, pos, ms, buffer, test, rand,
+							seed, OverlayTexture.NO_OVERLAY, modelData);
 					ForgeHooksClient.setRenderLayer(null);
 				}
 			}
 			ms.popPose();
+		}
+	}
+
+	private static IRenderTypeBuffer.Impl initBuffers(IRenderTypeBuffer.Impl original, float alpha) {
+		BufferBuilder fallback = ObfuscationReflectionHelper.getPrivateValue(IRenderTypeBuffer.Impl.class, original,
+				"field_228457_a_");
+		Map<RenderType, BufferBuilder> layerBuffers = ObfuscationReflectionHelper
+				.getPrivateValue(IRenderTypeBuffer.Impl.class, original, "field_228458_b_");
+		Map<RenderType, BufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
+		for (Map.Entry<RenderType, BufferBuilder> e : layerBuffers.entrySet()) {
+			remapped.put(MultiblockRenderType.remap(e.getKey(), alpha), e.getValue());
+		}
+		return new MultiblockBuffers(fallback, remapped, alpha);
+	}
+
+	private static class MultiblockBuffers extends IRenderTypeBuffer.Impl {
+
+		private final float alpha;
+
+		protected MultiblockBuffers(BufferBuilder fallback, Map<RenderType, BufferBuilder> layerBuffers, float alpha) {
+			super(fallback, layerBuffers);
+			this.alpha = alpha;
+		}
+
+		@Override
+		public IVertexBuilder getBuffer(RenderType type) {
+			return super.getBuffer(MultiblockRenderType.remap(type, alpha));
+		}
+	}
+
+	private static class MultiblockRenderType extends RenderType {
+		private static Map<RenderType, RenderType> remappedTypes = new IdentityHashMap<>();
+
+		private MultiblockRenderType(RenderType original, float alpha) {
+			super(String.format("%s_%s_multiblock", original.toString(), Machina.MOD_ID), original.format(),
+					original.mode(), original.bufferSize(), original.affectsCrumbling(), true, () -> {
+						original.setupRenderState();
+
+						// Alter GL state
+						RenderSystem.disableDepthTest();
+						RenderSystem.enableBlend();
+						RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA,
+								GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
+						RenderSystem.blendColor(1, 1, 1, alpha);
+					}, () -> {
+						RenderSystem.blendColor(1, 1, 1, 1);
+						RenderSystem.defaultBlendFunc();
+						RenderSystem.disableBlend();
+						RenderSystem.enableDepthTest();
+
+						original.clearRenderState();
+					});
+		}
+
+		@Override
+		public boolean equals(@Nullable Object other) {
+			return this == other;
+		}
+
+		@Override
+		public int hashCode() {
+			return System.identityHashCode(this);
+		}
+
+		public static RenderType remap(RenderType in, float alpha) {
+			if (in instanceof MultiblockRenderType) {
+				return in;
+			} else {
+				return remappedTypes.computeIfAbsent(in, a -> new MultiblockRenderType(a, alpha));
+			}
 		}
 	}
 }
