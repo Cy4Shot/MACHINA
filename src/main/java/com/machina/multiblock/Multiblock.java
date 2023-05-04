@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Joiner;
@@ -24,7 +25,7 @@ public class Multiblock {
 	public Map<String, List<BlockState>> map;
 	public Map<String, BlockState> renderMap;
 	public List<BlockState> allowed;
-	public List<Block> allowedBlock;
+	public Set<Block> allowedBlock;
 	public String[][][] structure;
 	public String[][][] renderStructure;
 
@@ -72,7 +73,7 @@ public class Multiblock {
 					.map(l1 -> l1.stream().map(l2 -> l2.split("(?!^)")).toArray(String[][]::new))
 					.toArray(String[][][]::new);
 			mb.allowed = mb.map.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
-			mb.allowedBlock = mb.allowed.stream().map(b -> b.getBlock()).collect(Collectors.toList());
+			mb.allowedBlock = mb.allowed.stream().map(b -> b.getBlock()).collect(Collectors.toSet());
 			return mb;
 		}
 	}
