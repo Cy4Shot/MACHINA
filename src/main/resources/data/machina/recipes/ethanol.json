@@ -1,0 +1,20 @@
+{
+	"type": "machina:mixer",
+	"power": 20,
+	"fluids": [
+		{
+			"fluid": "machina:ethylene",
+			"amount": 10
+		},
+		{
+			"fluid": "minecraft:water",
+			"amount": 10
+		}
+	],
+	"outputs": [
+		{
+			"fluid": "machina:ethanol",
+			"amount": 10
+		}
+	]
+}

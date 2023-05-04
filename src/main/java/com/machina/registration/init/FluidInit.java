@@ -44,10 +44,11 @@ public class FluidInit {
 	public static final FluidObject METHANE = gas("methane", "CH4", 0xFF_ece0f9);
 	public static final FluidObject ETHANE = gas("ethane", "C2H6", 0xFF_bbd68d);
 	public static final FluidObject ETHYLENE = gas("ethylene", "C2H4", 0xFF_8dd6be);
-	public static final FluidObject CHLORINE = gas("clorine", "Cl2", 0xFF_bfd25f);
+	public static final FluidObject CHLORINE = gas("chlorine", "Cl2", 0xFF_bfd25f);
 	public static final FluidObject BORON_TRIFLUORIDE = gas("boron_trifluoride", "BF3", 0xFF_f8f9fa);
 	public static final FluidObject FORMALDEHYDE = gas("formaldehyde", "CH2O", 0xFF_f5f5f5);
 	public static final FluidObject NITROGEN_DIOXIDE = gas("nitrogen_dioxide", "NO2", 0xFF_560003);
+	public static final FluidObject SULPHUR_DIOXIDE = gas("sulphur_dioxide", "SO2", 0xFF_f3f7ef);
 
 	// Liquids
 	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", "H2", 0xFF_898fff);
@@ -58,8 +59,9 @@ public class FluidInit {
 	public static final FluidObject SULPHURIC_ACID = liquid("sulphuric_acid", "H2SO4", 0xFF_fcfff8);
 	public static final FluidObject BROMINE = liquid("bromine", "Br2", 0xFF_fc6f37);
 	public static final FluidObject BENZENE = liquid("benzene", "C6H6", 0xFF_c9cbc6);
-	public static final FluidObject TOULENE = liquid("toulene", "C6H5CH3", 0xFF_d7dadb);
+	public static final FluidObject TOLUENE = liquid("toluene", "C6H5CH3", 0xFF_d7dadb);
 	public static final FluidObject METHANOL = liquid("methanol", "CH3OH", 0xFF_ecefe6);
+	public static final FluidObject ETHANOL = liquid("ethanol", "CH3CH2OH", 0xFF_f7fdfb);
 	public static final FluidObject HYDROGEN_FLUORIDE = liquid("hydrogen_fluoride", "HF", 0xFF_e6e7eb);
 	public static final FluidObject ACETALDEHYDE = liquid("acetaldehyde", "CH3CHO", 0xFF_f2f2f2);
 	public static final FluidObject BENZYL_CHLORIDE = liquid("benzyl_chloride", "C6H5CH2Cl", 0xFF_dbdbdc);

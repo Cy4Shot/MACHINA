@@ -2,7 +2,7 @@
   "textures": {
     "particle": "machina:block/wasteland_dirt",
     "bg": "machina:block/wasteland_dirt",
-    "fg": "machina:ore/flourite"
+    "fg": "machina:ore/fluorite"
   },
   "loader": "machina:ore_model_loader"
 }

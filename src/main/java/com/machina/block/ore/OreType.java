@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 public enum OreType {
 	SALT("NaCl", 1f),
-	FLOURITE("CaF2", 1f),
+	FLUORITE("CaF2", 1f),
 	BORON("B", 0.5f),
 	SULPHUR("S", 0.75f),
 	BISMUTH("Bi", 0.75f),

@@ -1,0 +1,24 @@
+{
+	"type": "machina:mixer",
+	"power": 50,
+	"fluids": [
+		{
+			"fluid": "machina:methane",
+			"amount": 20
+		},
+		{
+			"fluid": "machina:nitric_acid",
+			"amount": 20
+		}
+	],
+	"outputs": [
+		{
+			"fluid": "machina:nitromethane",
+			"amount": 20
+		},
+		{
+			"fluid": "minecraft:water",
+			"amount": 20
+		}
+	]
+}

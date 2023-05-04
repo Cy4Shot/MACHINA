@@ -1,0 +1,20 @@
+{
+	"type": "machina:mixer",
+	"power": 30,
+	"fluids": [
+		{
+			"fluid": "machina:sulphur_dioxide",
+			"amount": 2
+		},
+		{
+			"fluid": "machina:oxygen",
+			"amount": 1
+		}
+	],
+	"outputs": [
+		{
+			"fluid": "machina:sulphur_trioxide",
+			"amount": 2
+		}
+	]
+}

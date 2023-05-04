@@ -1,0 +1,24 @@
+{
+	"type": "machina:mixer",
+	"power": 40,
+	"fluids": [
+		{
+			"fluid": "machina:acetaldehyde",
+			"amount": 10
+		},
+		{
+			"fluid": "machina:nitric_acid",
+			"amount": 10
+		}
+	],
+	"outputs": [
+		{
+			"fluid": "machina:glyoxal",
+			"amount": 10
+		},
+		{
+			"fluid": "machina:hydrogen",
+			"amount": 30
+		}
+	]
+}

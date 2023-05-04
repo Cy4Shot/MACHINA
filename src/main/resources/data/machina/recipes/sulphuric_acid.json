@@ -1,0 +1,20 @@
+{
+	"type": "machina:mixer",
+	"power": 30,
+	"fluids": [
+		{
+			"fluid": "machina:sulphur_trioxide",
+			"amount": 20
+		},
+		{
+			"fluid": "minecraft:water",
+			"amount": 20
+		}
+	],
+	"outputs": [
+		{
+			"fluid": "machina:sulphuric_acid",
+			"amount": 20
+		}
+	]
+}

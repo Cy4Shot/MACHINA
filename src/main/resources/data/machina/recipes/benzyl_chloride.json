@@ -1,0 +1,24 @@
+{
+	"type": "machina:mixer",
+	"power": 20,
+	"fluids": [
+		{
+			"fluid": "machina:toluene",
+			"amount": 10
+		},
+		{
+			"fluid": "machina:chlorine",
+			"amount": 10
+		}
+	],
+	"outputs": [
+		{
+			"fluid": "machina:benzyl_chloride",
+			"amount": 10
+		},
+		{
+			"fluid": "machina:hydrochloric_acid",
+			"amount": 10
+		}
+	]
+}

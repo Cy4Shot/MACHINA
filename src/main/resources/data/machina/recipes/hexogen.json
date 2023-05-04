@@ -1,0 +1,28 @@
+{
+	"type": "machina:mixer",
+	"power": 10000,
+	"fluids": [
+		{
+			"fluid": "machina:nitric_acid",
+			"amount": 10000
+		}
+	],
+	"item": {
+		"item": "machina:hexamine",
+		"count": 1
+	},
+	"outputs": [
+		{
+			"fluid": "machina:hexogen",
+			"amount": 1000
+		},
+		{
+			"fluid": "minecraft:water",
+			"amount": 3000
+		},
+		{
+			"item": "machina:ammonium_nitrate",
+			"count": 1
+		}
+	]
+}

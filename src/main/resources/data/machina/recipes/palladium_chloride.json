@@ -1,0 +1,24 @@
+{
+	"type": "machina:mixer",
+	"power": 1000,
+	"fluids": [
+		{
+			"fluid": "machina:hydrochloric_acid",
+			"amount": 500
+		},
+		{
+			"fluid": "machina:chlorine",
+			"amount": 250
+		}
+	],
+	"item": {
+		"item": "machina:palladium",
+		"count": 1
+	},
+	"outputs": [
+		{
+			"item": "machina:palladium_chloride",
+			"count": 1
+		}
+	]
+}

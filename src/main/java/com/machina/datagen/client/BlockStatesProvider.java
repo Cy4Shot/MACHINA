@@ -68,8 +68,9 @@ public class BlockStatesProvider extends BlockStateProvider {
 		fluid(FluidInit.SULPHURIC_ACID);
 		fluid(FluidInit.BROMINE);
 		fluid(FluidInit.BENZENE);
-		fluid(FluidInit.TOULENE);
+		fluid(FluidInit.TOLUENE);
 		fluid(FluidInit.METHANOL);
+		fluid(FluidInit.ETHANOL);
 		fluid(FluidInit.HYDROGEN_FLUORIDE);
 		fluid(FluidInit.ACETALDEHYDE);
 		fluid(FluidInit.BENZYL_CHLORIDE);

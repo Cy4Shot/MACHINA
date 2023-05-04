@@ -1,0 +1,24 @@
+{
+	"type": "machina:mixer",
+	"power": 20,
+	"fluids": [
+		{
+			"fluid": "machina:carbon_dioxide",
+			"amount": 10
+		},
+		{
+			"fluid": "machina:hydrogen",
+			"amount": 30
+		}
+	],
+	"outputs": [
+		{
+			"fluid": "machina:methanol",
+			"amount": 10
+		},
+		{
+			"fluid": "minecraft:water",
+			"amount": 10
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+	"type": "machina:mixer",
+	"power": 3000,
+	"fluids": [
+		{
+			"fluid": "machina:nitric_acid",
+			"amount": 1000
+		},
+		{
+			"fluid": "machina:liquid_ammonia",
+			"amount": 1000
+		}
+	],
+	"outputs": [
+		{
+			"item": "machina:ammonium_nitrate",
+			"count": 1
+		}
+	]
+}

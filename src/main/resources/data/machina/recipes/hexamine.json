@@ -1,0 +1,24 @@
+{
+	"type": "machina:mixer",
+	"power": 1000,
+	"fluids": [
+		{
+			"fluid": "machina:ammonia",
+			"amount": 400
+		},
+		{
+			"fluid": "machina:formaldehyde",
+			"amount": 600
+		}
+	],
+	"outputs": [
+		{
+			"item": "machina:hexamine",
+			"count": 1
+		},
+		{
+			"fluid": "minecraft:water",
+			"amount": 600
+		}
+	]
+}

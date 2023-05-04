@@ -1,0 +1,20 @@
+{
+	"type": "machina:mixer",
+	"power": 10,
+	"fluids": [
+		{
+			"fluid": "machina:hydrogen",
+			"amount": 10
+		},
+		{
+			"fluid": "machina:chlorine",
+			"amount": 10
+		}
+	],
+	"outputs": [
+		{
+			"fluid": "machina:hydrochloric_acid",
+			"amount": 20
+		}
+	]
+}

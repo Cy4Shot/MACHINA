@@ -1,0 +1,28 @@
+{
+	"type": "machina:mixer",
+	"power": 10,
+	"fluids": [
+		{
+			"fluid": "machina:methanol",
+			"amount": 20
+		},
+		{
+			"fluid": "machina:oxygen",
+			"amount": 10
+		}
+	],
+	"catalyst": {
+		"item": "machina:iron_catalyst",
+		"count": 1
+	},
+	"outputs": [
+		{
+			"fluid": "machina:formaldehyde",
+			"amount": 20
+		},
+		{
+			"fluid": "minecraft:water",
+			"amount": 20
+		}
+	]
+}

@@ -156,6 +156,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.BORON_TRIFLUORIDE, "Boron Trifluoride", "Bucket");
 		add(FluidInit.FORMALDEHYDE, "Formaldehyde", "Bucket");
 		add(FluidInit.NITROGEN_DIOXIDE, "Nitrogen Dioxide", "Bucket");
+		add(FluidInit.SULPHUR_DIOXIDE, "Sulphur Dioxide", "Bucket");
 
 		add(FluidInit.LIQUID_HYDROGEN, "Liquid Hydrogen", "Bucket");
 		add(FluidInit.LIQUID_AMMONIA, "Liquid Ammonia", "Bucket");
@@ -164,8 +165,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.SULPHURIC_ACID, "Sulphuric Acid", "Bucket");
 		add(FluidInit.BROMINE, "Bromine", "Bucket");
 		add(FluidInit.BENZENE, "Benzene", "Bucket");
-		add(FluidInit.TOULENE, "Toulene", "Bucket");
+		add(FluidInit.TOLUENE, "Toluene", "Bucket");
 		add(FluidInit.METHANOL, "Methanol", "Bucket");
+		add(FluidInit.ETHANOL, "Ethanol", "Bucket");
 		add(FluidInit.HYDROGEN_FLUORIDE, "Hydrogen Fluoride", "Bucket");
 		add(FluidInit.ACETALDEHYDE, "Acetaldehyde", "Bucket");
 		add(FluidInit.BENZYL_CHLORIDE, "Benzyl Chloride", "Bucket");
@@ -176,6 +178,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.HNIW, "HNIW (CL-20)", "Bucket");
 		add(FluidInit.HEXOGEN, "Hexogen (RDX)", "Bucket");
 		add(FluidInit.NITROMETHANE, "Nitromethane", "Bucket");
+		add(FluidInit.SULPHUR_TRIOXIDE, "Sulphur Trioxide", "Bucket");
 
 		// Traits
 

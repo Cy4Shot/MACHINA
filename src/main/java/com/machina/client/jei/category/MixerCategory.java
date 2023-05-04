@@ -50,11 +50,11 @@ public class MixerCategory extends BaseCategory<MixerRecipe> {
 
 		int k = 0;
 		if (!recipe.itemIn.isEmpty()) {
-			items.init(k, true, 16, 69);
+			items.init(k, true, 15, 68);
 			k++;
 		}
 		if (!recipe.catalyst.isEmpty()) {
-			items.init(k, true, 64, 36);
+			items.init(k, true, 63, 35);
 			k++;
 		}
 		if (!recipe.itemOut.isEmpty()) {
