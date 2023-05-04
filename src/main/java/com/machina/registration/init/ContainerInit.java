@@ -9,6 +9,7 @@ import com.machina.block.container.FabricatorContainer;
 import com.machina.block.container.FuelStorageUnitContainer;
 import com.machina.block.container.FurnaceGeneratorContainer;
 import com.machina.block.container.HaberContainer;
+import com.machina.block.container.MixerContainer;
 import com.machina.block.container.PuzzleContainer;
 import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
@@ -32,6 +33,7 @@ public class ContainerInit {
 	//@formatter:off
 	public static final RegistryObject<ContainerType<BlueprinterContainer>> BLUEPRINTER = register("blueprinter", BlueprinterContainer::new);
 	public static final RegistryObject<ContainerType<FabricatorContainer>> FABRICATOR = register("fabricator", FabricatorContainer::new);
+	public static final RegistryObject<ContainerType<MixerContainer>> MIXER = register("mixer", MixerContainer::new);
 	public static final RegistryObject<ContainerType<ShipConstructContainer>> SHIP_CONSTRUCT = register("ship_construct", ShipConstructContainer::new);
 	public static final RegistryObject<ContainerType<ShipLaunchContainer>> SHIP_LAUNCH = register("ship_launch", ShipLaunchContainer::new);
 	public static final RegistryObject<ContainerType<AtmosphericSeparatorContainer>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorContainer::new);

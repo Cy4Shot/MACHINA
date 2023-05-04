@@ -56,10 +56,10 @@ public class HaberControllerBlock extends HorizontalMultiblockBlock {
 				}
 			}
 
-			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent() || player.isCreative())
+			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent())
 				return ActionResultType.SUCCESS;
 			BlockHelper.openGui(level, pos, player, HaberControllerTileEntity.class);
 		}
-		return ActionResultType.CONSUME;
+		return ActionResultType.SUCCESS;
 	}
 }

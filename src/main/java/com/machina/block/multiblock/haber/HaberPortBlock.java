@@ -38,7 +38,7 @@ public class HaberPortBlock extends MultiblockBlock {
 	public boolean isMaster() {
 		return false;
 	}
-	
+
 	@Override
 	public ActionResultType use(BlockState pState, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit) {
@@ -57,7 +57,7 @@ public class HaberPortBlock extends MultiblockBlock {
 			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent() || player.isCreative())
 				return ActionResultType.SUCCESS;
 		}
-		
-		return ActionResultType.CONSUME;
+
+		return ActionResultType.SUCCESS;
 	}
 }

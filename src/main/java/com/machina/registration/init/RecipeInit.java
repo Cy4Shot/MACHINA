@@ -6,8 +6,8 @@ import com.machina.recipe.impl.FabricatorRecipe;
 import com.machina.recipe.impl.FabricatorRecipe.FabricatorRecipeType;
 import com.machina.recipe.impl.HaberRecipe;
 import com.machina.recipe.impl.HaberRecipe.HaberRecipeType;
-import com.machina.recipe.impl.PressurizedChamberRecipe;
-import com.machina.recipe.impl.PressurizedChamberRecipe.PressurizedChamberRecipeType;
+import com.machina.recipe.impl.MixerRecipe;
+import com.machina.recipe.impl.MixerRecipe.MixerRecipeType;
 import com.machina.recipe.impl.ShipConsoleRecipe;
 import com.machina.recipe.impl.ShipConsoleRecipe.ShipConsoleRecipeType;
 import com.machina.recipe.impl.StateConverterRecipe;
@@ -23,17 +23,17 @@ import net.minecraftforge.event.RegistryEvent.Register;
 
 public class RecipeInit {
 	public static final IRecipeType<ShipConsoleRecipe> SHIP_CONSOLE_RECIPE = new ShipConsoleRecipeType();
-	public static final IRecipeType<PressurizedChamberRecipe> PRESSURIZED_CHAMBER_RECIPE = new PressurizedChamberRecipeType();
 	public static final IRecipeType<StateConverterRecipe> STATE_CONVERTER_RECIPE = new StateConverterRecipeType();
 	public static final IRecipeType<FabricatorRecipe> FABRICATOR_RECIPE = new FabricatorRecipeType();
 	public static final IRecipeType<HaberRecipe> HABER_RECIPE = new HaberRecipeType();
+	public static final IRecipeType<MixerRecipe> MIXER_RECIPE = new MixerRecipeType();
 
 	public static void registerRecipes(Register<IRecipeSerializer<?>> event) {
 		registerRecipe(event, SHIP_CONSOLE_RECIPE, ShipConsoleRecipe.SERIALIZER);
-		registerRecipe(event, PRESSURIZED_CHAMBER_RECIPE, PressurizedChamberRecipe.SERIALIZER);
 		registerRecipe(event, STATE_CONVERTER_RECIPE, StateConverterRecipe.SERIALIZER);
 		registerRecipe(event, FABRICATOR_RECIPE, FabricatorRecipe.SERIALIZER);
 		registerRecipe(event, HABER_RECIPE, HaberRecipe.SERIALIZER);
+		registerRecipe(event, MIXER_RECIPE, MixerRecipe.SERIALIZER);
 	}
 
 	private static void registerRecipe(Register<IRecipeSerializer<?>> event, IRecipeType<?> type,

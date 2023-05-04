@@ -55,6 +55,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		frontOrientableBlock(BlockInit.STATE_CONVERTER.get());
 		frontOrientableBlock(BlockInit.CREATIVE_BATTERY.get());
 		frontOrientableBlock(BlockInit.TANK.get());
+		frontOrientableBlock(BlockInit.MIXER.get());
 
 		verticalColumnBlock(BlockInit.IRON_CHASSIS.get());
 		verticalColumnBlock(BlockInit.STEEL_CHASSIS.get());

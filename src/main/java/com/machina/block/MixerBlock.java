@@ -24,9 +24,9 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class StateConverterBlock extends HorizontalFacingBlock {
+public class MixerBlock extends HorizontalFacingBlock {
 
-	public StateConverterBlock() {
+	public MixerBlock() {
 		super(AbstractBlock.Properties.of(Material.HEAVY_METAL, MaterialColor.COLOR_GRAY).harvestLevel(2).strength(6f)
 				.sound(SoundType.METAL));
 	}
@@ -38,7 +38,7 @@ public class StateConverterBlock extends HorizontalFacingBlock {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return TileEntityInit.STATE_CONVERTER.get().create();
+		return TileEntityInit.MIXER.get().create();
 	}
 
 	@Override

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "machina:block/mixer"
+    },
+    "facing=south": {
+      "model": "machina:block/mixer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "machina:block/mixer",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "machina:block/mixer",
+      "y": 90
+    }
+  }
+}

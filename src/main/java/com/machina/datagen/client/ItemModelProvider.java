@@ -24,6 +24,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 
 	@Override
 	protected void registerModels() {
+		block(BlockInit.MIXER.get());
 		block(BlockInit.SHIP_CONSOLE.get());
 		block(BlockInit.ATMOSPHERIC_SEPARATOR.get());
 		block(BlockInit.TEMPERATURE_REGULATOR.get());

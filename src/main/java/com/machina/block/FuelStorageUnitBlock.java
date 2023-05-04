@@ -56,11 +56,11 @@ public class FuelStorageUnitBlock extends HorizontalFacingBlock {
 				}
 			}
 
-			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent() || player.isCreative())
+			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent())
 				return ActionResultType.SUCCESS;
 			
 			BlockHelper.openGui(level, pos, player, FuelStorageUnitTileEntity.class);
 		}
-		return ActionResultType.CONSUME;
+		return ActionResultType.SUCCESS;
 	}
 }

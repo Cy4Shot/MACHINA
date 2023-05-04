@@ -19,6 +19,7 @@ import com.machina.block.tile.machine.FabricatorTileEntity;
 import com.machina.block.tile.machine.FluidHopperTileEntity;
 import com.machina.block.tile.machine.FuelStorageUnitTileEntity;
 import com.machina.block.tile.machine.FurnaceGeneratorTileEntity;
+import com.machina.block.tile.machine.MixerTileEntity;
 import com.machina.block.tile.machine.ShipConsoleTileEntity;
 import com.machina.block.tile.machine.StateConverterTileEntity;
 import com.machina.block.tile.machine.TankTileEntity;
@@ -43,6 +44,7 @@ public class TileEntityInit {
 	// @formatter:off
 	public static final RegistryObject<TileEntityType<BlueprinterTileEntity>> BLUEPRINTER = register("blueprinter", BlueprinterTileEntity::new, () -> BlockInit.BLUEPRINTER.get());
 	public static final RegistryObject<TileEntityType<FabricatorTileEntity>> FABRICATOR = register("fabricator", FabricatorTileEntity::new, () -> BlockInit.FABRICATOR.get());
+	public static final RegistryObject<TileEntityType<MixerTileEntity>> MIXER = register("mixer", MixerTileEntity::new, () -> BlockInit.MIXER.get());
 	public static final RegistryObject<TileEntityType<CargoCrateTileEntity>> CARGO_CRATE = register("cargo_crate", CargoCrateTileEntity::new, () -> BlockInit.CARGO_CRATE.get());
 	public static final RegistryObject<TileEntityType<ShipConsoleTileEntity>> SHIP_CONSOLE = register("ship_console", ShipConsoleTileEntity::new, () -> BlockInit.SHIP_CONSOLE.get());
 	public static final RegistryObject<TileEntityType<FluidHopperTileEntity>> FLUID_HOPPER = register("fluid_hopper", FluidHopperTileEntity::new, () -> BlockInit.FLUID_HOPPER.get());

@@ -20,6 +20,7 @@ import com.machina.block.FluidHopperBlock;
 import com.machina.block.FuelStorageUnitBlock;
 import com.machina.block.FurnaceGeneratorBlock;
 import com.machina.block.IAnimatedBlock;
+import com.machina.block.MixerBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.block.StateConverterBlock;
@@ -65,6 +66,7 @@ public class BlockInit {
 	//@formatter:off
 	public static final RegistryObject<BlueprinterBlock> BLUEPRINTER = register("blueprinter", BlueprinterBlock::new);
 	public static final RegistryObject<FabricatorBlock> FABRICATOR = register("fabricator", FabricatorBlock::new);
+	public static final RegistryObject<MixerBlock> MIXER = register("mixer", MixerBlock::new);
 	public static final RegistryObject<ShipConsoleBlock> SHIP_CONSOLE = register("ship_console", ShipConsoleBlock::new);
 	public static final RegistryObject<FluidHopperBlock> FLUID_HOPPER = register("fluid_hopper", FluidHopperBlock::new);
 	public static final RegistryObject<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", AtmosphericSeparatorBlock::new);
