@@ -79,8 +79,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		
 		// JEI
 		addJeiCat("state_converter", "State Converter");
-		addJeiCat("pressurized_chamber", "Pressurized Chamber");
 		addJeiCat("haber", "Haber Process");
+		addJeiCat("mixer", "Chemical Mixer");
 
 		// Ores
 		BlockInit.ORE_MAP.values().forEach(m -> {

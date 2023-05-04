@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import com.machina.client.jei.category.BaseCategory;
 import com.machina.client.jei.category.HaberCategory;
+import com.machina.client.jei.category.MixerCategory;
 import com.machina.client.jei.category.StateConverterCategory;
 import com.machina.recipe.IMachinaRecipe;
 import com.machina.registration.init.BlockInit;
@@ -35,6 +36,7 @@ public class MachinaJEI implements IModPlugin {
 		//@formatter:off
 		register(RecipeInit.STATE_CONVERTER_RECIPE, StateConverterCategory.UID, BlockInit.STATE_CONVERTER.get(), StateConverterCategory::new);
 		register(RecipeInit.HABER_RECIPE, HaberCategory.UID, BlockInit.HABER_CONTROLLER.get(), HaberCategory::new);
+		register(RecipeInit.MIXER_RECIPE, MixerCategory.UID, BlockInit.MIXER.get(), MixerCategory::new);
 		//@formatter:on
 	}
 
