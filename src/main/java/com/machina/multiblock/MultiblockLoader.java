@@ -35,7 +35,7 @@ public class MultiblockLoader extends JsonReloadListener {
 		Map<ResourceLocation, Multiblock> map = Maps.newHashMap();
 		for (Entry<ResourceLocation, JsonElement> entry : pObject.entrySet()) {
 			ResourceLocation resourcelocation = entry.getKey();
-			Machina.LOGGER.info("Found Multiblock Pool: " + entry.getKey().toString());
+			Machina.LOGGER.info("Found Multiblock: " + entry.getKey().toString());
 			if (resourcelocation.getPath().startsWith("_")) {
 				continue;
 			}
@@ -44,8 +44,6 @@ public class MultiblockLoader extends JsonReloadListener {
 				if (data == null) {
 					continue;
 				}
-
-				System.out.println(data.cast());
 				map.put(resourcelocation, data.cast());
 			} catch (IllegalArgumentException | JsonParseException jsonparseexception) {
 				Machina.LOGGER.error("Parsing error loading multiblock {}", resourcelocation, jsonparseexception);

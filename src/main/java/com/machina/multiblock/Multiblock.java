@@ -52,7 +52,7 @@ public class Multiblock {
 							return new BlockStateParser(new StringReader(b), true).parse(false).getState();
 						} catch (CommandSyntaxException e) {
 							e.printStackTrace();
-							return null;
+							return Blocks.AIR.defaultBlockState();
 						}
 					}).collect(Collectors.toList())));
 			mb.renderMap = render_blocks.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> {
