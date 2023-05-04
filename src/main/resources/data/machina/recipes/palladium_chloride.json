@@ -4,11 +4,7 @@
 	"fluids": [
 		{
 			"fluid": "machina:hydrochloric_acid",
-			"amount": 500
-		},
-		{
-			"fluid": "machina:chlorine",
-			"amount": 250
+			"amount": 2000
 		}
 	],
 	"item": {
@@ -19,6 +15,10 @@
 		{
 			"item": "machina:palladium_chloride",
 			"count": 1
+		},
+		{
+			"fluid": "machina:hydrogen",
+			"amount": 1000
 		}
 	]
 }

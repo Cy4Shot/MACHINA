@@ -27,6 +27,8 @@
     "machina:nitrogen_dioxide_flowing",
     "machina:sulphur_dioxide",
     "machina:sulphur_dioxide_flowing",
+    "machina:hydrogen_bromide",
+    "machina:hydrogen_bromide_flowing",
     "machina:liquid_hydrogen",
     "machina:liquid_hydrogen_flowing",
     "machina:liquid_ammonia",

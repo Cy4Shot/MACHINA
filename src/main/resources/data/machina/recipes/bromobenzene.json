@@ -1,0 +1,28 @@
+{
+	"type": "machina:mixer",
+	"power": 10,
+	"fluids": [
+		{
+			"fluid": "machina:benzene",
+			"amount": 20
+		},
+		{
+			"fluid": "machina:bromine",
+			"amount": 10
+		}
+	],
+	"catalyst": {
+		"item": "machina:iron_catalyst",
+		"count": 1
+	},
+	"outputs": [
+		{
+			"fluid": "machina:bromobenzene",
+			"amount": 20
+		},
+		{
+			"fluid": "machina:hydrogen_bromide",
+			"amount": 20
+		}
+	]
+}

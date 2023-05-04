@@ -157,6 +157,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.FORMALDEHYDE, "Formaldehyde", "Bucket");
 		add(FluidInit.NITROGEN_DIOXIDE, "Nitrogen Dioxide", "Bucket");
 		add(FluidInit.SULPHUR_DIOXIDE, "Sulphur Dioxide", "Bucket");
+		add(FluidInit.HYDROGEN_BROMIDE, "Hydrogen Bromide", "Bucket");
 
 		add(FluidInit.LIQUID_HYDROGEN, "Liquid Hydrogen", "Bucket");
 		add(FluidInit.LIQUID_AMMONIA, "Liquid Ammonia", "Bucket");

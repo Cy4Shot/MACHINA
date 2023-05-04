@@ -90,7 +90,7 @@ db6844cccb736f3b0bbdd0d5cfd07462a11a4262 assets/machina/blockstates/wasteland_sa
 2af89bdfaebe883dfeeb4120380c97d15f32234e assets/machina/blockstates/wasteland_sandstone_slab.json
 14ba5f0472c5b052e1dc9b4165cf94fbbc5de342 assets/machina/blockstates/wasteland_sandstone_stairs.json
 166299304c5c002f5fd455e78cb1999749cc1e34 assets/machina/blockstates/wasteland_sandstone_wall.json
-9e756eb34154a00c5a0c0416e42416c6198ab4d7 assets/machina/lang/en_us.json
+3a3b8985081c538842c513b16c9d16d31706eace assets/machina/lang/en_us.json
 7c687f89bfa9b5ceb0d50ed3cd1865baebe955ec assets/machina/models/block/acetaldehyde_block.json
 405b2c049de75c64982d332fdb0edcd8e01312dd assets/machina/models/block/alien_stone.json
 e12a16c5a1d3950b8c68b8f4b6539400d428f971 assets/machina/models/block/alien_stone_slab.json
@@ -253,6 +253,7 @@ b5f139145539d53871c5593be55ab375b0805baa assets/machina/models/item/hdpe.json
 a743da44c9e75b5bb62e0525a0301e53343e8347 assets/machina/models/item/hexogen_bucket.json
 fefc5b099be2bd81153568c45d222bc8bce33064 assets/machina/models/item/hniw_bucket.json
 15961ea58236860aa99e44b54c0664bfd849b5fa assets/machina/models/item/hydrochloric_acid_bucket.json
+5b68cc739e6fa6d4bd3ef28e4193f010bd1d3108 assets/machina/models/item/hydrogen_bromide_bucket.json
 19503d0d4d68e5a7ee43da84c6f42dda2b31d007 assets/machina/models/item/hydrogen_bucket.json
 5c768a4c65e6bc8f68aec085af9354ae8d641529 assets/machina/models/item/hydrogen_fluoride_bucket.json
 66f4f3b4c967a3be60a2528f87d74a45a2de6675 assets/machina/models/item/iron_catalyst.json
@@ -507,7 +508,7 @@ a1c9784479f1b9e62b7ee0e3cb5aa8fb032c3bd4 data/machina/tags/items/palladium_ore.j
 6af3e199efea78c577594815dce49e6bf0192800 data/minecraft/tags/blocks/slabs.json
 5396bddfbab1434c627d690c8f4e5ddc62d714b8 data/minecraft/tags/blocks/stairs.json
 9a71b54d1ad2d9f546fe7eb42714164a33e3d496 data/minecraft/tags/blocks/walls.json
-9f47f19c24c41bfdb9ca8f52f8f16b4cc56c17f3 data/minecraft/tags/fluids/not_actually_water.json
+ab713ed94ddef11836e6bb8f0de74076f9e4dd05 data/minecraft/tags/fluids/not_actually_water.json
 3a4336ff15f369f876b39ae35cffbba47fc93c1f data/minecraft/tags/items/sand.json
 6af3e199efea78c577594815dce49e6bf0192800 data/minecraft/tags/items/slabs.json
 5396bddfbab1434c627d690c8f4e5ddc62d714b8 data/minecraft/tags/items/stairs.json

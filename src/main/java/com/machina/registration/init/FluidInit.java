@@ -49,6 +49,7 @@ public class FluidInit {
 	public static final FluidObject FORMALDEHYDE = gas("formaldehyde", "CH2O", 0xFF_f5f5f5);
 	public static final FluidObject NITROGEN_DIOXIDE = gas("nitrogen_dioxide", "NO2", 0xFF_560003);
 	public static final FluidObject SULPHUR_DIOXIDE = gas("sulphur_dioxide", "SO2", 0xFF_f3f7ef);
+	public static final FluidObject HYDROGEN_BROMIDE = gas("hydrogen_bromide", "HBr", 0xFF_e3e3e3);
 
 	// Liquids
 	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", "H2", 0xFF_898fff);
