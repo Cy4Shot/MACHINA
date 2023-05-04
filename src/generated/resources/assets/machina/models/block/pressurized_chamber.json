@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "side": "machina:block/pressurized_chamber_side",
-    "front": "machina:block/pressurized_chamber_front",
-    "bottom": "machina:block/pressurized_chamber_bottom",
-    "top": "machina:block/pressurized_chamber_top"
-  }
-}

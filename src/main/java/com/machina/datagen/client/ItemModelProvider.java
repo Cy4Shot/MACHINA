@@ -51,7 +51,6 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.ALUMINUM_SCAFFOLDING.get());
 		block(BlockInit.COPPER_SCAFFOLDING.get());
 		block(BlockInit.PUZZLE_BLOCK.get());
-		block(BlockInit.PRESSURIZED_CHAMBER.get());
 		block(BlockInit.TANK.get());
 		block(BlockInit.CABLE.get());
 		block(BlockInit.CREATIVE_BATTERY.get());

@@ -9,8 +9,6 @@ import com.machina.network.c2s.C2SDevPlanetCreationGUI;
 import com.machina.network.c2s.C2SEtchBlueprint;
 import com.machina.network.c2s.C2SFabricatorFabricate;
 import com.machina.network.c2s.C2SLaunchShip;
-import com.machina.network.c2s.C2SPressurizedChamberClear;
-import com.machina.network.c2s.C2SPressurizedChamberRunning;
 import com.machina.network.c2s.C2SRefuel;
 import com.machina.network.c2s.C2SSetShipDestination;
 import com.machina.network.c2s.C2SShipConsoleGUIButton;
@@ -48,8 +46,6 @@ public class MachinaNetwork extends BaseNetwork {
 		registerClientToServer(C2SSetShipDestination.class, C2SSetShipDestination::decode);
 		registerClientToServer(C2SRefuel.class, C2SRefuel::decode);
 		registerClientToServer(C2SAtmosphericSeparatorSelect.class, C2SAtmosphericSeparatorSelect::decode);
-		registerClientToServer(C2SPressurizedChamberRunning.class, C2SPressurizedChamberRunning::decode);
-		registerClientToServer(C2SPressurizedChamberClear.class, C2SPressurizedChamberClear::decode);
 		registerClientToServer(C2SCalculateRocketFuel.class, C2SCalculateRocketFuel::decode);
 		registerClientToServer(C2SLaunchShip.class, C2SLaunchShip::decode);
 		registerClientToServer(C2SSpawnParticle.class, C2SSpawnParticle::decode);

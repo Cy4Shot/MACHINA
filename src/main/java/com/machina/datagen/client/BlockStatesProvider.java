@@ -49,7 +49,6 @@ public class BlockStatesProvider extends BlockStateProvider {
 
 		simpleOrientableBlock(BlockInit.PUZZLE_BLOCK.get());
 
-		frontOrientableBlock(BlockInit.PRESSURIZED_CHAMBER.get());
 		frontOrientableBlock(BlockInit.FUEL_STORAGE_UNIT.get());
 		frontOrientableBlock(BlockInit.FURNACE_GENERATOR.get());
 		frontOrientableBlock(BlockInit.TEMPERATURE_REGULATOR.get());

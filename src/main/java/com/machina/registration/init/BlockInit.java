@@ -20,7 +20,6 @@ import com.machina.block.FluidHopperBlock;
 import com.machina.block.FuelStorageUnitBlock;
 import com.machina.block.FurnaceGeneratorBlock;
 import com.machina.block.IAnimatedBlock;
-import com.machina.block.PressurizedChamberBlock;
 import com.machina.block.PuzzleBlock;
 import com.machina.block.ShipConsoleBlock;
 import com.machina.block.StateConverterBlock;
@@ -75,7 +74,6 @@ public class BlockInit {
 	public static final RegistryObject<FurnaceGeneratorBlock> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorBlock::new);
 	public static final RegistryObject<CargoCrateBlock> CARGO_CRATE = register("cargo_crate", CargoCrateBlock::new);
 	public static final RegistryObject<ComponentAnalyzerBlock> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerBlock::new);
-	public static final RegistryObject<PressurizedChamberBlock> PRESSURIZED_CHAMBER = register("pressurized_chamber", PressurizedChamberBlock::new);
 	public static final RegistryObject<TankBlock> TANK = register("tank", TankBlock::new);
 	public static final RegistryObject<BatteryBlock> BATTERY = register("battery", BatteryBlock::new);
 	public static final RegistryObject<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery", CreativeBatteryBlock::new);

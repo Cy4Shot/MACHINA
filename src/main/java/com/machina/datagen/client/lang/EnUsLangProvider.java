@@ -37,7 +37,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.CARGO_CRATE.get(), "Cargo Crate");
 		add(BlockInit.COMPONENT_ANALYZER.get(), "Component Analyzer");
 		add(BlockInit.PUZZLE_BLOCK.get(), "Puzzle Block");
-		add(BlockInit.PRESSURIZED_CHAMBER.get(), "Pressurized Chamber");
 		add(BlockInit.CABLE.get(), "Cable");
 		add(BlockInit.TANK.get(), "Tank");
 		add(BlockInit.BATTERY.get(), "Battery");
@@ -306,16 +305,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("atmospheric_seperator", "not_enough", "Fluid Too Thin");
 		addScreen("tank", "stored", "Stored: ");
 		addScreen("tank", "none", "None ");
-		addScreen("pressurized_chamber", "clear", "Clear");
-		addScreen("pressurized_chamber", "start", "Start");
-		addScreen("pressurized_chamber", "pause", "Pause");
-		addScreen("pressurized_chamber", "waiting", "Awaiting input...");
-		addScreen("pressurized_chamber", "ready", "Clear to Craft");
-		addScreen("pressurized_chamber", "crafting", "In Progress...");
-		addScreen("pressurized_chamber", "no_recipe", "No Recipe Found");
-		addScreen("pressurized_chamber", "heat", "Not Enough Heat");
-		addScreen("pressurized_chamber", "stored", "Stored: ");
-		addScreen("pressurized_chamber", "none", "None ");
 		addScreen("temperature_regulator", "stored", "Current Temperature: ");
 		addScreen("fuel_storage", "stored", "Current Temperature: ");
 		addScreen("fuel_storage", "depleting", "WARNING: DEPLETING");
@@ -336,6 +325,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("haber", "full", "FULL");
 		addScreen("multiblock", "unformed1", "The ");
 		addScreen("multiblock", "unformed2", " multiblock is malformed.");
+		addScreen("multiblock", "openinfo", "Open Info");
+		addScreen("multiblock", "closeinfo", "Close Info");
+		addScreen("multiblock", "rot", "Rotate");
 		addScreen("go_beyond", "title", "MACHINA - Alpha 0.1");
 		addScreen("go_beyond", "desc1", "Travelling between planets isn't yet available!");
 		addScreen("go_beyond", "desc2", "This feature will be introduced in Alpha 0.2.");

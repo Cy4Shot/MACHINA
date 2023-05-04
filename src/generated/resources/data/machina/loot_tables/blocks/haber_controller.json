@@ -2,12 +2,12 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "pressurized_chamber",
+      "name": "haber_controller",
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "machina:pressurized_chamber"
+          "name": "machina:haber_controller"
         }
       ]
     }

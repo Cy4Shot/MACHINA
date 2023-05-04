@@ -19,7 +19,6 @@ import com.machina.block.tile.machine.FabricatorTileEntity;
 import com.machina.block.tile.machine.FluidHopperTileEntity;
 import com.machina.block.tile.machine.FuelStorageUnitTileEntity;
 import com.machina.block.tile.machine.FurnaceGeneratorTileEntity;
-import com.machina.block.tile.machine.PressurizedChamberTileEntity;
 import com.machina.block.tile.machine.ShipConsoleTileEntity;
 import com.machina.block.tile.machine.StateConverterTileEntity;
 import com.machina.block.tile.machine.TankTileEntity;
@@ -49,7 +48,6 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<FluidHopperTileEntity>> FLUID_HOPPER = register("fluid_hopper", FluidHopperTileEntity::new, () -> BlockInit.FLUID_HOPPER.get());
 	public static final RegistryObject<TileEntityType<ComponentAnalyzerTileEntity>> COMPONENT_ANALYZER = register("component_analyzer", ComponentAnalyzerTileEntity::new, () -> BlockInit.COMPONENT_ANALYZER.get());
 	public static final RegistryObject<TileEntityType<PuzzleTileEntity>> PUZZLE = register("puzzle", PuzzleTileEntity::new, () -> BlockInit.PUZZLE_BLOCK.get());
-	public static final RegistryObject<TileEntityType<PressurizedChamberTileEntity>> PRESSURIZED_CHAMBER = register("pressurized_chamber", PressurizedChamberTileEntity::new, () -> BlockInit.PRESSURIZED_CHAMBER.get());
 	public static final RegistryObject<TileEntityType<BatteryTileEntity>> BATTERY = register("battery", BatteryTileEntity::new, () -> BlockInit.BATTERY.get());
 	public static final RegistryObject<TileEntityType<TankTileEntity>> TANK = register("tank", TankTileEntity::new, () -> BlockInit.TANK.get());
 	public static final RegistryObject<TileEntityType<CreativeBatteryTileEntity>> CREATIVE_BATTERY = register("creative_battery", CreativeBatteryTileEntity::new, () -> BlockInit.CREATIVE_BATTERY.get());

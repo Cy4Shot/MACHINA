@@ -14,7 +14,6 @@ public class LootTableProvider extends BaseLootTableProvider {
 	protected void addTables() {
 		dropSelf(BlockInit.BLUEPRINTER.get());
 		dropSelf(BlockInit.SHIP_CONSOLE.get());
-		dropSelf(BlockInit.PRESSURIZED_CHAMBER.get());
 		dropSelf(BlockInit.COMPONENT_ANALYZER.get());
 		dropSelf(BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		dropSelf(BlockInit.STEEL_SCAFFOLDING.get());
@@ -31,11 +30,13 @@ public class LootTableProvider extends BaseLootTableProvider {
 		dropSelf(BlockInit.TANK.get());
 		dropSelf(BlockInit.ATMOSPHERIC_SEPARATOR.get());
 		dropSelf(BlockInit.TEMPERATURE_REGULATOR.get());
-		dropSelf(BlockInit.PRESSURIZED_CHAMBER.get());
 		dropSelf(BlockInit.FUEL_STORAGE_UNIT.get());
 		dropSelf(BlockInit.FURNACE_GENERATOR.get());
 		dropSelf(BlockInit.STATE_CONVERTER.get());
 		dropSelf(BlockInit.IRON_CHASSIS.get());
 		dropSelf(BlockInit.STEEL_CHASSIS.get());
+		dropSelf(BlockInit.HABER_CASING.get());
+		dropSelf(BlockInit.HABER_CONTROLLER.get());
+		dropSelf(BlockInit.HABER_PORT.get());
 	}
 }

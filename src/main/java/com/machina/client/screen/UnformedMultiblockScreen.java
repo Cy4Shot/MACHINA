@@ -88,7 +88,7 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 		// Controls
 		UIHelper.bindStcht();
 		UIHelper.betterBlit(stack, x + 8, y + 170, 16, 112, 16, 16, 128);
-		UIHelper.drawStringWithBorder(stack, StringUtils.translateScreen("starchart.rot"), x + 29, y + 174, 0xFF_00fefe,
+		UIHelper.drawStringWithBorder(stack, StringUtils.translateScreen("multiblock.rot"), x + 29, y + 174, 0xFF_00fefe,
 				0xFF_0e0e0e);
 		UIHelper.bindScifi();
 		UIHelper.blit(stack, x + 196, y + 168, 228, 184, 19, 19);
@@ -114,13 +114,7 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 		UIHelper.blit(stack, x + 121, y + 23, 88, 0, 56, 4);
 
 		// Block List
-		UIHelper.bindTrmnl();
 		if (this.infoWindow) {
-			if (pX > x + 214 && pX < x + 214 + 17 && pY > y + 5 && pY < y + 5 + 17) {
-				UIHelper.blit(stack, x + 214, y + 5, 237, 17, 17, 17);
-			} else {
-				UIHelper.blit(stack, x + 214, y + 5, 237, 0, 17, 17);
-			}
 			UIHelper.bindScifi();
 			UIHelper.blit(stack, x + xSize + 4, y, 152, 103, 87, 81);
 
@@ -143,9 +137,19 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 			}
 
 			UIHelper.bindTrmnl();
+			if (pX > x + 214 && pX < x + 214 + 17 && pY > y + 5 && pY < y + 5 + 17) {
+				UIHelper.blit(stack, x + 214, y + 5, 237, 17, 17, 17);
+				UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateScreenComp("multiblock.closeinfo")), pX,
+						pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+			} else {
+				UIHelper.blit(stack, x + 214, y + 5, 237, 0, 17, 17);
+			}
 		} else {
+			UIHelper.bindTrmnl();
 			if (pX > x + 214 && pX < x + 214 + 17 && pY > y + 5 && pY < y + 5 + 17) {
 				UIHelper.blit(stack, x + 214, y + 5, 121, 219, 17, 17);
+				UIHelper.renderLabel(stack, Arrays.asList(StringUtils.translateScreenComp("multiblock.openinfo")), pX,
+						pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			} else {
 				UIHelper.blit(stack, x + 214, y + 5, 121, 202, 17, 17);
 			}
