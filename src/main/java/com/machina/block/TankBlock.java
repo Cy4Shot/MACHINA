@@ -56,11 +56,11 @@ public class TankBlock extends HorizontalFacingBlock {
 				}
 			}
 
-			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent())
+			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent() || player.isCreative())
 				return ActionResultType.SUCCESS;
 
 			BlockHelper.openGui(level, pos, player, TankTileEntity.class);
 		}
-		return ActionResultType.SUCCESS;
+		return ActionResultType.CONSUME;
 	}
 }
