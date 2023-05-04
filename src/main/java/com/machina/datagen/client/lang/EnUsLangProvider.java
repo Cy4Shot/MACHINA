@@ -286,6 +286,15 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("fabricator", "full", "Output Full");
 		addScreen("fabricator", "fullp", "Please empty the output slot in order to craft.");
 		addScreen("fabricator", "craft", "Craft");
+		addScreen("mixer", "title", "Mixer");
+		addScreen("mixer", "notfound", "Recipe Not Found");
+		addScreen("mixer", "found", "Recipe Found");
+		addScreen("mixer", "awaiting", "Awaiting Recipe");
+		addScreen("mixer", "output", "Output Full");
+		addScreen("mixer", "power", "No Power");
+		addScreen("mixer", "running", "Mixing Active");
+		addScreen("mixer", "clear", "Clear");
+		addScreen("mixer", "extra", "Not all inputs are always required, as it depends on the recipe.");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");
@@ -326,6 +335,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("haber", "missing", "MISSING");
 		addScreen("haber", "empty", "EMPTY");
 		addScreen("haber", "full", "FULL");
+		addScreen("haber", "extra", "Connect some Haber Port blocks to automate the haber process.");
 		addScreen("multiblock", "unformed1", "The ");
 		addScreen("multiblock", "unformed2", " multiblock is malformed.");
 		addScreen("multiblock", "openinfo", "Open Info");

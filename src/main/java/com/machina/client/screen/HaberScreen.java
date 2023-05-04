@@ -221,8 +221,8 @@ public class HaberScreen extends NoJeiContainerScreen<HaberContainer> {
 
 		// Extra Text
 		RenderSystem.scalef(scale, scale, scale);
-		List<IReorderingProcessor> desc = LanguageMap.getInstance().getVisualOrder(StringUtils.findOptimalLines(
-				StringUtils.toComp("Connect some Haber Port blocks to automate the haber process."), 200));
+		List<IReorderingProcessor> desc = LanguageMap.getInstance()
+				.getVisualOrder(StringUtils.findOptimalLines(StringUtils.translateScreenComp("haber.extra"), 200));
 
 		for (int k1 = 0; k1 < desc.size(); ++k1) {
 			UIHelper.drawCenteredStringWithBorder(stack, desc.get(k1), (x + 118) * iscale, (y + 167 + k1 * 9) * iscale,

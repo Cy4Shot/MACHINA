@@ -17,6 +17,7 @@ import com.machina.client.screen.FabricatorScreen;
 import com.machina.client.screen.FuelStorageUnitScreen;
 import com.machina.client.screen.FurnaceGeneratorScreen;
 import com.machina.client.screen.HaberScreen;
+import com.machina.client.screen.MixerScreen;
 import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
 import com.machina.client.screen.ShipConstructScreen;
@@ -111,6 +112,7 @@ public class ClientModEvents {
 		ScreenManager.register(ContainerInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
 		ScreenManager.register(ContainerInit.STATE_CONVERTER.get(), StateConverterScreen::new);
 		ScreenManager.register(ContainerInit.HABER.get(), HaberScreen::new);
+		ScreenManager.register(ContainerInit.MIXER.get(), MixerScreen::new);
 		
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.CARGO_CRATE.get(), CargoCrateRenderer::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityInit.COMPONENT_ANALYZER.get(), ComponentAnalyzerRenderer::new);

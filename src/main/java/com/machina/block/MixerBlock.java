@@ -1,6 +1,6 @@
 package com.machina.block;
 
-import com.machina.block.tile.machine.StateConverterTileEntity;
+import com.machina.block.tile.machine.MixerTileEntity;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.helper.BlockHelper;
 import com.machina.util.helper.SoundHelper;
@@ -58,7 +58,7 @@ public class MixerBlock extends HorizontalFacingBlock {
 
 			if (FluidUtil.getFluidHandler(player.getItemInHand(hand)).isPresent())
 				return ActionResultType.SUCCESS;
-			BlockHelper.openGui(level, pos, player, StateConverterTileEntity.class);
+			BlockHelper.openGui(level, pos, player, MixerTileEntity.class);
 		}
 		return ActionResultType.SUCCESS;
 	}

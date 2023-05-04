@@ -13,13 +13,17 @@ import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.recipe.impl.MixerRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.text.MachinaRL;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
@@ -33,6 +37,8 @@ public class MixerTileEntity extends MachinaTileEntity
 	MachinaEnergyStorage energy;
 	MachinaFluidStorage fluid;
 	MachinaItemStorage items;
+
+	public ResourceLocation rec = new MachinaRL("empty");
 
 	public Predicate<FluidStack> exclusiveTank(int id) {
 		return f -> {
@@ -69,19 +75,13 @@ public class MixerTileEntity extends MachinaTileEntity
 			if (!recipe.catalyst.isEmpty() && !items.getStackInSlot(1).getItem().equals(recipe.catalyst.getItem()))
 				continue;
 
+			// Recipe Found
+			this.rec = recipe.getId();
+
 			// Check space and power
-			if (!fillOutputs(recipe.fluidsOut, FluidAction.SIMULATE))
+			if (outputsFull())
 				return;
-			if (!recipe.itemOut.isEmpty() && !items.getStackInSlot(2).isEmpty()) {
-				if (items.getStackInSlot(2).getItem().equals(recipe.itemOut.getItem())
-						&& items.getStackInSlot(2).getMaxStackSize()
-								- items.getStackInSlot(2).getCount() > recipe.itemOut.getCount()) {
-					return;
-				} else if (!items.getStackInSlot(2).getItem().equals(recipe.itemOut.getItem())) {
-					return;
-				}
-			}
-			if (energy.getEnergyStored() < recipe.power)
+			if (!hasPower())
 				return;
 
 			// Consume
@@ -111,6 +111,32 @@ public class MixerTileEntity extends MachinaTileEntity
 			setChanged();
 			return;
 		}
+
+		this.rec = new MachinaRL("empty");
+		setChanged();
+	}
+
+	public boolean outputsFull() {
+		MixerRecipe recipe = (MixerRecipe) RecipeInit.getRecipes(RecipeInit.MIXER_RECIPE, level.getRecipeManager())
+				.get(this.rec);
+		if (!fillOutputs(recipe.fluidsOut, FluidAction.SIMULATE))
+			return true;
+		if (!recipe.itemOut.isEmpty() && !items.getStackInSlot(2).isEmpty()) {
+			if (items.getStackInSlot(2).getItem().equals(recipe.itemOut.getItem())
+					&& items.getStackInSlot(2).getMaxStackSize() - items.getStackInSlot(2).getCount() > recipe.itemOut
+							.getCount()) {
+				return true;
+			} else if (!items.getStackInSlot(2).getItem().equals(recipe.itemOut.getItem())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasPower() {
+		MixerRecipe recipe = (MixerRecipe) RecipeInit.getRecipes(RecipeInit.MIXER_RECIPE, level.getRecipeManager())
+				.get(this.rec);
+		return energy.getEnergyStored() >= recipe.power;
 	}
 
 	public boolean fillOutputs(NonNullList<FluidStack> fluids, FluidAction action) {
@@ -157,11 +183,23 @@ public class MixerTileEntity extends MachinaTileEntity
 
 	@Override
 	public Container createMenu(int windowId, PlayerInventory inv, PlayerEntity player) {
-		return new MixerContainer(windowId, this);
+		return new MixerContainer(windowId, inv, this);
 	}
 
 	@Override
 	public boolean isGeneratorMode() {
 		return false;
+	}
+
+	@Override
+	public CompoundNBT save(CompoundNBT tag) {
+		tag.putString("rec", this.rec.toString());
+		return super.save(tag);
+	}
+
+	@Override
+	public void load(BlockState state, CompoundNBT tag) {
+		this.rec = new ResourceLocation(tag.getString("rec"));
+		super.load(state, tag);
 	}
 }

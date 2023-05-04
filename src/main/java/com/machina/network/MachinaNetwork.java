@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import com.machina.network.c2s.C2SAtmosphericSeparatorSelect;
 import com.machina.network.c2s.C2SCalculateRocketFuel;
+import com.machina.network.c2s.C2SClearTank;
 import com.machina.network.c2s.C2SCompletePuzzle;
 import com.machina.network.c2s.C2SDevPlanetCreationGUI;
 import com.machina.network.c2s.C2SEtchBlueprint;
@@ -52,6 +53,7 @@ public class MachinaNetwork extends BaseNetwork {
 		registerClientToServer(C2SShipLaunchEffect.class, C2SShipLaunchEffect::decode);
 		registerClientToServer(C2SEtchBlueprint.class, C2SEtchBlueprint::decode);
 		registerClientToServer(C2SFabricatorFabricate.class, C2SFabricatorFabricate::decode);
+		registerClientToServer(C2SClearTank.class, C2SClearTank::decode);
 
 		BaseNetwork.MACHINA_CHANNEL = CHANNEL;
 	}
