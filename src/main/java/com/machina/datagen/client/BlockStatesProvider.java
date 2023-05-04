@@ -78,6 +78,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		fluid(FluidInit.BENZYLAMINE);
 		fluid(FluidInit.HNIW);
 		fluid(FluidInit.HEXOGEN);
+		fluid(FluidInit.NITROMETHANE);
 
 		simpleBlock(BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_BLOCK.get());

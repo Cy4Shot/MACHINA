@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "machina:block/nitromethane_block"
+    }
+  }
+}

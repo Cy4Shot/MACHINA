@@ -23,6 +23,8 @@
     "machina:boron_trifluoride_flowing",
     "machina:formaldehyde",
     "machina:formaldehyde_flowing",
+    "machina:nitrogen_dioxide",
+    "machina:nitrogen_dioxide_flowing",
     "machina:liquid_hydrogen",
     "machina:liquid_hydrogen_flowing",
     "machina:liquid_ammonia",
@@ -60,6 +62,8 @@
     "machina:hniw",
     "machina:hniw_flowing",
     "machina:hexogen",
-    "machina:hexogen_flowing"
+    "machina:hexogen_flowing",
+    "machina:nitromethane",
+    "machina:nitromethane_flowing"
   ]
 }

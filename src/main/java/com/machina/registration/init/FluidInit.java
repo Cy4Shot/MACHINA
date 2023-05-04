@@ -47,6 +47,7 @@ public class FluidInit {
 	public static final FluidObject CHLORINE = gas("clorine", "Cl2", 0xFF_bfd25f);
 	public static final FluidObject BORON_TRIFLUORIDE = gas("boron_trifluoride", "BF3", 0xFF_f8f9fa);
 	public static final FluidObject FORMALDEHYDE = gas("formaldehyde", "CH2O", 0xFF_f5f5f5);
+	public static final FluidObject NITROGEN_DIOXIDE = gas("nitrogen_dioxide", "NO2", 0xFF_560003);
 
 	// Liquids
 	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", "H2", 0xFF_898fff);
@@ -68,6 +69,7 @@ public class FluidInit {
 	public static final FluidObject BENZYLAMINE = liquid("benzylamine", "C6H5CH2NH2", 0xFF_cacec5);
 	public static final FluidObject HNIW = liquid("hniw", "C6H6N12O12", 0xFF_bf433f);
 	public static final FluidObject HEXOGEN = liquid("hexogen", "(O2N2CH2)3", 0xFF_eece45);
+	public static final FluidObject NITROMETHANE = liquid("nitromethane", "CH3NO2", 0xFF_deddd5);
 
 	// Atmosphere
 	public static final List<FluidObject> ATMOSPHERE = Arrays.asList(OXYGEN, NITROGEN, AMMONIA, CARBON_DIOXIDE,

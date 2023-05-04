@@ -154,6 +154,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.CHLORINE, "Chlorine", "Bucket");
 		add(FluidInit.BORON_TRIFLUORIDE, "Boron Trifluoride", "Bucket");
 		add(FluidInit.FORMALDEHYDE, "Formaldehyde", "Bucket");
+		add(FluidInit.NITROGEN_DIOXIDE, "Nitrogen Dioxide", "Bucket");
 
 		add(FluidInit.LIQUID_HYDROGEN, "Liquid Hydrogen", "Bucket");
 		add(FluidInit.LIQUID_AMMONIA, "Liquid Ammonia", "Bucket");
@@ -173,6 +174,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.BENZYLAMINE, "Benzylamine", "Bucket");
 		add(FluidInit.HNIW, "HNIW (CL-20)", "Bucket");
 		add(FluidInit.HEXOGEN, "Hexogen (RDX)", "Bucket");
+		add(FluidInit.NITROMETHANE, "Nitromethane", "Bucket");
 
 		// Traits
 

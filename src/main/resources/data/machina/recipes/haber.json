@@ -21,7 +21,7 @@
 	],
 	"output": {
 		"fluid": {
-			"fluid": "machina:ammonia",
+			"fluid": "machina:liquid_ammonia",
 			"amount": 10
 		}
 	}

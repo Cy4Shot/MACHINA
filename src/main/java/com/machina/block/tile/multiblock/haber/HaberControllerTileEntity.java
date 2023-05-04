@@ -86,7 +86,7 @@ public class HaberControllerTileEntity extends MultiblockMasterTileEntity
 		}
 
 		// Output
-		fluid.tank(3).rawFill(rec.fOut, FluidAction.EXECUTE);
+		fluid.tank(3).fill(rec.fOut, FluidAction.EXECUTE);
 		setChanged();
 	}
 

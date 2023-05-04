@@ -113,6 +113,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		bucket(FluidInit.CHLORINE);
 		bucket(FluidInit.BORON_TRIFLUORIDE);
 		bucket(FluidInit.FORMALDEHYDE);
+		bucket(FluidInit.NITROGEN_DIOXIDE);
 
 		bucket(FluidInit.LIQUID_HYDROGEN);
 		bucket(FluidInit.LIQUID_AMMONIA);
@@ -133,6 +134,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		bucket(FluidInit.BENZYLAMINE);
 		bucket(FluidInit.HNIW);
 		bucket(FluidInit.HEXOGEN);
+		bucket(FluidInit.NITROMETHANE);
 	}
 
 	protected void bucket(FluidObject obj) {
