@@ -111,7 +111,7 @@ public abstract class MultiblockPartTileEntity extends MachinaTileEntity {
 
 	private BlockPos findMaster() {
 
-		int maxExplore = (int) Math.ceil((double) VecUtil.max(mb.size) / 2d);
+		int maxExplore = VecUtil.max(mb.size);
 		int size = maxExplore * maxExplore * maxExplore;
 
 		Queue<BlockPos> openSet = new LinkedList<>();

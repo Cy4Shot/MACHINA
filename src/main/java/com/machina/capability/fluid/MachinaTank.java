@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public class MachinaTank extends FluidTank {
-	
+
 	protected Runnable onChanged;
 
 	private TileEntity tile;
@@ -45,7 +45,7 @@ public class MachinaTank extends FluidTank {
 	public float propFull() {
 		return (float) getFluidAmount() / (float) getCapacity();
 	}
-	
+
 	public boolean isFull() {
 		return getSpace() == 0;
 	}
