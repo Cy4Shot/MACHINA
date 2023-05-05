@@ -2,7 +2,7 @@ package com.machina.client.jei.category;
 
 import com.machina.recipe.impl.HaberRecipe;
 import com.machina.registration.init.BlockInit;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import mezz.jei.api.constants.VanillaTypes;

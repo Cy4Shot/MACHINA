@@ -14,7 +14,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;

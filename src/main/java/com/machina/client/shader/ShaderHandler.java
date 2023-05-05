@@ -1,7 +1,7 @@
 package com.machina.client.shader;
 
 import com.machina.Machina;
-import com.machina.util.reflection.ClassHelper;
+import com.machina.util.java.ClassHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IReloadableResourceManager;

@@ -1,6 +1,6 @@
 package com.machina.network.c2s;
 
-import com.machina.block.tile.base.PuzzleTileEntity;
+import com.machina.block.tile.basic.PuzzleTileEntity;
 import com.machina.network.INetworkMessage;
 import com.machina.util.helper.BlockHelper;
 

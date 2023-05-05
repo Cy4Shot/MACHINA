@@ -3,7 +3,7 @@ package com.machina.client.screen;
 import com.machina.block.container.ComponentAnalyzerContainer;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

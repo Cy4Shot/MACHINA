@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
-import com.machina.block.tile.base.CableTileEntity;
-import com.machina.block.tile.base.CustomModelTileEntity;
-import com.machina.block.tile.base.PuzzleTileEntity;
-import com.machina.block.tile.base.TintedTileEntity;
+import com.machina.block.tile.basic.CableTileEntity;
+import com.machina.block.tile.basic.CustomModelTileEntity;
+import com.machina.block.tile.basic.PuzzleTileEntity;
+import com.machina.block.tile.basic.TintedTileEntity;
 import com.machina.block.tile.machine.AtmosphericSeparatorTileEntity;
 import com.machina.block.tile.machine.BatteryTileEntity;
 import com.machina.block.tile.machine.BlueprinterTileEntity;

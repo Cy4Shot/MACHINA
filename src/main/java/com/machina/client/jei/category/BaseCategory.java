@@ -1,7 +1,7 @@
 package com.machina.client.jei.category;
 
-import com.machina.util.text.MachinaRL;
-import com.machina.util.text.StringUtils;
+import com.machina.util.MachinaRL;
+import com.machina.util.StringUtils;
 
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;

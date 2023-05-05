@@ -6,10 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import com.machina.block.tile.base.CableTileEntity;
+import com.machina.block.tile.basic.CableTileEntity;
 import com.machina.capability.energy.MachinaEnergyStorage;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.math.DirectionUtil;
 import com.machina.util.math.MathUtil;
 
 import net.minecraft.block.AbstractBlock;
@@ -99,10 +98,10 @@ public class CableBlock extends Block {
 		doWithTe(world, pos, cable -> {
 			if (!world.isClientSide()) {
 				cable.dirs.clear();
-				DirectionUtil.DIRECTIONS.forEach(dir -> {
+				for (Direction dir : Direction.values()) {
 					if (isConnectable(world, pos, dir))
 						cable.dirs.add(dir);
-				});
+				}
 				cable.sync();
 			}
 		});
@@ -184,11 +183,11 @@ public class CableBlock extends Block {
 			return;
 		doWithTe(world, pos, cable -> {
 			cable.dirs.clear();
-			DirectionUtil.DIRECTIONS.forEach(dir -> {
+			for (Direction dir : Direction.values()) {
 				if (isConnectable(world, pos, dir))
 					cable.dirs.add(dir);
 
-			});
+			}
 			cable.sync();
 		});
 		super.onPlace(pState, world, pos, pOldState, pIsMoving);
@@ -232,8 +231,8 @@ public class CableBlock extends Block {
 
 	public void searchCables(IWorld world, BlockPos pos, CableTileEntity first, int dist) {
 		int newdist = dist + 1;
-		DirectionUtil.DIRECTIONS.forEach(direction -> {
-			BlockPos blockPos = pos.relative(direction);
+		for (Direction direc : Direction.values()) {
+			BlockPos blockPos = pos.relative(direc);
 
 			if (!first.isInCache(blockPos)) {
 				if (!blockPos.equals(first.getBlockPos())) {
@@ -247,6 +246,6 @@ public class CableBlock extends Block {
 					}
 				}
 			}
-		});
+		}
 	}
 }

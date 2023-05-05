@@ -1,7 +1,7 @@
 package com.machina.planet.trait;
 
 import com.machina.registration.init.TraitInit;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraftforge.registries.ForgeRegistryEntry;
 

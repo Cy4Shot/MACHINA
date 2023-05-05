@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;

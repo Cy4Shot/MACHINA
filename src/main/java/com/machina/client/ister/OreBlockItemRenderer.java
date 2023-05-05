@@ -1,6 +1,6 @@
 package com.machina.client.ister;
 
-import com.machina.block.ore.OreBlock;
+import com.machina.block.OreBlock;
 import com.machina.client.model.OreModel;
 import com.machina.item.OreBlockItem;
 import com.mojang.blaze3d.matrix.MatrixStack;

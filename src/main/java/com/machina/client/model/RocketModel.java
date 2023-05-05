@@ -1,7 +1,7 @@
 package com.machina.client.model;
 
 import com.machina.client.util.MachinaRenderTypes;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 

@@ -5,8 +5,8 @@ import java.util.List;
 import com.machina.block.container.HaberContainer;
 import com.machina.client.screen.base.NoJeiContainerScreen;
 import com.machina.client.util.UIHelper;
+import com.machina.util.StringUtils;
 import com.machina.util.math.MathUtil;
-import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

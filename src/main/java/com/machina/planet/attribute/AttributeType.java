@@ -1,7 +1,7 @@
 package com.machina.planet.attribute;
 
 import com.machina.planet.attribute.serializers.AttributeSerializer;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraftforge.registries.ForgeRegistryEntry;
 

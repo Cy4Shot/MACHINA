@@ -12,7 +12,7 @@ import com.machina.client.jei.category.StateConverterCategory;
 import com.machina.recipe.IMachinaRecipe;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.RecipeInit;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;

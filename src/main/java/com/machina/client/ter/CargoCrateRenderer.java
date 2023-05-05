@@ -3,7 +3,7 @@ package com.machina.client.ter;
 import com.machina.block.tile.machine.CargoCrateTileEntity;
 import com.machina.client.model.CustomBlockModel;
 import com.machina.client.util.TERUtil;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;

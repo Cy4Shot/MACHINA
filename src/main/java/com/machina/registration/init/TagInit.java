@@ -5,7 +5,7 @@ import static com.machina.Machina.MOD_ID;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.machina.block.ore.OreType;
+import com.machina.planet.OreType;
 
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;

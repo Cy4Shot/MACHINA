@@ -37,49 +37,49 @@ public class VecUtil {
 			return Integer.compare(o1.getX(), o2.getX());
 		}
 	};
-	
+
 	public static final Comparator<Vector3i> Y_COMP = new Comparator<Vector3i>() {
 		@Override
 		public int compare(Vector3i o1, Vector3i o2) {
 			return Integer.compare(o1.getY(), o2.getY());
 		}
 	};
-	
+
 	public static final Comparator<Vector3i> Z_COMP = new Comparator<Vector3i>() {
 		@Override
 		public int compare(Vector3i o1, Vector3i o2) {
 			return Integer.compare(o1.getZ(), o2.getZ());
 		}
 	};
-	
+
 	public static int minX(Collection<? extends Vector3i> coll) {
 		return Collections.min(coll, X_COMP).getX();
 	}
-	
+
 	public static int minY(Collection<? extends Vector3i> coll) {
 		return Collections.min(coll, Y_COMP).getY();
 	}
-	
+
 	public static int minZ(Collection<? extends Vector3i> coll) {
 		return Collections.min(coll, Z_COMP).getZ();
 	}
-	
+
 	public static int maxX(Collection<? extends Vector3i> coll) {
 		return Collections.max(coll, X_COMP).getX();
 	}
-	
+
 	public static int maxY(Collection<? extends Vector3i> coll) {
 		return Collections.max(coll, Y_COMP).getY();
 	}
-	
+
 	public static int maxZ(Collection<? extends Vector3i> coll) {
 		return Collections.max(coll, Z_COMP).getZ();
 	}
-	
+
 	public static Vector3i minAll(Collection<? extends Vector3i> coll) {
 		return new Vector3i(minX(coll), minY(coll), minZ(coll));
 	}
-	
+
 	public static Vector3i maxAll(Collection<? extends Vector3i> coll) {
 		return new Vector3i(maxX(coll), maxY(coll), maxZ(coll));
 	}

@@ -1,6 +1,6 @@
 package com.machina.registration.init;
 
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;

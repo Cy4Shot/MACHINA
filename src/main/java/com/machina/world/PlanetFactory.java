@@ -1,7 +1,7 @@
 package com.machina.world;
 
 import com.machina.Machina;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.RegistryKey;

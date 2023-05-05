@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import com.machina.registration.init.ItemInit;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;

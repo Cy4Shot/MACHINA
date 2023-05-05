@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Function;
 
-import com.machina.util.serial.BaseNBTList;
+import com.machina.util.nbt.BaseNBTList;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;

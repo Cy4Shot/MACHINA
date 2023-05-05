@@ -15,7 +15,7 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

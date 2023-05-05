@@ -3,7 +3,7 @@ package com.machina.datagen.common.recipe;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import com.machina.block.ore.OreType;
+import com.machina.planet.OreType;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TagInit;

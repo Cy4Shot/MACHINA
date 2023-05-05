@@ -10,9 +10,9 @@ import java.util.function.Predicate;
 import com.machina.block.tile.MachinaTileEntity;
 import com.machina.multiblock.Multiblock;
 import com.machina.multiblock.MultiblockLoader;
+import com.machina.util.StringUtils;
 import com.machina.util.helper.BlockHelper;
 import com.machina.util.math.VecUtil;
-import com.machina.util.text.StringUtils;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.block.BlockState;

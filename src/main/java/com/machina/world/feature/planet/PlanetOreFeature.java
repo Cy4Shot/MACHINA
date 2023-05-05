@@ -3,7 +3,7 @@ package com.machina.world.feature.planet;
 import java.util.BitSet;
 import java.util.Random;
 
-import com.machina.block.ore.OreType;
+import com.machina.planet.OreType;
 import com.machina.planet.attribute.AttributeList;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;

@@ -7,7 +7,7 @@ import com.machina.block.tile.machine.ShipConsoleTileEntity;
 import com.machina.client.model.RocketModel;
 import com.machina.client.util.TERUtil;
 import com.machina.item.ShipComponentItem;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 

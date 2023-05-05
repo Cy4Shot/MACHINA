@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.item.MachinaBucket;
 import com.machina.registration.Registration;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;

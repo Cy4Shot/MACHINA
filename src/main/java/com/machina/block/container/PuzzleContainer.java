@@ -1,7 +1,7 @@
 package com.machina.block.container;
 
 import com.machina.block.container.base.BaseContainer;
-import com.machina.block.tile.base.PuzzleTileEntity;
+import com.machina.block.tile.basic.PuzzleTileEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ContainerInit;
 

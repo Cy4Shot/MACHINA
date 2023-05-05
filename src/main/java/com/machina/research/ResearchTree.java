@@ -8,7 +8,7 @@ import java.util.Map;
 import com.machina.blueprint.Blueprint;
 import com.machina.blueprint.Blueprint.BlueprintCategory;
 import com.machina.registration.init.ResearchInit;
-import com.machina.util.serial.BaseNBTList;
+import com.machina.util.nbt.BaseNBTList;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;

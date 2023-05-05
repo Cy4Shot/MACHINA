@@ -1,6 +1,6 @@
 package com.machina.block.container.base;
 
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

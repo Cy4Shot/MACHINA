@@ -3,8 +3,7 @@ package com.machina.events;
 import java.util.Arrays;
 
 import com.machina.Machina;
-import com.machina.block.ore.OreType;
-import com.machina.block.tile.base.TintedTileEntity;
+import com.machina.block.tile.basic.TintedTileEntity;
 import com.machina.block.tinted.ITinted;
 import com.machina.client.ClientStarchart;
 import com.machina.client.cinema.CinematicHandler;
@@ -34,6 +33,7 @@ import com.machina.client.ter.TankRenderer;
 import com.machina.client.util.ClientTimer;
 import com.machina.item.ShipComponentItem;
 import com.machina.item.TintedItem;
+import com.machina.planet.OreType;
 import com.machina.planet.PlanetData;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;
@@ -42,8 +42,8 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TileEntityInit;
 import com.machina.util.Color;
+import com.machina.util.MachinaRL;
 import com.machina.util.helper.PlanetHelper;
-import com.machina.util.text.MachinaRL;
 import com.machina.world.gen.PlanetPaletteGenerator;
 
 import net.minecraft.client.Minecraft;

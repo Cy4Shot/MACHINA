@@ -20,9 +20,9 @@ import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.TileEntityInit;
+import com.machina.util.MachinaRL;
+import com.machina.util.helper.DirectionHelper;
 import com.machina.util.helper.ServerHelper;
-import com.machina.util.math.DirectionUtil;
-import com.machina.util.text.MachinaRL;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.block.BlockState;
@@ -264,7 +264,7 @@ public class ShipConsoleTileEntity extends MachinaTileEntity implements ITickabl
 		ServerPlayerEntity play = ServerHelper.server().getPlayerList().getPlayer(id);
 		Direction dir = this.getBlockState().getValue(ShipConsoleBlock.FACING);
 		BlockPos p = worldPosition.relative(dir, -2);
-		play.connection.teleport(p.getX() + 0.5D, p.getY() + 2.6D, p.getZ() + 0.5D, DirectionUtil.toYaw(dir), 0);
+		play.connection.teleport(p.getX() + 0.5D, p.getY() + 2.6D, p.getZ() + 0.5D, DirectionHelper.toYaw(dir), 0);
 		this.level.playSound(null, p.above(2), SoundInit.ROCKET_LAUNCH.sound(), SoundCategory.MASTER, 1f, 1f);
 		MachinaNetwork.sendTo(MachinaNetwork.CHANNEL, new S2CLaunchShip(worldPosition), play);
 	}

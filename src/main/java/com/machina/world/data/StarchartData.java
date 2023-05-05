@@ -14,11 +14,11 @@ import com.machina.network.s2c.S2CStarchartSync;
 import com.machina.planet.PlanetData;
 import com.machina.planet.trait.type.ITraitType;
 import com.machina.registration.init.AttributeInit;
+import com.machina.util.MachinaRL;
+import com.machina.util.StringUtils;
 import com.machina.util.helper.PlanetHelper;
 import com.machina.util.helper.ServerHelper;
-import com.machina.util.serial.BaseNBTMap;
-import com.machina.util.text.MachinaRL;
-import com.machina.util.text.StringUtils;
+import com.machina.util.nbt.BaseNBTMap;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;

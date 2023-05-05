@@ -1,8 +1,10 @@
 package com.machina.util.math;
 
+import java.util.Random;
+
 //Modified from: https://github.com/mimno/Mallet
 @SuppressWarnings("serial")
-public class Randoms extends java.util.Random {
+public class Randoms extends Random {
 
 	public static final double ONE_OVER_E = Math.exp(-1);
 
@@ -13,6 +15,7 @@ public class Randoms extends java.util.Random {
 	public Randoms() {
 		super();
 	}
+
 	public synchronized double nextUniform() {
 		long l = ((long) (next(26)) << 27) + next(27);
 		return l / (double) (1L << 53);

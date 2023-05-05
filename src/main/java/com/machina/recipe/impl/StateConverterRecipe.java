@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.machina.Machina;
 import com.machina.recipe.IMachinaRecipe;
 import com.machina.registration.init.RecipeInit;
-import com.machina.util.serial.JsonUtils;
+import com.machina.util.nbt.JsonUtils;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

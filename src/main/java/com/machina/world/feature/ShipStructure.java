@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.ImmutableList;
 import com.machina.Machina;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.block.BlockState;

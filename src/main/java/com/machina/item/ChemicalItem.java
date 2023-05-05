@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.machina.Machina;
 import com.machina.registration.Registration;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;

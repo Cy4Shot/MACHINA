@@ -11,8 +11,8 @@ import com.machina.client.cinema.effect.ShakeEffect;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SShipLaunchEffect;
 import com.machina.network.c2s.C2SSpawnParticle;
-import com.machina.util.math.DirectionUtil;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
+import com.machina.util.helper.DirectionHelper;
 
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
@@ -29,7 +29,7 @@ public class LaunchCinematic extends PathCinematic {
 		this.pos = pos;
 
 		Direction d = p.level.getBlockState(pos).getValue(ShipConsoleBlock.FACING);
-		int yaw = DirectionUtil.toYaw(d.getOpposite());
+		int yaw = DirectionHelper.toYaw(d.getOpposite());
 
 		Vector3d o = p.position();
 

@@ -5,7 +5,7 @@ import com.machina.config.CommonConfig;
 import com.machina.planet.PlanetData;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 import com.machina.world.data.StarchartData;
 
 import net.minecraft.util.RegistryKey;

@@ -2,9 +2,9 @@ package com.machina.client.ter;
 
 import java.lang.reflect.Field;
 
-import com.machina.block.tile.base.CustomModelTileEntity;
+import com.machina.block.tile.basic.CustomModelTileEntity;
 import com.machina.client.model.CustomBlockModel;
-import com.machina.util.reflection.ClassHelper;
+import com.machina.util.java.ClassHelper;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 

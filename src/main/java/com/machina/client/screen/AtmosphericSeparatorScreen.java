@@ -7,8 +7,8 @@ import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SAtmosphericSeparatorSelect;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
+import com.machina.util.StringUtils;
 import com.machina.util.math.MathUtil;
-import com.machina.util.text.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.player.PlayerInventory;

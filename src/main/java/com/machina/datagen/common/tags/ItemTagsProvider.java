@@ -1,7 +1,7 @@
 package com.machina.datagen.common.tags;
 
 import com.machina.Machina;
-import com.machina.block.ore.OreType;
+import com.machina.planet.OreType;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TagInit;

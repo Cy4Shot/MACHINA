@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

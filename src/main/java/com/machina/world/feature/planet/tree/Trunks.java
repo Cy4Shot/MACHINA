@@ -6,10 +6,10 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.machina.util.math.MathUtil;
-import com.machina.util.sdf.SDF;
-import com.machina.util.sdf.SplineUtil;
-import com.machina.util.sdf.operator.SDFUnion;
-import com.machina.util.sdf.primitive.SDFLine;
+import com.machina.util.math.sdf.SDF;
+import com.machina.util.math.sdf.SplineUtil;
+import com.machina.util.math.sdf.operator.SDFUnion;
+import com.machina.util.math.sdf.primitive.SDFLine;
 import com.machina.world.feature.planet.tree.Leaves.LeavesBuilder;
 
 import net.minecraft.util.math.BlockPos;

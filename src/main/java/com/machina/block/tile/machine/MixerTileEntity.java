@@ -13,7 +13,7 @@ import com.machina.capability.inventory.MachinaItemStorage;
 import com.machina.recipe.impl.MixerRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

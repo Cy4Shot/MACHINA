@@ -5,7 +5,7 @@ import java.util.Queue;
 
 import com.machina.client.util.UIHelper;
 import com.machina.research.Research;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
 import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;

@@ -1,6 +1,6 @@
 package com.machina.block.tinted;
 
-import com.machina.block.tile.base.TintedTileEntity;
+import com.machina.block.tile.basic.TintedTileEntity;
 import com.machina.item.TintedItem;
 import com.machina.util.helper.PlanetHelper;
 

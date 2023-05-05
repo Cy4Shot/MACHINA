@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.google.common.collect.ImmutableList;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 import com.machina.world.data.PlanetDimensionData;
 import com.mojang.serialization.Lifecycle;
 

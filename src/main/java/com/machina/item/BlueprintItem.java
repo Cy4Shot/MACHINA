@@ -3,7 +3,7 @@ package com.machina.item;
 import java.util.List;
 
 import com.machina.blueprint.Blueprint;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;

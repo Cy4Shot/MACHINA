@@ -10,7 +10,7 @@ import com.machina.network.MachinaNetwork;
 import com.machina.network.s2c.S2CResearchSync;
 import com.machina.research.ResearchTree;
 import com.machina.util.helper.ServerHelper;
-import com.machina.util.serial.BaseNBTMap;
+import com.machina.util.nbt.BaseNBTMap;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;

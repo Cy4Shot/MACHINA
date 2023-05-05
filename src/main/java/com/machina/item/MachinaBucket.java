@@ -3,7 +3,7 @@ package com.machina.item;
 import java.util.List;
 import java.util.function.Supplier;
 
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.fluid.Fluid;

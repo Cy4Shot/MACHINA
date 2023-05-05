@@ -3,7 +3,7 @@ package com.machina.datagen.client.lang;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.machina.Machina;
-import com.machina.block.ore.OreBlock;
+import com.machina.block.OreBlock;
 import com.machina.registration.Registration;
 import com.machina.registration.init.AttributeInit;
 import com.machina.registration.init.BlockInit;

@@ -2,7 +2,7 @@ package com.machina.block.tile.multiblock.haber;
 
 import com.machina.block.tile.multiblock.MultiblockPartTileEntity;
 import com.machina.registration.init.TileEntityInit;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;

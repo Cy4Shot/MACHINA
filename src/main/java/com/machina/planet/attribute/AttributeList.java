@@ -3,7 +3,7 @@ package com.machina.planet.attribute;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.machina.util.serial.NBTList;
+import com.machina.util.nbt.NBTList;
 
 import net.minecraft.nbt.CompoundNBT;
 

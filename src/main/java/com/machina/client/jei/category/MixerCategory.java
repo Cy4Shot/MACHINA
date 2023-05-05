@@ -2,7 +2,7 @@ package com.machina.client.jei.category;
 
 import com.machina.recipe.impl.MixerRecipe;
 import com.machina.registration.init.BlockInit;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;

@@ -2,8 +2,8 @@ package com.machina.registration.init;
 
 import com.machina.planet.trait.Trait;
 import com.machina.registration.registry.TraitRegistry;
-import com.machina.util.reflection.ClassHelper;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
+import com.machina.util.java.ClassHelper;
 
 import net.minecraftforge.event.RegistryEvent;
 

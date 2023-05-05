@@ -3,7 +3,7 @@ package com.machina.item;
 import javax.annotation.Nullable;
 
 import com.machina.item.container.ScannerContainer;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

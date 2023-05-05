@@ -1,6 +1,6 @@
 package com.machina.item;
 
-import com.machina.block.ore.OreType;
+import com.machina.planet.OreType;
 
 public class OreItem extends ChemicalItem {
 

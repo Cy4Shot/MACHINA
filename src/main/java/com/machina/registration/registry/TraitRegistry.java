@@ -3,8 +3,8 @@ package com.machina.registration.registry;
 import java.util.Optional;
 
 import com.machina.planet.trait.Trait;
-import com.machina.util.reflection.TargetField;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
+import com.machina.util.java.TargetField;
 
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.IForgeRegistry;

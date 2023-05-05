@@ -20,7 +20,7 @@ import com.machina.network.s2c.S2CLaunchShip;
 import com.machina.network.s2c.S2CResearchSync;
 import com.machina.network.s2c.S2CResearchToast;
 import com.machina.network.s2c.S2CStarchartSync;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkRegistry;

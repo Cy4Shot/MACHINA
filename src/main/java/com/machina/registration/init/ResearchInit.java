@@ -6,7 +6,7 @@ import java.util.Map;
 import com.machina.blueprint.BlueprintGroup;
 import com.machina.research.Research;
 import com.machina.research.ResearchTreeNode;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.util.IItemProvider;
 

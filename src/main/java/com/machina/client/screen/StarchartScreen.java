@@ -16,7 +16,7 @@ import com.machina.client.util.UIHelper.StippleType;
 import com.machina.planet.PlanetData;
 import com.machina.planet.trait.Trait;
 import com.machina.registration.init.AttributeInit;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 

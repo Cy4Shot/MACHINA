@@ -1,7 +1,7 @@
 package com.machina.registration.init;
 
 import com.machina.Machina;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;

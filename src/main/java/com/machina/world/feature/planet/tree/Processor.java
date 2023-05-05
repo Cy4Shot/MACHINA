@@ -7,8 +7,8 @@ import java.util.Random;
 
 import com.machina.util.math.MathUtil;
 import com.machina.util.math.OpenSimplex2F;
-import com.machina.util.sdf.SDF;
-import com.machina.util.sdf.operator.SDFDisplacement;
+import com.machina.util.math.sdf.SDF;
+import com.machina.util.math.sdf.operator.SDFDisplacement;
 
 public class Processor {
 	public interface ProcessorModule {

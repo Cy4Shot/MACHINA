@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Optional;
 
 import com.machina.Machina;
-import com.machina.util.reflection.ClassHelper;
-import com.machina.util.reflection.TargetField;
+import com.machina.util.java.ClassHelper;
+import com.machina.util.java.TargetField;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;

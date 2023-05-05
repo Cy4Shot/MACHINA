@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
-import com.machina.block.ore.OreType;
 import com.machina.item.BlueprintItem;
 import com.machina.item.CatalystItem;
 import com.machina.item.ChemicalItem;
@@ -13,6 +12,7 @@ import com.machina.item.MachinaDiscItem;
 import com.machina.item.OreItem;
 import com.machina.item.ScannerItem;
 import com.machina.item.ShipComponentItem;
+import com.machina.planet.OreType;
 import com.machina.registration.Registration;
 
 import net.minecraft.item.Item;

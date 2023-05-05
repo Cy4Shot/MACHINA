@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import com.machina.config.CommonConfig;
 import com.machina.util.Color;
-import com.machina.util.serial.BaseNBTList;
+import com.machina.util.nbt.BaseNBTList;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;

@@ -12,7 +12,7 @@ import com.machina.client.screen.base.TerminalScreen;
 import com.machina.config.ClientConfig;
 import com.machina.network.MachinaNetwork;
 import com.machina.network.c2s.C2SCompletePuzzle;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;

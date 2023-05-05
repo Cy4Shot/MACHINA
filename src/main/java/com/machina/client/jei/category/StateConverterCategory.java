@@ -7,7 +7,7 @@ import com.machina.config.CommonConfig;
 import com.machina.recipe.impl.StateConverterRecipe;
 import com.machina.registration.init.BlockInit;
 import com.machina.util.Color;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import mezz.jei.api.constants.VanillaTypes;

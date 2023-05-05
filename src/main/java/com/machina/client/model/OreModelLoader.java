@@ -8,7 +8,7 @@ import java.util.function.Function;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.machina.client.model.OreModelLoader.OreModelGeometry;
-import com.machina.util.text.MachinaRL;
+import com.machina.util.MachinaRL;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.renderer.model.IBakedModel;

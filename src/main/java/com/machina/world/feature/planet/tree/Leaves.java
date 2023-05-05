@@ -3,10 +3,10 @@ package com.machina.world.feature.planet.tree;
 import java.util.Random;
 
 import com.machina.util.math.MathUtil;
-import com.machina.util.sdf.SDF;
-import com.machina.util.sdf.operator.SDFTranslate;
-import com.machina.util.sdf.primitive.SDFCappedCone;
-import com.machina.util.sdf.primitive.SDFSphere;
+import com.machina.util.math.sdf.SDF;
+import com.machina.util.math.sdf.operator.SDFTranslate;
+import com.machina.util.math.sdf.primitive.SDFCappedCone;
+import com.machina.util.math.sdf.primitive.SDFSphere;
 
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.util.math.BlockPos;

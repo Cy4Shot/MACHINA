@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.machina.block.tile.base.CableTileEntity;
+import com.machina.block.tile.basic.CableTileEntity;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.tileentity.TileEntity;

@@ -13,7 +13,7 @@ import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
 import com.machina.registration.init.ResearchInit;
 import com.machina.research.Research;
-import com.machina.util.text.StringUtils;
+import com.machina.util.StringUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
