@@ -69,19 +69,19 @@ public class ShipConstructScreen extends NoJeiContainerScreen<ShipConstructConta
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 2, 3, xSize, ySize);
-		this.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
+		UIHelper.blit(stack, x, y, 2, 3, xSize, ySize);
+		UIHelper.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
 
 		// Progress
 		int percentage = (int) (((float) this.menu.te.progress / 100f) * 129f);
-		this.blit(stack, x + 74, y + 28, 3, 130, 135, 18);
-		this.blit(stack, x + 76, y + 30, 3, 103, percentage, 12);
+		UIHelper.blit(stack, x + 74, y + 28, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 76, y + 30, 3, 103, percentage, 12);
 
 		// Slots
-		this.blit(stack, x + 20, y + 22, 3, 150, 23, 23);
-		this.blit(stack, x + 47, y + 22, 29, 150, 23, 23);
-		this.blit(stack, x + 20, y + 49, 3, 175, 23, 23);
-		this.blit(stack, x + 47, y + 49, 29, 175, 23, 23);
+		UIHelper.blit(stack, x + 20, y + 22, 3, 150, 23, 23);
+		UIHelper.blit(stack, x + 47, y + 22, 29, 150, 23, 23);
+		UIHelper.blit(stack, x + 20, y + 49, 3, 175, 23, 23);
+		UIHelper.blit(stack, x + 47, y + 49, 29, 175, 23, 23);
 		renderHintItem(stack, 0, x + 24, y + 26);
 		renderHintItem(stack, 1, x + 49, y + 26);
 		renderHintItem(stack, 2, x + 24, y + 51);
@@ -91,9 +91,9 @@ public class ShipConstructScreen extends NoJeiContainerScreen<ShipConstructConta
 		UIHelper.bindScifi();
 		if (pX > x + 74 && pX < x + 74 + 95 && pY > y + 49 && pY < y + 49 + 18 && this.menu.te.progress == 0
 				&& this.menu.areSlotsComplete()) {
-			this.blit(stack, x + 74, y + 49, 56, 169, 95, 18);
+			UIHelper.blit(stack, x + 74, y + 49, 56, 169, 95, 18);
 		} else {
-			this.blit(stack, x + 74, y + 49, 56, 150, 95, 18);
+			UIHelper.blit(stack, x + 74, y + 49, 56, 150, 95, 18);
 		}
 		String buttonText = StringUtils.translateScreen("ship_console.missing");
 		if (this.menu.areSlotsComplete()) {
@@ -107,8 +107,7 @@ public class ShipConstructScreen extends NoJeiContainerScreen<ShipConstructConta
 		UIHelper.drawStringWithBorder(stack, buttonText, x + 78, y + 53, 0xFF_00fefe, 0xFF_0e0e0e);
 
 		// Text
-		String stage = String.format(StringUtils.translateScreen("ship_console.stage") + " %d / 5",
-				this.menu.te.stage);
+		String stage = String.format(StringUtils.translateScreen("ship_console.stage") + " %d / 5", this.menu.te.stage);
 		String comp = ShipComponentItem.getNameForStage(this.menu.te.stage);
 		UIHelper.drawStringWithBorder(stack, stage, x + 90, y + 4, 0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.drawCenteredStringWithBorder(stack, comp, x + 120, y + 14, 0xFF_00fefe, 0xFF_0e0e0e);

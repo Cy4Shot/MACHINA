@@ -48,12 +48,12 @@ public class TemperatureRegulatorScreen extends NoJeiContainerScreen<Temperature
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 2, 3, xSize, ySize);
+		UIHelper.blit(stack, x, y, 2, 3, xSize, ySize);
 
 		// Progress
 		int percentage = (int) (this.menu.te.propFull() * 129f);
-		this.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
-		this.blit(stack, x + 52, y + 40, 3, 115, percentage, 12);
+		UIHelper.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 52, y + 40, 3, 115, percentage, 12);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
 				StringUtils.translateScreen("temperature_regulator.stored")

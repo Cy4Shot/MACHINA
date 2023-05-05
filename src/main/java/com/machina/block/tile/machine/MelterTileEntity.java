@@ -129,12 +129,14 @@ public class MelterTileEntity extends MachinaTileEntity
 	@Override
 	public CompoundNBT save(CompoundNBT tag) {
 		tag.putString("rec", this.rec.toString());
+		tag.putInt("progress", this.progress);
 		return super.save(tag);
 	}
 
 	@Override
 	public void load(BlockState state, CompoundNBT tag) {
 		this.rec = new ResourceLocation(tag.getString("rec"));
+		this.progress = tag.getInt("progress");
 		super.load(state, tag);
 	}
 }

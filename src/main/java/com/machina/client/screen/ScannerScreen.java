@@ -83,8 +83,8 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		if (ticks < 40) {
 			// Progress
 			int percentage = (int) (((float) ticks / 40f) * 129f);
-			this.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
-			this.blit(stack, x + 52, y + 40, 3, 103, percentage, 12);
+			UIHelper.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
+			UIHelper.blit(stack, x + 52, y + 40, 3, 103, percentage, 12);
 
 			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("scanner.loading"), x + 117, y + 28,
 					0xFF_00fefe, 0xFF_0e0e0e);
@@ -92,21 +92,21 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		}
 
 		// Back
-		this.blit(stack, x, y, 2, 3, xSize, ySize);
-		this.blit(stack, x + 50, y - 22, 3, 130, 135, 18);
-		this.blit(stack, x + 24, y - 26, 3, 150, 23, 23);
-		this.blit(stack, x + 187, y - 26, 29, 150, 23, 23);
+		UIHelper.blit(stack, x, y, 2, 3, xSize, ySize);
+		UIHelper.blit(stack, x + 50, y - 22, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 24, y - 26, 3, 150, 23, 23);
+		UIHelper.blit(stack, x + 187, y - 26, 29, 150, 23, 23);
 
 		// Buttons
 		if (pX > x + 24 && pX < x + 24 + 23 && pY > y - 26 && pY < y - 26 + 23) {
-			this.blit(stack, x + 31, y - 20, 216, 196, 8, 12);
+			UIHelper.blit(stack, x + 31, y - 20, 216, 196, 8, 12);
 		} else {
-			this.blit(stack, x + 31, y - 20, 216, 184, 8, 12);
+			UIHelper.blit(stack, x + 31, y - 20, 216, 184, 8, 12);
 		}
 		if (pX > x + 187 && pX < x + 187 + 23 && pY > y - 26 && pY < y - 26 + 23) {
-			this.blit(stack, x + 194, y - 20, 208, 196, 8, 12);
+			UIHelper.blit(stack, x + 194, y - 20, 208, 196, 8, 12);
 		} else {
-			this.blit(stack, x + 194, y - 20, 208, 184, 8, 12);
+			UIHelper.blit(stack, x + 194, y - 20, 208, 184, 8, 12);
 		}
 
 		// Data

@@ -55,17 +55,17 @@ public class ComponentAnalyzerScreen extends NoJeiContainerScreen<ComponentAnaly
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 2, 3, xSize, ySize);
-		this.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
+		UIHelper.blit(stack, x, y, 2, 3, xSize, ySize);
+		UIHelper.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
 
 		// Progress
 		int percentage = (int) (((float) this.menu.te.progress / 100f) * 129f);
-		this.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
-		this.blit(stack, x + 52, y + 40, 3, 103, percentage, 12);
+		UIHelper.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 52, y + 40, 3, 103, percentage, 12);
 
 		// Slots
-		this.blit(stack, x + 24, y + 36, 3, 150, 23, 23);
-		this.blit(stack, x + 187, y + 36, 29, 150, 23, 23);
+		UIHelper.blit(stack, x + 24, y + 36, 3, 150, 23, 23);
+		UIHelper.blit(stack, x + 187, y + 36, 29, 150, 23, 23);
 
 		// Text
 		if (this.menu.te.progress == 0)

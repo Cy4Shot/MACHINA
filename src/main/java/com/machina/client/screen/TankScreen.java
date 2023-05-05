@@ -48,22 +48,22 @@ public class TankScreen extends NoJeiContainerScreen<TankContainer> {
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 2, 3, xSize, ySize);
-		this.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
+		UIHelper.blit(stack, x, y, 2, 3, xSize, ySize);
+		UIHelper.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
 
 		// Slots
-		this.blit(stack, x + 25, y + 37, 228, 184, 19, 19);
-		this.blit(stack, x + 190, y + 37, 228, 184, 19, 19);
-		this.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 25, y + 37, 228, 184, 19, 19);
+		UIHelper.blit(stack, x + 190, y + 37, 228, 184, 19, 19);
+		UIHelper.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
 
 		// Decorators
 		UIHelper.bindPrgrs();
-		this.blit(stack, x + 20, y + 38, 0, 239, 29, 17);
-		this.blit(stack, x + 185, y + 38, 0, 239, 29, 17);
+		UIHelper.blit(stack, x + 20, y + 38, 0, 239, 29, 17);
+		UIHelper.blit(stack, x + 185, y + 38, 0, 239, 29, 17);
 
 		UIHelper.withAlpha(() -> {
-			this.blit(stack, x + 29, y + 41, 101, 246, 10, 10);
-			this.blit(stack, x + 194, y + 41, 111, 246, 10, 10);
+			UIHelper.blit(stack, x + 29, y + 41, 101, 246, 10, 10);
+			UIHelper.blit(stack, x + 194, y + 41, 111, 246, 10, 10);
 		}, 0.5f);
 
 		// Progress

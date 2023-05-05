@@ -57,12 +57,12 @@ public class StateConverterScreen extends NoJeiContainerScreen<StateConverterCon
 
 		// Progress
 		int percentage = (int) (this.menu.te.heatFull() * 129f);
-		this.blit(stack, x + 50, y + 20, 3, 130, 135, 18);
-		this.blit(stack, x + 52, y + 22, 3, 115, percentage, 12);
+		UIHelper.blit(stack, x + 50, y + 20, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 52, y + 22, 3, 115, percentage, 12);
 
 		// Fluids
-		this.blit(stack, x + 50, y + 60, 3, 230, 67, 18);
-		this.blit(stack, x + 118, y + 60, 3, 230, 67, 18);
+		UIHelper.blit(stack, x + 50, y + 60, 3, 230, 67, 18);
+		UIHelper.blit(stack, x + 118, y + 60, 3, 230, 67, 18);
 		int p1 = (int) (this.menu.te.propFull(0) * 64f);
 		int p2 = (int) (this.menu.te.propFull(1) * 64f);
 		FluidStack f1 = this.menu.te.getFluid(0);
@@ -94,9 +94,9 @@ public class StateConverterScreen extends NoJeiContainerScreen<StateConverterCon
 
 		int req = (int) (HeatHelper.propFull(this.menu.te.reqHeat, dim) * 129f);
 		if (this.menu.te.above)
-			this.blit(stack, x + 51 + req, y + 21, 97, 242, 2, 14);
+			UIHelper.blit(stack, x + 51 + req, y + 21, 97, 242, 2, 14);
 		else
-			this.blit(stack, x + 51 + req, y + 21, 99, 242, 2, 14);
+			UIHelper.blit(stack, x + 51 + req, y + 21, 99, 242, 2, 14);
 
 		UIHelper.drawStringWithBorder(stack, "MACHINA://STATE_CONV/", x + 8, y + 82, 0xFF_00fefe, 0xFF_0e0e0e);
 	}

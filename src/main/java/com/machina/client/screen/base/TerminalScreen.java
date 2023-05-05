@@ -101,19 +101,19 @@ public abstract class TerminalScreen<T extends Container> extends NoJeiContainer
 		int xSize = 237, ySize = 184;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 0, 0, xSize, ySize);
-		this.blit(stack, x + 4, y + 162, 0, 184, 135, 18);
+		UIHelper.blit(stack, x, y, 0, 0, xSize, ySize);
+		UIHelper.blit(stack, x + 4, y + 162, 0, 184, 135, 18);
 
 		if (pX > x + 124 && pX < x + 124 + 11 && pY > y + 165 && pY < y + 165 + 11) {
-			this.blit(stack, x + 124, y + 165, 237, 45, 11, 11);
+			UIHelper.blit(stack, x + 124, y + 165, 237, 45, 11, 11);
 		} else {
-			this.blit(stack, x + 124, y + 165, 237, 34, 11, 11);
+			UIHelper.blit(stack, x + 124, y + 165, 237, 34, 11, 11);
 		}
 
 		if (pX > x + 215 && pX < x + 215 + 17 && pY > y + 4 && pY < y + 4 + 17 && !this.progress) {
-			this.blit(stack, x + 215, y + 4, 237, 17, 17, 17);
+			UIHelper.blit(stack, x + 215, y + 4, 237, 17, 17, 17);
 		} else {
-			this.blit(stack, x + 215, y + 4, 237, 0, 17, 17);
+			UIHelper.blit(stack, x + 215, y + 4, 237, 0, 17, 17);
 		}
 		if (!this.progress)
 			this.input.render(stack, pX, pY, pPartialTicks);

@@ -47,19 +47,19 @@ public class FurnaceGeneratorScreen extends NoJeiContainerScreen<FurnaceGenerato
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 2, 3, xSize, ySize);
-		this.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
+		UIHelper.blit(stack, x, y, 2, 3, xSize, ySize);
+		UIHelper.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
 
 		// Progress
 		int percentage = (int) (this.menu.te.getEnergyProp() * 129f);
-		this.blit(stack, x + 50, y + 31, 3, 130, 135, 18);
-		this.blit(stack, x + 52, y + 33, 3, 103, percentage, 12);
+		UIHelper.blit(stack, x + 50, y + 31, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 52, y + 33, 3, 103, percentage, 12);
 		
 		// Slot
-		this.blit(stack, x + 108, y + 50, 228, 184, 19, 19);
+		UIHelper.blit(stack, x + 108, y + 50, 228, 184, 19, 19);
 		UIHelper.bindPrgrs();
-		this.blit(stack, x + 103, y + 51, 0, 239, 29, 17);
-		this.blit(stack, x + 83, y + 48, 29, 243, 68, 13);
+		UIHelper.blit(stack, x + 103, y + 51, 0, 239, 29, 17);
+		UIHelper.blit(stack, x + 83, y + 48, 29, 243, 68, 13);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
 				MathUtil.engineering(this.menu.te.getEnergy(), "RF") + " / "

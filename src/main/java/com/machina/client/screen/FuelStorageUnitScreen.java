@@ -54,16 +54,16 @@ public class FuelStorageUnitScreen extends NoJeiContainerScreen<FuelStorageUnitC
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 2, 3, xSize, ySize);
-		this.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
+		UIHelper.blit(stack, x, y, 2, 3, xSize, ySize);
+		UIHelper.blit(stack, x + 32, y + 102, 3, 200, 174, 30);
 
 		int temp = (int) (this.menu.te.heatFull() * 129f);
-		this.blit(stack, x + 50, y + 20, 3, 130, 135, 18);
-		this.blit(stack, x + 52, y + 22, 3, 115, temp, 12);
+		UIHelper.blit(stack, x + 50, y + 20, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 52, y + 22, 3, 115, temp, 12);
 
 		// Slots
-		this.blit(stack, x + 24, y + 57, 228, 184, 19, 19);
-		this.blit(stack, x + 191, y + 57, 228, 184, 19, 19);
+		UIHelper.blit(stack, x + 24, y + 57, 228, 184, 19, 19);
+		UIHelper.blit(stack, x + 191, y + 57, 228, 184, 19, 19);
 		renderHintItem(stack, 0, x + 25, y + 58);
 		renderHintItem(stack, 1, x + 192, y + 58);
 		UIHelper.bindScifi();
@@ -71,20 +71,20 @@ public class FuelStorageUnitScreen extends NoJeiContainerScreen<FuelStorageUnitC
 		// Progress
 		FluidStack fluid = this.menu.te.getFluid();
 		int fl = (int) (this.menu.te.propFull() * 132f);
-		this.blit(stack, x + 50, y + 58, 3, 130, 135, 18);
+		UIHelper.blit(stack, x + 50, y + 58, 3, 130, 135, 18);
 		UIHelper.renderFluid(stack, fluid, x + 51, y + 59, fl, 15, 132, 15, getBlitOffset(), pX, pY, true);
 
 		// Decorate Slots
 		UIHelper.bindPrgrs();
-		this.blit(stack, x + 19, y + 58, 0, 239, 29, 17);
-		this.blit(stack, x + 186, y + 58, 0, 239, 29, 17);
+		UIHelper.blit(stack, x + 19, y + 58, 0, 239, 29, 17);
+		UIHelper.blit(stack, x + 186, y + 58, 0, 239, 29, 17);
 
 		RegistryKey<World> dim = this.menu.te.getLevel().dimension();
 		float max = FuelStorageUnitTileEntity.maxTemp;
 		float heat = this.menu.te.normalizedHeat();
 
 		int req = (int) (HeatHelper.propFull(max, dim) * 129f);
-		this.blit(stack, x + 51 + req, y + 21, 99, 242, 2, 14);
+		UIHelper.blit(stack, x + 51 + req, y + 21, 99, 242, 2, 14);
 
 		UIHelper.drawCenteredStringWithBorder(stack,
 				StringUtils.translateScreen("fuel_storage.stored") + MathUtil.engineering(heat, "K"), x + 117, y + 7,

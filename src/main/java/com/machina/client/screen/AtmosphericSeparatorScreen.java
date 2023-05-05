@@ -49,7 +49,7 @@ public class AtmosphericSeparatorScreen extends NoJeiContainerScreen<Atmospheric
 		int xSize = 237, ySize = 4 + size * 20 + 19;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 0, 0, xSize, 4);
+		UIHelper.blit(stack, x, y, 0, 0, xSize, 4);
 
 		for (int i = 0; i < size; i++) {
 			boolean s = i == this.menu.te.selected;
@@ -57,21 +57,21 @@ public class AtmosphericSeparatorScreen extends NoJeiContainerScreen<Atmospheric
 			int newX = x + 4;
 			int newY = y + 4 + i * 20;
 
-			this.blit(stack, x, newY, 0, 4, xSize, 20);
+			UIHelper.blit(stack, x, newY, 0, 4, xSize, 20);
 
 			FluidObject obj = FluidInit.ATMOSPHERE.get(i);
 
 			if (pX > newX + 20 && pX < newX + 20 + 94 && pY > newY && pY < newY + 18) {
-				this.blit(stack, newX + 20, newY, 0, 229, 94, 18);
+				UIHelper.blit(stack, newX + 20, newY, 0, 229, 94, 18);
 			} else {
 				if (s) {
-					this.blit(stack, newX + 20, newY, 0, 211, 94, 18);
+					UIHelper.blit(stack, newX + 20, newY, 0, 211, 94, 18);
 				} else {
-					this.blit(stack, newX + 20, newY, 94, 211, 94, 18);
+					UIHelper.blit(stack, newX + 20, newY, 94, 211, 94, 18);
 				}
 			}
 
-			this.blit(stack, newX, newY, 94, 229, 18, 18);
+			UIHelper.blit(stack, newX, newY, 94, 229, 18, 18);
 			FluidStack f = new FluidStack(obj.fluid(), 1);
 			UIHelper.renderFluid(stack, f, newX + 1, newY + 1, 15, 15, 15, 15, getBlitOffset(), pX, pY, false);
 
@@ -98,7 +98,7 @@ public class AtmosphericSeparatorScreen extends NoJeiContainerScreen<Atmospheric
 		}
 
 		UIHelper.bindLarge();
-		this.blit(stack, x, y + 4 + size * 20, 0, 192, xSize, 19);
+		UIHelper.blit(stack, x, y + 4 + size * 20, 0, 192, xSize, 19);
 
 		UIHelper.drawStringWithBorder(stack, "MACHINA://ATM_SEPERATOR/", x + 5, y + 8 + size * 20, 0xFF_00fefe,
 				0xFF_0e0e0e);
