@@ -49,8 +49,7 @@ public class ClientForgeEvents {
 			event.setBlue(color.getBlue() / 255f * density);
 		}
 	}
-	
-	// TODO: Config!
+
 	@SubscribeEvent
 	public static void fogDensity(FogDensity event) {
 		RegistryKey<World> dim = mc.level.dimension();
