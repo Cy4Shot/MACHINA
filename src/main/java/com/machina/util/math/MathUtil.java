@@ -37,6 +37,9 @@ public class MathUtil {
 		if (val == 0)
 			return val + unit;
 
+		if (val < 0)
+			return "-" + engineering(Math.abs(val), unit);
+
 		double tval = val;
 		int order = 0;
 		while (tval >= 1000.0) {
@@ -156,7 +159,7 @@ public class MathUtil {
 	public static double expNext(double lambda, Random rand) {
 		return Math.log(1 - rand.nextDouble()) / (-lambda);
 	}
-	
+
 	public static double randRangeExp(double min, double max, double lambda, Random random) {
 		return min + expNext(lambda, random) * (max - min);
 	}

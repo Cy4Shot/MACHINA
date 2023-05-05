@@ -307,6 +307,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("mixer", "running", "Mixing Active");
 		addScreen("mixer", "clear", "Clear");
 		addScreen("mixer", "extra", "Not all inputs are always required, as it depends on the recipe.");
+		addScreen("melter", "title", "Melter");
+		addScreen("melter", "notfound", "Recipe Not Found");
 		addScreen("scanner", "loading", "Scanning...");
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");

@@ -53,7 +53,7 @@ public class StateConverterScreen extends NoJeiContainerScreen<StateConverterCon
 		int xSize = 236, ySize = 99;
 		int x = (this.width - xSize) / 2;
 		int y = (this.height - ySize) / 2;
-		this.blit(stack, x, y, 2, 3, xSize, ySize);
+		UIHelper.blit(stack, x, y, 2, 3, xSize, ySize);
 
 		// Progress
 		int percentage = (int) (this.menu.te.heatFull() * 129f);

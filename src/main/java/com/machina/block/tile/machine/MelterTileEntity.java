@@ -22,6 +22,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class MelterTileEntity extends MachinaTileEntity
@@ -61,16 +62,16 @@ public class MelterTileEntity extends MachinaTileEntity
 			return 1;
 		}
 	};
-	
+
 	public IIntArray getData() {
 		return data;
 	}
 
 	@Override
 	public void createStorages() {
-		this.energy = add(new MachinaEnergyStorage(this, 100000, 100));
+		this.energy = add(new MachinaEnergyStorage(this, 100000, 1000));
 		this.fluid = add(new MachinaTank(this, 10000, f -> false, true, 0));
-		this.items = add(new MachinaItemStorage(3));
+		this.items = add(new MachinaItemStorage(1));
 	}
 
 	@Override
@@ -88,32 +89,44 @@ public class MelterTileEntity extends MachinaTileEntity
 
 			found = true;
 			this.rec = recipe.getId();
-
-			if (!hasPower())
-				break;
+			break;
 
 		}
 		if (!found) {
 			this.rec = new MachinaRL("empty");
-		} else {
+		} else if (hasPower() && hasSpace()) {
 			MelterRecipe recipe = (MelterRecipe) RecipeInit
 					.getRecipes(RecipeInit.MELTER_RECIPE, level.getRecipeManager()).get(this.rec);
 			this.progress++;
-			energy.consumeEnergy(recipe.power / 100);
-			if (this.progress == 100) {
+			energy.consumeEnergy(recipe.power / getCookTime());
+			if (this.progress == getCookTime()) {
 				items.getStackInSlot(0).shrink(1);
 				fluid.fillRaw(recipe.output, FluidAction.EXECUTE);
 				this.progress = 0;
 				setChanged();
+
 			}
 		}
 		setChanged();
+	}
+	
+	public int getCookTime() {
+		return 100;
 	}
 
 	public boolean hasPower() {
 		MelterRecipe recipe = (MelterRecipe) RecipeInit.getRecipes(RecipeInit.MELTER_RECIPE, level.getRecipeManager())
 				.get(this.rec);
 		return energy.getEnergyStored() >= recipe.power;
+	}
+
+	public boolean hasSpace() {
+		if (this.rec.equals(new MachinaRL("empty"))) {
+			return true;
+		}
+		MelterRecipe recipe = (MelterRecipe) RecipeInit.getRecipes(RecipeInit.MELTER_RECIPE, level.getRecipeManager())
+				.get(this.rec);
+		return fluid.fillRaw(recipe.output, FluidAction.SIMULATE) > 0;
 	}
 
 	@Override
@@ -138,5 +151,21 @@ public class MelterTileEntity extends MachinaTileEntity
 		this.rec = new ResourceLocation(tag.getString("rec"));
 		this.progress = tag.getInt("progress");
 		super.load(state, tag);
+	}
+
+	public FluidStack getFluid(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getFluid();
+	}
+
+	public int stored(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getFluidAmount();
+	}
+
+	public int capacity(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getCapacity();
+	}
+
+	public float propFull(int id) {
+		return (float) stored(id) / (float) capacity(id);
 	}
 }

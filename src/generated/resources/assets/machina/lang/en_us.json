@@ -334,6 +334,8 @@
   "machina.screen.haber.power": "Power: ",
   "machina.screen.haber.title": "Haber Process",
   "machina.screen.haber.water": "Water: ",
+  "machina.screen.melter.notfound": "Recipe Not Found",
+  "machina.screen.melter.title": "Melter",
   "machina.screen.mixer.awaiting": "Awaiting Recipe",
   "machina.screen.mixer.clear": "Clear",
   "machina.screen.mixer.extra": "Not all inputs are always required, as it depends on the recipe.",
