@@ -14,6 +14,7 @@ public class MelterContainer extends BaseContainer<MelterTileEntity> {
 
 	public MelterContainer(int id, final PlayerInventory playerInv, MelterTileEntity te) {
 		super(ContainerInit.MELTER.get(), id, te);
+		createData(() -> te.getData());
 
 		recreateSlots(playerInv);
 	}

@@ -61,6 +61,10 @@ public class MelterTileEntity extends MachinaTileEntity
 			return 1;
 		}
 	};
+	
+	public IIntArray getData() {
+		return data;
+	}
 
 	@Override
 	public void createStorages() {
