@@ -32,6 +32,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.BLUEPRINTER.get(), "Blueprinter");
 		add(BlockInit.FABRICATOR.get(), "Fabrication Bench");
 		add(BlockInit.MIXER.get(), "Chemical Mixer");
+		add(BlockInit.MELTER.get(), "Melter");
 		add(BlockInit.SHIP_CONSOLE.get(), "Ship Console");
 		add(BlockInit.ATMOSPHERIC_SEPARATOR.get(), "Atmospheric Separator");
 		add(BlockInit.TEMPERATURE_REGULATOR.get(), "Temperature Regulator");
@@ -81,6 +82,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addJeiCat("state_converter", "State Converter");
 		addJeiCat("haber", "Haber Process");
 		addJeiCat("mixer", "Chemical Mixer");
+		addJeiCat("melter", "Melter");
 
 		// Ores
 		BlockInit.ORE_MAP.values().forEach(m -> {
