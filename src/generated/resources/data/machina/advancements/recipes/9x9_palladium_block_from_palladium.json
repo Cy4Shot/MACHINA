@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:9x9_palladium_block_from_palladium"
+    ]
+  },
+  "criteria": {
+    "has_palladium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:palladium"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:9x9_palladium_block_from_palladium"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_palladium",
+      "has_the_recipe"
+    ]
+  ]
+}

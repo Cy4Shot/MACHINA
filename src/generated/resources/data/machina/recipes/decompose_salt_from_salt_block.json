@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "machina:salt_block"
+    }
+  ],
+  "result": {
+    "item": "machina:salt",
+    "count": 9
+  }
+}

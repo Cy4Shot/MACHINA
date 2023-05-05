@@ -1,0 +1,12 @@
+{
+	"type": "machina:melter",
+	"power": 2000,
+	"input": {
+		"item": "machina:bismuth",
+		"count": 1
+	},
+	"output": {
+		"fluid": "machina:molten_bismuth",
+		"amount": 500
+	}
+}

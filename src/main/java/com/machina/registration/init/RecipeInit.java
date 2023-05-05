@@ -6,6 +6,8 @@ import com.machina.recipe.impl.FabricatorRecipe;
 import com.machina.recipe.impl.FabricatorRecipe.FabricatorRecipeType;
 import com.machina.recipe.impl.HaberRecipe;
 import com.machina.recipe.impl.HaberRecipe.HaberRecipeType;
+import com.machina.recipe.impl.MelterRecipe;
+import com.machina.recipe.impl.MelterRecipe.MelterRecipeType;
 import com.machina.recipe.impl.MixerRecipe;
 import com.machina.recipe.impl.MixerRecipe.MixerRecipeType;
 import com.machina.recipe.impl.ShipConsoleRecipe;
@@ -27,6 +29,7 @@ public class RecipeInit {
 	public static final IRecipeType<FabricatorRecipe> FABRICATOR_RECIPE = new FabricatorRecipeType();
 	public static final IRecipeType<HaberRecipe> HABER_RECIPE = new HaberRecipeType();
 	public static final IRecipeType<MixerRecipe> MIXER_RECIPE = new MixerRecipeType();
+	public static final IRecipeType<MelterRecipe> MELTER_RECIPE = new MelterRecipeType();
 
 	public static void registerRecipes(Register<IRecipeSerializer<?>> event) {
 		registerRecipe(event, SHIP_CONSOLE_RECIPE, ShipConsoleRecipe.SERIALIZER);
@@ -34,6 +37,7 @@ public class RecipeInit {
 		registerRecipe(event, FABRICATOR_RECIPE, FabricatorRecipe.SERIALIZER);
 		registerRecipe(event, HABER_RECIPE, HaberRecipe.SERIALIZER);
 		registerRecipe(event, MIXER_RECIPE, MixerRecipe.SERIALIZER);
+		registerRecipe(event, MELTER_RECIPE, MelterRecipe.SERIALIZER);
 	}
 
 	private static void registerRecipe(Register<IRecipeSerializer<?>> event, IRecipeType<?> type,

@@ -1,0 +1,12 @@
+{
+	"type": "machina:melter",
+	"power": 2000,
+	"input": {
+		"item": "machina:sulphur",
+		"count": 1
+	},
+	"output": {
+		"fluid": "machina:sulphur_dioxide",
+		"amount": 500
+	}
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:9x9_fluorite_block_from_fluorite"
+    ]
+  },
+  "criteria": {
+    "has_fluorite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:fluorite"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:9x9_fluorite_block_from_fluorite"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fluorite",
+      "has_the_recipe"
+    ]
+  ]
+}

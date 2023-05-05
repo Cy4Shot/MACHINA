@@ -81,6 +81,9 @@ public class BlockStatesProvider extends BlockStateProvider {
 		fluid(FluidInit.HNIW);
 		fluid(FluidInit.HEXOGEN);
 		fluid(FluidInit.NITROMETHANE);
+		fluid(FluidInit.MOLTEN_LEAD);
+		fluid(FluidInit.MOLTEN_BISMUTH);
+		fluid(FluidInit.LEAD_BISMUTH_EUTECTIC);
 
 		simpleBlock(BlockInit.LOW_GRADE_STEEL_BLOCK.get());
 		simpleBlock(BlockInit.ALUMINUM_BLOCK.get());
@@ -90,7 +93,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
 		simpleBlock(BlockInit.HABER_CASING.get());
 		simpleBlock(BlockInit.HABER_PORT.get());
-		
+
 		machine(BlockInit.HABER_CONTROLLER.get(), BlockInit.HABER_CASING.get());
 
 		orientableGeo(BlockInit.COMPONENT_ANALYZER.get(), BlockInit.ALUMINUM_BLOCK.get());
@@ -112,6 +115,8 @@ public class BlockStatesProvider extends BlockStateProvider {
 				simpleBlock(ore, generatorModel);
 			});
 		});
+
+		BlockInit.ORE_BLOCKS.values().forEach(b -> simpleBlock(b.get()));
 	}
 
 	public void fluid(FluidObject obj) {

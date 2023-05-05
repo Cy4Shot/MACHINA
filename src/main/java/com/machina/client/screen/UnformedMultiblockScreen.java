@@ -22,6 +22,7 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.Color;
@@ -41,7 +42,6 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 
 	public UnformedMultiblockScreen(T menu, ITextComponent title) {
 		super(title);
-
 		this.menu = menu;
 	}
 
@@ -88,8 +88,8 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 		// Controls
 		UIHelper.bindStcht();
 		UIHelper.betterBlit(stack, x + 8, y + 170, 16, 112, 16, 16, 128);
-		UIHelper.drawStringWithBorder(stack, StringUtils.translateScreen("multiblock.rot"), x + 29, y + 174, 0xFF_00fefe,
-				0xFF_0e0e0e);
+		UIHelper.drawStringWithBorder(stack, StringUtils.translateScreen("multiblock.rot"), x + 29, y + 174,
+				0xFF_00fefe, 0xFF_0e0e0e);
 		UIHelper.bindScifi();
 		UIHelper.blit(stack, x + 196, y + 168, 228, 184, 19, 19);
 
@@ -229,6 +229,18 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 
 	@Override
 	public boolean isPauseScreen() {
+		return false;
+	}
+
+	@Override
+	public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
+		InputMappings.Input mouseKey = InputMappings.getKey(pKeyCode, pScanCode);
+		if (super.keyPressed(pKeyCode, pScanCode, pModifiers)) {
+			return true;
+		} else if (this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
+			this.onClose();
+			return true;
+		}
 		return false;
 	}
 }

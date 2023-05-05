@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bismuth_block",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "machina:bismuth"
+    }
+  },
+  "result": {
+    "item": "machina:bismuth_block"
+  }
+}

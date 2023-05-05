@@ -76,7 +76,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.HABER_CASING.get(), "Haber Casing");
 		add(BlockInit.HABER_CONTROLLER.get(), "Haber Controller");
 		add(BlockInit.HABER_PORT.get(), "Haber Port");
-		
+
 		// JEI
 		addJeiCat("state_converter", "State Converter");
 		addJeiCat("haber", "Haber Process");
@@ -91,10 +91,15 @@ public class EnUsLangProvider extends BaseLangProvider {
 			});
 		});
 
-		ItemInit.ORES.entrySet().forEach(e -> {
-			add(e.getValue().get(), WordUtils.capitalize(e.getKey().name().toLowerCase()));
+		BlockInit.ORE_BLOCKS.entrySet().forEach(e -> {
+			add(e.getValue().get(), WordUtils.capitalize(e.getKey().name().toLowerCase()) + " Block");
 		});
-		
+
+		ItemInit.ORES.entrySet().forEach(e -> {
+			add(e.getValue().get(),
+					WordUtils.capitalize(e.getKey().name().toLowerCase()) + (e.getKey().ingot() ? " Ingot" : ""));
+		});
+
 		// Multiblock
 		addMultiblock("haber", "Haber Process");
 
@@ -180,6 +185,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.HEXOGEN, "Hexogen (RDX)", "Bucket");
 		add(FluidInit.NITROMETHANE, "Nitromethane", "Bucket");
 		add(FluidInit.SULPHUR_TRIOXIDE, "Sulphur Trioxide", "Bucket");
+		add(FluidInit.MOLTEN_LEAD, "Molten Lead", "Bucket");
+		add(FluidInit.MOLTEN_BISMUTH, "Molten Bismuth", "Bucket");
+		add(FluidInit.LEAD_BISMUTH_EUTECTIC, "Lead Bismuth Eutectic", "Bucket");
 
 		// Traits
 

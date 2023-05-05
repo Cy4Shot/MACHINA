@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "sulphur_twilight_dirt",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "machina:sulphur_twilight_dirt"
+        }
+      ]
+    }
+  ]
+}

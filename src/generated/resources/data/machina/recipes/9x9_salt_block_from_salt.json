@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "salt_block",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "machina:salt"
+    }
+  },
+  "result": {
+    "item": "machina:salt_block"
+  }
+}

@@ -71,6 +71,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 				empty(b.get());
 			});
 		});
+		
+		BlockInit.ORE_BLOCKS.values().forEach(b -> block(b.get()));
 
 		geo(BlockInit.IRON_SCAFFOLDING.get());
 		geo(BlockInit.STEEL_SCAFFOLDING.get());
@@ -139,6 +141,9 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		bucket(FluidInit.HNIW);
 		bucket(FluidInit.HEXOGEN);
 		bucket(FluidInit.NITROMETHANE);
+		bucket(FluidInit.MOLTEN_LEAD);
+		bucket(FluidInit.MOLTEN_BISMUTH);
+		bucket(FluidInit.LEAD_BISMUTH_EUTECTIC);
 	}
 
 	protected void bucket(FluidObject obj) {

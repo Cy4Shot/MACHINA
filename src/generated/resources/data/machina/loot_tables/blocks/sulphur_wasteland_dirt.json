@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "sulphur_wasteland_dirt",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "machina:sulphur_wasteland_dirt"
+        }
+      ]
+    }
+  ]
+}

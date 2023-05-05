@@ -7,26 +7,32 @@ import com.machina.util.text.MachinaRL;
 import net.minecraft.util.ResourceLocation;
 
 public enum OreType {
-	SALT("NaCl", 1f),
-	FLUORITE("CaF2", 1f),
-	BORON("B", 0.5f),
-	SULPHUR("S", 0.75f),
-	BISMUTH("Bi", 0.75f),
-	LEAD("Pb", 0.5f),
-	SILVER("Ag", 0.3f),
-	PALLADIUM("Pd", 0.5f),
-	MACHINARIUM("Ma", 0.05f);
+	SALT("NaCl", false, 1f),
+	FLUORITE("CaF2", false, 1f),
+	BORON("B", true, 0.5f),
+	SULPHUR("S", false, 0.75f),
+	BISMUTH("Bi", true, 0.75f),
+	LEAD("Pb", true, 0.5f),
+	SILVER("Ag", true, 0.3f),
+	PALLADIUM("Pd", true, 0.5f),
+	MACHINARIUM("Ma", true, 0.05f);
 
+	boolean ingot;
 	float rarityMult;
 	String chem;
 
-	OreType(String chem, float r) {
+	OreType(String chem, boolean ingot, float r) {
 		this.chem = chem;
+		this.ingot = ingot;
 		this.rarityMult = r;
 	}
 
 	public String chem() {
 		return this.chem;
+	}
+	
+	public boolean ingot() {
+		return this.ingot;
 	}
 
 	public ResourceLocation getTexturePath() {

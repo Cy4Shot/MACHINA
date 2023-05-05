@@ -70,6 +70,12 @@
     "machina:hexogen",
     "machina:hexogen_flowing",
     "machina:nitromethane",
-    "machina:nitromethane_flowing"
+    "machina:nitromethane_flowing",
+    "machina:molten_lead",
+    "machina:molten_lead_flowing",
+    "machina:molten_bismuth",
+    "machina:molten_bismuth_flowing",
+    "machina:lead_bismuth_eutectic",
+    "machina:lead_bismuth_eutectic_flowing"
   ]
 }

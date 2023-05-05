@@ -1,0 +1,12 @@
+{
+	"type": "machina:melter",
+	"power": 2000,
+	"input": {
+		"item": "machina:lead",
+		"count": 1
+	},
+	"output": {
+		"fluid": "machina:molten_lead",
+		"amount": 500
+	}
+}

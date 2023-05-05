@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "boron_block",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "machina:boron"
+    }
+  },
+  "result": {
+    "item": "machina:boron_block"
+  }
+}

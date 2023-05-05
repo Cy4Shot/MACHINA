@@ -50,7 +50,7 @@ public class HaberControllerBlock extends HorizontalMultiblockBlock {
 				IFluidHandler handler = tank
 						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, hit.getDirection())
 						.orElse(null);
-				if (FluidUtil.interactWithFluidHandler(player, hand, handler)) {
+				if (handler != null && FluidUtil.interactWithFluidHandler(player, hand, handler)) {
 					if (player instanceof ServerPlayerEntity)
 						SoundHelper.playSoundFromServer((ServerPlayerEntity) player, SoundEvents.BUCKET_FILL);
 				}

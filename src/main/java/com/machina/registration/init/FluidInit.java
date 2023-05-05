@@ -73,6 +73,9 @@ public class FluidInit {
 	public static final FluidObject HNIW = liquid("hniw", "C6H6N12O12", 0xFF_bf433f);
 	public static final FluidObject HEXOGEN = liquid("hexogen", "(O2N2CH2)3", 0xFF_eece45);
 	public static final FluidObject NITROMETHANE = liquid("nitromethane", "CH3NO2", 0xFF_deddd5);
+	public static final FluidObject MOLTEN_LEAD = liquid("molten_lead", "Pb", 0xFF_6c6a71);
+	public static final FluidObject MOLTEN_BISMUTH = liquid("molten_bismuth", "Bi", 0xFF_597c7a);
+	public static final FluidObject LEAD_BISMUTH_EUTECTIC = liquid("lead_bismuth_eutectic", "Pb/Bi", 0xFF_d39d84);
 
 	// Atmosphere
 	public static final List<FluidObject> ATMOSPHERE = Arrays.asList(OXYGEN, NITROGEN, AMMONIA, CARBON_DIOXIDE,

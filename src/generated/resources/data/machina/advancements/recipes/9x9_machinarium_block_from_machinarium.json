@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:9x9_machinarium_block_from_machinarium"
+    ]
+  },
+  "criteria": {
+    "has_machinarium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:machinarium"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:9x9_machinarium_block_from_machinarium"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_machinarium",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "machina:9x9_bismuth_block_from_bismuth"
+    ]
+  },
+  "criteria": {
+    "has_bismuth": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "machina:bismuth"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "machina:9x9_bismuth_block_from_bismuth"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bismuth",
+      "has_the_recipe"
+    ]
+  ]
+}

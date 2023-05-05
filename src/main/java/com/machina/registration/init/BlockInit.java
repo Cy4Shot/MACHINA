@@ -2,9 +2,11 @@ package com.machina.registration.init;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import com.machina.Machina;
 import com.machina.block.AtmosphericSeparatorBlock;
@@ -39,6 +41,7 @@ import com.machina.block.tinted.TintedStairs;
 import com.machina.block.tinted.TintedWall;
 import com.machina.client.model.CustomBlockModel;
 import com.machina.item.AnimatableBlockItem;
+import com.machina.item.ChemicalBlockItem;
 import com.machina.item.OreBlockItem;
 import com.machina.item.TintedItem;
 import com.machina.registration.Registration;
@@ -116,6 +119,8 @@ public class BlockInit {
 	public static final Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ORE_MAP = ores(
 			PlanetBlocksGenerator.getAllBases());
 
+	public static final Map<OreType, RegistryObject<Block>> ORE_BLOCKS = oreBlocks();
+
 	@SuppressWarnings("unchecked")
 	private static Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ores(
 			RegistryObject<? extends Block>... bases) {
@@ -127,6 +132,14 @@ public class BlockInit {
 						p -> new OreBlock(p, ore, base)));
 			}
 			ret.put(ore, ores);
+		}
+		return ret;
+	};
+
+	private static Map<OreType, RegistryObject<Block>> oreBlocks() {
+		Map<OreType, RegistryObject<Block>> ret = new HashMap<>();
+		for (OreType ore : Arrays.asList(OreType.values())) {
+			ret.put(ore, register(ore.toString().toLowerCase() + "_block", Blocks.IRON_BLOCK));
 		}
 		return ret;
 	};
@@ -176,12 +189,15 @@ public class BlockInit {
 		return register(name,
 				() -> new TintedStairs(() -> prop.defaultBlockState(), AbstractBlock.Properties.copy(prop), tintIndex));
 	}
-	
+
 	public static RegistryObject<FallingBlock> falling(String name, Block prop) {
 		return register(name, prop, a -> a, FallingBlock::new);
 	}
 
 	public static void registerBlockItems(final RegistryEvent.Register<Item> event) {
+		List<Block> ores = ORE_BLOCKS.values().stream().map(RegistryObject::get).collect(Collectors.toList());
+		Map<Block, OreType> types = ORE_BLOCKS.entrySet().stream()
+				.collect(Collectors.toMap(e -> e.getValue().get(), Map.Entry::getKey));
 		BLOCKS.getEntries().stream().filter(ro -> !FluidInit.BLOCKS.contains(ro.getId().getPath()))
 				.map(RegistryObject::get).forEach(block -> {
 					if (IAnimatedBlock.class.isInstance(block)) {
@@ -189,7 +205,7 @@ public class BlockInit {
 						event.getRegistry()
 								.register(new AnimatableBlockItem(block,
 										new Item.Properties().tab(Registration.MAIN_GROUP), model)
-												.setRegistryName(block.getRegistryName()));
+										.setRegistryName(block.getRegistryName()));
 					} else {
 						if (OreBlock.class.isInstance(block)) {
 							event.getRegistry().register(
@@ -201,9 +217,15 @@ public class BlockInit {
 										new TintedItem(block, new Item.Properties().tab(Registration.WORLDGEN_GROUP))
 												.setRegistryName(block.getRegistryName()));
 							} else {
-								event.getRegistry().register(
-										new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
-												.setRegistryName(block.getRegistryName()));
+								if (ores.contains(block)) {
+									event.getRegistry().register(
+											new ChemicalBlockItem(block, new Item.Properties(), types.get(block).chem())
+													.setRegistryName(block.getRegistryName()));
+								} else {
+									event.getRegistry().register(
+											new BlockItem(block, new Item.Properties().tab(Registration.MAIN_GROUP))
+													.setRegistryName(block.getRegistryName()));
+								}
 							}
 						}
 					}

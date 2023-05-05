@@ -52,6 +52,7 @@ public class RecipesProvider extends RecipeProvider {
 			IItemProvider out = ItemInit.ore(type).get();
 			addSmelting(f, in, out, 1f, 200);
 			addBlasting(f, in, out, 1f, 100);
+			add9x9AndBack(f, out, BlockInit.ORE_BLOCKS.get(type).get());
 		}
 
 		addSmithing(f, Items.STICK, Items.IRON_INGOT, ItemInit.REINFORCED_STICK.get());
@@ -221,13 +222,15 @@ public class RecipesProvider extends RecipeProvider {
 				"blasting_" + out.asItem().getRegistryName().getPath() + "_from_" + i);
 	}
 
-	public void addSmelting(Consumer<IFinishedRecipe> f, ITag.INamedTag<Item> in, IItemProvider out, float exp, int time) {
+	public void addSmelting(Consumer<IFinishedRecipe> f, ITag.INamedTag<Item> in, IItemProvider out, float exp,
+			int time) {
 		String i = in.getName().getPath();
 		MachinaCookingRecipeBuilder.smelting(Ingredient.of(in), out, exp, time).unlockedBy("has_" + i, has(in)).save(f,
 				"smelting_" + out.asItem().getRegistryName().getPath() + "_from_" + i);
 	}
 
-	public void addBlasting(Consumer<IFinishedRecipe> f, ITag.INamedTag<Item> in, IItemProvider out, float exp, int time) {
+	public void addBlasting(Consumer<IFinishedRecipe> f, ITag.INamedTag<Item> in, IItemProvider out, float exp,
+			int time) {
 		String i = in.getName().getPath();
 		MachinaCookingRecipeBuilder.blasting(Ingredient.of(in), out, exp, time).unlockedBy("has_" + i, has(in)).save(f,
 				"blasting_" + out.asItem().getRegistryName().getPath() + "_from_" + i);

@@ -40,5 +40,11 @@ public class LootTableProvider extends BaseLootTableProvider {
 		dropSelf(BlockInit.HABER_CASING.get());
 		dropSelf(BlockInit.HABER_CONTROLLER.get());
 		dropSelf(BlockInit.HABER_PORT.get());
+
+		BlockInit.ORE_MAP.values().forEach(e -> {
+			e.values().forEach(b -> dropSelf(b.get()));
+		});
+
+		BlockInit.ORE_BLOCKS.values().forEach(b -> dropSelf(b.get()));
 	}
 }
