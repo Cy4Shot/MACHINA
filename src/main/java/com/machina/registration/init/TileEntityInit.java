@@ -22,7 +22,6 @@ import com.machina.block.tile.machine.FurnaceGeneratorTileEntity;
 import com.machina.block.tile.machine.MelterTileEntity;
 import com.machina.block.tile.machine.MixerTileEntity;
 import com.machina.block.tile.machine.ShipConsoleTileEntity;
-import com.machina.block.tile.machine.StateConverterTileEntity;
 import com.machina.block.tile.machine.TankTileEntity;
 import com.machina.block.tile.machine.TemperatureRegulatorTileEntity;
 import com.machina.block.tile.multiblock.haber.HaberCasingTileEntity;
@@ -60,7 +59,6 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<TemperatureRegulatorTileEntity>> TEMPERATURE_REGULATOR = register("temperature_regulator", TemperatureRegulatorTileEntity::new, () -> BlockInit.TEMPERATURE_REGULATOR.get());
 	public static final RegistryObject<TileEntityType<FuelStorageUnitTileEntity>> FUEL_STORAGE_UNIT = register("fuel_storage_unit", FuelStorageUnitTileEntity::new, () -> BlockInit.FUEL_STORAGE_UNIT.get());
 	public static final RegistryObject<TileEntityType<FurnaceGeneratorTileEntity>> FURNACE_GENERATOR = register("furnace_generator", FurnaceGeneratorTileEntity::new, () -> BlockInit.FURNACE_GENERATOR.get());
-	public static final RegistryObject<TileEntityType<StateConverterTileEntity>> STATE_CONVERTER = register("state_converter", StateConverterTileEntity::new, () -> BlockInit.STATE_CONVERTER.get());
 	public static final RegistryObject<TileEntityType<HaberCasingTileEntity>> HABER_CASING = register("haber_casing", HaberCasingTileEntity::new, () -> BlockInit.HABER_CASING.get());
 	public static final RegistryObject<TileEntityType<HaberControllerTileEntity>> HABER_CONTROLLER = register("haber_controller", HaberControllerTileEntity::new, () -> BlockInit.HABER_CONTROLLER.get());
 	public static final RegistryObject<TileEntityType<HaberPortTileEntity>> HABER_PORT = register("haber_port", HaberPortTileEntity::new, () -> BlockInit.HABER_PORT.get());

@@ -72,7 +72,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.FUEL_STORAGE_UNIT.get(), "Rocket Fuel Container");
 		add(BlockInit.FLUID_HOPPER.get(), "Fluid Hopper");
 		add(BlockInit.FURNACE_GENERATOR.get(), "Furnace Generator");
-		add(BlockInit.STATE_CONVERTER.get(), "State Converter");
 		add(BlockInit.SILICA_SAND.get(), "Silica Sand");
 		add(BlockInit.HABER_CASING.get(), "Haber Casing");
 		add(BlockInit.HABER_CONTROLLER.get(), "Haber Controller");
@@ -336,8 +335,6 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("temperature_regulator", "stored", "Current Temperature: ");
 		addScreen("fuel_storage", "stored", "Current Temperature: ");
 		addScreen("fuel_storage", "depleting", "WARNING: DEPLETING");
-		addScreen("state_converter", "stored", "Current Temperature: ");
-		addScreen("state_converter", "none", "None");
 		addScreen("haber", "title", "Haber Process");
 		addScreen("haber", "active", "STATUS: ACTIVE");
 		addScreen("haber", "inactive", "STATUS: INACTIVE");

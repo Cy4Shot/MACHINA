@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "side": "machina:block/state_converter_side",
-    "front": "machina:block/state_converter_front",
-    "bottom": "machina:block/state_converter_bottom",
-    "top": "machina:block/state_converter_top"
-  }
-}

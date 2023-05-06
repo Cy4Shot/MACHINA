@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "side": "machina:block/melter_side",
+    "front": "machina:block/melter_front",
+    "bottom": "machina:block/melter_bottom",
+    "top": "machina:block/melter_top"
+  }
+}

@@ -22,7 +22,6 @@ import com.machina.client.screen.PuzzleScreen;
 import com.machina.client.screen.ScannerScreen;
 import com.machina.client.screen.ShipConstructScreen;
 import com.machina.client.screen.ShipLaunchScreen;
-import com.machina.client.screen.StateConverterScreen;
 import com.machina.client.screen.TankScreen;
 import com.machina.client.screen.TemperatureRegulatorScreen;
 import com.machina.client.shader.ShaderHandler;
@@ -111,7 +110,6 @@ public class ClientModEvents {
 		ScreenManager.register(ContainerInit.TEMPERATURE_REGULATOR.get(), TemperatureRegulatorScreen::new);
 		ScreenManager.register(ContainerInit.FUEL_STORAGE_UNIT.get(), FuelStorageUnitScreen::new);
 		ScreenManager.register(ContainerInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
-		ScreenManager.register(ContainerInit.STATE_CONVERTER.get(), StateConverterScreen::new);
 		ScreenManager.register(ContainerInit.HABER.get(), HaberScreen::new);
 		ScreenManager.register(ContainerInit.MIXER.get(), MixerScreen::new);
 		ScreenManager.register(ContainerInit.MELTER.get(), MelterScreen::new);

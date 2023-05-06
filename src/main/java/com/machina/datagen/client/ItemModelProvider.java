@@ -4,8 +4,8 @@ import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
-import com.machina.util.MachinaRL;
 import com.machina.registration.init.ItemInit;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -25,6 +25,7 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 	@Override
 	protected void registerModels() {
 		block(BlockInit.MIXER.get());
+		block(BlockInit.MELTER.get());
 		block(BlockInit.SHIP_CONSOLE.get());
 		block(BlockInit.ATMOSPHERIC_SEPARATOR.get());
 		block(BlockInit.TEMPERATURE_REGULATOR.get());
@@ -58,7 +59,6 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		block(BlockInit.REINFORCED_TILE.get());
 		block(BlockInit.FUEL_STORAGE_UNIT.get());
 		block(BlockInit.FURNACE_GENERATOR.get());
-		block(BlockInit.STATE_CONVERTER.get());
 		block(BlockInit.FLUID_HOPPER.get());
 		block(BlockInit.IRON_CHASSIS.get());
 		block(BlockInit.STEEL_CHASSIS.get());
