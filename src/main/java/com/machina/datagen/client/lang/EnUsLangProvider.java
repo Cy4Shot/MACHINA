@@ -128,6 +128,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ItemInit.HDPE.get(), "HDPE");
 		add(ItemInit.UHMWPE.get(), "UHMWPE");
 		add(ItemInit.SODIUM_HYDROXIDE.get(), "Sodium Hydroxide");
+		add(ItemInit.SODIUM_CARBONATE.get(), "Sodium Carbonate");
 		add(ItemInit.CALCIUM_SULPHATE.get(), "Calcium Sulphate");
 		add(ItemInit.PALLADIUM_CHLORIDE.get(), "Palladium Chloride");
 		add(ItemInit.PALLADIUM_ON_CARBON.get(), "Palladium on Carbon");
@@ -164,9 +165,9 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(FluidInit.NITROGEN_DIOXIDE, "Nitrogen Dioxide", "Bucket");
 		add(FluidInit.SULPHUR_DIOXIDE, "Sulphur Dioxide", "Bucket");
 		add(FluidInit.HYDROGEN_BROMIDE, "Hydrogen Bromide", "Bucket");
+		add(FluidInit.CARBON_MONOXIDE, "Carbon Monoxide", "Bucket");
 
-		add(FluidInit.LIQUID_HYDROGEN, "Liquid Hydrogen", "Bucket");
-		add(FluidInit.LIQUID_AMMONIA, "Liquid Ammonia", "Bucket");
+		add(FluidInit.ACETIC_ACID, "Acetic Acid", "Bucket");
 		add(FluidInit.BRINE, "Brine", "Bucket");
 		add(FluidInit.HYDROCHLORIC_ACID, "Hydrochloric Acid", "Bucket");
 		add(FluidInit.SULPHURIC_ACID, "Sulphuric Acid", "Bucket");

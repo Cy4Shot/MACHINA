@@ -1,8 +1,11 @@
 package com.machina.client.jei.category;
 
+import com.machina.client.util.UIHelper;
 import com.machina.recipe.impl.MixerRecipe;
 import com.machina.registration.init.BlockInit;
 import com.machina.util.MachinaRL;
+import com.machina.util.math.MathUtil;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -63,6 +66,13 @@ public class MixerCategory extends BaseCategory<MixerRecipe> {
 
 		fluids.set(ingredients);
 		items.set(ingredients);
+	}
+
+	@Override
+	public void draw(MixerRecipe recipe, MatrixStack stack, double mouseX, double mouseY) {
+		super.draw(recipe, stack, mouseX, mouseY);
+		UIHelper.drawCenteredStringWithBorder(stack, MathUtil.engineering(recipe.power, "RF"), 73, 4, 0xFF_ffffff,
+				0xFF_0e0e0e);
 	}
 
 	@Override

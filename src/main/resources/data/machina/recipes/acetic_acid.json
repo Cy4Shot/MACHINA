@@ -1,0 +1,24 @@
+{
+	"type": "machina:mixer",
+	"power": 5,
+	"fluids": [
+		{
+			"fluid": "machina:methanol",
+			"amount": 10
+		},
+		{
+			"fluid": "machina:carbon_monoxide",
+			"amount": 10
+		}
+	],
+	"catalyst": {
+		"item": "machina:iron_catalyst",
+		"count": 1
+	},
+	"outputs": [
+		{
+			"fluid": "machina:acetic_acid",
+			"amount": 10
+		}
+	]
+}

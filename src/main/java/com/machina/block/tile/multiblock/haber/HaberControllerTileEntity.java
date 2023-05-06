@@ -54,7 +54,7 @@ public class HaberControllerTileEntity extends MultiblockMasterTileEntity
 		this.fluid = add(new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.METHANE.fluid()), false, 0),
 				new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.NITROGEN.fluid()), false, 1),
 				new MachinaTank(this, 10000, s -> s.getFluid().isSame(Fluids.WATER.getFluid()), false, 2),
-				new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.LIQUID_AMMONIA.fluid()), true, 3));
+				new MachinaTank(this, 10000, s -> s.getFluid().isSame(FluidInit.AMMONIA.fluid()), true, 3));
 	}
 
 	public void validateRecipe() {

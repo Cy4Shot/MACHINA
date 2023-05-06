@@ -60,8 +60,7 @@ public class BlockStatesProvider extends BlockStateProvider {
 		verticalColumnBlock(BlockInit.IRON_CHASSIS.get());
 		verticalColumnBlock(BlockInit.STEEL_CHASSIS.get());
 
-		fluid(FluidInit.LIQUID_HYDROGEN);
-		fluid(FluidInit.LIQUID_AMMONIA);
+		fluid(FluidInit.ACETIC_ACID);
 		fluid(FluidInit.BRINE);
 		fluid(FluidInit.SULPHUR_TRIOXIDE);
 		fluid(FluidInit.HYDROCHLORIC_ACID);

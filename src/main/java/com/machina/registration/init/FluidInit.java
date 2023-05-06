@@ -51,10 +51,10 @@ public class FluidInit {
 	public static final FluidObject NITROGEN_DIOXIDE = gas("nitrogen_dioxide", "NO2", 0xFF_560003);
 	public static final FluidObject SULPHUR_DIOXIDE = gas("sulphur_dioxide", "SO2", 0xFF_f3f7ef);
 	public static final FluidObject HYDROGEN_BROMIDE = gas("hydrogen_bromide", "HBr", 0xFF_e3e3e3);
+	public static final FluidObject CARBON_MONOXIDE = gas("carbon_monoxide", "CO", 0xFF_e0b9b6);
 
 	// Liquids
-	public static final FluidObject LIQUID_HYDROGEN = liquid("liquid_hydrogen", "H2", 0xFF_898fff);
-	public static final FluidObject LIQUID_AMMONIA = liquid("liquid_ammonia", "NH3", 0xFF_1e6e33);
+	public static final FluidObject ACETIC_ACID = liquid("acetic_acid", "CH3COOH", 0xFF_fbfff1);
 	public static final FluidObject BRINE = liquid("brine", "NaCl", 0xFF_63d1ea);
 	public static final FluidObject SULPHUR_TRIOXIDE = liquid("sulphur_trioxide", "SO3", 0xFF_fafafa);
 	public static final FluidObject HYDROCHLORIC_ACID = liquid("hydrochloric_acid", "HCl", 0xFF_fafbf8);

@@ -3,9 +3,11 @@ package com.machina.client.jei.category;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.machina.client.util.UIHelper;
 import com.machina.recipe.impl.MelterRecipe;
 import com.machina.registration.init.BlockInit;
 import com.machina.util.MachinaRL;
+import com.machina.util.math.MathUtil;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import mezz.jei.api.constants.VanillaTypes;
@@ -55,8 +57,11 @@ public class MelterCategory extends BaseCategory<MelterRecipe> {
 	}
 
 	@Override
-	public void draw(MelterRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-		cachedArrows.getUnchecked(100).draw(matrixStack, 31, 23);
+	public void draw(MelterRecipe recipe, MatrixStack stack, double mouseX, double mouseY) {
+		cachedArrows.getUnchecked(100).draw(stack, 31, 23);
+		
+		UIHelper.drawCenteredStringWithBorder(stack, MathUtil.engineering(recipe.power, "RF"), 60, 18, 0xFF_ffffff,
+				0xFF_0e0e0e);
 	}
 
 	@Override

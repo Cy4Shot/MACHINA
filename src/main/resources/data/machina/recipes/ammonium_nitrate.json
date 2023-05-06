@@ -7,7 +7,7 @@
 			"amount": 1000
 		},
 		{
-			"fluid": "machina:liquid_ammonia",
+			"fluid": "machina:ammonia",
 			"amount": 1000
 		}
 	],

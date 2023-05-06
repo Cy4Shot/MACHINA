@@ -1,0 +1,24 @@
+{
+	"type": "machina:mixer",
+	"power": 100,
+	"fluids": [
+		{
+			"fluid": "machina:acetic_acid",
+			"amount": 1000
+		}
+	],
+	"item": {
+		"item": "machina:sodium_hydroxide",
+		"count": 1
+	},
+	"outputs": [
+		{
+			"fluid": "machina:methane",
+			"amount": 1000
+		},
+		{
+			"item": "machina:sodium_carbonate",
+			"count": 1
+		}
+	]
+}

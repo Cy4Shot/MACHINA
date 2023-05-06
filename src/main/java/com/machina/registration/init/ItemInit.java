@@ -55,6 +55,7 @@ public final class ItemInit {
 	public static final RegistryObject<Item> HDPE = basic("hdpe", p -> new ChemicalItem(p, "hdpe","(CH2CH2)"));
 	public static final RegistryObject<Item> UHMWPE = basic("uhmwpe", p -> new ChemicalItem(p, "uhmwpe", "(CH2CH2)"));
 	public static final RegistryObject<Item> SODIUM_HYDROXIDE = basic("sodium_hydroxide", p -> new ChemicalItem(p, "NaOH"));
+	public static final RegistryObject<Item> SODIUM_CARBONATE = basic("sodium_carbonate", p -> new ChemicalItem(p, "Na2CO3"));
 	public static final RegistryObject<Item> CALCIUM_SULPHATE = basic("calcium_sulphate", p -> new ChemicalItem(p, "CaSO4"));
 	public static final RegistryObject<Item> PALLADIUM_CHLORIDE = basic("palladium_chloride", p -> new ChemicalItem(p, "PdCl2"));
 	public static final RegistryObject<Item> PALLADIUM_ON_CARBON = basic("palladium_on_carbon", p -> new ChemicalItem(p, "Pd/C"));
