@@ -255,7 +255,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		// Researches
 		add(ResearchInit.ROOT, "MACHINA",
 				"As eventide falls afresh over known earths, the player gazes up at the uncharted cosmos. I wonder, what strange and incomprehensible worlds await them?");
-		add(ResearchInit.ANALYSIS, "Analysis",
+		add(ResearchInit.ROCKETRY, "Rocketry",
 				"Crashed ships litter the landscape like a flock of sheep. A legend says, hacking the terminals inside will yield rewards unkown.");
 
 		// GUI

@@ -17,8 +17,28 @@ public class BlueprintInit {
 
 	//@formatter:off
 	public static final Blueprint COMPONENT_ANALYZER = create(BlueprintCategory.MACH, BlockInit.COMPONENT_ANALYZER.get());
+	public static final Blueprint SHIP_CONSOLE = create(BlueprintCategory.MACH, BlockInit.SHIP_CONSOLE.get());
+	public static final Blueprint FUEL_STORAGE_UNIT = create(BlueprintCategory.MACH, BlockInit.FUEL_STORAGE_UNIT.get());
+	public static final Blueprint TEMPERATURE_REGULATOR = create(BlueprintCategory.MACH, BlockInit.TEMPERATURE_REGULATOR.get());
+	public static final Blueprint BATTERY = create(BlueprintCategory.MACH, BlockInit.BATTERY.get());
+	public static final Blueprint FURNACE_GENERATOR = create(BlueprintCategory.MACH, BlockInit.FURNACE_GENERATOR.get());
+	public static final Blueprint TANK = create(BlueprintCategory.MACH, BlockInit.TANK.get());
+	public static final Blueprint ATMOSPHERIC_SEPARATOR = create(BlueprintCategory.MACH, BlockInit.ATMOSPHERIC_SEPARATOR.get());
+	public static final Blueprint MELTER = create(BlueprintCategory.MACH, BlockInit.MELTER.get());
+	public static final Blueprint MIXER = create(BlueprintCategory.MACH, BlockInit.MIXER.get());
+	public static final Blueprint HABER_CONTROLLER = create(BlueprintCategory.MACH, BlockInit.HABER_CONTROLLER.get());
+	public static final Blueprint HABER_PORT = create(BlueprintCategory.MACH, BlockInit.HABER_PORT.get());
+	public static final Blueprint HABER_CASING = create(BlueprintCategory.MACH, BlockInit.HABER_CASING.get());
 
-	public static final BlueprintGroup ANALYSIS = create("analysis", BlockInit.COMPONENT_ANALYZER.get(), COMPONENT_ANALYZER);
+	public static final BlueprintGroup ROCKETRY = create("rocketry", ItemInit.SHIP_COMPONENT.get(), COMPONENT_ANALYZER);
+	public static final BlueprintGroup IDENTIFICATION = create("identification", BlockInit.COMPONENT_ANALYZER.get(), SHIP_CONSOLE);
+	public static final BlueprintGroup FUEL_1 = create("fuel_1", BlockInit.FUEL_STORAGE_UNIT.get(), FUEL_STORAGE_UNIT);
+	public static final BlueprintGroup COOLANT_1 = create("coolant_1", BlockInit.TEMPERATURE_REGULATOR.get(), TEMPERATURE_REGULATOR);
+	public static final BlueprintGroup ELECTRICITY = create("electricity", BlockInit.BATTERY.get(), BATTERY, FURNACE_GENERATOR);
+	public static final BlueprintGroup CHEMISTRY = create("chemistry", BlockInit.TANK.get(), TANK, ATMOSPHERIC_SEPARATOR);
+	public static final BlueprintGroup MELTING = create("melting", BlockInit.MELTER.get(), MELTER);
+	public static final BlueprintGroup REACTING = create("reacting", BlockInit.MIXER.get(), MIXER);
+	public static final BlueprintGroup HABER = create("haber", BlockInit.HABER_CONTROLLER.get(), HABER_CONTROLLER, HABER_PORT, HABER_CASING);
 	//@formatter:on
 
 	private static Blueprint create(BlueprintCategory cat, IItemProvider unlock) {

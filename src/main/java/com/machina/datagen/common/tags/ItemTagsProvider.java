@@ -3,6 +3,7 @@ package com.machina.datagen.common.tags;
 import com.machina.Machina;
 import com.machina.planet.OreType;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TagInit;
 import com.machina.util.helper.TagHelper;
@@ -51,6 +52,9 @@ public class ItemTagsProvider extends net.minecraft.data.ItemTagsProvider {
 		for (OreType type : OreType.values()) {
 			tag(TagInit.Items.ORE_TAGS.get(type)).add(
 					BlockInit.ORE_MAP.get(type).values().stream().map(obj -> obj.get().asItem()).toArray(Item[]::new));
+			tag(TagInit.Items.ORE_ITEMS).add(ItemInit.ORES.get(type).get());
 		}
+
+		tag(TagInit.Items.BUCKETS).add(FluidInit.OBJS.stream().map(o -> o.bucket()).toArray(Item[]::new));
 	}
 }

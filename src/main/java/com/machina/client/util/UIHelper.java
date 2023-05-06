@@ -35,16 +35,22 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.crash.ReportedException;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
@@ -64,6 +70,7 @@ import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentUtils;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -331,14 +338,16 @@ public class UIHelper {
 		RenderSystem.defaultBlendFunc();
 	}
 
+	public static float blitOffset = 0f;
+
 	private static void innerBlit(Matrix4f pMatrix, float pX1, float pX2, float pY1, float pY2, float pBlitOffset,
 			float pMinU, float pMaxU, float pMinV, float pMaxV) {
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.vertex(pMatrix, pX1, pY2, pBlitOffset).uv(pMinU, pMaxV).endVertex();
-		bufferbuilder.vertex(pMatrix, pX2, pY2, pBlitOffset).uv(pMaxU, pMaxV).endVertex();
-		bufferbuilder.vertex(pMatrix, pX2, pY1, pBlitOffset).uv(pMaxU, pMinV).endVertex();
-		bufferbuilder.vertex(pMatrix, pX1, pY1, pBlitOffset).uv(pMinU, pMinV).endVertex();
+		bufferbuilder.vertex(pMatrix, pX1, pY2, pBlitOffset + blitOffset).uv(pMinU, pMaxV).endVertex();
+		bufferbuilder.vertex(pMatrix, pX2, pY2, pBlitOffset + blitOffset).uv(pMaxU, pMaxV).endVertex();
+		bufferbuilder.vertex(pMatrix, pX2, pY1, pBlitOffset + blitOffset).uv(pMaxU, pMinV).endVertex();
+		bufferbuilder.vertex(pMatrix, pX1, pY1, pBlitOffset + blitOffset).uv(pMinU, pMinV).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableAlphaTest();
 		WorldVertexBufferUploader.end(bufferbuilder);
@@ -361,10 +370,11 @@ public class UIHelper {
 		Matrix4f pose = poseStack.last().pose();
 		BufferBuilder bufferbuilder = Tessellator.getInstance().getBuilder();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.vertex(pose, x, y + height, 0).uv((srcX / tex), (srcY + srcH) / tex).endVertex();
-		bufferbuilder.vertex(pose, x + width, y + height, 0).uv((srcX + srcW) / tex, (srcY + srcH) / tex).endVertex();
-		bufferbuilder.vertex(pose, x + width, y, 0).uv((srcX + srcW) / tex, srcY / tex).endVertex();
-		bufferbuilder.vertex(pose, x, y, 0).uv(srcX / tex, srcY / tex).endVertex();
+		bufferbuilder.vertex(pose, x, y + height, blitOffset).uv((srcX / tex), (srcY + srcH) / tex).endVertex();
+		bufferbuilder.vertex(pose, x + width, y + height, blitOffset).uv((srcX + srcW) / tex, (srcY + srcH) / tex)
+				.endVertex();
+		bufferbuilder.vertex(pose, x + width, y, blitOffset).uv((srcX + srcW) / tex, srcY / tex).endVertex();
+		bufferbuilder.vertex(pose, x, y, blitOffset).uv(srcX / tex, srcY / tex).endVertex();
 		bufferbuilder.end();
 		RenderSystem.enableAlphaTest();
 		WorldVertexBufferUploader.end(bufferbuilder);
@@ -414,8 +424,8 @@ public class UIHelper {
 		return (float) text.stream().mapToDouble(manager::stringWidth).max().orElse(0.0D);
 	}
 
-	public static void renderItem(ItemStack stack, int x, int y) {
-		mc.getItemRenderer().renderAndDecorateFakeItem(stack, x, y);
+	public static void renderItem(ItemStack stack, float x, float y) {
+		tryRenderGuiItem((LivingEntity) null, stack, x, y);
 	}
 
 	public static void renderTintedItem(MatrixStack m, ItemStack stack, int x, int y, int r, int g, int b,
@@ -1067,5 +1077,69 @@ public class UIHelper {
 				return remappedTypes.computeIfAbsent(in, a -> new MultiblockRenderType(a, alpha));
 			}
 		}
+	}
+
+	private static void tryRenderGuiItem(@Nullable LivingEntity p_239387_1_, ItemStack p_239387_2_, float p_239387_3_,
+			float p_239387_4_) {
+		if (!p_239387_2_.isEmpty()) {
+			mc.getItemRenderer().blitOffset += 50f;
+			try {
+				renderGuiItem(p_239387_2_, p_239387_3_, p_239387_4_,
+						mc.getItemRenderer().getModel(p_239387_2_, (World) null, p_239387_1_));
+			} catch (Throwable throwable) {
+				CrashReport crashreport = CrashReport.forThrowable(throwable, "Rendering item");
+				CrashReportCategory crashreportcategory = crashreport.addCategory("Item being rendered");
+				crashreportcategory.setDetail("Item Type", () -> {
+					return String.valueOf((Object) p_239387_2_.getItem());
+				});
+				crashreportcategory.setDetail("Registry Name",
+						() -> String.valueOf(p_239387_2_.getItem().getRegistryName()));
+				crashreportcategory.setDetail("Item Damage", () -> {
+					return String.valueOf(p_239387_2_.getDamageValue());
+				});
+				crashreportcategory.setDetail("Item NBT", () -> {
+					return String.valueOf((Object) p_239387_2_.getTag());
+				});
+				crashreportcategory.setDetail("Item Foil", () -> {
+					return String.valueOf(p_239387_2_.hasFoil());
+				});
+				throw new ReportedException(crashreport);
+			}
+			mc.getItemRenderer().blitOffset -= 50f;
+		}
+	}
+
+	private static void renderGuiItem(ItemStack pStack, float pX, float pY, IBakedModel pBakedmodel) {
+		RenderSystem.pushMatrix();
+		mc.textureManager.bind(AtlasTexture.LOCATION_BLOCKS);
+		mc.textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS).setFilter(false, false);
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.enableAlphaTest();
+		RenderSystem.defaultAlphaFunc();
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.translatef(pX, pY, mc.getItemRenderer().blitOffset);
+		RenderSystem.translatef(8.0F, 8.0F, 0.0F);
+		RenderSystem.scalef(1.0F, -1.0F, 1.0F);
+		RenderSystem.scalef(16.0F, 16.0F, 16.0F);
+		MatrixStack matrixstack = new MatrixStack();
+		IRenderTypeBuffer.Impl irendertypebuffer$impl = mc.renderBuffers().bufferSource();
+		boolean flag = !pBakedmodel.usesBlockLight();
+		if (flag) {
+			RenderHelper.setupForFlatItems();
+		}
+
+		mc.getItemRenderer().render(pStack, ItemCameraTransforms.TransformType.GUI, false, matrixstack,
+				irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, pBakedmodel);
+		irendertypebuffer$impl.endBatch();
+		RenderSystem.enableDepthTest();
+		if (flag) {
+			RenderHelper.setupFor3DItems();
+		}
+
+		RenderSystem.disableAlphaTest();
+		RenderSystem.disableRescaleNormal();
+		RenderSystem.popMatrix();
 	}
 }

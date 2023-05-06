@@ -70,7 +70,7 @@ public class ResearchTree implements INBTSerializable<CompoundNBT> {
 	public boolean canCraft(ItemStack stack) {
 		for (Map.Entry<String, Research> r : ResearchInit.RESEARCHES.entrySet()) {
 			if (!researched.contains(r.getKey())) {
-				if (r.getValue().getUnlock().has(stack)) {
+				if (r.getValue().has(stack)) {
 					return false;
 				}
 			}
@@ -81,13 +81,13 @@ public class ResearchTree implements INBTSerializable<CompoundNBT> {
 	public LinkedHashMap<Blueprint, Boolean> getCategory(BlueprintCategory cat) {
 		LinkedHashMap<Blueprint, Boolean> bps = new LinkedHashMap<>();
 		for (String res : researched) {
-			ResearchInit.RESEARCHES.get(res).getUnlock().getBlueprints().forEach(bp -> {
+			ResearchInit.RESEARCHES.getOrDefault(res, Research.EMPTY).getBlueprints().forEach(bp -> {
 				if (bp.getCategory().equals(cat))
 					bps.put(bp, true);
 			});
 		}
 		for (Map.Entry<String, Research> r : ResearchInit.RESEARCHES.entrySet()) {
-			r.getValue().getUnlock().getBlueprints().forEach(bp -> {
+			r.getValue().getBlueprints().forEach(bp -> {
 				if (bp.getCategory().equals(cat) && !bps.keySet().contains(bp))
 					bps.put(bp, false);
 			});
@@ -97,7 +97,7 @@ public class ResearchTree implements INBTSerializable<CompoundNBT> {
 
 	public boolean categoryUnlocked(BlueprintCategory cat) {
 		for (String res : researched) {
-			for (Blueprint bp : ResearchInit.RESEARCHES.get(res).getUnlock().getBlueprints()) {
+			for (Blueprint bp : ResearchInit.RESEARCHES.getOrDefault(res, Research.EMPTY).getBlueprints()) {
 				if (bp.getCategory().equals(cat))
 					return true;
 			}

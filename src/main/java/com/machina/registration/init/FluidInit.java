@@ -34,6 +34,7 @@ public class FluidInit {
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS,
 			Machina.MOD_ID);
 	public static final List<String> BLOCKS = new ArrayList<>();
+	public static final List<FluidObject> OBJS = new ArrayList<>();
 
 	// Gases
 	public static final FluidObject OXYGEN = gas("oxygen", "O2", 0xFF_ffffff);
@@ -134,6 +135,8 @@ public class FluidInit {
 			BUCKET = ItemInit.register(name + "_bucket", () -> new MachinaBucket(sFluid, BUCKET_PROP, code));
 			FLUID = FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(PROPS));
 			FLOWING = FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(PROPS));
+			
+			OBJS.add(FluidObject.this);
 		}
 
 		public FlowingFluidBlock block() {

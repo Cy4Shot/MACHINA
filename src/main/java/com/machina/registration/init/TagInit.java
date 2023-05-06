@@ -49,6 +49,8 @@ public final class TagInit {
 
 	public static final class Items {
 		public static final Map<OreType, ITag.INamedTag<Item>> ORE_TAGS = createOres();
+		public static final ITag.INamedTag<Item> ORE_ITEMS = mod("ore_items");
+		public static final ITag.INamedTag<Item> BUCKETS = mod("buckets");
 
 		private static Map<OreType, ITag.INamedTag<Item>> createOres() {
 			Map<OreType, ITag.INamedTag<Item>> map = new HashMap<>();

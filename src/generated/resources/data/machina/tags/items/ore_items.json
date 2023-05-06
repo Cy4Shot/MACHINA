@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "machina:salt",
+    "machina:fluorite",
+    "machina:boron",
+    "machina:sulphur",
+    "machina:bismuth",
+    "machina:lead",
+    "machina:silver",
+    "machina:palladium",
+    "machina:machinarium"
+  ]
+}

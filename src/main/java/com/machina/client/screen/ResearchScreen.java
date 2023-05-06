@@ -9,6 +9,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import com.machina.client.ClientResearch;
+import com.machina.client.util.ClientTimer;
 import com.machina.client.util.UIHelper;
 import com.machina.client.util.UIHelper.StippleType;
 import com.machina.registration.init.ResearchInit;
@@ -25,6 +26,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.math.vector.Matrix4f;
@@ -178,6 +180,9 @@ public class ResearchScreen extends Screen {
 
 		// Render Overlay
 		if (openMenu && this.selected != null) {
+			minecraft.getItemRenderer().blitOffset += 10000f;
+			stack.pushPose();
+			stack.translate(0, 0, minecraft.getItemRenderer().blitOffset);
 			// + 50 to account for bordered fullscreen
 			this.fillGradient(stack, -halfw, -halfh, halfw, halfh + 50, -1072689136, -804253680);
 
@@ -235,20 +240,27 @@ public class ResearchScreen extends Screen {
 
 			// Items
 			Ingredient n = this.selected.getNeeds();
-			ItemStack u = this.selected.getUnlock().getIcon();
-			UIHelper.renderItem(n == null ? new ItemStack(Blocks.BARRIER) : n.getItems()[0], x2 + 52, y2 + 58);
+			ItemStack u = this.selected.getBlueprints().size() == 0 ? new ItemStack(Items.BARRIER)
+					: this.selected.getBlueprints()
+							.get((int) (ClientTimer.gameTick % (this.selected.getBlueprints().size() * 20) / 20))
+							.getItem();
+			UIHelper.renderItem(
+					n == null ? new ItemStack(Blocks.BARRIER)
+							: n.getItems()[(int) (ClientTimer.gameTick % (n.getItems().length * 10) / 10)],
+					x2 + 52, y2 + 58);
 			UIHelper.renderItem(u, x2 + 167, y2 + 58);
 
 			// Labels
 			if (n != null && mX > halfw + x2 + 50 && mX < halfw + x2 + 69 && mY > halfh + y2 + 56
 					&& mY < halfh + y2 + 75) {
 				UIHelper.renderUnboundLabel(stack,
-						Arrays.asList(TextComponentUtils.mergeStyles(
-								(new StringTextComponent("")).append(n.getItems()[0].getHoverName()),
+						Arrays.asList(TextComponentUtils.mergeStyles((new StringTextComponent(""))
+								.append(n.getItems()[(int) (ClientTimer.gameTick % (n.getItems().length * 10) / 10)]
+										.getHoverName()),
 								Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
 						mX - halfw, mY - halfh, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			}
-			if (u != null && mX > halfw + x2 + 165 && mX < halfw + x2 + 184 && mY > halfh + y2 + 56
+			if (u != null && !u.getItem().equals(Items.BARRIER) && mX > halfw + x2 + 165 && mX < halfw + x2 + 184 && mY > halfh + y2 + 56
 					&& mY < halfh + y2 + 75) {
 				UIHelper.renderUnboundLabel(stack,
 						Arrays.asList(
@@ -256,6 +268,8 @@ public class ResearchScreen extends Screen {
 										Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
 						mX - halfw, mY - halfh, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			}
+			stack.popPose();
+			minecraft.getItemRenderer().blitOffset -= 10000f;
 		}
 	}
 
@@ -278,34 +292,35 @@ public class ResearchScreen extends Screen {
 
 	private void render(MatrixStack stack, Research res, int mX, int mY) {
 		Vector2f c = getResPos(res);
-		UIHelper.sizedBlitTransp(stack, c.x, c.y, 19 * zoom, 19 * zoom, 228, 184, 19, 19, 256);
-		if (this.selected != null && this.selected.equals(res)) {
+		if (ClientResearch.getResearch().getResearched().contains(res.getId())) {
+			UIHelper.sizedBlitTransp(stack, c.x, c.y, 19 * zoom, 19 * zoom, 228, 184, 19, 19, 256);
+		} else {
+			UIHelper.sizedBlitTransp(stack, c.x, c.y, 19 * zoom, 19 * zoom, 162, 230, 19, 19, 256);
+		}
+
+		float x = this.width / 2;
+		float y = this.height / 2;
+		float s = 19 * zoom;
+		boolean hover = mX > x + c.x && mX < x + c.x + s && mY > y + c.y && mY < y + c.y + s && !openMenu;
+		if (this.selected != null && this.selected.equals(res) || hover) {
 			UIHelper.sizedBlitTransp(stack, c.x, c.y, 18 * zoom, 18 * zoom, 181, 230, 18, 18, 256);
 		}
 
-		if (!openMenu) {
-			float scale = zoom * 0.9f;
-			float scaleInv = 1 / scale;
-			int xp = (int) (c.x / scale + 1.5f);
-			int yp = (int) (c.y / scale + 1.5f);
-			RenderSystem.scalef(scale, scale, scale);
-			UIHelper.renderItem(res.getUnlock().getIcon(), xp, yp);
-			RenderSystem.scalef(scaleInv, scaleInv, scaleInv);
-
-			float x = this.width / 2;
-			float y = this.height / 2;
-			float s = 19 * zoom;
-			if (mX > x + c.x && mX < x + c.x + s && mY > y + c.y && mY < y + c.y + s) {
-				UIHelper.renderUnboundLabel(stack,
-						Arrays.asList(
-								TextComponentUtils.mergeStyles(StringUtils.translateComp(res.getNameKey()),
-										Style.EMPTY.withBold(true)),
-								TextComponentUtils.mergeStyles(StringUtils.translateScreenComp("research.click"),
-										Style.EMPTY.withItalic(true).withColor(Color.fromRgb(0xFF_00fefe)))),
-						mX - (int) x, mY - (int) y, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
-			}
-
+		float scale = zoom * 0.9f;
+		float scaleInv = 1 / scale;
+		RenderSystem.scalef(scale, scale, scale);
+		UIHelper.renderItem(res.getIcon(), c.x / scale + 2f, c.y / scale + 2f);
+		RenderSystem.scalef(scaleInv, scaleInv, scaleInv);
+		if (hover) {
+			UIHelper.renderUnboundLabel(stack,
+					Arrays.asList(
+							TextComponentUtils.mergeStyles(StringUtils.translateComp(res.getNameKey()),
+									Style.EMPTY.withBold(true)),
+							TextComponentUtils.mergeStyles(StringUtils.translateScreenComp("research.click"),
+									Style.EMPTY.withItalic(true).withColor(Color.fromRgb(0xFF_00fefe)))),
+					mX - (int) x, mY - (int) y, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 		}
+
 		UIHelper.bindScifi();
 	}
 
