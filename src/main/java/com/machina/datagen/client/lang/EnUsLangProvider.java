@@ -258,6 +258,32 @@ public class EnUsLangProvider extends BaseLangProvider {
 				"As eventide falls afresh over known earths, the player gazes up at the uncharted cosmos. I wonder, what strange and incomprehensible worlds await them?");
 		add(ResearchInit.ROCKETRY, "Rocketry",
 				"Crashed ships litter the landscape like a flock of sheep. A legend says, hacking the terminals inside will yield rewards unkown.");
+		add(ResearchInit.IDENTIFICATION, "Identification",
+				"Ancient scholars spent eons crafting perfect ship parts. Recreate them.");
+		add(ResearchInit.SHIP_CONSTRUCTION, "Ship Construction",
+				"The ship console queries vast knowledge databases to aid you in ship construction.");
+		add(ResearchInit.FUEL_1, "Basic Fuel", "Fuel is the blood of a spaceship. This is its most basic form.");
+		add(ResearchInit.FUEL_2, "Advanced Fuel", "This advanced fuel can further aid a rocket's power.");
+		add(ResearchInit.FUEL_3, "Godlike Fuel",
+				"The apex class of rocket fuel. Hardest to manufacture, but has great returns.");
+		add(ResearchInit.COOLANT_1, "Basic Coolant",
+				"Coolant is the skin of a spaceship. This is its most basic form.");
+		add(ResearchInit.COOLANT_2, "Advanced Coolant",
+				"This advanced coolant can further aid a rocket's temperature.");
+		add(ResearchInit.COOLANT_3, "Godlike Coolant",
+				"The apex class of rocket coolant. Hardest to manufacture, but has great returns.");
+		add(ResearchInit.AUTOMATION, "Automation",
+				"The path of the labourer is long and tedious. Industrialize and overcome it.");
+		add(ResearchInit.FABRICATION, "Fabrication",
+				"Begin construction of machines that shall lie at the heart of the factory.");
+		add(ResearchInit.ELECTRICITY, "Electricity",
+				"Civilization's greatest invention. Generate, store, transport and harness the power of electricity.");
+		add(ResearchInit.CHEMISTRY, "Chemistry",
+				"After alchemistry came chemsitry. Wrangle with elements and compounds to produce new ones.");
+		add(ResearchInit.MELTING, "Melting", "Master the states of matter and convert between them with the Melter.");
+		add(ResearchInit.REACTING, "Reacting",
+				"The Mixer lies at the core of all chemistry, providing a safe environment in which to carry out simple chemical reactions.");
+		add(ResearchInit.HABER, "Haber Process", "Industrialize the production of ammonia with the haber structure.");
 
 		// GUI
 		addScreen("component_analyzer", "insert", "Insert Component");
