@@ -224,15 +224,19 @@ public class StarchartScreen extends Screen {
 		}
 
 		if (hasTopButtons) {
-			float x1 = this.width / 2;
+			int x1 = this.width / 2;
+			int y1 = this.height / 2;
 			// Switch Tab Buttons
 			UIHelper.bindScifi();
 			UIHelper.betterBlit(stack, -9 + 15, -y - 40, 228, 184, 19, 19, 256);
 			UIHelper.betterBlit(stack, -9 - 15, -y - 40, 162, 230, 19, 19, 256);
 			UIHelper.betterBlit(stack, -9 - 14, -y - 39, 112, 240, 16, 16, 256);
 			UIHelper.betterBlit(stack, -9 + 16, -y - 39, 128, 240, 16, 16, 256);
-			if (pMouseX > x1 + 6 && pMouseX < x1 + 25 && pMouseY > 10 && pMouseY < 29) {
+			if (pMouseX > x1 + 5 && pMouseX < x1 + 24 && pMouseY > 10 && pMouseY < 29) {
 				UIHelper.betterBlit(stack, -9 + 15, -y - 40, 181, 230, 18, 18, 256);
+				UIHelper.renderUnboundLabel(stack,
+						Collections.singletonList(StringUtils.translateScreenComp("tab.research")), pMouseX - x1 - 5,
+						pMouseY - y1 + 20, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			}
 			UIHelper.bindPrgrs();
 			UIHelper.betterBlit(stack, -9 + 10, -y - 39, 0, 239, 29, 17, 256);

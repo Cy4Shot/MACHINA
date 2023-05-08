@@ -2,6 +2,7 @@ package com.machina.client.screen;
 
 import java.nio.FloatBuffer;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.lwjgl.BufferUtils;
@@ -144,9 +145,10 @@ public class ResearchScreen extends Screen {
 			renderLines(stack, selected);
 			render(stack, selected, mX, mY);
 		}
-		float x1 = this.width / 2;
-		float x = x1 - 50;
-		float y = this.height / 2 - 50;
+		int x1 = this.width / 2;
+		int y1 = this.height / 2;
+		int x = x1 - 50;
+		int y = y1 - 50;
 
 		// Switch Tab Buttons
 		UIHelper.bindScifi();
@@ -156,6 +158,9 @@ public class ResearchScreen extends Screen {
 		UIHelper.betterBlit(stack, -9 + 16, -y - 39, 96, 240, 16, 16, 256);
 		if (!openMenu && mX > x1 - 24 && mX < x1 - 5 && mY > 10 && mY < 29) {
 			UIHelper.betterBlit(stack, -9 - 15, -y - 40, 181, 230, 18, 18, 256);
+			UIHelper.renderUnboundLabel(stack,
+					Collections.singletonList(StringUtils.translateScreenComp("tab.starchart")), mX - x1 - 5,
+					mY - y1 + 20, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 		}
 		UIHelper.bindPrgrs();
 		UIHelper.betterBlit(stack, -9 + 10, -y - 39, 0, 222, 29, 17, 256);
@@ -254,16 +259,16 @@ public class ResearchScreen extends Screen {
 			if (n != null && mX > halfw + x2 + 50 && mX < halfw + x2 + 69 && mY > halfh + y2 + 56
 					&& mY < halfh + y2 + 75) {
 				UIHelper.renderUnboundLabel(stack,
-						Arrays.asList(TextComponentUtils.mergeStyles((new StringTextComponent(""))
+						Collections.singletonList(TextComponentUtils.mergeStyles((new StringTextComponent(""))
 								.append(n.getItems()[(int) (ClientTimer.gameTick % (n.getItems().length * 10) / 10)]
 										.getHoverName()),
 								Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
 						mX - halfw, mY - halfh, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			}
-			if (u != null && !u.getItem().equals(Items.BARRIER) && mX > halfw + x2 + 165 && mX < halfw + x2 + 184 && mY > halfh + y2 + 56
-					&& mY < halfh + y2 + 75) {
+			if (u != null && !u.getItem().equals(Items.BARRIER) && mX > halfw + x2 + 165 && mX < halfw + x2 + 184
+					&& mY > halfh + y2 + 56 && mY < halfh + y2 + 75) {
 				UIHelper.renderUnboundLabel(stack,
-						Arrays.asList(
+						Collections.singletonList(
 								TextComponentUtils.mergeStyles((new StringTextComponent("")).append(u.getHoverName()),
 										Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
 						mX - halfw, mY - halfh, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);

@@ -383,6 +383,8 @@
   "machina.screen.starchart.rot": "Rotate",
   "machina.screen.starchart.sel": "Select",
   "machina.screen.starchart.zoo": "Zoom",
+  "machina.screen.tab.research": "Research",
+  "machina.screen.tab.starchart": "Starchart",
   "machina.screen.tank.none": "None ",
   "machina.screen.tank.stored": "Stored: ",
   "machina.screen.temperature_regulator.stored": "Current Temperature: ",

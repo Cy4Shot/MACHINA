@@ -381,6 +381,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("multiblock", "openinfo", "Open Info");
 		addScreen("multiblock", "closeinfo", "Close Info");
 		addScreen("multiblock", "rot", "Rotate");
+		addScreen("tab", "research", "Research");
+		addScreen("tab", "starchart", "Starchart");
 		addScreen("go_beyond", "title", "MACHINA - Alpha 0.1");
 		addScreen("go_beyond", "desc1", "Travelling between planets isn't yet available!");
 		addScreen("go_beyond", "desc2", "This feature will be introduced in Alpha 0.2.");
