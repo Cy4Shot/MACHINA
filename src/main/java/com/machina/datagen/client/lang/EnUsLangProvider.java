@@ -314,7 +314,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("blueprint", "crafttip",
 				"In order to etch a blueprint, input a blueprint into the slot, then select a type on the left and etch it. Insert blueprints into the fabrication bench in order to use them.");
 		addScreen("blueprint", "tabtip1",
-				"Please select a tab to start making blueprints. If no tabs are available, you haven't completed enough research yet. Open the research menu by pressing '");
+				"You haven't completed enough research yet. Open the research menu by pressing '");
 		addScreen("blueprint", "tabtip2", "'.");
 		addScreen("fabricator", "title", "Fabricator");
 		addScreen("fabricator", "missing", "Missing Materials");

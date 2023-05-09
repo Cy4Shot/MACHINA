@@ -16,6 +16,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
+import net.minecraft.util.math.vector.Vector2f;
 
 public class ResearchInit {
 
@@ -43,8 +44,11 @@ public class ResearchInit {
 	public static final Research HABER = create("haber", REACTING, FluidInit.METHANE.bucket(), BlueprintInit.HABER);
 	//@formatter:on
 
+	private static Vector2f size = null;
+
 	static {
 		ResearchTreeNode.run(ROOT);
+		size = getSize();
 	}
 
 	private static Research root(String id, IItemProvider icon) {
@@ -91,5 +95,20 @@ public class ResearchInit {
 			sb.append(getChildString(child).replace("\n", "\n" + (i == num - 1 ? " " : StringUtils.TREE_V) + " "));
 		}
 		return sb.toString();
+	}
+
+	public static Vector2f getSize() {
+		if (size != null) {
+			return size;
+		}
+		float maxX = 0;
+		float maxY = 0;
+		for (Research r : RESEARCHES.values()) {
+			if (r.getLocation().x > maxX)
+				maxX = r.getLocation().x;
+			if (r.getLocation().y > maxY)
+				maxY = r.getLocation().y;
+		}
+		return new Vector2f(maxX, maxY);
 	}
 }

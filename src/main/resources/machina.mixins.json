@@ -7,7 +7,6 @@
 		"EntityMixin",
 		"PlayerEntityMixin",
 		"SwimTaskMixin",
-		"SugarCaneBlockMixin",
 		"LivingEntityMixin"
 	],
 	"client": [

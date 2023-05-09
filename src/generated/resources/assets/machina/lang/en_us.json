@@ -302,7 +302,7 @@
   "machina.screen.blueprint.tab1": "Machines",
   "machina.screen.blueprint.tab2": "Tools",
   "machina.screen.blueprint.tab3": "[PH] Suits",
-  "machina.screen.blueprint.tabtip1": "Please select a tab to start making blueprints. If no tabs are available, you haven't completed enough research yet. Open the research menu by pressing '",
+  "machina.screen.blueprint.tabtip1": "You haven't completed enough research yet. Open the research menu by pressing '",
   "machina.screen.blueprint.tabtip2": "'.",
   "machina.screen.blueprint.unselected": "Nothing Selected",
   "machina.screen.cargo_crate.open": "Right Click to Loot",

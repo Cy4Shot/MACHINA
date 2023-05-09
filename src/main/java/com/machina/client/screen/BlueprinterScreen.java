@@ -1,6 +1,7 @@
 package com.machina.client.screen;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,13 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 	protected void init() {
 		super.init();
 		this.leftPos = (this.width - 176) / 2;
+
+		for (int i = 0; i < BlueprintCategory.values().length; i++) {
+			if (ClientResearch.getResearch().categoryUnlocked(BlueprintCategory.values()[i])) {
+				tab = i;
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -107,9 +115,11 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 			for (Map.Entry<Blueprint, Boolean> e : bps.entrySet()) {
 				if (e.getValue()) {
 					UIHelper.blit(stack, bx + bpx * 20, by + bpy * 20, 237, 72, 19, 19);
-					if ((this.selected != null && this.selected.getId().equals(e.getKey().getId()))
-							|| (pX > bx - 1 + bpx * 20 && pX < bx + 18 + bpx * 20 && pY > by - 1 + bpy * 20
-									&& pY < by + 18 + bpy * 20)) {
+					if (pX > bx - 1 + bpx * 20 && pX < bx + 18 + bpx * 20 && pY > by - 1 + bpy * 20
+							&& pY < by + 18 + bpy * 20) {
+						UIHelper.blit(stack, bx + bpx * 20, by + bpy * 20, 237, 110, 18, 18);
+					}
+					if (this.selected != null && this.selected.getId().equals(e.getKey().getId())) {
 						UIHelper.blit(stack, bx + bpx * 20, by + bpy * 20, 237, 110, 18, 18);
 					}
 					UIHelper.renderItem(e.getKey().getItem(), bx + 1 + bpx * 20, by + 1 + bpy * 20);
@@ -199,6 +209,23 @@ public class BlueprinterScreen extends NoJeiContainerScreen<BlueprinterContainer
 						0xFF_00fefe, 0xFF_0e0e0e);
 			}
 			RenderSystem.scalef(inv, inv, inv); // lol
+			bpx = 0;
+			bpy = 0;
+			for (Map.Entry<Blueprint, Boolean> e : bps.entrySet()) {
+				if (e.getValue()) {
+					UIHelper.blit(stack, bx + bpx * 20, by + bpy * 20, 237, 72, 19, 19);
+					if (pX > bx - 1 + bpx * 20 && pX < bx + 18 + bpx * 20 && pY > by - 1 + bpy * 20
+							&& pY < by + 18 + bpy * 20) {
+						UIHelper.renderLabel(stack, Collections.singletonList(e.getKey().getItem().getHoverName()), pX,
+								pY, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
+					}
+				}
+				bpx++;
+				if (bpx >= 6) {
+					bpx = 0;
+					bpy++;
+				}
+			}
 		} else {
 			float inv = 1 / 0.7f;
 			List<IReorderingProcessor> desc = LanguageMap.getInstance().getVisualOrder(

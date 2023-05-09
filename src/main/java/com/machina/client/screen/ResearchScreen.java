@@ -50,6 +50,14 @@ public class ResearchScreen extends Screen {
 	float zoom = 1f;
 	Research selected = null;
 	boolean openMenu = false;
+	Vector2f size;
+
+	@Override
+	protected void init() {
+		super.init();
+		this.size = ResearchInit.getSize();
+		this.posX = -size.y * 30 / 2;
+	}
 
 	@Override
 	public void render(MatrixStack stack, int mX, int mY, float pPartialTicks) {
@@ -111,7 +119,6 @@ public class ResearchScreen extends Screen {
 		}
 
 		// Lines to menu
-
 		int halfw = this.width / 2;
 		int halfh = this.height / 2;
 		int xSize = 236, ySize = 99;
@@ -151,6 +158,9 @@ public class ResearchScreen extends Screen {
 		int y = y1 - 50;
 
 		// Switch Tab Buttons
+		minecraft.getItemRenderer().blitOffset += 10000f;
+		stack.pushPose();
+		stack.translate(0, 0, minecraft.getItemRenderer().blitOffset);
 		UIHelper.bindScifi();
 		UIHelper.betterBlit(stack, -9 + 15, -y - 40, 162, 230, 19, 19, 256);
 		UIHelper.betterBlit(stack, -9 - 15, -y - 40, 228, 184, 19, 19, 256);
@@ -185,9 +195,6 @@ public class ResearchScreen extends Screen {
 
 		// Render Overlay
 		if (openMenu && this.selected != null) {
-			minecraft.getItemRenderer().blitOffset += 10000f;
-			stack.pushPose();
-			stack.translate(0, 0, minecraft.getItemRenderer().blitOffset);
 			// + 50 to account for bordered fullscreen
 			this.fillGradient(stack, -halfw, -halfh, halfw, halfh + 50, -1072689136, -804253680);
 
@@ -259,10 +266,15 @@ public class ResearchScreen extends Screen {
 			if (n != null && mX > halfw + x2 + 50 && mX < halfw + x2 + 69 && mY > halfh + y2 + 56
 					&& mY < halfh + y2 + 75) {
 				UIHelper.renderUnboundLabel(stack,
-						Collections.singletonList(TextComponentUtils.mergeStyles((new StringTextComponent(""))
-								.append(n.getItems()[(int) (ClientTimer.gameTick % (n.getItems().length * 10) / 10)]
-										.getHoverName()),
-								Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
+						Collections
+								.singletonList(
+										TextComponentUtils
+												.mergeStyles(
+														(new StringTextComponent("")).append(n
+																.getItems()[(int) (ClientTimer.gameTick
+																		% (n.getItems().length * 10) / 10)]
+																.getHoverName()),
+														Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
 						mX - halfw, mY - halfh, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			}
 			if (u != null && !u.getItem().equals(Items.BARRIER) && mX > halfw + x2 + 165 && mX < halfw + x2 + 184
@@ -273,9 +285,10 @@ public class ResearchScreen extends Screen {
 										Style.EMPTY.withColor(Color.fromRgb(0xFF_00fefe)))),
 						mX - halfw, mY - halfh, 0xFF_232323, 0xFF_00fefe, 0xFF_1bcccc);
 			}
-			stack.popPose();
-			minecraft.getItemRenderer().blitOffset -= 10000f;
+
 		}
+		stack.popPose();
+		minecraft.getItemRenderer().blitOffset -= 10000f;
 	}
 
 	private void renderLines(MatrixStack stack, Research res) {
@@ -306,7 +319,7 @@ public class ResearchScreen extends Screen {
 		float x = this.width / 2;
 		float y = this.height / 2;
 		float s = 19 * zoom;
-		boolean hover = mX > x + c.x && mX < x + c.x + s && mY > y + c.y && mY < y + c.y + s && !openMenu;
+		boolean hover = mX > x + c.x && mX < x + c.x + s && mY > y + c.y && mY < y + c.y + s && !openMenu && mY > 50;
 		if (this.selected != null && this.selected.equals(res) || hover) {
 			UIHelper.sizedBlitTransp(stack, c.x, c.y, 18 * zoom, 18 * zoom, 181, 230, 18, 18, 256);
 		}
@@ -375,22 +388,22 @@ public class ResearchScreen extends Screen {
 			this.posX += pDragX / 2;
 			this.posY += pDragY / 2;
 
-			if (posX > width / 3)
-				posX = width / 3;
-			if (posX < -width / 3)
-				posX = -width / 3;
+			if (posX > 0)
+				posX = 0;
+			if (posX < -size.y * 30 * zoom)
+				posX = -size.y * 30 * zoom;
 
-			if (posY > height / 3)
-				posY = height / 3;
-			if (posY < -height / 3)
-				posY = -height / 3;
+			if (posY > 0)
+				posY = 0;
+			if (posY < -size.x * 30 * zoom)
+				posY = -size.x * 30 * zoom;
 		}
 
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
 
 	@Override
-	public boolean mouseClicked(double mX, double mY, int pButton) {
+	public boolean mouseReleased(double mX, double mY, int pButton) {
 
 		if (pButton != GLFW.GLFW_MOUSE_BUTTON_1)
 			return super.mouseReleased(mX, mY, pButton);
