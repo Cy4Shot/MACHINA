@@ -92,8 +92,13 @@ public class BlockStatesProvider extends BlockStateProvider {
 		simpleBlock(BlockInit.REINFORCED_TILE.get());
 		simpleBlock(BlockInit.HABER_CASING.get());
 		simpleBlock(BlockInit.HABER_PORT.get());
+		simpleBlock(BlockInit.PUMP_PORT.get());
+		simpleBlock(BlockInit.PUMP_CASING.get());
+		simpleBlock(BlockInit.PUMP_HEAD.get());
+		simpleBlock(BlockInit.PUMP_TANK.get());
 
 		machine(BlockInit.HABER_CONTROLLER.get(), BlockInit.HABER_CASING.get());
+		machine(BlockInit.PUMP_CONTROLLER.get(), BlockInit.PUMP_CASING.get());
 
 		orientableGeo(BlockInit.COMPONENT_ANALYZER.get(), BlockInit.ALUMINUM_BLOCK.get());
 		geo(BlockInit.IRON_SCAFFOLDING.get(), Blocks.IRON_BLOCK);

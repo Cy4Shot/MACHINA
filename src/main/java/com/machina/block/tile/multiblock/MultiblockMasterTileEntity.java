@@ -1,6 +1,5 @@
 package com.machina.block.tile.multiblock;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -21,7 +20,6 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Direction.AxisDirection;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3i;
@@ -31,9 +29,6 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 
 public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
-
-	private static final Direction[] NEGATIVE = Arrays.stream(Direction.values())
-			.filter(d -> d.getAxisDirection().equals(AxisDirection.NEGATIVE)).toArray(Direction[]::new);
 
 	public Multiblock mb;
 	public boolean formed = false;
@@ -46,7 +41,7 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 	}
 
 	public abstract ResourceLocation getMultiblock();
-	
+
 	public TranslationTextComponent getName() {
 		return StringUtils.translateMultiblockComp(getMultiblock().getPath());
 	}
@@ -103,12 +98,14 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 	}
 
 	private ValidateResult valid() {
-		int s = (int) Math.ceil((double) VecUtil.max(mb.size) / 2d);
-		BlockPos corner = findCorner(worldPosition, b -> mb.allowed.contains(level.getBlockState(b)), s * s * s);
+		int s = (int) Math.ceil((double) VecUtil.max(mb.size));
+		BlockPos corner = findCorner(worldPosition, b -> mb.allowedBlock.contains(level.getBlockState(b).getBlock()),
+				s * s * s);
 		return validateAll(corner, mb.size);
 
 	}
 
+	// Loops aren't real they don't exist.
 	private ValidateResult validateAll(BlockPos corner, Vector3i size) {
 		ValidateResult res = validateDirection(corner, mb.size, Direction.SOUTH);
 		if (!res.valid) {
@@ -127,10 +124,11 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 	}
 
 	private ValidateResult validateDirection(BlockPos corner, Vector3i size, Direction rotation) {
+		System.out.println(corner);
 		Set<BlockPos> poss = new HashSet<>();
 		for (int x = 0; x < size.getX(); x++) {
-			for (int y = 0; y < size.getX(); y++) {
-				for (int z = 0; z < size.getX(); z++) {
+			for (int y = 0; y < size.getY(); y++) {
+				for (int z = 0; z < size.getZ(); z++) {
 					BlockPos pos = corner.offset(x, y, z);
 					BlockState state = level.getBlockState(pos);
 					String key;
@@ -150,10 +148,10 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 					if (pos.equals(worldPosition) && !key.equals(mb.controller_replacable)) {
 						return ValidateResult.REJECT;
 					}
-					if (!mb.map.get(key).contains(state) && !pos.equals(worldPosition)) {
+					if (!key.equals(" ") && !mb.map.get(key).contains(state) && !pos.equals(worldPosition)) {
 						return ValidateResult.REJECT;
 					}
-					if (!pos.equals(worldPosition))
+					if (!key.equals(" ") && !pos.equals(worldPosition))
 						poss.add(pos);
 				}
 			}
@@ -162,18 +160,16 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 	}
 
 	private static BlockPos findCorner(BlockPos start, Predicate<BlockPos> checker, int maxCount) {
-
 		Queue<BlockPos> openSet = new LinkedList<>();
 		Set<BlockPos> traversed = new ObjectOpenHashSet<>();
 		openSet.add(start.immutable());
 		traversed.add(start.immutable());
 		while (!openSet.isEmpty()) {
 			BlockPos ptr = openSet.poll();
-			int traversedSize = traversed.size();
-			if (traversedSize >= maxCount) {
+			if (traversed.size() >= maxCount) {
 				return new BlockPos(VecUtil.minAll(traversed));
 			}
-			for (Direction side : NEGATIVE) {
+			for (Direction side : Direction.values()) {
 				BlockPos offset = ptr.relative(side);
 				if (!traversed.contains(offset) && checker.test(offset)) {
 					openSet.add(offset);

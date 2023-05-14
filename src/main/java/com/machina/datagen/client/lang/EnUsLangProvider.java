@@ -76,6 +76,11 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(BlockInit.HABER_CASING.get(), "Haber Casing");
 		add(BlockInit.HABER_CONTROLLER.get(), "Haber Controller");
 		add(BlockInit.HABER_PORT.get(), "Haber Port");
+		add(BlockInit.PUMP_CASING.get(), "Pump Casing");
+		add(BlockInit.PUMP_TANK.get(), "Pump Tank");
+		add(BlockInit.PUMP_HEAD.get(), "Pump Head");
+		add(BlockInit.PUMP_CONTROLLER.get(), "Pump Controller");
+		add(BlockInit.PUMP_PORT.get(), "Pump Port");
 
 		// JEI
 		addJeiCat("state_converter", "State Converter");
@@ -103,6 +108,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 
 		// Multiblock
 		addMultiblock("haber", "Haber Process");
+		addMultiblock("pump", "Industrial Pump");
 
 		// Items
 		add(ItemInit.BLUEPRINT.get(), "Blueprint");
@@ -284,6 +290,7 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ResearchInit.REACTING, "Reacting",
 				"The Mixer lies at the core of all chemistry, providing a safe environment in which to carry out simple chemical reactions.");
 		add(ResearchInit.HABER, "Haber Process", "Industrialize the production of ammonia with the haber structure.");
+		add(ResearchInit.PUMP, "Industrial Pump", "Automate the production of water and brine with the industrial pump structure.");
 
 		// GUI
 		addScreen("component_analyzer", "insert", "Insert Component");

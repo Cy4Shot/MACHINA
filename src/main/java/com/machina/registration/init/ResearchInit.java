@@ -42,6 +42,7 @@ public class ResearchInit {
 	public static final Research MELTING = create("melting", CHEMISTRY, () -> TagInit.Items.ORE_ITEMS, BlueprintInit.MELTING);
 	public static final Research REACTING = create("reacting", CHEMISTRY, () -> TagInit.Items.BUCKETS, BlueprintInit.REACTING);
 	public static final Research HABER = create("haber", REACTING, FluidInit.METHANE.bucket(), BlueprintInit.HABER);
+	public static final Research PUMP = create("pump", REACTING, Items.WATER_BUCKET, BlueprintInit.PUMP);
 	//@formatter:on
 
 	private static Vector2f size = null;

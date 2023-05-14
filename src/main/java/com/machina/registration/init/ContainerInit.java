@@ -11,6 +11,7 @@ import com.machina.block.container.FurnaceGeneratorContainer;
 import com.machina.block.container.HaberContainer;
 import com.machina.block.container.MelterContainer;
 import com.machina.block.container.MixerContainer;
+import com.machina.block.container.PumpContainer;
 import com.machina.block.container.PuzzleContainer;
 import com.machina.block.container.ShipConstructContainer;
 import com.machina.block.container.ShipLaunchContainer;
@@ -46,6 +47,7 @@ public class ContainerInit {
 	public static final RegistryObject<ContainerType<TankContainer>> TANK = register("tank", TankContainer::new);
 	public static final RegistryObject<ContainerType<PuzzleContainer>> PUZZLE = register("puzzle", PuzzleContainer::new);
 	public static final RegistryObject<ContainerType<HaberContainer>> HABER = register("haber", HaberContainer::new);
+	public static final RegistryObject<ContainerType<PumpContainer>> PUMP = register("pump", PumpContainer::new);
 	public static final RegistryObject<ContainerType<ScannerContainer>> SCANNER = register("scanner", (w, i, b) -> new ScannerContainer(w, i.player.level.dimension()));
 	//@formatter:on
 	private static <T extends Container> RegistryObject<ContainerType<T>> register(String name,

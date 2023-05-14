@@ -29,6 +29,11 @@ public class BlueprintInit {
 	public static final Blueprint HABER_CONTROLLER = create(BlueprintCategory.MACH, BlockInit.HABER_CONTROLLER.get());
 	public static final Blueprint HABER_PORT = create(BlueprintCategory.MACH, BlockInit.HABER_PORT.get());
 	public static final Blueprint HABER_CASING = create(BlueprintCategory.MACH, BlockInit.HABER_CASING.get());
+	public static final Blueprint PUMP_CASING = create(BlueprintCategory.MACH, BlockInit.PUMP_CASING.get());
+	public static final Blueprint PUMP_PORT = create(BlueprintCategory.MACH, BlockInit.PUMP_PORT.get());
+	public static final Blueprint PUMP_CONTROLLER  = create(BlueprintCategory.MACH, BlockInit.PUMP_CONTROLLER.get());
+	public static final Blueprint PUMP_TANK = create(BlueprintCategory.MACH, BlockInit.PUMP_TANK.get());
+	public static final Blueprint PUMP_HEAD = create(BlueprintCategory.MACH, BlockInit.PUMP_HEAD.get());
 
 	public static final BlueprintGroup ROCKETRY = create("rocketry", ItemInit.SHIP_COMPONENT.get(), COMPONENT_ANALYZER);
 	public static final BlueprintGroup IDENTIFICATION = create("identification", BlockInit.COMPONENT_ANALYZER.get(), SHIP_CONSOLE);
@@ -39,6 +44,7 @@ public class BlueprintInit {
 	public static final BlueprintGroup MELTING = create("melting", BlockInit.MELTER.get(), MELTER);
 	public static final BlueprintGroup REACTING = create("reacting", BlockInit.MIXER.get(), MIXER);
 	public static final BlueprintGroup HABER = create("haber", BlockInit.HABER_CONTROLLER.get(), HABER_CONTROLLER, HABER_PORT, HABER_CASING);
+	public static final BlueprintGroup PUMP = create("pump", BlockInit.PUMP_CONTROLLER.get(), PUMP_CASING, PUMP_PORT, PUMP_CONTROLLER, PUMP_TANK, PUMP_HEAD);
 	//@formatter:on
 
 	private static Blueprint create(BlueprintCategory cat, IItemProvider unlock) {

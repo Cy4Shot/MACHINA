@@ -80,7 +80,8 @@ public class Multiblock {
 
 	public BlockState getRenderAtPos(Vector3i pos) {
 		try {
-			return renderMap.get(renderStructure[pos.getX()][pos.getY()][pos.getZ()]);
+			BlockState bs = renderMap.get(renderStructure[pos.getX()][pos.getY()][pos.getZ()]);
+			return bs == null ? Blocks.AIR.defaultBlockState() : bs;
 		} catch (IndexOutOfBoundsException e) {
 			return Blocks.AIR.defaultBlockState();
 		}

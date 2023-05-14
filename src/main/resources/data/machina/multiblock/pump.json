@@ -1,0 +1,27 @@
+{
+	"size": [3, 2, 3],
+	"controller": "machina:pump_controller",
+	"controller_replacable": "b",
+	"blocks": {
+		"a": ["machina:pump_casing", "machina:pump_port"],
+		"b": ["machina:pump_casing", "machina:pump_port"],
+		"t": ["machina:pump_tank"],
+		"h": ["machina:pump_head"]
+	},
+	"structure": [
+		[" t ", " b "],
+		["tht", "bab"],
+		[" t ", " b "]
+	],
+	"render_blocks": {
+		"a": "machina:pump_casing",
+		"b": "machina:pump_controller",
+		"t": "machina:pump_tank",
+		"h": "machina:pump_head"
+	},
+	"render": [
+		[" t ", " a "],
+		["tht", "baa"],
+		[" t ", " a "]
+	]
+}

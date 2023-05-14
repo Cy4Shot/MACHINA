@@ -27,6 +27,11 @@ import com.machina.block.tile.machine.TemperatureRegulatorTileEntity;
 import com.machina.block.tile.multiblock.haber.HaberCasingTileEntity;
 import com.machina.block.tile.multiblock.haber.HaberControllerTileEntity;
 import com.machina.block.tile.multiblock.haber.HaberPortTileEntity;
+import com.machina.block.tile.multiblock.pump.PumpCasingTileEntity;
+import com.machina.block.tile.multiblock.pump.PumpControllerTileEntity;
+import com.machina.block.tile.multiblock.pump.PumpHeadTileEntity;
+import com.machina.block.tile.multiblock.pump.PumpPortTileEntity;
+import com.machina.block.tile.multiblock.pump.PumpTankTileEntity;
 import com.machina.block.tinted.ITinted;
 
 import net.minecraft.block.Block;
@@ -62,6 +67,11 @@ public class TileEntityInit {
 	public static final RegistryObject<TileEntityType<HaberCasingTileEntity>> HABER_CASING = register("haber_casing", HaberCasingTileEntity::new, () -> BlockInit.HABER_CASING.get());
 	public static final RegistryObject<TileEntityType<HaberControllerTileEntity>> HABER_CONTROLLER = register("haber_controller", HaberControllerTileEntity::new, () -> BlockInit.HABER_CONTROLLER.get());
 	public static final RegistryObject<TileEntityType<HaberPortTileEntity>> HABER_PORT = register("haber_port", HaberPortTileEntity::new, () -> BlockInit.HABER_PORT.get());
+	public static final RegistryObject<TileEntityType<PumpCasingTileEntity>> PUMP_CASING = register("pump_casing", PumpCasingTileEntity::new, () -> BlockInit.PUMP_CASING.get());
+	public static final RegistryObject<TileEntityType<PumpTankTileEntity>> PUMP_TANK = register("pump_tank", PumpTankTileEntity::new, () -> BlockInit.PUMP_TANK.get());
+	public static final RegistryObject<TileEntityType<PumpHeadTileEntity>> PUMP_HEAD = register("pump_head", PumpHeadTileEntity::new, () -> BlockInit.PUMP_HEAD.get());
+	public static final RegistryObject<TileEntityType<PumpControllerTileEntity>> PUMP_CONTROLLER = register("pump_controller", PumpControllerTileEntity::new, () -> BlockInit.PUMP_CONTROLLER.get());
+	public static final RegistryObject<TileEntityType<PumpPortTileEntity>> PUMP_PORT = register("pump_port", PumpPortTileEntity::new, () -> BlockInit.PUMP_PORT.get());
 	
 	public static final RegistryObject<TileEntityType<TintedTileEntity>> TINTED = tinted("tinted", TintedTileEntity::new);
 	public static final RegistryObject<TileEntityType<CustomModelTileEntity>> CUSTOM_MODEL = registerMany("custom_model", CustomModelTileEntity::new, () -> new Block[] { BlockInit.IRON_SCAFFOLDING.get(), BlockInit.STEEL_SCAFFOLDING.get(), BlockInit.ALUMINUM_SCAFFOLDING.get(), BlockInit.COPPER_SCAFFOLDING.get() });

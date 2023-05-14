@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/machine",
+  "textures": {
+    "front": "machina:block/pump_controller",
+    "sides": "machina:block/pump_casing"
+  }
+}

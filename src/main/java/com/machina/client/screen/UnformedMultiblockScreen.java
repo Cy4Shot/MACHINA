@@ -56,9 +56,12 @@ public class UnformedMultiblockScreen<T extends BaseContainer<? extends Multiblo
 				.collect(Collectors.toList());
 		this.blocks.add(new Pair<>(1L, Collections.singletonList(m.controller)));
 		this.blocks = this.blocks.stream()
-				.map(f -> new Pair<>(this.blocks.stream().filter(e -> e.getSecond().equals(f.getSecond()))
-						.map(a -> a.getFirst()).reduce(0L, Long::sum), f.getSecond()))
-				.filter(ArrayUtil.distinctByKey(e -> e.getFirst())).collect(Collectors.toList());
+				.map(f -> new Pair<>(
+						this.blocks.stream().filter(e -> e.getSecond() != null && e.getSecond().equals(f.getSecond()))
+								.map(a -> a.getFirst()).reduce(0L, Long::sum),
+						f.getSecond()))
+				.filter(a -> a.getSecond() != null).filter(ArrayUtil.distinctByKey(e -> e.getSecond()))
+				.collect(Collectors.toList());
 		this.mb = new ClientMultiblock(m);
 		this.textWidth = this.blocks.stream().mapToInt(e -> UIHelper.getWidth(e.getFirst().toString() + "x")).max()
 				.getAsInt();

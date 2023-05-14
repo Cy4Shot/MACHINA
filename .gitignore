@@ -26,3 +26,5 @@ build-out
 # Files from Forge MDK
 forge*changelog.txt
 /.env
+/.apt_generated/
+/.apt_generated_tests/

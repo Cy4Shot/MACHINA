@@ -32,6 +32,11 @@ import com.machina.block.TemperatureRegulatorBlock;
 import com.machina.block.multiblock.haber.HaberCasingBlock;
 import com.machina.block.multiblock.haber.HaberControllerBlock;
 import com.machina.block.multiblock.haber.HaberPortBlock;
+import com.machina.block.multiblock.pump.PumpCasingBlock;
+import com.machina.block.multiblock.pump.PumpControllerBlock;
+import com.machina.block.multiblock.pump.PumpHeadBlock;
+import com.machina.block.multiblock.pump.PumpPortBlock;
+import com.machina.block.multiblock.pump.PumpTankBlock;
 import com.machina.block.tinted.ITinted;
 import com.machina.block.tinted.TintedBlock;
 import com.machina.block.tinted.TintedFalling;
@@ -114,6 +119,11 @@ public class BlockInit {
 	public static final RegistryObject<HaberControllerBlock> HABER_CONTROLLER = register("haber_controller", HaberControllerBlock::new);
 	public static final RegistryObject<HaberCasingBlock> HABER_CASING = register("haber_casing", HaberCasingBlock::new);
 	public static final RegistryObject<HaberPortBlock> HABER_PORT = register("haber_port", HaberPortBlock::new);
+	public static final RegistryObject<PumpCasingBlock> PUMP_CASING = register("pump_casing", PumpCasingBlock::new);
+	public static final RegistryObject<PumpTankBlock> PUMP_TANK = register("pump_tank", PumpTankBlock::new);
+	public static final RegistryObject<PumpHeadBlock> PUMP_HEAD = register("pump_head", PumpHeadBlock::new);
+	public static final RegistryObject<PumpControllerBlock> PUMP_CONTROLLER = register("pump_controller", PumpControllerBlock::new);
+	public static final RegistryObject<PumpPortBlock> PUMP_PORT = register("pump_port", PumpPortBlock::new);
 	//@formatter:on
 
 	public static final Map<OreType, Map<RegistryObject<? extends Block>, RegistryObject<Block>>> ORE_MAP = ores(
