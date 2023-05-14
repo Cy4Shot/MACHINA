@@ -11,16 +11,21 @@ import com.machina.block.tile.MachinaTileEntity;
 import com.machina.multiblock.Multiblock;
 import com.machina.multiblock.MultiblockLoader;
 import com.machina.util.helper.BlockHelper;
+import com.machina.util.helper.ParticleHelper;
 import com.machina.util.math.VecUtil;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -70,12 +75,20 @@ public abstract class MultiblockPartTileEntity extends MachinaTileEntity {
 		this.formed = true;
 		this.master = master;
 		this.setChanged();
+		if (!level.isClientSide()) {
+			((ServerWorld) level).sendParticles(new RedstoneParticleData(0f, 1f, 1f, 1f), worldPosition.getX() + 0.5f,
+					worldPosition.getY() + 0.5f, worldPosition.getZ() + 0.5f, 20, 0.5f, 0.5f, 0.5f, 0);
+		}
 	}
 
 	public void deform() {
 		this.formed = false;
 		this.master = null;
 		this.setChanged();
+		if (!level.isClientSide()) {
+			((ServerWorld) level).sendParticles(ParticleTypes.SMOKE, worldPosition.getX() + 0.5f,
+					worldPosition.getY() + 0.5f, worldPosition.getZ() + 0.5f, 20, 0.5f, 0.5f, 0.5f, 0);
+		}
 	}
 
 	public void update() {

@@ -358,7 +358,7 @@
   "machina.screen.multiblock.rot": "Rotate",
   "machina.screen.multiblock.unformed1": "The ",
   "machina.screen.multiblock.unformed2": " multiblock is malformed.",
-  "machina.screen.pump.extra": "Place a Water Source Block under the Pump Head in order to begin extraction process.",
+  "machina.screen.pump.extra": "Place a Water Source block under the Pump Head in order to begin extraction process.",
   "machina.screen.pump.output": "Output Full",
   "machina.screen.pump.power": "Power Critical",
   "machina.screen.pump.title": "Industrial Pump",

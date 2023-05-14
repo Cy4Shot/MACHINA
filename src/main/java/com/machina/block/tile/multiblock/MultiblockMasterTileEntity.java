@@ -12,6 +12,7 @@ import com.machina.multiblock.Multiblock;
 import com.machina.multiblock.MultiblockLoader;
 import com.machina.util.StringUtils;
 import com.machina.util.helper.BlockHelper;
+import com.machina.util.helper.ParticleHelper;
 import com.machina.util.math.VecUtil;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -19,12 +20,16 @@ import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
@@ -159,9 +164,10 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 		}
 		return ValidateResult.accept(poss);
 	}
-	
+
 	public Consumer<BlockPos> postValidate() {
-		return p -> {};
+		return p -> {
+		};
 	}
 
 	private static BlockPos findCorner(BlockPos start, Predicate<BlockPos> checker, int maxCount) {
