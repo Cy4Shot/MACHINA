@@ -290,7 +290,8 @@ public class EnUsLangProvider extends BaseLangProvider {
 		add(ResearchInit.REACTING, "Reacting",
 				"The Mixer lies at the core of all chemistry, providing a safe environment in which to carry out simple chemical reactions.");
 		add(ResearchInit.HABER, "Haber Process", "Industrialize the production of ammonia with the haber structure.");
-		add(ResearchInit.PUMP, "Industrial Pump", "Automate the production of water and brine with the industrial pump structure.");
+		add(ResearchInit.PUMP, "Industrial Pump",
+				"Automate the production of water and brine with the industrial pump structure.");
 
 		// GUI
 		addScreen("component_analyzer", "insert", "Insert Component");
@@ -383,6 +384,11 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("haber", "empty", "EMPTY");
 		addScreen("haber", "full", "FULL");
 		addScreen("haber", "extra", "Connect some Haber Port blocks to automate the haber process.");
+		addScreen("pump", "title", "Industrial Pump");
+		addScreen("pump", "power", "Power Critical");
+		addScreen("pump", "output", "Output Full");
+		addScreen("pump", "extra",
+				"Place a Water Source block under the Pump Head in order to begin extraction process.");
 		addScreen("multiblock", "unformed1", "The ");
 		addScreen("multiblock", "unformed2", " multiblock is malformed.");
 		addScreen("multiblock", "openinfo", "Open Info");

@@ -29,6 +29,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class PumpControllerTileEntity extends MultiblockMasterTileEntity
@@ -55,8 +56,8 @@ public class PumpControllerTileEntity extends MultiblockMasterTileEntity
 	@Override
 	public void createStorages() {
 		this.energy = add(new MachinaEnergyStorage(this, 100000, 1000));
-		this.fluid = add(new MachinaTank(this, 10000, stack -> stack.getFluid().equals(Fluids.WATER), true, 0),
-				new MachinaTank(this, 10000, stack -> stack.getFluid().equals(FluidInit.BRINE.fluid()), true, 1));
+		this.fluid = add(new MachinaTank(this, 1000000, stack -> stack.getFluid().equals(Fluids.WATER), true, 0),
+				new MachinaTank(this, 2000, stack -> stack.getFluid().equals(FluidInit.BRINE.fluid()), true, 1));
 	}
 
 	@Override
@@ -114,6 +115,22 @@ public class PumpControllerTileEntity extends MultiblockMasterTileEntity
 	public boolean hasInput() {
 		return head != null && level.getFluidState(head.below()).getType().equals(Fluids.WATER);
 	}
+	
+	public FluidStack getFluid(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getFluid();
+	}
+
+	public int stored(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getFluidAmount();
+	}
+
+	public int capacity(int id) {
+		return (id == 0 ? fluid.tank(0) : fluid.tank(1)).getCapacity();
+	}
+
+	public float propFull(int id) {
+		return (float) stored(id) / (float) capacity(id);
+	}
 
 	@Override
 	public boolean isGeneratorMode() {
@@ -127,13 +144,17 @@ public class PumpControllerTileEntity extends MultiblockMasterTileEntity
 	
 	@Override
 	public CompoundNBT save(CompoundNBT tag) {
-		tag.put("head", NBTUtil.writeBlockPos(head));
+		if (head != null) {
+			tag.put("head", NBTUtil.writeBlockPos(head));
+		}
 		return super.save(tag);
 	}
 	
 	@Override
 	public void load(BlockState state, CompoundNBT tag) {
-		head = NBTUtil.readBlockPos(tag.getCompound("head"));
+		if (tag.contains("head")) {
+			head = NBTUtil.readBlockPos(tag.getCompound("head"));
+		}
 		super.load(state, tag);
 	}
 }
