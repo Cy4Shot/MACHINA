@@ -1,0 +1,12 @@
+{
+	"type": "machina:pump",
+	"power": 30,
+	"water": {
+		"fluid": "minecraft:water",
+		"amount": 1000
+	},
+	"brine": {
+		"fluid": "machina:brine",
+		"amount": 2
+	}
+}

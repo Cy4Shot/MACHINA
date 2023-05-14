@@ -10,6 +10,8 @@ import com.machina.recipe.impl.MelterRecipe;
 import com.machina.recipe.impl.MelterRecipe.MelterRecipeType;
 import com.machina.recipe.impl.MixerRecipe;
 import com.machina.recipe.impl.MixerRecipe.MixerRecipeType;
+import com.machina.recipe.impl.PumpRecipe;
+import com.machina.recipe.impl.PumpRecipe.PumpRecipeType;
 import com.machina.recipe.impl.ShipConsoleRecipe;
 import com.machina.recipe.impl.ShipConsoleRecipe.ShipConsoleRecipeType;
 
@@ -25,6 +27,7 @@ public class RecipeInit {
 	public static final IRecipeType<ShipConsoleRecipe> SHIP_CONSOLE_RECIPE = new ShipConsoleRecipeType();
 	public static final IRecipeType<FabricatorRecipe> FABRICATOR_RECIPE = new FabricatorRecipeType();
 	public static final IRecipeType<HaberRecipe> HABER_RECIPE = new HaberRecipeType();
+	public static final IRecipeType<PumpRecipe> PUMP_RECIPE = new PumpRecipeType();
 	public static final IRecipeType<MixerRecipe> MIXER_RECIPE = new MixerRecipeType();
 	public static final IRecipeType<MelterRecipe> MELTER_RECIPE = new MelterRecipeType();
 
@@ -32,6 +35,7 @@ public class RecipeInit {
 		registerRecipe(event, SHIP_CONSOLE_RECIPE, ShipConsoleRecipe.SERIALIZER);
 		registerRecipe(event, FABRICATOR_RECIPE, FabricatorRecipe.SERIALIZER);
 		registerRecipe(event, HABER_RECIPE, HaberRecipe.SERIALIZER);
+		registerRecipe(event, PUMP_RECIPE, PumpRecipe.SERIALIZER);
 		registerRecipe(event, MIXER_RECIPE, MixerRecipe.SERIALIZER);
 		registerRecipe(event, MELTER_RECIPE, MelterRecipe.SERIALIZER);
 	}

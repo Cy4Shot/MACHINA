@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.machina.block.tile.MachinaTileEntity;
@@ -58,6 +59,7 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 				BlockHelper.doWithTe(level, pos, MultiblockPartTileEntity.class, te -> {
 					te.form(worldPosition);
 				});
+				postValidate().accept(pos);
 			}
 		} else {
 			this.parts = new HashSet<>();
@@ -124,7 +126,6 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 	}
 
 	private ValidateResult validateDirection(BlockPos corner, Vector3i size, Direction rotation) {
-		System.out.println(corner);
 		Set<BlockPos> poss = new HashSet<>();
 		for (int x = 0; x < size.getX(); x++) {
 			for (int y = 0; y < size.getY(); y++) {
@@ -157,6 +158,10 @@ public abstract class MultiblockMasterTileEntity extends MachinaTileEntity {
 			}
 		}
 		return ValidateResult.accept(poss);
+	}
+	
+	public Consumer<BlockPos> postValidate() {
+		return p -> {};
 	}
 
 	private static BlockPos findCorner(BlockPos start, Predicate<BlockPos> checker, int maxCount) {
