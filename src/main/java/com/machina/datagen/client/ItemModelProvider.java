@@ -78,6 +78,8 @@ public class ItemModelProvider extends net.minecraftforge.client.model.generator
 		});
 		
 		BlockInit.ORE_BLOCKS.values().forEach(b -> block(b.get()));
+		
+		ItemInit.ORES.values().forEach(i -> item(i.get()));
 
 		geo(BlockInit.IRON_SCAFFOLDING.get());
 		geo(BlockInit.STEEL_SCAFFOLDING.get());
