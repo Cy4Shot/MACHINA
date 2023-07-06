@@ -20,6 +20,7 @@ import com.machina.network.s2c.S2CLaunchShip;
 import com.machina.network.s2c.S2CResearchSync;
 import com.machina.network.s2c.S2CResearchToast;
 import com.machina.network.s2c.S2CStarchartSync;
+import com.machina.network.s2c.S2CSyncWeather;
 import com.machina.util.MachinaRL;
 
 import net.minecraft.network.PacketBuffer;
@@ -39,6 +40,7 @@ public class MachinaNetwork extends BaseNetwork {
 		registerServerToClient(S2CFluidSync.class, S2CFluidSync::decode);
 		registerServerToClient(S2CLaunchShip.class, S2CLaunchShip::decode);
 		registerServerToClient(S2CResearchToast.class, S2CResearchToast::decode);
+		registerServerToClient(S2CSyncWeather.class, S2CSyncWeather::decode);
 
 		// Client -> Server
 		registerClientToServer(C2SDevPlanetCreationGUI.class, C2SDevPlanetCreationGUI::decode);

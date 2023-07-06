@@ -349,12 +349,15 @@ public class EnUsLangProvider extends BaseLangProvider {
 		addScreen("scanner", "title", "Scanner");
 		addScreen("scanner", "tab0", "1. Planet Traits");
 		addScreen("scanner", "tab1", "2. Planet Attributes");
-		addScreen("scanner", "tab2", "3. Cave Structures");
-		addScreen("scanner", "tab3", "4. Atmosphere Composition");
-		addScreen("scanner", "tab4", "5. Terrain Information");
+		addScreen("scanner", "tab2", "3. Speleology");
+		addScreen("scanner", "tab3", "4. Aerology");
+		addScreen("scanner", "tab4", "5. Meteorology");
+		addScreen("scanner", "tab5", "6. Topography");
 		addScreen("scanner", "location", "Location: ");
 		addScreen("scanner", "nodata", "Data Unavailable.");
 		addScreen("scanner", "nocave", "There are no caves on this planet!");
+		addScreen("scanner", "windspeed", "Wind Speed");
+		addScreen("scanner", "winddir", "Wind Direction");
 		addScreen("ship_console", "missing", "Missing Items");
 		addScreen("ship_console", "obstructed", "Obstructed");
 		addScreen("ship_console", "craft_ready", "Craft Ready");

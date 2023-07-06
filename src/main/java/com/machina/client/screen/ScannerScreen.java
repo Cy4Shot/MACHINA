@@ -16,6 +16,7 @@ import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.util.Color;
 import com.machina.util.StringUtils;
 import com.machina.util.helper.PlanetHelper;
+import com.machina.weather.wind.WindReader;
 import com.machina.world.gen.PlanetPaletteGenerator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -86,8 +87,8 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 			UIHelper.blit(stack, x + 50, y + 38, 3, 130, 135, 18);
 			UIHelper.blit(stack, x + 52, y + 40, 3, 103, percentage, 12);
 
-			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("scanner.loading"), x + 117, y + 28,
-					0xFF_00fefe, 0xFF_0e0e0e);
+			UIHelper.drawCenteredStringWithBorder(stack, StringUtils.translateScreen("scanner.loading"), x + 117,
+					y + 28, 0xFF_00fefe, 0xFF_0e0e0e);
 			return;
 		}
 
@@ -143,12 +144,21 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 				}
 				break;
 			case 4:
+				String speed = String.valueOf(WindReader.getWindSpeed(this.menu.getDim(), true));
+				String angle = StringUtils.toCompass(WindReader.getWindAngle(this.menu.getDim(), true));
+				if (Float.valueOf(speed) < 0.01f)
+					angle = "N/A";
+				drawAttributeX(stack, "windspeed", speed, x, y + 20);
+				drawAttributeX(stack, "winddir", angle, x, y + 30);
+				break;
+			case 5:
 				drawAttribute(stack, AttributeInit.SURFACE_SCALE, x, y + 20);
 				drawAttribute(stack, AttributeInit.SURFACE_DETAIL, x, y + 30);
 				drawAttribute(stack, AttributeInit.SURFACE_ROUGHNESS, x, y + 40);
 				drawAttribute(stack, AttributeInit.SURFACE_DISTORTION, x, y + 50);
 				drawAttribute(stack, AttributeInit.SURFACE_SHAPE, x, y + 60);
 				drawAttribute(stack, AttributeInit.SURFACE_MODIFIER, x, y + 70);
+				break;
 			}
 			draw(stack,
 					AttributeInit.PLANET_NAME.getName() + ": " + data.getAttributeFormatted(AttributeInit.PLANET_NAME),
@@ -179,6 +189,14 @@ public class ScannerScreen extends NoJeiContainerScreen<ScannerContainer> {
 		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
 		String title = type.getName() + ": ";
 		String value = data.getAttributeFormatted(type);
+		Color[] colors = PlanetPaletteGenerator.getPalette(data.getAttribute(AttributeInit.PALETTE));
+		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);
+		draw(stack, value, x + 120 + UIHelper.getWidth(title) / 2, y, colors[4].maxBrightness().toInt(), true);
+	}
+
+	private void drawAttributeX(MatrixStack stack, String key, String value, int x, int y) {
+		PlanetData data = ClientStarchart.getPlanetData(this.menu.getDim());
+		String title = StringUtils.translateScreen("scanner." + key) + ": ";
 		Color[] colors = PlanetPaletteGenerator.getPalette(data.getAttribute(AttributeInit.PALETTE));
 		draw(stack, title, x + 120 - UIHelper.getWidth(value) / 2, y, colors[0].maxBrightness().toInt(), true);
 		draw(stack, value, x + 120 + UIHelper.getWidth(title) / 2, y, colors[4].maxBrightness().toInt(), true);

@@ -156,4 +156,18 @@ public class StringUtils {
 
 		return list;
 	}
+
+	public static String toCompass(double angle) {
+		String[] directions = { "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
+
+		// Adjust the angle to be between 0 and 360 degrees
+		angle = angle % 360;
+		if (angle < 0) {
+			angle += 360;
+		}
+
+		// Determine the compass direction based on the angle
+		int index = (int) Math.round(((angle % 360) / 45)) % 8;
+		return directions[index];
+	}
 }
