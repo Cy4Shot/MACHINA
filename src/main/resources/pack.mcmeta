@@ -1,7 +1,8 @@
 {
-    "pack": {
-        "description": "Machina Resources",
-        "pack_format": 6,
-        "_comment": "Resources for MACHINA"
-    }
+  "pack": {
+    "description": {
+      "text": "${mod_id} resources"
+    },
+    "pack_format": 15
+  }
 }

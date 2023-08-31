@@ -2,8 +2,6 @@ package com.machina.config;
 
 import java.util.Map;
 
-import com.machina.registration.init.AttributeInit;
-
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CommonConfig {
@@ -53,7 +51,7 @@ public class CommonConfig {
 		
 		builder.comment(" Planet Attributes.");
 		builder.push("Planet Attribute Options");
-		attributeConf = AttributeInit.generateConfig(builder);
+//		attributeConf = AttributeInit.generateConfig(builder);
 		builder.pop();
 	}
 }

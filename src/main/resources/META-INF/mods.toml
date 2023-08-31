@@ -1,36 +1,23 @@
 modLoader="javafml"
-loaderVersion="[36,)"
-license="MIT Liscence"
+loaderVersion="[47,)"
+license="MIT"
 
 [[mods]]
 modId="machina"
-version="${file.jarVersion}"
-displayName="Machina"
-displayURL="https://github.com/Cy4Shot/MACHINA"
-logoFile="logo.png"
-credits="Thank you to everyone in Cy4's Modding Community :D"
-authors="The Machina Team and Cy4's community"
-description='''
-MACHINA is a mod about tech and space exploration.
-'''
-
-[[dependencies.machina]]
-    modId="geckolib3"
-    mandatory=true
-    versionRange="[3.0.54,)"
-    ordering="BEFORE"
-    side="BOTH"
+version="0.1.0"
+displayName="MACHINA"
+authors="Cy4"
+description='''A sci-fi tech exploration mod.'''
 
 [[dependencies.machina]]
     modId="forge"
     mandatory=true
-    versionRange="[36,)"
+    versionRange="[47.1,)"
     ordering="NONE"
     side="BOTH"
-
 [[dependencies.machina]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5,1.17)"
+    versionRange="[1.20,1.21)"
     ordering="NONE"
     side="BOTH"

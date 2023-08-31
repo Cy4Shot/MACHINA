@@ -5,13 +5,14 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.ResourceLocationException;
+import net.minecraft.ResourceLocationException;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class MachinaRL extends ResourceLocation {
 
 	private static final SimpleCommandExceptionType ERROR_INVALID = new SimpleCommandExceptionType(
-			StringUtils.translateComp("argument.id.invalid"));
+			Component.literal("argument.id.invalid"));
 
 	public MachinaRL(int id) {
 		super(Machina.MOD_ID, String.valueOf(id));

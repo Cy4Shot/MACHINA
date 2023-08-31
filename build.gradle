@@ -1,214 +1,133 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
-
-buildscript {
-    repositories {
-		maven { url 'https://maven.parchmentmc.org' }
-		maven { url 'https://maven.minecraftforge.net' }
-		maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
-		jcenter()
-		mavenCentral()
-    }
-    dependencies {
-		classpath 'org.parchmentmc:librarian:1.+'
-		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-		classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
-    }
-}
-
 plugins {
-	id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle' version '[6.0.18,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'eclipse'
+version = mod_version
+group = mod_group_id
 
-version = '1.16.5-alpha-0.1.0'
-group = 'com.cy4.machina'
-archivesBaseName = 'machina'
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
-
-mixin {
-    add sourceSets.main, "machina.mixins.refmap.json"
-    config "machina.mixins.json"
-    
-    debug.verbose = true
-    debug.export = true
+base {
+    archivesName = mod_id
 }
 
-sourceSets {
-	main {
-		java {
-			srcDirs = [ "$rootDir/src/main/java" ]
-		}
-		resources {
-			srcDirs = [ "$rootDir/src/main/resources", "$rootDir/src/generated/resources" ]
-			exclude '.cache'
-		}
-	}
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println('Welcome to MACHINA!')
-println(' + Using Java: ' + System.getProperty('java.version'))
-println(' + Using JVM:  ' + System.getProperty('java.vm.version') + ' - ' + System.getProperty('java.vendor'))
-println(' + Using Arch: ' + System.getProperty('os.arch'))
-println()
-println('Running Tasks...')
-
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-	mappings channel: 'parchment', version: '2022.03.06-1.16.5'
-	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-	runs {
-		client {
-			workingDirectory project.file('run')
-			arg "-mixin.config=machina.mixins.json"
-			mods { machina.sources((SourceSet[]) [sourceSets.main]) }
-		}
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+    
+    runs {
+        configureEach {
+            workingDirectory project.file("run/${it.name}")
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
 
-		server {
-			workingDirectory project.file('run/server')
-			arg "-mixin.config=machina.mixins.json"
-			mods { machina.sources((SourceSet[]) [sourceSets.main]) }
-		}
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
 
-		data {
-			workingDirectory project.file('run')
-			args '--mod', 'machina', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-			mods { machina.sources((SourceSet[]) [sourceSets.main]) }
-		}
-	}
+        client {
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
+
+        server {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            args '--nogui'
+        }
+        
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
+
+        data {
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
 }
 
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-	maven { url "https://dvs1.progwml6.com/files/maven/" }
-	maven { url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
-	maven { url "https://maven.theillusivec4.top/" }
-	maven { url 'https://jitpack.io' }
 	maven {
-		name 'tterrag maven'
-		url "http://maven.tterrag.com/"
-		allowInsecureProtocol = true
+		name = "Progwml6 maven"
+		url = "https://dvs1.progwml6.com/files/maven/"
 	}
-
 	maven {
-		url "https://cursemaven.com"
-		content { includeGroup "curse.maven" }
+		name = "ModMaven"
+		url = "https://modmaven.dev"
 	}
-
-	exclusiveContent {
-		forRepository {
-			maven { url 'https://mlt.jfrog.io/artifactory/mlt-mvn-releases-local' }
-		}
-		filter { includeGroup 'de.dfki.lt.jtok' }
-	}
-}
-
-configurations {
-	shade
-	implementation.extendsFrom shade
+	maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' 
+    }
 }
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.16.5-36.2.33'
+    minecraft "net.neoforged:forge:${minecraft_version}-${neo_version}"
     
-	// Mod Dependencies
-	implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.81')
-	implementation fg.deobf("team.chisel.ctm:CTM:MC1.16.1-1.1.1.5")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     
-	// Testing Dependencies
-	compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130:api")
-	runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.130")
-	implementation fg.deobf("curse.maven:shutup-407174:3188120")
-	
-	// TESTING COMPAT
-	// implementation fg.deobf("curse.maven:mek-268560:3659389")
-
-	// .5 is required for it to work with dumb IDEA. Use .4 when building and then change back
-	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
 }
 
-shadowJar {
-	configurations = [project.configurations.shade]
-	archiveClassifier = ''
-	classifier = ''
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+            neo_version         : neo_version, neo_version_range: neo_version_range,
+            loader_version_range: loader_version_range,
+            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors         : mod_authors, mod_description: mod_description, pack_format_number: pack_format_number,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
 }
 
-task relocateShadowJar(type: ConfigureShadowRelocation) {
-	target = tasks.shadowJar
-	prefix = "com.machina.shadows"
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : mod_authors,
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+
+    finalizedBy 'reobfJar'
 }
 
-tasks.shadowJar.dependsOn tasks.relocateShadowJar
-
-jar {
-	archiveClassifier = 'shadowless'
-	manifest {
-		attributes([
-			"Specification-Title": "MACHINA",
-			"Specification-Vendor": "Cy4",
-			"Specification-Version": "1", // We are version 1 of ourselves
-			"Implementation-Title": project.name,
-			"Implementation-Version": "${version}",
-			"Implementation-Vendor" :"Cy4",
-			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			"MixinConfigs": "machina.mixins.json"
-		])
-	}
-	finalizedBy 'reobfJar'
-}
-
-task mainJar(type: Jar) {
-	duplicatesStrategy(DuplicatesStrategy.FAIL)
-	destinationDirectory = file("$rootDir/build-out")
-	archiveClassifier.set("main")
-	from sourceSets.main.output
-	afterEvaluate { finalizedBy reobfMainJar }
-	manifest {
-		attributes([
-			"Specification-Title": "MACHINA",
-			"Specification-Vendor": "Cy4",
-			"Specification-Version": "1", // We are version 1 of ourselves
-			"Implementation-Title": project.name,
-			"Implementation-Version": "${version}",
-			"Implementation-Vendor" :"Cy4",
-			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-			"MixinConfigs": "machina.mixins.json"
-		])
-	}
-}
-
-task allJar(type: Jar) {
-	destinationDirectory = file("$rootDir/build-out")
-	archiveClassifier.set("all")
-	with mainJar
-	finalizedBy 'reobfJar'
-	finalizedBy 'shadowJar'
-}
-
-artifacts {
-	archives jar, shadowJar
-}
-
-reobf {
-	shadowJar { classpath.from(sourceSets.main.compileClasspath) }
-	jar { classpath.from(sourceSets.main.compileClasspath) }
-	mainJar { classpath.from(sourceSets.main.compileClasspath) }
-}
-
-tasks.build.dependsOn reobfShadowJar
-jar.finalizedBy('reobfShadowJar')
+// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing:
+// tasks.named('publish').configure {
+//     dependsOn 'reobfJar'
+// }
 
 publishing {
-	publications {
-		mavenJava(MavenPublication) { artifact allJar }
-	}
-	repositories {
-		maven { url "file:///${project.projectDir}/mcmodsrepo" }
-	}
+    publications {
+        register('mavenJava', MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
