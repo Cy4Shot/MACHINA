@@ -11,7 +11,6 @@ import com.machina.block.tile.MachinaTileEntity;
 import com.machina.multiblock.Multiblock;
 import com.machina.multiblock.MultiblockLoader;
 import com.machina.util.helper.BlockHelper;
-import com.machina.util.helper.ParticleHelper;
 import com.machina.util.math.VecUtil;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -24,7 +23,6 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
