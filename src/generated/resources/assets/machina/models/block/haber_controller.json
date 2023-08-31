@@ -1,7 +1,0 @@
-{
-  "parent": "machina:block/machine",
-  "textures": {
-    "front": "machina:block/haber_controller",
-    "sides": "machina:block/haber_casing"
-  }
-}

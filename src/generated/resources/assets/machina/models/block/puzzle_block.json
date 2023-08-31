@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "side": "machina:block/puzzle_block",
-    "front": "machina:block/puzzle_block_front",
-    "top": "machina:block/puzzle_block_top"
-  }
-}

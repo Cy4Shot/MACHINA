@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "machina:fluorite_ore"
-  },
-  "result": "machina:fluorite",
-  "experience": 1.0,
-  "cookingtime": 100
-}

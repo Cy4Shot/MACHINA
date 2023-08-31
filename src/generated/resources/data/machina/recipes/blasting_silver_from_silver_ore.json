@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "machina:silver_ore"
-  },
-  "result": "machina:silver",
-  "experience": 1.0,
-  "cookingtime": 100
-}

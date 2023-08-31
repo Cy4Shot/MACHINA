@@ -1,8 +1,0 @@
-{
-  "parent": "machina:block/tinted/tinted_inner_stairs",
-  "textures": {
-    "side": "machina:block/wasteland_sandstone",
-    "bottom": "machina:block/wasteland_sandstone_bottom",
-    "top": "machina:block/wasteland_sandstone_top"
-  }
-}

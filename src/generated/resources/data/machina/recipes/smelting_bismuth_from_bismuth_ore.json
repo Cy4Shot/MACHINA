@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "machina:bismuth_ore"
-  },
-  "result": "machina:bismuth",
-  "experience": 1.0,
-  "cookingtime": 200
-}

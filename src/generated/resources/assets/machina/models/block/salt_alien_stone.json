@@ -1,8 +1,0 @@
-{
-  "textures": {
-    "particle": "machina:block/alien_stone",
-    "bg": "machina:block/alien_stone",
-    "fg": "machina:ore/salt"
-  },
-  "loader": "machina:ore_model_loader"
-}

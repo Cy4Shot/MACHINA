@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:raw_silicon_blend"
-  },
-  "result": "machina:silicon",
-  "experience": 1.0,
-  "cookingtime": 100
-}

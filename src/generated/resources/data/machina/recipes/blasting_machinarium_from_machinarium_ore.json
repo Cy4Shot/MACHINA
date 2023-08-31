@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "machina:machinarium_ore"
-  },
-  "result": "machina:machinarium",
-  "experience": 1.0,
-  "cookingtime": 100
-}

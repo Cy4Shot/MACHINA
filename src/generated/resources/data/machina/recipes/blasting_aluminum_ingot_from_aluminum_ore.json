@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:aluminum_ore"
-  },
-  "result": "machina:aluminum_ingot",
-  "experience": 1.0,
-  "cookingtime": 100
-}

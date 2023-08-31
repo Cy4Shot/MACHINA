@@ -1,6 +1,0 @@
-{
-  "parent": "machina:block/tinted/tinted_wall_post",
-  "textures": {
-    "wall": "machina:block/wasteland_sandstone"
-  }
-}

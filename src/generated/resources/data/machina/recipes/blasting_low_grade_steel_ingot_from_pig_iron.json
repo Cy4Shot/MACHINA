@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:pig_iron"
-  },
-  "result": "machina:low_grade_steel_ingot",
-  "experience": 1.0,
-  "cookingtime": 100
-}

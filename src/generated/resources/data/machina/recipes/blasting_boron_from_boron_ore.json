@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "machina:boron_ore"
-  },
-  "result": "machina:boron",
-  "experience": 1.0,
-  "cookingtime": 100
-}

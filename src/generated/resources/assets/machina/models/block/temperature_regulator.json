@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "side": "machina:block/temperature_regulator_side",
-    "front": "machina:block/temperature_regulator_front",
-    "bottom": "machina:block/temperature_regulator_bottom",
-    "top": "machina:block/temperature_regulator_top"
-  }
-}

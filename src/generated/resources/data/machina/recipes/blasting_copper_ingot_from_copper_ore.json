@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "machina:copper_ore"
-  },
-  "result": "machina:copper_ingot",
-  "experience": 1.0,
-  "cookingtime": 100
-}

@@ -1,8 +1,0 @@
-{
-  "textures": {
-    "particle": "machina:block/wasteland_dirt",
-    "bg": "machina:block/wasteland_dirt",
-    "fg": "machina:ore/bismuth"
-  },
-  "loader": "machina:ore_model_loader"
-}

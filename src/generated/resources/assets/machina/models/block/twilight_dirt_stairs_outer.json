@@ -1,8 +1,0 @@
-{
-  "parent": "machina:block/tinted/tinted_outer_stairs",
-  "textures": {
-    "side": "machina:block/twilight_dirt",
-    "bottom": "machina:block/twilight_dirt",
-    "top": "machina:block/twilight_dirt"
-  }
-}

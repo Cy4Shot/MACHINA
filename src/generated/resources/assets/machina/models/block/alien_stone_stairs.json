@@ -1,8 +1,0 @@
-{
-  "parent": "machina:block/tinted/tinted_stairs",
-  "textures": {
-    "side": "machina:block/alien_stone",
-    "bottom": "machina:block/alien_stone",
-    "top": "machina:block/alien_stone"
-  }
-}

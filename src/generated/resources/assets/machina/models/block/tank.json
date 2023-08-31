@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "side": "machina:block/tank_side",
-    "front": "machina:block/tank_front",
-    "bottom": "machina:block/tank_bottom",
-    "top": "machina:block/tank_top"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "machina:block/tinted/tinted_slab_top",
-  "textures": {
-    "side": "machina:block/twilight_dirt",
-    "bottom": "machina:block/twilight_dirt",
-    "top": "machina:block/twilight_dirt"
-  }
-}

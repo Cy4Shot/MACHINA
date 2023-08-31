@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "side": "machina:block/mixer_side",
-    "front": "machina:block/mixer_front",
-    "bottom": "machina:block/mixer_bottom",
-    "top": "machina:block/mixer_top"
-  }
-}

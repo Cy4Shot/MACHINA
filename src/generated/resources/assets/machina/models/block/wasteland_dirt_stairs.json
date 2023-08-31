@@ -1,8 +1,0 @@
-{
-  "parent": "machina:block/tinted/tinted_stairs",
-  "textures": {
-    "side": "machina:block/wasteland_dirt",
-    "bottom": "machina:block/wasteland_dirt",
-    "top": "machina:block/wasteland_dirt"
-  }
-}
