@@ -1,4 +1,4 @@
-package com.machina.datagen.lang;
+package com.machina.datagen.client.lang;
 
 import com.machina.Machina;
 import com.machina.registration.init.ItemInit;

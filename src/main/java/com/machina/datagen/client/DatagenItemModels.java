@@ -1,9 +1,10 @@
-package com.machina.datagen;
+package com.machina.datagen.client;
 
 import java.util.LinkedHashMap;
 
 import com.machina.Machina;
 import com.machina.registration.init.ItemInit;
+import com.machina.util.MachinaRL;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -47,8 +48,6 @@ public class DatagenItemModels extends ItemModelProvider {
 
 	@SuppressWarnings("unused")
 	private void trimmedArmorItem(RegistryObject<Item> itemRegistryObject) {
-		final String MOD_ID = Machina.MOD_ID;
-
 		if (itemRegistryObject.get() instanceof ArmorItem armorItem) {
 			trimMaterials.entrySet().forEach(entry -> {
 
@@ -66,9 +65,9 @@ public class DatagenItemModels extends ItemModelProvider {
 				String armorItemPath = "item/" + armorItem;
 				String trimPath = "trims/items/" + armorType + "_trim_" + trimMaterial.location().getPath();
 				String currentTrimName = armorItemPath + "_" + trimMaterial.location().getPath() + "_trim";
-				ResourceLocation armorItemResLoc = new ResourceLocation(MOD_ID, armorItemPath);
+				ResourceLocation armorItemResLoc = new MachinaRL(armorItemPath);
 				ResourceLocation trimResLoc = new ResourceLocation(trimPath); // minecraft namespace
-				ResourceLocation trimNameResLoc = new ResourceLocation(MOD_ID, currentTrimName);
+				ResourceLocation trimNameResLoc = new MachinaRL(currentTrimName);
 
 				existingFileHelper.trackGenerated(trimResLoc, PackType.CLIENT_RESOURCES, ".png", "textures");
 
@@ -80,14 +79,14 @@ public class DatagenItemModels extends ItemModelProvider {
 				this.withExistingParent(itemRegistryObject.getId().getPath(), mcLoc("item/generated")).override()
 						.model(new ModelFile.UncheckedModelFile(trimNameResLoc))
 						.predicate(mcLoc("trim_type"), trimValue).end().texture("layer0",
-								new ResourceLocation(MOD_ID, "item/" + itemRegistryObject.getId().getPath()));
+								new MachinaRL("item/" + itemRegistryObject.getId().getPath()));
 			});
 		}
 	}
 
 	private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
 		return withExistingParent(item.getId().getPath(), new ResourceLocation("item/generated")).texture("layer0",
-				new ResourceLocation(Machina.MOD_ID, "item/" + item.getId().getPath()));
+				new MachinaRL("item/" + item.getId().getPath()));
 	}
 
 	public void evenSimplerBlockItem(RegistryObject<Block> block) {
@@ -121,18 +120,18 @@ public class DatagenItemModels extends ItemModelProvider {
 	@SuppressWarnings("unused")
 	private ItemModelBuilder handheldItem(RegistryObject<Item> item) {
 		return withExistingParent(item.getId().getPath(), new ResourceLocation("item/handheld")).texture("layer0",
-				new ResourceLocation(Machina.MOD_ID, "item/" + item.getId().getPath()));
+				new MachinaRL("item/" + item.getId().getPath()));
 	}
 
 	@SuppressWarnings("unused")
 	private ItemModelBuilder simpleBlockItem(RegistryObject<Block> item) {
 		return withExistingParent(item.getId().getPath(), new ResourceLocation("item/generated")).texture("layer0",
-				new ResourceLocation(Machina.MOD_ID, "item/" + item.getId().getPath()));
+				new MachinaRL("item/" + item.getId().getPath()));
 	}
 
 	@SuppressWarnings("unused")
 	private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {
 		return withExistingParent(item.getId().getPath(), new ResourceLocation("item/generated")).texture("layer0",
-				new ResourceLocation(Machina.MOD_ID, "block/" + item.getId().getPath()));
+				new MachinaRL("block/" + item.getId().getPath()));
 	}
 }

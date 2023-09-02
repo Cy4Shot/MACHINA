@@ -1,4 +1,4 @@
-package com.machina.datagen.lang;
+package com.machina.datagen.client.lang;
 
 import java.util.Map;
 import java.util.TreeMap;

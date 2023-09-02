@@ -1,8 +1,17 @@
 package com.machina.datagen;
 
-import com.machina.Machina;
-import com.machina.datagen.lang.DatagenLangEnUs;
+import java.util.concurrent.CompletableFuture;
 
+import com.machina.Machina;
+import com.machina.datagen.client.DatagenBlockStates;
+import com.machina.datagen.client.DatagenItemModels;
+import com.machina.datagen.client.lang.DatagenLangEnUs;
+import com.machina.datagen.server.DatagenBlockTags;
+import com.machina.datagen.server.DatagenItemTags;
+import com.machina.datagen.server.DatagenLootTables;
+import com.machina.datagen.server.DatagenRecipes;
+
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -14,11 +23,20 @@ import net.minecraftforge.fml.common.Mod;
 public class Datagen {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
-		DataGenerator generator = event.getGenerator();
-		PackOutput packOutput = generator.getPackOutput();
-		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+		DataGenerator gen = event.getGenerator();
+		PackOutput po = gen.getPackOutput();
+		ExistingFileHelper files = event.getExistingFileHelper();
+		CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
-		generator.addProvider(event.includeClient(), new DatagenLangEnUs(packOutput));
-		generator.addProvider(event.includeClient(), new DatagenItemModels(packOutput, existingFileHelper));
+		// Client
+		gen.addProvider(event.includeClient(), new DatagenLangEnUs(po));
+		gen.addProvider(event.includeClient(), new DatagenItemModels(po, files));
+		gen.addProvider(event.includeClient(), new DatagenBlockStates(po, files));
+
+		// Server
+		DatagenBlockTags blocks = gen.addProvider(event.includeServer(), new DatagenBlockTags(po, lookup, files));
+		gen.addProvider(event.includeServer(), new DatagenItemTags(po, lookup, blocks.contentsGetter(), files));
+		gen.addProvider(event.includeServer(), DatagenLootTables.create(po));
+		gen.addProvider(event.includeClient(), new DatagenRecipes(po));
 	}
 }
