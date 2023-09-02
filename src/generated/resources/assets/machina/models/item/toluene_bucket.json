@@ -1,0 +1,5 @@
+{
+  "parent": "forge:item/bucket",
+  "fluid": "machina:toluene",
+  "loader": "forge:fluid_container"
+}

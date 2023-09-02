@@ -6,6 +6,7 @@ import java.util.TreeMap;
 import javax.swing.text.JTextComponent.KeyBinding;
 
 import com.machina.Machina;
+import com.machina.registration.init.FluidInit.FluidObject;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.damagesource.DamageSource;
@@ -30,6 +31,11 @@ public abstract class DatagenLang extends LanguageProvider {
 
 	protected void add(Fluid fluid, String name) {
 		add(new FluidStack(fluid, 2).getTranslationKey(), name);
+	}
+	
+	protected void add(FluidObject obj, String name, String bucket) {
+		add(obj.fluid(), name);
+		add(obj.bucket(), name + " " + bucket);
 	}
 
 	protected void add(RegistryObject<CreativeModeTab> tab, String name) {

@@ -1,5 +1,7 @@
 package com.machina.util;
 
+import net.minecraft.network.chat.Component;
+
 public class StringUtils {	
 	
 	public static String chemical(String data) {
@@ -17,6 +19,10 @@ public class StringUtils {
 			builder.append(Character.toChars(subscriptZeroCodepoint + Character.getNumericValue(character)));
 		}
 		return builder.toString();
+	}
+	
+	public static String translate(String key, Object... params) {
+		return Component.translatable(key, params).getString();
 	}
 
 }

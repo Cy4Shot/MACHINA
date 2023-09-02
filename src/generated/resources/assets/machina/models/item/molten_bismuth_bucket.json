@@ -1,0 +1,5 @@
+{
+  "parent": "forge:item/bucket",
+  "fluid": "machina:molten_bismuth",
+  "loader": "forge:fluid_container"
+}

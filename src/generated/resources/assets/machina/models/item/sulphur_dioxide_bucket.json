@@ -1,0 +1,6 @@
+{
+  "parent": "forge:item/bucket",
+  "flip_gas": true,
+  "fluid": "machina:sulphur_dioxide",
+  "loader": "forge:fluid_container"
+}

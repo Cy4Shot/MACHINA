@@ -8,7 +8,6 @@ import com.machina.datagen.client.DatagenItemModels;
 import com.machina.datagen.client.lang.DatagenLangEnUs;
 import com.machina.datagen.server.DatagenBlockTags;
 import com.machina.datagen.server.DatagenItemTags;
-import com.machina.datagen.server.DatagenLootTables;
 import com.machina.datagen.server.DatagenRecipes;
 
 import net.minecraft.core.HolderLookup;
@@ -36,7 +35,7 @@ public class Datagen {
 		// Server
 		DatagenBlockTags blocks = gen.addProvider(event.includeServer(), new DatagenBlockTags(po, lookup, files));
 		gen.addProvider(event.includeServer(), new DatagenItemTags(po, lookup, blocks.contentsGetter(), files));
-		gen.addProvider(event.includeServer(), DatagenLootTables.create(po));
+//		gen.addProvider(event.includeServer(), DatagenLootTables.create(po)); // OMEGA BUGGY :((
 		gen.addProvider(event.includeClient(), new DatagenRecipes(po));
 	}
 }

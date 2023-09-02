@@ -3,6 +3,8 @@ package com.machina.registration;
 import com.machina.Machina;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
+import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TabInit;
 
@@ -19,8 +21,11 @@ public class Registration {
 
 //		bus.addGenericListener(Item.class, BlockInit::registerBlockItems);
 
-//		BlockInit.BLOCKS.register(bus);
+		BlockInit.BLOCKS.register(bus);
 		ItemInit.ITEMS.register(bus);
+		BlockInit.registerBlockItems();
+		FluidInit.FLUIDS.register(bus);
+		FluidInit.FLUID_TYPES.register(bus);
 		TabInit.CREATIVE_MODE_TABS.register(bus);
 	}
 

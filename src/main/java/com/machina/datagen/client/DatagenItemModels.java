@@ -3,9 +3,12 @@ package com.machina.datagen.client;
 import java.util.LinkedHashMap;
 
 import com.machina.Machina;
+import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
 import com.machina.util.MachinaRL;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +21,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -44,6 +48,23 @@ public class DatagenItemModels extends ItemModelProvider {
 	@Override
 	protected void registerModels() {
 		simpleItem(ItemInit.ALUMINUM_INGOT);
+
+		for (FluidObject obj : FluidInit.OBJS) {
+			bucket(obj);
+		}
+	}
+
+	private String name(Item item) {
+		return BuiltInRegistries.ITEM.getKey(item).getPath();
+	}
+
+	protected void bucket(FluidObject obj) {
+		DynamicFluidContainerModelBuilder<ItemModelBuilder> builder = withExistingParent(name(obj.fluid().getBucket()),
+				new ResourceLocation("forge", "item/bucket")).customLoader(DynamicFluidContainerModelBuilder::begin);
+		if (obj.fluid().getFluidType().getDensity() < 0) {
+			builder.flipGas(true);
+		}
+		builder.fluid(obj.fluid());
 	}
 
 	@SuppressWarnings("unused")
@@ -78,8 +99,8 @@ public class DatagenItemModels extends ItemModelProvider {
 				// Non-trimmed armorItem file (normal variant)
 				this.withExistingParent(itemRegistryObject.getId().getPath(), mcLoc("item/generated")).override()
 						.model(new ModelFile.UncheckedModelFile(trimNameResLoc))
-						.predicate(mcLoc("trim_type"), trimValue).end().texture("layer0",
-								new MachinaRL("item/" + itemRegistryObject.getId().getPath()));
+						.predicate(mcLoc("trim_type"), trimValue).end()
+						.texture("layer0", new MachinaRL("item/" + itemRegistryObject.getId().getPath()));
 			});
 		}
 	}
