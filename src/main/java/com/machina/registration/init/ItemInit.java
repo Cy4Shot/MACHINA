@@ -16,12 +16,9 @@ public class ItemInit {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Machina.MOD_ID);
 
 	//@formatter:off
-	public static final RegistryObject<Item> REINFORCED_STICK = basic("reinforced_stick");
-	public static final RegistryObject<Item> LOW_GRADE_STEEL_INGOT = basic("low_grade_steel_ingot");
-	public static final RegistryObject<Item> LOW_GRADE_STEEL_NUGGET = basic("low_grade_steel_nugget");
+	public static final RegistryObject<Item> RAW_ALUMINUM = basic("raw_aluminum");
 	public static final RegistryObject<Item> ALUMINUM_INGOT = basic("aluminum_ingot");
 	public static final RegistryObject<Item> ALUMINUM_NUGGET = basic("aluminum_nugget");
-	public static final RegistryObject<Item> RAW_PIG_IRON = basic("pig_iron");
 	public static final RegistryObject<Item> COPPER_COIL = basic("copper_coil");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
 	public static final RegistryObject<Item> LOGIC_UNIT = basic("logic_unit");

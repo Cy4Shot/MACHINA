@@ -19,7 +19,34 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(TabInit.MACHINA_RESOURCES, "Machina");
 		
 		// Items
+		add(ItemInit.RAW_ALUMINUM.get(), "Raw Aluminum");
 		add(ItemInit.ALUMINUM_INGOT.get(), "Aluminum Ingot");
+		add(ItemInit.ALUMINUM_NUGGET.get(), "Aluminum Nugget");
+		add(ItemInit.COPPER_COIL.get(), "Copper Coil");
+		add(ItemInit.PROCESSOR.get(), "Processor");
+		add(ItemInit.RAW_SILICON_BLEND.get(), "Raw Silicon Blend");
+		add(ItemInit.SILICON.get(), "Silicon");
+		add(ItemInit.SILICON_BOLUS.get(), "Silicon Bolus");
+		add(ItemInit.HIGH_PURITY_SILICON.get(), "High Purity Silicon");
+		add(ItemInit.TRANSISTOR.get(), "Transistor");
+		add(ItemInit.AMMONIUM_NITRATE.get(), "Ammonium Nitrate");
+		add(ItemInit.LDPE.get(), "LDPE");
+		add(ItemInit.HDPE.get(), "HDPE");
+		add(ItemInit.UHMWPE.get(), "UHMWPE");
+		add(ItemInit.SODIUM_HYDROXIDE.get(), "Sodium Hydroxide");
+		add(ItemInit.SODIUM_CARBONATE.get(), "Sodium Carbonate");
+		add(ItemInit.CALCIUM_SULPHATE.get(), "Calcium Sulphate");
+		add(ItemInit.PALLADIUM_CHLORIDE.get(), "Palladium Chloride");
+		add(ItemInit.PALLADIUM_ON_CARBON.get(), "Palladium on Carbon");
+		add(ItemInit.HEXAMINE.get(), "Hexamine");
+		add(ItemInit.NITRONIUM_TETRAFLUOROBORATE.get(), "Nitronium Tetrafluoroborate");
+		add(ItemInit.LOGIC_UNIT.get(), "Logic Unit");
+		add(ItemInit.PROCESSOR_CORE.get(), "Processor Core");
+
+		// Tooltips
+		addTooltip("ldpe", "Low Density Polyethylene");
+		addTooltip("hdpe", "High Density Polyethylene");
+		addTooltip("uhmwpe", "Ultra High Molecular Weight Polyethylene");
 		
 		// Fluids
 		add(FluidInit.OXYGEN, "Oxygen", "Bucket");

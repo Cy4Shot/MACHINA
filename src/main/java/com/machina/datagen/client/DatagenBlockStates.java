@@ -1,6 +1,7 @@
 package com.machina.datagen.client;
 
 import com.machina.Machina;
+import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 
@@ -19,13 +20,17 @@ public class DatagenBlockStates extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
+
+		blockWithItem(BlockInit.ALUMINUM_BLOCK);
+		blockWithItem(BlockInit.ALUMINUM_ORE);
+
+		// Fluids
 		for (FluidObject obj : FluidInit.OBJS) {
 			if (!obj.gas)
 				fluid(obj);
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
 		simpleBlockWithItem(blockRegistryObject.get(), cubeAll(blockRegistryObject.get()));
 	}

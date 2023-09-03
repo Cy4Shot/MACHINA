@@ -48,6 +48,7 @@ public class DatagenItemModels extends ItemModelProvider {
 	@Override
 	protected void registerModels() {
 		simpleItem(ItemInit.ALUMINUM_INGOT);
+		simpleItem(ItemInit.ALUMINUM_NUGGET);
 
 		for (FluidObject obj : FluidInit.OBJS) {
 			bucket(obj);
@@ -87,16 +88,14 @@ public class DatagenItemModels extends ItemModelProvider {
 				String trimPath = "trims/items/" + armorType + "_trim_" + trimMaterial.location().getPath();
 				String currentTrimName = armorItemPath + "_" + trimMaterial.location().getPath() + "_trim";
 				ResourceLocation armorItemResLoc = new MachinaRL(armorItemPath);
-				ResourceLocation trimResLoc = new ResourceLocation(trimPath); // minecraft namespace
+				ResourceLocation trimResLoc = new ResourceLocation(trimPath);
 				ResourceLocation trimNameResLoc = new MachinaRL(currentTrimName);
 
 				existingFileHelper.trackGenerated(trimResLoc, PackType.CLIENT_RESOURCES, ".png", "textures");
 
-				// Trimmed armorItem files
 				getBuilder(currentTrimName).parent(new ModelFile.UncheckedModelFile("item/generated"))
 						.texture("layer0", armorItemResLoc).texture("layer1", trimResLoc);
 
-				// Non-trimmed armorItem file (normal variant)
 				this.withExistingParent(itemRegistryObject.getId().getPath(), mcLoc("item/generated")).override()
 						.model(new ModelFile.UncheckedModelFile(trimNameResLoc))
 						.predicate(mcLoc("trim_type"), trimValue).end()

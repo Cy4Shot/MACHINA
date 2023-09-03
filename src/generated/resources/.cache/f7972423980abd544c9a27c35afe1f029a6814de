@@ -1,6 +1,8 @@
-// 1.20.1	2023-09-02T22:27:23.0645605	Block States: machina
+// 1.20.1	2023-09-03T07:08:02.9452032	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
+50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
+b1e190e42289fefc113f07f6bd6ffe5958b660a0 assets/machina/blockstates/aluminum_ore.json
 f4545552f9845908e915f24483ac885875ea66a1 assets/machina/blockstates/benzene_block.json
 ae4ea389abbe1ffea135d237f6afd59f586e6b53 assets/machina/blockstates/benzylamine_block.json
 165e198dd0454937aff51f254cf426e2b9275878 assets/machina/blockstates/benzyl_chloride_block.json
@@ -24,6 +26,8 @@ b981dd06861123656561d2cd60c3669b6bb0eb5d assets/machina/blockstates/sulphuric_ac
 f9afa9b1b04e9a5f61b08314442eedeeea9d6f2a assets/machina/blockstates/toluene_block.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/acetaldehyde_block.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/acetic_acid_block.json
+052baf7ee99024df51a87559c8912ae22d99dc43 assets/machina/models/block/aluminum_block.json
+a75277f16403ce9d47ecc7161ca38c537dc9d712 assets/machina/models/block/aluminum_ore.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/benzene_block.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/benzylamine_block.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/benzyl_chloride_block.json
@@ -45,3 +49,5 @@ c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/nitromethan
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/sulphuric_acid_block.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/sulphur_trioxide_block.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/toluene_block.json
+657712b5523541699a8e2fcba0f658db11d7d382 assets/machina/models/item/aluminum_block.json
+c9980f5bfa9da70926b186a065553e1ed22664f2 assets/machina/models/item/aluminum_ore.json

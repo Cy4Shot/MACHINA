@@ -19,11 +19,8 @@ public class Registration {
 		registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
 		registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 
-//		bus.addGenericListener(Item.class, BlockInit::registerBlockItems);
-
 		BlockInit.BLOCKS.register(bus);
 		ItemInit.ITEMS.register(bus);
-		BlockInit.registerBlockItems();
 		FluidInit.FLUIDS.register(bus);
 		FluidInit.FLUID_TYPES.register(bus);
 		TabInit.CREATIVE_MODE_TABS.register(bus);
