@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
+import org.jetbrains.annotations.NotNull;
 
 public class MachinaBucket extends BucketItem {
 
@@ -32,14 +33,14 @@ public class MachinaBucket extends BucketItem {
 	}
 	
 	@Override
-	public void appendHoverText(ItemStack stack, Level level, List<Component> tip, TooltipFlag flag) {
+	public void appendHoverText(@NotNull ItemStack stack, Level level, List<Component> tip, @NotNull TooltipFlag flag) {
 		tip.add(Component.translatable(StringUtils.chemical(chem))
 				.setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x9D_AAAAAA))));
 		super.appendHoverText(stack, level, tip, flag);
 	}
 	
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
+	public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, CompoundTag nbt) {
 		return new FluidBucketWrapper(stack);
 	}
 }

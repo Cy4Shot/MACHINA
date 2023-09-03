@@ -23,9 +23,7 @@ public class ClientModEvents {
 		ItemColors colors = event.getItemColors();
 
 		for (FluidObject obj : FluidInit.OBJS) {
-			colors.register((stack, index) -> {
-				return index == 1 ? obj.chem().getColor() : -1;
-			}, obj.bucket());
+			colors.register((stack, index) -> index == 1 ? obj.chem().getColor() : -1, obj.bucket());
 		}
 	}
 }

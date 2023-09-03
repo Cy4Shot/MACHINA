@@ -27,13 +27,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class MachinaBlockEntity extends BaseBlockEntity implements Container {
 
-	private List<ICustomStorage> storages = new ArrayList<>();
-	private LazyOptionalCache<MachinaItemStorage> item = new LazyOptionalCache<>();
-	private LazyOptionalCache<MachinaEnergyStorage> energy = new LazyOptionalCache<>();
-	private LazyOptionalCache<MachinaFluidStorage> fluid = new LazyOptionalCache<>();
+	private final List<ICustomStorage> storages = new ArrayList<>();
+	private final LazyOptionalCache<MachinaItemStorage> item = new LazyOptionalCache<>();
+	private final LazyOptionalCache<MachinaEnergyStorage> energy = new LazyOptionalCache<>();
+	private final LazyOptionalCache<MachinaFluidStorage> fluid = new LazyOptionalCache<>();
 
 	public abstract void createStorages();
 
@@ -60,7 +61,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	public MachinaBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 		createStorages();
-		storages.forEach(storage -> storage.setChanged(() -> setChanged()));
+		storages.forEach(storage -> storage.setChanged(this::setChanged));
 	}
 
 	@Override
@@ -98,12 +99,10 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 		return super.getCapability(cap, side);
 	}
 
+	// Could be replaced by empty storages instead of null, throwing an exception
 	@Override
 	public int getContainerSize() {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
-		if (storage == null) {
-			return 0;
-		}
 
 		return storage.getSlots();
 	}
@@ -111,30 +110,21 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	@Override
 	public boolean isEmpty() {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
-		if (storage == null) {
-			return true;
-		}
 
 		return storage.items().stream().allMatch(ItemStack::isEmpty);
 	}
 
 	@Override
-	public ItemStack getItem(int pIndex) {
+	public @NotNull ItemStack getItem(int pIndex) {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
-		if (storage == null) {
-			return null;
-		}
 
 		return storage.getStackInSlot(pIndex);
 	}
 
 	@Override
-	public ItemStack removeItem(int pIndex, int pCount) {
+	public @NotNull ItemStack removeItem(int pIndex, int pCount) {
 
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
-		if (storage == null) {
-			return null;
-		}
 
 		ItemStack itemstack = storage.extractItem(pIndex, pCount, false);
 		if (!itemstack.isEmpty()) {
@@ -145,11 +135,8 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	}
 
 	@Override
-	public ItemStack removeItemNoUpdate(int pIndex) {
+	public @NotNull ItemStack removeItemNoUpdate(int pIndex) {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
-		if (storage == null) {
-			return null;
-		}
 		ItemStack slot = storage.getStackInSlot(pIndex);
 		return storage.extractItem(pIndex, slot.getCount(), false);
 	}
@@ -157,9 +144,6 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	@Override
 	public void setItem(int pIndex, ItemStack pStack) {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
-		if (storage == null) {
-			return;
-		}
 
 		storage.setStackInSlot(pIndex, pStack);
 		if (pStack.getCount() > this.getMaxStackSize()) {
@@ -170,8 +154,8 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	}
 
 	@Override
-	public boolean stillValid(Player pPlayer) {
-		if (this.level.getBlockEntity(this.worldPosition) != this) {
+	public boolean stillValid(@NotNull Player pPlayer) {
+		if ((this.level != null ? this.level.getBlockEntity(this.worldPosition) : null) != this) {
 			return false;
 		} else {
 			return !(pPlayer.distanceToSqr((double) this.worldPosition.getX() + 0.5D,
@@ -182,9 +166,6 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	@Override
 	public void clearContent() {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
-		if (storage == null) {
-			return;
-		}
 
 		storage.clear();
 	}
@@ -201,34 +182,22 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 
 	public int getEnergy() {
 		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
-		if (storage == null) {
-			return 0;
-		}
 
 		return storage.getEnergyStored();
 	}
 
 	public int getMaxEnergy() {
 		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
-		if (storage == null) {
-			return 0;
-		}
 		return storage.getMaxEnergyStored();
 	}
 
 	public float getEnergyProp() {
 		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
-		if (storage == null) {
-			return 0;
-		}
 		return (float) storage.getEnergyStored() / (float) storage.getMaxEnergyStored();
 	}
 
 	public MachinaTank getTank(int id) {
 		MachinaFluidStorage storage = this.fluid.get().orElseGet(() -> null);
-		if (storage == null) {
-			return null;
-		}
 		return storage.tank(id);
 	}
 }

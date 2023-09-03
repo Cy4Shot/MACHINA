@@ -14,7 +14,7 @@ import net.minecraftforge.energy.EnergyStorage;
 public class MachinaEnergyStorage extends EnergyStorage implements ICustomStorage {
 
 	private Runnable onChanged;
-	private IEnergyBlockEntity be;
+	private final IEnergyBlockEntity be;
 
 	public MachinaEnergyStorage(IEnergyBlockEntity be, int capacity, int maxTransfer) {
 		super(capacity, maxTransfer, maxTransfer);

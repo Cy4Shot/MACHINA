@@ -17,6 +17,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class TestBlock extends BaseEntityBlock {
 
@@ -25,13 +26,14 @@ public class TestBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
 		return new TestBE(pos, state);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public InteractionResult use(BlockState pState, Level level, BlockPos pos, Player player, InteractionHand hand,
-			BlockHitResult hit) {
+	public @NotNull InteractionResult use(@NotNull BlockState pState, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand,
+										  @NotNull BlockHitResult hit) {
 		if (!level.isClientSide()) {
 			BlockEntity tank = level.getBlockEntity(pos);
 			if (tank != null) {

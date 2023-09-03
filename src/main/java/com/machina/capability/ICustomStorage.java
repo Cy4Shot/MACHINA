@@ -3,9 +3,9 @@ package com.machina.capability;
 import net.minecraft.nbt.CompoundTag;
 
 public interface ICustomStorage {
-	public void setChanged(Runnable runnable);
+	void setChanged(Runnable runnable);
 
-	public String getTag();
+	String getTag();
 
 	CompoundTag serialize();
 
