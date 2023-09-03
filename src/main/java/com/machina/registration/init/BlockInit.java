@@ -4,6 +4,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.block.TestBlock;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -19,6 +20,7 @@ public class BlockInit {
 
 	public static final RegistryObject<Block> ALUMINUM_BLOCK = register("aluminum_block", Blocks.IRON_BLOCK);
 	public static final RegistryObject<Block> ALUMINUM_ORE = register("aluminum_ore", Blocks.IRON_ORE);
+	public static final RegistryObject<Block> TEST = register("test", Blocks.IRON_BLOCK, TestBlock::new);
 
 	private static <T extends Block> Supplier<T> of(Block block, Function<Block.Properties, Block.Properties> extra,
 			Function<Block.Properties, T> constructor) {

@@ -3,6 +3,8 @@ package com.machina.registration;
 import com.machina.Machina;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
+import com.machina.network.MachinaNetwork;
+import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.ItemInit;
@@ -12,9 +14,12 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class Registration {
 	public static void register(IEventBus bus) {
+		bus.addListener(Registration::onCommonSetup);
+
 		CommonConfig.init();
 		registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
 		registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
@@ -24,6 +29,11 @@ public class Registration {
 		FluidInit.FLUIDS.register(bus);
 		FluidInit.FLUID_TYPES.register(bus);
 		TabInit.CREATIVE_MODE_TABS.register(bus);
+		BlockEntityInit.BLOCK_ENTITY_TYPES.register(bus);
+	}
+
+	public static void onCommonSetup(final FMLCommonSetupEvent event) {
+		MachinaNetwork.init();
 	}
 
 	private static void registerConfig(ModConfig.Type type, ForgeConfigSpec spec) {
