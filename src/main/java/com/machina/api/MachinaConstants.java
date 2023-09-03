@@ -19,4 +19,9 @@ public class MachinaConstants {
      * The version of Machina currently running
      */
     public static final String MOD_VERSION = ModList.get().getModFileById(MODID).versionString();
+
+    /**
+     * The version of Machina currently running for display purposes
+     */
+    public static final String DISPLAY_MOD_VERSION = Machina.getVersion();
 }
