@@ -1,11 +1,11 @@
 package com.machina.block.tile.machine;
 
-import com.machina.block.tile.MachinaBlockEntity;
-import com.machina.capability.energy.IEnergyBlockEntity;
-import com.machina.capability.energy.MachinaEnergyStorage;
-import com.machina.capability.fluid.MachinaFluidStorage;
-import com.machina.capability.fluid.MachinaTank;
-import com.machina.capability.item.MachinaItemStorage;
+import com.machina.api.block.tile.MachinaBlockEntity;
+import com.machina.api.cap.energy.IEnergyBlockEntity;
+import com.machina.api.cap.energy.MachinaEnergyStorage;
+import com.machina.api.cap.fluid.MachinaFluidStorage;
+import com.machina.api.cap.fluid.MachinaTank;
+import com.machina.api.cap.item.MachinaItemStorage;
 import com.machina.registration.init.BlockEntityInit;
 
 import net.minecraft.core.BlockPos;

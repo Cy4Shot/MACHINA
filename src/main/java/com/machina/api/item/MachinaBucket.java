@@ -1,8 +1,6 @@
-package com.machina.item;
+package com.machina.api.item;
 import java.util.List;
 import java.util.function.Supplier;
-
-import com.machina.util.StringUtils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -17,6 +15,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
 import org.jetbrains.annotations.NotNull;
+
+import com.machina.api.util.StringUtils;
 
 public class MachinaBucket extends BucketItem {
 

@@ -1,9 +1,9 @@
-package com.machina.item;
+package com.machina.api.item;
 
 import java.util.List;
 
 import com.machina.Machina;
-import com.machina.util.StringUtils;
+import com.machina.api.util.StringUtils;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;

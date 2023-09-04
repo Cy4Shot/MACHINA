@@ -1,8 +1,8 @@
-package com.machina.network.s2c;
+package com.machina.api.network.s2c;
 
-import com.machina.block.tile.MachinaBlockEntity;
-import com.machina.capability.fluid.MachinaFluidStorage;
-import com.machina.network.INetworkMessage;
+import com.machina.api.block.tile.MachinaBlockEntity;
+import com.machina.api.cap.fluid.MachinaFluidStorage;
+import com.machina.api.network.INetworkMessage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

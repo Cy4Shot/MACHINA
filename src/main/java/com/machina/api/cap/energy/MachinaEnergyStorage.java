@@ -1,8 +1,8 @@
-package com.machina.capability.energy;
+package com.machina.api.cap.energy;
 
 import javax.annotation.Nullable;
 
-import com.machina.capability.ICustomStorage;
+import com.machina.api.cap.ICustomStorage;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

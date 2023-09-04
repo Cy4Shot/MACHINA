@@ -1,4 +1,4 @@
-package com.machina.network;
+package com.machina.api.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 

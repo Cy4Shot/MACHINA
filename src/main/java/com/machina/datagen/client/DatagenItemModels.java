@@ -3,10 +3,10 @@ package com.machina.datagen.client;
 import java.util.LinkedHashMap;
 
 import com.machina.Machina;
+import com.machina.api.util.MachinaRL;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
-import com.machina.util.MachinaRL;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;

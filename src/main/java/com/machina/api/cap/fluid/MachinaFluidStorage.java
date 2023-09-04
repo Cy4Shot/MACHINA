@@ -1,10 +1,10 @@
-package com.machina.capability.fluid;
+package com.machina.api.cap.fluid;
 
 import java.util.LinkedList;
 
 import javax.annotation.Nonnull;
 
-import com.machina.capability.ICustomStorage;
+import com.machina.api.cap.ICustomStorage;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;

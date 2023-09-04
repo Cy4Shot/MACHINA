@@ -1,4 +1,4 @@
-package com.machina.fluid;
+package com.machina.api.fluid;
 
 import java.util.function.Consumer;
 

@@ -4,9 +4,9 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.machina.api.util.MachinaRL;
 import com.machina.config.ClientConfig;
 import com.machina.registration.Registration;
-import com.machina.util.MachinaRL;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;

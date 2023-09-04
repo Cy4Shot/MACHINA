@@ -1,8 +1,8 @@
-package com.machina.capability.item;
+package com.machina.api.cap.item;
 
 import java.util.function.BiPredicate;
 
-import com.machina.capability.ICustomStorage;
+import com.machina.api.cap.ICustomStorage;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;

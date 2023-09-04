@@ -1,4 +1,4 @@
-package com.machina.capability;
+package com.machina.api.cap;
 
 import java.util.function.Supplier;
 

@@ -8,9 +8,9 @@ import org.joml.Vector3f;
 
 import com.google.common.base.Function;
 import com.machina.Machina;
-import com.machina.fluid.BaseFluidType;
-import com.machina.item.MachinaBucket;
-import com.machina.util.StringUtils;
+import com.machina.api.fluid.BaseFluidType;
+import com.machina.api.item.MachinaBucket;
+import com.machina.api.util.StringUtils;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;

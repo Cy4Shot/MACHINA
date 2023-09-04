@@ -1,18 +1,17 @@
-package com.machina.capability.fluid;
+package com.machina.api.cap.fluid;
 
 import java.util.function.Predicate;
 
-import com.machina.network.MachinaNetwork;
-import com.machina.network.s2c.S2CFluidSync;
+import org.jetbrains.annotations.NotNull;
+
+import com.machina.api.network.PacketSender;
+import com.machina.api.network.s2c.S2CFluidSync;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import org.jetbrains.annotations.NotNull;
 
 public class MachinaTank extends FluidTank {
 
@@ -109,7 +108,7 @@ public class MachinaTank extends FluidTank {
 	@Override
 	protected void onContentsChanged() {
 		if (tile.getLevel() != null && !tile.getLevel().isClientSide()) {
-			MachinaNetwork.sendToClients(new S2CFluidSync(tile.getBlockPos(), getFluid(), id));
+			PacketSender.sendToClients(new S2CFluidSync(tile.getBlockPos(), getFluid(), id));
 		}
 		onChanged.run();
 	}

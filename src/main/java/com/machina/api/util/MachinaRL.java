@@ -1,4 +1,4 @@
-package com.machina.util;
+package com.machina.api.util;
 
 import com.machina.Machina;
 import com.mojang.brigadier.StringReader;

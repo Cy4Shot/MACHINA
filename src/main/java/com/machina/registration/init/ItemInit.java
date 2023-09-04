@@ -3,7 +3,7 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
-import com.machina.item.ChemicalItem;
+import com.machina.api.item.ChemicalItem;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;

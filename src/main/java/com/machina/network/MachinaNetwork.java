@@ -1,40 +1,125 @@
 package com.machina.network;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.apache.logging.log4j.util.TriConsumer;
 
-import com.machina.Machina;
-import com.machina.network.s2c.S2CFluidSync;
+import com.machina.api.network.INetworkMessage;
+import com.machina.api.network.PacketSender;
+import com.machina.api.network.s2c.S2CFluidSync;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
 
 public class MachinaNetwork {
-	public static final SimpleChannel CHANNEL = NetworkRegistry
-			.newSimpleChannel(new ResourceLocation(Machina.MOD_ID, "main"), () -> "0", "0"::equals, "0"::equals);
+
+	public static int i = 0;
 
 	public static void init() {
-
-		int i = 0;
 
 		// C2S
 
 		// S2C
 
-		CHANNEL.registerMessage(i++, S2CFluidSync.class, S2CFluidSync::encode, S2CFluidSync::decode,
-				makeClientBoundHandler(S2CFluidSync::handle));
+		s2c(S2CFluidSync.class);
 	}
 
-	@SuppressWarnings("unused")
+	// Note from Cy4, this is probably the worst registration code I have ever
+	// written. It has 8 catch statements catching 5 different exceptions, uses way
+	// too much reflection, and has horrible variable naming. It was a waste of
+	// time. However, its really cool to use, as you can see above.
+
+	@SuppressWarnings({ "unchecked", "unused" })
+	private static <T extends INetworkMessage> void c2s(Class<T> clazz) {
+		try {
+			Method encode = clazz.getMethod("encode", FriendlyByteBuf.class);
+			Method decode = clazz.getMethod("decode", FriendlyByteBuf.class);
+			Method handle = clazz.getMethod("handle", MinecraftServer.class, ServerPlayer.class);
+			BiConsumer<T, FriendlyByteBuf> e = (t, b) -> {
+				try {
+					encode.invoke(t, b);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+					System.out.println(
+							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
+					e1.printStackTrace();
+				}
+			};
+			Function<FriendlyByteBuf, T> d = (b) -> {
+				try {
+					return (T) decode.invoke(null, b);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+					System.out.println(
+							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
+					e1.printStackTrace();
+				}
+				return null;
+			};
+			TriConsumer<T, MinecraftServer, ServerPlayer> h = (t, m, p) -> {
+				try {
+					handle.invoke(t, m, p);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+					System.out.println(
+							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
+					e1.printStackTrace();
+				}
+			};
+
+			PacketSender.CHANNEL.registerMessage(i++, clazz, e, d, makeServerBoundHandler(h));
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.out.println("Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <T extends INetworkMessage> void s2c(Class<T> clazz) {
+		try {
+			Method encode = clazz.getMethod("encode", FriendlyByteBuf.class);
+			Method decode = clazz.getMethod("decode", FriendlyByteBuf.class);
+			Method handle = clazz.getMethod("handle");
+			BiConsumer<T, FriendlyByteBuf> e = (t, b) -> {
+				try {
+					encode.invoke(t, b);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+					System.out.println(
+							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
+					e1.printStackTrace();
+				}
+			};
+			Function<FriendlyByteBuf, T> d = (b) -> {
+				try {
+					return (T) decode.invoke(null, b);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+					System.out.println(
+							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
+					e1.printStackTrace();
+				}
+				return null;
+			};
+			Consumer<T> h = (t) -> {
+				try {
+					handle.invoke(t);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+					System.out.println(
+							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
+					e1.printStackTrace();
+				}
+			};
+
+			PacketSender.CHANNEL.registerMessage(i++, clazz, e, d, makeClientBoundHandler(h));
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.out.println("Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
+			e.printStackTrace();
+		}
+	}
+
 	private static <T> BiConsumer<T, Supplier<NetworkEvent.Context>> makeServerBoundHandler(
 			TriConsumer<T, MinecraftServer, ServerPlayer> handler) {
 		return (m, ctx) -> {
@@ -48,15 +133,5 @@ public class MachinaNetwork {
 			consumer.accept(m);
 			ctx.get().setPacketHandled(true);
 		};
-	}
-
-	public static void sendToClients(Object packet) {
-		for (ServerPlayer player : Minecraft.getInstance().getSingleplayerServer().getPlayerList().getPlayers()) {
-			sendToClient(player, packet);
-		}
-	}
-
-	public static void sendToClient(ServerPlayer player, Object packet) {
-		CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
 	}
 }

@@ -1,4 +1,4 @@
-package com.machina.util;
+package com.machina.api.util;
 
 import net.minecraft.network.chat.Component;
 

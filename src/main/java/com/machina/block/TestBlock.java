@@ -1,7 +1,7 @@
 package com.machina.block;
 
+import com.machina.api.util.SoundHelper;
 import com.machina.block.tile.machine.TestBE;
-import com.machina.util.helper.SoundHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -30,7 +30,6 @@ public class TestBlock extends BaseEntityBlock {
 		return new TestBE(pos, state);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public @NotNull InteractionResult use(@NotNull BlockState pState, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand,
 										  @NotNull BlockHitResult hit) {

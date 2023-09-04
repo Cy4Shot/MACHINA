@@ -1,4 +1,4 @@
-package com.machina.block.tile;
+package com.machina.api.block.tile;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;

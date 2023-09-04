@@ -1,4 +1,4 @@
-package com.machina.capability.energy;
+package com.machina.api.cap.energy;
 
 public interface IEnergyBlockEntity {
 	boolean isGenerator();

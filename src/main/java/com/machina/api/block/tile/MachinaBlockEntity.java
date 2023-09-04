@@ -1,4 +1,4 @@
-package com.machina.block.tile;
+package com.machina.api.block.tile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,12 +8,12 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.machina.capability.ICustomStorage;
-import com.machina.capability.LazyOptionalCache;
-import com.machina.capability.energy.MachinaEnergyStorage;
-import com.machina.capability.fluid.MachinaFluidStorage;
-import com.machina.capability.fluid.MachinaTank;
-import com.machina.capability.item.MachinaItemStorage;
+import com.machina.api.cap.ICustomStorage;
+import com.machina.api.cap.LazyOptionalCache;
+import com.machina.api.cap.energy.MachinaEnergyStorage;
+import com.machina.api.cap.fluid.MachinaFluidStorage;
+import com.machina.api.cap.fluid.MachinaTank;
+import com.machina.api.cap.item.MachinaItemStorage;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

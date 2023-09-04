@@ -1,4 +1,4 @@
-package com.machina.util.helper;
+package com.machina.api.util;
 
 import java.util.Random;
 
