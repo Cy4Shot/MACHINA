@@ -27,7 +27,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class DatagenItemModels extends ItemModelProvider {
-	private static LinkedHashMap<ResourceKey<TrimMaterial>, Float> trimMaterials = new LinkedHashMap<>();
+	private static final LinkedHashMap<ResourceKey<TrimMaterial>, Float> trimMaterials = new LinkedHashMap<>();
 	static {
 		trimMaterials.put(TrimMaterials.QUARTZ, 0.1F);
 		trimMaterials.put(TrimMaterials.IRON, 0.2F);
@@ -71,17 +71,16 @@ public class DatagenItemModels extends ItemModelProvider {
 	@SuppressWarnings("unused")
 	private void trimmedArmorItem(RegistryObject<Item> itemRegistryObject) {
 		if (itemRegistryObject.get() instanceof ArmorItem armorItem) {
-			trimMaterials.entrySet().forEach(entry -> {
+			trimMaterials.forEach((trimMaterial, value) -> {
 
-				ResourceKey<TrimMaterial> trimMaterial = entry.getKey();
-				float trimValue = entry.getValue();
+				float trimValue = value;
 
 				String armorType = switch (armorItem.getEquipmentSlot()) {
-				case HEAD -> "helmet";
-				case CHEST -> "chestplate";
-				case LEGS -> "leggings";
-				case FEET -> "boots";
-				default -> "";
+					case HEAD -> "helmet";
+					case CHEST -> "chestplate";
+					case LEGS -> "leggings";
+					case FEET -> "boots";
+					default -> "";
 				};
 
 				String armorItemPath = "item/" + armorItem;

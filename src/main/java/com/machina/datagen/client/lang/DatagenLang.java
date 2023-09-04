@@ -16,6 +16,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class DatagenLang extends LanguageProvider {
 
@@ -99,7 +100,7 @@ public abstract class DatagenLang extends LanguageProvider {
 		add(key.getDescriptionId() + ".desc", desc);
 	}
 
-	public void add(String key, String value) {
+	public void add(@NotNull String key, @NotNull String value) {
 		if (data.put(key, value) != null)
 			throw new IllegalStateException("Duplicate translation key " + key);
 		super.add(key, value);

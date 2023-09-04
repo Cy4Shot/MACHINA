@@ -19,6 +19,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import org.jetbrains.annotations.NotNull;
 
 public class DatagenRecipes extends RecipeProvider implements IConditionBuilder {
 
@@ -27,7 +28,7 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 	}
 
 	@Override
-	protected void buildRecipes(Consumer<FinishedRecipe> gen) {
+	protected void buildRecipes(@NotNull Consumer<FinishedRecipe> gen) {
 		ore(gen, List.of(ItemInit.RAW_ALUMINUM.get(), BlockInit.ALUMINUM_ORE.get()), ItemInit.ALUMINUM_INGOT.get(),
 				0.25f, "aluminum");
 
@@ -57,19 +58,19 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 		oreBlasting(gen, ing, RecipeCategory.MISC, res, exp, 100, group);
 	}
 
-	protected static void oreSmelting(Consumer<FinishedRecipe> gen, List<ItemLike> ing, RecipeCategory cat,
-			ItemLike res, float exp, int pCookingTIme, String group) {
+	protected static void oreSmelting(@NotNull Consumer<FinishedRecipe> gen, List<ItemLike> ing, @NotNull RecipeCategory cat,
+									  @NotNull ItemLike res, float exp, int pCookingTIme, @NotNull String group) {
 		oreCooking(gen, RecipeSerializer.SMELTING_RECIPE, ing, cat, res, exp, pCookingTIme, group, "_from_smelting");
 	}
 
-	protected static void oreBlasting(Consumer<FinishedRecipe> gen, List<ItemLike> ing, RecipeCategory cat,
-			ItemLike res, float exp, int time, String group) {
+	protected static void oreBlasting(@NotNull Consumer<FinishedRecipe> gen, List<ItemLike> ing, @NotNull RecipeCategory cat,
+									  @NotNull ItemLike res, float exp, int time, @NotNull String group) {
 		oreCooking(gen, RecipeSerializer.BLASTING_RECIPE, ing, cat, res, exp, time, group, "_from_blasting");
 	}
 
-	protected static void oreCooking(Consumer<FinishedRecipe> gen,
-			RecipeSerializer<? extends AbstractCookingRecipe> ser, List<ItemLike> ing, RecipeCategory cat, ItemLike res,
-			float exp, int time, String group, String name) {
+	protected static void oreCooking(@NotNull Consumer<FinishedRecipe> gen,
+									 @NotNull RecipeSerializer<? extends AbstractCookingRecipe> ser, List<ItemLike> ing, @NotNull RecipeCategory cat, @NotNull ItemLike res,
+									 float exp, int time, @NotNull String group, String name) {
 		for (ItemLike itemlike : ing) {
 			SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), cat, res, exp, time, ser).group(group)
 					.unlockedBy(getHasName(itemlike), has(itemlike))

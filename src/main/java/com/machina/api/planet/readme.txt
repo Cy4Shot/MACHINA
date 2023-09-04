@@ -1,0 +1,1 @@
+Base planet stuffs go here such as traits carvers etc. however the planet creation will be in com/machina/planet

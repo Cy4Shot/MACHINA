@@ -23,7 +23,7 @@ public class LazyOptionalCache<T> {
 
 	public void revalidate(Supplier<T> cachePopulator) {
 		invalidate();
-		cache = LazyOptional.of(() -> cachePopulator.get());
+		cache = LazyOptional.of(cachePopulator::get);
 	}
 
 	public void invalidate() {

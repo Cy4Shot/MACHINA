@@ -12,12 +12,13 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import org.jetbrains.annotations.NotNull;
 
 public class MachinaTank extends FluidTank {
 
 	protected Runnable onChanged;
 
-	private BlockEntity tile;
+	private final BlockEntity tile;
 	public int id;
 	public boolean output;
 
@@ -51,14 +52,14 @@ public class MachinaTank extends FluidTank {
 	}
 
 	@Override
-	public FluidStack drain(FluidStack resource, FluidAction action) {
+	public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
 		if (!output)
 			return FluidStack.EMPTY;
 		return super.drain(resource, action);
 	}
 
 	@Override
-	public FluidStack drain(int maxDrain, FluidAction action) {
+	public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
 		if (!output)
 			return FluidStack.EMPTY;
 		return super.drain(maxDrain, action);
@@ -107,11 +108,7 @@ public class MachinaTank extends FluidTank {
 
 	@Override
 	protected void onContentsChanged() {
-		IFluidHandler handler = tile.getCapability(ForgeCapabilities.FLUID_HANDLER, null).orElse(null);
-		if (handler == null || getFluid() == null) {
-			return;
-		}
-		if (!tile.getLevel().isClientSide()) {
+		if (tile.getLevel() != null && !tile.getLevel().isClientSide()) {
 			MachinaNetwork.sendToClients(new S2CFluidSync(tile.getBlockPos(), getFluid(), id));
 		}
 		onChanged.run();

@@ -1,0 +1,1 @@
+The base multi-block class will go here, actual multi-block types will be outside of the API package.

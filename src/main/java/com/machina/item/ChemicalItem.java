@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class ChemicalItem extends Item {
 
@@ -33,8 +34,8 @@ public class ChemicalItem extends Item {
 	}
 	
 	@Override
-	public void appendHoverText(ItemStack stack, Level level, List<Component> tip, TooltipFlag flag) {
-		if (toolTipKey != "") {
+	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tip, @NotNull TooltipFlag flag) {
+		if (!toolTipKey.equals("")) {
 			tip.add(Component.translatable(Machina.MOD_ID + ".tooltip." + toolTipKey)
 					.setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x9D_00fefe))));
 		}

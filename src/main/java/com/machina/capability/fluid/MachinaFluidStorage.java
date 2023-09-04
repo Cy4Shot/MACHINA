@@ -11,13 +11,8 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class MachinaFluidStorage implements IFluidHandler, ICustomStorage, INBTSerializable<CompoundTag> {
-
-	private final LinkedList<MachinaTank> tanks;
-
-	public MachinaFluidStorage(LinkedList<MachinaTank> tanks) {
-		this.tanks = tanks;
-	}
+public record MachinaFluidStorage(LinkedList<MachinaTank> tanks) implements
+		IFluidHandler, ICustomStorage, INBTSerializable<CompoundTag> {
 
 	public boolean isEmpty() {
 		return tanks.isEmpty();
@@ -34,7 +29,6 @@ public class MachinaFluidStorage implements IFluidHandler, ICustomStorage, INBTS
 		return tanks.get(tank).getFluid();
 	}
 
-	@Nonnull
 	public void setFluidInTank(int tank, FluidStack stack) {
 		tanks.get(tank).setFluid(stack);
 	}
@@ -132,9 +126,6 @@ public class MachinaFluidStorage implements IFluidHandler, ICustomStorage, INBTS
 		return this.tanks.get(i);
 	}
 
-	public LinkedList<MachinaTank> tanks() {
-		return this.tanks;
-	}
 
 	@Override
 	public CompoundTag serialize() {

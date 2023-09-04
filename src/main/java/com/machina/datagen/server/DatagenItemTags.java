@@ -11,6 +11,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class DatagenItemTags extends ItemTagsProvider {
 	public DatagenItemTags(PackOutput p_275343_, CompletableFuture<HolderLookup.Provider> p_275729_,
@@ -19,7 +20,7 @@ public class DatagenItemTags extends ItemTagsProvider {
 	}
 
 	@Override
-	protected void addTags(HolderLookup.Provider pProvider) {
+	protected void addTags(HolderLookup.@NotNull Provider pProvider) {
 
 	}
 }

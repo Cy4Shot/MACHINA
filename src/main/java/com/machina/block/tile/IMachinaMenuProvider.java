@@ -2,11 +2,12 @@ package com.machina.block.tile;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
+import org.jetbrains.annotations.NotNull;
 
 public interface IMachinaMenuProvider extends MenuProvider {
 
 	@Override
-	default Component getDisplayName() {
+	default @NotNull Component getDisplayName() {
 		return Component.empty();
 	}
 }

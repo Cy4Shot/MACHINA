@@ -1,0 +1,1 @@
+The base blueprint class will go here, actual blueprint types will be outside of the API package.
