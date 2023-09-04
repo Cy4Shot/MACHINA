@@ -24,4 +24,11 @@ public class MachinaConstants {
      * The version of Machina currently running for display purposes
      */
     public static final String DISPLAY_MOD_VERSION = Machina.getVersion();
+
+    /**
+     * An empty blueprint
+     */
+    //public static final Blueprint EMPTY = new Blueprint("empty", Items.BARRIER, BluePrint.BlueprintCategory.COMP);
+
+    // Add further constants here
 }
