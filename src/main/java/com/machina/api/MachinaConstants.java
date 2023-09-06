@@ -14,12 +14,12 @@ public class MachinaConstants {
 	 * The constant used for Mod ID externally (a forwarding to the {@link Machina}
 	 * class' MOD_ID field)
 	 */
-	public static final String MODID = Machina.MOD_ID;
+	public static final String MOD_ID = Machina.MOD_ID;
 
 	/**
 	 * The version of Machina currently running
 	 */
-	public static final String MOD_VERSION = ModList.get().getModFileById(MODID).versionString();
+	public static final String MOD_VERSION = ModList.get().getModFileById(MOD_ID).versionString();
 
 	/**
 	 * The version of Machina currently running for display purposes

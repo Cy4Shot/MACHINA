@@ -8,6 +8,8 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.api.cap.ICustomStorage;
 import com.machina.api.cap.LazyOptionalCache;
 import com.machina.api.cap.energy.MachinaEnergyStorage;
@@ -27,8 +29,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
 
+/**
+ * Abstract class to allow Machina BlockEntities to store items, fluids and energy.
+ * @author Cy4Shot
+ * @since Machina v0.1.0
+ */
 public abstract class MachinaBlockEntity extends BaseBlockEntity implements Container {
 
 	private final List<ICustomStorage> storages = new ArrayList<>();
@@ -36,6 +42,19 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	private final LazyOptionalCache<MachinaEnergyStorage> energy = new LazyOptionalCache<>();
 	private final LazyOptionalCache<MachinaFluidStorage> fluid = new LazyOptionalCache<>();
 
+	
+	/**
+	 * Method in which the storages should be created.</br>
+	 * <ul>
+	 * <li>To create an item storage, use {@code this.item = add(new MachinaItemStorage(...));}</li>
+	 * <li>To create an fluid storage, use {@code this.fluid = add(new MachinaFluidStorage(...));}</li>
+	 * <li>To create an energy storage, use {@code this.energy = add(new MachinaEnergyStorage(...));}</li>
+	 * </ul>
+	 * 
+	 * <i>NOTE: You will need to create the {@code item}, {@code fluid} and {@code energy} variables.
+	 * 
+	 * @author Cy4Shot
+	 */
 	public abstract void createStorages();
 
 	public MachinaItemStorage add(MachinaItemStorage item) {
@@ -99,10 +118,13 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 		return super.getCapability(cap, side);
 	}
 
-	// Could be replaced by empty storages instead of null, throwing an exception
 	@Override
 	public int getContainerSize() {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
+
+		if (storage == null) {
+			return 0;
+		}
 
 		return storage.getSlots();
 	}
@@ -110,6 +132,10 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	@Override
 	public boolean isEmpty() {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
+		
+		if (storage == null) {
+			return true;
+		}
 
 		return storage.items().stream().allMatch(ItemStack::isEmpty);
 	}
@@ -117,6 +143,10 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	@Override
 	public @NotNull ItemStack getItem(int pIndex) {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
+		
+		if (storage == null) {
+			return ItemStack.EMPTY;
+		}
 
 		return storage.getStackInSlot(pIndex);
 	}
@@ -125,6 +155,10 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	public @NotNull ItemStack removeItem(int pIndex, int pCount) {
 
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
+		
+		if (storage == null) {
+			return ItemStack.EMPTY;
+		}
 
 		ItemStack itemstack = storage.extractItem(pIndex, pCount, false);
 		if (!itemstack.isEmpty()) {
@@ -137,6 +171,9 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	@Override
 	public @NotNull ItemStack removeItemNoUpdate(int pIndex) {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
+		if (storage == null) {
+			return ItemStack.EMPTY;
+		}
 		ItemStack slot = storage.getStackInSlot(pIndex);
 		return storage.extractItem(pIndex, slot.getCount(), false);
 	}
@@ -144,6 +181,9 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	@Override
 	public void setItem(int pIndex, ItemStack pStack) {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
+		if (storage == null) {
+			return;
+		}
 
 		storage.setStackInSlot(pIndex, pStack);
 		if (pStack.getCount() > this.getMaxStackSize()) {
@@ -166,6 +206,9 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 	@Override
 	public void clearContent() {
 		MachinaItemStorage storage = this.item.get().orElseGet(() -> null);
+		if (storage == null) {
+			return;
+		}
 
 		storage.clear();
 	}
@@ -182,22 +225,34 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Cont
 
 	public int getEnergy() {
 		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
+		if (storage == null) {
+			return 0;
+		}
 
 		return storage.getEnergyStored();
 	}
 
 	public int getMaxEnergy() {
 		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
+		if (storage == null) {
+			return 0;
+		}
 		return storage.getMaxEnergyStored();
 	}
 
 	public float getEnergyProp() {
 		MachinaEnergyStorage storage = this.energy.get().orElseGet(() -> null);
+		if (storage == null) {
+			return 0;
+		}
 		return (float) storage.getEnergyStored() / (float) storage.getMaxEnergyStored();
 	}
 
 	public MachinaTank getTank(int id) {
 		MachinaFluidStorage storage = this.fluid.get().orElseGet(() -> null);
+		if (storage == null) {
+			return null;
+		}
 		return storage.tank(id);
 	}
 }

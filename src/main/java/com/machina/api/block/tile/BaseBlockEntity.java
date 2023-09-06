@@ -11,6 +11,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Basic BlockEntity class which all Machina BlockEntities should extend. It
+ * provides basic methods for syncing between the client and server.
+ * 
+ * @author Cy4Shot
+ * @since Machina v0.1.0
+ */
 public abstract class BaseBlockEntity extends BlockEntity {
 
 	public BaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {

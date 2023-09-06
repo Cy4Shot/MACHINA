@@ -1,5 +1,7 @@
 package com.machina.api.util;
 
+import com.machina.api.MachinaConstants;
+
 import net.minecraft.network.chat.Component;
 
 public class StringUtils {	
@@ -25,4 +27,7 @@ public class StringUtils {
 		return Component.translatable(key, params).getString();
 	}
 
+	public static Component translateMultiblockComp(String key) {
+		return  Component.translatable(MachinaConstants.MOD_ID + ".multiblock." + key);
+	}
 }

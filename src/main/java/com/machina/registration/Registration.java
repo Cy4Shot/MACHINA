@@ -1,6 +1,7 @@
 package com.machina.registration;
 
 import com.machina.Machina;
+import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
@@ -17,6 +18,9 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class Registration {
+	
+	public static final MultiblockLoader MULTIBLOCK_LOADER = new MultiblockLoader();
+	
 	public static void register(IEventBus bus) {
 		bus.addListener(Registration::onCommonSetup);
 
@@ -34,6 +38,8 @@ public class Registration {
 
 	public static void onCommonSetup(final FMLCommonSetupEvent event) {
 		MachinaNetwork.init();
+		
+		MultiblockLoader.INSTANCE = MULTIBLOCK_LOADER;
 	}
 
 	private static void registerConfig(ModConfig.Type type, ForgeConfigSpec spec) {
