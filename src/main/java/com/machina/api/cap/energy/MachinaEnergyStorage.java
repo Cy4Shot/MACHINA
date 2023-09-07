@@ -11,6 +11,12 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.EnergyStorage;
 
+/**
+ * Block entity storage for energy.
+ * 
+ * @author Cy4
+ * @since Machina v0.1.0
+ */
 public class MachinaEnergyStorage extends EnergyStorage implements ICustomStorage {
 
 	private Runnable onChanged;

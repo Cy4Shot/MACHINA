@@ -1,1 +1,0 @@
-Some Machina events here so that users of the API can change some select parts of the internal code, this could such be used to register custom planet traits, etc.gi

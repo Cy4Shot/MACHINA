@@ -1,4 +1,4 @@
-package com.machina.api.util;
+package com.machina.api.util.math;
 
 import java.util.Arrays;
 import java.util.Collection;

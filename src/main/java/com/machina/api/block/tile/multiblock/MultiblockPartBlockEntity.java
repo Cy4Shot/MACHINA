@@ -14,7 +14,7 @@ import com.machina.api.cap.fluid.MachinaTank;
 import com.machina.api.multiblock.Multiblock;
 import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.api.util.BlockHelper;
-import com.machina.api.util.VecUtil;
+import com.machina.api.util.math.VecUtil;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;

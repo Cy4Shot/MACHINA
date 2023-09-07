@@ -2,7 +2,7 @@ package com.machina.api.network.s2c;
 
 import com.machina.api.block.tile.MachinaBlockEntity;
 import com.machina.api.cap.fluid.MachinaFluidStorage;
-import com.machina.api.network.INetworkMessage;
+import com.machina.api.network.S2CMessage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 
-public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements INetworkMessage {
+public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2CMessage {
 	
 	public static S2CFluidSync decode(FriendlyByteBuf buf) {
 		return new S2CFluidSync(buf.readBlockPos(), buf.readFluidStack(), buf.readInt());
