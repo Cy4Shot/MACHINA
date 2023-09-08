@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
@@ -52,6 +53,8 @@ public class FluidInit {
 	public static final FluidObject SULPHUR_DIOXIDE = gas("sulphur_dioxide", "SO2", 0xFF_f3f7ef);
 	public static final FluidObject HYDROGEN_BROMIDE = gas("hydrogen_bromide", "HBr", 0xFF_e3e3e3);
 	public static final FluidObject CARBON_MONOXIDE = gas("carbon_monoxide", "CO", 0xFF_e0b9b6);
+	public static final FluidObject ARGON = gas("argon", "Ar", 0xFF_cfcfd0);
+	public static final FluidObject HELIUM = gas("helium", "He", 0xFF_e1e1e1);
 
 	// Liquids
 	public static final FluidObject ACETIC_ACID = liquid("acetic_acid", "CH3COOH", 0xFF_fbfff1);
@@ -144,6 +147,10 @@ public class FluidInit {
 
 		public ForgeFlowingFluid flowing() {
 			return FLOWING.get();
+		}
+
+		public FluidStack stack() {
+			return new FluidStack(fluid(), 1000);
 		}
 
 		public Chemical chem() {

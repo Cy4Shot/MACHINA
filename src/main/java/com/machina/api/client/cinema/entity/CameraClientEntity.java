@@ -20,9 +20,9 @@ public class CameraClientEntity extends AbstractClientPlayer {
 	public CameraClientEntity() {
 		super(mc.level, mc.player.getGameProfile());
 
-		this.abilities.mayfly = true;
-		this.abilities.flying = true;
-		this.abilities.invulnerable = true;
+		this.getAbilities().mayfly = true;
+		this.getAbilities().flying = true;
+		this.getAbilities().invulnerable = true;
 	}
 
 	@Nullable

@@ -14,6 +14,7 @@ import com.machina.api.network.PacketSender;
 import com.machina.api.network.S2CMessage;
 import com.machina.api.network.c2s.C2SFinishCinematic;
 import com.machina.api.network.s2c.S2CFluidSync;
+import com.machina.api.network.s2c.S2CSyncStarchart;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
@@ -25,14 +26,10 @@ public class MachinaNetwork {
 	public static int i = 0;
 
 	public static void init() {
-
-		// C2S
-		
 		c2s(C2SFinishCinematic.class);
 
-		// S2C
-
 		s2c(S2CFluidSync.class);
+		s2c(S2CSyncStarchart.class);
 	}
 
 	// Note from Cy4, this is probably the worst registration code I have ever
@@ -40,7 +37,7 @@ public class MachinaNetwork {
 	// too much reflection, and has horrible variable naming. It was a waste of
 	// time. However, its really cool to use, as you can see above.
 
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings("unchecked")
 	private static <T extends C2SMessage> void c2s(Class<T> clazz) {
 		try {
 			Method encode = clazz.getMethod("encode", FriendlyByteBuf.class);

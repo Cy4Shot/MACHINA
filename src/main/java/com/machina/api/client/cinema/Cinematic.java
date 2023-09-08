@@ -20,7 +20,7 @@ public abstract class Cinematic {
 	protected boolean active = false;
 
 	boolean bobView = false;
-	
+
 	private double viewScale;
 	private boolean hideGui = false, flying = false;
 	private CameraType cameraType;
@@ -44,13 +44,13 @@ public abstract class Cinematic {
 	}
 
 	public void begin(float partial) {
-		this.bobView = mc.options.bobView.get();
+		this.bobView = mc.options.bobView().get();
 		this.hideGui = mc.options.hideGui;
 		this.cameraType = mc.options.getCameraType();
-		this.flying = mc.player.abilities.flying;
+		this.flying = mc.player.getAbilities().flying;
 		this.pos = mc.player.position();
-		this.yaw = mc.player.xRot;
-		this.pitch = mc.player.yRot;
+		this.yaw = mc.player.getXRot();
+		this.pitch = mc.player.getYRot();
 		mc.player.setDeltaMovement(0, 0, 0);
 		this.active = true;
 
@@ -64,13 +64,13 @@ public abstract class Cinematic {
 
 	public void finish(float partial) {
 		if (active) {
-			mc.options.bobView.set(bobView);
+			mc.options.bobView().set(bobView);
 			mc.options.hideGui = hideGui;
 			mc.options.setCameraType(cameraType);
-			mc.player.abilities.flying = flying;
+			mc.player.getAbilities().flying = flying;
 			mc.player.moveTo(pos.x, pos.y, pos.z);
-			mc.player.xRot = yaw;
-			mc.player.yRot = pitch;
+			mc.player.setXRot(yaw);
+			mc.player.setYRot(pitch);
 			mc.player.setDeltaMovement(0, 0, 0);
 			this.active = false;
 			PacketSender.sendToServer(new C2SFinishCinematic(this.id));
@@ -88,9 +88,9 @@ public abstract class Cinematic {
 		if (active) {
 			Entity.setViewScale(1000);
 			mc.options.hideGui = false;
-			mc.options.bobView.set(false);
+			mc.options.bobView().set(false);
 			mc.options.setCameraType(CameraType.FIRST_PERSON);
-			mc.player.abilities.flying = true;
+			mc.player.getAbilities().flying = true;
 			mc.player.setDeltaMovement(0, 0, 0);
 		}
 	}

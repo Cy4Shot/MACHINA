@@ -14,8 +14,8 @@ public record ShakeEffect(float intensity) implements CameraEffect {
 		if (!mc.isPaused() && mc.screen == null) {
 			Entity camera = mc.getCameraEntity();
 			if (camera != null) {
-				camera.xRot = camera.xRot + (float) Math.sin(Math.random() * MathUtil.TWO_PI) * intensity;
-				camera.yRot = camera.yRot + (float) Math.sin(Math.random() * MathUtil.TWO_PI) * intensity;
+				camera.setXRot(camera.getXRot() + (float) Math.sin(Math.random() * MathUtil.TWO_PI) * intensity);
+				camera.setYRot(camera.getYRot() + (float) Math.sin(Math.random() * MathUtil.TWO_PI) * intensity);
 			}
 		}
 	}

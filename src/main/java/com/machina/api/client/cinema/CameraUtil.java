@@ -42,7 +42,7 @@ public class CameraUtil {
 		render.xOld = prevX;
 		render.yOld = prevY;
 		render.zOld = prevZ;
-		render.yRot = iYaw;
+		render.setYRot(iYaw);
 		render.yRotO = iYaw;
 		render.yHeadRot = iYaw;
 		render.yHeadRotO = iYaw;
@@ -50,7 +50,7 @@ public class CameraUtil {
 		render.oBob = iYaw;
 		render.yBodyRot = iYaw;
 		render.yBodyRotO = iYaw;
-		render.xRot = iPitch;
+		render.setXRot(iPitch);
 		render.xRotO = iPitch;
 		render = mc.player;
 		render.setPosRaw(x, y, z);
@@ -60,7 +60,7 @@ public class CameraUtil {
 		render.xOld = prevX;
 		render.yOld = prevY;
 		render.zOld = prevZ;
-		render.yRot = iYaw;
+		render.setYRot(iYaw);
 		render.yRotO = iYaw;
 		render.yHeadRot = iYaw;
 		render.yHeadRotO = iYaw;
@@ -68,7 +68,7 @@ public class CameraUtil {
 		render.oBob = iYaw;
 		render.yBodyRot = iYaw;
 		render.yBodyRotO = iYaw;
-		render.xRot = iPitch;
+		render.setXRot(iPitch);
 		render.xRotO = iPitch;
 	}
 }

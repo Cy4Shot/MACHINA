@@ -64,6 +64,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FluidInit.SULPHUR_DIOXIDE, "Sulphur Dioxide", "Bucket");
 		add(FluidInit.HYDROGEN_BROMIDE, "Hydrogen Bromide", "Bucket");
 		add(FluidInit.CARBON_MONOXIDE, "Carbon Monoxide", "Bucket");
+		add(FluidInit.ARGON, "Argon", "Bucket");
 
 		add(FluidInit.ACETIC_ACID, "Acetic Acid", "Bucket");
 		add(FluidInit.BRINE, "Brine", "Bucket");

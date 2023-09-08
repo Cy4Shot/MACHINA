@@ -51,7 +51,7 @@ public class CameraPath {
 	public int duration() {
 		return paths.values().stream().mapToInt(Integer::intValue).sum();
 	}
-	
+
 	public static Builder builder() {
 		return new Builder(Vec3.ZERO);
 	}
@@ -93,8 +93,8 @@ public class CameraPath {
 		public void interpolate(Player render, float per, float par, Vec3 o) {
 
 			Vec3 pos = render.position();
-			float pitch = render.xRot;
-			float yaw = render.yRot;
+			float pitch = render.getXRot();
+			float yaw = render.getYRot();
 
 			if (method == InterpolationMethod.BEZIER) {
 				pos = MathUtil.bezier(per, points.stream().map(p -> p.pos).toArray(Vec3[]::new));
@@ -109,7 +109,7 @@ public class CameraPath {
 			pos = pos.add(o);
 
 			CameraUtil.positionCamera(render, par, pos.x, pos.y, pos.z, render.getX(), render.getY(), render.getZ(),
-					yaw, render.yRot, pitch, render.xRot);
+					yaw, render.getYRot(), pitch, render.getXRot());
 		}
 	}
 
