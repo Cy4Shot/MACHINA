@@ -2,10 +2,12 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.api.starchart.Starchart;
+import com.machina.api.starchart.obj.SolarSystem;
 import com.machina.registration.Registration;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,5 +27,10 @@ public class CommonForgeEvents {
 			return;
 
 		Starchart.syncClient((ServerPlayer) e.getEntity());
+	}
+	
+	@SubscribeEvent
+	public static void onDebug(final ItemTossEvent event) {
+		SolarSystem.SOLAR_SYSTEM.debug();
 	}
 }

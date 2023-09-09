@@ -19,6 +19,9 @@ import net.minecraftforge.fluids.FluidStack;
  * Gravity: m/s^2</br>
  * Temperature, Surface: K</br>
  * Atmospheric Pressure: atm</br>
+ * </br>
+ * <i>NOTE: All gas giants are set to have an atmospheric pressure of 1 bar, and
+ * temperatures and atmospheric compositions are measured accordingly.</i>
  * 
  * @author Cy4Shot
  * @since Machina v0.1.0
