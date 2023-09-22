@@ -1,10 +1,11 @@
 package com.machina.api.starchart.obj;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import com.machina.api.util.StringUtils;
+import com.machina.api.util.math.BetterRandom;
 
 import net.minecraftforge.fluids.FluidStack;
 
@@ -13,8 +14,25 @@ public record SolarSystem(String name, List<Star> stars, List<Planet> planets) {
 	public static final SolarSystem SOLAR_SYSTEM = new SolarSystem("Sol", List.of(Star.SUN), List.of(Planet.MERCURY,
 			Planet.VENUS, Planet.EARTH, Planet.MARS, Planet.JUPITER, Planet.SATURN, Planet.URANUS, Planet.NEPTUNE));
 
-	public static SolarSystem gen(Random rand) {
-		return new SolarSystem(generateName(), List.of(), List.of());
+	// TODO: Config
+	// TODO: DOCUMENT THIS.
+	public static SolarSystem gen(BetterRandom rand) {
+		int starnum = rand.nextExpRange(1, 3, 1.7f);
+		List<Star> stars = new ArrayList<>();
+		for (int i = 0; i < starnum; i++) {
+			stars.add(Star.gen(rand));
+		}
+
+		double averageStarMagnitude = stars.stream().mapToDouble(star -> star.magnitude()).sum() / starnum;
+		double starMagAdjust = 1d - (averageStarMagnitude + 10d) / 30d;
+		int adjustedPlanetModifier = (int) ((starMagAdjust * 2 - 1d) * 4d);
+		int planetnum = rand.nextRange(5 + adjustedPlanetModifier, 10 + adjustedPlanetModifier);
+		List<Planet> planets = new ArrayList<>();
+		for (int i = 0; i < planetnum; i++) {
+			planets.add(Planet.gen(rand));
+		}
+
+		return new SolarSystem(generateName(), stars, planets);
 	}
 
 	public SolarSystem(String name, List<Star> stars, List<Planet> planets) {
@@ -36,11 +54,13 @@ public record SolarSystem(String name, List<Star> stars, List<Planet> planets) {
 			String o = StringUtils.TREE_V + "    " + (last ? " " : StringUtils.TREE_V);
 			StringUtils.printlnUtf8(StringUtils.TREE_V + "  " + (last ? StringUtils.TREE_L : StringUtils.TREE_F)
 					+ StringUtils.TREE_H + " " + star.name());
+			StringUtils.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Mass: " + star.mass());
 			StringUtils.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Magnitude: " + star.magnitude());
 			StringUtils
 					.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Temperature: " + star.temperature());
 			StringUtils.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Radius: " + star.radius());
-			StringUtils.printlnUtf8(o + StringUtils.TREE_L + StringUtils.TREE_H + " Luminosity: " + star.luminosity());
+			StringUtils.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Luminosity: " + star.luminosity());
+			StringUtils.printlnUtf8(o + StringUtils.TREE_L + StringUtils.TREE_H + " Gravity: " + star.gravity());
 		}
 		StringUtils.printlnUtf8(StringUtils.TREE_L + StringUtils.TREE_H + " Planets:");
 		for (int i = 0; i < planets().size(); i++) {

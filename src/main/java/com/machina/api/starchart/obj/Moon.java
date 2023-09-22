@@ -1,8 +1,7 @@
 package com.machina.api.starchart.obj;
 
-import java.util.Random;
-
 import com.machina.api.starchart.AtmosphericComposition;
+import com.machina.api.util.math.BetterRandom;
 import com.machina.registration.init.FluidInit;
 import com.mojang.datafixers.util.Pair;
 
@@ -73,7 +72,7 @@ public record Moon(String name, float mass, float radius, float orbital, float o
 	public static final Moon TRITON = new Moon("Triton", 213.9f, 1353400, 354.759f, 4390, 0.000016f, 0.779f, 38, 0,
 			AtmosphericComposition.NONE);
 	
-	public static Moon gen(Random rand) {
+	public static Moon gen(BetterRandom rand) {
 		return new Moon("", 0, 0, 0, 0, 0, 0, 0, 0, AtmosphericComposition.NONE);
 	}
 }

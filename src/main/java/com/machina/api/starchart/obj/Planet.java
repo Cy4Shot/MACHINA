@@ -1,9 +1,9 @@
 package com.machina.api.starchart.obj;
 
 import java.util.List;
-import java.util.Random;
 
 import com.machina.api.starchart.AtmosphericComposition;
+import com.machina.api.util.math.BetterRandom;
 import com.machina.registration.init.FluidInit;
 import com.mojang.datafixers.util.Pair;
 
@@ -102,7 +102,7 @@ public record Planet(String name, float mass, float radius, float orbital, float
 			//@formatter:on
 			), List.of(Moon.TRITON));
 
-	public static Planet gen(Random rand) {
+	public static Planet gen(BetterRandom rand) {
 		return new Planet("", 0, 0, 0, 0, 0, 0, 0, 0, AtmosphericComposition.NONE, List.of());
 	}
 }
