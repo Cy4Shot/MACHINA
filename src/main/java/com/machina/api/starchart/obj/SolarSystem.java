@@ -95,7 +95,7 @@ public record SolarSystem(String name, List<Star> stars, List<Planet> planets) {
 				boolean last2 = j == planet.atmosphericComposition().size() - 1;
 				String o2 = o + StringUtils.TREE_V + "  " + (last2 ? StringUtils.TREE_L : StringUtils.TREE_F)
 						+ StringUtils.TREE_H + " ";
-				Map.Entry<FluidStack, Float> entry = planet.atmosphericComposition().get(j);
+				Map.Entry<FluidStack, Double> entry = planet.atmosphericComposition().get(j);
 				String name = entry.getKey().getDisplayName().getString();
 				StringUtils.printlnUtf8(
 						o2 + name + " ".repeat(spaces - name.length()) + String.valueOf(entry.getValue() * 100) + "%");
@@ -130,7 +130,7 @@ public record SolarSystem(String name, List<Star> stars, List<Planet> planets) {
 					int spaces2 = (int) Math.ceil((double) (max2) / 5) * 5 + 1;
 					for (int k = 0; k < moon.atmosphericComposition().size(); k++) {
 						boolean last3 = k == moon.atmosphericComposition().size() - 1;
-						Map.Entry<FluidStack, Float> entry = moon.atmosphericComposition().get(k);
+						Map.Entry<FluidStack, Double> entry = moon.atmosphericComposition().get(k);
 						String name = entry.getKey().getDisplayName().getString();
 						StringUtils.printlnUtf8(o2 + "   " + (last3 ? StringUtils.TREE_L : StringUtils.TREE_F)
 								+ StringUtils.TREE_H + " " + name + " ".repeat(spaces2 - name.length())

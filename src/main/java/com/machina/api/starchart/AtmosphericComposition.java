@@ -13,17 +13,17 @@ public class AtmosphericComposition {
 
 	public static final AtmosphericComposition NONE = new AtmosphericComposition();
 
-	public LinkedHashMap<FluidStack, Float> atmosphere = new LinkedHashMap<>();
+	public LinkedHashMap<FluidStack, Double> atmosphere = new LinkedHashMap<>();
 
 	@SafeVarargs
-	public AtmosphericComposition(Pair<FluidStack, Float>... atm) {
+	public AtmosphericComposition(Pair<FluidStack, Double>... atm) {
 		float total = 0f;
-		for (Pair<FluidStack, Float> p : atm) {
+		for (Pair<FluidStack, Double> p : atm) {
 			atmosphere.put(p.getFirst(), p.getSecond());
 			total += p.getSecond();
 		}
-		for (Pair<FluidStack, Float> p : atm) {
-			float a = atmosphere.remove(p.getFirst());
+		for (Pair<FluidStack, Double> p : atm) {
+			double a = atmosphere.remove(p.getFirst());
 			atmosphere.put(p.getFirst(), a / total);
 		}
 
@@ -33,8 +33,8 @@ public class AtmosphericComposition {
 	public int size() {
 		return atmosphere.size();
 	}
-	
-	public Map.Entry<FluidStack, Float> get(int i) {
+
+	public Map.Entry<FluidStack, Double> get(int i) {
 		return new ArrayList<>(atmosphere.entrySet()).get(i);
 	}
 }

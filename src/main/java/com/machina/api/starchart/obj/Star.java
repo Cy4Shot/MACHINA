@@ -4,10 +4,13 @@ import com.machina.api.starchart.StarchartConsts;
 import com.machina.api.util.math.BetterRandom;
 
 /**
- * Mass, 10^30 kg. Magnitude (no unit)</br>
+ * Mass, 10^30 kg.</br>
+ * Magnitude (no unit)</br>
  * Temperature, Centre, K</br>
+ * Temperature, Surface, K</br>
  * Radius, Equatorial, m</br>
  * Luminosity, 10^25 W</br>
+ * Gravity, m/s^2</br>
  * 
  * @author Cy4Shot
  */
@@ -16,11 +19,6 @@ public record Star(String name, double mass, double magnitude, double temperatur
 		double radius, double gravity) {
 
 	public static final Star SUN = new Star("Sol", 1.989D, 4.83D, 15700, 5800, 38.28D, 696342000, 274);
-
-	// TODO: Remove, this is for testing.
-	public static void main(String[] args) {
-		System.out.println(SUN.toString());
-	}
 
 	public Star(String name, double mass, double magnitude, double temperature, double surftemp) {
 		this(name, mass, magnitude, temperature, surftemp, luminosity(mass), radius(luminosity(mass), surftemp),

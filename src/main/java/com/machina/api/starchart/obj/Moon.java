@@ -18,8 +18,8 @@ import com.mojang.datafixers.util.Pair;
  * @author Cy4Shot
  * @since Machina v0.1.0
  */
-public record Moon(String name, float mass, float radius, float orbital, float orbitalSpeed, float eccentricity,
-		float gravity, float temperature, float atmosphericPressure, AtmosphericComposition atmosphericComposition) {
+public record Moon(String name, double mass, double radius, double orbital, double orbitalSpeed, double eccentricity,
+		double gravity, double temperature, double atmosphericPressure, AtmosphericComposition atmosphericComposition) {
 
 	public static final Moon MOON = new Moon("Moon", 734.2f, 1737400, 384.399f, 1022, 0.0549f, 1.622f, 250, 0,
 			AtmosphericComposition.NONE);
@@ -48,9 +48,9 @@ public record Moon(String name, float mass, float radius, float orbital, float o
 	public static final Moon TITAN = new Moon("Titan", 1345.2f, 2574730, 1221.87f, 5570, 0.0288f, 1.352f, 93.7f, 1.45f,
 			new AtmosphericComposition(
 			//@formatter:off
-					Pair.of(FluidInit.NITROGEN.stack(), 98.4f),
-					Pair.of(FluidInit.METHANE.stack(), 1.4f),
-					Pair.of(FluidInit.HYDROGEN.stack(), 0.2f)
+					Pair.of(FluidInit.NITROGEN.stack(), 98.4d),
+					Pair.of(FluidInit.METHANE.stack(), 1.4d),
+					Pair.of(FluidInit.HYDROGEN.stack(), 0.2d)
 			//@formatter:on
 			));
 	public static final Moon HYPERION = new Moon("Hyperion", 0.055510f, 135000, 1481.009f, 5070, 0.1230061f, 0.019f, 93,
