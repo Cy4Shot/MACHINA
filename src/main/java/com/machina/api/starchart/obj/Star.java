@@ -12,22 +12,27 @@ import com.machina.api.util.math.BetterRandom;
  * @author Cy4Shot
  */
 
-public record Star(String name, float mass, float magnitude, float temperature) {
+public record Star(String name, double mass, double magnitude, double temperature, double surftemp, double luminosity,
+		double radius, double gravity) {
 
-	public static final Star SUN = new Star("Sol", 1.989F, 4.83F, 15700); // , 695700000, 38.28F
+	public static final Star SUN = new Star("Sol", 1.989D, 4.83D, 15700, 5800, 38.28D, 696342000, 274);
 
 	// TODO: Remove, this is for testing.
 	public static void main(String[] args) {
 		System.out.println(SUN.toString());
 	}
 
+	public Star(String name, double mass, double magnitude, double temperature, double surftemp) {
+		this(name, mass, magnitude, temperature, surftemp, luminosity(mass), radius(luminosity(mass), surftemp),
+				gravity(mass, radius(luminosity(mass), surftemp)));
+	}
+
 	public static Star gen(BetterRandom rand) {
-		float mass = rand.nextRange(0.08f, 150f);
-		float mag = rand.nextRange(-10f, 20f);
-		float t = rand.nextRange(2500, 50000);
-//		float l = (float) (Math.pow(10, 0.4 * (4.85 - mag)) * StarchartConsts.SUN_LUMINOSITY);
-//		float r = (float) Math.sqrt(l / (4D * Math.PI * StarchartConsts.STEFAN * t * t * t * t) * Math.pow(10, 25));
-		return new Star(generateName(), mass, mag, t);
+		double mass = rand.nextRange(0.08f, 150f);
+		double mag = rand.nextRange(-10f, 20f);
+		double t = rand.nextRange(2500, 50000);
+		double st = 5740D * Math.pow(mass * Math.pow(10, 30), 0.54);
+		return new Star(generateName(), mass, mag, t, st);
 	}
 
 	public static String generateName() {
@@ -40,25 +45,25 @@ public record Star(String name, float mass, float magnitude, float temperature) 
 				+ String.valueOf(gravity()) + "]";
 	}
 
-	public float luminosity() {
+	public static double luminosity(double mass) {
 		double solarMass = StarchartConsts.SUN_MASS / Math.pow(10, 30);
 		if (mass < 0.43 * solarMass) {
-			return (float) (StarchartConsts.SUN_LUMINOSITY * 0.23 * Math.pow(mass / solarMass, 2.3));
+			return StarchartConsts.SUN_LUMINOSITY * 0.23 * Math.pow(mass / solarMass, 2.3);
 		} else if (mass < 2 * solarMass) {
-			return (float) (StarchartConsts.SUN_LUMINOSITY * Math.pow(mass / solarMass, 4));
+			return StarchartConsts.SUN_LUMINOSITY * Math.pow(mass / solarMass, 4);
 		} else if (mass < 55 * solarMass) {
-			return (float) (StarchartConsts.SUN_LUMINOSITY * 1.44 * Math.pow(mass / solarMass, 3.5));
+			return StarchartConsts.SUN_LUMINOSITY * 1.44 * Math.pow(mass / solarMass, 3.5);
 		} else {
-			return (float) (StarchartConsts.SUN_LUMINOSITY * 32000 * mass * solarMass);
+			return StarchartConsts.SUN_LUMINOSITY * 32000 * mass * solarMass;
 		}
 	}
 
-	public float radius() {
-		return (float) Math.sqrt(luminosity() * Math.pow(10, 25)
+	public static double radius(double luminosity, double temperature) {
+		return Math.sqrt(luminosity * Math.pow(10, 25)
 				/ (4D * Math.PI * StarchartConsts.STEFAN * temperature * temperature * temperature * temperature));
 	}
 
-	public float gravity() {
-		return (float) (StarchartConsts.GRAVITATIONAL * mass() * Math.pow(10, 30) / (radius() * radius()));
+	public static double gravity(double mass, double radius) {
+		return StarchartConsts.GRAVITATIONAL * mass * Math.pow(10, 30) / (radius * radius);
 	}
 }

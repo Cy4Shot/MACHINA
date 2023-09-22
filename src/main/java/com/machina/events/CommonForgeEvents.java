@@ -28,9 +28,13 @@ public class CommonForgeEvents {
 
 		Starchart.syncClient((ServerPlayer) e.getEntity());
 	}
-	
+
 	@SubscribeEvent
 	public static void onDebug(final ItemTossEvent event) {
 		SolarSystem.SOLAR_SYSTEM.debug();
+//		System.out.println(new BigDecimal(Double
+//				.valueOf(Math.sqrt(
+//						38 * Math.pow(10, 25) / (4D * Math.PI * 5.670374419D * Math.pow(10, -8) * Math.pow(5800, 4))))
+//				.toString()).stripTrailingZeros().toPlainString());
 	}
 }

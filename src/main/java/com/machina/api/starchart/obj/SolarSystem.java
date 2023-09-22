@@ -58,6 +58,8 @@ public record SolarSystem(String name, List<Star> stars, List<Planet> planets) {
 			StringUtils.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Magnitude: " + star.magnitude());
 			StringUtils
 					.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Temperature: " + star.temperature());
+			StringUtils.printlnUtf8(
+					o + StringUtils.TREE_F + StringUtils.TREE_H + " Surface Temperature: " + star.surftemp());
 			StringUtils.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Radius: " + star.radius());
 			StringUtils.printlnUtf8(o + StringUtils.TREE_F + StringUtils.TREE_H + " Luminosity: " + star.luminosity());
 			StringUtils.printlnUtf8(o + StringUtils.TREE_L + StringUtils.TREE_H + " Gravity: " + star.gravity());

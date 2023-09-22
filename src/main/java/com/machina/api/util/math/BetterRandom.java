@@ -4,6 +4,14 @@ import java.util.Random;
 
 public class BetterRandom extends Random {
 	private static final long serialVersionUID = -3493409504014707317L;
+	
+	public BetterRandom() {
+		super();
+	}
+	
+	public BetterRandom(long seed) {
+		super(seed);
+	}
 
 	public int nextExpRange(int min, int max, double lambda) {
 		double randomValue = -Math.log(1 - nextDouble()) / lambda;
