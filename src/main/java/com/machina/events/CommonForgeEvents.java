@@ -2,7 +2,7 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.api.starchart.Starchart;
-import com.machina.api.starchart.obj.SolarSystem;
+import com.machina.api.starchart.StarchartGenerator;
 import com.machina.registration.Registration;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -31,7 +31,8 @@ public class CommonForgeEvents {
 
 	@SubscribeEvent
 	public static void onDebug(final ItemTossEvent event) {
-		SolarSystem.SOLAR_SYSTEM.debug();
+		StarchartGenerator.getOrCreateSystem(8920128L, "Example");
+//		SolarSystem.SOLAR_SYSTEM.debug();
 //		System.out.println(new BigDecimal(Double
 //				.valueOf(Math.sqrt(
 //						38 * Math.pow(10, 25) / (4D * Math.PI * 5.670374419D * Math.pow(10, -8) * Math.pow(5800, 4))))
