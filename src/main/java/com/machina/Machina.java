@@ -1,6 +1,5 @@
 package com.machina;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,9 +32,5 @@ public class Machina {
 
 	public static boolean isDevEnvironment() {
 		return !FMLEnvironment.production || ClientConfig.devMode.get();
-	}
-
-	public static boolean isOsWindows() {
-		return SystemUtils.IS_OS_WINDOWS;
 	}
 }

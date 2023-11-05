@@ -17,7 +17,7 @@ public class BlockHelper {
 	public static <T extends BlockEntity> void doWithTe(Level world, BlockPos pos, Class<T> clazz, Consumer<T> todo) {
 		BlockEntity e = world.getBlockEntity(pos);
 		if (e == null || !(clazz.isAssignableFrom(e.getClass()))) {
-			Machina.LOGGER.error("TE IS A NULL AAAAAAAAAAA");
+			Machina.LOGGER.error(String.format("BE at %s is null.", pos.toShortString()));
 		}
 
 		todo.accept((T) e);

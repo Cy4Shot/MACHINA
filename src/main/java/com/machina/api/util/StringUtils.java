@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
-import com.machina.api.MachinaConstants;
+import com.machina.Machina;
 
 import net.minecraft.network.chat.Component;
 
@@ -49,6 +49,6 @@ public class StringUtils {
 	}
 
 	public static Component translateMultiblockComp(String key) {
-		return Component.translatable(MachinaConstants.MOD_ID + ".multiblock." + key);
+		return Component.translatable(Machina.MOD_ID + ".multiblock." + key);
 	}
 }

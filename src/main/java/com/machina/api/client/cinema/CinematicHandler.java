@@ -1,6 +1,6 @@
 package com.machina.api.client.cinema;
 
-import com.machina.api.MachinaConstants;
+import com.machina.Machina;
 import com.machina.api.client.ClientTimer;
 import com.machina.api.client.cinema.entity.CinematicClientEntity;
 import com.machina.api.util.math.MathUtil;
@@ -103,7 +103,7 @@ public class CinematicHandler {
 
 		MinecraftForge.EVENT_BUS.addListener((RenderGuiOverlayEvent.Pre e) -> {
 			if (INSTANCE.isActive() && !mc.isPaused()) {
-				if (!e.getOverlay().id().getNamespace().equals(MachinaConstants.MOD_ID))
+				if (!e.getOverlay().id().getNamespace().equals(Machina.MOD_ID))
 					e.setCanceled(true);
 			}
 		});
