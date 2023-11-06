@@ -1,19 +1,11 @@
 {
 	"required": true,
 	"package": "com.machina.mixin",
-	"compatibilityLevel": "JAVA_8",
+	"compatibilityLevel": "JAVA_17",
 	"refmap": "machina.mixins.refmap.json",
 	"mixins": [
-		"EntityMixin",
-		"PlayerEntityMixin",
-		"SwimTaskMixin",
-		"LivingEntityMixin"
 	],
 	"client": [
-		"client.ClientFontMixin",
-		"client.ClientOverlayRendererMixin",
-		"client.ClientPlayerEntityMixin",
-		"client.ClientWorldRendererMixin"
 	],
 	"minVersion": "0.8"
 }

@@ -59,7 +59,7 @@ package com.machina.api.starchart.burke;
  * positions</a>.
  * </p>
  */
-public class Planet extends Blackbody implements PhysicalConstants {
+public class BPlanet extends Blackbody implements PhysicalConstants {
 	public double a; // semi-major axis of the orbit (in AU)
 	public double e; // eccentricity of the orbit
 	public double where_in_orbit; // position along orbit (in radians)
@@ -90,8 +90,8 @@ public class Planet extends Blackbody implements PhysicalConstants {
 	public double cloud_cover; // fraction of surface covered
 	public double ice_cover; // fraction of surface covered
 	public char plan_class; // general type classification
-	public Planet next_planet;
-	public Planet first_moon;
+	public BPlanet next_planet;
+	public BPlanet first_moon;
 	// these data elements are star related, but are stored here for my use
 	public double r_ecosphere;
 	public double resonance;
@@ -275,7 +275,7 @@ public class Planet extends Blackbody implements PhysicalConstants {
 	 * @param EM     Emission of the star relative to Sol
 	 * @param SM     Stellar mass relative to Sol
 	 */
-	public Planet(double AuDist, double EM, double SM) {
+	public BPlanet(double AuDist, double EM, double SM) {
 		double PT;
 
 		next_planet = null;
@@ -355,7 +355,7 @@ public class Planet extends Blackbody implements PhysicalConstants {
 	 * 
 	 * @param p Protoplanet that forms the basis of this planet
 	 */
-	public Planet(Protoplanet p) {
+	public BPlanet(Protoplanet p) {
 		next_planet = null;
 		first_moon = null;
 		a = p.a;

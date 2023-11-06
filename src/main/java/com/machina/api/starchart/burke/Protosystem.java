@@ -1,8 +1,8 @@
 package com.machina.api.starchart.burke;
 
 public class Protosystem extends Object implements PhysicalConstants {
-	public Star star;
-	public Planet planet;
+	public BStar star;
+	public BPlanet planet;
 	public DustDisc disc;
 	public Protoplanet planet_head;
 	public double body_inner_bound;
@@ -13,7 +13,7 @@ public class Protosystem extends Object implements PhysicalConstants {
 	 * 
 	 * @param s Primary for this system.
 	 */
-	public Protosystem(Star s) {
+	public Protosystem(BStar s) {
 		star = s;
 		planet = null;
 		planet_head = null;
@@ -32,7 +32,7 @@ public class Protosystem extends Object implements PhysicalConstants {
 	 * @param s Primary for this system.
 	 * @param p Planet around which these moons will form.
 	 */
-	public Protosystem(Star s, Planet p) {
+	public Protosystem(BStar s, BPlanet p) {
 		star = s;
 		planet = p;
 		planet_head = null;

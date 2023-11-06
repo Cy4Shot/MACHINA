@@ -57,14 +57,14 @@ package com.machina.api.starchart.burke;
  */
 public class StarSystem extends AccreteObject implements PhysicalConstants {
 	public double x, y, z;
-	public Star primary;
-	public Planet planets;
+	public BStar primary;
+	public BPlanet planets;
 
 	/**
 	 * Public constructor builds a star system with a random star.
 	 */
 	public StarSystem() {
-		primary = new Star((int) (nextDouble() * 60)); // more variety
+		primary = new BStar((int) (nextDouble() * 60)); // more variety
 		// primary = new Star(random_number(0.6, 1.3)); // starform method
 		Initialize();
 	}
@@ -73,7 +73,7 @@ public class StarSystem extends AccreteObject implements PhysicalConstants {
 	 * Creates the planets of this system using Dole's accretion algorithm.
 	 */
 	private void Initialize() {
-		Planet last_planet = null, cur_planet = null;
+		BPlanet last_planet = null, cur_planet = null;
 		Protoplanet p;
 
 		Protosystem ps = new Protosystem(primary);
@@ -81,7 +81,7 @@ public class StarSystem extends AccreteObject implements PhysicalConstants {
 		p = ps.planet_head;
 		while (p != null) {
 			if (p.mass > 0.0) {
-				cur_planet = new Planet(p);
+				cur_planet = new BPlanet(p);
 				cur_planet.orbit_zone = primary.orb_zone(cur_planet.a);
 				cur_planet.set_vital_stats(primary.SM, primary.r_greenhouse, primary.r_ecosphere, primary.age);
 				// could generate moons here
@@ -106,11 +106,11 @@ public class StarSystem extends AccreteObject implements PhysicalConstants {
 	public void initializeBode() {
 		/* BODE - BODE-TITIUS SEQUENCE FOR SATELLITE ORBITS */
 		double[] BODE = { 0.4, 0.7, 1.0, 1.6, 2.8, 5.2, 10.0, 19.6, 29.2, 38.8 };
-		Planet last_planet = null, cur_planet = null;
+		BPlanet last_planet = null, cur_planet = null;
 		int I;
 
 		for (I = 0; I < 10; I++) {
-			cur_planet = new Planet(primary.AU * BODE[I], primary.EM, primary.SM);
+			cur_planet = new BPlanet(primary.AU * BODE[I], primary.EM, primary.SM);
 			cur_planet.orbit_zone = primary.orb_zone(cur_planet.a);
 			cur_planet.set_vital_stats(primary.SM, primary.r_greenhouse, primary.r_ecosphere, primary.age);
 			if (I == 0)

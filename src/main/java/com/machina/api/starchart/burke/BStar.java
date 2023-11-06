@@ -55,7 +55,7 @@ package com.machina.api.starchart.burke;
  * positions</a>.
  * </p>
  */
-public class Star extends Blackbody implements PhysicalConstants {
+public class BStar extends Blackbody implements PhysicalConstants {
 	static private final double GREENHOUSE_EFFECT_CONST = (0.93); // affects inner radius..
 	static private final double B = (1.2E-5); // Used in Crit_mass calc
 
@@ -128,7 +128,7 @@ public class Star extends Blackbody implements PhysicalConstants {
 	 * @param StellarClassCode Integer code (0-59) corresponding to stellar class
 	 *                         (B0 - M9)
 	 */
-	public Star(int StellarClassCode) {
+	public BStar(int StellarClassCode) {
 		ST = StellarClassCode;
 		TEMP = SPECT[ST];
 		VM = MAINSEQ() - BC[ST];
@@ -147,7 +147,7 @@ public class Star extends Blackbody implements PhysicalConstants {
 	 * 
 	 * @param StellarMassRatio Ratio of star's mass to Sol
 	 */
-	public Star(double StellarMassRatio) {
+	public BStar(double StellarMassRatio) {
 		// ought to guess at stellar class here...
 		// also need to estimate temperature here...
 		SM = StellarMassRatio;
