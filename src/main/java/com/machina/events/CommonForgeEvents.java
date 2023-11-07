@@ -2,9 +2,11 @@ package com.machina.events;
 
 import com.machina.Machina;
 import com.machina.api.starchart.Starchart;
-import com.machina.api.starchart.StarchartGenerator;
 import com.machina.registration.Registration;
+import com.machina.world.PlanetRegistrationHandler;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -31,11 +33,10 @@ public class CommonForgeEvents {
 
 	@SubscribeEvent
 	public static void onDebug(final ItemTossEvent event) {
-		StarchartGenerator.getOrCreateSystem(8920128L, "Example");
-//		SolarSystem.SOLAR_SYSTEM.debug();
-//		System.out.println(new BigDecimal(Double
-//				.valueOf(Math.sqrt(
-//						38 * Math.pow(10, 25) / (4D * Math.PI * 5.670374419D * Math.pow(10, -8) * Math.pow(5800, 4))))
-//				.toString()).stripTrailingZeros().toPlainString());
+		if (!event.getPlayer().level().isClientSide()) {
+			ServerLevel planet = PlanetRegistrationHandler.createPlanet(event.getPlayer().getServer(), "1");
+			PlanetRegistrationHandler.sendPlayerToDimension((ServerPlayer) event.getPlayer(), planet,
+					new BlockPos(0, 100, 0));
+		}
 	}
 }

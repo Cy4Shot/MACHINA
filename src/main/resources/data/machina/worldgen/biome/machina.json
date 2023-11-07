@@ -1,0 +1,31 @@
+{
+	"category": "none",
+	"depth": 0.0,
+	"scale": 1.0,
+	"effects": {
+		"fog_color": 0,
+		"sky_color": 0,
+		"water_color": 4159204,
+		"water_fog_color": 329011,
+		"music": {
+			"sound": "machina:music",
+			"min_delay": 0,
+			"max_delay": 0,
+			"replace_current_music": true
+		}
+	},
+	"has_precipitation": false,
+	"temperature": 0.8,
+	"downfall": 0.4,
+	"surface_builder": "nope",
+	"carvers": {
+	},
+	"features": [
+	],
+	"starts": [
+	],
+	"spawners": {
+	},
+	"spawn_costs": {
+	}
+}

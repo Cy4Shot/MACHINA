@@ -15,7 +15,7 @@ import com.mojang.datafixers.util.Pair;
 
 public class StarchartGenerator {
 
-	public static SolarSystem getOrCreateSystem(long seed, String name) {
+	public static SolarSystem gen(long seed, String name) {
 		AccreteObject.cr.setSeed(seed);
 		StarSystem ss = new StarSystem();
 		Star star = convertStar(name, ss.primary);
