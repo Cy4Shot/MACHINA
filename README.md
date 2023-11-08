@@ -5,5 +5,5 @@
         own adventure.
       </p>
       <p>
-        Find more information on our <a href="https://cy4mods.me/machina/">wesbite</a>.
+        Find more information on our <a href="https://cy4.dev/machina/">wesbite</a>.
       </p>
