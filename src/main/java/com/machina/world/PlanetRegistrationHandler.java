@@ -1,6 +1,5 @@
 package com.machina.world;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.function.BiFunction;
@@ -14,15 +13,11 @@ import com.machina.world.data.PlanetDimensionData;
 import com.mojang.serialization.Lifecycle;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.RegistryLayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.progress.ChunkProgressListener;
@@ -32,7 +27,7 @@ import net.minecraft.world.level.border.BorderChangeListener.DelegateBorderChang
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.WorldOptions;
 import net.minecraft.world.level.storage.DerivedLevelData;
-import net.minecraft.world.level.storage.LevelStorageSource;
+import net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess;
 import net.minecraft.world.level.storage.WorldData;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.LevelEvent;
@@ -61,7 +56,6 @@ public class PlanetRegistrationHandler {
 		return createAndRegisterWorldAndDimension(server, map, worldKey, dimensionFactory);
 	}
 
-	@SuppressWarnings("unchecked")
 	private static ServerLevel createAndRegisterWorldAndDimension(MinecraftServer server,
 			Map<ResourceKey<Level>, ServerLevel> map, ResourceKey<Level> worldKey,
 			BiFunction<MinecraftServer, ResourceKey<LevelStem>, LevelStem> dimensionFactory) {
@@ -72,34 +66,19 @@ public class PlanetRegistrationHandler {
 
 		final ChunkProgressListener chunkProgressListener = server.progressListenerFactory.create(11);
 		final Executor executor = server.executor;
-		final LevelStorageSource.LevelStorageAccess anvilConverter = server.storageSource;
+		final LevelStorageAccess anvilConverter = server.storageSource;
 		final WorldData worldData = server.getWorldData();
 		final WorldOptions worldGenSettings = worldData.worldGenOptions();
 		final DerivedLevelData derivedLevelData = new DerivedLevelData(worldData, worldData.overworldData());
 
-		// register the actual dimension
-		LayeredRegistryAccess<RegistryLayer> registries = server.registries();
-		RegistryAccess.ImmutableRegistryAccess composite = (RegistryAccess.ImmutableRegistryAccess) registries
-				.compositeAccess();
-
-		Map<ResourceKey<? extends Registry<?>>, Registry<?>> regmap = new HashMap<>(composite.registries);
-		ResourceKey<? extends Registry<?>> key = ResourceKey
-				.create(ResourceKey.createRegistryKey(new ResourceLocation("root")), new ResourceLocation("dimension"));
-		MappedRegistry<LevelStem> oldRegistry = (MappedRegistry<LevelStem>) regmap.get(key);
-		Lifecycle oldLifecycle = oldRegistry.registryLifecycle();
-
-		final MappedRegistry<LevelStem> newRegistry = new MappedRegistry<>(Registries.LEVEL_STEM, oldLifecycle, false);
-		for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : oldRegistry.entrySet()) {
-			final ResourceKey<LevelStem> oldKey = entry.getKey();
-			final ResourceKey<Level> oldLevelKey = ResourceKey.create(Registries.DIMENSION, oldKey.location());
-			final LevelStem dim = entry.getValue();
-			if (dim != null && oldLevelKey != worldKey) {
-				Registry.register(newRegistry, oldKey, dim);
-			}
+		Registry<LevelStem> dimRegFrozen = server.registryAccess().registryOrThrow(Registries.LEVEL_STEM);
+		if (dimRegFrozen instanceof MappedRegistry<LevelStem> dimReg) {
+			dimReg.unfreeze();
+			dimReg.register(dimensionKey, dimension, Lifecycle.stable());
+			dimReg.freeze();
+		} else {
+			throw new IllegalStateException(String.format("Registry unwritable: %s", dimensionKey.location()));
 		}
-		Registry.register(newRegistry, dimensionKey, dimension);
-		regmap.replace(key, newRegistry);
-		composite.registries = (Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>>) regmap;
 
 		final ServerLevel newWorld = new ServerLevel(server, executor, anvilConverter, derivedLevelData, worldKey,
 				dimension, chunkProgressListener, false, BiomeManager.obfuscateSeed(worldGenSettings.seed()),

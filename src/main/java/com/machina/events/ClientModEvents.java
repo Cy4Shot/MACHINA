@@ -5,13 +5,17 @@ import com.machina.api.client.ClientTimer;
 import com.machina.api.client.cinema.CinematicHandler;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextOverlay;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
+import com.machina.api.util.ClassHelper;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
+import com.machina.registration.init.KeyBindingInit;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -25,6 +29,11 @@ public class ClientModEvents {
 		CinematicHandler.setup();
 
 		FluidInit.setRenderLayers();
+	}
+
+	@SubscribeEvent
+	public static void registerKeys(RegisterKeyMappingsEvent event) {
+		ClassHelper.<KeyMapping>doWithStatics(KeyBindingInit.class, (name, map) -> event.register(map));
 	}
 
 	@SubscribeEvent

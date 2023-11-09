@@ -66,7 +66,8 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	public void buildSurface(WorldGenRegion reg, StructureManager p_223051_, RandomState p_223052_, ChunkAccess ca) {
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
-				reg.setBlock(new BlockPos(i, 100, j), Blocks.STONE.defaultBlockState(), 3);
+				reg.setBlock(new BlockPos(ca.getPos().x * 16 + i, 100, ca.getPos().z * 16 + j),
+						Blocks.STONE.defaultBlockState(), 3);
 			}
 		}
 	}
@@ -77,13 +78,13 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public int getGenDepth() {
-		return 0;
+		return 384;
 	}
 
 	@Override
 	public CompletableFuture<ChunkAccess> fillFromNoise(Executor ex, Blender bl, RandomState ra, StructureManager sm,
 			ChunkAccess ca) {
-		return null;
+		return CompletableFuture.completedFuture(ca);
 	}
 
 	@Override
@@ -93,27 +94,22 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public int getMinY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return -64;
 	}
 
 	@Override
 	public int getBaseHeight(int p_223032_, int p_223033_, Types p_223034_, LevelHeightAccessor p_223035_,
 			RandomState p_223036_) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public NoiseColumn getBaseColumn(int p_223028_, int p_223029_, LevelHeightAccessor p_223030_,
 			RandomState p_223031_) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void addDebugScreenInfo(List<String> p_223175_, RandomState p_223176_, BlockPos p_223177_) {
-		// TODO Auto-generated method stub
-
 	}
 }
