@@ -5,7 +5,6 @@ import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
-import com.machina.registration.init.BiomeSourceInit;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.ChunkGeneratorInit;
@@ -26,7 +25,6 @@ public class Registration {
 	public static void register(IEventBus bus) {
 		bus.addListener(Registration::onCommonSetup);
 
-		CommonConfig.init();
 		registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
 		registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 
@@ -36,7 +34,6 @@ public class Registration {
 		FluidInit.FLUID_TYPES.register(bus);
 		TabInit.CREATIVE_MODE_TABS.register(bus);
 		BlockEntityInit.BLOCK_ENTITY_TYPES.register(bus);
-		BiomeSourceInit.BIOME_SOURCES.register(bus);
 		ChunkGeneratorInit.CHUNK_GENERATORS.register(bus);
 	}
 

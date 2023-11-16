@@ -12,14 +12,18 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.LevelStem;
@@ -44,15 +48,29 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	Planet planet;
 	long seed;
 
-	public PlanetChunkGenerator(BiomeSource source, ResourceKey<LevelStem> dim, long seed) {
-		this(source, PlanetHelper.getIdDim(dim), seed);
+	public PlanetChunkGenerator(BiomeSource biomeSource, ResourceKey<LevelStem> dim, long seed) {
+		this(biomeSource, PlanetHelper.getIdDim(dim), seed);
 	}
 
-	public PlanetChunkGenerator(BiomeSource source, int id, long seed) {
-		super(source);
+	// TODO: Replace with own biome
+	public PlanetChunkGenerator(BiomeSource biomeSource, int id, long seed) {
+		super(biomeSource);
 		this.id = id;
 		this.seed = seed;
 		this.planet = Starchart.system(seed).planets().get(id);
+	}
+
+	@Override
+	public CompletableFuture<ChunkAccess> createBiomes(Executor p_223159_, RandomState p_223160_, Blender p_223161_,
+			StructureManager p_223162_, ChunkAccess p_223163_) {
+		// TODO Auto-generated method stub
+		return super.createBiomes(p_223159_, p_223160_, p_223161_, p_223162_, p_223163_);
+	}
+
+	@Override
+	public BiomeGenerationSettings getBiomeGenerationSettings(Holder<Biome> b) {
+		// TODO Auto-generated method stub
+		return super.getBiomeGenerationSettings(b);
 	}
 
 	@Override
@@ -69,7 +87,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	public void buildSurface(WorldGenRegion reg, StructureManager p_223051_, RandomState p_223052_, ChunkAccess ca) {
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
-				reg.setBlock(new BlockPos(ca.getPos().x * 16 + i, 100, ca.getPos().z * 16 + j),
+				reg.setBlock(new BlockPos(ca.getPos().x * 16 + i, 80, ca.getPos().z * 16 + j),
 						Blocks.STONE.defaultBlockState(), 3);
 			}
 		}
@@ -109,7 +127,7 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	@Override
 	public NoiseColumn getBaseColumn(int p_223028_, int p_223029_, LevelHeightAccessor p_223030_,
 			RandomState p_223031_) {
-		return null;
+		return new NoiseColumn(0, new BlockState[0]);
 	}
 
 	@Override

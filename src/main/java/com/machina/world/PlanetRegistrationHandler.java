@@ -67,7 +67,8 @@ public class PlanetRegistrationHandler {
 			dimReg.unfreeze();
 			dimReg.register(dimensionKey, dimension, Lifecycle.stable());
 		} else {
-			throw new IllegalStateException(String.format("Registry unwritable: %s", dimensionKey.location()));
+			throw new IllegalStateException(String.format(
+					"Unable to register dimension %s -- dimension registry not writable", dimensionKey.location()));
 		}
 
 		final ServerLevel newWorld = new ServerLevel(server, server.executor, server.storageSource, derivedLevelData,
