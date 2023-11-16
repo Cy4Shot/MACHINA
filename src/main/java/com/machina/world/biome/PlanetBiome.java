@@ -13,7 +13,7 @@ public class PlanetBiome extends Biome {
 	static final BiomeGenerationSettings GEN = BiomeGenerationSettings.EMPTY;
 	static final MobSpawnSettings MOB = MobSpawnSettings.EMPTY;
 
-	PlanetBiome() {
+	public PlanetBiome() {
 		super(CLIMATE, EFFECTS, GEN, MOB);
 	}
 }

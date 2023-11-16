@@ -7,6 +7,7 @@ import java.util.concurrent.Executor;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.util.PlanetHelper;
+import com.machina.registration.init.ChunkGeneratorInit;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -29,14 +30,15 @@ import net.minecraft.world.level.levelgen.blending.Blender;
 
 public class PlanetChunkGenerator extends ChunkGenerator {
 
-	//@formatter:off
-	public static final Codec<PlanetChunkGenerator> CODEC =
-		RecordCodecBuilder.create(instance -> instance.group(
-			BiomeSource.CODEC.fieldOf("biome_source").forGetter(c -> c.biomeSource),
-			Codec.INT.fieldOf("id").forGetter(c -> c.id),
-			Codec.LONG.fieldOf("seed").forGetter(c -> c.seed))
-		.apply(instance, PlanetChunkGenerator::new));
-	//@formatter:on
+	public static Codec<PlanetChunkGenerator> makeCodec() {
+		//@formatter:off
+		return RecordCodecBuilder.create(instance -> instance.group(
+				BiomeSource.CODEC.fieldOf("biome_source").forGetter(c -> c.biomeSource),
+				Codec.INT.fieldOf("id").forGetter(c -> c.id),
+				Codec.LONG.fieldOf("seed").forGetter(c -> c.seed))
+			.apply(instance, PlanetChunkGenerator::new));
+		//@formatter:on
+	}
 
 	int id;
 	Planet planet;
@@ -49,12 +51,13 @@ public class PlanetChunkGenerator extends ChunkGenerator {
 	public PlanetChunkGenerator(BiomeSource source, int id, long seed) {
 		super(source);
 		this.id = id;
+		this.seed = seed;
 		this.planet = Starchart.system(seed).planets().get(id);
 	}
 
 	@Override
 	protected Codec<? extends ChunkGenerator> codec() {
-		return CODEC;
+		return ChunkGeneratorInit.PLANET.get();
 	}
 
 	@Override

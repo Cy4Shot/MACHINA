@@ -31,12 +31,14 @@ import net.minecraft.world.level.levelgen.presets.WorldPresets;
 
 public class PlanetBiomeProvider extends BiomeSource {
 
-	//@formatter:off
-	public static final Codec<PlanetBiomeProvider> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+	public static final Codec<PlanetBiomeProvider> makeCodec() {
+		//@formatter:off
+		return RecordCodecBuilder.create(instance -> instance.group(
 			RegistryOps.retrieveRegistryLookup(Registries.WORLD_PRESET).forGetter(PlanetBiomeProvider::getWorldPresetLookup),
 			RegistryOps.retrieveRegistryLookup(Registries.BIOME).forGetter(PlanetBiomeProvider::getBiomeLookup))
 		.apply(instance, PlanetBiomeProvider::new));
-	//@formatter:on
+		//@formatter:on
+	}
 
 	private final List<Holder<Biome>> biomes;
 	private final Set<TagKey<Biome>> biomeCategories;
@@ -172,7 +174,7 @@ public class PlanetBiomeProvider extends BiomeSource {
 	@Nonnull
 	@Override
 	protected Codec<? extends BiomeSource> codec() {
-		return CODEC;
+		return makeCodec();
 	}
 
 	@Override
