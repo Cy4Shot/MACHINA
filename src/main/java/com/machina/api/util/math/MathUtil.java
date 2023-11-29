@@ -7,20 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
 import net.minecraft.world.phys.Vec3;
 
 public class MathUtil {
-
-	public static final Vector3f XN = new Vector3f(-1.0F, 0.0F, 0.0F);
-	public static final Vector3f XP = new Vector3f(1.0F, 0.0F, 0.0F);
-	public static final Vector3f YN = new Vector3f(0.0F, -1.0F, 0.0F);
-	public static final Vector3f YP = new Vector3f(0.0F, 1.0F, 0.0F);
-	public static final Vector3f ZN = new Vector3f(0.0F, 0.0F, -1.0F);
-	public static final Vector3f ZP = new Vector3f(0.0F, 0.0F, 1.0F);
 
 	public static final double TWO_PI = Math.PI * 2;
 
@@ -56,35 +45,11 @@ public class MathUtil {
 		return Math.max(min, Math.min(max, val));
 	}
 
-	public static Quaternionf rotationDegrees(Vector3f vec, float degrees) {
-		degrees *= ((float) Math.PI / 180F);
-
-		float f = sin(degrees / 2.0F);
-		float x = vec.x() * f;
-		float y = vec.y() * f;
-		float z = vec.z() * f;
-		float w = cos(degrees / 2.0F);
-		return new Quaternionf(x, y, z, w);
-	}
-
-	public static Matrix4f createScaleMatrix(float x, float y, float z) {
-		Matrix4f matrix4f = new Matrix4f();
-		matrix4f.set(x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1);
-		return matrix4f;
-	}
-
-	public static Matrix4f orthographic(float w, float h, float n, float f) {
-		Matrix4f matrix4f = new Matrix4f();
-		float d = f - n;
-		matrix4f.set(2f / w, 0, 0, -1, 0, 2f / h, 0, 1, 0, 0, -2f / d, -(f + n) / d, 0, 0, 0, 1f);
-		return matrix4f;
-	}
-
-	private static float cos(float pAngle) {
+	public static float cos(float pAngle) {
 		return (float) Math.cos((double) pAngle);
 	}
 
-	private static float sin(float pAngle) {
+	public static float sin(float pAngle) {
 		return (float) Math.sin((double) pAngle);
 	}
 

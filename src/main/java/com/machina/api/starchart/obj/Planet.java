@@ -38,7 +38,7 @@ public record Planet(String name, double a, // semi-major axis of the orbit (in 
 		double r_ecosphere, double resonance, double stell_mass_ratio, double age, double cloud_factor,
 		double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
 		double airless_ice_factor, int its, boolean temp_unstable, List<Moon> moons) {
-	
+
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);

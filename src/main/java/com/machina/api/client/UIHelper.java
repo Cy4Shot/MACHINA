@@ -13,7 +13,9 @@ import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -123,5 +125,61 @@ public class UIHelper {
 		RenderSystem.depthFunc(GL11.GL_LEQUAL);
 		RenderSystem.disableDepthTest();
 		gui.pose().popPose();
+	}
+
+	@SuppressWarnings("resource")
+	public static void drawLines(GuiGraphics gui, double[] lines, int col) {
+		PoseStack poseStack = gui.pose();
+		float f3 = (col >> 24 & 255) / 255.0F;
+		float f = (col >> 16 & 255) / 255.0F;
+		float f1 = (col >> 8 & 255) / 255.0F;
+		float f2 = (col & 255) / 255.0F;
+
+		poseStack.pushPose();
+		float a = (float) gui.guiHeight() / gui.guiWidth();
+		float s = 2f / gui.guiWidth();
+		BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+		VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+		buffer.begin(Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
+
+		for (int i = 0; i < lines.length; i += 2) {
+			buffer.vertex(lines[i] * a * s, lines[i + 1] * s, 0).color(f, f1, f2, f3).endVertex();
+		}
+
+		vertexBuffer.bind();
+		vertexBuffer.upload(buffer.end());
+		Matrix4f mat = poseStack.last().pose();
+		vertexBuffer.drawWithShader(mat, mat, GameRenderer.getPositionColorShader());
+		poseStack.popPose();
+		VertexBuffer.unbind();
+	}
+
+	public static double[] orbit(float cx, float cy, float width, float eccentricity, float angle, int resolution) {
+		return ellipse(cx, cy, width, width * (float) Math.sqrt(1 - eccentricity * eccentricity), resolution, angle);
+	}
+
+	public static double[] ellipse(float cX, float cY, float rX, float rY, int sides, float angle) {
+		double[] buf = new double[(sides + 1) * 4];
+		float xn = 0, yn = 0;
+
+		for (int i = 0; i < (sides + 1); i++) {
+			xn = (float) (Math.sin(Math.toRadians(angle)) * rX);
+			yn = (float) (Math.cos(Math.toRadians(angle)) * rY);
+			if (i == 0) {
+				buf[0] = cX + xn;
+				buf[1] = cY + yn;
+			} else {
+				buf[i * 4 - 2] = cX + xn;
+				buf[i * 4 - 1] = cY + yn;
+				buf[i * 4] = cX + xn;
+				buf[i * 4 + 1] = cY + yn;
+			}
+			angle += (360f / sides);
+		}
+
+		buf[sides * 4 + 2] = cX + xn;
+		buf[sides * 4 + 3] = cY + yn;
+
+		return buf;
 	}
 }

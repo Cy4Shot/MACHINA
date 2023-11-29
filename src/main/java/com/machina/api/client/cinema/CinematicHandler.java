@@ -3,7 +3,7 @@ package com.machina.api.client.cinema;
 import com.machina.Machina;
 import com.machina.api.client.ClientTimer;
 import com.machina.api.client.cinema.entity.CinematicClientEntity;
-import com.machina.api.util.math.MathUtil;
+import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -91,7 +91,7 @@ public class CinematicHandler {
 
 					stack.pushPose();
 					stack.translate(delta.x, delta.y - cce.getEyeHeight(), delta.z);
-					stack.mulPose(MathUtil.rotationDegrees(MathUtil.YN, cce.getYRot()));
+					stack.mulPose(VecUtil.rotationDegrees(VecUtil.YN, cce.getYRot()));
 
 					mc.getEntityRenderDispatcher().getRenderer(cce).render(cce, 0, 0, stack,
 							mc.renderBuffers().bufferSource(), LightTexture.pack(0, 15));
