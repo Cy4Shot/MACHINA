@@ -12,9 +12,8 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexSorting;
-import com.mojang.math.Axis;
+import com.mojang.blaze3d.vertex.VertexBuffer;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -49,78 +48,32 @@ public class StarchartScreen extends Screen {
 
 		// Create Model
 		StarModel model = new StarModel();
-//		RenderSystem.setShaderTexture(0, new MachinaRL("textures/gui/starchart/star_bg.png"));
-//
-//		// Setup Pose
-//		gui.pose().pushPose();
-//		gui.pose().mulPoseMatrix(new Matrix4f().scaling(1.0F, -1.0F, 1.0F));
-//		gui.pose().scale(.3f, .3f, .3f);
-//		gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.YN, p_281550_));
-//
-//		// Create Buffer
-//		BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-//		VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
-//		buffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
-//		for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
-//			buffer.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880, OverlayTexture.NO_OVERLAY, true);
-//		}
-//
-//		// Draw
-//		vertexBuffer.bind();
-//		vertexBuffer.upload(buffer.end());
-//		vertexBuffer.drawWithShader(gui.pose().last().pose(),
-//				VecUtil.orthographic(1f, (float) gui.guiHeight() / gui.guiWidth(), 0.01f, 1000f),
-//				GameRenderer.getPositionTexColorShader());
-//		VertexBuffer.unbind();
+		RenderSystem.setShaderTexture(0, new MachinaRL("textures/gui/starchart/star_bg.png"));
 
-		Tesselator tesselator = Tesselator.getInstance();
-		BufferBuilder bufferbuilder = tesselator.getBuilder();
-		Matrix4f matrix4f = (new Matrix4f()).setPerspective(1.4835298F,
-				(float) gui.guiWidth() / (float) gui.guiHeight(), 0.05F, 10.0F);
-		RenderSystem.backupProjectionMatrix();
-		RenderSystem.setProjectionMatrix(matrix4f, VertexSorting.DISTANCE_TO_ORIGIN);
-		PoseStack posestack = RenderSystem.getModelViewStack();
-		posestack.pushPose();
-		posestack.setIdentity();
-		posestack.mulPose(Axis.XP.rotationDegrees(180.0F));
-		posestack.scale(.3f, .3f, .3f);
-		posestack.mulPose(VecUtil.rotationDegrees(VecUtil.YN, p_281550_));
-		RenderSystem.applyModelViewMatrix();
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.enableBlend();
-		RenderSystem.disableCull();
-		RenderSystem.depthMask(false);
+		// Setup Pose
+		gui.pose().pushPose();
+		gui.pose().mulPoseMatrix(new Matrix4f().scaling(1.0F, -1.0F, 1.0F));
+		gui.pose().scale(.3f, .3f, .3f);
+		gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.YN, p_281550_));
 
-		for (int j = 0; j < 4; ++j) {
-			posestack.pushPose();
-			float f = ((float) (j % 2) / 2.0F - 0.5F) / 256.0F;
-			float f1 = ((float) (j / 2) / 2.0F - 0.5F) / 256.0F;
-			posestack.translate(f, f1, 0.0F);
-			RenderSystem.applyModelViewMatrix();
+		gui.pose().translate(-.5f, -.5f, -.5f);
 
-			for (int k = 0; k < 6; ++k) {
-				RenderSystem.setShaderTexture(0, new MachinaRL("textures/gui/starchart/star_bg.png"));
-				bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-				for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
-					bufferbuilder.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880,
-							OverlayTexture.NO_OVERLAY, true);
-				}
-
-				tesselator.end();
-			}
-
-			posestack.popPose();
-			RenderSystem.applyModelViewMatrix();
-			RenderSystem.colorMask(true, true, true, false);
+		// Create Buffer
+		BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+		VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+		buffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
+			buffer.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880, OverlayTexture.NO_OVERLAY, true);
 		}
 
-		RenderSystem.colorMask(true, true, true, true);
-		RenderSystem.restoreProjectionMatrix();
-		posestack.popPose();
-		RenderSystem.applyModelViewMatrix();
-		RenderSystem.depthMask(true);
-		RenderSystem.enableCull();
-		RenderSystem.enableDepthTest();
+		// Draw
+		vertexBuffer.bind();
+		vertexBuffer.upload(buffer.end());
+		vertexBuffer.drawWithShader(gui.pose().last().pose(),
+				VecUtil.orthographic(1f, (float) gui.guiHeight() / gui.guiWidth(), 0.0001f, 1000f),
+//				RenderSystem.getProjectionMatrix(),
+				GameRenderer.getPositionTexShader());
+		VertexBuffer.unbind();
 
 		// Pop Pose
 		gui.pose().popPose();
