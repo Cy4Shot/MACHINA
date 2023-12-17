@@ -44,21 +44,21 @@ public class StarModel implements IDynamicBakedModel {
 		float s = 1f;
 		double l = 1 - s;
 		double r = s;
-		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), b, 0));
+		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, l), v(r, r, r), b, 0));
 		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), b, 0));
 		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), b, 0));
 		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), b, 0));
 		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), b, 0));
 		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), b, 0));
-
-		l -= 0.01f;
-		r += 0.01f;
-		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), f, -1));
-		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), f, -1));
-		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), f, -1));
-		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), f, -1));
-		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), f, -1));
-		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), f, -1));
+//
+//		l -= 0.1f;
+//		r += 0.1f;
+//		quads.add(createQuad(v(l, r, l), v(l, r, r), v(r, r, r), v(r, r, l), f, -1));
+//		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), f, -1));
+//		quads.add(createQuad(v(r, r, r), v(r, l, r), v(r, l, l), v(r, r, l), f, -1));
+//		quads.add(createQuad(v(l, r, l), v(l, l, l), v(l, l, r), v(l, r, r), f, -1));
+//		quads.add(createQuad(v(r, r, l), v(r, l, l), v(l, l, l), v(l, r, l), f, -1));
+//		quads.add(createQuad(v(l, r, r), v(l, l, r), v(r, l, r), v(r, r, r), f, -1));
 
 		return quads;
 	}

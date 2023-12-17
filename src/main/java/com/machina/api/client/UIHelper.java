@@ -159,7 +159,7 @@ public class UIHelper {
 	}
 
 	public static double[] ellipse(float cX, float cY, float rX, float rY, int sides, float angle) {
-		double[] buf = new double[(sides + 1) * 4];
+		double[] buf = new double[sides * 4 + 4];
 		float xn = 0, yn = 0;
 
 		for (int i = 0; i < (sides + 1); i++) {
