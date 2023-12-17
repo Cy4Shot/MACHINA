@@ -6,6 +6,8 @@ import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import com.machina.api.util.MachinaRL;
+import com.machina.api.util.math.VecUtil;
+import com.machina.client.model.celestial.CelestialModel;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -20,8 +22,11 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
 
 public class UIHelper {
 
@@ -181,5 +186,27 @@ public class UIHelper {
 		buf[sides * 4 + 3] = cY + yn;
 
 		return buf;
+	}
+
+	@SuppressWarnings("resource")
+	public static void drawCelestial(GuiGraphics gui, CelestialModel model) {
+		RenderSystem.setShaderTexture(0,
+				new ResourceLocation(model.tex().getNamespace(), "textures/" + model.tex().getPath() + ".png"));
+
+		// Create Buffer
+		BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+		VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+		buffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
+			buffer.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880, OverlayTexture.NO_OVERLAY, true);
+		}
+
+		// Draw
+		vertexBuffer.bind();
+		vertexBuffer.upload(buffer.end());
+		vertexBuffer.drawWithShader(gui.pose().last().pose(),
+				VecUtil.orthographic(1f, (float) gui.guiHeight() / gui.guiWidth(), 0.0001f, 1000f),
+				GameRenderer.getPositionTexShader());
+		VertexBuffer.unbind();
 	}
 }

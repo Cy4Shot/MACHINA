@@ -4,24 +4,14 @@ import org.joml.Matrix4f;
 
 import com.machina.api.client.UIHelper;
 import com.machina.api.starchart.obj.SolarSystem;
-import com.machina.api.util.MachinaRL;
 import com.machina.api.util.math.VecUtil;
-import com.machina.client.model.StarModel;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.machina.client.model.celestial.CelestialModel;
+import com.machina.client.model.celestial.StarModel;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexBuffer;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
 
 public class StarchartScreen extends Screen {
 
@@ -38,44 +28,21 @@ public class StarchartScreen extends Screen {
 		this.system = s;
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public void render(GuiGraphics gui, int p_281550_, int p_282878_, float p_282465_) {
 		UIHelper.renderOverflowHidden(gui, this::renderBackground);
 
+		// Circle
 		double[] buf = UIHelper.ellipse(0, 0, 50f, 50f, 100, 0);
 		UIHelper.drawLines(gui, buf, 0xFF_00fefe);
 
-		// Create Model
-		StarModel model = new StarModel();
-		RenderSystem.setShaderTexture(0, new MachinaRL("textures/gui/starchart/star_bg.png"));
-
-		// Setup Pose
+		// Star
+		CelestialModel model = new StarModel();
 		gui.pose().pushPose();
 		gui.pose().mulPoseMatrix(new Matrix4f().scaling(1.0F, -1.0F, 1.0F));
 		gui.pose().scale(.3f, .3f, .3f);
 		gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.YN, p_281550_));
-
-		gui.pose().translate(-.5f, -.5f, -.5f);
-
-		// Create Buffer
-		BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-		VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
-		buffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
-			buffer.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880, OverlayTexture.NO_OVERLAY, true);
-		}
-
-		// Draw
-		vertexBuffer.bind();
-		vertexBuffer.upload(buffer.end());
-		vertexBuffer.drawWithShader(gui.pose().last().pose(),
-				VecUtil.orthographic(1f, (float) gui.guiHeight() / gui.guiWidth(), 0.0001f, 1000f),
-//				RenderSystem.getProjectionMatrix(),
-				GameRenderer.getPositionTexShader());
-		VertexBuffer.unbind();
-
-		// Pop Pose
+		UIHelper.drawCelestial(gui, model);
 		gui.pose().popPose();
 	}
 
