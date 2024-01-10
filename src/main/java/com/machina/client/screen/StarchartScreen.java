@@ -3,6 +3,7 @@ package com.machina.client.screen;
 import java.util.Arrays;
 
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
@@ -44,55 +45,36 @@ public class StarchartScreen extends Screen {
 
 		Vector3f focusPoint = new Vector3f(0, 0, 0);
 
-		// Calculate camera rotation based on mouse positions
-		float nX = (2.0f * mX / width) - 1.0f;
-		float nY = 1.0f - (2.0f * mY / height);
-		Vector3f cameraRot = calculateCameraRotation(nX * 30, 0);
+		Quaternionf cameraRot = eulerToQuaternion(rotX, rotY);
 
-		Vector4f[] stars = new Vector4f[] { new Vector4f(0, 0, 0, 0.1f), new Vector4f(10, 0, 0, 0.1f) };
-		Vector4f[] newStars = new Vector4f[stars.length];
-		for (int i = 0; i < stars.length; i++) {
-			newStars[i] = calculateNewPosition(stars[i].x, stars[i].y, stars[i].z, stars[i].w, cameraPos, cameraRot,
-					focusPoint);
-		}
+		Vector4f[] stars = new Vector4f[] { new Vector4f(0, 0, 0, 0.1f), new Vector4f(10, 0, 0, 0.1f),
+				new Vector4f(-10, 0, 0, 0.1f) };
 
-		Vector4f[] sortedStars = Arrays.stream(newStars).sorted((a, b) -> Float.compare(b.w, a.w))
-				.toArray(Vector4f[]::new);
-
-		System.out.println(sortedStars[1].w);
-
-		CelestialModel[] models = new CelestialModel[sortedStars.length];
-		for (int i = 0; i < sortedStars.length; i++) {
-			models[i] = new StarModel().offset(sortedStars[i].x, sortedStars[i].y, sortedStars[i].z);
-		}
+		CelestialModel[] models = Arrays.stream(stars)
+				.map(s -> calculateNewPosition(s.x, s.y, s.z, s.w, cameraPos, cameraRot, focusPoint))
+				.sorted((a, b) -> Float.compare(b.w, a.w)).map(s -> new StarModel().offset(s.x, s.y, s.z))
+				.toArray(CelestialModel[]::new);
 
 		UIHelper.drawCelestials(gui, models, 0, 0, 0, .1f);
 
 //		UIHelper.drawLines(gui,
-//				UIHelper.orbit(0, 0, 0.1f, 0f, 0, 100),
+//				UIHelper.orbit(0, 0, 10f, 0f, 0, 100),
 //				0xFF_00fefe, 1, 0, 0, 1f);
 
 		gui.pose().popPose();
 	}
 
-	private static Vector3f calculateCameraRotation(float mouseX, float mouseY) {
-		float sensitivity = 0.1f;
-		float maxVerticalAngle = 89.0f;
-		float yaw = mouseX * sensitivity;
-		float pitch = mouseY * sensitivity;
-		pitch = Math.min(Math.max(pitch, -maxVerticalAngle), maxVerticalAngle);
-		return new Vector3f(-pitch, -yaw, 0);
+	private static Quaternionf eulerToQuaternion(float yaw, float pitch) {
+		return new Quaternionf().rotationYXZ((float) Math.toRadians(yaw), 0.0f, (float) Math.toRadians(pitch));
 	}
 
 	private static Vector4f calculateNewPosition(float x, float y, float z, float scale, Vector3f cameraPos,
-			Vector3f cameraRot, Vector3f focusPoint) {
-		Matrix4f rotationMatrix = new Matrix4f().rotate(cameraRot.x, new Vector3f(1, 0, 0))
-				.rotate(cameraRot.y, new Vector3f(0, 1, 0)).rotate(cameraRot.z, new Vector3f(0, 0, 1));
+			Quaternionf cameraRot, Vector3f focusPoint) {
+		Matrix4f rotationMatrix = new Matrix4f().rotate(cameraRot);
 		Vector4f newPos = new Vector4f(x, y, z, 1).mul(rotationMatrix).add(-cameraPos.x, -cameraPos.y, -cameraPos.z, 0);
 		float distance = new Vector3f(newPos.x, newPos.y, newPos.z).distance(cameraPos);
 		newPos = newPos.mul(scale * distance);
 		return new Vector4f(newPos.x, newPos.y, newPos.z, distance);
-
 	}
 
 	@Override
@@ -100,8 +82,15 @@ public class StarchartScreen extends Screen {
 
 		// Rotate - Right Click
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_2) {
-			this.rotX -= (float) pDragY / (float) height * 80f;
-			this.rotY -= (float) pDragX / (float) width * 180f;
+
+			float rotSpeed = 100;
+			float maxYAng = 45;
+			
+			this.rotX -= (float) pDragX / (float) width * rotSpeed;
+			this.rotY -= (float) pDragY / (float) height * rotSpeed;
+
+			this.rotY = Math.min(this.rotY, maxYAng);
+			this.rotY = Math.max(this.rotY, -maxYAng);
 		}
 
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
