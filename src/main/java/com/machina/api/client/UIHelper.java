@@ -188,8 +188,7 @@ public class UIHelper {
 	}
 
 	@SuppressWarnings("resource")
-	public static void drawCelestials(GuiGraphics gui, CelestialModel[] models, float x, float y, float z,
-			float scale) {
+	public static void drawCelestial(GuiGraphics gui, CelestialModel model, float x, float y, float z, float scale) {
 		gui.pose().pushPose();
 		gui.pose().scale(scale, scale, scale);
 		gui.pose().translate(x, y, z);
@@ -198,15 +197,12 @@ public class UIHelper {
 		VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
 		buffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-		for (CelestialModel model : models) {
-			RenderSystem.setShaderTexture(0,
-					new ResourceLocation(model.tex().getNamespace(), "textures/" + model.tex().getPath() + ".png"));
+		RenderSystem.setShaderTexture(0,
+				new ResourceLocation(model.tex().getNamespace(), "textures/" + model.tex().getPath() + ".png"));
 
-			// Create Buffer
-			for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
-				buffer.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880, OverlayTexture.NO_OVERLAY,
-						true);
-			}
+		// Create Buffer
+		for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
+			buffer.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880, OverlayTexture.NO_OVERLAY, true);
 		}
 
 		// Draw

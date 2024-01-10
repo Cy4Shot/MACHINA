@@ -5,7 +5,7 @@ import com.machina.api.starchart.StarchartGenerator;
 import com.machina.api.starchart.obj.SolarSystem;
 
 public class ClientStarchart {
-	static SolarSystem system;
+	public static SolarSystem system;
 
 	public static Starchart STARCHART = null;
 

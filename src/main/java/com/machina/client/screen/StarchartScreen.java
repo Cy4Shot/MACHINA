@@ -1,6 +1,7 @@
 package com.machina.client.screen;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -8,11 +9,15 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
+import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.UIHelper;
 import com.machina.api.starchart.obj.SolarSystem;
+import com.machina.api.util.math.VecUtil;
 import com.machina.client.model.celestial.CelestialModel;
+import com.machina.client.model.celestial.PlanetModel;
 import com.machina.client.model.celestial.StarModel;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -37,31 +42,43 @@ public class StarchartScreen extends Screen {
 	public void render(GuiGraphics gui, int mX, int mY, float partial) {
 		UIHelper.renderOverflowHidden(gui, this::renderBackground);
 
+		SolarSystem system = ClientStarchart.system;
+//		double radius = system.star().radius() * zoom;
+		double radius = zoom;
+
+		// Calculate Planet Pos
+		List<Vector4f> planets = system.planets().stream().map(p -> {
+			float x = (float) (Math.cos(p.where_in_orbit()) * p.a());
+			float z = (float) (Math.sin(p.where_in_orbit()) * p.a());
+			return new Vector4f(x, 0, z, zoom);
+		}).collect(Collectors.toList());
+
 		// Render Starchart
-		gui.pose().pushPose();
-		gui.pose().scale(zoom, zoom, zoom);
-
 		Vector3f cameraPos = new Vector3f(0, 0, -15f);
-
 		Vector3f focusPoint = new Vector3f(0, 0, 0);
-
 		Quaternionf cameraRot = eulerToQuaternion(rotX, rotY);
 
-		Vector4f[] stars = new Vector4f[] { new Vector4f(0, 0, 0, 0.1f), new Vector4f(10, 0, 0, 0.1f),
-				new Vector4f(-10, 0, 0, 0.1f) };
-
-		CelestialModel[] models = Arrays.stream(stars)
+		// Add Planets
+		List<Pair<Float, CelestialModel>> l = planets.stream()
 				.map(s -> calculateNewPosition(s.x, s.y, s.z, s.w, cameraPos, cameraRot, focusPoint))
-				.sorted((a, b) -> Float.compare(b.w, a.w)).map(s -> new StarModel().offset(s.x, s.y, s.z))
-				.toArray(CelestialModel[]::new);
+				.map(s -> Pair.of(s.w, new PlanetModel().offset(s.x, s.y, s.z))).collect(Collectors.toList());
 
-		UIHelper.drawCelestials(gui, models, 0, 0, 0, .1f);
+		// Add Star
+		Vector4f sp = calculateNewPosition(0, 0, 0, (float) radius, cameraPos, cameraRot, focusPoint);
+		l.add(Pair.of(sp.w, new StarModel().offset(sp.x, sp.y, sp.z)));
 
-//		UIHelper.drawLines(gui,
-//				UIHelper.orbit(0, 0, 10f, 0f, 0, 100),
-//				0xFF_00fefe, 1, 0, 0, 1f);
+		// Z-Sort
+		CelestialModel[] models = l.stream().sorted((a, b) -> Float.compare(b.getFirst(), a.getFirst()))
+				.map(Pair::getSecond).toArray(CelestialModel[]::new);
 
-		gui.pose().popPose();
+		// Draw
+		for (CelestialModel model : models) {
+			UIHelper.drawCelestial(gui, model, 0, 0, 0, .1f);
+		}
+
+		UIHelper.drawLines(gui,
+				UIHelper.orbit(0, 0, zoom, 0f, 0, 100),
+				0xFF_00fefe, 0, 0, 0, 0.1f);
 	}
 
 	private static Quaternionf eulerToQuaternion(float yaw, float pitch) {
@@ -85,7 +102,7 @@ public class StarchartScreen extends Screen {
 
 			float rotSpeed = 100;
 			float maxYAng = 45;
-			
+
 			this.rotX -= (float) pDragX / (float) width * rotSpeed;
 			this.rotY -= (float) pDragY / (float) height * rotSpeed;
 
@@ -94,6 +111,12 @@ public class StarchartScreen extends Screen {
 		}
 
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+	}
+
+	@Override
+	public boolean mouseScrolled(double mX, double mY, double delta) {
+		this.zoom *= Math.pow(1.1, -delta);
+		return super.mouseScrolled(mX, mY, delta);
 	}
 
 	@Override
