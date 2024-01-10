@@ -3,6 +3,7 @@ package com.machina.client.model.celestial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.IDynamicBakedModel;
+import net.minecraftforge.client.model.IQuadTransformer;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.pipeline.QuadBakingVertexConsumer;
 
@@ -43,13 +45,39 @@ public abstract class CelestialModel implements IDynamicBakedModel {
 		return quads;
 	}
 
+	public CelestialModel offset(float x, float y, float z) {
+		transform(v -> x + v, v -> y + v, v -> z + v);
+		return this;
+	}
+
+	public CelestialModel scale(float x, float y, float z) {
+		transform(v -> x * v, v -> y * v, v -> z * v);
+		return this;
+	}
+
+	private void transform(Function<Float, Float> x, Function<Float, Float> y, Function<Float, Float> z) {
+		List<BakedQuad> n = new ArrayList<>();
+		for (BakedQuad q : quads) {
+			int[] quadData = q.getVertices();
+			for (int i = 0; i < 4; i++) {
+				int offset = i * IQuadTransformer.STRIDE + IQuadTransformer.POSITION;
+				quadData[offset] = Float.floatToRawIntBits(x.apply(Float.intBitsToFloat(quadData[offset])));
+				quadData[offset + 1] = Float.floatToRawIntBits(y.apply(Float.intBitsToFloat(quadData[offset + 1])));
+				quadData[offset + 2] = Float.floatToRawIntBits(z.apply(Float.intBitsToFloat(quadData[offset + 2])));
+			}
+			n.add(new BakedQuad(quadData, q.getTintIndex(), q.getDirection(), q.getSprite(), q.isShade(),
+					q.hasAmbientOcclusion()));
+		}
+		this.quads = n;
+	}
+
 	public void setupCube() {
 		quads.clear();
 		TextureAtlasSprite b = getTexture(tex());
 		Transformation rotation = Transformation.identity();
-		float l = 0;
-		float r = 1;
-		float p = 1;
+		float l = -0.5f;
+		float r = 0.5f;
+		float p = 0.5f;
 
 		quads.add(createQuad(v(r, p, r), v(r, p, l), v(l, p, l), v(l, p, r), rotation, b));
 		quads.add(createQuad(v(l, l, l), v(r, l, l), v(r, l, r), v(l, l, r), rotation, b));
@@ -91,7 +119,7 @@ public abstract class CelestialModel implements IDynamicBakedModel {
 				float uvv0 = (float) theta / (n - 1);
 				float uvv1 = (float) (theta + 1) / (n - 1);
 
-				quads.add(createQuad(v0, v1, v2, v3, rotation, back, v(x0, y0, z0), uvu0, uvu1, uvv0, uvv1));
+				quads.add(createQuad(v0, v1, v2, v3, rotation, back, v0, uvu0, uvu1, uvv0, uvv1));
 			}
 		}
 	}
@@ -99,20 +127,6 @@ public abstract class CelestialModel implements IDynamicBakedModel {
 	public abstract void setup();
 
 	public abstract ResourceLocation tex();
-
-	Vector3f calculateSpherePoint(float radius, float theta, float phi) {
-		float x = radius * (float) Math.sin(phi) * (float) Math.cos(theta);
-		float y = radius * (float) Math.sin(phi) * (float) Math.sin(theta);
-		float z = radius * (float) Math.cos(phi);
-
-		return new Vector3f(x, y, z);
-	}
-
-	Vector3f calculateQuadNormal(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f v4) {
-		Vector3f edge1 = v2.sub(v1);
-		Vector3f edge2 = v3.sub(v2);
-		return edge1.cross(edge2).normalize();
-	}
 
 	private static void putVertex(QuadBakingVertexConsumer builder, Vector3f normal, Vector4f vector, float u, float v,
 			TextureAtlasSprite sprite) {

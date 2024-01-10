@@ -8,6 +8,7 @@ public class StarModel extends CelestialModel {
 
 	@Override
 	public void setup() {
+//		setupCube();
 		setupSphere(25);
 	}
 

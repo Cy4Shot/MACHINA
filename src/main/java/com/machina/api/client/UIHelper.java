@@ -99,17 +99,16 @@ public class UIHelper {
 		RenderSystem.defaultBlendFunc();
 	}
 
-	public static void sizedBlit(PoseStack poseStack, float x, float y, float width, float height, float srcX,
-			float srcY, float srcW, float srcH, float tex) {
+	public static void sizedBlit(PoseStack poseStack, float x, float y, float w, float h, float srcX, float srcY,
+			float srcW, float srcH, float tex) {
 		Matrix4f pose = poseStack.last().pose();
-		BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		bufferbuilder.vertex(pose, x, y + height, blitOffset).uv((srcX / tex), (srcY + srcH) / tex).endVertex();
-		bufferbuilder.vertex(pose, x + width, y + height, blitOffset).uv((srcX + srcW) / tex, (srcY + srcH) / tex)
-				.endVertex();
-		bufferbuilder.vertex(pose, x + width, y, blitOffset).uv((srcX + srcW) / tex, srcY / tex).endVertex();
-		bufferbuilder.vertex(pose, x, y, blitOffset).uv(srcX / tex, srcY / tex).endVertex();
-		BufferUploader.drawWithShader(bufferbuilder.end());
+		BufferBuilder buf = Tesselator.getInstance().getBuilder();
+		buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		buf.vertex(pose, x, y + h, blitOffset).uv(srcX / tex, (srcY + srcH) / tex).endVertex();
+		buf.vertex(pose, x + w, y + h, blitOffset).uv((srcX + srcW) / tex, (srcY + srcH) / tex).endVertex();
+		buf.vertex(pose, x + w, y, blitOffset).uv((srcX + srcW) / tex, srcY / tex).endVertex();
+		buf.vertex(pose, x, y, blitOffset).uv(srcX / tex, srcY / tex).endVertex();
+		BufferUploader.drawWithShader(buf.end());
 	}
 
 	public static void renderOverflowHidden(GuiGraphics gui, Consumer<PoseStack> bg) {
@@ -133,7 +132,7 @@ public class UIHelper {
 	}
 
 	@SuppressWarnings("resource")
-	public static void drawLines(GuiGraphics gui, double[] lines, int col) {
+	public static void drawLines(GuiGraphics gui, double[] lines, int col, float x, float y, float z, float scale) {
 		PoseStack poseStack = gui.pose();
 		float f3 = (col >> 24 & 255) / 255.0F;
 		float f = (col >> 16 & 255) / 255.0F;
@@ -141,20 +140,20 @@ public class UIHelper {
 		float f2 = (col & 255) / 255.0F;
 
 		poseStack.pushPose();
-		float a = (float) gui.guiHeight() / gui.guiWidth();
-		float s = 2f / gui.guiWidth();
+		poseStack.translate(x, y, z);
+		poseStack.scale(scale, scale, scale);
 		BufferBuilder buffer = Tesselator.getInstance().getBuilder();
 		VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
 		buffer.begin(Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
 
 		for (int i = 0; i < lines.length; i += 2) {
-			buffer.vertex(lines[i] * a * s, lines[i + 1] * s, 0).color(f, f1, f2, f3).endVertex();
+			buffer.vertex(lines[i], lines[i + 1], 0).color(f, f1, f2, f3).endVertex();
 		}
 
 		vertexBuffer.bind();
 		vertexBuffer.upload(buffer.end());
 		Matrix4f mat = poseStack.last().pose();
-		vertexBuffer.drawWithShader(mat, mat, GameRenderer.getPositionColorShader());
+		vertexBuffer.drawWithShader(mat, celestialProj(gui), GameRenderer.getPositionColorShader());
 		poseStack.popPose();
 		VertexBuffer.unbind();
 	}
@@ -189,24 +188,37 @@ public class UIHelper {
 	}
 
 	@SuppressWarnings("resource")
-	public static void drawCelestial(GuiGraphics gui, CelestialModel model) {
-		RenderSystem.setShaderTexture(0,
-				new ResourceLocation(model.tex().getNamespace(), "textures/" + model.tex().getPath() + ".png"));
+	public static void drawCelestials(GuiGraphics gui, CelestialModel[] models, float x, float y, float z,
+			float scale) {
+		gui.pose().pushPose();
+		gui.pose().scale(scale, scale, scale);
+		gui.pose().translate(x, y, z);
 
-		// Create Buffer
 		BufferBuilder buffer = Tesselator.getInstance().getBuilder();
 		VertexBuffer vertexBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
 		buffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
-			buffer.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880, OverlayTexture.NO_OVERLAY, true);
+
+		for (CelestialModel model : models) {
+			RenderSystem.setShaderTexture(0,
+					new ResourceLocation(model.tex().getNamespace(), "textures/" + model.tex().getPath() + ".png"));
+
+			// Create Buffer
+			for (BakedQuad quad : model.getQuads(null, null, new LegacyRandomSource(0L))) {
+				buffer.putBulkData(gui.pose().last(), quad, 1f, 1f, 1f, 1.0F, 15728880, OverlayTexture.NO_OVERLAY,
+						true);
+			}
 		}
 
 		// Draw
 		vertexBuffer.bind();
 		vertexBuffer.upload(buffer.end());
-		vertexBuffer.drawWithShader(gui.pose().last().pose(),
-				VecUtil.orthographic(1f, (float) gui.guiHeight() / gui.guiWidth(), 0.0001f, 1000f),
-				GameRenderer.getPositionTexShader());
+		vertexBuffer.drawWithShader(gui.pose().last().pose(), celestialProj(gui), GameRenderer.getPositionTexShader());
 		VertexBuffer.unbind();
+		gui.pose().popPose();
+	}
+
+	public static Matrix4f celestialProj(GuiGraphics gui) {
+		float fov = (float) Math.toRadians(70f);
+		return VecUtil.projection(fov, (float) gui.guiWidth() / gui.guiHeight(), 0.0001f, 1000f);
 	}
 }
