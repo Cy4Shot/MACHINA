@@ -1,27 +1,25 @@
 package com.machina.client.screen;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.joml.Matrix4f;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.UIHelper;
+import com.machina.api.client.planet.PlanetRenderer;
+import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
-import com.machina.api.util.math.VecUtil;
-import com.machina.client.model.celestial.CelestialModel;
-import com.machina.client.model.celestial.PlanetModel;
-import com.machina.client.model.celestial.StarModel;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 
 public class StarchartScreen extends Screen {
 
@@ -42,56 +40,57 @@ public class StarchartScreen extends Screen {
 	public void render(GuiGraphics gui, int mX, int mY, float partial) {
 		UIHelper.renderOverflowHidden(gui, this::renderBackground);
 
-		SolarSystem system = ClientStarchart.system;
-//		double radius = system.star().radius() * zoom;
-		double radius = zoom;
+		// Calculate Camera Rotation
+		float yaw = Mth.DEG_TO_RAD * rotY;
+		float pitch = Mth.DEG_TO_RAD * rotX;
+		float halfYaw = yaw * 0.5F;
+		float halfPitch = pitch * 0.5F;
+		float qw = Mth.cos(halfYaw) * Mth.cos(halfPitch);
+		float qx = Mth.sin(halfYaw) * Mth.cos(halfPitch);
+		float qy = Mth.cos(halfYaw) * Mth.sin(halfPitch);
+		float qz = Mth.sin(halfYaw) * Mth.sin(halfPitch);
+		Quaternionf rot = new Quaternionf(qx, qy, qz, qw);
 
-		// Calculate Planet Pos
-		List<Vector4f> planets = system.planets().stream().map(p -> {
-			float x = (float) (Math.cos(p.where_in_orbit()) * p.a());
-			float z = (float) (Math.sin(p.where_in_orbit()) * p.a());
-			return new Vector4f(x, 0, z, zoom);
-		}).collect(Collectors.toList());
+		// Calculate Time
+		float time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
 
-		// Render Starchart
-		Vector3f cameraPos = new Vector3f(0, 0, -15f);
-		Vector3f focusPoint = new Vector3f(0, 0, 0);
-		Quaternionf cameraRot = eulerToQuaternion(rotX, rotY);
+		renderCelestial(width / 2, height / 2, Vec3.ZERO, rot, "star_bg");
 
-		// Add Planets
-		List<Pair<Float, CelestialModel>> l = planets.stream()
-				.map(s -> calculateNewPosition(s.x, s.y, s.z, s.w, cameraPos, cameraRot, focusPoint))
-				.map(s -> Pair.of(s.w, new PlanetModel().offset(s.x, s.y, s.z))).collect(Collectors.toList());
+//		for (Planet p : ClientStarchart.system.planets()) {
+//			Vec3 c = p.calculateOrbitalCoordinates(time);
+//			float s = 10f;
+//			renderCelestial(width / 2, height / 2, c.multiply(s, s, s), rot, "earth");
+//		}
 
-		// Add Star
-		Vector4f sp = calculateNewPosition(0, 0, 0, (float) radius, cameraPos, cameraRot, focusPoint);
-		l.add(Pair.of(sp.w, new StarModel().offset(sp.x, sp.y, sp.z)));
-
-		// Z-Sort
-		CelestialModel[] models = l.stream().sorted((a, b) -> Float.compare(b.getFirst(), a.getFirst()))
-				.map(Pair::getSecond).toArray(CelestialModel[]::new);
-
-		// Draw
-		for (CelestialModel model : models) {
-			UIHelper.drawCelestial(gui, model, 0, 0, 0, .1f);
-		}
-
-		UIHelper.drawLines(gui,
-				UIHelper.orbit(0, 0, zoom, 0f, 0, 100),
-				0xFF_00fefe, 0, 0, 0, 0.1f);
 	}
 
-	private static Quaternionf eulerToQuaternion(float yaw, float pitch) {
-		return new Quaternionf().rotationYXZ((float) Math.toRadians(yaw), 0.0f, (float) Math.toRadians(pitch));
-	}
-
-	private static Vector4f calculateNewPosition(float x, float y, float z, float scale, Vector3f cameraPos,
-			Quaternionf cameraRot, Vector3f focusPoint) {
-		Matrix4f rotationMatrix = new Matrix4f().rotate(cameraRot);
-		Vector4f newPos = new Vector4f(x, y, z, 1).mul(rotationMatrix).add(-cameraPos.x, -cameraPos.y, -cameraPos.z, 0);
-		float distance = new Vector3f(newPos.x, newPos.y, newPos.z).distance(cameraPos);
-		newPos = newPos.mul(scale * distance);
-		return new Vector4f(newPos.x, newPos.y, newPos.z, distance);
+	protected void renderCelestial(int x, int y, Vec3 pos, Quaternionf rot, String tex) {
+		RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		PoseStack matrixStack = RenderSystem.getModelViewStack();
+		matrixStack.pushPose();
+		matrixStack.translate(x, y, 300.0D);
+		matrixStack.translate(8.0D, 8.0D, 0.0D);
+		matrixStack.scale(1.0F, -1.0F, 1.0F);
+		matrixStack.scale(32.0F, 32.0F, 32.0F);
+		RenderSystem.applyModelViewMatrix();
+		PoseStack matrices = new PoseStack();
+		MultiBufferSource.BufferSource vertexConsumerProvider = Minecraft.getInstance().renderBuffers().bufferSource();
+		matrices.pushPose();
+		float scale = 1.2F;
+		matrices.scale(1.0F, 1.0F, 0.1F);
+		matrices.scale(scale, scale, scale);
+		matrices.translate(0.0D, -0.925000011920929D, 0.0D);
+		matrices.translate(pos.x, pos.y, pos.z);
+		matrices.mulPose(rot);
+		PlanetRenderer.drawCelestial((MultiBufferSource) vertexConsumerProvider, matrices, 20, tex);
+		matrices.popPose();
+		vertexConsumerProvider.endBatch();
+		RenderSystem.enableDepthTest();
+		matrixStack.popPose();
+		RenderSystem.applyModelViewMatrix();
 	}
 
 	@Override
@@ -103,8 +102,8 @@ public class StarchartScreen extends Screen {
 			float rotSpeed = 100;
 			float maxYAng = 45;
 
-			this.rotX -= (float) pDragX / (float) width * rotSpeed;
-			this.rotY -= (float) pDragY / (float) height * rotSpeed;
+			this.rotX += (float) pDragX / (float) width * rotSpeed;
+			this.rotY += (float) pDragY / (float) height * rotSpeed;
 
 			this.rotY = Math.min(this.rotY, maxYAng);
 			this.rotY = Math.max(this.rotY, -maxYAng);

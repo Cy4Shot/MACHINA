@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import net.minecraft.world.phys.Vec3;
+
 public record Planet(String name, double a, // semi-major axis of the orbit (in AU)
 		double e, // eccentricity of the orbit
 		double where_in_orbit, // position along orbit (in radians)
@@ -42,6 +44,52 @@ public record Planet(String name, double a, // semi-major axis of the orbit (in 
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
+	}
+
+	public Vec3 calculateOrbitalCoordinates(double t) {
+		double trueAnomaly = calculateTrueAnomaly(t);
+
+		double x = a * (Math.cos(trueAnomaly) - e);
+		double z = a * Math.sqrt(1 - e * e) * Math.sin(trueAnomaly);
+
+		return new Vec3(x, 0, z);
+	}
+
+	private double calculateTrueAnomaly(double t) {
+		// Orbital parameters
+		double meanMotion = 2 * Math.PI / orb_period; // Mean motion (radians/day)
+		double meanAnomaly = meanMotion * t + where_in_orbit; // Mean anomaly (radians)
+
+		// Eccentricity anomaly
+		double eccentricAnomaly = calculateEccentricAnomaly(meanAnomaly);
+
+		// True anomaly
+		double trueAnomaly = 2 * Math.atan(Math.sqrt((1 + e) / (1 - e)) * Math.tan(eccentricAnomaly / 2));
+
+		return trueAnomaly;
+	}
+
+	private double calculateEccentricAnomaly(double meanAnomaly) {
+		// Initial guess for eccentric anomaly
+		double E0 = meanAnomaly;
+
+		// Iterative solution for eccentric anomaly using Newton's method
+		double E = E0;
+		double tolerance = 1e-9;
+		int maxIterations = 1000;
+		int iterations = 0;
+
+		do {
+			double nextE = E - ((E - e * Math.sin(E) - meanAnomaly) / (1 - e * Math.cos(E)));
+			if (Math.abs(nextE - E) < tolerance) {
+				E = nextE;
+				break;
+			}
+			E = nextE;
+			iterations++;
+		} while (iterations < maxIterations);
+
+		return E;
 	}
 
 //	public static final Planet MERCURY = new Planet("Mercury", 3301.1f, 2439700, 57.91f, 47360, 0.205630f, 3.7f, 340, 0,
