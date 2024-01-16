@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.machina.api.starchart.StarchartConstants;
+
 import net.minecraft.world.phys.Vec3;
 
 public record Planet(String name, double a, // semi-major axis of the orbit (in AU)
@@ -49,8 +51,8 @@ public record Planet(String name, double a, // semi-major axis of the orbit (in 
 	public Vec3 calculateOrbitalCoordinates(double t) {
 		double trueAnomaly = calculateTrueAnomaly(t);
 
-		double x = a * (Math.cos(trueAnomaly) - e);
-		double z = a * Math.sqrt(1 - e * e) * Math.sin(trueAnomaly);
+		double x = a * (Math.cos(trueAnomaly) - e) * StarchartConstants.AU_TO_M;
+		double z = a * Math.sqrt(1 - e * e) * Math.sin(trueAnomaly) * StarchartConstants.AU_TO_M;
 
 		return new Vec3(x, 0, z);
 	}
@@ -64,17 +66,12 @@ public record Planet(String name, double a, // semi-major axis of the orbit (in 
 		double eccentricAnomaly = calculateEccentricAnomaly(meanAnomaly);
 
 		// True anomaly
-		double trueAnomaly = 2 * Math.atan(Math.sqrt((1 + e) / (1 - e)) * Math.tan(eccentricAnomaly / 2));
-
-		return trueAnomaly;
+		return 2 * Math.atan(Math.sqrt((1 + e) / (1 - e)) * Math.tan(eccentricAnomaly / 2));
 	}
 
 	private double calculateEccentricAnomaly(double meanAnomaly) {
-		// Initial guess for eccentric anomaly
-		double E0 = meanAnomaly;
-
 		// Iterative solution for eccentric anomaly using Newton's method
-		double E = E0;
+		double E = meanAnomaly;
 		double tolerance = 1e-9;
 		int maxIterations = 1000;
 		int iterations = 0;

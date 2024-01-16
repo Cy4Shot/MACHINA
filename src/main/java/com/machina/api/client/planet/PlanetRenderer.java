@@ -8,9 +8,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
@@ -26,22 +27,22 @@ public class PlanetRenderer extends VFXBuilders.WorldVFXBuilder {
 	public static final RenderTypeProvider TEXTURE_ACTUAL_TRIANGLE_ADDITIVE;
 
 	static {
-		TEXTURE_ACTUAL_TRIANGLE_ADDITIVE = new RenderTypeProvider(
-				texture -> LodestoneRenderTypeRegistry.createGenericRenderType(texture.getNamespace(),
-						"texture_actual_triangle_additive", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
-						VertexFormat.Mode.TRIANGLES, LodestoneShaderRegistry.LODESTONE_TEXTURE.getShard(),
-						StateShards.NORMAL_TRANSPARENCY, new TextureStateShard(texture, false, false),
-						RenderStateShard.CULL));
+		TEXTURE_ACTUAL_TRIANGLE_ADDITIVE = new RenderTypeProvider(texture -> LodestoneRenderTypeRegistry
+				.createGenericRenderType(texture.getNamespace() + ":" + "texture_actual_triangle_additive",
+						DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.TRIANGLES,
+						RenderType.CompositeState.builder()
+								.setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE.getShard())
+								.setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
+								.setTextureState(new TextureStateShard(texture, false, false))
+								.setDepthTestState(new RenderStateShard.DepthTestStateShard("<=", 515))
+								.setLightmapState(new RenderStateShard.LightmapStateShard(true))
+								.setCullState(RenderStateShard.CULL)));
 	}
 
-	public static void drawCelestial(MultiBufferSource consumer, PoseStack stack, int detail, String tex) {
-		PlanetRenderer renderer = (PlanetRenderer) (new PlanetRenderer().setPosColorTexLightmapDefaultFormat());
-
-		stack.pushPose();
-		renderer.setAlpha(1.0F).renderSphere(consumer.getBuffer(
+	public WorldVFXBuilder drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, String tex) {
+		return renderSphere(mbs.getBuffer(
 				TEXTURE_ACTUAL_TRIANGLE_ADDITIVE.apply(new MachinaRL("textures/gui/starchart/" + tex + ".png"))), stack,
 				1.0F, detail, detail);
-		stack.popPose();
 	}
 
 	@Override
@@ -49,8 +50,8 @@ public class PlanetRenderer extends VFXBuilders.WorldVFXBuilder {
 		Matrix4f last = stack.last().pose();
 		float startU = 0.0F;
 		float startV = 0.0F;
-		float endU = 6.2831855F;
-		float endV = 3.1415927F;
+		float endU = Mth.TWO_PI;
+		float endV = Mth.PI;
 		float stepU = (endU - startU) / longs;
 		float stepV = (endV - startV) / lats;
 		for (int i = 0; i < longs; i++) {
