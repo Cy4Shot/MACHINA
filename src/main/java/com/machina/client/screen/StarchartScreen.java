@@ -52,7 +52,7 @@ public class StarchartScreen extends Screen {
 		// Calculate Time
 //		float time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
 
-		renderCelestial(width / 2, height / 2, Vec3.ZERO, rot, "star_bg");
+		renderCelestial(width / 2, height / 2, Vec3.ZERO, rot, "earth");
 
 //		for (Planet p : ClientStarchart.system.planets()) {
 //			Vec3 c = p.calculateOrbitalCoordinates(time);

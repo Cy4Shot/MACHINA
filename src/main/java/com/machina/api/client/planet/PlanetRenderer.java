@@ -8,9 +8,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
-import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import team.lodestar.lodestone.helpers.RenderHelper;
@@ -24,25 +24,37 @@ import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeProvider;
 // Thanks rat man :)
 public class PlanetRenderer extends VFXBuilders.WorldVFXBuilder {
 
-	public static final RenderTypeProvider TEXTURE_ACTUAL_TRIANGLE_ADDITIVE;
+	public static final RenderTypeProvider SOLID_SPHERE;
+	public static final RenderTypeProvider CLOUDS;
 
 	static {
-		TEXTURE_ACTUAL_TRIANGLE_ADDITIVE = new RenderTypeProvider(texture -> LodestoneRenderTypeRegistry
-				.createGenericRenderType(texture.getNamespace() + ":" + "texture_actual_triangle_additive",
-						DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.TRIANGLES,
-						RenderType.CompositeState.builder()
-								.setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE.getShard())
-								.setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
-								.setTextureState(new TextureStateShard(texture, false, false))
-								.setDepthTestState(new RenderStateShard.DepthTestStateShard("<=", 515))
-								.setLightmapState(new RenderStateShard.LightmapStateShard(true))
-								.setCullState(RenderStateShard.CULL)));
+		SOLID_SPHERE = new RenderTypeProvider(texture -> LodestoneRenderTypeRegistry.createGenericRenderType(
+				"machina:solid_sphere", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.TRIANGLES,
+				RenderType.CompositeState.builder().setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE.getShard())
+						.setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
+						.setTextureState(new TextureStateShard(texture, false, false))
+						.setDepthTestState(new RenderStateShard.DepthTestStateShard("<=", 515))
+						.setLightmapState(new RenderStateShard.LightmapStateShard(true))
+						.setCullState(new RenderStateShard.CullStateShard(true))));
+
+		CLOUDS = new RenderTypeProvider(texture -> LodestoneRenderTypeRegistry.createGenericRenderType("machina:clouds",
+				DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.TRIANGLES,
+				RenderType.CompositeState.builder().setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE.getShard())
+						.setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
+						.setTextureState(new TextureStateShard(texture, false, false))
+						.setDepthTestState(new RenderStateShard.DepthTestStateShard("<=", 515))
+						.setLightmapState(new RenderStateShard.LightmapStateShard(true))
+						.setCullState(new RenderStateShard.CullStateShard(true))));
 	}
 
 	public WorldVFXBuilder drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, String tex) {
-		return renderSphere(mbs.getBuffer(
-				TEXTURE_ACTUAL_TRIANGLE_ADDITIVE.apply(new MachinaRL("textures/gui/starchart/" + tex + ".png"))), stack,
+		setAlpha(1f);
+		renderSphere(mbs.getBuffer(SOLID_SPHERE.apply(new MachinaRL("textures/gui/starchart/" + tex + ".png"))), stack,
 				1.0F, detail, detail);
+		setAlpha(0.7f);
+		renderSphere(mbs.getBuffer(CLOUDS.apply(new MachinaRL("textures/gui/starchart/clouds.png"))), stack, 1.0F,
+				detail, detail);
+		return this;
 	}
 
 	@Override
