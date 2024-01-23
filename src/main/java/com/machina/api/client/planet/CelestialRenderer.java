@@ -1,90 +1,53 @@
 package com.machina.api.client.planet;
 
+import java.util.function.Function;
+
 import org.joml.Matrix4f;
 
+import com.machina.api.client.RenderTypes;
 import com.machina.api.util.MachinaRL;
-import com.machina.api.util.math.VecUtil;
-import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
-import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard.CullStateShard;
-import net.minecraft.client.renderer.RenderStateShard.LightmapStateShard;
-import net.minecraft.client.renderer.RenderStateShard.ShaderStateShard;
-import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
-import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import team.lodestar.lodestone.helpers.RenderHelper;
-import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
-import team.lodestar.lodestone.systems.rendering.VFXBuilders.WorldVFXBuilder;
-import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeProvider;
 
-public class CelestialRenderer extends WorldVFXBuilder {
+public class CelestialRenderer {
 
-	public static final RenderTypeProvider PLANET;
+	private static final float r = 1, g = 1, b = 1;
+	private static final int light = 15728880;
 
-	public static final TransparencyStateShard NORMAL_TRANSPARENCY = new TransparencyStateShard("normal_transparency",
-			() -> {
-				RenderSystem.enableBlend();
-				RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-			}, () -> {
-				RenderSystem.disableBlend();
-				RenderSystem.defaultBlendFunc();
-			});
-
-	static {
-		//@formatter:off
-		PLANET = new RenderTypeProvider(texture -> LodestoneRenderTypeRegistry.createGenericRenderType(
-				"machina:solid_sphere",
-				DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
-				VertexFormat.Mode.TRIANGLES,
-				RenderType.CompositeState.builder()
-					.setShaderState(new ShaderStateShard(GameRenderer::getRendertypeSolidShader))
-					.setTransparencyState(NORMAL_TRANSPARENCY)
-					.setTextureState(new TextureStateShard(texture, false, false))
-					.setLightmapState(new LightmapStateShard(true))
-					.setCullState(new CullStateShard(true))));
-		//@formatter:on
-	}
-
-	public WorldVFXBuilder drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, CelestialRenderInfo info,
+	public static void drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, CelestialRenderInfo info,
 			double time) {
+		// TODO: .... absolutely not. Get rid of these silly constants.
 		Vec3 pos = info.getOrbitalCoords(time).multiply(0.00000000001D, 0, 0.00000000001D);
-		float rad = (float) info.radius();
+		float rad = (float) (info.radius() / 1000000000D);
 
 		stack.pushPose();
 		stack.scale(rad, rad, rad);
 		stack.translate(pos.x, pos.y, pos.z);
 
-		setAlpha(1f);
-		sphere(mbs, PLANET, info.bg(), stack, 1.0F, detail);
-		setAlpha(0.5f);
-		stack.scale(1.03f, 1.03f, 1.03f);
-		stack.mulPose(VecUtil.rotationDegrees(VecUtil.YP, (float) time / 4));
-		sphere(mbs, PLANET, info.fg(), stack, 1.0F, detail);
+		sphere(mbs, RenderTypes.CELESTIAL, info.bg(), stack, 1f, detail);
+		// TODO: Based on atm density
+		sphere(mbs, RenderTypes.CELESTIAL, info.fg(), stack, 0.5f, detail);
 
 		stack.popPose();
-		return this;
 	}
 
-	private WorldVFXBuilder sphere(MultiBufferSource m, RenderTypeProvider p, String t, PoseStack s, float r, int d) {
-		return renderSphere(m.getBuffer(p.apply(new MachinaRL("textures/gui/starchart/" + t + ".png"))), s, r, d, d);
+	private static void sphere(MultiBufferSource m, Function<ResourceLocation, RenderType> p, String t, PoseStack s,
+			float a, int d) {
+		renderSphere(m.getBuffer(p.apply(new MachinaRL("textures/gui/starchart/" + t + ".png"))), s, d, d, a);
 	}
 
 	// Thanks rat man :)
-	@Override
-	public WorldVFXBuilder renderSphere(VertexConsumer c, PoseStack stack, float radius, int longs, int lats) {
+	public static void renderSphere(VertexConsumer c, PoseStack stack, int longs, int lats, float a) {
 		Matrix4f last = stack.last().pose();
 		float startU = 0.0F;
 		float startV = 0.0F;
+		float radius = 1.0F;
 		float endU = Mth.TWO_PI;
 		float endV = Mth.PI;
 		float stepU = (endU - startU) / longs;
@@ -111,14 +74,18 @@ public class CelestialRenderer extends WorldVFXBuilder {
 				float textureV = v / endV * radius;
 				float textureUN = un / endU * radius;
 				float textureVN = vn / endV * radius;
-				RenderHelper.vertexPosColorUVLight(c, last, p0x, p0y, p0z, r, g, b, a, textureU, textureV, light);
-				RenderHelper.vertexPosColorUVLight(c, last, p2x, p2y, p2z, r, g, b, a, textureUN, textureV, light);
-				RenderHelper.vertexPosColorUVLight(c, last, p1x, p1y, p1z, r, g, b, a, textureU, textureVN, light);
-				RenderHelper.vertexPosColorUVLight(c, last, p3x, p3y, p3z, r, g, b, a, textureUN, textureVN, light);
-				RenderHelper.vertexPosColorUVLight(c, last, p1x, p1y, p1z, r, g, b, a, textureU, textureVN, light);
-				RenderHelper.vertexPosColorUVLight(c, last, p2x, p2y, p2z, r, g, b, a, textureUN, textureV, light);
+				v(c, last, p0x, p0y, p0z, r, g, b, a, textureU, textureV, light);
+				v(c, last, p2x, p2y, p2z, r, g, b, a, textureUN, textureV, light);
+				v(c, last, p1x, p1y, p1z, r, g, b, a, textureU, textureVN, light);
+				v(c, last, p3x, p3y, p3z, r, g, b, a, textureUN, textureVN, light);
+				v(c, last, p1x, p1y, p1z, r, g, b, a, textureU, textureVN, light);
+				v(c, last, p2x, p2y, p2z, r, g, b, a, textureUN, textureV, light);
 			}
 		}
-		return this;
+	}
+
+	public static void v(VertexConsumer c, Matrix4f m, float x, float y, float z, float r, float g, float b, float a,
+			float u, float v, int l) {
+		c.vertex(m, x, y, z).color(r, g, b, a).uv(u, v).uv2(l).endVertex();
 	}
 }

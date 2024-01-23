@@ -56,9 +56,6 @@ public class StarchartScreen extends Screen {
 
 	}
 
-	static CelestialRenderer renderer = (CelestialRenderer) (new CelestialRenderer()
-			.setPosColorTexLightmapDefaultFormat());
-
 	protected void setupAndRenderCelestials(int x, int y, Vec3 pos, Quaternionf rot, double t) {
 		// Configure Render System
 		RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
@@ -93,11 +90,11 @@ public class StarchartScreen extends Screen {
 		matrices.mulPose(rot);
 
 		// Render star
-		renderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.star(system.star()), t);
+		CelestialRenderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(system.star()), t);
 
 		// Render Planets
 		for (Planet p : system.planets()) {
-			renderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.planet(p), t);
+			CelestialRenderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(p), t);
 		}
 	}
 
