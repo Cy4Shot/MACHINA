@@ -2,12 +2,12 @@ package com.machina.client.screen;
 
 import org.joml.Quaternionf;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import com.machina.api.client.UIHelper;
-import com.machina.api.client.planet.PlanetRenderer;
+import com.machina.api.client.planet.CelestialRenderInfo;
+import com.machina.api.client.planet.CelestialRenderer;
+import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -50,29 +50,21 @@ public class StarchartScreen extends Screen {
 		Quaternionf rot = new Quaternionf(qx, qy, qz, qw);
 
 		// Calculate Time
-//		float time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
+		float time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
 
-		renderCelestial(width / 2, height / 2, Vec3.ZERO, rot, "earth");
-
-//		for (Planet p : ClientStarchart.system.planets()) {
-//			Vec3 c = p.calculateOrbitalCoordinates(time);
-//			float s = 0.00000000f;
-//			renderCelestial(width / 2, height / 2, c.multiply(s, s, s), rot, "earth");
-//		}
+		setupAndRenderCelestials(width / 2, height / 2, Vec3.ZERO, rot, time);
 
 	}
 
-	static PlanetRenderer renderer = (PlanetRenderer) (new PlanetRenderer().setPosColorTexLightmapDefaultFormat());
+	static CelestialRenderer renderer = (CelestialRenderer) (new CelestialRenderer()
+			.setPosColorTexLightmapDefaultFormat());
 
-	protected void renderCelestial(int x, int y, Vec3 pos, Quaternionf rot, String tex) {
+	protected void setupAndRenderCelestials(int x, int y, Vec3 pos, Quaternionf rot, double t) {
 		// Configure Render System
 		RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
-		RenderSystem.enableBlend();
-		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.enableDepthTest();
-		RenderSystem.depthFunc(GL11.GL_LEQUAL);
-		
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+		RenderSystem.enableCull();
+
 		// Transform Matrix Stack
 		PoseStack matrixStack = RenderSystem.getModelViewStack();
 		matrixStack.pushPose();
@@ -81,26 +73,32 @@ public class StarchartScreen extends Screen {
 		matrixStack.scale(1.0F, -1.0F, 1.0F);
 		matrixStack.scale(32.0F, 32.0F, 32.0F);
 		RenderSystem.applyModelViewMatrix();
-		
+
 		// Render
 		MultiBufferSource.BufferSource vcp = minecraft.renderBuffers().bufferSource();
-		renderCelestial(pos, rot, vcp, tex);
+		renderCelestials(pos, rot, vcp, t);
 		vcp.endBatch();
-		
+
 		// Reset
 		matrixStack.popPose();
 		RenderSystem.applyModelViewMatrix();
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 
-	protected void renderCelestial(Vec3 pos, Quaternionf rot, MultiBufferSource c, String tex) {
+	protected void renderCelestials(Vec3 pos, Quaternionf rot, MultiBufferSource c, double t) {
 		PoseStack matrices = new PoseStack();
-		float scale = 1.2F;
 		matrices.scale(1.0F, 1.0F, 0.1F);
-		matrices.scale(scale, scale, scale);
 		matrices.translate(0.0D, -0.925000011920929D, 0.0D);
 		matrices.translate(pos.x, pos.y, pos.z);
 		matrices.mulPose(rot);
-		renderer.drawCelestial(c, matrices, 20, tex);
+
+		// Render star
+		renderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.star(system.star()), t);
+
+		// Render Planets
+		for (Planet p : system.planets()) {
+			renderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.planet(p), t);
+		}
 	}
 
 	@Override
