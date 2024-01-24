@@ -87,4 +87,8 @@ public record Planet(String name, double a, // semi-major axis of the orbit (in 
 
 		return E;
 	}
+	
+	public double calculateAphelionDistance() {
+        return a * (1 + e);
+    }
 }

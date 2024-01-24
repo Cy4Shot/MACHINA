@@ -1,6 +1,5 @@
 package com.machina.client.screen;
 
-import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.lwjgl.glfw.GLFW;
 
@@ -9,10 +8,8 @@ import com.machina.api.client.planet.CelestialRenderInfo;
 import com.machina.api.client.planet.CelestialRenderer;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
-import com.machina.client.particle.GUIParticles;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Transformation;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -32,11 +29,15 @@ public class StarchartScreen extends Screen {
 	float rotY = 0;
 	float posX = 0;
 	float posY = 0;
-	float zoom = 1f;
+	float zoom;
 
 	public StarchartScreen(SolarSystem s) {
 		super(Component.empty());
 		this.system = s;
+		
+		double maxAphelion = system.maxAphelion();
+		zoom = (float) Math.pow(Math.E, 2D / (maxAphelion * 2 * 1.1D));
+		
 	}
 
 	private ScreenParticleHolder p_target = new ScreenParticleHolder();
@@ -73,10 +74,6 @@ public class StarchartScreen extends Screen {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		RenderSystem.enableCull();
 
-		// Transform
-		Matrix4f trans = new Matrix4f();
-//		trans.translate(posX, posY, 0);
-		
 		// Apply to model view matrix
 		PoseStack matrixStack = RenderSystem.getModelViewStack();
 		matrixStack.pushPose();
@@ -89,7 +86,7 @@ public class StarchartScreen extends Screen {
 
 		// Render
 		MultiBufferSource.BufferSource vcp = minecraft.renderBuffers().bufferSource();
-		renderCelestials(gui, pos, rot, vcp, t, trans);
+		renderCelestials(gui, pos, rot, vcp, t);
 		vcp.endBatch();
 
 		// Reset
@@ -98,21 +95,20 @@ public class StarchartScreen extends Screen {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 
-	protected void renderCelestials(GuiGraphics gui, Vec3 pos, Quaternionf rot, MultiBufferSource c, double t,
-			Matrix4f modelView) {
+	protected void renderCelestials(GuiGraphics gui, Vec3 pos, Quaternionf rot, MultiBufferSource c, double t) {
 		PoseStack matrices = new PoseStack();
 		matrices.scale(1.0F, 1.0F, 0.1F);
 		matrices.translate(0.0D, -0.925000011920929D, 0.0D);
 		matrices.translate(pos.x, pos.y, pos.z);
+		matrices.scale(zoom, zoom, zoom);
 		matrices.mulPose(rot);
 
 		// Render star
-		CelestialRenderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(system.star(), gui), t, p_target,
-				modelView);
+		CelestialRenderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(system.star(), gui), t, p_target);
 
 		// Render Planets
 		for (Planet p : system.planets()) {
-			CelestialRenderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(p, gui), t, p_target, modelView);
+			CelestialRenderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(p, gui), t, p_target);
 		}
 	}
 
@@ -123,7 +119,7 @@ public class StarchartScreen extends Screen {
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_2) {
 
 			float rotSpeed = 100;
-			float maxYAng = 45;
+			float maxYAng = 90;
 
 			this.rotX += (float) pDragX / (float) width * rotSpeed;
 			this.rotY += (float) pDragY / (float) height * rotSpeed;
@@ -143,7 +139,7 @@ public class StarchartScreen extends Screen {
 
 	@Override
 	public boolean mouseScrolled(double mX, double mY, double delta) {
-		this.zoom *= Math.pow(1.1, -delta);
+		this.zoom *= Math.pow(1.1, delta);
 		return super.mouseScrolled(mX, mY, delta);
 	}
 
