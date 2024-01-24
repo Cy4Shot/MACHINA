@@ -3,9 +3,11 @@ package com.machina.api.client.planet;
 import java.util.function.Function;
 
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 import com.machina.api.client.RenderTypes;
 import com.machina.api.util.MachinaRL;
+import com.machina.client.particle.GUIParticles;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -14,6 +16,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 
 public class CelestialRenderer {
 
@@ -21,7 +24,7 @@ public class CelestialRenderer {
 	private static final int light = 15728880;
 
 	public static void drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, CelestialRenderInfo info,
-			double time) {
+			double time, ScreenParticleHolder p_target, Matrix4f modelView) {
 		// TODO: .... absolutely not. Get rid of these silly constants.
 		Vec3 pos = info.getOrbitalCoords(time).multiply(0.00000000001D, 0, 0.00000000001D);
 		float rad = (float) (info.radius() / 1000000000D);
@@ -29,6 +32,15 @@ public class CelestialRenderer {
 		stack.pushPose();
 		stack.scale(rad, rad, rad);
 		stack.translate(pos.x, pos.y, pos.z);
+		
+		Matrix4f proj = stack.last().pose();
+		Vector4f view = modelView.transform(new Vector4f(0, 0, 0, 1));
+		Vector4f cast = proj.transform(view);
+		Vector4f norm = cast.div(cast.w);
+		float screenX = (norm.x + 1.0f) * 0.5f * info.width();
+		float screenY = (1.0f - norm.y) * 0.5f * info.height();
+		
+		GUIParticles.planetGlow(screenX, screenY, p_target);
 
 		sphere(mbs, RenderTypes.CELESTIAL, info.bg(), stack, 1f, detail);
 		// TODO: Based on atm density
