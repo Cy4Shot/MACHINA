@@ -72,19 +72,28 @@ repositories {
 		name = "BlameJared Maven"
 		url 'https://maven.blamejared.com/'
 	}
+	maven {
+		name = "Curse Maven"
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
     minecraft "net.neoforged:forge:${minecraft_version}-${neo_version}"
     
+    // Dev Dependencies
+    runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
+    
+    // Optional Dependencies
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     
-    // Successfully Deobfsucated
+    // Required Dependencies
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
-    
-    // Not Deobsfucated
     implementation fg.deobf("team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}")
 }
 

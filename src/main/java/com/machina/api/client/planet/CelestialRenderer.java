@@ -1,19 +1,15 @@
 package com.machina.api.client.planet;
 
-import java.util.function.Function;
-
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 import com.machina.api.client.RenderTypes;
-import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -35,12 +31,12 @@ public class CelestialRenderer {
 
 		Vec2 sp = asScreenPos(stack, info.width(), info.height());
 		info.particle().accept(sp, p_target);
-		
+
 		stack.scale(rad, rad, rad);
 
-		sphere(mbs, RenderTypes.CELESTIAL, info.bg(), stack, 1f, detail);
+		sphere(mbs, RenderTypes.getOrCreateCelestial(info.bg()), stack, 1f, detail);
 		// TODO: Based on atm density
-		sphere(mbs, RenderTypes.CELESTIAL, info.fg(), stack, 0.5f, detail);
+		sphere(mbs, RenderTypes.getOrCreateCelestial(info.fg()), stack, 0.5f, detail);
 
 		stack.popPose();
 	}
@@ -60,9 +56,8 @@ public class CelestialRenderer {
 		return new Vec2(x, y);
 	}
 
-	private static void sphere(MultiBufferSource m, Function<ResourceLocation, RenderType> p, String t, PoseStack s,
-			float a, int d) {
-		renderSphere(m.getBuffer(p.apply(new MachinaRL("textures/gui/starchart/" + t + ".png"))), s, d, d, a);
+	private static void sphere(MultiBufferSource m, RenderType t, PoseStack s, float a, int d) {
+		renderSphere(m.getBuffer(t), s, d, d, a);
 	}
 
 	// Thanks rat man :)

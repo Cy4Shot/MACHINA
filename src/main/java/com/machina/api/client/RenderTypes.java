@@ -1,7 +1,10 @@
 package com.machina.api.client;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
+import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
 import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -21,6 +24,7 @@ import team.lodestar.lodestone.handlers.RenderHandler;
 
 public class RenderTypes {
 
+	// Sodium compat
 	public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
 
 	public static final TransparencyStateShard CELESTIAL_TRANSPARENCY = new TransparencyStateShard(
@@ -33,7 +37,7 @@ public class RenderTypes {
 			});
 
 	//@formatter:off
-	public static final Function<ResourceLocation, RenderType> CELESTIAL = 
+	private static final Function<ResourceLocation, RenderType> CELESTIAL = 
 			tex -> createGenericRenderType("machina:starchart_celestial",
 					DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
 					VertexFormat.Mode.TRIANGLES,
@@ -44,6 +48,13 @@ public class RenderTypes {
 							.setLightmapState(new LightmapStateShard(true))
 							.setCullState(new CullStateShard(true)));
 	//@formatter:on
+
+	// Use a map to avoid creating the same render type twice.
+	private static Map<String, RenderType> CELESTIALS = new HashMap<>();
+
+	public static RenderType getOrCreateCelestial(String tex) {
+		return CELESTIALS.computeIfAbsent(tex, t -> CELESTIAL.apply(new MachinaRL("textures/gui/starchart/" + t + ".png")));
+	}
 
 	public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode,
 			RenderType.CompositeState.CompositeStateBuilder builder) {
