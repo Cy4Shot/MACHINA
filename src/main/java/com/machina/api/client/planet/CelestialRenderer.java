@@ -1,9 +1,13 @@
 package com.machina.api.client.planet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
 import com.machina.api.client.RenderTypes;
+import com.machina.api.starchart.obj.Orbit;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -14,18 +18,21 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
+import team.lodestar.lodestone.systems.rendering.VFXBuilders.WorldVFXBuilder;
+import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
 
-public class CelestialRenderer {
+public class CelestialRenderer extends WorldVFXBuilder {
 
-	private static final float r = 1, g = 1, b = 1;
-	private static final int light = 15728880;
-
-	public static void drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, CelestialRenderInfo info,
+	public WorldVFXBuilder drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, CelestialRenderInfo info,
 			double time, ScreenParticleHolder p_target) {
-		// TODO: .... absolutely not. Get rid of these silly constants.
+
+		stack.pushPose();
+		List<TrailPoint> orbit = generateOrbitPoints(info.orbit(), 50).stream().map(TrailPoint::new).toList();
+		renderTrail(mbs.getBuffer(RenderTypes.ORBIT.get()), stack, orbit, 1f);
+		stack.popPose();
+
 		Vec3 pos = info.getOrbitalCoords(time);
 		float rad = (float) info.radius();
-
 		stack.pushPose();
 		stack.translate(pos.x, pos.y, pos.z);
 
@@ -39,6 +46,7 @@ public class CelestialRenderer {
 		sphere(mbs, RenderTypes.getOrCreateCelestial(info.fg()), stack, 0.5f, detail);
 
 		stack.popPose();
+		return this;
 	}
 
 	public static Vec2 asScreenPos(PoseStack stack, int w, int h) {
@@ -56,12 +64,30 @@ public class CelestialRenderer {
 		return new Vec2(x, y);
 	}
 
-	private static void sphere(MultiBufferSource m, RenderType t, PoseStack s, float a, int d) {
-		renderSphere(m.getBuffer(t), s, d, d, a);
+	public static List<Vec3> generateOrbitPoints(Orbit o, int numPoints) {
+		List<Vec3> orbitPoints = new ArrayList<>();
+		double a = o.a();
+		double e = o.e();
+
+		for (int i = 0; i < numPoints; i++) {
+			double trueAnomaly = 2 * Math.PI * i / numPoints;
+			double radius = a * (1 - e * e) / (1 + e * Math.cos(trueAnomaly));
+
+			double x = radius * Math.cos(trueAnomaly);
+			double y = radius * Math.sin(trueAnomaly);
+
+			orbitPoints.add(new Vec3((float) x, 0, (float) y));
+		}
+
+		return orbitPoints;
+	}
+
+	private WorldVFXBuilder sphere(MultiBufferSource m, RenderType t, PoseStack s, float a, int d) {
+		return renderSphere(m.getBuffer(t), s, d, d, a);
 	}
 
 	// Thanks rat man :)
-	public static void renderSphere(VertexConsumer c, PoseStack stack, int longs, int lats, float a) {
+	public CelestialRenderer renderSphere(VertexConsumer c, PoseStack stack, int longs, int lats, float a) {
 		Matrix4f last = stack.last().pose();
 		float startU = 0.0F;
 		float startV = 0.0F;
@@ -100,6 +126,7 @@ public class CelestialRenderer {
 				v(c, last, p2x, p2y, p2z, r, g, b, a, textureUN, textureV, light);
 			}
 		}
+		return this;
 	}
 
 	public static void v(VertexConsumer c, Matrix4f m, float x, float y, float z, float r, float g, float b, float a,

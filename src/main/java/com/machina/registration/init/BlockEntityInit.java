@@ -15,6 +15,7 @@ public class BlockEntityInit {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister
 			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Machina.MOD_ID);
 
+	@SuppressWarnings("unused")
 	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String n,
 			BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block> b) {
 		return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));

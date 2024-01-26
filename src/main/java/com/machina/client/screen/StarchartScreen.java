@@ -11,6 +11,7 @@ import com.machina.api.starchart.obj.SolarSystem;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -34,10 +35,11 @@ public class StarchartScreen extends Screen {
 	public StarchartScreen(SolarSystem s) {
 		super(Component.empty());
 		this.system = s;
-		
+
 		double maxAphelion = system.maxAphelion();
 		zoom = (float) Math.pow(Math.E, 2D / (maxAphelion * 2 * 1.1D));
-		
+		zoom = 1f;
+
 	}
 
 	private ScreenParticleHolder p_target = new ScreenParticleHolder();
@@ -95,6 +97,16 @@ public class StarchartScreen extends Screen {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 
+	@Override
+	public void resize(Minecraft p_96575_, int p_96576_, int p_96577_) {
+		p_target.particles.clear();
+		super.resize(p_96575_, p_96576_, p_96577_);
+	}
+
+	// We set pos color as default format since we only use the vertex supplier when
+	// rendering gizmos.
+	CelestialRenderer renderer = (CelestialRenderer) ((new CelestialRenderer()).setPosColorDefaultFormat());
+
 	protected void renderCelestials(GuiGraphics gui, Vec3 pos, Quaternionf rot, MultiBufferSource c, double t) {
 		PoseStack matrices = new PoseStack();
 		matrices.scale(1.0F, 1.0F, 0.1F);
@@ -104,11 +116,11 @@ public class StarchartScreen extends Screen {
 		matrices.mulPose(rot);
 
 		// Render star
-		CelestialRenderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(system.star(), gui), t, p_target);
+		renderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(system.star(), gui), t, p_target);
 
 		// Render Planets
 		for (Planet p : system.planets()) {
-			CelestialRenderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(p, gui), t, p_target);
+			renderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(p, gui), t, p_target);
 		}
 	}
 

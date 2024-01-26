@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.machina.api.starchart.StarchartConst;
-
 import net.minecraft.world.phys.Vec3;
 
 public record Planet(String name, double a, // semi-major axis of the orbit (in AU)
@@ -51,8 +49,8 @@ public record Planet(String name, double a, // semi-major axis of the orbit (in 
 	public Vec3 calculateOrbitalCoordinates(double t) {
 		double trueAnomaly = calculateTrueAnomaly(t);
 
-		double x = a * (Math.cos(trueAnomaly) - e) * StarchartConst.AU_TO_M;
-		double z = a * Math.sqrt(1 - e * e) * Math.sin(trueAnomaly) * StarchartConst.AU_TO_M;
+		double x = a * (Math.cos(trueAnomaly) - e);
+		double z = a * Math.sqrt(1 - e * e) * Math.sin(trueAnomaly);
 
 		return new Vec3(x, 0, z);
 	}
@@ -62,7 +60,7 @@ public record Planet(String name, double a, // semi-major axis of the orbit (in 
 		double meanMotion = 2 * Math.PI / orb_period;
 		double meanAnomaly = meanMotion * t + where_in_orbit;
 
-		// Eccentricity 
+		// Eccentricity
 		double eccentricAnomaly = calculateEccentricAnomaly(meanAnomaly);
 
 		// True anomaly
@@ -87,8 +85,8 @@ public record Planet(String name, double a, // semi-major axis of the orbit (in 
 
 		return E;
 	}
-	
+
 	public double calculateAphelionDistance() {
-        return a * (1 + e);
-    }
+		return a * (1 + e);
+	}
 }

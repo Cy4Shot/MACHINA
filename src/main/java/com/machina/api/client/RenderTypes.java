@@ -3,6 +3,7 @@ package com.machina.api.client;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
@@ -21,6 +22,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.handlers.RenderHandler;
+import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 
 public class RenderTypes {
 
@@ -31,6 +33,15 @@ public class RenderTypes {
 			"celestial_transparency", () -> {
 				RenderSystem.enableBlend();
 				RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+			}, () -> {
+				RenderSystem.disableBlend();
+				RenderSystem.defaultBlendFunc();
+			});
+
+	public static final TransparencyStateShard ORBIT_TRANSPARENCY = new TransparencyStateShard("orbit_transparency",
+			() -> {
+				RenderSystem.enableBlend();
+				RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE);
 			}, () -> {
 				RenderSystem.disableBlend();
 				RenderSystem.defaultBlendFunc();
@@ -47,6 +58,15 @@ public class RenderTypes {
 							.setTextureState(new TextureStateShard(tex, false, false))
 							.setLightmapState(new LightmapStateShard(true))
 							.setCullState(new CullStateShard(true)));
+			
+	public static final Supplier<RenderType> ORBIT =
+			() -> createGenericRenderType("machina:orbit",
+					DefaultVertexFormat.POSITION_COLOR,
+					VertexFormat.Mode.QUADS,
+					RenderType.CompositeState.builder()
+						.setShaderState(LodestoneShaderRegistry.TRIANGLE_TEXTURE.getShard())
+						.setTransparencyState(CELESTIAL_TRANSPARENCY)
+						.setCullState(new CullStateShard(true)));
 	//@formatter:on
 
 	// Use a map to avoid creating the same render type twice.
