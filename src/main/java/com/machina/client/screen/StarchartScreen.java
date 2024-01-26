@@ -103,9 +103,7 @@ public class StarchartScreen extends Screen {
 		super.resize(p_96575_, p_96576_, p_96577_);
 	}
 
-	// We set pos color as default format since we only use the vertex supplier when
-	// rendering gizmos.
-	CelestialRenderer renderer = (CelestialRenderer) ((new CelestialRenderer()).setPosColorDefaultFormat());
+	CelestialRenderer renderer = new CelestialRenderer();
 
 	protected void renderCelestials(GuiGraphics gui, Vec3 pos, Quaternionf rot, MultiBufferSource c, double t) {
 		PoseStack matrices = new PoseStack();
@@ -131,7 +129,7 @@ public class StarchartScreen extends Screen {
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_2) {
 
 			float rotSpeed = 100;
-			float maxYAng = 90;
+			float maxYAng = 89.9f;
 
 			this.rotX += (float) pDragX / (float) width * rotSpeed;
 			this.rotY += (float) pDragY / (float) height * rotSpeed;

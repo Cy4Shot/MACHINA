@@ -1,7 +1,9 @@
 package com.machina.api.client.planet;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
@@ -20,16 +22,21 @@ import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders.WorldVFXBuilder;
 import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
+import team.lodestar.lodestone.systems.rendering.trail.TrailRenderPoint;
 
 public class CelestialRenderer extends WorldVFXBuilder {
+
+	public CelestialRenderer() {
+		setPosColorTexLightmapDefaultFormat();
+	}
 
 	public WorldVFXBuilder drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, CelestialRenderInfo info,
 			double time, ScreenParticleHolder p_target) {
 
-		stack.pushPose();
-		List<TrailPoint> orbit = generateOrbitPoints(info.orbit(), 50).stream().map(TrailPoint::new).toList();
-		renderTrail(mbs.getBuffer(RenderTypes.ORBIT.get()), stack, orbit, 1f);
-		stack.popPose();
+		setColor(255, 255, 255, 1f);
+		List<TrailPoint> orbit = generateOrbitPoints(info.orbit(), 100).stream().map(TrailPoint::new).toList();
+		renderTrail(mbs.getBuffer(RenderTypes.ORBIT), stack.last().pose(), orbit, 0f);
+		setColor(Color.WHITE);
 
 		Vec3 pos = info.getOrbitalCoords(time);
 		float rad = (float) info.radius();
@@ -76,10 +83,37 @@ public class CelestialRenderer extends WorldVFXBuilder {
 			double x = radius * Math.cos(trueAnomaly);
 			double y = radius * Math.sin(trueAnomaly);
 
-			orbitPoints.add(new Vec3((float) x, 0, (float) y));
+			orbitPoints.add(new Vec3(x, 0, y));
 		}
 
 		return orbitPoints;
+	}
+
+	public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<TrailPoint> trail, float w) {
+		if (trail.size() < 3) {
+			return this;
+		}
+		List<Vector4f> positions = trail.stream().map(TrailPoint::getMatrixPosition).peek(p -> p.mul(pose)).toList();
+		ArrayList<TrailRenderPoint> points = new ArrayList<>();
+		for (int i = 0; i < trail.size() - 1; i++) {
+			points.add(new TrailRenderPoint(positions.get(i), Vec2.ZERO));
+		}
+		return renderPoints(vertexConsumer, points);
+	}
+
+	public WorldVFXBuilder renderPoints(VertexConsumer vc, List<TrailRenderPoint> ps) {
+		Consumer<Integer> place = i -> {
+			TrailRenderPoint p = ps.get(i);
+			supplier.placeVertex(vc, null, p.xp, p.yp, p.z, u0, v1);
+		};
+
+		place.accept(0);
+		for (int i = 1; i < ps.size(); i++) {
+			place.accept(i);
+			place.accept(i);
+		}
+		place.accept(0);
+		return this;
 	}
 
 	private WorldVFXBuilder sphere(MultiBufferSource m, RenderType t, PoseStack s, float a, int d) {
@@ -102,18 +136,26 @@ public class CelestialRenderer extends WorldVFXBuilder {
 				float v = j * stepV + startV;
 				float un = (i + 1 == longs) ? endU : ((i + 1) * stepU + startU);
 				float vn = (j + 1 == lats) ? endV : ((j + 1) * stepV + startV);
-				float p0x = Mth.cos(u) * Mth.sin(v) * radius;
-				float p0y = Mth.cos(v) * radius;
-				float p0z = Mth.sin(u) * Mth.sin(v) * radius;
-				float p1x = Mth.cos(u) * Mth.sin(vn) * radius;
-				float p1y = Mth.cos(vn) * radius;
-				float p1z = Mth.sin(u) * Mth.sin(vn) * radius;
-				float p2x = Mth.cos(un) * Mth.sin(v) * radius;
-				float p2y = Mth.cos(v) * radius;
-				float p2z = Mth.sin(un) * Mth.sin(v) * radius;
-				float p3x = Mth.cos(un) * Mth.sin(vn) * radius;
-				float p3y = Mth.cos(vn) * radius;
-				float p3z = Mth.sin(un) * Mth.sin(vn) * radius;
+				float cu = Mth.cos(u);
+				float su = Mth.sin(u);
+				float cv = Mth.cos(v);
+				float sv = Mth.sin(v);
+				float cun = Mth.cos(un);
+				float sun = Mth.sin(un);
+				float cvn = Mth.cos(vn);
+				float svn = Mth.sin(vn);
+				float p0x = cu * sv * radius;
+				float p0y = cv * radius;
+				float p0z = su * sv * radius;
+				float p1x = cu * svn * radius;
+				float p1y = cvn * radius;
+				float p1z = su * svn * radius;
+				float p2x = cun * sv * radius;
+				float p2y = cv * radius;
+				float p2z = sun * sv * radius;
+				float p3x = cun * svn * radius;
+				float p3y = cvn * radius;
+				float p3z = sun * svn * radius;
 				float textureU = u / endU * radius;
 				float textureV = v / endV * radius;
 				float textureUN = un / endU * radius;
