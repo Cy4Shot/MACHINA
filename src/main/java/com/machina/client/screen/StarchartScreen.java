@@ -36,10 +36,9 @@ public class StarchartScreen extends Screen {
 		super(Component.empty());
 		this.system = s;
 
-		double maxAphelion = system.maxAphelion();
-		zoom = (float) Math.pow(Math.E, 2D / (maxAphelion * 2 * 1.1D));
-		zoom = 1f;
-
+		// Init Zoom
+		double maxAphelion = system.minAphelion() * 2;
+		zoom = (float) (1f / maxAphelion);
 	}
 
 	private ScreenParticleHolder p_target = new ScreenParticleHolder();

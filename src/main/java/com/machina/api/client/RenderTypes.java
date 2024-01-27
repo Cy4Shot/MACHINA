@@ -65,7 +65,7 @@ public class RenderTypes {
 			CompositeState.builder()
 				.setShaderState(LodestoneShaderRegistry.TRIANGLE_TEXTURE.getShard())
 				.setTransparencyState(ORBIT_TRANSPARENCY)
-				.setTextureState(new TextureStateShard(new MachinaRL("textures/gui/starchart/star_bg.png"), false, false))
+				.setTextureState(new TextureStateShard(new MachinaRL("textures/gui/starchart/white.png"), false, false))
 				.setLightmapState(new LightmapStateShard(true))
 				.setCullState(new CullStateShard(false)));
 	//@formatter:on
