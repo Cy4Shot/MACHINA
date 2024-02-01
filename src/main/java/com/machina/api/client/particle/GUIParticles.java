@@ -1,4 +1,4 @@
-package com.machina.client.particle;
+package com.machina.api.client.particle;
 
 import java.awt.Color;
 import java.util.Random;
@@ -23,8 +23,6 @@ public class GUIParticles {
 			.setEasing(Easing.SINE_IN_OUT, Easing.BOUNCE_IN_OUT).build())
 			.setColorData(ColorParticleData.create(col, col).build())
 			.setLifetime(20 + random.nextInt(10))
-			.setRandomOffset(1f)
-			.setRandomMotion(1f, 1f)
 			.spawn(xy.x, xy.y);
 		//@formatter:on
 	}

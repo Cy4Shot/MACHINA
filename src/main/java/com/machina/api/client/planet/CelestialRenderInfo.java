@@ -3,11 +3,11 @@ package com.machina.api.client.planet;
 import java.awt.Color;
 import java.util.function.BiConsumer;
 
+import com.machina.api.client.particle.GUIParticles;
 import com.machina.api.starchart.StarchartConst;
 import com.machina.api.starchart.obj.Orbit;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.Star;
-import com.machina.client.particle.GUIParticles;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.phys.Vec2;

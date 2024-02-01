@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import com.machina.api.client.RenderTypes;
@@ -14,7 +13,6 @@ import com.machina.api.starchart.obj.Orbit;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Transformation;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -35,15 +33,8 @@ public class CelestialRenderer extends WorldVFXBuilder {
 	public WorldVFXBuilder drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, CelestialRenderInfo info,
 			double time, ScreenParticleHolder p_target) {
 
-		Vector3f scaling = new Transformation(stack.last().pose()).getScale();
-		float scale = scaling.get(scaling.maxComponent());
-		
-		double size = 1D / Math.sqrt(info.orbit().a());
-		double alpha = size == 0D ? 0f : (1f - (Math.abs(scale - size) / (size * 5f)));
-        alpha = Math.max(0.0, Math.min(alpha, 1.0));
-
-		setColor(0, 255, 255, (float) alpha);
-		List<TrailPoint> orbit = generateOrbitPoints(info.orbit(), 100).stream().map(TrailPoint::new).toList();
+		setColor(0, 255, 255, 1f);
+		List<TrailPoint> orbit = generateOrbitPoints(info.orbit(), 60).stream().map(TrailPoint::new).toList();
 		renderTrail(mbs.getBuffer(RenderTypes.ORBIT), stack.last().pose(), orbit, 0f);
 		setColor(Color.WHITE);
 
@@ -51,7 +42,6 @@ public class CelestialRenderer extends WorldVFXBuilder {
 		float rad = (float) info.radius();
 		stack.pushPose();
 		stack.translate(pos.x, pos.y, pos.z);
-
 		Vec2 sp = asScreenPos(stack, info.width(), info.height());
 		info.particle().accept(sp, p_target);
 

@@ -1,6 +1,8 @@
 package com.machina.client.screen;
 
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 
 import com.machina.api.client.UIHelper;
@@ -18,7 +20,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 
@@ -27,7 +28,7 @@ public class StarchartScreen extends Screen {
 	SolarSystem system;
 
 	float rotX = 0;
-	float rotY = 0;
+	float rotY = 45;
 	float posX = 0;
 	float posY = 0;
 	float zoom;
@@ -37,8 +38,123 @@ public class StarchartScreen extends Screen {
 		this.system = s;
 
 		// Init Zoom
-		double maxAphelion = system.minAphelion() * 2;
-		zoom = (float) (1f / maxAphelion);
+		System.out.println(system.maxAphelion());
+		zoom = calculateZoomForMaxRange(system.maxAphelion() * 2);
+	}
+
+	public float calculateZoomForMaxRange(double desiredMaxRange) {
+
+		float orx = rotX;
+		float ory = rotY;
+		rotX = 0;
+		rotY = 89.99999F;
+
+		// Create a temporary PoseStack to compute the range without altering the
+		// original one
+		PoseStack tempMatrices = new PoseStack();
+
+		// Assume createRotQuat() returns the rotation quaternion
+		Quaternionf rotQuat = createRotQuat();
+
+		// Start with a reasonable initial guess for the zoom factor
+		float zoom = 10f;
+
+		// Set the initial zoom and rotation in the temporary PoseStack
+		tempMatrices.scale(1.0F, 1.0F, 0.1F);
+		tempMatrices.scale(zoom, zoom, zoom);
+		tempMatrices.mulPose(rotQuat);
+
+		// Calculate the maximum range using the temporary PoseStack
+		float[] maxRange = calculateViewableRange(tempMatrices);
+
+		// Assuming maxRange is an array containing range along x, y, and z axes
+		float max = Math.max(maxRange[0], maxRange[1]);
+
+		// If the initial range is already larger than the desired max range, reduce the
+		// zoom
+		if (true) {
+			// Perform binary search to find the appropriate zoom level
+			float low = 0.001f;
+			float high = zoom;
+			while (high - low > 0.001f) { // Adjust the epsilon as needed
+				zoom = (low + high) / 2;
+				tempMatrices = new PoseStack();
+				tempMatrices.scale(1.0F, 1.0F, 0.1F);
+				tempMatrices.scale(zoom, zoom, zoom);
+				tempMatrices.mulPose(rotQuat);
+				maxRange = calculateViewableRange(tempMatrices);
+				max = Math.max(maxRange[0], maxRange[1]);
+				System.out.println(maxRange[1]);
+				if (max < desiredMaxRange) {
+					low = zoom;
+				} else {
+					high = zoom;
+				}
+			}
+		}
+
+		rotX = orx;
+		rotY = ory;
+		return zoom;
+	}
+
+	public float[] calculateViewableRange(PoseStack stack) {
+		Matrix4f projectionMatrix = RenderSystem.getProjectionMatrix();
+		Matrix4f modelViewMatrix = RenderSystem.getModelViewMatrix();
+
+		// Calculate the corners of the view frustum in clip space
+		Vector4f[] clipSpaceCorners = { new Vector4f(-1, -1, -1, 1), // near bottom left
+				new Vector4f(1, -1, -1, 1), // near bottom right
+				new Vector4f(1, 1, -1, 1), // near top right
+				new Vector4f(-1, 1, -1, 1), // near top left
+				new Vector4f(-1, -1, 1, 1), // far bottom left
+				new Vector4f(1, -1, 1, 1), // far bottom right
+				new Vector4f(1, 1, 1, 1), // far top right
+				new Vector4f(-1, 1, 1, 1) // far top left
+		};
+
+		// Transform the corners to world space
+		Matrix4f projectionMatrixInverse = new Matrix4f(projectionMatrix).invert();
+		Matrix4f modelViewMatrixInverse = new Matrix4f(modelViewMatrix).invert();
+		Matrix4f stackInverse = new Matrix4f(stack.last().pose()).invert();
+
+		for (Vector4f corner : clipSpaceCorners) {
+			corner.mul(1.0f / corner.w); // Perspective division
+			projectionMatrixInverse.transform(corner);
+			modelViewMatrixInverse.transform(corner);
+			stackInverse.transform(corner);
+		}
+
+		// Find the minimum and maximum coordinates
+		float minX = Float.MAX_VALUE, minZ = Float.MAX_VALUE;
+		float maxX = Float.MIN_VALUE, maxZ = Float.MIN_VALUE;
+
+		for (Vector4f corner : clipSpaceCorners) {
+			minX = Math.min(minX, corner.x);
+			minZ = Math.min(minZ, corner.z);
+			maxX = Math.max(maxX, corner.x);
+			maxZ = Math.max(maxZ, corner.z);
+		}
+
+		// Calculate the range in each dimension
+		float rangeX = maxX - minX;
+		float rangeZ = maxZ - minZ;
+		
+		return new float[] { rangeX / (width * 2f), rangeZ / (height * 2f)};
+	}
+
+	public Quaternionf createRotQuat() {
+		float hy = Mth.DEG_TO_RAD * rotY * 0.5F;
+		float hp = Mth.DEG_TO_RAD * rotX * 0.5F;
+		float shy = Mth.sin(hy);
+		float chy = Mth.cos(hy);
+		float shp = Mth.sin(hp);
+		float chp = Mth.cos(hp);
+		float qw = chy * chp;
+		float qx = shy * chp;
+		float qy = chy * shp;
+		float qz = shy * shp;
+		return new Quaternionf(qx, qy, qz, qw);
 	}
 
 	private ScreenParticleHolder p_target = new ScreenParticleHolder();
@@ -47,28 +163,16 @@ public class StarchartScreen extends Screen {
 	public void render(GuiGraphics gui, int mX, int mY, float partial) {
 		UIHelper.renderOverflowHidden(gui, this::renderBackground);
 
-		// Calculate Camera Rotation
-		float yaw = Mth.DEG_TO_RAD * rotY;
-		float pitch = Mth.DEG_TO_RAD * rotX;
-		float halfYaw = yaw * 0.5F;
-		float halfPitch = pitch * 0.5F;
-		float qw = Mth.cos(halfYaw) * Mth.cos(halfPitch);
-		float qx = Mth.sin(halfYaw) * Mth.cos(halfPitch);
-		float qy = Mth.cos(halfYaw) * Mth.sin(halfPitch);
-		float qz = Mth.sin(halfYaw) * Mth.sin(halfPitch);
-		Quaternionf rot = new Quaternionf(qx, qy, qz, qw);
-
 		// Calculate Time
 		float time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
 
-		setupAndRenderCelestials(gui, width / 2, height / 2, Vec3.ZERO, rot, time);
+		setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(), time);
 
 		ScreenParticleHandler.renderParticles(p_target);
 		p_target.tick();
-
 	}
 
-	protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Vec3 pos, Quaternionf rot, double t) {
+	protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Quaternionf rot, double t) {
 
 		// Configure Render System
 		RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
@@ -79,7 +183,6 @@ public class StarchartScreen extends Screen {
 		PoseStack matrixStack = RenderSystem.getModelViewStack();
 		matrixStack.pushPose();
 		matrixStack.translate(x, y, 300.0D);
-		matrixStack.translate(8.0F, 8.0F, 0.0F);
 		matrixStack.translate(posX, posY, 0);
 		matrixStack.scale(1.0F, -1.0F, 1.0F);
 		matrixStack.scale(32.0F, 32.0F, 32.0F);
@@ -87,7 +190,7 @@ public class StarchartScreen extends Screen {
 
 		// Render
 		MultiBufferSource.BufferSource vcp = minecraft.renderBuffers().bufferSource();
-		renderCelestials(gui, pos, rot, vcp, t);
+		renderCelestials(gui, rot, vcp, t);
 		vcp.endBatch();
 
 		// Reset
@@ -104,11 +207,9 @@ public class StarchartScreen extends Screen {
 
 	CelestialRenderer renderer = new CelestialRenderer();
 
-	protected void renderCelestials(GuiGraphics gui, Vec3 pos, Quaternionf rot, MultiBufferSource c, double t) {
+	protected void renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t) {
 		PoseStack matrices = new PoseStack();
 		matrices.scale(1.0F, 1.0F, 0.1F);
-		matrices.translate(0.0D, -0.925000011920929D, 0.0D);
-		matrices.translate(pos.x, pos.y, pos.z);
 		matrices.scale(zoom, zoom, zoom);
 		matrices.mulPose(rot);
 
@@ -149,6 +250,7 @@ public class StarchartScreen extends Screen {
 	@Override
 	public boolean mouseScrolled(double mX, double mY, double delta) {
 		this.zoom *= Math.pow(1.1, delta);
+		System.out.println(zoom);
 		return super.mouseScrolled(mX, mY, delta);
 	}
 
@@ -178,5 +280,4 @@ public class StarchartScreen extends Screen {
 			currentY = 0;
 		}
 	}
-
 }
