@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.DoubleFunction;
 
 import net.minecraft.world.phys.Vec3;
 
@@ -64,5 +65,22 @@ public class MathUtil {
 		}
 
 		return result;
+	}
+	
+	public static double binarySearch(double low, double high, double target, DoubleFunction<Double> func,
+			double tolerance) {
+		double mid = 0.0;
+		while (Math.abs(high - low) > tolerance) {
+			mid = (low + high) / 2.0;
+			double result = func.apply(mid);
+			if (Math.abs(result - target) <= tolerance) {
+				return mid;
+			} else if (result < target) {
+				low = mid;
+			} else {
+				high = mid;
+			}
+		}
+		return mid;
 	}
 }

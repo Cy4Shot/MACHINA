@@ -10,6 +10,7 @@ import com.machina.api.client.planet.CelestialRenderInfo;
 import com.machina.api.client.planet.CelestialRenderer;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
+import com.machina.api.util.math.MathUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -27,8 +28,8 @@ public class StarchartScreen extends Screen {
 
 	SolarSystem system;
 
-	float rotX = 0;
-	float rotY = 45;
+	float rotX = 90;
+	float rotY = 0;
 	float posX = 0;
 	float posY = 0;
 	float zoom;
@@ -36,116 +37,53 @@ public class StarchartScreen extends Screen {
 	public StarchartScreen(SolarSystem s) {
 		super(Component.empty());
 		this.system = s;
-
-		// Init Zoom
-		System.out.println(system.maxAphelion());
-		zoom = calculateZoomForMaxRange(system.maxAphelion() * 2);
 	}
+	
+	@Override
+	protected void init() {
+		super.init();
 
-	public float calculateZoomForMaxRange(double desiredMaxRange) {
-
-		float orx = rotX;
-		float ory = rotY;
-		rotX = 0;
-		rotY = 89.99999F;
-
-		// Create a temporary PoseStack to compute the range without altering the
-		// original one
-		PoseStack tempMatrices = new PoseStack();
-
-		// Assume createRotQuat() returns the rotation quaternion
-		Quaternionf rotQuat = createRotQuat();
-
-		// Start with a reasonable initial guess for the zoom factor
-		float zoom = 10f;
-
-		// Set the initial zoom and rotation in the temporary PoseStack
-		tempMatrices.scale(1.0F, 1.0F, 0.1F);
-		tempMatrices.scale(zoom, zoom, zoom);
-		tempMatrices.mulPose(rotQuat);
-
-		// Calculate the maximum range using the temporary PoseStack
-		float[] maxRange = calculateViewableRange(tempMatrices);
-
-		// Assuming maxRange is an array containing range along x, y, and z axes
-		float max = Math.max(maxRange[0], maxRange[1]);
-
-		// If the initial range is already larger than the desired max range, reduce the
-		// zoom
-		if (true) {
-			// Perform binary search to find the appropriate zoom level
-			float low = 0.001f;
-			float high = zoom;
-			while (high - low > 0.001f) { // Adjust the epsilon as needed
-				zoom = (low + high) / 2;
-				tempMatrices = new PoseStack();
-				tempMatrices.scale(1.0F, 1.0F, 0.1F);
-				tempMatrices.scale(zoom, zoom, zoom);
-				tempMatrices.mulPose(rotQuat);
-				maxRange = calculateViewableRange(tempMatrices);
-				max = Math.max(maxRange[0], maxRange[1]);
-				System.out.println(maxRange[1]);
-				if (max < desiredMaxRange) {
-					low = zoom;
-				} else {
-					high = zoom;
-				}
-			}
-		}
-
-		rotX = orx;
-		rotY = ory;
-		return zoom;
+		zoom = calculateZoom(system.maxAphelion(), height, 40);
 	}
-
-	public float[] calculateViewableRange(PoseStack stack) {
-		Matrix4f projectionMatrix = RenderSystem.getProjectionMatrix();
-		Matrix4f modelViewMatrix = RenderSystem.getModelViewMatrix();
-
-		// Calculate the corners of the view frustum in clip space
-		Vector4f[] clipSpaceCorners = { new Vector4f(-1, -1, -1, 1), // near bottom left
-				new Vector4f(1, -1, -1, 1), // near bottom right
-				new Vector4f(1, 1, -1, 1), // near top right
-				new Vector4f(-1, 1, -1, 1), // near top left
-				new Vector4f(-1, -1, 1, 1), // far bottom left
-				new Vector4f(1, -1, 1, 1), // far bottom right
-				new Vector4f(1, 1, 1, 1), // far top right
-				new Vector4f(-1, 1, 1, 1) // far top left
-		};
-
-		// Transform the corners to world space
-		Matrix4f projectionMatrixInverse = new Matrix4f(projectionMatrix).invert();
-		Matrix4f modelViewMatrixInverse = new Matrix4f(modelViewMatrix).invert();
-		Matrix4f stackInverse = new Matrix4f(stack.last().pose()).invert();
-
-		for (Vector4f corner : clipSpaceCorners) {
-			corner.mul(1.0f / corner.w); // Perspective division
-			projectionMatrixInverse.transform(corner);
-			modelViewMatrixInverse.transform(corner);
-			stackInverse.transform(corner);
-		}
-
-		// Find the minimum and maximum coordinates
-		float minX = Float.MAX_VALUE, minZ = Float.MAX_VALUE;
-		float maxX = Float.MIN_VALUE, maxZ = Float.MIN_VALUE;
-
-		for (Vector4f corner : clipSpaceCorners) {
-			minX = Math.min(minX, corner.x);
-			minZ = Math.min(minZ, corner.z);
-			maxX = Math.max(maxX, corner.x);
-			maxZ = Math.max(maxZ, corner.z);
-		}
-
-		// Calculate the range in each dimension
-		float rangeX = maxX - minX;
-		float rangeZ = maxZ - minZ;
+	
+	public float calculateZoom(double targetAphelion, int target, int padding) {
+		float max = (float) (targetAphelion * 2);
 		
-		return new float[] { rangeX / (width * 2f), rangeZ / (height * 2f)};
+		return (float) MathUtil.binarySearch(0.001D, 100D, (target - padding) / 2f, zoom -> {
+			float z = (float) zoom;
+			PoseStack matrixStack = RenderSystem.getModelViewStack();
+			matrixStack.pushPose();
+			matrixStack.translate(width / 2, height / 2, 300.0D);
+			matrixStack.scale(1.0F, -1.0F, 1.0F);
+			matrixStack.scale(32.0F, 32.0F, 32.0F);
+			
+			PoseStack matrices = new PoseStack();
+			matrices.scale(1.0F, 1.0F, 0.1F);
+			matrices.scale(z, z, z);
+			matrices.mulPose(createRotQuat(90, 0));
+			matrices.pushPose();
+			
+			Vector4f spos = new Vector4f(max, max, 0, 1);
+			Matrix4f stm = new Matrix4f(matrices.last().pose());
+			Matrix4f mvp = new Matrix4f(RenderSystem.getProjectionMatrix()).mul(matrixStack.last().pose());
+
+			stm.transform(spos);
+			mvp.transform(spos);
+
+			Vector4f norm = spos.div(spos.w);
+			float x = (1.0f + norm.x) * 0.5f * target;
+			float y = (1.0f - norm.y) * 0.5f * target;
+			
+			matrices.popPose();
+			matrixStack.popPose();
+			
+			return (double) Math.max(x, y);
+		}, 0.01);
 	}
 
-	public Quaternionf createRotQuat() {
-		float hy = Mth.DEG_TO_RAD * rotY * 0.5F;
-		float hp = Mth.DEG_TO_RAD * rotX * 0.5F;
+	public Quaternionf createRotQuat(float x, float y) {
+		float hy = Mth.DEG_TO_RAD * x * 0.5F;
+		float hp = Mth.DEG_TO_RAD * y * 0.5F;
 		float shy = Mth.sin(hy);
 		float chy = Mth.cos(hy);
 		float shp = Mth.sin(hp);
@@ -166,7 +104,7 @@ public class StarchartScreen extends Screen {
 		// Calculate Time
 		float time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
 
-		setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(), time);
+		setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), time);
 
 		ScreenParticleHandler.renderParticles(p_target);
 		p_target.tick();
@@ -231,8 +169,8 @@ public class StarchartScreen extends Screen {
 			float rotSpeed = 100;
 			float maxYAng = 89.9f;
 
-			this.rotX += (float) pDragX / (float) width * rotSpeed;
-			this.rotY += (float) pDragY / (float) height * rotSpeed;
+			this.rotX += (float) pDragY / (float) width * rotSpeed;
+			this.rotY += (float) pDragX / (float) height * rotSpeed;
 
 			this.rotY = Math.min(this.rotY, maxYAng);
 			this.rotY = Math.max(this.rotY, -maxYAng);
@@ -250,7 +188,6 @@ public class StarchartScreen extends Screen {
 	@Override
 	public boolean mouseScrolled(double mX, double mY, double delta) {
 		this.zoom *= Math.pow(1.1, delta);
-		System.out.println(zoom);
 		return super.mouseScrolled(mX, mY, delta);
 	}
 
