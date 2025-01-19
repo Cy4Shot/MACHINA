@@ -98,8 +98,12 @@ public class StringUtils {
 	public static String formatRadiation(float rad) {
 		return formatNumberWithUnit(rad) + "rad";
 	}
-	
+
 	public static String formatPercent(float percent) {
 		return String.format("%.1f%%", percent * 100);
+	}
+
+	public static String formatTicks(float ticks) {
+		return formatNumberWithUnit(ticks / 20f) + "s";
 	}
 }

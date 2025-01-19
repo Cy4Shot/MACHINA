@@ -23,6 +23,7 @@ import net.minecraftforge.common.ForgeHooks;
 public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 
 	private int litTime;
+	private int originalLitTime;
 
 	public FurnaceGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -42,6 +43,16 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 		return this.litTime > 0;
 	}
 
+	public float getProgress() {
+		if (this.originalLitTime == 0)
+			return 0;
+		return (float) this.litTime / (float) this.originalLitTime;
+	}
+	
+	public int ticksRemaining() {
+		return this.litTime;
+	}
+
 	@Override
 	public void tick() {
 		if (this.level.isClientSide())
@@ -58,6 +69,7 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 				flag1 = true;
 			} else {
 				this.litTime = ForgeHooks.getBurnTime(itemstack, RecipeType.SMELTING);
+				this.originalLitTime = this.litTime;
 				if (this.isLit()) {
 					flag1 = true;
 					if (itemstack.hasCraftingRemainingItem())
@@ -89,12 +101,14 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
 		tag.putInt("litTime", litTime);
+		tag.putInt("originalLitTime", originalLitTime);
 	}
 
 	@Override
 	public void load(CompoundTag tag) {
 		super.load(tag);
 		this.litTime = tag.getInt("litTime");
+		this.originalLitTime = tag.getInt("originalLitTime");
 	}
 
 	@Override

@@ -220,8 +220,16 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	}
 
 	public enum SpecialSlot {
-		PLUS(475, 0), MINUS(485, 0), RIGHT(495, 0), DOWN(475, 10), UP(485, 10), LEFT(495, 10), BOLT(499, 23),
-		CROSS(499, 33);
+		PLUS(475, 0),
+		MINUS(485, 0),
+		RIGHT(495, 0),
+		DOWN(475, 10),
+		UP(485, 10),
+		LEFT(495, 10),
+		BOLT(499, 23),
+		CROSS(499, 33),
+		COAL(499, 43),
+		DUST(499, 53);
 
 		protected int x;
 		protected int y;
@@ -231,8 +239,9 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 			this.y = y;
 		}
 
-		public void draw(GuiGraphics gui, int x, int y) {
-			blitCommon(gui, x, y, this.x, this.y, 10, 10);
+		public void draw(GuiGraphics gui, int x, int y, long aliveTicks) {
+			if (appearDraw(aliveTicks))
+				blitCommon(gui, x, y, this.x, this.y, 10, 10);
 		}
 	}
 
@@ -243,7 +252,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
 		blitCommon(gui, i, j, 414, h, 19, 21);
 		if (entity.getItem(id).isEmpty())
-			slot.draw(gui, i + 4, j + 6);
+			slot.draw(gui, i + 4, j + 6, this.aliveTicks);
 
 		blitCommon(gui, i - 6, j + 4, 387, 0, 3, 16);
 		blitCommon(gui, i + 21, j + 4, 390, 0, 3, 16);
@@ -261,7 +270,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
 		blitCommon(gui, i, j, 433, h, 19, 21);
 		if (entity.getItem(id).isEmpty())
-			slot.draw(gui, i + 4, j + 4);
+			slot.draw(gui, i + 4, j + 4, this.aliveTicks);
 
 		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
 		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
@@ -372,7 +381,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 				} else {
 					blitCommon(gui, i - 27, j + 6, 452, 94, 14, 14);
 				}
-				SpecialSlot.CROSS.draw(gui, i - 25, j + 8);
+				SpecialSlot.CROSS.draw(gui, i - 25, j + 8, elap - 4);
 
 				// Machine
 				ISideAdapter storage = adapter.get();
@@ -391,7 +400,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 				if (mx > i - 20 && mx < i && my > j && my < j + 20) {
 					blitCommon(gui, i - 18, j + 2, 414, 136, 17, 16);
 				}
-				slot.draw(gui, i - 15, j + 5);
+				slot.draw(gui, i - 15, j + 5, elap - 4);
 			}
 		}
 	}
@@ -686,7 +695,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		return super.mouseClicked(x, y, button);
 	}
 
-	private boolean appearDraw(long elap) {
+	private static boolean appearDraw(long elap) {
 		return elap > 9 || elap == 5 || elap == 7 || elap == 8;
 	}
 }

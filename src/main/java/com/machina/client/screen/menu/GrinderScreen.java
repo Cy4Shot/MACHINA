@@ -20,7 +20,8 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderBlockEntity, Grinder
 		drawBackground(gui);
 		drawEnergyBar(gui, 117, 30, this.entity.getEnergy() > 0, true, "grinder.no_power");
 
-		drawUpFacingSlot(gui, 1, mx, my, 20, 30, SpecialSlot.PLUS, "grinder.input");
+		drawUpFacingSlot(gui, 0, mx, my, 20, 30, SpecialSlot.PLUS, "grinder.input");
+		drawUpFacingSlot(gui, 1, mx, my, 120, 30, SpecialSlot.DUST, "grinder.output");
 
 		drawOverlay(gui);
 	}

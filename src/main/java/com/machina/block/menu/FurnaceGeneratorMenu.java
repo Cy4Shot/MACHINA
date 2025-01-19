@@ -24,7 +24,7 @@ public class FurnaceGeneratorMenu extends MachinaContainerMenu<FurnaceGeneratorB
 	public FurnaceGeneratorMenu(int id, Level level, BlockPos pos, Inventory inv) {
 		super(MenuTypeInit.FURNACE_GENERATOR.get(), level, pos, id);
 
-		this.addSlot(new AcceptSlot(be, 0, 108, -37, ItemStackUtil::isBurnable));
+		this.addSlot(new AcceptSlot(be, 0, 108, -25, ItemStackUtil::isBurnable));
 
 		invSlots(inv, 0);
 	}
