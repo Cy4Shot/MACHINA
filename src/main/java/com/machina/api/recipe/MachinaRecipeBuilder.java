@@ -124,7 +124,7 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 		this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
 				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(loc))
 				.rewards(AdvancementRewards.Builder.recipe(loc)).requirements(RequirementsStrategy.OR);
-		save.accept(new Result<T>(loc, this.advancement, this.reg, () -> this.reg.factory().apply(energy, time,
+		save.accept(new Result<T>(loc, this.advancement, this.reg, () -> this.reg.factory().apply(loc, energy, time,
 				pressure, temperature, xp, inputItems, inputFluids, outputItems, outputFluids)));
 	}
 

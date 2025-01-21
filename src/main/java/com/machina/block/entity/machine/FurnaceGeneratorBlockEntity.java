@@ -4,7 +4,6 @@ import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.machine.FurnaceGeneratorBlock;
 import com.machina.block.menu.FurnaceGeneratorMenu;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
@@ -39,6 +38,7 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 		itemStorage(Side.INPUTS);
 	}
 
+	@Override
 	public boolean isLit() {
 		return this.litTime > 0;
 	}
@@ -93,7 +93,6 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 		if (flag1)
 			sync();
 
-		this.level.setBlock(worldPosition, getBlockState().setValue(FurnaceGeneratorBlock.LIT, isLit()), 3);
 		super.tick();
 	}
 

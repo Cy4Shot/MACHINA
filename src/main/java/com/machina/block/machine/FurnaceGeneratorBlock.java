@@ -1,24 +1,16 @@
 package com.machina.block.machine;
 
-import com.machina.api.block.MachineBlock;
+import com.machina.api.block.LitMachineBlock;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
 import com.machina.registration.init.BlockEntityInit;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition.Builder;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-public class FurnaceGeneratorBlock extends MachineBlock {
-	
-	public static final BooleanProperty LIT = BooleanProperty.create("lit");
+public class FurnaceGeneratorBlock extends LitMachineBlock {
 
 	public FurnaceGeneratorBlock(Properties props) {
 		super(props);
-		
-		this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));
 	}
 
 	@Override
@@ -29,16 +21,5 @@ public class FurnaceGeneratorBlock extends MachineBlock {
 	@Override
 	public Class<? extends MachinaBlockEntity> getBlockEntityClass() {
 		return FurnaceGeneratorBlockEntity.class;
-	}
-
-	@Override
-	protected boolean isTickable() {
-		return true;
-	}
-	
-	@Override
-	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-		builder.add(LIT);
-		super.createBlockStateDefinition(builder);
 	}
 }

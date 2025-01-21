@@ -19,7 +19,9 @@ import com.machina.api.cap.sided.MultiSidedStorage;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.cap.sided.SidedStorage;
 import com.machina.api.cap.sided.SingleSidedStorage;
+import com.machina.api.util.block.BlockProperties;
 import com.machina.api.util.reflect.QuadFunction;
+import com.machina.block.machine.BatteryBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -188,6 +190,10 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 		this.fluidsCap.clear();
 		this.createStorages();
 		super.reviveCaps();
+	}
+
+	public boolean isLit() {
+		return false;
 	}
 
 	@Override
@@ -369,6 +375,11 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	protected abstract QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu();
 
 	public void tick() {
+		BlockState state = getBlockState();
+		if (state.hasProperty(BlockProperties.LIT)) {
+			this.level.setBlock(worldPosition, state.setValue(BatteryBlock.LIT, isLit()), 3);
+		}
+
 		if (this.getEnergy() > this.getMaxEnergy()) {
 			this.setEnergy(this.getMaxEnergy());
 			this.setChanged();

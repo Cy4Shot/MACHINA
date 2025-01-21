@@ -30,6 +30,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	public static final short HAS_TEMPERATURE = 0x4;
 	public static final short HAS_TIME = 0x8;
 
+	private ResourceLocation id;
 	protected final List<Ingredient> inputItems = new ArrayList<>();
 	protected final List<FluidStack> inputFluids = new ArrayList<>();
 	protected final List<ItemStack> outputItems = new ArrayList<>();
@@ -40,13 +41,15 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	private float temperature;
 	private float xp;
 
-	public MachinaRecipe(int energy, int time, float pressure, float temperature, float xp, List<Ingredient> inputItems,
-			List<FluidStack> inputFluids, List<ItemStack> outputItems, List<FluidStack> outputFluids) {
+	public MachinaRecipe(ResourceLocation id, int energy, int time, float pressure, float temperature, float xp,
+			List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
+			List<FluidStack> outputFluids) {
 
 		if (inputItems == null || inputFluids == null || outputItems == null || outputFluids == null) {
 			throw new IllegalArgumentException("Input and output lists must not be null");
 		}
 
+		this.id = id;
 		this.time = Math.max(1, time);
 		this.energy = Math.max(0, energy);
 		this.pressure = pressure;
@@ -76,7 +79,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 	@Override
 	public ResourceLocation getId() {
-		return getRegistryObject().id();
+		return id;
 	}
 
 	public int getFlags() {
@@ -148,19 +151,19 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	public boolean isSpecial() {
 		return true;
 	}
-	
+
 	public boolean hasEnergy() {
 		return (getFlags() & HAS_ENERGY) != 0;
 	}
-	
+
 	public boolean hasPressure() {
 		return (getFlags() & HAS_PRESSURE) != 0;
 	}
-	
+
 	public boolean hasTemperature() {
 		return (getFlags() & HAS_TEMPERATURE) != 0;
 	}
-	
+
 	public boolean hasTime() {
 		return (getFlags() & HAS_TIME) != 0;
 	}
@@ -237,7 +240,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 				}
 			}
 
-			return factory.apply(energy, time, pressure, temperature, experience, inputItems, inputFluids, outputItems,
+			return factory.apply(loc, energy, time, pressure, temperature, experience, inputItems, inputFluids, outputItems,
 					outputFluids);
 		}
 
@@ -325,7 +328,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 				temperature = buf.readFloat();
 			}
 
-			return factory.apply(energy, time, pressure, temperature, experience, inputItems, inputFluids, outputItems,
+			return factory.apply(loc, energy, time, pressure, temperature, experience, inputItems, inputFluids, outputItems,
 					outputFluids);
 		}
 
@@ -375,7 +378,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 	@FunctionalInterface
 	public interface RecipeFactory<R extends MachinaRecipe<?>> {
-		R apply(int energy, int time, float pressure, float temperature, float xp, List<Ingredient> inputItems,
+		R apply(ResourceLocation loc, int energy, int time, float pressure, float temperature, float xp, List<Ingredient> inputItems,
 				List<FluidStack> inputFluids, List<ItemStack> outputItems, List<FluidStack> outputFluids);
 	}
 }

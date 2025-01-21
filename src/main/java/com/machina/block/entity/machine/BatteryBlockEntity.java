@@ -12,7 +12,6 @@ import com.machina.api.item.EnergyItem;
 import com.machina.api.util.ItemStackUtil;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.machine.BatteryBlock;
 import com.machina.block.menu.BatteryMenu;
 import com.machina.config.CommonConfig;
 import com.machina.item.CapacitorItem;
@@ -88,10 +87,12 @@ public class BatteryBlockEntity extends MachinaBlockEntity {
 		// Send out energy
 		BlockHelper.sendEnergy(level, worldPosition, energy, CommonConfig.batteryTransferRate.get(), this);
 
-		// Update lit state
-		this.level.setBlock(worldPosition, getBlockState().setValue(BatteryBlock.LIT, energy > 0), 3);
-
 		super.tick();
+	}
+
+	@Override
+	public boolean isLit() {
+		return this.getEnergy() > 0;
 	}
 
 	@Override

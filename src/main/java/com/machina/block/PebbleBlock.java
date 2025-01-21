@@ -1,5 +1,6 @@
 package com.machina.block;
 
+import com.machina.api.util.block.BlockProperties;
 import com.machina.api.util.math.DirUtil;
 
 import net.minecraft.core.BlockPos;
@@ -21,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PebbleBlock extends HorizontalDirectionalBlock {
 
-	public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 3);
+	public static final IntegerProperty VARIANT = BlockProperties.VARIANT_4;
 
 	public PebbleBlock(BlockBehaviour.Properties props) {
 		super(props);

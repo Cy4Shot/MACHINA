@@ -46,15 +46,34 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 	}
 
 	@Override
+	public boolean isLit() {
+		return this.recipe != null && this.progress > 0;
+	}
+
+	public float getProgress() {
+		if (this.recipe == null)
+			return 0;
+		if (!this.recipe.hasTime() || this.recipe.getTime() == 0)
+			return 1;
+		return (float) this.progress / (float) this.recipe.getTime();
+	}
+
+	public int ticksRemaining() {
+		if (this.recipe == null)
+			return 0;
+		return this.recipe.getTime() - this.progress;
+	}
+
+	@Override
 	public void tick() {
 		if (this.level.isClientSide())
 			return;
 
 		Optional<GrinderRecipe> rec = RecipeInit.GRINDER.maps().findRecipe(this);
 		rec.ifPresentOrElse(r -> {
-			if (hasPower(r) && hasSpace(r)) {
-				this.recipe = r;
+			this.recipe = r;
 
+			if (hasPower(r) && hasSpace(r)) {
 				int consumed = consumeEnergy(r.getPowerRate());
 				if (consumed < r.getPowerRate()) {
 					receiveEnergy(consumed, false);
@@ -87,6 +106,18 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 	protected boolean hasSpace(GrinderRecipe r) {
 		return getItem(1).isEmpty() || (getItem(1).getCount() < getItem(1).getMaxStackSize()
 				&& ItemStack.isSameItem(getItem(1), r.getOutputItems().get(0)));
+	}
+
+	public boolean hasSpace() {
+		if (this.recipe == null)
+			return false;
+		return hasSpace(this.recipe);
+	}
+	
+	public boolean hasPower() {
+		if (this.recipe == null)
+			return false;
+		return hasSpace(this.recipe);
 	}
 
 	@Override

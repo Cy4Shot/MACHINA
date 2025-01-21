@@ -2,6 +2,7 @@ package com.machina.recipe.maps;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
@@ -26,8 +27,14 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 
 	@Override
 	public boolean isValid(GrinderBlockEntity entity, MachinaRecipe<GrinderBlockEntity> recipe) {
-		return recipe.getInputItems().stream()
-				.allMatch(i -> entity.hasAnyMatching(x -> Arrays.stream(i.getItems()).anyMatch(x.getItem()::equals)));
+		for (Ingredient i : recipe.getInputItems()) {
+			if (!entity.hasAnyOf(Arrays.stream(i.getItems()).map(ItemStack::getItem).collect(Collectors.toSet())))
+				return false;
+		}
+
+		System.out.println("Valid recipe: " + recipe.getId());
+
+		return true;
 	}
 
 	@Override
@@ -81,22 +88,25 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 	private static final int DEFAULT_ENERGY = 10000;
 
 	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> ingot(Ingredient input, ItemStack dust) {
-		return Pair.of(new MachinaRL("grinder_ingot_" + input.hashCode()),
-				new GrinderRecipe(DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.0F, Collections.singletonList(input),
+		ResourceLocation loc = new MachinaRL("grinder_ingot_" + input.hashCode());
+		return Pair.of(loc,
+				new GrinderRecipe(loc, DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.0F, Collections.singletonList(input),
 						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
 						Collections.emptyList()));
 	}
 
 	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> ore(Ingredient input, ItemStack dust) {
-		return Pair.of(new MachinaRL("grinder_ore_" + input.hashCode()),
-				new GrinderRecipe(DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.2F, Collections.singletonList(input),
+		ResourceLocation loc = new MachinaRL("grinder_ore_" + input.hashCode());
+		return Pair.of(loc,
+				new GrinderRecipe(loc, DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.2F, Collections.singletonList(input),
 						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
 						Collections.emptyList()));
 	}
 
 	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> raw(Ingredient input, ItemStack dust) {
-		return Pair.of(new MachinaRL("grinder_raw_" + input.hashCode()),
-				new GrinderRecipe(DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.1F, Collections.singletonList(input),
+		ResourceLocation loc = new MachinaRL("grinder_raw_" + input.hashCode());
+		return Pair.of(loc,
+				new GrinderRecipe(loc, DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.1F, Collections.singletonList(input),
 						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
 						Collections.emptyList()));
 	}

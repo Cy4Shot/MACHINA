@@ -1,6 +1,7 @@
 package com.machina.client.screen.menu;
 
 import com.machina.api.client.screen.MachinaMenuScreen;
+import com.machina.api.util.StringUtils;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.menu.GrinderMenu;
 
@@ -20,8 +21,40 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderBlockEntity, Grinder
 		drawBackground(gui);
 		drawEnergyBar(gui, 117, 30, this.entity.getEnergy() > 0, true, "grinder.no_power");
 
-		drawUpFacingSlot(gui, 0, mx, my, 20, 30, SpecialSlot.PLUS, "grinder.input");
-		drawUpFacingSlot(gui, 1, mx, my, 120, 30, SpecialSlot.DUST, "grinder.output");
+		drawDownFacingSlot(gui, 0, mx, my, 61, -20, SpecialSlot.PLUS, "grinder.input");
+		drawDownFacingSlot(gui, 1, mx, my, 153, -20, SpecialSlot.DUST, "grinder.output");
+
+		int i = midWidth();
+		int j = midHeight();
+		blitCommon(gui, i + 68, j, 399, 0, 19, 13);
+		blitCommon(gui, i + 145, j, 418, 0, 19, 13);
+
+		blitCommon(gui, i + 87, j + 9, 405, 9, 26, 4);
+		blitCommon(gui, i + 119, j + 9, 405, 9, 26, 4);
+
+		blitCommon(gui, i + 113, j + 8, 399, 13, 6, 6);
+		blitCommon(gui, i + 114, j + 14, 508, 0, 4, 7);
+
+		SpecialSlot.RIGHT.draw(gui, i + 90, j - 13, this.aliveTicks);
+		SpecialSlot.RIGHT.draw(gui, i + 111, j - 13, this.aliveTicks);
+		SpecialSlot.RIGHT.draw(gui, i + 132, j - 13, this.aliveTicks);
+
+		Component text;
+		if (this.entity.isLit()) {
+			text = Component
+					.literal(uistrs("grinder.progress") + ": " + StringUtils.formatPercent(this.entity.getProgress())
+							+ " (" + StringUtils.formatTicks(this.entity.ticksRemaining()) + ")");
+		} else {
+			if (!this.entity.hasSpace()) {
+				text = uistr("grinder.no_space");
+			} else if (!this.entity.hasPower()) {
+				text = uistr("grinder.no_power");
+			} else {
+				text = uistr("grinder.no_input");
+			}
+		}
+		int color = this.entity.isLit() ? 0x00FEFE : 0xFE0000;
+		gui.drawCenteredString(font, text, i + 117, j - 44, color);
 
 		drawOverlay(gui);
 	}

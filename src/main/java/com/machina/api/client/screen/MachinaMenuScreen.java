@@ -60,7 +60,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 
 	protected final R entity;
 
-	private long aliveTicks = 0;
+	protected long aliveTicks = 0;
 	private Float lsx, lsy = null;
 	private float rotX, rotY;
 
@@ -381,7 +381,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 				} else {
 					blitCommon(gui, i - 27, j + 6, 452, 94, 14, 14);
 				}
-				SpecialSlot.CROSS.draw(gui, i - 25, j + 8, elap - 4);
+				SpecialSlot.CROSS.draw(gui, i - 25, j + 8, elap);
 
 				// Machine
 				ISideAdapter storage = adapter.get();
@@ -400,7 +400,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 				if (mx > i - 20 && mx < i && my > j && my < j + 20) {
 					blitCommon(gui, i - 18, j + 2, 414, 136, 17, 16);
 				}
-				slot.draw(gui, i - 15, j + 5, elap - 4);
+				slot.draw(gui, i - 15, j + 5, elap);
 			}
 		}
 	}
