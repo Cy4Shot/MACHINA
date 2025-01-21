@@ -477,7 +477,12 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("furnace_generator.no_input", "Insert Fuel");
 		addUI("furnace_generator.generating", "Generating");
 
+		addUI("grinder.no_input", "No Recipe Found");
 		addUI("grinder.no_power", "No Power");
+		addUI("grinder.no_space", "No Output Space");
+		addUI("grinder.progress", "Progress");
+		addUI("grinder.usage", "Using");
+		addUI("grinder.requires", "Requires");
 		addUI("grinder.input", "Input");
 		addUI("grinder.output", "Output");
 	}

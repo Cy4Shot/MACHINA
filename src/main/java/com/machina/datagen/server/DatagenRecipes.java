@@ -96,7 +96,7 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 		family.ore().ifPresent(ore -> {
 			//@formatter:off
 			MachinaRecipeBuilder.create(RecipeInit.GRINDER, 0.1f)
-				.withEnergy(20000).withTime(300)
+				.withEnergy(40000).withTime(300)
 				.withInputItem(ore.asItem(), 1).withOutputItem(family.dust(), 2)
 				.unlockedBy(getHasName(ore), has(ore))
 				.save(gen, Machina.MOD_ID + ":grinder_ore_to_" + getItemName(family.dust()));
@@ -105,7 +105,7 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 		family.ingot().ifPresent(ingot -> {
 			//@formatter:off
 			MachinaRecipeBuilder.create(RecipeInit.GRINDER, 0.1f)
-				.withEnergy(10000).withTime(300)
+				.withEnergy(15000).withTime(200)
 				.withInputItem(ingot.asItem(), 1).withOutputItem(family.dust(), 1)
 				.unlockedBy(getHasName(ingot), has(ingot))
 				.save(gen, Machina.MOD_ID + ":grinder_ingot_to_" + getItemName(family.dust()));

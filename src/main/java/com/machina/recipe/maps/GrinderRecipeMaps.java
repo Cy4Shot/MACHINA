@@ -32,8 +32,6 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 				return false;
 		}
 
-		System.out.println("Valid recipe: " + recipe.getId());
-
 		return true;
 	}
 

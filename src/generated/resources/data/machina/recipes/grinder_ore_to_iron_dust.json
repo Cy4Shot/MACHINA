@@ -1,6 +1,6 @@
 {
   "type": "machina:grinder",
-  "energy": 20000,
+  "energy": 40000,
   "inputFluids": [],
   "inputItems": [
     {
@@ -10,6 +10,7 @@
   "outputFluids": [],
   "outputItems": [
     {
+      "count": 2,
       "item": "machina:iron_dust"
     }
   ],

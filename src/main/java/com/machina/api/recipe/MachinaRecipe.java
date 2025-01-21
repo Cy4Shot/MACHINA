@@ -12,6 +12,7 @@ import com.machina.api.util.loader.FluidJson;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -20,6 +21,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -212,7 +214,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			}
 			if (obj.has("outputItems") && obj.get("outputItems").isJsonArray()) {
 				obj.getAsJsonArray("outputItems")
-						.forEach(e -> outputItems.add(Ingredient.fromJson(e.getAsJsonObject()).getItems()[0]));
+						.forEach(e -> outputItems.add(ShapedRecipe.itemStackFromJson(e.getAsJsonObject())));
 			}
 			if (obj.has("outputFluids") && obj.get("outputFluids").isJsonArray()) {
 				obj.getAsJsonArray("outputFluids").forEach(e -> outputFluids.add(FluidJson.load(e)));
@@ -240,8 +242,8 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 				}
 			}
 
-			return factory.apply(loc, energy, time, pressure, temperature, experience, inputItems, inputFluids, outputItems,
-					outputFluids);
+			return factory.apply(loc, energy, time, pressure, temperature, experience, inputItems, inputFluids,
+					outputItems, outputFluids);
 		}
 
 		public void toJson(JsonObject obj, MachinaRecipe<C> recipe) {
@@ -274,7 +276,12 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			obj.add("inputFluids", inputFluids);
 
 			JsonArray outputItems = new JsonArray();
-			recipe.getOutputItems().forEach(e -> outputItems.add(Ingredient.of(e).toJson()));
+			recipe.getOutputItems().forEach(e -> {
+				JsonObject o = new JsonObject();
+				o.addProperty("item", BuiltInRegistries.ITEM.getKey(e.getItem()).toString());
+				o.addProperty("count", e.getCount());
+				outputItems.add(o);
+			});
 			obj.add("outputItems", outputItems);
 
 			JsonArray outputFluids = new JsonArray();
@@ -328,8 +335,8 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 				temperature = buf.readFloat();
 			}
 
-			return factory.apply(loc, energy, time, pressure, temperature, experience, inputItems, inputFluids, outputItems,
-					outputFluids);
+			return factory.apply(loc, energy, time, pressure, temperature, experience, inputItems, inputFluids,
+					outputItems, outputFluids);
 		}
 
 		@Override
@@ -378,7 +385,8 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 	@FunctionalInterface
 	public interface RecipeFactory<R extends MachinaRecipe<?>> {
-		R apply(ResourceLocation loc, int energy, int time, float pressure, float temperature, float xp, List<Ingredient> inputItems,
-				List<FluidStack> inputFluids, List<ItemStack> outputItems, List<FluidStack> outputFluids);
+		R apply(ResourceLocation loc, int energy, int time, float pressure, float temperature, float xp,
+				List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
+				List<FluidStack> outputFluids);
 	}
 }

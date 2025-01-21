@@ -40,21 +40,31 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderBlockEntity, Grinder
 		SpecialSlot.RIGHT.draw(gui, i + 132, j - 13, this.aliveTicks);
 
 		Component text;
+		Component text2 = Component.empty();
 		if (this.entity.isLit()) {
 			text = Component
 					.literal(uistrs("grinder.progress") + ": " + StringUtils.formatPercent(this.entity.getProgress())
 							+ " (" + StringUtils.formatTicks(this.entity.ticksRemaining()) + ")");
+			text2 = Component.literal(
+					uistrs("grinder.usage") + ": " + StringUtils.formatPower(this.entity.getPowerRate()) + "/t");
 		} else {
-			if (!this.entity.hasSpace()) {
-				text = uistr("grinder.no_space");
+			if (!this.entity.hasRecipe()) {
+				text = uistr("grinder.no_input");
 			} else if (!this.entity.hasPower()) {
-				text = uistr("grinder.no_power");
+				text = Component.literal(
+						uistrs("grinder.no_power") + " (" + StringUtils.formatPercent(this.entity.getProgress()) + ")");
+				text2 = Component.literal(
+						uistrs("grinder.requires") + ": " + StringUtils.formatPower(this.entity.getPowerRate()) + "/t");
+			} else if (!this.entity.hasSpace()) {
+				text = uistr("grinder.no_space");
 			} else {
+				// This should never happen. Who knows? Maybe it will.
 				text = uistr("grinder.no_input");
 			}
 		}
 		int color = this.entity.isLit() ? 0x00FEFE : 0xFE0000;
-		gui.drawCenteredString(font, text, i + 117, j - 44, color);
+		gui.drawCenteredString(font, text, i + 117, j - 54, color);
+		gui.drawCenteredString(font, text2, i + 117, j - 38, color);
 
 		drawOverlay(gui);
 	}

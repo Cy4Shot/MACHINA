@@ -22,8 +22,8 @@ public class GrinderMenu extends MachinaContainerMenu<GrinderBlockEntity> {
 	public GrinderMenu(int id, Level level, BlockPos pos, Inventory inv) {
 		super(MenuTypeInit.GRINDER.get(), level, pos, id);
 
-		this.addSlot(new InvSlot(be, 0, -2, 74));
-		this.addSlot(new ResultSlot(be, 1, 134, 74));
+		this.addSlot(new InvSlot(be, 0, 62, -17));
+		this.addSlot(new ResultSlot(be, 1, 154, -17));
 
 		invSlots(inv, 0);
 	}

@@ -47,7 +47,7 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public boolean isLit() {
-		return this.recipe != null && this.progress > 0;
+		return this.recipe != null && this.progress > 0 && this.hasPower(recipe);
 	}
 
 	public float getProgress() {
@@ -71,7 +71,10 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 
 		Optional<GrinderRecipe> rec = RecipeInit.GRINDER.maps().findRecipe(this);
 		rec.ifPresentOrElse(r -> {
-			this.recipe = r;
+			if (this.recipe != r) {
+				this.recipe = r;
+				setChanged();
+			}
 
 			if (hasPower(r) && hasSpace(r)) {
 				int consumed = consumeEnergy(r.getPowerRate());
@@ -86,7 +89,7 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 					if (getItem(1).isEmpty())
 						setItem(1, r.getOutputItems().get(0));
 					else
-						getItem(1).grow(1);
+						getItem(1).grow(r.getOutputItems().get(0).getCount());
 
 					this.progress = 0;
 					setChanged();
@@ -104,20 +107,25 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 	}
 
 	protected boolean hasSpace(GrinderRecipe r) {
-		return getItem(1).isEmpty() || (getItem(1).getCount() < getItem(1).getMaxStackSize()
-				&& ItemStack.isSameItem(getItem(1), r.getOutputItems().get(0)));
+		return getItem(1).isEmpty()
+				|| (getItem(1).getCount() + r.getOutputItems().get(0).getCount() <= getItem(1).getMaxStackSize()
+						&& ItemStack.isSameItem(getItem(1), r.getOutputItems().get(0)));
+	}
+
+	public int getPowerRate() {
+		return this.recipe == null ? 0 : this.recipe.getPowerRate();
+	}
+
+	public boolean hasRecipe() {
+		return this.recipe != null;
 	}
 
 	public boolean hasSpace() {
-		if (this.recipe == null)
-			return false;
-		return hasSpace(this.recipe);
+		return this.recipe != null && hasSpace(this.recipe);
 	}
-	
+
 	public boolean hasPower() {
-		if (this.recipe == null)
-			return false;
-		return hasSpace(this.recipe);
+		return this.recipe != null && hasPower(this.recipe);
 	}
 
 	@Override
