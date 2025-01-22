@@ -1,0 +1,10 @@
+{
+	"render_type": "minecraft:cutout",
+	"parent": "machina:block/machine",
+	"textures": {
+		"side": "machina:block/tank_side",
+		"front": "machina:block/tank_front",
+		"bottom": "machina:block/tank_bottom",
+		"top": "machina:block/tank_top"
+	}
+}

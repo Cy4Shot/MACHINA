@@ -16,6 +16,7 @@ public class CommonConfig {
 	public static ForgeConfigSpec.IntValue supremeCapacitorSize;
 
 	public static ForgeConfigSpec.IntValue cableTransferRate;
+	public static ForgeConfigSpec.IntValue pipeTransferRate;
 	public static ForgeConfigSpec.IntValue batteryTransferRate;
 	public static ForgeConfigSpec.IntValue batteryChargeRate;
 	public static ForgeConfigSpec.IntValue batteryDischargeRate;
@@ -39,6 +40,11 @@ public class CommonConfig {
 		builder.push("cable");
 		builder.comment("EnergyCable settings");
 		cableTransferRate = builder.defineInRange("cable_transfer_rate", 5_000, 1, 999_999);
+		builder.pop();
+		
+		builder.push("pipe");
+		builder.comment("FluidPipe settings");
+		pipeTransferRate = builder.defineInRange("pipe_transfer_rate", 100, 1, 999_999);
 		builder.pop();
 
 		builder.push("battery");

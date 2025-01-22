@@ -14,11 +14,13 @@ import com.machina.block.MachinaWaterlilyBlock;
 import com.machina.block.PebbleBlock;
 import com.machina.block.SmallFlowerBlock;
 import com.machina.block.connector.EnergyCableBlock;
+import com.machina.block.connector.FluidPipeBlock;
 import com.machina.block.machine.BatteryBlock;
 import com.machina.block.machine.CreativeBatteryBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
 import com.machina.block.machine.GrinderBlock;
 import com.machina.block.machine.MachineCaseBlock;
+import com.machina.block.machine.TankBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffect;
@@ -61,7 +63,9 @@ public class BlockInit {
 
 	//@formatter:off
 	public static final RegistryObject<EnergyCableBlock> ENERGY_CABLE = register("energy_cable", EnergyCableBlock::new);
+	public static final RegistryObject<FluidPipeBlock> FLUID_PIPE = register("fluid_pipe", FluidPipeBlock::new);
 	public static final RegistryObject<BatteryBlock> BATTERY = register("battery", Blocks.IRON_BLOCK, BatteryBlock::new);
+	public static final RegistryObject<TankBlock> TANK = register("tank", Blocks.IRON_BLOCK, TankBlock::new);
 	public static final RegistryObject<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery", Blocks.IRON_BLOCK, CreativeBatteryBlock::new);
 	public static final RegistryObject<MachineCaseBlock> BASIC_MACHINE_CASE = register("basic_machine_case", Blocks.IRON_BLOCK, MachineCaseBlock::new);
 	public static final RegistryObject<FurnaceGeneratorBlock> FURNACE_GENERATOR = register("furnace_generator", Blocks.IRON_BLOCK, FurnaceGeneratorBlock::new);

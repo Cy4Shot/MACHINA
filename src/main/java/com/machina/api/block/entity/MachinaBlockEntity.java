@@ -3,17 +3,18 @@ package com.machina.api.block.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.menu.IMachinaMenuProvider;
 import com.machina.api.cap.energy.MachinaEnergyStorage;
 import com.machina.api.cap.fluid.MachinaFluidStorage;
+import com.machina.api.cap.fluid.MachinaTank;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.MultiSidedStorage;
 import com.machina.api.cap.sided.Side;
@@ -46,6 +47,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
@@ -78,9 +80,10 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 				sides.clone());
 	}
 
-	public void fluidStorage(@NonNull MachinaFluidStorage store, Side[] sides) {
-		this.fluidsCap.add(new SingleSidedStorage<MachinaFluidStorage>("cap_fluid_" + this.fluidsCap.size(), this,
-				store, sides.clone()));
+	public void fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
+		int id = this.fluidsCap.size();
+		this.fluidsCap.add(new SingleSidedStorage<MachinaFluidStorage>("cap_fluid_" + id, this,
+				new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id)), sides.clone()));
 	}
 
 	public MachinaBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -89,7 +92,8 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	public void forEachStorage(Consumer<SidedStorage> consumer) {
-		consumer.accept(energyCap);
+		if (this.energyCap != null)
+			consumer.accept(energyCap);
 		this.fluidsCap.forEach(consumer);
 	}
 
@@ -157,7 +161,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
 		if (side != null) {
 			if (cap == ForgeCapabilities.ENERGY) {
-				if (energyCap.isNonNullMode(side)) {
+				if (energyCap != null && energyCap.isNonNullMode(side)) {
 					return energyCap.getLazy(side).cast();
 				}
 			} else if (cap == ForgeCapabilities.ITEM_HANDLER && !this.remove && side != null) {
@@ -273,7 +277,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	public int receiveEnergy(Direction from, int maxReceive, boolean simulate) {
-		if (!energyCap.isInput(from)) {
+		if (energyCap == null || !energyCap.isInput(from)) {
 			return 0;
 		}
 		return receiveEnergy(maxReceive, simulate);
@@ -299,7 +303,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	public boolean canConsumeEnergy(Direction side) {
-		return energyCap.isOutput(side);
+		return energyCap != null &&  energyCap.isOutput(side);
 	}
 
 	public int consumeEnergy(int amount) {

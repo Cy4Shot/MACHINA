@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/connector/base",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "connector": "machina:block/fluid_pipe"
+  }
+}

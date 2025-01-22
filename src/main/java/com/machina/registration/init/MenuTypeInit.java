@@ -6,6 +6,7 @@ import com.machina.block.menu.CreativeBatteryMenu;
 import com.machina.block.menu.FurnaceGeneratorMenu;
 import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
+import com.machina.block.menu.TankMenu;
 
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -22,6 +23,8 @@ public class MenuTypeInit {
 	//@formatter:off
 	public static final RegistryObject<MenuType<BatteryMenu>> BATTERY = register("battery",
             BatteryMenu::new);
+	public static final RegistryObject<MenuType<TankMenu>> TANK = register("tank",
+			TankMenu::new);
 	public static final RegistryObject<MenuType<CreativeBatteryMenu>> CREATIVE_BATTERY = register("creative_battery",
             CreativeBatteryMenu::new);
 	public static final RegistryObject<MenuType<MachineCaseMenu>> MACHINE_CASE = register("machine_case",

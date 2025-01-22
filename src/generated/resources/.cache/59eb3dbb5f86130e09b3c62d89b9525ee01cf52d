@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-19T15:14:52.424698	Loot Tables
+// 1.20.1	2025-01-22T01:24:10.9369191	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -109,6 +109,7 @@ ffcd88cf47464a52db92bcaabdd4d33000690cc2 data/machina/loot_tables/blocks/feldspa
 1fce548d0a691015cfc0e08407539783e70c1085 data/machina/loot_tables/blocks/feldspar_slab.json
 c3f27482a5e2e50513e901e6cc83c5752209f970 data/machina/loot_tables/blocks/feldspar_stairs.json
 6568f51a8081f7ed2e7eed57e47ede89db67b1e3 data/machina/loot_tables/blocks/feldspar_wall.json
+1ddd8495e22ea8064dc747d34308e794b6d39022 data/machina/loot_tables/blocks/fluid_pipe.json
 12c78d36cd2d515a1920254ace48b73b8ab5c456 data/machina/loot_tables/blocks/forest_dirt.json
 d347a8d106a84a4abf391b524f5621f695629630 data/machina/loot_tables/blocks/forest_dirt_slab.json
 959403e7502e70eebd4eaaa3f0a6a883b7ff7b92 data/machina/loot_tables/blocks/forest_dirt_stairs.json
@@ -286,6 +287,7 @@ e477499dac40244e5ec75318c2b4e9bee5d7239b data/machina/loot_tables/blocks/strippe
 cdc588a0bb873d995835b17424315bffc8e4c40a data/machina/loot_tables/blocks/sulphur_dioxide_block.json
 8b3a87319cf60e5a1e9a7a6df395642c22cdafd3 data/machina/loot_tables/blocks/sulphur_trioxide_block.json
 4193cc8a718494310bab5dbf06721ea3e2d1f13d data/machina/loot_tables/blocks/tama_spore.json
+ed6747bb0878f3db41829596ae509a2fed768f2e data/machina/loot_tables/blocks/tank.json
 a1b406d3131d0b9bd8622d1dcd7b9c26155f7ec0 data/machina/loot_tables/blocks/tectonite.json
 9ea04861baca327e4e25969c4577c73ba224a6bd data/machina/loot_tables/blocks/tectonite_button.json
 e0995d674dd0eae1645eaef83e1e2ad1d7472757 data/machina/loot_tables/blocks/tectonite_pebbles.json

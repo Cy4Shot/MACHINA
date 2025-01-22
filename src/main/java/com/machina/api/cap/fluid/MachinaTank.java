@@ -2,8 +2,6 @@ package com.machina.api.cap.fluid;
 
 import java.util.function.Predicate;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CFluidSync;
 
@@ -19,13 +17,11 @@ public class MachinaTank extends FluidTank {
 
 	private final BlockEntity tile;
 	public int id;
-	public boolean output;
 
-	public MachinaTank(BlockEntity tile, int capacity, Predicate<FluidStack> validator, boolean output, int id) {
+	public MachinaTank(BlockEntity tile, int capacity, Predicate<FluidStack> validator, int id) {
 		super(capacity, validator);
 		this.tile = tile;
 		this.id = id;
-		this.output = output;
 		this.setFluid(new FluidStack(Fluids.EMPTY, 0));
 	}
 
@@ -40,69 +36,6 @@ public class MachinaTank extends FluidTank {
 	@Override
 	public FluidTank readFromNBT(CompoundTag nbt) {
 		return super.readFromNBT(nbt.getCompound("MachinaTank" + id));
-	}
-
-	public float propFull() {
-		return (float) getFluidAmount() / (float) getCapacity();
-	}
-
-	public boolean isFull() {
-		return getSpace() == 0;
-	}
-
-	@Override
-	public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
-		if (!output)
-			return FluidStack.EMPTY;
-		return super.drain(resource, action);
-	}
-
-	@Override
-	public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
-		if (!output)
-			return FluidStack.EMPTY;
-		return super.drain(maxDrain, action);
-	}
-
-	public FluidStack drainRaw(FluidStack resource, FluidAction action) {
-		if (resource.isEmpty() || !resource.isFluidEqual(fluid)) {
-			return FluidStack.EMPTY;
-		}
-		return super.drain(resource.getAmount(), action);
-	}
-
-	public int rawFill(FluidStack resource, FluidAction action) {
-		if (resource.isEmpty()) {
-			return 0;
-		}
-		if (action.simulate()) {
-			if (fluid.isEmpty()) {
-				return Math.min(capacity, resource.getAmount());
-			}
-			if (!fluid.isFluidEqual(resource)) {
-				return 0;
-			}
-			return Math.min(capacity - fluid.getAmount(), resource.getAmount());
-		}
-		if (fluid.isEmpty()) {
-			fluid = new FluidStack(resource, Math.min(capacity, resource.getAmount()));
-			onContentsChanged();
-			return fluid.getAmount();
-		}
-		if (!fluid.isFluidEqual(resource)) {
-			return 0;
-		}
-		int filled = capacity - fluid.getAmount();
-
-		if (resource.getAmount() < filled) {
-			fluid.grow(resource.getAmount());
-			filled = resource.getAmount();
-		} else {
-			fluid.setAmount(capacity);
-		}
-		if (filled > 0)
-			onContentsChanged();
-		return filled;
 	}
 
 	@Override

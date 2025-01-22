@@ -6,11 +6,13 @@ import com.machina.Machina;
 import com.machina.block.entity.MachinaHangingSignBlockEntity;
 import com.machina.block.entity.MachinaSignBlockEntity;
 import com.machina.block.entity.connector.EnergyCableBlockEntity;
+import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.entity.machine.CreativeBatteryBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MachineCaseBlockEntity;
+import com.machina.block.entity.machine.TankBlockEntity;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,8 +28,12 @@ public class BlockEntityInit {
 	//@formatter:off
 	public static final RegistryObject<BlockEntityType<EnergyCableBlockEntity>> ENERGY_CABLE = register("energy_cable",
             EnergyCableBlockEntity::new, () -> BlockInit.ENERGY_CABLE.get());
+	public static final RegistryObject<BlockEntityType<FluidPipeBlockEntity>> FLUID_PIPE = register("fluid_pipe",
+			FluidPipeBlockEntity::new, () -> BlockInit.FLUID_PIPE.get());
 	public static final RegistryObject<BlockEntityType<BatteryBlockEntity>> BATTERY = register("battery",
             BatteryBlockEntity::new, () -> BlockInit.BATTERY.get());
+	public static final RegistryObject<BlockEntityType<TankBlockEntity>> TANK = register("tank",
+            TankBlockEntity::new, () -> BlockInit.TANK.get());
 	public static final RegistryObject<BlockEntityType<CreativeBatteryBlockEntity>> CREATIVE_BATTERY = register("creaitve_battery",
             CreativeBatteryBlockEntity::new, () -> BlockInit.CREATIVE_BATTERY.get());
 	public static final RegistryObject<BlockEntityType<MachineCaseBlockEntity>> MACHINE_CASE = register("machine_case",
