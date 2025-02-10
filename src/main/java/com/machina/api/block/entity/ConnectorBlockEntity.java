@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.machina.api.block.ConnectorBlock;
 import com.machina.api.cap.IConnectorStorage;
+import com.machina.api.cap.sided.Side;
 import com.machina.api.cap.sided.SidedLazyOptionalCache;
 
 import net.minecraft.core.BlockPos;
@@ -153,7 +154,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			addToCache(this.worldPosition);
 
 			dirs.forEach(dir -> {
-				connectors.add(new Connection(this.worldPosition, dir, 0));
+				connectors.add(new Connection(this.worldPosition, dir, 0, Side.INPUT));
 			});
 
 			Block b = this.getBlockState().getBlock();
@@ -187,15 +188,25 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		private final BlockPos pos;
 		private final Direction direction;
 		private final int distance;
+		private final Side side;
 
-		public Connection(BlockPos pos, Direction direction, int distance) {
+		public Connection(BlockPos pos, Direction direction, int distance, Side side) {
 			this.pos = pos;
 			this.direction = direction;
 			this.distance = distance;
+			this.side = side;
 		}
 
 		public int getDistance() {
 			return distance;
+		}
+		
+		public boolean isInput() {
+			return side.isInput();
+		}
+		
+		public boolean isOutput() {
+			return side.isOutput();
 		}
 
 		public BlockPos getPos() {
@@ -220,6 +231,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			tag.put("CPos", NbtUtils.writeBlockPos(pos));
 			tag.putInt("CDir", direction.get3DDataValue());
 			tag.putInt("CDis", distance);
+			side.save(tag, "CSide");
 			return tag;
 		}
 
@@ -227,7 +239,8 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			BlockPos p = NbtUtils.readBlockPos(nbt.getCompound("CPos"));
 			Direction d = Direction.from3DDataValue(nbt.getInt("CDir"));
 			int dist = nbt.getInt("CDis");
-			return new Connection(p, d, dist);
+			Side side = Side.load(nbt, "CSide");
+			return new Connection(p, d, dist, side);
 		}
 	}
 

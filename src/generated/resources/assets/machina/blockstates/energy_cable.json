@@ -13,7 +13,7 @@
         "model": "machina:block/energy_cable_multi"
       },
       "when": {
-        "north": "true"
+        "north_side": "normal|input|output"
       }
     },
     {
@@ -22,7 +22,7 @@
         "y": 90
       },
       "when": {
-        "east": "true"
+        "east_side": "normal|input|output"
       }
     },
     {
@@ -31,7 +31,7 @@
         "x": 180
       },
       "when": {
-        "south": "true"
+        "south_side": "normal|input|output"
       }
     },
     {
@@ -40,7 +40,7 @@
         "y": 270
       },
       "when": {
-        "west": "true"
+        "west_side": "normal|input|output"
       }
     },
     {
@@ -49,7 +49,7 @@
         "x": 270
       },
       "when": {
-        "up": "true"
+        "up_side": "normal|input|output"
       }
     },
     {
@@ -58,7 +58,113 @@
         "x": 90
       },
       "when": {
-        "down": "true"
+        "down_side": "normal|input|output"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection"
+      },
+      "when": {
+        "north_side": "output"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "y": 90
+      },
+      "when": {
+        "east_side": "output"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "x": 180
+      },
+      "when": {
+        "south_side": "output"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "y": 270
+      },
+      "when": {
+        "west_side": "output"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "x": 270
+      },
+      "when": {
+        "up_side": "output"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "x": 90
+      },
+      "when": {
+        "down_side": "output"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection"
+      },
+      "when": {
+        "north_side": "input"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "y": 90
+      },
+      "when": {
+        "east_side": "input"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "x": 180
+      },
+      "when": {
+        "south_side": "input"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "y": 270
+      },
+      "when": {
+        "west_side": "input"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "x": 270
+      },
+      "when": {
+        "up_side": "input"
+      }
+    },
+    {
+      "apply": {
+        "model": "machina:block/energy_cable_connection",
+        "x": 90
+      },
+      "when": {
+        "down_side": "input"
       }
     }
   ]

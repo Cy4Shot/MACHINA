@@ -7,7 +7,10 @@ import java.util.Set;
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.block.entity.ConnectorBlockEntity.Connection;
 import com.machina.api.cap.IConnectorStorage;
+import com.machina.api.cap.sided.ConnectionSide;
+import com.machina.api.cap.sided.Side;
 import com.machina.api.util.block.BlockHelper;
+import com.machina.api.util.block.BlockProperties;
 import com.machina.api.util.math.MathUtil;
 
 import net.minecraft.core.BlockPos;
@@ -25,20 +28,19 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block implements EntityBlock {
-
-	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
-	public static final BooleanProperty EAST = BlockStateProperties.EAST;
-	public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
-	public static final BooleanProperty WEST = BlockStateProperties.WEST;
-	public static final BooleanProperty UP = BlockStateProperties.UP;
-	public static final BooleanProperty DOWN = BlockStateProperties.DOWN;
+	public static final EnumProperty<ConnectionSide> NORTH = BlockProperties.NORTH_SIDE;
+	public static final EnumProperty<ConnectionSide> EAST = BlockProperties.EAST_SIDE;
+	public static final EnumProperty<ConnectionSide> SOUTH = BlockProperties.SOUTH_SIDE;
+	public static final EnumProperty<ConnectionSide> WEST = BlockProperties.WEST_SIDE;
+	public static final EnumProperty<ConnectionSide> UP = BlockProperties.UP_SIDE;
+	public static final EnumProperty<ConnectionSide> DOWN = BlockProperties.DOWN_SIDE;
 	public static final BooleanProperty MIDDLE = BooleanProperty.create("middle");
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");
 
@@ -54,25 +56,26 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	public ConnectorBlock(Properties props) {
 		super(props.noOcclusion());
 
-		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, false).setValue(EAST, false)
-				.setValue(SOUTH, false).setValue(WEST, false).setValue(UP, false).setValue(DOWN, false)
-				.setValue(MIDDLE, false).setValue(TILE, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, ConnectionSide.NONE)
+				.setValue(EAST, ConnectionSide.NONE).setValue(SOUTH, ConnectionSide.NONE)
+				.setValue(WEST, ConnectionSide.NONE).setValue(UP, ConnectionSide.NONE)
+				.setValue(DOWN, ConnectionSide.NONE).setValue(MIDDLE, false).setValue(TILE, false));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext pContext) {
 		VoxelShape shape = state.getValue(MIDDLE) ? PART_M : PART_C;
-		if (state.getValue(NORTH) || isConnectable(level, pos, Direction.NORTH))
+		if (state.getValue(NORTH).isConnected() || isConnectable(level, pos, Direction.NORTH))
 			shape = Shapes.or(shape, PART_N);
-		if (state.getValue(EAST) || isConnectable(level, pos, Direction.EAST))
+		if (state.getValue(EAST).isConnected() || isConnectable(level, pos, Direction.EAST))
 			shape = Shapes.or(shape, PART_E);
-		if (state.getValue(SOUTH) || isConnectable(level, pos, Direction.SOUTH))
+		if (state.getValue(SOUTH).isConnected() || isConnectable(level, pos, Direction.SOUTH))
 			shape = Shapes.or(shape, PART_S);
-		if (state.getValue(WEST) || isConnectable(level, pos, Direction.WEST))
+		if (state.getValue(WEST).isConnected() || isConnectable(level, pos, Direction.WEST))
 			shape = Shapes.or(shape, PART_W);
-		if (state.getValue(UP) || isConnectable(level, pos, Direction.UP))
+		if (state.getValue(UP).isConnected() || isConnectable(level, pos, Direction.UP))
 			shape = Shapes.or(shape, PART_U);
-		if (state.getValue(DOWN) || isConnectable(level, pos, Direction.DOWN))
+		if (state.getValue(DOWN).isConnected() || isConnectable(level, pos, Direction.DOWN))
 			shape = Shapes.or(shape, PART_D);
 		return shape;
 	}
@@ -114,6 +117,10 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		boolean connectable = isConnectable(level, pos, dir);
 		return new boolean[] { level.getBlockState(pos.relative(dir)).getBlock() == this || connectable, connectable };
 	}
+	
+	private ConnectionSide getSide(boolean[] data) {
+		return data[1] ? ConnectionSide.OUTPUT : (data[0] ? ConnectionSide.NORMAL : ConnectionSide.NONE);
+	}
 
 	private BlockState createState(BlockGetter level, BlockPos pos) {
 		final BlockState state = defaultBlockState();
@@ -142,12 +149,12 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 
 		//@formatter:off
 		return state
-				.setValue(NORTH, north[0])
-				.setValue(SOUTH, south[0])
-				.setValue(WEST, west[0])
-				.setValue(EAST, east[0])
-				.setValue(UP, up[0])
-				.setValue(DOWN, down[0])
+				.setValue(NORTH, getSide(north))
+				.setValue(SOUTH, getSide(south))
+				.setValue(WEST, getSide(west))
+				.setValue(EAST, getSide(east))
+				.setValue(UP, getSide(up))
+				.setValue(DOWN, getSide(down))
 				.setValue(MIDDLE, middle)
 				.setValue(TILE, tile);
 		//@formatter:on
@@ -155,7 +162,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> b) {
-		b.add(NORTH, EAST, SOUTH, WEST, UP, DOWN, MIDDLE, TILE);
+		b.add(MIDDLE, TILE, NORTH, EAST, SOUTH, WEST, UP, DOWN);
 		super.createBlockStateDefinition(b);
 	}
 
@@ -220,8 +227,9 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 
 					Block block = world.getBlockState(blockPos).getBlock();
 					if (block == this) {
-						BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class, be -> be.dirs
-								.forEach(d -> first.connectors.add(new Connection(blockPos, (Direction) d, newdist))));
+						BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class,
+								be -> be.dirs.forEach(d -> first.connectors
+										.add(new Connection(blockPos, (Direction) d, newdist, Side.OUTPUT))));
 						first.addToCache(blockPos);
 						((ConnectorBlock<T>) block).searchConnectors(world, blockPos, first, newdist);
 					}

@@ -1,5 +1,7 @@
 package com.machina.api.cap.sided;
 
+import java.util.Locale;
+
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SSideConfig;
@@ -8,9 +10,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.util.StringRepresentable;
 
-public enum Side {
-	NONE(false, false, 407, 81), OUTPUT(false, true, 423, 81), INPUT(true, false, 415, 81);
+public enum Side implements StringRepresentable {
+	NONE(407, 81),
+	OUTPUT(423, 81),
+	INPUT(415, 81);
 
 	public static final Side[] NONES = new Side[] { Side.NONE, Side.NONE, Side.NONE, Side.NONE, Side.NONE, Side.NONE };
 	public static final Side[] INPUTS = new Side[] { Side.INPUT, Side.INPUT, Side.INPUT, Side.INPUT, Side.INPUT,
@@ -18,24 +23,24 @@ public enum Side {
 	public static final Side[] OUTPUTS = new Side[] { Side.OUTPUT, Side.OUTPUT, Side.OUTPUT, Side.OUTPUT, Side.OUTPUT,
 			Side.OUTPUT };
 
-	private final boolean input;
-	private final boolean output;
 	private final int tx;
 	private final int ty;
 
-	Side(boolean input, boolean output, int tx, int ty) {
-		this.input = input;
-		this.output = output;
+	Side(int tx, int ty) {
 		this.tx = tx;
 		this.ty = ty;
 	}
 
+	public boolean isConnected() {
+		return this != NONE;
+	}
+
 	public boolean isInput() {
-		return input;
+		return this == INPUT;
 	}
 
 	public boolean isOutput() {
-		return output;
+		return this == OUTPUT;
 	}
 
 	public int x() {
@@ -47,7 +52,15 @@ public enum Side {
 	}
 
 	public String getSerializedName() {
-		return name().toLowerCase();
+		return name().toLowerCase(Locale.ROOT);
+	}
+	
+	public void save(CompoundTag tag, String key) {
+		tag.putString(key, this.getSerializedName());
+	}
+	
+	public static Side load(CompoundTag tag, String key) {
+		return valueOf(tag.getString(key).toUpperCase());
 	}
 
 	public static CompoundTag serialize(Side[] sides) {

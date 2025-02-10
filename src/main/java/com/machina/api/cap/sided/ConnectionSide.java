@@ -1,0 +1,42 @@
+package com.machina.api.cap.sided;
+
+import java.util.Locale;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.StringRepresentable;
+
+public enum ConnectionSide implements StringRepresentable {
+	NORMAL,
+	INPUT,
+	OUTPUT,
+	NONE;
+
+	public boolean isConnected() {
+		return this != NONE;
+	}
+
+	public boolean isInput() {
+		return this == INPUT;
+	}
+
+	public boolean isOutput() {
+		return this == OUTPUT;
+	}
+
+	public boolean isNone() {
+		return this == NONE;
+	}
+
+	public void save(CompoundTag tag, String key) {
+		tag.putString(key, this.getSerializedName());
+	}
+
+	public static ConnectionSide load(CompoundTag tag, String key) {
+		return valueOf(tag.getString(key).toUpperCase());
+	}
+
+	@Override
+	public String getSerializedName() {
+		return name().toLowerCase(Locale.ROOT);
+	}
+}

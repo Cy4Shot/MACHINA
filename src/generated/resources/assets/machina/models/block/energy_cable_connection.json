@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/connector/connection",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "connection": "machina:block/energy_cable"
+  }
+}
