@@ -9,6 +9,7 @@ import com.machina.config.CommonConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class FurnaceGeneratorScreen extends MachinaMenuScreen<FurnaceGeneratorBlockEntity, FurnaceGeneratorMenu> {
 
@@ -17,11 +18,11 @@ public class FurnaceGeneratorScreen extends MachinaMenuScreen<FurnaceGeneratorBl
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics gui, float pt, int mx, int my) {
+	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
 		drawDownFacingSlot(gui, 0, mx, my, 107, -28, SpecialSlot.COAL, "furnace_generator.input");
-		drawEnergyBar(gui, 117, 20, true, true, "");
+		drawEnergyBar(gui, 20, true, "");
 
 		int i = midWidth();
 		int j = midHeight();

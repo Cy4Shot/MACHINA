@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public record PlanetTypeJsonInfo(String name, Shape shape, List<BiomePlacementJsonInfo> biomes, String base) implements JsonInfo<PlanetType> {
 
-	public static record BiomePlacementJsonInfo(String name, List<String> placements)
+	public record BiomePlacementJsonInfo(String name, List<String> placements)
 			implements JsonInfo<BiomePlacement> {
 
 		@Override

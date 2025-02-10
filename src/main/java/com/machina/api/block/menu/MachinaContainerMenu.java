@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class MachinaContainerMenu<T extends MachinaBlockEntity> extends AbstractContainerMenu {
 
@@ -38,7 +39,7 @@ public abstract class MachinaContainerMenu<T extends MachinaBlockEntity> extends
 	protected abstract MachineBlock getBlock();
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		return this.be.stillValid(player);
 	}
 
@@ -51,10 +52,10 @@ public abstract class MachinaContainerMenu<T extends MachinaBlockEntity> extends
 	}
 
 	@Override
-	public ItemStack quickMoveStack(Player player, int index) {
+	public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
 		ItemStack stack = ItemStack.EMPTY;
 		Slot slot = this.slots.get(index);
-		if (slot != null && slot.hasItem()) {
+		if (slot.hasItem()) {
 			ItemStack stack1 = slot.getItem();
 			stack = stack1.copy();
 			if (index < be.getContainerSize()

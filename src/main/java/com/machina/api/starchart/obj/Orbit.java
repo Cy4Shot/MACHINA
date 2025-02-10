@@ -9,7 +9,7 @@ public record Orbit(Function<Double, Vec3> orbitalCoords, double a, double e) {
 	public static final Orbit STAR = new Orbit(t -> Vec3.ZERO, 0, 0);
 
 	public static Orbit from(Planet p) {
-		return new Orbit(t -> p.calculateOrbitalCoordinates(t), p.a(), p.e());
+		return new Orbit(p::calculateOrbitalCoordinates, p.a(), p.e());
 	}
 
 	public Vec3 calculateOrbitalCoords(double t) {

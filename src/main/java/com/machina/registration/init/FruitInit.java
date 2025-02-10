@@ -14,7 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class FruitInit {
 
-	public static record Fruit(RegistryObject<Block> block, RegistryObject<FruitItem> item) {
+	public record Fruit(RegistryObject<Block> block, RegistryObject<FruitItem> item) {
 	}
 
 	public static final List<Fruit> FRUITS = new ArrayList<>();
@@ -36,13 +36,7 @@ public class FruitInit {
 		if ((flags & 1) == 1) {
 			b = b.fast();
 		}
-		if (((flags << 1) & 1) == 1) {
-			b = b.alwaysEat();
-		}
-		if (((flags << 2) & 1) == 1) {
-			b = b.meat();
-		}
-		return b.build();
+        return b.build();
 	}
 
 	private static Fruit register(String name, int nut, float sat, int flags) {

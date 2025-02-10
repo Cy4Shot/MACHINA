@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
@@ -64,11 +65,11 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	private Float lsx, lsy = null;
 	private float rotX, rotY;
 
-	private Map<String, ClickArea> clickareas = new HashMap<>();
-	private Map<String, Clickable> clickables = new HashMap<>();
-	private Map<String, Hoverable> hoverables = new HashMap<>();
-	private Map<String, Stateable> stateables = new HashMap<>();
-	private Map<Direction, TextureAtlasSprite> sprites = new HashMap<>();
+	private final Map<String, ClickArea> clickareas = new HashMap<>();
+	private final Map<String, Clickable> clickables = new HashMap<>();
+	private final Map<String, Hoverable> hoverables = new HashMap<>();
+	private final Map<String, Stateable> stateables = new HashMap<>();
+	private final Map<Direction, TextureAtlasSprite> sprites = new HashMap<>();
 
 	public MachinaMenuScreen(T menu, Inventory inv, Component title) {
 		super(menu, inv, title);
@@ -94,7 +95,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		super.init();
 	}
 
-	public void render(GuiGraphics gui, int mx, int my, float pt) {
+	public void render(@NotNull GuiGraphics gui, int mx, int my, float pt) {
 		this.renderBackground(gui);
 		if (appearDraw(this.aliveTicks))
 			super.render(gui, mx, my, pt);
@@ -104,7 +105,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	}
 
 	@Override
-	protected void renderLabels(GuiGraphics gui, int x, int y) {
+	protected void renderLabels(@NotNull GuiGraphics gui, int x, int y) {
 	}
 
 	@Override
@@ -160,20 +161,23 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		gui.drawString(font, text, x, y, color);
 	}
 
-	protected void drawStringVertical(GuiGraphics gui, Component text, int x, int y, int color) {
+	protected void drawStringVertical(GuiGraphics gui, Component text, int x, int y) {
 		gui.pose().pushPose();
 		gui.pose().translate(x, y, 0);
 		gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.ZP, 90));
-		gui.drawString(font, text, 0, 0, color);
+		gui.drawString(font, text, 0, 0, 65278);
 		gui.pose().popPose();
 	}
 
 	protected void drawInventory(GuiGraphics gui, int mx, int my) {
 		int i = midWidth();
 		int j = midHeight();
-		boolean hovered = this.hoveredSlot != null && this.hoveredSlot.container == mc.player.getInventory();
+        boolean hovered = false;
+        if (mc.player != null) {
+            hovered = this.hoveredSlot != null && this.hoveredSlot.container == mc.player.getInventory();
+        }
 
-		int sx, sy;
+        int sx, sy;
 		if (hovered) {
 			sx = i + this.hoveredSlot.x + 2;
 			sy = j + this.hoveredSlot.y + 3;
@@ -207,7 +211,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		blitCommon(gui, i + 18, lsy.intValue(), 366, 0, 2, 14);
 		blitCommon(gui, lsx.intValue(), j + 173, 368, 0, 14, 2);
 		blitCommon(gui, i + 27, j + 143, 179 + k2, 92, 179, 2);
-		drawStringVertical(gui, Component.translatable("container.inventory"), i + 220, j + 78, 0x00FEFE);
+		drawStringVertical(gui, Component.translatable("container.inventory"), i + 220, j + 78);
 	}
 
 	protected void drawBackground(GuiGraphics gui) {
@@ -215,7 +219,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		int j = midHeight();
 
 		blitCommon(gui, i, j - 73, 179, 94, 235, 151);
-		drawStringVertical(gui, this.menu.getName(), i + 245, j - 71, 0x00FEFE);
+		drawStringVertical(gui, this.menu.getName(), i + 245, j - 71);
 		registerClickArea("bg", i, j - 73, i + 235, j + 78, () -> true);
 	}
 
@@ -231,8 +235,8 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		COAL(499, 43),
 		DUST(499, 53);
 
-		protected int x;
-		protected int y;
+		private final int x;
+		private final int y;
 
 		SpecialSlot(int x, int y) {
 			this.x = x;
@@ -263,10 +267,10 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		}
 	}
 
-	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, SpecialSlot slot,
-			String hover) {
+	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, SpecialSlot slot,
+									String hover) {
 		int i = midWidth() + x;
-		int j = midHeight() + y;
+		int j = midHeight() + 30;
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
 		blitCommon(gui, i, j, 433, h, 19, 21);
 		if (entity.getItem(id).isEmpty())
@@ -276,16 +280,16 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		if (!hover.isEmpty()) {
-			registerHoverable("slot_" + x + "_" + y, i - 1, j + 1, i + 18, j + 20, () -> entity.getItem(id).isEmpty(),
+			registerHoverable("slot_" + x + "_" + 30, i - 1, j + 1, i + 18, j + 20, () -> entity.getItem(id).isEmpty(),
 					() -> uistr(hover));
 		}
 	}
 
-	private void drawBar(GuiGraphics gui, int i, int j, int o, float p, boolean active, boolean under_deco, String text,
-			String missing) {
+	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text,
+						 String missing) {
 		// Bar
 		blitCommon(gui, i, j, 366, 21, 133, 18);
-		blitCommon(gui, i + 1, j + 3, 366, 39 + o * 14, (int) (131 * p), 14);
+		blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
 
 		// Deco
 		int dec_off = active ? 0 : 6;
@@ -296,24 +300,22 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 			gui.drawCenteredString(font, uistr(missing), i + 66, j + 6, 0xFE0000);
 		}
 
-		if (under_deco) {
-			dec_off = active ? 0 : 38;
-			Component c = Component.literal(text);
-			int w = font.width(c) / 2 + 2;
-			gui.drawCenteredString(font, c, i + 66, j + 20, active ? 0x00FEFE : 0xFE0000);
-			blitCommon(gui, i + 66 + w, j + 18, 418 + dec_off, 5, 19, 8);
-			blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
-		}
-	}
+        dec_off = active ? 0 : 38;
+        Component c = Component.literal(text);
+        int w = font.width(c) / 2 + 2;
+        gui.drawCenteredString(font, c, i + 66, j + 20, active ? 0x00FEFE : 0xFE0000);
+        blitCommon(gui, i + 66 + w, j + 18, 418 + dec_off, 5, 19, 8);
+        blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
+    }
 
-	protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, boolean under_deco, String missing) {
-		int i = midWidth() + x - 66;
+	protected void drawEnergyBar(GuiGraphics gui, int y, boolean active, String missing) {
+		int i = midWidth() + 117 - 66;
 		int j = midHeight() + y - 9;
-		registerHoverable("energy", i + 1, j + 1, i + 136, j + 18,
+		registerHoverable(i + 1, j + 1, i + 136, j + 18,
 				() -> active ? Component.literal(StringUtils.formatPower(this.entity.getEnergy()) + " / "
 						+ StringUtils.formatPower(this.entity.getMaxEnergy()) + " ("
 						+ StringUtils.formatPercent(this.entity.getEnergyF()) + ")") : uistr(missing));
-		drawBar(gui, i, j, 0, this.entity.getEnergyF(), active, under_deco,
+		drawBar(gui, i, j, this.entity.getEnergyF(), active,
 				StringUtils.formatPower(this.entity.getEnergy()), missing);
 	}
 
@@ -332,8 +334,8 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		drawSideConfig(gui, x, y, mx, my, "item_" + slot, this.entity.getItemAdapter(slot), special);
 	}
 
-	protected void drawEnergySideConfig(GuiGraphics gui, int x, int y, int mx, int my) {
-		drawSideConfig(gui, x, y, mx, my, "energy", this.entity.getEnergyAdapter(), SpecialSlot.BOLT);
+	protected void drawEnergySideConfig(GuiGraphics gui, int mx, int my) {
+		drawSideConfig(gui, 0, 0, mx, my, "energy", this.entity.getEnergyAdapter(), SpecialSlot.BOLT);
 	}
 
 	protected void drawSideConfig(GuiGraphics gui, int x, int y, int mx, int my, String name,
@@ -473,7 +475,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	private static void renderElements(PoseStack ms, ClientMultiblock mb, Vec3i dest, float par,
 			Predicate<BlockPos> transparency, boolean flip) {
 		if (mbBuffers == null) {
-			mbBuffers = initBuffers(mc.renderBuffers().bufferSource(), 0.2f);
+			mbBuffers = initBuffers(mc.renderBuffers().bufferSource());
 		}
 
 		BufferSource buffers = mc.renderBuffers().bufferSource();
@@ -501,7 +503,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 					if (last != tp) {
 						(last ? nmBuffers : tpBuffers).endBatch();
 					}
-					mb = mb.restrict(has -> tp ? !transparency.test(has) : transparency.test(has));
+					mb = mb.restrict(has -> tp != transparency.test(has));
 					BlockState bs = mb.getBlockState(pos);
 
 					ms.pushPose();
@@ -522,31 +524,31 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		}
 	}
 
-	private static BufferSource initBuffers(BufferSource original, float alpha) {
+	private static BufferSource initBuffers(BufferSource original) {
 		Map<RenderType, BufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
 		for (Map.Entry<RenderType, BufferBuilder> e : original.fixedBuffers.entrySet()) {
-			remapped.put(MultiblockRenderType.remap(e.getKey(), alpha), e.getValue());
+			remapped.put(MultiblockRenderType.remap(e.getKey(), (float) 0.2), e.getValue());
 		}
-		return new MultiblockBuffers(original.builder, remapped, alpha);
+		return new MultiblockBuffers(original.builder, remapped);
 	}
 
 	private static class MultiblockBuffers extends BufferSource {
 
 		private final float alpha;
 
-		protected MultiblockBuffers(BufferBuilder fallback, Map<RenderType, BufferBuilder> layerBuffers, float alpha) {
+		protected MultiblockBuffers(BufferBuilder fallback, Map<RenderType, BufferBuilder> layerBuffers) {
 			super(fallback, layerBuffers);
-			this.alpha = alpha;
+			this.alpha = (float) 0.2;
 		}
 
 		@Override
-		public VertexConsumer getBuffer(RenderType type) {
+		public @NotNull VertexConsumer getBuffer(@NotNull RenderType type) {
 			return super.getBuffer(MultiblockRenderType.remap(type, alpha));
 		}
 	}
 
 	private static class MultiblockRenderType extends RenderType {
-		private static Map<RenderType, RenderType> remappedTypes = new IdentityHashMap<>();
+		private static final Map<RenderType, RenderType> remappedTypes = new IdentityHashMap<>();
 
 		private MultiblockRenderType(RenderType original, float alpha) {
 			super(String.format("%s_%s_multiblock", original.toString(), Machina.MOD_ID), original.format(),
@@ -588,7 +590,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	}
 
 	@Override
-	protected void renderTooltip(GuiGraphics gui, int mx, int my) {
+	protected void renderTooltip(@NotNull GuiGraphics gui, int mx, int my) {
 		super.renderTooltip(gui, mx, my);
 
 		for (Hoverable h : hoverables.values()) {
@@ -623,8 +625,8 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		this.hoverables.putIfAbsent(key, new Hoverable(minX, minY, maxX, maxY, active, text));
 	}
 
-	private void registerHoverable(String key, int minX, int minY, int maxX, int maxY, Supplier<Component> text) {
-		registerHoverable(key, minX, minY, maxX, maxY, () -> true, text);
+	private void registerHoverable(int minX, int minY, int maxX, int maxY, Supplier<Component> text) {
+		registerHoverable("energy", minX, minY, maxX, maxY, () -> true, text);
 	}
 
 	private void registerClickable(String key, int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,

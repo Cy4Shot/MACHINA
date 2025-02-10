@@ -3,6 +3,7 @@ package com.machina.api.block.menu.slot;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class ResultSlot extends Slot {
 
@@ -16,7 +17,7 @@ public class ResultSlot extends Slot {
 	}
 
 	@Override
-	public boolean mayPlace(ItemStack stack) {
+	public boolean mayPlace(@NotNull ItemStack stack) {
 		return false;
 	}
 }

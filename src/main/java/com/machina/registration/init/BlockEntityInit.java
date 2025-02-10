@@ -27,21 +27,21 @@ public class BlockEntityInit {
 
 	//@formatter:off
 	public static final RegistryObject<BlockEntityType<EnergyCableBlockEntity>> ENERGY_CABLE = register("energy_cable",
-            EnergyCableBlockEntity::new, () -> BlockInit.ENERGY_CABLE.get());
+            EnergyCableBlockEntity::new, BlockInit.ENERGY_CABLE::get);
 	public static final RegistryObject<BlockEntityType<FluidPipeBlockEntity>> FLUID_PIPE = register("fluid_pipe",
-			FluidPipeBlockEntity::new, () -> BlockInit.FLUID_PIPE.get());
+			FluidPipeBlockEntity::new, BlockInit.FLUID_PIPE::get);
 	public static final RegistryObject<BlockEntityType<BatteryBlockEntity>> BATTERY = register("battery",
-            BatteryBlockEntity::new, () -> BlockInit.BATTERY.get());
+            BatteryBlockEntity::new, BlockInit.BATTERY::get);
 	public static final RegistryObject<BlockEntityType<TankBlockEntity>> TANK = register("tank",
-            TankBlockEntity::new, () -> BlockInit.TANK.get());
+            TankBlockEntity::new, BlockInit.TANK::get);
 	public static final RegistryObject<BlockEntityType<CreativeBatteryBlockEntity>> CREATIVE_BATTERY = register("creaitve_battery",
-            CreativeBatteryBlockEntity::new, () -> BlockInit.CREATIVE_BATTERY.get());
+            CreativeBatteryBlockEntity::new, BlockInit.CREATIVE_BATTERY::get);
 	public static final RegistryObject<BlockEntityType<MachineCaseBlockEntity>> MACHINE_CASE = register("machine_case",
-            MachineCaseBlockEntity::new, () -> BlockInit.BASIC_MACHINE_CASE.get());
+            MachineCaseBlockEntity::new, BlockInit.BASIC_MACHINE_CASE::get);
 	public static final RegistryObject<BlockEntityType<FurnaceGeneratorBlockEntity>> FURNACE_GENERATOR = register("furnace_generator",
-            FurnaceGeneratorBlockEntity::new, () -> BlockInit.FURNACE_GENERATOR.get());
+            FurnaceGeneratorBlockEntity::new, BlockInit.FURNACE_GENERATOR::get);
 	public static final RegistryObject<BlockEntityType<GrinderBlockEntity>> GRINDER = register("grinder",
-            GrinderBlockEntity::new, () -> BlockInit.GRINDER.get());
+            GrinderBlockEntity::new, BlockInit.GRINDER::get);
 	//@formatter:on
 
 	public static final RegistryObject<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",
@@ -50,11 +50,13 @@ public class BlockEntityInit {
 			"hanging_sign", MachinaHangingSignBlockEntity::new,
 			() -> BlockInit.HANGING_SIGNS.stream().map(RegistryObject::get).toArray(Block[]::new));
 
-	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String n,
-			BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block> b) {
+	@SuppressWarnings("DataFlowIssue")
+    private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String n,
+                                                                                       BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block> b) {
 		return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));
 	}
 
+	@SuppressWarnings("DataFlowIssue")
 	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerMany(String n,
 			BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block[]> b) {
 		return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));

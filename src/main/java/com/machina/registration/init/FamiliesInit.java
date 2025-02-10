@@ -18,10 +18,10 @@ import net.minecraft.world.level.block.Blocks;
 
 public class FamiliesInit {
 
-	public static List<OreFamily> ORES = new ArrayList<>();
-	public static List<DirtFamily> DIRTS = new ArrayList<>();
-	public static List<WoodFamily> WOODS = new ArrayList<>();
-	public static List<StoneFamily> STONES = new ArrayList<>();
+	public static final List<OreFamily> ORES = new ArrayList<>();
+	public static final List<DirtFamily> DIRTS = new ArrayList<>();
+	public static final List<WoodFamily> WOODS = new ArrayList<>();
+	public static final List<StoneFamily> STONES = new ArrayList<>();
 
 	static {
 		ORES.add(OreFamily.gemLike("coal", Blocks.COAL_ORE, Blocks.COAL_BLOCK, Items.COAL, ItemInit.COAL_DUST.get()));
@@ -149,12 +149,12 @@ public class FamiliesInit {
 				BlockInit.GNEISS_BUTTON.get(), BlockInit.GNEISS_PEBBLES.get()));
 	}
 
-	public static interface ItemLikeFamily {
-		public List<ItemLike> tab();
+	public interface ItemLikeFamily {
+		List<ItemLike> tab();
 	}
 
-	public static final record OreFamily(String name, Optional<Block> ore, Optional<Block> block, Optional<Item> nugget,
-			Optional<Item> ingot, Item dust, Optional<Item> plate, Optional<Item> rod, Optional<Item> wire)
+	public record OreFamily(String name, Optional<Block> ore, Optional<Block> block, Optional<Item> nugget,
+                            Optional<Item> ingot, Item dust, Optional<Item> plate, Optional<Item> rod, Optional<Item> wire)
 			implements ItemLikeFamily {
 
 		public static OreFamily gemLike(String name, Block ore, Block block, Item ingot, Item dust) {
@@ -209,7 +209,7 @@ public class FamiliesInit {
 		}
 	}
 
-	public static final record DirtFamily(String name, Block dirt, Block stairs, Block slab, Optional<Block> grass)
+	public record DirtFamily(String name, Block dirt, Block stairs, Block slab, Optional<Block> grass)
 			implements ItemLikeFamily {
 
 		public DirtFamily(String name, Block dirt, Block stairs, Block slab) {
@@ -218,17 +218,14 @@ public class FamiliesInit {
 
 		@Override
 		public List<ItemLike> tab() {
-			if (grass.isPresent()) {
-				return List.of(grass.get(), dirt, stairs, slab);
-			}
-			return List.of(dirt, stairs, slab);
-		}
+            return grass.<List<ItemLike>>map(block -> List.of(block, dirt, stairs, slab)).orElseGet(() -> List.of(dirt, stairs, slab));
+        }
 	}
 
-	public static final record WoodFamily(String name, Block log, Block wood, Block stripped_log, Block stripped_wood,
-			Block planks, Block stairs, Block slab, Block fence, Block fencegate, Block door, Block trapdoor,
-			Block pressure_plate, Block button, Item sign, Item hangingsign, Block signblock, Block wallsignblock,
-			Block hangingsignblock, Block hangingwallsignblock, Block[] leaves) implements ItemLikeFamily {
+	public record WoodFamily(String name, Block log, Block wood, Block stripped_log, Block stripped_wood,
+                             Block planks, Block stairs, Block slab, Block fence, Block fencegate, Block door, Block trapdoor,
+                             Block pressure_plate, Block button, Item sign, Item hangingsign, Block signblock, Block wallsignblock,
+                             Block hangingsignblock, Block hangingwallsignblock, Block[] leaves) implements ItemLikeFamily {
 
 		@Override
 		public List<ItemLike> tab() {
@@ -238,8 +235,8 @@ public class FamiliesInit {
 		}
 	}
 
-	public static final record StoneFamily(String name, Block base, Block slab, Block stairs, Block wall,
-			Block pressure_plate, Block button, Block pebbles) implements ItemLikeFamily {
+	public record StoneFamily(String name, Block base, Block slab, Block stairs, Block wall,
+                              Block pressure_plate, Block button, Block pebbles) implements ItemLikeFamily {
 
 		@Override
 		public List<ItemLike> tab() {

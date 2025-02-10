@@ -56,7 +56,7 @@ package com.machina.api.starchart.burke;
  * </p>
  */
 public class Protoplanet extends AccreteObject implements PhysicalConstants {
-	static public double PROTOPLANET_MASS = (1.0E-15); // Units of solar masses
+	static public final double PROTOPLANET_MASS = (1.0E-15); // Units of solar masses
 	public double a;
 	public double e;
 	public double mass;
@@ -114,12 +114,6 @@ public class Protoplanet extends AccreteObject implements PhysicalConstants {
 	 */
 	public double outer_reduced_limit(double cloud_eccentricity) {
 		return (a * (1.0 + e) * (1.0 + reduced_mass) / (1.0 - cloud_eccentricity));
-	}
-
-	/**
-	 * Not currently implemented; really should be toString() anyway.
-	 */
-	public void print() {
 	}
 
 	/**
@@ -190,10 +184,8 @@ public class Protoplanet extends AccreteObject implements PhysicalConstants {
 	/**
 	 * Calculates unit density of material to be accreted from the specified dust
 	 * band.
-	 * 
-	 * @param inner_limit_of_dust Inner edge of the dust band (in AU)
-	 * @param outer_limit_of_dust Outer edge of the dust band (in AU)
-	 */
+	 *
+     */
 	public double mass_density(boolean dust, boolean gas) {
 		if (!dust)
 			return 0.0;

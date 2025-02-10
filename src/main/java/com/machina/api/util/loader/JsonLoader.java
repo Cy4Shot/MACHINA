@@ -20,12 +20,13 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.InactiveProfiler;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.NotNull;
 
 public class JsonLoader<T> extends SimpleJsonResourceReloadListener {
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 	private Map<ResourceLocation, T> registry = ImmutableMap.of();
-	private String name;
-	private Class<? extends JsonInfo<T>> clazz;
+	private final String name;
+	private final Class<? extends JsonInfo<T>> clazz;
 
 	public JsonLoader(String name, Class<? extends JsonInfo<T>> clazz) {
 		super(GSON, name);
@@ -60,7 +61,7 @@ public class JsonLoader<T> extends SimpleJsonResourceReloadListener {
 	}
 
 	@Override
-	protected void apply(Map<ResourceLocation, JsonElement> entries, ResourceManager man, ProfilerFiller profiler) {
+	protected void apply(Map<ResourceLocation, JsonElement> entries, @NotNull ResourceManager man, @NotNull ProfilerFiller profiler) {
 		Map<ResourceLocation, T> map = Maps.newHashMap();
 		for (Entry<ResourceLocation, JsonElement> entry : entries.entrySet()) {
 			ResourceLocation resourcelocation = entry.getKey();

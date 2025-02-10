@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class BlueprintItem extends Item {
 
@@ -20,7 +21,7 @@ public class BlueprintItem extends Item {
 
 	public static Blueprint get(ItemStack stack) {
 		CompoundTag nbt = stack.getOrCreateTag();
-		if (nbt != null && nbt.contains("of"))
+		if (nbt.contains("of"))
 			return Blueprint.fromNBT(nbt.getCompound("of"));
 		return Blueprint.EMPTY;
 	}
@@ -30,7 +31,7 @@ public class BlueprintItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
 		Blueprint bp = get(stack);
 		if (!bp.getId().equals(Blueprint.EMPTY.getId()))
 			tooltip.add(bp.getName().setStyle(Style.EMPTY.withColor(65278)));
@@ -39,7 +40,7 @@ public class BlueprintItem extends Item {
 	}
 
 	@Override
-	public ItemStack getDefaultInstance() {
+	public @NotNull ItemStack getDefaultInstance() {
 		ItemStack stack = super.getDefaultInstance();
 		set(stack, Blueprint.EMPTY);
 		return stack;

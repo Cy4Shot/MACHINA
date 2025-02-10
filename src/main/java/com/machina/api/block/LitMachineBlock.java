@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public abstract class LitMachineBlock extends MachineBlock {
 
-	public static final BooleanProperty LIT = BlockProperties.LIT;;
+	public static final BooleanProperty LIT = BlockProperties.LIT;
 
-	protected LitMachineBlock(Properties props) {
+    protected LitMachineBlock(Properties props) {
 		super(props);
 
 		this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));

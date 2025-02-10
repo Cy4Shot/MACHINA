@@ -47,12 +47,12 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 		float f = randomsource.nextFloat() * (float) Math.PI;
 		float f1 = (float) cfg.size() / 8.0F;
 		int i = Mth.ceil(((float) cfg.size() / 16.0F * 2.0F + 1.0F) / 2.0F);
-		double d0 = (double) blockpos.getX() + Math.sin((double) f) * (double) f1;
-		double d1 = (double) blockpos.getX() - Math.sin((double) f) * (double) f1;
-		double d2 = (double) blockpos.getZ() + Math.cos((double) f) * (double) f1;
-		double d3 = (double) blockpos.getZ() - Math.cos((double) f) * (double) f1;
-		double d4 = (double) (blockpos.getY() + randomsource.nextInt(3) - 2);
-		double d5 = (double) (blockpos.getY() + randomsource.nextInt(3) - 2);
+		double d0 = (double) blockpos.getX() + Math.sin(f) * (double) f1;
+		double d1 = (double) blockpos.getX() - Math.sin(f) * (double) f1;
+		double d2 = (double) blockpos.getZ() + Math.cos(f) * (double) f1;
+		double d3 = (double) blockpos.getZ() - Math.cos(f) * (double) f1;
+		double d4 = blockpos.getY() + randomsource.nextInt(3) - 2;
+		double d5 = blockpos.getY() + randomsource.nextInt(3) - 2;
 		int k = blockpos.getX() - Mth.ceil(f1) - i;
 		int l = blockpos.getY() - 2 - i;
 		int i1 = blockpos.getZ() - Mth.ceil(f1) - i;
@@ -81,12 +81,12 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 
 		for (int k = 0; k < j; ++k) {
 			float f = (float) k / (float) j;
-			double d0 = Mth.lerp((double) f, p_225175_, p_225176_);
-			double d1 = Mth.lerp((double) f, p_225179_, p_225180_);
-			double d2 = Mth.lerp((double) f, p_225177_, p_225178_);
+			double d0 = Mth.lerp(f, p_225175_, p_225176_);
+			double d1 = Mth.lerp(f, p_225179_, p_225180_);
+			double d2 = Mth.lerp(f, p_225177_, p_225178_);
 			double d3 = p_225173_.nextDouble() * (double) j / 16.0D;
 			double d4 = ((double) (Mth.sin((float) Math.PI * f) + 1.0F) * d3 + 1.0D) / 2.0D;
-			adouble[k * 4 + 0] = d0;
+			adouble[k * 4] = d0;
 			adouble[k * 4 + 1] = d1;
 			adouble[k * 4 + 2] = d2;
 			adouble[k * 4 + 3] = d4;
@@ -96,7 +96,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 			if (!(adouble[l3 * 4 + 3] <= 0.0D)) {
 				for (int i4 = l3 + 1; i4 < j; ++i4) {
 					if (!(adouble[i4 * 4 + 3] <= 0.0D)) {
-						double d8 = adouble[l3 * 4 + 0] - adouble[i4 * 4 + 0];
+						double d8 = adouble[l3 * 4] - adouble[i4 * 4];
 						double d10 = adouble[l3 * 4 + 1] - adouble[i4 * 4 + 1];
 						double d12 = adouble[l3 * 4 + 2] - adouble[i4 * 4 + 2];
 						double d14 = adouble[l3 * 4 + 3] - adouble[i4 * 4 + 3];
@@ -116,7 +116,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 			for (int j4 = 0; j4 < j; ++j4) {
 				double d9 = adouble[j4 * 4 + 3];
 				if (!(d9 < 0.0D)) {
-					double d11 = adouble[j4 * 4 + 0];
+					double d11 = adouble[j4 * 4];
 					double d13 = adouble[j4 * 4 + 1];
 					double d15 = adouble[j4 * 4 + 2];
 					int k4 = Math.max(Mth.floor(d11 - d9), p_225181_);

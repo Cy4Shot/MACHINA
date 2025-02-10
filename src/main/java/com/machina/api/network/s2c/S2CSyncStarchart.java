@@ -22,11 +22,6 @@ public record S2CSyncStarchart(long seed) implements S2CMessage {
 		long seed = seed();
 		
 		Minecraft mc = Minecraft.getInstance();
-		mc.execute(new Runnable() {
-			@Override
-			public void run() {
-				ClientStarchart.sync(seed);
-			}
-		});
+		mc.execute(() -> ClientStarchart.sync(seed));
 	}
 }

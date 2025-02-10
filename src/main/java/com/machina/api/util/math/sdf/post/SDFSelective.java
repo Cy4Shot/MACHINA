@@ -1,6 +1,5 @@
 package com.machina.api.util.math.sdf.post;
 
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import com.machina.api.util.math.sdf.PosInfo;
@@ -27,10 +26,10 @@ public record SDFSelective(SDFPostProcessor parent, Predicate<BlockState> test) 
 	}
 
 	@Override
-	public Optional<Pair<BlockPos, BlockState>> extra(PosInfo posInfo) {
+	public Pair<BlockPos, BlockState> extra(PosInfo posInfo) {
 		if (test.test(posInfo.getState())) {
 			return parent.extra(posInfo);
 		}
-		return Optional.empty();
+		return null;
 	}
 }

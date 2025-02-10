@@ -31,10 +31,9 @@ public class CreativeBatteryBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide())
-			return;
+        if (this.level != null && this.level.isClientSide()) return;
 
-		// Send out energy
+        // Send out energy
 		BlockHelper.sendEnergy(level, worldPosition, 1_000_000_000, 1_000_000_000, this);
 
 		super.tick();

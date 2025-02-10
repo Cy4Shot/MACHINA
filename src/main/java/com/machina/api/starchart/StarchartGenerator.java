@@ -53,7 +53,7 @@ public class StarchartGenerator {
 			int i = 0;
 			while (curr.getSecond() != null) {
 				i++;
-				curr = convertMoon(name + "." + String.valueOf(i), curr.getSecond());
+				curr = convertMoon(name + "." + i, curr.getSecond());
 				moons.add(curr.getFirst());
 			}
 		}

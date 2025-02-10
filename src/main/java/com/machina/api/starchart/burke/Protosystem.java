@@ -1,12 +1,12 @@
 package com.machina.api.starchart.burke;
 
-public class Protosystem extends Object implements PhysicalConstants {
-	public BStar star;
-	public BPlanet planet;
-	public DustDisc disc;
+public class Protosystem implements PhysicalConstants {
+	public final BStar star;
+	public final BPlanet planet;
+	public final DustDisc disc;
 	public Protoplanet planet_head;
-	public double body_inner_bound;
-	public double body_outer_bound;
+	public final double body_inner_bound;
+	public final double body_outer_bound;
 
 	/**
 	 * Star system contructor. Builds an accretion disc for the specified star.
@@ -54,7 +54,7 @@ public class Protosystem extends Object implements PhysicalConstants {
 		Protoplanet node1, node2, node3;
 		boolean finished;
 		double temp, dist1, dist2, a3;
-		double reduced_mass = p.mass;
+		double reduced_mass;
 
 		finished = false;
 		// try to merge Protoplanets
@@ -118,19 +118,18 @@ public class Protosystem extends Object implements PhysicalConstants {
 						node1 = node1.next_planet;
 					}
 					node3.next_planet = node1;
-					node2.next_planet = node3;
-				}
+                    if (node2 != null) {
+                        node2.next_planet = node3;
+                    }
+                }
 			}
 		}
 	}
 
 	/**
 	 * Accretes protoplanets from the dust disc in this system.
-	 * 
-	 * @returns First protoplanet of accreted system, as the head element of a list
-	 *          of protoplanets.
 	 */
-	public Protoplanet dist_planetary_masses() {
+	public void dist_planetary_masses() {
 		Protoplanet p0;
 
 		while (disc.dust_left) {
@@ -142,12 +141,8 @@ public class Protosystem extends Object implements PhysicalConstants {
 				disc.accrete_dust(p0);
 				if (p0.massOK())
 					coalesce_planetesimals(p0);
-				else {
-					// System.out.println(".. failed due to large neighbor.");
-				}
 			}
 		}
-		return (planet_head);
 	}
 
 	/**
@@ -169,19 +164,8 @@ public class Protosystem extends Object implements PhysicalConstants {
 				disc.accrete_dust(p0);
 				if (p0.massOK())
 					coalesce_planetesimals(p0);
-				else {
-					// System.out.println(".. failed due to large neighbor.");
-				}
 			}
 		}
 		return (planet_head);
-	}
-
-	public void print_Protoplanets() {
-		Protoplanet p = planet_head;
-		while (p != null) {
-			p.print();
-			p = p.next_planet;
-		}
 	}
 }

@@ -40,7 +40,7 @@ public class MachinaBucket extends BucketItem {
 	}
 	
 	@Override
-	public ICapabilityProvider initCapabilities(@NotNull ItemStack stack, CompoundTag nbt) {
+	public @NotNull ICapabilityProvider initCapabilities(@NotNull ItemStack stack, CompoundTag nbt) {
 		return new FluidBucketWrapper(stack);
 	}
 }

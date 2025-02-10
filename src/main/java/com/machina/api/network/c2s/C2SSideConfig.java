@@ -21,8 +21,6 @@ public record C2SSideConfig(String id, BlockPos pos, byte[] config) implements C
 	}
 
 	public void handle(MinecraftServer server, ServerPlayer player) {
-		server.execute(() -> BlockHelper.doWithTe(player.level(), pos(), MachinaBlockEntity.class, te -> {
-			te.updateSideConfig(id(), config());
-		}));
+		server.execute(() -> BlockHelper.doWithTe(player.level(), pos(), MachinaBlockEntity.class, te -> te.updateSideConfig(id(), config())));
 	}
 }

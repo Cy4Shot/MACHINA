@@ -2,6 +2,7 @@ package com.machina.api.item;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.cap.energy.EnergyItemWrapper;
@@ -63,19 +64,19 @@ public abstract class EnergyItem extends Item {
 	}
 
 	@Override
-	public ItemStack getDefaultInstance() {
+	public @NotNull ItemStack getDefaultInstance() {
 		ItemStack stack = new ItemStack(this);
 		setEnergy(stack, 0);
 		return stack;
 	}
 
 	@Override
-	public boolean isBarVisible(ItemStack stack) {
+	public boolean isBarVisible(@NotNull ItemStack stack) {
 		return true;
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+	public void appendHoverText(@NotNull ItemStack stack, Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
 		tooltip.add(Component
 				.literal(StringUtils.formatPower(getEnergy(stack)) + " / " + StringUtils.formatPower(getMaxEnergy()))
 				.setStyle(Style.EMPTY.withColor(0x00FEFE)));
@@ -83,12 +84,12 @@ public abstract class EnergyItem extends Item {
 	}
 
 	@Override
-	public int getBarWidth(ItemStack stack) {
+	public int getBarWidth(@NotNull ItemStack stack) {
 		return Math.round(BAR - BAR * (1f - getEnergyProp(stack)));
 	}
 
 	@Override
-	public int getBarColor(ItemStack stack) {
+	public int getBarColor(@NotNull ItemStack stack) {
 		return 0x00fefe;
 	}
 }

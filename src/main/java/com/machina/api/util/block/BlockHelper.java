@@ -33,7 +33,7 @@ public class BlockHelper {
 			Consumer<T> todo) {
 		BlockEntity e = world.getBlockEntity(pos);
 		if (e == null || !(clazz.isAssignableFrom(e.getClass()))) {
-			Machina.LOGGER.error(String.format("BE at %s is null.", pos.toShortString()));
+			Machina.LOGGER.error("BE at {} is null.", pos.toShortString());
 			return false;
 		}
 

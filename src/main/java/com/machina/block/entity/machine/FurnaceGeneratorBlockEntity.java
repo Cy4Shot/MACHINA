@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
+import org.jetbrains.annotations.NotNull;
 
 public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 
@@ -55,10 +56,9 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide())
-			return;
+        if (this.level != null && this.level.isClientSide()) return;
 
-		boolean flag = this.isLit();
+        boolean flag = this.isLit();
 		boolean flag1 = false;
 		if (this.isLit())
 			--this.litTime;
@@ -104,7 +104,7 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
+	public void load(@NotNull CompoundTag tag) {
 		super.load(tag);
 		this.litTime = tag.getInt("litTime");
 		this.originalLitTime = tag.getInt("originalLitTime");

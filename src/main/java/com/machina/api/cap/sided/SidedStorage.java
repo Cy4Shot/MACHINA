@@ -7,9 +7,9 @@ import net.minecraft.nbt.CompoundTag;
 
 public abstract class SidedStorage implements ISideAdapter {
 
-	public Side[] modes;
-	protected String tag;
-	protected MachinaBlockEntity e;
+	public final Side[] modes;
+	protected final String tag;
+	protected final MachinaBlockEntity e;
 
 	public SidedStorage(String tag, MachinaBlockEntity e, Side[] d) {
 		this.tag = tag;

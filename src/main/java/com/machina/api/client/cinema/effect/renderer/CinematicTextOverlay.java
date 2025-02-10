@@ -27,7 +27,7 @@ public class CinematicTextOverlay {
 		int i2 = 255 << 24 & -16777216;
 
 		stack.pushPose();
-		stack.translate(w / 2, h / 2, 0.0F);
+		stack.translate((float) w / 2, (float) h / 2, 0.0F);
 		RenderSystem.enableBlend();
 		if (alphaT != 0 || titleOpacity == 1f) {
 			stack.pushPose();

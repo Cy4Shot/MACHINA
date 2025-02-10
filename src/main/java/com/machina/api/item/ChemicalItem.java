@@ -35,7 +35,7 @@ public class ChemicalItem extends Item {
 	
 	@Override
 	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tip, @NotNull TooltipFlag flag) {
-		if (!toolTipKey.equals("")) {
+		if (!toolTipKey.isEmpty()) {
 			tip.add(Component.translatable(Machina.MOD_ID + ".tooltip." + toolTipKey)
 					.setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x9D_00fefe))));
 		}

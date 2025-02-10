@@ -27,18 +27,12 @@ public record S2CUpdateDimensionList(ResourceKey<Level> key) implements S2CMessa
 		ResourceKey<Level> nd = key();
 		Minecraft mc = Minecraft.getInstance();
 
-		mc.execute(new Runnable() {
-			@SuppressWarnings("resource")
-			@Override
-			public void run() {
-				LocalPlayer player = Minecraft.getInstance().player;
-				if (player != null) {
-					final Set<ResourceKey<Level>> dl = player.connection.levels();
-					if (dl == null)
-						return;
-					dl.add(nd);
-				}
-			}
-		});
+		mc.execute(() -> {
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player != null) {
+                final Set<ResourceKey<Level>> dl = player.connection.levels();
+dl.add(nd);
+            }
+        });
 	}
 }

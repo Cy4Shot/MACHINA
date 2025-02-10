@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends BaseBlockEntity {
 
@@ -32,7 +33,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 
 	private final SidedLazyOptionalCache<T> cap;
 	public List<Connection> connectors = new ArrayList<>();
-	public List<BlockPos> cache = new ArrayList<>();
+	public final List<BlockPos> cache = new ArrayList<>();
 	public List<Direction> dirs = new ArrayList<>();
 
 	public ConnectorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -70,7 +71,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	public abstract Capability<?> getCapability();
 
 	@Override
-	public <C> LazyOptional<C> getCapability(Capability<C> cap, Direction d) {
+	public <C> @NotNull LazyOptional<C> getCapability(@NotNull Capability<C> cap, Direction d) {
 		if (cap == getCapability())
 			return this.cap.get(d).cast();
 
@@ -153,9 +154,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		if (this.level != null) {
 			addToCache(this.worldPosition);
 
-			dirs.forEach(dir -> {
-				connectors.add(new Connection(this.worldPosition, dir, 0, Side.INPUT));
-			});
+			dirs.forEach(dir -> connectors.add(new Connection(this.worldPosition, dir, 0, Side.INPUT)));
 
 			Block b = this.getBlockState().getBlock();
 			if (b instanceof ConnectorBlock)

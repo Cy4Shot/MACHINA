@@ -26,11 +26,11 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class RadialBaobabTree implements TreeMaker {
-	private List<Vector3f> BRANCH = Arrays.asList(new Vector3f(0, 0, 0), new Vector3f(0.1F, 0.3F, 0),
+	private final List<Vector3f> BRANCH = Arrays.asList(new Vector3f(0, 0, 0), new Vector3f(0.1F, 0.3F, 0),
 			new Vector3f(0.4F, 0.6F, 0), new Vector3f(0.8F, 0.8F, 0), new Vector3f(1, 1, 0));
-	private List<Vector3f> SIDE1 = Arrays.asList(new Vector3f(0.4F, 0.6F, 0), new Vector3f(0.8F, 0.8F, 0),
+	private final List<Vector3f> SIDE1 = Arrays.asList(new Vector3f(0.4F, 0.6F, 0), new Vector3f(0.8F, 0.8F, 0),
 			new Vector3f(1, 1, 0));
-	private List<Vector3f> SIDE2 = SplineUtil.copySpline(SIDE1);
+	private final List<Vector3f> SIDE2 = SplineUtil.copySpline(SIDE1);
 
 	@Override
 	public SDF build(PlanetBiomeTree config, RandomSource random, WorldGenLevel l, BlockPos p) {

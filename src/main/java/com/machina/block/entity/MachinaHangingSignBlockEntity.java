@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.HangingSignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class MachinaHangingSignBlockEntity extends HangingSignBlockEntity {
 
@@ -14,7 +15,7 @@ public class MachinaHangingSignBlockEntity extends HangingSignBlockEntity {
 	}
 
 	@Override
-	public BlockEntityType<?> getType() {
+	public @NotNull BlockEntityType<?> getType() {
 		return BlockEntityInit.HANGING_SIGN.get();
 	}
 }

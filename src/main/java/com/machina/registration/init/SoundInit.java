@@ -14,10 +14,10 @@ public class SoundInit {
 	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,
 			Machina.MOD_ID);
 
-	public static final RegistryObject<SoundEvent> MUSIC = create("music");
+	public static final RegistryObject<SoundEvent> MUSIC = create();
 
-	private static RegistryObject<SoundEvent> create(String loc) {
-		return SOUNDS.register(loc, () -> SoundEvent.createVariableRangeEvent(new MachinaRL(loc)));
+	private static RegistryObject<SoundEvent> create() {
+		return SOUNDS.register("music", () -> SoundEvent.createVariableRangeEvent(new MachinaRL("music")));
 	}
 
 	public static Music asMusic(RegistryObject<SoundEvent> reg) {

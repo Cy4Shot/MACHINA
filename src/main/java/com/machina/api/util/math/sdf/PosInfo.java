@@ -15,7 +15,7 @@ public class PosInfo implements Comparable<PosInfo> {
 	private final Map<BlockPos, PosInfo> blocks;
 	private final Map<BlockPos, PosInfo> add;
 	private final BlockPos pos;
-	private Optional<Pair<BlockPos, BlockState>> extra = Optional.empty();
+	private Pair<BlockPos, BlockState> extra = null;
 	private BlockState state;
 
 	public static PosInfo create(Map<BlockPos, PosInfo> blocks, Map<BlockPos, PosInfo> add, BlockPos pos) {
@@ -119,11 +119,11 @@ public class PosInfo implements Comparable<PosInfo> {
 		add.put(pos, info);
 	}
 	
-	public void setExtra(Optional<Pair<BlockPos, BlockState>> extra) {
+	public void setExtra(Pair<BlockPos, BlockState> extra) {
 		this.extra = extra;
 	}
 	
 	public Optional<Pair<BlockPos, BlockState>> getExtra() {
-		return extra;
+		return Optional.ofNullable(this.extra);
 	}
 }

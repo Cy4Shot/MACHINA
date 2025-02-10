@@ -56,7 +56,7 @@ package com.machina.api.starchart.burke;
  * positions</a>.
  * </p>
  */
-public class DustBand extends Object {
+public class DustBand {
 	static public final int DBI_NO_INTERSECTION = 0;
 	static public final int DBI_INNER_OK = 1;
 	static public final int DBI_OUTER_OK = 2;

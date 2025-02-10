@@ -86,10 +86,10 @@ public class BStar extends Blackbody implements PhysicalConstants {
 
 	public int ST; // stellar class code
 	public double VM; // absolute visual magnitude
-	public double LUM; // luminosity
-	public double EM; // emission
-	public double SM; // Stellar masses
-	public double AU; // putative distance for 1 "AU"
+	public final double LUM; // luminosity
+	public final double EM; // emission
+	public final double SM; // Stellar masses
+	public final double AU; // putative distance for 1 "AU"
 	public double main_seq_life;
 	public double age;
 	public double radius;
@@ -103,7 +103,7 @@ public class BStar extends Blackbody implements PhysicalConstants {
 	 * class given the stellar mass; that day is not today.
 	 */
 	public String classCode() {
-		return CLASS_CODE.substring(ST / 10 + 1, ST / 10 + 2) + Integer.toString(ST % 10);
+		return CLASS_CODE.charAt(ST / 10 + 1) + Integer.toString(ST % 10);
 	}
 
 	/**

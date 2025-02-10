@@ -88,16 +88,16 @@ public class CelestialRenderer extends WorldVFXBuilder {
 		return orbitPoints;
 	}
 
-	public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<TrailPoint> trail, float w) {
+	public void renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<TrailPoint> trail, float w) {
 		if (trail.size() < 3) {
-			return this;
+			return;
 		}
 		List<Vector4f> positions = trail.stream().map(TrailPoint::getMatrixPosition).peek(p -> p.mul(pose)).toList();
 		ArrayList<TrailRenderPoint> points = new ArrayList<>();
 		for (int i = 0; i < trail.size() - 1; i++) {
 			points.add(new TrailRenderPoint(positions.get(i), Vec2.ZERO));
 		}
-		return renderPoints(vertexConsumer, points);
+		renderPoints(vertexConsumer, points);
 	}
 
 	public WorldVFXBuilder renderPoints(VertexConsumer vc, List<TrailRenderPoint> ps) {
@@ -115,8 +115,8 @@ public class CelestialRenderer extends WorldVFXBuilder {
 		return this;
 	}
 
-	private WorldVFXBuilder sphere(MultiBufferSource m, RenderType t, PoseStack s, float a, int d) {
-		return renderSphere(m.getBuffer(t), s, d, d, a);
+	private void sphere(MultiBufferSource m, RenderType t, PoseStack s, float a, int d) {
+		renderSphere(m.getBuffer(t), s, d, d, a);
 	}
 
 	// Thanks rat man :)

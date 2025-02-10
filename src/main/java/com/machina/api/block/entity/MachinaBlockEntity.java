@@ -62,8 +62,8 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 
 	private LockCode lockKey = LockCode.NO_LOCK;
 	protected MultiSidedStorage<MachinaEnergyStorage> energyCap;
-	protected List<SingleSidedStorage<MachinaFluidStorage>> fluidsCap = new ArrayList<>();
-	protected NonNullList<ItemStack> items = NonNullList.create();
+	protected final List<SingleSidedStorage<MachinaFluidStorage>> fluidsCap = new ArrayList<>();
+	protected final NonNullList<ItemStack> items = NonNullList.create();
 	protected NonNullList<Side[]> itemSides = NonNullList.create();
 
 	private int energy;
@@ -76,14 +76,14 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	public void energyStorage(Side[] sides) {
-		this.energyCap = new MultiSidedStorage<MachinaEnergyStorage>("cap_energy", this, MachinaEnergyStorage::new,
-				sides.clone());
+		this.energyCap = new MultiSidedStorage<>("cap_energy", this, MachinaEnergyStorage::new,
+                sides.clone());
 	}
 
 	public void fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
 		int id = this.fluidsCap.size();
-		this.fluidsCap.add(new SingleSidedStorage<MachinaFluidStorage>("cap_fluid_" + id, this,
-				new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id)), sides.clone()));
+		this.fluidsCap.add(new SingleSidedStorage<>("cap_fluid_" + id, this,
+                new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id)), sides.clone()));
 	}
 
 	public MachinaBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -126,7 +126,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
+	public void load(@NotNull CompoundTag tag) {
 		super.load(tag);
 		forEachStorage(s -> s.loadAdditional(tag));
 		this.energy = tag.getInt("energy");
@@ -146,9 +146,9 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 		tag.putInt("energy", energy);
 		ContainerHelper.saveAllItems(tag, this.items);
 		ListTag sides = new ListTag();
-		for (int i = 0; i < this.itemSides.size(); i++) {
-			sides.add(Side.serialize(this.itemSides.get(i)));
-		}
+        for (Side[] itemSide : this.itemSides) {
+            sides.add(Side.serialize(itemSide));
+        }
 		tag.put("sides_item", sides);
 		this.lockKey.addToTag(tag);
 		super.saveAdditional(tag);
@@ -164,7 +164,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 				if (energyCap != null && energyCap.isNonNullMode(side)) {
 					return energyCap.getLazy(side).cast();
 				}
-			} else if (cap == ForgeCapabilities.ITEM_HANDLER && !this.remove && side != null) {
+			} else if (cap == ForgeCapabilities.ITEM_HANDLER && !this.remove) {
 				return handlers[side.ordinal()].cast();
 			} else if (cap == ForgeCapabilities.FLUID_HANDLER) {
 				for (SingleSidedStorage<MachinaFluidStorage> storage : fluidsCap) {
@@ -207,7 +207,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 
 	@Override
 	public boolean isEmpty() {
-		return items.stream().allMatch(p -> p.isEmpty());
+		return items.stream().allMatch(ItemStack::isEmpty);
 	}
 
 	@Override
@@ -230,7 +230,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	@Override
-	public void setItem(int pIndex, ItemStack pStack) {
+	public void setItem(int pIndex, @NotNull ItemStack pStack) {
 		this.items.set(pIndex, pStack);
 		if (pStack.getCount() > this.getMaxStackSize()) {
 			pStack.setCount(this.getMaxStackSize());
@@ -239,7 +239,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	@Override
-	public int[] getSlotsForFace(Direction slots) {
+	public int @NotNull [] getSlotsForFace(@NotNull Direction slots) {
 		List<Integer> acceptable = new ArrayList<>();
 		for (int i = 0; i < itemSides.size(); i++) {
 			if (itemSides.get(i)[slots.ordinal()] != Side.NONE) {
@@ -250,12 +250,15 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	@Override
-	public boolean canPlaceItemThroughFace(int slot, ItemStack stack, Direction face) {
-		return itemSides.get(slot)[face.ordinal()] == Side.INPUT;
-	}
+	public boolean canPlaceItemThroughFace(int slot, @NotNull ItemStack stack, Direction face) {
+        if (face != null) {
+            return itemSides.get(slot)[face.ordinal()] == Side.INPUT;
+        }
+		return false;
+    }
 
 	@Override
-	public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction face) {
+	public boolean canTakeItemThroughFace(int slot, @NotNull ItemStack stack, Direction face) {
 		return itemSides.get(slot)[face.ordinal()] == Side.OUTPUT;
 	}
 
@@ -292,10 +295,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 				this.setChanged();
 			}
 		}
-		if (received > 0) {
-			maxReceive -= received;
-		}
-		return received;
+        return received;
 	}
 
 	public boolean isEnergyFull() {
@@ -372,7 +372,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 
 	@Nullable
 	@Override
-	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
+	public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
 		return this.canOpen(player) ? createMenu().apply(id, this.level, this.worldPosition, inv) : null;
 	}
 
@@ -381,8 +381,10 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	public void tick() {
 		BlockState state = getBlockState();
 		if (state.hasProperty(BlockProperties.LIT)) {
-			this.level.setBlock(worldPosition, state.setValue(BatteryBlock.LIT, isLit()), 3);
-		}
+            if (this.level != null) {
+                this.level.setBlock(worldPosition, state.setValue(BatteryBlock.LIT, isLit()), 3);
+            }
+        }
 
 		if (this.getEnergy() > this.getMaxEnergy()) {
 			this.setEnergy(this.getMaxEnergy());
@@ -417,10 +419,17 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 				int i = d.ordinal();
 				if (old[i] != side[i]) {
 					BlockPos pos = worldPosition.relative(d);
-					BlockState state = level.getBlockState(pos);
-					state = state.updateShape(d.getOpposite(), getBlockState(), level, pos, worldPosition);
-					level.setBlock(pos, state, 3);
-				}
+                    BlockState state = null;
+                    if (level != null) {
+                        state = level.getBlockState(pos);
+                    }
+                    if (state != null) {
+                        state = state.updateShape(d.getOpposite(), getBlockState(), level, pos, worldPosition);
+                    }
+                    if (state != null) {
+                        level.setBlock(pos, state, 3);
+                    }
+                }
 			}
 		}
 	}

@@ -7,6 +7,9 @@ import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class MachinaSignBlock extends StandingSignBlock {
 	public MachinaSignBlock(Properties props, WoodType type) {
@@ -14,7 +17,7 @@ public class MachinaSignBlock extends StandingSignBlock {
 	}
 	
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return BlockEntityInit.SIGN.get().create(pos, state);
+	public @NotNull BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+		return Objects.requireNonNull(BlockEntityInit.SIGN.get().create(pos, state));
 	}
 }

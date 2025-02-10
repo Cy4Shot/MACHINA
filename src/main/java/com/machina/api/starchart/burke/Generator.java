@@ -1,10 +1,15 @@
 package com.machina.api.starchart.burke;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Field;
 
 public class Generator {
 
-	public static void main(String[] args) {
+    private static final Logger log = LoggerFactory.getLogger(Generator.class);
+
+    public static void main(String[] args) {
 		AccreteObject.cr.setSeed(AccreteObject.cr.nextLong());
 		StarSystem ss = new StarSystem();
 		System.out.println(toString(ss.planets));
@@ -12,7 +17,7 @@ public class Generator {
 
 	public static String toString(Object obj) {
 		StringBuilder result = new StringBuilder();
-		String newLine = System.getProperty("line.separator");
+		String newLine = System.lineSeparator();
 
 		result.append(obj.getClass().getName());
 		result.append(" Object {");
@@ -30,7 +35,7 @@ public class Generator {
 				// requires access to private field:
 				result.append(field.get(obj));
 			} catch (IllegalAccessException ex) {
-				System.out.println(ex);
+				log.error("e: ", ex);
 			}
 			result.append(newLine);
 		}

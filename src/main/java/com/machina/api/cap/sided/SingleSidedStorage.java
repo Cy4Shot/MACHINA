@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 public class SingleSidedStorage<T> extends SidedStorage {
 
-	private LazyOptional<IMachinaStorage> singleStorage;
+	private final LazyOptional<IMachinaStorage> singleStorage;
 
 	public SingleSidedStorage(String tag, MachinaBlockEntity be, @NonNull IMachinaStorage storage, Side[] sides) {
 		super(tag, be, sides);
@@ -27,17 +27,13 @@ public class SingleSidedStorage<T> extends SidedStorage {
 
 	@Override
 	protected void save(CompoundTag tag) {
-		singleStorage.ifPresent(store -> {
-			tag.put(this.tag, store.serialize());
-		});
+		singleStorage.ifPresent(store -> tag.put(this.tag, store.serialize()));
 	}
 
 	@Override
 	protected void load(CompoundTag tag) {
 		if (tag.contains(this.tag)) {
-			singleStorage.ifPresent(store -> {
-				store.deserialize(tag.getCompound(this.tag));
-			});
+			singleStorage.ifPresent(store -> store.deserialize(tag.getCompound(this.tag)));
 		}
 	}
 }

@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.function.DoubleFunction;
-import java.util.stream.Collectors;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
@@ -57,11 +56,11 @@ public class MathUtil {
 	}
 
 	public static float cos(float pAngle) {
-		return (float) Math.cos((double) pAngle);
+		return (float) Math.cos(pAngle);
 	}
 
 	public static float sin(float pAngle) {
-		return (float) Math.sin((double) pAngle);
+		return (float) Math.sin(pAngle);
 	}
 
 	public static <K, V extends Comparable<? super V>> LinkedHashMap<K, V> sortByValue(Map<K, V> map) {
@@ -115,7 +114,7 @@ public class MathUtil {
 	}
 
 	public static int min(int a, int b) {
-		return a < b ? a : b;
+		return Math.min(a, b);
 	}
 
 	public static int min(int a, int b, int c) {
@@ -123,15 +122,15 @@ public class MathUtil {
 	}
 
 	public static int max(int a, int b) {
-		return a > b ? a : b;
+		return Math.max(a, b);
 	}
 
 	public static float min(float a, float b) {
-		return a < b ? a : b;
+		return Math.min(a, b);
 	}
 
 	public static float max(float a, float b) {
-		return a > b ? a : b;
+		return Math.max(a, b);
 	}
 
 	public static float max(float a, float b, float c) {
@@ -156,7 +155,7 @@ public class MathUtil {
 	}
 
 	public static <T> T randomInList(Set<T> set, Random random) {
-		return randomInList(set.stream().collect(Collectors.toList()), random);
+		return randomInList(new ArrayList<>(set), random);
 	}
 
 	public static <T> T randomInList(List<T> set, Random random) {

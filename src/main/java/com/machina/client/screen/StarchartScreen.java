@@ -1,5 +1,6 @@
 package com.machina.client.screen;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector4f;
@@ -26,7 +27,7 @@ import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 
 public class StarchartScreen extends Screen {
 
-	SolarSystem system;
+	final SolarSystem system;
 
 	float rotX = 90;
 	float rotY = 0;
@@ -53,7 +54,7 @@ public class StarchartScreen extends Screen {
 			float z = (float) zoom;
 			PoseStack matrixStack = RenderSystem.getModelViewStack();
 			matrixStack.pushPose();
-			matrixStack.translate(width / 2, height / 2, 300.0D);
+			matrixStack.translate((double) width / 2, (double) height / 2, 300.0D);
 			matrixStack.scale(1.0F, -1.0F, 1.0F);
 			matrixStack.scale(32.0F, 32.0F, 32.0F);
 
@@ -95,16 +96,19 @@ public class StarchartScreen extends Screen {
 		return new Quaternionf(qx, qy, qz, qw);
 	}
 
-	private ScreenParticleHolder p_target = new ScreenParticleHolder();
+	private final ScreenParticleHolder p_target = new ScreenParticleHolder();
 
 	@Override
-	public void render(GuiGraphics gui, int mX, int mY, float partial) {
+	public void render(@NotNull GuiGraphics gui, int mX, int mY, float partial) {
 		UIHelper.renderOverflowHidden(gui, this::renderBackground);
 
 		// Calculate Time
-		float time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
+        float time = 0;
+        if (minecraft != null && minecraft.level != null) {
+            time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
+        }
 
-		setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), time);
+        setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), time);
 
 		ScreenParticleHandler.renderParticles(p_target);
 		p_target.tick();
@@ -127,23 +131,28 @@ public class StarchartScreen extends Screen {
 		RenderSystem.applyModelViewMatrix();
 
 		// Render
-		MultiBufferSource.BufferSource vcp = minecraft.renderBuffers().bufferSource();
-		renderCelestials(gui, rot, vcp, t);
-		vcp.endBatch();
+        MultiBufferSource.BufferSource vcp = null;
+        if (minecraft != null) {
+            vcp = minecraft.renderBuffers().bufferSource();
+        }
+        renderCelestials(gui, rot, vcp, t);
+        if (vcp != null) {
+            vcp.endBatch();
+        }
 
-		// Reset
+        // Reset
 		matrixStack.popPose();
 		RenderSystem.applyModelViewMatrix();
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 
 	@Override
-	public void resize(Minecraft p_96575_, int p_96576_, int p_96577_) {
+	public void resize(@NotNull Minecraft p_96575_, int p_96576_, int p_96577_) {
 		p_target.particles.clear();
 		super.resize(p_96575_, p_96576_, p_96577_);
 	}
 
-	CelestialRenderer renderer = new CelestialRenderer();
+	final CelestialRenderer renderer = new CelestialRenderer();
 
 	protected void renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t) {
 		PoseStack matrices = new PoseStack();
@@ -178,8 +187,8 @@ public class StarchartScreen extends Screen {
 
 		// Pan - Middle Click or Left Click
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_1 || pButton == GLFW.GLFW_MOUSE_BUTTON_3) {
-			this.posX += pDragX / 2;
-			this.posY += pDragY / 2;
+			this.posX += (float) (pDragX / 2);
+			this.posY += (float) (pDragY / 2);
 		}
 
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
@@ -187,7 +196,7 @@ public class StarchartScreen extends Screen {
 
 	@Override
 	public boolean mouseScrolled(double mX, double mY, double delta) {
-		this.zoom *= Math.pow(1.1, delta);
+		this.zoom *= (float) Math.pow(1.1, delta);
 		return super.mouseScrolled(mX, mY, delta);
 	}
 

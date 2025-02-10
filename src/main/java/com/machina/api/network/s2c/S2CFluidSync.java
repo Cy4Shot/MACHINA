@@ -31,20 +31,19 @@ public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2C
 		int i = i();
 		
 		Minecraft mc = Minecraft.getInstance();
-		mc.execute(new Runnable() {
-			@SuppressWarnings("resource")
-			@Override
-			public void run() {
-				BlockEntity be = Minecraft.getInstance().level.getBlockEntity(pos);
-				if (be instanceof MachinaBlockEntity) {
-					((MachinaBlockEntity) be).getCapability(ForgeCapabilities.FLUID_HANDLER).cast().ifPresent(o -> {
-						if (o instanceof MachinaFluidStorage) {
-							((MachinaFluidStorage) o).setFluidInTank(i, stack);
-						}
-					});
-				}
-			}
-		});
+		mc.execute(() -> {
+BlockEntity be = null;
+if (Minecraft.getInstance().level != null) {
+be = Minecraft.getInstance().level.getBlockEntity(pos);
+}
+if (be instanceof MachinaBlockEntity) {
+                be.getCapability(ForgeCapabilities.FLUID_HANDLER).cast().ifPresent(o -> {
+                    if (o instanceof MachinaFluidStorage) {
+                        ((MachinaFluidStorage) o).setFluidInTank(i, stack);
+                    }
+                });
+            }
+        });
 	}
 	
 }

@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block implements EntityBlock {
 	public static final EnumProperty<ConnectionSide> NORTH = BlockProperties.NORTH_SIDE;
@@ -63,7 +64,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext pContext) {
+	public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext pContext) {
 		VoxelShape shape = state.getValue(MIDDLE) ? PART_M : PART_C;
 		if (state.getValue(NORTH).isConnected() || isConnectable(level, pos, Direction.NORTH))
 			shape = Shapes.or(shape, PART_N);
@@ -95,8 +96,8 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
-			BlockPos pos, BlockPos facingPos) {
+	public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level,
+										   @NotNull BlockPos pos, @NotNull BlockPos facingPos) {
 		syncConnections(level, pos);
 		return createState(level, pos);
 	}
@@ -134,7 +135,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		boolean tile = north[1] || south[1] || west[1] || east[1] || up[1] || down[1];
 
 		if (!tile)
-			BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, be -> be.setRemoved());
+			BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::setRemoved);
 
 		boolean middle = false;
 		if (MathUtil.numTrue(north[0], south[0], west[0], east[0], up[0], down[0]) == 2) {
@@ -167,18 +168,18 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity placer, @NotNull ItemStack stack) {
 		super.setPlacedBy(level, pos, state, placer, stack);
 		if (level.isClientSide())
 			return;
 
-		if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, be -> be.enqueueSearch())) {
+		if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
 			findConnectors(level, pos, pos);
 		}
 	}
 
 	@Override
-	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState old, boolean moving) {
+	public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState old, boolean moving) {
 		if (level.isClientSide())
 			return;
 
@@ -188,7 +189,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moving) {
+	public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean moving) {
 		findConnectors(level, pos, pos);
 		super.onRemove(state, level, pos, newState, moving);
 	}
@@ -206,7 +207,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 				BlockPos blockPos = pos.relative(direction);
 				Block block = world.getBlockState(blockPos).getBlock();
 				if (block == this) {
-					BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class, be -> be.enqueueSearch());
+					BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch);
 					ss.add(pos);
 					getCache().put(poss, ss);
 					((ConnectorBlock<T>) block).findConnectors(world, poss, blockPos);
@@ -241,13 +242,13 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	protected abstract BlockEntityType<? extends ConnectorBlockEntity<T>> getBlockEntityType();
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
 		return getBlockEntityType().create(pos, state);
 	}
 
 	@Override
-	public <E extends BlockEntity> BlockEntityTicker<E> getTicker(Level level, BlockState state,
-			BlockEntityType<E> type) {
+	public <E extends BlockEntity> BlockEntityTicker<E> getTicker(@NotNull Level level, @NotNull BlockState state,
+																  @NotNull BlockEntityType<E> type) {
 		return type == getBlockEntityType() ? ConnectorBlockEntity::tick : null;
 	}
 

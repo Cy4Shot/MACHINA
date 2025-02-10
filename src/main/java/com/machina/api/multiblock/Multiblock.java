@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Joiner;
+import com.machina.Machina;
 import com.machina.api.util.loader.JsonInfo;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -18,6 +19,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.server.RegistryLayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class Multiblock {
@@ -29,7 +31,7 @@ public class Multiblock {
 	public Set<Block> allowedBlock;
 	public String[][][] structure;
 
-	public class MultiblockJsonInfo implements JsonInfo<Multiblock> {
+	public static class MultiblockJsonInfo implements JsonInfo<Multiblock> {
 		public List<Integer> size;
 		public Map<String, String> blocks;
 		public List<List<String>> structure;
@@ -41,7 +43,7 @@ public class Multiblock {
 				try {
 					return parse(s.getValue());
 				} catch (CommandSyntaxException e) {
-					e.printStackTrace();
+					Machina.LOGGER.error(e.getMessage());
 					return Blocks.AIR.defaultBlockState();
 				}
 			}));
@@ -70,7 +72,7 @@ public class Multiblock {
 			}
 
 			mb.allowed = mb.map.values();
-			mb.allowedBlock = mb.allowed.stream().map(b -> b.getBlock()).collect(Collectors.toSet());
+			mb.allowedBlock = mb.allowed.stream().map(BlockBehaviour.BlockStateBase::getBlock).collect(Collectors.toSet());
 			return mb;
 		}
 	}

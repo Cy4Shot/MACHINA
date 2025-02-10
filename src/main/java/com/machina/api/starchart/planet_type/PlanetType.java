@@ -18,14 +18,14 @@ public record PlanetType(ResourceLocation name, Shape shape, List<BiomePlacement
 					BlockState.CODEC.fieldOf("base").forGetter(PlanetType::base))
 			.apply(instance, PlanetType::new));
 
-	public static record Shape(int sea_level, NoiseSettings noise_settings) {
+	public record Shape(int sea_level, NoiseSettings noise_settings) {
 		public static final Codec<Shape> CODEC = RecordCodecBuilder.create(instance -> instance
 				.group(Codec.INT.fieldOf("sea_level").forGetter(Shape::sea_level),
 						NoiseSettings.CODEC.fieldOf("noise_settings").forGetter(Shape::noise_settings))
 				.apply(instance, Shape::new));
 	}
 
-	public static record BiomePlacement(ResourceLocation biome, List<String> placements) {
+	public record BiomePlacement(ResourceLocation biome, List<String> placements) {
 		public static final Codec<BiomePlacement> CODEC = RecordCodecBuilder.create(instance -> instance
 				.group(ResourceLocation.CODEC.fieldOf("biome").forGetter(BiomePlacement::biome),
 						Codec.list(Codec.STRING).fieldOf("placements").forGetter(BiomePlacement::placements))

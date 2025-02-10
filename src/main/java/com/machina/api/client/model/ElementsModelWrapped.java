@@ -51,10 +51,7 @@ public class ElementsModelWrapped extends SimpleUnbakedGeometry<ElementsModelWra
 				TextureAtlasSprite sprite = spriteGetter.apply(context.getMaterial(face.texture));
 				BakedQuad quad = BlockModel.bakeFace(element, face, sprite, direction, modelState, modelLocation);
 
-				if (face.cullForDirection == null)
-					modelBuilder.addUnculledFace(quad);
-				else
-					modelBuilder.addCulledFace(modelState.getRotation().rotateTransform(face.cullForDirection), quad);
+                modelBuilder.addCulledFace(modelState.getRotation().rotateTransform(face.cullForDirection), quad);
 			}
 		}
 	}

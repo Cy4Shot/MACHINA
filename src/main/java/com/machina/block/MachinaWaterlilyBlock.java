@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class MachinaWaterlilyBlock extends WaterlilyBlock {
 
@@ -26,17 +27,17 @@ public class MachinaWaterlilyBlock extends WaterlilyBlock {
 	}
 
 	@Override
-	public BlockState rotate(BlockState state, Rotation r) {
+	public @NotNull BlockState rotate(BlockState state, Rotation r) {
 		return state.setValue(FACING, r.rotate(state.getValue(FACING)));
 	}
 
 	@Override
-	public BlockState mirror(BlockState state, Mirror m) {
+	public @NotNull BlockState mirror(BlockState state, Mirror m) {
 		return state.rotate(m.getRotation(state.getValue(FACING)));
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext collision) {
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos, @NotNull CollisionContext collision) {
 		return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
 	}
 
@@ -51,12 +52,12 @@ public class MachinaWaterlilyBlock extends WaterlilyBlock {
 	}
 
 	@Override
-	protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
+	protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
 		return super.mayPlaceOn(state, level, pos) && !level.getFluidState(pos).isEmpty();
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+	public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, BlockPos pos) {
 		BlockPos pos1 = pos.below();
 		return mayPlaceOn(level.getBlockState(pos1), level, pos1);
 	}

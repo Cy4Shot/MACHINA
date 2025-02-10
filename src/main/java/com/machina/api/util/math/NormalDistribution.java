@@ -3,9 +3,9 @@ package com.machina.api.util.math;
 import java.util.Random;
 
 public class NormalDistribution {
-	private double mean;
-	private double standardDeviation;
-	private Random random;
+	private final double mean;
+	private final double standardDeviation;
+	private final Random random;
 
 	public NormalDistribution(double mean, double standardDeviation) {
 		this.mean = mean;

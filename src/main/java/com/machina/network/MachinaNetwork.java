@@ -2,11 +2,13 @@ package com.machina.network;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.machina.Machina;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import com.machina.api.network.C2SMessage;
@@ -53,7 +55,7 @@ public class MachinaNetwork {
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					System.out.println(
 							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
-					e1.printStackTrace();
+					Machina.LOGGER.error(e1.getMessage());
 				}
 			};
 			Function<FriendlyByteBuf, T> d = (b) -> {
@@ -62,7 +64,7 @@ public class MachinaNetwork {
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					System.out.println(
 							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
-					e1.printStackTrace();
+					Machina.LOGGER.error(e1.getMessage());
 				}
 				return null;
 			};
@@ -72,14 +74,14 @@ public class MachinaNetwork {
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					System.out.println(
 							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
-					e1.printStackTrace();
+					Machina.LOGGER.error(e1.getMessage());
 				}
 			};
 
 			PacketSender.CHANNEL.registerMessage(i++, clazz, e, d, makeServerBoundHandler(h));
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.out.println("Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
-			e.printStackTrace();
+			Machina.LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -95,7 +97,7 @@ public class MachinaNetwork {
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					System.out.println(
 							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
-					e1.printStackTrace();
+					Machina.LOGGER.error(e1.getMessage());
 				}
 			};
 			Function<FriendlyByteBuf, T> d = (b) -> {
@@ -104,7 +106,7 @@ public class MachinaNetwork {
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					System.out.println(
 							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
-					e1.printStackTrace();
+					Machina.LOGGER.error(e1.getMessage());
 				}
 				return null;
 			};
@@ -114,21 +116,21 @@ public class MachinaNetwork {
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					System.out.println(
 							"Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
-					e1.printStackTrace();
+					Machina.LOGGER.error(e1.getMessage());
 				}
 			};
 
 			PacketSender.CHANNEL.registerMessage(i++, clazz, e, d, makeClientBoundHandler(h));
 		} catch (NoSuchMethodException | SecurityException e) {
 			System.out.println("Could not register with name: " + clazz.getPackageName() + " - " + clazz.getName());
-			e.printStackTrace();
+			Machina.LOGGER.error(e.getMessage());
 		}
 	}
 
 	private static <T> BiConsumer<T, Supplier<NetworkEvent.Context>> makeServerBoundHandler(
 			TriConsumer<T, MinecraftServer, ServerPlayer> handler) {
 		return (m, ctx) -> {
-			handler.accept(m, ctx.get().getSender().getServer(), ctx.get().getSender());
+			handler.accept(m, Objects.requireNonNull(ctx.get().getSender()).getServer(), ctx.get().getSender());
 			ctx.get().setPacketHandled(true);
 		};
 	}

@@ -19,11 +19,11 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 
 public class PlanetGrassFeature extends Feature<PlanetGrassFeature.PlanetGrassFeatureConfig> {
 
-	private static int XZ_SPREAD = 7;
-	private static int Y_SPREAD = 3;
-	private static int TRIES = 32;
+	private static final int XZ_SPREAD = 7;
+	private static final int Y_SPREAD = 3;
+	private static final int TRIES = 32;
 
-	public static record PlanetGrassFeatureConfig(WeightedStateProviderProvider provider)
+	public record PlanetGrassFeatureConfig(WeightedStateProviderProvider provider)
 			implements FeatureConfiguration {
 
 		public static final Codec<PlanetGrassFeatureConfig> CODEC = RecordCodecBuilder

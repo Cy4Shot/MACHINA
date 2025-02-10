@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class MachinaRecipeCategory<C extends Container> implements IRecipeCategory<MachinaRecipe<C>> {
 
@@ -25,28 +26,30 @@ public abstract class MachinaRecipeCategory<C extends Container> implements IRec
 	}
 
 	@Override
-	public RecipeType<MachinaRecipe<C>> getRecipeType() {
-		return new RecipeType<MachinaRecipe<C>>(obj.id(), obj.maps().getRecipeClass());
+	public @NotNull RecipeType<MachinaRecipe<C>> getRecipeType() {
+		return new RecipeType<>(obj.id(), obj.maps().getRecipeClass());
 	}
 
 	@Override
-	public Component getTitle() {
+	public @NotNull Component getTitle() {
 		return Component.translatable(obj.getTranslationKey());
 	}
 
+
+	// TODO: What?
 	@Override
-	public IDrawable getBackground() {
-		// TODO Auto-generated method stub
+	@SuppressWarnings("DataFlowIssue")
+	public @NotNull IDrawable getBackground() {
 		return null;
 	}
 
 	@Override
-	public IDrawable getIcon() {
+	public @NotNull IDrawable getIcon() {
 		return this.icon;
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, MachinaRecipe<C> recipe, IFocusGroup focuses) {
+	public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull MachinaRecipe<C> recipe, @NotNull IFocusGroup focuses) {
 //		List<Ingredient> iitems = recipe.getInputItems();
 //		List<ItemStack> oitems = recipe.getOutputItems();
 //		List<FluidStack> ifluids = recipe.getInputFluids();

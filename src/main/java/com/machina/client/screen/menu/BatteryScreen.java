@@ -7,6 +7,7 @@ import com.machina.block.menu.BatteryMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class BatteryScreen extends MachinaMenuScreen<BatteryBlockEntity, BatteryMenu> {
 
@@ -15,15 +16,15 @@ public class BatteryScreen extends MachinaMenuScreen<BatteryBlockEntity, Battery
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics gui, float pt, int mx, int my) {
+	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
-		drawEnergyBar(gui, 117, 0, this.entity.hasCapacitor(), true, "battery.missing");
-		drawUpFacingSlot(gui, 1, mx, my, 20, 30, SpecialSlot.PLUS, "battery.input");
-		drawUpFacingSlot(gui, 2, mx, my, 197, 30, SpecialSlot.MINUS, "battery.output");
+		drawEnergyBar(gui, 0, this.entity.hasCapacitor(), "battery.missing");
+		drawUpFacingSlot(gui, 1, mx, my, 20, SpecialSlot.PLUS, "battery.input");
+		drawUpFacingSlot(gui, 2, mx, my, 197, SpecialSlot.MINUS, "battery.output");
 		drawDownFacingSlot(gui, 0, mx, my, 107, -60, SpecialSlot.BOLT, "battery.capacitor");
 
-		drawEnergySideConfig(gui, 0, 0, mx, my);
+		drawEnergySideConfig(gui, mx, my);
 
 		int i = midWidth();
 		int j = midHeight();

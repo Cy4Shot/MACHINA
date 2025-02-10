@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.FaceBakery;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
+import org.jetbrains.annotations.NotNull;
 
 // From CoFH Core
 public class RetexturedBakedQuad extends BakedQuad {
@@ -34,7 +35,7 @@ public class RetexturedBakedQuad extends BakedQuad {
 	}
 
 	@Override
-	public TextureAtlasSprite getSprite() {
+	public @NotNull TextureAtlasSprite getSprite() {
 		return texture;
 	}
 

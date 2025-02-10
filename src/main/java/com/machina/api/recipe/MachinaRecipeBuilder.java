@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
-
 import com.google.gson.JsonObject;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
@@ -24,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
 public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder {
 
@@ -31,10 +30,8 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 
 	private final RecipeRegistryObject<T> reg;
 	private final float xp;
-	@Nullable
-	private String group;
 
-	protected final List<Ingredient> inputItems = new ArrayList<>();
+    protected final List<Ingredient> inputItems = new ArrayList<>();
 	protected final List<FluidStack> inputFluids = new ArrayList<>();
 	protected final List<ItemStack> outputItems = new ArrayList<>();
 	protected final List<FluidStack> outputFluids = new ArrayList<>();
@@ -93,39 +90,42 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 	}
 
 	@Override
-	public RecipeBuilder unlockedBy(String key, CriterionTriggerInstance criterion) {
+	public @NotNull RecipeBuilder unlockedBy(@NotNull String key, @NotNull CriterionTriggerInstance criterion) {
 		this.advancement.addCriterion(key, criterion);
 		return this;
 	}
 
+	// TODO: What?
+	@SuppressWarnings("DataFlowIssue")
 	@Override
-	public RecipeBuilder group(String group) {
-		this.group = group;
+	public @NotNull RecipeBuilder group(String group) {
+        return null;
+	}
+
+	// TODO: What?
+	@Override
+	@SuppressWarnings("DataFlowIssue")
+	public @NotNull Item getResult() {
 		return null;
 	}
 
 	@Override
-	public Item getResult() {
-		return null;
-	}
-
-	@Override
-	public void save(Consumer<FinishedRecipe> p_176499_) {
+	public void save(@NotNull Consumer<FinishedRecipe> p_176499_) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void save(Consumer<FinishedRecipe> recipe, String string) {
+	public void save(@NotNull Consumer<FinishedRecipe> recipe, @NotNull String string) {
 		this.save(recipe, new ResourceLocation(string));
 	}
 
 	@Override
-	public void save(Consumer<FinishedRecipe> save, ResourceLocation loc) {
+	public void save(Consumer<FinishedRecipe> save, @NotNull ResourceLocation loc) {
 		this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
 				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(loc))
 				.rewards(AdvancementRewards.Builder.recipe(loc)).requirements(RequirementsStrategy.OR);
-		save.accept(new Result<T>(loc, this.advancement, this.reg, () -> this.reg.factory().apply(loc, energy, time,
-				pressure, temperature, xp, inputItems, inputFluids, outputItems, outputFluids)));
+		save.accept(new Result<>(loc, this.advancement, this.reg, () -> this.reg.factory().apply(loc, energy, time,
+                pressure, temperature, xp, inputItems, inputFluids, outputItems, outputFluids)));
 	}
 
 	public static class Result<T extends Container> implements FinishedRecipe {
@@ -144,17 +144,17 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 		}
 
 		@Override
-		public void serializeRecipeData(JsonObject obj) {
+		public void serializeRecipeData(@NotNull JsonObject obj) {
 			this.reg.serializer().get().toJson(obj, this.recipe.get());
 		}
 
 		@Override
-		public ResourceLocation getId() {
+		public @NotNull ResourceLocation getId() {
 			return this.id;
 		}
 
 		@Override
-		public RecipeSerializer<?> getType() {
+		public @NotNull RecipeSerializer<?> getType() {
 			return this.reg.serializer().get();
 		}
 

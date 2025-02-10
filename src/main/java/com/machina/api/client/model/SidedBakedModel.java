@@ -74,7 +74,7 @@ public class SidedBakedModel extends BakedModelWrapper<BakedModel> implements ID
 	}
 
 	@Override
-	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand) {
+	public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand) {
 		return List.of();
 	}
 

@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 public class MultiSidedStorage<T> extends SidedStorage {
 
-	private LazyOptional<IMachinaStorage>[] sidedStorage;
+	private final LazyOptional<IMachinaStorage>[] sidedStorage;
 
 	@SuppressWarnings("unchecked")
 	public MultiSidedStorage(String tag, MachinaBlockEntity be,
@@ -33,20 +33,14 @@ public class MultiSidedStorage<T> extends SidedStorage {
 		return this.sidedStorage[dir.ordinal()].cast();
 	}
 
-	public boolean isInput(Direction dir) {
-		return this.modes[dir.ordinal()] == Side.INPUT;
-	}
-
-	public boolean isOutput(Direction dir) {
+    public boolean isOutput(Direction dir) {
 		return this.modes[dir.ordinal()] == Side.OUTPUT;
 	}
 
 	@Override
 	public void save(CompoundTag tag) {
 		for (Direction dir : Direction.values()) {
-			this.sidedStorage[dir.ordinal()].ifPresent(store -> {
-				tag.put("storage_" + dir.ordinal(), store.serialize());
-			});
+			this.sidedStorage[dir.ordinal()].ifPresent(store -> tag.put("storage_" + dir.ordinal(), store.serialize()));
 		}
 	}
 
@@ -54,9 +48,7 @@ public class MultiSidedStorage<T> extends SidedStorage {
 	protected void load(CompoundTag tag) {
 		for (Direction dir : Direction.values()) {
 			if (tag.contains("storage_" + dir.ordinal())) {
-				this.sidedStorage[dir.ordinal()].ifPresent(store -> {
-					store.deserialize(tag.getCompound("storage_" + dir.ordinal()));
-				});
+				this.sidedStorage[dir.ordinal()].ifPresent(store -> store.deserialize(tag.getCompound("storage_" + dir.ordinal())));
 			}
 		}
 	}

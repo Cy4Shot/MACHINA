@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.LazyOptional;
 //https://github.com/henkelmax/pipez/blob/1.16.5/src/main/java/de/maxhenkel/pipez/utils/DirectionalLazyOptionalCache.java
 public class SidedLazyOptionalCache<T> {
 
-	protected Map<Direction, LazyOptional<T>> cache;
+	protected final Map<Direction, LazyOptional<T>> cache;
 
 	public SidedLazyOptionalCache() {
 		cache = new HashMap<>();

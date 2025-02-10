@@ -1,6 +1,5 @@
 package com.machina.api.util.math.sdf.post;
 
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import com.machina.api.util.math.sdf.PosInfo;
@@ -20,13 +19,13 @@ public record SDFFruitPlacer(RandomSource random, Direction dir, float chance, B
 	}
 
 	@Override
-	public Optional<Pair<BlockPos, BlockState>> extra(PosInfo posInfo) {
+	public Pair<BlockPos, BlockState> extra(PosInfo posInfo) {
 		BlockPos p = posInfo.getPos();
 		if (attachable.test(posInfo.getState(p)) && random.nextFloat() < chance) {
 			if (isAir(posInfo, 1) && isAir(posInfo, 2)) {
-				return Optional.of(Pair.of(p.relative(dir), fruit));
+				return Pair.of(p.relative(dir), fruit);
 			}
 		}
-		return Optional.empty();
+		return null;
 	}
 }

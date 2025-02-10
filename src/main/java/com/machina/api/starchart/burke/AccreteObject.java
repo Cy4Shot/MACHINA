@@ -117,7 +117,7 @@ public class AccreteObject {
 		return cr.nextDouble();
 	}
 
-	static public CustomRandom cr;
+	static public final CustomRandom cr;
 	static {
 		cr = new CustomRandom();
 	}

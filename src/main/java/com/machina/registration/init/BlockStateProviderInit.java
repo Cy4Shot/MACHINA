@@ -23,6 +23,6 @@ public class BlockStateProviderInit {
 
 	private static <P extends BlockStateProvider> RegistryObject<BlockStateProviderType<P>> register(String name,
 			Codec<P> codec) {
-		return BLOCK_STATE_PROVIDERS.register(name, () -> new BlockStateProviderType<P>(codec));
+		return BLOCK_STATE_PROVIDERS.register(name, () -> new BlockStateProviderType<>(codec));
 	}
 }

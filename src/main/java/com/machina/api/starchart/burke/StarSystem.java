@@ -57,7 +57,7 @@ package com.machina.api.starchart.burke;
  */
 public class StarSystem extends AccreteObject implements PhysicalConstants {
 	public double x, y, z;
-	public BStar primary;
+	public final BStar primary;
 	public BPlanet planets;
 
 	/**
@@ -73,7 +73,7 @@ public class StarSystem extends AccreteObject implements PhysicalConstants {
 	 * Creates the planets of this system using Dole's accretion algorithm.
 	 */
 	private void Initialize() {
-		BPlanet last_planet = null, cur_planet = null;
+		BPlanet last_planet = null, cur_planet;
 		Protoplanet p;
 
 		Protosystem ps = new Protosystem(primary);
@@ -97,8 +97,7 @@ public class StarSystem extends AccreteObject implements PhysicalConstants {
 			}
 			p = p.next_planet;
 		}
-		ps = null;
-	}
+    }
 
 	/**
 	 * Creates the planets of this system using a diddled Bode's Law.
@@ -106,7 +105,7 @@ public class StarSystem extends AccreteObject implements PhysicalConstants {
 	public void initializeBode() {
 		/* BODE - BODE-TITIUS SEQUENCE FOR SATELLITE ORBITS */
 		double[] BODE = { 0.4, 0.7, 1.0, 1.6, 2.8, 5.2, 10.0, 19.6, 29.2, 38.8 };
-		BPlanet last_planet = null, cur_planet = null;
+		BPlanet last_planet = null, cur_planet;
 		int I;
 
 		for (I = 0; I < 10; I++) {

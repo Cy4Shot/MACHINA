@@ -5,8 +5,8 @@ public class OpenSimplex2F {
 	private static final int PMASK = 2047;
 
 	private final short[] perm;
-	private Grad2[] permGrad2;
-	private Grad3[] permGrad3;
+	private final Grad2[] permGrad2;
+	private final Grad3[] permGrad3;
 
 	public OpenSimplex2F(long seed) {
 		perm = new short[PSIZE];
@@ -104,7 +104,7 @@ public class OpenSimplex2F {
 		double xri = xr - xrb, yri = yr - yrb, zri = zr - zrb;
 
 		int xht = (int) (xri + 0.5), yht = (int) (yri + 0.5), zht = (int) (zri + 0.5);
-		int index = (xht << 0) | (yht << 1) | (zht << 2);
+		int index = (xht) | (yht << 1) | (zht << 2);
 
 		double value = 0;
 		LatticePoint3D c = LOOKUP_3D[index];
@@ -146,14 +146,14 @@ public class OpenSimplex2F {
 				i1 = 0;
 				j1 = 1;
 			}
-			LOOKUP_2D[i * 3 + 0] = new LatticePoint2D(0, 0);
+			LOOKUP_2D[i * 3] = new LatticePoint2D(0, 0);
 			LOOKUP_2D[i * 3 + 1] = new LatticePoint2D(1, 1);
 			LOOKUP_2D[i * 3 + 2] = new LatticePoint2D(i1, j1);
 		}
 
 		for (int i = 0; i < 8; i++) {
 			int i1, j1, k1, i2, j2, k2;
-			i1 = (i >> 0) & 1;
+			i1 = (i) & 1;
 			j1 = (i >> 1) & 1;
 			k1 = (i >> 2) & 1;
 			i2 = i1 ^ 1;
@@ -187,8 +187,10 @@ public class OpenSimplex2F {
 	}
 
 	private static class LatticePoint2D {
-		int xsv, ysv;
-		double dx, dy;
+		final int xsv;
+        final int ysv;
+		final double dx;
+        final double dy;
 
 		public LatticePoint2D(int xsv, int ysv) {
 			this.xsv = xsv;
@@ -200,8 +202,12 @@ public class OpenSimplex2F {
 	}
 
 	private static class LatticePoint3D {
-		public double dxr, dyr, dzr;
-		public int xrv, yrv, zrv;
+		public final double dxr;
+        public final double dyr;
+        public final double dzr;
+		public final int xrv;
+        public final int yrv;
+        public final int zrv;
 		LatticePoint3D nextOnFailure, nextOnSuccess;
 
 		public LatticePoint3D(int xrv, int yrv, int zrv, int lattice) {
@@ -253,10 +259,10 @@ public class OpenSimplex2F {
 				new Grad2(-0.923879532511287, 0.38268343236509), new Grad2(-0.793353340291235, 0.608761429008721),
 				new Grad2(-0.608761429008721, 0.793353340291235), new Grad2(-0.38268343236509, 0.923879532511287),
 				new Grad2(-0.130526192220052, 0.99144486137381) };
-		for (int i = 0; i < grad2.length; i++) {
-			grad2[i].dx /= N2;
-			grad2[i].dy /= N2;
-		}
+        for (Grad2 item : grad2) {
+            item.dx /= N2;
+            item.dy /= N2;
+        }
 		for (int i = 0; i < PSIZE; i++) {
 			GRADIENTS_2D[i] = grad2[i % grad2.length];
 		}
@@ -292,11 +298,11 @@ public class OpenSimplex2F {
 				new Grad3(3.0862664687972017, 0.0, 1.1721513422464978), new Grad3(2.22474487139, 2.22474487139, -1.0),
 				new Grad3(2.22474487139, 2.22474487139, 1.0), new Grad3(3.0862664687972017, 1.1721513422464978, 0.0),
 				new Grad3(1.1721513422464978, 3.0862664687972017, 0.0) };
-		for (int i = 0; i < grad3.length; i++) {
-			grad3[i].dx /= N3;
-			grad3[i].dy /= N3;
-			grad3[i].dz /= N3;
-		}
+        for (Grad3 value : grad3) {
+            value.dx /= N3;
+            value.dy /= N3;
+            value.dz /= N3;
+        }
 		for (int i = 0; i < PSIZE; i++) {
 			GRADIENTS_3D[i] = grad3[i % grad3.length];
 		}

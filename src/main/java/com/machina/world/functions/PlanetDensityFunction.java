@@ -57,19 +57,15 @@ public class PlanetDensityFunction {
 				underground(densities, noises, df11));
 		DensityFunction df14 = DensityFunctions.min(postProcess(slideOverworld(df13)), getFunction(densities, NOODLE));
 		DensityFunction df15 = getFunction(densities, Y);
-		int i = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224495_) -> {
-			return p_224495_.minY;
-		}).min().orElse(-DimensionType.MIN_Y * 2);
-		int j = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224457_) -> {
-			return p_224457_.maxY;
-		}).max().orElse(-DimensionType.MIN_Y * 2);
+		int i = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224495_) -> p_224495_.minY).min().orElse(-DimensionType.MIN_Y * 2);
+		int j = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224457_) -> p_224457_.maxY).max().orElse(-DimensionType.MIN_Y * 2);
 		DensityFunction df16 = yLimitedInterpolatable(df15,
-				DensityFunctions.noise(noises.getOrThrow(Noises.ORE_VEININESS), 1.5D, 1.5D), i, j, 0);
+				DensityFunctions.noise(noises.getOrThrow(Noises.ORE_VEININESS), 1.5D, 1.5D), i, j);
 		DensityFunction df17 = yLimitedInterpolatable(df15,
-				DensityFunctions.noise(noises.getOrThrow(Noises.ORE_VEIN_A), 4.0D, 4.0D), i, j, 0).abs();
+				DensityFunctions.noise(noises.getOrThrow(Noises.ORE_VEIN_A), 4.0D, 4.0D), i, j).abs();
 		DensityFunction df18 = yLimitedInterpolatable(df15,
-				DensityFunctions.noise(noises.getOrThrow(Noises.ORE_VEIN_B), 4.0D, 4.0D), i, j, 0).abs();
-		DensityFunction df19 = DensityFunctions.add(DensityFunctions.constant((double) -0.08F),
+				DensityFunctions.noise(noises.getOrThrow(Noises.ORE_VEIN_B), 4.0D, 4.0D), i, j).abs();
+		DensityFunction df19 = DensityFunctions.add(DensityFunctions.constant(-0.08F),
 				DensityFunctions.max(df17, df18));
 		DensityFunction df20 = DensityFunctions.noise(noises.getOrThrow(Noises.ORE_GAP));
 		return new NoiseRouter(df, df1, df2, df3, df6, df7, getFunction(densities, CONTINENTS_LARGE),
@@ -116,23 +112,22 @@ public class PlanetDensityFunction {
 
 	private static DensityFunction slideOverworld(DensityFunction df) {
 //		return slide(df, -64, 384, 16, 0, -0.078125D, 0, 24, 0.4D);
-		return slide(df, -64, 384, 80, 64, -0.078125D, 0, 24, 0.1171875D);
+		return slide(df);
 	}
 
-	private static DensityFunction slide(DensityFunction p_224444_, int p_224445_, int p_224446_, int p_224447_,
-			int p_224448_, double p_224449_, int p_224450_, int p_224451_, double p_224452_) {
-		DensityFunction df1 = DensityFunctions.yClampedGradient(p_224445_ + p_224446_ - p_224447_,
-				p_224445_ + p_224446_ - p_224448_, 1.0D, 0.0D);
-		DensityFunction df3 = DensityFunctions.lerp(df1, p_224449_, p_224444_);
-		DensityFunction df2 = DensityFunctions.yClampedGradient(p_224445_ + p_224450_, p_224445_ + p_224451_, 0.0D,
+	private static DensityFunction slide(DensityFunction p_224444_) {
+		DensityFunction df1 = DensityFunctions.yClampedGradient(-64 + 384 - 80,
+				-64 + 384 - 64, 1.0D, 0.0D);
+		DensityFunction df3 = DensityFunctions.lerp(df1, -0.078125, p_224444_);
+		DensityFunction df2 = DensityFunctions.yClampedGradient(-64, -64 + 24, 0.0D,
 				1.0D);
-		return DensityFunctions.lerp(df2, p_224452_, df3);
+		return DensityFunctions.lerp(df2, 0.1171875, df3);
 	}
 
 	private static DensityFunction yLimitedInterpolatable(DensityFunction f1, DensityFunction f2, int p_209474_,
-			int p_209475_, int p_209476_) {
-		return DensityFunctions.interpolated(DensityFunctions.rangeChoice(f1, (double) p_209474_,
-				(double) (p_209475_ + 1), f2, DensityFunctions.constant((double) p_209476_)));
+			int p_209475_) {
+		return DensityFunctions.interpolated(DensityFunctions.rangeChoice(f1, p_209474_,
+                p_209475_ + 1, f2, DensityFunctions.constant(0)));
 	}
 
 	private static DensityFunction postProcess(DensityFunction f) {

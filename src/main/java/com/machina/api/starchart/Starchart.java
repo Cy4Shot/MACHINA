@@ -15,7 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 public class Starchart {
 	private static Starchart INSTANCE = null;
 
-	SolarSystem system;
+	final SolarSystem system;
 
 	public Starchart(long seed) {
 		SystemNameGenerator gen = new SystemNameGenerator();

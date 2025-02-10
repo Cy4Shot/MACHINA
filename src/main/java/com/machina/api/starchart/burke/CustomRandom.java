@@ -1,5 +1,6 @@
 package com.machina.api.starchart.burke;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -61,6 +62,7 @@ public class CustomRandom extends Random implements PhysicalConstants {
 	/**
 	 * 
 	 */
+	@Serial
 	private static final long serialVersionUID = 5158047548907191525L;
 	protected boolean normdone = false;
 	protected double normstore;
@@ -82,9 +84,8 @@ public class CustomRandom extends Random implements PhysicalConstants {
 
 	/**
 	 * Sets the random seed to the new value, performing additional housekeeping.
-	 * 
-	 * @param seed New pseudo-random generator seed
-	 */
+	 *
+     */
 	public void setSeed(long s) {
 		super.setSeed(s);
 		normdone = false;
@@ -106,7 +107,7 @@ public class CustomRandom extends Random implements PhysicalConstants {
 			if (r >= 1.0) {
 				return NormalDeviate();
 			} else {
-				fac = (double) (Math.sqrt(-2.0 * Math.log(r) / (double) (r)));
+				fac = Math.sqrt(-2.0 * Math.log(r) / r);
 				normstore = v1 * fac;
 				normdone = true;
 				return v2 * fac;
@@ -121,7 +122,7 @@ public class CustomRandom extends Random implements PhysicalConstants {
 	 * @param sigma Standard deviation
 	 */
 	public double LognormalDeviate(double sigma) {
-		return (double) (Math.exp((double) (NormalDeviate() * sigma)));
+		return Math.exp(NormalDeviate() * sigma);
 	}
 
 	/**

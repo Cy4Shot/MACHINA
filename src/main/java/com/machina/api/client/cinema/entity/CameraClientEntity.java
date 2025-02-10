@@ -1,9 +1,11 @@
 package com.machina.api.client.cinema.entity;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3d;
 
 import net.minecraft.client.Minecraft;
@@ -18,9 +20,9 @@ public class CameraClientEntity extends AbstractClientPlayer {
 	private Vector3d cameraFocus = null;
 
 	public CameraClientEntity() {
-		super(mc.level, mc.player.getGameProfile());
+		super(Objects.requireNonNull(mc.level), Objects.requireNonNull(mc.player).getGameProfile());
 
-		this.getAbilities().mayfly = true;
+        this.getAbilities().mayfly = true;
 		this.getAbilities().flying = true;
 		this.getAbilities().invulnerable = true;
 	}
@@ -45,16 +47,16 @@ public class CameraClientEntity extends AbstractClientPlayer {
 	}
 
 	@Override
-	public Iterable<ItemStack> getArmorSlots() {
+	public @NotNull Iterable<ItemStack> getArmorSlots() {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public ItemStack getItemBySlot(EquipmentSlot pSlot) {
+	public @NotNull ItemStack getItemBySlot(@NotNull EquipmentSlot pSlot) {
 		return ItemStack.EMPTY;
 	}
 
 	@Override
-	public void setItemSlot(EquipmentSlot pSlot, ItemStack pStack) {
+	public void setItemSlot(@NotNull EquipmentSlot pSlot, @NotNull ItemStack pStack) {
 	}
 }

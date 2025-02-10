@@ -52,26 +52,11 @@ public class VecUtil {
 		return matrix4f;
 	}
 
-	public static final Comparator<Vec3i> X_COMP = new Comparator<Vec3i>() {
-		@Override
-		public int compare(Vec3i o1, Vec3i o2) {
-			return Integer.compare(o1.getX(), o2.getX());
-		}
-	};
+	public static final Comparator<Vec3i> X_COMP = Comparator.comparingInt(Vec3i::getX);
 
-	public static final Comparator<Vec3i> Y_COMP = new Comparator<Vec3i>() {
-		@Override
-		public int compare(Vec3i o1, Vec3i o2) {
-			return Integer.compare(o1.getY(), o2.getY());
-		}
-	};
+	public static final Comparator<Vec3i> Y_COMP = Comparator.comparingInt(Vec3i::getY);
 
-	public static final Comparator<Vec3i> Z_COMP = new Comparator<Vec3i>() {
-		@Override
-		public int compare(Vec3i o1, Vec3i o2) {
-			return Integer.compare(o1.getZ(), o2.getZ());
-		}
-	};
+	public static final Comparator<Vec3i> Z_COMP = Comparator.comparingInt(Vec3i::getZ);
 
 	public static int minX(Collection<? extends Vec3i> coll) {
 		return Collections.min(coll, X_COMP).getX();

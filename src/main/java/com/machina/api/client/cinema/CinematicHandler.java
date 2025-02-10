@@ -7,7 +7,6 @@ import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -110,10 +109,9 @@ public class CinematicHandler {
 
 		MinecraftForge.EVENT_BUS.addListener((ScreenEvent.Opening e) -> {
 			if (INSTANCE.isActive() && !mc.isPaused()) {
-				if (e.getScreen() != null || e.getScreen() instanceof PauseScreen) {
-					e.setCanceled(true);
-				}
-			}
+                e.getScreen();
+                e.setCanceled(true);
+            }
 		});
 
 		MinecraftForge.EVENT_BUS.addListener((RenderHandEvent e) -> {

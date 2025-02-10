@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+import org.jetbrains.annotations.NotNull;
 
 public class HorizontalFacingBlockProvider extends BlockStateProvider {
 	public static final Codec<HorizontalFacingBlockProvider> CODEC = BlockState.CODEC.fieldOf("state")
@@ -27,11 +28,11 @@ public class HorizontalFacingBlockProvider extends BlockStateProvider {
 		this(state.getBlock());
 	}
 
-	protected BlockStateProviderType<?> type() {
+	protected @NotNull BlockStateProviderType<?> type() {
 		return BlockStateProviderInit.HORIZONTAL_FACING_BLOCK_PROVIDER.get();
 	}
 
-	public BlockState getState(RandomSource state, BlockPos pos) {
+	public @NotNull BlockState getState(@NotNull RandomSource state, @NotNull BlockPos pos) {
 		Direction dir = Direction.Plane.HORIZONTAL.getRandomDirection(state);
 		return this.block.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, dir);
 	}

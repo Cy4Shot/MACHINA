@@ -60,9 +60,9 @@ public class DustDisc {
 	public boolean dust_left;
 	public boolean gas; // true if gas available in current working band
 	public double cloud_eccentricity;
-	public DustBand dust_head;
-	public double body_inner_bound;
-	public double body_outer_bound;
+	public final DustBand dust_head;
+	public final double body_inner_bound;
+	public final double body_outer_bound;
 
 	/**
 	 * Determines whether dust is present within the effect radius of a specific
@@ -80,9 +80,7 @@ public class DustDisc {
 		current_dust_band = dust_head;
 		while ((current_dust_band != null) && (current_dust_band.outer_edge < inside_range))
 			current_dust_band = current_dust_band.next_band;
-		if (current_dust_band == null)
-			dust_here = false;
-		else
+		if (current_dust_band != null)
 			dust_here = current_dust_band.dust_present;
 		while ((current_dust_band != null) && (current_dust_band.inner_edge < outside_range)) {
 			dust_here = dust_here || current_dust_band.dust_present;
@@ -183,8 +181,6 @@ public class DustDisc {
 		for (node1 = dust_head; node1 != null; node1 = node1.next_band) {
 			dust_left |= (node1.dust_present && (node1.outer_edge >= body_inner_bound)
 					&& (node1.inner_edge <= body_outer_bound));
-			while (node1.mergeNext())
-				; // merge fragmented dust bands, if any
 		}
 	}
 

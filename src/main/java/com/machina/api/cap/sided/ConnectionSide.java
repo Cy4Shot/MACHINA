@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 
 public enum ConnectionSide implements StringRepresentable {
 	NORMAL,
@@ -36,7 +37,7 @@ public enum ConnectionSide implements StringRepresentable {
 	}
 
 	@Override
-	public String getSerializedName() {
+	public @NotNull String getSerializedName() {
 		return name().toLowerCase(Locale.ROOT);
 	}
 }

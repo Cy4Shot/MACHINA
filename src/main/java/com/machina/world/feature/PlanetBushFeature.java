@@ -21,7 +21,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 
 public class PlanetBushFeature extends Feature<PlanetBushFeature.PlanetBushFeatureConfig> {
 
-	public static record PlanetBushFeatureConfig(PlanetBiomeBush bush) implements FeatureConfiguration {
+	public record PlanetBushFeatureConfig(PlanetBiomeBush bush) implements FeatureConfiguration {
 
 		public static final Codec<PlanetBushFeatureConfig> CODEC = RecordCodecBuilder.create(instance -> instance
 				.group(PlanetBiomeBush.CODEC.fieldOf("bush").forGetter(PlanetBushFeatureConfig::bush))

@@ -12,27 +12,28 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import org.jetbrains.annotations.NotNull;
 
 public class ClientMultiblock implements BlockAndTintGetter {
 
-	public Multiblock mb;
+	public final Multiblock mb;
 
 	public ClientMultiblock(Multiblock mb) {
 		this.mb = mb;
 	}
 
 	@Override
-	public BlockEntity getBlockEntity(BlockPos pos) {
+	public BlockEntity getBlockEntity(@NotNull BlockPos pos) {
 		return null;
 	}
 
 	@Override
-	public BlockState getBlockState(BlockPos pos) {
+	public @NotNull BlockState getBlockState(@NotNull BlockPos pos) {
 		return mb.getRenderAtPos(pos);
 	}
 
 	@Override
-	public FluidState getFluidState(BlockPos pPos) {
+	public @NotNull FluidState getFluidState(@NotNull BlockPos pPos) {
 		return Fluids.EMPTY.defaultFluidState();
 	}
 
@@ -40,7 +41,7 @@ public class ClientMultiblock implements BlockAndTintGetter {
 		return new ClientMultiblockRestricted(mb, has);
 	}
 
-	public class ClientMultiblockRestricted extends ClientMultiblock {
+	public static class ClientMultiblockRestricted extends ClientMultiblock {
 
 		private final Predicate<BlockPos> has;
 
@@ -50,7 +51,7 @@ public class ClientMultiblock implements BlockAndTintGetter {
 		}
 
 		@Override
-		public BlockState getBlockState(BlockPos pPos) {
+		public @NotNull BlockState getBlockState(@NotNull BlockPos pPos) {
 			if (!has.test(pPos)) {
 				return Blocks.AIR.defaultBlockState();
 			}
@@ -69,17 +70,19 @@ public class ClientMultiblock implements BlockAndTintGetter {
 	}
 
 	@Override
-	public float getShade(Direction p_45522_, boolean p_45523_) {
+	public float getShade(@NotNull Direction p_45522_, boolean p_45523_) {
 		return 0;
 	}
 
+	// TODO: What?
+	@SuppressWarnings("DataFlowIssue")
 	@Override
-	public LevelLightEngine getLightEngine() {
+	public @NotNull LevelLightEngine getLightEngine() {
 		return null;
 	}
 
 	@Override
-	public int getBlockTint(BlockPos p_45520_, ColorResolver p_45521_) {
+	public int getBlockTint(@NotNull BlockPos p_45520_, @NotNull ColorResolver p_45521_) {
 		return 0;
 	}
 }

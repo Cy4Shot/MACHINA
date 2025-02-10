@@ -1,6 +1,7 @@
 package com.machina.api.cap.sided;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.network.PacketSender;
@@ -11,11 +12,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 
 public enum Side implements StringRepresentable {
-	NONE(407, 81),
-	OUTPUT(423, 81),
-	INPUT(415, 81);
+	NONE(407),
+	OUTPUT(423),
+	INPUT(415);
 
 	public static final Side[] NONES = new Side[] { Side.NONE, Side.NONE, Side.NONE, Side.NONE, Side.NONE, Side.NONE };
 	public static final Side[] INPUTS = new Side[] { Side.INPUT, Side.INPUT, Side.INPUT, Side.INPUT, Side.INPUT,
@@ -26,9 +28,9 @@ public enum Side implements StringRepresentable {
 	private final int tx;
 	private final int ty;
 
-	Side(int tx, int ty) {
+	Side(int tx) {
 		this.tx = tx;
-		this.ty = ty;
+		this.ty = 81;
 	}
 
 	public boolean isConnected() {
@@ -51,7 +53,7 @@ public enum Side implements StringRepresentable {
 		return this.ty;
 	}
 
-	public String getSerializedName() {
+	public @NotNull String getSerializedName() {
 		return name().toLowerCase(Locale.ROOT);
 	}
 	
@@ -85,7 +87,7 @@ public enum Side implements StringRepresentable {
 	public static void cycle(Side[] input, Direction d, MachinaBlockEntity e, String tag) {
 		input[d.ordinal()] = values()[(input[d.ordinal()].ordinal() + 1) % values().length];
 
-		if (e.getLevel().isClientSide()) {
+		if (Objects.requireNonNull(e.getLevel()).isClientSide()) {
 			PacketSender.sendToServer(new C2SSideConfig(tag, e.getBlockPos(), getRaw(input)));
 		} else {
 			e.setChanged();

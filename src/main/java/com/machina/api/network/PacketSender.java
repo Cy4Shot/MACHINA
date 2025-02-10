@@ -9,13 +9,15 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
+import java.util.Objects;
+
 public class PacketSender {
 
 	public static final SimpleChannel CHANNEL = NetworkRegistry
 			.newSimpleChannel(new ResourceLocation(Machina.MOD_ID, "main"), () -> "0", "0"::equals, "0"::equals);
 
 	public static <T extends S2CMessage> void sendToClients(T packet) {
-		for (ServerPlayer player : Minecraft.getInstance().getSingleplayerServer().getPlayerList().getPlayers()) {
+		for (ServerPlayer player : Objects.requireNonNull(Minecraft.getInstance().getSingleplayerServer()).getPlayerList().getPlayers()) {
 			sendToClient(player, packet);
 		}
 	}

@@ -6,6 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.Objects;
+
 public class CameraUtil {
 	protected static final Minecraft mc = Minecraft.getInstance();
 
@@ -53,10 +55,16 @@ public class CameraUtil {
 		render.setXRot(iPitch);
 		render.xRotO = iPitch;
 		render = mc.player;
-		render.setPosRaw(x, y, z);
-		render.xo = prevX;
-		render.yo = prevY;
-		render.zo = prevZ;
+        if (render != null) {
+            render.setPosRaw(x, y, z);
+        }
+        if (render != null) {
+            render.xo = prevX;
+        }
+        if (render != null) {
+            render.yo = prevY;
+        }
+        Objects.requireNonNull(render).zo = prevZ;
 		render.xOld = prevX;
 		render.yOld = prevY;
 		render.zOld = prevZ;

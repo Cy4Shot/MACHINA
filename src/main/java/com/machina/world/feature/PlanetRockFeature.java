@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRock;
 import com.machina.api.util.math.MathUtil;
@@ -36,7 +35,7 @@ public class PlanetRockFeature extends Feature<PlanetRockFeature.PlanetRockFeatu
 
 	private static final Direction[] EXTRA_DIRS = new Direction[] { Direction.NORTH, Direction.EAST, Direction.SOUTH,
 			Direction.WEST, Direction.UP };
-	private static List<Direction> HORIZONTAL_DIRS = new ArrayList<>(
+	private static final List<Direction> HORIZONTAL_DIRS = new ArrayList<>(
 			Arrays.asList(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST));
 
 	public PlanetRockFeature() {
@@ -70,7 +69,7 @@ public class PlanetRockFeature extends Feature<PlanetRockFeature.PlanetRockFeatu
 			return level.getBlockState(p.immutable()).isAir();
 		});
 
-		Set<BlockPos> two = new HashSet<BlockPos>();
+		Set<BlockPos> two = new HashSet<>();
 		for (BlockPos p : positions) {
 			for (Direction d : EXTRA_DIRS) {
 				BlockPos p2 = p.relative(d);
@@ -81,7 +80,7 @@ public class PlanetRockFeature extends Feature<PlanetRockFeature.PlanetRockFeatu
 
 		List<BlockPos> last = two.stream()
 				.filter(p -> !level.getBlockState(p).isSolid() && level.getBlockState(p.below()).isSolid())
-				.collect(Collectors.toList());
+				.toList();
 
 		for (BlockPos p : last) {
 			if (rand.nextFloat() < 0.3f) {

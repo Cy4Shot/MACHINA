@@ -29,26 +29,26 @@ public class RecipeInit {
 			.create(ForgeRegistries.RECIPE_SERIALIZERS, Machina.MOD_ID);
 	public static final List<MachinaRecipeMaps<?>> MAPS = new ArrayList<>();
 
-	public static final RecipeRegistryObject<GrinderBlockEntity> GRINDER = register("grinder",
-			MachinaRecipe.HAS_ENERGY | MachinaRecipe.HAS_TIME, GrinderRecipe::new, GrinderRecipeMaps.INSTANCE);
+	public static final RecipeRegistryObject<GrinderBlockEntity> GRINDER = register(
+			GrinderRecipe::new);
 
-	public static record RecipeRegistryObject<C extends Container>(ResourceLocation id,
-			RegistryObject<MachinaRecipeType<C>> type, RecipeFactory<MachinaRecipe<C>> factory,
-			RegistryObject<MachinaRecipeSerializer<C>> serializer, MachinaRecipeMaps<C> maps) {
+	public record RecipeRegistryObject<C extends Container>(ResourceLocation id,
+                                                            RegistryObject<MachinaRecipeType<C>> type, RecipeFactory<MachinaRecipe<C>> factory,
+                                                            RegistryObject<MachinaRecipeSerializer<C>> serializer, MachinaRecipeMaps<C> maps) {
 
 		public String getTranslationKey() {
 			return id.getNamespace() + ".recipe." + id.getPath();
 		}
 	}
 
-	private static <C extends Container> RecipeRegistryObject<C> register(String name, int flags,
-			RecipeFactory<MachinaRecipe<C>> factory, MachinaRecipeMaps<C> map) {
-		ResourceLocation id = new MachinaRL(name);
-		RegistryObject<MachinaRecipeType<C>> type = RECIPE_TYPES.register(name,
-				() -> new MachinaRecipeType<>(id, flags));
-		RegistryObject<MachinaRecipeSerializer<C>> serializer = RECIPE_SERIALIZERS.register(name,
-				() -> new MachinaRecipeSerializer<C>(type::get, factory));
-		MAPS.add(map);
-		return new RecipeRegistryObject<C>(id, type, factory, serializer, map);
+	@SuppressWarnings("unchecked")
+    private static <C extends Container> RecipeRegistryObject<C> register(RecipeFactory<MachinaRecipe<C>> factory) {
+		ResourceLocation id = new MachinaRL("grinder");
+		RegistryObject<MachinaRecipeType<C>> type = RECIPE_TYPES.register("grinder",
+				() -> new MachinaRecipeType<>(id, 9));
+		RegistryObject<MachinaRecipeSerializer<C>> serializer = RECIPE_SERIALIZERS.register("grinder",
+				() -> new MachinaRecipeSerializer<>(type, factory));
+		MAPS.add(GrinderRecipeMaps.INSTANCE);
+		return new RecipeRegistryObject<>(id, type, factory, serializer, (MachinaRecipeMaps<C>) GrinderRecipeMaps.INSTANCE);
 	}
 }

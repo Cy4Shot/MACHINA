@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public class PlanetLakeFeature extends Feature<PlanetLakeFeature.PlanetLakeFeatureConfig> {
 
@@ -43,8 +44,11 @@ public class PlanetLakeFeature extends Feature<PlanetLakeFeature.PlanetLakeFeatu
 		PlanetLakeFeature.PlanetLakeFeatureConfig cfg = ctx.config();
 
 		Planet p = PlanetHelper.getPlanetFor(level.getLevel());
-		BlockState fluid = p.getDominantLiquidBodyBlock();
-		if (fluid == null || fluid.getFluidState().isEmpty()) {
+        BlockState fluid = null;
+        if (p != null) {
+            fluid = p.getDominantLiquidBodyBlock();
+        }
+        if (fluid == null || fluid.getFluidState().isEmpty()) {
 			fluid = Blocks.WATER.defaultBlockState();
 		}
 
@@ -164,7 +168,7 @@ public class PlanetLakeFeature extends Feature<PlanetLakeFeature.PlanetLakeFeatu
 		}
 	}
 
-	protected void markAboveForPostProcessing(WorldGenLevel level, BlockPos pos) {
+	protected void markAboveForPostProcessing(@NotNull WorldGenLevel level, BlockPos pos) {
 		BlockPos.MutableBlockPos posm = pos.mutable();
 
 		for (int i = 0; i < 2; ++i) {

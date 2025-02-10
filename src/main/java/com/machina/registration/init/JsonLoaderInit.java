@@ -12,7 +12,7 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 
 public class JsonLoaderInit {
 
-	private static List<JsonLoader<?>> LOADERS = new ArrayList<>();
+	private static final List<JsonLoader<?>> LOADERS = new ArrayList<>();
 
 	static {
 		LOADERS.add(MultiblockLoader.INSTANCE);

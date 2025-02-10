@@ -7,6 +7,7 @@ import com.machina.block.menu.TankMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class TankScreen extends MachinaMenuScreen<TankBlockEntity, TankMenu> {
 
@@ -15,7 +16,7 @@ public class TankScreen extends MachinaMenuScreen<TankBlockEntity, TankMenu> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics gui, float pt, int mx, int my) {
+	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
 

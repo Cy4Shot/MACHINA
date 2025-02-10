@@ -19,7 +19,7 @@ public class EnergyItemWrapper implements IEnergyStorage, ICapabilityProvider {
 	private final LazyOptional<IEnergyStorage> holder = LazyOptional.of(() -> this);
 
 	@NotNull
-	protected ItemStack container;
+	protected final ItemStack container;
 
 	public EnergyItemWrapper(@NotNull ItemStack container) {
 		this.container = container;
@@ -36,13 +36,10 @@ public class EnergyItemWrapper implements IEnergyStorage, ICapabilityProvider {
 		int energy = getEnergyStored();
 		int received = Math.min(getMaxEnergyStored() - getEnergyStored(), maxReceive);
 		if (received > 0 && !simulate) {
-			if (!setEnergyStored(energy + received))
+			if (setEnergyStored(energy + received))
 				return 0;
 		}
-		if (received > 0) {
-			maxReceive -= received;
-		}
-		return received;
+        return received;
 	}
 
 	@Override
@@ -50,13 +47,10 @@ public class EnergyItemWrapper implements IEnergyStorage, ICapabilityProvider {
 		int energy = getEnergyStored();
 		int extracted = Math.min(energy, maxExtract);
 		if (extracted > 0 && !simulate) {
-			if (!setEnergyStored(energy - extracted))
+			if (setEnergyStored(energy - extracted))
 				return 0;
 		}
-		if (extracted > 0) {
-			maxExtract -= extracted;
-		}
-		return extracted;
+        return extracted;
 	}
 
 	@Override
@@ -65,7 +59,7 @@ public class EnergyItemWrapper implements IEnergyStorage, ICapabilityProvider {
 	}
 
 	public boolean setEnergyStored(int energy) {
-		return EnergyItem.setEnergy(this.container, energy);
+		return !EnergyItem.setEnergy(this.container, energy);
 	}
 
 	@Override

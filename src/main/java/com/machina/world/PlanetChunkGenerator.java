@@ -15,6 +15,7 @@ import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.Aquifer.FluidStatus;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import org.jetbrains.annotations.NotNull;
 
 public class PlanetChunkGenerator extends NoiseBasedChunkGenerator {
 
@@ -46,7 +47,7 @@ public class PlanetChunkGenerator extends NoiseBasedChunkGenerator {
 	}
 
 	@Override
-	protected Codec<? extends ChunkGenerator> codec() {
+	protected @NotNull Codec<? extends ChunkGenerator> codec() {
 		return CODEC;
 	}
 }

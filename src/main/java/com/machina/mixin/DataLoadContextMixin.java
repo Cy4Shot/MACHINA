@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -50,7 +51,7 @@ public abstract class DataLoadContextMixin {
 		for (Entry<ResourceLocation, PlanetBiomeSettings> e : PlanetBiomeLoader.INSTANCE.getEntrySet()) {
 			ResourceKey<Biome> key = ResourceKey.create(Registries.BIOME, e.getKey());
 			if (biomes.getOptional(key).isPresent()) {
-				Machina.LOGGER.warn(String.format("Unable to register dimension %s -- already registered", e.getKey()));
+				Machina.LOGGER.warn("Unable to register dimension {} -- already registered", e.getKey());
 				continue;
 			}
 			if (biomes instanceof MappedRegistry<Biome> biomeReg) {
@@ -66,16 +67,16 @@ public abstract class DataLoadContextMixin {
 		RegistryAccess custom = new RegistryAccess() {
 			@SuppressWarnings("unchecked")
 			@Override
-			public <E> Optional<Registry<E>> registry(ResourceKey<? extends Registry<? extends E>> key) {
+			public <E> @NotNull Optional<Registry<E>> registry(ResourceKey<? extends Registry<? extends E>> key) {
 				if (key.equals(Registries.BIOME))
 					return Optional.of((MappedRegistry<E>) biomes);
 				return worldgen.registry(key);
 			}
 
 			@Override
-			public Stream<RegistryEntry<?>> registries() {
+			public @NotNull Stream<RegistryEntry<?>> registries() {
 				return Stream.concat(worldgen.registries().filter(entry -> !entry.key().equals(Registries.BIOME)),
-						Stream.of(new RegistryEntry<>(Registries.BIOME, (MappedRegistry<Biome>) biomes)));
+						Stream.of(new RegistryEntry<>(Registries.BIOME, biomes)));
 			}
 		};
 		ci.setReturnValue(custom.freeze());

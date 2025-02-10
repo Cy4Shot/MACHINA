@@ -93,8 +93,8 @@ public class FluidInit {
 				.craftRemainder(Items.BUCKET);
 		private static final Block.Properties BLOCK_PROP = Block.Properties.copy(Blocks.WATER);
 
-		private Chemical CHEM;
-		private ForgeFlowingFluid.Properties PROPS;
+		private final Chemical CHEM;
+		private final ForgeFlowingFluid.Properties PROPS;
 		private RegistryObject<LiquidBlock> BLOCK;
 		private RegistryObject<MachinaBucket> BUCKET;
 		private RegistryObject<ForgeFlowingFluid> FLUID;
@@ -154,7 +154,7 @@ public class FluidInit {
 		public static RegistryObject<BaseFluidType> builder(String name, Chemical value) {
 			int r = (value.getColor() >> 16) & 0xFF;
 			int g = (value.getColor() >> 8) & 0xFF;
-			int b = (value.getColor() >> 0) & 0xFF;
+			int b = (value.getColor()) & 0xFF;
 			Vector3f fog = new Vector3f((float) r / 255, (float) g / 255, (float) b / 255);
 			FluidType.Properties props = FluidType.Properties.create().density(value.getDensity()).temperature(0)
 					.lightLevel(value.getLuminosity());
@@ -165,7 +165,7 @@ public class FluidInit {
 
 	public static class ChemicalBuilder {
 
-		private Chemical c;
+		private final Chemical c;
 
 		private ChemicalBuilder() {
 			c = new Chemical("", 0, 0, 1);
@@ -195,7 +195,7 @@ public class FluidInit {
 		private String name;
 		private int color;
 		private int luminosity;
-		private int density;
+		private final int density;
 
 		public Chemical(String name, int color, int luminosity, int density) {
 			this.name = name;
@@ -226,8 +226,6 @@ public class FluidInit {
 	}
 
 	public static void setRenderLayers() {
-		FLUIDS.getEntries().forEach(ro -> {
-			ItemBlockRenderTypes.setRenderLayer(ro.get(), RenderType.translucent());
-		});
+		FLUIDS.getEntries().forEach(ro -> ItemBlockRenderTypes.setRenderLayer(ro.get(), RenderType.translucent()));
 	}
 }

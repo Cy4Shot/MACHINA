@@ -7,6 +7,7 @@ import com.machina.block.menu.CreativeBatteryMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class CreativeBatteryScreen extends MachinaMenuScreen<CreativeBatteryBlockEntity, CreativeBatteryMenu> {
 
@@ -15,10 +16,10 @@ public class CreativeBatteryScreen extends MachinaMenuScreen<CreativeBatteryBloc
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics gui, float pt, int mx, int my) {
+	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
-		drawEnergyBar(gui, 117, 0, true, true, "");
+		drawEnergyBar(gui, 0, true, "");
 		drawOverlay(gui);
 	}
 }

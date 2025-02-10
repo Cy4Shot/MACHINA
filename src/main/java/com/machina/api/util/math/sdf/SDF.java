@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -17,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 // Modified SDF Library by quiquek. https://github.com/quiqueck/BCLib/
@@ -30,8 +30,8 @@ public abstract class SDF {
 			return posInfo.getState();
 		}
 
-		default Optional<Pair<BlockPos, BlockState>> extra(PosInfo posInfo) {
-			return Optional.empty();
+		default Pair<BlockPos, BlockState> extra(PosInfo posInfo) {
+			return null;
 		}
 
 		default void apply(List<PosInfo> infos) {
@@ -43,7 +43,7 @@ public abstract class SDF {
 	}
 
 	private final List<SDFPostProcessor> postProcesses = Lists.newArrayList();
-	private Function<BlockState, Boolean> canReplace = state -> state.canBeReplaced();
+	private Function<BlockState, Boolean> canReplace = BlockBehaviour.BlockStateBase::canBeReplaced;
 
 	public abstract float getDistance(float x, float y, float z);
 
@@ -96,21 +96,15 @@ public abstract class SDF {
 			ends.addAll(add);
 			add.clear();
 
-			run &= !ends.isEmpty();
+			run = !ends.isEmpty();
 		}
 
-		List<PosInfo> infos = new ArrayList<PosInfo>(mapWorld.values());
-		if (infos.size() > 0) {
+		List<PosInfo> infos = new ArrayList<>(mapWorld.values());
+		if (!infos.isEmpty()) {
 			Collections.sort(infos);
 			postProcesses.forEach(x -> x.apply(infos));
-			infos.forEach((info) -> {
-				world.setBlock(info.getPos(), info.getState(), UPDATE_FLAGS);
-			});
-			infos.forEach((info) -> {
-				info.getExtra().ifPresent((extra) -> {
-					world.setBlock(extra.getFirst(), extra.getSecond(), UPDATE_FLAGS);
-				});
-			});
+			infos.forEach((info) -> world.setBlock(info.getPos(), info.getState(), UPDATE_FLAGS));
+			infos.forEach((info) -> info.getExtra().ifPresent((extra) -> world.setBlock(extra.getFirst(), extra.getSecond(), UPDATE_FLAGS)));
 
 			infos.clear();
 			infos.addAll(addInfo.values());
@@ -121,13 +115,11 @@ public abstract class SDF {
 					world.setBlock(info.getPos(), info.getState(), UPDATE_FLAGS);
 				}
 			});
-			infos.forEach((info) -> {
-				info.getExtra().ifPresent((extra) -> {
-					if (canReplace.apply(world.getBlockState(info.getPos()))) {
-						world.setBlock(extra.getFirst(), extra.getSecond(), UPDATE_FLAGS);
-					}
-				});
-			});
+			infos.forEach((info) -> info.getExtra().ifPresent((extra) -> {
+                if (canReplace.apply(world.getBlockState(info.getPos()))) {
+                    world.setBlock(extra.getFirst(), extra.getSecond(), UPDATE_FLAGS);
+                }
+            }));
 		}
 	}
 
@@ -164,12 +156,12 @@ public abstract class SDF {
 			ends.addAll(add);
 			add.clear();
 
-			run &= !ends.isEmpty();
+			run = !ends.isEmpty();
 		}
 
-		List<PosInfo> infos = new ArrayList<PosInfo>(mapWorld.values());
+		List<PosInfo> infos = new ArrayList<>(mapWorld.values());
 		Set<BlockPos> positions = Sets.newHashSet();
-		if (infos.size() > 0) {
+		if (!infos.isEmpty()) {
 			Collections.sort(infos);
 			postProcesses.forEach(x -> x.apply(infos));
 			infos.forEach((info) -> {
@@ -179,15 +171,13 @@ public abstract class SDF {
 					positions.add(mbp.immutable());
 				}
 			});
-			infos.forEach((info) -> {
-				info.getExtra().ifPresent((extra) -> {
-					MutableBlockPos mbp = extra.getFirst().mutable();
-					if (shifter.apply(mbp)) {
-						world.setBlock(mbp.immutable(), extra.getSecond(), UPDATE_FLAGS);
-						positions.add(mbp.immutable());
-					}
-				});
-			});
+			infos.forEach((info) -> info.getExtra().ifPresent((extra) -> {
+                MutableBlockPos mbp = extra.getFirst().mutable();
+                if (shifter.apply(mbp)) {
+                    world.setBlock(mbp.immutable(), extra.getSecond(), UPDATE_FLAGS);
+                    positions.add(mbp.immutable());
+                }
+            }));
 
 			infos.clear();
 			infos.addAll(addInfo.values());
@@ -202,17 +192,15 @@ public abstract class SDF {
 					}
 				}
 			});
-			infos.forEach((info) -> {
-				info.getExtra().ifPresent((extra) -> {
-					MutableBlockPos mbp = info.getPos().mutable();
-					if (shifter.apply(mbp)) {
-						if (canReplace.apply(world.getBlockState(extra.getFirst()))) {
-							world.setBlock(mbp.immutable(), extra.getSecond(), UPDATE_FLAGS);
-							positions.add(mbp.immutable());
-						}
-					}
-				});
-			});
+			infos.forEach((info) -> info.getExtra().ifPresent((extra) -> {
+                MutableBlockPos mbp = info.getPos().mutable();
+                if (shifter.apply(mbp)) {
+                    if (canReplace.apply(world.getBlockState(extra.getFirst()))) {
+                        world.setBlock(mbp.immutable(), extra.getSecond(), UPDATE_FLAGS);
+                        positions.add(mbp.immutable());
+                    }
+                }
+            }));
 		}
 
 		return positions;

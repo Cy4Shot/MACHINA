@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.JsonArray;
@@ -32,16 +33,16 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	public static final short HAS_TEMPERATURE = 0x4;
 	public static final short HAS_TIME = 0x8;
 
-	private ResourceLocation id;
+	private final ResourceLocation id;
 	protected final List<Ingredient> inputItems = new ArrayList<>();
 	protected final List<FluidStack> inputFluids = new ArrayList<>();
 	protected final List<ItemStack> outputItems = new ArrayList<>();
 	protected final List<FluidStack> outputFluids = new ArrayList<>();
-	private int energy;
-	private int time;
-	private float pressure;
-	private float temperature;
-	private float xp;
+	private final int energy;
+	private final int time;
+	private final float pressure;
+	private final float temperature;
+	private final float xp;
 
 	public MachinaRecipe(ResourceLocation id, int energy, int time, float pressure, float temperature, float xp,
 			List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
@@ -66,7 +67,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	protected abstract RecipeRegistryObject<C> getRegistryObject();
 
 	@Override
-	public RecipeType<MachinaRecipe<C>> getType() {
+	public @NotNull RecipeType<MachinaRecipe<C>> getType() {
 		return getRegistryObject().type().get();
 	}
 
@@ -80,7 +81,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	}
 
 	@Override
-	public ResourceLocation getId() {
+	public @NotNull ResourceLocation getId() {
 		return id;
 	}
 
@@ -130,12 +131,12 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	}
 
 	@Override
-	public boolean matches(C inv, Level level) {
+	public boolean matches(@NotNull C inv, @NotNull Level level) {
 		return true;
 	}
 
 	@Override
-	public ItemStack assemble(C inv, RegistryAccess registry) {
+	public @NotNull ItemStack assemble(@NotNull C inv, @NotNull RegistryAccess registry) {
 		return ItemStack.EMPTY;
 	}
 
@@ -145,7 +146,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess registry) {
+	public @NotNull ItemStack getResultItem(@NotNull RegistryAccess registry) {
 		return ItemStack.EMPTY;
 	}
 
@@ -173,7 +174,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	public abstract RecipeFactory<MachinaRecipe<C>> getFactory();
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public @NotNull RecipeSerializer<?> getSerializer() {
 		return new MachinaRecipeSerializer<>(this::getMachinaType, getFactory());
 	}
 
@@ -192,7 +193,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 		}
 
 		@Override
-		public MachinaRecipe<C> fromJson(ResourceLocation loc, JsonObject obj) {
+		public @NotNull MachinaRecipe<C> fromJson(@NotNull ResourceLocation loc, JsonObject obj) {
 			float experience = 0f;
 			int energy = 0;
 			int time = 0;
@@ -290,7 +291,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 		}
 
 		@Override
-		public @Nullable MachinaRecipe<C> fromNetwork(ResourceLocation loc, FriendlyByteBuf buf) {
+		public @Nullable MachinaRecipe<C> fromNetwork(@NotNull ResourceLocation loc, FriendlyByteBuf buf) {
 			float experience = buf.readFloat();
 			int energy = 0;
 			int time = 0;

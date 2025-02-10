@@ -11,18 +11,18 @@ public class TagInit {
 
 	public static class BlockTagInit {
 
-		public static final TagKey<Block> PLANET_CARVABLE = create("planet_carvable");
+		public static final TagKey<Block> PLANET_CARVABLE = create();
 
-		private static TagKey<Block> create(String name) {
-			return TagKey.create(Registries.BLOCK, new MachinaRL(name));
+		private static TagKey<Block> create() {
+			return TagKey.create(Registries.BLOCK, new MachinaRL("planet_carvable"));
 		}
 	}
 
 	public static class ItemTagInit {
-		public static final TagKey<Item> CAPACITOR = create("capacitor");
+		public static final TagKey<Item> CAPACITOR = create();
 
-		private static TagKey<Item> create(String name) {
-			return TagKey.create(Registries.ITEM, new MachinaRL(name));
+		private static TagKey<Item> create() {
+			return TagKey.create(Registries.ITEM, new MachinaRL("capacitor"));
 		}
 	}
 }

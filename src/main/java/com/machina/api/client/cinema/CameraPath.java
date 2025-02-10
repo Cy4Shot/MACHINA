@@ -13,8 +13,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class CameraPath {
 
-	private LinkedHashMap<SinglePath, Integer> paths;
-	private Vec3 origin;
+	private final LinkedHashMap<SinglePath, Integer> paths;
+	private final Vec3 origin;
 
 	public CameraPath(LinkedHashMap<SinglePath, Integer> ps, Vec3 o) {
 		this.paths = ps;
@@ -25,7 +25,7 @@ public class CameraPath {
 		int elapsed = 0;
 		for (Map.Entry<SinglePath, Integer> path : paths.entrySet()) {
 			if (elapsed + path.getValue() >= tick + partial) {
-				float per = (float) (tick + partial - elapsed) / (float) path.getValue();
+				float per = (tick + partial - elapsed) / (float) path.getValue();
 				path.getKey().interpolate(renderView, per, partial, origin);
 				return;
 			} else {
@@ -61,8 +61,8 @@ public class CameraPath {
 	}
 
 	public static class Builder {
-		private Vec3 o;
-		private LinkedHashMap<SinglePath, Integer> p = new LinkedHashMap<SinglePath, Integer>();
+		private final Vec3 o;
+		private final LinkedHashMap<SinglePath, Integer> p = new LinkedHashMap<>();
 
 		public Builder(Vec3 origin) {
 			this.o = origin;
@@ -80,9 +80,9 @@ public class CameraPath {
 	}
 
 	public static class SinglePath {
-		private InterpolationMethod method;
-		private List<CameraNode> points;
-		private List<CameraEffect> effects;
+		private final InterpolationMethod method;
+		private final List<CameraNode> points;
+		private final List<CameraEffect> effects;
 
 		public SinglePath(InterpolationMethod method, Vec3 origin, List<CameraEffect> effects, CameraNode... nodes) {
 			this.method = method;
@@ -114,8 +114,9 @@ public class CameraPath {
 	}
 
 	public static class CameraNode {
-		public Vec3 pos;
-		public float xRot, yRot;
+		public final Vec3 pos;
+		public final float xRot;
+        public final float yRot;
 
 		public CameraNode(Vec3 p, float x, float y) {
 			this.pos = p;

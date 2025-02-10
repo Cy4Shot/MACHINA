@@ -10,10 +10,10 @@ import java.util.Random;
 import com.machina.api.util.math.NormalDistribution;
 
 public abstract class NameGenerator {
-	static record NameLengthInfo(double mean, double standardDeviation) {
+	record NameLengthInfo(double mean, double standardDeviation) {
 	}
 
-	static record ProbabilityTable(Map<String, Map<String, Double>> probabilities, NameLengthInfo nameLengthInfo) {
+	record ProbabilityTable(Map<String, Map<String, Double>> probabilities, NameLengthInfo nameLengthInfo) {
 	}
 
 	private static NameLengthInfo getNameLengthInfo(String input) {

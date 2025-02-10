@@ -2,6 +2,7 @@ package com.machina.api.cap.energy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -17,8 +18,8 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 
-	protected EnergyCableBlockEntity cable;
-	protected Direction side;
+	protected final EnergyCableBlockEntity cable;
+	protected final Direction side;
 	protected long lastReceived;
 
 	public CableEnergyStorage(EnergyCableBlockEntity c, Direction side) {
@@ -27,14 +28,14 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 	}
 
 	public void tick() {
-		if (cable.getLevel().getGameTime() - lastReceived > 1) {
+		if (Objects.requireNonNull(cable.getLevel()).getGameTime() - lastReceived > 1) {
 			pullEnergy(cable, side);
 		}
 	}
 
 	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
-		lastReceived = cable.getLevel().getGameTime();
+		lastReceived = Objects.requireNonNull(cable.getLevel()).getGameTime();
 		return receive(cable, side, maxReceive, simulate);
 	}
 
@@ -161,9 +162,10 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 		return actuallyTransferred;
 	}
 
+	@SuppressWarnings("DataFlowIssue")
 	@Nullable
 	private IEnergyStorage getEnergyStorage(EnergyCableBlockEntity be, BlockPos pos, Direction direction) {
-		BlockEntity te = be.getLevel().getBlockEntity(pos);
+		BlockEntity te = Objects.requireNonNull(be.getLevel()).getBlockEntity(pos);
 		if (te == null)
 			return null;
 		return te.getCapability(ForgeCapabilities.ENERGY, direction).orElse(null);

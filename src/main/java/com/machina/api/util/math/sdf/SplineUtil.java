@@ -410,7 +410,7 @@ public class SplineUtil {
 	}
 
 	public static List<Vector3f> copySpline(List<Vector3f> spline) {
-		List<Vector3f> result = new ArrayList<Vector3f>(spline.size());
+		List<Vector3f> result = new ArrayList<>(spline.size());
 		for (Vector3f v : spline) {
 			result.add(new Vector3f(v.x(), v.y(), v.z()));
 		}

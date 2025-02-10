@@ -11,11 +11,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Objects;
+
 public abstract class Cinematic {
 
 	protected static final Minecraft mc = Minecraft.getInstance();
 
-	protected CameraClientEntity player;
+	protected final CameraClientEntity player;
 	protected CinematicClientEntity clientEntity;
 	protected boolean active = false;
 
@@ -26,7 +28,7 @@ public abstract class Cinematic {
 	private CameraType cameraType;
 	private Vec3 pos;
 	private float yaw, pitch;
-	private String id;
+	private final String id;
 
 	public Cinematic(String id, CameraClientEntity p) {
 		this.id = id;
@@ -47,10 +49,16 @@ public abstract class Cinematic {
 		this.bobView = mc.options.bobView().get();
 		this.hideGui = mc.options.hideGui;
 		this.cameraType = mc.options.getCameraType();
-		this.flying = mc.player.getAbilities().flying;
-		this.pos = mc.player.position();
-		this.yaw = mc.player.getXRot();
-		this.pitch = mc.player.getYRot();
+        if (mc.player != null) {
+            this.flying = mc.player.getAbilities().flying;
+        }
+        if (mc.player != null) {
+            this.pos = mc.player.position();
+        }
+        if (mc.player != null) {
+            this.yaw = mc.player.getXRot();
+        }
+        this.pitch = Objects.requireNonNull(mc.player).getYRot();
 		mc.player.setDeltaMovement(0, 0, 0);
 		this.active = true;
 
@@ -67,10 +75,16 @@ public abstract class Cinematic {
 			mc.options.bobView().set(bobView);
 			mc.options.hideGui = hideGui;
 			mc.options.setCameraType(cameraType);
-			mc.player.getAbilities().flying = flying;
-			mc.player.moveTo(pos.x, pos.y, pos.z);
-			mc.player.setXRot(yaw);
-			mc.player.setYRot(pitch);
+            if (mc.player != null) {
+                mc.player.getAbilities().flying = flying;
+            }
+            if (mc.player != null) {
+                mc.player.moveTo(pos.x, pos.y, pos.z);
+            }
+            if (mc.player != null) {
+                mc.player.setXRot(yaw);
+            }
+            Objects.requireNonNull(mc.player).setYRot(pitch);
 			mc.player.setDeltaMovement(0, 0, 0);
 			this.active = false;
 			PacketSender.sendToServer(new C2SFinishCinematic(this.id));
@@ -90,9 +104,13 @@ public abstract class Cinematic {
 			mc.options.hideGui = false;
 			mc.options.bobView().set(false);
 			mc.options.setCameraType(CameraType.FIRST_PERSON);
-			mc.player.getAbilities().flying = true;
-			mc.player.setDeltaMovement(0, 0, 0);
-		}
+            if (mc.player != null) {
+                mc.player.getAbilities().flying = true;
+            }
+            if (mc.player != null) {
+                mc.player.setDeltaMovement(0, 0, 0);
+            }
+        }
 	}
 
 	public void setEntityPos(float x, float y, float z, float xr, float yr) {

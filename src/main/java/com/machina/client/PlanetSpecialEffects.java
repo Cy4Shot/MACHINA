@@ -1,5 +1,6 @@
 package com.machina.client;
 
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -17,9 +18,9 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 	}
 
 	@Override
-	public Vec3 getBrightnessDependentFogColor(Vec3 col, float brightness) {
-		return col.multiply((double) (brightness * 0.94F + 0.06F), (double) (brightness * 0.94F + 0.06F),
-				(double) (brightness * 0.91F + 0.09F));
+	public @NotNull Vec3 getBrightnessDependentFogColor(Vec3 col, float brightness) {
+		return col.multiply(brightness * 0.94F + 0.06F, brightness * 0.94F + 0.06F,
+                brightness * 0.91F + 0.09F);
 	}
 
 	@Override
@@ -33,20 +34,20 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 //	}
 
 	@Override
-	public boolean renderClouds(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, double camX,
-			double camY, double camZ, Matrix4f projectionMatrix) {
+	public boolean renderClouds(@NotNull ClientLevel level, int ticks, float partialTick, @NotNull PoseStack poseStack, double camX,
+								double camY, double camZ, @NotNull Matrix4f projectionMatrix) {
 		return true;
 	}
 
 	@Override
-	public boolean renderSky(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, Camera camera,
-			Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
+	public boolean renderSky(@NotNull ClientLevel level, int ticks, float partialTick, @NotNull PoseStack poseStack, @NotNull Camera camera,
+							 @NotNull Matrix4f projectionMatrix, boolean isFoggy, @NotNull Runnable setupFog) {
 		return true;
 	}
 
 	@Override
-	public boolean renderSnowAndRain(ClientLevel level, int ticks, float partialTick, LightTexture lightTexture,
-			double camX, double camY, double camZ) {
+	public boolean renderSnowAndRain(@NotNull ClientLevel level, int ticks, float partialTick, @NotNull LightTexture lightTexture,
+									 double camX, double camY, double camZ) {
 		return true;
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+import org.jetbrains.annotations.NotNull;
 
 public class WeightedStateProviderProvider extends BlockStateProvider {
 	public static final Codec<WeightedStateProviderProvider> CODEC = SimpleWeightedRandomList
@@ -19,9 +20,7 @@ public class WeightedStateProviderProvider extends BlockStateProvider {
 	private final SimpleWeightedRandomList<BlockStateProvider> weightedList;
 
 	private static DataResult<WeightedStateProviderProvider> create(SimpleWeightedRandomList<BlockStateProvider> list) {
-		return list.isEmpty() ? DataResult.error(() -> {
-			return "WeightedStateProviderProvider with no states";
-		}) : DataResult.success(new WeightedStateProviderProvider(list));
+		return list.isEmpty() ? DataResult.error(() -> "WeightedStateProviderProvider with no states") : DataResult.success(new WeightedStateProviderProvider(list));
 	}
 
 	private WeightedStateProviderProvider(SimpleWeightedRandomList<BlockStateProvider> list) {
@@ -32,11 +31,11 @@ public class WeightedStateProviderProvider extends BlockStateProvider {
 		this(builder.build());
 	}
 
-	protected BlockStateProviderType<?> type() {
+	protected @NotNull BlockStateProviderType<?> type() {
 		return BlockStateProviderInit.WEIGHTED_STATE_PROVIDER_PROVIDER.get();
 	}
 
-	public BlockState getState(RandomSource rand, BlockPos pos) {
+	public @NotNull BlockState getState(@NotNull RandomSource rand, @NotNull BlockPos pos) {
 		return this.weightedList.getRandomValue(rand).orElseThrow(IllegalStateException::new).getState(rand, pos);
 	}
 

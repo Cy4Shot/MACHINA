@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import org.jetbrains.annotations.NotNull;
 
 public class PlanetSurfaceRule {
 
@@ -58,23 +59,24 @@ public class PlanetSurfaceRule {
 		}
 		builder.add(SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), rs8));
 		builder.add(rock);
-		return SurfaceRules.sequence(builder.build().toArray((x) -> new SurfaceRules.RuleSource[x]));
+		return SurfaceRules.sequence(builder.build().toArray(SurfaceRules.RuleSource[]::new));
 	}
 
-	public static record PlanetBiomeTopBlockRuleSource(SurfaceRules.RuleSource fallback)
+	public record PlanetBiomeTopBlockRuleSource(SurfaceRules.RuleSource fallback)
 			implements SurfaceRules.RuleSource {
 		public static final KeyDispatchDataCodec<PlanetBiomeTopBlockRuleSource> CODEC = KeyDispatchDataCodec
 				.of(SurfaceRules.RuleSource.CODEC.xmap(PlanetBiomeTopBlockRuleSource::new,
 						PlanetBiomeTopBlockRuleSource::fallback));
 
-		public KeyDispatchDataCodec<PlanetBiomeTopBlockRuleSource> codec() {
+		public @NotNull KeyDispatchDataCodec<PlanetBiomeTopBlockRuleSource> codec() {
 			return CODEC;
 		}
 
 		public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
 			return new StateRule((x, y, z) -> {
 				Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-				if (biome.get() != null && biome.get() instanceof PlanetBiome) {
+                biome.get();
+                if (biome.get() instanceof PlanetBiome) {
 					BlockState state = ((PlanetBiome) biome.get()).getTopBlock();
 					if (state != null) {
 						return state;
@@ -85,20 +87,21 @@ public class PlanetSurfaceRule {
 		}
 	}
 
-	public static record PlanetBiomeSecondBlockRuleSource(SurfaceRules.RuleSource fallback)
+	public record PlanetBiomeSecondBlockRuleSource(SurfaceRules.RuleSource fallback)
 			implements SurfaceRules.RuleSource {
 		public static final KeyDispatchDataCodec<PlanetBiomeSecondBlockRuleSource> CODEC = KeyDispatchDataCodec
 				.of(SurfaceRules.RuleSource.CODEC.xmap(PlanetBiomeSecondBlockRuleSource::new,
 						PlanetBiomeSecondBlockRuleSource::fallback));
 
-		public KeyDispatchDataCodec<PlanetBiomeSecondBlockRuleSource> codec() {
+		public @NotNull KeyDispatchDataCodec<PlanetBiomeSecondBlockRuleSource> codec() {
 			return CODEC;
 		}
 
 		public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
 			return new StateRule((x, y, z) -> {
 				Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-				if (biome.get() != null && biome.get() instanceof PlanetBiome) {
+                biome.get();
+                if (biome.get() instanceof PlanetBiome) {
 					BlockState state = ((PlanetBiome) biome.get()).getSecondBlock();
 					if (state != null) {
 						return state;
@@ -109,20 +112,21 @@ public class PlanetSurfaceRule {
 		}
 	}
 
-	public static record PlanetBiomeThirdBlockRuleSource(SurfaceRules.RuleSource fallback)
+	public record PlanetBiomeThirdBlockRuleSource(SurfaceRules.RuleSource fallback)
 			implements SurfaceRules.RuleSource {
 		public static final KeyDispatchDataCodec<PlanetBiomeThirdBlockRuleSource> CODEC = KeyDispatchDataCodec
 				.of(SurfaceRules.RuleSource.CODEC.xmap(PlanetBiomeThirdBlockRuleSource::new,
 						PlanetBiomeThirdBlockRuleSource::fallback));
 
-		public KeyDispatchDataCodec<PlanetBiomeThirdBlockRuleSource> codec() {
+		public @NotNull KeyDispatchDataCodec<PlanetBiomeThirdBlockRuleSource> codec() {
 			return CODEC;
 		}
 
 		public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
 			return new StateRule((x, y, z) -> {
 				Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-				if (biome.get() != null && biome.get() instanceof PlanetBiome) {
+                biome.get();
+                if (biome.get() instanceof PlanetBiome) {
 					BlockState state = ((PlanetBiome) biome.get()).getThirdBlock();
 					if (state != null) {
 						return state;
@@ -133,7 +137,7 @@ public class PlanetSurfaceRule {
 		}
 	}
 
-	public static record StateRule(TriFunction<Integer, Integer, Integer, BlockState> state)
+	public record StateRule(TriFunction<Integer, Integer, Integer, BlockState> state)
 			implements SurfaceRules.SurfaceRule {
 
 		@Nullable

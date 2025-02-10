@@ -1,6 +1,7 @@
 package com.machina.world;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 import com.google.common.collect.ImmutableList;
@@ -68,12 +69,15 @@ public class PlanetRegistrationHandler {
 					"Unable to register dimension %s -- dimension registry not writable", dimensionKey.location()));
 		}
 
-		final ServerLevel newWorld = new ServerLevel(server, server.executor, server.storageSource, derivedLevelData,
+		Objects.requireNonNull(overworld);
+
+        final ServerLevel newWorld = new ServerLevel(server, server.executor, server.storageSource, derivedLevelData,
 				worldKey, dimension, chunkProgressListener, worldData.isDebugWorld(), overworld.getSeed() + id,
 				ImmutableList.of(), false, null);
+
 		overworld.getWorldBorder().addListener(new DelegateBorderChangeListener(newWorld.getWorldBorder()));
 
-		map.put(worldKey, newWorld);
+        map.put(worldKey, newWorld);
 		server.markWorldsDirty();
 		MinecraftForge.EVENT_BUS.post(new LevelEvent.Load(newWorld));
 		PacketSender.sendToClients(new S2CUpdateDimensionList(worldKey));

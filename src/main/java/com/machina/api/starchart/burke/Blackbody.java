@@ -107,7 +107,7 @@ public class Blackbody extends AccreteObject implements PhysicalConstants {
 		double SUM = 0.0;
 
 		for (I = 4000; I < 7000; I += 50) {
-			SUM += 50.0 * ANGSTROM * (E((double) I) + E((double) (I + 50.0))) / 2.0;
+			SUM += 50.0 * ANGSTROM * (E(I) + E(I + 50.0)) / 2.0;
 		}
 		return SUM;
 	}
@@ -123,19 +123,19 @@ public class Blackbody extends AccreteObject implements PhysicalConstants {
 
 		for (I = 7000; I < 10000; I += 50) // to 1e-6
 		{
-			SUM += 50.0 * ANGSTROM * (E((double) I) + E((double) (I + 50.0))) / 2.0;
+			SUM += 50.0 * ANGSTROM * (E(I) + E(I + 50.0)) / 2.0;
 		}
 		for (I = 10000; I < 100000; I += 500) // to 1e-5
 		{
-			SUM += 500.0 * ANGSTROM * (E((double) I) + E((double) (I + 500.0))) / 2.0;
+			SUM += 500.0 * ANGSTROM * (E(I) + E(I + 500.0)) / 2.0;
 		}
 		for (I = 100000; I < 1000000; I += 5000) // to 1e-4
 		{
-			SUM += 5000.0 * ANGSTROM * (E((double) I) + E((double) (I + 5000.0))) / 2.0;
+			SUM += 5000.0 * ANGSTROM * (E(I) + E(I + 5000.0)) / 2.0;
 		}
 		for (I = 1000000; I < 10000000; I += 50000) // to 1e-3
 		{
-			SUM += 50000.0 * ANGSTROM * (E((double) I) + E((double) (I + 50000.0))) / 2.0;
+			SUM += 50000.0 * ANGSTROM * (E(I) + E(I + 50000.0)) / 2.0;
 		}
 		return SUM;
 	}
@@ -149,7 +149,7 @@ public class Blackbody extends AccreteObject implements PhysicalConstants {
 		double SUM = 0.0;
 
 		for (int I = 100; I < 4000; I += 20) {
-			SUM += 20.0 * ANGSTROM * (E((double) I) + E((double) (I + 20.0))) / 2.0;
+			SUM += 20.0 * ANGSTROM * (E(I) + E(I + 20.0)) / 2.0;
 		}
 		return SUM;
 	}

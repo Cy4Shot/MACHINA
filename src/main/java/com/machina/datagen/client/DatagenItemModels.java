@@ -1,6 +1,7 @@
 package com.machina.datagen.client;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 import com.machina.Machina;
 import com.machina.api.util.MachinaRL;
@@ -139,43 +140,43 @@ public class DatagenItemModels extends ItemModelProvider {
 		}
 	}
 
-	private ItemModelBuilder simpleItem(Item item) {
+	private void simpleItem(Item item) {
 		String name = name(item);
-		return withExistingParent(name, new ResourceLocation("item/generated")).texture("layer0",
+		withExistingParent(name, new ResourceLocation("item/generated")).texture("layer0",
 				new MachinaRL("item/" + name));
 	}
 
-	private ItemModelBuilder simpleItem(RegistryObject<? extends Item> item) {
-		return withExistingParent(item.getId().getPath(), new ResourceLocation("item/generated")).texture("layer0",
+	private void simpleItem(RegistryObject<? extends Item> item) {
+		withExistingParent(item.getId().getPath(), new ResourceLocation("item/generated")).texture("layer0",
 				new MachinaRL("item/" + item.getId().getPath()));
 	}
 
 	public void evenSimplerBlockItem(RegistryObject<? extends Block> block) {
-		this.withExistingParent(Machina.MOD_ID + ":" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
-				modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath()));
+		this.withExistingParent(Machina.MOD_ID + ":" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+				modLoc("block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath()));
 	}
 
 	public void trapdoorItem(RegistryObject<Block> block) {
-		this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
-				modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath() + "_bottom"));
+		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+				modLoc("block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath() + "_bottom"));
 	}
 
 	public void fenceItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
-		this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/fence_inventory"))
+		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), mcLoc("block/fence_inventory"))
 				.texture("texture", new ResourceLocation(Machina.MOD_ID,
-						"block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+						"block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
 	}
 
 	public void buttonItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
-		this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/button_inventory"))
+		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), mcLoc("block/button_inventory"))
 				.texture("texture", new ResourceLocation(Machina.MOD_ID,
-						"block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+						"block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
 	}
 
 	public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
-		this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/wall_inventory"))
+		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), mcLoc("block/wall_inventory"))
 				.texture("wall", new ResourceLocation(Machina.MOD_ID,
-						"block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+						"block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
 	}
 
 	private void fruit(Fruit fruit) {

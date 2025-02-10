@@ -51,12 +51,12 @@ public class PlanetBiome extends Biome {
 	public final PlanetBiomeSettings settings;
 
 	public PlanetBiome(PlanetBiomeSettings s) {
-		this(createClimate(s), createEffects(s), createGeneration(s), MobSpawnSettings.EMPTY, s);
+		this(createClimate(s), createEffects(s), createGeneration(s), s);
 	}
 
-	private PlanetBiome(Biome.ClimateSettings climate, BiomeSpecialEffects special, BiomeGenerationSettings genset,
-			MobSpawnSettings mob, PlanetBiomeSettings s) {
-		super(climate, special, genset, mob);
+	private PlanetBiome(ClimateSettings climate, BiomeSpecialEffects special, BiomeGenerationSettings genset,
+						PlanetBiomeSettings s) {
+		super(climate, special, genset, MobSpawnSettings.EMPTY);
 		this.settings = s;
 	}
 
@@ -74,7 +74,7 @@ public class PlanetBiome extends Biome {
 
 	private static ClimateSettings createClimate(PlanetBiomeSettings s) {
 		boolean rains = false;
-		return new ClimateSettings(rains, 1.0f, TemperatureModifier.NONE, rains ? 0.5f : 0f);
+		return new ClimateSettings(rains, 1.0f, TemperatureModifier.NONE, 0f);
 	}
 
 	private static BiomeSpecialEffects createEffects(PlanetBiomeSettings s) {

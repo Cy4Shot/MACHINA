@@ -51,9 +51,8 @@ public class BatteryBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide())
-			return;
-		// Force update energy
+        if (this.level != null && this.level.isClientSide()) return;
+        // Force update energy
 		int energy = getEnergy();
 		if (energy != prev) {
 			this.prev = energy;
@@ -128,7 +127,7 @@ public class BatteryBlockEntity extends MachinaBlockEntity {
 	}
 
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+	public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
 		if (side != null) {
 			if (cap == ForgeCapabilities.ENERGY) {
 				if (energyCap.isNonNullMode(side)) {

@@ -1,8 +1,8 @@
 package com.machina.api.util;
 
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import com.machina.Machina;
 
@@ -14,22 +14,18 @@ public class StringUtils {
 	private static final String[] units = { "", "K", "M", "B", "T", "P", "E", "Z", "Y" };
 	private static final String[] smallUnits = { "", "m", "μ", "n", "p", "f", "a", "z", "y" };
 
-	public static final String TREE_V = "\u2502";
-	public static final String TREE_H = "\u2500";
-	public static final String TREE_F = "\u251c";
-	public static final String TREE_L = "\u2514";
+	public static final String TREE_V = "│";
+	public static final String TREE_H = "─";
+	public static final String TREE_F = "├";
+	public static final String TREE_L = "└";
 
-	private static final Charset utf8Charset = Charset.forName("UTF-8");
+	private static final Charset utf8Charset = StandardCharsets.UTF_8;
 	private static final Charset defaultCharset = Charset.defaultCharset();
 
 	public static void printlnUtf8(String msg) {
-		try {
-			new PrintStream(System.out, true, utf8Charset.name())
-					.println(new String(msg.getBytes("UTF-8"), defaultCharset.name()));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
+        new PrintStream(System.out, true, utf8Charset)
+                .println(new String(msg.getBytes(StandardCharsets.UTF_8), defaultCharset));
+    }
 
 	public static String chemical(String data) {
 		StringBuilder out = new StringBuilder();

@@ -8,6 +8,7 @@ import com.machina.block.menu.GrinderMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class GrinderScreen extends MachinaMenuScreen<GrinderBlockEntity, GrinderMenu> {
 
@@ -16,10 +17,10 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderBlockEntity, Grinder
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics gui, float pt, int mx, int my) {
+	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
-		drawEnergyBar(gui, 117, 30, this.entity.getEnergy() > 0, true, "grinder.no_power");
+		drawEnergyBar(gui, 30, this.entity.getEnergy() > 0, "grinder.no_power");
 
 		drawDownFacingSlot(gui, 0, mx, my, 61, -20, SpecialSlot.PLUS, "grinder.input");
 		drawDownFacingSlot(gui, 1, mx, my, 153, -20, SpecialSlot.DUST, "grinder.output");

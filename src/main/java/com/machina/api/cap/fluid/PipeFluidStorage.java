@@ -2,6 +2,7 @@ package com.machina.api.cap.fluid;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,8 +20,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class PipeFluidStorage implements IFluidHandler, IConnectorStorage {
 
-	protected FluidPipeBlockEntity pipe;
-	protected Direction side;
+	protected final FluidPipeBlockEntity pipe;
+	protected final Direction side;
 	protected long lastReceived;
 
 	public PipeFluidStorage(FluidPipeBlockEntity p, Direction side) {
@@ -30,7 +31,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage {
 
 	@Override
 	public void tick() {
-		if (pipe.getLevel().getGameTime() - lastReceived > 1) {
+		if (Objects.requireNonNull(pipe.getLevel()).getGameTime() - lastReceived > 1) {
 			pullFluid(pipe, side);
 		}
 	}
@@ -175,9 +176,10 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage {
 		return actuallyTransferred;
 	}
 
+	@SuppressWarnings("DataFlowIssue")
 	@Nullable
 	private IFluidHandler getFluidHandler(FluidPipeBlockEntity be, BlockPos pos, Direction direction) {
-		BlockEntity te = be.getLevel().getBlockEntity(pos);
+		BlockEntity te = Objects.requireNonNull(be.getLevel()).getBlockEntity(pos);
 		if (te == null)
 			return null;
 		return te.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).orElse(null);

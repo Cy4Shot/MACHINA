@@ -99,7 +99,7 @@ public class ItemInit {
 	//@formatter:on
 
 	public static RegistryObject<Item> basic(String name) {
-		return register(name, () -> ItemBuilder.basicItem());
+		return register(name, ItemBuilder::basicItem);
 	}
 
 	public static RegistryObject<CapacitorItem> capacitor(String name, Supplier<ForgeConfigSpec.IntValue> cap) {
@@ -151,7 +151,7 @@ public class ItemInit {
 		}
 
 		public static Item props(NonNullFunction<Item.Properties, Item.Properties> propsProcessor) {
-			return new ItemBuilder<Item>(p -> new Item(propsProcessor.apply(p))).build();
+			return new ItemBuilder<>(p -> new Item(propsProcessor.apply(p))).build();
 		}
 
 		public static <T extends Item> T basicItem(NonNullFunction<Item.Properties, T> factory) {

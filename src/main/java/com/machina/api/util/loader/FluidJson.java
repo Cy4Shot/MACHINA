@@ -8,6 +8,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Objects;
+
 public class FluidJson {
 	public static FluidStack load(JsonElement json) {
 		if (json == null || !json.isJsonObject()) {
@@ -27,7 +29,7 @@ public class FluidJson {
 
 	public static JsonObject save(FluidStack stack) {
 		JsonObject obj = new JsonObject();
-		obj.addProperty("fluid", ForgeRegistries.FLUIDS.getKey(stack.getFluid()).toString());
+		obj.addProperty("fluid", Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(stack.getFluid())).toString());
 		obj.addProperty("amount", stack.getAmount());
 		return obj;
 	}

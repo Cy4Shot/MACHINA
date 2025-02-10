@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class GrinderBlockEntity extends MachinaBlockEntity {
 
@@ -66,10 +67,9 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide())
-			return;
+        if (this.level != null && this.level.isClientSide()) return;
 
-		Optional<GrinderRecipe> rec = RecipeInit.GRINDER.maps().findRecipe(this);
+        Optional<GrinderRecipe> rec = RecipeInit.GRINDER.maps().findRecipe(this);
 		rec.ifPresentOrElse(r -> {
 			if (this.recipe != r) {
 				this.recipe = r;
@@ -136,10 +136,10 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
+	public void load(@NotNull CompoundTag tag) {
 		this.progress = tag.getInt("progress");
 		String r = tag.getString("recipe");
-		this.recipe = r == "" ? null : RecipeInit.GRINDER.maps().getRecipe(new ResourceLocation(r));
+		this.recipe = r.isEmpty() ? null : RecipeInit.GRINDER.maps().getRecipe(new ResourceLocation(r));
 		super.load(tag);
 	}
 

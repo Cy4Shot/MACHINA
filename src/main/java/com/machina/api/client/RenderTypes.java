@@ -29,7 +29,7 @@ import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 public class RenderTypes {
 
 	// Sodium compat
-	public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
+	public static final boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
 
 	public static final TransparencyStateShard CELESTIAL_TRANSPARENCY = new TransparencyStateShard(
 			"celestial_transparency", () -> {
@@ -71,7 +71,7 @@ public class RenderTypes {
 	//@formatter:on
 
 	// Use a map to avoid creating the same render type twice.
-	private static Map<String, RenderType> CELESTIALS = new HashMap<>();
+	private static final Map<String, RenderType> CELESTIALS = new HashMap<>();
 
 	public static RenderType getOrCreateCelestial(String tex) {
 		return CELESTIALS.computeIfAbsent(tex,

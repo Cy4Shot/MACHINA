@@ -1,10 +1,7 @@
 package com.machina.world.data;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.google.common.primitives.Ints;
 import com.machina.Machina;
@@ -16,6 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+import org.jetbrains.annotations.NotNull;
 
 public class PlanetDimensionData extends SavedData {
 
@@ -33,11 +31,11 @@ public class PlanetDimensionData extends SavedData {
 	public static final String ID = Machina.MOD_ID + "_planet_dimensions";
 
 	public static PlanetDimensionData getDefaultInstance(MinecraftServer server) {
-		return getDefaultInstance(server.getLevel(Level.OVERWORLD).getDataStorage());
+		return getDefaultInstance(Objects.requireNonNull(server.getLevel(Level.OVERWORLD)).getDataStorage());
 	}
 
 	public static PlanetDimensionData getDefaultInstance(DimensionDataStorage storage) {
-		return storage.computeIfAbsent((t) -> new PlanetDimensionData(t), () -> new PlanetDimensionData(), ID);
+		return storage.computeIfAbsent(PlanetDimensionData::new, PlanetDimensionData::new, ID);
 	}
 
 	public void load(CompoundTag nbt) {
@@ -53,7 +51,7 @@ public class PlanetDimensionData extends SavedData {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag nbt) {
+	public @NotNull CompoundTag save(@NotNull CompoundTag nbt) {
 		ListTag listNBT = new ListTag();
 		for (Entry<Integer, Set<Integer>> e : ids.entrySet()) {
 			CompoundTag tag = new CompoundTag();

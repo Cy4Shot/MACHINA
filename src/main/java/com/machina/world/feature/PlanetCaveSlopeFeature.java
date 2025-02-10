@@ -27,7 +27,7 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 public class PlanetCaveSlopeFeature extends Feature<PlanetCaveSlopeFeature.PlanetCaveSlopeFeatureConfig> {
 
-	public static record PlanetCaveSlopeFeatureConfig(CaveSurface surface, PlanetBiomeSettings settings)
+	public record PlanetCaveSlopeFeatureConfig(CaveSurface surface, PlanetBiomeSettings settings)
 			implements FeatureConfiguration {
 		public static final Codec<PlanetCaveSlopeFeatureConfig> CODEC = RecordCodecBuilder
 				.create(instance -> instance
@@ -107,8 +107,8 @@ public class PlanetCaveSlopeFeature extends Feature<PlanetCaveSlopeFeature.Plane
 
 	}
 
-	public static boolean decorateAt(WorldGenLevel chunk, BlockPos pos, RandomSource rand, NormalNoise noise,
-			boolean allowVerticalConnections, PlanetBiomeSettings settings) {
+	public static void decorateAt(WorldGenLevel chunk, BlockPos pos, RandomSource rand, NormalNoise noise,
+								  boolean allowVerticalConnections, PlanetBiomeSettings settings) {
 		for (Direction dir : Direction.values()) {
 
 			BlockPos adjecent = pos.relative(dir);
@@ -163,7 +163,6 @@ public class PlanetCaveSlopeFeature extends Feature<PlanetCaveSlopeFeature.Plane
 			}
 		}
 
-		return true;
 	}
 
 	public static void genSlope(WorldGenLevel world, BlockPos pos, Direction wallDir, RandomSource randomSource,
@@ -205,9 +204,8 @@ public class PlanetCaveSlopeFeature extends Feature<PlanetCaveSlopeFeature.Plane
 					world, pos));
 	}
 
-	public static boolean genBlock(WorldGenLevel world, BlockPos pos, BlockState state) {
+	public static void genBlock(WorldGenLevel world, BlockPos pos, BlockState state) {
 		world.setBlock(pos, state, 3);
-		return true;
 	}
 
 	public static double getNoise(NormalNoise noise, BlockPos pos, double frequency) {

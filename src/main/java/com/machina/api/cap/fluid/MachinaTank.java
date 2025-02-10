@@ -16,7 +16,7 @@ public class MachinaTank extends FluidTank {
 	protected Runnable onChanged;
 
 	private final BlockEntity tile;
-	public int id;
+	public final int id;
 
 	public MachinaTank(BlockEntity tile, int capacity, Predicate<FluidStack> validator, int id) {
 		super(capacity, validator);

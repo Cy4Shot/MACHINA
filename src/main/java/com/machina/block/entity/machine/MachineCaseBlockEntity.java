@@ -17,10 +17,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class MachineCaseBlockEntity extends MachinaBlockEntity {
 
-	public Multiblock mb;
+	public final Multiblock mb;
 	public boolean formed = false;
 
 	public MachineCaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -55,7 +56,7 @@ public class MachineCaseBlockEntity extends MachinaBlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
+	public void load(@NotNull CompoundTag tag) {
 		this.formed = tag.getBoolean("formed");
 		super.load(tag);
 	}
@@ -68,11 +69,14 @@ public class MachineCaseBlockEntity extends MachinaBlockEntity {
 			for (int y = 0; y < size.getY(); y++) {
 				for (int z = 0; z < size.getZ(); z++) {
 					String v = mb.structure[x][y][z];
-					if (v != " ") {
+					if (!v.equals(" ")) {
 						List<BlockState> allowed = List.of(mb.map.get(v));
 						BlockPos pos = new BlockPos(cp.getX() + x, cp.getY() + y, cp.getZ() + z);
-						BlockState state = this.level.getBlockState(pos);
-						if (!allowed.contains(state))
+                        BlockState state = null;
+                        if (this.level != null) {
+                            state = this.level.getBlockState(pos);
+                        }
+                        if (!allowed.contains(state))
 							return false;
 					}
 				}

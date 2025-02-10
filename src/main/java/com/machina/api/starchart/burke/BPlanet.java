@@ -60,9 +60,9 @@ package com.machina.api.starchart.burke;
  * </p>
  */
 public class BPlanet extends Blackbody implements PhysicalConstants {
-	public double a; // semi-major axis of the orbit (in AU)
-	public double e; // eccentricity of the orbit
-	public double where_in_orbit; // position along orbit (in radians)
+	public final double a; // semi-major axis of the orbit (in AU)
+	public final double e; // eccentricity of the orbit
+	public final double where_in_orbit; // position along orbit (in radians)
 	public double mass; // mass (in Earth masses)
 	public boolean gas_giant; // true if the planet is a gas giant
 	public int orbit_zone; // the 'zone' of the planet
@@ -91,7 +91,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 	public double ice_cover; // fraction of surface covered
 	public char plan_class; // general type classification
 	public BPlanet next_planet;
-	public BPlanet first_moon;
+	public final BPlanet first_moon;
 	// these data elements are star related, but are stored here for my use
 	public double r_ecosphere;
 	public double resonance;
@@ -262,8 +262,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 		if (RAD == 0.0) {
 			return 10.0;
 		}
-		;
-		SPD = Math.sqrt((3.0 * BK * TEMP) / (WT * MH));
+        SPD = Math.sqrt((3.0 * BK * TEMP) / (WT * MH));
 		ESC = Math.sqrt((2.0 * G * MASS) / RAD);
 		return 8.0 * (SPD / ESC);
 	}
@@ -305,23 +304,19 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 				if (albedo < 0.0) {
 					albedo = 0.0;
 				}
-				;
-				if (GH2 < 1.0) {
+                if (GH2 < 1.0) {
 					plan_class = 'E';
 				}
-				;
-				if (GN2 > 1.0) {
+                if (GN2 > 1.0) {
 					plan_class = 'O';
 				}
-				;
-				if (GO2 > 1.0) {
+                if (GO2 > 1.0) {
 					plan_class = 'C';
 				}
-				;
-				if (GCO2 > 1.0) {
+                if (GCO2 > 1.0) {
 					plan_class = 'V';
 				}
-				; // venus type
+                // venus type
 				if ((plan_class != 'V') && (TEMP > 340.0)) {
 					plan_class = 'R'; // RUNAWAY GREENHOUSE EFFECT
 					albedo = 0.0;
@@ -334,8 +329,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 				if (plan_class == 'G') {
 					albedo = 0.5;
 				}
-				;
-			}
+            }
 			PT = planet_temperature(AuDist, EM);
 			if (PT == TEMP)
 				break; // temperature converged to a steady value
@@ -672,10 +666,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 	 * @returns 'true' if planet is a greenhouse.
 	 */
 	public boolean grnhouse(int zone, double orb_radius, double r_greenhouse) {
-		if ((orb_radius < r_greenhouse) && (zone == 1))
-			return (true);
-		else
-			return (false);
+        return (orb_radius < r_greenhouse) && (zone == 1);
 	}
 
 	/**
@@ -768,10 +759,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 		if (radius == 0.0)
 			return 0.0;
 		temp = (0.71 * volatile_gas_inventory / 1000.0) * Math.pow(KM_EARTH_RADIUS / radius, 2.0);
-		if (temp >= 1.0)
-			return (1.0);
-		else
-			return (temp);
+        return Math.min(temp, 1.0);
 	}
 
 	/**
@@ -845,8 +833,6 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 	 * eq.20, and is also Hart's eq.20 in his "Evolution of Earth's Atmosphere"
 	 * article.
 	 * 
-	 * @param optical        depth Dimensionless quantity representing atmospheric
-	 *                       absorption
 	 * @param effective_temp Temperature in Kelvin of a blackbody here
 	 * @returns Temperature rise in degrees Kelvin
 	 */
@@ -1044,14 +1030,13 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 	public void set_vital_stats(double smr, double r_gr, double r_ec, double age) {
 		r_ecosphere = r_ec;
 		stell_mass_ratio = smr;
-		age = a;
-		resonance = 0.0;
+        resonance = 0.0;
 
 		if (gas_giant) {
-			density = empirical_density(mass, a, gas_giant);
+			density = empirical_density(mass, a, true);
 			radius = volume_radius(mass, density);
 		} else {
-			radius = kothari_radius(mass, gas_giant, orbit_zone);
+			radius = kothari_radius(mass, false, orbit_zone);
 			density = volume_density(mass, radius);
 		}
 		orb_period = period(a, mass / SUN_MASS_IN_EARTH_MASSES, smr);
