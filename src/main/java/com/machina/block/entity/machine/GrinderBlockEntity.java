@@ -67,9 +67,10 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public void tick() {
-        if (this.level != null && this.level.isClientSide()) return;
+		if (this.level != null && this.level.isClientSide())
+			return;
 
-        Optional<GrinderRecipe> rec = RecipeInit.GRINDER.maps().findRecipe(this);
+		Optional<GrinderRecipe> rec = RecipeInit.GRINDER.maps().findRecipe(this);
 		rec.ifPresentOrElse(r -> {
 			if (this.recipe != r) {
 				this.recipe = r;

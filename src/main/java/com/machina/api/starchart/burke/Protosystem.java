@@ -118,10 +118,10 @@ public class Protosystem implements PhysicalConstants {
 						node1 = node1.next_planet;
 					}
 					node3.next_planet = node1;
-                    if (node2 != null) {
-                        node2.next_planet = node3;
-                    }
-                }
+					if (node2 != null) {
+						node2.next_planet = node3;
+					}
+				}
 			}
 		}
 	}

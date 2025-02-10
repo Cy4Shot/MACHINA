@@ -32,8 +32,8 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
 		builder.add(FACING);
 	}
 
-	public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand,
-										  @NotNull BlockHitResult res) {
+	public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos,
+			@NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult res) {
 		if (world.isClientSide) {
 			return InteractionResult.SUCCESS;
 		} else {
@@ -63,7 +63,7 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state,
-																  @NotNull BlockEntityType<T> type) {
+			@NotNull BlockEntityType<T> type) {
 		if (isTickable() && getBlockEntityType() == type) {
 			return (level1, pos, state1, blockEntity) -> ((MachinaBlockEntity) blockEntity).tick();
 		}

@@ -8,7 +8,7 @@ public class SDFPie extends SDFPrimitive {
 	private final float sin;
 	private final float cos;
 	private final float radius;
-	
+
 	public SDFPie(float angle, float radius) {
 		this.sin = (float) Math.sin(angle);
 		this.cos = (float) Math.cos(angle);

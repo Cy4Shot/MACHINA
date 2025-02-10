@@ -166,7 +166,8 @@ public class PlanetBiomeSource {
 			addSurfaceBiome(nearInlandCont, erosions[0], depth, biome, v);
 			addSurfaceBiome(Parameter.span(midInlandCont, farInlandCont), erosions[1], depth, biome, v);
 		});
-		forall(PEAK, (biome, v) -> addSurfaceBiome(Parameter.span(midInlandCont, farInlandCont), erosions[0], depth, biome, v));
+		forall(PEAK, (biome, v) -> addSurfaceBiome(Parameter.span(midInlandCont, farInlandCont), erosions[0], depth,
+				biome, v));
 		forall(MIDDLE, (biome, v) -> {
 			addSurfaceBiome(coastCont, Parameter.span(erosions[0], erosions[1]), depth, biome, v);
 			addSurfaceBiome(Parameter.span(coastCont, nearInlandCont), Parameter.span(erosions[2], erosions[3]), depth,
@@ -189,7 +190,8 @@ public class PlanetBiomeSource {
 				addSurfaceBiome(coastCont, erosions[6], depth, biome, v);
 			}
 		});
-		forall(SLOPE, (biome, v) -> addSurfaceBiome(Parameter.span(nearInlandCont, farInlandCont), erosions[0], depth, biome, v));
+		forall(SLOPE, (biome, v) -> addSurfaceBiome(Parameter.span(nearInlandCont, farInlandCont), erosions[0], depth,
+				biome, v));
 		forall(MIDDLE, (biome, v) -> {
 			addSurfaceBiome(nearInlandCont, erosions[2], depth, biome, v);
 			addSurfaceBiome(Parameter.span(coastCont, nearInlandCont), erosions[3], depth, biome, v);
@@ -237,28 +239,26 @@ public class PlanetBiomeSource {
 		});
 	}
 
-	private void addSurfaceBiome(Parameter continentalness, Parameter erosion, Parameter weirdness,
-								 Holder<Biome> biome, Parameter variant) {
+	private void addSurfaceBiome(Parameter continentalness, Parameter erosion, Parameter weirdness, Holder<Biome> biome,
+			Parameter variant) {
 		if (biome == null)
 			return;
 		addBiome(variant, continentalness, erosion, ZERO, weirdness, biome);
 		addBiome(variant, continentalness, erosion, ONE, weirdness, biome);
 	}
 
-	private void addOceanBiome(Parameter continentalness,
-							   Holder<Biome> biome, Parameter variant) {
+	private void addOceanBiome(Parameter continentalness, Holder<Biome> biome, Parameter variant) {
 		addBiome(variant, continentalness, PlanetBiomeSource.FULL, ZERO, PlanetBiomeSource.FULL, biome);
 	}
 
-	private void addUndergroundBiome(Parameter depth,
-									 Holder<Biome> biome, Parameter variant) {
+	private void addUndergroundBiome(Parameter depth, Holder<Biome> biome, Parameter variant) {
 		addBiome(variant, PlanetBiomeSource.FULL, PlanetBiomeSource.FULL, depth, PlanetBiomeSource.FULL, biome);
 	}
 
 	private void addBiome(Parameter variant, Parameter continentalness, Parameter erosion, Parameter depth,
-						  Parameter weirdness, Holder<Biome> biome) {
-		biomes.add(
-				Pair.of(Climate.parameters(variant, FULL, continentalness, erosion, depth, weirdness, (float) 0.0), biome));
+			Parameter weirdness, Holder<Biome> biome) {
+		biomes.add(Pair.of(Climate.parameters(variant, FULL, continentalness, erosion, depth, weirdness, (float) 0.0),
+				biome));
 	}
 
 	public MultiNoiseBiomeSource build() {

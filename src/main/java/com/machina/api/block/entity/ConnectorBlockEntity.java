@@ -199,11 +199,11 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		public int getDistance() {
 			return distance;
 		}
-		
+
 		public boolean isInput() {
 			return side.isInput();
 		}
-		
+
 		public boolean isOutput() {
 			return side.isOutput();
 		}

@@ -262,7 +262,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 		if (RAD == 0.0) {
 			return 10.0;
 		}
-        SPD = Math.sqrt((3.0 * BK * TEMP) / (WT * MH));
+		SPD = Math.sqrt((3.0 * BK * TEMP) / (WT * MH));
 		ESC = Math.sqrt((2.0 * G * MASS) / RAD);
 		return 8.0 * (SPD / ESC);
 	}
@@ -304,19 +304,19 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 				if (albedo < 0.0) {
 					albedo = 0.0;
 				}
-                if (GH2 < 1.0) {
+				if (GH2 < 1.0) {
 					plan_class = 'E';
 				}
-                if (GN2 > 1.0) {
+				if (GN2 > 1.0) {
 					plan_class = 'O';
 				}
-                if (GO2 > 1.0) {
+				if (GO2 > 1.0) {
 					plan_class = 'C';
 				}
-                if (GCO2 > 1.0) {
+				if (GCO2 > 1.0) {
 					plan_class = 'V';
 				}
-                // venus type
+				// venus type
 				if ((plan_class != 'V') && (TEMP > 340.0)) {
 					plan_class = 'R'; // RUNAWAY GREENHOUSE EFFECT
 					albedo = 0.0;
@@ -329,7 +329,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 				if (plan_class == 'G') {
 					albedo = 0.5;
 				}
-            }
+			}
 			PT = planet_temperature(AuDist, EM);
 			if (PT == TEMP)
 				break; // temperature converged to a steady value
@@ -666,7 +666,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 	 * @returns 'true' if planet is a greenhouse.
 	 */
 	public boolean grnhouse(int zone, double orb_radius, double r_greenhouse) {
-        return (orb_radius < r_greenhouse) && (zone == 1);
+		return (orb_radius < r_greenhouse) && (zone == 1);
 	}
 
 	/**
@@ -759,7 +759,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 		if (radius == 0.0)
 			return 0.0;
 		temp = (0.71 * volatile_gas_inventory / 1000.0) * Math.pow(KM_EARTH_RADIUS / radius, 2.0);
-        return Math.min(temp, 1.0);
+		return Math.min(temp, 1.0);
 	}
 
 	/**
@@ -1030,7 +1030,7 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 	public void set_vital_stats(double smr, double r_gr, double r_ec, double age) {
 		r_ecosphere = r_ec;
 		stell_mass_ratio = smr;
-        resonance = 0.0;
+		resonance = 0.0;
 
 		if (gas_giant) {
 			density = empirical_density(mass, a, true);

@@ -162,7 +162,7 @@ public class MathUtil {
 		int i = random.nextInt(set.size());
 		return set.get(i);
 	}
-	
+
 	public static <T> T randomInList(List<T> set, RandomSource random) {
 		int i = random.nextInt(set.size());
 		return set.get(i);
@@ -193,7 +193,7 @@ public class MathUtil {
 			}
 		}
 	}
-	
+
 	public static int numTrue(boolean... bs) {
 		int num = 0;
 		for (boolean b : bs) {

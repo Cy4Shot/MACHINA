@@ -86,7 +86,7 @@ public abstract class MachinaContainerMenu<T extends MachinaBlockEntity> extends
 			this.addSlot(new InvSlot(inv, i1, 28 + i1 * 20, 148 + offset));
 		}
 	}
-	
+
 	public Container getContainer() {
 		return this.be;
 	}

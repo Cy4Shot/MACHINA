@@ -49,16 +49,17 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 			return 0;
 		return (float) this.litTime / (float) this.originalLitTime;
 	}
-	
+
 	public int ticksRemaining() {
 		return this.litTime;
 	}
 
 	@Override
 	public void tick() {
-        if (this.level != null && this.level.isClientSide()) return;
+		if (this.level != null && this.level.isClientSide())
+			return;
 
-        boolean flag = this.isLit();
+		boolean flag = this.isLit();
 		boolean flag1 = false;
 		if (this.isLit())
 			--this.litTime;

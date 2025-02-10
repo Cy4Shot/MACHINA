@@ -15,7 +15,7 @@ public class MachinaWallSignBlock extends WallSignBlock {
 	public MachinaWallSignBlock(Properties props, WoodType type) {
 		super(props, type);
 	}
-	
+
 	@Override
 	public @NotNull BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
 		return Objects.requireNonNull(BlockEntityInit.SIGN.get().create(pos, state));

@@ -41,7 +41,7 @@ public class CommonConfig {
 		builder.comment("EnergyCable settings");
 		cableTransferRate = builder.defineInRange("cable_transfer_rate", 5_000, 1, 999_999);
 		builder.pop();
-		
+
 		builder.push("pipe");
 		builder.comment("FluidPipe settings");
 		pipeTransferRate = builder.defineInRange("pipe_transfer_rate", 100, 1, 999_999);

@@ -5,7 +5,7 @@ import com.machina.api.util.math.MathUtil;
 public class SDFHexPrism extends SDFPrimitive {
 	private final float radius;
 	private final float height;
-	
+
 	public SDFHexPrism(float radius, float height) {
 		this.radius = radius;
 		this.height = height;

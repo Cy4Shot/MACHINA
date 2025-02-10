@@ -5,7 +5,7 @@ import com.machina.api.util.math.MathUtil;
 public class SDFTorus extends SDFPrimitive {
 	private final float radiusSmall;
 	private final float radiusBig;
-	
+
 	public SDFTorus(float radiusSmall, float radiusBig) {
 		this.radiusSmall = radiusSmall;
 		this.radiusBig = radiusBig;

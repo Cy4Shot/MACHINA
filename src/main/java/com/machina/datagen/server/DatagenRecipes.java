@@ -317,23 +317,22 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 		oreBlasting(gen, ing, res, exp, duration / 2, group);
 	}
 
-	protected static void oreSmelting(@NotNull Consumer<FinishedRecipe> gen, List<ItemLike> ing,
-									  @NotNull ItemLike res, float exp, int pCookingTIme, @NotNull String group) {
+	protected static void oreSmelting(@NotNull Consumer<FinishedRecipe> gen, List<ItemLike> ing, @NotNull ItemLike res,
+			float exp, int pCookingTIme, @NotNull String group) {
 		oreCooking(gen, RecipeSerializer.SMELTING_RECIPE, ing, res, exp, pCookingTIme, group, "_from_smelting");
 	}
 
-	protected static void oreBlasting(@NotNull Consumer<FinishedRecipe> gen, List<ItemLike> ing,
-									  @NotNull ItemLike res, float exp, int time, @NotNull String group) {
+	protected static void oreBlasting(@NotNull Consumer<FinishedRecipe> gen, List<ItemLike> ing, @NotNull ItemLike res,
+			float exp, int time, @NotNull String group) {
 		oreCooking(gen, RecipeSerializer.BLASTING_RECIPE, ing, res, exp, time, group, "_from_blasting");
 	}
 
 	protected static void oreCooking(@NotNull Consumer<FinishedRecipe> gen,
-			@NotNull RecipeSerializer<? extends AbstractCookingRecipe> ser, List<ItemLike> ing,
-									 @NotNull ItemLike res, float exp, int time, @NotNull String group,
-			String name) {
+			@NotNull RecipeSerializer<? extends AbstractCookingRecipe> ser, List<ItemLike> ing, @NotNull ItemLike res,
+			float exp, int time, @NotNull String group, String name) {
 		for (ItemLike itemlike : ing) {
-			SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), RecipeCategory.MISC, res, exp, time, ser).group(group)
-					.unlockedBy(getHasName(itemlike), has(itemlike))
+			SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), RecipeCategory.MISC, res, exp, time, ser)
+					.group(group).unlockedBy(getHasName(itemlike), has(itemlike))
 					.save(gen, Machina.MOD_ID + ":" + getItemName(res) + name + "_" + getItemName(itemlike));
 		}
 	}

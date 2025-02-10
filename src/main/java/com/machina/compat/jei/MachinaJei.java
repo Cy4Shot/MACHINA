@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
 public class MachinaJei implements IModPlugin {
-	
+
 	public static final ResourceLocation UID = new MachinaRL("machina");
 
 	@Override

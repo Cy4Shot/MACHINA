@@ -108,7 +108,7 @@ public class PlanetCaveSlopeFeature extends Feature<PlanetCaveSlopeFeature.Plane
 	}
 
 	public static void decorateAt(WorldGenLevel chunk, BlockPos pos, RandomSource rand, NormalNoise noise,
-								  boolean allowVerticalConnections, PlanetBiomeSettings settings) {
+			boolean allowVerticalConnections, PlanetBiomeSettings settings) {
 		for (Direction dir : Direction.values()) {
 
 			BlockPos adjecent = pos.relative(dir);

@@ -7,9 +7,9 @@ import java.lang.reflect.Field;
 
 public class Generator {
 
-    private static final Logger log = LoggerFactory.getLogger(Generator.class);
+	private static final Logger log = LoggerFactory.getLogger(Generator.class);
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 		AccreteObject.cr.setSeed(AccreteObject.cr.nextLong());
 		StarSystem ss = new StarSystem();
 		System.out.println(toString(ss.planets));

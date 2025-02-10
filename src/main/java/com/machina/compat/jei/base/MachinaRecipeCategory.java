@@ -35,10 +35,7 @@ public abstract class MachinaRecipeCategory<C extends Container> implements IRec
 		return Component.translatable(obj.getTranslationKey());
 	}
 
-
-	// TODO: What?
 	@Override
-	@SuppressWarnings("DataFlowIssue")
 	public @NotNull IDrawable getBackground() {
 		return null;
 	}
@@ -49,7 +46,8 @@ public abstract class MachinaRecipeCategory<C extends Container> implements IRec
 	}
 
 	@Override
-	public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull MachinaRecipe<C> recipe, @NotNull IFocusGroup focuses) {
+	public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull MachinaRecipe<C> recipe,
+			@NotNull IFocusGroup focuses) {
 //		List<Ingredient> iitems = recipe.getInputItems();
 //		List<ItemStack> oitems = recipe.getOutputItems();
 //		List<FluidStack> ifluids = recipe.getInputFluids();

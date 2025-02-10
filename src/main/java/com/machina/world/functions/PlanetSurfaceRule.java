@@ -62,8 +62,7 @@ public class PlanetSurfaceRule {
 		return SurfaceRules.sequence(builder.build().toArray(SurfaceRules.RuleSource[]::new));
 	}
 
-	public record PlanetBiomeTopBlockRuleSource(SurfaceRules.RuleSource fallback)
-			implements SurfaceRules.RuleSource {
+	public record PlanetBiomeTopBlockRuleSource(SurfaceRules.RuleSource fallback) implements SurfaceRules.RuleSource {
 		public static final KeyDispatchDataCodec<PlanetBiomeTopBlockRuleSource> CODEC = KeyDispatchDataCodec
 				.of(SurfaceRules.RuleSource.CODEC.xmap(PlanetBiomeTopBlockRuleSource::new,
 						PlanetBiomeTopBlockRuleSource::fallback));
@@ -75,8 +74,8 @@ public class PlanetSurfaceRule {
 		public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
 			return new StateRule((x, y, z) -> {
 				Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-                biome.get();
-                if (biome.get() instanceof PlanetBiome) {
+				biome.get();
+				if (biome.get() instanceof PlanetBiome) {
 					BlockState state = ((PlanetBiome) biome.get()).getTopBlock();
 					if (state != null) {
 						return state;
@@ -100,8 +99,8 @@ public class PlanetSurfaceRule {
 		public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
 			return new StateRule((x, y, z) -> {
 				Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-                biome.get();
-                if (biome.get() instanceof PlanetBiome) {
+				biome.get();
+				if (biome.get() instanceof PlanetBiome) {
 					BlockState state = ((PlanetBiome) biome.get()).getSecondBlock();
 					if (state != null) {
 						return state;
@@ -112,8 +111,7 @@ public class PlanetSurfaceRule {
 		}
 	}
 
-	public record PlanetBiomeThirdBlockRuleSource(SurfaceRules.RuleSource fallback)
-			implements SurfaceRules.RuleSource {
+	public record PlanetBiomeThirdBlockRuleSource(SurfaceRules.RuleSource fallback) implements SurfaceRules.RuleSource {
 		public static final KeyDispatchDataCodec<PlanetBiomeThirdBlockRuleSource> CODEC = KeyDispatchDataCodec
 				.of(SurfaceRules.RuleSource.CODEC.xmap(PlanetBiomeThirdBlockRuleSource::new,
 						PlanetBiomeThirdBlockRuleSource::fallback));
@@ -125,8 +123,8 @@ public class PlanetSurfaceRule {
 		public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
 			return new StateRule((x, y, z) -> {
 				Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-                biome.get();
-                if (biome.get() instanceof PlanetBiome) {
+				biome.get();
+				if (biome.get() instanceof PlanetBiome) {
 					BlockState state = ((PlanetBiome) biome.get()).getThirdBlock();
 					if (state != null) {
 						return state;

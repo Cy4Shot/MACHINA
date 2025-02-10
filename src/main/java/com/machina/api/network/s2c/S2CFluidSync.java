@@ -12,7 +12,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 
 public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2CMessage {
-	
+
 	public static S2CFluidSync decode(FriendlyByteBuf buf) {
 		return new S2CFluidSync(buf.readBlockPos(), buf.readFluidStack(), buf.readInt());
 	}
@@ -29,21 +29,21 @@ public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2C
 		BlockPos pos = pos();
 		FluidStack stack = stack();
 		int i = i();
-		
+
 		Minecraft mc = Minecraft.getInstance();
 		mc.execute(() -> {
-BlockEntity be = null;
-if (Minecraft.getInstance().level != null) {
-be = Minecraft.getInstance().level.getBlockEntity(pos);
-}
-if (be instanceof MachinaBlockEntity) {
-                be.getCapability(ForgeCapabilities.FLUID_HANDLER).cast().ifPresent(o -> {
-                    if (o instanceof MachinaFluidStorage) {
-                        ((MachinaFluidStorage) o).setFluidInTank(i, stack);
-                    }
-                });
-            }
-        });
+			BlockEntity be = null;
+			if (mc.level != null) {
+				be = mc.level.getBlockEntity(pos);
+			}
+			if (be instanceof MachinaBlockEntity) {
+				be.getCapability(ForgeCapabilities.FLUID_HANDLER).cast().ifPresent(o -> {
+					if (o instanceof MachinaFluidStorage) {
+						((MachinaFluidStorage) o).setFluidInTank(i, stack);
+					}
+				});
+			}
+		});
 	}
-	
+
 }

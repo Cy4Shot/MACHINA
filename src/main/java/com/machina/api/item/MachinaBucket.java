@@ -1,4 +1,5 @@
 package com.machina.api.item;
+
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -31,14 +32,14 @@ public class MachinaBucket extends BucketItem {
 		super(supplier, builder);
 		this.chem = chemical;
 	}
-	
+
 	@Override
 	public void appendHoverText(@NotNull ItemStack stack, Level level, List<Component> tip, @NotNull TooltipFlag flag) {
 		tip.add(Component.translatable(StringUtils.chemical(chem))
 				.setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x9D_AAAAAA))));
 		super.appendHoverText(stack, level, tip, flag);
 	}
-	
+
 	@Override
 	public @NotNull ICapabilityProvider initCapabilities(@NotNull ItemStack stack, CompoundTag nbt) {
 		return new FluidBucketWrapper(stack);

@@ -97,7 +97,7 @@ public class StarSystem extends AccreteObject implements PhysicalConstants {
 			}
 			p = p.next_planet;
 		}
-    }
+	}
 
 	/**
 	 * Creates the planets of this system using a diddled Bode's Law.

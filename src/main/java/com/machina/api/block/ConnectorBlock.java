@@ -64,7 +64,8 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext pContext) {
+	public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
+			@NotNull CollisionContext pContext) {
 		VoxelShape shape = state.getValue(MIDDLE) ? PART_M : PART_C;
 		if (state.getValue(NORTH).isConnected() || isConnectable(level, pos, Direction.NORTH))
 			shape = Shapes.or(shape, PART_N);
@@ -96,8 +97,9 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor level,
-										   @NotNull BlockPos pos, @NotNull BlockPos facingPos) {
+	public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing,
+			@NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
+			@NotNull BlockPos facingPos) {
 		syncConnections(level, pos);
 		return createState(level, pos);
 	}
@@ -118,7 +120,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		boolean connectable = isConnectable(level, pos, dir);
 		return new boolean[] { level.getBlockState(pos.relative(dir)).getBlock() == this || connectable, connectable };
 	}
-	
+
 	private ConnectionSide getSide(boolean[] data) {
 		return data[1] ? ConnectionSide.OUTPUT : (data[0] ? ConnectionSide.NORMAL : ConnectionSide.NONE);
 	}
@@ -168,7 +170,8 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity placer, @NotNull ItemStack stack) {
+	public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity placer,
+			@NotNull ItemStack stack) {
 		super.setPlacedBy(level, pos, state, placer, stack);
 		if (level.isClientSide())
 			return;
@@ -179,7 +182,8 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState old, boolean moving) {
+	public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState old,
+			boolean moving) {
 		if (level.isClientSide())
 			return;
 
@@ -189,7 +193,8 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@Override
-	public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean moving) {
+	public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+			@NotNull BlockState newState, boolean moving) {
 		findConnectors(level, pos, pos);
 		super.onRemove(state, level, pos, newState, moving);
 	}
@@ -207,7 +212,8 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 				BlockPos blockPos = pos.relative(direction);
 				Block block = world.getBlockState(blockPos).getBlock();
 				if (block == this) {
-					BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch);
+					BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class,
+							ConnectorBlockEntity::enqueueSearch);
 					ss.add(pos);
 					getCache().put(poss, ss);
 					((ConnectorBlock<T>) block).findConnectors(world, poss, blockPos);
@@ -248,7 +254,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 
 	@Override
 	public <E extends BlockEntity> BlockEntityTicker<E> getTicker(@NotNull Level level, @NotNull BlockState state,
-																  @NotNull BlockEntityType<E> type) {
+			@NotNull BlockEntityType<E> type) {
 		return type == getBlockEntityType() ? ConnectorBlockEntity::tick : null;
 	}
 

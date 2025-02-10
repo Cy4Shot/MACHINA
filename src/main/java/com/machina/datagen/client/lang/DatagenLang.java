@@ -43,7 +43,7 @@ public abstract class DatagenLang extends LanguageProvider {
 			add(Machina.MOD_ID + ".creativemodetab." + key.getId().getPath(), name);
 		}
 	}
-	
+
 	protected void add(Fruit fruit, String name) {
 		add(fruit.block(), name);
 	}
@@ -64,7 +64,7 @@ public abstract class DatagenLang extends LanguageProvider {
 	protected void add(KeyBinding key, String name) {
 		add(key.actionName, name);
 	}
-	
+
 	protected void addUI(String key, String name) {
 		add("gui.machina." + key, name);
 	}

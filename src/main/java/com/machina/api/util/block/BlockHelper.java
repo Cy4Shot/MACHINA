@@ -74,7 +74,7 @@ public class BlockHelper {
 		}
 		return be.getCapability(ForgeCapabilities.ENERGY, side).isPresent();
 	}
-	
+
 	public static boolean hasFluid(BlockEntity be, @Nullable Direction side) {
 		if (be == null) {
 			return false;

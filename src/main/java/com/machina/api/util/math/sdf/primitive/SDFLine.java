@@ -14,7 +14,7 @@ public class SDFLine extends SDFPrimitive {
 	private final float x2;
 	private final float y2;
 	private final float z2;
-	
+
 	public SDFLine(float x1, float y1, float z1, float x2, float y2, float z2, float radius) {
 		this.x1 = x1;
 		this.y1 = y1;

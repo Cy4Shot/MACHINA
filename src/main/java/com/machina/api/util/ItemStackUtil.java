@@ -12,15 +12,15 @@ public class ItemStackUtil {
 	public static boolean hasEnergy(ItemStack stack) {
 		return stack.getCapability(ForgeCapabilities.ENERGY).isPresent();
 	}
-	
+
 	public static boolean isCapacitor(ItemStack stack) {
 		return stack.is(ItemTagInit.CAPACITOR);
 	}
-	
+
 	public static boolean isBurnable(ItemStack stack) {
 		return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
 	}
-	
+
 	public static boolean isBlueprint(ItemStack stack) {
 		return stack.getItem().equals(ItemInit.BLUEPRINT.get());
 	}

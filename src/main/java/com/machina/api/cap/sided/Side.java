@@ -56,11 +56,11 @@ public enum Side implements StringRepresentable {
 	public @NotNull String getSerializedName() {
 		return name().toLowerCase(Locale.ROOT);
 	}
-	
+
 	public void save(CompoundTag tag, String key) {
 		tag.putString(key, this.getSerializedName());
 	}
-	
+
 	public static Side load(CompoundTag tag, String key) {
 		return valueOf(tag.getString(key).toUpperCase());
 	}

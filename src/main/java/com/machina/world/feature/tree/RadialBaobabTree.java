@@ -78,7 +78,7 @@ public class RadialBaobabTree implements TreeMaker {
 		leaves = new SDFTranslate(leaves, 0, offset, 0);
 		return new SDFUnion(stem, leaves);
 	}
-	
+
 	@Override
 	public BlockState getLeafAttachment(PlanetBiomeTree config, RandomSource random) {
 		return config.leaves();

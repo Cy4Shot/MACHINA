@@ -23,8 +23,7 @@ public class PlanetGrassFeature extends Feature<PlanetGrassFeature.PlanetGrassFe
 	private static final int Y_SPREAD = 3;
 	private static final int TRIES = 32;
 
-	public record PlanetGrassFeatureConfig(WeightedStateProviderProvider provider)
-			implements FeatureConfiguration {
+	public record PlanetGrassFeatureConfig(WeightedStateProviderProvider provider) implements FeatureConfiguration {
 
 		public static final Codec<PlanetGrassFeatureConfig> CODEC = RecordCodecBuilder
 				.create(instance -> instance

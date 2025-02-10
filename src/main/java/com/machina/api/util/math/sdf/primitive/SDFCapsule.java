@@ -7,7 +7,7 @@ import net.minecraft.util.Mth;
 public class SDFCapsule extends SDFPrimitive {
 	private final float radius;
 	private final float height;
-	
+
 	public SDFCapsule(float radius, float height) {
 		this.radius = radius;
 		this.height = height;

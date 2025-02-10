@@ -44,11 +44,11 @@ public class PlanetLakeFeature extends Feature<PlanetLakeFeature.PlanetLakeFeatu
 		PlanetLakeFeature.PlanetLakeFeatureConfig cfg = ctx.config();
 
 		Planet p = PlanetHelper.getPlanetFor(level.getLevel());
-        BlockState fluid = null;
-        if (p != null) {
-            fluid = p.getDominantLiquidBodyBlock();
-        }
-        if (fluid == null || fluid.getFluidState().isEmpty()) {
+		BlockState fluid = null;
+		if (p != null) {
+			fluid = p.getDominantLiquidBodyBlock();
+		}
+		if (fluid == null || fluid.getFluidState().isEmpty()) {
 			fluid = Blocks.WATER.defaultBlockState();
 		}
 

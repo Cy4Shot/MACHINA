@@ -9,7 +9,7 @@ import com.machina.api.util.math.sdf.SDF;
 public class SDFCoordModify extends SDFUnary {
 	private final Vector3f pos = new Vector3f();
 	private final Consumer<Vector3f> function;
-	
+
 	public SDFCoordModify(SDF source, Consumer<Vector3f> function) {
 		super(source);
 		this.function = function;

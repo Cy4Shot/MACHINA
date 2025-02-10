@@ -185,7 +185,7 @@ public class Protoplanet extends AccreteObject implements PhysicalConstants {
 	 * Calculates unit density of material to be accreted from the specified dust
 	 * band.
 	 *
-     */
+	 */
 	public double mass_density(boolean dust, boolean gas) {
 		if (!dust)
 			return 0.0;

@@ -51,8 +51,9 @@ public class BatteryBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public void tick() {
-        if (this.level != null && this.level.isClientSide()) return;
-        // Force update energy
+		if (this.level != null && this.level.isClientSide())
+			return;
+		// Force update energy
 		int energy = getEnergy();
 		if (energy != prev) {
 			this.prev = energy;

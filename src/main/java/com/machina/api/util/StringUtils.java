@@ -23,9 +23,9 @@ public class StringUtils {
 	private static final Charset defaultCharset = Charset.defaultCharset();
 
 	public static void printlnUtf8(String msg) {
-        new PrintStream(System.out, true, utf8Charset)
-                .println(new String(msg.getBytes(StandardCharsets.UTF_8), defaultCharset));
-    }
+		new PrintStream(System.out, true, utf8Charset)
+				.println(new String(msg.getBytes(StandardCharsets.UTF_8), defaultCharset));
+	}
 
 	public static String chemical(String data) {
 		StringBuilder out = new StringBuilder();

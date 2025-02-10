@@ -473,7 +473,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("battery.input", "Input Energy");
 		addUI("battery.output", "Output Energy");
 		addUI("battery.capacitor", "Capacitor");
-		
+
 		addUI("furnace_generator.input", "Fuel");
 		addUI("furnace_generator.progress", "Progress");
 		addUI("furnace_generator.no_input", "Insert Fuel");

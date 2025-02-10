@@ -162,7 +162,6 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 		return actuallyTransferred;
 	}
 
-	@SuppressWarnings("DataFlowIssue")
 	@Nullable
 	private IEnergyStorage getEnergyStorage(EnergyCableBlockEntity be, BlockPos pos, Direction direction) {
 		BlockEntity te = Objects.requireNonNull(be.getLevel()).getBlockEntity(pos);

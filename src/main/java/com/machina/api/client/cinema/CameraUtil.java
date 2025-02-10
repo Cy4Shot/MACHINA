@@ -55,16 +55,16 @@ public class CameraUtil {
 		render.setXRot(iPitch);
 		render.xRotO = iPitch;
 		render = mc.player;
-        if (render != null) {
-            render.setPosRaw(x, y, z);
-        }
-        if (render != null) {
-            render.xo = prevX;
-        }
-        if (render != null) {
-            render.yo = prevY;
-        }
-        Objects.requireNonNull(render).zo = prevZ;
+		if (render != null) {
+			render.setPosRaw(x, y, z);
+		}
+		if (render != null) {
+			render.xo = prevX;
+		}
+		if (render != null) {
+			render.yo = prevY;
+		}
+		Objects.requireNonNull(render).zo = prevZ;
 		render.xOld = prevX;
 		render.yOld = prevY;
 		render.zOld = prevZ;

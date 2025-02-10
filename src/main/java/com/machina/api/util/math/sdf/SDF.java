@@ -104,7 +104,8 @@ public abstract class SDF {
 			Collections.sort(infos);
 			postProcesses.forEach(x -> x.apply(infos));
 			infos.forEach((info) -> world.setBlock(info.getPos(), info.getState(), UPDATE_FLAGS));
-			infos.forEach((info) -> info.getExtra().ifPresent((extra) -> world.setBlock(extra.getFirst(), extra.getSecond(), UPDATE_FLAGS)));
+			infos.forEach((info) -> info.getExtra()
+					.ifPresent((extra) -> world.setBlock(extra.getFirst(), extra.getSecond(), UPDATE_FLAGS)));
 
 			infos.clear();
 			infos.addAll(addInfo.values());
@@ -116,10 +117,10 @@ public abstract class SDF {
 				}
 			});
 			infos.forEach((info) -> info.getExtra().ifPresent((extra) -> {
-                if (canReplace.apply(world.getBlockState(info.getPos()))) {
-                    world.setBlock(extra.getFirst(), extra.getSecond(), UPDATE_FLAGS);
-                }
-            }));
+				if (canReplace.apply(world.getBlockState(info.getPos()))) {
+					world.setBlock(extra.getFirst(), extra.getSecond(), UPDATE_FLAGS);
+				}
+			}));
 		}
 	}
 
@@ -172,12 +173,12 @@ public abstract class SDF {
 				}
 			});
 			infos.forEach((info) -> info.getExtra().ifPresent((extra) -> {
-                MutableBlockPos mbp = extra.getFirst().mutable();
-                if (shifter.apply(mbp)) {
-                    world.setBlock(mbp.immutable(), extra.getSecond(), UPDATE_FLAGS);
-                    positions.add(mbp.immutable());
-                }
-            }));
+				MutableBlockPos mbp = extra.getFirst().mutable();
+				if (shifter.apply(mbp)) {
+					world.setBlock(mbp.immutable(), extra.getSecond(), UPDATE_FLAGS);
+					positions.add(mbp.immutable());
+				}
+			}));
 
 			infos.clear();
 			infos.addAll(addInfo.values());
@@ -193,14 +194,14 @@ public abstract class SDF {
 				}
 			});
 			infos.forEach((info) -> info.getExtra().ifPresent((extra) -> {
-                MutableBlockPos mbp = info.getPos().mutable();
-                if (shifter.apply(mbp)) {
-                    if (canReplace.apply(world.getBlockState(extra.getFirst()))) {
-                        world.setBlock(mbp.immutable(), extra.getSecond(), UPDATE_FLAGS);
-                        positions.add(mbp.immutable());
-                    }
-                }
-            }));
+				MutableBlockPos mbp = info.getPos().mutable();
+				if (shifter.apply(mbp)) {
+					if (canReplace.apply(world.getBlockState(extra.getFirst()))) {
+						world.setBlock(mbp.immutable(), extra.getSecond(), UPDATE_FLAGS);
+						positions.add(mbp.immutable());
+					}
+				}
+			}));
 		}
 
 		return positions;

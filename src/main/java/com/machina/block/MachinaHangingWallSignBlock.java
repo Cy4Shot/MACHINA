@@ -15,7 +15,7 @@ public class MachinaHangingWallSignBlock extends WallHangingSignBlock {
 	public MachinaHangingWallSignBlock(Properties props, WoodType type) {
 		super(props, type);
 	}
-	
+
 	@Override
 	public @NotNull BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
 		return Objects.requireNonNull(BlockEntityInit.HANGING_SIGN.get().create(pos, state));

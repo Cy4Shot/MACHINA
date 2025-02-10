@@ -85,7 +85,7 @@ public class CustomRandom extends Random implements PhysicalConstants {
 	/**
 	 * Sets the random seed to the new value, performing additional housekeeping.
 	 *
-     */
+	 */
 	public void setSeed(long s) {
 		super.setSeed(s);
 		normdone = false;

@@ -8,7 +8,7 @@ public class SDFCappedCone extends SDFPrimitive {
 	private final float radius1;
 	private final float radius2;
 	private final float height;
-	
+
 	public SDFCappedCone(float r1, float r2, float height) {
 		this.radius1 = r1;
 		this.radius2 = r2;

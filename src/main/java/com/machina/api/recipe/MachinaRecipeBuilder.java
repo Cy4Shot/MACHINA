@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.fluids.FluidStack;
@@ -31,7 +32,7 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 	private final RecipeRegistryObject<T> reg;
 	private final float xp;
 
-    protected final List<Ingredient> inputItems = new ArrayList<>();
+	protected final List<Ingredient> inputItems = new ArrayList<>();
 	protected final List<FluidStack> inputFluids = new ArrayList<>();
 	protected final List<ItemStack> outputItems = new ArrayList<>();
 	protected final List<FluidStack> outputFluids = new ArrayList<>();
@@ -95,18 +96,14 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 		return this;
 	}
 
-	// TODO: What?
-	@SuppressWarnings("DataFlowIssue")
 	@Override
 	public @NotNull RecipeBuilder group(String group) {
-        return null;
+		return this;
 	}
 
-	// TODO: What?
 	@Override
-	@SuppressWarnings("DataFlowIssue")
 	public @NotNull Item getResult() {
-		return null;
+		return Items.AIR;
 	}
 
 	@Override
@@ -125,7 +122,7 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(loc))
 				.rewards(AdvancementRewards.Builder.recipe(loc)).requirements(RequirementsStrategy.OR);
 		save.accept(new Result<>(loc, this.advancement, this.reg, () -> this.reg.factory().apply(loc, energy, time,
-                pressure, temperature, xp, inputItems, inputFluids, outputItems, outputFluids)));
+				pressure, temperature, xp, inputItems, inputFluids, outputItems, outputFluids)));
 	}
 
 	public static class Result<T extends Container> implements FinishedRecipe {

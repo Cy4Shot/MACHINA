@@ -43,7 +43,7 @@ public class ArchTree implements TreeMaker {
 		res.addPostProcess(new SDFSelective(new SDFChanceFilter(random, 0.4f), config.leaves().getBlock()));
 		return res;
 	}
-	
+
 	@Override
 	public BlockState getLeafAttachment(PlanetBiomeTree config, RandomSource random) {
 		return config.wood();

@@ -113,18 +113,19 @@ public class CommonForgeEvents {
 			return;
 		}
 		MinecraftServer server = event.getLevel().getServer();
-        if (server != null && server.levelKeys().size() > 1) {
-            return;
-        }
-        if (server != null) {
-            PlanetDimensionData.getDefaultInstance(server).updateSeed(((ServerLevel) event.getLevel()).getSeed());
-        }
-    }
+		if (server != null && server.levelKeys().size() > 1) {
+			return;
+		}
+		if (server != null) {
+			PlanetDimensionData.getDefaultInstance(server).updateSeed(((ServerLevel) event.getLevel()).getSeed());
+		}
+	}
 
 	@SubscribeEvent
 	public static void serverAboutToStart(final ServerAboutToStartEvent event) {
 		MinecraftServer server = event.getServer();
-		PlanetBiomeLoader.INSTANCE.getEntrySet().forEach(e -> registerBiome(server, e.getKey(), new PlanetBiome(e.getValue())));
+		PlanetBiomeLoader.INSTANCE.getEntrySet()
+				.forEach(e -> registerBiome(server, e.getKey(), new PlanetBiome(e.getValue())));
 	}
 
 	private static void registerBiome(MinecraftServer server, ResourceLocation loc, PlanetBiome biome) {

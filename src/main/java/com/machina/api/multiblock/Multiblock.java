@@ -47,7 +47,7 @@ public class Multiblock {
 					return Blocks.AIR.defaultBlockState();
 				}
 			}));
-			
+
 			// TODO: Does rendermap need to exist?
 			mb.renderMap = mb.map;
 
@@ -72,7 +72,8 @@ public class Multiblock {
 			}
 
 			mb.allowed = mb.map.values();
-			mb.allowedBlock = mb.allowed.stream().map(BlockBehaviour.BlockStateBase::getBlock).collect(Collectors.toSet());
+			mb.allowedBlock = mb.allowed.stream().map(BlockBehaviour.BlockStateBase::getBlock)
+					.collect(Collectors.toSet());
 			return mb;
 		}
 	}

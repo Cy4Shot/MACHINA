@@ -109,9 +109,9 @@ public class CinematicHandler {
 
 		MinecraftForge.EVENT_BUS.addListener((ScreenEvent.Opening e) -> {
 			if (INSTANCE.isActive() && !mc.isPaused()) {
-                e.getScreen();
-                e.setCanceled(true);
-            }
+				e.getScreen();
+				e.setCanceled(true);
+			}
 		});
 
 		MinecraftForge.EVENT_BUS.addListener((RenderHandEvent e) -> {

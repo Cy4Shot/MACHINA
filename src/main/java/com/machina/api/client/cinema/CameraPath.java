@@ -116,7 +116,7 @@ public class CameraPath {
 	public static class CameraNode {
 		public final Vec3 pos;
 		public final float xRot;
-        public final float yRot;
+		public final float yRot;
 
 		public CameraNode(Vec3 p, float x, float y) {
 			this.pos = p;
@@ -126,6 +126,7 @@ public class CameraPath {
 	}
 
 	public enum InterpolationMethod {
-		BEZIER, LERP
+		BEZIER,
+		LERP
 	}
 }

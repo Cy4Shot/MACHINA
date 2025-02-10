@@ -63,32 +63,34 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, B
 	public record PlanetBiomeTree(ResourceLocation tree, List<BlockState> blocks, float chance, List<BlockState> fruit,
 			List<Direction> fruit_dirs, float fruit_chance, float tree_fruit_chance) {
 
-		public static final Codec<PlanetBiomeTree> CODEC = RecordCodecBuilder.create(instance -> instance
-				.group(ResourceLocation.CODEC.fieldOf("tree").forGetter(PlanetBiomeTree::tree),
-						Codec.list(BlockState.CODEC).fieldOf("blocks").forGetter(PlanetBiomeTree::blocks),
-						Codec.FLOAT.fieldOf("chance").forGetter(PlanetBiomeTree::chance),
-						Codec.list(BlockState.CODEC).fieldOf("fruit").forGetter(PlanetBiomeTree::fruit),
-						Codec.list(Direction.CODEC).fieldOf("fruit_dirs").forGetter(PlanetBiomeTree::fruit_dirs),
-						Codec.FLOAT.fieldOf("fruit_chance").forGetter(PlanetBiomeTree::fruit_chance),
-						Codec.FLOAT.fieldOf("tree_fruit_chance").forGetter(PlanetBiomeTree::tree_fruit_chance))
-				.apply(instance, PlanetBiomeTree::new));
+		public static final Codec<PlanetBiomeTree> CODEC = RecordCodecBuilder
+				.create(instance -> instance
+						.group(ResourceLocation.CODEC.fieldOf("tree").forGetter(PlanetBiomeTree::tree),
+								Codec.list(BlockState.CODEC).fieldOf("blocks").forGetter(PlanetBiomeTree::blocks),
+								Codec.FLOAT.fieldOf("chance").forGetter(PlanetBiomeTree::chance),
+								Codec.list(BlockState.CODEC).fieldOf("fruit").forGetter(PlanetBiomeTree::fruit),
+								Codec.list(Direction.CODEC).fieldOf("fruit_dirs")
+										.forGetter(PlanetBiomeTree::fruit_dirs),
+								Codec.FLOAT.fieldOf("fruit_chance").forGetter(PlanetBiomeTree::fruit_chance),
+								Codec.FLOAT.fieldOf("tree_fruit_chance").forGetter(PlanetBiomeTree::tree_fruit_chance))
+						.apply(instance, PlanetBiomeTree::new));
 
 		public BlockState wood() {
 			return blocks.get(0);
 		}
-		
+
 		public BlockState leaves() {
 			return blocks.get(1);
 		}
-		
+
 		public BlockState stem() {
 			return blocks.get(0);
 		}
-		
+
 		public BlockState cap() {
 			return blocks.get(1);
 		}
-		
+
 		public BlockState gills() {
 			return blocks.get(2);
 		}

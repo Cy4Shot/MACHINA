@@ -11,12 +11,13 @@ import net.minecraft.world.level.levelgen.NoiseSettings;
 
 public record PlanetType(ResourceLocation name, Shape shape, List<BiomePlacement> biomes, BlockState base) {
 
-	public static final Codec<PlanetType> CODEC = RecordCodecBuilder.create(instance -> instance
-			.group(ResourceLocation.CODEC.fieldOf("name").forGetter(PlanetType::name),
-					Shape.CODEC.fieldOf("shape").forGetter(PlanetType::shape),
-					Codec.list(BiomePlacement.CODEC).fieldOf("biomes").forGetter(PlanetType::biomes),
-					BlockState.CODEC.fieldOf("base").forGetter(PlanetType::base))
-			.apply(instance, PlanetType::new));
+	public static final Codec<PlanetType> CODEC = RecordCodecBuilder
+			.create(instance -> instance
+					.group(ResourceLocation.CODEC.fieldOf("name").forGetter(PlanetType::name),
+							Shape.CODEC.fieldOf("shape").forGetter(PlanetType::shape),
+							Codec.list(BiomePlacement.CODEC).fieldOf("biomes").forGetter(PlanetType::biomes),
+							BlockState.CODEC.fieldOf("base").forGetter(PlanetType::base))
+					.apply(instance, PlanetType::new));
 
 	public record Shape(int sea_level, NoiseSettings noise_settings) {
 		public static final Codec<Shape> CODEC = RecordCodecBuilder.create(instance -> instance

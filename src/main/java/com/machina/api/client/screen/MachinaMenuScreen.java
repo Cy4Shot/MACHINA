@@ -172,12 +172,12 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	protected void drawInventory(GuiGraphics gui, int mx, int my) {
 		int i = midWidth();
 		int j = midHeight();
-        boolean hovered = false;
-        if (mc.player != null) {
-            hovered = this.hoveredSlot != null && this.hoveredSlot.container == mc.player.getInventory();
-        }
+		boolean hovered = false;
+		if (mc.player != null) {
+			hovered = this.hoveredSlot != null && this.hoveredSlot.container == mc.player.getInventory();
+		}
 
-        int sx, sy;
+		int sx, sy;
 		if (hovered) {
 			sx = i + this.hoveredSlot.x + 2;
 			sy = j + this.hoveredSlot.y + 3;
@@ -267,8 +267,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		}
 	}
 
-	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, SpecialSlot slot,
-									String hover) {
+	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, SpecialSlot slot, String hover) {
 		int i = midWidth() + x;
 		int j = midHeight() + 30;
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
@@ -285,8 +284,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		}
 	}
 
-	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text,
-						 String missing) {
+	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing) {
 		// Bar
 		blitCommon(gui, i, j, 366, 21, 133, 18);
 		blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
@@ -300,13 +298,13 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 			gui.drawCenteredString(font, uistr(missing), i + 66, j + 6, 0xFE0000);
 		}
 
-        dec_off = active ? 0 : 38;
-        Component c = Component.literal(text);
-        int w = font.width(c) / 2 + 2;
-        gui.drawCenteredString(font, c, i + 66, j + 20, active ? 0x00FEFE : 0xFE0000);
-        blitCommon(gui, i + 66 + w, j + 18, 418 + dec_off, 5, 19, 8);
-        blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
-    }
+		dec_off = active ? 0 : 38;
+		Component c = Component.literal(text);
+		int w = font.width(c) / 2 + 2;
+		gui.drawCenteredString(font, c, i + 66, j + 20, active ? 0x00FEFE : 0xFE0000);
+		blitCommon(gui, i + 66 + w, j + 18, 418 + dec_off, 5, 19, 8);
+		blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
+	}
 
 	protected void drawEnergyBar(GuiGraphics gui, int y, boolean active, String missing) {
 		int i = midWidth() + 117 - 66;
@@ -315,8 +313,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 				() -> active ? Component.literal(StringUtils.formatPower(this.entity.getEnergy()) + " / "
 						+ StringUtils.formatPower(this.entity.getMaxEnergy()) + " ("
 						+ StringUtils.formatPercent(this.entity.getEnergyF()) + ")") : uistr(missing));
-		drawBar(gui, i, j, this.entity.getEnergyF(), active,
-				StringUtils.formatPower(this.entity.getEnergy()), missing);
+		drawBar(gui, i, j, this.entity.getEnergyF(), active, StringUtils.formatPower(this.entity.getEnergy()), missing);
 	}
 
 	private void drawFace(GuiGraphics gui, int x, int y, Direction dir, @Nullable ISideAdapter storage) {

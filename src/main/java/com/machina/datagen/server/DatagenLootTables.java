@@ -148,10 +148,10 @@ public class DatagenLootTables extends LootTableProvider {
 			FamiliesInit.STONES.forEach(this::stoneFamily);
 			FamiliesInit.WOODS.forEach(this::woodFamily);
 		}
-		
+
 		private void oreFamily(OreFamily family) {
 			family.getBlock().ifPresent(this::dropSelf);
-			
+
 			// TODO: Raw
 			family.getOre().ifPresent(this::dropSelf);
 		}

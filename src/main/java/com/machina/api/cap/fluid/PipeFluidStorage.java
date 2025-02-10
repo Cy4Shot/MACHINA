@@ -176,7 +176,6 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage {
 		return actuallyTransferred;
 	}
 
-	@SuppressWarnings("DataFlowIssue")
 	@Nullable
 	private IFluidHandler getFluidHandler(FluidPipeBlockEntity be, BlockPos pos, Direction direction) {
 		BlockEntity te = Objects.requireNonNull(be.getLevel()).getBlockEntity(pos);

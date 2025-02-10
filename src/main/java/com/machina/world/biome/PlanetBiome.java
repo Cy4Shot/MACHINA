@@ -55,7 +55,7 @@ public class PlanetBiome extends Biome {
 	}
 
 	private PlanetBiome(ClimateSettings climate, BiomeSpecialEffects special, BiomeGenerationSettings genset,
-						PlanetBiomeSettings s) {
+			PlanetBiomeSettings s) {
 		super(climate, special, genset, MobSpawnSettings.EMPTY);
 		this.settings = s;
 	}

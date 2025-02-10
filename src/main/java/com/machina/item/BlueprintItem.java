@@ -31,7 +31,8 @@ public class BlueprintItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip,
+			@NotNull TooltipFlag flag) {
 		Blueprint bp = get(stack);
 		if (!bp.getId().equals(Blueprint.EMPTY.getId()))
 			tooltip.add(bp.getName().setStyle(Style.EMPTY.withColor(65278)));
@@ -52,7 +53,7 @@ public class BlueprintItem extends Item {
 
 		return get(stack) != Blueprint.EMPTY;
 	}
-	
+
 	@Override
 	public int getMaxStackSize(ItemStack stack) {
 		return isEtched(stack) ? 1 : 16;

@@ -79,8 +79,7 @@ public class PlanetRockFeature extends Feature<PlanetRockFeature.PlanetRockFeatu
 		}
 
 		List<BlockPos> last = two.stream()
-				.filter(p -> !level.getBlockState(p).isSolid() && level.getBlockState(p.below()).isSolid())
-				.toList();
+				.filter(p -> !level.getBlockState(p).isSolid() && level.getBlockState(p.below()).isSolid()).toList();
 
 		for (BlockPos p : last) {
 			if (rand.nextFloat() < 0.3f) {

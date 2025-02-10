@@ -53,7 +53,7 @@ public class DatagenItemModels extends ItemModelProvider {
 	@Override
 	protected void registerModels() {
 		simpleItem(ItemInit.BLUEPRINT);
-		
+
 		simpleItem(ItemInit.BASIC_CAPACITOR);
 		simpleItem(ItemInit.ADVANCED_CAPACITOR);
 		simpleItem(ItemInit.SUPREME_CAPACITOR);
@@ -152,29 +152,33 @@ public class DatagenItemModels extends ItemModelProvider {
 	}
 
 	public void evenSimplerBlockItem(RegistryObject<? extends Block> block) {
-		this.withExistingParent(Machina.MOD_ID + ":" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+		this.withExistingParent(
+				Machina.MOD_ID + ":" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
 				modLoc("block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath()));
 	}
 
 	public void trapdoorItem(RegistryObject<Block> block) {
-		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
-				modLoc("block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath() + "_bottom"));
+		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), modLoc(
+				"block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath() + "_bottom"));
 	}
 
 	public void fenceItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
-		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), mcLoc("block/fence_inventory"))
+		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+				mcLoc("block/fence_inventory"))
 				.texture("texture", new ResourceLocation(Machina.MOD_ID,
 						"block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
 	}
 
 	public void buttonItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
-		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), mcLoc("block/button_inventory"))
+		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+				mcLoc("block/button_inventory"))
 				.texture("texture", new ResourceLocation(Machina.MOD_ID,
 						"block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
 	}
 
 	public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
-		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), mcLoc("block/wall_inventory"))
+		this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+				mcLoc("block/wall_inventory"))
 				.texture("wall", new ResourceLocation(Machina.MOD_ID,
 						"block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
 	}

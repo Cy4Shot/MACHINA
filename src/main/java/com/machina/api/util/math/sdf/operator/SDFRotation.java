@@ -9,7 +9,7 @@ import com.machina.api.util.math.sdf.SDF;
 public class SDFRotation extends SDFUnary {
 	private final Vector3f pos = new Vector3f();
 	private final Quaternionf rotation;
-	
+
 	public SDFRotation(SDF source, Vector3f axis, float rotationAngle) {
 		super(source);
 		rotation = VecUtil.rotationDegrees(axis, rotationAngle);

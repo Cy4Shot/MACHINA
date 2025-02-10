@@ -76,7 +76,8 @@ public abstract class EnergyItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(@NotNull ItemStack stack, Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
+	public void appendHoverText(@NotNull ItemStack stack, Level level, List<Component> tooltip,
+			@NotNull TooltipFlag flag) {
 		tooltip.add(Component
 				.literal(StringUtils.formatPower(getEnergy(stack)) + " / " + StringUtils.formatPower(getMaxEnergy()))
 				.setStyle(Style.EMPTY.withColor(0x00FEFE)));

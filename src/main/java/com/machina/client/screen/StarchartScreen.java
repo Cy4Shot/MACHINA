@@ -103,12 +103,12 @@ public class StarchartScreen extends Screen {
 		UIHelper.renderOverflowHidden(gui, this::renderBackground);
 
 		// Calculate Time
-        float time = 0;
-        if (minecraft != null && minecraft.level != null) {
-            time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
-        }
+		float time = 0;
+		if (minecraft != null && minecraft.level != null) {
+			time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
+		}
 
-        setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), time);
+		setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), time);
 
 		ScreenParticleHandler.renderParticles(p_target);
 		p_target.tick();
@@ -131,16 +131,16 @@ public class StarchartScreen extends Screen {
 		RenderSystem.applyModelViewMatrix();
 
 		// Render
-        MultiBufferSource.BufferSource vcp = null;
-        if (minecraft != null) {
-            vcp = minecraft.renderBuffers().bufferSource();
-        }
-        renderCelestials(gui, rot, vcp, t);
-        if (vcp != null) {
-            vcp.endBatch();
-        }
+		MultiBufferSource.BufferSource vcp = null;
+		if (minecraft != null) {
+			vcp = minecraft.renderBuffers().bufferSource();
+		}
+		renderCelestials(gui, rot, vcp, t);
+		if (vcp != null) {
+			vcp.endBatch();
+		}
 
-        // Reset
+		// Reset
 		matrixStack.popPose();
 		RenderSystem.applyModelViewMatrix();
 		RenderSystem.setShaderColor(1, 1, 1, 1);

@@ -11,7 +11,7 @@ public record Blueprint(String id) {
 	public String getId() {
 		return id;
 	}
-	
+
 	public MutableComponent getName() {
 		return StringUtils.translateMultiblockComp(id);
 	}

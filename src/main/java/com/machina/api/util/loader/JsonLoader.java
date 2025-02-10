@@ -61,7 +61,8 @@ public class JsonLoader<T> extends SimpleJsonResourceReloadListener {
 	}
 
 	@Override
-	protected void apply(Map<ResourceLocation, JsonElement> entries, @NotNull ResourceManager man, @NotNull ProfilerFiller profiler) {
+	protected void apply(Map<ResourceLocation, JsonElement> entries, @NotNull ResourceManager man,
+			@NotNull ProfilerFiller profiler) {
 		Map<ResourceLocation, T> map = Maps.newHashMap();
 		for (Entry<ResourceLocation, JsonElement> entry : entries.entrySet()) {
 			ResourceLocation resourcelocation = entry.getKey();

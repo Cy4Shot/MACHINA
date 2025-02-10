@@ -16,7 +16,7 @@ public class AcceptSlot extends Slot {
 
 		this.acceptor = acceptor;
 	}
-	
+
 	@Override
 	public boolean isHighlightable() {
 		return false;

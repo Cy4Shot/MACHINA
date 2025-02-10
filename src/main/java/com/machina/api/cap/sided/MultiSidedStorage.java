@@ -33,7 +33,7 @@ public class MultiSidedStorage<T> extends SidedStorage {
 		return this.sidedStorage[dir.ordinal()].cast();
 	}
 
-    public boolean isOutput(Direction dir) {
+	public boolean isOutput(Direction dir) {
 		return this.modes[dir.ordinal()] == Side.OUTPUT;
 	}
 
@@ -48,7 +48,8 @@ public class MultiSidedStorage<T> extends SidedStorage {
 	protected void load(CompoundTag tag) {
 		for (Direction dir : Direction.values()) {
 			if (tag.contains("storage_" + dir.ordinal())) {
-				this.sidedStorage[dir.ordinal()].ifPresent(store -> store.deserialize(tag.getCompound("storage_" + dir.ordinal())));
+				this.sidedStorage[dir.ordinal()]
+						.ifPresent(store -> store.deserialize(tag.getCompound("storage_" + dir.ordinal())));
 			}
 		}
 	}

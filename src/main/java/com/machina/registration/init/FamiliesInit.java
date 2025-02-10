@@ -154,7 +154,7 @@ public class FamiliesInit {
 	}
 
 	public record OreFamily(String name, Optional<Block> ore, Optional<Block> block, Optional<Item> nugget,
-                            Optional<Item> ingot, Item dust, Optional<Item> plate, Optional<Item> rod, Optional<Item> wire)
+			Optional<Item> ingot, Item dust, Optional<Item> plate, Optional<Item> rod, Optional<Item> wire)
 			implements ItemLikeFamily {
 
 		public static OreFamily gemLike(String name, Block ore, Block block, Item ingot, Item dust) {
@@ -167,23 +167,23 @@ public class FamiliesInit {
 			return new OreFamily(name, Optional.of(ore), Optional.of(block), Optional.of(nugget), Optional.of(ingot),
 					dust, Optional.of(plate), Optional.of(rod), Optional.of(wire));
 		}
-		
+
 		private static boolean isOurItem(ItemLike item) {
 			return BuiltInRegistries.ITEM.getKey(item.asItem()).getNamespace().equals(Machina.MOD_ID);
 		}
-		
+
 		public Optional<Block> getOre() {
 			return ore.filter(OreFamily::isOurItem);
 		}
-		
+
 		public Optional<Block> getBlock() {
 			return block.filter(OreFamily::isOurItem);
 		}
-		
+
 		public Optional<Item> getNugget() {
 			return nugget.filter(OreFamily::isOurItem);
 		}
-		
+
 		public Optional<Item> getIngot() {
 			return ingot.filter(OreFamily::isOurItem);
 		}
@@ -218,14 +218,15 @@ public class FamiliesInit {
 
 		@Override
 		public List<ItemLike> tab() {
-            return grass.<List<ItemLike>>map(block -> List.of(block, dirt, stairs, slab)).orElseGet(() -> List.of(dirt, stairs, slab));
-        }
+			return grass.<List<ItemLike>>map(block -> List.of(block, dirt, stairs, slab))
+					.orElseGet(() -> List.of(dirt, stairs, slab));
+		}
 	}
 
-	public record WoodFamily(String name, Block log, Block wood, Block stripped_log, Block stripped_wood,
-                             Block planks, Block stairs, Block slab, Block fence, Block fencegate, Block door, Block trapdoor,
-                             Block pressure_plate, Block button, Item sign, Item hangingsign, Block signblock, Block wallsignblock,
-                             Block hangingsignblock, Block hangingwallsignblock, Block[] leaves) implements ItemLikeFamily {
+	public record WoodFamily(String name, Block log, Block wood, Block stripped_log, Block stripped_wood, Block planks,
+			Block stairs, Block slab, Block fence, Block fencegate, Block door, Block trapdoor, Block pressure_plate,
+			Block button, Item sign, Item hangingsign, Block signblock, Block wallsignblock, Block hangingsignblock,
+			Block hangingwallsignblock, Block[] leaves) implements ItemLikeFamily {
 
 		@Override
 		public List<ItemLike> tab() {
@@ -235,8 +236,8 @@ public class FamiliesInit {
 		}
 	}
 
-	public record StoneFamily(String name, Block base, Block slab, Block stairs, Block wall,
-                              Block pressure_plate, Block button, Block pebbles) implements ItemLikeFamily {
+	public record StoneFamily(String name, Block base, Block slab, Block stairs, Block wall, Block pressure_plate,
+			Block button, Block pebbles) implements ItemLikeFamily {
 
 		@Override
 		public List<ItemLike> tab() {

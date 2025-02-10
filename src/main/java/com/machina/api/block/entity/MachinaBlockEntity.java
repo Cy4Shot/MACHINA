@@ -76,14 +76,13 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	public void energyStorage(Side[] sides) {
-		this.energyCap = new MultiSidedStorage<>("cap_energy", this, MachinaEnergyStorage::new,
-                sides.clone());
+		this.energyCap = new MultiSidedStorage<>("cap_energy", this, MachinaEnergyStorage::new, sides.clone());
 	}
 
 	public void fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
 		int id = this.fluidsCap.size();
 		this.fluidsCap.add(new SingleSidedStorage<>("cap_fluid_" + id, this,
-                new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id)), sides.clone()));
+				new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id)), sides.clone()));
 	}
 
 	public MachinaBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -146,9 +145,9 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 		tag.putInt("energy", energy);
 		ContainerHelper.saveAllItems(tag, this.items);
 		ListTag sides = new ListTag();
-        for (Side[] itemSide : this.itemSides) {
-            sides.add(Side.serialize(itemSide));
-        }
+		for (Side[] itemSide : this.itemSides) {
+			sides.add(Side.serialize(itemSide));
+		}
 		tag.put("sides_item", sides);
 		this.lockKey.addToTag(tag);
 		super.saveAdditional(tag);
@@ -251,11 +250,11 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 
 	@Override
 	public boolean canPlaceItemThroughFace(int slot, @NotNull ItemStack stack, Direction face) {
-        if (face != null) {
-            return itemSides.get(slot)[face.ordinal()] == Side.INPUT;
-        }
+		if (face != null) {
+			return itemSides.get(slot)[face.ordinal()] == Side.INPUT;
+		}
 		return false;
-    }
+	}
 
 	@Override
 	public boolean canTakeItemThroughFace(int slot, @NotNull ItemStack stack, Direction face) {
@@ -295,7 +294,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 				this.setChanged();
 			}
 		}
-        return received;
+		return received;
 	}
 
 	public boolean isEnergyFull() {
@@ -303,7 +302,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	public boolean canConsumeEnergy(Direction side) {
-		return energyCap != null &&  energyCap.isOutput(side);
+		return energyCap != null && energyCap.isOutput(side);
 	}
 
 	public int consumeEnergy(int amount) {
@@ -381,10 +380,10 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	public void tick() {
 		BlockState state = getBlockState();
 		if (state.hasProperty(BlockProperties.LIT)) {
-            if (this.level != null) {
-                this.level.setBlock(worldPosition, state.setValue(BatteryBlock.LIT, isLit()), 3);
-            }
-        }
+			if (this.level != null) {
+				this.level.setBlock(worldPosition, state.setValue(BatteryBlock.LIT, isLit()), 3);
+			}
+		}
 
 		if (this.getEnergy() > this.getMaxEnergy()) {
 			this.setEnergy(this.getMaxEnergy());
@@ -419,17 +418,17 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 				int i = d.ordinal();
 				if (old[i] != side[i]) {
 					BlockPos pos = worldPosition.relative(d);
-                    BlockState state = null;
-                    if (level != null) {
-                        state = level.getBlockState(pos);
-                    }
-                    if (state != null) {
-                        state = state.updateShape(d.getOpposite(), getBlockState(), level, pos, worldPosition);
-                    }
-                    if (state != null) {
-                        level.setBlock(pos, state, 3);
-                    }
-                }
+					BlockState state = null;
+					if (level != null) {
+						state = level.getBlockState(pos);
+					}
+					if (state != null) {
+						state = state.updateShape(d.getOpposite(), getBlockState(), level, pos, worldPosition);
+					}
+					if (state != null) {
+						level.setBlock(pos, state, 3);
+					}
+				}
 			}
 		}
 	}

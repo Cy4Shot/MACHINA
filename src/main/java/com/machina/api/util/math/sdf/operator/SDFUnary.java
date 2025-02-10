@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class SDFUnary extends SDF {
 	protected final SDF source;
-	
+
 	public SDFUnary(SDF source) {
 		this.source = source;
 	}

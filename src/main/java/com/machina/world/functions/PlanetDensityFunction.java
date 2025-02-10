@@ -57,8 +57,10 @@ public class PlanetDensityFunction {
 				underground(densities, noises, df11));
 		DensityFunction df14 = DensityFunctions.min(postProcess(slideOverworld(df13)), getFunction(densities, NOODLE));
 		DensityFunction df15 = getFunction(densities, Y);
-		int i = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224495_) -> p_224495_.minY).min().orElse(-DimensionType.MIN_Y * 2);
-		int j = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224457_) -> p_224457_.maxY).max().orElse(-DimensionType.MIN_Y * 2);
+		int i = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224495_) -> p_224495_.minY).min()
+				.orElse(-DimensionType.MIN_Y * 2);
+		int j = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224457_) -> p_224457_.maxY).max()
+				.orElse(-DimensionType.MIN_Y * 2);
 		DensityFunction df16 = yLimitedInterpolatable(df15,
 				DensityFunctions.noise(noises.getOrThrow(Noises.ORE_VEININESS), 1.5D, 1.5D), i, j);
 		DensityFunction df17 = yLimitedInterpolatable(df15,
@@ -116,18 +118,16 @@ public class PlanetDensityFunction {
 	}
 
 	private static DensityFunction slide(DensityFunction p_224444_) {
-		DensityFunction df1 = DensityFunctions.yClampedGradient(-64 + 384 - 80,
-				-64 + 384 - 64, 1.0D, 0.0D);
+		DensityFunction df1 = DensityFunctions.yClampedGradient(-64 + 384 - 80, -64 + 384 - 64, 1.0D, 0.0D);
 		DensityFunction df3 = DensityFunctions.lerp(df1, -0.078125, p_224444_);
-		DensityFunction df2 = DensityFunctions.yClampedGradient(-64, -64 + 24, 0.0D,
-				1.0D);
+		DensityFunction df2 = DensityFunctions.yClampedGradient(-64, -64 + 24, 0.0D, 1.0D);
 		return DensityFunctions.lerp(df2, 0.1171875, df3);
 	}
 
 	private static DensityFunction yLimitedInterpolatable(DensityFunction f1, DensityFunction f2, int p_209474_,
 			int p_209475_) {
-		return DensityFunctions.interpolated(DensityFunctions.rangeChoice(f1, p_209474_,
-                p_209475_ + 1, f2, DensityFunctions.constant(0)));
+		return DensityFunctions.interpolated(
+				DensityFunctions.rangeChoice(f1, p_209474_, p_209475_ + 1, f2, DensityFunctions.constant(0)));
 	}
 
 	private static DensityFunction postProcess(DensityFunction f) {

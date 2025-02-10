@@ -50,13 +50,11 @@ public class BlockEntityInit {
 			"hanging_sign", MachinaHangingSignBlockEntity::new,
 			() -> BlockInit.HANGING_SIGNS.stream().map(RegistryObject::get).toArray(Block[]::new));
 
-	@SuppressWarnings("DataFlowIssue")
-    private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String n,
-                                                                                       BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block> b) {
+	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String n,
+			BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block> b) {
 		return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));
 	}
 
-	@SuppressWarnings("DataFlowIssue")
 	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerMany(String n,
 			BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block[]> b) {
 		return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));

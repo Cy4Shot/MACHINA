@@ -44,7 +44,8 @@ public class PebbleBlock extends HorizontalDirectionalBlock {
 	}
 
 	@Override
-	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos, @NotNull CollisionContext collision) {
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos,
+			@NotNull CollisionContext collision) {
 		return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
 	}
 
@@ -59,8 +60,8 @@ public class PebbleBlock extends HorizontalDirectionalBlock {
 	}
 
 	@Override
-	public @NotNull BlockState updateShape(BlockState state, @NotNull Direction dir, @NotNull BlockState state2, @NotNull LevelAccessor level, @NotNull BlockPos pos,
-										   @NotNull BlockPos pos2) {
+	public @NotNull BlockState updateShape(BlockState state, @NotNull Direction dir, @NotNull BlockState state2,
+			@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockPos pos2) {
 		return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState()
 				: super.updateShape(state, dir, state2, level, pos, pos2);
 	}

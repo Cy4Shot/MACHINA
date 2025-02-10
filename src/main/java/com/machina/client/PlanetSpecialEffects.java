@@ -19,8 +19,7 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 
 	@Override
 	public @NotNull Vec3 getBrightnessDependentFogColor(Vec3 col, float brightness) {
-		return col.multiply(brightness * 0.94F + 0.06F, brightness * 0.94F + 0.06F,
-                brightness * 0.91F + 0.09F);
+		return col.multiply(brightness * 0.94F + 0.06F, brightness * 0.94F + 0.06F, brightness * 0.91F + 0.09F);
 	}
 
 	@Override
@@ -34,20 +33,20 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 //	}
 
 	@Override
-	public boolean renderClouds(@NotNull ClientLevel level, int ticks, float partialTick, @NotNull PoseStack poseStack, double camX,
-								double camY, double camZ, @NotNull Matrix4f projectionMatrix) {
+	public boolean renderClouds(@NotNull ClientLevel level, int ticks, float partialTick, @NotNull PoseStack poseStack,
+			double camX, double camY, double camZ, @NotNull Matrix4f projectionMatrix) {
 		return true;
 	}
 
 	@Override
-	public boolean renderSky(@NotNull ClientLevel level, int ticks, float partialTick, @NotNull PoseStack poseStack, @NotNull Camera camera,
-							 @NotNull Matrix4f projectionMatrix, boolean isFoggy, @NotNull Runnable setupFog) {
+	public boolean renderSky(@NotNull ClientLevel level, int ticks, float partialTick, @NotNull PoseStack poseStack,
+			@NotNull Camera camera, @NotNull Matrix4f projectionMatrix, boolean isFoggy, @NotNull Runnable setupFog) {
 		return true;
 	}
 
 	@Override
-	public boolean renderSnowAndRain(@NotNull ClientLevel level, int ticks, float partialTick, @NotNull LightTexture lightTexture,
-									 double camX, double camY, double camZ) {
+	public boolean renderSnowAndRain(@NotNull ClientLevel level, int ticks, float partialTick,
+			@NotNull LightTexture lightTexture, double camX, double camY, double camZ) {
 		return true;
 	}
 }

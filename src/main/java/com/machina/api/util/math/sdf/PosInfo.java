@@ -21,8 +21,9 @@ public class PosInfo implements Comparable<PosInfo> {
 	public static PosInfo create(Map<BlockPos, PosInfo> blocks, Map<BlockPos, PosInfo> add, BlockPos pos) {
 		return new PosInfo(blocks, add, pos);
 	}
-	
-	public static PosInfo create(Map<BlockPos, PosInfo> blocks, Map<BlockPos, PosInfo> add, BlockPos pos, BlockState state) {
+
+	public static PosInfo create(Map<BlockPos, PosInfo> blocks, Map<BlockPos, PosInfo> add, BlockPos pos,
+			BlockState state) {
 		PosInfo info = create(blocks, add, pos);
 		info.setState(state);
 		return info;
@@ -34,7 +35,7 @@ public class PosInfo implements Comparable<PosInfo> {
 		this.pos = pos;
 		blocks.put(pos, this);
 	}
-	
+
 	public PosInfo(PosInfo old, BlockState state) {
 		this.blocks = old.blocks;
 		this.add = old.add;
@@ -118,11 +119,11 @@ public class PosInfo implements Comparable<PosInfo> {
 		info.state = state;
 		add.put(pos, info);
 	}
-	
+
 	public void setExtra(Pair<BlockPos, BlockState> extra) {
 		this.extra = extra;
 	}
-	
+
 	public Optional<Pair<BlockPos, BlockState>> getExtra() {
 		return Optional.ofNullable(this.extra);
 	}

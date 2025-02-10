@@ -57,7 +57,7 @@ public class StarchartGenerator {
 				moons.add(curr.getFirst());
 			}
 		}
-		
+
 		ResourceLocation type = PlanetTypeLoader.INSTANCE.pickRandom(rand);
 
 		Planet planet = new Planet(name, type, p.a, p.e, p.where_in_orbit, p.mass, p.gas_giant, p.orbit_zone, p.radius,

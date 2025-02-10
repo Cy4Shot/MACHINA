@@ -25,8 +25,8 @@ public class SDFSlopedCone extends SDFPrimitive {
 		float surfaceDistance = radialDistance - radiusAtZ;
 
 		// Clamp the height
-        // Top plane
-        float bottomCap = height - normalizedZ; // Bottom plane
+		// Top plane
+		float bottomCap = height - normalizedZ; // Bottom plane
 
 		// Combine the distances with max to respect boundaries
 		return Math.max(surfaceDistance, Math.max(normalizedZ, -bottomCap));

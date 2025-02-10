@@ -18,7 +18,7 @@ public class CinematicClientEntity extends AbstractClientPlayer {
 
 	public CinematicClientEntity() {
 		super(Objects.requireNonNull(mc.level), Objects.requireNonNull(mc.player).getGameProfile());
-    }
+	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override

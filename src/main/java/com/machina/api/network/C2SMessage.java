@@ -6,6 +6,6 @@ import net.minecraft.server.level.ServerPlayer;
 
 public interface C2SMessage {
 	void encode(FriendlyByteBuf buf);
-	
+
 	void handle(MinecraftServer server, ServerPlayer player);
 }

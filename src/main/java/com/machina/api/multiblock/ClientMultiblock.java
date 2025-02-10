@@ -1,20 +1,25 @@
 package com.machina.api.multiblock;
 
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LightChunk;
+import net.minecraft.world.level.chunk.LightChunkGetter;
+import net.minecraft.world.level.lighting.ChunkSkyLightSources;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
-public class ClientMultiblock implements BlockAndTintGetter {
+public class ClientMultiblock implements BlockAndTintGetter, LightChunk {
 
 	public final Multiblock mb;
 
@@ -74,15 +79,32 @@ public class ClientMultiblock implements BlockAndTintGetter {
 		return 0;
 	}
 
-	// TODO: What?
-	@SuppressWarnings("DataFlowIssue")
 	@Override
 	public @NotNull LevelLightEngine getLightEngine() {
-		return null;
+		return new LevelLightEngine(new LightChunkGetter() {
+			@Override
+			public BlockGetter getLevel() {
+				return ClientMultiblock.this;
+			}
+
+			@Override
+			public LightChunk getChunkForLighting(int x, int y) {
+				return ClientMultiblock.this;
+			}
+		}, false, false);
 	}
 
 	@Override
 	public int getBlockTint(@NotNull BlockPos p_45520_, @NotNull ColorResolver p_45521_) {
 		return 0;
+	}
+
+	@Override
+	public void findBlockLightSources(BiConsumer<BlockPos, BlockState> p_285040_) {
+	}
+
+	@Override
+	public ChunkSkyLightSources getSkyLightSources() {
+		return new ChunkSkyLightSources(this);
 	}
 }

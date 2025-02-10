@@ -11,7 +11,7 @@ public abstract class LitMachineBlock extends MachineBlock {
 
 	public static final BooleanProperty LIT = BlockProperties.LIT;
 
-    protected LitMachineBlock(Properties props) {
+	protected LitMachineBlock(Properties props) {
 		super(props);
 
 		this.registerDefaultState(this.stateDefinition.any().setValue(LIT, false));

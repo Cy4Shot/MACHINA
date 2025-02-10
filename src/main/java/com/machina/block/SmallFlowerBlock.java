@@ -33,7 +33,8 @@ public class SmallFlowerBlock extends BushBlock {
 		return state.rotate(mir.getRotation(state.getValue(FACING)));
 	}
 
-	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos, @NotNull CollisionContext collision) {
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos,
+			@NotNull CollisionContext collision) {
 		return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
 	}
 

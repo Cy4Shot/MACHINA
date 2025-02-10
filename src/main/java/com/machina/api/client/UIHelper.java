@@ -54,8 +54,7 @@ public class UIHelper {
 
 	public static void betterBlit(PoseStack ms, float x, float y, float uOff, float vOff, float w, float h, float texX,
 			float texY) {
-		innerBlit(ms.last().pose(), x, x + w, y, y + h, uOff / texX, (uOff + w) / texX, vOff / texY,
-				(vOff + h) / texY);
+		innerBlit(ms.last().pose(), x, x + w, y, y + h, uOff / texX, (uOff + w) / texX, vOff / texY, (vOff + h) / texY);
 	}
 
 	public static void blitTransp(PoseStack ms, float x, float y, float uOff, float vOff, float w, float h, float tex) {
@@ -71,8 +70,8 @@ public class UIHelper {
 
 	public static final float blitOffset = 0f;
 
-	private static void innerBlit(Matrix4f pMatrix, float pX1, float pX2, float pY1, float pY2,
-								  float pMinU, float pMaxU, float pMinV, float pMaxV) {
+	private static void innerBlit(Matrix4f pMatrix, float pX1, float pX2, float pY1, float pY2, float pMinU,
+			float pMaxU, float pMinV, float pMaxV) {
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
 		bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
@@ -149,10 +148,10 @@ public class UIHelper {
 		vertexBuffer.bind();
 		vertexBuffer.upload(buffer.end());
 		Matrix4f mat = poseStack.last().pose();
-        if (GameRenderer.getPositionColorShader() != null) {
-            vertexBuffer.drawWithShader(mat, celestialProj(gui), GameRenderer.getPositionColorShader());
-        }
-        poseStack.popPose();
+		if (GameRenderer.getPositionColorShader() != null) {
+			vertexBuffer.drawWithShader(mat, celestialProj(gui), GameRenderer.getPositionColorShader());
+		}
+		poseStack.popPose();
 		VertexBuffer.unbind();
 	}
 

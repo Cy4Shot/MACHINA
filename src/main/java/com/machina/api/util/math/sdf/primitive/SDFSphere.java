@@ -4,7 +4,7 @@ import com.machina.api.util.math.MathUtil;
 
 public class SDFSphere extends SDFPrimitive {
 	private final float radius;
-	
+
 	public SDFSphere(float radius) {
 		this.radius = radius;
 	}

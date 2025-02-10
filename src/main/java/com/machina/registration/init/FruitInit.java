@@ -36,7 +36,7 @@ public class FruitInit {
 		if ((flags & 1) == 1) {
 			b = b.fast();
 		}
-        return b.build();
+		return b.build();
 	}
 
 	private static Fruit register(String name, int nut, float sat, int flags) {

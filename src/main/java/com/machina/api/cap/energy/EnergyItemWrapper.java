@@ -39,7 +39,7 @@ public class EnergyItemWrapper implements IEnergyStorage, ICapabilityProvider {
 			if (setEnergyStored(energy + received))
 				return 0;
 		}
-        return received;
+		return received;
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class EnergyItemWrapper implements IEnergyStorage, ICapabilityProvider {
 			if (setEnergyStored(energy - extracted))
 				return 0;
 		}
-        return extracted;
+		return extracted;
 	}
 
 	@Override

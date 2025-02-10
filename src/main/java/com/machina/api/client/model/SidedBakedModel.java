@@ -49,8 +49,7 @@ public class SidedBakedModel extends BakedModelWrapper<BakedModel> implements ID
 //		quads.clear();
 		quads.add(new BakedQuad(quad.getVertices(), quad.getTintIndex(), side, ModelLoader.MACHINE_FACE_INPUT,
 				quad.isShade(), quad.hasAmbientOcclusion()));
-		
-		
+
 		int sideIndex = side.get3DDataValue();
 
 		byte[] sideConfigRaw = extraData.get(SIDES);
@@ -74,7 +73,8 @@ public class SidedBakedModel extends BakedModelWrapper<BakedModel> implements ID
 	}
 
 	@Override
-	public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand) {
+	public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side,
+			@NotNull RandomSource rand) {
 		return List.of();
 	}
 

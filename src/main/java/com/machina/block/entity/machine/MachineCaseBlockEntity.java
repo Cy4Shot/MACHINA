@@ -72,11 +72,11 @@ public class MachineCaseBlockEntity extends MachinaBlockEntity {
 					if (!v.equals(" ")) {
 						List<BlockState> allowed = List.of(mb.map.get(v));
 						BlockPos pos = new BlockPos(cp.getX() + x, cp.getY() + y, cp.getZ() + z);
-                        BlockState state = null;
-                        if (this.level != null) {
-                            state = this.level.getBlockState(pos);
-                        }
-                        if (!allowed.contains(state))
+						BlockState state = null;
+						if (this.level != null) {
+							state = this.level.getBlockState(pos);
+						}
+						if (!allowed.contains(state))
 							return false;
 					}
 				}
@@ -90,7 +90,7 @@ public class MachineCaseBlockEntity extends MachinaBlockEntity {
 	public int getMaxEnergy() {
 		return 0;
 	}
-	
+
 	@Override
 	public boolean activeModel() {
 		return false;
