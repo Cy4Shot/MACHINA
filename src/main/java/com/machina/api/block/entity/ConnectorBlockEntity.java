@@ -113,12 +113,14 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
-		ListTag mycons = new ListTag();
-		for (Connection c : myConnectors.values()) {
-			CompoundTag postag = new CompoundTag();
-			postag.put("connector", c.save());
-			mycons.add(postag);
-		}
+		CompoundTag mycons = new CompoundTag();
+		this.dirs.forEach(dir -> {
+			if (myConnectors.containsKey(dir)) {
+				CompoundTag postag = new CompoundTag();
+				postag.put("connector", myConnectors.get(dir).save());
+				mycons.put(String.valueOf(dir.get3DDataValue()), postag);
+			}
+		});
 		tag.put("my_connectors", mycons);
 
 		ListTag cons = new ListTag();
@@ -145,11 +147,14 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		connectors = new ArrayList<>();
 		dirs = new ArrayList<>();
 
-		ListTag mycons = tag.getList("my_connectors", Tag.TAG_COMPOUND);
-		for (int j = 0; j < mycons.size(); j++) {
-			Connection c = Connection.load(mycons.getCompound(j).getCompound("connector"));
-			Direction d = Direction.values()[j];
-			myConnectors.put(d, c);
+		CompoundTag mycons = tag.getCompound("my_connectors");
+		for (int j = 0; j < Direction.values().length; j++) {
+			String key = Integer.toString(j);
+			if (mycons.contains(key)) {
+				Connection con = Connection.load(mycons.getCompound(key).getCompound("connector"));
+				Direction d = Direction.from3DDataValue(j);
+				myConnectors.put(d, con);
+			}
 		}
 
 		ListTag cons = tag.getList("connectors", Tag.TAG_COMPOUND);
@@ -163,6 +168,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		}
 		this.revalidate();
 		super.load(tag);
+		this.level.getModelDataManager().requestRefresh(this);
 	}
 
 	public void enqueueSearch() {
@@ -249,7 +255,8 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 
 		@Override
 		public String toString() {
-			return "Connection{" + "pos=" + pos + ", direction=" + direction + ", distance=" + distance + '}';
+			return "Connection{" + "pos=" + pos + ", direction=" + direction + ", distance=" + distance + ", side="
+					+ side + '}';
 		}
 
 		public CompoundTag save() {
@@ -284,6 +291,8 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		ConnectionSide west = conenctionData(data[4], Direction.WEST);
 		ConnectionSide up = conenctionData(data[5], Direction.UP);
 		ConnectionSide down = conenctionData(data[6], Direction.DOWN);
+		System.out.println("North: " + north + " East: " + east + " South: " + south + " West: " + west + " Up: " + up
+				+ " Down: " + down);
 
 		long packed = 0;
 		packed |= down.ordinal();

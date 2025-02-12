@@ -99,7 +99,6 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 
 	@SuppressWarnings("unchecked")
 	private void syncConnections(LevelAccessor level, BlockPos pos) {
-		refreshModel(level, pos);
 		BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, cable -> {
 			if (!level.isClientSide()) {
 				cable.dirs.clear();
@@ -123,6 +122,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 			@NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
 			@NotNull BlockPos facingPos) {
 		syncConnections(level, pos);
+		refreshModel(level, pos);
 		return createState(level, pos);
 	}
 
@@ -203,7 +203,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	protected abstract Map<BlockPos, Set<BlockPos>> getCache();
 
 	@SuppressWarnings("unchecked")
-	public void findConnectors(BlockGetter world, BlockPos poss, BlockPos pos) {
+	public void findConnectors(LevelAccessor world, BlockPos poss, BlockPos pos) {
 		Set<BlockPos> ss = getCache().get(poss);
 		if (ss == null)
 			ss = new HashSet<>();
@@ -225,7 +225,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	public void searchConnectors(BlockGetter world, BlockPos pos, ConnectorBlockEntity<T> first, int dist) {
+	public void searchConnectors(LevelAccessor world, BlockPos pos, ConnectorBlockEntity<T> first, int dist) {
 		int newdist = dist + 1;
 		for (Direction dir : Direction.values()) {
 			BlockPos blockPos = pos.relative(dir);

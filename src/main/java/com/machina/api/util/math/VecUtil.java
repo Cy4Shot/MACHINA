@@ -21,6 +21,7 @@ public class VecUtil {
 	public static final Vector3f YP = new Vector3f(0.0F, 1.0F, 0.0F);
 	public static final Vector3f ZN = new Vector3f(0.0F, 0.0F, -1.0F);
 	public static final Vector3f ZP = new Vector3f(0.0F, 0.0F, 1.0F);
+	public static final Vector3f HALF = new Vector3f(0.5f, 0.5f, 0.5f);
 
 	public static Quaternionf rotationDegrees(Vector3f vec, float degrees) {
 		degrees *= ((float) Math.PI / 180F);

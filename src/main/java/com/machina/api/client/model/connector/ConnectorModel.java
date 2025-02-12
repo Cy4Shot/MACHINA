@@ -83,6 +83,10 @@ public class ConnectorModel implements IDynamicBakedModel {
 			new Vector3f(10f, 10f, 10f), connText(t, "middle"));
 	private static final Function<String, FacedMesh> MULTI = t -> FacedMesh.pipe(new Vector3f(6.5f, 6.5f, 0f),
 			new Vector3f(9.5f, 9.5f, 8f), connText(t, "multi_a"), connText(t, "multi_b"));
+	private static final Function<String, FacedMesh> INPUT = t -> FacedMesh.cube(new Vector3f(6f, 6f, 0f),
+			new Vector3f(10f, 10f, 3f), connText(t, "input"));
+	private static final Function<String, FacedMesh> OUTPUT = t -> FacedMesh.cube(new Vector3f(6f, 6f, 0f),
+			new Vector3f(10f, 10f, 3f), connText(t, "output"));
 
 	@Override
 	public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side,
@@ -95,9 +99,21 @@ public class ConnectorModel implements IDynamicBakedModel {
 					new BlockElementRotation(VecUtil.XP, Direction.Axis.X, 0, false));
 
 		for (Direction d : Direction.values()) {
-			if (ConnectorModelData.getSide(extraData, d) == ConnectionSide.NONE)
+			ConnectionSide con = ConnectorModelData.getSide(extraData, d);
+			switch (con) {
+			case NONE:
 				continue;
-			MULTI.apply(type).addQuads(builder, spriteGetter, VecUtil.dirToBer(d, new Vector3f(0.5f, 0.5f, 0.5f)));
+			case INPUT:
+				System.out.println(d);
+				INPUT.apply(type).addQuads(builder, spriteGetter, VecUtil.dirToBer(d, VecUtil.HALF));
+				break;
+			case OUTPUT:
+				OUTPUT.apply(type).addQuads(builder, spriteGetter, VecUtil.dirToBer(d, VecUtil.HALF));
+				break;
+			default:
+				break;
+			}
+			MULTI.apply(type).addQuads(builder, spriteGetter, VecUtil.dirToBer(d, VecUtil.HALF));
 		}
 
 		return quads;
