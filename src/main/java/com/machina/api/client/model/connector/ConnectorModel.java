@@ -81,15 +81,13 @@ public class ConnectorModel implements IDynamicBakedModel {
 	private static final Function<String, FacedMesh> MIDDLE = t -> FacedMesh.cube(new Vector3f(6f, 6f, 6f),
 			new Vector3f(10f, 10f, 10f), connText(t, "middle"));
 	private static final Function<String, FacedMesh> MULTI = t -> FacedMesh.pipe(new Vector3f(6.5f, 6.5f, 0f),
-			new Vector3f(9.5f, 9.5f, 8f), connText(t, "multi"));
+			new Vector3f(9.5f, 9.5f, 8f), connText(t, "multi_a"), connText(t, "multi_b"));
 
 	@Override
 	public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side,
 			@NotNull RandomSource rand, @NotNull ModelData extraData, @Nullable RenderType renderType) {
 		List<BakedQuad> quads = new ArrayList<>();
 		IModelBuilder<?> builder = IModelBuilder.collecting(quads);
-
-//		String type = ConnectorModelData.type(extraData);
 
 		if (ConnectorModelData.middle(extraData))
 			MIDDLE.apply("energy").addQuads(builder, spriteGetter,
@@ -98,7 +96,6 @@ public class ConnectorModel implements IDynamicBakedModel {
 		for (Direction d : Direction.values()) {
 			if (ConnectorModelData.getSide(extraData, d) == ConnectionSide.NONE)
 				continue;
-			System.out.println(d);
 			MULTI.apply("energy").addQuads(builder, spriteGetter, VecUtil.dirToBer(d, new Vector3f(0.5f, 0.5f, 0.5f)));
 		}
 
@@ -117,13 +114,11 @@ public class ConnectorModel implements IDynamicBakedModel {
 		 * Bits [8-9]: West
 		 * Bits [10-11]: East
 		 * Bit 12: Middle
-		 * Bit 14-16 Type
 		 * @formatter:on
 		 */
 		public static final ModelProperty<Long> PROPERTY = new ModelProperty<>();
 
 		private static int GENERIC_MASK = 0b11;
-		private static int MIDDLE_MASK = 0b100000000000;
 
 		private static ConnectionSide getSide(Long data, int index) {
 			return ConnectionSide.values()[(int) (data >> (index * 2) & GENERIC_MASK)];
@@ -145,13 +140,6 @@ public class ConnectorModel implements IDynamicBakedModel {
 			if (l == null)
 				return false;
 			return middle(data.get(PROPERTY));
-		}
-
-		public static String type(ModelData data) {
-			Long l = data.get(PROPERTY);
-			if (l == null)
-				return "none";
-			return "type_" + (l >> 12 & 0b111);
 		}
 	}
 

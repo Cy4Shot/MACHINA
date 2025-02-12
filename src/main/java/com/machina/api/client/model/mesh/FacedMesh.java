@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.IModelBuilder;
@@ -35,14 +36,15 @@ public class FacedMesh implements IMesh {
 		return new FacedMesh(from, to, faces, true);
 	}
 
-	public static FacedMesh pipe(Vector3f from, Vector3f to, String tex) {
+	public static FacedMesh pipe(Vector3f from, Vector3f to, String tex, String tex_2) {
 		Material m = new Material(TextureAtlas.LOCATION_BLOCKS, new MachinaRL(tex));
+		Material m1 = new Material(TextureAtlas.LOCATION_BLOCKS, new MachinaRL(tex_2));
 		Map<Direction, MeshFace> faces = Map.of(
 		//@formatter:off
-			Direction.DOWN, new MeshFace(Direction.DOWN, m, new BlockFaceUV(null, 180)),
 			Direction.UP, new MeshFace(Direction.UP, m, new BlockFaceUV(null, 0)),
-			Direction.EAST, new MeshFace(Direction.EAST, m, new BlockFaceUV(null, 0)),
-			Direction.WEST, new MeshFace(Direction.WEST, m, new BlockFaceUV(null, 180))
+			Direction.DOWN, new MeshFace(Direction.DOWN, m, new BlockFaceUV(null, 180)),
+			Direction.EAST, new MeshFace(Direction.EAST, m1, new BlockFaceUV(null, 0)),
+			Direction.WEST, new MeshFace(Direction.WEST, m1, new BlockFaceUV(null, 180))
 		//@formatter:on
 		);
 		return new FacedMesh(from, to, faces, true);
@@ -66,23 +68,27 @@ public class FacedMesh implements IMesh {
 	}
 
 	public float[] uvsByFace(Direction d) {
+		float width, height;
 		switch (d) {
 		case DOWN:
-			return new float[] { this.from.x(), 16.0F - this.to.z(), this.to.x(), 16.0F - this.from.z() };
 		case UP:
-			return new float[] { this.from.x(), this.from.z(), this.to.x(), this.to.z() };
+			width = Mth.ceil(this.to.x() - this.from.x());
+			height = Mth.ceil(this.to.z() - this.from.z());
+			break;
 		case SOUTH:
-			return new float[] { this.from.x(), 16.0F - this.to.y(), this.to.x(), 16.0F - this.from.y() };
-		case WEST:
-			return new float[] { this.from.z(), 16.0F - this.to.y(), this.to.z(), 16.0F - this.from.y() };
-		case EAST:
-			return new float[] { 16.0F - this.to.z(), 16.0F - this.to.y(), 16.0F - this.from.z(),
-					16.0F - this.from.y() };
 		case NORTH:
+			width = Mth.ceil(this.to.x() - this.from.x());
+			height = Mth.ceil(this.to.y() - this.from.y());
+			break;
+		case WEST:
+		case EAST:
+			width = Mth.ceil(this.to.z() - this.from.z());
+			height = Mth.ceil(this.to.y() - this.from.y());
+			break;
 		default:
-			return new float[] { 16.0F - this.to.x(), 16.0F - this.to.y(), 16.0F - this.from.x(),
-					16.0F - this.from.y() };
+			return new float[] { 0, 0, 0, 0 };
 		}
+		return new float[] { 0, 0, width, height };
 	}
 
 	@Override
