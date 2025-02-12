@@ -1,3 +1,4 @@
 {
-	"loader": "machina:connector"
+	"loader": "machina:connector",
+	"type": "energy"
 }

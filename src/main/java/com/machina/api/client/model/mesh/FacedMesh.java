@@ -72,18 +72,18 @@ public class FacedMesh implements IMesh {
 		switch (d) {
 		case DOWN:
 		case UP:
-			width = Mth.ceil(this.to.x() - this.from.x());
-			height = Mth.ceil(this.to.z() - this.from.z());
+			width = Mth.ceil(to.x() - from.x());
+			height = Mth.ceil(to.z() - from.z());
 			break;
 		case SOUTH:
 		case NORTH:
-			width = Mth.ceil(this.to.x() - this.from.x());
-			height = Mth.ceil(this.to.y() - this.from.y());
+			width = Mth.ceil(to.x() - from.x());
+			height = Mth.ceil(to.y() - from.y());
 			break;
 		case WEST:
 		case EAST:
-			width = Mth.ceil(this.to.z() - this.from.z());
-			height = Mth.ceil(this.to.y() - this.from.y());
+			width = Mth.ceil(to.z() - from.z());
+			height = Mth.ceil(to.y() - from.y());
 			break;
 		default:
 			return new float[] { 0, 0, 0, 0 };

@@ -25,16 +25,24 @@ public class ConnectorModelLoader implements IGeometryLoader<ConnectorGeometry> 
 	@Override
 	public ConnectorGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext)
 			throws JsonParseException {
-		return new ConnectorGeometry();
+		String type = jsonObject.get("type").getAsString();
+		return new ConnectorGeometry(type);
 	}
 
 	public static class ConnectorGeometry implements IUnbakedGeometry<ConnectorGeometry> {
+		
+		private final String type;
+		
+		public ConnectorGeometry(String type) {
+			this.type = type;
+		}
+
 		@Override
 		public BakedModel bake(IGeometryBakingContext context, ModelBaker baker,
 				Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides,
 				ResourceLocation modelLocation) {
 			return new ConnectorModel(context.useAmbientOcclusion(), context.isGui3d(), context.useBlockLight(),
-					spriteGetter);
+					spriteGetter, type);
 		}
 	}
 }

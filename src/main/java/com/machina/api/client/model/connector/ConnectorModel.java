@@ -34,13 +34,15 @@ public class ConnectorModel implements IDynamicBakedModel {
 	private final boolean isGui3d;
 	private final boolean useBlockLight;
 	private final Function<Material, TextureAtlasSprite> spriteGetter;
+	private final String type;
 
 	public ConnectorModel(boolean isAmbientOcclusion, boolean isGui3d, boolean useBlockLight,
-			Function<Material, TextureAtlasSprite> spriteGetter) {
+			Function<Material, TextureAtlasSprite> spriteGetter, String type) {
 		this.isAmbientOcclusion = isAmbientOcclusion;
 		this.isGui3d = isGui3d;
 		this.useBlockLight = useBlockLight;
 		this.spriteGetter = spriteGetter;
+		this.type = type;
 	}
 
 	@Override
@@ -65,8 +67,7 @@ public class ConnectorModel implements IDynamicBakedModel {
 
 	@Override
 	public TextureAtlasSprite getParticleIcon() {
-		return spriteGetter
-				.apply(new Material(TextureAtlas.LOCATION_BLOCKS, new MachinaRL("textures/blocks/energy/middle.png")));
+		return spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, new MachinaRL(connText(type, "middle"))));
 	}
 
 	@Override
@@ -90,13 +91,13 @@ public class ConnectorModel implements IDynamicBakedModel {
 		IModelBuilder<?> builder = IModelBuilder.collecting(quads);
 
 		if (ConnectorModelData.middle(extraData))
-			MIDDLE.apply("energy").addQuads(builder, spriteGetter,
+			MIDDLE.apply(type).addQuads(builder, spriteGetter,
 					new BlockElementRotation(VecUtil.XP, Direction.Axis.X, 0, false));
 
 		for (Direction d : Direction.values()) {
 			if (ConnectorModelData.getSide(extraData, d) == ConnectionSide.NONE)
 				continue;
-			MULTI.apply("energy").addQuads(builder, spriteGetter, VecUtil.dirToBer(d, new Vector3f(0.5f, 0.5f, 0.5f)));
+			MULTI.apply(type).addQuads(builder, spriteGetter, VecUtil.dirToBer(d, new Vector3f(0.5f, 0.5f, 0.5f)));
 		}
 
 		return quads;
