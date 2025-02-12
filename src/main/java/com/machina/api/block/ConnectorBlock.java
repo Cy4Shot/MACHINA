@@ -4,18 +4,21 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.block.entity.ConnectorBlockEntity.Connection;
 import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.cap.sided.ConnectionSide;
-import com.machina.api.cap.sided.Side;
 import com.machina.api.util.block.BlockHelper;
-import com.machina.api.util.block.BlockProperties;
 import com.machina.api.util.math.MathUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -29,20 +32,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block implements EntityBlock {
-	public static final EnumProperty<ConnectionSide> NORTH = BlockProperties.NORTH_SIDE;
-	public static final EnumProperty<ConnectionSide> EAST = BlockProperties.EAST_SIDE;
-	public static final EnumProperty<ConnectionSide> SOUTH = BlockProperties.SOUTH_SIDE;
-	public static final EnumProperty<ConnectionSide> WEST = BlockProperties.WEST_SIDE;
-	public static final EnumProperty<ConnectionSide> UP = BlockProperties.UP_SIDE;
-	public static final EnumProperty<ConnectionSide> DOWN = BlockProperties.DOWN_SIDE;
-	public static final BooleanProperty MIDDLE = BooleanProperty.create("middle");
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");
 
 	private static final VoxelShape PART_C = Block.box(6, 6, 6, 10, 10, 10);
@@ -57,33 +52,54 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	public ConnectorBlock(Properties props) {
 		super(props.noOcclusion());
 
-		this.registerDefaultState(this.stateDefinition.any().setValue(NORTH, ConnectionSide.NONE)
-				.setValue(EAST, ConnectionSide.NONE).setValue(SOUTH, ConnectionSide.NONE)
-				.setValue(WEST, ConnectionSide.NONE).setValue(UP, ConnectionSide.NONE)
-				.setValue(DOWN, ConnectionSide.NONE).setValue(MIDDLE, false).setValue(TILE, false));
+		this.registerDefaultState(this.stateDefinition.any().setValue(TILE, false));
+	}
+
+	public boolean[] getModelData(@NotNull BlockGetter level, BlockPos pos) {
+		boolean north = canAttach(level, pos, Direction.NORTH);
+		boolean south = canAttach(level, pos, Direction.SOUTH);
+		boolean west = canAttach(level, pos, Direction.WEST);
+		boolean east = canAttach(level, pos, Direction.EAST);
+		boolean up = canAttach(level, pos, Direction.UP);
+		boolean down = canAttach(level, pos, Direction.DOWN);
+
+		boolean middle = false;
+		if (MathUtil.numTrue(north, south, west, east, up, down) == 2) {
+			for (Direction dir : Direction.values()) {
+				if (canAttach(level, pos, dir)) {
+					if (canAttach(level, pos, dir.getOpposite()))
+						middle = true;
+					break;
+				}
+			}
+		}
+
+		return new boolean[] { middle, north, east, south, west, up, down };
 	}
 
 	@Override
 	public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
 			@NotNull CollisionContext pContext) {
-		VoxelShape shape = state.getValue(MIDDLE) ? PART_M : PART_C;
-		if (state.getValue(NORTH).isConnected() || isConnectable(level, pos, Direction.NORTH))
+		boolean[] data = getModelData(level, pos);
+		VoxelShape shape = data[0] ? PART_M : PART_C;
+		if (data[1])
 			shape = Shapes.or(shape, PART_N);
-		if (state.getValue(EAST).isConnected() || isConnectable(level, pos, Direction.EAST))
+		if (data[2])
 			shape = Shapes.or(shape, PART_E);
-		if (state.getValue(SOUTH).isConnected() || isConnectable(level, pos, Direction.SOUTH))
+		if (data[3])
 			shape = Shapes.or(shape, PART_S);
-		if (state.getValue(WEST).isConnected() || isConnectable(level, pos, Direction.WEST))
+		if (data[4])
 			shape = Shapes.or(shape, PART_W);
-		if (state.getValue(UP).isConnected() || isConnectable(level, pos, Direction.UP))
+		if (data[5])
 			shape = Shapes.or(shape, PART_U);
-		if (state.getValue(DOWN).isConnected() || isConnectable(level, pos, Direction.DOWN))
+		if (data[6])
 			shape = Shapes.or(shape, PART_D);
 		return shape;
 	}
 
 	@SuppressWarnings("unchecked")
 	private void syncConnections(LevelAccessor level, BlockPos pos) {
+		refreshModel(level, pos);
 		BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, cable -> {
 			if (!level.isClientSide()) {
 				cable.dirs.clear();
@@ -94,6 +110,12 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 				cable.sync();
 			}
 		});
+	}
+
+	private void refreshModel(LevelAccessor level, BlockPos pos) {
+		if (level.isClientSide()) {
+			BlockHelper.doWithTe(level, pos, BlockEntity.class, level.getModelDataManager()::requestRefresh);
+		}
 	}
 
 	@Override
@@ -116,57 +138,36 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		return !(be instanceof ConnectorBlockEntity) && canConnect(be, dir.getOpposite());
 	}
 
-	private boolean[] canAttach(BlockGetter level, BlockPos pos, Direction dir) {
+	private boolean canAttach(BlockGetter level, BlockPos pos, Direction dir) {
 		boolean connectable = isConnectable(level, pos, dir);
-		return new boolean[] { level.getBlockState(pos.relative(dir)).getBlock() == this || connectable, connectable };
-	}
-
-	private ConnectionSide getSide(boolean[] data) {
-		return data[1] ? ConnectionSide.OUTPUT : (data[0] ? ConnectionSide.NORMAL : ConnectionSide.NONE);
+		return level.getBlockState(pos.relative(dir)).getBlock() == this || connectable;
 	}
 
 	private BlockState createState(BlockGetter level, BlockPos pos) {
-		final BlockState state = defaultBlockState();
-		boolean[] north = canAttach(level, pos, Direction.NORTH);
-		boolean[] south = canAttach(level, pos, Direction.SOUTH);
-		boolean[] west = canAttach(level, pos, Direction.WEST);
-		boolean[] east = canAttach(level, pos, Direction.EAST);
-		boolean[] up = canAttach(level, pos, Direction.UP);
-		boolean[] down = canAttach(level, pos, Direction.DOWN);
 
-		boolean tile = north[1] || south[1] || west[1] || east[1] || up[1] || down[1];
+		boolean tile = isConnectable(level, pos, Direction.NORTH) || isConnectable(level, pos, Direction.SOUTH)
+				|| isConnectable(level, pos, Direction.WEST) || isConnectable(level, pos, Direction.EAST)
+				|| isConnectable(level, pos, Direction.UP) || isConnectable(level, pos, Direction.DOWN);
 
 		if (!tile)
 			BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::setRemoved);
 
-		boolean middle = false;
-		if (MathUtil.numTrue(north[0], south[0], west[0], east[0], up[0], down[0]) == 2) {
-			for (Direction dir : Direction.values()) {
-				if (canAttach(level, pos, dir)[0]) {
-					if (canAttach(level, pos, dir.getOpposite())[0])
-						middle = true;
-					break;
-				}
-			}
-		}
-
-		//@formatter:off
-		return state
-				.setValue(NORTH, getSide(north))
-				.setValue(SOUTH, getSide(south))
-				.setValue(WEST, getSide(west))
-				.setValue(EAST, getSide(east))
-				.setValue(UP, getSide(up))
-				.setValue(DOWN, getSide(down))
-				.setValue(MIDDLE, middle)
-				.setValue(TILE, tile);
-		//@formatter:on
+		return defaultBlockState().setValue(TILE, tile);
 	}
 
 	@Override
 	protected void createBlockStateDefinition(Builder<Block, BlockState> b) {
-		b.add(MIDDLE, TILE, NORTH, EAST, SOUTH, WEST, UP, DOWN);
+		b.add(TILE);
 		super.createBlockStateDefinition(b);
+	}
+
+	// TODO: Change on hit to open GUI
+	@Override
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+			BlockHitResult hit) {
+//		System.out.println(hit.getLocation().toString());
+
+		return InteractionResult.FAIL;
 	}
 
 	@Override
@@ -236,7 +237,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 					if (block == this) {
 						BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class,
 								be -> be.dirs.forEach(d -> first.connectors
-										.add(new Connection(blockPos, (Direction) d, newdist, Side.OUTPUT))));
+										.add(new Connection(blockPos, (Direction) d, newdist, ConnectionSide.INPUT))));
 						first.addToCache(blockPos);
 						((ConnectorBlock<T>) block).searchConnectors(world, blockPos, first, newdist);
 					}

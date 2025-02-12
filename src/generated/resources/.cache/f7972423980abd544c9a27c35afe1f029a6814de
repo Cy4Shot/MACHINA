@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-10T13:24:13.307861	Block States: machina
+// 1.20.1	2025-02-12T19:52:57.8726634	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -93,7 +93,6 @@ afb27335ac69d398b911c489225ed61fb8af3b9c assets/machina/blockstates/dead_tropica
 75b0137e0dc29872f4341433a101b2361acfe1c8 assets/machina/blockstates/dead_tropical_wall_sign.json
 b7cbec35f124a95a983734c226e50cee24886d4b assets/machina/blockstates/dead_tropical_wood.json
 79fc091b92b2490e92e14615bef6d3c9032e3715 assets/machina/blockstates/dragon_peony.json
-deffefe5be11dfce6f79012b4e2facc62cf5d14c assets/machina/blockstates/energy_cable.json
 0f1e97020d22d16862a01e929ed758ed464f4dd4 assets/machina/blockstates/erbi_pod.json
 871b92d8b57ab03715ce657a0f20026bba421bc9 assets/machina/blockstates/ethane_block.json
 cd0b0154f36db409338daa4e43c02ebacd120770 assets/machina/blockstates/ethanol_block.json
@@ -105,7 +104,6 @@ f3065883e0bcb373eb26453b087e9c911681e712 assets/machina/blockstates/feldspar_pre
 c8d9c5a43f53b23d0e2724eaa4a6427b3b99a0af assets/machina/blockstates/feldspar_slab.json
 de152115d7ddc84060a59260d0f78d7d0c38ae3b assets/machina/blockstates/feldspar_stairs.json
 625ea0b94728fedd65f7d19f7d32210cfb077a13 assets/machina/blockstates/feldspar_wall.json
-6c5c67575a189a6c9281866f6cb56b906479f5c4 assets/machina/blockstates/fluid_pipe.json
 e949a584927782bb1f9919c390bc2f1dc59f6dfd assets/machina/blockstates/forest_dirt.json
 743f7f665f5051492d0436e71fd3bbe75cd34043 assets/machina/blockstates/forest_dirt_slab.json
 3a30a9e1ec11557e4515a76ff2f89d9e05dc10a1 assets/machina/blockstates/forest_dirt_stairs.json
@@ -524,8 +522,6 @@ e03354affc6f5aa270a6e440ab045245c480d226 assets/machina/models/block/dead_tropic
 01c84c8584524c985f2a8fab3711d5f4db5f00b8 assets/machina/models/block/dead_tropical_wood_horizontal.json
 69604cfde9068d5e9cbb20fc62cb2cfc565b45af assets/machina/models/block/dragon_peony.json
 6b74ff88a1332f230c97956ba99c22f6b00ff5b3 assets/machina/models/block/energy_cable.json
-f1abd4543fd05ef2f1fbe9b22a1ca54388a0472c assets/machina/models/block/energy_cable_connection.json
-47a515d9b8ecb7be89b7a934637bb789760fd764 assets/machina/models/block/energy_cable_multi.json
 3338e815f8cf83717f5d4888c920fb63d8c22479 assets/machina/models/block/erbi_pod.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/ethane_block.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/ethanol_block.json
@@ -550,8 +546,6 @@ cf8bbe4a175bb414895ce26b804ca633df6f54da assets/machina/models/block/feldspar_wa
 522b389902b93cef79181a1bd2e435187548424b assets/machina/models/block/feldspar_wall_side.json
 eeeeafe8b3be7ba0f53d125f9866cb5294924935 assets/machina/models/block/feldspar_wall_side_tall.json
 b3df4609617bcca8b0418c7eaa482035b6330f8d assets/machina/models/block/fluid_pipe.json
-36415dfa5fd9800a8d92e0edc92f9cfccaeba128 assets/machina/models/block/fluid_pipe_connection.json
-81b6fba69acb9a998576588a13ebbbfc65838e2f assets/machina/models/block/fluid_pipe_multi.json
 36f383bf2ad80b7ea23f701c57b86e912493add3 assets/machina/models/block/forest_dirt.json
 431f59120031dd1d4da3084003f6b2368494bfef assets/machina/models/block/forest_dirt_slab.json
 0c562badc8b3096963adc3533d67c177627d700c assets/machina/models/block/forest_dirt_slab_top.json

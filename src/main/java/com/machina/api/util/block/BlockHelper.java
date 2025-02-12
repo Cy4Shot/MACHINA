@@ -1,6 +1,7 @@
 package com.machina.api.util.block;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
@@ -39,6 +40,18 @@ public class BlockHelper {
 
 		todo.accept((T) e);
 		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends BlockEntity, R> R getFromTe(BlockGetter world, BlockPos pos, Class<T> clazz,
+			Function<T, R> todo) {
+		BlockEntity e = world.getBlockEntity(pos);
+		if (e == null || !(clazz.isAssignableFrom(e.getClass()))) {
+			Machina.LOGGER.error("BE at {} is null.", pos.toShortString());
+			return null;
+		}
+
+		return todo.apply((T) e);
 	}
 
 	public static <C> LazyOptional<C> getCapability(BlockGetter world, BlockPos pos, Direction side,

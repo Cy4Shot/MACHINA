@@ -4,7 +4,6 @@ import java.util.function.Function;
 
 import com.machina.Machina;
 import com.machina.api.block.ConnectorBlock;
-import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.MachinaWaterlilyBlock;
 import com.machina.block.PebbleBlock;
@@ -632,37 +631,6 @@ public class DatagenBlockStates extends BlockStateProvider {
 
 		ModelFile main = models().withExistingParent(name(p), new MachinaRL("block/connector/base"))
 				.texture("connector", b).renderType("cutout");
-		ModelFile multi = models().withExistingParent(name(p) + "_multi", new MachinaRL("block/connector/multi"))
-				.texture("multipart", b).renderType("cutout");
-		ModelFile conn_o = models()
-				.withExistingParent(name(p) + "_connection", new MachinaRL("block/connector/connection"))
-				.texture("connection", b).renderType("cutout");
-		ModelFile conn_i = models()
-				.withExistingParent(name(p) + "_connection", new MachinaRL("block/connector/connection"))
-				.texture("connection", b).renderType("cutout");
-
-		//@formatter:off
-		getMultipartBuilder(p)
-				.part().modelFile(main).addModel().condition(ConnectorBlock.MIDDLE, false).end()
-				.part().modelFile(multi).addModel().condition(ConnectorBlock.NORTH, ConnectionSide.NORMAL, ConnectionSide.INPUT, ConnectionSide.OUTPUT).end()
-				.part().modelFile(multi).rotationY(90).addModel().condition(ConnectorBlock.EAST, ConnectionSide.NORMAL, ConnectionSide.INPUT, ConnectionSide.OUTPUT).end()
-				.part().modelFile(multi).rotationX(180).addModel().condition(ConnectorBlock.SOUTH, ConnectionSide.NORMAL, ConnectionSide.INPUT, ConnectionSide.OUTPUT).end()
-				.part().modelFile(multi).rotationY(270).addModel().condition(ConnectorBlock.WEST, ConnectionSide.NORMAL, ConnectionSide.INPUT, ConnectionSide.OUTPUT).end()
-				.part().modelFile(multi).rotationX(270).addModel().condition(ConnectorBlock.UP, ConnectionSide.NORMAL, ConnectionSide.INPUT, ConnectionSide.OUTPUT).end()
-				.part().modelFile(multi).rotationX(90).addModel().condition(ConnectorBlock.DOWN, ConnectionSide.NORMAL, ConnectionSide.INPUT, ConnectionSide.OUTPUT).end()
-				.part().modelFile(conn_o).addModel().condition(ConnectorBlock.NORTH, ConnectionSide.OUTPUT).end()
-				.part().modelFile(conn_o).rotationY(90).addModel().condition(ConnectorBlock.EAST, ConnectionSide.OUTPUT).end()
-				.part().modelFile(conn_o).rotationX(180).addModel().condition(ConnectorBlock.SOUTH, ConnectionSide.OUTPUT).end()
-				.part().modelFile(conn_o).rotationY(270).addModel().condition(ConnectorBlock.WEST, ConnectionSide.OUTPUT).end()
-				.part().modelFile(conn_o).rotationX(270).addModel().condition(ConnectorBlock.UP, ConnectionSide.OUTPUT).end()
-				.part().modelFile(conn_o).rotationX(90).addModel().condition(ConnectorBlock.DOWN, ConnectionSide.OUTPUT).end()
-				.part().modelFile(conn_i).addModel().condition(ConnectorBlock.NORTH, ConnectionSide.INPUT).end()
-				.part().modelFile(conn_i).rotationY(90).addModel().condition(ConnectorBlock.EAST, ConnectionSide.INPUT).end()
-				.part().modelFile(conn_i).rotationX(180).addModel().condition(ConnectorBlock.SOUTH, ConnectionSide.INPUT).end()
-				.part().modelFile(conn_i).rotationY(270).addModel().condition(ConnectorBlock.WEST, ConnectionSide.INPUT).end()
-				.part().modelFile(conn_i).rotationX(270).addModel().condition(ConnectorBlock.UP, ConnectionSide.INPUT).end()
-				.part().modelFile(conn_i).rotationX(90).addModel().condition(ConnectorBlock.DOWN, ConnectionSide.INPUT).end();
-		//@formatter:on
 
 		simpleBlockItem(p, main);
 	}

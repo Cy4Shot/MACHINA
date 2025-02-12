@@ -1,6 +1,7 @@
 package com.machina.api.client.model;
 
 import com.machina.Machina;
+import com.machina.api.client.model.connector.ConnectorModelLoader;
 import com.machina.api.util.MachinaRL;
 
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -36,5 +37,6 @@ public class ModelLoader {
 	@SubscribeEvent
 	public static void registerModels(final RegisterGeometryLoaders event) {
 		event.register("sided", new SimpleModel.Loader(SidedBakedModel::new));
+		event.register("connector", ConnectorModelLoader.INSTANCE);
 	}
 }

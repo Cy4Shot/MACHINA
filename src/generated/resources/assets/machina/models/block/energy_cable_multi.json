@@ -1,7 +1,0 @@
-{
-  "parent": "machina:block/connector/multi",
-  "render_type": "minecraft:cutout",
-  "textures": {
-    "multipart": "machina:block/energy_cable"
-  }
-}

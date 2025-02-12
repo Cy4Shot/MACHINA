@@ -2,13 +2,18 @@ package com.machina.api.block.entity;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.ConnectorBlock;
 import com.machina.api.cap.IConnectorStorage;
-import com.machina.api.cap.sided.Side;
+import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.SidedLazyOptionalCache;
+import com.machina.api.client.model.connector.ConnectorModel.ConnectorModelData;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,9 +26,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends BaseBlockEntity {
 
@@ -32,6 +37,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	private boolean search = false;
 
 	private final SidedLazyOptionalCache<T> cap;
+	public Map<Direction, Connection> myConnectors = new HashMap<>();
 	public List<Connection> connectors = new ArrayList<>();
 	public final List<BlockPos> cache = new ArrayList<>();
 	public List<Direction> dirs = new ArrayList<>();
@@ -107,6 +113,14 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
+		ListTag mycons = new ListTag();
+		for (Connection c : myConnectors.values()) {
+			CompoundTag postag = new CompoundTag();
+			postag.put("connector", c.save());
+			mycons.add(postag);
+		}
+		tag.put("my_connectors", mycons);
+
 		ListTag cons = new ListTag();
 		this.connectors.forEach(pos -> {
 			CompoundTag postag = new CompoundTag();
@@ -127,8 +141,16 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 
 	@Override
 	public void load(CompoundTag tag) {
+		myConnectors = new HashMap<>();
 		connectors = new ArrayList<>();
 		dirs = new ArrayList<>();
+
+		ListTag mycons = tag.getList("my_connectors", Tag.TAG_COMPOUND);
+		for (int j = 0; j < mycons.size(); j++) {
+			Connection c = Connection.load(mycons.getCompound(j).getCompound("connector"));
+			Direction d = Direction.values()[j];
+			myConnectors.put(d, c);
+		}
 
 		ListTag cons = tag.getList("connectors", Tag.TAG_COMPOUND);
 		for (int j = 0; j < cons.size(); j++) {
@@ -144,6 +166,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	}
 
 	public void enqueueSearch() {
+		this.myConnectors = new HashMap<>();
 		this.connectors.clear();
 		this.search = true;
 		this.sync();
@@ -154,7 +177,11 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		if (this.level != null) {
 			addToCache(this.worldPosition);
 
-			dirs.forEach(dir -> connectors.add(new Connection(this.worldPosition, dir, 0, Side.INPUT)));
+			dirs.forEach(dir -> {
+				Connection con = new Connection(this.worldPosition, dir, 0, ConnectionSide.INPUT);
+				connectors.add(con);
+				myConnectors.put(dir, con);
+			});
 
 			Block b = this.getBlockState().getBlock();
 			if (b instanceof ConnectorBlock)
@@ -187,9 +214,9 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		private final BlockPos pos;
 		private final Direction direction;
 		private final int distance;
-		private final Side side;
+		private final ConnectionSide side;
 
-		public Connection(BlockPos pos, Direction direction, int distance, Side side) {
+		public Connection(BlockPos pos, Direction direction, int distance, ConnectionSide side) {
 			this.pos = pos;
 			this.direction = direction;
 			this.distance = distance;
@@ -238,9 +265,45 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			BlockPos p = NbtUtils.readBlockPos(nbt.getCompound("CPos"));
 			Direction d = Direction.from3DDataValue(nbt.getInt("CDir"));
 			int dist = nbt.getInt("CDis");
-			Side side = Side.load(nbt, "CSide");
+			ConnectionSide side = ConnectionSide.load(nbt, "CSide");
 			return new Connection(p, d, dist, side);
 		}
+	}
+
+	private ConnectionSide conenctionData(boolean connected, Direction dir) {
+		return connected ? (myConnectors.containsKey(dir) ? myConnectors.get(dir).side : ConnectionSide.NORMAL)
+				: ConnectionSide.NONE;
+	}
+
+	private long getPackedModelData() {
+		ConnectorBlock<?> b = (ConnectorBlock<?>) getBlockState().getBlock();
+		boolean[] data = b.getModelData(getLevel(), getBlockPos());
+		ConnectionSide north = conenctionData(data[1], Direction.NORTH);
+		ConnectionSide east = conenctionData(data[2], Direction.EAST);
+		ConnectionSide south = conenctionData(data[3], Direction.SOUTH);
+		ConnectionSide west = conenctionData(data[4], Direction.WEST);
+		ConnectionSide up = conenctionData(data[5], Direction.UP);
+		ConnectionSide down = conenctionData(data[6], Direction.DOWN);
+
+		long packed = 0;
+		packed |= down.ordinal();
+		packed |= up.ordinal() << 2;
+		packed |= north.ordinal() << 4;
+		packed |= south.ordinal() << 6;
+		packed |= west.ordinal() << 8;
+		packed |= east.ordinal() << 10;
+		packed |= (data[0] ? 0 : 1) << 12;
+		return packed;
+	}
+
+	@Override
+	public @NotNull ModelData getModelData() {
+		return ModelData.builder().with(ConnectorModelData.PROPERTY, getPackedModelData()).build();
+	}
+
+	@Override
+	public boolean activeModel() {
+		return true;
 	}
 
 }

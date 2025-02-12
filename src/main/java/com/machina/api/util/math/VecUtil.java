@@ -9,6 +9,8 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import net.minecraft.client.renderer.block.model.BlockElementRotation;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 
 public class VecUtil {
@@ -92,5 +94,22 @@ public class VecUtil {
 
 	public static int max(Vec3i vec) {
 		return Arrays.stream(new int[] { vec.getX(), vec.getY(), vec.getZ() }).max().getAsInt();
+	}
+
+	public static BlockElementRotation dirToBer(Direction dir, Vector3f origin) {
+		switch (dir) {
+		case EAST:
+			return new BlockElementRotation(origin, Direction.Axis.Y, 270, false);
+		case SOUTH:
+			return new BlockElementRotation(origin, Direction.Axis.X, 180, false);
+		case WEST:
+			return new BlockElementRotation(origin, Direction.Axis.Y, 90, false);
+		case UP:
+			return new BlockElementRotation(origin, Direction.Axis.X, 90, false);
+		case DOWN:
+			return new BlockElementRotation(origin, Direction.Axis.X, 270, false);
+		default:
+			return new BlockElementRotation(origin, Direction.Axis.Z, 0, false);
+		}
 	}
 }
