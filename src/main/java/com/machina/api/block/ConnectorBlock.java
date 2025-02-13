@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -48,6 +49,15 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	private static final VoxelShape PART_W = Block.box(0, 6.5, 6.5, 6.5, 9.5, 9.5);
 	private static final VoxelShape PART_U = Block.box(6.5, 9.5, 6.5, 9.5, 16, 9.5);
 	private static final VoxelShape PART_D = Block.box(6.5, 0, 6.5, 9.5, 7, 9.5);
+
+	private static final VoxelShape CONN_N = Block.box(6, 6, 0, 10, 10, 3);
+	private static final VoxelShape CONN_E = Block.box(13, 6, 6, 16, 10, 10);
+	private static final VoxelShape CONN_S = Block.box(6, 6, 13, 10, 10, 16);
+	private static final VoxelShape CONN_W = Block.box(0, 6, 6, 3, 10, 10);
+	private static final VoxelShape CONN_U = Block.box(6, 13, 6, 10, 16, 10);
+	private static final VoxelShape CONN_D = Block.box(6, 0, 6, 10, 3, 10);
+
+	private static final VoxelShape[] CONNS = new VoxelShape[] { CONN_D, CONN_U, CONN_N, CONN_S, CONN_W, CONN_E };
 
 	public ConnectorBlock(Properties props) {
 		super(props.noOcclusion());
@@ -77,6 +87,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		return new boolean[] { middle, north, east, south, west, up, down };
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
 			@NotNull CollisionContext pContext) {
@@ -94,6 +105,17 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 			shape = Shapes.or(shape, PART_U);
 		if (data[6])
 			shape = Shapes.or(shape, PART_D);
+
+		BlockEntity be = level.getBlockEntity(pos);
+		if (be != null && be instanceof ConnectorBlockEntity) {
+			ConnectorBlockEntity<T> cable = (ConnectorBlockEntity<T>) be;
+			for (Direction d : Direction.values()) {
+				if (cable.myConnectors.getOrDefault(d, ConnectionSide.NONE).isIO()) {
+					shape = Shapes.or(shape, CONNS[d.get3DDataValue()]);
+				}
+			}
+		}
+
 		return shape;
 	}
 
@@ -161,11 +183,25 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		super.createBlockStateDefinition(b);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos,
-			Player player, InteractionHand hand,
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
 			BlockHitResult hit) {
-		System.out.println(hit.getLocation().toString());
+		BlockEntity be = level.getBlockEntity(pos);
+		if (be != null && be instanceof ConnectorBlockEntity) {
+			ConnectorBlockEntity<T> cable = (ConnectorBlockEntity<T>) be;
+			Vec3 offset = hit.getLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
+
+			for (Direction d : Direction.values()) {
+				if (cable.myConnectors.getOrDefault(d, ConnectionSide.NONE).isIO()) {
+					if (CONNS[d.get3DDataValue()].bounds().distanceToSqr(offset) < 0.001f) {
+						cable.myConnectors.put(d, cable.myConnectors.get(d).toggleIO());
+						cable.sync();
+						return InteractionResult.SUCCESS;
+					}
+				}
+			}
+		}
 
 		return InteractionResult.FAIL;
 	}
@@ -235,9 +271,8 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 
 					Block block = world.getBlockState(blockPos).getBlock();
 					if (block == this) {
-						BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class,
-								be -> be.dirs.forEach(d -> first.connectors
-										.add(new Connection(blockPos, (Direction) d, newdist, ConnectionSide.INPUT))));
+						BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class, be -> be.dirs
+								.forEach(d -> first.connectors.add(new Connection(blockPos, (Direction) d, newdist))));
 						first.addToCache(blockPos);
 						((ConnectorBlock<T>) block).searchConnectors(world, blockPos, first, newdist);
 					}

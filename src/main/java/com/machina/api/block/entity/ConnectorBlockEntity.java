@@ -37,7 +37,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	private boolean search = false;
 
 	private final SidedLazyOptionalCache<T> cap;
-	public Map<Direction, Connection> myConnectors = new HashMap<>();
+	public Map<Direction, ConnectionSide> myConnectors = new HashMap<>();
 	public List<Connection> connectors = new ArrayList<>();
 	public final List<BlockPos> cache = new ArrayList<>();
 	public List<Direction> dirs = new ArrayList<>();
@@ -117,7 +117,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		this.dirs.forEach(dir -> {
 			if (myConnectors.containsKey(dir)) {
 				CompoundTag postag = new CompoundTag();
-				postag.put("connector", myConnectors.get(dir).save());
+				myConnectors.get(dir).save(postag, "connector");
 				mycons.put(String.valueOf(dir.get3DDataValue()), postag);
 			}
 		});
@@ -151,7 +151,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		for (int j = 0; j < Direction.values().length; j++) {
 			String key = Integer.toString(j);
 			if (mycons.contains(key)) {
-				Connection con = Connection.load(mycons.getCompound(key).getCompound("connector"));
+				ConnectionSide con = ConnectionSide.load(mycons.getCompound(key), "connector");
 				Direction d = Direction.from3DDataValue(j);
 				myConnectors.put(d, con);
 			}
@@ -184,12 +184,12 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	public void search() {
 		if (this.level != null) {
 			addToCache(this.worldPosition);
-			this.myConnectors.clear();
 
 			dirs.forEach(dir -> {
-				Connection con = new Connection(this.worldPosition, dir, 0, ConnectionSide.INPUT);
-				connectors.add(con);
-				myConnectors.put(dir, con);
+				connectors.add(new Connection(this.worldPosition, dir, 0));
+				if (!myConnectors.getOrDefault(dir, ConnectionSide.NONE).isIO()) {
+					myConnectors.put(dir, ConnectionSide.OUTPUT);
+				}
 			});
 
 			Block b = this.getBlockState().getBlock();
@@ -223,25 +223,15 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		private final BlockPos pos;
 		private final Direction direction;
 		private final int distance;
-		private final ConnectionSide side;
 
-		public Connection(BlockPos pos, Direction direction, int distance, ConnectionSide side) {
+		public Connection(BlockPos pos, Direction direction, int distance) {
 			this.pos = pos;
 			this.direction = direction;
 			this.distance = distance;
-			this.side = side;
 		}
 
 		public int getDistance() {
 			return distance;
-		}
-
-		public boolean isInput() {
-			return side.isInput();
-		}
-
-		public boolean isOutput() {
-			return side.isOutput();
 		}
 
 		public BlockPos getPos() {
@@ -256,18 +246,11 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			return direction;
 		}
 
-		@Override
-		public String toString() {
-			return "Connection{" + "pos=" + pos + ", direction=" + direction + ", distance=" + distance + ", side="
-					+ side + '}';
-		}
-
 		public CompoundTag save() {
 			CompoundTag tag = new CompoundTag();
 			tag.put("CPos", NbtUtils.writeBlockPos(pos));
 			tag.putInt("CDir", direction.get3DDataValue());
 			tag.putInt("CDis", distance);
-			side.save(tag, "CSide");
 			return tag;
 		}
 
@@ -275,13 +258,12 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			BlockPos p = NbtUtils.readBlockPos(nbt.getCompound("CPos"));
 			Direction d = Direction.from3DDataValue(nbt.getInt("CDir"));
 			int dist = nbt.getInt("CDis");
-			ConnectionSide side = ConnectionSide.load(nbt, "CSide");
-			return new Connection(p, d, dist, side);
+			return new Connection(p, d, dist);
 		}
 	}
 
 	private ConnectionSide connectionData(boolean connected, Direction dir) {
-		return connected ? (myConnectors.containsKey(dir) ? myConnectors.get(dir).side : ConnectionSide.NORMAL)
+		return connected ? (myConnectors.containsKey(dir) ? myConnectors.get(dir) : ConnectionSide.NORMAL)
 				: ConnectionSide.NONE;
 	}
 

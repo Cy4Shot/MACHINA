@@ -28,6 +28,10 @@ public enum ConnectionSide implements StringRepresentable {
 		return this == NONE;
 	}
 
+	public boolean isIO() {
+		return isInput() || isOutput();
+	}
+
 	public void save(CompoundTag tag, String key) {
 		tag.putString(key, this.getSerializedName());
 	}
@@ -39,5 +43,13 @@ public enum ConnectionSide implements StringRepresentable {
 	@Override
 	public @NotNull String getSerializedName() {
 		return name().toLowerCase(Locale.ROOT);
+	}
+
+	public ConnectionSide toggleIO() {
+		if (isInput())
+			return OUTPUT;
+		if (isOutput())
+			return INPUT;
+		return this;
 	}
 }
