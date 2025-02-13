@@ -8,9 +8,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import com.machina.Machina;
 import org.apache.logging.log4j.util.TriConsumer;
 
+import com.machina.Machina;
 import com.machina.api.network.C2SMessage;
 import com.machina.api.network.PacketSender;
 import com.machina.api.network.S2CMessage;

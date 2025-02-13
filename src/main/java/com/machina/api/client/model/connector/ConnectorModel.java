@@ -104,7 +104,6 @@ public class ConnectorModel implements IDynamicBakedModel {
 			case NONE:
 				continue;
 			case INPUT:
-				System.out.println(d);
 				INPUT.apply(type).addQuads(builder, spriteGetter, VecUtil.dirToBer(d, VecUtil.HALF));
 				break;
 			case OUTPUT:
@@ -133,27 +132,27 @@ public class ConnectorModel implements IDynamicBakedModel {
 		 * Bit 12: Middle
 		 * @formatter:on
 		 */
-		public static final ModelProperty<Long> PROPERTY = new ModelProperty<>();
+		public static final ModelProperty<Short> PROPERTY = new ModelProperty<>();
 
 		private static int GENERIC_MASK = 0b11;
 
-		private static ConnectionSide getSide(Long data, int index) {
+		private static ConnectionSide getSide(Short data, int index) {
 			return ConnectionSide.values()[(int) (data >> (index * 2) & GENERIC_MASK)];
 		}
 
 		public static ConnectionSide getSide(ModelData data, Direction d) {
-			Long l = data.get(PROPERTY);
+			Short l = data.get(PROPERTY);
 			if (l == null)
 				return ConnectionSide.NONE;
 			return getSide(l, d.get3DDataValue());
 		}
 
-		private static boolean middle(Long data) {
+		private static boolean middle(Short data) {
 			return (data >> 12 & 1) == 1;
 		}
 
 		public static boolean middle(ModelData data) {
-			Long l = data.get(PROPERTY);
+			Short l = data.get(PROPERTY);
 			if (l == null)
 				return false;
 			return middle(data.get(PROPERTY));

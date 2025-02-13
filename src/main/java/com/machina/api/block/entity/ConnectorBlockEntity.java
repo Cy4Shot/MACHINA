@@ -168,20 +168,21 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		}
 		this.revalidate();
 		super.load(tag);
-		this.level.getModelDataManager().requestRefresh(this);
+
+		level.getModelDataManager().requestRefresh(this);
+		level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
 	}
 
 	public void enqueueSearch() {
-		this.myConnectors = new HashMap<>();
 		this.connectors.clear();
 		this.search = true;
-		this.sync();
 	}
 
 	@SuppressWarnings("unchecked")
 	public void search() {
 		if (this.level != null) {
 			addToCache(this.worldPosition);
+			this.myConnectors.clear();
 
 			dirs.forEach(dir -> {
 				Connection con = new Connection(this.worldPosition, dir, 0, ConnectionSide.INPUT);
@@ -277,24 +278,22 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		}
 	}
 
-	private ConnectionSide conenctionData(boolean connected, Direction dir) {
+	private ConnectionSide connectionData(boolean connected, Direction dir) {
 		return connected ? (myConnectors.containsKey(dir) ? myConnectors.get(dir).side : ConnectionSide.NORMAL)
 				: ConnectionSide.NONE;
 	}
 
-	private long getPackedModelData() {
+	private short getPackedModelData() {
 		ConnectorBlock<?> b = (ConnectorBlock<?>) getBlockState().getBlock();
 		boolean[] data = b.getModelData(getLevel(), getBlockPos());
-		ConnectionSide north = conenctionData(data[1], Direction.NORTH);
-		ConnectionSide east = conenctionData(data[2], Direction.EAST);
-		ConnectionSide south = conenctionData(data[3], Direction.SOUTH);
-		ConnectionSide west = conenctionData(data[4], Direction.WEST);
-		ConnectionSide up = conenctionData(data[5], Direction.UP);
-		ConnectionSide down = conenctionData(data[6], Direction.DOWN);
-		System.out.println("North: " + north + " East: " + east + " South: " + south + " West: " + west + " Up: " + up
-				+ " Down: " + down);
+		ConnectionSide north = connectionData(data[1], Direction.NORTH);
+		ConnectionSide east = connectionData(data[2], Direction.EAST);
+		ConnectionSide south = connectionData(data[3], Direction.SOUTH);
+		ConnectionSide west = connectionData(data[4], Direction.WEST);
+		ConnectionSide up = connectionData(data[5], Direction.UP);
+		ConnectionSide down = connectionData(data[6], Direction.DOWN);
 
-		long packed = 0;
+		short packed = 0;
 		packed |= down.ordinal();
 		packed |= up.ordinal() << 2;
 		packed |= north.ordinal() << 4;

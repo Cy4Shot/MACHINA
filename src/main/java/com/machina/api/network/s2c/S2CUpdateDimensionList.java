@@ -4,7 +4,6 @@ import java.util.Set;
 
 import com.machina.api.network.S2CMessage;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -25,8 +24,6 @@ public record S2CUpdateDimensionList(ResourceKey<Level> key) implements S2CMessa
 	@Override
 	public void handle() {
 		ResourceKey<Level> nd = key();
-		Minecraft mc = Minecraft.getInstance();
-
 		mc.execute(() -> {
 			LocalPlayer player = mc.player;
 			if (player != null) {

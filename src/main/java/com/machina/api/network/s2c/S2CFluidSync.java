@@ -4,7 +4,6 @@ import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.fluid.MachinaFluidStorage;
 import com.machina.api.network.S2CMessage;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,7 +29,6 @@ public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2C
 		FluidStack stack = stack();
 		int i = i();
 
-		Minecraft mc = Minecraft.getInstance();
 		mc.execute(() -> {
 			BlockEntity be = null;
 			if (mc.level != null) {

@@ -111,18 +111,11 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		});
 	}
 
-	private void refreshModel(LevelAccessor level, BlockPos pos) {
-		if (level.isClientSide()) {
-			BlockHelper.doWithTe(level, pos, BlockEntity.class, level.getModelDataManager()::requestRefresh);
-		}
-	}
-
 	@Override
 	public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing,
 			@NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
 			@NotNull BlockPos facingPos) {
 		syncConnections(level, pos);
-		refreshModel(level, pos);
 		return createState(level, pos);
 	}
 
@@ -177,7 +170,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		if (level.isClientSide())
 			return;
 
-		if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
+		if (BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
 			findConnectors(level, pos, pos);
 		}
 	}
