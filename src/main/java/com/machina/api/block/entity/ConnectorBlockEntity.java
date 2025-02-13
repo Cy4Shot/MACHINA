@@ -169,8 +169,10 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		this.revalidate();
 		super.load(tag);
 
-		level.getModelDataManager().requestRefresh(this);
-		level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+		if (this.level != null) {
+			level.getModelDataManager().requestRefresh(this);
+			level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+		}
 	}
 
 	public void enqueueSearch() {

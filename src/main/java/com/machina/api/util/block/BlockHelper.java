@@ -35,6 +35,7 @@ public class BlockHelper {
 		BlockEntity e = world.getBlockEntity(pos);
 		if (e == null || !(clazz.isAssignableFrom(e.getClass()))) {
 			Machina.LOGGER.error("BE at {} is null.", pos.toShortString());
+			new Throwable().printStackTrace(System.err);
 			return false;
 		}
 
@@ -48,6 +49,7 @@ public class BlockHelper {
 		BlockEntity e = world.getBlockEntity(pos);
 		if (e == null || !(clazz.isAssignableFrom(e.getClass()))) {
 			Machina.LOGGER.error("BE at {} is null.", pos.toShortString());
+			new Throwable().printStackTrace(System.err);
 			return null;
 		}
 

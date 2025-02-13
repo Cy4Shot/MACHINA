@@ -116,6 +116,9 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 			@NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
 			@NotNull BlockPos facingPos) {
 		syncConnections(level, pos);
+		if (level.isClientSide()) {
+			BlockHelper.doWithTe(level, pos, BlockEntity.class, level.getModelDataManager()::requestRefresh);
+		}
 		return createState(level, pos);
 	}
 
@@ -142,8 +145,12 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 				|| isConnectable(level, pos, Direction.WEST) || isConnectable(level, pos, Direction.EAST)
 				|| isConnectable(level, pos, Direction.UP) || isConnectable(level, pos, Direction.DOWN);
 
-		if (!tile)
-			BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::setRemoved);
+		if (!tile) {
+			BlockEntity be = level.getBlockEntity(pos);
+			if (be != null) {
+				be.setRemoved();
+			}
+		}
 
 		return defaultBlockState().setValue(TILE, tile);
 	}
@@ -154,11 +161,11 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		super.createBlockStateDefinition(b);
 	}
 
-	// TODO: Change on hit to open GUI
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+	public InteractionResult use(BlockState state, Level level, BlockPos pos,
+			Player player, InteractionHand hand,
 			BlockHitResult hit) {
-//		System.out.println(hit.getLocation().toString());
+		System.out.println(hit.getLocation().toString());
 
 		return InteractionResult.FAIL;
 	}
@@ -170,7 +177,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		if (level.isClientSide())
 			return;
 
-		if (BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
+		if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
 			findConnectors(level, pos, pos);
 		}
 	}
