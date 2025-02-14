@@ -114,13 +114,13 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
 		CompoundTag mycons = new CompoundTag();
-		this.dirs.forEach(dir -> {
+		for (Direction dir : Direction.values()) {
 			if (myConnectors.containsKey(dir)) {
 				CompoundTag postag = new CompoundTag();
 				myConnectors.get(dir).save(postag, "connector");
 				mycons.put(String.valueOf(dir.get3DDataValue()), postag);
 			}
-		});
+		}
 		tag.put("my_connectors", mycons);
 
 		ListTag cons = new ListTag();
@@ -185,16 +185,19 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		if (this.level != null) {
 			addToCache(this.worldPosition);
 
-			dirs.forEach(dir -> {
-				connectors.add(new Connection(this.worldPosition, dir, 0));
-				if (!myConnectors.getOrDefault(dir, ConnectionSide.NONE).isIO()) {
-					myConnectors.put(dir, ConnectionSide.OUTPUT);
-				}
-			});
-
 			Block b = this.getBlockState().getBlock();
-			if (b instanceof ConnectorBlock)
-				((ConnectorBlock<T>) b).searchConnectors(this.level, this.worldPosition, this, 0);
+			if (b instanceof ConnectorBlock) {
+				ConnectorBlock<T> cb = (ConnectorBlock<T>) b;
+				cb.syncConnections(level, worldPosition);
+
+				dirs.forEach(dir -> {
+					connectors.add(new Connection(this.worldPosition, dir, 0));
+					if (!myConnectors.getOrDefault(dir, ConnectionSide.NONE).isIO()) {
+						myConnectors.put(dir, ConnectionSide.OUTPUT);
+					}
+				});
+				cb.searchConnectors(this.level, this.worldPosition, this, 0);
+			}
 		}
 		this.cache.clear();
 	}
@@ -270,12 +273,12 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	private short getPackedModelData() {
 		ConnectorBlock<?> b = (ConnectorBlock<?>) getBlockState().getBlock();
 		boolean[] data = b.getModelData(getLevel(), getBlockPos());
-		ConnectionSide north = connectionData(data[1], Direction.NORTH);
-		ConnectionSide east = connectionData(data[2], Direction.EAST);
+		ConnectionSide north = connectionData(data[2], Direction.NORTH);
+		ConnectionSide east = connectionData(data[5], Direction.EAST);
 		ConnectionSide south = connectionData(data[3], Direction.SOUTH);
 		ConnectionSide west = connectionData(data[4], Direction.WEST);
-		ConnectionSide up = connectionData(data[5], Direction.UP);
-		ConnectionSide down = connectionData(data[6], Direction.DOWN);
+		ConnectionSide up = connectionData(data[1], Direction.UP);
+		ConnectionSide down = connectionData(data[0], Direction.DOWN);
 
 		short packed = 0;
 		packed |= down.ordinal();
@@ -284,7 +287,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		packed |= south.ordinal() << 6;
 		packed |= west.ordinal() << 8;
 		packed |= east.ordinal() << 10;
-		packed |= (data[0] ? 0 : 1) << 12;
+		packed |= (data[6] ? 0 : 1) << 12;
 		return packed;
 	}
 

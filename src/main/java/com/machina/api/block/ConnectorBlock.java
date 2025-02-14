@@ -57,6 +57,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	private static final VoxelShape CONN_U = Block.box(6, 13, 6, 10, 16, 10);
 	private static final VoxelShape CONN_D = Block.box(6, 0, 6, 10, 3, 10);
 
+	private static final VoxelShape[] PARTS = new VoxelShape[] { PART_D, PART_U, PART_N, PART_S, PART_W, PART_E };
 	private static final VoxelShape[] CONNS = new VoxelShape[] { CONN_D, CONN_U, CONN_N, CONN_S, CONN_W, CONN_E };
 
 	public ConnectorBlock(Properties props) {
@@ -84,7 +85,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 			}
 		}
 
-		return new boolean[] { middle, north, east, south, west, up, down };
+		return new boolean[] { down, up, north, south, west, east, middle };
 	}
 
 	@SuppressWarnings("unchecked")
@@ -92,25 +93,17 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
 			@NotNull CollisionContext pContext) {
 		boolean[] data = getModelData(level, pos);
-		VoxelShape shape = data[0] ? PART_M : PART_C;
-		if (data[1])
-			shape = Shapes.or(shape, PART_N);
-		if (data[2])
-			shape = Shapes.or(shape, PART_E);
-		if (data[3])
-			shape = Shapes.or(shape, PART_S);
-		if (data[4])
-			shape = Shapes.or(shape, PART_W);
-		if (data[5])
-			shape = Shapes.or(shape, PART_U);
-		if (data[6])
-			shape = Shapes.or(shape, PART_D);
+		VoxelShape shape = data[6] ? PART_M : PART_C;
+		for (int i = 0; i < 6; i++) {
+			if (data[i])
+				shape = Shapes.or(shape, PARTS[i]);
+		}
 
 		BlockEntity be = level.getBlockEntity(pos);
 		if (be != null && be instanceof ConnectorBlockEntity) {
 			ConnectorBlockEntity<T> cable = (ConnectorBlockEntity<T>) be;
 			for (Direction d : Direction.values()) {
-				if (cable.myConnectors.getOrDefault(d, ConnectionSide.NONE).isIO()) {
+				if (data[d.get3DDataValue()] && cable.myConnectors.getOrDefault(d, ConnectionSide.NONE).isIO()) {
 					shape = Shapes.or(shape, CONNS[d.get3DDataValue()]);
 				}
 			}
@@ -120,7 +113,7 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	}
 
 	@SuppressWarnings("unchecked")
-	private void syncConnections(LevelAccessor level, BlockPos pos) {
+	public void syncConnections(LevelAccessor level, BlockPos pos) {
 		BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, cable -> {
 			if (!level.isClientSide()) {
 				cable.dirs.clear();
@@ -128,7 +121,6 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 					if (isConnectable(level, pos, dir))
 						cable.dirs.add(dir);
 				}
-				cable.sync();
 			}
 		});
 	}
@@ -137,9 +129,12 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 	public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing,
 			@NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
 			@NotNull BlockPos facingPos) {
-		syncConnections(level, pos);
 		if (level.isClientSide()) {
 			BlockHelper.doWithTe(level, pos, BlockEntity.class, level.getModelDataManager()::requestRefresh);
+		} else {
+			if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
+				findConnectors(level, pos, pos);
+			}
 		}
 		return createState(level, pos);
 	}
