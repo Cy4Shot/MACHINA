@@ -46,9 +46,6 @@ public class SidedBakedModel extends BakedModelWrapper<BakedModel> implements ID
 		}
 
 		BakedQuad quad = quads.get(0);
-//		quads.clear();
-		quads.add(new BakedQuad(quad.getVertices(), quad.getTintIndex(), side, ModelLoader.MACHINE_FACE_INPUT,
-				quad.isShade(), quad.hasAmbientOcclusion()));
 
 		int sideIndex = side.get3DDataValue();
 
@@ -63,11 +60,12 @@ public class SidedBakedModel extends BakedModelWrapper<BakedModel> implements ID
 			cachedSideQuads = new BakedQuad[6];
 		}
 		if (cachedSideQuads[sideIndex] == null) {
+			System.out.println(sideConfigRaw[sideIndex]);
 			cachedSideQuads[sideIndex] = new RetexturedBakedQuad(quad, side,
 					getConfigTexture(sideConfigRaw[sideIndex]));
 			SIDE_QUAD_CACHE.put(configHash, cachedSideQuads);
 		}
-//		quads.add(cachedSideQuads[sideIndex]);
+		quads.add(cachedSideQuads[sideIndex]);
 
 		return quads;
 	}
@@ -79,14 +77,13 @@ public class SidedBakedModel extends BakedModelWrapper<BakedModel> implements ID
 	}
 
 	private TextureAtlasSprite getConfigTexture(byte side) {
-		return ModelLoader.MACHINE_FACE_INPUT;
-//		switch (side) {
-//		case 1:
-//			return ModelLoader.MACHINE_FACE_OUTPUT;
-//		case 2:
-//			return ModelLoader.MACHINE_FACE_INPUT;
-//		default:
-//			return ModelLoader.MACHINE_FACE_NONE;
-//		}
+		switch (side) {
+		case 1:
+			return ModelLoader.MACHINE_FACE_OUTPUT;
+		case 2:
+			return ModelLoader.MACHINE_FACE_INPUT;
+		default:
+			return ModelLoader.MACHINE_FACE_NONE;
+		}
 	}
 }

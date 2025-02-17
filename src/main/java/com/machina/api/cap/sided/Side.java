@@ -89,6 +89,7 @@ public enum Side implements StringRepresentable {
 
 		if (Objects.requireNonNull(e.getLevel()).isClientSide()) {
 			PacketSender.sendToServer(new C2SSideConfig(tag, e.getBlockPos(), getRaw(input)));
+			e.getLevel().getModelDataManager().requestRefresh(e);
 		} else {
 			e.setChanged();
 		}

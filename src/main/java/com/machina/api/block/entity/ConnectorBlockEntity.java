@@ -198,7 +198,6 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 					connectors.add(new Connection(this.worldPosition, dir, 0));
 				});
 				cb.searchConnectors(this.level, this.worldPosition, this, 0);
-				System.out.println(myConnectors + "for" + worldPosition);
 				dirs.forEach(dir -> {
 					ConnectionSide side = myConnectors.getOrDefault(dir, ConnectionSide.NONE);
 					if (!side.isIO()) {

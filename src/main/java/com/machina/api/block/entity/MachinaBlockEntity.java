@@ -137,6 +137,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 			this.itemSides.add(Side.deserialize(sides.getCompound(i)));
 		}
 		this.setChanged();
+		
 	}
 
 	@Override
