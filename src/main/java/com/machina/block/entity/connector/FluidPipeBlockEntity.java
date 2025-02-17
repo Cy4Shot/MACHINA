@@ -21,6 +21,11 @@ public class FluidPipeBlockEntity extends ConnectorBlockEntity<PipeFluidStorage>
 	public FluidPipeBlockEntity(BlockPos pos, BlockState state) {
 		this(BlockEntityInit.FLUID_PIPE.get(), pos, state);
 	}
+	
+	@Override
+	public int getRate() {
+		return CommonConfig.pipeTransferRate.get();
+	}
 
 	@Override
 	public PipeFluidStorage createStorage(Direction side) {
@@ -28,18 +33,8 @@ public class FluidPipeBlockEntity extends ConnectorBlockEntity<PipeFluidStorage>
 	}
 
 	@Override
-	public int getRate() {
-		return CommonConfig.pipeTransferRate.get();
-	}
-
-	@Override
 	public Capability<?> getCapability() {
 		return ForgeCapabilities.FLUID_HANDLER;
-	}
-
-	@Override
-	public boolean activeModel() {
-		return false;
 	}
 
 }

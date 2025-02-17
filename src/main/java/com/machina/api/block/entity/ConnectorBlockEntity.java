@@ -14,6 +14,7 @@ import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.SidedLazyOptionalCache;
 import com.machina.api.client.model.connector.ConnectorModel.ConnectorModelData;
+import com.machina.api.util.block.BlockHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,6 +22,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -37,7 +39,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	private boolean search = false;
 
 	private final SidedLazyOptionalCache<T> cap;
-	public Map<Direction, ConnectionSide> myConnectors = new HashMap<>();
+	private Map<Direction, ConnectionSide> myConnectors = new HashMap<>();
 	public List<Connection> connectors = new ArrayList<>();
 	public final List<BlockPos> cache = new ArrayList<>();
 	public List<Direction> dirs = new ArrayList<>();
@@ -62,11 +64,6 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			return;
 
 		ConnectorBlockEntity<?> cbe = (ConnectorBlockEntity<?>) be;
-
-		for (Direction dir : Direction.values()) {
-			cbe.cap.get(dir).ifPresent(IConnectorStorage::tick);
-		}
-
 		if (cbe.search) {
 			cbe.search();
 			cbe.search = false;
@@ -74,7 +71,33 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		}
 	}
 
+	public int getRoundRobinIndex(Direction direction) {
+		return roundrobin[direction.get3DDataValue()];
+	}
+
+	public void setRoundRobinIndex(Direction direction, int value) {
+		roundrobin[direction.get3DDataValue()] = value;
+	}
+
+	public List<Connection> getSortedConnections(Direction side) {
+		return connectors.stream().sorted(Comparator.comparingInt(Connection::getDistance))
+				.collect(Collectors.toList());
+	}
+
+	public void setConnection(Direction dir, ConnectionSide side) {
+		if (side == ConnectionSide.NONE)
+			return;
+		myConnectors.put(dir, side);
+		this.sync();
+	}
+
+	public ConnectionSide getConnection(Direction dir) {
+		return myConnectors.getOrDefault(dir, ConnectionSide.NONE);
+	}
+
 	public abstract Capability<?> getCapability();
+
+	public abstract int getRate();
 
 	@Override
 	public <C> @NotNull LazyOptional<C> getCapability(@NotNull Capability<C> cap, Direction d) {
@@ -95,21 +118,6 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		this.cap.invalidate();
 		super.setRemoved();
 	}
-
-	public int getRoundRobinIndex(Direction direction) {
-		return roundrobin[direction.get3DDataValue()];
-	}
-
-	public void setRoundRobinIndex(Direction direction, int value) {
-		roundrobin[direction.get3DDataValue()] = value;
-	}
-
-	public List<Connection> getSortedConnections(Direction side) {
-		return connectors.stream().sorted(Comparator.comparingInt(Connection::getDistance))
-				.collect(Collectors.toList());
-	}
-
-	public abstract int getRate();
 
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
@@ -143,7 +151,6 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 
 	@Override
 	public void load(CompoundTag tag) {
-		myConnectors = new HashMap<>();
 		connectors = new ArrayList<>();
 		dirs = new ArrayList<>();
 
@@ -166,11 +173,9 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		for (int j = 0; j < sides.size(); j++) {
 			dirs.add(Direction.from3DDataValue(sides.getCompound(j).getInt("dir")));
 		}
-		this.revalidate();
 		super.load(tag);
 
 		if (this.level != null) {
-			level.getModelDataManager().requestRefresh(this);
 			level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
 		}
 	}
@@ -180,23 +185,27 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		this.search = true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void search() {
 		if (this.level != null) {
 			addToCache(this.worldPosition);
 
 			Block b = this.getBlockState().getBlock();
 			if (b instanceof ConnectorBlock) {
-				ConnectorBlock<T> cb = (ConnectorBlock<T>) b;
+				ConnectorBlock cb = (ConnectorBlock) b;
 				cb.syncConnections(level, worldPosition);
 
 				dirs.forEach(dir -> {
 					connectors.add(new Connection(this.worldPosition, dir, 0));
-					if (!myConnectors.getOrDefault(dir, ConnectionSide.NONE).isIO()) {
-						myConnectors.put(dir, ConnectionSide.OUTPUT);
-					}
 				});
 				cb.searchConnectors(this.level, this.worldPosition, this, 0);
+				System.out.println(myConnectors + "for" + worldPosition);
+				dirs.forEach(dir -> {
+					ConnectionSide side = myConnectors.getOrDefault(dir, ConnectionSide.NONE);
+					if (!side.isIO()) {
+						side = ConnectionSide.OUTPUT;
+					}
+					setConnection(dir, side);
+				});
 			}
 		}
 		this.cache.clear();
@@ -242,11 +251,15 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		}
 
 		public BlockPos getDest() {
-			return pos.relative(direction.getOpposite());
+			return pos.relative(direction);
 		}
 
 		public Direction getDirection() {
 			return direction;
+		}
+
+		public ConnectionSide getSide(BlockGetter level) {
+			return BlockHelper.getFromTe(level, pos, ConnectorBlockEntity.class, c -> c.getConnection(direction));
 		}
 
 		public CompoundTag save() {
@@ -271,7 +284,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	}
 
 	private short getPackedModelData() {
-		ConnectorBlock<?> b = (ConnectorBlock<?>) getBlockState().getBlock();
+		ConnectorBlock b = (ConnectorBlock) getBlockState().getBlock();
 		boolean[] data = b.getModelData(getLevel(), getBlockPos());
 		ConnectionSide north = connectionData(data[2], Direction.NORTH);
 		ConnectionSide east = connectionData(data[5], Direction.EAST);

@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.MapColor;
 
-public class EnergyCableBlock extends ConnectorBlock<CableEnergyStorage> {
+public class EnergyCableBlock extends ConnectorBlock {
 
 	private static final Map<BlockPos, Set<BlockPos>> CACHE = new HashMap<>();
 
@@ -40,5 +40,4 @@ public class EnergyCableBlock extends ConnectorBlock<CableEnergyStorage> {
 	protected BlockEntityType<? extends ConnectorBlockEntity<CableEnergyStorage>> getBlockEntityType() {
 		return BlockEntityInit.ENERGY_CABLE.get();
 	}
-
 }

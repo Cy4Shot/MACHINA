@@ -625,8 +625,8 @@ public class DatagenBlockStates extends BlockStateProvider {
 		simpleFlatItem(p, itemTexture(p));
 	}
 
-	private void connector(RegistryObject<? extends ConnectorBlock<?>> connector) {
-		ConnectorBlock<?> p = connector.get();
+	private void connector(RegistryObject<? extends ConnectorBlock> connector) {
+		ConnectorBlock p = connector.get();
 		ResourceLocation b = blockTexture(p);
 
 		ModelFile main = models().withExistingParent(name(p), new MachinaRL("block/connector/base"))

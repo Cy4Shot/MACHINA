@@ -73,6 +73,9 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 	}
 
 	public int receive(EnergyCableBlockEntity be, Direction side, int amount, boolean simulate) {
+		if (!cable.getConnection(side).isOutput()) {
+			return 0;
+		}
 		return receiveEqually(be, side, be.getSortedConnections(side), Math.min(be.getRate(), amount), simulate);
 	}
 
@@ -90,13 +93,16 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 			int index = (i + p) % connections.size();
 
 			EnergyCableBlockEntity.Connection connection = connections.get(index);
-			IEnergyStorage destination = getEnergyStorage(be, connection.getPos().relative(connection.getDirection()),
-					connection.getDirection().getOpposite());
+			if (connection.getSide(be.getLevel()).isInput()) {
+				IEnergyStorage destination = getEnergyStorage(be,
+						connection.getPos().relative(connection.getDirection()),
+						connection.getDirection().getOpposite());
 
-			if (destination != null) {
-				boolean canRecieve = destination.canReceive();
-				if (canRecieve && destination.receiveEnergy(1, true) >= 1)
-					destinations.add(destination);
+				if (destination != null) {
+					boolean canRecieve = destination.canReceive();
+					if (canRecieve && destination.receiveEnergy(1, true) >= 1)
+						destinations.add(destination);
+				}
 			}
 		}
 
@@ -132,13 +138,16 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 			int index = (i + p) % connections.size();
 
 			EnergyCableBlockEntity.Connection connection = connections.get(index);
-			IEnergyStorage destination = getEnergyStorage(be, connection.getPos().relative(connection.getDirection()),
-					connection.getDirection().getOpposite());
+			if (connection.getSide(be.getLevel()).isInput()) {
+				IEnergyStorage destination = getEnergyStorage(be,
+						connection.getPos().relative(connection.getDirection()),
+						connection.getDirection().getOpposite());
 
-			if (destination != null) {
-				boolean canRecieve = destination.canReceive();
-				if (canRecieve && destination.receiveEnergy(1, true) >= 1)
-					destinations.add(new Pair<>(destination, index));
+				if (destination != null) {
+					boolean canRecieve = destination.canReceive();
+					if (canRecieve && destination.receiveEnergy(1, true) >= 1)
+						destinations.add(new Pair<>(destination, index));
+				}
 			}
 		}
 

@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.block.entity.ConnectorBlockEntity.Connection;
-import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.math.MathUtil;
@@ -38,7 +37,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block implements EntityBlock {
+public abstract class ConnectorBlock extends Block implements EntityBlock {
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");
 
 	private static final VoxelShape PART_C = Block.box(6, 6, 6, 10, 10, 10);
@@ -88,7 +87,6 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		return new boolean[] { down, up, north, south, west, east, middle };
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
 			@NotNull CollisionContext pContext) {
@@ -101,9 +99,9 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 
 		BlockEntity be = level.getBlockEntity(pos);
 		if (be != null && be instanceof ConnectorBlockEntity) {
-			ConnectorBlockEntity<T> cable = (ConnectorBlockEntity<T>) be;
+			ConnectorBlockEntity<?> cable = (ConnectorBlockEntity<?>) be;
 			for (Direction d : Direction.values()) {
-				if (data[d.get3DDataValue()] && cable.myConnectors.getOrDefault(d, ConnectionSide.NONE).isIO()) {
+				if (data[d.get3DDataValue()] && cable.getConnection(d).isIO()) {
 					shape = Shapes.or(shape, CONNS[d.get3DDataValue()]);
 				}
 			}
@@ -162,12 +160,15 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 				|| isConnectable(level, pos, Direction.WEST) || isConnectable(level, pos, Direction.EAST)
 				|| isConnectable(level, pos, Direction.UP) || isConnectable(level, pos, Direction.DOWN);
 
-		if (!tile) {
-			BlockEntity be = level.getBlockEntity(pos);
-			if (be != null) {
-				be.setRemoved();
-			}
-		}
+		// TODO: What do we do about dead tile entities? If we don't tick its okay?
+//		BlockEntity be = level.getBlockEntity(pos);
+//		if (be != null) {
+//			if (tile) {
+//				be.clearRemoved();
+//			} else {
+//				be.setRemoved();
+//			}
+//		}
 
 		return defaultBlockState().setValue(TILE, tile);
 	}
@@ -178,20 +179,19 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 		super.createBlockStateDefinition(b);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
 			BlockHitResult hit) {
 		BlockEntity be = level.getBlockEntity(pos);
 		if (be != null && be instanceof ConnectorBlockEntity) {
-			ConnectorBlockEntity<T> cable = (ConnectorBlockEntity<T>) be;
+			ConnectorBlockEntity<?> cable = (ConnectorBlockEntity<?>) be;
 			Vec3 offset = hit.getLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
 
 			for (Direction d : Direction.values()) {
-				if (cable.myConnectors.getOrDefault(d, ConnectionSide.NONE).isIO()) {
+				ConnectionSide side = cable.getConnection(d);
+				if (side.isIO()) {
 					if (CONNS[d.get3DDataValue()].bounds().distanceToSqr(offset) < 0.001f) {
-						cable.myConnectors.put(d, cable.myConnectors.get(d).toggleIO());
-						cable.sync();
+						cable.setConnection(d, side.toggleIO());
 						return InteractionResult.SUCCESS;
 					}
 				}
@@ -233,7 +233,6 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 
 	protected abstract Map<BlockPos, Set<BlockPos>> getCache();
 
-	@SuppressWarnings("unchecked")
 	public void findConnectors(LevelAccessor world, BlockPos poss, BlockPos pos) {
 		Set<BlockPos> ss = getCache().get(poss);
 		if (ss == null)
@@ -248,15 +247,15 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 							ConnectorBlockEntity::enqueueSearch);
 					ss.add(pos);
 					getCache().put(poss, ss);
-					((ConnectorBlock<T>) block).findConnectors(world, poss, blockPos);
+					((ConnectorBlock) block).findConnectors(world, poss, blockPos);
 				}
 			}
 		}
 		getCache().clear();
 	}
 
-	@SuppressWarnings({ "unchecked" })
-	public void searchConnectors(LevelAccessor world, BlockPos pos, ConnectorBlockEntity<T> first, int dist) {
+	@SuppressWarnings("unchecked")
+	public void searchConnectors(LevelAccessor world, BlockPos pos, ConnectorBlockEntity<?> first, int dist) {
 		int newdist = dist + 1;
 		for (Direction dir : Direction.values()) {
 			BlockPos blockPos = pos.relative(dir);
@@ -269,14 +268,14 @@ public abstract class ConnectorBlock<T extends IConnectorStorage> extends Block 
 						BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class, be -> be.dirs
 								.forEach(d -> first.connectors.add(new Connection(blockPos, (Direction) d, newdist))));
 						first.addToCache(blockPos);
-						((ConnectorBlock<T>) block).searchConnectors(world, blockPos, first, newdist);
+						((ConnectorBlock) block).searchConnectors(world, blockPos, first, newdist);
 					}
 				}
 			}
 		}
 	}
 
-	protected abstract BlockEntityType<? extends ConnectorBlockEntity<T>> getBlockEntityType();
+	protected abstract BlockEntityType<? extends ConnectorBlockEntity<?>> getBlockEntityType();
 
 	@Override
 	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {

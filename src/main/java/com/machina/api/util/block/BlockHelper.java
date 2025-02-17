@@ -106,6 +106,14 @@ public class BlockHelper {
 		return 0;
 	}
 
+	public static int extractEnergy(BlockEntity tileEntity, Direction from, int maxExtract) {
+		if (tileEntity != null) {
+			return tileEntity.getCapability(ForgeCapabilities.ENERGY, from)
+					.map(handler -> handler.extractEnergy(maxExtract, false)).orElse(0);
+		}
+		return 0;
+	}
+
 	public static void sendEnergy(Level world, BlockPos pos, long storedPower, long sendPerTick,
 			MachinaBlockEntity storage) {
 		for (Direction facing : Direction.values()) {

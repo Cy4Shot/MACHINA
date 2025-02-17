@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.MapColor;
 
-public class FluidPipeBlock extends ConnectorBlock<PipeFluidStorage> {
+public class FluidPipeBlock extends ConnectorBlock {
 
 	private static final Map<BlockPos, Set<BlockPos>> CACHE = new HashMap<>();
 

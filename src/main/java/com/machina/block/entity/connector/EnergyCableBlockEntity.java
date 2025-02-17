@@ -21,6 +21,11 @@ public class EnergyCableBlockEntity extends ConnectorBlockEntity<CableEnergyStor
 	public EnergyCableBlockEntity(BlockPos pos, BlockState state) {
 		this(BlockEntityInit.ENERGY_CABLE.get(), pos, state);
 	}
+	
+	@Override
+	public int getRate() {
+		return CommonConfig.cableTransferRate.get();
+	}
 
 	@Override
 	public CableEnergyStorage createStorage(Direction side) {
@@ -28,18 +33,8 @@ public class EnergyCableBlockEntity extends ConnectorBlockEntity<CableEnergyStor
 	}
 
 	@Override
-	public int getRate() {
-		return CommonConfig.cableTransferRate.get();
-	}
-
-	@Override
 	public Capability<?> getCapability() {
 		return ForgeCapabilities.ENERGY;
-	}
-
-	@Override
-	public boolean activeModel() {
-		return false;
 	}
 
 }
