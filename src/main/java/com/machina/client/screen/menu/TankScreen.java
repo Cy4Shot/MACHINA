@@ -20,6 +20,8 @@ public class TankScreen extends MachinaMenuScreen<TankBlockEntity, TankMenu> {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
 
+		drawFluidBar(gui, 0, 0, 0);
+
 		drawOverlay(gui);
 	}
 }

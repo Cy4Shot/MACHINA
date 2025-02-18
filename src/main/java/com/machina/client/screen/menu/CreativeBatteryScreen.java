@@ -19,7 +19,7 @@ public class CreativeBatteryScreen extends MachinaMenuScreen<CreativeBatteryBloc
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
-		drawEnergyBar(gui, 0, true, "");
+		drawEnergyBar(gui, 0, 0, true, "");
 		drawOverlay(gui);
 	}
 }

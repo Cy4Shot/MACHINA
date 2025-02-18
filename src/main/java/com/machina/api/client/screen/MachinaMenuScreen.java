@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
@@ -284,10 +285,11 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		}
 	}
 
-	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing) {
+	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,
+			TriConsumer<Integer, Integer, Float> drawer) {
 		// Bar
 		blitCommon(gui, i, j, 366, 21, 133, 18);
-		blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
+		drawer.accept(i, j, p);
 
 		// Deco
 		int dec_off = active ? 0 : 6;
@@ -306,14 +308,30 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 		blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
 	}
 
-	protected void drawEnergyBar(GuiGraphics gui, int y, boolean active, String missing) {
-		int i = midWidth() + 117 - 66;
+	@SuppressWarnings("hiding")
+	private <T extends Number> void drawBar(GuiGraphics gui, int x, int y, boolean active, String missing,
+			Function<T, String> formatter, Supplier<T> value, Supplier<T> max, Supplier<Float> f,
+			TriConsumer<Integer, Integer, Float> drawer) {
+		int i = midWidth() + x + 117 - 66;
 		int j = midHeight() + y - 9;
 		registerHoverable(i + 1, j + 1, i + 136, j + 18,
-				() -> active ? Component.literal(StringUtils.formatPower(this.entity.getEnergy()) + " / "
-						+ StringUtils.formatPower(this.entity.getMaxEnergy()) + " ("
-						+ StringUtils.formatPercent(this.entity.getEnergyF()) + ")") : uistr(missing));
-		drawBar(gui, i, j, this.entity.getEnergyF(), active, StringUtils.formatPower(this.entity.getEnergy()), missing);
+				() -> active ? Component.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
+						+ " (" + StringUtils.formatPercent(f.get()) + ")") : uistr(missing));
+		drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
+	}
+
+	protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, String missing) {
+		drawBar(gui, x, y, active, missing, StringUtils::formatPower, entity::getEnergy, entity::getMaxEnergy,
+				entity::getEnergyF, (i, j, p) -> {
+					blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
+				});
+	}
+
+	protected void drawFluidBar(GuiGraphics gui, int x, int y, int tank) {
+		drawBar(gui, x, y, true, "", StringUtils::formatFluid, () -> entity.getFluidMB(tank),
+				() -> entity.getTankCapacity(tank), () -> entity.getFluidF(tank), (i, j, p) -> {
+
+				});
 	}
 
 	private void drawFace(GuiGraphics gui, int x, int y, Direction dir, @Nullable ISideAdapter storage) {

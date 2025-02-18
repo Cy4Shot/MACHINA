@@ -22,6 +22,10 @@ public record MachinaFluidStorage(MachinaTank tank)
 	public FluidStack getFluidInTank(int id) {
 		return tank.getFluid();
 	}
+	
+	public FluidStack getFluidInTank() {
+		return getFluidInTank(0);
+	}
 
 	public void setFluidInTank(int id, FluidStack stack) {
 		tank.setFluid(stack);
@@ -30,6 +34,10 @@ public record MachinaFluidStorage(MachinaTank tank)
 	@Override
 	public int getTankCapacity(int id) {
 		return tank.getTankCapacity(id);
+	}
+	
+	public int getTankCapacity() {
+		return getTankCapacity(0);
 	}
 
 	@Override

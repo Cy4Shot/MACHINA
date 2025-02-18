@@ -137,7 +137,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 			this.itemSides.add(Side.deserialize(sides.getCompound(i)));
 		}
 		this.setChanged();
-		
+
 	}
 
 	@Override
@@ -260,6 +260,26 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	@Override
 	public boolean canTakeItemThroughFace(int slot, @NotNull ItemStack stack, Direction face) {
 		return itemSides.get(slot)[face.ordinal()] == Side.OUTPUT;
+	}
+
+	public FluidStack getFluid(int tank) {
+		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getFluidInTank).get();
+	}
+
+	public int getTankCapacity(int tank) {
+		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getTankCapacity).get();
+	}
+
+	public int getFluidMB(int tank) {
+		return getFluid(tank).getAmount();
+	}
+
+	public float getFluidF(int tank) {
+		int cap = getTankCapacity(tank);
+		if (cap == 0) {
+			return 0;
+		}
+		return (float) getFluidMB(tank) / (float) cap;
 	}
 
 	public int getEnergy() {
