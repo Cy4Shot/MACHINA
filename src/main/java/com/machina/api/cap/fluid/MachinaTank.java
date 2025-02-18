@@ -18,11 +18,12 @@ public class MachinaTank extends FluidTank {
 	private final BlockEntity tile;
 	public final int id;
 
-	public MachinaTank(BlockEntity tile, int capacity, Predicate<FluidStack> validator, int id) {
+	public MachinaTank(BlockEntity tile, int capacity, Predicate<FluidStack> validator, int id, Runnable onChanged) {
 		super(capacity, validator);
 		this.tile = tile;
 		this.id = id;
 		this.setFluid(new FluidStack(Fluids.EMPTY, 0));
+		this.onChanged = onChanged;
 	}
 
 	@Override

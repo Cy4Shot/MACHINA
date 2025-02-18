@@ -48,6 +48,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
@@ -82,7 +83,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	public void fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
 		int id = this.fluidsCap.size();
 		this.fluidsCap.add(new SingleSidedStorage<>("cap_fluid_" + id, this,
-				new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id)), sides.clone()));
+				new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id, this::sync)), sides.clone()));
 	}
 
 	public MachinaBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -280,6 +281,18 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 			return 0;
 		}
 		return (float) getFluidMB(tank) / (float) cap;
+	}
+
+	public int getTanks() {
+		return this.fluidsCap.size();
+	}
+
+	protected FluidStack tankDrain(int tank, int maxDrain, FluidAction action) {
+		return this.fluidsCap.get(tank).get().map(f -> f.drain(maxDrain, action)).get();
+	}
+
+	protected int fill(int tank, FluidStack stack, FluidAction action) {
+		return this.fluidsCap.get(tank).get().map(f -> f.fill(stack, action)).get();
 	}
 
 	public int getEnergy() {
