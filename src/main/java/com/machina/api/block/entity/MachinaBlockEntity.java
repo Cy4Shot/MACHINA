@@ -264,11 +264,12 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	public FluidStack getFluid(int tank) {
-		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getFluidInTank).get();
+		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getFluidInTank)
+				.orElseGet(() -> FluidStack.EMPTY);
 	}
 
 	public int getTankCapacity(int tank) {
-		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getTankCapacity).get();
+		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getTankCapacity).orElseGet(() -> 0);
 	}
 
 	public int getFluidMB(int tank) {

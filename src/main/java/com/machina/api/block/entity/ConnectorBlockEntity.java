@@ -64,6 +64,11 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			return;
 
 		ConnectorBlockEntity<?> cbe = (ConnectorBlockEntity<?>) be;
+		
+		for (Direction dir : Direction.values()) {
+			cbe.cap.get(dir).ifPresent(IConnectorStorage::tick);
+		}
+
 		if (cbe.search) {
 			cbe.search();
 			cbe.search = false;

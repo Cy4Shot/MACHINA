@@ -27,12 +27,6 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 		this.side = side;
 	}
 
-	public void tick() {
-		if (Objects.requireNonNull(cable.getLevel()).getGameTime() - lastReceived > 1) {
-			pullEnergy(cable, side);
-		}
-	}
-
 	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
 		lastReceived = Objects.requireNonNull(cable.getLevel()).getGameTime();
@@ -64,64 +58,11 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 		return true;
 	}
 
-	public void pullEnergy(EnergyCableBlockEntity be, Direction side) {
-		IEnergyStorage energyStorage = getEnergyStorage(be, be.getBlockPos().relative(side), side.getOpposite());
-		if (energyStorage == null || !energyStorage.canExtract())
-			return;
-
-		insertEqually(be, side, be.getSortedConnections(side), energyStorage);
-	}
-
 	public int receive(EnergyCableBlockEntity be, Direction side, int amount, boolean simulate) {
 		if (!cable.getConnection(side).isOutput()) {
 			return 0;
 		}
 		return receiveEqually(be, side, be.getSortedConnections(side), Math.min(be.getRate(), amount), simulate);
-	}
-
-	protected void insertEqually(EnergyCableBlockEntity be, Direction side,
-			List<EnergyCableBlockEntity.Connection> connections, IEnergyStorage energyStorage) {
-		if (connections.isEmpty())
-			return;
-
-		int completeAmount = be.getRate();
-		int energyToTransfer = completeAmount;
-		int p = be.getRoundRobinIndex(side) % connections.size();
-
-		List<IEnergyStorage> destinations = new ArrayList<>(connections.size());
-		for (int i = 0; i < connections.size(); i++) {
-			int index = (i + p) % connections.size();
-
-			EnergyCableBlockEntity.Connection connection = connections.get(index);
-			if (connection.getSide(be.getLevel()).isInput()) {
-				IEnergyStorage destination = getEnergyStorage(be,
-						connection.getPos().relative(connection.getDirection()),
-						connection.getDirection().getOpposite());
-
-				if (destination != null) {
-					boolean canRecieve = destination.canReceive();
-					if (canRecieve && destination.receiveEnergy(1, true) >= 1)
-						destinations.add(destination);
-				}
-			}
-		}
-
-		for (IEnergyStorage destination : destinations) {
-			int simulatedExtract = energyStorage
-					.extractEnergy(Math.min(Math.max(completeAmount / destinations.size(), 1), energyToTransfer), true);
-			if (simulatedExtract > 0) {
-				int transferred = pushEnergy(energyStorage, destination, simulatedExtract);
-				if (transferred > 0)
-					energyToTransfer -= transferred;
-			}
-
-			p = (p + 1) % connections.size();
-
-			if (energyToTransfer <= 0)
-				break;
-		}
-
-		be.setRoundRobinIndex(side, p);
 	}
 
 	protected int receiveEqually(EnergyCableBlockEntity be, Direction side,
@@ -179,11 +120,7 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
 		return te.getCapability(ForgeCapabilities.ENERGY, direction).orElse(null);
 	}
 
-	public static int pushEnergy(IEnergyStorage provider, IEnergyStorage receiver, int maxAmount) {
-		int energySim = provider.extractEnergy(maxAmount, true);
-		int receivedSim = receiver.receiveEnergy(energySim, true);
-		int energy = provider.extractEnergy(receivedSim, false);
-		receiver.receiveEnergy(energy, false);
-		return energy;
+	@Override
+	public void tick() {
 	}
 }
