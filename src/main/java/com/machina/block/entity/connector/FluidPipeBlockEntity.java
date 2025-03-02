@@ -1,5 +1,9 @@
 package com.machina.block.entity.connector;
 
+import java.util.function.Supplier;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.fluid.PipeFluidStorage;
 import com.machina.config.CommonConfig;
@@ -7,6 +11,7 @@ import com.machina.registration.init.BlockEntityInit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -21,7 +26,7 @@ public class FluidPipeBlockEntity extends ConnectorBlockEntity<PipeFluidStorage>
 	public FluidPipeBlockEntity(BlockPos pos, BlockState state) {
 		this(BlockEntityInit.FLUID_PIPE.get(), pos, state);
 	}
-	
+
 	@Override
 	public int getRate() {
 		return CommonConfig.pipeTransferRate.get();
@@ -35,6 +40,11 @@ public class FluidPipeBlockEntity extends ConnectorBlockEntity<PipeFluidStorage>
 	@Override
 	public Capability<?> getCapability() {
 		return ForgeCapabilities.FLUID_HANDLER;
+	}
+
+	@Override
+	public @Nullable Supplier<Item> getFilterItem() {
+		return null;
 	}
 
 }
