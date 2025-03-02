@@ -30,13 +30,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.LockCode;
-import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -49,8 +43,6 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 /**
  * Abstract class to allow Machina BlockEntities to store items, fluids and
@@ -59,12 +51,10 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
  * @author Cy4Shot
  * @since Machina v0.1.0
  */
-public abstract class MachinaBlockEntity extends BaseBlockEntity implements WorldlyContainer, IMachinaMenuProvider {
+public abstract class MachinaBlockEntity extends ContainerBlockEntity implements IMachinaMenuProvider {
 
-	private LockCode lockKey = LockCode.NO_LOCK;
 	protected MultiSidedStorage<MachinaEnergyStorage> energyCap;
 	protected final List<SingleSidedStorage<MachinaFluidStorage>> fluidsCap = new ArrayList<>();
-	protected final NonNullList<ItemStack> items = NonNullList.create();
 	protected NonNullList<Side[]> itemSides = NonNullList.create();
 
 	private int energy;
@@ -72,7 +62,7 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	public abstract void createStorages();
 
 	public void itemStorage(Side[] sides) {
-		this.items.add(ItemStack.EMPTY);
+		this.itemStorage();
 		this.itemSides.add(sides.clone());
 	}
 
@@ -130,8 +120,6 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 		super.load(tag);
 		forEachStorage(s -> s.loadAdditional(tag));
 		this.energy = tag.getInt("energy");
-		this.lockKey = LockCode.fromTag(tag);
-		ContainerHelper.loadAllItems(tag, this.items);
 		this.itemSides = NonNullList.create();
 		ListTag sides = tag.getList("sides_item", Tag.TAG_COMPOUND);
 		for (int i = 0; i < sides.size(); i++) {
@@ -145,17 +133,13 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	protected void saveAdditional(CompoundTag tag) {
 		forEachStorage(s -> s.saveAdditional(tag));
 		tag.putInt("energy", energy);
-		ContainerHelper.saveAllItems(tag, this.items);
 		ListTag sides = new ListTag();
 		for (Side[] itemSide : this.itemSides) {
 			sides.add(Side.serialize(itemSide));
 		}
 		tag.put("sides_item", sides);
-		this.lockKey.addToTag(tag);
 		super.saveAdditional(tag);
 	}
-
-	LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
 
 	@Nonnull
 	@Override
@@ -165,8 +149,6 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 				if (energyCap != null && energyCap.isNonNullMode(side)) {
 					return energyCap.getLazy(side).cast();
 				}
-			} else if (cap == ForgeCapabilities.ITEM_HANDLER && !this.remove) {
-				return handlers[side.ordinal()].cast();
 			} else if (cap == ForgeCapabilities.FLUID_HANDLER) {
 				for (SingleSidedStorage<MachinaFluidStorage> storage : fluidsCap) {
 					if (storage.isNonNullMode(side)) {
@@ -181,16 +163,11 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	@Override
 	public void invalidateCaps() {
 		forEachStorage(SidedStorage::invalidate);
-		for (LazyOptional<? extends IItemHandler> handler : handlers) {
-			handler.invalidate();
-		}
 		super.invalidateCaps();
 	}
 
 	@Override
 	public void reviveCaps() {
-		handlers = SidedInvWrapper.create(this, Direction.values());
-		this.items.clear();
 		this.itemSides.clear();
 		this.fluidsCap.clear();
 		this.createStorages();
@@ -199,44 +176,6 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 
 	public boolean isLit() {
 		return false;
-	}
-
-	@Override
-	public int getContainerSize() {
-		return items.size();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return items.stream().allMatch(ItemStack::isEmpty);
-	}
-
-	@Override
-	public @NotNull ItemStack getItem(int pIndex) {
-		return items.get(pIndex);
-	}
-
-	@Override
-	public @NotNull ItemStack removeItem(int pIndex, int pCount) {
-		ItemStack stack = ContainerHelper.removeItem(items, pIndex, pCount);
-		if (!stack.isEmpty()) {
-			this.setChanged();
-		}
-		return stack;
-	}
-
-	@Override
-	public @NotNull ItemStack removeItemNoUpdate(int pIndex) {
-		return ContainerHelper.takeItem(items, pIndex);
-	}
-
-	@Override
-	public void setItem(int pIndex, @NotNull ItemStack pStack) {
-		this.items.set(pIndex, pStack);
-		if (pStack.getCount() > this.getMaxStackSize()) {
-			pStack.setCount(this.getMaxStackSize());
-		}
-		this.setChanged();
 	}
 
 	@Override
@@ -264,11 +203,12 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	public FluidStack getFluid(int tank) {
-		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getFluidInTank).get();
+		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getFluidInTank)
+				.orElseGet(() -> FluidStack.EMPTY);
 	}
 
 	public int getTankCapacity(int tank) {
-		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getTankCapacity).get();
+		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getTankCapacity).orElseGet(() -> 0);
 	}
 
 	public int getFluidMB(int tank) {
@@ -364,18 +304,13 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 	}
 
 	@Override
-	public boolean stillValid(@NotNull Player pPlayer) {
-		if ((this.level != null ? this.level.getBlockEntity(this.worldPosition) : null) != this) {
-			return false;
-		} else {
-			return !(pPlayer.distanceToSqr((double) this.worldPosition.getX() + 0.5D,
-					(double) this.worldPosition.getY() + 0.5D, (double) this.worldPosition.getZ() + 0.5D) > 64.0D);
-		}
+	public boolean hasItemIO() {
+		return true;
 	}
 
 	@Override
 	public void clearContent() {
-		this.items.clear();
+		super.clearRemoved();
 		this.itemSides.clear();
 	}
 
@@ -387,20 +322,6 @@ public abstract class MachinaBlockEntity extends BaseBlockEntity implements Worl
 			this.level.blockEntityChanged(this.worldPosition);
 		}
 		super.setChanged();
-	}
-
-	public boolean canOpen(Player player) {
-		return canUnlock(player, this.lockKey, this.getDisplayName());
-	}
-
-	public static boolean canUnlock(Player player, LockCode lock, Component name) {
-		if (!player.isSpectator() && !lock.unlocksWith(player.getMainHandItem())) {
-			player.displayClientMessage(Component.translatable("container.isLocked", name), true);
-			player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
-			return false;
-		} else {
-			return true;
-		}
 	}
 
 	@Nullable

@@ -7,6 +7,7 @@ import com.machina.api.client.cinema.effect.renderer.CinematicTextOverlay;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
 import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
+import com.machina.client.ber.TankRenderer;
 import com.machina.client.screen.menu.BatteryScreen;
 import com.machina.client.screen.menu.CreativeBatteryScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
@@ -27,6 +28,7 @@ import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
@@ -53,6 +55,11 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
 			MenuScreens.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
 		});
+	}
+	
+	@SubscribeEvent
+	public static void registerRenderers(RegisterRenderers event) {
+		event.registerBlockEntityRenderer(BlockEntityInit.TANK.get(), TankRenderer::new);
 	}
 
 	@SubscribeEvent

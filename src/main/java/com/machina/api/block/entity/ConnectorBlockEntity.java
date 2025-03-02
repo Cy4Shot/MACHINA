@@ -5,11 +5,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.block.ConnectorBlock;
+import com.machina.api.block.menu.IMachinaMenuProvider;
 import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.SidedLazyOptionalCache;
@@ -22,6 +25,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -32,31 +39,35 @@ import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends BaseBlockEntity {
+public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends ContainerBlockEntity
+		implements IMachinaMenuProvider {
 
 	protected final int[] roundrobin;
 	private int recursionDepth;
 	private boolean search = false;
 
-	private final SidedLazyOptionalCache<T> cap;
 	private Map<Direction, ConnectionSide> myConnectors = new HashMap<>();
 	public List<Connection> connectors = new ArrayList<>();
 	public final List<BlockPos> cache = new ArrayList<>();
 	public List<Direction> dirs = new ArrayList<>();
 
+	private final SidedLazyOptionalCache<T> cap;
+
 	public ConnectorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 		this.cap = new SidedLazyOptionalCache<>();
 		this.roundrobin = new int[Direction.values().length];
-		this.revalidate();
+		this.reviveCaps();
 	}
 
 	public abstract T createStorage(Direction side);
 
-	protected void revalidate() {
-		for (Direction dir : Direction.values()) {
-			cap.revalidate(dir, s -> true, this::createStorage);
-		}
+	@Nullable
+	public abstract Supplier<Item> getFilterItem();
+
+	@Override
+	public boolean hasItemIO() {
+		return false;
 	}
 
 	public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T be) {
@@ -64,11 +75,24 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			return;
 
 		ConnectorBlockEntity<?> cbe = (ConnectorBlockEntity<?>) be;
+
+		for (Direction dir : Direction.values()) {
+			cbe.cap.get(dir).ifPresent(IConnectorStorage::tick);
+		}
+
 		if (cbe.search) {
 			cbe.search();
 			cbe.search = false;
 			cbe.sync();
 		}
+	}
+	
+	@Override
+	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
+		if (getFilterItem() != null && this.canOpen(player)) {
+			// TODO: Create Container
+		}
+		return null;
 	}
 
 	public int getRoundRobinIndex(Direction direction) {
@@ -111,6 +135,15 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	public void invalidateCaps() {
 		this.cap.invalidate();
 		super.invalidateCaps();
+	}
+
+	@Override
+	public void reviveCaps() {
+		super.reviveCaps();
+		for (Direction dir : Direction.values()) {
+			itemStorage();
+			cap.revalidate(dir, s -> true, this::createStorage);
+		}
 	}
 
 	@Override
@@ -312,5 +345,4 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 	public boolean activeModel() {
 		return true;
 	}
-
 }

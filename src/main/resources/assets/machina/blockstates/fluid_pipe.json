@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"": {
+			"model": "machina:block/fluid_pipe_block"
+		}
+	}
+}
