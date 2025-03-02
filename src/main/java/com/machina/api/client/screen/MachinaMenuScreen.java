@@ -3,6 +3,7 @@ package com.machina.api.client.screen;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -29,28 +30,40 @@ import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.fluids.FluidStack;
 
 public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends MachinaContainerMenu<R>>
 		extends AbstractContainerScreen<T> {
@@ -310,27 +323,31 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 
 	@SuppressWarnings("hiding")
 	private <T extends Number> void drawBar(GuiGraphics gui, int x, int y, boolean active, String missing,
-			Function<T, String> formatter, Supplier<T> value, Supplier<T> max, Supplier<Float> f,
-			TriConsumer<Integer, Integer, Float> drawer) {
+			Function<T, String> formatter, Supplier<MutableComponent> name, Supplier<T> value, Supplier<T> max,
+			Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
 		int i = midWidth() + x + 117 - 66;
 		int j = midHeight() + y - 9;
 		registerHoverable(i + 1, j + 1, i + 136, j + 18,
-				() -> active ? Component.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
-						+ " (" + StringUtils.formatPercent(f.get()) + ")") : uistr(missing));
+				() -> active
+						? name.get()
+								.append(Component.literal(formatter.apply(value.get()) + " / "
+										+ formatter.apply(max.get()) + " (" + StringUtils.formatPercent(f.get()) + ")"))
+						: uistr(missing));
 		drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
 	}
 
 	protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, String missing) {
-		drawBar(gui, x, y, active, missing, StringUtils::formatPower, entity::getEnergy, entity::getMaxEnergy,
-				entity::getEnergyF, (i, j, p) -> {
+		drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, entity::getEnergy,
+				entity::getMaxEnergy, entity::getEnergyF, (i, j, p) -> {
 					blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
 				});
 	}
 
 	protected void drawFluidBar(GuiGraphics gui, int x, int y, int tank) {
-		drawBar(gui, x, y, true, "", StringUtils::formatFluid, () -> entity.getFluidMB(tank),
-				() -> entity.getTankCapacity(tank), () -> entity.getFluidF(tank), (i, j, p) -> {
-
+		drawBar(gui, x, y, true, "", StringUtils::formatFluid, () -> entity.getFluid(tank).getDisplayName().copy(),
+				() -> entity.getFluidMB(tank), () -> entity.getTankCapacity(tank), () -> entity.getFluidF(tank),
+				(i, j, p) -> {
+					renderFluid(gui, entity.getFluid(tank), i + 1, j + 3, 131, 14, 0);
 				});
 	}
 
@@ -602,6 +619,156 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 				return remappedTypes.computeIfAbsent(in, a -> new MultiblockRenderType(a, alpha));
 			}
 		}
+	}
+
+	public static void renderFluid(GuiGraphics gui, FluidStack fluid, int x, int y, int sx, int sy, int blit) {
+		if (fluid.getFluid() != Fluids.EMPTY) {
+			TextureAtlasSprite icon = getFluidTexture(fluid);
+			if (icon != null) {
+				color(IClientFluidTypeExtensions.of(fluid.getFluid()).getTintColor(fluid));
+				drawTiledSprite(gui, x, y, 0, sx - 1, sy - 1, icon, 16, 16, 0, TilingDirection.DOWN_RIGHT);
+				resetColor();
+			}
+		}
+	}
+
+	// Mekanism
+	public enum TilingDirection {
+		DOWN_RIGHT(true, true),
+		DOWN_LEFT(true, false),
+		UP_RIGHT(false, true),
+		UP_LEFT(false, false);
+
+		private final boolean down;
+		private final boolean right;
+
+		TilingDirection(boolean down, boolean right) {
+			this.down = down;
+			this.right = right;
+		}
+	}
+
+	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
+	public static void drawTiledSprite(GuiGraphics gui, int xPosition, int yPosition, int yOffset, int desiredWidth,
+			int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
+			TilingDirection tilingDirection) {
+		drawTiledSprite(gui, xPosition, yPosition, yOffset, desiredWidth, desiredHeight, sprite, textureWidth,
+				textureHeight, zLevel, tilingDirection, true);
+	}
+
+	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
+	public static void drawTiledSprite(GuiGraphics gui, int xPosition, int yPosition, int yOffset, int desiredWidth,
+			int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
+			TilingDirection tilingDirection, boolean blendAlpha) {
+		if (desiredWidth == 0 || desiredHeight == 0 || textureWidth == 0 || textureHeight == 0) {
+			return;
+		}
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShaderTexture(0, sprite.atlasLocation());
+		int xTileCount = desiredWidth / textureWidth;
+		int xRemainder = desiredWidth - (xTileCount * textureWidth);
+		int yTileCount = desiredHeight / textureHeight;
+		int yRemainder = desiredHeight - (yTileCount * textureHeight);
+		int yStart = yPosition + yOffset;
+		float uMin = sprite.getU0();
+		float uMax = sprite.getU1();
+		float vMin = sprite.getV0();
+		float vMax = sprite.getV1();
+		float uDif = uMax - uMin;
+		float vDif = vMax - vMin;
+		if (blendAlpha) {
+			RenderSystem.enableBlend();
+		}
+		// Note: We still use the tesselator as that is what GuiGraphics#innerBlit does
+		BufferBuilder vertexBuffer = Tesselator.getInstance().getBuilder();
+		vertexBuffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		Matrix4f matrix4f = gui.pose().last().pose();
+		for (int xTile = 0; xTile <= xTileCount; xTile++) {
+			int width = (xTile == xTileCount) ? xRemainder : textureWidth;
+			if (width == 0) {
+				break;
+			}
+			int x = xPosition + (xTile * textureWidth);
+			int maskRight = textureWidth - width;
+			int shiftedX = x + textureWidth - maskRight;
+			float uLocalDif = uDif * maskRight / textureWidth;
+			float uLocalMin;
+			float uLocalMax;
+			if (tilingDirection.right) {
+				uLocalMin = uMin;
+				uLocalMax = uMax - uLocalDif;
+			} else {
+				uLocalMin = uMin + uLocalDif;
+				uLocalMax = uMax;
+			}
+			for (int yTile = 0; yTile <= yTileCount; yTile++) {
+				int height = (yTile == yTileCount) ? yRemainder : textureHeight;
+				if (height == 0) {
+					break;
+				}
+				int y = yStart - ((yTile + 1) * textureHeight);
+				int maskTop = textureHeight - height;
+				float vLocalDif = vDif * maskTop / textureHeight;
+				float vLocalMin;
+				float vLocalMax;
+				if (tilingDirection.down) {
+					vLocalMin = vMin;
+					vLocalMax = vMax - vLocalDif;
+				} else {
+					vLocalMin = vMin + vLocalDif;
+					vLocalMax = vMax;
+				}
+				vertexBuffer.vertex(matrix4f, x, y + textureHeight, zLevel).uv(uLocalMin, vLocalMax);
+				vertexBuffer.vertex(matrix4f, shiftedX, y + textureHeight, zLevel).uv(uLocalMax, vLocalMax);
+				vertexBuffer.vertex(matrix4f, shiftedX, y + maskTop, zLevel).uv(uLocalMax, vLocalMin);
+				vertexBuffer.vertex(matrix4f, x, y + maskTop, zLevel).uv(uLocalMin, vLocalMin);
+			}
+		}
+		BufferUploader.drawWithShader(vertexBuffer.end());
+		if (blendAlpha) {
+			RenderSystem.disableBlend();
+		}
+	}
+
+	public static TextureAtlasSprite getFluidTexture(@Nonnull FluidStack fluidStack) {
+		Fluid fluid = fluidStack.getFluid();
+		AtomicReference<ResourceLocation> fluidTexture = new AtomicReference<>();
+		fluid.getFluidType().initializeClient((ext) -> {
+			fluidTexture.set(ext.getStillTexture());
+		});
+		return getSprite(fluidTexture.get());
+	}
+
+	public static TextureAtlasSprite getSprite(ResourceLocation spriteLocation) {
+		return mc.getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(spriteLocation);
+	}
+
+	public static void color(int color) {
+		float r = getRed(color);
+		float g = getGreen(color);
+		float b = getBlue(color);
+		float a = getAlpha(color);
+		RenderSystem.setShaderColor(r, g, b, a);
+	}
+
+	public static void resetColor() {
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+	}
+
+	public static float getRed(int color) {
+		return FastColor.ARGB32.red(color) / 255.0F;
+	}
+
+	public static float getGreen(int color) {
+		return FastColor.ARGB32.green(color) / 255.0F;
+	}
+
+	public static float getBlue(int color) {
+		return FastColor.ARGB32.blue(color) / 255.0F;
+	}
+
+	public static float getAlpha(int color) {
+		return FastColor.ARGB32.alpha(color) / 255.0F;
 	}
 
 	@Override
