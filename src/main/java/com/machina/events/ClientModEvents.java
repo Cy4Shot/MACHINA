@@ -14,6 +14,7 @@ import com.machina.client.screen.menu.FurnaceGeneratorScreen;
 import com.machina.client.screen.menu.GrinderScreen;
 import com.machina.client.screen.menu.MachineCaseScreen;
 import com.machina.client.screen.menu.TankScreen;
+import com.machina.client.screen.menu.connector.FluidPipeScreen;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -48,6 +49,7 @@ public class ClientModEvents {
 		FluidInit.setRenderLayers();
 
 		event.enqueueWork(() -> {
+			MenuScreens.register(MenuTypeInit.FLUID_PIPE.get(), FluidPipeScreen::new);
 			MenuScreens.register(MenuTypeInit.BATTERY.get(), BatteryScreen::new);
 			MenuScreens.register(MenuTypeInit.TANK.get(), TankScreen::new);
 			MenuScreens.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
@@ -56,7 +58,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
 		});
 	}
-	
+
 	@SubscribeEvent
 	public static void registerRenderers(RegisterRenderers event) {
 		event.registerBlockEntityRenderer(BlockEntityInit.TANK.get(), TankRenderer::new);

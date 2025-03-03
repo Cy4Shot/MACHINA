@@ -7,6 +7,7 @@ import com.machina.block.menu.FurnaceGeneratorMenu;
 import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
 import com.machina.block.menu.TankMenu;
+import com.machina.block.menu.connector.FluidPipeMenu;
 
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -21,6 +22,8 @@ public class MenuTypeInit {
 			Machina.MOD_ID);
 
 	//@formatter:off
+	public static final RegistryObject<MenuType<FluidPipeMenu>> FLUID_PIPE = register("fluid_pipe",
+            FluidPipeMenu::new);
 	public static final RegistryObject<MenuType<BatteryMenu>> BATTERY = register("battery",
             BatteryMenu::new);
 	public static final RegistryObject<MenuType<TankMenu>> TANK = register("tank",

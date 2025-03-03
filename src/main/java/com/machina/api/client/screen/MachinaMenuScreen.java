@@ -17,6 +17,7 @@ import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
 import com.machina.Machina;
+import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaContainerMenu;
 import com.machina.api.cap.sided.ISideAdapter;
@@ -65,7 +66,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends MachinaContainerMenu<R>>
+public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extends MachinaContainerMenu<R>>
 		extends AbstractContainerScreen<T> {
 
 	private static final Minecraft mc = Minecraft.getInstance();
@@ -238,16 +239,8 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	}
 
 	public enum SpecialSlot {
-		PLUS(475, 0),
-		MINUS(485, 0),
-		RIGHT(495, 0),
-		DOWN(475, 10),
-		UP(485, 10),
-		LEFT(495, 10),
-		BOLT(499, 23),
-		CROSS(499, 33),
-		COAL(499, 43),
-		DUST(499, 53);
+		PLUS(475, 0), MINUS(485, 0), RIGHT(495, 0), DOWN(475, 10), UP(485, 10), LEFT(495, 10), BOLT(499, 23),
+		CROSS(499, 33), COAL(499, 43), DUST(499, 53);
 
 		private final int x;
 		private final int y;
@@ -337,18 +330,23 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	}
 
 	protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, String missing) {
-		drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, entity::getEnergy,
-				entity::getMaxEnergy, entity::getEnergyF, (i, j, p) -> {
-					blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
-				});
+		if (entity instanceof MachinaBlockEntity) {
+			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
+			drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mbe::getEnergy,
+					mbe::getMaxEnergy, mbe::getEnergyF, (i, j, p) -> {
+						blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
+					});
+		}
 	}
 
 	protected void drawFluidBar(GuiGraphics gui, int x, int y, int tank) {
-		drawBar(gui, x, y, true, "", StringUtils::formatFluid, () -> entity.getFluid(tank).getDisplayName().copy(),
-				() -> entity.getFluidMB(tank), () -> entity.getTankCapacity(tank), () -> entity.getFluidF(tank),
-				(i, j, p) -> {
-					renderFluid(gui, entity.getFluid(tank), i + 1, j + 3, 131, 14, 0);
-				});
+		if (entity instanceof MachinaBlockEntity) {
+			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
+			drawBar(gui, x, y, true, "", StringUtils::formatFluid, Component::empty, () -> mbe.getFluidMB(tank),
+					() -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank), (i, j, p) -> {
+						renderFluid(gui, mbe.getFluid(tank), i + 1, j + 3, 131, 14, 0);
+					});
+		}
 	}
 
 	private void drawFace(GuiGraphics gui, int x, int y, Direction dir, @Nullable ISideAdapter storage) {
@@ -363,11 +361,17 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 	}
 
 	protected void drawItemSideConfig(GuiGraphics gui, int x, int y, int mx, int my, int slot, SpecialSlot special) {
-		drawSideConfig(gui, x, y, mx, my, "item_" + slot, this.entity.getItemAdapter(slot), special);
+		if (entity instanceof MachinaBlockEntity) {
+			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
+			drawSideConfig(gui, x, y, mx, my, "item_" + slot, mbe.getItemAdapter(slot), special);
+		}
 	}
 
 	protected void drawEnergySideConfig(GuiGraphics gui, int mx, int my) {
-		drawSideConfig(gui, 0, 0, mx, my, "energy", this.entity.getEnergyAdapter(), SpecialSlot.BOLT);
+		if (entity instanceof MachinaBlockEntity) {
+			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
+			drawSideConfig(gui, 0, 0, mx, my, "energy", mbe.getEnergyAdapter(), SpecialSlot.BOLT);
+		}
 	}
 
 	protected void drawSideConfig(GuiGraphics gui, int x, int y, int mx, int my, String name,
@@ -634,10 +638,7 @@ public abstract class MachinaMenuScreen<R extends MachinaBlockEntity, T extends 
 
 	// Mekanism
 	public enum TilingDirection {
-		DOWN_RIGHT(true, true),
-		DOWN_LEFT(true, false),
-		UP_RIGHT(false, true),
-		UP_LEFT(false, false);
+		DOWN_RIGHT(true, true), DOWN_LEFT(true, false), UP_RIGHT(false, true), UP_LEFT(false, false);
 
 		private final boolean down;
 		private final boolean right;

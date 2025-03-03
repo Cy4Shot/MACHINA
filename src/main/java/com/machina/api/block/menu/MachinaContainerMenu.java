@@ -1,13 +1,14 @@
 package com.machina.api.block.menu;
 
-import com.machina.api.block.MachineBlock;
-import com.machina.api.block.entity.MachinaBlockEntity;
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.api.block.menu.slot.InvSlot;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -15,12 +16,12 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
-public abstract class MachinaContainerMenu<T extends MachinaBlockEntity> extends AbstractContainerMenu {
+public abstract class MachinaContainerMenu<T extends WorldlyContainer> extends AbstractContainerMenu {
 
 	public final T be;
 
@@ -36,7 +37,7 @@ public abstract class MachinaContainerMenu<T extends MachinaBlockEntity> extends
 		return Minecraft.getInstance().level;
 	}
 
-	protected abstract MachineBlock getBlock();
+	protected abstract Block getBlock();
 
 	@Override
 	public boolean stillValid(@NotNull Player player) {

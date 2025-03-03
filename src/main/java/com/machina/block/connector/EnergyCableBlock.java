@@ -37,7 +37,7 @@ public class EnergyCableBlock extends ConnectorBlock {
 	}
 
 	@Override
-	protected BlockEntityType<? extends ConnectorBlockEntity<CableEnergyStorage>> getBlockEntityType() {
+	protected BlockEntityType<? extends ConnectorBlockEntity<Integer, CableEnergyStorage>> getBlockEntityType() {
 		return BlockEntityInit.ENERGY_CABLE.get();
 	}
 }

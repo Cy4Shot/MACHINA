@@ -18,7 +18,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class PipeFluidStorage implements IFluidHandler, IConnectorStorage {
+public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidStack> {
 
 	protected final FluidPipeBlockEntity pipe;
 	protected final Direction side;

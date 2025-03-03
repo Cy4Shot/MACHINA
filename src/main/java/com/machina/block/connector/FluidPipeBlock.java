@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraftforge.fluids.FluidStack;
 
 public class FluidPipeBlock extends ConnectorBlock {
 
@@ -37,7 +38,7 @@ public class FluidPipeBlock extends ConnectorBlock {
 	}
 
 	@Override
-	protected BlockEntityType<? extends ConnectorBlockEntity<PipeFluidStorage>> getBlockEntityType() {
+	protected BlockEntityType<? extends ConnectorBlockEntity<FluidStack, PipeFluidStorage>> getBlockEntityType() {
 		return BlockEntityInit.FLUID_PIPE.get();
 	}
 

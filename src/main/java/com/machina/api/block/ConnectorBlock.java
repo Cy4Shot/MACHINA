@@ -14,6 +14,7 @@ import com.machina.api.util.math.MathUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,6 +37,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 
 public abstract class ConnectorBlock extends Block implements EntityBlock {
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");
@@ -99,7 +101,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock {
 
 		BlockEntity be = level.getBlockEntity(pos);
 		if (be != null && be instanceof ConnectorBlockEntity) {
-			ConnectorBlockEntity<?> cable = (ConnectorBlockEntity<?>) be;
+			ConnectorBlockEntity<?, ?> cable = (ConnectorBlockEntity<?, ?>) be;
 			for (Direction d : Direction.values()) {
 				if (data[d.get3DDataValue()] && cable.getConnection(d).isIO()) {
 					shape = Shapes.or(shape, CONNS[d.get3DDataValue()]);
@@ -184,14 +186,22 @@ public abstract class ConnectorBlock extends Block implements EntityBlock {
 			BlockHitResult hit) {
 		BlockEntity be = level.getBlockEntity(pos);
 		if (be != null && be instanceof ConnectorBlockEntity) {
-			ConnectorBlockEntity<?> cable = (ConnectorBlockEntity<?>) be;
+			ConnectorBlockEntity<?, ?> cable = (ConnectorBlockEntity<?, ?>) be;
 			Vec3 offset = hit.getLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
 
 			for (Direction d : Direction.values()) {
 				ConnectionSide side = cable.getConnection(d);
 				if (side.isIO()) {
 					if (CONNS[d.get3DDataValue()].bounds().distanceToSqr(offset) < 0.001f) {
-						cable.setConnection(d, side.toggleIO());
+						System.out.println("AMOGUS");
+						if (player.isShiftKeyDown()) {
+							if (!level.isClientSide()) {
+								BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class,
+										te -> NetworkHooks.openScreen((ServerPlayer) player, te, te.getBlockPos()));
+							}
+						} else {
+							cable.setConnection(d, side.toggleIO());
+						}
 						return InteractionResult.SUCCESS;
 					}
 				}
@@ -255,7 +265,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void searchConnectors(LevelAccessor world, BlockPos pos, ConnectorBlockEntity<?> first, int dist) {
+	public void searchConnectors(LevelAccessor world, BlockPos pos, ConnectorBlockEntity<?, ?> first, int dist) {
 		int newdist = dist + 1;
 		for (Direction dir : Direction.values()) {
 			BlockPos blockPos = pos.relative(dir);
@@ -275,7 +285,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock {
 		}
 	}
 
-	protected abstract BlockEntityType<? extends ConnectorBlockEntity<?>> getBlockEntityType();
+	protected abstract BlockEntityType<? extends ConnectorBlockEntity<?, ?>> getBlockEntityType();
 
 	@Override
 	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {

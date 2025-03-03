@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage {
+public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage<Integer> {
 
 	protected final EnergyCableBlockEntity cable;
 	protected final Direction side;

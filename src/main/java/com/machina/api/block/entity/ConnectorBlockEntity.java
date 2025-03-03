@@ -5,11 +5,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.block.ConnectorBlock;
 import com.machina.api.block.menu.IMachinaMenuProvider;
@@ -18,6 +16,7 @@ import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.SidedLazyOptionalCache;
 import com.machina.api.client.model.connector.ConnectorModel.ConnectorModelData;
 import com.machina.api.util.block.BlockHelper;
+import com.machina.api.util.reflect.QuadFunction;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,7 +27,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -39,7 +37,7 @@ import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends ContainerBlockEntity
+public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> extends ContainerBlockEntity
 		implements IMachinaMenuProvider {
 
 	protected final int[] roundrobin;
@@ -62,9 +60,6 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 
 	public abstract T createStorage(Direction side);
 
-	@Nullable
-	public abstract Supplier<Item> getFilterItem();
-
 	@Override
 	public boolean hasItemIO() {
 		return false;
@@ -74,7 +69,7 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 		if (level.isClientSide())
 			return;
 
-		ConnectorBlockEntity<?> cbe = (ConnectorBlockEntity<?>) be;
+		ConnectorBlockEntity<?, ?> cbe = (ConnectorBlockEntity<?, ?>) be;
 
 		for (Direction dir : Direction.values()) {
 			cbe.cap.get(dir).ifPresent(IConnectorStorage::tick);
@@ -86,14 +81,16 @@ public abstract class ConnectorBlockEntity<T extends IConnectorStorage> extends 
 			cbe.sync();
 		}
 	}
-	
+
 	@Override
 	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
-		if (getFilterItem() != null && this.canOpen(player)) {
-			// TODO: Create Container
+		if (this.canOpen(player)) {
+			return getMenu().apply(id, getLevel(), getBlockPos(), inv);
 		}
 		return null;
 	}
+
+	public abstract QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> getMenu();
 
 	public int getRoundRobinIndex(Direction direction) {
 		return roundrobin[direction.get3DDataValue()];

@@ -1,5 +1,5 @@
 package com.machina.api.cap;
 
-public interface IConnectorStorage {
+public interface IConnectorStorage<T> {
 	void tick();
 }
