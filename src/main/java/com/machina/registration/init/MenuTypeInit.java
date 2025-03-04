@@ -1,6 +1,9 @@
 package com.machina.registration.init;
 
+import java.util.function.Function;
+
 import com.machina.Machina;
+import com.machina.api.item.menu.ItemMenu;
 import com.machina.block.menu.BatteryMenu;
 import com.machina.block.menu.CreativeBatteryMenu;
 import com.machina.block.menu.FurnaceGeneratorMenu;
@@ -8,6 +11,7 @@ import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
 import com.machina.block.menu.TankMenu;
 import com.machina.block.menu.connector.FluidPipeMenu;
+import com.machina.item.menu.FluidFilterMenu;
 
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -24,6 +28,8 @@ public class MenuTypeInit {
 	//@formatter:off
 	public static final RegistryObject<MenuType<FluidPipeMenu>> FLUID_PIPE = register("fluid_pipe",
             FluidPipeMenu::new);
+	public static final RegistryObject<MenuType<FluidFilterMenu>> FLUID_FILTER = register("fluid_filter",
+			FluidFilterMenu::new);
 	public static final RegistryObject<MenuType<BatteryMenu>> BATTERY = register("battery",
             BatteryMenu::new);
 	public static final RegistryObject<MenuType<TankMenu>> TANK = register("tank",
@@ -37,6 +43,10 @@ public class MenuTypeInit {
 	public static final RegistryObject<MenuType<GrinderMenu>> GRINDER = register("grinder",
             GrinderMenu::new);
 	//@formatter:on
+
+	private static <T extends ItemMenu> RegistryObject<MenuType<T>> register(String n, Function<Integer, T> sup) {
+		return register(n, (i, x1, x2) -> sup.apply(i));
+	}
 
 	private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String n,
 			IContainerFactory<T> sup) {

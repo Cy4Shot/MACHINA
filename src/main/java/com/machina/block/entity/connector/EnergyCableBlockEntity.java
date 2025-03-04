@@ -45,4 +45,9 @@ public class EnergyCableBlockEntity extends ConnectorBlockEntity<Integer, CableE
 	public QuintFunction<Integer, Level, BlockPos, Inventory, Direction, AbstractContainerMenu> getMenu() {
 		return QuintFunction.none();
 	}
+
+	@Override
+	public int slotsPerSide() {
+		return 0;
+	}
 }

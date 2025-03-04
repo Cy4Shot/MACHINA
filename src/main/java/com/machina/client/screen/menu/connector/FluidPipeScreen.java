@@ -19,8 +19,9 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeBlockEntity, Flu
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
 		drawInventory(gui, mx, my);
-		drawBackground(gui);
-		drawUpFacingSlot(gui, 1, mx, my, 20, SpecialSlot.PLUS, "battery.input");
+		drawMiniBackground(gui);
+		
+		drawNoFacingSlot(gui, 1, mx, my, 107, 20, SpecialSlot.CROSS, "fluid_filter.filter");
 
 		drawOverlay(gui);
 	}

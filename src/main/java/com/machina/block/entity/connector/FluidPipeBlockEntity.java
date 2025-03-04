@@ -48,4 +48,9 @@ public class FluidPipeBlockEntity extends ConnectorBlockEntity<FluidStack, PipeF
 		return FluidPipeMenu::new;
 	}
 
+	@Override
+	public int slotsPerSide() {
+		return 1;
+	}
+
 }

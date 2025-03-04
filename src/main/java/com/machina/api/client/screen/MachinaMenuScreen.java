@@ -241,6 +241,15 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 		registerClickArea("bg", i, j - 73, i + 235, j + 78, () -> true);
 	}
 
+	protected void drawMiniBackground(GuiGraphics gui) {
+		int i = midWidth();
+		int j = midHeight();
+
+		blitCommon(gui, i + 53, j - 7, 179, 245, 129, 85);
+		drawString(gui, this.menu.getName(), i + 55, j - 17, 0x00FEFE);
+		registerClickArea("bg", i + 53, j - 7, i + 129 + 53, j + 78, () -> true);
+	}
+
 	public enum SpecialSlot {
 		PLUS(475, 0),
 		MINUS(485, 0),
@@ -285,9 +294,10 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 		}
 	}
 
-	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, SpecialSlot slot, String hover) {
+	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, SpecialSlot slot,
+			String hover) {
 		int i = midWidth() + x;
-		int j = midHeight() + 30;
+		int j = midHeight() + y;
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
 		blitCommon(gui, i, j, 433, h, 19, 21);
 		if (entity.getItem(id).isEmpty())
@@ -297,7 +307,25 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		if (!hover.isEmpty()) {
-			registerHoverable("slot_" + x + "_" + 30, i - 1, j + 1, i + 18, j + 20, () -> entity.getItem(id).isEmpty(),
+			registerHoverable("slot_" + x + "_" + y, i - 1, j + 1, i + 18, j + 20, () -> entity.getItem(id).isEmpty(),
+					() -> uistr(hover));
+		}
+	}
+
+	protected void drawNoFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, SpecialSlot slot,
+			String hover) {
+		int i = midWidth() + x;
+		int j = midHeight() + y;
+		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+		blitCommon(gui, i, j, 466, h, 19, 19);
+		if (entity.getItem(id).isEmpty())
+			slot.draw(gui, i + 4, j + 4, this.aliveTicks);
+
+		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+
+		if (!hover.isEmpty()) {
+			registerHoverable("slot_" + x + "_" + y, i, j, i + 18, j + 18, () -> entity.getItem(id).isEmpty(),
 					() -> uistr(hover));
 		}
 	}

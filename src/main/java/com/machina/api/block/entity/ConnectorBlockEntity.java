@@ -60,6 +60,8 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 
 	public abstract T createStorage(Direction side);
 
+	public abstract int slotsPerSide();
+
 	@Override
 	public boolean hasItemIO() {
 		return false;
@@ -138,7 +140,8 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 	public void reviveCaps() {
 		super.reviveCaps();
 		for (Direction dir : Direction.values()) {
-			itemStorage();
+			for (int i = 0; i < slotsPerSide(); i++)
+				itemStorage();
 			cap.revalidate(dir, s -> true, this::createStorage);
 		}
 	}
@@ -238,6 +241,10 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 			}
 		}
 		this.cache.clear();
+	}
+
+	public int getSlotForSide(Direction side, int slot) {
+		return side.get3DDataValue() * slotsPerSide() + slot;
 	}
 
 	public void addToCache(BlockPos pos) {
