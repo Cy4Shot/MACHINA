@@ -1,5 +1,5 @@
 {
-	"render_type": "minecraft:cutout",
+	"render_type": "minecraft:translucent",
 	"parent": "machina:block/machine",
 	"textures": {
 		"side": "machina:block/tank_side",

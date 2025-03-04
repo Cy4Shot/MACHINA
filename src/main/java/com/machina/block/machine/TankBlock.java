@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,7 +22,12 @@ import net.minecraft.world.phys.BlockHitResult;
 public class TankBlock extends MachineBlock {
 
 	public TankBlock(Properties props) {
-		super(props);
+		super(props.noOcclusion().isRedstoneConductor(TankBlock::never).isSuffocating(TankBlock::never)
+				.isViewBlocking(TankBlock::never));
+	}
+
+	public static boolean never(BlockState state, BlockGetter getter, BlockPos pos) {
+		return false;
 	}
 
 	@Override
