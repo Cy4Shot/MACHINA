@@ -3,7 +3,7 @@ package com.machina.api.client.screen;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -59,8 +59,6 @@ import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
@@ -333,6 +331,25 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
+	protected void drawGhostSlot(GuiGraphics gui, Supplier<Boolean> empty, int mx, int my, int x, int y,
+			SpecialSlot slot, String hover, BiConsumer<Integer, Integer> render) {
+		int i = midWidth() + x;
+		int j = midHeight() + y;
+		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+		blitCommon(gui, i, j, 466, h, 19, 19);
+		if (empty.get())
+			slot.draw(gui, i + 4, j + 4, this.aliveTicks);
+
+		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+
+		render.accept(i, j);
+
+		if (!hover.isEmpty()) {
+			registerHoverable("ghost_" + x + "_" + y, i, j, i + 18, j + 18, empty, () -> uistr(hover));
+		}
+	}
+
 	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,
 			TriConsumer<Integer, Integer, Float> drawer) {
 		// Bar
@@ -386,7 +403,8 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
 			drawBar(gui, x, y, true, "", StringUtils::formatFluid, Component::empty, () -> mbe.getFluidMB(tank),
 					() -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank), (i, j, p) -> {
-						renderFluid(gui, mbe.getFluid(tank), i + 1, j + 3, 131, 14, 0);
+						float prop = mbe.getFluidF(tank);
+						renderFluid(gui, mbe.getFluid(tank), i + 1, j + 17, (int) (131 * prop), 14, 0);
 					});
 		}
 	}
@@ -668,11 +686,11 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	public static void renderFluid(GuiGraphics gui, FluidStack fluid, int x, int y, int sx, int sy, int blit) {
-		if (fluid.getFluid() != Fluids.EMPTY) {
+		if (!fluid.isEmpty()) {
 			TextureAtlasSprite icon = getFluidTexture(fluid);
 			if (icon != null) {
 				color(IClientFluidTypeExtensions.of(fluid.getFluid()).getTintColor(fluid));
-				drawTiledSprite(gui, x, y, 0, sx - 1, sy - 1, icon, 16, 16, 0, TilingDirection.DOWN_RIGHT);
+				drawTiledSprite(gui, x, y, 0, sx, sy, icon, 16, 16, 0, TilingDirection.DOWN_RIGHT);
 				resetColor();
 			}
 		}
@@ -703,9 +721,9 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	// https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
-	public static void drawTiledSprite(GuiGraphics gui, int xPosition, int yPosition, int yOffset, int desiredWidth,
-			int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
-			TilingDirection tilingDirection, boolean blendAlpha) {
+	public static void drawTiledSprite(GuiGraphics guiGraphics, int xPosition, int yPosition, int yOffset,
+			int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight,
+			int zLevel, TilingDirection tilingDirection, boolean blend) {
 		if (desiredWidth == 0 || desiredHeight == 0 || textureWidth == 0 || textureHeight == 0) {
 			return;
 		}
@@ -722,13 +740,12 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		float vMax = sprite.getV1();
 		float uDif = uMax - uMin;
 		float vDif = vMax - vMin;
-		if (blendAlpha) {
+		if (blend) {
 			RenderSystem.enableBlend();
 		}
-		// Note: We still use the tesselator as that is what GuiGraphics#innerBlit does
 		BufferBuilder vertexBuffer = Tesselator.getInstance().getBuilder();
 		vertexBuffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		Matrix4f matrix4f = gui.pose().last().pose();
+		Matrix4f matrix4f = guiGraphics.pose().last().pose();
 		for (int xTile = 0; xTile <= xTileCount; xTile++) {
 			int width = (xTile == xTileCount) ? xRemainder : textureWidth;
 			if (width == 0) {
@@ -764,25 +781,20 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 					vLocalMin = vMin + vLocalDif;
 					vLocalMax = vMax;
 				}
-				vertexBuffer.vertex(matrix4f, x, y + textureHeight, zLevel).uv(uLocalMin, vLocalMax);
-				vertexBuffer.vertex(matrix4f, shiftedX, y + textureHeight, zLevel).uv(uLocalMax, vLocalMax);
-				vertexBuffer.vertex(matrix4f, shiftedX, y + maskTop, zLevel).uv(uLocalMax, vLocalMin);
-				vertexBuffer.vertex(matrix4f, x, y + maskTop, zLevel).uv(uLocalMin, vLocalMin);
+				vertexBuffer.vertex(matrix4f, x, y + textureHeight, zLevel).uv(uLocalMin, vLocalMax).endVertex();
+				vertexBuffer.vertex(matrix4f, shiftedX, y + textureHeight, zLevel).uv(uLocalMax, vLocalMax).endVertex();
+				vertexBuffer.vertex(matrix4f, shiftedX, y + maskTop, zLevel).uv(uLocalMax, vLocalMin).endVertex();
+				vertexBuffer.vertex(matrix4f, x, y + maskTop, zLevel).uv(uLocalMin, vLocalMin).endVertex();
 			}
 		}
 		BufferUploader.drawWithShader(vertexBuffer.end());
-		if (blendAlpha) {
+		if (blend) {
 			RenderSystem.disableBlend();
 		}
 	}
 
-	public static TextureAtlasSprite getFluidTexture(@Nonnull FluidStack fluidStack) {
-		Fluid fluid = fluidStack.getFluid();
-		AtomicReference<ResourceLocation> fluidTexture = new AtomicReference<>();
-		fluid.getFluidType().initializeClient((ext) -> {
-			fluidTexture.set(ext.getStillTexture());
-		});
-		return getSprite(fluidTexture.get());
+	public static TextureAtlasSprite getFluidTexture(@Nonnull FluidStack stack) {
+		return getSprite(IClientFluidTypeExtensions.of(stack.getFluid()).getStillTexture());
 	}
 
 	public static TextureAtlasSprite getSprite(ResourceLocation spriteLocation) {

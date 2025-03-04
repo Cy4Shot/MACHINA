@@ -8,6 +8,8 @@ import com.machina.item.menu.FluidFilterMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
 
 public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> {
 
@@ -20,7 +22,9 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> {
 		drawInventory(gui, mx, my);
 		drawMiniBackground(gui);
 
-		drawNoFacingSlot(gui, -1, mx, my, 107, 20, SpecialSlot.DROP, "fluid_filter.filter");
+		drawGhostSlot(gui, () -> false, mx, my, 107, 20, SpecialSlot.DROP, "fluid_filter.filter", (i, j) -> {
+			renderFluid(gui, new FluidStack(Fluids.WATER, 1000), i + 1, j + 17, 16, 16, 0);
+		});
 
 		drawOverlay(gui);
 	}
