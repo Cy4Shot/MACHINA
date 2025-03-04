@@ -33,7 +33,7 @@ public class ClientForgeEvents {
 	@SubscribeEvent
 	public static void tooltipCol(final RenderTooltipEvent.Color event) {
 		Screen s = mc.screen;
-		if (s instanceof MachinaMenuScreen<?, ?>) {
+		if (s instanceof MachinaMenuScreen<?>) {
 			event.setBackground(0xFF_202020);
 			event.setBorderEnd(0xFF_1bcccc);
 			event.setBorderStart(0xFF_00fefe);

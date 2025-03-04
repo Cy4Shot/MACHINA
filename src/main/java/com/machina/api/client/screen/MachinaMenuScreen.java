@@ -17,9 +17,8 @@ import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
 import com.machina.Machina;
-import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.entity.MachinaBlockEntity;
-import com.machina.api.block.menu.MachinaContainerMenu;
+import com.machina.api.block.menu.MachinaAnyMenu;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.multiblock.ClientMultiblock;
@@ -66,15 +65,14 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
 
-public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extends MachinaContainerMenu<R>>
-		extends AbstractContainerScreen<T> {
+public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends AbstractContainerScreen<T> {
 
 	private static final Minecraft mc = Minecraft.getInstance();
 
 	protected static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
 	protected static final ResourceLocation BG_OVERLAY = new MachinaRL("textures/gui/bg_overlay.png");
 
-	protected final R entity;
+	protected final MachinaBlockEntity entity;
 
 	protected long aliveTicks = 0;
 	private Float lsx, lsy = null;
@@ -89,13 +87,14 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 	public MachinaMenuScreen(T menu, Inventory inv, Component title) {
 		super(menu, inv, title);
 
-		this.entity = menu.be;
-
 		this.imageWidth = 235;
 		this.imageHeight = 100;
 
 		RandomSource rand = RandomSource.create();
-		BlockState state = this.menu.getDefaultState();
+
+		this.entity = menu.getBlockEntity();
+
+		BlockState state = menu.getDefaultState();
 
 		if (state != null) {
 			BakedModel model = mc.getBlockRenderer().getBlockModel(state);
@@ -260,7 +259,10 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 		BOLT(499, 23),
 		CROSS(499, 33),
 		COAL(499, 43),
-		DUST(499, 53);
+		DUST(499, 53),
+		WHITELIST(499, 63),
+		BLACKLIST(499, 73),
+		DROP(499, 83);
 
 		private final int x;
 		private final int y;
@@ -282,15 +284,15 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
 		blitCommon(gui, i, j, 414, h, 19, 21);
-		if (entity.getItem(id).isEmpty())
+		if (id != -1 && entity.getItem(id).isEmpty())
 			slot.draw(gui, i + 4, j + 6, this.aliveTicks);
 
 		blitCommon(gui, i - 6, j + 4, 387, 0, 3, 16);
 		blitCommon(gui, i + 21, j + 4, 390, 0, 3, 16);
 
 		if (!hover.isEmpty()) {
-			registerHoverable("slot_" + x + "_" + y, i - 1, j + 1, i + 18, j + 20, () -> entity.getItem(id).isEmpty(),
-					() -> uistr(hover));
+			registerHoverable("slot_" + x + "_" + y, i - 1, j + 1, i + 18, j + 20,
+					() -> id != -1 && entity.getItem(id).isEmpty(), () -> uistr(hover));
 		}
 	}
 
@@ -300,15 +302,15 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
 		blitCommon(gui, i, j, 433, h, 19, 21);
-		if (entity.getItem(id).isEmpty())
+		if (id != -1 && entity.getItem(id).isEmpty())
 			slot.draw(gui, i + 4, j + 4, this.aliveTicks);
 
 		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
 		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		if (!hover.isEmpty()) {
-			registerHoverable("slot_" + x + "_" + y, i - 1, j + 1, i + 18, j + 20, () -> entity.getItem(id).isEmpty(),
-					() -> uistr(hover));
+			registerHoverable("slot_" + x + "_" + y, i - 1, j + 1, i + 18, j + 20,
+					() -> id != -1 && entity.getItem(id).isEmpty(), () -> uistr(hover));
 		}
 	}
 
@@ -318,15 +320,15 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
 		blitCommon(gui, i, j, 466, h, 19, 19);
-		if (entity.getItem(id).isEmpty())
+		if (id != -1 && entity.getItem(id).isEmpty())
 			slot.draw(gui, i + 4, j + 4, this.aliveTicks);
 
 		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
 		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		if (!hover.isEmpty()) {
-			registerHoverable("slot_" + x + "_" + y, i, j, i + 18, j + 18, () -> entity.getItem(id).isEmpty(),
-					() -> uistr(hover));
+			registerHoverable("slot_" + x + "_" + y, i, j, i + 18, j + 18,
+					() -> id != -1 && entity.getItem(id).isEmpty(), () -> uistr(hover));
 		}
 	}
 
@@ -924,5 +926,10 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 
 	private static boolean appearDraw(long elap) {
 		return elap > 9 || elap == 5 || elap == 7 || elap == 8;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <X extends MachinaBlockEntity> X entity() {
+		return (X) entity;
 	}
 }
