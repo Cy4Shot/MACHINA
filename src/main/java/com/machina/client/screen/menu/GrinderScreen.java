@@ -45,7 +45,7 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderMenu> {
 
 		Component text;
 		Component text2 = Component.empty();
-		if (this.entity.isLit()) {
+		if (entity.isLit()) {
 			text = Component.literal(uistrs("grinder.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
 					+ " (" + StringUtils.formatTicks(entity.ticksRemaining()) + ")");
 			text2 = Component
@@ -65,7 +65,7 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderMenu> {
 				text = uistr("grinder.no_input");
 			}
 		}
-		int color = this.entity.isLit() ? 0x00FEFE : 0xFE0000;
+		int color = entity.isLit() ? 0x00FEFE : 0xFE0000;
 		gui.drawCenteredString(font, text, i + 117, j - 54, color);
 		gui.drawCenteredString(font, text2, i + 117, j - 38, color);
 

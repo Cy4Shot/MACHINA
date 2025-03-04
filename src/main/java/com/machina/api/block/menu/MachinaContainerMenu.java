@@ -3,7 +3,7 @@ package com.machina.api.block.menu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.machina.api.block.entity.MachinaBlockEntity;
+import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.menu.slot.InvSlot;
 
 import net.minecraft.client.Minecraft;
@@ -96,8 +96,8 @@ public abstract class MachinaContainerMenu<T extends WorldlyContainer> extends M
 	}
 
 	@Override
-	public @Nullable MachinaBlockEntity getBlockEntity() {
-		if (this.be instanceof MachinaBlockEntity be) {
+	public @Nullable ContainerBlockEntity getBlockEntity() {
+		if (this.be instanceof ContainerBlockEntity be) {
 			return be;
 		}
 		return null;

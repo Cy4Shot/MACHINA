@@ -17,6 +17,7 @@ import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
 import com.machina.Machina;
+import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
 import com.machina.api.cap.sided.ISideAdapter;
@@ -72,7 +73,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	protected static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
 	protected static final ResourceLocation BG_OVERLAY = new MachinaRL("textures/gui/bg_overlay.png");
 
-	protected final MachinaBlockEntity entity;
+	private final ContainerBlockEntity entity;
 
 	protected long aliveTicks = 0;
 	private Float lsx, lsy = null;

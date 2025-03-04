@@ -18,7 +18,10 @@ public class TankRenderer implements BlockEntityRenderer<TankBlockEntity> {
 			int combinedOverlay) {
 		float prop = be.getFluidF(0);
 		if (prop > 0) {
-			BERUtil.renderFluid(pose, be.getFluid(0), buff, 0.1f, 0.9f, 0.1f, 0.1f + 0.8f * prop, 0.1f, 0.9f, 1f);
+			float dist = 0.01f;
+			float ndist = 1f - dist;
+			BERUtil.renderFluid(pose, be.getFluid(0), buff, dist, ndist, dist, dist + (ndist - dist) * prop, dist,
+					ndist, 1f);
 		}
 	}
 }

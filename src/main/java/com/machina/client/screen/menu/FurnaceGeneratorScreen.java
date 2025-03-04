@@ -20,9 +20,9 @@ public class FurnaceGeneratorScreen extends MachinaMenuScreen<FurnaceGeneratorMe
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
-		
+
 		FurnaceGeneratorBlockEntity entity = this.<FurnaceGeneratorBlockEntity>entity();
-		
+
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
 		drawDownFacingSlot(gui, 0, mx, my, 107, -28, SpecialSlot.COAL, "furnace_generator.input");
@@ -36,15 +36,15 @@ public class FurnaceGeneratorScreen extends MachinaMenuScreen<FurnaceGeneratorMe
 		blitCommon(gui, i + 134, j - 18, 390, 80, 17, 8);
 		blitCommon(gui, i + 147, j - 10, 508, 0, 4, 21);
 
-		Component text = this.entity.isLit()
-				? Component.literal(uistrs("furnace_generator.progress") + ": "
-						+ StringUtils.formatPercent(entity.getProgress()) + " ("
-						+ StringUtils.formatTicks(entity.ticksRemaining()) + ")")
+		Component text = entity.isLit()
+				? Component.literal(
+						uistrs("furnace_generator.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
+								+ " (" + StringUtils.formatTicks(entity.ticksRemaining()) + ")")
 				: uistr("furnace_generator.no_input");
-		int color = this.entity.isLit() ? 0x00FEFE : 0xFE0000;
+		int color = entity.isLit() ? 0x00FEFE : 0xFE0000;
 		gui.drawCenteredString(font, text, i + 117, j - 54, color);
 
-		if (this.entity.isLit())
+		if (entity.isLit())
 			gui.drawCenteredString(font,
 					Component.literal(uistrs("furnace_generator.generating") + ": "
 							+ StringUtils.formatPower(CommonConfig.furnaceGeneratorRate.get()) + "/t"),

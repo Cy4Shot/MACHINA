@@ -2,7 +2,7 @@ package com.machina.api.block.menu;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.machina.api.block.entity.MachinaBlockEntity;
+import com.machina.api.block.entity.ContainerBlockEntity;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,7 +18,7 @@ public abstract class MachinaAnyMenu extends AbstractContainerMenu {
 	public abstract Component getName();
 
 	@Nullable
-	public abstract MachinaBlockEntity getBlockEntity();
+	public abstract ContainerBlockEntity getBlockEntity();
 
 	@Nullable
 	public abstract BlockState getDefaultState();
