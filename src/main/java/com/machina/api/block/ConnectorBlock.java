@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.block.entity.ConnectorBlockEntity.Connection;
+import com.machina.api.block.menu.DirectionalMenuFactory;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.math.MathUtil;
@@ -37,9 +38,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 
-public abstract class ConnectorBlock extends Block implements EntityBlock {
+public abstract class ConnectorBlock extends Block implements EntityBlock, IClickableBlock {
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");
 
 	private static final VoxelShape PART_C = Block.box(6, 6, 6, 10, 10, 10);
@@ -193,15 +193,14 @@ public abstract class ConnectorBlock extends Block implements EntityBlock {
 				ConnectionSide side = cable.getConnection(d);
 				if (side.isIO()) {
 					if (CONNS[d.get3DDataValue()].bounds().distanceToSqr(offset) < 0.001f) {
-						System.out.println("AMOGUS");
 						if (player.isShiftKeyDown()) {
 							if (!level.isClientSide()) {
-								BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class,
-										te -> NetworkHooks.openScreen((ServerPlayer) player, te, te.getBlockPos()));
+								DirectionalMenuFactory.create((ServerPlayer) player, cable, pos, d);
+								return InteractionResult.SUCCESS;
 							}
-						} else {
-							cable.setConnection(d, side.toggleIO());
+							return InteractionResult.CONSUME;
 						}
+						cable.setConnection(d, side.toggleIO());
 						return InteractionResult.SUCCESS;
 					}
 				}

@@ -2,7 +2,7 @@ package com.machina.block.entity.connector;
 
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.energy.CableEnergyStorage;
-import com.machina.api.util.reflect.QuadFunction;
+import com.machina.api.util.reflect.QuintFunction;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
 
@@ -42,7 +42,7 @@ public class EnergyCableBlockEntity extends ConnectorBlockEntity<Integer, CableE
 	}
 
 	@Override
-	public QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> getMenu() {
-		return QuadFunction.none();
+	public QuintFunction<Integer, Level, BlockPos, Inventory, Direction, AbstractContainerMenu> getMenu() {
+		return QuintFunction.none();
 	}
 }

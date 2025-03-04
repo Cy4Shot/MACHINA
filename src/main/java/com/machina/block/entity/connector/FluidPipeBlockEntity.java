@@ -2,7 +2,7 @@ package com.machina.block.entity.connector;
 
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.fluid.PipeFluidStorage;
-import com.machina.api.util.reflect.QuadFunction;
+import com.machina.api.util.reflect.QuintFunction;
 import com.machina.block.menu.connector.FluidPipeMenu;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
@@ -44,7 +44,7 @@ public class FluidPipeBlockEntity extends ConnectorBlockEntity<FluidStack, PipeF
 	}
 
 	@Override
-	public QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> getMenu() {
+	public QuintFunction<Integer, Level, BlockPos, Inventory, Direction, AbstractContainerMenu> getMenu() {
 		return FluidPipeMenu::new;
 	}
 

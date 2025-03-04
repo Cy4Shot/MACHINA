@@ -9,7 +9,6 @@ import com.machina.api.item.ConnectorFilterItem;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -61,8 +60,8 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 	@Override
 	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip,
 			@NotNull TooltipFlag flag) {
-		Fluid fluid = getFluid(stack);
-		Mode mode = getMode(stack);
+//		Fluid fluid = getFluid(stack);
+//		Mode mode = getMode(stack);
 //		if (fluid != Fluids.EMPTY) {
 //			tooltip.add(bp.getName().setStyle(Style.EMPTY.withColor(65278)));
 //		} else {

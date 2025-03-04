@@ -17,6 +17,7 @@ import com.machina.api.network.S2CMessage;
 import com.machina.api.network.c2s.C2SFinishCinematic;
 import com.machina.api.network.c2s.C2SSideConfig;
 import com.machina.api.network.s2c.S2CFluidSync;
+import com.machina.api.network.s2c.S2COpenDirectionalContainer;
 import com.machina.api.network.s2c.S2CSyncStarchart;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
 
@@ -33,6 +34,7 @@ public class MachinaNetwork {
 		c2s(C2SFinishCinematic.class);
 		c2s(C2SSideConfig.class);
 
+		s2c(S2COpenDirectionalContainer.class);
 		s2c(S2CFluidSync.class);
 		s2c(S2CSyncStarchart.class);
 		s2c(S2CUpdateDimensionList.class);

@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.ConnectorBlock;
-import com.machina.api.block.menu.IMachinaMenuProvider;
+import com.machina.api.block.menu.IDirectionalMenuProvider;
 import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.SidedLazyOptionalCache;
 import com.machina.api.client.model.connector.ConnectorModel.ConnectorModelData;
 import com.machina.api.util.block.BlockHelper;
-import com.machina.api.util.reflect.QuadFunction;
+import com.machina.api.util.reflect.QuintFunction;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -38,7 +38,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> extends ContainerBlockEntity
-		implements IMachinaMenuProvider {
+		implements IDirectionalMenuProvider {
 
 	protected final int[] roundrobin;
 	private int recursionDepth;
@@ -83,14 +83,14 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 	}
 
 	@Override
-	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
+	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player, Direction d) {
 		if (this.canOpen(player)) {
-			return getMenu().apply(id, getLevel(), getBlockPos(), inv);
+			return getMenu().apply(id, getLevel(), getBlockPos(), inv, d);
 		}
 		return null;
 	}
 
-	public abstract QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> getMenu();
+	public abstract QuintFunction<Integer, Level, BlockPos, Inventory, Direction, AbstractContainerMenu> getMenu();
 
 	public int getRoundRobinIndex(Direction direction) {
 		return roundrobin[direction.get3DDataValue()];

@@ -1,6 +1,7 @@
 package com.machina.events;
 
 import com.machina.Machina;
+import com.machina.api.block.IClickableBlock;
 import com.machina.api.recipe.RecipeRefreshManager;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
@@ -12,6 +13,7 @@ import com.machina.world.biome.PlanetBiome;
 import com.machina.world.data.PlanetDimensionData;
 import com.mojang.serialization.Lifecycle;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -23,7 +25,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.common.ForgeHooks;
@@ -33,11 +37,13 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
@@ -161,6 +167,18 @@ public class CommonForgeEvents {
 					}
 				}
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void itemUse(PlayerInteractEvent.RightClickBlock event) {
+		Level level = event.getLevel();
+		BlockPos pos = event.getPos();
+		BlockState state = level.getBlockState(pos);
+		Block block = state.getBlock();
+
+		if (block instanceof IClickableBlock) {
+			event.setUseBlock(Result.ALLOW);
 		}
 	}
 }

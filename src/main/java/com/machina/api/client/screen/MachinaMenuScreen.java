@@ -94,11 +94,14 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 		this.imageWidth = 235;
 		this.imageHeight = 100;
 
-		BlockState state = this.menu.getDefaultState();
 		RandomSource rand = RandomSource.create();
-		BakedModel model = mc.getBlockRenderer().getBlockModel(state);
-		for (Direction d : Direction.values()) {
-			sprites.put(d, model.getQuads(state, d, rand, ModelData.EMPTY, null).get(0).getSprite());
+		BlockState state = this.menu.getDefaultState();
+
+		if (state != null) {
+			BakedModel model = mc.getBlockRenderer().getBlockModel(state);
+			for (Direction d : Direction.values()) {
+				sprites.put(d, model.getQuads(state, d, rand, ModelData.EMPTY, null).get(0).getSprite());
+			}
 		}
 	}
 
@@ -239,8 +242,16 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 	}
 
 	public enum SpecialSlot {
-		PLUS(475, 0), MINUS(485, 0), RIGHT(495, 0), DOWN(475, 10), UP(485, 10), LEFT(495, 10), BOLT(499, 23),
-		CROSS(499, 33), COAL(499, 43), DUST(499, 53);
+		PLUS(475, 0),
+		MINUS(485, 0),
+		RIGHT(495, 0),
+		DOWN(475, 10),
+		UP(485, 10),
+		LEFT(495, 10),
+		BOLT(499, 23),
+		CROSS(499, 33),
+		COAL(499, 43),
+		DUST(499, 53);
 
 		private final int x;
 		private final int y;
@@ -638,7 +649,10 @@ public abstract class MachinaMenuScreen<R extends ContainerBlockEntity, T extend
 
 	// Mekanism
 	public enum TilingDirection {
-		DOWN_RIGHT(true, true), DOWN_LEFT(true, false), UP_RIGHT(false, true), UP_LEFT(false, false);
+		DOWN_RIGHT(true, true),
+		DOWN_LEFT(true, false),
+		UP_RIGHT(false, true),
+		UP_LEFT(false, false);
 
 		private final boolean down;
 		private final boolean right;
