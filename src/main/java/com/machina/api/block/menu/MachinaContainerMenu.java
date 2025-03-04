@@ -4,14 +4,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.block.entity.ContainerBlockEntity;
-import com.machina.api.block.menu.slot.InvSlot;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
@@ -77,18 +75,6 @@ public abstract class MachinaContainerMenu<T extends WorldlyContainer> extends M
 			}
 		}
 		return stack;
-	}
-
-	public void invSlots(Inventory inv, int offset) {
-		for (int l = 0; l < 3; ++l) {
-			for (int j1 = 0; j1 < 9; ++j1) {
-				this.addSlot(new InvSlot(inv, j1 + l * 9 + 9, 28 + j1 * 20, 83 + l * 20 + offset));
-			}
-		}
-
-		for (int i1 = 0; i1 < 9; ++i1) {
-			this.addSlot(new InvSlot(inv, i1, 28 + i1 * 20, 148 + offset));
-		}
 	}
 
 	public Container getContainer() {

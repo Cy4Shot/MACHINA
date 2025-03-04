@@ -98,17 +98,20 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 		if (level.isClientSide())
 			return super.use(level, player, hand);
 
+		ItemStack stack = player.getItemInHand(hand);
 		NetworkHooks.openScreen((ServerPlayer) player, new MenuProvider() {
 			@Override
 			public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
-				return new FluidFilterMenu(id);
+				return new FluidFilterMenu(id, inv, stack);
 			}
 
 			@Override
 			public Component getDisplayName() {
 				return Component.empty();
 			}
+		}, buf -> {
+			buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
 		});
-		return InteractionResultHolder.consume(player.getItemInHand(hand));
+		return InteractionResultHolder.consume(stack);
 	}
 }

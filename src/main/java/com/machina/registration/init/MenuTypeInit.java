@@ -1,9 +1,6 @@
 package com.machina.registration.init;
 
-import java.util.function.Function;
-
 import com.machina.Machina;
-import com.machina.api.item.menu.ItemMenu;
 import com.machina.block.menu.BatteryMenu;
 import com.machina.block.menu.CreativeBatteryMenu;
 import com.machina.block.menu.FurnaceGeneratorMenu;
@@ -22,7 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class MenuTypeInit {
-	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
+	public static final DeferredRegister<MenuType<	?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
 			Machina.MOD_ID);
 
 	//@formatter:off
@@ -43,10 +40,6 @@ public class MenuTypeInit {
 	public static final RegistryObject<MenuType<GrinderMenu>> GRINDER = register("grinder",
             GrinderMenu::new);
 	//@formatter:on
-
-	private static <T extends ItemMenu> RegistryObject<MenuType<T>> register(String n, Function<Integer, T> sup) {
-		return register(n, (i, x1, x2) -> sup.apply(i));
-	}
 
 	private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String n,
 			IContainerFactory<T> sup) {
