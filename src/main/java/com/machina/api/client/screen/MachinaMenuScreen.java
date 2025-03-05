@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -58,6 +59,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -882,6 +884,12 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 			Supplier<Component> text, Runnable action) {
 		registerHoverable(key, minX, minY, maxX, maxY, active, text);
 		registerClickable(key, minX, minY, maxX, maxY, active, action);
+	}
+
+	protected void clickAndHoverItem(int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
+			Supplier<Component> text, Consumer<ItemStack> action) {
+		clickAndHover("click_and_hover" + minX + "_" + minY, minX, minY, maxX, maxY, active, text,
+				() -> action.accept(this.menu.getCarried()));
 	}
 
 	public void initState(String key, boolean initial) {

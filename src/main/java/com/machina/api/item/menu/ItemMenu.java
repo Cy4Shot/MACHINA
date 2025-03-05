@@ -17,12 +17,16 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class ItemMenu extends MachinaAnyMenu {
 
-	protected final ItemStack stack;
+	protected ItemStack stack;
+	private final Inventory inv;
+	private final InteractionHand hand;
 
-	protected ItemMenu(MenuType<?> t, int w, ItemStack stack) {
+	protected ItemMenu(MenuType<?> t, int w, Inventory inv, InteractionHand hand) {
 		super(t, w);
 
-		this.stack = stack;
+		this.stack = inv.player.getItemInHand(hand);
+		this.inv = inv;
+		this.hand = hand;
 	}
 
 	@Override
@@ -32,11 +36,16 @@ public abstract class ItemMenu extends MachinaAnyMenu {
 		return !main.isEmpty() && main == stack || !off.isEmpty() && off == stack;
 	}
 
-	protected static ItemStack hand(Inventory inv, FriendlyByteBuf buf) {
-		return inv.player.getItemInHand(buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND);
+	protected static InteractionHand hand(FriendlyByteBuf buf) {
+		return buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 	}
 
 	public abstract ItemStack getItem();
+
+	public void containerChanged() {
+		inv.setItem(hand == InteractionHand.MAIN_HAND ? inv.selected : Inventory.SLOT_OFFHAND, stack);
+		inv.setChanged();
+	}
 
 	@Override
 	public ItemStack quickMoveStack(Player player, int i) {

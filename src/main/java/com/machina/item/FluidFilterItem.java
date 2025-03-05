@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.machina.Machina;
 import com.machina.api.cap.fluid.PipeFluidStorage;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.item.menu.FluidFilterMenu;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -59,23 +61,29 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 		return Mode.BLACKLIST;
 	}
 
-	public static void set(ItemStack stack, Fluid type, Mode mode) {
+	public static ItemStack set(ItemStack stack, Fluid type, Mode mode) {
 		CompoundTag tag = stack.getOrCreateTag();
-		tag.putString(FLUID, ForgeRegistries.FLUIDS.getKey(type).toString());
-		tag.putString(MODE, mode.name());
+		if (type != null)
+			tag.putString(FLUID, ForgeRegistries.FLUIDS.getKey(type).toString());
+		if (mode != null)
+			tag.putString(MODE, mode.name());
 		stack.setTag(tag);
+		return stack;
 	}
 
 	@Override
 	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip,
 			@NotNull TooltipFlag flag) {
-//		Fluid fluid = getFluid(stack);
-//		Mode mode = getMode(stack);
-//		if (fluid != Fluids.EMPTY) {
-//			tooltip.add(bp.getName().setStyle(Style.EMPTY.withColor(65278)));
-//		} else {
-//			tooltip.add(bp.getName().setStyle(Style.EMPTY.withColor(65278)));
-//		}
+		Fluid fluid = getFluid(stack);
+		Mode mode = getMode(stack);
+		if (fluid != Fluids.EMPTY) {
+			tooltip.add(Component.translatable(fluid.getFluidType().getDescriptionId())
+					.setStyle(Style.EMPTY.withColor(65278)));
+			tooltip.add(mode.comp().setStyle(Style.EMPTY.withColor(65278)));
+		} else {
+			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.fluid_filter.empty")
+					.setStyle(Style.EMPTY.withColor(65278)));
+		}
 
 		super.appendHoverText(stack, level, tooltip, flag);
 	}
@@ -98,11 +106,10 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 		if (level.isClientSide())
 			return super.use(level, player, hand);
 
-		ItemStack stack = player.getItemInHand(hand);
 		NetworkHooks.openScreen((ServerPlayer) player, new MenuProvider() {
 			@Override
 			public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
-				return new FluidFilterMenu(id, inv, stack);
+				return new FluidFilterMenu(id, inv, hand);
 			}
 
 			@Override
@@ -112,6 +119,6 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 		}, buf -> {
 			buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
 		});
-		return InteractionResultHolder.consume(stack);
+		return InteractionResultHolder.consume(player.getItemInHand(hand));
 	}
 }
