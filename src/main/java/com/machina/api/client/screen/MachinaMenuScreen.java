@@ -263,7 +263,8 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		DUST(499, 53),
 		WHITELIST(499, 63),
 		BLACKLIST(499, 73),
-		DROP(499, 83);
+		DROP(499, 83),
+		TICK(499, 93);
 
 		private final int x;
 		private final int y;
@@ -350,6 +351,24 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		if (!hover.isEmpty()) {
 			registerHoverable("ghost_" + x + "_" + y, i, j, i + 18, j + 18, empty, () -> uistr(hover));
 		}
+	}
+
+	protected void drawToggle(GuiGraphics gui, int mx, int my, int x, int y, boolean initial, SpecialSlot slot1,
+			SpecialSlot slot2, Consumer<Boolean> onClick) {
+		String key = "toggle_" + x + "_" + y;
+		initState(key, initial);
+
+		int i = midWidth() + x;
+		int j = midHeight() + y;
+		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+		blitCommon(gui, i, j, 466, h, 19, 19);
+		SpecialSlot slot = getState(key) ? slot1 : slot2;
+		slot.draw(gui, i + 4, j + 4, this.aliveTicks);
+
+		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+
+		registerClickable(key, i, j, i + 18, j + 18, key, onClick);
 	}
 
 	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,
@@ -878,6 +897,15 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
 	private void registerClickable(String key, int minX, int minY, int maxX, int maxY, String state, boolean val) {
 		registerClickable(key, minX, minY, maxX, maxY, () -> getState(state) == val, () -> setState(state, !val));
+	}
+
+	private void registerClickable(String key, int minX, int minY, int maxX, int maxY, String state,
+			Consumer<Boolean> setter) {
+		registerClickable(key, minX, minY, maxX, maxY, () -> true, () -> {
+			boolean val = getState(state);
+			setState(state, !val);
+			setter.accept(!val);
+		});
 	}
 
 	private void clickAndHover(String key, int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,

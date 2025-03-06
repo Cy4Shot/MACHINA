@@ -24,7 +24,7 @@ public class FluidPipeMenu extends ConnectorMenu<FluidPipeBlockEntity> {
 
 		invSlots(inv, 0);
 
-		this.addSlot(new AcceptSlot(be, id(0), 108, 21, s -> s.is(ItemInit.FLUID_FILTER.get())));
+		this.addSlot(new AcceptSlot(be, id(0), 108, 1, s -> s.is(ItemInit.FLUID_FILTER.get())));
 	}
 
 	@Override
