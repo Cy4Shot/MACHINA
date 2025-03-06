@@ -15,6 +15,7 @@ import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.SidedLazyOptionalCache;
 import com.machina.api.client.model.connector.ConnectorModel.ConnectorModelData;
+import com.machina.api.item.ConnectorFilterItem;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.reflect.QuintFunction;
 
@@ -27,6 +28,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -93,6 +95,15 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 	}
 
 	public abstract QuintFunction<Integer, Level, BlockPos, Inventory, Direction, AbstractContainerMenu> getMenu();
+	
+	@SuppressWarnings("unchecked")
+	public boolean filter(Direction dir, U resource) {
+		ItemStack i = getItem(getSlotForSide(dir, 0));
+		if (i.getItem() instanceof ConnectorFilterItem<?, ?> c) {
+			return ((ConnectorFilterItem<U, T>) c).filter(i, resource);
+		}
+		return true;
+	}
 
 	public int getRoundRobinIndex(Direction direction) {
 		return roundrobin[direction.get3DDataValue()];
@@ -296,6 +307,11 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 
 		public ConnectionSide getSide(BlockGetter level) {
 			return BlockHelper.getFromTe(level, pos, ConnectorBlockEntity.class, c -> c.getConnection(direction));
+		}
+		
+		@SuppressWarnings("unchecked")
+		public boolean filter(BlockGetter level, Object resource) {
+			return BlockHelper.getFromTe(level, pos, ConnectorBlockEntity.class, c -> c.filter(direction, resource));
 		}
 
 		public CompoundTag save() {

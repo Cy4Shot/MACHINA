@@ -20,7 +20,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> {
 		drawInventory(gui, mx, my);
 		drawMiniBackground(gui);
 
-		drawNoFacingSlot(gui, 1, mx, my, 107, 20, SpecialSlot.CROSS, "fluid_pipe.filter");
+		drawNoFacingSlot(gui, menu.id(0), mx, my, 107, 20, SpecialSlot.CROSS, "fluid_pipe.filter");
 
 		drawOverlay(gui);
 	}

@@ -100,7 +100,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 		int p = be.getRoundRobinIndex(side) % connections.size();
 
 		FluidStack testExtract = handler.drain(1, FluidAction.SIMULATE);
-		if (testExtract.isEmpty())
+		if (testExtract.isEmpty() || !be.filter(side, testExtract))
 			return;
 
 		List<IFluidHandler> destinations = new ArrayList<>(connections.size());
@@ -113,7 +113,8 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 						connection.getDirection().getOpposite());
 
 				if (destination != null) {
-					if (destination.fill(new FluidStack(testExtract.getFluid(), 1), FluidAction.SIMULATE) >= 1)
+					FluidStack tester = new FluidStack(testExtract.getFluid(), 1);
+					if (destination.fill(tester, FluidAction.SIMULATE) >= 1 && connection.filter(be.getLevel(), tester))
 						destinations.add(destination);
 				}
 			}
@@ -139,7 +140,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 
 	protected int receiveEqually(FluidPipeBlockEntity be, Direction side,
 			List<FluidPipeBlockEntity.Connection> connections, FluidStack maxReceive, boolean simulate) {
-		if (connections.isEmpty() || maxReceive.getAmount() <= 0)
+		if (connections.isEmpty() || maxReceive.getAmount() <= 0  || !be.filter(side, maxReceive))
 			return 0;
 		if (be.pushRecursion())
 			return 0;
@@ -156,7 +157,8 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 						connection.getDirection().getOpposite());
 
 				if (destination != null) {
-					if (destination.fill(new FluidStack(maxReceive.getFluid(), 1), FluidAction.SIMULATE) >= 1)
+					FluidStack tester = new FluidStack(maxReceive.getFluid(), 1);
+					if (destination.fill(tester, FluidAction.SIMULATE) >= 1 && connection.filter(be.getLevel(), tester))
 						destinations.add(new Pair<>(destination, index));
 				}
 			}

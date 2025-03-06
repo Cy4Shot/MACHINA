@@ -4,6 +4,7 @@ import com.machina.api.block.menu.ConnectorMenu;
 import com.machina.api.block.menu.slot.AcceptSlot;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.MenuTypeInit;
 
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,7 @@ public class FluidPipeMenu extends ConnectorMenu<FluidPipeBlockEntity> {
 
 		invSlots(inv, 0);
 
-		this.addSlot(new AcceptSlot(be, id(0), 108, -57, s -> true));
+		this.addSlot(new AcceptSlot(be, id(0), 108, 21, s -> s.is(ItemInit.FLUID_FILTER.get())));
 	}
 
 	@Override

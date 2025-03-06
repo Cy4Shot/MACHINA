@@ -17,7 +17,7 @@ public abstract class ConnectorMenu<T extends ConnectorBlockEntity<?, ?>> extend
 		this.dir = d;
 	}
 
-	protected int id(int index) {
+	public int id(int index) {
 		return this.be.getSlotForSide(dir, index);
 	}
 
