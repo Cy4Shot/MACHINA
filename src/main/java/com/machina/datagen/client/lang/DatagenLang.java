@@ -8,6 +8,7 @@ import javax.swing.text.JTextComponent.KeyBinding;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.Machina;
+import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit.Fruit;
@@ -55,6 +56,10 @@ public abstract class DatagenLang extends LanguageProvider {
 
 	protected void add(Mode mode, String name) {
 		add(Machina.MOD_ID + ".filter." + mode.name().toLowerCase(), name);
+	}
+	
+	protected void add(ConnectionSide mode, String name) {
+		add(Machina.MOD_ID + ".connection_side." + mode.name().toLowerCase(), name);
 	}
 
 	protected void add(FluidObject obj, String name) {

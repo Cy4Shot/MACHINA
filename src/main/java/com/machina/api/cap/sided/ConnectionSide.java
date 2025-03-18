@@ -2,9 +2,14 @@ package com.machina.api.cap.sided;
 
 import java.util.Locale;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
+
+import com.machina.Machina;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.StringRepresentable;
 
 public enum ConnectionSide implements StringRepresentable {
 	NORMAL,
@@ -43,6 +48,10 @@ public enum ConnectionSide implements StringRepresentable {
 	@Override
 	public @NotNull String getSerializedName() {
 		return name().toLowerCase(Locale.ROOT);
+	}
+
+	public MutableComponent comp() {
+		return Component.translatable(Machina.MOD_ID + ".connection_side." + name().toLowerCase());
 	}
 
 	public ConnectionSide toggleIO() {

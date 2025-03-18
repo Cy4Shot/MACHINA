@@ -1,6 +1,7 @@
 package com.machina.datagen.client.lang;
 
 import com.machina.Machina;
+import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
@@ -459,6 +460,11 @@ public class DatagenLangEnUs extends DatagenLang {
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");
 		add(Mode.BLACKLIST, "Blacklist");
+		
+		add(ConnectionSide.INPUT, "Input");
+		add(ConnectionSide.OUTPUT, "Output");
+		add(ConnectionSide.NORMAL, "Connected");
+		add(ConnectionSide.NONE, "Disconnected");
 
 		// UI
 		addUI("config.energy", "Energy Config");
@@ -477,6 +483,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("side.none", "None");
 
 		addUI("fluid_pipe.filter", "Filter");
+		addUI("fluid_pipe.insert", "Insert a Fluid");
 
 		addUI("fluid_filter.insert", "Insert a Fluid");
 		addUI("fluid_filter.for", " for ");

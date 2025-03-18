@@ -180,12 +180,13 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	protected void drawString(GuiGraphics gui, Component text, int x, int y, int color) {
 		gui.drawString(font, text, x, y, color);
 	}
-	
+
 	protected void drawCenteredString(GuiGraphics gui, Component text, int x, int y, int color) {
 		gui.drawCenteredString(font, text, x, y, color);
 	}
-	
-	protected void drawCenteredMultilineString(GuiGraphics gui, Component text, int x, int y, int color, int max, int sep) {
+
+	protected void drawCenteredMultilineString(GuiGraphics gui, Component text, int x, int y, int color, int max,
+			int sep) {
 		List<FormattedCharSequence> seq = font.split(text, max);
 		for (int i = 0; i < seq.size(); i++) {
 			gui.drawCenteredString(font, seq.get(i), x, y + i * sep, color);
@@ -382,7 +383,25 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		registerClickable(key, i, j, i + 18, j + 18, key, onClick);
-		registerHoverable(i, j, i + 18, j + 18, onHover);
+		registerHoverable(key, i, j, i + 18, j + 18, onHover);
+	}
+
+	protected void drawToggleIO(GuiGraphics gui, int mx, int my, int x, int y, Side side, Supplier<Component> onHover,
+			Runnable onClick) {
+		String key = "toggle_" + x + "_" + y;
+
+		int i = midWidth() + x;
+		int j = midHeight() + y;
+		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+
+		blitCommon(gui, i, j, 466, h, 19, 19);
+		blitCommon(gui, i + 5, j + 5, side.x(), side.y(), 8, 8);
+
+		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+
+		registerClickable(key, i, j, i + 18, j + 18, key, s -> onClick.run());
+		registerHoverable(key, i, j, i + 18, j + 18, onHover);
 	}
 
 	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,
@@ -414,7 +433,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 			Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
 		int i = midWidth() + x + 117 - 66;
 		int j = midHeight() + y - 9;
-		registerHoverable(i + 1, j + 1, i + 136, j + 18,
+		registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 136, j + 18,
 				() -> active
 						? name.get()
 								.append(Component.literal(formatter.apply(value.get()) + " / "
@@ -900,8 +919,8 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		this.hoverables.putIfAbsent(key, new Hoverable(minX, minY, maxX, maxY, active, text));
 	}
 
-	private void registerHoverable(int minX, int minY, int maxX, int maxY, Supplier<Component> text) {
-		registerHoverable("energy", minX, minY, maxX, maxY, () -> true, text);
+	private void registerHoverable(String key, int minX, int minY, int maxX, int maxY, Supplier<Component> text) {
+		registerHoverable(key, minX, minY, maxX, maxY, () -> true, text);
 	}
 
 	private void registerClickable(String key, int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
