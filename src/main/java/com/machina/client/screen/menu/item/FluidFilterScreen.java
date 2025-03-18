@@ -3,11 +3,16 @@ package com.machina.client.screen.menu.item;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.MachinaMenuScreen;
+import com.machina.api.item.ConnectorFilterItem.Mode;
+import com.machina.item.FluidFilterItem;
 import com.machina.item.menu.FluidFilterMenu;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> {
@@ -23,8 +28,8 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> {
 		int i = midWidth();
 		int j = midHeight();
 
-		clickAndHoverItem(i + 107, j + 20, i + 107 + 17, j + 20 + 17, () -> true,
-				() -> Component.translatable("fluid_filter.insert"), (item) -> {
+		clickAndHoverItem(i + 89, j + 34, i + 89 + 17, j + 34 + 17, () -> true, () -> uistr("fluid_filter.insert"),
+				(item) -> {
 					menu.insertFluidFilter(item);
 				});
 	}
@@ -34,9 +39,27 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> {
 		drawInventory(gui, mx, my);
 		drawMiniBackground(gui);
 
-		drawGhostSlot(gui, () -> false, mx, my, 107, 20, SpecialSlot.DROP, "fluid_filter.filter", (i, j) -> {
+		int i1 = midWidth();
+		int j1 = midHeight();
+		Mode mode = FluidFilterItem.getMode(menu.stack);
+		Fluid fluid = FluidFilterItem.getFluid(menu.stack);
+		drawCenteredString(gui,
+				mode.comp().setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? 0xFF0000 : 0x00FF00).withBold(true))
+						.append(uistr("fluid_filter.for").withStyle(Style.EMPTY.withColor(0x00FEFE).withBold(false))),
+				i1 + 117, j1 + 4, 0x00FEFE);
+		drawCenteredString(gui, Component.translatable(fluid.getFluidType().getDescriptionId()).setStyle(Style.EMPTY
+				.withColor(IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1))).withBold(true)),
+				i1 + 117, j1 + 6 + font.lineHeight, 0x00FEFE);
+
+		drawGhostSlot(gui, () -> false, mx, my, 89, 34, SpecialSlot.DROP, "", (i, j) -> {
 			renderFluid(gui, new FluidStack(menu.getCurrentFilter(), 1), i + 1, j + 17, 16, 16, 0);
 		});
+
+		drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, SpecialSlot.BLACKLIST, SpecialSlot.WHITELIST,
+				x -> menu.toggleMode(), () -> FluidFilterItem.getMode(menu.stack).comp());
+		
+		blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
+		blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);
 
 		drawOverlay(gui);
 	}

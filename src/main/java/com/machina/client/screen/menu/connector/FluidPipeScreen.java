@@ -33,7 +33,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> {
 					ItemStack stack = FluidFilterItem.set(menu.getBlockEntity().getItem(id), null,
 							val ? Mode.BLACKLIST : Mode.WHITELIST);
 					this.menu.setItem(id, stack);
-				});
+				}, () -> FluidFilterItem.getMode(menu.getBlockEntity().getItem(id)).comp());
 
 		int i = midWidth();
 		int j = midHeight();

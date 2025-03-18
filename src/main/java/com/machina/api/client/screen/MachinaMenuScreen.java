@@ -2,6 +2,7 @@ package com.machina.api.client.screen;
 
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -57,6 +58,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -151,7 +153,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		return true;
 	}
 
-	protected static Component uistr(String key) {
+	protected static MutableComponent uistr(String key) {
 		return Component.translatable("gui.machina." + key);
 	}
 
@@ -177,6 +179,17 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
 	protected void drawString(GuiGraphics gui, Component text, int x, int y, int color) {
 		gui.drawString(font, text, x, y, color);
+	}
+	
+	protected void drawCenteredString(GuiGraphics gui, Component text, int x, int y, int color) {
+		gui.drawCenteredString(font, text, x, y, color);
+	}
+	
+	protected void drawCenteredMultilineString(GuiGraphics gui, Component text, int x, int y, int color, int max, int sep) {
+		List<FormattedCharSequence> seq = font.split(text, max);
+		for (int i = 0; i < seq.size(); i++) {
+			gui.drawCenteredString(font, seq.get(i), x, y + i * sep, color);
+		}
 	}
 
 	protected void drawStringVertical(GuiGraphics gui, Component text, int x, int y) {
@@ -354,7 +367,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	protected void drawToggle(GuiGraphics gui, int mx, int my, int x, int y, boolean initial, SpecialSlot slot1,
-			SpecialSlot slot2, Consumer<Boolean> onClick) {
+			SpecialSlot slot2, Consumer<Boolean> onClick, Supplier<Component> onHover) {
 		String key = "toggle_" + x + "_" + y;
 		initState(key, initial);
 
@@ -369,6 +382,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		registerClickable(key, i, j, i + 18, j + 18, key, onClick);
+		registerHoverable(i, j, i + 18, j + 18, onHover);
 	}
 
 	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,

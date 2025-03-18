@@ -344,6 +344,8 @@
   "gui.machina.dir.south": "South",
   "gui.machina.dir.up": "Up",
   "gui.machina.dir.west": "West",
+  "gui.machina.fluid_filter.for": " for ",
+  "gui.machina.fluid_filter.insert": "Insert a Fluid",
   "gui.machina.fluid_pipe.filter": "Filter",
   "gui.machina.furnace_generator.generating": "Generating",
   "gui.machina.furnace_generator.input": "Fuel",
@@ -456,6 +458,8 @@
   "machina.creativemodetab.machina_misc": "Machina: Miscellaneous",
   "machina.creativemodetab.machina_resources": "Machina: Resources",
   "machina.creativemodetab.machina_worldgen": "Machina: Worldgen",
+  "machina.filter.blacklist": "Blacklist",
+  "machina.filter.whitelist": "Whitelist",
   "machina.tooltip.hdpe": "High Density Polyethylene",
   "machina.tooltip.ldpe": "Low Density Polyethylene",
   "machina.tooltip.uhmwpe": "Ultra High Molecular Weight Polyethylene"

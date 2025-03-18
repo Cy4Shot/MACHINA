@@ -25,6 +25,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -77,8 +78,9 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 		Fluid fluid = getFluid(stack);
 		Mode mode = getMode(stack);
 		if (fluid != Fluids.EMPTY) {
+			int col = IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1));
 			tooltip.add(Component.translatable(fluid.getFluidType().getDescriptionId())
-					.setStyle(Style.EMPTY.withColor(65278)));
+					.setStyle(Style.EMPTY.withColor(col)));
 			tooltip.add(mode.comp().setStyle(Style.EMPTY.withColor(65278)));
 		} else {
 			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.fluid_filter.empty")

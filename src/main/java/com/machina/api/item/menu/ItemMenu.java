@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class ItemMenu extends MachinaAnyMenu {
 
-	protected ItemStack stack;
+	public ItemStack stack;
 	private final Inventory inv;
 	private final InteractionHand hand;
 
@@ -101,6 +101,6 @@ public abstract class ItemMenu extends MachinaAnyMenu {
 
 	@Override
 	public Component getName() {
-		return getItem().getDisplayName();
+		return getItem().getHoverName();
 	}
 }

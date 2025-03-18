@@ -1,6 +1,7 @@
 package com.machina.datagen.client.lang;
 
 import com.machina.Machina;
+import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FruitInit;
@@ -56,7 +57,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.BASIC_CAPACITOR, "Basic Capacitor");
 		add(ItemInit.ADVANCED_CAPACITOR, "Advanced Capacitor");
 		add(ItemInit.SUPREME_CAPACITOR, "Supreme Capacitor");
-		
+
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
 
 		add(ItemInit.RAW_ALUMINUM, "Raw Aluminum");
@@ -455,6 +456,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FluidInit.MOLTEN_BISMUTH, "Molten Bismuth");
 		add(FluidInit.LEAD_BISMUTH_EUTECTIC, "Lead Bismuth Eutectic");
 
+		// Misc
+		add(Mode.WHITELIST, "Whitelist");
+		add(Mode.BLACKLIST, "Blacklist");
+
 		// UI
 		addUI("config.energy", "Energy Config");
 		addUI("config.item", "Item Config");
@@ -470,8 +475,11 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("side.input", "Input");
 		addUI("side.output", "Output");
 		addUI("side.none", "None");
-		
+
 		addUI("fluid_pipe.filter", "Filter");
+
+		addUI("fluid_filter.insert", "Insert a Fluid");
+		addUI("fluid_filter.for", " for ");
 
 		addUI("battery.missing", "Insert Capacitor");
 		addUI("battery.input", "Input Energy");
