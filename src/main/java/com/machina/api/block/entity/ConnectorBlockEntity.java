@@ -95,7 +95,7 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 	}
 
 	public abstract QuintFunction<Integer, Level, BlockPos, Inventory, Direction, AbstractContainerMenu> getMenu();
-	
+
 	@SuppressWarnings("unchecked")
 	public boolean filter(Direction dir, U resource) {
 		ItemStack i = getItem(getSlotForSide(dir, 0));
@@ -308,7 +308,7 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 		public ConnectionSide getSide(BlockGetter level) {
 			return BlockHelper.getFromTe(level, pos, ConnectorBlockEntity.class, c -> c.getConnection(direction));
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		public boolean filter(BlockGetter level, Object resource) {
 			return BlockHelper.getFromTe(level, pos, ConnectorBlockEntity.class, c -> c.filter(direction, resource));
@@ -331,7 +331,7 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 	}
 
 	private ConnectionSide connectionData(boolean connected, Direction dir) {
-		return connected ? (myConnectors.containsKey(dir) ? myConnectors.get(dir) : ConnectionSide.NORMAL)
+		return connected ? (myConnectors.containsKey(dir) && dirs.contains(dir) ? myConnectors.get(dir) : ConnectionSide.NORMAL)
 				: ConnectionSide.NONE;
 	}
 
