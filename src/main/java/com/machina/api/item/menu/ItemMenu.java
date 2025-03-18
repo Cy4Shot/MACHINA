@@ -4,6 +4,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
+import com.machina.api.network.PacketSender;
+import com.machina.api.network.c2s.C2SItemMenuSync;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -33,7 +35,8 @@ public abstract class ItemMenu extends MachinaAnyMenu {
 	public boolean stillValid(Player p) {
 		ItemStack main = p.getMainHandItem();
 		ItemStack off = p.getOffhandItem();
-		return !main.isEmpty() && main == stack || !off.isEmpty() && off == stack;
+		return !main.isEmpty() && main.getItem() == stack.getItem()
+				|| !off.isEmpty() && off.getItem() == stack.getItem();
 	}
 
 	protected static InteractionHand hand(FriendlyByteBuf buf) {
@@ -43,8 +46,8 @@ public abstract class ItemMenu extends MachinaAnyMenu {
 	public abstract ItemStack getItem();
 
 	public void containerChanged() {
-		inv.setItem(hand == InteractionHand.MAIN_HAND ? inv.selected : Inventory.SLOT_OFFHAND, stack);
-		inv.setChanged();
+		int slot = hand == InteractionHand.MAIN_HAND ? inv.selected : Inventory.SLOT_OFFHAND;
+		PacketSender.sendToServer(new C2SItemMenuSync(slot, stack));
 	}
 
 	@Override
