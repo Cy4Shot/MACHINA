@@ -1,7 +1,11 @@
 package com.machina.client.screen.menu.item;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.machina.api.client.screen.IFilteredScreen;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.item.FluidFilterItem;
@@ -15,7 +19,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
-public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> {
+public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> implements IFilteredScreen {
 
 	public FluidFilterScreen(FluidFilterMenu menu, Inventory inv, Component title) {
 		super(menu, inv, title);
@@ -29,9 +33,7 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> {
 		int j = midHeight();
 
 		clickAndHoverItem(i + 89, j + 34, i + 89 + 17, j + 34 + 17, () -> true, () -> uistr("fluid_filter.insert"),
-				(item) -> {
-					menu.insertFluidFilter(item);
-				});
+				menu::insertFluidFilter);
 	}
 
 	@Override
@@ -57,10 +59,17 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> {
 
 		drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, SpecialSlot.BLACKLIST, SpecialSlot.WHITELIST,
 				x -> menu.toggleMode(), () -> FluidFilterItem.getMode(menu.stack).comp());
-		
+
 		blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
 		blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);
 
 		drawOverlay(gui);
+	}
+
+	@Override
+	public Collection<FilterSlot> getFilterSlots() {
+		int i = midWidth();
+		int j = midHeight();
+		return List.of(new FilterSlot(i + 90, j + 35, menu::insertFluidFilter));
 	}
 }
