@@ -1,11 +1,16 @@
 package com.machina.compat.jei;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.api.util.MachinaRL;
+import com.machina.client.screen.menu.connector.FluidPipeScreen;
+import com.machina.client.screen.menu.item.FluidFilterScreen;
+import com.machina.compat.jei.base.MachinaGhostHandler;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
 public class MachinaJei implements IModPlugin {
@@ -15,6 +20,12 @@ public class MachinaJei implements IModPlugin {
 	@Override
 	public @NotNull ResourceLocation getPluginUid() {
 		return UID;
+	}
+
+	@Override
+	public void registerGuiHandlers(IGuiHandlerRegistration reg) {
+		reg.addGhostIngredientHandler(FluidFilterScreen.class, new MachinaGhostHandler<FluidFilterScreen>());
+		reg.addGhostIngredientHandler(FluidPipeScreen.class, new MachinaGhostHandler<FluidPipeScreen>());
 	}
 
 }

@@ -1,9 +1,13 @@
 package com.machina.client.screen.menu.connector;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.Side;
+import com.machina.api.client.screen.IFilteredScreen;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.network.PacketSender;
@@ -22,10 +26,24 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
-public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> {
+public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements IFilteredScreen {
 
 	public FluidPipeScreen(FluidPipeMenu menu, Inventory inv, Component title) {
 		super(menu, inv, title);
+	}
+
+	private void setFluidStack(ItemStack stack) {
+		LazyOptional<IFluidHandlerItem> handler = FluidUtil.getFluidHandler(stack.copyWithCount(1));
+		if (handler.isPresent()) {
+			IFluidHandlerItem f = handler.resolve().get();
+			FluidStack fluid = f.getFluidInTank(0);
+			if (!fluid.isEmpty()) {
+				ItemStack newStack = FluidFilterItem.set(menu.getBlockEntity().getItem(menu.id(0)), fluid.getFluid(),
+						null);
+				PacketSender
+						.sendToServer(new C2SMenuSetItem(menu.id(0), newStack, menu.getBlockEntity().getBlockPos()));
+			}
+		}
 	}
 
 	@Override
@@ -48,19 +66,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> {
 					j1 + 17, 16, 16, 0);
 		});
 		clickAndHoverItem(i + 74, j + 34, i + 74 + 17, j + 34 + 17, () -> true, () -> uistr("fluid_pipe.insert"),
-				(stack) -> {
-					LazyOptional<IFluidHandlerItem> handler = FluidUtil.getFluidHandler(stack.copyWithCount(1));
-					if (handler.isPresent()) {
-						IFluidHandlerItem f = handler.resolve().get();
-						FluidStack fluid = f.getFluidInTank(0);
-						if (!fluid.isEmpty()) {
-							ItemStack newStack = FluidFilterItem.set(menu.getBlockEntity().getItem(menu.id(0)),
-									fluid.getFluid(), null);
-							PacketSender.sendToServer(
-									new C2SMenuSetItem(menu.id(0), newStack, menu.getBlockEntity().getBlockPos()));
-						}
-					}
-				});
+				this::setFluidStack);
 
 		// Mode Slot
 		drawToggle(gui, mx, my, 107, 34, FluidFilterItem.getMode(menu.getBlockEntity().getItem(id)) == Mode.BLACKLIST,
@@ -84,5 +90,12 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> {
 		}
 
 		drawOverlay(gui);
+	}
+
+	@Override
+	public Collection<FilterSlot> getFilterSlots() {
+		int i = midWidth();
+		int j = midHeight();
+		return List.of(new FilterSlot(i + 75, j + 35, this::setFluidStack));
 	}
 }
