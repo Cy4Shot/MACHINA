@@ -43,7 +43,21 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 	public MachinaRecipeCategory(IGuiHelper gui, RecipeRegistryObject<C> obj, RegistryObject<? extends Block> block) {
 		this.obj = obj;
 		this.icon = gui.createDrawableItemStack(block.get().asItem().getDefaultInstance());
-		this.bg = MUI.jeiBg(gui);
+		this.bg = new IDrawable() {
+			@Override
+			public int getWidth() {
+				return 129;
+			}
+
+			@Override
+			public int getHeight() {
+				return obj.jei().height() + 16;
+			}
+
+			@Override
+			public void draw(@NotNull GuiGraphics gui, int x, int y) {
+			}
+		};
 		this.ticktimer = new TickTimer(20, 3, false);
 	}
 
@@ -80,6 +94,19 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 
 		int rolling = 7;
 
+		// Draw Background
+		int h = obj.jei().height();
+		MUI.blitJei(gui, 0, 0, 0, 0, 129, 19);
+		for (int i = 0; i < (h - 19) / 50; i++) {
+			MUI.blitJei(gui, 0, 19 + i * 50, 0, 19, 129, 50);
+		}
+		// Draw remainder
+		int r = (h - 19) % 50;
+		int tot = 19 + (h - 19) / 50 * 50;
+		MUI.blitJei(gui, 0, tot, 0, 19, 129, r);
+
+		MUI.blitJei(gui, 0, h, 0, 144, 129, 16);
+
 		// Input Slots
 		if (total_inputs > 0) {
 			Component c = MUI.uistr("jei.input");
@@ -95,8 +122,8 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			for (int x = 0; x < total_inputs; x++) {
 				int i = start + x * 20;
 				int j = rolling + 17;
-				int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
-				MUI.blitCommon(gui, i, j, 466, h, 19, 19);
+				int m = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+				MUI.blitCommon(gui, i, j, 466, m, 19, 19);
 			}
 
 			MUI.blitCommon(gui, 14, rolling + 40, 485, 101, 6, 24);
@@ -124,8 +151,8 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			for (int x = 0; x < total_outputs; x++) {
 				int i = start + x * 20;
 				int j = rolling + 5;
-				int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
-				MUI.blitCommon(gui, i, j, 466, h, 19, 19);
+				int m = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+				MUI.blitCommon(gui, i, j, 466, m, 19, 19);
 			}
 			rolling += 50;
 		}
@@ -149,8 +176,6 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			value.getFirst().draw(gui, x, y);
 			MUI.drawString(gui, Component.literal(value.getSecond()), x + 14, y, 0x00FEFE);
 		}
-
-		rolling += (values.size() / 2 + 1) * 14 + 10;
 
 		// Overlay
 		int k = this.ticktimer.getValue();

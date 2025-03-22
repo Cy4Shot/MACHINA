@@ -16,6 +16,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class JeiRecipeRegistrar<C extends Container> {
 	private final RecipeType<MachinaRecipe<C>> type;
 	private final Function<IGuiHelper, MachinaRecipeCategory<C>> category;
+	private final int flags;
+	private final boolean hasInputs, hasOutputs;
 
 	public final int x, y;
 
@@ -24,6 +26,9 @@ public class JeiRecipeRegistrar<C extends Container> {
 		this.category = gui -> new MachinaRecipeCategory<C>(gui, obj, block);
 		this.x = x;
 		this.y = y;
+		this.flags = obj.maps().getFlags();
+		this.hasInputs = obj.maps().hasInputs();
+		this.hasOutputs = obj.maps().hasOutputs();
 	}
 
 	public RecipeType<MachinaRecipe<C>> type() {
@@ -32,5 +37,21 @@ public class JeiRecipeRegistrar<C extends Container> {
 
 	public MachinaRecipeCategory<C> category(IGuiHelper gui) {
 		return category.apply(gui);
+	}
+
+	public int flagCount() {
+		return Integer.bitCount(flags);
+	}
+
+	public int height() {
+		int h = 7;
+		if (hasInputs) {
+			h += 64;
+		}
+		if (hasOutputs) {
+			h += 50;
+		}
+		h += (flagCount() + 1) / 2 * 14;
+		return h + 2;
 	}
 }

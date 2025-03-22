@@ -28,8 +28,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
-import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -110,10 +108,6 @@ public final class MUI {
 		gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.ZP, 90));
 		gui.drawString(mc.font, text, 0, 0, 65278);
 		gui.pose().popPose();
-	}
-
-	public static IDrawable jeiBg(IGuiHelper gui) {
-		return gui.createDrawable(JEI_UI, 0, 0, 129, 160);
 	}
 
 	public enum MuiSlot {

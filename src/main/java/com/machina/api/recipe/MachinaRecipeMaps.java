@@ -24,7 +24,7 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 	protected abstract void addExtraRecipes(RecipeManager man);
 
 	public abstract Class<? extends MachinaRecipe<C>> getRecipeClass();
-	
+
 	public abstract int getFlags();
 
 	@SuppressWarnings("unchecked")
@@ -57,5 +57,13 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 
 	public List<MachinaRecipe<C>> all() {
 		return new ArrayList<>(recipes.values());
+	}
+
+	public boolean hasInputs() {
+		return true;
+	}
+
+	public boolean hasOutputs() {
+		return true;
 	}
 }
