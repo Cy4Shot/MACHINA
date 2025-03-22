@@ -174,7 +174,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			int y = rolling + (i / 2) * 14;
 			Pair<MuiSlot, String> value = values.get(i);
 			value.getFirst().draw(gui, x, y);
-			MUI.drawString(gui, Component.literal(value.getSecond()), x + 14, y, 0x00FEFE);
+			MUI.drawString(gui, Component.literal(value.getSecond()), x + 14, y + 1, 0x00FEFE);
 		}
 
 		// Overlay

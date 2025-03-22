@@ -9,6 +9,7 @@ import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
 import com.machina.client.ber.TankRenderer;
 import com.machina.client.screen.menu.BatteryScreen;
+import com.machina.client.screen.menu.CompressorScreen;
 import com.machina.client.screen.menu.CreativeBatteryScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
 import com.machina.client.screen.menu.GrinderScreen;
@@ -64,6 +65,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.MACHINE_CASE.get(), MachineCaseScreen::new);
 			MenuScreens.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
 			MenuScreens.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
+			MenuScreens.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);
 		});
 	}
 

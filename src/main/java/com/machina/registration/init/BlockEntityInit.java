@@ -9,6 +9,7 @@ import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.machina.block.entity.connector.ItemConduitBlockEntity;
 import com.machina.block.entity.machine.BatteryBlockEntity;
+import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.block.entity.machine.CreativeBatteryBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
@@ -45,6 +46,8 @@ public class BlockEntityInit {
             FurnaceGeneratorBlockEntity::new, BlockInit.FURNACE_GENERATOR::get);
 	public static final RegistryObject<BlockEntityType<GrinderBlockEntity>> GRINDER = register("grinder",
             GrinderBlockEntity::new, BlockInit.GRINDER::get);
+	public static final RegistryObject<BlockEntityType<CompressorBlockEntity>> COMPRESSOR = register("compressor",
+			CompressorBlockEntity::new, BlockInit.COMPRESSOR::get);
 	//@formatter:on
 
 	public static final RegistryObject<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",

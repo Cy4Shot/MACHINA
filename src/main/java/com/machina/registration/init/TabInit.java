@@ -26,17 +26,20 @@ public class TabInit {
 				add(a, ItemInit.BASIC_CAPACITOR);
 				add(a, ItemInit.ADVANCED_CAPACITOR);
 				add(a, ItemInit.SUPREME_CAPACITOR);
+				
 				add(a, BlockInit.ENERGY_CABLE);
 				add(a, BlockInit.FLUID_PIPE);
 				add(a, BlockInit.ITEM_CONDUIT);
 				add(a, ItemInit.FLUID_FILTER);
 				add(a, ItemInit.ITEM_FILTER);
 				add(a, ItemInit.ADVANCED_ITEM_FILTER);
+				
 				add(a, BlockInit.BATTERY);
 				add(a, BlockInit.TANK);
 				add(a, BlockInit.BASIC_MACHINE_CASE);
 				add(a, BlockInit.FURNACE_GENERATOR);
 				add(a, BlockInit.GRINDER);
+				add(a, BlockInit.COMPRESSOR);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
 			});

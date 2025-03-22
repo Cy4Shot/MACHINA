@@ -15,10 +15,10 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.BlastingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraftforge.common.Tags;
 
 public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
@@ -47,7 +47,7 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 
 	@Override
 	protected void addExtraRecipes(RecipeManager man) {
-		for (BlastingRecipe recipe : man.getAllRecipesFor(RecipeType.BLASTING)) {
+		for (SmeltingRecipe recipe : man.getAllRecipesFor(RecipeType.SMELTING)) {
 			if (recipe.isSpecial()) {
 				continue;
 			}
@@ -87,13 +87,10 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 		}
 	}
 
-	private static final int DEFAULT_TIME = 200;
-	private static final int DEFAULT_ENERGY = 10000;
-
 	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> ingot(Ingredient input, ItemStack dust) {
 		ResourceLocation loc = new MachinaRL("grinder_ingot_" + input.hashCode());
 		return Pair.of(loc,
-				new GrinderRecipe(loc, DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.0F, Collections.singletonList(input),
+				new GrinderRecipe(loc, 15000, 200, 0, 0, 0.0F, Collections.singletonList(input),
 						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
 						Collections.emptyList()));
 	}
@@ -101,7 +98,7 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> ore(Ingredient input, ItemStack dust) {
 		ResourceLocation loc = new MachinaRL("grinder_ore_" + input.hashCode());
 		return Pair.of(loc,
-				new GrinderRecipe(loc, DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.2F, Collections.singletonList(input),
+				new GrinderRecipe(loc, 40000, 250, 0, 0, 0.2F, Collections.singletonList(input),
 						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
 						Collections.emptyList()));
 	}
@@ -109,7 +106,7 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> raw(Ingredient input, ItemStack dust) {
 		ResourceLocation loc = new MachinaRL("grinder_raw_" + input.hashCode());
 		return Pair.of(loc,
-				new GrinderRecipe(loc, DEFAULT_ENERGY, DEFAULT_TIME, 0, 0, 0.1F, Collections.singletonList(input),
+				new GrinderRecipe(loc, 15000, 200, 0, 0, 0.1F, Collections.singletonList(input),
 						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
 						Collections.emptyList()));
 	}

@@ -6,14 +6,12 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.Machina;
-import com.machina.api.recipe.MachinaRecipeBuilder;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.ItemInit;
-import com.machina.registration.init.RecipeInit;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -81,27 +79,6 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 
 		// Crafting nugget
 		family.getNugget().ifPresent(nugget -> family.ingot().ifPresent(ingot -> compact(gen, ingot, nugget)));
-
-		// Crafting dust
-		family.ore().ifPresent(ore -> {
-			//@formatter:off
-			MachinaRecipeBuilder.create(RecipeInit.GRINDER, 0.1f)
-				.withEnergy(40000).withTime(300)
-				.withInputItem(ore.asItem(), 1).withOutputItem(family.dust(), 2)
-				.unlockedBy(getHasName(ore), has(ore))
-				.save(gen, Machina.MOD_ID + ":grinder_ore_to_" + getItemName(family.dust()));
-			//@formatter:on
-		});
-		family.ingot().ifPresent(ingot -> {
-			//@formatter:off
-			MachinaRecipeBuilder.create(RecipeInit.GRINDER, 0.1f)
-				.withEnergy(15000).withTime(200)
-				.withInputItem(ingot.asItem(), 1).withOutputItem(family.dust(), 1)
-				.unlockedBy(getHasName(ingot), has(ingot))
-				.save(gen, Machina.MOD_ID + ":grinder_ingot_to_" + getItemName(family.dust()));
-			//@formatter:on
-		});
-
 	}
 
 	protected static void woodFamily(Consumer<FinishedRecipe> gen, WoodFamily family) {

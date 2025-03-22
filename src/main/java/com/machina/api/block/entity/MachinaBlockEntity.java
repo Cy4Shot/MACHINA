@@ -61,19 +61,21 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 
 	public abstract void createStorages();
 
-	public void itemStorage(Side[] sides) {
+	public int itemStorage(Side[] sides) {
 		this.itemStorage();
 		this.itemSides.add(sides.clone());
+		return this.itemSides.size() - 1;
 	}
 
 	public void energyStorage(Side[] sides) {
 		this.energyCap = new MultiSidedStorage<>("cap_energy", this, MachinaEnergyStorage::new, sides.clone());
 	}
 
-	public void fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
+	public int fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
 		int id = this.fluidsCap.size();
 		this.fluidsCap.add(new SingleSidedStorage<>("cap_fluid_" + id, this,
 				new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id, this::sync)), sides.clone()));
+		return id;
 	}
 
 	public MachinaBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {

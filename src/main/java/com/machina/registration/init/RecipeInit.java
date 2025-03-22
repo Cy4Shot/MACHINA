@@ -10,9 +10,12 @@ import com.machina.api.recipe.MachinaRecipe.RecipeFactory;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.api.recipe.MachinaRecipeType;
 import com.machina.api.util.MachinaRL;
+import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.compat.jei.JeiRecipeRegistrar;
+import com.machina.recipe.CompressorRecipe;
 import com.machina.recipe.GrinderRecipe;
+import com.machina.recipe.maps.CompressorRecipeMaps;
 import com.machina.recipe.maps.GrinderRecipeMaps;
 
 import net.minecraft.resources.ResourceLocation;
@@ -35,6 +38,8 @@ public class RecipeInit {
 	//@formatter:off
 	public static final RecipeRegistryObject<GrinderBlockEntity> GRINDER =
 			register("grinder", BlockInit.GRINDER, GrinderRecipe::new, GrinderRecipeMaps.INSTANCE, 0, 160);
+	public static final RecipeRegistryObject<CompressorBlockEntity> COMPRESSOR =
+			register("compressor", BlockInit.COMPRESSOR, CompressorRecipe::new, CompressorRecipeMaps.INSTANCE, 16, 160);
 	//@formatter:on
 
 	public static class RecipeRegistryObject<C extends Container> {
