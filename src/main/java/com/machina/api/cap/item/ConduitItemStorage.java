@@ -38,7 +38,9 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 
 	@Override
 	public int getSlots() {
-		return 1;
+		// Some mods will validate slot count before pushing.
+		// Return 9 to ensure that the item conduit is not skipped
+		return 9;
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 
 	@Override
 	public int getSlotLimit(int slot) {
-		return 64;
+		return conduit.getRate();
 	}
 
 	@Override
@@ -70,18 +72,19 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 		if (!be.getConnection(side).isOutput()) {
 			return;
 		}
+
 		IItemHandler handler = getItemHandler(be, be.getBlockPos().relative(side), side.getOpposite());
 		if (handler == null)
 			return;
 
-		insertEqually(be, side, be.getSortedConnections(side), handler);
+		insertEqually(be, side, be.getSortedConnections(), handler);
 	}
 
 	public @NotNull ItemStack receive(ItemConduitBlockEntity be, Direction side, ItemStack stack, boolean simulate) {
 		if (!be.getConnection(side).isOutput()) {
 			return ItemStack.EMPTY;
 		}
-		return receiveEqually(be, side, be.getSortedConnections(side),
+		return receiveEqually(be, side, be.getSortedConnections(),
 				new ItemStack(stack.getItem(), Math.min(be.getRate(), stack.getCount())), simulate);
 	}
 
@@ -207,15 +210,14 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 	}
 
 	private static int fillItem(IItemHandler handler, ItemStack stack, boolean simulate) {
-		int count = 0;
+		int count = stack.getCount();
 		for (int i = 0; i < handler.getSlots(); i++) {
-			ItemStack s = handler.insertItem(i, stack, simulate);
-			if (s.isEmpty()) {
+			stack = handler.insertItem(i, stack, simulate);
+			if (stack.isEmpty()) {
 				return count;
 			}
-			count += s.getCount();
 		}
-		return count;
+		return count - stack.getCount();
 	}
 
 	private ItemStack pushItem(IItemHandler provider, IItemHandler receiver, ItemStack stack) {
