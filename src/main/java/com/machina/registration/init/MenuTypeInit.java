@@ -8,6 +8,7 @@ import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
 import com.machina.block.menu.TankMenu;
 import com.machina.block.menu.connector.FluidPipeMenu;
+import com.machina.block.menu.connector.ItemConduitMenu;
 import com.machina.item.menu.FluidFilterMenu;
 
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -23,6 +24,8 @@ public class MenuTypeInit {
 			Machina.MOD_ID);
 
 	//@formatter:off
+	public static final RegistryObject<MenuType<ItemConduitMenu>> ITEM_CONDUIT = register("item_conduit",
+			ItemConduitMenu::new);
 	public static final RegistryObject<MenuType<FluidPipeMenu>> FLUID_PIPE = register("fluid_pipe",
             FluidPipeMenu::new);
 	public static final RegistryObject<MenuType<FluidFilterMenu>> FLUID_FILTER = register("fluid_filter",

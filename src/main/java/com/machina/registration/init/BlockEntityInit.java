@@ -7,6 +7,7 @@ import com.machina.block.entity.MachinaHangingSignBlockEntity;
 import com.machina.block.entity.MachinaSignBlockEntity;
 import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
+import com.machina.block.entity.connector.ItemConduitBlockEntity;
 import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.entity.machine.CreativeBatteryBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
@@ -26,6 +27,8 @@ public class BlockEntityInit {
 			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Machina.MOD_ID);
 
 	//@formatter:off
+	public static final RegistryObject<BlockEntityType<ItemConduitBlockEntity>> ITEM_CONDUIT = register("item_conduit",
+            ItemConduitBlockEntity::new, BlockInit.ITEM_CONDUIT::get);
 	public static final RegistryObject<BlockEntityType<EnergyCableBlockEntity>> ENERGY_CABLE = register("energy_cable",
             EnergyCableBlockEntity::new, BlockInit.ENERGY_CABLE::get);
 	public static final RegistryObject<BlockEntityType<FluidPipeBlockEntity>> FLUID_PIPE = register("fluid_pipe",

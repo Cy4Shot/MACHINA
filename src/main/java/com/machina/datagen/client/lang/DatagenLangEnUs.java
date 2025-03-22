@@ -98,6 +98,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		// Blocks
 		add(BlockInit.ENERGY_CABLE, "Energy Cable");
 		add(BlockInit.FLUID_PIPE, "Fluid Pipe");
+		add(BlockInit.ITEM_CONDUIT, "Item Conduit");
 		add(BlockInit.BASIC_MACHINE_CASE, "Basic Machine Case");
 		add(BlockInit.BATTERY, "Battery");
 		add(BlockInit.TANK, "Tank");
@@ -460,7 +461,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");
 		add(Mode.BLACKLIST, "Blacklist");
-		
+
 		add(ConnectionSide.INPUT, "Input");
 		add(ConnectionSide.OUTPUT, "Output");
 		add(ConnectionSide.NORMAL, "Connected");

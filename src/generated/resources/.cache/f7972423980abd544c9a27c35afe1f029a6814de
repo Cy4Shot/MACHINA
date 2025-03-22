@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-12T19:52:57.8726634	Block States: machina
+// 1.20.1	2025-03-22T11:05:14.2073364	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -634,6 +634,7 @@ c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/hydrogen_su
 9d5119a9276f5ac7b329dadbfd0c0719f65b52b8 assets/machina/models/block/imbued_purple_mushroom_cap.json
 61eb7c2677cd0fb049c575542bf23a126c7e3bf3 assets/machina/models/block/imbued_red_mushroom_cap.json
 ed1bdb8a6149b42f3422dc0161b3c7e5fc14593a assets/machina/models/block/imbued_yellow_mushroom_cap.json
+913dc8cf03ceddea9617ac53e2b66d678dd45303 assets/machina/models/block/item_conduit.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/lead_bismuth_eutectic_block.json
 046dc1963716fb7da13cd21f61cecfdb679d2363 assets/machina/models/block/limestone.json
 ad8b98af5e8b9844f35c87bed9420c5192e5c257 assets/machina/models/block/limestone_button.json
@@ -1084,6 +1085,7 @@ f453aab9dd83166956765f0510503c46f436f519 assets/machina/models/item/imbued_brown
 6d5cba691f34a2e6dcba4dce0ac1bdf05e2c4b40 assets/machina/models/item/imbued_purple_mushroom_cap.json
 a0de7c0c828af4b14b16d52f76f2da1e60982378 assets/machina/models/item/imbued_red_mushroom_cap.json
 ec0865efa6e6d072feb298ffce49638fe1b37f6d assets/machina/models/item/imbued_yellow_mushroom_cap.json
+c3a2d40cc04143332011570f05a426f829c72c1e assets/machina/models/item/item_conduit.json
 9cf584e1726d91b06b20ceabddb48f6cc62e1651 assets/machina/models/item/limestone.json
 d1e640d9d1e28a70ff03215e4d787d4d1bb65683 assets/machina/models/item/limestone_button.json
 ad4c1ba985b8715114d56c632860aa388335353c assets/machina/models/item/limestone_pebbles.json
