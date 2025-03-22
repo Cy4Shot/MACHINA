@@ -62,7 +62,7 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage<Int
 		if (!cable.getConnection(side).isOutput()) {
 			return 0;
 		}
-		return receiveEqually(be, side, be.getSortedConnections(side), Math.min(be.getRate(), amount), simulate);
+		return receiveEqually(be, side, be.getSortedConnections(), Math.min(be.getRate(), amount), simulate);
 	}
 
 	protected int receiveEqually(EnergyCableBlockEntity be, Direction side,

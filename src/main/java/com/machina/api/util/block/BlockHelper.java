@@ -96,6 +96,13 @@ public class BlockHelper {
 		}
 		return be.getCapability(ForgeCapabilities.FLUID_HANDLER, side).isPresent();
 	}
+	
+	public static boolean hasItem(BlockEntity be, @Nullable Direction side) {
+		if (be == null) {
+			return false;
+		}
+		return be.getCapability(ForgeCapabilities.ITEM_HANDLER, side).isPresent();
+	}
 
 	// McJty
 	public static int receiveEnergy(BlockEntity tileEntity, Direction from, long maxReceive) {

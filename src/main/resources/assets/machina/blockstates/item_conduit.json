@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"": {
+			"model": "machina:block/item_conduit_block"
+		}
+	}
+}

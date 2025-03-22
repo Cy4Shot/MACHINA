@@ -79,14 +79,14 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 		if (handler == null)
 			return;
 
-		insertEqually(be, side, be.getSortedConnections(side), handler);
+		insertEqually(be, side, be.getSortedConnections(), handler);
 	}
 
 	public int receive(FluidPipeBlockEntity be, Direction side, FluidStack stack, boolean simulate) {
 		if (!be.getConnection(side).isOutput()) {
 			return 0;
 		}
-		return receiveEqually(be, side, be.getSortedConnections(side),
+		return receiveEqually(be, side, be.getSortedConnections(),
 				new FluidStack(stack.getFluid(), Math.min(be.getRate(), stack.getAmount())), simulate);
 	}
 
@@ -140,7 +140,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 
 	protected int receiveEqually(FluidPipeBlockEntity be, Direction side,
 			List<FluidPipeBlockEntity.Connection> connections, FluidStack maxReceive, boolean simulate) {
-		if (connections.isEmpty() || maxReceive.getAmount() <= 0  || !be.filter(side, maxReceive))
+		if (connections.isEmpty() || maxReceive.getAmount() <= 0 || !be.filter(side, maxReceive))
 			return 0;
 		if (be.pushRecursion())
 			return 0;

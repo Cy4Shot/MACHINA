@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-22T01:24:10.9369191	Loot Tables
+// 1.20.1	2025-03-22T11:05:14.2033357	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -158,6 +158,7 @@ df1abad4b7a33e9be9123198ebf35a1c0abf4488 data/machina/loot_tables/blocks/imbued_
 8a8ea0d3dff56eb4c387b1f1ed1373fc6daa25bc data/machina/loot_tables/blocks/imbued_purple_mushroom_cap.json
 c49de6daf1ea05a252910a56b08814b5118c5706 data/machina/loot_tables/blocks/imbued_red_mushroom_cap.json
 c9974a6d1468d87b988df1550524e91fdbb777c8 data/machina/loot_tables/blocks/imbued_yellow_mushroom_cap.json
+a7765f956eb0f4ea8a4cd98c9fdd52770a48b1dc data/machina/loot_tables/blocks/item_conduit.json
 752d9b2b082e2203db30a28719a47d63ff150889 data/machina/loot_tables/blocks/lead_bismuth_eutectic_block.json
 a54abc9fcc1a4da950f5f96e0d65525239ab246c data/machina/loot_tables/blocks/limestone.json
 53b0b9aa4ee00d70d1bb6b72b59a7eba0b13692d data/machina/loot_tables/blocks/limestone_button.json

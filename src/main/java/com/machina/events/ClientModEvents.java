@@ -15,7 +15,10 @@ import com.machina.client.screen.menu.GrinderScreen;
 import com.machina.client.screen.menu.MachineCaseScreen;
 import com.machina.client.screen.menu.TankScreen;
 import com.machina.client.screen.menu.connector.FluidPipeScreen;
+import com.machina.client.screen.menu.connector.ItemConduitScreen;
+import com.machina.client.screen.menu.item.AdvancedItemFilterScreen;
 import com.machina.client.screen.menu.item.FluidFilterScreen;
+import com.machina.client.screen.menu.item.ItemFilterScreen;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -51,7 +54,10 @@ public class ClientModEvents {
 
 		event.enqueueWork(() -> {
 			MenuScreens.register(MenuTypeInit.FLUID_PIPE.get(), FluidPipeScreen::new);
+			MenuScreens.register(MenuTypeInit.ITEM_CONDUIT.get(), ItemConduitScreen::new);
 			MenuScreens.register(MenuTypeInit.FLUID_FILTER.get(), FluidFilterScreen::new);
+			MenuScreens.register(MenuTypeInit.ITEM_FILTER.get(), ItemFilterScreen::new);
+			MenuScreens.register(MenuTypeInit.ADVANCED_ITEM_FILTER.get(), AdvancedItemFilterScreen::new);
 			MenuScreens.register(MenuTypeInit.BATTERY.get(), BatteryScreen::new);
 			MenuScreens.register(MenuTypeInit.TANK.get(), TankScreen::new);
 			MenuScreens.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);

@@ -59,6 +59,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ADVANCED_CAPACITOR, "Advanced Capacitor");
 		add(ItemInit.SUPREME_CAPACITOR, "Supreme Capacitor");
 
+		add(ItemInit.ITEM_FILTER, "Item Filter");
+		add(ItemInit.ADVANCED_ITEM_FILTER, "Advanced Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
 
 		add(ItemInit.RAW_ALUMINUM, "Raw Aluminum");
@@ -98,6 +100,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		// Blocks
 		add(BlockInit.ENERGY_CABLE, "Energy Cable");
 		add(BlockInit.FLUID_PIPE, "Fluid Pipe");
+		add(BlockInit.ITEM_CONDUIT, "Item Conduit");
 		add(BlockInit.BASIC_MACHINE_CASE, "Basic Machine Case");
 		add(BlockInit.BATTERY, "Battery");
 		add(BlockInit.TANK, "Tank");
@@ -412,6 +415,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		addTooltip("ldpe", "Low Density Polyethylene");
 		addTooltip("hdpe", "High Density Polyethylene");
 		addTooltip("uhmwpe", "Ultra High Molecular Weight Polyethylene");
+		addTooltip("fluid_filter.empty", "Empty");
+		addTooltip("item_filter.empty", "Empty");
+		addTooltip("item_filter.configured", "Configured");
 
 		// Fluids
 		add(FluidInit.OXYGEN, "Oxygen");
@@ -460,7 +466,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");
 		add(Mode.BLACKLIST, "Blacklist");
-		
+
 		add(ConnectionSide.INPUT, "Input");
 		add(ConnectionSide.OUTPUT, "Output");
 		add(ConnectionSide.NORMAL, "Connected");
@@ -484,9 +490,14 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		addUI("fluid_pipe.filter", "Filter");
 		addUI("fluid_pipe.insert", "Insert a Fluid");
+		addUI("item_conduit.filter", "Filter");
+		addUI("item_conduit.insert", "Insert an Item");
 
 		addUI("fluid_filter.insert", "Insert a Fluid");
-		addUI("fluid_filter.for", " for ");
+		addUI("fluid_filter.for", " for");
+		addUI("item_filter.insert", "Insert a Item");
+		addUI("item_filter.for", " for");
+		addUI("item_filter.for_colon", " for:");
 
 		addUI("battery.missing", "Insert Capacitor");
 		addUI("battery.input", "Input Energy");

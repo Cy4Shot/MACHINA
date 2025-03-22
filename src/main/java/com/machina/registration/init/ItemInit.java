@@ -9,9 +9,11 @@ import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
 import com.machina.block.MachinaWallSignBlock;
 import com.machina.config.CommonConfig;
+import com.machina.item.AdvancedItemFilterItem;
 import com.machina.item.BlueprintItem;
 import com.machina.item.CapacitorItem;
 import com.machina.item.FluidFilterItem;
+import com.machina.item.ItemFilterItem;
 
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
@@ -34,6 +36,8 @@ public class ItemInit {
 	public static final RegistryObject<CapacitorItem> ADVANCED_CAPACITOR = capacitor("advanced_capacitor", () -> CommonConfig.advancedCapacitorSize);
 	public static final RegistryObject<CapacitorItem> SUPREME_CAPACITOR = capacitor("supreme_capacitor", () -> CommonConfig.supremeCapacitorSize);
 	
+	public static final RegistryObject<ItemFilterItem> ITEM_FILTER = basic("item_filter", ItemFilterItem::new);
+	public static final RegistryObject<AdvancedItemFilterItem> ADVANCED_ITEM_FILTER = basic("advanced_item_filter", AdvancedItemFilterItem::new);
 	public static final RegistryObject<FluidFilterItem> FLUID_FILTER = basic("fluid_filter", FluidFilterItem::new);
 	
 	public static final RegistryObject<Item> RAW_ALUMINUM = basic("raw_aluminum");

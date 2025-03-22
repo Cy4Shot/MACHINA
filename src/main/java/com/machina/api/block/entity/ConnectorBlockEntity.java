@@ -113,7 +113,7 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 		roundrobin[direction.get3DDataValue()] = value;
 	}
 
-	public List<Connection> getSortedConnections(Direction side) {
+	public List<Connection> getSortedConnections() {
 		return connectors.stream().sorted(Comparator.comparingInt(Connection::getDistance))
 				.collect(Collectors.toList());
 	}

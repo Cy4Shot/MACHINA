@@ -15,6 +15,7 @@ import com.machina.block.PebbleBlock;
 import com.machina.block.SmallFlowerBlock;
 import com.machina.block.connector.EnergyCableBlock;
 import com.machina.block.connector.FluidPipeBlock;
+import com.machina.block.connector.ItemConduitBlock;
 import com.machina.block.machine.BatteryBlock;
 import com.machina.block.machine.CreativeBatteryBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
@@ -62,6 +63,7 @@ public class BlockInit {
 			Machina.MOD_ID);
 
 	//@formatter:off
+	public static final RegistryObject<ItemConduitBlock> ITEM_CONDUIT = register("item_conduit", ItemConduitBlock::new);
 	public static final RegistryObject<EnergyCableBlock> ENERGY_CABLE = register("energy_cable", EnergyCableBlock::new);
 	public static final RegistryObject<FluidPipeBlock> FLUID_PIPE = register("fluid_pipe", FluidPipeBlock::new);
 	public static final RegistryObject<BatteryBlock> BATTERY = register("battery", Blocks.IRON_BLOCK, BatteryBlock::new);
