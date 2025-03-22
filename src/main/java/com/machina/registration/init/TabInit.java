@@ -31,6 +31,7 @@ public class TabInit {
 				add(a, BlockInit.ITEM_CONDUIT);
 				add(a, ItemInit.FLUID_FILTER);
 				add(a, ItemInit.ITEM_FILTER);
+				add(a, ItemInit.ADVANCED_ITEM_FILTER);
 				add(a, BlockInit.BATTERY);
 				add(a, BlockInit.TANK);
 				add(a, BlockInit.BASIC_MACHINE_CASE);

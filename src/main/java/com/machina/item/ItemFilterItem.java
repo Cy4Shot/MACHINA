@@ -31,7 +31,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemStorage> {
 
 	private static final String ITEM = "item";
-	private static final String MODE = "mode";
 
 	public ItemFilterItem(Properties props) {
 		super(props);
@@ -46,18 +45,6 @@ public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemSt
 				return f;
 		}
 		return Items.AIR;
-	}
-
-	public static Mode getMode(ItemStack stack) {
-		CompoundTag nbt = stack.getOrCreateTag();
-		if (nbt.contains(MODE)) {
-			try {
-				return Mode.valueOf(nbt.getString(MODE));
-			} catch (IllegalArgumentException e) {
-				// Do nothing here :)
-			}
-		}
-		return Mode.BLACKLIST;
 	}
 
 	public static ItemStack set(ItemStack stack, Item type, Mode mode) {

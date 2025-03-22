@@ -51,7 +51,7 @@ public class ItemFilterScreen extends MachinaMenuScreen<ItemFilterMenu> implemen
 		drawCenteredString(gui, Component.translatable(item.getDescriptionId()).setStyle(
 				Style.EMPTY.withColor(0xFFFFFF).withBold(true)), i1 + 117, j1 + 6 + font.lineHeight, 0x00FEFE);
 
-		drawGhostSlot(gui, () -> false, mx, my, 89, 34, SpecialSlot.DROP, "", (i, j) -> {
+		drawGhostSlot(gui, () -> false, mx, my, 89, 34, SpecialSlot.DUST, "", (i, j) -> {
 			gui.renderItem(new ItemStack(menu.getCurrentFilter(), 1), i + 1, j + 1);
 		});
 

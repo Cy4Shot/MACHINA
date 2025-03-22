@@ -5,11 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.Machina;
-import com.machina.api.cap.fluid.PipeFluidStorage;
+import com.machina.api.cap.item.ConduitItemStorage;
 import com.machina.api.item.ConnectorFilterItem;
-import com.machina.item.menu.FluidFilterMenu;
+import com.machina.item.menu.AdvancedItemFilterMenu;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -20,39 +24,44 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidStorage> {
+public class AdvancedItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemStorage> {
 
-	private static final String FLUID = "fluid";
+	private static final String ITEMS = "items";
 
-	public FluidFilterItem(Properties props) {
+	public AdvancedItemFilterItem(Properties props) {
 		super(props);
 	}
 
-	public static Fluid getFluid(ItemStack stack) {
+	public static NonNullList<Item> getItems(ItemStack stack) {
 		CompoundTag nbt = stack.getOrCreateTag();
-		if (nbt.contains(FLUID)) {
-			ResourceLocation fluidName = new ResourceLocation(nbt.getString(FLUID));
-			Fluid f = ForgeRegistries.FLUIDS.getValue(fluidName);
-			if (f != null)
-				return f;
+		NonNullList<Item> builder = NonNullList.withSize(27, Items.AIR);
+		if (nbt.contains(ITEMS)) {
+			ListTag items = nbt.getList(ITEMS, Tag.TAG_STRING);
+			for (int i = 0; i < 27; i++) {
+				ResourceLocation itemName = new ResourceLocation(items.getString(i));
+				Item item = ForgeRegistries.ITEMS.getValue(itemName);
+				if (item != null)
+					builder.set(i, item);
+			}
 		}
-		return Fluids.EMPTY;
+		return builder;
 	}
 
-	public static ItemStack set(ItemStack stack, Fluid type, Mode mode) {
+	public static ItemStack set(ItemStack stack, NonNullList<Item> types, Mode mode) {
 		CompoundTag tag = stack.getOrCreateTag();
-		if (type != null)
-			tag.putString(FLUID, ForgeRegistries.FLUIDS.getKey(type).toString());
+		if (types != null) {
+			ListTag items = new ListTag();
+			types.forEach(x -> items.add(StringTag.valueOf(ForgeRegistries.ITEMS.getKey(x).toString())));
+			tag.put(ITEMS, items);
+		}
 		if (mode != null)
 			tag.putString(MODE, mode.name());
 		stack.setTag(tag);
@@ -62,15 +71,11 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 	@Override
 	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip,
 			@NotNull TooltipFlag flag) {
-		Fluid fluid = getFluid(stack);
-		Mode mode = getMode(stack);
-		if (fluid != Fluids.EMPTY) {
-			int col = IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1));
-			tooltip.add(Component.translatable(fluid.getFluidType().getDescriptionId())
-					.setStyle(Style.EMPTY.withColor(col)));
-			tooltip.add(mode.comp().setStyle(Style.EMPTY.withColor(65278)));
+		if (getItems(stack).isEmpty()) {
+			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.empty")
+					.setStyle(Style.EMPTY.withColor(65278)));
 		} else {
-			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.fluid_filter.empty")
+			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.configured")
 					.setStyle(Style.EMPTY.withColor(65278)));
 		}
 
@@ -78,15 +83,18 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 	}
 
 	@Override
-	public boolean filter(ItemStack stack, FluidStack original) {
+	public boolean filter(ItemStack stack, ItemStack original) {
 		Mode mode = getMode(stack);
-		Fluid fluid = getFluid(stack);
+		List<Item> items = getItems(stack);
+
+		if (original.getItem() == Items.AIR)
+			return false;
 
 		switch (mode) {
 		case BLACKLIST:
-			return !original.getFluid().equals(fluid);
+			return !items.contains(original.getItem());
 		default:
-			return original.getFluid().equals(fluid);
+			return items.contains(original.getItem());
 		}
 	}
 
@@ -98,7 +106,7 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 		NetworkHooks.openScreen((ServerPlayer) player, new MenuProvider() {
 			@Override
 			public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
-				return new FluidFilterMenu(id, inv, hand);
+				return new AdvancedItemFilterMenu(id, inv, hand);
 			}
 
 			@Override

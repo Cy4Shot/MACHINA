@@ -60,6 +60,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.SUPREME_CAPACITOR, "Supreme Capacitor");
 
 		add(ItemInit.ITEM_FILTER, "Item Filter");
+		add(ItemInit.ADVANCED_ITEM_FILTER, "Advanced Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
 
 		add(ItemInit.RAW_ALUMINUM, "Raw Aluminum");
@@ -493,9 +494,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("item_conduit.insert", "Insert an Item");
 
 		addUI("fluid_filter.insert", "Insert a Fluid");
-		addUI("fluid_filter.for", " for ");
+		addUI("fluid_filter.for", " for");
 		addUI("item_filter.insert", "Insert a Item");
-		addUI("item_filter.for", " for ");
+		addUI("item_filter.for", " for");
+		addUI("item_filter.for_colon", " for:");
 
 		addUI("battery.missing", "Insert Capacitor");
 		addUI("battery.input", "Input Energy");

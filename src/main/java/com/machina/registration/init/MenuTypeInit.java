@@ -9,6 +9,7 @@ import com.machina.block.menu.MachineCaseMenu;
 import com.machina.block.menu.TankMenu;
 import com.machina.block.menu.connector.FluidPipeMenu;
 import com.machina.block.menu.connector.ItemConduitMenu;
+import com.machina.item.menu.AdvancedItemFilterMenu;
 import com.machina.item.menu.FluidFilterMenu;
 import com.machina.item.menu.ItemFilterMenu;
 
@@ -25,26 +26,28 @@ public class MenuTypeInit {
 			Machina.MOD_ID);
 
 	//@formatter:off
-	public static final RegistryObject<MenuType<ItemConduitMenu>> ITEM_CONDUIT = register("item_conduit",
-			ItemConduitMenu::new);
-	public static final RegistryObject<MenuType<ItemFilterMenu>> ITEM_FILTER = register("item_filter",
-			ItemFilterMenu::new);
-	public static final RegistryObject<MenuType<FluidPipeMenu>> FLUID_PIPE = register("fluid_pipe",
-            FluidPipeMenu::new);
-	public static final RegistryObject<MenuType<FluidFilterMenu>> FLUID_FILTER = register("fluid_filter",
-			FluidFilterMenu::new);
-	public static final RegistryObject<MenuType<BatteryMenu>> BATTERY = register("battery",
-            BatteryMenu::new);
-	public static final RegistryObject<MenuType<TankMenu>> TANK = register("tank",
-			TankMenu::new);
-	public static final RegistryObject<MenuType<CreativeBatteryMenu>> CREATIVE_BATTERY = register("creative_battery",
-            CreativeBatteryMenu::new);
-	public static final RegistryObject<MenuType<MachineCaseMenu>> MACHINE_CASE = register("machine_case",
-			MachineCaseMenu::new);
-	public static final RegistryObject<MenuType<FurnaceGeneratorMenu>> FURNACE_GENERATOR = register("furnace_generator",
-            FurnaceGeneratorMenu::new);
-	public static final RegistryObject<MenuType<GrinderMenu>> GRINDER = register("grinder",
-            GrinderMenu::new);
+	public static final RegistryObject<MenuType<ItemConduitMenu>> ITEM_CONDUIT =
+			register("item_conduit", ItemConduitMenu::new);
+	public static final RegistryObject<MenuType<ItemFilterMenu>> ITEM_FILTER =
+			register("item_filter",	ItemFilterMenu::new);
+	public static final RegistryObject<MenuType<AdvancedItemFilterMenu>> ADVANCED_ITEM_FILTER =
+			register("advanced_item_filter", AdvancedItemFilterMenu::new);
+	public static final RegistryObject<MenuType<FluidPipeMenu>> FLUID_PIPE =
+			register("fluid_pipe", FluidPipeMenu::new);
+	public static final RegistryObject<MenuType<FluidFilterMenu>> FLUID_FILTER =
+			register("fluid_filter", FluidFilterMenu::new);
+	public static final RegistryObject<MenuType<BatteryMenu>> BATTERY =
+			register("battery", BatteryMenu::new);
+	public static final RegistryObject<MenuType<TankMenu>> TANK =
+			register("tank", TankMenu::new);
+	public static final RegistryObject<MenuType<CreativeBatteryMenu>> CREATIVE_BATTERY =
+			register("creative_battery", CreativeBatteryMenu::new);
+	public static final RegistryObject<MenuType<MachineCaseMenu>> MACHINE_CASE =
+			register("machine_case", MachineCaseMenu::new);
+	public static final RegistryObject<MenuType<FurnaceGeneratorMenu>> FURNACE_GENERATOR =
+			register("furnace_generator", FurnaceGeneratorMenu::new);
+	public static final RegistryObject<MenuType<GrinderMenu>> GRINDER =
+			register("grinder", GrinderMenu::new);
 	//@formatter:on
 
 	private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String n,
