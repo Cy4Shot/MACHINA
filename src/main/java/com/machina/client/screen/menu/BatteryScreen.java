@@ -1,5 +1,9 @@
 package com.machina.client.screen.menu;
 
+import org.jetbrains.annotations.NotNull;
+
+import com.machina.api.client.screen.MUI;
+import com.machina.api.client.screen.MUI.SpecialSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.menu.BatteryMenu;
@@ -7,7 +11,6 @@ import com.machina.block.menu.BatteryMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import org.jetbrains.annotations.NotNull;
 
 public class BatteryScreen extends MachinaMenuScreen<BatteryMenu> {
 
@@ -28,14 +31,14 @@ public class BatteryScreen extends MachinaMenuScreen<BatteryMenu> {
 
 		int i = midWidth();
 		int j = midHeight();
-		blitCommon(gui, i + 114, j - 40, 508, 0, 4, 23);
-		blitCommon(gui, i + 114, j - 17, 508, 0, 4, 8);
+		MUI.blitCommon(gui, i + 114, j - 40, 508, 0, 4, 23);
+		MUI.blitCommon(gui, i + 114, j - 17, 508, 0, 4, 8);
 
-		blitCommon(gui, i + 27, j + 7, 508, 0, 4, 21);
-		blitCommon(gui, i + 27, j - 1, 369, 80, 17, 8);
+		MUI.blitCommon(gui, i + 27, j + 7, 508, 0, 4, 21);
+		MUI.blitCommon(gui, i + 27, j - 1, 369, 80, 17, 8);
 
-		blitCommon(gui, i + 204, j + 7, 508, 0, 4, 21);
-		blitCommon(gui, i + 191, j - 1, 390, 80, 17, 8);
+		MUI.blitCommon(gui, i + 204, j + 7, 508, 0, 4, 21);
+		MUI.blitCommon(gui, i + 191, j - 1, 390, 80, 17, 8);
 
 		drawOverlay(gui);
 	}

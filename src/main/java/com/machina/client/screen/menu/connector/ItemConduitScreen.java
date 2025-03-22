@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.Side;
+import com.machina.api.client.screen.MUI;
+import com.machina.api.client.screen.MUI.SpecialSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.api.item.ConnectorFilterItem.Mode;
@@ -35,8 +37,8 @@ public class ItemConduitScreen extends MachinaMenuScreen<ItemConduitMenu> {
 
 		// Top slot
 		drawNoFacingSlot(gui, id, mx, my, 107, 4, SpecialSlot.DUST, "item_conduit.filter");
-		blitCommon(gui, i + 133, j + 10, 405, 13, 17, 6);
-		blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
+		MUI.blitCommon(gui, i + 133, j + 10, 405, 13, 17, 6);
+		MUI.blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
 
 		// Mode Slot
 		drawToggle(gui, mx, my, 89, 34,

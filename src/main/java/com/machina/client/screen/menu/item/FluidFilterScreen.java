@@ -6,6 +6,8 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.IFilteredScreen;
+import com.machina.api.client.screen.MUI;
+import com.machina.api.client.screen.MUI.SpecialSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.item.FluidFilterItem;
@@ -32,7 +34,7 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> implem
 		int i = midWidth();
 		int j = midHeight();
 
-		clickAndHoverItem(i + 89, j + 34, i + 89 + 17, j + 34 + 17, () -> true, () -> uistr("fluid_filter.insert"),
+		clickAndHoverItem(i + 89, j + 34, i + 89 + 17, j + 34 + 17, () -> true, () -> MUI.uistr("fluid_filter.insert"),
 				menu::insertFluidFilter);
 	}
 
@@ -45,11 +47,12 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> implem
 		int j1 = midHeight();
 		Mode mode = FluidFilterItem.getMode(menu.stack);
 		Fluid fluid = FluidFilterItem.getFluid(menu.stack);
-		drawCenteredString(gui,
+		MUI.drawCenteredString(gui,
 				mode.comp().setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? 0xFF0000 : 0x00FF00).withBold(true))
-						.append(uistr("fluid_filter.for").withStyle(Style.EMPTY.withColor(0x00FEFE).withBold(false))),
+						.append(MUI.uistr("fluid_filter.for")
+								.withStyle(Style.EMPTY.withColor(0x00FEFE).withBold(false))),
 				i1 + 117, j1 + 4, 0x00FEFE);
-		drawCenteredString(gui, Component.translatable(fluid.getFluidType().getDescriptionId()).setStyle(Style.EMPTY
+		MUI.drawCenteredString(gui, Component.translatable(fluid.getFluidType().getDescriptionId()).setStyle(Style.EMPTY
 				.withColor(IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1))).withBold(true)),
 				i1 + 117, j1 + 6 + font.lineHeight, 0x00FEFE);
 
@@ -60,8 +63,8 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> implem
 		drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, SpecialSlot.BLACKLIST, SpecialSlot.WHITELIST,
 				x -> menu.toggleMode(), () -> FluidFilterItem.getMode(menu.stack).comp());
 
-		blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
-		blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);
+		MUI.blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
+		MUI.blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);
 
 		drawOverlay(gui);
 	}

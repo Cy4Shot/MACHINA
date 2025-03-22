@@ -24,6 +24,8 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 	protected abstract void addExtraRecipes(RecipeManager man);
 
 	public abstract Class<? extends MachinaRecipe<C>> getRecipeClass();
+	
+	public abstract int getFlags();
 
 	@SuppressWarnings("unchecked")
 	public <T extends MachinaRecipe<C>> T getRecipe(ResourceLocation id) {

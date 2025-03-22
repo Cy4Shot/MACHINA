@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.screen.IFilteredScreen;
+import com.machina.api.client.screen.MUI;
+import com.machina.api.client.screen.MUI.SpecialSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.network.PacketSender;
@@ -57,15 +59,15 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
 
 		// Top slot
 		drawNoFacingSlot(gui, id, mx, my, 107, 4, SpecialSlot.DROP, "fluid_pipe.filter");
-		blitCommon(gui, i + 133, j + 10, 405, 13, 17, 6);
-		blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
+		MUI.blitCommon(gui, i + 133, j + 10, 405, 13, 17, 6);
+		MUI.blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
 
 		// Fluid Slot
 		drawGhostSlot(gui, () -> false, mx, my, 74, 34, SpecialSlot.DROP, "", (i1, j1) -> {
 			renderFluid(gui, new FluidStack(FluidFilterItem.getFluid(menu.getBlockEntity().getItem(id)), 1), i1 + 1,
 					j1 + 17, 16, 16, 0);
 		});
-		clickAndHoverItem(i + 74, j + 34, i + 74 + 17, j + 34 + 17, () -> true, () -> uistr("fluid_pipe.insert"),
+		clickAndHoverItem(i + 74, j + 34, i + 74 + 17, j + 34 + 17, () -> true, () -> MUI.uistr("fluid_pipe.insert"),
 				this::setFluidStack);
 
 		// Mode Slot

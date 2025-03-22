@@ -473,6 +473,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ConnectionSide.NONE, "Disconnected");
 
 		// UI
+		addUI("jei.input", "Input");
+		addUI("jei.output", "Output");
+		
 		addUI("config.energy", "Energy Config");
 		addUI("config.item", "Item Config");
 		addUI("config.fluid", "Fluid Config");

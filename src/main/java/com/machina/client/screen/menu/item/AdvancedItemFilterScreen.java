@@ -7,6 +7,8 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.IFilteredScreen;
+import com.machina.api.client.screen.MUI;
+import com.machina.api.client.screen.MUI.SpecialSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.item.AdvancedItemFilterItem;
@@ -36,7 +38,7 @@ public class AdvancedItemFilterScreen extends MachinaMenuScreen<AdvancedItemFilt
 			for (int c = 0; c < 9; c++) {
 				int x = i + c * 20 + 26;
 				int y = j + r * 20 - 40;
-				clickAndHoverItem(x, y, x + 19, y + 19, () -> true, () -> uistr("item_filter.insert"),
+				clickAndHoverItem(x, y, x + 19, y + 19, () -> true, () -> MUI.uistr("item_filter.insert"),
 						menu.insertItemFilter(r * 9 + c));
 			}
 		}
@@ -53,19 +55,19 @@ public class AdvancedItemFilterScreen extends MachinaMenuScreen<AdvancedItemFilt
 		NonNullList<Item> items = AdvancedItemFilterItem.getItems(menu.stack);
 
 		// Top Text
-		drawCenteredString(gui,
+		MUI.drawCenteredString(gui,
 				mode.comp().setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? 0xFF0000 : 0x00FF00).withBold(true))
-						.append(uistr("item_filter.for_colon")
+						.append(MUI.uistr("item_filter.for_colon")
 								.withStyle(Style.EMPTY.withColor(0x00FEFE).withBold(false))),
 				i + 117, j - 60, 0x00FEFE);
 
 		// Inventory
-		blitCommon(gui, i + 27, j - 40, 0, 0, 179, 59);
+		MUI.blitCommon(gui, i + 27, j - 40, 0, 0, 179, 59);
 		if (mx > i + 27 && mx < i + 27 + 179 && my > j - 40 && my < j - 40 + 59) {
 			int mx1 = (mx - i - 27);
 			int my1 = (my - j + 40);
 			if (mx1 % 20 < 18 && my1 % 20 < 18)
-				blitCommon(gui, mx1 / 20 * 20 + i + 27, my1 / 20 * 20 + j - 40, 368, 2, 19, 19);
+				MUI.blitCommon(gui, mx1 / 20 * 20 + i + 27, my1 / 20 * 20 + j - 40, 368, 2, 19, 19);
 		}
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 9; c++) {
@@ -76,8 +78,8 @@ public class AdvancedItemFilterScreen extends MachinaMenuScreen<AdvancedItemFilt
 		// Toggle Blacklist
 		drawToggle(gui, mx, my, 107, 34, mode == Mode.BLACKLIST, SpecialSlot.BLACKLIST, SpecialSlot.WHITELIST,
 				x -> menu.toggleMode(), () -> AdvancedItemFilterItem.getMode(menu.stack).comp());
-		blitCommon(gui, i + 133, j + 40, 405, 13, 17, 6);
-		blitCommon(gui, i + 82, j + 40, 422, 13, 17, 6);
+		MUI.blitCommon(gui, i + 133, j + 40, 405, 13, 17, 6);
+		MUI.blitCommon(gui, i + 82, j + 40, 422, 13, 17, 6);
 
 		drawOverlay(gui);
 	}

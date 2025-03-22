@@ -2,15 +2,12 @@ package com.machina.api.item;
 
 import com.machina.Machina;
 import com.machina.api.cap.IConnectorStorage;
-import com.machina.api.item.ConnectorFilterItem.Mode;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public abstract class ConnectorFilterItem<U, T extends IConnectorStorage<U>> extends Item {
 

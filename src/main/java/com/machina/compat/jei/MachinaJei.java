@@ -8,8 +8,6 @@ import com.machina.client.screen.menu.item.AdvancedItemFilterScreen;
 import com.machina.client.screen.menu.item.FluidFilterScreen;
 import com.machina.client.screen.menu.item.ItemFilterScreen;
 import com.machina.compat.jei.base.MachinaGhostHandler;
-import com.machina.compat.jei.category.GrinderRecipeCategory;
-import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
@@ -32,13 +30,6 @@ public class MachinaJei implements IModPlugin {
 	}
 
 	@Override
-	public void registerCategories(IRecipeCategoryRegistration reg) {
-		IGuiHelper gui = reg.getJeiHelpers().getGuiHelper();
-
-		reg.addRecipeCategories(new GrinderRecipeCategory(gui));
-	}
-
-	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration reg) {
 		//@formatter:off
 		reg.addGhostIngredientHandler(ItemFilterScreen.class, new MachinaGhostHandler<ItemFilterScreen>());
@@ -48,17 +39,30 @@ public class MachinaJei implements IModPlugin {
 		//@formatter:on
 	}
 
+	@Override
+	public void registerCategories(IRecipeCategoryRegistration reg) {
+		IGuiHelper gui = reg.getJeiHelpers().getGuiHelper();
+
+		RecipeInit.RECIPES.forEach(recipe -> {
+			reg.addRecipeCategories(recipe.jei().category(gui));
+		});
+	}
+
 	private <T extends Container> void registerRecipe(IRecipeRegistration reg, RecipeRegistryObject<T> obj) {
-		reg.addRecipes(obj.jeiType(), obj.maps().all());
+		reg.addRecipes(obj.jei().type(), obj.maps().all());
 	}
 
 	@Override
 	public void registerRecipes(IRecipeRegistration reg) {
-		registerRecipe(reg, RecipeInit.GRINDER);
+		RecipeInit.RECIPES.forEach(recipe -> {
+			registerRecipe(reg, recipe);
+		});
 	}
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
-		reg.addRecipeCatalyst(BlockInit.GRINDER.get().asItem().getDefaultInstance(), RecipeInit.GRINDER.jeiType());
+		RecipeInit.RECIPES.forEach(recipe -> {
+			reg.addRecipeCatalyst(recipe.block().get().asItem().getDefaultInstance(), recipe.jei().type());
+		});
 	}
 }

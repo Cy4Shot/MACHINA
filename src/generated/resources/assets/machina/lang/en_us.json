@@ -366,6 +366,8 @@
   "gui.machina.item_filter.for": " for",
   "gui.machina.item_filter.for_colon": " for:",
   "gui.machina.item_filter.insert": "Insert a Item",
+  "gui.machina.jei.input": "Input",
+  "gui.machina.jei.output": "Output",
   "gui.machina.side.input": "Input",
   "gui.machina.side.none": "None",
   "gui.machina.side.output": "Output",

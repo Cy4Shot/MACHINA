@@ -2,6 +2,8 @@ package com.machina.client.screen.menu;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.util.StringUtils;
 import com.machina.block.entity.machine.GrinderBlockEntity;
@@ -30,14 +32,14 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderMenu> {
 
 		int i = midWidth();
 		int j = midHeight();
-		blitCommon(gui, i + 68, j, 399, 0, 19, 13);
-		blitCommon(gui, i + 145, j, 418, 0, 19, 13);
+		MUI.blitCommon(gui, i + 68, j, 399, 0, 19, 13);
+		MUI.blitCommon(gui, i + 145, j, 418, 0, 19, 13);
 
-		blitCommon(gui, i + 87, j + 9, 405, 9, 26, 4);
-		blitCommon(gui, i + 119, j + 9, 405, 9, 26, 4);
+		MUI.blitCommon(gui, i + 87, j + 9, 405, 9, 26, 4);
+		MUI.blitCommon(gui, i + 119, j + 9, 405, 9, 26, 4);
 
-		blitCommon(gui, i + 113, j + 8, 399, 13, 6, 6);
-		blitCommon(gui, i + 114, j + 14, 508, 0, 4, 7);
+		MUI.blitCommon(gui, i + 113, j + 8, 399, 13, 6, 6);
+		MUI.blitCommon(gui, i + 114, j + 14, 508, 0, 4, 7);
 
 		SpecialSlot.RIGHT.draw(gui, i + 90, j - 13, this.aliveTicks);
 		SpecialSlot.RIGHT.draw(gui, i + 111, j - 13, this.aliveTicks);
@@ -46,23 +48,24 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderMenu> {
 		Component text;
 		Component text2 = Component.empty();
 		if (entity.isLit()) {
-			text = Component.literal(uistrs("grinder.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
-					+ " (" + StringUtils.formatTicks(entity.ticksRemaining()) + ")");
-			text2 = Component
-					.literal(uistrs("grinder.usage") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
+			text = Component
+					.literal(MUI.uistrs("grinder.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
+							+ " (" + StringUtils.formatTicks(entity.ticksRemaining()) + ")");
+			text2 = Component.literal(
+					MUI.uistrs("grinder.usage") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
 		} else {
 			if (!entity.hasRecipe()) {
-				text = uistr("grinder.no_input");
+				text = MUI.uistr("grinder.no_input");
 			} else if (!entity.hasPower()) {
 				text = Component.literal(
-						uistrs("grinder.no_power") + " (" + StringUtils.formatPercent(entity.getProgress()) + ")");
+						MUI.uistrs("grinder.no_power") + " (" + StringUtils.formatPercent(entity.getProgress()) + ")");
 				text2 = Component.literal(
-						uistrs("grinder.requires") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
+						MUI.uistrs("grinder.requires") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
 			} else if (!entity.hasSpace()) {
-				text = uistr("grinder.no_space");
+				text = MUI.uistr("grinder.no_space");
 			} else {
 				// This should never happen. Who knows? Maybe it will.
-				text = uistr("grinder.no_input");
+				text = MUI.uistr("grinder.no_input");
 			}
 		}
 		int color = entity.isLit() ? 0x00FEFE : 0xFE0000;

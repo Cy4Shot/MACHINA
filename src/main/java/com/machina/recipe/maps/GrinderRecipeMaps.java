@@ -41,6 +41,11 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 	}
 
 	@Override
+	public int getFlags() {
+		return MachinaRecipe.HAS_ENERGY | MachinaRecipe.HAS_TIME;
+	}
+
+	@Override
 	protected void addExtraRecipes(RecipeManager man) {
 		for (BlastingRecipe recipe : man.getAllRecipesFor(RecipeType.BLASTING)) {
 			if (recipe.isSpecial()) {

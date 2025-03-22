@@ -2,7 +2,6 @@ package com.machina.api.client.screen;
 
 import java.util.HashMap;
 import java.util.IdentityHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -24,9 +23,9 @@ import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.Side;
+import com.machina.api.client.screen.MUI.SpecialSlot;
 import com.machina.api.multiblock.ClientMultiblock;
 import com.machina.api.multiblock.MultiblockLoader;
-import com.machina.api.util.MachinaRL;
 import com.machina.api.util.StringUtils;
 import com.machina.api.util.math.MathUtil;
 import com.machina.api.util.math.VecUtil;
@@ -58,7 +57,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -71,9 +69,6 @@ import net.minecraftforge.fluids.FluidStack;
 public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends AbstractContainerScreen<T> {
 
 	private static final Minecraft mc = Minecraft.getInstance();
-
-	public static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
-	protected static final ResourceLocation BG_OVERLAY = new MachinaRL("textures/gui/bg_overlay.png");
 
 	private final ContainerBlockEntity entity;
 
@@ -153,54 +148,6 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		return true;
 	}
 
-	protected static MutableComponent uistr(String key) {
-		return Component.translatable("gui.machina." + key);
-	}
-
-	protected static String uistrs(String key) {
-		return Component.translatable("gui.machina." + key).getString();
-	}
-
-	public static void blitCommon(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
-		gui.blit(COMMON_UI, x, y, u, v, w, h, 512, 512);
-	}
-
-	protected void blitOverlay(GuiGraphics gui, int x, int y, int w, int h) {
-		RenderSystem.enableBlend();
-		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		RenderSystem.setShaderColor(1f, 1f, 1f, 0.1f);
-		gui.blit(BG_OVERLAY, x, y, 0, 0, w, h, 512, 512);
-		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
-		RenderSystem.disableBlend();
-		RenderSystem.defaultBlendFunc();
-	}
-
-	protected void drawString(GuiGraphics gui, Component text, int x, int y, int color) {
-		gui.drawString(font, text, x, y, color);
-	}
-
-	protected void drawCenteredString(GuiGraphics gui, Component text, int x, int y, int color) {
-		gui.drawCenteredString(font, text, x, y, color);
-	}
-
-	protected void drawCenteredMultilineString(GuiGraphics gui, Component text, int x, int y, int color, int max,
-			int sep) {
-		List<FormattedCharSequence> seq = font.split(text, max);
-		for (int i = 0; i < seq.size(); i++) {
-			gui.drawCenteredString(font, seq.get(i), x, y + i * sep, color);
-		}
-	}
-
-	protected void drawStringVertical(GuiGraphics gui, Component text, int x, int y) {
-		gui.pose().pushPose();
-		gui.pose().translate(x, y, 0);
-		gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.ZP, 90));
-		gui.drawString(font, text, 0, 0, 65278);
-		gui.pose().popPose();
-	}
-
 	protected void drawInventory(GuiGraphics gui, int mx, int my) {
 		int i = midWidth();
 		int j = midHeight();
@@ -230,28 +177,28 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int k2 = 6 - lsx.intValue() % 6;
 
 		// Backdrop
-		blitCommon(gui, i + 23, j + 78, 179, 0, 187, 92);
-		blitCommon(gui, i + 27, j + 82, 0, 84 * k1, 179, 84);
+		MUI.blitCommon(gui, i + 23, j + 78, 179, 0, 187, 92);
+		MUI.blitCommon(gui, i + 27, j + 82, 0, 84 * k1, 179, 84);
 		registerClickArea("inv", i + 23, j + 78, i + 210, j + 170, () -> true);
 
 		// Active Slot
 		if (hovered) {
-			blitCommon(gui, i + this.hoveredSlot.x - 1, j + this.hoveredSlot.y - 1, 368, 2, 19, 19);
+			MUI.blitCommon(gui, i + this.hoveredSlot.x - 1, j + this.hoveredSlot.y - 1, 368, 2, 19, 19);
 		}
 
 		// Decorators
-		blitCommon(gui, i + 18, lsy.intValue(), 366, 0, 2, 14);
-		blitCommon(gui, lsx.intValue(), j + 173, 368, 0, 14, 2);
-		blitCommon(gui, i + 27, j + 143, 179 + k2, 92, 179, 2);
-		drawStringVertical(gui, Component.translatable("container.inventory"), i + 220, j + 78);
+		MUI.blitCommon(gui, i + 18, lsy.intValue(), 366, 0, 2, 14);
+		MUI.blitCommon(gui, lsx.intValue(), j + 173, 368, 0, 14, 2);
+		MUI.blitCommon(gui, i + 27, j + 143, 179 + k2, 92, 179, 2);
+		MUI.drawStringVertical(gui, Component.translatable("container.inventory"), i + 220, j + 78);
 	}
 
 	protected void drawBackground(GuiGraphics gui) {
 		int i = midWidth();
 		int j = midHeight();
 
-		blitCommon(gui, i, j - 73, 179, 94, 235, 151);
-		drawStringVertical(gui, this.menu.getName(), i + 245, j - 71);
+		MUI.blitCommon(gui, i, j - 73, 179, 94, 235, 151);
+		MUI.drawStringVertical(gui, this.menu.getName(), i + 245, j - 71);
 		registerClickArea("bg", i, j - 73, i + 235, j + 78, () -> true);
 	}
 
@@ -259,39 +206,9 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int i = midWidth();
 		int j = midHeight();
 
-		blitCommon(gui, i + 53, j - 7, 179, 245, 129, 85);
-		drawString(gui, this.menu.getName(), i + 55, j - 17, 0x00FEFE);
+		MUI.blitCommon(gui, i + 53, j - 7, 179, 245, 129, 85);
+		MUI.drawString(gui, this.menu.getName(), i + 55, j - 17, 0x00FEFE);
 		registerClickArea("bg", i + 53, j - 7, i + 129 + 53, j + 78, () -> true);
-	}
-
-	public enum SpecialSlot {
-		PLUS(475, 0),
-		MINUS(485, 0),
-		RIGHT(495, 0),
-		DOWN(475, 10),
-		UP(485, 10),
-		LEFT(495, 10),
-		BOLT(499, 23),
-		CROSS(499, 33),
-		COAL(499, 43),
-		DUST(499, 53),
-		WHITELIST(499, 63),
-		BLACKLIST(499, 73),
-		DROP(499, 83),
-		TICK(499, 93);
-
-		private final int x;
-		private final int y;
-
-		SpecialSlot(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		public void draw(GuiGraphics gui, int x, int y, long aliveTicks) {
-			if (appearDraw(aliveTicks))
-				blitCommon(gui, x, y, this.x, this.y, 10, 10);
-		}
 	}
 
 	protected void drawDownFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, SpecialSlot slot,
@@ -299,16 +216,16 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
-		blitCommon(gui, i, j, 414, h, 19, 21);
+		MUI.blitCommon(gui, i, j, 414, h, 19, 21);
 		if (id != -1 && entity.getItem(id).isEmpty())
 			slot.draw(gui, i + 4, j + 6, this.aliveTicks);
 
-		blitCommon(gui, i - 6, j + 4, 387, 0, 3, 16);
-		blitCommon(gui, i + 21, j + 4, 390, 0, 3, 16);
+		MUI.blitCommon(gui, i - 6, j + 4, 387, 0, 3, 16);
+		MUI.blitCommon(gui, i + 21, j + 4, 390, 0, 3, 16);
 
 		if (!hover.isEmpty()) {
 			registerHoverable("slot_" + x + "_" + y, i - 1, j + 1, i + 18, j + 20,
-					() -> id != -1 && entity.getItem(id).isEmpty(), () -> uistr(hover));
+					() -> id != -1 && entity.getItem(id).isEmpty(), () -> MUI.uistr(hover));
 		}
 	}
 
@@ -317,16 +234,16 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
-		blitCommon(gui, i, j, 433, h, 19, 21);
+		MUI.blitCommon(gui, i, j, 433, h, 19, 21);
 		if (id != -1 && entity.getItem(id).isEmpty())
 			slot.draw(gui, i + 4, j + 4, this.aliveTicks);
 
-		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
-		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+		MUI.blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		MUI.blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		if (!hover.isEmpty()) {
 			registerHoverable("slot_" + x + "_" + y, i - 1, j + 1, i + 18, j + 20,
-					() -> id != -1 && entity.getItem(id).isEmpty(), () -> uistr(hover));
+					() -> id != -1 && entity.getItem(id).isEmpty(), () -> MUI.uistr(hover));
 		}
 	}
 
@@ -335,16 +252,16 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
-		blitCommon(gui, i, j, 466, h, 19, 19);
+		MUI.blitCommon(gui, i, j, 466, h, 19, 19);
 		if (id != -1 && entity.getItem(id).isEmpty())
 			slot.draw(gui, i + 4, j + 4, this.aliveTicks);
 
-		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
-		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+		MUI.blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		MUI.blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		if (!hover.isEmpty()) {
 			registerHoverable("slot_" + x + "_" + y, i, j, i + 18, j + 18,
-					() -> id != -1 && entity.getItem(id).isEmpty(), () -> uistr(hover));
+					() -> id != -1 && entity.getItem(id).isEmpty(), () -> MUI.uistr(hover));
 		}
 	}
 
@@ -353,17 +270,17 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
-		blitCommon(gui, i, j, 466, h, 19, 19);
+		MUI.blitCommon(gui, i, j, 466, h, 19, 19);
 		if (empty.get())
 			slot.draw(gui, i + 4, j + 4, this.aliveTicks);
 
-		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
-		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+		MUI.blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		MUI.blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		render.accept(i, j);
 
 		if (!hover.isEmpty()) {
-			registerHoverable("ghost_" + x + "_" + y, i, j, i + 18, j + 18, empty, () -> uistr(hover));
+			registerHoverable("ghost_" + x + "_" + y, i, j, i + 18, j + 18, empty, () -> MUI.uistr(hover));
 		}
 	}
 
@@ -375,12 +292,12 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
-		blitCommon(gui, i, j, 466, h, 19, 19);
+		MUI.blitCommon(gui, i, j, 466, h, 19, 19);
 		SpecialSlot slot = getState(key) ? slot1 : slot2;
 		slot.draw(gui, i + 4, j + 4, this.aliveTicks);
 
-		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
-		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+		MUI.blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		MUI.blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		registerClickable(key, i, j, i + 18, j + 18, key, onClick);
 		registerHoverable(key, i, j, i + 18, j + 18, onHover);
@@ -394,37 +311,14 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
 
-		blitCommon(gui, i, j, 466, h, 19, 19);
-		blitCommon(gui, i + 5, j + 5, side.x(), side.y(), 8, 8);
+		MUI.blitCommon(gui, i, j, 466, h, 19, 19);
+		MUI.blitCommon(gui, i + 5, j + 5, side.x(), side.y(), 8, 8);
 
-		blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
-		blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+		MUI.blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		MUI.blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 
 		registerClickable(key, i, j, i + 18, j + 18, key, s -> onClick.run());
 		registerHoverable(key, i, j, i + 18, j + 18, onHover);
-	}
-
-	private void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,
-			TriConsumer<Integer, Integer, Float> drawer) {
-		// Bar
-		blitCommon(gui, i, j, 366, 21, 133, 18);
-		drawer.accept(i, j, p);
-
-		// Deco
-		int dec_off = active ? 0 : 6;
-		blitCommon(gui, i - 5, j + 2, 387 + dec_off, 0, 3, 16);
-		blitCommon(gui, i + 135, j + 2, 390 + dec_off, 0, 3, 16);
-
-		if (!active) {
-			gui.drawCenteredString(font, uistr(missing), i + 66, j + 6, 0xFE0000);
-		}
-
-		dec_off = active ? 0 : 38;
-		Component c = Component.literal(text);
-		int w = font.width(c) / 2 + 2;
-		gui.drawCenteredString(font, c, i + 66, j + 20, active ? 0x00FEFE : 0xFE0000);
-		blitCommon(gui, i + 66 + w, j + 18, 418 + dec_off, 5, 19, 8);
-		blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
 	}
 
 	@SuppressWarnings("hiding")
@@ -438,8 +332,8 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 						? name.get()
 								.append(Component.literal(formatter.apply(value.get()) + " / "
 										+ formatter.apply(max.get()) + " (" + StringUtils.formatPercent(f.get()) + ")"))
-						: uistr(missing));
-		drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
+						: MUI.uistr(missing));
+		MUI.drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
 	}
 
 	protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, String missing) {
@@ -447,7 +341,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
 			drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mbe::getEnergy,
 					mbe::getMaxEnergy, mbe::getEnergyF, (i, j, p) -> {
-						blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
+						MUI.blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
 					});
 		}
 	}
@@ -470,7 +364,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
 		if (storage != null) {
 			Side side = storage.get(dir);
-			blitCommon(gui, x + 4, y + 4, side.x(), side.y(), 8, 8);
+			MUI.blitCommon(gui, x + 4, y + 4, side.x(), side.y(), 8, 8);
 		}
 	}
 
@@ -502,8 +396,8 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		Supplier<Boolean> hover = () -> getState(key) && appearDraw(getElapsedState(key));
 		Function<Direction, Runnable> click = d -> () -> adapter.get().cycle(d);
 		Function<Direction, Supplier<Component>> text = d -> () -> Component
-				.literal(uistrs("dir." + d.name().toLowerCase()) + ": "
-						+ uistrs("side." + adapter.get().get(d).name().toLowerCase()));
+				.literal(MUI.uistrs("dir." + d.name().toLowerCase()) + ": "
+						+ MUI.uistrs("side." + adapter.get().get(d).name().toLowerCase()));
 		clickAndHover(key + "_up", i - 52, j + 8, i - 31, j + 29, hover, text.apply(Direction.UP),
 				click.apply(Direction.UP));
 		clickAndHover(key + "_north", i - 52, j + 27, i - 31, j + 48, hover, text.apply(Direction.NORTH),
@@ -521,7 +415,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int elap = getElapsedState(key);
 		boolean state = getState(key);
 
-		blitCommon(gui, i - 75, j, anim * 75, 336, 75, 68);
+		MUI.blitCommon(gui, i - 75, j, anim * 75, 336, 75, 68);
 		registerClickArea(key, i - 75, j, i, j + 68, () -> getState(key));
 
 		if (appearDraw(elap)) {
@@ -529,9 +423,9 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
 				// Close Button
 				if (mx > i - 28 && mx < i - 13 && my > j + 5 && my < j + 20) {
-					blitCommon(gui, i - 27, j + 6, 452, 108, 14, 14);
+					MUI.blitCommon(gui, i - 27, j + 6, 452, 108, 14, 14);
 				} else {
-					blitCommon(gui, i - 27, j + 6, 452, 94, 14, 14);
+					MUI.blitCommon(gui, i - 27, j + 6, 452, 94, 14, 14);
 				}
 				SpecialSlot.CROSS.draw(gui, i - 25, j + 8, elap);
 
@@ -545,12 +439,12 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 				drawFace(gui, i - 32, j + 47, Direction.SOUTH, storage);
 
 				// Deorators
-				gui.drawString(font, uistr("config." + name), i - 75, j + 71, 0x00FEFE);
+				gui.drawString(font, MUI.uistr("config." + name), i - 75, j + 71, 0x00FEFE);
 			} else {
 
 				// Open Button
 				if (mx > i - 20 && mx < i && my > j && my < j + 20) {
-					blitCommon(gui, i - 18, j + 2, 414, 136, 17, 16);
+					MUI.blitCommon(gui, i - 18, j + 2, 414, 136, 17, 16);
 				}
 				slot.draw(gui, i - 15, j + 5, elap);
 			}
@@ -558,30 +452,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	protected void drawOverlay(GuiGraphics gui) {
-		int height = this.height + 4;
-		int width = this.width;
-
-		int k = (int) (this.aliveTicks / 3 % 4);
-		int cw = width / 512;
-		int ch = height / 512;
-		int tw = cw * 512;
-		int th = ch * 512;
-
-		for (int i = 0; i < cw; i++) {
-			for (int j = 0; j < ch; j++) {
-				blitOverlay(gui, i * 512, j * 512 + k, 512, 512);
-			}
-		}
-
-		for (int i = 0; i < cw; i++) {
-			blitOverlay(gui, i * 512, th + k, 512, height - th);
-		}
-
-		for (int j = 0; j < ch; j++) {
-			blitOverlay(gui, tw, j * 512 + k, width - tw, 512);
-		}
-
-		blitOverlay(gui, tw, th + k, width - tw, height - th);
+		MUI.drawOverlay(gui, this.width, this.height, this.aliveTicks);
 	}
 
 	public void drawMultiblock(GuiGraphics gui, ResourceLocation mbloc, int xPos, int yPos, int s, float pt) {
