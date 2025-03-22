@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.IFilteredScreen;
 import com.machina.api.client.screen.MUI;
-import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.item.AdvancedItemFilterItem;
@@ -76,7 +76,7 @@ public class AdvancedItemFilterScreen extends MachinaMenuScreen<AdvancedItemFilt
 		}
 
 		// Toggle Blacklist
-		drawToggle(gui, mx, my, 107, 34, mode == Mode.BLACKLIST, SpecialSlot.BLACKLIST, SpecialSlot.WHITELIST,
+		drawToggle(gui, mx, my, 107, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
 				x -> menu.toggleMode(), () -> AdvancedItemFilterItem.getMode(menu.stack).comp());
 		MUI.blitCommon(gui, i + 133, j + 40, 405, 13, 17, 6);
 		MUI.blitCommon(gui, i + 82, j + 40, 422, 13, 17, 6);

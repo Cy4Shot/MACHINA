@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.IFilteredScreen;
 import com.machina.api.client.screen.MUI;
-import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.item.FluidFilterItem;
@@ -56,11 +56,11 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> implem
 				.withColor(IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1))).withBold(true)),
 				i1 + 117, j1 + 6 + font.lineHeight, 0x00FEFE);
 
-		drawGhostSlot(gui, () -> false, mx, my, 89, 34, SpecialSlot.DROP, "", (i, j) -> {
+		drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.FLUID, "", (i, j) -> {
 			renderFluid(gui, new FluidStack(menu.getCurrentFilter(), 1), i + 1, j + 17, 16, 16, 0);
 		});
 
-		drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, SpecialSlot.BLACKLIST, SpecialSlot.WHITELIST,
+		drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
 				x -> menu.toggleMode(), () -> FluidFilterItem.getMode(menu.stack).comp());
 
 		MUI.blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);

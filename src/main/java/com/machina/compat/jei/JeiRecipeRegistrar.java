@@ -17,15 +17,19 @@ public class JeiRecipeRegistrar<C extends Container> {
 	private final RecipeType<MachinaRecipe<C>> type;
 	private final Function<IGuiHelper, MachinaRecipeCategory<C>> category;
 
-	public JeiRecipeRegistrar(RecipeRegistryObject<C> obj, RegistryObject<? extends Block> block) {
+	public final int x, y;
+
+	public JeiRecipeRegistrar(RecipeRegistryObject<C> obj, RegistryObject<? extends Block> block, int x, int y) {
 		this.type = RecipeType.create(Machina.MOD_ID, obj.id().getPath(), obj.maps().getRecipeClass());
 		this.category = gui -> new MachinaRecipeCategory<C>(gui, obj, block);
+		this.x = x;
+		this.y = y;
 	}
 
 	public RecipeType<MachinaRecipe<C>> type() {
 		return type;
 	}
-	
+
 	public MachinaRecipeCategory<C> category(IGuiHelper gui) {
 		return category.apply(gui);
 	}

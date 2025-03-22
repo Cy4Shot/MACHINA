@@ -23,7 +23,7 @@ import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.Side;
-import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.multiblock.ClientMultiblock;
 import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.api.util.StringUtils;
@@ -211,7 +211,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		registerClickArea("bg", i + 53, j - 7, i + 129 + 53, j + 78, () -> true);
 	}
 
-	protected void drawDownFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, SpecialSlot slot,
+	protected void drawDownFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot,
 			String hover) {
 		int i = midWidth() + x;
 		int j = midHeight() + y;
@@ -229,7 +229,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
-	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, SpecialSlot slot,
+	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot,
 			String hover) {
 		int i = midWidth() + x;
 		int j = midHeight() + y;
@@ -247,7 +247,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
-	protected void drawNoFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, SpecialSlot slot,
+	protected void drawNoFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot,
 			String hover) {
 		int i = midWidth() + x;
 		int j = midHeight() + y;
@@ -266,7 +266,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	protected void drawGhostSlot(GuiGraphics gui, Supplier<Boolean> empty, int mx, int my, int x, int y,
-			SpecialSlot slot, String hover, BiConsumer<Integer, Integer> render) {
+			MuiSlot slot, String hover, BiConsumer<Integer, Integer> render) {
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
@@ -284,8 +284,8 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
-	protected void drawToggle(GuiGraphics gui, int mx, int my, int x, int y, boolean initial, SpecialSlot slot1,
-			SpecialSlot slot2, Consumer<Boolean> onClick, Supplier<Component> onHover) {
+	protected void drawToggle(GuiGraphics gui, int mx, int my, int x, int y, boolean initial, MuiSlot slot1,
+			MuiSlot slot2, Consumer<Boolean> onClick, Supplier<Component> onHover) {
 		String key = "toggle_" + x + "_" + y;
 		initState(key, initial);
 
@@ -293,7 +293,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
 		MUI.blitCommon(gui, i, j, 466, h, 19, 19);
-		SpecialSlot slot = getState(key) ? slot1 : slot2;
+		MuiSlot slot = getState(key) ? slot1 : slot2;
 		slot.draw(gui, i + 4, j + 4, this.aliveTicks);
 
 		MUI.blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
@@ -368,7 +368,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
-	protected void drawItemSideConfig(GuiGraphics gui, int x, int y, int mx, int my, int slot, SpecialSlot special) {
+	protected void drawItemSideConfig(GuiGraphics gui, int x, int y, int mx, int my, int slot, MuiSlot special) {
 		if (entity instanceof MachinaBlockEntity) {
 			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
 			drawSideConfig(gui, x, y, mx, my, "item_" + slot, mbe.getItemAdapter(slot), special);
@@ -378,12 +378,12 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	protected void drawEnergySideConfig(GuiGraphics gui, int mx, int my) {
 		if (entity instanceof MachinaBlockEntity) {
 			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
-			drawSideConfig(gui, 0, 0, mx, my, "energy", mbe.getEnergyAdapter(), SpecialSlot.BOLT);
+			drawSideConfig(gui, 0, 0, mx, my, "energy", mbe.getEnergyAdapter(), MuiSlot.ENERGY);
 		}
 	}
 
 	protected void drawSideConfig(GuiGraphics gui, int x, int y, int mx, int my, String name,
-			Supplier<ISideAdapter> adapter, SpecialSlot slot) {
+			Supplier<ISideAdapter> adapter, MuiSlot slot) {
 		int i = midWidth() - 3 + x;
 		int j = midHeight() - 73 + y;
 
@@ -427,7 +427,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 				} else {
 					MUI.blitCommon(gui, i - 27, j + 6, 452, 94, 14, 14);
 				}
-				SpecialSlot.CROSS.draw(gui, i - 25, j + 8, elap);
+				MuiSlot.CROSS.draw(gui, i - 25, j + 8, elap);
 
 				// Machine
 				ISideAdapter storage = adapter.get();

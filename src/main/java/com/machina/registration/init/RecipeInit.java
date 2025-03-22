@@ -34,7 +34,7 @@ public class RecipeInit {
 
 	//@formatter:off
 	public static final RecipeRegistryObject<GrinderBlockEntity> GRINDER =
-			register("grinder", BlockInit.GRINDER, GrinderRecipe::new, GrinderRecipeMaps.INSTANCE);
+			register("grinder", BlockInit.GRINDER, GrinderRecipe::new, GrinderRecipeMaps.INSTANCE, 0, 160);
 	//@formatter:on
 
 	public static class RecipeRegistryObject<C extends Container> {
@@ -49,14 +49,14 @@ public class RecipeInit {
 
 		public RecipeRegistryObject(ResourceLocation id, RegistryObject<MachinaRecipeType<C>> type,
 				RecipeFactory<MachinaRecipe<C>> factory, RegistryObject<MachinaRecipeSerializer<C>> serializer,
-				MachinaRecipeMaps<C> mapInstance, RegistryObject<? extends Block> block) {
+				MachinaRecipeMaps<C> mapInstance, RegistryObject<? extends Block> block, int x, int y) {
 			this.id = id;
 			this.type = type;
 			this.factory = factory;
 			this.serializer = serializer;
 			this.mapInstance = mapInstance;
 			this.block = block;
-			this.jei = new JeiRecipeRegistrar<C>(this, block);
+			this.jei = new JeiRecipeRegistrar<C>(this, block, x, y);
 		}
 
 		public ResourceLocation id() {
@@ -78,7 +78,7 @@ public class RecipeInit {
 		public MachinaRecipeMaps<C> maps() {
 			return mapInstance;
 		}
-		
+
 		public RegistryObject<? extends Block> block() {
 			return block;
 		}
@@ -94,13 +94,14 @@ public class RecipeInit {
 
 	private static <C extends Container> RecipeRegistryObject<C> register(String name,
 			RegistryObject<? extends Block> block, RecipeFactory<MachinaRecipe<C>> factory,
-			MachinaRecipeMaps<C> mapInstance) {
+			MachinaRecipeMaps<C> mapInstance, int x, int y) {
 		ResourceLocation id = new MachinaRL(name);
 		RegistryObject<MachinaRecipeType<C>> type = RECIPE_TYPES.register(name,
 				() -> new MachinaRecipeType<>(id, mapInstance.getFlags()));
 		RegistryObject<MachinaRecipeSerializer<C>> serializer = RECIPE_SERIALIZERS.register(name,
 				() -> new MachinaRecipeSerializer<>(type, factory));
-		RecipeRegistryObject<C> obj = new RecipeRegistryObject<>(id, type, factory, serializer, mapInstance, block);
+		RecipeRegistryObject<C> obj = new RecipeRegistryObject<>(id, type, factory, serializer, mapInstance, block, x,
+				y);
 
 		MAPS.add(mapInstance);
 		RECIPES.add(obj);

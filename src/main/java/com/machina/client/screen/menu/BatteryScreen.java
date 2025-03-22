@@ -3,7 +3,7 @@ package com.machina.client.screen.menu;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.MUI;
-import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.menu.BatteryMenu;
@@ -23,9 +23,9 @@ public class BatteryScreen extends MachinaMenuScreen<BatteryMenu> {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
 		drawEnergyBar(gui, 0, 0, this.<BatteryBlockEntity>entity().hasCapacitor(), "battery.missing");
-		drawUpFacingSlot(gui, 1, mx, my, 20, 30, SpecialSlot.PLUS, "battery.input");
-		drawUpFacingSlot(gui, 2, mx, my, 197, 30, SpecialSlot.MINUS, "battery.output");
-		drawDownFacingSlot(gui, 0, mx, my, 107, -60, SpecialSlot.BOLT, "battery.capacitor");
+		drawUpFacingSlot(gui, 1, mx, my, 20, 30, MuiSlot.PLUS, "battery.input");
+		drawUpFacingSlot(gui, 2, mx, my, 197, 30, MuiSlot.MINUS, "battery.output");
+		drawDownFacingSlot(gui, 0, mx, my, 107, -60, MuiSlot.ENERGY, "battery.capacitor");
 
 		drawEnergySideConfig(gui, mx, my);
 

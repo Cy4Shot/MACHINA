@@ -2,7 +2,7 @@ package com.machina.client.screen.menu;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.util.StringUtils;
@@ -27,7 +27,7 @@ public class FurnaceGeneratorScreen extends MachinaMenuScreen<FurnaceGeneratorMe
 
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
-		drawDownFacingSlot(gui, 0, mx, my, 107, -28, SpecialSlot.COAL, "furnace_generator.input");
+		drawDownFacingSlot(gui, 0, mx, my, 107, -28, MuiSlot.COAL, "furnace_generator.input");
 		drawEnergyBar(gui, 0, 20, true, "");
 
 		int i = midWidth();

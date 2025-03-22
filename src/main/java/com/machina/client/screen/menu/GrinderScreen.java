@@ -2,7 +2,7 @@ package com.machina.client.screen.menu;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.util.StringUtils;
@@ -27,8 +27,8 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderMenu> {
 		drawBackground(gui);
 		drawEnergyBar(gui, 0, 30, entity.getEnergy() > 0, "grinder.no_power");
 
-		drawDownFacingSlot(gui, 0, mx, my, 61, -20, SpecialSlot.PLUS, "grinder.input");
-		drawDownFacingSlot(gui, 1, mx, my, 153, -20, SpecialSlot.DUST, "grinder.output");
+		drawDownFacingSlot(gui, 0, mx, my, 61, -20, MuiSlot.PLUS, "grinder.input");
+		drawDownFacingSlot(gui, 1, mx, my, 153, -20, MuiSlot.DUST, "grinder.output");
 
 		int i = midWidth();
 		int j = midHeight();
@@ -41,9 +41,9 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderMenu> {
 		MUI.blitCommon(gui, i + 113, j + 8, 399, 13, 6, 6);
 		MUI.blitCommon(gui, i + 114, j + 14, 508, 0, 4, 7);
 
-		SpecialSlot.RIGHT.draw(gui, i + 90, j - 13, this.aliveTicks);
-		SpecialSlot.RIGHT.draw(gui, i + 111, j - 13, this.aliveTicks);
-		SpecialSlot.RIGHT.draw(gui, i + 132, j - 13, this.aliveTicks);
+		MuiSlot.RIGHT.draw(gui, i + 90, j - 13, this.aliveTicks);
+		MuiSlot.RIGHT.draw(gui, i + 111, j - 13, this.aliveTicks);
+		MuiSlot.RIGHT.draw(gui, i + 132, j - 13, this.aliveTicks);
 
 		Component text;
 		Component text2 = Component.empty();

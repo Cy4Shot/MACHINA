@@ -28,6 +28,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.helpers.IGuiHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -54,6 +56,7 @@ public final class MUI {
 
 	private static final Minecraft mc = Minecraft.getInstance();
 
+	private static final ResourceLocation JEI_UI = new MachinaRL("textures/gui/jei_ui.png");
 	private static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
 	private static final ResourceLocation BG_OVERLAY = new MachinaRL("textures/gui/bg_overlay.png");
 
@@ -67,6 +70,10 @@ public final class MUI {
 
 	public static void blitCommon(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
 		gui.blit(COMMON_UI, x, y, u, v, w, h, 512, 512);
+	}
+
+	public static void blitJei(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
+		gui.blit(JEI_UI, x, y, u, v, w, h, 256, 256);
 	}
 
 	public static void blitOverlay(GuiGraphics gui, int x, int y, int w, int h) {
@@ -105,33 +112,43 @@ public final class MUI {
 		gui.pose().popPose();
 	}
 
-	public enum SpecialSlot {
+	public static IDrawable jeiBg(IGuiHelper gui) {
+		return gui.createDrawable(JEI_UI, 0, 0, 129, 160);
+	}
+
+	public enum MuiSlot {
 		PLUS(475, 0),
 		MINUS(485, 0),
 		RIGHT(495, 0),
 		DOWN(475, 10),
 		UP(485, 10),
 		LEFT(495, 10),
-		BOLT(499, 23),
+		ENERGY(499, 23),
 		CROSS(499, 33),
 		COAL(499, 43),
 		DUST(499, 53),
 		WHITELIST(499, 63),
 		BLACKLIST(499, 73),
-		DROP(499, 83),
-		TICK(499, 93);
+		FLUID(499, 83),
+		TICK(499, 93),
+		TIME(499, 103),
+		TEMP(499, 113);
 
 		private final int x;
 		private final int y;
 
-		SpecialSlot(int x, int y) {
+		MuiSlot(int x, int y) {
 			this.x = x;
 			this.y = y;
+		}
+		
+		public void draw(GuiGraphics gui, int x, int y) {
+			blitCommon(gui, x, y, this.x, this.y, 10, 10);
 		}
 
 		public void draw(GuiGraphics gui, int x, int y, long aliveTicks) {
 			if (appearDraw(aliveTicks))
-				blitCommon(gui, x, y, this.x, this.y, 10, 10);
+				draw(gui, x, y);
 		}
 	}
 

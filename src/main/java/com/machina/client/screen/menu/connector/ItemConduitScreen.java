@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.screen.MUI;
-import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.api.item.ConnectorFilterItem.Mode;
@@ -36,14 +36,14 @@ public class ItemConduitScreen extends MachinaMenuScreen<ItemConduitMenu> {
 		drawMiniBackground(gui);
 
 		// Top slot
-		drawNoFacingSlot(gui, id, mx, my, 107, 4, SpecialSlot.DUST, "item_conduit.filter");
+		drawNoFacingSlot(gui, id, mx, my, 107, 4, MuiSlot.DUST, "item_conduit.filter");
 		MUI.blitCommon(gui, i + 133, j + 10, 405, 13, 17, 6);
 		MUI.blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
 
 		// Mode Slot
 		drawToggle(gui, mx, my, 89, 34,
-				ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id)) == Mode.BLACKLIST, SpecialSlot.BLACKLIST,
-				SpecialSlot.WHITELIST, (val) -> {
+				ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id)) == Mode.BLACKLIST, MuiSlot.BLACKLIST,
+				MuiSlot.WHITELIST, (val) -> {
 					ItemStack stack = ConnectorFilterItem.setMode(menu.getBlockEntity().getItem(id),
 							val ? Mode.BLACKLIST : Mode.WHITELIST);
 					PacketSender

@@ -9,7 +9,7 @@ import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.screen.IFilteredScreen;
 import com.machina.api.client.screen.MUI;
-import com.machina.api.client.screen.MUI.SpecialSlot;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.network.PacketSender;
@@ -58,12 +58,12 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
 		drawMiniBackground(gui);
 
 		// Top slot
-		drawNoFacingSlot(gui, id, mx, my, 107, 4, SpecialSlot.DROP, "fluid_pipe.filter");
+		drawNoFacingSlot(gui, id, mx, my, 107, 4, MuiSlot.FLUID, "fluid_pipe.filter");
 		MUI.blitCommon(gui, i + 133, j + 10, 405, 13, 17, 6);
 		MUI.blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
 
 		// Fluid Slot
-		drawGhostSlot(gui, () -> false, mx, my, 74, 34, SpecialSlot.DROP, "", (i1, j1) -> {
+		drawGhostSlot(gui, () -> false, mx, my, 74, 34, MuiSlot.FLUID, "", (i1, j1) -> {
 			renderFluid(gui, new FluidStack(FluidFilterItem.getFluid(menu.getBlockEntity().getItem(id)), 1), i1 + 1,
 					j1 + 17, 16, 16, 0);
 		});
@@ -72,7 +72,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
 
 		// Mode Slot
 		drawToggle(gui, mx, my, 107, 34, FluidFilterItem.getMode(menu.getBlockEntity().getItem(id)) == Mode.BLACKLIST,
-				SpecialSlot.BLACKLIST, SpecialSlot.WHITELIST, (val) -> {
+				MuiSlot.BLACKLIST, MuiSlot.WHITELIST, (val) -> {
 					ItemStack stack = FluidFilterItem.set(menu.getBlockEntity().getItem(id), null,
 							val ? Mode.BLACKLIST : Mode.WHITELIST);
 					PacketSender
