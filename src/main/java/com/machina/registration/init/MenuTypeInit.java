@@ -10,6 +10,7 @@ import com.machina.block.menu.TankMenu;
 import com.machina.block.menu.connector.FluidPipeMenu;
 import com.machina.block.menu.connector.ItemConduitMenu;
 import com.machina.item.menu.FluidFilterMenu;
+import com.machina.item.menu.ItemFilterMenu;
 
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -20,12 +21,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class MenuTypeInit {
-	public static final DeferredRegister<MenuType<	?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
+	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
 			Machina.MOD_ID);
 
 	//@formatter:off
 	public static final RegistryObject<MenuType<ItemConduitMenu>> ITEM_CONDUIT = register("item_conduit",
 			ItemConduitMenu::new);
+	public static final RegistryObject<MenuType<ItemFilterMenu>> ITEM_FILTER = register("item_filter",
+			ItemFilterMenu::new);
 	public static final RegistryObject<MenuType<FluidPipeMenu>> FLUID_PIPE = register("fluid_pipe",
             FluidPipeMenu::new);
 	public static final RegistryObject<MenuType<FluidFilterMenu>> FLUID_FILTER = register("fluid_filter",

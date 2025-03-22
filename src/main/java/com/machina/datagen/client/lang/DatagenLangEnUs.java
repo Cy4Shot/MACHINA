@@ -59,6 +59,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ADVANCED_CAPACITOR, "Advanced Capacitor");
 		add(ItemInit.SUPREME_CAPACITOR, "Supreme Capacitor");
 
+		add(ItemInit.ITEM_FILTER, "Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
 
 		add(ItemInit.RAW_ALUMINUM, "Raw Aluminum");
@@ -413,6 +414,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		addTooltip("ldpe", "Low Density Polyethylene");
 		addTooltip("hdpe", "High Density Polyethylene");
 		addTooltip("uhmwpe", "Ultra High Molecular Weight Polyethylene");
+		addTooltip("fluid_filter.empty", "Empty");
+		addTooltip("item_filter.empty", "Empty");
+		addTooltip("item_filter.configured", "Configured");
 
 		// Fluids
 		add(FluidInit.OXYGEN, "Oxygen");
@@ -485,9 +489,13 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		addUI("fluid_pipe.filter", "Filter");
 		addUI("fluid_pipe.insert", "Insert a Fluid");
+		addUI("item_conduit.filter", "Filter");
+		addUI("item_conduit.insert", "Insert an Item");
 
 		addUI("fluid_filter.insert", "Insert a Fluid");
 		addUI("fluid_filter.for", " for ");
+		addUI("item_filter.insert", "Insert a Item");
+		addUI("item_filter.for", " for ");
 
 		addUI("battery.missing", "Insert Capacitor");
 		addUI("battery.input", "Input Energy");

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.util.MachinaRL;
 import com.machina.client.screen.menu.connector.FluidPipeScreen;
 import com.machina.client.screen.menu.item.FluidFilterScreen;
+import com.machina.client.screen.menu.item.ItemFilterScreen;
 import com.machina.compat.jei.base.MachinaGhostHandler;
 
 import mezz.jei.api.IModPlugin;
@@ -24,8 +25,8 @@ public class MachinaJei implements IModPlugin {
 
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration reg) {
+		reg.addGhostIngredientHandler(ItemFilterScreen.class, new MachinaGhostHandler<ItemFilterScreen>());
 		reg.addGhostIngredientHandler(FluidFilterScreen.class, new MachinaGhostHandler<FluidFilterScreen>());
 		reg.addGhostIngredientHandler(FluidPipeScreen.class, new MachinaGhostHandler<FluidPipeScreen>());
 	}
-
 }

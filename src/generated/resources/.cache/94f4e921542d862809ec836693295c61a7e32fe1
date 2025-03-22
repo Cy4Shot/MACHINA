@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-04T16:49:18.3571627	Item Models: machina
+// 1.20.1	2025-03-22T11:46:23.3841897	Item Models: machina
 a38be406000b52edfc5d6439eae91b0ad61a63dc assets/machina/models/item/acetaldehyde_bucket.json
 7548cc941b514c7510e6a96383a1341dec5684dc assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -64,6 +64,7 @@ a059b0debd3cfbc12f0417facc59cc3a8a8527d8 assets/machina/models/item/iron_dust.js
 a024bb2d1dfea5780e6d92c90d91ec096c4f5a58 assets/machina/models/item/iron_plate.json
 1e0cab1485b3cac08f793e24417732e663ed7ced assets/machina/models/item/iron_rod.json
 7c5fb67f33d14894f3e23753570f4aded3d99d7a assets/machina/models/item/iron_wire.json
+9ab3f735e0a30d965157f481c4bbbfd4875f8085 assets/machina/models/item/item_filter.json
 c378125624e958456cfbcf7ef7d1e1e4165f2b27 assets/machina/models/item/lapis_dust.json
 0e1a3c17008f76271d76ee9889f14d7c84ec0970 assets/machina/models/item/lead_bismuth_eutectic_bucket.json
 b34fc6a64f483606974fcb0623d31f84c5e8117e assets/machina/models/item/methane_bucket.json
