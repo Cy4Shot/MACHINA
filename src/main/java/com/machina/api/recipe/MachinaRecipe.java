@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.machina.api.util.loader.FluidJson;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -131,13 +132,23 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	}
 
 	@Override
+	public NonNullList<Ingredient> getIngredients() {
+		NonNullList<Ingredient> x = NonNullList.create();
+		x.addAll(inputItems);
+		return x;
+	}
+
+	@Override
 	public boolean matches(@NotNull C inv, @NotNull Level level) {
 		return true;
 	}
 
 	@Override
 	public @NotNull ItemStack assemble(@NotNull C inv, @NotNull RegistryAccess registry) {
-		return ItemStack.EMPTY;
+		if (getOutputItems().isEmpty()) {
+			return ItemStack.EMPTY;
+		}
+		return getOutputItems().get(0).copy();
 	}
 
 	@Override
@@ -147,7 +158,10 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 	@Override
 	public @NotNull ItemStack getResultItem(@NotNull RegistryAccess registry) {
-		return ItemStack.EMPTY;
+		if (getOutputItems().isEmpty()) {
+			return ItemStack.EMPTY;
+		}
+		return getOutputItems().get(0).copy();
 	}
 
 	@Override

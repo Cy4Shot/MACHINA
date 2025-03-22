@@ -1,6 +1,8 @@
 package com.machina.api.recipe;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -49,5 +51,9 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 	public <T extends MachinaRecipe<C>> Optional<T> findRecipe(C entity) {
 		Class<T> clazz = (Class<T>) getRecipeClass();
 		return recipes.values().stream().filter(r -> isValid(entity, r)).findFirst().map(clazz::cast);
+	}
+
+	public List<MachinaRecipe<C>> all() {
+		return new ArrayList<>(recipes.values());
 	}
 }

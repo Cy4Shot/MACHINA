@@ -38,6 +38,10 @@ public class RecipeInit {
 		public String getTranslationKey() {
 			return id.getNamespace() + ".recipe." + id.getPath();
 		}
+
+		public mezz.jei.api.recipe.RecipeType<MachinaRecipe<C>> jeiType() {
+			return mezz.jei.api.recipe.RecipeType.create(Machina.MOD_ID, id.getPath(), maps().getRecipeClass());
+		}
 	}
 
 	@SuppressWarnings("unchecked")

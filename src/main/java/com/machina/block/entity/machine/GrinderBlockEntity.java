@@ -88,7 +88,7 @@ public class GrinderBlockEntity extends MachinaBlockEntity {
 				if (this.progress >= r.getTime()) {
 					getItem(0).shrink(1);
 					if (getItem(1).isEmpty())
-						setItem(1, r.getOutputItems().get(0));
+						setItem(1, r.getOutputItems().get(0).copy());
 					else
 						getItem(1).grow(r.getOutputItems().get(0).getCount());
 

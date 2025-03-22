@@ -72,7 +72,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
 	private static final Minecraft mc = Minecraft.getInstance();
 
-	protected static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
+	public static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
 	protected static final ResourceLocation BG_OVERLAY = new MachinaRL("textures/gui/bg_overlay.png");
 
 	private final ContainerBlockEntity entity;
@@ -161,7 +161,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		return Component.translatable("gui.machina." + key).getString();
 	}
 
-	protected static void blitCommon(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
+	public static void blitCommon(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
 		gui.blit(COMMON_UI, x, y, u, v, w, h, 512, 512);
 	}
 
