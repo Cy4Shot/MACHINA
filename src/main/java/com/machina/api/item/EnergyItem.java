@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.cap.energy.EnergyItemWrapper;
+import com.machina.api.client.screen.MUI;
 import com.machina.api.util.StringUtils;
 
 import net.minecraft.nbt.CompoundTag;
@@ -80,7 +81,7 @@ public abstract class EnergyItem extends Item {
 			@NotNull TooltipFlag flag) {
 		tooltip.add(Component
 				.literal(StringUtils.formatPower(getEnergy(stack)) + " / " + StringUtils.formatPower(getMaxEnergy()))
-				.setStyle(Style.EMPTY.withColor(0x00FEFE)));
+				.setStyle(Style.EMPTY.withColor(MUI.CYAN)));
 		super.appendHoverText(stack, level, tooltip, flag);
 	}
 
@@ -91,6 +92,6 @@ public abstract class EnergyItem extends Item {
 
 	@Override
 	public int getBarColor(@NotNull ItemStack stack) {
-		return 0x00fefe;
+		return MUI.CYAN;
 	}
 }

@@ -111,7 +111,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 		if (total_inputs > 0) {
 			Component c = MUI.uistr("jei.input");
 			int w = mc.font.width(c) / 2 + 2;
-			MUI.drawCenteredString(gui, c, 64, rolling, 0x00FEFE);
+			MUI.drawCenteredString(gui, c, 64, rolling);
 			MUI.blitCommon(gui, 64 + w, rolling + 2, 388, 80, 19, 8);
 			MUI.blitCommon(gui, 64 - w - 20, rolling + 2, 369, 80, 19, 8);
 
@@ -140,7 +140,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 		if (total_outputs > 0) {
 			Component c = MUI.uistr("jei.output");
 			int w = mc.font.width(c) / 2 + 2;
-			MUI.drawCenteredString(gui, c, 64, rolling + 32, 0x00FEFE);
+			MUI.drawCenteredString(gui, c, 64, rolling + 32);
 			MUI.blitCommon(gui, 64 + w, rolling + 30, 418, 5, 19, 8);
 			MUI.blitCommon(gui, 64 - w - 20, rolling + 30, 399, 5, 19, 8);
 
@@ -174,7 +174,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			int y = rolling + (i / 2) * 14;
 			Pair<MuiSlot, String> value = values.get(i);
 			value.getFirst().draw(gui, x, y);
-			MUI.drawString(gui, Component.literal(value.getSecond()), x + 14, y + 1, 0x00FEFE);
+			MUI.drawString(gui, Component.literal(value.getSecond()), x + 14, y + 1);
 		}
 
 		// Overlay

@@ -21,6 +21,10 @@ public class ItemStackUtil {
 		return stack.getCapability(ForgeCapabilities.ENERGY).isPresent();
 	}
 
+	public static boolean hasFluid(ItemStack stack) {
+		return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+	}
+
 	public static boolean isCapacitor(ItemStack stack) {
 		return stack.is(ItemTagInit.CAPACITOR);
 	}

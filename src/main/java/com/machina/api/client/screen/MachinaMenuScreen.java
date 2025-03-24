@@ -207,7 +207,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int j = midHeight();
 
 		MUI.blitCommon(gui, i + 53, j - 7, 179, 245, 129, 85);
-		MUI.drawString(gui, this.menu.getName(), i + 55, j - 17, 0x00FEFE);
+		MUI.drawString(gui, this.menu.getName(), i + 55, j - 17);
 		registerClickArea("bg", i + 53, j - 7, i + 129 + 53, j + 78, () -> true);
 	}
 
@@ -439,7 +439,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 				drawFace(gui, i - 32, j + 47, Direction.SOUTH, storage);
 
 				// Deorators
-				gui.drawString(font, MUI.uistr("config." + name), i - 75, j + 71, 0x00FEFE);
+				MUI.drawString(gui, MUI.uistr("config." + name), i - 75, j + 71);
 			} else {
 
 				// Open Button

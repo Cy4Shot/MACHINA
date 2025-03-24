@@ -37,12 +37,15 @@ public class DatagenLootTables extends LootTableProvider {
 			dropSelf(BlockInit.ENERGY_CABLE.get());
 			dropSelf(BlockInit.FLUID_PIPE.get());
 			dropSelf(BlockInit.ITEM_CONDUIT.get());
+			
 			dropSelf(BlockInit.BASIC_MACHINE_CASE.get());
+			
 			dropSelf(BlockInit.BATTERY.get());
 			dropSelf(BlockInit.TANK.get());
 			dropSelf(BlockInit.CREATIVE_BATTERY.get());
 			dropSelf(BlockInit.FURNACE_GENERATOR.get());
 			dropSelf(BlockInit.GRINDER.get());
+			dropSelf(BlockInit.COMPRESSOR.get());
 
 			dropSelf(BlockInit.ALUMINUM_BLOCK.get());
 

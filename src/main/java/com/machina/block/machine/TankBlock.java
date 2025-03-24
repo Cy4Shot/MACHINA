@@ -34,6 +34,11 @@ public class TankBlock extends MachineBlock {
 	public BlockEntityType<?> getBlockEntityType() {
 		return BlockEntityInit.TANK.get();
 	}
+	
+	@Override
+	protected boolean isTickable() {
+		return true;
+	}
 
 	@Override
 	public Class<? extends MachinaBlockEntity> getBlockEntityClass() {

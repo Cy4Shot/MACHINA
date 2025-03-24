@@ -46,12 +46,12 @@ public class ItemFilterScreen extends MachinaMenuScreen<ItemFilterMenu> implemen
 		int j1 = midHeight();
 		Mode mode = ItemFilterItem.getMode(menu.stack);
 		Item item = ItemFilterItem.getItem(menu.stack);
-		MUI.drawCenteredString(gui,
-				mode.comp().setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? 0xFF0000 : 0x00FF00).withBold(true))
-						.append(MUI.uistr("item_filter.for").withStyle(Style.EMPTY.withColor(0x00FEFE).withBold(false))),
-				i1 + 117, j1 + 4, 0x00FEFE);
-		MUI.drawCenteredString(gui, Component.translatable(item.getDescriptionId()).setStyle(
-				Style.EMPTY.withColor(0xFFFFFF).withBold(true)), i1 + 117, j1 + 6 + font.lineHeight, 0x00FEFE);
+		MUI.drawCenteredString(gui, mode.comp()
+				.setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? MUI.RED : MUI.GREEN).withBold(true))
+				.append(MUI.uistr("item_filter.for").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
+				i1 + 117, j1 + 4);
+		MUI.drawCenteredString(gui, Component.translatable(item.getDescriptionId())
+				.setStyle(Style.EMPTY.withColor(MUI.WHITE).withBold(true)), i1 + 117, j1 + 6 + font.lineHeight);
 
 		drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.DUST, "", (i, j) -> {
 			gui.renderItem(new ItemStack(menu.getCurrentFilter(), 1), i + 1, j + 1);

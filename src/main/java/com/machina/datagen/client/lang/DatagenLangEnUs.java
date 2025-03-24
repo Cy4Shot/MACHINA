@@ -475,7 +475,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		// UI
 		addUI("jei.input", "Input");
 		addUI("jei.output", "Output");
-		
+
 		addUI("config.energy", "Energy Config");
 		addUI("config.item", "Item Config");
 		addUI("config.fluid", "Fluid Config");
@@ -501,6 +501,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("item_filter.insert", "Insert a Item");
 		addUI("item_filter.for", " for");
 		addUI("item_filter.for_colon", " for:");
+
+		addUI("tank.input", "Input Fluid");
+		addUI("tank.output", "Output Fluid");
+		addUI("tank.empty", "Tank Empty");
 
 		addUI("battery.missing", "Insert Capacitor");
 		addUI("battery.input", "Input Energy");
