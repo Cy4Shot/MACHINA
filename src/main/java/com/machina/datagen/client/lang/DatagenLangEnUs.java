@@ -59,6 +59,11 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ADVANCED_CAPACITOR, "Advanced Capacitor");
 		add(ItemInit.SUPREME_CAPACITOR, "Supreme Capacitor");
 
+		add(ItemInit.MOULD_BASE, "Mould Base");
+		add(ItemInit.MOULD_PLATE, "Plate Mould");
+		add(ItemInit.MOULD_ROD, "Rod Mould");
+		add(ItemInit.MOULD_WIRE, "Wire Mould");
+
 		add(ItemInit.ITEM_FILTER, "Item Filter");
 		add(ItemInit.ADVANCED_ITEM_FILTER, "Advanced Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");

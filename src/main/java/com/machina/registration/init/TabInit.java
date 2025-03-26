@@ -23,17 +23,15 @@ public class TabInit {
 	public static final RegistryObject<CreativeModeTab> MACHINA_MACHINERY = create("machina_machinery",
 			BlockInit.FURNACE_GENERATOR, a -> {
 				add(a, ItemInit.BLUEPRINT);
-				add(a, ItemInit.BASIC_CAPACITOR);
-				add(a, ItemInit.ADVANCED_CAPACITOR);
-				add(a, ItemInit.SUPREME_CAPACITOR);
-				
+
 				add(a, BlockInit.ENERGY_CABLE);
 				add(a, BlockInit.FLUID_PIPE);
 				add(a, BlockInit.ITEM_CONDUIT);
+
 				add(a, ItemInit.FLUID_FILTER);
 				add(a, ItemInit.ITEM_FILTER);
 				add(a, ItemInit.ADVANCED_ITEM_FILTER);
-				
+
 				add(a, BlockInit.BATTERY);
 				add(a, BlockInit.TANK);
 				add(a, BlockInit.BASIC_MACHINE_CASE);
@@ -42,6 +40,15 @@ public class TabInit {
 				add(a, BlockInit.COMPRESSOR);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
+
+				add(a, ItemInit.BASIC_CAPACITOR);
+				add(a, ItemInit.ADVANCED_CAPACITOR);
+				add(a, ItemInit.SUPREME_CAPACITOR);
+				add(a, ItemInit.MOULD_BASE);
+				add(a, ItemInit.MOULD_PLATE);
+				add(a, ItemInit.MOULD_PLATE);
+				add(a, ItemInit.MOULD_ROD);
+				add(a, ItemInit.MOULD_WIRE);
 			});
 
 	public static final RegistryObject<CreativeModeTab> MACHINA_RESOURCES = create("machina_resources",

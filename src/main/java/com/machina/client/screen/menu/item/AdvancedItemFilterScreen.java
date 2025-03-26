@@ -11,7 +11,7 @@ import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
-import com.machina.item.AdvancedItemFilterItem;
+import com.machina.item.filter.AdvancedItemFilterItem;
 import com.machina.item.menu.AdvancedItemFilterMenu;
 
 import net.minecraft.client.gui.GuiGraphics;

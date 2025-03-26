@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-22T12:02:43.2606044	Item Models: machina
+// 1.20.1	2025-03-26T16:57:08.3130005	Item Models: machina
 a38be406000b52edfc5d6439eae91b0ad61a63dc assets/machina/models/item/acetaldehyde_bucket.json
 7548cc941b514c7510e6a96383a1341dec5684dc assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -72,6 +72,10 @@ b34fc6a64f483606974fcb0623d31f84c5e8117e assets/machina/models/item/methane_buck
 c4ad134e672217ea8ad20fa89f9067788e51260c assets/machina/models/item/methanol_bucket.json
 eb57fc87e43b14d33cb14605af60286c69a74887 assets/machina/models/item/molten_bismuth_bucket.json
 78923e78f0725d9f5a0029d232776c6c8b1d5a4c assets/machina/models/item/molten_lead_bucket.json
+43f3420b31ade7c339288ace8c624f359a00f4e1 assets/machina/models/item/mould_base.json
+24621197cee0f851f4cb141e698d1135c256cd78 assets/machina/models/item/mould_plate.json
+4541f6269e134e56aea5f4c4e19a1f1fc6cdc84c assets/machina/models/item/mould_rod.json
+b01840d8c6edb519de9564b78268cf8af3a8a5b9 assets/machina/models/item/mould_wire.json
 eda804221dc5cc04332a8fee2a216576d22c19aa assets/machina/models/item/nitric_acid_bucket.json
 9483cda49517af84f4681e1bb747aadfe2d1b9d7 assets/machina/models/item/nitrogen_bucket.json
 d01bb5067340da6fe0ff883ed1d442c3f5979ffc assets/machina/models/item/nitrogen_dioxide_bucket.json

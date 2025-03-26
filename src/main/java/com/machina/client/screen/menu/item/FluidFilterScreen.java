@@ -10,7 +10,7 @@ import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
-import com.machina.item.FluidFilterItem;
+import com.machina.item.filter.FluidFilterItem;
 import com.machina.item.menu.FluidFilterMenu;
 
 import net.minecraft.client.gui.GuiGraphics;

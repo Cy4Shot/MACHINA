@@ -1,4 +1,4 @@
-package com.machina.item;
+package com.machina.item.filter;
 
 import java.util.List;
 

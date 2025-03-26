@@ -58,6 +58,11 @@ public class DatagenItemModels extends ItemModelProvider {
 		simpleItem(ItemInit.ADVANCED_CAPACITOR);
 		simpleItem(ItemInit.SUPREME_CAPACITOR);
 
+		simpleItem(ItemInit.MOULD_BASE);
+		simpleItem(ItemInit.MOULD_PLATE);
+		simpleItem(ItemInit.MOULD_ROD);
+		simpleItem(ItemInit.MOULD_WIRE);
+
 		simpleItem(ItemInit.ITEM_FILTER);
 		simpleItem(ItemInit.ADVANCED_ITEM_FILTER);
 		simpleItem(ItemInit.FLUID_FILTER);

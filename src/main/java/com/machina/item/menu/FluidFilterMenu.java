@@ -2,7 +2,7 @@ package com.machina.item.menu;
 
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.item.menu.ItemMenu;
-import com.machina.item.FluidFilterItem;
+import com.machina.item.filter.FluidFilterItem;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.MenuTypeInit;
 

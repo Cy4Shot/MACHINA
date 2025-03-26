@@ -9,11 +9,13 @@ import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
 import com.machina.block.MachinaWallSignBlock;
 import com.machina.config.CommonConfig;
-import com.machina.item.AdvancedItemFilterItem;
 import com.machina.item.BlueprintItem;
 import com.machina.item.CapacitorItem;
-import com.machina.item.FluidFilterItem;
-import com.machina.item.ItemFilterItem;
+import com.machina.item.MouldItem;
+import com.machina.item.MouldItem.Mould;
+import com.machina.item.filter.AdvancedItemFilterItem;
+import com.machina.item.filter.FluidFilterItem;
+import com.machina.item.filter.ItemFilterItem;
 
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
@@ -35,6 +37,11 @@ public class ItemInit {
 	public static final RegistryObject<CapacitorItem> BASIC_CAPACITOR = capacitor("basic_capacitor", () -> CommonConfig.basicCapacitorSize);
 	public static final RegistryObject<CapacitorItem> ADVANCED_CAPACITOR = capacitor("advanced_capacitor", () -> CommonConfig.advancedCapacitorSize);
 	public static final RegistryObject<CapacitorItem> SUPREME_CAPACITOR = capacitor("supreme_capacitor", () -> CommonConfig.supremeCapacitorSize);
+	
+	public static final RegistryObject<MouldItem> MOULD_BASE = mould("mould_base", Mould.BASE);
+	public static final RegistryObject<MouldItem> MOULD_PLATE = mould("mould_plate", Mould.PLATE);
+	public static final RegistryObject<MouldItem> MOULD_ROD = mould("mould_rod", Mould.ROD);
+	public static final RegistryObject<MouldItem> MOULD_WIRE = mould("mould_wire", Mould.WIRE);
 	
 	public static final RegistryObject<ItemFilterItem> ITEM_FILTER = basic("item_filter", ItemFilterItem::new);
 	public static final RegistryObject<AdvancedItemFilterItem> ADVANCED_ITEM_FILTER = basic("advanced_item_filter", AdvancedItemFilterItem::new);
@@ -107,6 +114,10 @@ public class ItemInit {
 
 	public static RegistryObject<Item> basic(String name) {
 		return register(name, ItemBuilder::basicItem);
+	}
+
+	public static RegistryObject<MouldItem> mould(String name, Mould mould) {
+		return register(name, () -> ItemBuilder.basicItem(p -> new MouldItem(p, mould)));
 	}
 
 	public static RegistryObject<CapacitorItem> capacitor(String name, Supplier<ForgeConfigSpec.IntValue> cap) {

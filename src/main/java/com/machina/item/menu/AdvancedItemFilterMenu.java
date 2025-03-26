@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.item.menu.ItemMenu;
-import com.machina.item.AdvancedItemFilterItem;
+import com.machina.item.filter.AdvancedItemFilterItem;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.MenuTypeInit;
 
