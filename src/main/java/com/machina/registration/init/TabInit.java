@@ -54,14 +54,13 @@ public class TabInit {
 	public static final RegistryObject<CreativeModeTab> MACHINA_RESOURCES = create("machina_resources",
 			ItemInit.DIAMOND_PLATE, a -> {
 
+				add(a, ItemInit.COAL_CHUNK);
 				family(a, FamiliesInit.ORES);
 
 				add(a, ItemInit.ALUMINUM_NUGGET);
 				add(a, ItemInit.ALUMINUM_INGOT);
 				add(a, BlockInit.ALUMINUM_BLOCK);
 				add(a, ItemInit.RAW_ALUMINUM);
-
-				add(a, ItemInit.COAL_CHUNK);
 
 				add(a, ItemInit.SILICON);
 				add(a, ItemInit.RAW_SILICON_BLEND);

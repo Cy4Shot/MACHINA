@@ -15,6 +15,9 @@ public class DatagenLangEnUs extends DatagenLang {
 
 	public DatagenLangEnUs(PackOutput gen) {
 		super(gen, "en_us", Machina.MOD_ID);
+
+		this.music_disc = "Music Disc";
+		this.bucket = "Bucket";
 	}
 
 	@Override
@@ -454,6 +457,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FluidInit.METHANOL, "Methanol");
 		add(FluidInit.ETHANOL, "Ethanol");
 		add(FluidInit.HYDROGEN_FLUORIDE, "Hydrogen Fluoride");
+		add(FluidInit.HELIUM, "Helium");
 		add(FluidInit.ACETALDEHYDE, "Acetaldehyde");
 		add(FluidInit.BENZYL_CHLORIDE, "Benzyl Chloride");
 		add(FluidInit.NITRIC_ACID, "Nitric Acid");

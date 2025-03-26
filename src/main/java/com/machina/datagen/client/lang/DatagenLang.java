@@ -28,7 +28,7 @@ public abstract class DatagenLang extends LanguageProvider {
 	protected final Map<String, String> data = new TreeMap<>();
 
 	final String modid;
-	String music_disc;
+	String music_disc, bucket;
 
 	public DatagenLang(PackOutput gen, String locale, String modid) {
 		super(gen, modid, locale);
@@ -64,7 +64,7 @@ public abstract class DatagenLang extends LanguageProvider {
 
 	protected void add(FluidObject obj, String name) {
 		add(obj.fluid(), name);
-		add(obj.bucket(), name + " " + "Bucket");
+		add(obj.bucket(), name + " " + this.bucket);
 	}
 
 	protected void addTooltip(String item, String name) {
