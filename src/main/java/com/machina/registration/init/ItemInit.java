@@ -51,6 +51,10 @@ public class ItemInit {
 	public static final RegistryObject<Item> ALUMINUM_INGOT = basic("aluminum_ingot");
 	public static final RegistryObject<Item> ALUMINUM_NUGGET = basic("aluminum_nugget");
 	public static final RegistryObject<Item> COAL_CHUNK = basic("coal_chunk");
+	
+	public static final RegistryObject<ChemicalItem> SULFUR = chemical("sulfur", "SO3");
+	public static final RegistryObject<ChemicalItem> NITER = chemical("niter", "KNO3");
+	
 	public static final RegistryObject<Item> COPPER_COIL = basic("copper_coil");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
 	public static final RegistryObject<Item> LOGIC_UNIT = basic("logic_unit");

@@ -122,8 +122,10 @@ public class DatagenItemTags extends ItemTagsProvider {
 			tag(forge("ingots")).add(item);
 			tag(forge("ingots/" + family.name())).add(item);
 		});
-		tag(forge("dusts")).add(family.dust());
-		tag(forge("dusts/" + family.name())).add(family.dust());
+		family.getDust().ifPresent(item -> {
+			tag(forge("dusts")).add(item);
+			tag(forge("dusts/" + family.name())).add(item);
+		});
 		family.plate().ifPresent(item -> {
 			tag(forge("plates")).add(item);
 			tag(forge("plates/" + family.name())).add(item);

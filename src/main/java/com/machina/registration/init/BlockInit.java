@@ -76,7 +76,10 @@ public class BlockInit {
 	public static final RegistryObject<CompressorBlock> COMPRESSOR = register("compressor", Blocks.IRON_BLOCK, CompressorBlock::new);
 	
 	public static final RegistryObject<Block> ALUMINUM_BLOCK = block("aluminum_block", Blocks.IRON_BLOCK);
+	
 	public static final RegistryObject<Block> ALUMINUM_ORE = block("aluminum_ore", Blocks.IRON_ORE);
+	public static final RegistryObject<Block> SALTPETER_ORE = block("saltpeter_ore", Blocks.COAL_ORE);
+	public static final RegistryObject<Block> PYRITE_ORE = block("pyrite_ore", Blocks.COAL_ORE);
 
 	public static final RegistryObject<Block> ANTHRACITE = block("anthracite", Blocks.ANDESITE);
 	public static final RegistryObject<SlabBlock> ANTHRACITE_SLAB = slab("anthracite_slab", Blocks.ANDESITE_SLAB);

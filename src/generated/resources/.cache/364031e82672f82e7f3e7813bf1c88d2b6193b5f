@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-17T13:33:31.335928	Tags for minecraft:item mod id machina
+// 1.20.1	2025-03-29T23:43:31.0409119	Tags for minecraft:item mod id machina
 25600e53d4c408f0c4074408d152259846ce65eb data/forge/tags/items/dusts.json
 f34fb318e4199b18e82d06f64cc77ac94455cddc data/forge/tags/items/dusts/coal.json
 de7ded1499e4698db553b3b50e504d3a8b429824 data/forge/tags/items/dusts/copper.json
@@ -8,9 +8,15 @@ bf9918af506ec3c97760d2cbc3bfff3d94da0d69 data/forge/tags/items/dusts/diamond.jso
 8288a8805a58088290c183c9c0f49e2e47fb93d3 data/forge/tags/items/dusts/iron.json
 a254fedd3c5efa218cdae219b8d74fe385588f0e data/forge/tags/items/dusts/lapis.json
 d1a2effecc6f7a894c2a922d36c6c124962708b0 data/forge/tags/items/dusts/quartz.json
+fa1daaf03b77de06dc183237c1ae95b851afb5ff data/forge/tags/items/ingots.json
+bd5514a3a57f5122733d16e0c3c97e9359b529d2 data/forge/tags/items/ingots/niter.json
+cebbe4276a172ec781cd6d3e96607fe50ea70395 data/forge/tags/items/ingots/sulfur.json
 25c11613baac71761a47787f185115060a216c74 data/forge/tags/items/nuggets.json
 17661c5b2f1c81c432232627ba23993b305b2e33 data/forge/tags/items/nuggets/copper.json
 d6e973f968a17521c504abc0e1a2630631728526 data/forge/tags/items/nuggets/diamond.json
+8f2636144dee5e4999207aa25aa7aebf21bc73f6 data/forge/tags/items/ores.json
+724f5a3a75e086a6bc1ba2e139d779b7eb9b623a data/forge/tags/items/ores/niter.json
+f4c17e67d95355ba84d811742e2bfa855cc2debf data/forge/tags/items/ores/sulfur.json
 ebf88f76296dc67d37f7260f181f4ce85ef96b5e data/forge/tags/items/plates.json
 8b71c51e4dad4103465a3bfecfb3c46a1f395506 data/forge/tags/items/plates/copper.json
 3c3733efaa5d37e4cc55c46b5f1c25ae3d881106 data/forge/tags/items/plates/diamond.json

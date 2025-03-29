@@ -67,8 +67,6 @@ public class DatagenItemModels extends ItemModelProvider {
 		simpleItem(ItemInit.ADVANCED_ITEM_FILTER);
 		simpleItem(ItemInit.FLUID_FILTER);
 
-		simpleItem(ItemInit.ALUMINUM_INGOT);
-		simpleItem(ItemInit.ALUMINUM_NUGGET);
 		simpleItem(ItemInit.COAL_CHUNK);
 
 		simpleItem(ItemInit.TROPICAL_SIGN);
@@ -97,7 +95,7 @@ public class DatagenItemModels extends ItemModelProvider {
 	}
 
 	private void oreFamily(OreFamily fam) {
-		simpleItem(fam.dust());
+		fam.getDust().ifPresent(this::simpleItem);
 		fam.getIngot().ifPresent(this::simpleItem);
 		fam.getNugget().ifPresent(this::simpleItem);
 		fam.plate().ifPresent(this::simpleItem);

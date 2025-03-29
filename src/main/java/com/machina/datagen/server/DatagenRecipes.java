@@ -71,7 +71,9 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 		// Crafting ingot
 		family.getIngot().ifPresent(ingot -> {
 			family.ore().ifPresent(ore -> ore(gen, List.of(ore), ingot, 0.7f, 200, family.name()));
-			ore(gen, List.of(family.dust()), ingot, 0.7f, 200, family.name());
+			family.dust().ifPresent(dust -> {
+				ore(gen, List.of(dust), ingot, 0.7f, 200, family.name());
+			});
 		});
 
 		// Crafting block

@@ -43,6 +43,8 @@ public class FamiliesInit {
 		ORES.add(OreFamily.ingotLike("diamond", Blocks.DIAMOND_ORE, Blocks.DIAMOND_BLOCK, ItemInit.DIAMOND_NUGGET.get(),
 				Items.DIAMOND, ItemInit.DIAMOND_DUST.get(), ItemInit.DIAMOND_PLATE.get(), ItemInit.DIAMOND_ROD.get(),
 				ItemInit.DIAMOND_WIRE.get()));
+		ORES.add(OreFamily.resLike("niter", BlockInit.SALTPETER_ORE.get(), ItemInit.NITER.get()));
+		ORES.add(OreFamily.resLike("sulfur", BlockInit.PYRITE_ORE.get(), ItemInit.SULFUR.get()));
 
 		DIRTS.add(new DirtFamily("tropical", BlockInit.TROPICAL_DIRT.get(), BlockInit.TROPICAL_DIRT_STAIRS.get(),
 				BlockInit.TROPICAL_DIRT_SLAB.get(), Optional.of(BlockInit.TROPICAL_GRASS_BLOCK.get())));
@@ -154,18 +156,23 @@ public class FamiliesInit {
 	}
 
 	public record OreFamily(String name, Optional<Block> ore, Optional<Block> block, Optional<Item> nugget,
-			Optional<Item> ingot, Item dust, Optional<Item> plate, Optional<Item> rod, Optional<Item> wire)
+			Optional<Item> ingot, Optional<Item> dust, Optional<Item> plate, Optional<Item> rod, Optional<Item> wire)
 			implements ItemLikeFamily {
 
+		public static OreFamily resLike(String name, Block ore, Item gem) {
+			return new OreFamily(name, Optional.of(ore), Optional.empty(), Optional.empty(), Optional.of(gem),
+					Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+		}
+
 		public static OreFamily gemLike(String name, Block ore, Block block, Item ingot, Item dust) {
-			return new OreFamily(name, Optional.of(ore), Optional.of(block), Optional.empty(), Optional.of(ingot), dust,
-					Optional.empty(), Optional.empty(), Optional.empty());
+			return new OreFamily(name, Optional.of(ore), Optional.of(block), Optional.empty(), Optional.of(ingot),
+					Optional.of(dust), Optional.empty(), Optional.empty(), Optional.empty());
 		}
 
 		public static OreFamily ingotLike(String name, Block ore, Block block, Item nugget, Item ingot, Item dust,
 				Item plate, Item rod, Item wire) {
 			return new OreFamily(name, Optional.of(ore), Optional.of(block), Optional.of(nugget), Optional.of(ingot),
-					dust, Optional.of(plate), Optional.of(rod), Optional.of(wire));
+					Optional.of(dust), Optional.of(plate), Optional.of(rod), Optional.of(wire));
 		}
 
 		private static boolean isOurItem(ItemLike item) {
@@ -187,6 +194,10 @@ public class FamiliesInit {
 		public Optional<Item> getIngot() {
 			return ingot.filter(OreFamily::isOurItem);
 		}
+		
+		public Optional<Item> getDust() {
+			return dust.filter(OreFamily::isOurItem);
+		}
 
 		@Override
 		public List<ItemLike> tab() {
@@ -201,7 +212,7 @@ public class FamiliesInit {
 			ore.ifPresent(add);
 			ingot.ifPresent(add);
 			block.ifPresent(add);
-			builder.add(dust);
+			dust.ifPresent(add);
 			plate.ifPresent(add);
 			rod.ifPresent(add);
 			wire.ifPresent(add);

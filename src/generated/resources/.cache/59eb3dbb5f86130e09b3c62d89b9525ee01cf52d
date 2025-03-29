@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-24T23:21:38.3791494	Loot Tables
+// 1.20.1	2025-03-29T23:43:31.0429108	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -247,6 +247,7 @@ a85d39ab8373a78e42794c82fefdee6c505705dc data/machina/loot_tables/blocks/purple_
 a9617fa4a9d0d85d6f4b41ded1230f0d29d349ab data/machina/loot_tables/blocks/purple_mushroom_stalk.json
 f447ae529364fa65226ee0407e3ab1c36f20193c data/machina/loot_tables/blocks/purple_petals.json
 d280dd9aad8d852c4691172ab8cdce825905054d data/machina/loot_tables/blocks/purple_waterlily.json
+70be577cf8d072ec1d82bd088db2a2b1ba96adcf data/machina/loot_tables/blocks/pyrite_ore.json
 4ac9595dd2e337c5e452d371e621c565db0cf3e5 data/machina/loot_tables/blocks/red_coniferous_leaves.json
 dfd57be449fa0e8de3407c568e22da84896f090b data/machina/loot_tables/blocks/red_glowshroom.json
 c10db1a59bdfa9579896528f0b09cc80976ccf79 data/machina/loot_tables/blocks/red_groundlily.json
@@ -254,6 +255,7 @@ baebb42cc5383f94d5c018b9af79af2a40220017 data/machina/loot_tables/blocks/red_mus
 c3c101d2b52a1bd5340b1c7206e1cd6b47a237ef data/machina/loot_tables/blocks/red_mushroom_gills.json
 f316a112b69f99ba70b0e48dc01a17b0994e4905 data/machina/loot_tables/blocks/red_petals.json
 e19d911c21668377d54a645d13454957de9bcab0 data/machina/loot_tables/blocks/red_waterlily.json
+fe637a7ee690cd2ca9d21d023f94bcc38ed38403 data/machina/loot_tables/blocks/saltpeter_ore.json
 068a89f22c7809ac758ffc2a4b4ec08197f500e6 data/machina/loot_tables/blocks/shale.json
 b2d39bf343888dd6761206f576197cbca4fc2924 data/machina/loot_tables/blocks/shale_button.json
 fd0f9f50f7419b2c89b1c235aca1372cd66101b0 data/machina/loot_tables/blocks/shale_pebbles.json

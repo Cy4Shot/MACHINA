@@ -58,9 +58,6 @@ public class DatagenBlockStates extends BlockStateProvider {
 		connector(BlockInit.FLUID_PIPE);
 		connector(BlockInit.ITEM_CONDUIT);
 
-		cube(BlockInit.ALUMINUM_BLOCK);
-		cube(BlockInit.ALUMINUM_ORE);
-
 		cube(BlockInit.ANTHRACITE);
 		slab(BlockInit.ANTHRACITE_SLAB, BlockInit.ANTHRACITE);
 		stairs(BlockInit.ANTHRACITE_STAIRS, BlockInit.ANTHRACITE);

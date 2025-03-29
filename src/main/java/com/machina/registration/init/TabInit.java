@@ -62,6 +62,11 @@ public class TabInit {
 				add(a, BlockInit.ALUMINUM_BLOCK);
 				add(a, ItemInit.RAW_ALUMINUM);
 
+				add(a, BlockInit.PYRITE_ORE);
+				add(a, ItemInit.SULFUR);
+				add(a, BlockInit.SALTPETER_ORE);
+				add(a, ItemInit.NITER);
+
 				add(a, ItemInit.SILICON);
 				add(a, ItemInit.RAW_SILICON_BLEND);
 				add(a, ItemInit.SILICON_BOLUS);

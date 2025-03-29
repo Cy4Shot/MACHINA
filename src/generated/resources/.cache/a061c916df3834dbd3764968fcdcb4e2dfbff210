@@ -1,4 +1,7 @@
-// 1.20.1	2025-01-17T13:33:31.3389252	Tags for minecraft:block mod id machina
+// 1.20.1	2025-03-29T23:43:31.0489109	Tags for minecraft:block mod id machina
+8f2636144dee5e4999207aa25aa7aebf21bc73f6 data/forge/tags/blocks/ores.json
+724f5a3a75e086a6bc1ba2e139d779b7eb9b623a data/forge/tags/blocks/ores/niter.json
+f4c17e67d95355ba84d811742e2bfa855cc2debf data/forge/tags/blocks/ores/sulfur.json
 5a53621f711df459ec8c150a6bb1c5f547e226f7 data/machina/tags/blocks/planet_carvable.json
 e5ffd28e5dde80a923c40d0aa515a2ab3509c46c data/minecraft/tags/blocks/all_hanging_signs.json
 817a6ef8482f0ce818fa4fcbe3c25338624721d4 data/minecraft/tags/blocks/all_signs.json

@@ -70,6 +70,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ITEM_FILTER, "Item Filter");
 		add(ItemInit.ADVANCED_ITEM_FILTER, "Advanced Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
+		
+		add(ItemInit.NITER, "Niter");
+		add(ItemInit.SULFUR, "Sulfur");
 
 		add(ItemInit.RAW_ALUMINUM, "Raw Aluminum");
 		add(ItemInit.ALUMINUM_INGOT, "Aluminum Ingot");
@@ -117,7 +120,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.GRINDER, "Grinder");
 
 		add(BlockInit.ALUMINUM_BLOCK, "Aluminum Block");
+		
 		add(BlockInit.ALUMINUM_ORE, "Aluminum Ore");
+		add(BlockInit.SALTPETER_ORE, "Saltpeter Ore");
+		add(BlockInit.PYRITE_ORE, "Pyrite Ore");
 
 		add(BlockInit.ANTHRACITE, "Anthracite");
 		add(BlockInit.ANTHRACITE_SLAB, "Anthracite Slab");

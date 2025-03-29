@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-26T16:57:08.3130005	Item Models: machina
+// 1.20.1	2025-03-29T23:43:31.0389116	Item Models: machina
 a38be406000b52edfc5d6439eae91b0ad61a63dc assets/machina/models/item/acetaldehyde_bucket.json
 7548cc941b514c7510e6a96383a1341dec5684dc assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -76,6 +76,7 @@ eb57fc87e43b14d33cb14605af60286c69a74887 assets/machina/models/item/molten_bismu
 24621197cee0f851f4cb141e698d1135c256cd78 assets/machina/models/item/mould_plate.json
 4541f6269e134e56aea5f4c4e19a1f1fc6cdc84c assets/machina/models/item/mould_rod.json
 b01840d8c6edb519de9564b78268cf8af3a8a5b9 assets/machina/models/item/mould_wire.json
+72363d1105710d12bac5729c492a93ccf1d52347 assets/machina/models/item/niter.json
 eda804221dc5cc04332a8fee2a216576d22c19aa assets/machina/models/item/nitric_acid_bucket.json
 9483cda49517af84f4681e1bb747aadfe2d1b9d7 assets/machina/models/item/nitrogen_bucket.json
 d01bb5067340da6fe0ff883ed1d442c3f5979ffc assets/machina/models/item/nitrogen_dioxide_bucket.json
@@ -86,6 +87,7 @@ d01bb5067340da6fe0ff883ed1d442c3f5979ffc assets/machina/models/item/nitrogen_dio
 f6fac02a935b4e3c15d68f4b87752f435dbaae3d assets/machina/models/item/quartz_dust.json
 c708803c8edd2edd7c47aed6b6e66658a6d6a21f assets/machina/models/item/sparr_ball.json
 dcd942ccf7e865e416d04b00203bdf881fc9f410 assets/machina/models/item/strapple.json
+695571dc69fdc98eb987865a85c5b940d1771ea3 assets/machina/models/item/sulfur.json
 696ac16dd07dfa152fe94788175fbb02036852e4 assets/machina/models/item/sulphuric_acid_bucket.json
 61bbdc42931f80feba7fb39517df1b3e7906b6f6 assets/machina/models/item/sulphur_dioxide_bucket.json
 b45d96044dd17cf403434d627bcbfacccb2e7dcb assets/machina/models/item/sulphur_trioxide_bucket.json
