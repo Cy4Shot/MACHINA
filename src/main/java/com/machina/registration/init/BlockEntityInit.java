@@ -9,6 +9,7 @@ import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.machina.block.entity.connector.ItemConduitBlockEntity;
 import com.machina.block.entity.machine.BatteryBlockEntity;
+import com.machina.block.entity.machine.ComposterVatBlockEntity;
 import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.block.entity.machine.CreativeBatteryBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
@@ -48,6 +49,8 @@ public class BlockEntityInit {
             GrinderBlockEntity::new, BlockInit.GRINDER::get);
 	public static final RegistryObject<BlockEntityType<CompressorBlockEntity>> COMPRESSOR = register("compressor",
 			CompressorBlockEntity::new, BlockInit.COMPRESSOR::get);
+	public static final RegistryObject<BlockEntityType<ComposterVatBlockEntity>> COMPOSTER_VAT = register("composter_vat",
+			ComposterVatBlockEntity::new, BlockInit.COMPOSTER_VAT::get);
 	//@formatter:on
 
 	public static final RegistryObject<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",

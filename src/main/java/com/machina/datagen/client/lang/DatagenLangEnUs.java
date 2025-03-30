@@ -118,6 +118,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.CREATIVE_BATTERY, "Creative Battery");
 		add(BlockInit.FURNACE_GENERATOR, "Furnace Generator");
 		add(BlockInit.GRINDER, "Grinder");
+		add(BlockInit.COMPRESSOR, "Compressor");
+		add(BlockInit.COMPOSTER_VAT, "Composter Vat");
 
 		add(BlockInit.ALUMINUM_BLOCK, "Aluminum Block");
 		
@@ -539,5 +541,22 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("grinder.requires", "Requires");
 		addUI("grinder.input", "Input");
 		addUI("grinder.output", "Output");
+		
+		addUI("compressor.no_input", "No Recipe Found");
+		addUI("compressor.no_power", "No Power");
+		addUI("compressor.no_space", "No Output Space");
+		addUI("compressor.progress", "Progress");
+		addUI("compressor.usage", "Using");
+		addUI("compressor.requires", "Requires");
+		addUI("compressor.input", "Input");
+		addUI("compressor.output", "Output");
+		
+		addUI("composter_vat.no_input", "Awaiting Compostable Item");
+		addUI("composter_vat.no_power", "No Power");
+		addUI("composter_vat.no_space", "No Output Space");
+		addUI("composter_vat.progress", "Progress");
+		addUI("composter_vat.usage", "Using");
+		addUI("composter_vat.requires", "Requires");
+		addUI("composter_vat.input", "Input");
 	}
 }

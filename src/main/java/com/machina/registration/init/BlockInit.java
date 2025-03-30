@@ -17,6 +17,7 @@ import com.machina.block.connector.EnergyCableBlock;
 import com.machina.block.connector.FluidPipeBlock;
 import com.machina.block.connector.ItemConduitBlock;
 import com.machina.block.machine.BatteryBlock;
+import com.machina.block.machine.ComposterVatBlock;
 import com.machina.block.machine.CompressorBlock;
 import com.machina.block.machine.CreativeBatteryBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
@@ -74,6 +75,7 @@ public class BlockInit {
 	public static final RegistryObject<FurnaceGeneratorBlock> FURNACE_GENERATOR = register("furnace_generator", Blocks.IRON_BLOCK, FurnaceGeneratorBlock::new);
 	public static final RegistryObject<GrinderBlock> GRINDER = register("grinder", Blocks.IRON_BLOCK, GrinderBlock::new);
 	public static final RegistryObject<CompressorBlock> COMPRESSOR = register("compressor", Blocks.IRON_BLOCK, CompressorBlock::new);
+	public static final RegistryObject<ComposterVatBlock> COMPOSTER_VAT = register("composter_vat", Blocks.IRON_BLOCK, ComposterVatBlock::new);
 	
 	public static final RegistryObject<Block> ALUMINUM_BLOCK = block("aluminum_block", Blocks.IRON_BLOCK);
 	

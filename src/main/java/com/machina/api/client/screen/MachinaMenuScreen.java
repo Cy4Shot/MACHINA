@@ -55,6 +55,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
@@ -229,8 +230,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
-	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot,
-			String hover) {
+	protected void drawUpFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot, String hover) {
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
@@ -247,8 +247,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
-	protected void drawNoFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot,
-			String hover) {
+	protected void drawNoFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot, String hover) {
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
@@ -265,8 +264,8 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
-	protected void drawGhostSlot(GuiGraphics gui, Supplier<Boolean> empty, int mx, int my, int x, int y,
-			MuiSlot slot, String hover, BiConsumer<Integer, Integer> render) {
+	protected void drawGhostSlot(GuiGraphics gui, Supplier<Boolean> empty, int mx, int my, int x, int y, MuiSlot slot,
+			String hover, BiConsumer<Integer, Integer> render) {
 		int i = midWidth() + x;
 		int j = midHeight() + y;
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
@@ -330,8 +329,10 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 136, j + 18,
 				() -> active
 						? name.get()
-								.append(Component.literal(formatter.apply(value.get()) + " / "
-										+ formatter.apply(max.get()) + " (" + StringUtils.formatPercent(f.get()) + ")"))
+								.append(Component
+										.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
+												+ " (" + StringUtils.formatPercent(f.get()) + ")")
+										.withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE)))
 						: MUI.uistr(missing));
 		MUI.drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
 	}
@@ -349,8 +350,11 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	protected void drawFluidBar(GuiGraphics gui, int x, int y, int tank) {
 		if (entity instanceof MachinaBlockEntity) {
 			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
-			drawBar(gui, x, y, true, "", StringUtils::formatFluid, Component::empty, () -> mbe.getFluidMB(tank),
-					() -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank), (i, j, p) -> {
+			drawBar(gui, x, y, true, "", StringUtils::formatFluid,
+					() -> StringUtils.fluid(mbe.getFluid(tank), true)
+							.append(Component.literal(": ").withStyle(Style.EMPTY)),
+					() -> mbe.getFluidMB(tank), () -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank),
+					(i, j, p) -> {
 						float prop = mbe.getFluidF(tank);
 						renderFluid(gui, mbe.getFluid(tank), i + 1, j + 17, (int) (131 * prop), 14, 0);
 					});
@@ -623,10 +627,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
 	// Mekanism
 	public enum TilingDirection {
-		DOWN_RIGHT(true, true),
-		DOWN_LEFT(true, false),
-		UP_RIGHT(false, true),
-		UP_LEFT(false, false);
+		DOWN_RIGHT(true, true), DOWN_LEFT(true, false), UP_RIGHT(false, true), UP_LEFT(false, false);
 
 		private final boolean down;
 		private final boolean right;

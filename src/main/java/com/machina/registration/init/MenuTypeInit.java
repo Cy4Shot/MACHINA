@@ -2,6 +2,7 @@ package com.machina.registration.init;
 
 import com.machina.Machina;
 import com.machina.block.menu.BatteryMenu;
+import com.machina.block.menu.ComposterVatMenu;
 import com.machina.block.menu.CompressorMenu;
 import com.machina.block.menu.CreativeBatteryMenu;
 import com.machina.block.menu.FurnaceGeneratorMenu;
@@ -51,6 +52,8 @@ public class MenuTypeInit {
 			register("grinder", GrinderMenu::new);
 	public static final RegistryObject<MenuType<CompressorMenu>> COMPRESSOR =
 			register("compressor", CompressorMenu::new);
+	public static final RegistryObject<MenuType<ComposterVatMenu>> COMPOSTER_VAT =
+			register("composter_vat", ComposterVatMenu::new);
 	//@formatter:on
 
 	private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String n,
