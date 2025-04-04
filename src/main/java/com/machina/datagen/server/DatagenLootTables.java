@@ -18,7 +18,6 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.FruitInit.Fruit;
-import com.machina.registration.init.ItemInit;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
@@ -46,8 +45,7 @@ public class DatagenLootTables extends LootTableProvider {
 			dropSelf(BlockInit.FURNACE_GENERATOR.get());
 			dropSelf(BlockInit.GRINDER.get());
 			dropSelf(BlockInit.COMPRESSOR.get());
-
-			dropSelf(BlockInit.ALUMINUM_BLOCK.get());
+			dropSelf(BlockInit.COMPOSTER_VAT.get());
 
 			dropSelf(BlockInit.BROWN_MUSHROOM_STALK.get());
 			dropSelf(BlockInit.GREEN_MUSHROOM_STALK.get());
@@ -135,8 +133,6 @@ public class DatagenLootTables extends LootTableProvider {
 			dropAsSilk(BlockInit.TURQUOISE_WATERLILY.get());
 			dropAsSilk(BlockInit.BLUE_WATERLILY.get());
 
-			ore(BlockInit.ALUMINUM_ORE.get(), ItemInit.RAW_ALUMINUM.get());
-
 			// Fruit
 			for (Fruit fruit : FruitInit.FRUITS) {
 				dropSelf(fruit.block().get());
@@ -155,9 +151,16 @@ public class DatagenLootTables extends LootTableProvider {
 
 		private void oreFamily(OreFamily family) {
 			family.getBlock().ifPresent(this::dropSelf);
-
-			// TODO: Raw
-			family.getOre().ifPresent(this::dropSelf);
+			family.getRawBlock().ifPresent(this::dropSelf);
+			family.getOre().ifPresent(ore -> {
+				family.getRaw().ifPresentOrElse(raw -> {
+					ore(ore, raw);
+				}, () -> {
+					family.getIngot().ifPresent(ingot -> {
+						ore(ore, ingot);
+					});
+				});
+			});
 		}
 
 		private void dirtFamily(DirtFamily family) {

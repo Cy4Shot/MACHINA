@@ -37,13 +37,7 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 
 	@Override
 	protected void buildRecipes(@NotNull Consumer<FinishedRecipe> gen) {
-		ore(gen, List.of(ItemInit.RAW_ALUMINUM.get(), BlockInit.ALUMINUM_ORE.get()), ItemInit.ALUMINUM_INGOT.get(),
-				0.25f, 200, "aluminum");
 		ore(gen, List.of(BlockInit.ANTHRACITE.get()), ItemInit.COAL_CHUNK.get(), 0.05f, 40, "anthracite");
-
-		compact(gen, BlockInit.ALUMINUM_BLOCK.get(), ItemInit.ALUMINUM_INGOT.get());
-		compact(gen, ItemInit.ALUMINUM_INGOT.get(), ItemInit.ALUMINUM_NUGGET.get());
-		compact(gen, Items.COAL, ItemInit.COAL_CHUNK.get());
 
 		//@formatter:off
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.ANTHRACITE.get())
@@ -71,13 +65,16 @@ public class DatagenRecipes extends RecipeProvider implements IConditionBuilder 
 		// Crafting ingot
 		family.getIngot().ifPresent(ingot -> {
 			family.ore().ifPresent(ore -> ore(gen, List.of(ore), ingot, 0.7f, 200, family.name()));
-			family.dust().ifPresent(dust -> {
-				ore(gen, List.of(dust), ingot, 0.7f, 200, family.name());
+			family.raw().ifPresent(raw -> {
+				ore(gen, List.of(raw), ingot, 0.7f, 200, family.name());
 			});
 		});
 
 		// Crafting block
-		family.getBlock().ifPresent(block -> family.ingot().ifPresent(ingot -> compact(gen, block, ingot)));
+		family.getBlock().ifPresent(block -> {
+			family.ingot().ifPresent(ingot -> compact(gen, block, ingot));
+			family.rawBlock().ifPresent(raw -> ore(gen, List.of(raw), block, 2.7f, 200, family.name()));
+		});
 
 		// Crafting nugget
 		family.getNugget().ifPresent(nugget -> family.ingot().ifPresent(ingot -> compact(gen, ingot, nugget)));

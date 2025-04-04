@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_raw_boron": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "machina:raw_boron"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:boron_ingot_from_smelting_raw_boron"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_raw_boron",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:boron_ingot_from_smelting_raw_boron"
+    ]
+  },
+  "sends_telemetry_event": false
+}

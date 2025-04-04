@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "palladium",
+  "ingredient": {
+    "item": "machina:raw_palladium"
+  },
+  "result": "machina:palladium_ingot"
+}

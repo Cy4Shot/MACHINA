@@ -47,13 +47,38 @@ public class ItemInit {
 	public static final RegistryObject<AdvancedItemFilterItem> ADVANCED_ITEM_FILTER = basic("advanced_item_filter", AdvancedItemFilterItem::new);
 	public static final RegistryObject<FluidFilterItem> FLUID_FILTER = basic("fluid_filter", FluidFilterItem::new);
 	
-	public static final RegistryObject<Item> RAW_ALUMINUM = basic("raw_aluminum");
-	public static final RegistryObject<Item> ALUMINUM_INGOT = basic("aluminum_ingot");
-	public static final RegistryObject<Item> ALUMINUM_NUGGET = basic("aluminum_nugget");
-	public static final RegistryObject<Item> COAL_CHUNK = basic("coal_chunk");
+	public static final RegistryObject<ChemicalItem> RAW_ALUMINUM = chemical("raw_aluminum", "Al");
+	public static final RegistryObject<ChemicalItem> RAW_NICKEL = chemical("raw_nickel", "Ni");
+	public static final RegistryObject<ChemicalItem> RAW_LEAD = chemical("raw_lead", "Pb");
+	public static final RegistryObject<ChemicalItem> RAW_BORON = chemical("raw_boron", "B");
+	public static final RegistryObject<ChemicalItem> RAW_PALLADIUM = chemical("raw_palladium", "Pd");
+	public static final RegistryObject<ChemicalItem> RAW_SILVER = chemical("raw_silver", "Ag");
 	
+	public static final RegistryObject<ChemicalItem> ALUMINUM_INGOT = chemical("aluminum_ingot", "Al");
+	public static final RegistryObject<ChemicalItem> NICKEL_INGOT = chemical("nickel_ingot", "Ni");
+	public static final RegistryObject<ChemicalItem> LEAD_INGOT = chemical("lead_ingot", "Pb");
+	public static final RegistryObject<ChemicalItem> BORON_INGOT = chemical("boron_ingot", "B");
+	public static final RegistryObject<ChemicalItem> PALLADIUM_INGOT = chemical("palladium_ingot", "Pd");
+	public static final RegistryObject<ChemicalItem> SILVER_INGOT = chemical("silver_ingot", "Ag");
+	public static final RegistryObject<ChemicalItem> STEEL_INGOT = chemical("steel_ingot", "Fe+C");
+	public static final RegistryObject<ChemicalItem> CONSTANTAN_INGOT = chemical("constantan_ingot", "Cu+Ni");
+	
+	public static final RegistryObject<ChemicalItem> ALUMINUM_NUGGET = chemical("aluminum_nugget", "Al");
+	public static final RegistryObject<ChemicalItem> NICKEL_NUGGET = chemical("nickel_nugget", "Ni");
+	public static final RegistryObject<ChemicalItem> LEAD_NUGGET = chemical("lead_nugget", "Pb");
+	public static final RegistryObject<ChemicalItem> BORON_NUGGET = chemical("boron_nugget", "B");
+	public static final RegistryObject<ChemicalItem> PALLADIUM_NUGGET = chemical("palladium_nugget", "Pd");
+	public static final RegistryObject<ChemicalItem> SILVER_NUGGET = chemical("silver_nugget", "Ag");
+	public static final RegistryObject<ChemicalItem> STEEL_NUGGET = chemical("steel_nugget", "Fe+C");
+	public static final RegistryObject<ChemicalItem> CONSTANTAN_NUGGET = chemical("constantan_nugget", "Cu+Ni");
+	
+	public static final RegistryObject<Item> COAL_CHUNK = basic("coal_chunk");
+	public static final RegistryObject<Item> COPPER_NUGGET = basic("copper_nugget");
+	
+	public static final RegistryObject<ChemicalItem> FLUORITE = chemical("fluorite", "CaF2");
 	public static final RegistryObject<ChemicalItem> SULFUR = chemical("sulfur", "SO3");
 	public static final RegistryObject<ChemicalItem> NITER = chemical("niter", "KNO3");
+	public static final RegistryObject<ChemicalItem> BISMUTH = chemical("bismuth", "Bi");
 	
 	public static final RegistryObject<Item> COPPER_COIL = basic("copper_coil");
 	public static final RegistryObject<Item> TRANSISTOR = basic("transistor");
@@ -61,9 +86,6 @@ public class ItemInit {
 	public static final RegistryObject<Item> PROCESSOR_CORE = basic("processor_core");
 	public static final RegistryObject<Item> PROCESSOR = basic("processor");
 	public static final RegistryObject<Item> RAW_SILICON_BLEND = basic("raw_silicon_blend");
-	
-	public static final RegistryObject<Item> COPPER_NUGGET = basic("copper_nugget");
-	public static final RegistryObject<Item> DIAMOND_NUGGET = basic("diamond_nugget");
 	
 	public static final RegistryObject<ChemicalItem> COAL_DUST = chemical("coal_dust", "C");
 	public static final RegistryObject<ChemicalItem> IRON_DUST = chemical("iron_dust", "Fe");
@@ -73,21 +95,54 @@ public class ItemInit {
 	public static final RegistryObject<ChemicalItem> LAPIS_DUST = chemical("lapis_dust", "NaAl6Si6O24S2");
 	public static final RegistryObject<ChemicalItem> EMERALD_DUST = chemical("emerald_dust", "Be3Al2(SiO3)6");
 	public static final RegistryObject<ChemicalItem> QUARTZ_DUST = chemical("quartz_dust", "SiO2");
+	public static final RegistryObject<ChemicalItem> ALUMINUM_DUST = chemical("aluminum_dust", "Al");
+	public static final RegistryObject<ChemicalItem> NICKEL_DUST = chemical("nickel_dust", "Ni");
+	public static final RegistryObject<ChemicalItem> LEAD_DUST = chemical("lead_dust", "Pb");
+	public static final RegistryObject<ChemicalItem> BORON_DUST = chemical("boron_dust", "B");
+	public static final RegistryObject<ChemicalItem> PALLADIUM_DUST = chemical("palladium_dust", "Pd");
+	public static final RegistryObject<ChemicalItem> SILVER_DUST = chemical("silver_dust", "Ag");
+	public static final RegistryObject<ChemicalItem> STEEL_DUST = chemical("steel_dust", "Fe+C");
+	public static final RegistryObject<ChemicalItem> CONSTANTAN_DUST = chemical("constantan_dust", "Cu+Ni");
+	public static final RegistryObject<ChemicalItem> FLUORITE_DUST = chemical("fluorite_dust", "CaF2");
+	public static final RegistryObject<ChemicalItem> SULFUR_DUST = chemical("sulfur_dust", "SO3");
+	public static final RegistryObject<ChemicalItem> NITER_DUST = chemical("niter_dust", "KNO3");
+	public static final RegistryObject<ChemicalItem> BISMUTH_DUST = chemical("bismuth_dust", "Bi");
 	
 	public static final RegistryObject<ChemicalItem> IRON_PLATE = chemical("iron_plate", "Fe");
 	public static final RegistryObject<ChemicalItem> COPPER_PLATE = chemical("copper_plate", "Cu");
 	public static final RegistryObject<ChemicalItem> GOLD_PLATE = chemical("gold_plate", "Au");
-	public static final RegistryObject<ChemicalItem> DIAMOND_PLATE = chemical("diamond_plate", "C");
+	public static final RegistryObject<ChemicalItem> ALUMINUM_PLATE = chemical("aluminum_plate", "Al");
+	public static final RegistryObject<ChemicalItem> NICKEL_PLATE = chemical("nickel_plate", "Ni");
+	public static final RegistryObject<ChemicalItem> LEAD_PLATE = chemical("lead_plate", "Pb");
+	public static final RegistryObject<ChemicalItem> BORON_PLATE = chemical("boron_plate", "B");
+	public static final RegistryObject<ChemicalItem> PALLADIUM_PLATE = chemical("palladium_plate", "Pd");
+	public static final RegistryObject<ChemicalItem> SILVER_PLATE = chemical("silver_plate", "Ag");
+	public static final RegistryObject<ChemicalItem> STEEL_PLATE = chemical("steel_plate", "Fe+C");
+	public static final RegistryObject<ChemicalItem> CONSTANTAN_PLATE = chemical("constantan_plate", "Cu+Ni");
 	
 	public static final RegistryObject<ChemicalItem> IRON_ROD = chemical("iron_rod", "Fe");
 	public static final RegistryObject<ChemicalItem> COPPER_ROD = chemical("copper_rod", "Cu");
 	public static final RegistryObject<ChemicalItem> GOLD_ROD = chemical("gold_rod", "Au");
-	public static final RegistryObject<ChemicalItem> DIAMOND_ROD = chemical("diamond_rod", "C");
+	public static final RegistryObject<ChemicalItem> ALUMINUM_ROD = chemical("aluminum_rod", "Al");
+	public static final RegistryObject<ChemicalItem> NICKEL_ROD = chemical("nickel_rod", "Ni");
+	public static final RegistryObject<ChemicalItem> LEAD_ROD = chemical("lead_rod", "Pb");
+	public static final RegistryObject<ChemicalItem> BORON_ROD = chemical("boron_rod", "B");
+	public static final RegistryObject<ChemicalItem> PALLADIUM_ROD = chemical("palladium_rod", "Pd");
+	public static final RegistryObject<ChemicalItem> SILVER_ROD = chemical("silver_rod", "Ag");
+	public static final RegistryObject<ChemicalItem> STEEL_ROD = chemical("steel_rod", "Fe+C");
+	public static final RegistryObject<ChemicalItem> CONSTANTAN_ROD = chemical("constantan_rod", "Cu+Ni");
 	
 	public static final RegistryObject<ChemicalItem> IRON_WIRE = chemical("iron_wire", "Fe");
 	public static final RegistryObject<ChemicalItem> COPPER_WIRE = chemical("copper_wire", "Cu");
 	public static final RegistryObject<ChemicalItem> GOLD_WIRE = chemical("gold_wire", "Au");
-	public static final RegistryObject<ChemicalItem> DIAMOND_WIRE = chemical("diamond_wire", "C");
+	public static final RegistryObject<ChemicalItem> ALUMINUM_WIRE = chemical("aluminum_wire", "Al");
+	public static final RegistryObject<ChemicalItem> NICKEL_WIRE = chemical("nickel_wire", "Ni");
+	public static final RegistryObject<ChemicalItem> LEAD_WIRE = chemical("lead_wire", "Pb");
+	public static final RegistryObject<ChemicalItem> BORON_WIRE = chemical("boron_wire", "B");
+	public static final RegistryObject<ChemicalItem> PALLADIUM_WIRE = chemical("palladium_wire", "Pd");
+	public static final RegistryObject<ChemicalItem> SILVER_WIRE = chemical("silver_wire", "Ag");
+	public static final RegistryObject<ChemicalItem> STEEL_WIRE = chemical("steel_wire", "Fe+C");
+	public static final RegistryObject<ChemicalItem> CONSTANTAN_WIRE = chemical("constantan_wire", "Cu+Ni");
 	
 	public static final RegistryObject<ChemicalItem> SILICON = chemical("silicon", "Si");
 	public static final RegistryObject<ChemicalItem> SILICON_BOLUS = chemical("silicon_bolus", "Si");

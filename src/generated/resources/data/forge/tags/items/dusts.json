@@ -4,9 +4,21 @@
     "machina:lapis_dust",
     "machina:quartz_dust",
     "machina:emerald_dust",
+    "machina:diamond_dust",
     "machina:iron_dust",
     "machina:gold_dust",
     "machina:copper_dust",
-    "machina:diamond_dust"
+    "machina:aluminum_dust",
+    "machina:nickel_dust",
+    "machina:lead_dust",
+    "machina:boron_dust",
+    "machina:palladium_dust",
+    "machina:silver_dust",
+    "machina:steel_dust",
+    "machina:constantan_dust",
+    "machina:fluorite_dust",
+    "machina:niter_dust",
+    "machina:sulfur_dust",
+    "machina:bismuth_dust"
   ]
 }

@@ -53,20 +53,10 @@ public class TabInit {
 			});
 
 	public static final RegistryObject<CreativeModeTab> MACHINA_RESOURCES = create("machina_resources",
-			ItemInit.DIAMOND_PLATE, a -> {
+			ItemInit.ALUMINUM_INGOT, a -> {
 
 				add(a, ItemInit.COAL_CHUNK);
 				family(a, FamiliesInit.ORES);
-
-				add(a, ItemInit.ALUMINUM_NUGGET);
-				add(a, ItemInit.ALUMINUM_INGOT);
-				add(a, BlockInit.ALUMINUM_BLOCK);
-				add(a, ItemInit.RAW_ALUMINUM);
-
-				add(a, BlockInit.PYRITE_ORE);
-				add(a, ItemInit.SULFUR);
-				add(a, BlockInit.SALTPETER_ORE);
-				add(a, ItemInit.NITER);
 
 				add(a, ItemInit.SILICON);
 				add(a, ItemInit.RAW_SILICON_BLEND);

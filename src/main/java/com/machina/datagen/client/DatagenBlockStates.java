@@ -374,6 +374,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 	private void oreFamily(OreFamily fam) {
 		fam.getBlock().ifPresent(this::cube);
 		fam.getOre().ifPresent(this::cube);
+		fam.getRawBlock().ifPresent(this::cube);
 	}
 
 	private void cubeRandomRotation(RegistryObject<Block> block) {

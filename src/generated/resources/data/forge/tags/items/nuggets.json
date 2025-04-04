@@ -1,6 +1,13 @@
 {
   "values": [
     "machina:copper_nugget",
-    "machina:diamond_nugget"
+    "machina:aluminum_nugget",
+    "machina:nickel_nugget",
+    "machina:lead_nugget",
+    "machina:boron_nugget",
+    "machina:palladium_nugget",
+    "machina:silver_nugget",
+    "machina:steel_nugget",
+    "machina:constantan_nugget"
   ]
 }

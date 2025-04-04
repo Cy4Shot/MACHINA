@@ -3,6 +3,13 @@
     "machina:iron_wire",
     "machina:gold_wire",
     "machina:copper_wire",
-    "machina:diamond_wire"
+    "machina:aluminum_wire",
+    "machina:nickel_wire",
+    "machina:lead_wire",
+    "machina:boron_wire",
+    "machina:palladium_wire",
+    "machina:silver_wire",
+    "machina:steel_wire",
+    "machina:constantan_wire"
   ]
 }

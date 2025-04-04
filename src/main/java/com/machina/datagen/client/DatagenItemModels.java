@@ -101,6 +101,7 @@ public class DatagenItemModels extends ItemModelProvider {
 		fam.plate().ifPresent(this::simpleItem);
 		fam.rod().ifPresent(this::simpleItem);
 		fam.wire().ifPresent(this::simpleItem);
+		fam.getRaw().ifPresent(this::simpleItem);
 	}
 
 	protected void bucket(FluidObject obj) {

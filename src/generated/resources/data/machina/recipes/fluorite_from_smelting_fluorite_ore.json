@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "fluorite",
+  "ingredient": {
+    "item": "machina:fluorite_ore"
+  },
+  "result": "machina:fluorite"
+}

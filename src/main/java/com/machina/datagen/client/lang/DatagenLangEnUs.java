@@ -30,7 +30,6 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		// Items
 		add(ItemInit.COPPER_NUGGET, "Copper Nugget");
-		add(ItemInit.DIAMOND_NUGGET, "Diamond Nugget");
 
 		add(ItemInit.COAL_DUST, "Coal Dust");
 		add(ItemInit.IRON_DUST, "Iron Dust");
@@ -44,17 +43,85 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.IRON_PLATE, "Iron Plate");
 		add(ItemInit.COPPER_PLATE, "Copper Plate");
 		add(ItemInit.GOLD_PLATE, "Gold Plate");
-		add(ItemInit.DIAMOND_PLATE, "Diamond Plate");
 
 		add(ItemInit.IRON_ROD, "Iron Rod");
 		add(ItemInit.COPPER_ROD, "Copper Rod");
 		add(ItemInit.GOLD_ROD, "Gold Rod");
-		add(ItemInit.DIAMOND_ROD, "Diamond Rod");
 
 		add(ItemInit.IRON_WIRE, "Iron Wire");
 		add(ItemInit.COPPER_WIRE, "Copper Wire");
 		add(ItemInit.GOLD_WIRE, "Gold Wire");
-		add(ItemInit.DIAMOND_WIRE, "Diamond Wire");
+
+		add(ItemInit.ALUMINUM_NUGGET, "Aluminum Nugget");
+		add(ItemInit.ALUMINUM_INGOT, "Aluminum Ingot");
+		add(ItemInit.ALUMINUM_DUST, "Aluminum Dust");
+		add(ItemInit.ALUMINUM_PLATE, "Aluminum Plate");
+		add(ItemInit.ALUMINUM_ROD, "Aluminum Rod");
+		add(ItemInit.ALUMINUM_WIRE, "Aluminum Wire");
+		add(ItemInit.RAW_ALUMINUM, "Raw Aluminum");
+		
+		add(ItemInit.NICKEL_NUGGET, "Nickel Nugget");
+		add(ItemInit.NICKEL_INGOT, "Nickel Ingot");
+		add(ItemInit.NICKEL_DUST, "Nickel Dust");
+		add(ItemInit.NICKEL_PLATE, "Nickel Plate");
+		add(ItemInit.NICKEL_ROD, "Nickel Rod");
+		add(ItemInit.NICKEL_WIRE, "Nickel Wire");
+		add(ItemInit.RAW_NICKEL, "Raw Nickel");
+		
+		add(ItemInit.LEAD_NUGGET, "Lead Nugget");
+		add(ItemInit.LEAD_INGOT, "Lead Ingot");
+		add(ItemInit.LEAD_DUST, "Lead Dust");
+		add(ItemInit.LEAD_PLATE, "Lead Plate");
+		add(ItemInit.LEAD_ROD, "Lead Rod");
+		add(ItemInit.LEAD_WIRE, "Lead Wire");
+		add(ItemInit.RAW_LEAD, "Raw Lead");
+		
+		add(ItemInit.BORON_NUGGET, "Boron Nugget");
+		add(ItemInit.BORON_INGOT, "Boron Ingot");
+		add(ItemInit.BORON_DUST, "Boron Dust");
+		add(ItemInit.BORON_PLATE, "Boron Plate");
+		add(ItemInit.BORON_ROD, "Boron Rod");
+		add(ItemInit.BORON_WIRE, "Boron Wire");
+		add(ItemInit.RAW_BORON, "Raw Boron");
+		
+		add(ItemInit.PALLADIUM_NUGGET, "Palladium Nugget");
+		add(ItemInit.PALLADIUM_INGOT, "Palladium Ingot");
+		add(ItemInit.PALLADIUM_DUST, "Palladium Dust");
+		add(ItemInit.PALLADIUM_PLATE, "Palladium Plate");
+		add(ItemInit.PALLADIUM_ROD, "Palladium Rod");
+		add(ItemInit.PALLADIUM_WIRE, "Palladium Wire");
+		add(ItemInit.RAW_PALLADIUM, "Raw Palladium");
+		
+		add(ItemInit.SILVER_NUGGET, "Silver Nugget");
+		add(ItemInit.SILVER_INGOT, "Silver Ingot");
+		add(ItemInit.SILVER_DUST, "Silver Dust");
+		add(ItemInit.SILVER_PLATE, "Silver Plate");
+		add(ItemInit.SILVER_ROD, "Silver Rod");
+		add(ItemInit.SILVER_WIRE, "Silver Wire");
+		add(ItemInit.RAW_SILVER, "Raw Silver");
+		
+		add(ItemInit.STEEL_NUGGET, "Steel Nugget");
+		add(ItemInit.STEEL_INGOT, "Steel Ingot");
+		add(ItemInit.STEEL_DUST, "Steel Dust");
+		add(ItemInit.STEEL_PLATE, "Steel Plate");
+		add(ItemInit.STEEL_ROD, "Steel Rod");
+		add(ItemInit.STEEL_WIRE, "Steel Wire");
+		
+		add(ItemInit.CONSTANTAN_NUGGET, "Constantan Nugget");
+		add(ItemInit.CONSTANTAN_INGOT, "Constantan Ingot");
+		add(ItemInit.CONSTANTAN_DUST, "Constantan Dust");
+		add(ItemInit.CONSTANTAN_PLATE, "Constantan Plate");
+		add(ItemInit.CONSTANTAN_ROD, "Constantan Rod");
+		add(ItemInit.CONSTANTAN_WIRE, "Constantan Wire");
+		
+		add(ItemInit.FLUORITE, "Fluorite");
+		add(ItemInit.SULFUR, "Sulfur");
+		add(ItemInit.NITER, "Niter");
+		add(ItemInit.BISMUTH, "Bismuth");
+		add(ItemInit.FLUORITE_DUST, "Fluorite Dust");
+		add(ItemInit.SULFUR_DUST, "Sulfur Dust");
+		add(ItemInit.NITER_DUST, "Niter Dust");
+		add(ItemInit.BISMUTH_DUST, "Bismuth Dust");
 
 		add(ItemInit.BLUEPRINT, "Blueprint");
 
@@ -70,13 +137,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ITEM_FILTER, "Item Filter");
 		add(ItemInit.ADVANCED_ITEM_FILTER, "Advanced Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
-		
-		add(ItemInit.NITER, "Niter");
-		add(ItemInit.SULFUR, "Sulfur");
 
-		add(ItemInit.RAW_ALUMINUM, "Raw Aluminum");
-		add(ItemInit.ALUMINUM_INGOT, "Aluminum Ingot");
-		add(ItemInit.ALUMINUM_NUGGET, "Aluminum Nugget");
 		add(ItemInit.COPPER_COIL, "Copper Coil");
 		add(ItemInit.PROCESSOR, "Processor");
 		add(ItemInit.RAW_SILICON_BLEND, "Raw Silicon Blend");
@@ -120,12 +181,33 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.GRINDER, "Grinder");
 		add(BlockInit.COMPRESSOR, "Compressor");
 		add(BlockInit.COMPOSTER_VAT, "Composter Vat");
+		
+		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
+		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");
+		add(BlockInit.RAW_LEAD_BLOCK, "Raw Lead Block");
+		add(BlockInit.RAW_BORON_BLOCK, "Raw Boron Block");
+		add(BlockInit.RAW_PALLADIUM_BLOCK, "Raw Palladium Block");
+		add(BlockInit.RAW_SILVER_BLOCK, "Raw Silver Block");
 
 		add(BlockInit.ALUMINUM_BLOCK, "Aluminum Block");
+		add(BlockInit.NICKEL_BLOCK, "Nickel Block");
+		add(BlockInit.LEAD_BLOCK, "Lead Block");
+		add(BlockInit.BORON_BLOCK, "Boron Block");
+		add(BlockInit.PALLADIUM_BLOCK, "Palladium Block");
+		add(BlockInit.SILVER_BLOCK, "Silver Block");
+		add(BlockInit.STEEL_BLOCK, "Steel Block");
+		add(BlockInit.CONSTANTAN_BLOCK, "Constantan Block");
 		
 		add(BlockInit.ALUMINUM_ORE, "Aluminum Ore");
+		add(BlockInit.NICKEL_ORE, "Nickel Ore");
+		add(BlockInit.LEAD_ORE, "Lead Ore");
+		add(BlockInit.BORON_ORE, "Boron Ore");
+		add(BlockInit.PALLADIUM_ORE, "Palladium Ore");
+		add(BlockInit.SILVER_ORE, "Silver Ore");
+		add(BlockInit.FLUORITE_ORE, "Fluorite Ore");
 		add(BlockInit.SALTPETER_ORE, "Saltpeter Ore");
 		add(BlockInit.PYRITE_ORE, "Pyrite Ore");
+		add(BlockInit.BISMUTH_ORE, "Bismuth Ore");
 
 		add(BlockInit.ANTHRACITE, "Anthracite");
 		add(BlockInit.ANTHRACITE_SLAB, "Anthracite Slab");

@@ -1,7 +1,24 @@
-// 1.20.1	2025-03-29T23:43:31.0489109	Tags for minecraft:block mod id machina
-8f2636144dee5e4999207aa25aa7aebf21bc73f6 data/forge/tags/blocks/ores.json
+// 1.20.1	2025-04-04T13:44:11.1046113	Tags for minecraft:block mod id machina
+efbba566a263621347fc163322a6b850fcf10e1d data/forge/tags/blocks/ores.json
+02cee0fe6f745ea4b956b41305ac0707be9223fe data/forge/tags/blocks/ores/aluminum.json
+beed0cc32f642641473a053d225f4fad04ea135c data/forge/tags/blocks/ores/bismuth.json
+87cf307f76e7d8aa723fe7150348079a5980d8dc data/forge/tags/blocks/ores/boron.json
+1ad46bd4c191e2f99d00b0eff219e55e1b6c1d48 data/forge/tags/blocks/ores/fluorite.json
+6de5474aa5e173ef58006cf8e085595cadefaa93 data/forge/tags/blocks/ores/lead.json
+373561d4c91a9e14d2c443f15aa6ea9881706472 data/forge/tags/blocks/ores/nickel.json
 724f5a3a75e086a6bc1ba2e139d779b7eb9b623a data/forge/tags/blocks/ores/niter.json
+df89c7715e86d43332ccbd348bc7a5d52f6cea22 data/forge/tags/blocks/ores/palladium.json
+7b723a90feffb566de14593c9ed4b0c8c4866f85 data/forge/tags/blocks/ores/silver.json
 f4c17e67d95355ba84d811742e2bfa855cc2debf data/forge/tags/blocks/ores/sulfur.json
+47754977ebe3b2846e53efb3668b0b7214423e02 data/forge/tags/blocks/storage_blocks.json
+b8e1a47c7db7316c5d761f999b1457504ba09973 data/forge/tags/blocks/storage_blocks/aluminum.json
+43e85f6c51265df98e9da0549681aebcdab2ea97 data/forge/tags/blocks/storage_blocks/boron.json
+b1c135763dbece3c8fc5f411f3dcdda7d99a4e66 data/forge/tags/blocks/storage_blocks/constantan.json
+b271e9aabd8cd0a3af3ce2509fafd0543e3d562a data/forge/tags/blocks/storage_blocks/lead.json
+c8c434c65dd1e216c9c601b06c600389896b2968 data/forge/tags/blocks/storage_blocks/nickel.json
+d607df3c57bcb6c3e238ff61ea5657ea185c72a4 data/forge/tags/blocks/storage_blocks/palladium.json
+30cd3d7572de7d96eea529daccf00f4d1625af33 data/forge/tags/blocks/storage_blocks/silver.json
+9eec3f02cf5b1ee52458d04e390cac388d25f513 data/forge/tags/blocks/storage_blocks/steel.json
 5a53621f711df459ec8c150a6bb1c5f547e226f7 data/machina/tags/blocks/planet_carvable.json
 e5ffd28e5dde80a923c40d0aa515a2ab3509c46c data/minecraft/tags/blocks/all_hanging_signs.json
 817a6ef8482f0ce818fa4fcbe3c25338624721d4 data/minecraft/tags/blocks/all_signs.json
