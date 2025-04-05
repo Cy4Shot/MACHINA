@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-05T13:09:02.779898	Loot Tables
+// 1.20.1	2025-04-05T22:53:46.815248	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -183,6 +183,7 @@ c3e8a2ffce0139697fdcfa2084e20285e6efca6c data/machina/loot_tables/blocks/marble.
 8f19a5fb37ec9e0ccee3ce37f5afed3e0df14621 data/machina/loot_tables/blocks/marble_slab.json
 3118156df895368c3b59524af1ad11daa982c3eb data/machina/loot_tables/blocks/marble_stairs.json
 554fed5234a77b3e68759f520abf3bbb4fa1dd5a data/machina/loot_tables/blocks/marble_wall.json
+97e6a501edd2d7c19aabe349f0e20ea2a6b2913f data/machina/loot_tables/blocks/melter.json
 ae8defa56721b3737d8ad4074b6fd9ce9022498a data/machina/loot_tables/blocks/methane_block.json
 b19791d73b67c142df26f28929819653f66c1f3b data/machina/loot_tables/blocks/methanol_block.json
 89cd0950d0a79c246b567b16a181dc56ef477fa4 data/machina/loot_tables/blocks/migmatite.json
@@ -192,6 +193,7 @@ ad884b112db57a9f15671e3e8980af6f1d47eed6 data/machina/loot_tables/blocks/migmati
 8a98cfbb9783cd8c996a0c82074b0e6f04289b69 data/machina/loot_tables/blocks/migmatite_slab.json
 883eeb0e67b7750d00c879a85ed4478b66e5a541 data/machina/loot_tables/blocks/migmatite_stairs.json
 d4c47df92287c79e621c54e08990f8a423a733f0 data/machina/loot_tables/blocks/migmatite_wall.json
+4695a798cf7dd11aed93438811833e7847dd73d9 data/machina/loot_tables/blocks/mixer.json
 b77f97284d8457752cf790f74e087c9d3e71d023 data/machina/loot_tables/blocks/molten_aluminum_block.json
 4009b33dac7092ef3f21da4f0a7055049b548c56 data/machina/loot_tables/blocks/molten_bismuth_block.json
 454a512b3ebaca60f1a707a6fff326fce9e6c007 data/machina/loot_tables/blocks/molten_boron_block.json

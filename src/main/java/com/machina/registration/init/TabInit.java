@@ -38,6 +38,8 @@ public class TabInit {
 				add(a, BlockInit.FURNACE_GENERATOR);
 				add(a, BlockInit.GRINDER);
 				add(a, BlockInit.COMPRESSOR);
+				add(a, BlockInit.MELTER);
+				add(a, BlockInit.MIXER);
 				add(a, BlockInit.COMPOSTER_VAT);
 
 				add(a, BlockInit.CREATIVE_BATTERY);

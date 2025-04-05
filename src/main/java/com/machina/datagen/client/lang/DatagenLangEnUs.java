@@ -180,6 +180,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.FURNACE_GENERATOR, "Furnace Generator");
 		add(BlockInit.GRINDER, "Grinder");
 		add(BlockInit.COMPRESSOR, "Compressor");
+		add(BlockInit.MELTER, "Melter");
+		add(BlockInit.MIXER, "Mixer");
 		add(BlockInit.COMPOSTER_VAT, "Composter Vat");
 		
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");

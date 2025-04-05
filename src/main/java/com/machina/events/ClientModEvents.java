@@ -15,6 +15,8 @@ import com.machina.client.screen.menu.CreativeBatteryScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
 import com.machina.client.screen.menu.GrinderScreen;
 import com.machina.client.screen.menu.MachineCaseScreen;
+import com.machina.client.screen.menu.MelterScreen;
+import com.machina.client.screen.menu.MixerScreen;
 import com.machina.client.screen.menu.TankScreen;
 import com.machina.client.screen.menu.connector.FluidPipeScreen;
 import com.machina.client.screen.menu.connector.ItemConduitScreen;
@@ -67,6 +69,8 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
 			MenuScreens.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
 			MenuScreens.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);
+			MenuScreens.register(MenuTypeInit.MELTER.get(), MelterScreen::new);
+			MenuScreens.register(MenuTypeInit.MIXER.get(), MixerScreen::new);
 			MenuScreens.register(MenuTypeInit.COMPOSTER_VAT.get(), ComposterVatScreen::new);
 		});
 	}

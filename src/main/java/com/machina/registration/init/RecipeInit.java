@@ -12,11 +12,17 @@ import com.machina.api.recipe.MachinaRecipeType;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
+import com.machina.block.entity.machine.MelterBlockEntity;
+import com.machina.block.entity.machine.MixerBlockEntity;
 import com.machina.compat.jei.JeiRecipeRegistrar;
 import com.machina.recipe.CompressorRecipe;
 import com.machina.recipe.GrinderRecipe;
+import com.machina.recipe.MelterRecipe;
+import com.machina.recipe.MixerRecipe;
 import com.machina.recipe.maps.CompressorRecipeMaps;
 import com.machina.recipe.maps.GrinderRecipeMaps;
+import com.machina.recipe.maps.MelterRecipeMaps;
+import com.machina.recipe.maps.MixerRecipeMaps;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -40,6 +46,10 @@ public class RecipeInit {
 			register("grinder", BlockInit.GRINDER, GrinderRecipe::new, GrinderRecipeMaps.INSTANCE, 0, 160);
 	public static final RecipeRegistryObject<CompressorBlockEntity> COMPRESSOR =
 			register("compressor", BlockInit.COMPRESSOR, CompressorRecipe::new, CompressorRecipeMaps.INSTANCE, 16, 160);
+	public static final RecipeRegistryObject<MelterBlockEntity> MELTER =
+			register("melter", BlockInit.MELTER, MelterRecipe::new, MelterRecipeMaps.INSTANCE, 32, 160);
+	public static final RecipeRegistryObject<MixerBlockEntity> MIXER =
+			register("mixer", BlockInit.MIXER, MixerRecipe::new, MixerRecipeMaps.INSTANCE, 48, 160);
 	//@formatter:on
 
 	public static class RecipeRegistryObject<C extends Container> {

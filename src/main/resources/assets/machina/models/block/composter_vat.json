@@ -1,0 +1,9 @@
+{
+	"parent": "machina:block/machine",
+	"textures": {
+		"side": "machina:block/composter_vat_side",
+		"front": "machina:block/composter_vat_front",
+		"bottom": "machina:block/composter_vat_bottom",
+		"top": "machina:block/composter_vat_top"
+	}
+}
