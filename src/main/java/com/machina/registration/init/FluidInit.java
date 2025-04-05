@@ -36,6 +36,19 @@ public class FluidInit {
 			.create(ForgeRegistries.Keys.FLUID_TYPES, Machina.MOD_ID);
 	public static final List<String> BLOCKS = new ArrayList<>();
 	public static final List<FluidObject> OBJS = new ArrayList<>();
+	
+	public static final FluidObject MOLTEN_IRON = create("molten_iron", "Fe", 0xFF_828282);
+	public static final FluidObject MOLTEN_GOLD = create("molten_gold", "Au", 0xFF_e9b115);
+	public static final FluidObject MOLTEN_COPPER = create("molten_copper", "Cu", 0xFF_c15a36);
+	public static final FluidObject MOLTEN_ALUMINUM = create("molten_aluminum", "Al", 0xFF_a4b1c7);
+	public static final FluidObject MOLTEN_NICKEL = create("molten_nickel", "Ni", 0xFF_cfd0a1);
+	public static final FluidObject MOLTEN_LEAD = create("molten_lead", "Pb", 0xFF_686883);
+	public static final FluidObject MOLTEN_BORON = create("molten_boron", "B", 0xFF_353642);
+	public static final FluidObject MOLTEN_PALLADIUM = create("molten_palladium", "Pd", 0xFF_b6c1b5);
+	public static final FluidObject MOLTEN_SILVER = create("molten_silver", "Ag", 0xFF_cabfd2);
+	public static final FluidObject MOLTEN_STEEL = create("molten_steel", "Fe+C", 0xFF_2c2c2c);
+	public static final FluidObject MOLTEN_CONSTANTAN = create("molten_constantan", "Cu+Ni", 0xFF_c67600);
+	public static final FluidObject MOLTEN_BISMUTH = create("molten_bismuth", "Bi", 0xFF_597c7a);
 
 	public static final FluidObject OXYGEN = create("oxygen", "O2", 0xFF_ffffff);
 	public static final FluidObject NITROGEN = create("nitrogen", "N2", 0xFF_b2d4db);
@@ -76,8 +89,6 @@ public class FluidInit {
 	public static final FluidObject HNIW = create("hniw", "C6H6N12O12", 0xFF_bf433f);
 	public static final FluidObject HEXOGEN = create("hexogen", "(O2N2CH2)3", 0xFF_eece45);
 	public static final FluidObject NITROMETHANE = create("nitromethane", "CH3NO2", 0xFF_deddd5);
-	public static final FluidObject MOLTEN_LEAD = create("molten_lead", "Pb", 0xFF_6c6a71);
-	public static final FluidObject MOLTEN_BISMUTH = create("molten_bismuth", "Bi", 0xFF_597c7a);
 	public static final FluidObject LEAD_BISMUTH_EUTECTIC = create("lead_bismuth_eutectic", "Pb/Bi", 0xFF_d39d84);
 
 	public static FluidObject create(String name, String code, int col) {

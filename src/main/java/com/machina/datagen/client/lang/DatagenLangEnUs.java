@@ -537,6 +537,19 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FluidInit.CARBON_MONOXIDE, "Carbon Monoxide");
 		add(FluidInit.ARGON, "Argon");
 
+		add(FluidInit.MOLTEN_IRON, "Molten Iron");
+		add(FluidInit.MOLTEN_GOLD, "Molten Gold");
+		add(FluidInit.MOLTEN_COPPER, "Molten Copper");
+		add(FluidInit.MOLTEN_ALUMINUM, "Molten Aluminum");
+		add(FluidInit.MOLTEN_NICKEL, "Molten Nickel");
+		add(FluidInit.MOLTEN_LEAD, "Molten Lead");
+		add(FluidInit.MOLTEN_BORON, "Molten Boron");
+		add(FluidInit.MOLTEN_PALLADIUM, "Molten Palladium");
+		add(FluidInit.MOLTEN_SILVER, "Molten Silver");
+		add(FluidInit.MOLTEN_STEEL, "Molten Steel");
+		add(FluidInit.MOLTEN_CONSTANTAN, "Molten Constantan");
+		add(FluidInit.MOLTEN_BISMUTH, "Molten Bismuth");
+
 		add(FluidInit.ACETIC_ACID, "Acetic Acid");
 		add(FluidInit.BRINE, "Brine");
 		add(FluidInit.HYDROCHLORIC_ACID, "Hydrochloric Acid");
@@ -558,8 +571,6 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FluidInit.HEXOGEN, "Hexogen (RDX)");
 		add(FluidInit.NITROMETHANE, "Nitromethane");
 		add(FluidInit.SULPHUR_TRIOXIDE, "Sulphur Trioxide");
-		add(FluidInit.MOLTEN_LEAD, "Molten Lead");
-		add(FluidInit.MOLTEN_BISMUTH, "Molten Bismuth");
 		add(FluidInit.LEAD_BISMUTH_EUTECTIC, "Lead Bismuth Eutectic");
 
 		// Misc

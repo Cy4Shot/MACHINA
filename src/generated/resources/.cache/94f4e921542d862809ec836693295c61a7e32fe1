@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-04T13:49:34.8565643	Item Models: machina
+// 1.20.1	2025-04-05T13:09:02.7758975	Item Models: machina
 a38be406000b52edfc5d6439eae91b0ad61a63dc assets/machina/models/item/acetaldehyde_bucket.json
 7548cc941b514c7510e6a96383a1341dec5684dc assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -92,8 +92,18 @@ d82cc9df42ab198f397a67d57eb2a2e5146fcbb5 assets/machina/models/item/lead_ingot.j
 8258c0602ac8a03b119b3c07273d8f54c98358b4 assets/machina/models/item/lead_wire.json
 b34fc6a64f483606974fcb0623d31f84c5e8117e assets/machina/models/item/methane_bucket.json
 c4ad134e672217ea8ad20fa89f9067788e51260c assets/machina/models/item/methanol_bucket.json
+95dd64f428704c4f9b4be981ecafe2ebabb3d304 assets/machina/models/item/molten_aluminum_bucket.json
 eb57fc87e43b14d33cb14605af60286c69a74887 assets/machina/models/item/molten_bismuth_bucket.json
+1bfcfc92f3c775d2eeebdbb03033819ab751e7c4 assets/machina/models/item/molten_boron_bucket.json
+1f9946fc7dc1af89ed92b198cdaf54e1d2eb74c3 assets/machina/models/item/molten_constantan_bucket.json
+4cb2a2735ee8a846060312289b64c5e557b01d32 assets/machina/models/item/molten_copper_bucket.json
+0b06509f488f97aee2a2e24a5e52bf57c5051b8f assets/machina/models/item/molten_gold_bucket.json
+0b69251ec833e880dbff76f3f986a827748d7a02 assets/machina/models/item/molten_iron_bucket.json
 78923e78f0725d9f5a0029d232776c6c8b1d5a4c assets/machina/models/item/molten_lead_bucket.json
+bcfb193d68d168c95f04fbb312c23886e4c79248 assets/machina/models/item/molten_nickel_bucket.json
+84dda4a367337da0d90dc1f2344e927b9ea5b9b8 assets/machina/models/item/molten_palladium_bucket.json
+ebf52e409aee0aa9d889e3bf969a528f1e32fca0 assets/machina/models/item/molten_silver_bucket.json
+0e873247ba49bb6bda966633b73c61cbc7ce3fa1 assets/machina/models/item/molten_steel_bucket.json
 43f3420b31ade7c339288ace8c624f359a00f4e1 assets/machina/models/item/mould_base.json
 24621197cee0f851f4cb141e698d1135c256cd78 assets/machina/models/item/mould_plate.json
 4541f6269e134e56aea5f4c4e19a1f1fc6cdc84c assets/machina/models/item/mould_rod.json
