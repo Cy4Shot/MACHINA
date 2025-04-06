@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.machina.datagen.server.provider.BlockLootTableProvider;
+import com.machina.datagen.server.base.BlockLootTableProvider;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.DirtFamily;

@@ -10,7 +10,6 @@ import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.recipe.MelterRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -64,10 +63,8 @@ public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 									ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
 									ResourceLocation iloc = new ResourceLocation(key.getNamespace(),
 											"melt_" + key.getPath());
-									add(Pair.of(iloc,
-											new MelterRecipe(iloc, 20000, 200, 0, 0, 4.0f, List.of(Ingredient.of(item)),
-													List.of(), List.of(),
-													List.of(new FluidStack(f.getSource(), 144)))));
+									add(new MelterRecipe(iloc, 20000, 200, 0, 0, List.of(Ingredient.of(item)),
+											List.of(), List.of(), List.of(new FluidStack(f.getSource(), 144))));
 								});
 							}
 						});

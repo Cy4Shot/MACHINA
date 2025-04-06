@@ -11,7 +11,6 @@ import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.recipe.GrinderRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -87,28 +86,22 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 		}
 	}
 
-	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> ingot(Ingredient input, ItemStack dust) {
+	private MachinaRecipe<GrinderBlockEntity> ingot(Ingredient input, ItemStack dust) {
 		ResourceLocation loc = new MachinaRL("grinder_ingot_" + input.hashCode());
-		return Pair.of(loc,
-				new GrinderRecipe(loc, 15000, 200, 0, 0, 0.0F, Collections.singletonList(input),
-						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
-						Collections.emptyList()));
+		return new GrinderRecipe(loc, 15000, 200, 0, 0, Collections.singletonList(input), Collections.emptyList(),
+				Collections.singletonList(new ItemStack(dust.getItem(), 1)), Collections.emptyList());
 	}
 
-	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> ore(Ingredient input, ItemStack dust) {
+	private MachinaRecipe<GrinderBlockEntity> ore(Ingredient input, ItemStack dust) {
 		ResourceLocation loc = new MachinaRL("grinder_ore_" + input.hashCode());
-		return Pair.of(loc,
-				new GrinderRecipe(loc, 40000, 250, 0, 0, 0.2F, Collections.singletonList(input),
-						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
-						Collections.emptyList()));
+		return new GrinderRecipe(loc, 40000, 250, 0, 0, Collections.singletonList(input), Collections.emptyList(),
+				Collections.singletonList(new ItemStack(dust.getItem(), 1)), Collections.emptyList());
 	}
 
-	private Pair<ResourceLocation, MachinaRecipe<GrinderBlockEntity>> raw(Ingredient input, ItemStack dust) {
+	private MachinaRecipe<GrinderBlockEntity> raw(Ingredient input, ItemStack dust) {
 		ResourceLocation loc = new MachinaRL("grinder_raw_" + input.hashCode());
-		return Pair.of(loc,
-				new GrinderRecipe(loc, 15000, 200, 0, 0, 0.1F, Collections.singletonList(input),
-						Collections.emptyList(), Collections.singletonList(new ItemStack(dust.getItem(), 1)),
-						Collections.emptyList()));
+		return new GrinderRecipe(loc, 15000, 200, 0, 0, Collections.singletonList(input), Collections.emptyList(),
+				Collections.singletonList(new ItemStack(dust.getItem(), 1)), Collections.emptyList());
 	}
 
 	@Override

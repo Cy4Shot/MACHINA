@@ -1,0 +1,22 @@
+{
+  "type": "machina:mixer",
+  "energy": 10,
+  "inputFluids": [
+    {
+      "amount": 1,
+      "fluid": "machina:molten_lead"
+    },
+    {
+      "amount": 1,
+      "fluid": "machina:molten_bismuth"
+    }
+  ],
+  "inputItems": [],
+  "outputFluids": [
+    {
+      "amount": 2,
+      "fluid": "machina:lead_bismuth_eutectic"
+    }
+  ],
+  "outputItems": []
+}

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -41,8 +40,8 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 		addExtraRecipes(man);
 	}
 
-	public void add(Pair<ResourceLocation, MachinaRecipe<C>> pair) {
-		add(pair.getFirst(), pair.getSecond());
+	public void add(MachinaRecipe<C> recipe) {
+		add(recipe.getId(), recipe);
 	}
 
 	public void add(ResourceLocation id, MachinaRecipe<C> recipe) {

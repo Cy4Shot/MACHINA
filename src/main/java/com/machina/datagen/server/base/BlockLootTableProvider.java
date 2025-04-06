@@ -1,4 +1,4 @@
-package com.machina.datagen.server.provider;
+package com.machina.datagen.server.base;
 
 import java.util.Set;
 
