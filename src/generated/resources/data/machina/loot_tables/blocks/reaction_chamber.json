@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "machina:mixer"
+          "name": "machina:reaction_chamber"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "machina:blocks/mixer"
+  "random_sequence": "machina:blocks/reaction_chamber"
 }

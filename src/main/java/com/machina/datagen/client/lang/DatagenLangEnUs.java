@@ -60,7 +60,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ALUMINUM_ROD, "Aluminum Rod");
 		add(ItemInit.ALUMINUM_WIRE, "Aluminum Wire");
 		add(ItemInit.RAW_ALUMINUM, "Raw Aluminum");
-		
+
 		add(ItemInit.NICKEL_NUGGET, "Nickel Nugget");
 		add(ItemInit.NICKEL_INGOT, "Nickel Ingot");
 		add(ItemInit.NICKEL_DUST, "Nickel Dust");
@@ -68,7 +68,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.NICKEL_ROD, "Nickel Rod");
 		add(ItemInit.NICKEL_WIRE, "Nickel Wire");
 		add(ItemInit.RAW_NICKEL, "Raw Nickel");
-		
+
 		add(ItemInit.LEAD_NUGGET, "Lead Nugget");
 		add(ItemInit.LEAD_INGOT, "Lead Ingot");
 		add(ItemInit.LEAD_DUST, "Lead Dust");
@@ -76,7 +76,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.LEAD_ROD, "Lead Rod");
 		add(ItemInit.LEAD_WIRE, "Lead Wire");
 		add(ItemInit.RAW_LEAD, "Raw Lead");
-		
+
 		add(ItemInit.BORON_NUGGET, "Boron Nugget");
 		add(ItemInit.BORON_INGOT, "Boron Ingot");
 		add(ItemInit.BORON_DUST, "Boron Dust");
@@ -84,7 +84,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.BORON_ROD, "Boron Rod");
 		add(ItemInit.BORON_WIRE, "Boron Wire");
 		add(ItemInit.RAW_BORON, "Raw Boron");
-		
+
 		add(ItemInit.PALLADIUM_NUGGET, "Palladium Nugget");
 		add(ItemInit.PALLADIUM_INGOT, "Palladium Ingot");
 		add(ItemInit.PALLADIUM_DUST, "Palladium Dust");
@@ -92,7 +92,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.PALLADIUM_ROD, "Palladium Rod");
 		add(ItemInit.PALLADIUM_WIRE, "Palladium Wire");
 		add(ItemInit.RAW_PALLADIUM, "Raw Palladium");
-		
+
 		add(ItemInit.SILVER_NUGGET, "Silver Nugget");
 		add(ItemInit.SILVER_INGOT, "Silver Ingot");
 		add(ItemInit.SILVER_DUST, "Silver Dust");
@@ -100,21 +100,21 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.SILVER_ROD, "Silver Rod");
 		add(ItemInit.SILVER_WIRE, "Silver Wire");
 		add(ItemInit.RAW_SILVER, "Raw Silver");
-		
+
 		add(ItemInit.STEEL_NUGGET, "Steel Nugget");
 		add(ItemInit.STEEL_INGOT, "Steel Ingot");
 		add(ItemInit.STEEL_DUST, "Steel Dust");
 		add(ItemInit.STEEL_PLATE, "Steel Plate");
 		add(ItemInit.STEEL_ROD, "Steel Rod");
 		add(ItemInit.STEEL_WIRE, "Steel Wire");
-		
+
 		add(ItemInit.CONSTANTAN_NUGGET, "Constantan Nugget");
 		add(ItemInit.CONSTANTAN_INGOT, "Constantan Ingot");
 		add(ItemInit.CONSTANTAN_DUST, "Constantan Dust");
 		add(ItemInit.CONSTANTAN_PLATE, "Constantan Plate");
 		add(ItemInit.CONSTANTAN_ROD, "Constantan Rod");
 		add(ItemInit.CONSTANTAN_WIRE, "Constantan Wire");
-		
+
 		add(ItemInit.FLUORITE, "Fluorite");
 		add(ItemInit.SULFUR, "Sulfur");
 		add(ItemInit.NITER, "Niter");
@@ -182,9 +182,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.GRINDER, "Grinder");
 		add(BlockInit.COMPRESSOR, "Compressor");
 		add(BlockInit.MELTER, "Melter");
-		add(BlockInit.MIXER, "Mixer");
+		add(BlockInit.REACTION_CHAMBER, "Reaction Chamber");
 		add(BlockInit.COMPOSTER_VAT, "Composter Vat");
-		
+
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");
 		add(BlockInit.RAW_LEAD_BLOCK, "Raw Lead Block");
@@ -200,7 +200,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.SILVER_BLOCK, "Silver Block");
 		add(BlockInit.STEEL_BLOCK, "Steel Block");
 		add(BlockInit.CONSTANTAN_BLOCK, "Constantan Block");
-		
+
 		add(BlockInit.ALUMINUM_ORE, "Aluminum Ore");
 		add(BlockInit.NICKEL_ORE, "Nickel Ore");
 		add(BlockInit.LEAD_ORE, "Lead Ore");
@@ -575,12 +575,12 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FluidInit.NITROMETHANE, "Nitromethane");
 		add(FluidInit.SULPHUR_TRIOXIDE, "Sulphur Trioxide");
 		add(FluidInit.LEAD_BISMUTH_EUTECTIC, "Lead Bismuth Eutectic");
-		
+
 		// Recipes
 		add(RecipeInit.COMPRESSOR, "Compressing");
 		add(RecipeInit.GRINDER, "Grinding");
 		add(RecipeInit.MELTER, "Melting");
-		add(RecipeInit.MIXER, "Mixing");
+		add(RecipeInit.REACTION_CHAMBER, "Reacting");
 
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");
@@ -643,7 +643,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("grinder.requires", "Requires");
 		addUI("grinder.input", "Input");
 		addUI("grinder.output", "Output");
-		
+
 		addUI("compressor.no_input", "No Recipe Found");
 		addUI("compressor.no_power", "No Power");
 		addUI("compressor.no_space", "No Output Space");
@@ -652,7 +652,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("compressor.requires", "Requires");
 		addUI("compressor.input", "Input");
 		addUI("compressor.output", "Output");
-		
+
 		addUI("composter_vat.no_input", "Awaiting Compostable Item");
 		addUI("composter_vat.no_power", "No Power");
 		addUI("composter_vat.no_space", "No Output Space");

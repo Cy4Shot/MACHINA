@@ -159,7 +159,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	protected static void mixing(@NotNull Consumer<FinishedRecipe> gen, FluidObject input1, int amount1,
 			FluidObject input2, int amount2, FluidObject output, int amount, int energy) {
 		//@formatter:off
-		MachinaRecipeBuilder.create(RecipeInit.MIXER)
+		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
 			.withInputFluid(new FluidStack(input1.fluid(), amount1))
 			.withInputFluid(new FluidStack(input2.fluid(), amount2))
 			.withOutputFluid(new FluidStack(output.fluid(), amount))

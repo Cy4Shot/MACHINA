@@ -2,24 +2,24 @@ package com.machina.block.machine;
 
 import com.machina.api.block.LitMachineBlock;
 import com.machina.api.block.entity.MachinaBlockEntity;
-import com.machina.block.entity.machine.MixerBlockEntity;
+import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.registration.init.BlockEntityInit;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-public class MixerBlock extends LitMachineBlock {
+public class ReactionChamberBlock extends LitMachineBlock {
 
-	public MixerBlock(Properties props) {
+	public ReactionChamberBlock(Properties props) {
 		super(props);
 	}
 
 	@Override
 	public BlockEntityType<?> getBlockEntityType() {
-		return BlockEntityInit.MIXER.get();
+		return BlockEntityInit.REACTION_CHAMBER.get();
 	}
 
 	@Override
 	public Class<? extends MachinaBlockEntity> getBlockEntityClass() {
-		return MixerBlockEntity.class;
+		return ReactionChamberBlockEntity.class;
 	}
 }

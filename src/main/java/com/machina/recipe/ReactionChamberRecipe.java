@@ -3,7 +3,7 @@ package com.machina.recipe;
 import java.util.List;
 
 import com.machina.api.recipe.MachinaRecipe;
-import com.machina.block.entity.machine.MixerBlockEntity;
+import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
@@ -12,21 +12,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 
-public class MixerRecipe extends MachinaRecipe<MixerBlockEntity> {
+public class ReactionChamberRecipe extends MachinaRecipe<ReactionChamberBlockEntity> {
 
-	public MixerRecipe(ResourceLocation loc, int energy, int time, float pressure, float temperature,
+	public ReactionChamberRecipe(ResourceLocation loc, int energy, int time, float pressure, float temperature,
 			List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
 			List<FluidStack> outputFluids) {
 		super(loc, energy, time, pressure, temperature, inputItems, inputFluids, outputItems, outputFluids);
 	}
 
 	@Override
-	protected RecipeRegistryObject<MixerBlockEntity> getRegistryObject() {
-		return RecipeInit.MIXER;
+	protected RecipeRegistryObject<ReactionChamberBlockEntity> getRegistryObject() {
+		return RecipeInit.REACTION_CHAMBER;
 	}
 
 	@Override
-	public RecipeFactory<MachinaRecipe<MixerBlockEntity>> getFactory() {
-		return MixerRecipe::new;
+	public RecipeFactory<MachinaRecipe<ReactionChamberBlockEntity>> getFactory() {
+		return ReactionChamberRecipe::new;
 	}
 }

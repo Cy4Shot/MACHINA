@@ -1,5 +1,5 @@
 {
-  "type": "machina:mixer",
+  "type": "machina:reaction_chamber",
   "energy": 10,
   "inputFluids": [
     {

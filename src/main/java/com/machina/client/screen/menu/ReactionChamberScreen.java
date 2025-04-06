@@ -6,22 +6,22 @@ import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.util.StringUtils;
-import com.machina.block.entity.machine.MixerBlockEntity;
-import com.machina.block.menu.MixerMenu;
+import com.machina.block.entity.machine.ReactionChamberBlockEntity;
+import com.machina.block.menu.ReactionChamberMenu;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MixerScreen extends MachinaMenuScreen<MixerMenu> {
+public class ReactionChamberScreen extends MachinaMenuScreen<ReactionChamberMenu> {
 
-	public MixerScreen(MixerMenu menu, Inventory inv, Component title) {
+	public ReactionChamberScreen(ReactionChamberMenu menu, Inventory inv, Component title) {
 		super(menu, inv, title);
 	}
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
-		MixerBlockEntity entity = this.<MixerBlockEntity>entity();
+		ReactionChamberBlockEntity entity = this.<ReactionChamberBlockEntity>entity();
 
 		drawInventory(gui, mx, my);
 		drawBackground(gui);

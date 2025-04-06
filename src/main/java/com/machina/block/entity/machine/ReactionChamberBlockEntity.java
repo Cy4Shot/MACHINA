@@ -3,8 +3,8 @@ package com.machina.block.entity.machine;
 import com.machina.api.block.entity.RecipeBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.MixerMenu;
-import com.machina.recipe.MixerRecipe;
+import com.machina.block.menu.ReactionChamberMenu;
+import com.machina.recipe.ReactionChamberRecipe;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
@@ -16,19 +16,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MixerBlockEntity extends RecipeBlockEntity<MixerRecipe> {
+public class ReactionChamberBlockEntity extends RecipeBlockEntity<ReactionChamberRecipe> {
 
-	public MixerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+	public ReactionChamberBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 
-	public MixerBlockEntity(BlockPos pos, BlockState state) {
-		this(BlockEntityInit.MIXER.get(), pos, state);
+	public ReactionChamberBlockEntity(BlockPos pos, BlockState state) {
+		this(BlockEntityInit.REACTION_CHAMBER.get(), pos, state);
 	}
 
 	@Override
 	public void createStorages() {
 		energyStorage(Side.INPUTS);
+		itemSlot(SlotType.INPUT);
+		itemSlot(SlotType.INPUT);
+		itemSlot(SlotType.OUTPUT);
 		fluidSlot(10_000, s -> true, SlotType.INPUT);
 		fluidSlot(10_000, s -> true, SlotType.INPUT);
 		fluidSlot(10_000, s -> true, SlotType.OUTPUT);
@@ -41,13 +44,13 @@ public class MixerBlockEntity extends RecipeBlockEntity<MixerRecipe> {
 	}
 
 	@Override
-	public RecipeRegistryObject<? extends RecipeBlockEntity<MixerRecipe>> getRecipe() {
-		return RecipeInit.MIXER;
+	public RecipeRegistryObject<? extends RecipeBlockEntity<ReactionChamberRecipe>> getRecipe() {
+		return RecipeInit.REACTION_CHAMBER;
 	}
 
 	@Override
 	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return MixerMenu::new;
+		return ReactionChamberMenu::new;
 	}
 
 	@Override
