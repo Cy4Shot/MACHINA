@@ -1,0 +1,15 @@
+{
+  "values": [
+    "#c:wires/iron",
+    "#c:wires/gold",
+    "#c:wires/copper",
+    "#c:wires/aluminum",
+    "#c:wires/nickel",
+    "#c:wires/lead",
+    "#c:wires/boron",
+    "#c:wires/palladium",
+    "#c:wires/silver",
+    "#c:wires/steel",
+    "#c:wires/constantan"
+  ]
+}

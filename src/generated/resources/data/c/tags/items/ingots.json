@@ -1,0 +1,16 @@
+{
+  "values": [
+    "#c:ingots/aluminum",
+    "#c:ingots/nickel",
+    "#c:ingots/lead",
+    "#c:ingots/boron",
+    "#c:ingots/palladium",
+    "#c:ingots/silver",
+    "#c:ingots/steel",
+    "#c:ingots/constantan",
+    "#c:ingots/fluorite",
+    "#c:ingots/niter",
+    "#c:ingots/sulfur",
+    "#c:ingots/bismuth"
+  ]
+}

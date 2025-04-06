@@ -104,6 +104,7 @@ public class FluidInit {
 				.craftRemainder(Items.BUCKET);
 		private static final Block.Properties BLOCK_PROP = Block.Properties.copy(Blocks.WATER);
 
+		private final String name;
 		private final Chemical CHEM;
 		private final ForgeFlowingFluid.Properties PROPS;
 		private RegistryObject<LiquidBlock> BLOCK;
@@ -113,7 +114,8 @@ public class FluidInit {
 		private RegistryObject<BaseFluidType> FLUID_TYPE;
 
 		public FluidObject(String name, String code, Function<ChemicalBuilder, ChemicalBuilder> builder) {
-
+			this.name = name;
+			
 			Supplier<FlowingFluid> sFluid = () -> FLUID.get();
 			Supplier<FlowingFluid> sFlowing = () -> FLOWING.get();
 			Supplier<MachinaBucket> sBucket = () -> BUCKET.get();
@@ -128,9 +130,13 @@ public class FluidInit {
 
 			BUCKET = ItemInit.register(name + "_bucket", () -> new MachinaBucket(sFluid, BUCKET_PROP, code));
 			FLUID = FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(PROPS));
-			FLOWING = FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(PROPS));
+			FLOWING = FLUIDS.register("flowing_" + name, () -> new ForgeFlowingFluid.Flowing(PROPS));
 
 			OBJS.add(FluidObject.this);
+		}
+		
+		public String name() {
+			return name;
 		}
 
 		public LiquidBlock block() {

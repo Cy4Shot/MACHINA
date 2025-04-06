@@ -1,0 +1,18 @@
+{
+  "values": [
+    "#c:storage_blocks/aluminum",
+    "#c:storage_blocks/aluminum",
+    "#c:storage_blocks/nickel",
+    "#c:storage_blocks/nickel",
+    "#c:storage_blocks/lead",
+    "#c:storage_blocks/lead",
+    "#c:storage_blocks/boron",
+    "#c:storage_blocks/boron",
+    "#c:storage_blocks/palladium",
+    "#c:storage_blocks/palladium",
+    "#c:storage_blocks/silver",
+    "#c:storage_blocks/silver",
+    "#c:storage_blocks/steel",
+    "#c:storage_blocks/constantan"
+  ]
+}

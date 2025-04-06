@@ -7,6 +7,7 @@ import com.machina.datagen.client.DatagenBlockStates;
 import com.machina.datagen.client.DatagenItemModels;
 import com.machina.datagen.client.lang.DatagenLangEnUs;
 import com.machina.datagen.server.DatagenBlockTags;
+import com.machina.datagen.server.DatagenFluidTags;
 import com.machina.datagen.server.DatagenItemTags;
 import com.machina.datagen.server.DatagenLootTables;
 import com.machina.datagen.server.DatagenRecipes;
@@ -36,6 +37,7 @@ public class Datagen {
 		// Server
 		DatagenBlockTags blocks = gen.addProvider(event.includeServer(), new DatagenBlockTags(po, lookup, files));
 		gen.addProvider(event.includeServer(), new DatagenItemTags(po, lookup, blocks.contentsGetter(), files));
+		gen.addProvider(event.includeServer(), new DatagenFluidTags(po, lookup, files));
 		gen.addProvider(event.includeServer(), new DatagenLootTables(po));
 		gen.addProvider(event.includeServer(), new DatagenRecipes(po));
 	}

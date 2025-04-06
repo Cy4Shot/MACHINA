@@ -11,10 +11,12 @@ import com.machina.Machina;
 import com.machina.item.CapacitorItem;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FamiliesInit;
+import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FamiliesInit.DirtFamily;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TagInit.ItemTagInit;
 
@@ -84,6 +86,7 @@ public class DatagenItemTags extends ItemTagsProvider {
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);
 		FamiliesInit.STONES.forEach(this::stoneFamily);
 		FamiliesInit.WOODS.forEach(this::woodFamily);
+		FluidInit.OBJS.forEach(this::fluidObj);
 	}
 
 	private void smallFlower(RegistryObject<? extends BushBlock> flower) {
@@ -104,39 +107,51 @@ public class DatagenItemTags extends ItemTagsProvider {
 		tag(ItemTagInit.CAPACITOR).add(capacitor.get());
 	}
 
+	private void fluidObj(FluidObject obj) {
+		tag(common("buckets/" + obj.name())).add(obj.bucket());
+	}
+
 	private void oreFamily(OreFamily family) {
 		family.getOre().ifPresent(ore -> {
-			tag(forge("ores")).add(ore.asItem());
-			tag(forge("ores/" + family.name())).add(ore.asItem());
+			tag(common("ores")).addTag(common("ores/" + family.name()));
+			tag(common("ores/" + family.name())).add(ore.asItem());
 		});
 		family.getBlock().ifPresent(block -> {
-			tag(forge("storage_blocks")).add(block.asItem());
-			tag(forge("storage_blocks/" + family.name())).add(block.asItem());
+			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
+			tag(common("storage_blocks/" + family.name())).add(block.asItem());
+		});
+		family.getRawBlock().ifPresent(block -> {
+			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
+			tag(common("storage_blocks/raw_" + family.name())).add(block.asItem());
 		});
 
 		family.getNugget().ifPresent(item -> {
-			tag(forge("nuggets")).add(item);
-			tag(forge("nuggets/" + family.name())).add(item);
+			tag(common("nuggets")).addTag(common("nuggets/" + family.name()));
+			tag(common("nuggets/" + family.name())).add(item);
 		});
 		family.getIngot().ifPresent(item -> {
-			tag(forge("ingots")).add(item);
-			tag(forge("ingots/" + family.name())).add(item);
+			tag(common("ingots")).addTag(common("ingots/" + family.name()));
+			tag(common("ingots/" + family.name())).add(item);
 		});
 		family.getDust().ifPresent(item -> {
-			tag(forge("dusts")).add(item);
-			tag(forge("dusts/" + family.name())).add(item);
+			tag(common("dusts")).addTag(common("dusts/" + family.name()));
+			tag(common("dusts/" + family.name())).add(item);
 		});
 		family.plate().ifPresent(item -> {
-			tag(forge("plates")).add(item);
-			tag(forge("plates/" + family.name())).add(item);
+			tag(common("plates")).addTag(common("plates/" + family.name()));
+			tag(common("plates/" + family.name())).add(item);
 		});
 		family.rod().ifPresent(item -> {
-			tag(forge("rods")).add(item);
-			tag(forge("rods/" + family.name())).add(item);
+			tag(common("rods")).addTag(common("rods/" + family.name()));
+			tag(common("rods/" + family.name())).add(item);
 		});
 		family.wire().ifPresent(item -> {
-			tag(forge("wires")).add(item);
-			tag(forge("wires/" + family.name())).add(item);
+			tag(common("wires")).addTag(common("wires/" + family.name()));
+			tag(common("wires/" + family.name())).add(item);
+		});
+		family.getRaw().ifPresent(raw -> {
+			tag(common("raw_materials")).addTag(common("raw_materials/" + family.name()));
+			tag(common("raw_materials/" + family.name())).add(raw);
 		});
 	}
 
@@ -185,7 +200,7 @@ public class DatagenItemTags extends ItemTagsProvider {
 		tag(ItemTags.LEAVES).add(Stream.of(family.leaves()).map(Block::asItem).toArray(Item[]::new));
 	}
 
-	private static TagKey<Item> forge(String name) {
-		return TagKey.create(Registries.ITEM, new ResourceLocation("forge", name));
+	private static TagKey<Item> common(String name) {
+		return TagKey.create(Registries.ITEM, new ResourceLocation("c", name));
 	}
 }

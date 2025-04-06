@@ -85,12 +85,16 @@ public class DatagenBlockTags extends BlockTagsProvider {
 
 	private void oreFamily(OreFamily family) {
 		family.getOre().ifPresent(ore -> {
-			tag(forge("ores")).add(ore);
-			tag(forge("ores/" + family.name())).add(ore);
+			tag(common("ores")).addTag(common("ores/" + family.name()));
+			tag(common("ores/" + family.name())).add(ore);
 		});
 		family.getBlock().ifPresent(block -> {
-			tag(forge("storage_blocks")).add(block);
-			tag(forge("storage_blocks/" + family.name())).add(block);
+			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
+			tag(common("storage_blocks/" + family.name())).add(block);
+		});
+		family.getRawBlock().ifPresent(block -> {
+			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
+			tag(common("storage_blocks/raw_" + family.name())).add(block);
 		});
 	}
 
@@ -149,7 +153,7 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(BlockTags.LEAVES).add(family.leaves());
 	}
 
-	private static TagKey<Block> forge(String name) {
-		return TagKey.create(Registries.BLOCK, new ResourceLocation("forge", name));
+	private static TagKey<Block> common(String name) {
+		return TagKey.create(Registries.BLOCK, new ResourceLocation("c", name));
 	}
 }
