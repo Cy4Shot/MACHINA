@@ -1,5 +1,13 @@
 {
   "values": [
+    "#c:ingots/coal",
+    "#c:ingots/lapis",
+    "#c:ingots/quartz",
+    "#c:ingots/emerald",
+    "#c:ingots/diamond",
+    "#c:ingots/iron",
+    "#c:ingots/gold",
+    "#c:ingots/copper",
     "#c:ingots/aluminum",
     "#c:ingots/nickel",
     "#c:ingots/lead",

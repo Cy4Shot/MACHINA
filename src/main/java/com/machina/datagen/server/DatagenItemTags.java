@@ -112,28 +112,28 @@ public class DatagenItemTags extends ItemTagsProvider {
 	}
 
 	private void oreFamily(OreFamily family) {
-		family.getOre().ifPresent(ore -> {
+		family.ore().ifPresent(ore -> {
 			tag(common("ores")).addTag(common("ores/" + family.name()));
 			tag(common("ores/" + family.name())).add(ore.asItem());
 		});
-		family.getBlock().ifPresent(block -> {
+		family.block().ifPresent(block -> {
 			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
 			tag(common("storage_blocks/" + family.name())).add(block.asItem());
 		});
-		family.getRawBlock().ifPresent(block -> {
+		family.rawBlock().ifPresent(block -> {
 			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
 			tag(common("storage_blocks/raw_" + family.name())).add(block.asItem());
 		});
 
-		family.getNugget().ifPresent(item -> {
+		family.nugget().ifPresent(item -> {
 			tag(common("nuggets")).addTag(common("nuggets/" + family.name()));
 			tag(common("nuggets/" + family.name())).add(item);
 		});
-		family.getIngot().ifPresent(item -> {
+		family.ingot().ifPresent(item -> {
 			tag(common("ingots")).addTag(common("ingots/" + family.name()));
 			tag(common("ingots/" + family.name())).add(item);
 		});
-		family.getDust().ifPresent(item -> {
+		family.dust().ifPresent(item -> {
 			tag(common("dusts")).addTag(common("dusts/" + family.name()));
 			tag(common("dusts/" + family.name())).add(item);
 		});
@@ -149,7 +149,7 @@ public class DatagenItemTags extends ItemTagsProvider {
 			tag(common("wires")).addTag(common("wires/" + family.name()));
 			tag(common("wires/" + family.name())).add(item);
 		});
-		family.getRaw().ifPresent(raw -> {
+		family.raw().ifPresent(raw -> {
 			tag(common("raw_materials")).addTag(common("raw_materials/" + family.name()));
 			tag(common("raw_materials/" + family.name())).add(raw);
 		});

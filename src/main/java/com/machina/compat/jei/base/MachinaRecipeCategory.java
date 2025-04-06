@@ -207,7 +207,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			int x = starti + i * 20;
 			int y = rolling + 18;
 			builder.addSlot(RecipeIngredientRole.INPUT, x, y).setFluidRenderer(1, false, 16, 16)
-					.addFluidStack(fluid.getFluid(), 1);
+					.addFluidStack(fluid.getFluid(), fluid.getAmount());
 			i++;
 		}
 
@@ -227,7 +227,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			int x = starto + j * 20;
 			int y = rolling + 6;
 			builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).setFluidRenderer(1, false, 16, 16)
-					.addFluidStack(fluid.getFluid(), 1);
+					.addFluidStack(fluid.getFluid(), fluid.getAmount());
 			j++;
 		}
 	}

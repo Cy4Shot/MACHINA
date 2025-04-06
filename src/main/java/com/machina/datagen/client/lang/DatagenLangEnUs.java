@@ -7,6 +7,7 @@ import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.TabInit;
 
 import net.minecraft.data.PackOutput;
@@ -574,6 +575,12 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FluidInit.NITROMETHANE, "Nitromethane");
 		add(FluidInit.SULPHUR_TRIOXIDE, "Sulphur Trioxide");
 		add(FluidInit.LEAD_BISMUTH_EUTECTIC, "Lead Bismuth Eutectic");
+		
+		// Recipes
+		add(RecipeInit.COMPRESSOR, "Compressing");
+		add(RecipeInit.GRINDER, "Grinding");
+		add(RecipeInit.MELTER, "Melting");
+		add(RecipeInit.MIXER, "Mixing");
 
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");

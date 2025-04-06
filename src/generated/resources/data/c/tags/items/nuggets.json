@@ -1,5 +1,7 @@
 {
   "values": [
+    "#c:nuggets/iron",
+    "#c:nuggets/gold",
     "#c:nuggets/copper",
     "#c:nuggets/aluminum",
     "#c:nuggets/nickel",

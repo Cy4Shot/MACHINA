@@ -1,5 +1,13 @@
 {
   "values": [
+    "#c:ores/coal",
+    "#c:ores/lapis",
+    "#c:ores/quartz",
+    "#c:ores/emerald",
+    "#c:ores/diamond",
+    "#c:ores/iron",
+    "#c:ores/gold",
+    "#c:ores/copper",
     "#c:ores/aluminum",
     "#c:ores/nickel",
     "#c:ores/lead",

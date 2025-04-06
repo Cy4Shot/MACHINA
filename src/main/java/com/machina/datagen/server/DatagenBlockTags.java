@@ -84,15 +84,15 @@ public class DatagenBlockTags extends BlockTagsProvider {
 	}
 
 	private void oreFamily(OreFamily family) {
-		family.getOre().ifPresent(ore -> {
+		family.ore().ifPresent(ore -> {
 			tag(common("ores")).addTag(common("ores/" + family.name()));
 			tag(common("ores/" + family.name())).add(ore);
 		});
-		family.getBlock().ifPresent(block -> {
+		family.block().ifPresent(block -> {
 			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
 			tag(common("storage_blocks/" + family.name())).add(block);
 		});
-		family.getRawBlock().ifPresent(block -> {
+		family.rawBlock().ifPresent(block -> {
 			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
 			tag(common("storage_blocks/raw_" + family.name())).add(block);
 		});
