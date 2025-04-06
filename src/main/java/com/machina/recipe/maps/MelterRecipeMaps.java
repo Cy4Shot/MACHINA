@@ -11,9 +11,7 @@ import com.machina.recipe.MelterRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -56,18 +54,16 @@ public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 			ResourceLocation loc = tag.location();
 			if (loc.getNamespace().equals("c") && loc.getPath().startsWith("ingots/")) {
 				String name = loc.getPath().replaceFirst("ingots/", "");
-				fluids.getTag(TagKey.create(Registries.FLUID, new ResourceLocation("c", "molten_" + name)))
-						.forEach(fluid -> {
-							if (fluid instanceof ForgeFlowingFluid f) {
-								items.getTag(tag).forEach(item -> {
-									ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
-									ResourceLocation iloc = new ResourceLocation(key.getNamespace(),
-											"melt_" + key.getPath());
-									add(new MelterRecipe(iloc, 20000, 200, 0, 0, List.of(Ingredient.of(item)),
-											List.of(), List.of(), List.of(new FluidStack(f.getSource(), 144))));
-								});
-							}
+				fluids.getTag(cf("molten_" + name)).forEach(fluid -> {
+					if (fluid instanceof ForgeFlowingFluid f) {
+						items.getTag(tag).forEach(item -> {
+							ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+							ResourceLocation iloc = new ResourceLocation(key.getNamespace(), "melt_" + key.getPath());
+							add(new MelterRecipe(iloc, 20000, 200, 0, 0, List.of(Ingredient.of(item)), List.of(),
+									List.of(), List.of(new FluidStack(f.getSource(), 144))));
 						});
+					}
+				});
 			}
 		});
 	}

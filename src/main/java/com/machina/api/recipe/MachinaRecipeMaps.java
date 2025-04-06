@@ -8,9 +8,13 @@ import java.util.Optional;
 
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.material.Fluid;
 
 public abstract class MachinaRecipeMaps<C extends Container> {
 
@@ -64,5 +68,13 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 
 	public boolean hasOutputs() {
 		return true;
+	}
+
+	protected static TagKey<Item> ci(String name) {
+		return TagKey.create(Registries.ITEM, new ResourceLocation("c", name));
+	}
+
+	protected static TagKey<Fluid> cf(String name) {
+		return TagKey.create(Registries.FLUID, new ResourceLocation("c", name));
 	}
 }
