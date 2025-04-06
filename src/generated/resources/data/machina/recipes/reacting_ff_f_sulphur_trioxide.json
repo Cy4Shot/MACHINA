@@ -1,0 +1,22 @@
+{
+  "type": "machina:reaction_chamber",
+  "energy": 10,
+  "inputFluids": [
+    {
+      "amount": 2,
+      "fluid": "machina:sulphur_dioxide"
+    },
+    {
+      "amount": 1,
+      "fluid": "machina:oxygen"
+    }
+  ],
+  "inputItems": [],
+  "outputFluids": [
+    {
+      "amount": 2,
+      "fluid": "machina:sulphur_trioxide"
+    }
+  ],
+  "outputItems": []
+}

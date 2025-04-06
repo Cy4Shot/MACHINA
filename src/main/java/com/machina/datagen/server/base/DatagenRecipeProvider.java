@@ -17,12 +17,14 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.RegistryObject;
 
 public abstract class DatagenRecipeProvider extends RecipeProvider implements IConditionBuilder {
 
@@ -156,7 +158,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	}
 
 	// Machina Recipe Builders
-	protected static void mixing(@NotNull Consumer<FinishedRecipe> gen, FluidObject input1, int amount1,
+	protected static void reactff_f(@NotNull Consumer<FinishedRecipe> gen, FluidObject input1, int amount1,
 			FluidObject input2, int amount2, FluidObject output, int amount, int energy) {
 		//@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
@@ -164,7 +166,33 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 			.withInputFluid(new FluidStack(input2.fluid(), amount2))
 			.withOutputFluid(new FluidStack(output.fluid(), amount))
 			.withEnergy(energy)
-			.save(gen, "mixing_" + output.name());
+			.save(gen, "reacting_ff_f_" + output.name());
+		//@formatter:on
+	}
+
+	protected static void reactfi_fi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
+			RegistryObject<? extends Item> i2, int a2, FluidObject o1, int b1, RegistryObject<? extends Item> o2,
+			int b2, int energy) {
+		//@formatter:off
+		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
+			.withInputFluid(new FluidStack(i1.fluid(), a1))
+			.withInputItem(i2.get(), a2)
+			.withOutputFluid(new FluidStack(o1.fluid(), b1))
+			.withOutputItem(o2.get(), b2)
+			.withEnergy(energy)
+			.save(gen, "reacting_fi_fi_" + o1.name());
+		//@formatter:on
+	}
+
+	protected static void reactff_i(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1, FluidObject i2,
+			int a2, RegistryObject<? extends Item> o, int b, int energy) {
+		//@formatter:off
+		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
+			.withInputFluid(new FluidStack(i1.fluid(), a1))
+			.withInputFluid(new FluidStack(i2.fluid(), a2))
+			.withOutputItem(o.get(), b)
+			.withEnergy(energy)
+			.save(gen, "reacting_ff_i_" + getItemName(o.get()));
 		//@formatter:on
 	}
 }

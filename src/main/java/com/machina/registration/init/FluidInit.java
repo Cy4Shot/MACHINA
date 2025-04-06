@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -36,7 +37,7 @@ public class FluidInit {
 			.create(ForgeRegistries.Keys.FLUID_TYPES, Machina.MOD_ID);
 	public static final List<String> BLOCKS = new ArrayList<>();
 	public static final List<FluidObject> OBJS = new ArrayList<>();
-	
+
 	public static final FluidObject MOLTEN_IRON = create("molten_iron", "Fe", 0xFF_828282);
 	public static final FluidObject MOLTEN_GOLD = create("molten_gold", "Au", 0xFF_e9b115);
 	public static final FluidObject MOLTEN_COPPER = create("molten_copper", "Cu", 0xFF_c15a36);
@@ -97,6 +98,13 @@ public class FluidInit {
 
 	public static class FluidObject {
 
+		public static final FluidObject WATER = new FluidObject("water", "H20", c -> c) {
+			@Override
+			public FlowingFluid fluid() {
+				return Fluids.WATER;
+			}
+		};
+
 		private static final ResourceLocation STILL_RL = new ResourceLocation("block/water_still");
 		private static final ResourceLocation FLOWING_RL = new ResourceLocation("block/water_flow");
 		private static final ResourceLocation OVERLAY_RL = new ResourceLocation("block/water_overlay");
@@ -115,7 +123,7 @@ public class FluidInit {
 
 		public FluidObject(String name, String code, Function<ChemicalBuilder, ChemicalBuilder> builder) {
 			this.name = name;
-			
+
 			Supplier<FlowingFluid> sFluid = () -> FLUID.get();
 			Supplier<FlowingFluid> sFlowing = () -> FLOWING.get();
 			Supplier<MachinaBucket> sBucket = () -> BUCKET.get();
@@ -134,7 +142,7 @@ public class FluidInit {
 
 			OBJS.add(FluidObject.this);
 		}
-		
+
 		public String name() {
 			return name;
 		}
@@ -147,7 +155,7 @@ public class FluidInit {
 			return BUCKET.get();
 		}
 
-		public ForgeFlowingFluid fluid() {
+		public FlowingFluid fluid() {
 			return FLUID.get();
 		}
 

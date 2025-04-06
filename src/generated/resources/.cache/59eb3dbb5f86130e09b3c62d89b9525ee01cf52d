@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-07T00:17:32.43805	Loot Tables
+// 1.20.1	2025-04-07T00:36:47.1396634	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -359,6 +359,7 @@ c4ea59bf3b100ba405ef5a5fe0cb6a9637779b7a data/machina/loot_tables/blocks/tropica
 548aa2c1f6e3bee1ef892cdb6eccf7071bc5461e data/machina/loot_tables/blocks/turquoise_petals.json
 1e120d0d866754df5a50fd0b298dc1c8a7d8d18f data/machina/loot_tables/blocks/turquoise_waterlily.json
 37e4de490503c4f8d13a3ba80d366c91bc611ac3 data/machina/loot_tables/blocks/twisted_grass.json
+5ef7ac84f2ce6770164b444df4bf3f0829b53b74 data/machina/loot_tables/blocks/water_block.json
 500c87c3259c701b4ab83e2bdce3570620a8c37c data/machina/loot_tables/blocks/white_soapstone.json
 24b72c55aecedd1cc8e2f5f378bc6b7f9cd8e701 data/machina/loot_tables/blocks/white_soapstone_button.json
 a70dd9b7d870344bdf7657852c7d5b7e70a49a07 data/machina/loot_tables/blocks/white_soapstone_pebbles.json

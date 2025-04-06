@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "machina:mixing_lead_bismuth_eutectic"
+        "recipe": "machina:reacting_fi_fi_nitric_acid"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "machina:mixing_lead_bismuth_eutectic"
+      "machina:reacting_fi_fi_nitric_acid"
     ]
   },
   "sends_telemetry_event": false

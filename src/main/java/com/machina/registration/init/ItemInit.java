@@ -153,6 +153,7 @@ public class ItemInit {
 	public static final RegistryObject<ChemicalItem> UHMWPE = chemical("uhmwpe", "uhmwpe", "(CH2CH2)");
 	public static final RegistryObject<ChemicalItem> SODIUM_HYDROXIDE = chemical("sodium_hydroxide", "NaOH");
 	public static final RegistryObject<ChemicalItem> SODIUM_CARBONATE = chemical("sodium_carbonate", "Na2CO3");
+	public static final RegistryObject<ChemicalItem> POTASSIUM_BISULFATE = chemical("potassium_bisulfate", "KHSO4");
 	public static final RegistryObject<ChemicalItem> CALCIUM_SULPHATE = chemical("calcium_sulphate", "CaSO4");
 	public static final RegistryObject<ChemicalItem> PALLADIUM_CHLORIDE = chemical("palladium_chloride", "PdCl2");
 	public static final RegistryObject<ChemicalItem> PALLADIUM_ON_CARBON = chemical("palladium_on_carbon", "Pd/C");

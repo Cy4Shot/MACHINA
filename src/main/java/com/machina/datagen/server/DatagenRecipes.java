@@ -13,6 +13,7 @@ import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
 
 import net.minecraft.data.PackOutput;
@@ -53,7 +54,13 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.showNotification(false)
 			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.MIGMATITE.get()));
 		
-		mixing(gen, FluidInit.MOLTEN_LEAD, 1, FluidInit.MOLTEN_BISMUTH, 1, FluidInit.LEAD_BISMUTH_EUTECTIC, 2, 10);
+		reactff_f(gen, FluidInit.MOLTEN_LEAD, 1, FluidInit.MOLTEN_BISMUTH, 1, FluidInit.LEAD_BISMUTH_EUTECTIC, 2, 10);
+		reactff_f(gen, FluidInit.SULPHUR_DIOXIDE, 2, FluidInit.OXYGEN, 1, FluidInit.SULPHUR_TRIOXIDE, 2, 10);
+		reactff_f(gen, FluidInit.SULPHUR_TRIOXIDE, 1, FluidObject.WATER, 1, FluidInit.SULPHURIC_ACID, 1, 7);
+		
+		reactfi_fi(gen, FluidInit.SULPHURIC_ACID, 1000, ItemInit.NITER, 1, FluidInit.NITRIC_ACID, 1000, ItemInit.POTASSIUM_BISULFATE, 1, 10_000);
+		
+		reactff_i(gen, FluidInit.AMMONIA, 144, FluidInit.NITRIC_ACID, 144, ItemInit.AMMONIUM_NITRATE, 1, 2448);
 		
 		//@formatter:on
 

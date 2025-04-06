@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-05T13:09:02.7758975	Item Models: machina
+// 1.20.1	2025-04-07T00:36:47.1356652	Item Models: machina
 a38be406000b52edfc5d6439eae91b0ad61a63dc assets/machina/models/item/acetaldehyde_bucket.json
 7548cc941b514c7510e6a96383a1341dec5684dc assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -160,4 +160,5 @@ b45d96044dd17cf403434d627bcbfacccb2e7dcb assets/machina/models/item/sulphur_trio
 4ee872ee21e4579537d3ca4dd137f667e6f962a3 assets/machina/models/item/toluene_bucket.json
 8c9cd30f12a290c06140d977e57415800e81ddeb assets/machina/models/item/tropical_hanging_sign.json
 6a0756cb6186eaea96f708370388966aaeb26e03 assets/machina/models/item/tropical_sign.json
+e97842ba30bfe1e77435e967d45b8f5a1e0387fa assets/machina/models/item/water_bucket.json
 4d079388c0c43fd4bc9cbc62e67e23c637c9248f assets/machina/models/item/y2_nana.json
