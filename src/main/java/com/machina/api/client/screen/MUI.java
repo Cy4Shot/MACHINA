@@ -51,6 +51,11 @@ import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
 
 public final class MUI {
+	
+	public static final int CYAN = 0x00FEFE;
+	public static final int RED = 0xFE0000;
+	public static final int GREEN = 0x00FE00;
+	public static final int WHITE = 0xFFFFFF;
 
 	private static final Minecraft mc = Minecraft.getInstance();
 
@@ -85,9 +90,17 @@ public final class MUI {
 		RenderSystem.disableBlend();
 		RenderSystem.defaultBlendFunc();
 	}
+	
+	public static void drawString(GuiGraphics gui, Component text, int x, int y) {
+		drawString(gui, text, x, y, CYAN);
+	}
 
 	public static void drawString(GuiGraphics gui, Component text, int x, int y, int color) {
 		gui.drawString(mc.font, text, x, y, color);
+	}
+	
+	public static void drawCenteredString(GuiGraphics gui, Component text, int x, int y) {
+		drawCenteredString(gui, text, x, y, CYAN);
 	}
 
 	public static void drawCenteredString(GuiGraphics gui, Component text, int x, int y, int color) {
@@ -158,13 +171,13 @@ public final class MUI {
 		blitCommon(gui, i + 135, j + 2, 390 + dec_off, 0, 3, 16);
 
 		if (!active) {
-			gui.drawCenteredString(mc.font, uistr(missing), i + 66, j + 6, 0xFE0000);
+			gui.drawCenteredString(mc.font, uistr(missing), i + 66, j + 6, RED);
 		}
 
 		dec_off = active ? 0 : 38;
 		Component c = Component.literal(text);
 		int w = mc.font.width(c) / 2 + 2;
-		gui.drawCenteredString(mc.font, c, i + 66, j + 20, active ? 0x00FEFE : 0xFE0000);
+		gui.drawCenteredString(mc.font, c, i + 66, j + 20, active ? CYAN : RED);
 		blitCommon(gui, i + 66 + w, j + 18, 418 + dec_off, 5, 19, 8);
 		blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
 	}

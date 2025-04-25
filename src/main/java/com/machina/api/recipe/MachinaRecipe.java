@@ -43,9 +43,8 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	private final int time;
 	private final float pressure;
 	private final float temperature;
-	private final float xp;
 
-	public MachinaRecipe(ResourceLocation id, int energy, int time, float pressure, float temperature, float xp,
+	public MachinaRecipe(ResourceLocation id, int energy, int time, float pressure, float temperature,
 			List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
 			List<FluidStack> outputFluids) {
 
@@ -58,7 +57,6 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 		this.energy = Math.max(0, energy);
 		this.pressure = pressure;
 		this.temperature = temperature;
-		this.xp = Math.max(0, xp);
 		this.inputItems.addAll(inputItems);
 		this.inputFluids.addAll(inputFluids);
 		this.outputItems.addAll(outputItems);
@@ -105,10 +103,6 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 	public float getTemperature() {
 		return temperature;
-	}
-
-	public float getXp() {
-		return xp;
 	}
 
 	public int getPowerRate() {
@@ -208,7 +202,6 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 		@Override
 		public @NotNull MachinaRecipe<C> fromJson(@NotNull ResourceLocation loc, JsonObject obj) {
-			float experience = 0f;
 			int energy = 0;
 			int time = 0;
 			float pressure = 0;
@@ -218,9 +211,6 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			ArrayList<ItemStack> outputItems = new ArrayList<>();
 			ArrayList<FluidStack> outputFluids = new ArrayList<>();
 
-			if (obj.has("xp")) {
-				experience = obj.get("xp").getAsFloat();
-			}
 			if (obj.has("inputItems") && obj.get("inputItems").isJsonArray()) {
 				obj.getAsJsonArray("inputItems").forEach(e -> inputItems.add(Ingredient.fromJson(e)));
 			}
@@ -257,14 +247,12 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 				}
 			}
 
-			return factory.apply(loc, energy, time, pressure, temperature, experience, inputItems, inputFluids,
-					outputItems, outputFluids);
+			return factory.apply(loc, energy, time, pressure, temperature, inputItems, inputFluids, outputItems,
+					outputFluids);
 		}
 
 		public void toJson(JsonObject obj, MachinaRecipe<C> recipe) {
 			int flags = getFlags();
-
-			obj.addProperty("xp", recipe.getXp());
 
 			if ((flags & HAS_ENERGY) != 0) {
 				obj.addProperty("energy", recipe.getEnergy());
@@ -306,7 +294,6 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 		@Override
 		public @Nullable MachinaRecipe<C> fromNetwork(@NotNull ResourceLocation loc, FriendlyByteBuf buf) {
-			float experience = buf.readFloat();
 			int energy = 0;
 			int time = 0;
 			float pressure = 0;
@@ -350,14 +337,12 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 				temperature = buf.readFloat();
 			}
 
-			return factory.apply(loc, energy, time, pressure, temperature, experience, inputItems, inputFluids,
-					outputItems, outputFluids);
+			return factory.apply(loc, energy, time, pressure, temperature, inputItems, inputFluids, outputItems,
+					outputFluids);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buf, MachinaRecipe<C> recipe) {
-			buf.writeFloat(recipe.getXp());
-
 			int num0 = recipe.inputItems.size();
 			buf.writeVarInt(num0);
 			for (int i = 0; i < num0; i++) {
@@ -400,7 +385,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 	@FunctionalInterface
 	public interface RecipeFactory<R extends MachinaRecipe<?>> {
-		R apply(ResourceLocation loc, int energy, int time, float pressure, float temperature, float xp,
+		R apply(ResourceLocation loc, int energy, int time, float pressure, float temperature,
 				List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
 				List<FluidStack> outputFluids);
 	}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_constantan_nugget": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "machina:constantan_nugget"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:constantan_ingot_from_constantan_nugget"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_constantan_nugget",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:constantan_ingot_from_constantan_nugget"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -17,11 +17,14 @@ import com.machina.block.connector.EnergyCableBlock;
 import com.machina.block.connector.FluidPipeBlock;
 import com.machina.block.connector.ItemConduitBlock;
 import com.machina.block.machine.BatteryBlock;
+import com.machina.block.machine.ComposterVatBlock;
 import com.machina.block.machine.CompressorBlock;
 import com.machina.block.machine.CreativeBatteryBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
 import com.machina.block.machine.GrinderBlock;
 import com.machina.block.machine.MachineCaseBlock;
+import com.machina.block.machine.MelterBlock;
+import com.machina.block.machine.ReactionChamberBlock;
 import com.machina.block.machine.TankBlock;
 
 import net.minecraft.core.BlockPos;
@@ -74,9 +77,36 @@ public class BlockInit {
 	public static final RegistryObject<FurnaceGeneratorBlock> FURNACE_GENERATOR = register("furnace_generator", Blocks.IRON_BLOCK, FurnaceGeneratorBlock::new);
 	public static final RegistryObject<GrinderBlock> GRINDER = register("grinder", Blocks.IRON_BLOCK, GrinderBlock::new);
 	public static final RegistryObject<CompressorBlock> COMPRESSOR = register("compressor", Blocks.IRON_BLOCK, CompressorBlock::new);
+	public static final RegistryObject<MelterBlock> MELTER = register("melter", Blocks.IRON_BLOCK, MelterBlock::new);
+	public static final RegistryObject<ReactionChamberBlock> REACTION_CHAMBER = register("reaction_chamber", Blocks.IRON_BLOCK, ReactionChamberBlock::new);
+	public static final RegistryObject<ComposterVatBlock> COMPOSTER_VAT = register("composter_vat", Blocks.IRON_BLOCK, ComposterVatBlock::new);
+
+	public static final RegistryObject<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> RAW_LEAD_BLOCK = block("raw_lead_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> RAW_BORON_BLOCK = block("raw_boron_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> RAW_PALLADIUM_BLOCK = block("raw_palladium_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> RAW_SILVER_BLOCK = block("raw_silver_block", Blocks.IRON_BLOCK);
 	
 	public static final RegistryObject<Block> ALUMINUM_BLOCK = block("aluminum_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> NICKEL_BLOCK = block("nickel_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> LEAD_BLOCK = block("lead_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> BORON_BLOCK = block("boron_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> PALLADIUM_BLOCK = block("palladium_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> SILVER_BLOCK = block("silver_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> STEEL_BLOCK = block("steel_block", Blocks.IRON_BLOCK);
+	public static final RegistryObject<Block> CONSTANTAN_BLOCK = block("constantan_block", Blocks.IRON_BLOCK);
+	
 	public static final RegistryObject<Block> ALUMINUM_ORE = block("aluminum_ore", Blocks.IRON_ORE);
+	public static final RegistryObject<Block> NICKEL_ORE = block("nickel_ore", Blocks.IRON_ORE);
+	public static final RegistryObject<Block> LEAD_ORE = block("lead_ore", Blocks.IRON_ORE);
+	public static final RegistryObject<Block> BORON_ORE = block("boron_ore", Blocks.IRON_ORE);
+	public static final RegistryObject<Block> PALLADIUM_ORE = block("palladium_ore", Blocks.IRON_ORE);
+	public static final RegistryObject<Block> SILVER_ORE = block("silver_ore", Blocks.IRON_ORE);
+	public static final RegistryObject<Block> FLUORITE_ORE = block("fluorite_ore", Blocks.COAL_ORE);
+	public static final RegistryObject<Block> SALTPETER_ORE = block("saltpeter_ore", Blocks.COAL_ORE);
+	public static final RegistryObject<Block> PYRITE_ORE = block("pyrite_ore", Blocks.COAL_ORE);
+	public static final RegistryObject<Block> BISMUTH_ORE = block("bismuth_ore", Blocks.IRON_ORE);
 
 	public static final RegistryObject<Block> ANTHRACITE = block("anthracite", Blocks.ANDESITE);
 	public static final RegistryObject<SlabBlock> ANTHRACITE_SLAB = slab("anthracite_slab", Blocks.ANDESITE_SLAB);

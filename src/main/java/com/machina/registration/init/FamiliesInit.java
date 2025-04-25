@@ -24,6 +24,7 @@ public class FamiliesInit {
 	public static final List<StoneFamily> STONES = new ArrayList<>();
 
 	static {
+		// Minecraft Ores
 		ORES.add(OreFamily.gemLike("coal", Blocks.COAL_ORE, Blocks.COAL_BLOCK, Items.COAL, ItemInit.COAL_DUST.get()));
 		ORES.add(OreFamily.gemLike("lapis", Blocks.LAPIS_ORE, Blocks.LAPIS_BLOCK, Items.LAPIS_LAZULI,
 				ItemInit.LAPIS_DUST.get()));
@@ -31,19 +32,59 @@ public class FamiliesInit {
 				ItemInit.QUARTZ_DUST.get()));
 		ORES.add(OreFamily.gemLike("emerald", Blocks.EMERALD_ORE, Blocks.EMERALD_BLOCK, Items.EMERALD,
 				ItemInit.EMERALD_DUST.get()));
+		ORES.add(OreFamily.gemLike("diamond", Blocks.DIAMOND_ORE, Blocks.DIAMOND_BLOCK, Items.DIAMOND,
+				ItemInit.DIAMOND_DUST.get()));
 		ORES.add(OreFamily.ingotLike("iron", Blocks.IRON_ORE, Blocks.IRON_BLOCK, Items.IRON_NUGGET, Items.IRON_INGOT,
-				ItemInit.IRON_DUST.get(), ItemInit.IRON_PLATE.get(), ItemInit.IRON_ROD.get(),
-				ItemInit.IRON_WIRE.get()));
+				ItemInit.IRON_DUST.get(), ItemInit.IRON_PLATE.get(), ItemInit.IRON_ROD.get(), ItemInit.IRON_WIRE.get(),
+				Items.RAW_IRON, Blocks.RAW_IRON_BLOCK));
 		ORES.add(OreFamily.ingotLike("gold", Blocks.GOLD_ORE, Blocks.GOLD_BLOCK, Items.GOLD_NUGGET, Items.GOLD_INGOT,
-				ItemInit.GOLD_DUST.get(), ItemInit.GOLD_PLATE.get(), ItemInit.GOLD_ROD.get(),
-				ItemInit.GOLD_WIRE.get()));
+				ItemInit.GOLD_DUST.get(), ItemInit.GOLD_PLATE.get(), ItemInit.GOLD_ROD.get(), ItemInit.GOLD_WIRE.get(),
+				Items.RAW_GOLD, Blocks.RAW_GOLD_BLOCK));
 		ORES.add(OreFamily.ingotLike("copper", Blocks.COPPER_ORE, Blocks.COPPER_BLOCK, ItemInit.COPPER_NUGGET.get(),
 				Items.COPPER_INGOT, ItemInit.COPPER_DUST.get(), ItemInit.COPPER_PLATE.get(), ItemInit.COPPER_ROD.get(),
-				ItemInit.COPPER_WIRE.get()));
-		ORES.add(OreFamily.ingotLike("diamond", Blocks.DIAMOND_ORE, Blocks.DIAMOND_BLOCK, ItemInit.DIAMOND_NUGGET.get(),
-				Items.DIAMOND, ItemInit.DIAMOND_DUST.get(), ItemInit.DIAMOND_PLATE.get(), ItemInit.DIAMOND_ROD.get(),
-				ItemInit.DIAMOND_WIRE.get()));
+				ItemInit.COPPER_WIRE.get(), Items.RAW_COPPER, Blocks.RAW_COPPER_BLOCK));
 
+		// Machina Ores
+		ORES.add(OreFamily.ingotLike("aluminum", BlockInit.ALUMINUM_ORE.get(), BlockInit.ALUMINUM_BLOCK.get(),
+				ItemInit.ALUMINUM_NUGGET.get(), ItemInit.ALUMINUM_INGOT.get(), ItemInit.ALUMINUM_DUST.get(),
+				ItemInit.ALUMINUM_PLATE.get(), ItemInit.ALUMINUM_ROD.get(), ItemInit.ALUMINUM_WIRE.get(),
+				ItemInit.RAW_ALUMINUM.get(), BlockInit.RAW_ALUMINUM_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("nickel", BlockInit.NICKEL_ORE.get(), BlockInit.NICKEL_BLOCK.get(),
+				ItemInit.NICKEL_NUGGET.get(), ItemInit.NICKEL_INGOT.get(), ItemInit.NICKEL_DUST.get(),
+				ItemInit.NICKEL_PLATE.get(), ItemInit.NICKEL_ROD.get(), ItemInit.NICKEL_WIRE.get(),
+				ItemInit.RAW_NICKEL.get(), BlockInit.RAW_NICKEL_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("lead", BlockInit.LEAD_ORE.get(), BlockInit.LEAD_BLOCK.get(),
+				ItemInit.LEAD_NUGGET.get(), ItemInit.LEAD_INGOT.get(), ItemInit.LEAD_DUST.get(),
+				ItemInit.LEAD_PLATE.get(), ItemInit.LEAD_ROD.get(), ItemInit.LEAD_WIRE.get(), ItemInit.RAW_LEAD.get(),
+				BlockInit.RAW_LEAD_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("boron", BlockInit.BORON_ORE.get(), BlockInit.BORON_BLOCK.get(),
+				ItemInit.BORON_NUGGET.get(), ItemInit.BORON_INGOT.get(), ItemInit.BORON_DUST.get(),
+				ItemInit.BORON_PLATE.get(), ItemInit.BORON_ROD.get(), ItemInit.BORON_WIRE.get(),
+				ItemInit.RAW_BORON.get(), BlockInit.RAW_BORON_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("palladium", BlockInit.PALLADIUM_ORE.get(), BlockInit.PALLADIUM_BLOCK.get(),
+				ItemInit.PALLADIUM_NUGGET.get(), ItemInit.PALLADIUM_INGOT.get(), ItemInit.PALLADIUM_DUST.get(),
+				ItemInit.PALLADIUM_PLATE.get(), ItemInit.PALLADIUM_ROD.get(), ItemInit.PALLADIUM_WIRE.get(),
+				ItemInit.RAW_PALLADIUM.get(), BlockInit.RAW_PALLADIUM_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("silver", BlockInit.SILVER_ORE.get(), BlockInit.SILVER_BLOCK.get(),
+				ItemInit.SILVER_NUGGET.get(), ItemInit.SILVER_INGOT.get(), ItemInit.SILVER_DUST.get(),
+				ItemInit.SILVER_PLATE.get(), ItemInit.SILVER_ROD.get(), ItemInit.SILVER_WIRE.get(),
+				ItemInit.RAW_SILVER.get(), BlockInit.RAW_SILVER_BLOCK.get()));
+		ORES.add(OreFamily.alloyLike("steel", BlockInit.STEEL_BLOCK.get(), ItemInit.STEEL_NUGGET.get(),
+				ItemInit.STEEL_INGOT.get(), ItemInit.STEEL_DUST.get(), ItemInit.STEEL_PLATE.get(),
+				ItemInit.STEEL_ROD.get(), ItemInit.STEEL_WIRE.get()));
+		ORES.add(OreFamily.alloyLike("constantan", BlockInit.CONSTANTAN_BLOCK.get(), ItemInit.CONSTANTAN_NUGGET.get(),
+				ItemInit.CONSTANTAN_INGOT.get(), ItemInit.CONSTANTAN_DUST.get(), ItemInit.CONSTANTAN_PLATE.get(),
+				ItemInit.CONSTANTAN_ROD.get(), ItemInit.CONSTANTAN_WIRE.get()));
+		ORES.add(OreFamily.resLike("fluorite", BlockInit.FLUORITE_ORE.get(), ItemInit.FLUORITE.get(),
+				ItemInit.FLUORITE_DUST.get()));
+		ORES.add(OreFamily.resLike("niter", BlockInit.SALTPETER_ORE.get(), ItemInit.NITER.get(),
+				ItemInit.NITER_DUST.get()));
+		ORES.add(OreFamily.resLike("sulfur", BlockInit.PYRITE_ORE.get(), ItemInit.SULFUR.get(),
+				ItemInit.SULFUR_DUST.get()));
+		ORES.add(OreFamily.resLike("bismuth", BlockInit.BISMUTH_ORE.get(), ItemInit.BISMUTH.get(),
+				ItemInit.BISMUTH_DUST.get()));
+
+		// Dirts
 		DIRTS.add(new DirtFamily("tropical", BlockInit.TROPICAL_DIRT.get(), BlockInit.TROPICAL_DIRT_STAIRS.get(),
 				BlockInit.TROPICAL_DIRT_SLAB.get(), Optional.of(BlockInit.TROPICAL_GRASS_BLOCK.get())));
 		DIRTS.add(new DirtFamily("forest", BlockInit.FOREST_DIRT.get(), BlockInit.FOREST_DIRT_STAIRS.get(),
@@ -57,6 +98,7 @@ public class FamiliesInit {
 		DIRTS.add(new DirtFamily("peat", BlockInit.PEAT.get(), BlockInit.PEAT_STAIRS.get(), BlockInit.PEAT_SLAB.get()));
 		DIRTS.add(new DirtFamily("silt", BlockInit.SILT.get(), BlockInit.SILT_STAIRS.get(), BlockInit.SILT_SLAB.get()));
 
+		// Woods
 		WOODS.add(new WoodFamily("tropical", BlockInit.TROPICAL_LOG.get(), BlockInit.TROPICAL_WOOD.get(),
 				BlockInit.STRIPPED_TROPICAL_LOG.get(), BlockInit.STRIPPED_TROPICAL_WOOD.get(),
 				BlockInit.TROPICAL_PLANKS.get(), BlockInit.TROPICAL_STAIRS.get(), BlockInit.TROPICAL_SLAB.get(),
@@ -104,6 +146,7 @@ public class FamiliesInit {
 				BlockInit.CYCAD_HANGING_SIGN.get(), BlockInit.CYCAD_WALL_HANGING_SIGN.get(),
 				new Block[] { BlockInit.CYCAD_LEAVES.get() }));
 
+		// Stones
 		STONES.add(new StoneFamily("anthracite", BlockInit.ANTHRACITE.get(), BlockInit.ANTHRACITE_SLAB.get(),
 				BlockInit.ANTHRACITE_STAIRS.get(), BlockInit.ANTHRACITE_WALL.get(),
 				BlockInit.ANTHRACITE_PRESSURE_PLATE.get(), BlockInit.ANTHRACITE_BUTTON.get(),
@@ -154,18 +197,33 @@ public class FamiliesInit {
 	}
 
 	public record OreFamily(String name, Optional<Block> ore, Optional<Block> block, Optional<Item> nugget,
-			Optional<Item> ingot, Item dust, Optional<Item> plate, Optional<Item> rod, Optional<Item> wire)
-			implements ItemLikeFamily {
+			Optional<Item> ingot, Optional<Item> dust, Optional<Item> plate, Optional<Item> rod, Optional<Item> wire,
+			Optional<Item> raw, Optional<Block> rawBlock) implements ItemLikeFamily {
+
+		public static OreFamily resLike(String name, Block ore, Item gem, Item dust) {
+			return new OreFamily(name, Optional.of(ore), Optional.empty(), Optional.empty(), Optional.of(gem),
+					Optional.of(dust), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),
+					Optional.empty());
+		}
 
 		public static OreFamily gemLike(String name, Block ore, Block block, Item ingot, Item dust) {
-			return new OreFamily(name, Optional.of(ore), Optional.of(block), Optional.empty(), Optional.of(ingot), dust,
-					Optional.empty(), Optional.empty(), Optional.empty());
+			return new OreFamily(name, Optional.of(ore), Optional.of(block), Optional.empty(), Optional.of(ingot),
+					Optional.of(dust), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),
+					Optional.empty());
 		}
 
 		public static OreFamily ingotLike(String name, Block ore, Block block, Item nugget, Item ingot, Item dust,
-				Item plate, Item rod, Item wire) {
+				Item plate, Item rod, Item wire, Item raw, Block rawBlock) {
 			return new OreFamily(name, Optional.of(ore), Optional.of(block), Optional.of(nugget), Optional.of(ingot),
-					dust, Optional.of(plate), Optional.of(rod), Optional.of(wire));
+					Optional.of(dust), Optional.of(plate), Optional.of(rod), Optional.of(wire), Optional.of(raw),
+					Optional.of(rawBlock));
+		}
+
+		public static OreFamily alloyLike(String name, Block block, Item nugget, Item ingot, Item dust, Item plate,
+				Item rod, Item wire) {
+			return new OreFamily(name, Optional.empty(), Optional.of(block), Optional.of(nugget), Optional.of(ingot),
+					Optional.of(dust), Optional.of(plate), Optional.of(rod), Optional.of(wire), Optional.empty(),
+					Optional.empty());
 		}
 
 		private static boolean isOurItem(ItemLike item) {
@@ -188,6 +246,18 @@ public class FamiliesInit {
 			return ingot.filter(OreFamily::isOurItem);
 		}
 
+		public Optional<Item> getDust() {
+			return dust.filter(OreFamily::isOurItem);
+		}
+
+		public Optional<Item> getRaw() {
+			return raw.filter(OreFamily::isOurItem);
+		}
+
+		public Optional<Block> getRawBlock() {
+			return rawBlock.filter(OreFamily::isOurItem);
+		}
+
 		@Override
 		public List<ItemLike> tab() {
 			List<ItemLike> builder = new ArrayList<>();
@@ -201,10 +271,12 @@ public class FamiliesInit {
 			ore.ifPresent(add);
 			ingot.ifPresent(add);
 			block.ifPresent(add);
-			builder.add(dust);
+			dust.ifPresent(add);
 			plate.ifPresent(add);
 			rod.ifPresent(add);
 			wire.ifPresent(add);
+			raw.ifPresent(add);
+			rawBlock.ifPresent(add);
 			return builder;
 		}
 	}

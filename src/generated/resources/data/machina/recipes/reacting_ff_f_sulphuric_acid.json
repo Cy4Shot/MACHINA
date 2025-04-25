@@ -1,0 +1,22 @@
+{
+  "type": "machina:reaction_chamber",
+  "energy": 7,
+  "inputFluids": [
+    {
+      "amount": 1,
+      "fluid": "machina:sulphur_trioxide"
+    },
+    {
+      "amount": 1,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "inputItems": [],
+  "outputFluids": [
+    {
+      "amount": 1,
+      "fluid": "machina:sulphuric_acid"
+    }
+  ],
+  "outputItems": []
+}

@@ -12,9 +12,9 @@ import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit.Fruit;
+import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +28,7 @@ public abstract class DatagenLang extends LanguageProvider {
 	protected final Map<String, String> data = new TreeMap<>();
 
 	final String modid;
-	String music_disc;
+	String music_disc, bucket;
 
 	public DatagenLang(PackOutput gen, String locale, String modid) {
 		super(gen, modid, locale);
@@ -57,14 +57,18 @@ public abstract class DatagenLang extends LanguageProvider {
 	protected void add(Mode mode, String name) {
 		add(Machina.MOD_ID + ".filter." + mode.name().toLowerCase(), name);
 	}
-	
+
 	protected void add(ConnectionSide mode, String name) {
 		add(Machina.MOD_ID + ".connection_side." + mode.name().toLowerCase(), name);
 	}
 
 	protected void add(FluidObject obj, String name) {
 		add(obj.fluid(), name);
-		add(obj.bucket(), name + " " + "Bucket");
+		add(obj.bucket(), name + " " + this.bucket);
+	}
+
+	protected void add(RecipeRegistryObject<?> obj, String name) {
+		add(modid + ".recipe." + obj.id().getPath(), name);
 	}
 
 	protected void addTooltip(String item, String name) {
@@ -79,48 +83,8 @@ public abstract class DatagenLang extends LanguageProvider {
 		add("gui.machina." + key, name);
 	}
 
-	protected void addJeiCat(String cat, String name) {
-		add("gui.jei.category." + cat, name);
-	}
-
-	protected void addDamageSource(DamageSource source, String message) {
-		add("death.attack." + source.getMsgId(), message);
-	}
-
-	protected void addDamageSourceAttacker(DamageSource source, String message) {
-		add("death.attack." + source.getMsgId() + ".player", message);
-	}
-
 	protected void addKeyCategory(String category, String name) {
 		add("key.category." + category, name);
-	}
-
-	protected void addCommandFeedback(String key, String name) {
-		add("command." + key, name);
-	}
-
-	protected void addCommandArgumentFeedback(String key, String name) {
-		add("argument." + key, name);
-	}
-
-	protected void addTerminalCommand(String name, String desc) {
-		add(modid + ".terminal.description." + name, desc);
-	}
-
-	protected void addTerminalFeedback(String comm, String id, String text) {
-		add(modid + ".terminal.feedback." + comm + "." + id, text);
-	}
-
-	protected void addScreen(String screen, String id, String locale) {
-		add(modid + ".screen." + screen + "." + id, locale);
-	}
-
-	protected void addShipComponent(String id, String locale) {
-		add(modid + ".ship_component." + id, locale);
-	}
-
-	protected void addMultiblock(String id, String locale) {
-		add(modid + ".multiblock." + id, locale);
 	}
 
 	public void addMusicDisc(Item key, String desc) {

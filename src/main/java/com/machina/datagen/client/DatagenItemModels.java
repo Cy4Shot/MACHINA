@@ -58,12 +58,15 @@ public class DatagenItemModels extends ItemModelProvider {
 		simpleItem(ItemInit.ADVANCED_CAPACITOR);
 		simpleItem(ItemInit.SUPREME_CAPACITOR);
 
+		simpleItem(ItemInit.MOULD_BASE);
+		simpleItem(ItemInit.MOULD_PLATE);
+		simpleItem(ItemInit.MOULD_ROD);
+		simpleItem(ItemInit.MOULD_WIRE);
+
 		simpleItem(ItemInit.ITEM_FILTER);
 		simpleItem(ItemInit.ADVANCED_ITEM_FILTER);
 		simpleItem(ItemInit.FLUID_FILTER);
 
-		simpleItem(ItemInit.ALUMINUM_INGOT);
-		simpleItem(ItemInit.ALUMINUM_NUGGET);
 		simpleItem(ItemInit.COAL_CHUNK);
 
 		simpleItem(ItemInit.TROPICAL_SIGN);
@@ -92,12 +95,13 @@ public class DatagenItemModels extends ItemModelProvider {
 	}
 
 	private void oreFamily(OreFamily fam) {
-		simpleItem(fam.dust());
+		fam.getDust().ifPresent(this::simpleItem);
 		fam.getIngot().ifPresent(this::simpleItem);
 		fam.getNugget().ifPresent(this::simpleItem);
 		fam.plate().ifPresent(this::simpleItem);
 		fam.rod().ifPresent(this::simpleItem);
 		fam.wire().ifPresent(this::simpleItem);
+		fam.getRaw().ifPresent(this::simpleItem);
 	}
 
 	protected void bucket(FluidObject obj) {

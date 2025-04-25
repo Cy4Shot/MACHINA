@@ -23,38 +23,42 @@ public class TabInit {
 	public static final RegistryObject<CreativeModeTab> MACHINA_MACHINERY = create("machina_machinery",
 			BlockInit.FURNACE_GENERATOR, a -> {
 				add(a, ItemInit.BLUEPRINT);
-				add(a, ItemInit.BASIC_CAPACITOR);
-				add(a, ItemInit.ADVANCED_CAPACITOR);
-				add(a, ItemInit.SUPREME_CAPACITOR);
-				
+
 				add(a, BlockInit.ENERGY_CABLE);
 				add(a, BlockInit.FLUID_PIPE);
 				add(a, BlockInit.ITEM_CONDUIT);
+
 				add(a, ItemInit.FLUID_FILTER);
 				add(a, ItemInit.ITEM_FILTER);
 				add(a, ItemInit.ADVANCED_ITEM_FILTER);
-				
+
 				add(a, BlockInit.BATTERY);
 				add(a, BlockInit.TANK);
 				add(a, BlockInit.BASIC_MACHINE_CASE);
 				add(a, BlockInit.FURNACE_GENERATOR);
 				add(a, BlockInit.GRINDER);
 				add(a, BlockInit.COMPRESSOR);
+				add(a, BlockInit.MELTER);
+				add(a, BlockInit.REACTION_CHAMBER);
+				add(a, BlockInit.COMPOSTER_VAT);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
+
+				add(a, ItemInit.BASIC_CAPACITOR);
+				add(a, ItemInit.ADVANCED_CAPACITOR);
+				add(a, ItemInit.SUPREME_CAPACITOR);
+				add(a, ItemInit.MOULD_BASE);
+				add(a, ItemInit.MOULD_PLATE);
+				add(a, ItemInit.MOULD_PLATE);
+				add(a, ItemInit.MOULD_ROD);
+				add(a, ItemInit.MOULD_WIRE);
 			});
 
 	public static final RegistryObject<CreativeModeTab> MACHINA_RESOURCES = create("machina_resources",
-			ItemInit.DIAMOND_PLATE, a -> {
-
-				family(a, FamiliesInit.ORES);
-
-				add(a, ItemInit.ALUMINUM_NUGGET);
-				add(a, ItemInit.ALUMINUM_INGOT);
-				add(a, BlockInit.ALUMINUM_BLOCK);
-				add(a, ItemInit.RAW_ALUMINUM);
+			ItemInit.ALUMINUM_INGOT, a -> {
 
 				add(a, ItemInit.COAL_CHUNK);
+				family(a, FamiliesInit.ORES);
 
 				add(a, ItemInit.SILICON);
 				add(a, ItemInit.RAW_SILICON_BLEND);

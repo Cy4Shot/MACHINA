@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.google.gson.JsonObject;
+import com.machina.api.util.MachinaRL;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.advancements.Advancement;
@@ -23,14 +26,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.fluids.FluidStack;
-import org.jetbrains.annotations.NotNull;
 
 public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder {
 
 	private final Advancement.Builder advancement = Advancement.Builder.recipeAdvancement();
 
 	private final RecipeRegistryObject<T> reg;
-	private final float xp;
 
 	protected final List<Ingredient> inputItems = new ArrayList<>();
 	protected final List<FluidStack> inputFluids = new ArrayList<>();
@@ -41,9 +42,8 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 	private float pressure;
 	private float temperature;
 
-	public MachinaRecipeBuilder(RecipeRegistryObject<T> reg, float xp) {
+	public MachinaRecipeBuilder(RecipeRegistryObject<T> reg) {
 		this.reg = reg;
-		this.xp = xp;
 	}
 
 	public MachinaRecipeBuilder<T> withEnergy(int energy) {
@@ -86,8 +86,8 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 		return this;
 	}
 
-	public static MachinaRecipeBuilder<?> create(RecipeRegistryObject<?> reg, float xp) {
-		return new MachinaRecipeBuilder<>(reg, xp);
+	public static MachinaRecipeBuilder<?> create(RecipeRegistryObject<?> reg) {
+		return new MachinaRecipeBuilder<>(reg);
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 
 	@Override
 	public void save(@NotNull Consumer<FinishedRecipe> recipe, @NotNull String string) {
-		this.save(recipe, new ResourceLocation(string));
+		this.save(recipe, new MachinaRL(string));
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(loc))
 				.rewards(AdvancementRewards.Builder.recipe(loc)).requirements(RequirementsStrategy.OR);
 		save.accept(new Result<>(loc, this.advancement, this.reg, () -> this.reg.factory().apply(loc, energy, time,
-				pressure, temperature, xp, inputItems, inputFluids, outputItems, outputFluids)));
+				pressure, temperature, inputItems, inputFluids, outputItems, outputFluids)));
 	}
 
 	public static class Result<T extends Container> implements FinishedRecipe {

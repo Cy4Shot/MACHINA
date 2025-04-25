@@ -2,6 +2,8 @@ package com.machina.block.menu;
 
 import com.machina.api.block.MachineBlock;
 import com.machina.api.block.menu.MachinaContainerMenu;
+import com.machina.api.block.menu.slot.AcceptSlot;
+import com.machina.api.util.ItemStackUtil;
 import com.machina.block.entity.machine.TankBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
@@ -21,6 +23,9 @@ public class TankMenu extends MachinaContainerMenu<TankBlockEntity> {
 		super(MenuTypeInit.TANK.get(), level, pos, id);
 
 		invSlots(inv, 0);
+
+		this.addSlot(new AcceptSlot(be, 0, 21, 31, ItemStackUtil::hasFluid));
+		this.addSlot(new AcceptSlot(be, 1, 198, 31, ItemStackUtil::hasFluid));
 	}
 
 	@Override

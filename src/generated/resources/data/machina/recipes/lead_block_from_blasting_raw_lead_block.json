@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 2.7,
+  "group": "lead",
+  "ingredient": {
+    "item": "machina:raw_lead_block"
+  },
+  "result": "machina:lead_block"
+}

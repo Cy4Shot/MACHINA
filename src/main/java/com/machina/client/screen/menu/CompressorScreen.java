@@ -68,7 +68,7 @@ public class CompressorScreen extends MachinaMenuScreen<CompressorMenu> {
 				text = MUI.uistr("compressor.no_input");
 			}
 		}
-		int color = entity.isLit() ? 0x00FEFE : 0xFE0000;
+		int color = entity.isLit() ? MUI.CYAN : MUI.RED;
 		gui.drawCenteredString(font, text, i + 117, j - 54, color);
 		gui.drawCenteredString(font, text2, i + 117, j - 38, color);
 

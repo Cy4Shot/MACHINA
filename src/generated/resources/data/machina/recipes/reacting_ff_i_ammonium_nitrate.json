@@ -1,0 +1,22 @@
+{
+  "type": "machina:reaction_chamber",
+  "energy": 2448,
+  "inputFluids": [
+    {
+      "amount": 144,
+      "fluid": "machina:ammonia"
+    },
+    {
+      "amount": 144,
+      "fluid": "machina:nitric_acid"
+    }
+  ],
+  "inputItems": [],
+  "outputFluids": [],
+  "outputItems": [
+    {
+      "count": 1,
+      "item": "machina:ammonium_nitrate"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import com.google.common.base.Predicates;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
+import com.machina.api.util.ItemStackUtil;
 import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.menu.TankMenu;
 import com.machina.registration.init.BlockEntityInit;
@@ -20,10 +21,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 public class TankBlockEntity extends MachinaBlockEntity {
@@ -39,6 +42,45 @@ public class TankBlockEntity extends MachinaBlockEntity {
 	@Override
 	public void createStorages() {
 		fluidStorage(10_000, Predicates.alwaysTrue(), Side.INPUTS);
+		itemStorage(Side.INPUTS);
+		itemStorage(Side.OUTPUTS);
+	}
+
+	@Override
+	public void tick() {
+		if (this.level != null && this.level.isClientSide()) {
+			return;
+		}
+
+		// Fluid IN
+		ItemStack input = getItem(0);
+		if (ItemStackUtil.hasFluid(input)) {
+			input.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(storage -> {
+				FluidStack extracted = storage.drain(Integer.MAX_VALUE, FluidAction.SIMULATE);
+				int inserted = this.fill(0, extracted, FluidAction.EXECUTE);
+				storage.drain(inserted, FluidAction.EXECUTE);
+				if (extracted.getAmount() > 0) {
+					setItem(0, storage.getContainer());
+					this.setChanged();
+				}
+			});
+			
+			
+		}
+
+		// Fluid OUT
+		ItemStack output = getItem(1);
+		if (ItemStackUtil.hasFluid(output)) {
+			output.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(storage -> {
+				FluidStack extracted = this.tankDrain(0, Integer.MAX_VALUE, FluidAction.SIMULATE);
+				int inserted = storage.fill(extracted, FluidAction.EXECUTE);
+				this.tankDrain(0, inserted, FluidAction.EXECUTE);
+				if (extracted.getAmount() > 0) {
+					setItem(1, storage.getContainer());
+					this.setChanged();
+				}
+			});
+		}
 	}
 
 	@Override
@@ -64,15 +106,15 @@ public class TankBlockEntity extends MachinaBlockEntity {
 			for (int tank = 0; tank < getTanks(); tank++) {
 				FluidStack fluid = getFluid(tank);
 				if (fluid.isEmpty()) {
-					fluidInItem = handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
+					fluidInItem = handler.drain(Integer.MAX_VALUE, FluidAction.SIMULATE);
 				} else {
 					fluidInItem = handler.drain(new FluidStack(fluid.getFluid(), Integer.MAX_VALUE),
-							IFluidHandler.FluidAction.SIMULATE);
+							FluidAction.SIMULATE);
 				}
 				if (fluidInItem.isEmpty()) {
 					if (!fluid.isEmpty()) {
-						int filled = handler.fill(fluid, player.isCreative() ? IFluidHandler.FluidAction.SIMULATE
-								: IFluidHandler.FluidAction.EXECUTE);
+						int filled = handler.fill(fluid,
+								player.isCreative() ? FluidAction.SIMULATE : FluidAction.EXECUTE);
 						ItemStack container = handler.getContainer();
 						if (filled > 0) {
 							if (stack.getCount() == 1) {
@@ -86,13 +128,13 @@ public class TankBlockEntity extends MachinaBlockEntity {
 							if (player.isCreative()) {
 								IFluidHandlerItem newHandler = FluidUtil.getFluidHandler(stack.copyWithCount(1))
 										.resolve().get();
-								newHandler.fill(fluid, IFluidHandler.FluidAction.EXECUTE);
+								newHandler.fill(fluid, FluidAction.EXECUTE);
 								container = newHandler.getContainer();
 								if (!player.getInventory().add(container)) {
 									player.drop(container, false, true);
 								}
 							}
-							tankDrain(tank, filled, IFluidHandler.FluidAction.EXECUTE);
+							tankDrain(tank, filled, FluidAction.EXECUTE);
 							player.playNotifySound(SoundEvents.BUCKET_FILL, SoundSource.PLAYERS, 1f, 1f);
 							return true;
 						}

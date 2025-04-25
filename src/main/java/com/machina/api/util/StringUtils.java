@@ -8,6 +8,9 @@ import com.machina.Machina;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.fluids.FluidStack;
 
 public class StringUtils {
 
@@ -101,5 +104,11 @@ public class StringUtils {
 
 	public static String formatTicks(float ticks) {
 		return formatNumberWithUnit(ticks / 20f) + "s";
+	}
+
+	public static MutableComponent fluid(FluidStack stack, boolean bold) {
+		return stack.getDisplayName().copy()
+				.withStyle(Style.EMPTY.withBold(bold)
+						.withColor(IClientFluidTypeExtensions.of(stack.getFluid()).getTintColor()));
 	}
 }

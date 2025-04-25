@@ -43,14 +43,14 @@ public class FurnaceGeneratorScreen extends MachinaMenuScreen<FurnaceGeneratorMe
 						+ StringUtils.formatPercent(entity.getProgress()) + " ("
 						+ StringUtils.formatTicks(entity.ticksRemaining()) + ")")
 				: MUI.uistr("furnace_generator.no_input");
-		int color = entity.isLit() ? 0x00FEFE : 0xFE0000;
-		gui.drawCenteredString(font, text, i + 117, j - 54, color);
+		int color = entity.isLit() ? MUI.CYAN : MUI.RED;
+		MUI.drawCenteredString(gui, text, i + 117, j - 54, color);
 
 		if (entity.isLit())
-			gui.drawCenteredString(font,
+			MUI.drawCenteredString(gui,
 					Component.literal(MUI.uistrs("furnace_generator.generating") + ": "
 							+ StringUtils.formatPower(CommonConfig.furnaceGeneratorRate.get()) + "/t"),
-					i + 117, j - 42, 0x00FEFE);
+					i + 117, j - 42);
 
 		drawOverlay(gui);
 	}

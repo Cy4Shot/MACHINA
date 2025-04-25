@@ -10,7 +10,7 @@ import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
-import com.machina.item.FluidFilterItem;
+import com.machina.item.filter.FluidFilterItem;
 import com.machina.item.menu.FluidFilterMenu;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -50,11 +50,11 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> implem
 		MUI.drawCenteredString(gui,
 				mode.comp().setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? 0xFF0000 : 0x00FF00).withBold(true))
 						.append(MUI.uistr("fluid_filter.for")
-								.withStyle(Style.EMPTY.withColor(0x00FEFE).withBold(false))),
-				i1 + 117, j1 + 4, 0x00FEFE);
+								.withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
+				i1 + 117, j1 + 4);
 		MUI.drawCenteredString(gui, Component.translatable(fluid.getFluidType().getDescriptionId()).setStyle(Style.EMPTY
 				.withColor(IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1))).withBold(true)),
-				i1 + 117, j1 + 6 + font.lineHeight, 0x00FEFE);
+				i1 + 117, j1 + 6 + font.lineHeight);
 
 		drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.FLUID, "", (i, j) -> {
 			renderFluid(gui, new FluidStack(menu.getCurrentFilter(), 1), i + 1, j + 17, 16, 16, 0);

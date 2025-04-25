@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.7,
+  "group": "sulfur",
+  "ingredient": {
+    "item": "machina:pyrite_ore"
+  },
+  "result": "machina:sulfur"
+}

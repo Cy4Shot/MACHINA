@@ -16,7 +16,7 @@ import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
 import com.machina.block.menu.connector.FluidPipeMenu;
-import com.machina.item.FluidFilterItem;
+import com.machina.item.filter.FluidFilterItem;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

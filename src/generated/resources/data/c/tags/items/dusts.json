@@ -1,0 +1,24 @@
+{
+  "values": [
+    "#c:dusts/coal",
+    "#c:dusts/lapis",
+    "#c:dusts/quartz",
+    "#c:dusts/emerald",
+    "#c:dusts/diamond",
+    "#c:dusts/iron",
+    "#c:dusts/gold",
+    "#c:dusts/copper",
+    "#c:dusts/aluminum",
+    "#c:dusts/nickel",
+    "#c:dusts/lead",
+    "#c:dusts/boron",
+    "#c:dusts/palladium",
+    "#c:dusts/silver",
+    "#c:dusts/steel",
+    "#c:dusts/constantan",
+    "#c:dusts/fluorite",
+    "#c:dusts/niter",
+    "#c:dusts/sulfur",
+    "#c:dusts/bismuth"
+  ]
+}

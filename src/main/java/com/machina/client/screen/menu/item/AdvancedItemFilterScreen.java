@@ -11,7 +11,7 @@ import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
-import com.machina.item.AdvancedItemFilterItem;
+import com.machina.item.filter.AdvancedItemFilterItem;
 import com.machina.item.menu.AdvancedItemFilterMenu;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -55,11 +55,10 @@ public class AdvancedItemFilterScreen extends MachinaMenuScreen<AdvancedItemFilt
 		NonNullList<Item> items = AdvancedItemFilterItem.getItems(menu.stack);
 
 		// Top Text
-		MUI.drawCenteredString(gui,
-				mode.comp().setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? 0xFF0000 : 0x00FF00).withBold(true))
-						.append(MUI.uistr("item_filter.for_colon")
-								.withStyle(Style.EMPTY.withColor(0x00FEFE).withBold(false))),
-				i + 117, j - 60, 0x00FEFE);
+		MUI.drawCenteredString(gui, mode.comp()
+				.setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? MUI.RED : MUI.GREEN).withBold(true))
+				.append(MUI.uistr("item_filter.for_colon").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
+				i + 117, j - 60);
 
 		// Inventory
 		MUI.blitCommon(gui, i + 27, j - 40, 0, 0, 179, 59);
