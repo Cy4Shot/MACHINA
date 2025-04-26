@@ -2,6 +2,7 @@ package com.machina.api.recipe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -25,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder {
@@ -41,48 +43,74 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 	private int time;
 	private float pressure;
 	private float temperature;
+	private int periodicConsumption;
 
 	public MachinaRecipeBuilder(RecipeRegistryObject<T> reg) {
 		this.reg = reg;
 	}
 
-	public MachinaRecipeBuilder<T> withEnergy(int energy) {
+	public MachinaRecipeBuilder<T> energy(int energy) {
 		this.energy = energy;
 		return this;
 	}
 
-	public MachinaRecipeBuilder<T> withTime(int time) {
+	public MachinaRecipeBuilder<T> time(int time) {
 		this.time = time;
 		return this;
 	}
 
-	public MachinaRecipeBuilder<T> withPressure(float pressure) {
+	public MachinaRecipeBuilder<T> pressure(float pressure) {
 		this.pressure = pressure;
 		return this;
 	}
 
-	public MachinaRecipeBuilder<T> withTemperature(float temperature) {
+	public MachinaRecipeBuilder<T> temp(float temperature) {
 		this.temperature = temperature;
 		return this;
 	}
 
-	public MachinaRecipeBuilder<T> withInputItem(Item item, int count) {
+	public MachinaRecipeBuilder<T> period(int periodicConsumption) {
+		this.periodicConsumption = periodicConsumption;
+		return this;
+	}
+
+	public MachinaRecipeBuilder<T> in(Item item) {
+		this.inputItems.add(Ingredient.of(new ItemStack(item, 1)));
+		return this;
+	}
+
+	public MachinaRecipeBuilder<T> in(Item item, int count) {
 		this.inputItems.add(Ingredient.of(new ItemStack(item, count)));
 		return this;
 	}
 
-	public MachinaRecipeBuilder<T> withInputFluid(FluidStack input) {
+	public MachinaRecipeBuilder<T> in(FluidStack input) {
 		this.inputFluids.add(input);
 		return this;
 	}
 
-	public MachinaRecipeBuilder<T> withOutputItem(Item item, int count) {
+	public MachinaRecipeBuilder<T> in(Fluid input, int count) {
+		this.inputFluids.add(new FluidStack(input, count));
+		return this;
+	}
+
+	public MachinaRecipeBuilder<T> out(Item item) {
+		this.outputItems.add(new ItemStack(item, 1));
+		return this;
+	}
+
+	public MachinaRecipeBuilder<T> out(Item item, int count) {
 		this.outputItems.add(new ItemStack(item, count));
 		return this;
 	}
 
-	public MachinaRecipeBuilder<T> withOutputFluid(FluidStack output) {
+	public MachinaRecipeBuilder<T> out(FluidStack output) {
 		this.outputFluids.add(output);
+		return this;
+	}
+
+	public MachinaRecipeBuilder<T> out(Fluid output, int count) {
+		this.outputFluids.add(new FluidStack(output, count));
 		return this;
 	}
 
@@ -122,7 +150,12 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(loc))
 				.rewards(AdvancementRewards.Builder.recipe(loc)).requirements(RequirementsStrategy.OR);
 		save.accept(new Result<>(loc, this.advancement, this.reg, () -> this.reg.factory().apply(loc, energy, time,
-				pressure, temperature, inputItems, inputFluids, outputItems, outputFluids)));
+				pressure, temperature, periodicConsumption, inputItems, inputFluids, outputItems, outputFluids)));
+	}
+
+	public void save(ResourceLocation loc, BiConsumer<ResourceLocation, MachinaRecipe<T>> saver) {
+		saver.accept(loc, this.reg.factory().apply(loc, energy, time, pressure, temperature, periodicConsumption,
+				inputItems, inputFluids, outputItems, outputFluids));
 	}
 
 	public static class Result<T extends Container> implements FinishedRecipe {

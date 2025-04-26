@@ -1,22 +1,17 @@
-package com.machina.recipe.maps;
-
-import java.util.List;
+package com.machina.recipe;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.entity.machine.ComposterVatBlockEntity;
-import com.machina.recipe.ComposterVatRecipe;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraftforge.fluids.FluidStack;
 
 public class ComposterVatRecipeMaps extends MachinaRecipeMaps<ComposterVatBlockEntity> {
 
@@ -37,13 +32,8 @@ public class ComposterVatRecipeMaps extends MachinaRecipeMaps<ComposterVatBlockE
 		ComposterBlock.COMPOSTABLES.forEach((item, val) -> {
 			ResourceLocation loc = new MachinaRL(
 					"compost_vat_" + BuiltInRegistries.ITEM.getKey(item.asItem()).getPath());
-			add(new ComposterVatRecipe(loc, 900, 30, 0, 0, List.of(Ingredient.of(item)), List.of(), List.of(),
-					List.of(new FluidStack(FluidInit.AMMONIA.fluid(), (int) (1000 * val)))));
+			builder().energy(900).time(30).in(item.asItem()).out(FluidInit.AMMONIA.fluid(), (int) (1000 * val))
+					.save(loc, this::add);
 		});
-	}
-
-	@Override
-	public Class<? extends MachinaRecipe<ComposterVatBlockEntity>> getRecipeClass() {
-		return ComposterVatRecipe.class;
 	}
 }

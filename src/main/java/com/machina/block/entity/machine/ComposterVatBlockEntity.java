@@ -4,7 +4,6 @@ import com.machina.api.block.entity.RecipeBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.menu.ComposterVatMenu;
-import com.machina.recipe.ComposterVatRecipe;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.RecipeInit;
@@ -17,7 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ComposterVatBlockEntity extends RecipeBlockEntity<ComposterVatRecipe> {
+public class ComposterVatBlockEntity extends RecipeBlockEntity {
 
 	public ComposterVatBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -41,7 +40,7 @@ public class ComposterVatBlockEntity extends RecipeBlockEntity<ComposterVatRecip
 	}
 
 	@Override
-	public RecipeRegistryObject<? extends RecipeBlockEntity<ComposterVatRecipe>> getRecipe() {
+	public RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe() {
 		return RecipeInit.COMPOSTER_VAT;
 	}
 

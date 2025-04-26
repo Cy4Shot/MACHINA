@@ -1,12 +1,9 @@
-package com.machina.recipe.maps;
-
-import java.util.List;
+package com.machina.recipe;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.item.MouldItem;
-import com.machina.recipe.CompressorRecipe;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
@@ -14,8 +11,6 @@ import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -42,9 +37,7 @@ public class CompressorRecipeMaps extends MachinaRecipeMaps<CompressorBlockEntit
 				ResourceLocation key = ForgeRegistries.ITEMS.getKey(ingot);
 				ResourceLocation iloc = new ResourceLocation(key.getNamespace(),
 						"compress_" + key.getPath() + "_" + type);
-				add(new CompressorRecipe(iloc, 10000, 200, 0, 0,
-						List.of(Ingredient.of(ingot), Ingredient.of(mould.get())), List.of(),
-						List.of(new ItemStack(item, quant)), List.of()));
+				builder().energy(10000).time(200).in(ingot).in(mould.get()).out(item, quant).save(iloc, this::add);
 			});
 		});
 	}
@@ -61,10 +54,5 @@ public class CompressorRecipeMaps extends MachinaRecipeMaps<CompressorBlockEntit
 				add(items, name, tag, "wires", ItemInit.MOULD_WIRE, 2);
 			}
 		});
-	}
-
-	@Override
-	public Class<? extends MachinaRecipe<CompressorBlockEntity>> getRecipeClass() {
-		return CompressorRecipe.class;
 	}
 }

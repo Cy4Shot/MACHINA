@@ -162,10 +162,10 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 			FluidObject input2, int amount2, FluidObject output, int amount, int energy) {
 		//@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
-			.withInputFluid(new FluidStack(input1.fluid(), amount1))
-			.withInputFluid(new FluidStack(input2.fluid(), amount2))
-			.withOutputFluid(new FluidStack(output.fluid(), amount))
-			.withEnergy(energy)
+			.in(new FluidStack(input1.fluid(), amount1))
+			.in(new FluidStack(input2.fluid(), amount2))
+			.out(new FluidStack(output.fluid(), amount))
+			.energy(energy)
 			.save(gen, "reacting_ff_f_" + output.name());
 		//@formatter:on
 	}
@@ -175,11 +175,11 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 			int b2, int energy) {
 		//@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
-			.withInputFluid(new FluidStack(i1.fluid(), a1))
-			.withInputItem(i2.get(), a2)
-			.withOutputFluid(new FluidStack(o1.fluid(), b1))
-			.withOutputItem(o2.get(), b2)
-			.withEnergy(energy)
+			.in(new FluidStack(i1.fluid(), a1))
+			.in(i2.get(), a2)
+			.out(new FluidStack(o1.fluid(), b1))
+			.out(o2.get(), b2)
+			.energy(energy)
 			.save(gen, "reacting_fi_fi_" + o1.name());
 		//@formatter:on
 	}
@@ -188,10 +188,10 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 			int a2, RegistryObject<? extends Item> o, int b, int energy) {
 		//@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
-			.withInputFluid(new FluidStack(i1.fluid(), a1))
-			.withInputFluid(new FluidStack(i2.fluid(), a2))
-			.withOutputItem(o.get(), b)
-			.withEnergy(energy)
+			.in(new FluidStack(i1.fluid(), a1))
+			.in(new FluidStack(i2.fluid(), a2))
+			.out(o.get(), b)
+			.energy(energy)
 			.save(gen, "reacting_ff_i_" + getItemName(o.get()));
 		//@formatter:on
 	}

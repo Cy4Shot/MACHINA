@@ -1,9 +1,8 @@
-package com.machina.recipe.maps;
+package com.machina.recipe;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
-import com.machina.recipe.ReactionChamberRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
@@ -20,16 +19,11 @@ public class ReactionChamberRecipeMaps extends MachinaRecipeMaps<ReactionChamber
 
 	@Override
 	public int getFlags() {
-		return MachinaRecipe.HAS_ENERGY;
+		return MachinaRecipe.HAS_ENERGY | MachinaRecipe.HAS_PERIODIC_CONSUMPTION;
 	}
 
 	@Override
 	protected void addExtraRecipes(RecipeManager man) {
 
-	}
-
-	@Override
-	public Class<? extends MachinaRecipe<ReactionChamberBlockEntity>> getRecipeClass() {
-		return ReactionChamberRecipe.class;
 	}
 }

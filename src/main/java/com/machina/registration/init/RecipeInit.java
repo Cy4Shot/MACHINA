@@ -3,6 +3,8 @@ package com.machina.registration.init;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.Machina;
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipe.MachinaRecipeSerializer;
@@ -17,24 +19,21 @@ import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.block.entity.machine.SolidifierBlockEntity;
 import com.machina.compat.jei.JeiRecipeRegistrar;
-import com.machina.recipe.ComposterVatRecipe;
-import com.machina.recipe.CompressorRecipe;
-import com.machina.recipe.GrinderRecipe;
-import com.machina.recipe.MelterRecipe;
-import com.machina.recipe.ReactionChamberRecipe;
-import com.machina.recipe.SolidifierRecipe;
-import com.machina.recipe.maps.ComposterVatRecipeMaps;
-import com.machina.recipe.maps.CompressorRecipeMaps;
-import com.machina.recipe.maps.GrinderRecipeMaps;
-import com.machina.recipe.maps.MelterRecipeMaps;
-import com.machina.recipe.maps.ReactionChamberRecipeMaps;
-import com.machina.recipe.maps.SolidifierRecipeMaps;
+import com.machina.recipe.ComposterVatRecipeMaps;
+import com.machina.recipe.CompressorRecipeMaps;
+import com.machina.recipe.GrinderRecipeMaps;
+import com.machina.recipe.MelterRecipeMaps;
+import com.machina.recipe.ReactionChamberRecipeMaps;
+import com.machina.recipe.SolidifierRecipeMaps;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -49,17 +48,17 @@ public class RecipeInit {
 
 	//@formatter:off
 	public static final RecipeRegistryObject<GrinderBlockEntity> GRINDER =
-			register("grinder", BlockInit.GRINDER, GrinderRecipe::new, GrinderRecipeMaps.INSTANCE, 0, 160);
+			register("grinder", BlockInit.GRINDER, GrinderRecipeMaps.INSTANCE, 0, 160);
 	public static final RecipeRegistryObject<CompressorBlockEntity> COMPRESSOR =
-			register("compressor", BlockInit.COMPRESSOR, CompressorRecipe::new, CompressorRecipeMaps.INSTANCE, 16, 160);
+			register("compressor", BlockInit.COMPRESSOR, CompressorRecipeMaps.INSTANCE, 16, 160);
 	public static final RecipeRegistryObject<MelterBlockEntity> MELTER =
-			register("melter", BlockInit.MELTER, MelterRecipe::new, MelterRecipeMaps.INSTANCE, 32, 160);
+			register("melter", BlockInit.MELTER, MelterRecipeMaps.INSTANCE, 32, 160);
 	public static final RecipeRegistryObject<SolidifierBlockEntity> SOLIDIFIER =
-			register("solidifier", BlockInit.SOLIDIFIER, SolidifierRecipe::new, SolidifierRecipeMaps.INSTANCE, 48, 160);
+			register("solidifier", BlockInit.SOLIDIFIER, SolidifierRecipeMaps.INSTANCE, 48, 160);
 	public static final RecipeRegistryObject<ReactionChamberBlockEntity> REACTION_CHAMBER =
-			register("reaction_chamber", BlockInit.REACTION_CHAMBER, ReactionChamberRecipe::new, ReactionChamberRecipeMaps.INSTANCE, 64, 160);
+			register("reaction_chamber", BlockInit.REACTION_CHAMBER, ReactionChamberRecipeMaps.INSTANCE, 64, 160);
 	public static final RecipeRegistryObject<ComposterVatBlockEntity> COMPOSTER_VAT =
-			register("composter_vat", BlockInit.COMPOSTER_VAT, ComposterVatRecipe::new, ComposterVatRecipeMaps.INSTANCE, 80, 160);
+			register("composter_vat", BlockInit.COMPOSTER_VAT, ComposterVatRecipeMaps.INSTANCE, 80, 160);
 	//@formatter:on
 
 	public static class RecipeRegistryObject<C extends Container> {
@@ -118,13 +117,29 @@ public class RecipeInit {
 	}
 
 	private static <C extends Container> RecipeRegistryObject<C> register(String name,
-			RegistryObject<? extends Block> block, RecipeFactory<MachinaRecipe<C>> factory,
-			MachinaRecipeMaps<C> mapInstance, int x, int y) {
+			RegistryObject<? extends Block> block, MachinaRecipeMaps<C> mapInstance, int x, int y) {
 		ResourceLocation id = new MachinaRL(name);
 		RegistryObject<MachinaRecipeType<C>> type = RECIPE_TYPES.register(name,
 				() -> new MachinaRecipeType<>(id, mapInstance.getFlags()));
+
+		// Create an anonymous factory for the recipe
+		RecipeFactory<MachinaRecipe<C>> factory = new RecipeFactory<MachinaRecipe<C>>() {
+			@Override
+			public MachinaRecipe<C> apply(ResourceLocation loc, int energy, int time, float pressure, float temperature,
+					int periodicConsumption, List<Ingredient> inputItems, List<FluidStack> inputFluids,
+					List<ItemStack> outputItems, List<FluidStack> outputFluids) {
+				return new MachinaRecipe<C>(loc, energy, time, pressure, temperature, periodicConsumption, inputItems,
+						inputFluids, outputItems, outputFluids) {
+					@Override
+					public @NotNull RecipeType<MachinaRecipe<C>> getType() {
+						return type.get();
+					}
+				};
+			}
+		};
+
 		RegistryObject<MachinaRecipeSerializer<C>> serializer = RECIPE_SERIALIZERS.register(name,
-				() -> new MachinaRecipeSerializer<>(type, factory));
+				() -> new MachinaRecipeSerializer<>(type));
 		RecipeRegistryObject<C> obj = new RecipeRegistryObject<>(id, type, factory, serializer, mapInstance, block, x,
 				y);
 

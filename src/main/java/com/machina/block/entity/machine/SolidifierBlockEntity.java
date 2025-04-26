@@ -4,7 +4,6 @@ import com.machina.api.block.entity.RecipeBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.menu.SolidifierMenu;
-import com.machina.recipe.SolidifierRecipe;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
@@ -16,7 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class SolidifierBlockEntity extends RecipeBlockEntity<SolidifierRecipe> {
+public class SolidifierBlockEntity extends RecipeBlockEntity {
 
 	public SolidifierBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -40,7 +39,7 @@ public class SolidifierBlockEntity extends RecipeBlockEntity<SolidifierRecipe> {
 	}
 
 	@Override
-	public RecipeRegistryObject<? extends RecipeBlockEntity<SolidifierRecipe>> getRecipe() {
+	public RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe() {
 		return RecipeInit.SOLIDIFIER;
 	}
 

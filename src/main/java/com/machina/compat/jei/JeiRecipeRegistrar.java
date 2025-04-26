@@ -22,7 +22,7 @@ public class JeiRecipeRegistrar<C extends Container> {
 	public final int x, y;
 
 	public JeiRecipeRegistrar(RecipeRegistryObject<C> obj, RegistryObject<? extends Block> block, int x, int y) {
-		this.type = RecipeType.create(Machina.MOD_ID, obj.id().getPath(), obj.maps().getRecipeClass());
+		this.type = RecipeType.create(Machina.MOD_ID, obj.id().getPath(), MachinaRecipe.class);
 		this.category = gui -> new MachinaRecipeCategory<C>(gui, obj, block);
 		this.x = x;
 		this.y = y;

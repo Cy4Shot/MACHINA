@@ -4,7 +4,6 @@ import com.machina.api.block.entity.RecipeBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.menu.CompressorMenu;
-import com.machina.recipe.CompressorRecipe;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
@@ -16,7 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CompressorBlockEntity extends RecipeBlockEntity<CompressorRecipe> {
+public class CompressorBlockEntity extends RecipeBlockEntity {
 
 	public CompressorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -41,7 +40,7 @@ public class CompressorBlockEntity extends RecipeBlockEntity<CompressorRecipe> {
 	}
 
 	@Override
-	public RecipeRegistryObject<? extends RecipeBlockEntity<CompressorRecipe>> getRecipe() {
+	public RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe() {
 		return RecipeInit.COMPRESSOR;
 	}
 

@@ -1,19 +1,14 @@
-package com.machina.recipe.maps;
-
-import java.util.List;
+package com.machina.recipe;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.block.entity.machine.GrinderBlockEntity;
-import com.machina.recipe.GrinderRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITagManager;
@@ -38,8 +33,7 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 				ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
 				ResourceLocation iloc = new ResourceLocation(key.getNamespace(),
 						"grinder_" + key.getPath() + "_" + type);
-				add(new GrinderRecipe(iloc, energy, time, 0, 0, List.of(Ingredient.of(item)), List.of(),
-						List.of(new ItemStack(x, 1)), List.of()));
+				builder().energy(energy).time(time).in(item).out(x).save(iloc, this::add);
 			});
 		});
 	}
@@ -56,10 +50,5 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 				add(items, name, tag, "raw_materials", 15000, 200);
 			}
 		});
-	}
-
-	@Override
-	public Class<? extends MachinaRecipe<GrinderBlockEntity>> getRecipeClass() {
-		return GrinderRecipe.class;
 	}
 }

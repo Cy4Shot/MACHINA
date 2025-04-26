@@ -22,8 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
-public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends RecipeBlockEntity<T>>>
-		extends MachinaBlockEntity {
+public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 
 	protected enum SlotType {
 		INPUT,
@@ -35,7 +34,7 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 	}
 
 	private List<RecipeSlot> slots;
-	private T recipe = null;
+	private MachinaRecipe<?> recipe = null;
 	private int progress = 0;
 
 	public RecipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -88,7 +87,7 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 	public float getProgress() {
 		if (this.recipe == null)
 			return 0;
-		if (!this.recipe.hasTime() || this.recipe.getTime() == 0)
+		if (!getRecipe().maps().hasTime() || this.recipe.getTime() == 0)
 			return 1;
 		return (float) this.progress / (float) this.recipe.getTime();
 	}
@@ -99,13 +98,12 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 		return this.recipe.getTime() - this.progress;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void tick() {
 		if (this.level != null && this.level.isClientSide())
 			return;
 
-		Optional<T> rec = (Optional<T>) getRecipeMap().findRecipe(this);
+		Optional<MachinaRecipe<RecipeBlockEntity>> rec = getRecipeMap().findRecipe(this);
 		rec.ifPresentOrElse(r -> {
 			if (this.recipe != r) {
 				this.recipe = r;
@@ -134,22 +132,22 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 	}
 
 	@SuppressWarnings("unchecked")
-	private MachinaRecipeMaps<RecipeBlockEntity<T>> getRecipeMap() {
-		return (MachinaRecipeMaps<RecipeBlockEntity<T>>) getRecipe().maps();
+	private MachinaRecipeMaps<RecipeBlockEntity> getRecipeMap() {
+		return (MachinaRecipeMaps<RecipeBlockEntity>) getRecipe().maps();
 	}
 
-	protected abstract RecipeRegistryObject<? extends RecipeBlockEntity<T>> getRecipe();
+	protected abstract RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe();
 
-	protected boolean meetsRequirements(T r) {
+	protected boolean meetsRequirements(MachinaRecipe<?> r) {
 		boolean meets = true;
-		if (r.hasEnergy() && getEnergy() < r.getPowerRate()) {
+		if (getRecipe().maps().hasEnergy() && getEnergy() < r.getPowerRate()) {
 			meets = false;
 		}
 		return meets;
 	}
 
-	protected boolean drainRequirements(T r) {
-		if (r.hasEnergy()) {
+	protected boolean drainRequirements(MachinaRecipe<?> r) {
+		if (getRecipe().maps().hasEnergy()) {
 			int consumed = consumeEnergy(r.getPowerRate());
 			if (consumed < r.getPowerRate()) {
 				receiveEnergy(consumed, false);
@@ -159,7 +157,7 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 		return true;
 	}
 
-	protected boolean hasSpace(T r) {
+	protected boolean hasSpace(MachinaRecipe<?> r) {
 		for (ItemStack i : r.getOutputItems()) {
 			boolean found = false;
 			for (RecipeSlot s : slots) {
@@ -194,7 +192,7 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 		return true;
 	}
 
-	protected void useInputs(T r) {
+	protected void useInputs(MachinaRecipe<?> r) {
 		for (Ingredient i : r.getInputItems()) {
 			int desired = i.getItems()[0].getCount();
 			int count = 0;
@@ -230,7 +228,7 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 		}
 	}
 
-	protected void produceOutputs(T r) {
+	protected void produceOutputs(MachinaRecipe<?> r) {
 		for (ItemStack i : r.getOutputItems()) {
 			for (RecipeSlot s : slots) {
 				if (s.type == SlotType.OUTPUT && s.item) {
@@ -287,12 +285,11 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 		super.saveAdditional(tag);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void load(@NotNull CompoundTag tag) {
 		this.progress = tag.getInt("progress");
 		String r = tag.getString("recipe");
-		this.recipe = r.isEmpty() ? null : (T) getRecipeMap().getRecipe(new ResourceLocation(r));
+		this.recipe = r.isEmpty() ? null : (MachinaRecipe<?>) getRecipeMap().getRecipe(new ResourceLocation(r));
 		super.load(tag);
 	}
 

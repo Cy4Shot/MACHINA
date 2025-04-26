@@ -24,10 +24,10 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class MachinaRecipeMaps<C extends Container> {
 
-	private final Map<ResourceLocation, MachinaRecipe<C>> recipes = new HashMap<>();
+	protected final Map<ResourceLocation, MachinaRecipe<C>> recipes = new HashMap<>();
 
 	public boolean isValid(C entity, MachinaRecipe<C> recipe) {
-		if (entity instanceof RecipeBlockEntity<?> rbe) {
+		if (entity instanceof RecipeBlockEntity rbe) {
 			for (Ingredient i : recipe.getInputItems()) {
 				if (!rbe.hasAnyOf(Arrays.stream(i.getItems()).map(ItemStack::getItem).collect(Collectors.toSet())))
 					return false;
@@ -47,14 +47,11 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 
 	protected abstract void addExtraRecipes(RecipeManager man);
 
-	public abstract Class<? extends MachinaRecipe<C>> getRecipeClass();
-
 	public abstract int getFlags();
 
 	@SuppressWarnings("unchecked")
 	public <T extends MachinaRecipe<C>> T getRecipe(ResourceLocation id) {
-		Class<T> clazz = (Class<T>) getRecipeClass();
-		return clazz.cast(recipes.get(id));
+		return (T) recipes.get(id);
 	}
 
 	public void refresh(RecipeManager man) {
@@ -65,18 +62,13 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 		addExtraRecipes(man);
 	}
 
-	public void add(MachinaRecipe<C> recipe) {
-		add(recipe.getId(), recipe);
-	}
-
 	public void add(ResourceLocation id, MachinaRecipe<C> recipe) {
 		recipes.put(id, recipe);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T extends MachinaRecipe<C>> Optional<T> findRecipe(C entity) {
-		Class<T> clazz = (Class<T>) getRecipeClass();
-		return recipes.values().stream().filter(r -> isValid(entity, r)).findFirst().map(clazz::cast);
+		return (Optional<T>) recipes.values().stream().filter(r -> isValid(entity, r)).findFirst();
 	}
 
 	public List<MachinaRecipe<C>> all() {
@@ -89,6 +81,30 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 
 	public boolean hasOutputs() {
 		return true;
+	}
+
+	public boolean hasEnergy() {
+		return (getFlags() & MachinaRecipe.HAS_ENERGY) != 0;
+	}
+
+	public boolean hasTime() {
+		return (getFlags() & MachinaRecipe.HAS_TIME) != 0;
+	}
+
+	public boolean hasPressure() {
+		return (getFlags() & MachinaRecipe.HAS_PRESSURE) != 0;
+	}
+
+	public boolean hasTemperature() {
+		return (getFlags() & MachinaRecipe.HAS_TEMPERATURE) != 0;
+	}
+
+	public boolean hasPeriodicConsumption() {
+		return (getFlags() & MachinaRecipe.HAS_PERIODIC_CONSUMPTION) != 0;
+	}
+
+	protected MachinaRecipeBuilder<C> builder() {
+		return new MachinaRecipeBuilder<>(getRegistryObject());
 	}
 
 	protected static TagKey<Item> ci(String name) {

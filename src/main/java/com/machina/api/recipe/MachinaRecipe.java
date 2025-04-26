@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.machina.api.util.loader.FluidJson;
-import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -33,6 +32,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	public static final short HAS_PRESSURE = 0x2;
 	public static final short HAS_TEMPERATURE = 0x4;
 	public static final short HAS_TIME = 0x8;
+	public static final short HAS_PERIODIC_CONSUMPTION = 0x10;
 
 	private final ResourceLocation id;
 	protected final List<Ingredient> inputItems = new ArrayList<>();
@@ -43,10 +43,11 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	private final int time;
 	private final float pressure;
 	private final float temperature;
+	private final int periodicConsumption;
 
 	public MachinaRecipe(ResourceLocation id, int energy, int time, float pressure, float temperature,
-			List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
-			List<FluidStack> outputFluids) {
+			int periodicConsumption, List<Ingredient> inputItems, List<FluidStack> inputFluids,
+			List<ItemStack> outputItems, List<FluidStack> outputFluids) {
 
 		if (inputItems == null || inputFluids == null || outputItems == null || outputFluids == null) {
 			throw new IllegalArgumentException("Input and output lists must not be null");
@@ -57,36 +58,16 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 		this.energy = Math.max(0, energy);
 		this.pressure = pressure;
 		this.temperature = temperature;
+		this.periodicConsumption = periodicConsumption;
 		this.inputItems.addAll(inputItems);
 		this.inputFluids.addAll(inputFluids);
 		this.outputItems.addAll(outputItems);
 		this.outputFluids.addAll(outputFluids);
 	}
 
-	protected abstract RecipeRegistryObject<C> getRegistryObject();
-
-	@Override
-	public @NotNull RecipeType<MachinaRecipe<C>> getType() {
-		return getRegistryObject().type().get();
-	}
-
-	@SuppressWarnings("unchecked")
-	public MachinaRecipeType<C> getMachinaType() {
-		RecipeType<?> type = getType();
-		if (type instanceof MachinaRecipeType) {
-			return ((MachinaRecipeType<C>) type);
-		}
-		return null;
-	}
-
 	@Override
 	public @NotNull ResourceLocation getId() {
 		return id;
-	}
-
-	public int getFlags() {
-		MachinaRecipeType<C> type = getMachinaType();
-		return type != null ? type.getFlags() : 0;
 	}
 
 	public int getEnergy() {
@@ -163,27 +144,18 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 		return true;
 	}
 
-	public boolean hasEnergy() {
-		return (getFlags() & HAS_ENERGY) != 0;
+	@SuppressWarnings("unchecked")
+	public MachinaRecipeType<C> getMachinaType() {
+		RecipeType<?> type = getType();
+		if (type instanceof MachinaRecipeType) {
+			return ((MachinaRecipeType<C>) type);
+		}
+		return null;
 	}
-
-	public boolean hasPressure() {
-		return (getFlags() & HAS_PRESSURE) != 0;
-	}
-
-	public boolean hasTemperature() {
-		return (getFlags() & HAS_TEMPERATURE) != 0;
-	}
-
-	public boolean hasTime() {
-		return (getFlags() & HAS_TIME) != 0;
-	}
-
-	public abstract RecipeFactory<MachinaRecipe<C>> getFactory();
 
 	@Override
 	public @NotNull RecipeSerializer<?> getSerializer() {
-		return new MachinaRecipeSerializer<>(this::getMachinaType, getFactory());
+		return new MachinaRecipeSerializer<>(this::getMachinaType);
 	}
 
 	public static class MachinaRecipeSerializer<C extends Container> implements RecipeSerializer<MachinaRecipe<C>> {
@@ -191,9 +163,22 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 		private final Supplier<MachinaRecipeType<C>> type;
 		private final RecipeFactory<MachinaRecipe<C>> factory;
 
-		public MachinaRecipeSerializer(Supplier<MachinaRecipeType<C>> type, RecipeFactory<MachinaRecipe<C>> factory) {
+		public MachinaRecipeSerializer(Supplier<MachinaRecipeType<C>> type) {
 			this.type = type;
-			this.factory = factory;
+			this.factory = new RecipeFactory<MachinaRecipe<C>>() {
+				@Override
+				public MachinaRecipe<C> apply(ResourceLocation loc, int energy, int time, float pressure,
+						float temperature, int periodicConsumption, List<Ingredient> inputItems,
+						List<FluidStack> inputFluids, List<ItemStack> outputItems, List<FluidStack> outputFluids) {
+					return new MachinaRecipe<C>(loc, energy, time, pressure, temperature, periodicConsumption,
+							inputItems, inputFluids, outputItems, outputFluids) {
+						@Override
+						public @NotNull RecipeType<MachinaRecipe<C>> getType() {
+							return type.get();
+						}
+					};
+				}
+			};
 		}
 
 		private int getFlags() {
@@ -206,6 +191,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			int time = 0;
 			float pressure = 0;
 			float temperature = 0;
+			int periodicConsumption = 0;
 			ArrayList<Ingredient> inputItems = new ArrayList<>();
 			ArrayList<FluidStack> inputFluids = new ArrayList<>();
 			ArrayList<ItemStack> outputItems = new ArrayList<>();
@@ -247,8 +233,14 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 				}
 			}
 
-			return factory.apply(loc, energy, time, pressure, temperature, inputItems, inputFluids, outputItems,
-					outputFluids);
+			if ((flags & HAS_PERIODIC_CONSUMPTION) != 0) {
+				if (obj.has("periodicConsumption")) {
+					periodicConsumption = obj.get("periodicConsumption").getAsInt();
+				}
+			}
+
+			return factory.apply(loc, energy, time, pressure, temperature, periodicConsumption, inputItems, inputFluids,
+					outputItems, outputFluids);
 		}
 
 		public void toJson(JsonObject obj, MachinaRecipe<C> recipe) {
@@ -268,6 +260,10 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 
 			if ((flags & HAS_TEMPERATURE) != 0) {
 				obj.addProperty("temperature", recipe.getTemperature());
+			}
+
+			if ((flags & HAS_PERIODIC_CONSUMPTION) != 0) {
+				obj.addProperty("periodicConsumption", recipe.periodicConsumption);
 			}
 
 			JsonArray inputItems = new JsonArray();
@@ -298,6 +294,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			int time = 0;
 			float pressure = 0;
 			float temperature = 0;
+			int periodicConsumption = 0;
 
 			int num0 = buf.readVarInt();
 			ArrayList<Ingredient> inputItems = new ArrayList<>(num0);
@@ -337,8 +334,12 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 				temperature = buf.readFloat();
 			}
 
-			return factory.apply(loc, energy, time, pressure, temperature, inputItems, inputFluids, outputItems,
-					outputFluids);
+			if ((flags & HAS_PERIODIC_CONSUMPTION) != 0) {
+				periodicConsumption = buf.readVarInt();
+			}
+
+			return factory.apply(loc, energy, time, pressure, temperature, periodicConsumption, inputItems, inputFluids,
+					outputItems, outputFluids);
 		}
 
 		@Override
@@ -380,12 +381,16 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			if ((flags & HAS_TEMPERATURE) != 0) {
 				buf.writeFloat(recipe.getTemperature());
 			}
+
+			if ((flags & HAS_PERIODIC_CONSUMPTION) != 0) {
+				buf.writeVarInt(recipe.periodicConsumption);
+			}
 		}
 	}
 
 	@FunctionalInterface
 	public interface RecipeFactory<R extends MachinaRecipe<?>> {
-		R apply(ResourceLocation loc, int energy, int time, float pressure, float temperature,
+		R apply(ResourceLocation loc, int energy, int time, float pressure, float temperature, int periodicConsumption,
 				List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
 				List<FluidStack> outputFluids);
 	}

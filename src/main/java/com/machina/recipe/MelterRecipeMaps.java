@@ -1,20 +1,15 @@
-package com.machina.recipe.maps;
-
-import java.util.List;
+package com.machina.recipe;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.block.entity.machine.MelterBlockEntity;
-import com.machina.recipe.MelterRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITagManager;
@@ -46,17 +41,11 @@ public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 						items.getTag(tag).forEach(item -> {
 							ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
 							ResourceLocation iloc = new ResourceLocation(key.getNamespace(), "melt_" + key.getPath());
-							add(new MelterRecipe(iloc, 1820, 70, 0, 0, List.of(Ingredient.of(item)), List.of(),
-									List.of(), List.of(new FluidStack(f.getSource(), 144))));
+							builder().energy(1820).time(70).in(item).out(f.getSource(), 144).save(iloc, this::add);
 						});
 					}
 				});
 			}
 		});
-	}
-
-	@Override
-	public Class<? extends MachinaRecipe<MelterBlockEntity>> getRecipeClass() {
-		return MelterRecipe.class;
 	}
 }

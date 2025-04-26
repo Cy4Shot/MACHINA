@@ -159,13 +159,13 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 
 		// Flags
 		List<Pair<MuiSlot, String>> values = new ArrayList<>();
-		if (recipe.hasEnergy()) {
+		if (obj.maps().hasEnergy()) {
 			values.add(Pair.of(MuiSlot.ENERGY, StringUtils.formatPower(recipe.getEnergy())));
 		}
-		if (recipe.hasTemperature()) {
+		if (obj.maps().hasTemperature()) {
 			values.add(Pair.of(MuiSlot.TEMP, StringUtils.formatTemp(recipe.getTemperature())));
 		}
-		if (recipe.hasTime()) {
+		if (obj.maps().hasTime()) {
 			values.add(Pair.of(MuiSlot.TIME, StringUtils.formatTicks(recipe.getTime())));
 		}
 
