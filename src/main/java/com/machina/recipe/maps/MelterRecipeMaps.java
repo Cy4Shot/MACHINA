@@ -59,7 +59,7 @@ public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 						items.getTag(tag).forEach(item -> {
 							ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
 							ResourceLocation iloc = new ResourceLocation(key.getNamespace(), "melt_" + key.getPath());
-							add(new MelterRecipe(iloc, 20000, 200, 0, 0, List.of(Ingredient.of(item)), List.of(),
+							add(new MelterRecipe(iloc, 1820, 70, 0, 0, List.of(Ingredient.of(item)), List.of(),
 									List.of(), List.of(new FluidStack(f.getSource(), 144))));
 						});
 					}

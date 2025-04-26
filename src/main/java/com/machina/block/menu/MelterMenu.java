@@ -21,7 +21,7 @@ public class MelterMenu extends MachinaContainerMenu<MelterBlockEntity> {
 	public MelterMenu(int id, Level level, BlockPos pos, Inventory inv) {
 		super(MenuTypeInit.MELTER.get(), level, pos, id);
 
-		this.addSlot(new InvSlot(be, 0, 62, -17));
+		this.addSlot(new InvSlot(be, 0, 25, -14));
 
 		invSlots(inv, 0);
 	}

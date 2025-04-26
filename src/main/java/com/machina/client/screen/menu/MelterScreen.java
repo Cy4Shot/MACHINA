@@ -27,44 +27,35 @@ public class MelterScreen extends MachinaMenuScreen<MelterMenu> {
 		drawBackground(gui);
 		drawEnergyBar(gui, 0, 30, entity.getEnergy() > 0, "melter.no_power");
 
-		drawDownFacingSlot(gui, 0, mx, my, 61, -20, MuiSlot.PLUS, "melter.input");
+		drawDownFacingSlot(gui, 0, mx, my, 24, -17, MuiSlot.PLUS, "melter.input");
+
+		drawFluidBar(gui, 28, -6, 0);
 
 		int i = midWidth();
 		int j = midHeight();
-		MUI.blitCommon(gui, i + 68, j, 399, 0, 19, 13);
-		MUI.blitCommon(gui, i + 145, j, 418, 0, 19, 13);
-
-		MUI.blitCommon(gui, i + 87, j + 9, 405, 9, 26, 4);
-		MUI.blitCommon(gui, i + 119, j + 9, 405, 9, 26, 4);
-
-		MUI.blitCommon(gui, i + 113, j + 8, 399, 13, 6, 6);
-		MUI.blitCommon(gui, i + 114, j + 14, 508, 0, 4, 7);
-
-		MuiSlot.RIGHT.draw(gui, i + 90, j - 13, this.aliveTicks);
-		MuiSlot.RIGHT.draw(gui, i + 111, j - 13, this.aliveTicks);
-		MuiSlot.RIGHT.draw(gui, i + 132, j - 13, this.aliveTicks);
+		MuiSlot.RIGHT.draw(gui, i + 56, j - 10);
 
 		Component text;
 		Component text2 = Component.empty();
 		if (entity.isLit()) {
 			text = Component
-					.literal(MUI.uistrs("compressor.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
+					.literal(MUI.uistrs("melter.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
 							+ " (" + StringUtils.formatTicks(entity.ticksRemaining()) + ")");
 			text2 = Component.literal(
-					MUI.uistrs("compressor.usage") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
+					MUI.uistrs("melter.usage") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
 		} else {
 			if (!entity.hasRecipe()) {
-				text = MUI.uistr("compressor.no_input");
+				text = MUI.uistr("melter.no_input");
 			} else if (!entity.meetsRequirements()) {
-				text = Component.literal(MUI.uistrs("compressor.no_power") + " ("
+				text = Component.literal(MUI.uistrs("melter.no_power") + " ("
 						+ StringUtils.formatPercent(entity.getProgress()) + ")");
-				text2 = Component.literal(MUI.uistrs("compressor.requires") + ": "
+				text2 = Component.literal(MUI.uistrs("melter.requires") + ": "
 						+ StringUtils.formatPower(entity.getPowerRate()) + "/t");
 			} else if (!entity.hasSpace()) {
-				text = MUI.uistr("compressor.no_space");
+				text = MUI.uistr("melter.no_space");
 			} else {
 				// This should never happen. Who knows? Maybe it will.
-				text = MUI.uistr("compressor.no_input");
+				text = MUI.uistr("melter.no_input");
 			}
 		}
 		int color = entity.isLit() ? MUI.CYAN : MUI.RED;
