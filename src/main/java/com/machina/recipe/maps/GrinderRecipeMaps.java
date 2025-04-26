@@ -1,24 +1,24 @@
 package com.machina.recipe.maps;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
-import com.machina.api.util.MachinaRL;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.recipe.GrinderRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SmeltingRecipe;
-import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.tags.ITagManager;
 
 public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 
@@ -44,64 +44,30 @@ public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 		return MachinaRecipe.HAS_ENERGY | MachinaRecipe.HAS_TIME;
 	}
 
+	private void add(ITagManager<Item> items, String name, TagKey<Item> tag, String type, int energy, int time) {
+		items.getTag(ci(type + "/" + name)).forEach(item -> {
+			items.getTag(tag).forEach(x -> {
+				ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+				ResourceLocation iloc = new ResourceLocation(key.getNamespace(),
+						"grinder_" + key.getPath() + "_" + type);
+				add(new GrinderRecipe(iloc, energy, time, 0, 0, List.of(Ingredient.of(item)), List.of(),
+						List.of(new ItemStack(x, 1)), List.of()));
+			});
+		});
+	}
+
 	@Override
 	protected void addExtraRecipes(RecipeManager man) {
-		for (SmeltingRecipe recipe : man.getAllRecipesFor(RecipeType.SMELTING)) {
-			if (recipe.isSpecial()) {
-				continue;
+		ITagManager<Item> items = ForgeRegistries.ITEMS.tags();
+		items.getTagNames().forEach(tag -> {
+			ResourceLocation loc = tag.location();
+			if (loc.getNamespace().equals("c") && loc.getPath().startsWith("dusts/")) {
+				String name = loc.getPath().replaceFirst("dusts/", "");
+				add(items, name, tag, "ingots", 15000, 200);
+				add(items, name, tag, "ores", 40000, 250);
+				add(items, name, tag, "raw_materials", 15000, 200);
 			}
-
-			ItemStack ingot = recipe.result;
-			if (!ingot.is(Tags.Items.INGOTS))
-				continue;
-
-			Ingredient iingot = Ingredient.of(ingot);
-			ItemStack dust = null;
-			ItemStack ore = null;
-			ItemStack raw = null;
-
-			Ingredient input = recipe.getIngredients().get(0);
-			for (ItemStack i : input.getItems()) {
-				if (i.is(Tags.Items.ORES)) {
-					ore = i;
-				} else if (i.is(Tags.Items.DUSTS)) {
-					dust = i;
-				} else if (i.is(Tags.Items.RAW_MATERIALS)) {
-					raw = i;
-				}
-			}
-
-			if (dust == null)
-				continue;
-
-			add(ingot(iingot, dust));
-
-			if (ore != null) {
-				add(ore(Ingredient.of(ore), dust));
-			}
-
-			if (raw != null) {
-				add(raw(Ingredient.of(raw), dust));
-			}
-		}
-	}
-
-	private MachinaRecipe<GrinderBlockEntity> ingot(Ingredient input, ItemStack dust) {
-		ResourceLocation loc = new MachinaRL("grinder_ingot_" + input.hashCode());
-		return new GrinderRecipe(loc, 15000, 200, 0, 0, Collections.singletonList(input), Collections.emptyList(),
-				Collections.singletonList(new ItemStack(dust.getItem(), 1)), Collections.emptyList());
-	}
-
-	private MachinaRecipe<GrinderBlockEntity> ore(Ingredient input, ItemStack dust) {
-		ResourceLocation loc = new MachinaRL("grinder_ore_" + input.hashCode());
-		return new GrinderRecipe(loc, 40000, 250, 0, 0, Collections.singletonList(input), Collections.emptyList(),
-				Collections.singletonList(new ItemStack(dust.getItem(), 1)), Collections.emptyList());
-	}
-
-	private MachinaRecipe<GrinderBlockEntity> raw(Ingredient input, ItemStack dust) {
-		ResourceLocation loc = new MachinaRL("grinder_raw_" + input.hashCode());
-		return new GrinderRecipe(loc, 15000, 200, 0, 0, Collections.singletonList(input), Collections.emptyList(),
-				Collections.singletonList(new ItemStack(dust.getItem(), 1)), Collections.emptyList());
+		});
 	}
 
 	@Override
