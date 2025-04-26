@@ -22,9 +22,9 @@ public class CompressorMenu extends MachinaContainerMenu<CompressorBlockEntity> 
 	public CompressorMenu(int id, Level level, BlockPos pos, Inventory inv) {
 		super(MenuTypeInit.COMPRESSOR.get(), level, pos, id);
 
-		this.addSlot(new InvSlot(be, 0, 62, -17));
-		this.addSlot(new ResultSlot(be, 1, 154, -17));
-		this.addSlot(new InvSlot(be, 2, 62, -17));
+		this.addSlot(new InvSlot(be, 0, 62, -29));
+		this.addSlot(new InvSlot(be, 1, 108, -5));
+		this.addSlot(new ResultSlot(be, 2, 154, -29));
 
 		invSlots(inv, 0);
 	}

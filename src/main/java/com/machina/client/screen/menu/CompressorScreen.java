@@ -27,23 +27,24 @@ public class CompressorScreen extends MachinaMenuScreen<CompressorMenu> {
 		drawBackground(gui);
 		drawEnergyBar(gui, 0, 30, entity.getEnergy() > 0, "compressor.no_power");
 
-		drawDownFacingSlot(gui, 0, mx, my, 61, -20, MuiSlot.PLUS, "compressor.input");
-		drawDownFacingSlot(gui, 1, mx, my, 153, -20, MuiSlot.DUST, "compressor.output");
+		drawUpFacingSlot(gui, 0, mx, my, 61, -30, MuiSlot.PLUS, "compressor.input");
+		drawUpFacingSlot(gui, 2, mx, my, 153, -30, MuiSlot.DUST, "compressor.output");
+		
+		drawDownFacingSlot(gui, 1, mx, my, 107, -8, MuiSlot.PLATE, "compressor.mould");
 
 		int i = midWidth();
 		int j = midHeight();
-		MUI.blitCommon(gui, i + 68, j, 399, 0, 19, 13);
-		MUI.blitCommon(gui, i + 145, j, 418, 0, 19, 13);
+		MUI.blitCommon(gui, i + 114, j + 13, 508, 0, 4, 8);
+		
+		MUI.blitCommon(gui, i + 68, j - 7, 399, 0, 19, 13);
+		MUI.blitCommon(gui, i + 145, j - 7, 418, 0, 19, 13);
 
-		MUI.blitCommon(gui, i + 87, j + 9, 405, 9, 26, 4);
-		MUI.blitCommon(gui, i + 119, j + 9, 405, 9, 26, 4);
+		MUI.blitCommon(gui, i + 87, j + 2, 405, 9, 12, 4);
+		MUI.blitCommon(gui, i + 133, j + 2, 405, 9, 12, 4);
 
-		MUI.blitCommon(gui, i + 113, j + 8, 399, 13, 6, 6);
-		MUI.blitCommon(gui, i + 114, j + 14, 508, 0, 4, 7);
-
-		MuiSlot.RIGHT.draw(gui, i + 90, j - 13, this.aliveTicks);
-		MuiSlot.RIGHT.draw(gui, i + 111, j - 13, this.aliveTicks);
-		MuiSlot.RIGHT.draw(gui, i + 132, j - 13, this.aliveTicks);
+		MuiSlot.RIGHT.draw(gui, i + 90, j - 26, this.aliveTicks);
+		MuiSlot.RIGHT.draw(gui, i + 111, j - 26, this.aliveTicks);
+		MuiSlot.RIGHT.draw(gui, i + 132, j - 26, this.aliveTicks);
 
 		Component text;
 		Component text2 = Component.empty();
@@ -69,8 +70,8 @@ public class CompressorScreen extends MachinaMenuScreen<CompressorMenu> {
 			}
 		}
 		int color = entity.isLit() ? MUI.CYAN : MUI.RED;
-		MUI.drawCenteredString(gui, text, i + 117, j - 54, color);
-		MUI.drawCenteredString(gui, text2, i + 117, j - 38, color);
+		MUI.drawCenteredString(gui, text, i + 117, j - 58, color);
+		MUI.drawCenteredString(gui, text2, i + 117, j - 44, color);
 
 		drawOverlay(gui);
 	}

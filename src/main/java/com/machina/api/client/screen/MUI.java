@@ -155,7 +155,8 @@ public final class MUI {
 		FLUID(499, 83),
 		TICK(499, 93),
 		TIME(499, 103),
-		TEMP(499, 113);
+		TEMP(499, 113),
+		PLATE(499, 123);
 
 		private final int x;
 		private final int y;

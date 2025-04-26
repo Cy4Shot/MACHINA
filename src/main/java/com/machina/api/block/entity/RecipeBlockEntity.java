@@ -109,6 +109,7 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 		rec.ifPresentOrElse(r -> {
 			if (this.recipe != r) {
 				this.recipe = r;
+				this.progress = 0;
 				setChanged();
 			}
 
