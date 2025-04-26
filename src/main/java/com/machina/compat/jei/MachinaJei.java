@@ -8,11 +8,13 @@ import com.machina.client.screen.menu.item.AdvancedItemFilterScreen;
 import com.machina.client.screen.menu.item.FluidFilterScreen;
 import com.machina.client.screen.menu.item.ItemFilterScreen;
 import com.machina.compat.jei.base.MachinaGhostHandler;
+import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -64,5 +66,7 @@ public class MachinaJei implements IModPlugin {
 		RecipeInit.RECIPES.forEach(recipe -> {
 			reg.addRecipeCatalyst(recipe.block().get().asItem().getDefaultInstance(), recipe.jei().type());
 		});
+
+		reg.addRecipeCatalyst(BlockInit.ELECTRIC_SMELTER.get().asItem().getDefaultInstance(), RecipeTypes.SMELTING);
 	}
 }

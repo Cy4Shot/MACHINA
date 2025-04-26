@@ -1,0 +1,9 @@
+{
+	"parent": "machina:block/machine",
+	"textures": {
+		"side": "machina:block/electric_smelter_side",
+		"front": "machina:block/electric_smelter_front",
+		"bottom": "machina:block/electric_smelter_bottom",
+		"top": "machina:block/electric_smelter_top"
+	}
+}

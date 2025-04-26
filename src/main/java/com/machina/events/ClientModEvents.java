@@ -12,6 +12,7 @@ import com.machina.client.screen.menu.BatteryScreen;
 import com.machina.client.screen.menu.ComposterVatScreen;
 import com.machina.client.screen.menu.CompressorScreen;
 import com.machina.client.screen.menu.CreativeBatteryScreen;
+import com.machina.client.screen.menu.ElectricSmelterScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
 import com.machina.client.screen.menu.GrinderScreen;
 import com.machina.client.screen.menu.MachineCaseScreen;
@@ -68,6 +69,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
 			MenuScreens.register(MenuTypeInit.MACHINE_CASE.get(), MachineCaseScreen::new);
 			MenuScreens.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
+			MenuScreens.register(MenuTypeInit.ELECTRIC_SMELTER.get(), ElectricSmelterScreen::new);
 			MenuScreens.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
 			MenuScreens.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);
 			MenuScreens.register(MenuTypeInit.SOLIDIFIER.get(), SolidifierScreen::new);

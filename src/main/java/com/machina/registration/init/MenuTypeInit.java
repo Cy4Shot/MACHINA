@@ -5,6 +5,7 @@ import com.machina.block.menu.BatteryMenu;
 import com.machina.block.menu.ComposterVatMenu;
 import com.machina.block.menu.CompressorMenu;
 import com.machina.block.menu.CreativeBatteryMenu;
+import com.machina.block.menu.ElectricSmelterMenu;
 import com.machina.block.menu.FurnaceGeneratorMenu;
 import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
@@ -51,6 +52,8 @@ public class MenuTypeInit {
 			register("machine_case", MachineCaseMenu::new);
 	public static final RegistryObject<MenuType<FurnaceGeneratorMenu>> FURNACE_GENERATOR =
 			register("furnace_generator", FurnaceGeneratorMenu::new);
+	public static final RegistryObject<MenuType<ElectricSmelterMenu>> ELECTRIC_SMELTER =
+			register("eletric_smelter", ElectricSmelterMenu::new);
 	public static final RegistryObject<MenuType<GrinderMenu>> GRINDER =
 			register("grinder", GrinderMenu::new);
 	public static final RegistryObject<MenuType<CompressorMenu>> COMPRESSOR =

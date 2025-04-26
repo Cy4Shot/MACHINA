@@ -12,6 +12,7 @@ import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.entity.machine.ComposterVatBlockEntity;
 import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.block.entity.machine.CreativeBatteryBlockEntity;
+import com.machina.block.entity.machine.ElectricSmelterBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MachineCaseBlockEntity;
@@ -48,6 +49,8 @@ public class BlockEntityInit {
             MachineCaseBlockEntity::new, BlockInit.BASIC_MACHINE_CASE::get);
 	public static final RegistryObject<BlockEntityType<FurnaceGeneratorBlockEntity>> FURNACE_GENERATOR = register("furnace_generator",
             FurnaceGeneratorBlockEntity::new, BlockInit.FURNACE_GENERATOR::get);
+	public static final RegistryObject<BlockEntityType<ElectricSmelterBlockEntity>> ELECTRIC_SMELTER = register("electric_smelter",
+			ElectricSmelterBlockEntity::new, BlockInit.ELECTRIC_SMELTER::get);
 	public static final RegistryObject<BlockEntityType<GrinderBlockEntity>> GRINDER = register("grinder",
             GrinderBlockEntity::new, BlockInit.GRINDER::get);
 	public static final RegistryObject<BlockEntityType<CompressorBlockEntity>> COMPRESSOR = register("compressor",

@@ -20,6 +20,7 @@ import com.machina.block.machine.BatteryBlock;
 import com.machina.block.machine.ComposterVatBlock;
 import com.machina.block.machine.CompressorBlock;
 import com.machina.block.machine.CreativeBatteryBlock;
+import com.machina.block.machine.ElectricSmelterBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
 import com.machina.block.machine.GrinderBlock;
 import com.machina.block.machine.MachineCaseBlock;
@@ -76,6 +77,7 @@ public class BlockInit {
 	public static final RegistryObject<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery", Blocks.IRON_BLOCK, CreativeBatteryBlock::new);
 	public static final RegistryObject<MachineCaseBlock> BASIC_MACHINE_CASE = register("basic_machine_case", Blocks.IRON_BLOCK, MachineCaseBlock::new);
 	public static final RegistryObject<FurnaceGeneratorBlock> FURNACE_GENERATOR = register("furnace_generator", Blocks.IRON_BLOCK, FurnaceGeneratorBlock::new);
+	public static final RegistryObject<ElectricSmelterBlock> ELECTRIC_SMELTER = register("electric_smelter", Blocks.IRON_BLOCK, ElectricSmelterBlock::new);
 	public static final RegistryObject<GrinderBlock> GRINDER = register("grinder", Blocks.IRON_BLOCK, GrinderBlock::new);
 	public static final RegistryObject<CompressorBlock> COMPRESSOR = register("compressor", Blocks.IRON_BLOCK, CompressorBlock::new);
 	public static final RegistryObject<MelterBlock> MELTER = register("melter", Blocks.IRON_BLOCK, MelterBlock::new);

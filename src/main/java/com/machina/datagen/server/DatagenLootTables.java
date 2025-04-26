@@ -43,6 +43,7 @@ public class DatagenLootTables extends LootTableProvider {
 			dropSelf(BlockInit.TANK.get());
 			dropSelf(BlockInit.CREATIVE_BATTERY.get());
 			dropSelf(BlockInit.FURNACE_GENERATOR.get());
+			dropSelf(BlockInit.ELECTRIC_SMELTER.get());
 			dropSelf(BlockInit.GRINDER.get());
 			dropSelf(BlockInit.COMPRESSOR.get());
 			dropSelf(BlockInit.MELTER.get());

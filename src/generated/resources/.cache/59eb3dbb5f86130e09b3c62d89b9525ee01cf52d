@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-26T14:13:10.9345533	Loot Tables
+// 1.20.1	2025-04-26T15:05:16.1939158	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -103,6 +103,7 @@ f765a9db41f61120ac7cb340c016c261989de770 data/machina/loot_tables/blocks/dead_tr
 f2588bc12cfefe2afbcf37cfb5e9a92e2d2dbdf2 data/machina/loot_tables/blocks/dead_tropical_wall_sign.json
 ae19ba953ca6639043ba5e7eddc6200a72660098 data/machina/loot_tables/blocks/dead_tropical_wood.json
 51a99f33428f09ca45f3b85aa2173a54356275a1 data/machina/loot_tables/blocks/dragon_peony.json
+4965228bf013556113062c269548be3e3531f683 data/machina/loot_tables/blocks/electric_smelter.json
 236631de3ce53e9f50ba72d9c8fd8b797fb9454b data/machina/loot_tables/blocks/energy_cable.json
 3ff82746b009092156a862be1b7ef6069dc2e18f data/machina/loot_tables/blocks/erbi_pod.json
 1c603a49bec68113d639f1077dadcb4c0f1f7b46 data/machina/loot_tables/blocks/ethane_block.json
