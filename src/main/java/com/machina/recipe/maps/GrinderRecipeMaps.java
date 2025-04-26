@@ -1,8 +1,6 @@
 package com.machina.recipe.maps;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
@@ -23,16 +21,6 @@ import net.minecraftforge.registries.tags.ITagManager;
 public class GrinderRecipeMaps extends MachinaRecipeMaps<GrinderBlockEntity> {
 
 	public static final GrinderRecipeMaps INSTANCE = new GrinderRecipeMaps();
-
-	@Override
-	public boolean isValid(GrinderBlockEntity entity, MachinaRecipe<GrinderBlockEntity> recipe) {
-		for (Ingredient i : recipe.getInputItems()) {
-			if (!entity.hasAnyOf(Arrays.stream(i.getItems()).map(ItemStack::getItem).collect(Collectors.toSet())))
-				return false;
-		}
-
-		return true;
-	}
 
 	@Override
 	protected RecipeRegistryObject<GrinderBlockEntity> getRegistryObject() {

@@ -25,6 +25,7 @@ import com.machina.block.machine.GrinderBlock;
 import com.machina.block.machine.MachineCaseBlock;
 import com.machina.block.machine.MelterBlock;
 import com.machina.block.machine.ReactionChamberBlock;
+import com.machina.block.machine.SolidifierBlock;
 import com.machina.block.machine.TankBlock;
 
 import net.minecraft.core.BlockPos;
@@ -78,6 +79,7 @@ public class BlockInit {
 	public static final RegistryObject<GrinderBlock> GRINDER = register("grinder", Blocks.IRON_BLOCK, GrinderBlock::new);
 	public static final RegistryObject<CompressorBlock> COMPRESSOR = register("compressor", Blocks.IRON_BLOCK, CompressorBlock::new);
 	public static final RegistryObject<MelterBlock> MELTER = register("melter", Blocks.IRON_BLOCK, MelterBlock::new);
+	public static final RegistryObject<SolidifierBlock> SOLIDIFIER = register("solidifier", Blocks.IRON_BLOCK, SolidifierBlock::new);
 	public static final RegistryObject<ReactionChamberBlock> REACTION_CHAMBER = register("reaction_chamber", Blocks.IRON_BLOCK, ReactionChamberBlock::new);
 	public static final RegistryObject<ComposterVatBlock> COMPOSTER_VAT = register("composter_vat", Blocks.IRON_BLOCK, ComposterVatBlock::new);
 

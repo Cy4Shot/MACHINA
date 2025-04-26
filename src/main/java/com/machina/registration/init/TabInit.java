@@ -39,6 +39,7 @@ public class TabInit {
 				add(a, BlockInit.GRINDER);
 				add(a, BlockInit.COMPRESSOR);
 				add(a, BlockInit.MELTER);
+				add(a, BlockInit.SOLIDIFIER);
 				add(a, BlockInit.REACTION_CHAMBER);
 				add(a, BlockInit.COMPOSTER_VAT);
 

@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-07T00:36:47.1396634	Loot Tables
+// 1.20.1	2025-04-26T14:13:10.9345533	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -300,6 +300,7 @@ f40552bb6480f2fa458b75f3f2eb0c57bc9a5c1f data/machina/loot_tables/blocks/silt_st
 bf53fabe30fa5e322fdd1166c22b6a8c450c61db data/machina/loot_tables/blocks/silver_block.json
 2ae01519389b2af5bdaa992422f23235bc33b783 data/machina/loot_tables/blocks/silver_ore.json
 f5ed5ec3202df00d9f69b65c6b0ca2252045dd8d data/machina/loot_tables/blocks/small_fern.json
+3f7e33bb8df4c616a31d5ffa11e34c86e973a7b4 data/machina/loot_tables/blocks/solidifier.json
 1e48a5183aa45287542b65252d2342ff81846e6c data/machina/loot_tables/blocks/sparr_ball.json
 b336c26233ffaef61af2f190162e4302a8b92de2 data/machina/loot_tables/blocks/speckled_brown_mushroom_cap.json
 a4fd5123b050a0afd013f0bbf5b19bf315c09fa3 data/machina/loot_tables/blocks/speckled_purple_mushroom_cap.json

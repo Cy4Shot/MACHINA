@@ -182,6 +182,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.GRINDER, "Grinder");
 		add(BlockInit.COMPRESSOR, "Compressor");
 		add(BlockInit.MELTER, "Melter");
+		add(BlockInit.SOLIDIFIER, "Solidifier");
 		add(BlockInit.REACTION_CHAMBER, "Reaction Chamber");
 		add(BlockInit.COMPOSTER_VAT, "Composter Vat");
 
@@ -670,6 +671,15 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("melter.requires", "Requires");
 		addUI("melter.input", "Input");
 		addUI("melter.output", "Output");
+		
+		addUI("solidifier.no_input", "No Recipe Found");
+		addUI("solidifier.no_power", "No Power");
+		addUI("solidifier.no_space", "No Output Space");
+		addUI("solidifier.progress", "Progress");
+		addUI("solidifier.usage", "Using");
+		addUI("solidifier.requires", "Requires");
+		addUI("solidifier.input", "Input");
+		addUI("solidifier.output", "Output");
 
 		addUI("composter_vat.no_input", "Awaiting Compostable Item");
 		addUI("composter_vat.no_power", "No Power");

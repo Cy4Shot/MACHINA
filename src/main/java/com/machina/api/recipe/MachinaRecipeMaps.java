@@ -1,11 +1,14 @@
 package com.machina.api.recipe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.machina.api.block.entity.RecipeBlockEntity;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.core.registries.Registries;
@@ -13,14 +16,32 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 public abstract class MachinaRecipeMaps<C extends Container> {
 
 	private final Map<ResourceLocation, MachinaRecipe<C>> recipes = new HashMap<>();
 
-	public abstract boolean isValid(C entity, MachinaRecipe<C> recipe);
+	public boolean isValid(C entity, MachinaRecipe<C> recipe) {
+		if (entity instanceof RecipeBlockEntity<?> rbe) {
+			for (Ingredient i : recipe.getInputItems()) {
+				if (!rbe.hasAnyOf(Arrays.stream(i.getItems()).map(ItemStack::getItem).collect(Collectors.toSet())))
+					return false;
+			}
+			for (FluidStack f : recipe.getInputFluids()) {
+				if (!rbe.hasFluid(f))
+					return false;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
 
 	protected abstract RecipeRegistryObject<C> getRegistryObject();
 

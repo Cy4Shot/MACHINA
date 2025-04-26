@@ -10,6 +10,7 @@ import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
 import com.machina.block.menu.MelterMenu;
 import com.machina.block.menu.ReactionChamberMenu;
+import com.machina.block.menu.SolidifierMenu;
 import com.machina.block.menu.TankMenu;
 import com.machina.block.menu.connector.FluidPipeMenu;
 import com.machina.block.menu.connector.ItemConduitMenu;
@@ -56,8 +57,10 @@ public class MenuTypeInit {
 			register("compressor", CompressorMenu::new);
 	public static final RegistryObject<MenuType<MelterMenu>> MELTER =
 			register("melter", MelterMenu::new);
+	public static final RegistryObject<MenuType<SolidifierMenu>> SOLIDIFIER =
+			register("solidifier", SolidifierMenu::new);
 	public static final RegistryObject<MenuType<ReactionChamberMenu>> MIXER =
-			register("mixer", ReactionChamberMenu::new);
+			register("reaction_chamber", ReactionChamberMenu::new);
 	public static final RegistryObject<MenuType<ComposterVatMenu>> COMPOSTER_VAT =
 			register("composter_vat", ComposterVatMenu::new);
 	//@formatter:on

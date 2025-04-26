@@ -217,7 +217,7 @@ public abstract class RecipeBlockEntity<T extends MachinaRecipe<? extends Recipe
 			int desired = f.getAmount();
 			int count = 0;
 			for (RecipeSlot s : slots) {
-				if (s.type == SlotType.INPUT && s.item) {
+				if (s.type == SlotType.INPUT && !s.item) {
 					FluidStack stack = getFluid(s.id());
 					if (stack.isFluidEqual(f)) {
 						FluidStack filled = tankDrain(s.id(), desired - count, FluidAction.EXECUTE);

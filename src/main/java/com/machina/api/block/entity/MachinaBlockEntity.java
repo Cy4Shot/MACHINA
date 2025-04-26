@@ -237,6 +237,16 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 		return this.fluidsCap.get(tank).get().map(f -> f.fill(stack, action)).get();
 	}
 
+	public boolean hasFluid(FluidStack other) {
+		for (int i = 0; i < this.getTanks(); i++) {
+			FluidStack a = this.getFluid(i);
+			if (this.getFluid(i).isFluidEqual(other) && other.getAmount() <= a.getAmount()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public int getEnergy() {
 		return energy;
 	}

@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
-import com.machina.block.entity.machine.MelterBlockEntity;
-import com.machina.recipe.MelterRecipe;
+import com.machina.block.entity.machine.SolidifierBlockEntity;
+import com.machina.recipe.SolidifierRecipe;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -19,13 +19,13 @@ import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITagManager;
 
-public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
+public class SolidifierRecipeMaps extends MachinaRecipeMaps<SolidifierBlockEntity> {
 
-	public static final MelterRecipeMaps INSTANCE = new MelterRecipeMaps();
+	public static final SolidifierRecipeMaps INSTANCE = new SolidifierRecipeMaps();
 
 	@Override
-	protected RecipeRegistryObject<MelterBlockEntity> getRegistryObject() {
-		return RecipeInit.MELTER;
+	protected RecipeRegistryObject<SolidifierBlockEntity> getRegistryObject() {
+		return RecipeInit.SOLIDIFIER;
 	}
 
 	@Override
@@ -46,8 +46,9 @@ public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 						items.getTag(tag).forEach(item -> {
 							ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
 							ResourceLocation iloc = new ResourceLocation(key.getNamespace(), "melt_" + key.getPath());
-							add(new MelterRecipe(iloc, 1820, 70, 0, 0, List.of(Ingredient.of(item)), List.of(),
-									List.of(), List.of(new FluidStack(f.getSource(), 144))));
+							add(new SolidifierRecipe(iloc, 1820, 70, 0, 0, List.of(),
+									List.of(new FluidStack(f.getSource(), 144)), List.of(new ItemStack(item, 1)),
+									List.of()));
 						});
 					}
 				});
@@ -56,7 +57,7 @@ public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 	}
 
 	@Override
-	public Class<? extends MachinaRecipe<MelterBlockEntity>> getRecipeClass() {
-		return MelterRecipe.class;
+	public Class<? extends MachinaRecipe<SolidifierBlockEntity>> getRecipeClass() {
+		return SolidifierRecipe.class;
 	}
 }

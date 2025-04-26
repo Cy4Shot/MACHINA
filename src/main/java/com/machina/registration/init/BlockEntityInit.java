@@ -17,6 +17,7 @@ import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MachineCaseBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
+import com.machina.block.entity.machine.SolidifierBlockEntity;
 import com.machina.block.entity.machine.TankBlockEntity;
 
 import net.minecraft.world.level.block.Block;
@@ -53,6 +54,8 @@ public class BlockEntityInit {
 			CompressorBlockEntity::new, BlockInit.COMPRESSOR::get);
 	public static final RegistryObject<BlockEntityType<MelterBlockEntity>> MELTER = register("melter",
 			MelterBlockEntity::new, BlockInit.MELTER::get);
+	public static final RegistryObject<BlockEntityType<SolidifierBlockEntity>> SOLIDIFIER = register("solidifier",
+			SolidifierBlockEntity::new, BlockInit.SOLIDIFIER::get);
 	public static final RegistryObject<BlockEntityType<ReactionChamberBlockEntity>> REACTION_CHAMBER = register("reaction_chamber",
 			ReactionChamberBlockEntity::new, BlockInit.REACTION_CHAMBER::get);
 	public static final RegistryObject<BlockEntityType<ComposterVatBlockEntity>> COMPOSTER_VAT = register("composter_vat",
