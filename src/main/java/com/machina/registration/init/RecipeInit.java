@@ -10,15 +10,18 @@ import com.machina.api.recipe.MachinaRecipe.RecipeFactory;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.api.recipe.MachinaRecipeType;
 import com.machina.api.util.MachinaRL;
+import com.machina.block.entity.machine.ComposterVatBlockEntity;
 import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.compat.jei.JeiRecipeRegistrar;
+import com.machina.recipe.ComposterVatRecipe;
 import com.machina.recipe.CompressorRecipe;
 import com.machina.recipe.GrinderRecipe;
 import com.machina.recipe.MelterRecipe;
 import com.machina.recipe.ReactionChamberRecipe;
+import com.machina.recipe.maps.ComposterVatRecipeMaps;
 import com.machina.recipe.maps.CompressorRecipeMaps;
 import com.machina.recipe.maps.GrinderRecipeMaps;
 import com.machina.recipe.maps.MelterRecipeMaps;
@@ -50,6 +53,8 @@ public class RecipeInit {
 			register("melter", BlockInit.MELTER, MelterRecipe::new, MelterRecipeMaps.INSTANCE, 32, 160);
 	public static final RecipeRegistryObject<ReactionChamberBlockEntity> REACTION_CHAMBER =
 			register("reaction_chamber", BlockInit.REACTION_CHAMBER, ReactionChamberRecipe::new, ReactionChamberRecipeMaps.INSTANCE, 48, 160);
+	public static final RecipeRegistryObject<ComposterVatBlockEntity> COMPOSTER_VAT =
+			register("composter_vat", BlockInit.COMPOSTER_VAT, ComposterVatRecipe::new, ComposterVatRecipeMaps.INSTANCE, 64, 160);
 	//@formatter:on
 
 	public static class RecipeRegistryObject<C extends Container> {
