@@ -160,13 +160,18 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 		// Flags
 		List<Pair<MuiSlot, String>> values = new ArrayList<>();
 		if (obj.maps().hasEnergy()) {
-			values.add(Pair.of(MuiSlot.ENERGY, StringUtils.formatPower(recipe.getEnergy())));
+			String fmt = StringUtils.formatPower(recipe.getEnergy() * recipe.getPeriodicConsumption());
+			if (recipe.getPeriodicConsumption() > 1) {
+				fmt += " (" + StringUtils.formatPower(recipe.getEnergy()) + ")";
+			}
+			values.add(Pair.of(MuiSlot.ENERGY, fmt));
 		}
 		if (obj.maps().hasTemperature()) {
 			values.add(Pair.of(MuiSlot.TEMP, StringUtils.formatTemp(recipe.getTemperature())));
 		}
 		if (obj.maps().hasTime()) {
-			values.add(Pair.of(MuiSlot.TIME, StringUtils.formatTicks(recipe.getTime())));
+			values.add(
+					Pair.of(MuiSlot.TIME, StringUtils.formatTicks(recipe.getTime() * recipe.getPeriodicConsumption())));
 		}
 
 		for (int i = 0; i < values.size(); i++) {
@@ -200,6 +205,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 		for (Ingredient ingredient : iitems) {
 			int x = starti + i * 20;
 			int y = rolling + 18;
+
 			builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(ingredient);
 			i++;
 		}
@@ -207,7 +213,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			int x = starti + i * 20;
 			int y = rolling + 18;
 			builder.addSlot(RecipeIngredientRole.INPUT, x, y).setFluidRenderer(1, false, 16, 16)
-					.addFluidStack(fluid.getFluid(), fluid.getAmount());
+					.addFluidStack(fluid.getFluid(), fluid.getAmount() * recipe.getPeriodicConsumption());
 			i++;
 		}
 
@@ -227,7 +233,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 			int x = starto + j * 20;
 			int y = rolling + 6;
 			builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).setFluidRenderer(1, false, 16, 16)
-					.addFluidStack(fluid.getFluid(), fluid.getAmount());
+					.addFluidStack(fluid.getFluid(), fluid.getAmount() * recipe.getPeriodicConsumption());
 			j++;
 		}
 	}

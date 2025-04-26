@@ -43,7 +43,7 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 	private int time;
 	private float pressure;
 	private float temperature;
-	private int periodicConsumption;
+	private int periodicConsumption = 1;
 
 	public MachinaRecipeBuilder(RecipeRegistryObject<T> reg) {
 		this.reg = reg;

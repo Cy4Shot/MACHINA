@@ -580,8 +580,10 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		// Recipes
 		add(RecipeInit.COMPRESSOR, "Compressing");
+		add(RecipeInit.COMPOSTER_VAT, "Composting");
 		add(RecipeInit.GRINDER, "Grinding");
 		add(RecipeInit.MELTER, "Melting");
+		add(RecipeInit.SOLIDIFIER, "Solidifying");
 		add(RecipeInit.REACTION_CHAMBER, "Reacting");
 
 		// Misc
@@ -663,6 +665,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("compressor.requires", "Requires");
 		addUI("compressor.input", "Input");
 		addUI("compressor.output", "Output");
+		addUI("compressor.mould", "Insert a Mould");
 		
 		addUI("reaction_chamber.no_input", "No Recipe Found");
 		addUI("reaction_chamber.no_power", "No Power");

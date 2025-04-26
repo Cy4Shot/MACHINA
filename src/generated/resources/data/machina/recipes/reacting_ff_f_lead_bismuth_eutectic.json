@@ -18,5 +18,6 @@
       "fluid": "machina:lead_bismuth_eutectic"
     }
   ],
-  "outputItems": []
+  "outputItems": [],
+  "periodicConsumption": 1
 }

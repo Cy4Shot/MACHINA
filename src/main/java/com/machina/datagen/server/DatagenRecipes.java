@@ -58,9 +58,9 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 		reactff_f(gen, FluidInit.SULPHUR_DIOXIDE, 2, FluidInit.OXYGEN, 1, FluidInit.SULPHUR_TRIOXIDE, 2, 10);
 		reactff_f(gen, FluidInit.SULPHUR_TRIOXIDE, 1, FluidObject.WATER, 1, FluidInit.SULPHURIC_ACID, 1, 7);
 		
-		reactfi_fi(gen, FluidInit.SULPHURIC_ACID, 1000, ItemInit.NITER, 1, FluidInit.NITRIC_ACID, 1000, ItemInit.POTASSIUM_BISULFATE, 1, 10_000);
+		reactfi_fi(gen, FluidInit.SULPHURIC_ACID, 1, ItemInit.NITER, 1, FluidInit.NITRIC_ACID, 1, ItemInit.POTASSIUM_BISULFATE, 1, 10, 144);
 		
-		reactff_i(gen, FluidInit.AMMONIA, 144, FluidInit.NITRIC_ACID, 144, ItemInit.AMMONIUM_NITRATE, 1, 2448);
+		reactff_i(gen, FluidInit.AMMONIA, 1, FluidInit.NITRIC_ACID, 1, ItemInit.AMMONIUM_NITRATE, 1, 17, 144);
 		
 		//@formatter:on
 

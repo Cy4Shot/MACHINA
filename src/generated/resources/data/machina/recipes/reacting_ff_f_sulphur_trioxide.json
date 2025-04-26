@@ -18,5 +18,6 @@
       "fluid": "machina:sulphur_trioxide"
     }
   ],
-  "outputItems": []
+  "outputItems": [],
+  "periodicConsumption": 1
 }

@@ -18,5 +18,6 @@
       "fluid": "machina:sulphuric_acid"
     }
   ],
-  "outputItems": []
+  "outputItems": [],
+  "periodicConsumption": 1
 }

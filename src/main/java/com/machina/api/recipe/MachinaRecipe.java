@@ -85,6 +85,10 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	public float getTemperature() {
 		return temperature;
 	}
+	
+	public int getPeriodicConsumption() {
+		return periodicConsumption;
+	}
 
 	public int getPowerRate() {
 		return energy / time;
@@ -191,7 +195,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			int time = 0;
 			float pressure = 0;
 			float temperature = 0;
-			int periodicConsumption = 0;
+			int periodicConsumption = 1;
 			ArrayList<Ingredient> inputItems = new ArrayList<>();
 			ArrayList<FluidStack> inputFluids = new ArrayList<>();
 			ArrayList<ItemStack> outputItems = new ArrayList<>();
@@ -294,7 +298,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			int time = 0;
 			float pressure = 0;
 			float temperature = 0;
-			int periodicConsumption = 0;
+			int periodicConsumption = 1;
 
 			int num0 = buf.readVarInt();
 			ArrayList<Ingredient> inputItems = new ArrayList<>(num0);

@@ -172,7 +172,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 
 	protected static void reactfi_fi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
 			RegistryObject<? extends Item> i2, int a2, FluidObject o1, int b1, RegistryObject<? extends Item> o2,
-			int b2, int energy) {
+			int b2, int energy, int periodicity) {
 		//@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
 			.in(new FluidStack(i1.fluid(), a1))
@@ -180,18 +180,20 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 			.out(new FluidStack(o1.fluid(), b1))
 			.out(o2.get(), b2)
 			.energy(energy)
+			.period(periodicity)
 			.save(gen, "reacting_fi_fi_" + o1.name());
 		//@formatter:on
 	}
 
 	protected static void reactff_i(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1, FluidObject i2,
-			int a2, RegistryObject<? extends Item> o, int b, int energy) {
+			int a2, RegistryObject<? extends Item> o, int b, int energy, int periodicity) {
 		//@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
 			.in(new FluidStack(i1.fluid(), a1))
 			.in(new FluidStack(i2.fluid(), a2))
 			.out(o.get(), b)
 			.energy(energy)
+			.period(periodicity)
 			.save(gen, "reacting_ff_i_" + getItemName(o.get()));
 		//@formatter:on
 	}
