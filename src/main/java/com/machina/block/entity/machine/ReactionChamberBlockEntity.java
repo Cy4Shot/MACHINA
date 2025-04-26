@@ -32,8 +32,10 @@ public class ReactionChamberBlockEntity extends RecipeBlockEntity<ReactionChambe
 		itemSlot(SlotType.INPUT);
 		itemSlot(SlotType.INPUT);
 		itemSlot(SlotType.OUTPUT);
+		itemSlot(SlotType.OUTPUT);
 		fluidSlot(10_000, s -> true, SlotType.INPUT);
 		fluidSlot(10_000, s -> true, SlotType.INPUT);
+		fluidSlot(10_000, s -> true, SlotType.OUTPUT);
 		fluidSlot(10_000, s -> true, SlotType.OUTPUT);
 	}
 

@@ -69,8 +69,8 @@ public class GrinderScreen extends MachinaMenuScreen<GrinderMenu> {
 			}
 		}
 		int color = entity.isLit() ? MUI.CYAN : MUI.RED;
-		gui.drawCenteredString(font, text, i + 117, j - 54, color);
-		gui.drawCenteredString(font, text2, i + 117, j - 38, color);
+		MUI.drawCenteredString(gui, text, i + 117, j - 54, color);
+		MUI.drawCenteredString(gui, text2, i + 117, j - 38, color);
 
 		drawOverlay(gui);
 	}

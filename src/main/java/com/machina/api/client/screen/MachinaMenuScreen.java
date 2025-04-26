@@ -283,6 +283,35 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
+	protected void drawButton(GuiGraphics gui, int mx, int my, int x, int y, MuiSlot slot, Runnable onClick,
+			Supplier<Component> onHover) {
+		String key = "button_" + x + "_" + y;
+
+		int i = midWidth() + x;
+		int j = midHeight() + y;
+		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+		MUI.blitCommon(gui, i, j, 466, h, 19, 19);
+		slot.draw(gui, i + 4, j + 4, this.aliveTicks);
+
+		MUI.blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+		MUI.blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+
+		clickAndHover(key, i, j, i + 18, j + 18, () -> true, onHover, onClick);
+	}
+
+	protected void drawButtonSmall(GuiGraphics gui, int mx, int my, int x, int y, MuiSlot slot, Runnable onClick,
+			Supplier<Component> onHover) {
+		String key = "button_" + x + "_" + y;
+
+		int i = midWidth() + x;
+		int j = midHeight() + y;
+		int h = mx > i && mx < i + 14 && my > j && my < j + 14 ? 108 : 94;
+		MUI.blitCommon(gui, i, j, 452, h, 14, 14);
+		slot.draw(gui, i + 2, j + 2, this.aliveTicks);
+
+		clickAndHover(key, i, j, i + 14, j + 14, () -> true, onHover, onClick);
+	}
+
 	protected void drawToggle(GuiGraphics gui, int mx, int my, int x, int y, boolean initial, MuiSlot slot1,
 			MuiSlot slot2, Consumer<Boolean> onClick, Supplier<Component> onHover) {
 		String key = "toggle_" + x + "_" + y;
@@ -337,6 +366,21 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		MUI.drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
 	}
 
+	@SuppressWarnings("hiding")
+	private <T extends Number> void drawBarVert(GuiGraphics gui, int x, int y, Function<T, String> formatter,
+			Supplier<MutableComponent> name, Supplier<T> value, Supplier<T> max, Supplier<Float> f,
+			TriConsumer<Integer, Integer, Float> drawer) {
+		int i = midWidth() + x;
+		int j = midHeight() + y;
+		registerHoverable("bar_" + x + "_" + y, i, j, i + 15, j + 41,
+				() -> name.get()
+						.append(Component
+								.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get()) + " ("
+										+ StringUtils.formatPercent(f.get()) + ")")
+								.withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE))));
+		MUI.drawBarVert(gui, i, j, f.get(), drawer);
+	}
+
 	protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, String missing) {
 		if (entity instanceof MachinaBlockEntity) {
 			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
@@ -357,6 +401,20 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 					(i, j, p) -> {
 						float prop = mbe.getFluidF(tank);
 						renderFluid(gui, mbe.getFluid(tank), i + 1, j + 17, (int) (131 * prop), 14, 0);
+					});
+		}
+	}
+
+	protected void drawFluidBarVert(GuiGraphics gui, int x, int y, int tank) {
+		if (entity instanceof MachinaBlockEntity) {
+			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
+			drawBarVert(gui, x, y, StringUtils::formatFluid,
+					() -> StringUtils.fluid(mbe.getFluid(tank), true)
+							.append(Component.literal(": ").withStyle(Style.EMPTY)),
+					() -> mbe.getFluidMB(tank), () -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank),
+					(i, j, p) -> {
+						float prop = mbe.getFluidF(tank);
+						renderFluid(gui, mbe.getFluid(tank), i + 1, j + 41, 14, (int) (40 * prop), 0);
 					});
 		}
 	}
@@ -627,7 +685,10 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
 	// Mekanism
 	public enum TilingDirection {
-		DOWN_RIGHT(true, true), DOWN_LEFT(true, false), UP_RIGHT(false, true), UP_LEFT(false, false);
+		DOWN_RIGHT(true, true),
+		DOWN_LEFT(true, false),
+		UP_RIGHT(false, true),
+		UP_LEFT(false, false);
 
 		private final boolean down;
 		private final boolean right;

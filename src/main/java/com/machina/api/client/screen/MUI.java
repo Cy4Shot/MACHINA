@@ -51,7 +51,7 @@ import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
 
 public final class MUI {
-	
+
 	public static final int CYAN = 0x00FEFE;
 	public static final int RED = 0xFE0000;
 	public static final int GREEN = 0x00FE00;
@@ -90,7 +90,7 @@ public final class MUI {
 		RenderSystem.disableBlend();
 		RenderSystem.defaultBlendFunc();
 	}
-	
+
 	public static void drawString(GuiGraphics gui, Component text, int x, int y) {
 		drawString(gui, text, x, y, CYAN);
 	}
@@ -98,7 +98,7 @@ public final class MUI {
 	public static void drawString(GuiGraphics gui, Component text, int x, int y, int color) {
 		gui.drawString(mc.font, text, x, y, color);
 	}
-	
+
 	public static void drawCenteredString(GuiGraphics gui, Component text, int x, int y) {
 		drawCenteredString(gui, text, x, y, CYAN);
 	}
@@ -112,6 +112,22 @@ public final class MUI {
 		List<FormattedCharSequence> seq = mc.font.split(text, max);
 		for (int i = 0; i < seq.size(); i++) {
 			gui.drawCenteredString(mc.font, seq.get(i), x, y + i * sep, color);
+		}
+	}
+
+	public static void drawSlot(GuiGraphics gui, int i, int j, int mx, int my, boolean decoHorizontal,
+			boolean decoVertical) {
+		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+		blitCommon(gui, i, j, 466, h, 19, 19);
+		
+		if (decoHorizontal) {
+			blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+			blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+		}
+		
+		if (decoVertical) {
+			blitCommon(gui, i + 1, j - 4, 480, 80, 16, 3);
+			blitCommon(gui, i + 1, j + 20, 480, 83, 16, 3);
 		}
 	}
 
@@ -148,7 +164,7 @@ public final class MUI {
 			this.x = x;
 			this.y = y;
 		}
-		
+
 		public void draw(GuiGraphics gui, int x, int y) {
 			blitCommon(gui, x, y, this.x, this.y, 10, 10);
 		}
@@ -180,6 +196,17 @@ public final class MUI {
 		gui.drawCenteredString(mc.font, c, i + 66, j + 20, active ? CYAN : RED);
 		blitCommon(gui, i + 66 + w, j + 18, 418 + dec_off, 5, 19, 8);
 		blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
+	}
+
+	public static void drawBarVert(GuiGraphics gui, int i, int j, float p,
+			TriConsumer<Integer, Integer, Float> drawer) {
+		// Bar
+		blitCommon(gui, i, j, 414, 152, 16, 42);
+		drawer.accept(i, j, p);
+
+		// Deco
+		blitCommon(gui, i, j - 5, 480, 80, 16, 3);
+		blitCommon(gui, i, j + 44, 480, 83, 16, 3);
 	}
 
 	public static void drawOverlay(GuiGraphics gui, int w, int h, long aliveTicks) {

@@ -652,6 +652,15 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("compressor.requires", "Requires");
 		addUI("compressor.input", "Input");
 		addUI("compressor.output", "Output");
+		
+		addUI("reaction_chamber.no_input", "No Recipe Found");
+		addUI("reaction_chamber.no_power", "No Power");
+		addUI("reaction_chamber.no_space", "No Output Space");
+		addUI("reaction_chamber.progress", "Progress");
+		addUI("reaction_chamber.usage", "Using");
+		addUI("reaction_chamber.requires", "Requires");
+		addUI("reaction_chamber.input", "Input");
+		addUI("reaction_chamber.output", "Output");
 
 		addUI("composter_vat.no_input", "Awaiting Compostable Item");
 		addUI("composter_vat.no_power", "No Power");
