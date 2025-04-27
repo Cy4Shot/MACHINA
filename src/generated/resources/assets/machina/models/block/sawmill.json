@@ -1,0 +1,9 @@
+{
+  "parent": "machina:block/machine",
+  "textures": {
+    "bottom": "machina:block/sawmill_bottom",
+    "front": "machina:block/sawmill_front",
+    "side": "machina:block/sawmill_side",
+    "top": "machina:block/sawmill_top"
+  }
+}

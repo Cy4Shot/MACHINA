@@ -1,0 +1,9 @@
+{
+  "parent": "machina:block/machine",
+  "textures": {
+    "bottom": "machina:block/grinder_bottom",
+    "front": "machina:block/grinder_front",
+    "side": "machina:block/grinder_side",
+    "top": "machina:block/grinder_top"
+  }
+}

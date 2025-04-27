@@ -11,6 +11,7 @@ import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
 import com.machina.block.menu.MelterMenu;
 import com.machina.block.menu.ReactionChamberMenu;
+import com.machina.block.menu.SawmillMenu;
 import com.machina.block.menu.SolidifierMenu;
 import com.machina.block.menu.TankMenu;
 import com.machina.block.menu.connector.FluidPipeMenu;
@@ -66,6 +67,8 @@ public class MenuTypeInit {
 			register("reaction_chamber", ReactionChamberMenu::new);
 	public static final RegistryObject<MenuType<ComposterVatMenu>> COMPOSTER_VAT =
 			register("composter_vat", ComposterVatMenu::new);
+	public static final RegistryObject<MenuType<SawmillMenu>> SAWMILL =
+			register("sawmill", SawmillMenu::new);
 	//@formatter:on
 
 	private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String n,

@@ -182,6 +182,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.FURNACE_GENERATOR, "Furnace Generator");
 		add(BlockInit.GRINDER, "Grinder");
 		add(BlockInit.COMPRESSOR, "Compressor");
+		add(BlockInit.SAWMILL, "Sawmill");
 		add(BlockInit.MELTER, "Melter");
 		add(BlockInit.SOLIDIFIER, "Solidifier");
 		add(BlockInit.REACTION_CHAMBER, "Reaction Chamber");
@@ -585,6 +586,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(RecipeInit.MELTER, "Melting");
 		add(RecipeInit.SOLIDIFIER, "Solidifying");
 		add(RecipeInit.REACTION_CHAMBER, "Reacting");
+		add(RecipeInit.SAWMILL, "Sawing");
 
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");
@@ -656,6 +658,15 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("grinder.requires", "Requires");
 		addUI("grinder.input", "Input");
 		addUI("grinder.output", "Output");
+		
+		addUI("sawmill.no_input", "No Recipe Found");
+		addUI("sawmill.no_power", "No Power");
+		addUI("sawmill.no_space", "No Output Space");
+		addUI("sawmill.progress", "Progress");
+		addUI("sawmill.usage", "Using");
+		addUI("sawmill.requires", "Requires");
+		addUI("sawmill.input", "Input");
+		addUI("sawmill.output", "Output");
 
 		addUI("compressor.no_input", "No Recipe Found");
 		addUI("compressor.no_power", "No Power");

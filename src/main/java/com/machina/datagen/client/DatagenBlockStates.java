@@ -4,6 +4,8 @@ import java.util.function.Function;
 
 import com.machina.Machina;
 import com.machina.api.block.ConnectorBlock;
+import com.machina.api.block.LitMachineBlock;
+import com.machina.api.block.MachineBlock;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.MachinaWaterlilyBlock;
 import com.machina.block.PebbleBlock;
@@ -57,6 +59,18 @@ public class DatagenBlockStates extends BlockStateProvider {
 		connector(BlockInit.ENERGY_CABLE);
 		connector(BlockInit.FLUID_PIPE);
 		connector(BlockInit.ITEM_CONDUIT);
+
+		machine(BlockInit.CREATIVE_BATTERY);
+		machineAllLit(BlockInit.BATTERY, true);
+		machineLit(BlockInit.COMPOSTER_VAT, false);
+		machineLit(BlockInit.COMPRESSOR, false);
+		machineLit(BlockInit.ELECTRIC_SMELTER, true);
+		machineLit(BlockInit.FURNACE_GENERATOR, true);
+		machineLit(BlockInit.GRINDER, false);
+		machineLit(BlockInit.MELTER, false);
+		machineLit(BlockInit.REACTION_CHAMBER, false);
+		machineLit(BlockInit.SAWMILL, false);
+		machineLit(BlockInit.SOLIDIFIER, false);
 
 		cube(BlockInit.ANTHRACITE);
 		slab(BlockInit.ANTHRACITE_SLAB, BlockInit.ANTHRACITE);
@@ -559,6 +573,53 @@ public class DatagenBlockStates extends BlockStateProvider {
 				.rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
 				.build());
 		simpleFlatItem(l, itemTexture(l));
+	}
+
+	public void machineAllLit(RegistryObject<? extends LitMachineBlock> machine, boolean lit) {
+		LitMachineBlock b = machine.get();
+		ModelFile unlitm = models().withExistingParent(name(b), new MachinaRL("block/machine"))
+				.texture("side", extend(blockTexture(b), "_side")).texture("front", extend(blockTexture(b), "_front"))
+				.texture("top", extend(blockTexture(b), "_top")).texture("bottom", extend(blockTexture(b), "_bottom"));
+		ModelFile litm = lit ? models().withExistingParent(name(b) + "_lit", new MachinaRL("block/machine"))
+				.texture("side", extend(blockTexture(b), "_side_lit"))
+				.texture("front", extend(blockTexture(b), "_front_lit"))
+				.texture("top", extend(blockTexture(b), "_top_lit"))
+				.texture("bottom", extend(blockTexture(b), "_bottom_lit")) : unlitm;
+
+		getVariantBuilder(b).forAllStates(
+				state -> ConfiguredModel.builder().modelFile(state.getValue(LitMachineBlock.LIT) ? litm : unlitm)
+						.rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+						.build());
+		simpleBlockItem(b, litm);
+	}
+
+	public void machineLit(RegistryObject<? extends LitMachineBlock> machine, boolean lit) {
+		LitMachineBlock b = machine.get();
+		ModelFile unlitm = models().withExistingParent(name(b), new MachinaRL("block/machine"))
+				.texture("side", extend(blockTexture(b), "_side")).texture("front", extend(blockTexture(b), "_front"))
+				.texture("top", extend(blockTexture(b), "_top")).texture("bottom", extend(blockTexture(b), "_bottom"));
+		ModelFile litm = lit ? models().withExistingParent(name(b) + "_lit", new MachinaRL("block/machine"))
+				.texture("side", extend(blockTexture(b), "_side"))
+				.texture("front", extend(blockTexture(b), "_front_lit")).texture("top", extend(blockTexture(b), "_top"))
+				.texture("bottom", extend(blockTexture(b), "_bottom")) : unlitm;
+
+		getVariantBuilder(b).forAllStates(
+				state -> ConfiguredModel.builder().modelFile(state.getValue(LitMachineBlock.LIT) ? litm : unlitm)
+						.rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+						.build());
+		simpleBlockItem(b, litm);
+	}
+
+	public void machine(RegistryObject<? extends MachineBlock> machine) {
+		MachineBlock b = machine.get();
+		ModelFile m = models().withExistingParent(name(b), new MachinaRL("block/machine"))
+				.texture("side", extend(blockTexture(b), "_side")).texture("front", extend(blockTexture(b), "_front"))
+				.texture("top", extend(blockTexture(b), "_top")).texture("bottom", extend(blockTexture(b), "_bottom"));
+
+		getVariantBuilder(b).forAllStates(state -> ConfiguredModel.builder().modelFile(m)
+				.rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
+				.build());
+		simpleBlockItem(b, m);
 	}
 
 	private void petals(RegistryObject<PinkPetalsBlock> petals) {

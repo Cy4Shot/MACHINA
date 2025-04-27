@@ -50,6 +50,7 @@ public class DatagenLootTables extends LootTableProvider {
 			dropSelf(BlockInit.SOLIDIFIER.get());
 			dropSelf(BlockInit.REACTION_CHAMBER.get());
 			dropSelf(BlockInit.COMPOSTER_VAT.get());
+			dropSelf(BlockInit.SAWMILL.get());
 
 			dropSelf(BlockInit.BROWN_MUSHROOM_STALK.get());
 			dropSelf(BlockInit.GREEN_MUSHROOM_STALK.get());

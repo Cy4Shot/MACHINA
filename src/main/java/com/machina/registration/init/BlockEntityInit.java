@@ -18,6 +18,7 @@ import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MachineCaseBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
+import com.machina.block.entity.machine.SawmillBlockEntity;
 import com.machina.block.entity.machine.SolidifierBlockEntity;
 import com.machina.block.entity.machine.TankBlockEntity;
 
@@ -63,6 +64,8 @@ public class BlockEntityInit {
 			ReactionChamberBlockEntity::new, BlockInit.REACTION_CHAMBER::get);
 	public static final RegistryObject<BlockEntityType<ComposterVatBlockEntity>> COMPOSTER_VAT = register("composter_vat",
 			ComposterVatBlockEntity::new, BlockInit.COMPOSTER_VAT::get);
+	public static final RegistryObject<BlockEntityType<SawmillBlockEntity>> SAWMILL = register("sawmill",
+			SawmillBlockEntity::new, BlockInit.SAWMILL::get);
 	//@formatter:on
 
 	public static final RegistryObject<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",

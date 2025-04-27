@@ -18,6 +18,7 @@ import com.machina.client.screen.menu.GrinderScreen;
 import com.machina.client.screen.menu.MachineCaseScreen;
 import com.machina.client.screen.menu.MelterScreen;
 import com.machina.client.screen.menu.ReactionChamberScreen;
+import com.machina.client.screen.menu.SawmillScreen;
 import com.machina.client.screen.menu.SolidifierScreen;
 import com.machina.client.screen.menu.TankScreen;
 import com.machina.client.screen.menu.connector.FluidPipeScreen;
@@ -76,6 +77,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.MELTER.get(), MelterScreen::new);
 			MenuScreens.register(MenuTypeInit.REACTION_CHAMBER.get(), ReactionChamberScreen::new);
 			MenuScreens.register(MenuTypeInit.COMPOSTER_VAT.get(), ComposterVatScreen::new);
+			MenuScreens.register(MenuTypeInit.SAWMILL.get(), SawmillScreen::new);
 		});
 	}
 

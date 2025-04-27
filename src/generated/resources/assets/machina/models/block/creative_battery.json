@@ -1,0 +1,9 @@
+{
+  "parent": "machina:block/machine",
+  "textures": {
+    "bottom": "machina:block/creative_battery_bottom",
+    "front": "machina:block/creative_battery_front",
+    "side": "machina:block/creative_battery_side",
+    "top": "machina:block/creative_battery_top"
+  }
+}

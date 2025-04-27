@@ -1,0 +1,9 @@
+{
+  "parent": "machina:block/machine",
+  "textures": {
+    "bottom": "machina:block/reaction_chamber_bottom",
+    "front": "machina:block/reaction_chamber_front",
+    "side": "machina:block/reaction_chamber_side",
+    "top": "machina:block/reaction_chamber_top"
+  }
+}

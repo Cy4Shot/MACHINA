@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "machina:block/creative_battery",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "machina:block/creative_battery"
+    },
+    "facing=south": {
+      "model": "machina:block/creative_battery",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "machina:block/creative_battery",
+      "y": 270
+    }
+  }
+}

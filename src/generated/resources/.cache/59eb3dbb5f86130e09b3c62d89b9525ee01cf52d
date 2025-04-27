@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-26T15:05:16.1939158	Loot Tables
+// 1.20.1	2025-04-27T16:33:09.154253	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -287,6 +287,7 @@ c3c101d2b52a1bd5340b1c7206e1cd6b47a237ef data/machina/loot_tables/blocks/red_mus
 f316a112b69f99ba70b0e48dc01a17b0994e4905 data/machina/loot_tables/blocks/red_petals.json
 e19d911c21668377d54a645d13454957de9bcab0 data/machina/loot_tables/blocks/red_waterlily.json
 a69c401592f8860a9113c3ec98b7f43600317319 data/machina/loot_tables/blocks/saltpeter_ore.json
+12c652f33aa39751224c2ecc226e8ec2275f1d8d data/machina/loot_tables/blocks/sawmill.json
 068a89f22c7809ac758ffc2a4b4ec08197f500e6 data/machina/loot_tables/blocks/shale.json
 b2d39bf343888dd6761206f576197cbca4fc2924 data/machina/loot_tables/blocks/shale_button.json
 fd0f9f50f7419b2c89b1c235aca1372cd66101b0 data/machina/loot_tables/blocks/shale_pebbles.json

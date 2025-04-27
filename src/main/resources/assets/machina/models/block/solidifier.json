@@ -1,9 +1,0 @@
-{
-	"parent": "machina:block/machine",
-	"textures": {
-		"side": "machina:block/solidifier_side",
-		"front": "machina:block/solidifier_front",
-		"bottom": "machina:block/solidifier_bottom",
-		"top": "machina:block/solidifier_top"
-	}
-}

@@ -1,9 +1,0 @@
-{
-	"parent": "machina:block/machine",
-	"textures": {
-		"side": "machina:block/compressor_side",
-		"front": "machina:block/compressor_front",
-		"bottom": "machina:block/compressor_bottom",
-		"top": "machina:block/compressor_top"
-	}
-}

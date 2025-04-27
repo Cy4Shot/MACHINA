@@ -17,6 +17,7 @@ import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
+import com.machina.block.entity.machine.SawmillBlockEntity;
 import com.machina.block.entity.machine.SolidifierBlockEntity;
 import com.machina.compat.jei.JeiRecipeRegistrar;
 import com.machina.recipe.ComposterVatRecipeMaps;
@@ -24,6 +25,7 @@ import com.machina.recipe.CompressorRecipeMaps;
 import com.machina.recipe.GrinderRecipeMaps;
 import com.machina.recipe.MelterRecipeMaps;
 import com.machina.recipe.ReactionChamberRecipeMaps;
+import com.machina.recipe.SawmillRecipeMaps;
 import com.machina.recipe.SolidifierRecipeMaps;
 
 import net.minecraft.resources.ResourceLocation;
@@ -59,6 +61,8 @@ public class RecipeInit {
 			register("reaction_chamber", BlockInit.REACTION_CHAMBER, ReactionChamberRecipeMaps.INSTANCE, 64, 160);
 	public static final RecipeRegistryObject<ComposterVatBlockEntity> COMPOSTER_VAT =
 			register("composter_vat", BlockInit.COMPOSTER_VAT, ComposterVatRecipeMaps.INSTANCE, 80, 160);
+	public static final RecipeRegistryObject<SawmillBlockEntity> SAWMILL =
+			register("sawmill", BlockInit.SAWMILL, SawmillRecipeMaps.INSTANCE, 96, 160);
 	//@formatter:on
 
 	public static class RecipeRegistryObject<C extends Container> {
