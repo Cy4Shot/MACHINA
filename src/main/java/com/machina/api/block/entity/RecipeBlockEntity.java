@@ -88,6 +88,9 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 	public float getProgress() {
 		if (this.recipe == null)
 			return 0;
+		if (getRecipeMap().hasPeriodicConsumption()) {
+			return (float) this.progress / (float) this.recipe.getPeriodicConsumption();
+		}
 		if (!getRecipe().maps().hasTime() || this.recipe.getTime() == 0)
 			return 1;
 		return (float) this.progress / (float) this.recipe.getTime();
@@ -96,6 +99,9 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 	public int ticksRemaining() {
 		if (this.recipe == null)
 			return 0;
+		if (getRecipeMap().hasPeriodicConsumption()) {
+			return this.recipe.getPeriodicConsumption() - this.progress;
+		}
 		return this.recipe.getTime() - this.progress;
 	}
 
