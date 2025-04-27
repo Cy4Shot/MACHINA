@@ -35,7 +35,10 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 
 	private List<RecipeSlot> slots;
 	private MachinaRecipe<?> recipe = null;
+
 	private int progress = 0;
+	private int lastConsumption = 0;
+	private int lastProduction = 0;
 
 	public RecipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -108,6 +111,8 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 			if (this.recipe != r) {
 				this.recipe = r;
 				this.progress = 0;
+				this.lastConsumption = 0;
+				this.lastProduction = 0;
 				setChanged();
 			}
 
@@ -117,11 +122,33 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 				}
 
 				this.progress++;
-				if (this.progress >= r.getTime()) {
-					useInputs(r);
-					produceOutputs(r);
-					this.progress = 0;
-					setChanged();
+
+				if (getRecipe().maps().hasPeriodicConsumption()) {
+					int periodic = r.getPeriodicConsumption();
+					if (this.progress == 1 || (this.progress - this.lastConsumption) >= periodic) {
+						useInputs(r);
+						this.lastConsumption = this.progress;
+					}
+					if ((this.progress - this.lastProduction) >= periodic) {
+						produceOutputs(r);
+						this.lastProduction = this.progress;
+					}
+
+					if (periodic > 0 && this.progress >= r.getTime()) {
+						this.progress = 0;
+						this.lastConsumption = 0;
+						this.lastProduction = 0;
+						setChanged();
+					}
+				} else {
+					if (this.progress == 1) {
+						useInputs(r);
+					}
+					if (this.progress >= r.getTime()) {
+						produceOutputs(r);
+						this.progress = 0;
+						setChanged();
+					}
 				}
 			}
 		}, () -> {
@@ -218,7 +245,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 				if (s.type == SlotType.INPUT && !s.item) {
 					FluidStack stack = getFluid(s.id());
 					if (stack.isFluidEqual(f)) {
-						FluidStack filled = tankDrain(s.id(), desired - count, FluidAction.EXECUTE);
+						FluidStack filled = drain(s.id(), desired - count, FluidAction.EXECUTE);
 						count += filled.getAmount();
 					}
 					if (count >= desired)
@@ -282,6 +309,8 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 	protected void saveAdditional(CompoundTag tag) {
 		tag.putInt("progress", this.progress);
 		tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
+		tag.putInt("lastConsumption", this.lastConsumption);
+		tag.putInt("lastProduction", this.lastProduction);
 		super.saveAdditional(tag);
 	}
 
@@ -290,6 +319,8 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 		this.progress = tag.getInt("progress");
 		String r = tag.getString("recipe");
 		this.recipe = r.isEmpty() ? null : (MachinaRecipe<?>) getRecipeMap().getRecipe(new ResourceLocation(r));
+		this.lastConsumption = tag.getInt("lastConsumption");
+		this.lastProduction = tag.getInt("lastProduction");
 		super.load(tag);
 	}
 

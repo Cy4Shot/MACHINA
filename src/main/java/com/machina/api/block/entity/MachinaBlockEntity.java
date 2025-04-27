@@ -13,13 +13,12 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.menu.IMachinaMenuProvider;
 import com.machina.api.cap.energy.MachinaEnergyStorage;
-import com.machina.api.cap.fluid.MachinaFluidStorage;
 import com.machina.api.cap.fluid.MachinaTank;
+import com.machina.api.cap.fluid.SidedFluidWrapper;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.MultiSidedStorage;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.cap.sided.SidedStorage;
-import com.machina.api.cap.sided.SingleSidedStorage;
 import com.machina.api.util.block.BlockProperties;
 import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.machine.BatteryBlock;
@@ -42,6 +41,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 /**
@@ -54,10 +54,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 public abstract class MachinaBlockEntity extends ContainerBlockEntity implements IMachinaMenuProvider {
 
 	protected MultiSidedStorage<MachinaEnergyStorage> energyCap;
-	protected final List<SingleSidedStorage<MachinaFluidStorage>> fluidsCap = new ArrayList<>();
 	protected NonNullList<Side[]> itemSides = NonNullList.create();
+	protected NonNullList<Side[]> fluidSides = NonNullList.create();
 
 	private int energy;
+	private NonNullList<MachinaTank> tanks = NonNullList.create();
 
 	public abstract void createStorages();
 
@@ -72,10 +73,9 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 	}
 
 	public int fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
-		int id = this.fluidsCap.size();
-		this.fluidsCap.add(new SingleSidedStorage<>("cap_fluid_" + id, this,
-				new MachinaFluidStorage(new MachinaTank(this, capacity, validator, id, this::sync)), sides.clone()));
-		return id;
+		this.tanks.add(new MachinaTank(this, capacity, validator, this.tanks.size(), this::sync));
+		this.fluidSides.add(sides.clone());
+		return this.fluidSides.size() - 1;
 	}
 
 	public MachinaBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -86,7 +86,6 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 	public void forEachStorage(Consumer<SidedStorage> consumer) {
 		if (this.energyCap != null)
 			consumer.accept(energyCap);
-		this.fluidsCap.forEach(consumer);
 	}
 
 	public Supplier<ISideAdapter> getEnergyAdapter() {
@@ -94,7 +93,18 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 	}
 
 	public Supplier<ISideAdapter> getFluidAdapter(int tank) {
-		return () -> this.fluidsCap.get(tank);
+		return () -> new ISideAdapter() {
+			@Override
+			public Side get(Direction d) {
+				return MachinaBlockEntity.this.fluidSides.get(tank)[d.ordinal()];
+			}
+
+			@Override
+			public void cycle(Direction d) {
+				Side.cycle(MachinaBlockEntity.this.fluidSides.get(tank), d, MachinaBlockEntity.this,
+						"cap_fluid_" + tank);
+			}
+		};
 	}
 
 	public Supplier<ISideAdapter> getItemAdapter(int slot) {
@@ -127,6 +137,14 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 		for (int i = 0; i < sides.size(); i++) {
 			this.itemSides.add(Side.deserialize(sides.getCompound(i)));
 		}
+		ListTag fluidSides = tag.getList("sides_fluid", Tag.TAG_COMPOUND);
+		for (int i = 0; i < fluidSides.size(); i++) {
+			this.fluidSides.add(Side.deserialize(fluidSides.getCompound(i)));
+		}
+		ListTag tanks = tag.getList("tanks", Tag.TAG_COMPOUND);
+		for (int i = 0; i < tanks.size(); i++) {
+			this.tanks.get(i).readFromNBT(tanks.getCompound(i));
+		}
 		this.setChanged();
 
 	}
@@ -140,8 +158,22 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 			sides.add(Side.serialize(itemSide));
 		}
 		tag.put("sides_item", sides);
+		ListTag fluidSides = new ListTag();
+		for (Side[] fluidSide : this.fluidSides) {
+			fluidSides.add(Side.serialize(fluidSide));
+		}
+		tag.put("sides_fluid", fluidSides);
+		ListTag tanks = new ListTag();
+		for (MachinaTank tank : this.tanks) {
+			CompoundTag tankTag = new CompoundTag();
+			tank.writeToNBT(tankTag);
+			tanks.add(tankTag);
+		}
+		tag.put("tanks", tanks);
 		super.saveAdditional(tag);
 	}
+
+	LazyOptional<? extends IFluidHandler>[] fluidHandlers = SidedFluidWrapper.create(this, Direction.values());
 
 	@Nonnull
 	@Override
@@ -151,12 +183,8 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 				if (energyCap != null && energyCap.isNonNullMode(side)) {
 					return energyCap.getLazy(side).cast();
 				}
-			} else if (cap == ForgeCapabilities.FLUID_HANDLER) {
-				for (SingleSidedStorage<MachinaFluidStorage> storage : fluidsCap) {
-					if (storage.isNonNullMode(side)) {
-						return storage.get().cast();
-					}
-				}
+			} else if (cap == ForgeCapabilities.FLUID_HANDLER && !this.remove) {
+				return fluidHandlers[side.ordinal()].cast();
 			}
 		}
 		return super.getCapability(cap, side);
@@ -165,14 +193,19 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 	@Override
 	public void invalidateCaps() {
 		forEachStorage(SidedStorage::invalidate);
+		for (LazyOptional<? extends IFluidHandler> handler : fluidHandlers) {
+			handler.invalidate();
+		}
 		super.invalidateCaps();
 	}
 
 	@Override
 	public void reviveCaps() {
 		this.itemSides.clear();
-		this.fluidsCap.clear();
+		this.fluidSides.clear();
 		this.createStorages();
+		fluidHandlers = SidedFluidWrapper.create(this, Direction.values());
+		this.tanks.clear();
 		super.reviveCaps();
 	}
 
@@ -205,12 +238,11 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 	}
 
 	public FluidStack getFluid(int tank) {
-		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getFluidInTank)
-				.orElseGet(() -> FluidStack.EMPTY);
+		return this.tanks.get(tank).getFluid();
 	}
 
 	public int getTankCapacity(int tank) {
-		return this.fluidsCap.get(tank).get().map(MachinaFluidStorage::getTankCapacity).orElseGet(() -> 0);
+		return this.tanks.get(tank).getCapacity();
 	}
 
 	public int getFluidMB(int tank) {
@@ -226,15 +258,15 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 	}
 
 	public int getTanks() {
-		return this.fluidsCap.size();
+		return this.tanks.size();
 	}
 
-	protected FluidStack tankDrain(int tank, int maxDrain, FluidAction action) {
-		return this.fluidsCap.get(tank).get().map(f -> f.drain(maxDrain, action)).get();
+	public List<MachinaTank> getAllTanks() {
+		return this.tanks;
 	}
 
-	protected int fill(int tank, FluidStack stack, FluidAction action) {
-		return this.fluidsCap.get(tank).get().map(f -> f.fill(stack, action)).get();
+	public MachinaTank getTank(int id) {
+		return this.tanks.get(id);
 	}
 
 	public boolean hasFluid(FluidStack other) {
@@ -245,6 +277,51 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 			}
 		}
 		return false;
+	}
+
+	public int fill(int tank, FluidStack resource, FluidAction action) {
+		return this.tanks.get(tank).fill(resource, action);
+	}
+
+	public @NotNull FluidStack drain(int tank, int amount, FluidAction action) {
+		return this.tanks.get(tank).drain(amount, action);
+	}
+
+	public int fill(Direction dir, FluidStack resource, FluidAction action) {
+		for (MachinaTank tank : this.tanks) {
+			if (fluidSides.get(tank.id)[dir.ordinal()] == Side.INPUT) {
+				if (tank.fill(resource, FluidAction.SIMULATE) > 0) {
+					return tank.fill(resource, action);
+				}
+			}
+		}
+		return 0;
+	}
+
+	public FluidStack drain(Direction dir, FluidStack resource, FluidAction action) {
+		for (MachinaTank tank : this.tanks) {
+			if (fluidSides.get(tank.id)[dir.ordinal()] == Side.OUTPUT) {
+				if (!tank.drain(resource, FluidAction.SIMULATE).isEmpty()) {
+					return tank.drain(resource, action);
+				}
+			}
+		}
+		return FluidStack.EMPTY;
+	}
+
+	public FluidStack drain(Direction dir, int maxDrain, FluidAction action) {
+		for (MachinaTank tank : this.tanks) {
+			if (fluidSides.get(tank.id)[dir.ordinal()] == Side.OUTPUT) {
+				if (!tank.drain(maxDrain, FluidAction.SIMULATE).isEmpty()) {
+					return tank.drain(maxDrain, action);
+				}
+			}
+		}
+		return FluidStack.EMPTY;
+	}
+
+	public void setFluid(int tank, FluidStack stack) {
+		this.tanks.get(tank).setFluid(stack);
 	}
 
 	public int getEnergy() {
@@ -370,8 +447,8 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 			this.energyCap.setRawSideData(side);
 		} else if (id.startsWith("cap_fluid_")) {
 			int tank = Integer.parseInt(id.substring(10));
-			old = this.fluidsCap.get(tank).getRawSideData();
-			this.fluidsCap.get(tank).setRawSideData(side);
+			old = Side.getRaw(this.fluidSides.get(tank));
+			Side.fromRaw(this.fluidSides.get(tank), side);
 		} else if (id.startsWith("cap_item_")) {
 			int slot = Integer.parseInt(id.substring(9));
 			old = Side.getRaw(this.itemSides.get(slot));

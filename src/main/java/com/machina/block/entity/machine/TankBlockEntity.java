@@ -64,17 +64,16 @@ public class TankBlockEntity extends MachinaBlockEntity {
 					this.setChanged();
 				}
 			});
-			
-			
+
 		}
 
 		// Fluid OUT
 		ItemStack output = getItem(1);
 		if (ItemStackUtil.hasFluid(output)) {
 			output.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(storage -> {
-				FluidStack extracted = this.tankDrain(0, Integer.MAX_VALUE, FluidAction.SIMULATE);
+				FluidStack extracted = this.drain(0, Integer.MAX_VALUE, FluidAction.SIMULATE);
 				int inserted = storage.fill(extracted, FluidAction.EXECUTE);
-				this.tankDrain(0, inserted, FluidAction.EXECUTE);
+				this.drain(0, inserted, FluidAction.EXECUTE);
 				if (extracted.getAmount() > 0) {
 					setItem(1, storage.getContainer());
 					this.setChanged();
@@ -134,7 +133,7 @@ public class TankBlockEntity extends MachinaBlockEntity {
 									player.drop(container, false, true);
 								}
 							}
-							tankDrain(tank, filled, FluidAction.EXECUTE);
+							this.drain(tank, filled, FluidAction.EXECUTE);
 							player.playNotifySound(SoundEvents.BUCKET_FILL, SoundSource.PLAYERS, 1f, 1f);
 							return true;
 						}
