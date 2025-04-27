@@ -35,6 +35,8 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 
 	private List<RecipeSlot> slots;
 	private MachinaRecipe<?> recipe = null;
+	private MachinaRecipe<?> temporaryRecipe = null;
+	private int tickCount = 0;
 
 	private int progress = 0;
 
@@ -82,7 +84,9 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public boolean isLit() {
-		return this.recipe != null && this.progress > 0 && this.meetsRequirements(recipe);
+		return this.recipe != null && this.progress > 0 && this.meetsRequirements(recipe)
+				|| (this.temporaryRecipe != null && this.getRecipeMap().hasPeriodicConsumption()
+						&& this.ticksRemaining() >= 0);
 	}
 
 	public float getProgress() {
@@ -112,6 +116,11 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 
 		Optional<MachinaRecipe<RecipeBlockEntity>> rec = getRecipeMap().findRecipe(this);
 		rec.ifPresentOrElse(r -> {
+			if (tickCount == 0) {
+				this.temporaryRecipe = r;
+				tickCount = 2;
+				setChanged();
+			}
 			if (this.recipe != r) {
 				this.recipe = r;
 				this.progress = 0;
@@ -120,11 +129,10 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 			}
 
 			if (getRecipeMap().hasPeriodicConsumption() && r.getPeriodicConsumption() > 1) {
-				this.progress++;
-				if (this.progress == 1) {
+				if (this.progress == 0) {
 					useInputs(r, false);
 					produceOutputs(r, true);
-				} else if (this.progress == r.getPeriodicConsumption()) {
+				} else if (this.progress == r.getPeriodicConsumption() + 1) {
 					useInputs(r, true);
 					produceOutputs(r, false);
 					this.progress = 0;
@@ -132,6 +140,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 					useInputs(r, true);
 					produceOutputs(r, true);
 				}
+				this.progress++;
 				setChanged();
 			} else {
 				if (meetsRequirements(r) && hasSpace(r)) {
@@ -152,6 +161,15 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 			this.progress = 0;
 			this.recipe = null;
 		});
+
+		if (recipe == null && tickCount > 0) {
+			tickCount--;
+			if (tickCount == 0) {
+				this.temporaryRecipe = null;
+			}
+			setChanged();
+		}
+
 		super.tick();
 	}
 
@@ -291,7 +309,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 	}
 
 	public boolean hasRecipe() {
-		return this.recipe != null;
+		return this.temporaryRecipe != null || this.recipe != null;
 	}
 
 	public boolean hasSpace() {
@@ -299,7 +317,8 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 	}
 
 	public boolean meetsRequirements() {
-		return this.recipe != null && meetsRequirements(this.recipe);
+		return this.recipe != null && meetsRequirements(this.recipe)
+				|| (this.temporaryRecipe != null && getRecipeMap().hasPeriodicConsumption());
 	}
 
 	public int getPowerRate() {
@@ -310,6 +329,8 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 	protected void saveAdditional(CompoundTag tag) {
 		tag.putInt("progress", this.progress);
 		tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
+		tag.putString("temporary", this.temporaryRecipe == null ? "" : this.temporaryRecipe.getId().toString());
+		tag.putInt("tickCount", this.tickCount);
 		super.saveAdditional(tag);
 	}
 
@@ -318,6 +339,10 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 		this.progress = tag.getInt("progress");
 		String r = tag.getString("recipe");
 		this.recipe = r.isEmpty() ? null : (MachinaRecipe<?>) getRecipeMap().getRecipe(new ResourceLocation(r));
+		String t = tag.getString("temporary");
+		this.temporaryRecipe = t.isEmpty() ? null
+				: (MachinaRecipe<?>) getRecipeMap().getRecipe(new ResourceLocation(t));
+		this.tickCount = tag.getInt("tickCount");
 		super.load(tag);
 	}
 
