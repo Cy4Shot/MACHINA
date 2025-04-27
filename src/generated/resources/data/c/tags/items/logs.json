@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#c:logs/tropical",
+    "#c:logs/dead_tropical",
+    "#c:logs/pine",
+    "#c:logs/coniferous",
+    "#c:logs/cycad"
+  ]
+}

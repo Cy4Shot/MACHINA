@@ -199,6 +199,30 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 		return true;
 	}
 
+	public boolean hasFluidInput(FluidStack stack) {
+		for (RecipeSlot s : slots) {
+			if (s.type == SlotType.INPUT && !s.item) {
+				FluidStack fluid = getFluid(s.id());
+				if (fluid.isFluidEqual(stack) && fluid.getAmount() >= stack.getAmount()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean hasItemInput(Ingredient stack) {
+		for (RecipeSlot s : slots) {
+			if (s.type == SlotType.INPUT && s.item) {
+				ItemStack item = getItem(s.id());
+				if (stack.test(item)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	protected boolean hasSpace(MachinaRecipe<?> r) {
 		for (ItemStack i : r.getOutputItems()) {
 			boolean found = false;

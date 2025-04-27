@@ -151,6 +151,43 @@ public class DatagenBlockTags extends BlockTagsProvider {
 
 		tag(BlockTags.PLANKS).add(family.planks());
 		tag(BlockTags.LEAVES).add(family.leaves());
+
+		tag(common("slabs/" + family.name())).add(family.slab());
+		tag(common("stairs/" + family.name())).add(family.stairs());
+		tag(common("buttons/" + family.name())).add(family.button());
+		tag(common("wooden_buttons/" + family.name())).add(family.button());
+		tag(common("doors/" + family.name())).add(family.door());
+		tag(common("wooden_doors/" + family.name())).add(family.door());
+		tag(common("trapdoors/" + family.name())).add(family.trapdoor());
+		tag(common("wooden_trapdoors/" + family.name())).add(family.trapdoor());
+		tag(common("fences/" + family.name())).add(family.fence());
+		tag(common("wooden_fences/" + family.name())).add(family.fence());
+		tag(common("fencegates/" + family.name())).add(family.fencegate());
+		tag(common("wooden_pressure_plates/" + family.name())).add(family.pressure_plate());
+		tag(common("signs/" + family.name())).add(family.signblock());
+		tag(common("hanging_signs/" + family.name())).add(family.hangingsignblock());
+		tag(common("logs/" + family.name())).add(family.log(), family.stripped_log(), family.wood(),
+				family.stripped_wood());
+		tag(common("planks/" + family.name())).add(family.planks());
+		tag(common("leaves/" + family.name())).add(family.leaves());
+
+		tag(common("slabs")).addTag(common("slabs/" + family.name()));
+		tag(common("stairs")).addTag(common("stairs/" + family.name()));
+		tag(common("buttons")).addTag(common("buttons/" + family.name()));
+		tag(common("wooden_buttons")).addTag(common("wooden_buttons/" + family.name()));
+		tag(common("doors")).addTag(common("doors/" + family.name()));
+		tag(common("wooden_doors")).addTag(common("wooden_doors/" + family.name()));
+		tag(common("trapdoors")).addTag(common("trapdoors/" + family.name()));
+		tag(common("wooden_trapdoors")).addTag(common("wooden_trapdoors/" + family.name()));
+		tag(common("fences")).addTag(common("fences/" + family.name()));
+		tag(common("wooden_fences")).addTag(common("wooden_fences/" + family.name()));
+		tag(common("fencegates")).addTag(common("fencegates/" + family.name()));
+		tag(common("wooden_pressure_plates")).addTag(common("wooden_pressure_plates/" + family.name()));
+		tag(common("signs")).addTag(common("signs/" + family.name()));
+		tag(common("hanging_signs")).addTag(common("hanging_signs/" + family.name()));
+		tag(common("logs")).addTag(common("logs/" + family.name()));
+		tag(common("planks")).addTag(common("planks/" + family.name()));
+		tag(common("leaves")).addTag(common("leaves/" + family.name()));
 	}
 
 	private static TagKey<Block> common(String name) {

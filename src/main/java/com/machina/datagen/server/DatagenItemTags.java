@@ -198,6 +198,47 @@ public class DatagenItemTags extends ItemTagsProvider {
 				family.stripped_wood().asItem());
 		tag(ItemTags.PLANKS).add(family.planks().asItem());
 		tag(ItemTags.LEAVES).add(Stream.of(family.leaves()).map(Block::asItem).toArray(Item[]::new));
+
+		tag(common("slabs/" + family.name())).add(family.slab().asItem());
+		tag(common("stairs/" + family.name())).add(family.stairs().asItem());
+		tag(common("buttons/" + family.name())).add(family.button().asItem());
+		tag(common("wooden_buttons/" + family.name())).add(family.button().asItem());
+		tag(common("doors/" + family.name())).add(family.door().asItem());
+		tag(common("wooden_doors/" + family.name())).add(family.door().asItem());
+		tag(common("trapdoors/" + family.name())).add(family.trapdoor().asItem());
+		tag(common("wooden_trapdoors/" + family.name())).add(family.trapdoor().asItem());
+		tag(common("fences/" + family.name())).add(family.fence().asItem());
+		tag(common("wooden_fences/" + family.name())).add(family.fence().asItem());
+		tag(common("fencegates/" + family.name())).add(family.fencegate().asItem());
+		tag(common("wooden_pressure_plates/" + family.name())).add(family.pressure_plate().asItem());
+		tag(common("signs/" + family.name())).add(family.sign());
+		tag(common("hanging_signs/" + family.name())).add(family.hangingsign());
+		tag(common("logs/" + family.name())).add(family.log().asItem(), family.stripped_log().asItem(),
+				family.wood().asItem(), family.stripped_wood().asItem());
+		tag(common("planks/" + family.name())).add(family.planks().asItem());
+		tag(common("leaves/" + family.name())).add(Stream.of(family.leaves()).map(Block::asItem).toArray(Item[]::new));
+		tag(common("wooden_logs/" + family.name())).add(family.log().asItem(), family.stripped_log().asItem(),
+				family.wood().asItem(), family.stripped_wood().asItem());
+		tag(common("wooden_planks/" + family.name())).add(family.planks().asItem());
+
+		tag(common("slabs")).addTag(common("slabs/" + family.name()));
+		tag(common("stairs")).addTag(common("stairs/" + family.name()));
+		tag(common("buttons")).addTag(common("buttons/" + family.name()));
+		tag(common("wooden_buttons")).addTag(common("wooden_buttons/" + family.name()));
+		tag(common("doors")).addTag(common("doors/" + family.name()));
+		tag(common("wooden_doors")).addTag(common("wooden_doors/" + family.name()));
+		tag(common("trapdoors")).addTag(common("trapdoors/" + family.name()));
+		tag(common("wooden_trapdoors")).addTag(common("wooden_trapdoors/" + family.name()));
+		tag(common("fences")).addTag(common("fences/" + family.name()));
+		tag(common("wooden_fences")).addTag(common("wooden_fences/" + family.name()));
+		tag(common("fencegates")).addTag(common("fencegates/" + family.name()));
+		tag(common("wooden_pressure_plates")).addTag(common("wooden_pressure_plates/" + family.name()));
+		tag(common("signs")).addTag(common("signs/" + family.name()));
+		tag(common("hanging_signs")).addTag(common("hanging_signs/" + family.name()));
+		tag(common("logs")).addTag(common("logs/" + family.name()));
+		tag(common("planks")).addTag(common("planks/" + family.name()));
+		tag(common("wooden_logs")).addTag(common("wooden_logs/" + family.name()));
+		tag(common("wooden_planks")).addTag(common("wooden_planks/" + family.name()));
 	}
 
 	private static TagKey<Item> common(String name) {
