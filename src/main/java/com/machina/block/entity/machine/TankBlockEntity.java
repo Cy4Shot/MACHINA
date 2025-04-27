@@ -41,7 +41,7 @@ public class TankBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public void createStorages() {
-		fluidStorage(10_000, Predicates.alwaysTrue(), Side.INPUTS);
+		fluidStorage(10_000, Predicates.alwaysTrue(), Side.BOTHS);
 		itemStorage(Side.INPUTS);
 		itemStorage(Side.OUTPUTS);
 	}

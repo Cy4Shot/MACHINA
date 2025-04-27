@@ -17,13 +17,15 @@ import org.jetbrains.annotations.NotNull;
 public enum Side implements StringRepresentable {
 	NONE(407),
 	OUTPUT(423),
-	INPUT(415);
+	INPUT(415),
+	BOTH(431);
 
 	public static final Side[] NONES = new Side[] { Side.NONE, Side.NONE, Side.NONE, Side.NONE, Side.NONE, Side.NONE };
 	public static final Side[] INPUTS = new Side[] { Side.INPUT, Side.INPUT, Side.INPUT, Side.INPUT, Side.INPUT,
 			Side.INPUT };
 	public static final Side[] OUTPUTS = new Side[] { Side.OUTPUT, Side.OUTPUT, Side.OUTPUT, Side.OUTPUT, Side.OUTPUT,
 			Side.OUTPUT };
+	public static final Side[] BOTHS = new Side[] { Side.BOTH, Side.BOTH, Side.BOTH, Side.BOTH, Side.BOTH, Side.BOTH };
 
 	private final int tx;
 	private final int ty;
@@ -38,11 +40,11 @@ public enum Side implements StringRepresentable {
 	}
 
 	public boolean isInput() {
-		return this == INPUT;
+		return this == INPUT || this == BOTH;
 	}
 
 	public boolean isOutput() {
-		return this == OUTPUT;
+		return this == OUTPUT || this == BOTH;
 	}
 
 	public int x() {

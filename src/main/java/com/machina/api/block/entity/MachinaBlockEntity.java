@@ -289,7 +289,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 
 	public int fill(Direction dir, FluidStack resource, FluidAction action) {
 		for (MachinaTank tank : this.tanks) {
-			if (fluidSides.get(tank.id)[dir.ordinal()] == Side.INPUT) {
+			if (fluidSides.get(tank.id)[dir.ordinal()].isInput()) {
 				if (tank.fill(resource, FluidAction.SIMULATE) > 0) {
 					return tank.fill(resource, action);
 				}
@@ -300,7 +300,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 
 	public FluidStack drain(Direction dir, FluidStack resource, FluidAction action) {
 		for (MachinaTank tank : this.tanks) {
-			if (fluidSides.get(tank.id)[dir.ordinal()] == Side.OUTPUT) {
+			if (fluidSides.get(tank.id)[dir.ordinal()].isOutput()) {
 				if (!tank.drain(resource, FluidAction.SIMULATE).isEmpty()) {
 					return tank.drain(resource, action);
 				}
@@ -311,7 +311,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 
 	public FluidStack drain(Direction dir, int maxDrain, FluidAction action) {
 		for (MachinaTank tank : this.tanks) {
-			if (fluidSides.get(tank.id)[dir.ordinal()] == Side.OUTPUT) {
+			if (fluidSides.get(tank.id)[dir.ordinal()].isOutput()) {
 				if (!tank.drain(maxDrain, FluidAction.SIMULATE).isEmpty()) {
 					return tank.drain(maxDrain, action);
 				}
