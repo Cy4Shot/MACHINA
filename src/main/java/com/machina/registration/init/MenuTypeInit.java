@@ -62,7 +62,7 @@ public class MenuTypeInit {
 			register("melter", MelterMenu::new);
 	public static final RegistryObject<MenuType<SolidifierMenu>> SOLIDIFIER =
 			register("solidifier", SolidifierMenu::new);
-	public static final RegistryObject<MenuType<ReactionChamberMenu>> MIXER =
+	public static final RegistryObject<MenuType<ReactionChamberMenu>> REACTION_CHAMBER =
 			register("reaction_chamber", ReactionChamberMenu::new);
 	public static final RegistryObject<MenuType<ComposterVatMenu>> COMPOSTER_VAT =
 			register("composter_vat", ComposterVatMenu::new);

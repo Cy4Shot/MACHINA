@@ -74,7 +74,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);
 			MenuScreens.register(MenuTypeInit.SOLIDIFIER.get(), SolidifierScreen::new);
 			MenuScreens.register(MenuTypeInit.MELTER.get(), MelterScreen::new);
-			MenuScreens.register(MenuTypeInit.MIXER.get(), ReactionChamberScreen::new);
+			MenuScreens.register(MenuTypeInit.REACTION_CHAMBER.get(), ReactionChamberScreen::new);
 			MenuScreens.register(MenuTypeInit.COMPOSTER_VAT.get(), ComposterVatScreen::new);
 		});
 	}

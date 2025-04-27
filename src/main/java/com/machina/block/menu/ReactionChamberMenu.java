@@ -2,6 +2,8 @@ package com.machina.block.menu;
 
 import com.machina.api.block.MachineBlock;
 import com.machina.api.block.menu.MachinaContainerMenu;
+import com.machina.api.block.menu.slot.InvSlot;
+import com.machina.api.block.menu.slot.ResultSlot;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
@@ -18,7 +20,12 @@ public class ReactionChamberMenu extends MachinaContainerMenu<ReactionChamberBlo
 	}
 
 	public ReactionChamberMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.MIXER.get(), level, pos, id);
+		super(MenuTypeInit.REACTION_CHAMBER.get(), level, pos, id);
+
+		this.addSlot(new InvSlot(be, 0, 5, 30));
+		this.addSlot(new InvSlot(be, 1, 25, 30));
+		this.addSlot(new ResultSlot(be, 2, 194, 30));
+		this.addSlot(new ResultSlot(be, 3, 214, 30));
 
 		invSlots(inv, 0);
 	}

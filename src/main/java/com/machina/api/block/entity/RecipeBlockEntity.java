@@ -37,8 +37,6 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 	private MachinaRecipe<?> recipe = null;
 
 	private int progress = 0;
-	private int lastConsumption = 0;
-	private int lastProduction = 0;
 
 	public RecipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -111,41 +109,34 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 			if (this.recipe != r) {
 				this.recipe = r;
 				this.progress = 0;
-				this.lastConsumption = 0;
-				this.lastProduction = 0;
+
 				setChanged();
 			}
 
-			if (meetsRequirements(r) && hasSpace(r)) {
-				if (!drainRequirements(r)) {
-					return;
-				}
-
+			if (getRecipeMap().hasPeriodicConsumption() && r.getPeriodicConsumption() > 1) {
 				this.progress++;
-
-				if (getRecipe().maps().hasPeriodicConsumption()) {
-					int periodic = r.getPeriodicConsumption();
-					if (this.progress == 1 || (this.progress - this.lastConsumption) >= periodic) {
-						useInputs(r);
-						this.lastConsumption = this.progress;
-					}
-					if ((this.progress - this.lastProduction) >= periodic) {
-						produceOutputs(r);
-						this.lastProduction = this.progress;
-					}
-
-					if (periodic > 0 && this.progress >= r.getTime()) {
-						this.progress = 0;
-						this.lastConsumption = 0;
-						this.lastProduction = 0;
-						setChanged();
-					}
+				if (this.progress == 1) {
+					useInputs(r, false);
+					produceOutputs(r, true);
+				} else if (this.progress == r.getPeriodicConsumption()) {
+					useInputs(r, true);
+					produceOutputs(r, false);
+					this.progress = 0;
 				} else {
-					if (this.progress == 1) {
-						useInputs(r);
+					useInputs(r, true);
+					produceOutputs(r, true);
+				}
+				setChanged();
+			} else {
+				if (meetsRequirements(r) && hasSpace(r)) {
+					if (!drainRequirements(r)) {
+						return;
 					}
+
+					this.progress++;
 					if (this.progress >= r.getTime()) {
-						produceOutputs(r);
+						useInputs(r, false);
+						produceOutputs(r, false);
 						this.progress = 0;
 						setChanged();
 					}
@@ -219,21 +210,23 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 		return true;
 	}
 
-	protected void useInputs(MachinaRecipe<?> r) {
-		for (Ingredient i : r.getInputItems()) {
-			int desired = i.getItems()[0].getCount();
-			int count = 0;
-			for (RecipeSlot s : slots) {
-				if (s.type == SlotType.INPUT && s.item) {
-					ItemStack stack = getItem(s.id());
-					if (i.test(stack)) {
-						int toShrink = Math.min(desired - count, stack.getCount());
-						stack.shrink(toShrink);
-						setItem(s.id(), stack);
-						count += toShrink;
+	protected void useInputs(MachinaRecipe<?> r, boolean periodic) {
+		if (!periodic) {
+			for (Ingredient i : r.getInputItems()) {
+				int desired = i.getItems()[0].getCount();
+				int count = 0;
+				for (RecipeSlot s : slots) {
+					if (s.type == SlotType.INPUT && s.item) {
+						ItemStack stack = getItem(s.id());
+						if (i.test(stack)) {
+							int toShrink = Math.min(desired - count, stack.getCount());
+							stack.shrink(toShrink);
+							setItem(s.id(), stack);
+							count += toShrink;
+						}
+						if (count >= desired)
+							break;
 					}
-					if (count >= desired)
-						break;
 				}
 			}
 		}
@@ -255,19 +248,21 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 		}
 	}
 
-	protected void produceOutputs(MachinaRecipe<?> r) {
-		for (ItemStack i : r.getOutputItems()) {
-			for (RecipeSlot s : slots) {
-				if (s.type == SlotType.OUTPUT && s.item) {
-					ItemStack stack = getItem(s.id());
-					if (stack.isEmpty()) {
-						setItem(s.id(), i.copy());
-						break;
-					} else if (ItemStack.isSameItem(stack, i)
-							&& stack.getCount() + i.getCount() <= stack.getMaxStackSize()) {
-						stack.grow(i.getCount());
-						setItem(s.id(), stack);
-						break;
+	protected void produceOutputs(MachinaRecipe<?> r, boolean periodic) {
+		if (!periodic) {
+			for (ItemStack i : r.getOutputItems()) {
+				for (RecipeSlot s : slots) {
+					if (s.type == SlotType.OUTPUT && s.item) {
+						ItemStack stack = getItem(s.id());
+						if (stack.isEmpty()) {
+							setItem(s.id(), i.copy());
+							break;
+						} else if (ItemStack.isSameItem(stack, i)
+								&& stack.getCount() + i.getCount() <= stack.getMaxStackSize()) {
+							stack.grow(i.getCount());
+							setItem(s.id(), stack);
+							break;
+						}
 					}
 				}
 			}
@@ -309,8 +304,6 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 	protected void saveAdditional(CompoundTag tag) {
 		tag.putInt("progress", this.progress);
 		tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
-		tag.putInt("lastConsumption", this.lastConsumption);
-		tag.putInt("lastProduction", this.lastProduction);
 		super.saveAdditional(tag);
 	}
 
@@ -319,8 +312,6 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 		this.progress = tag.getInt("progress");
 		String r = tag.getString("recipe");
 		this.recipe = r.isEmpty() ? null : (MachinaRecipe<?>) getRecipeMap().getRecipe(new ResourceLocation(r));
-		this.lastConsumption = tag.getInt("lastConsumption");
-		this.lastProduction = tag.getInt("lastProduction");
 		super.load(tag);
 	}
 
