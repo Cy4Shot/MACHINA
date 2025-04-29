@@ -642,7 +642,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("furnace_generator.no_input", "Insert Fuel");
 		addUI("furnace_generator.generating", "Generating");
 		
-		addUI("chemical_generator.progress", "Progress");
+		addUI("chemical_generator.progress", "Burning Gas");
 		addUI("chemical_generator.no_input", "Insert Fuel");
 		addUI("chemical_generator.generating", "Generating");
 		

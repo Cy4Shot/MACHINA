@@ -3,12 +3,10 @@ package com.machina.client.screen.menu;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.MUI;
-import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.util.StringUtils;
 import com.machina.block.entity.machine.ChemicalGeneratorBlockEntity;
 import com.machina.block.menu.ChemicalGeneratorMenu;
-import com.machina.config.CommonConfig;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -27,30 +25,22 @@ public class ChemicalGeneratorScreen extends MachinaMenuScreen<ChemicalGenerator
 
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
-		drawDownFacingSlot(gui, 0, mx, my, 107, -28, MuiSlot.COAL, "chemical_generator.input");
+		drawFluidBar(gui, 0, -20, 0);
 		drawEnergyBar(gui, 0, 20, true, "");
 
 		int i = midWidth();
 		int j = midHeight();
-		MUI.blitCommon(gui, i + 81, j - 18, 369, 80, 17, 8);
-		MUI.blitCommon(gui, i + 81, j - 10, 508, 0, 4, 21);
+		MUI.blitCommon(gui, i + 61, j - 11, 508, 0, 4, 22);
+		MUI.blitCommon(gui, i + 167, j - 11, 508, 0, 4, 22);
 
-		MUI.blitCommon(gui, i + 134, j - 18, 390, 80, 17, 8);
-		MUI.blitCommon(gui, i + 147, j - 10, 508, 0, 4, 21);
-
-		Component text = entity.isLit()
-				? Component.literal(MUI.uistrs("chemical_generator.progress") + ": "
-						+ StringUtils.formatPercent(entity.getProgress()) + " ("
-						+ StringUtils.formatTicks(entity.ticksRemaining()) + ")")
+		Component text = entity.isLit() ? MUI.uistr("chemical_generator.progress")
 				: MUI.uistr("chemical_generator.no_input");
 		int color = entity.isLit() ? MUI.CYAN : MUI.RED;
 		MUI.drawCenteredString(gui, text, i + 117, j - 54, color);
 
 		if (entity.isLit())
-			MUI.drawCenteredString(gui,
-					Component.literal(MUI.uistrs("chemical_generator.generating") + ": "
-							+ StringUtils.formatPower(CommonConfig.chemicalGeneratorRate.get()) + "/t"),
-					i + 117, j - 42);
+			MUI.drawCenteredString(gui, Component.literal(MUI.uistrs("chemical_generator.generating") + ": "
+					+ StringUtils.formatPower(entity.getRate()) + "/t"), i + 117, j - 42);
 
 		drawOverlay(gui);
 	}

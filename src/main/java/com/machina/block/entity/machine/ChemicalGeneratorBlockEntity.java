@@ -1,6 +1,7 @@
 package com.machina.block.entity.machine;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
@@ -9,22 +10,41 @@ import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.menu.ChemicalGeneratorMenu;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
+import com.machina.registration.init.FluidInit;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 public class ChemicalGeneratorBlockEntity extends MachinaBlockEntity {
 
-	private int litTime;
-	private int originalLitTime;
+	// TODO: Make this data driven somehow.
+	@SuppressWarnings("serial")
+	private static final Map<Fluid, Integer> BURNABLES = new HashMap<>() {
+		{
+			put(FluidInit.HYDROGEN.fluid(), 100);
+			put(FluidInit.METHANE.fluid(), 98);
+			put(FluidInit.ETHANE.fluid(), 95);
+			put(FluidInit.ETHYLENE.fluid(), 90);
+			put(FluidInit.AMMONIA.fluid(), 80);
+			put(FluidInit.CARBON_MONOXIDE.fluid(), 70);
+			put(FluidInit.FORMALDEHYDE.fluid(), 60);
+			put(FluidInit.METHANOL.fluid(), 60);
+			put(FluidInit.ETHANOL.fluid(), 67);
+			put(FluidInit.TOLUENE.fluid(), 70);
+			put(FluidInit.BENZENE.fluid(), 70);
+			put(FluidInit.NITROMETHANE.fluid(), 60);
+			put(FluidInit.ACETALDEHYDE.fluid(), 50);
+			put(FluidInit.BENZYLAMINE.fluid(), 50);
+			put(FluidInit.ACETIC_ACID.fluid(), 40);
+			put(FluidInit.BENZYL_CHLORIDE.fluid(), 30);
+		}
+	};
 
 	public ChemicalGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -37,22 +57,18 @@ public class ChemicalGeneratorBlockEntity extends MachinaBlockEntity {
 	@Override
 	public void createStorages() {
 		energyStorage(Side.OUTPUTS);
-		itemStorage(Side.INPUTS);
+		fluidStorage(16_000, f -> BURNABLES.containsKey(f.getFluid()), Side.INPUTS);
 	}
 
 	@Override
 	public boolean isLit() {
-		return this.litTime > 0;
+		return !getFluid(0).isEmpty() && !this.isEnergyFull();
 	}
 
-	public float getProgress() {
-		if (this.originalLitTime == 0)
-			return 0;
-		return (float) this.litTime / (float) this.originalLitTime;
-	}
-
-	public int ticksRemaining() {
-		return this.litTime;
+	public int getRate() {
+		FluidStack fluid = getFluid(0).copy();
+		int rate = BURNABLES.getOrDefault(fluid.getFluid(), 0);
+		return rate;
 	}
 
 	@Override
@@ -60,56 +76,25 @@ public class ChemicalGeneratorBlockEntity extends MachinaBlockEntity {
 		if (this.level != null && this.level.isClientSide())
 			return;
 
-		boolean flag = this.isLit();
-		boolean flag1 = false;
-		if (this.isLit())
-			--this.litTime;
-		ItemStack itemstack = getItem(0);
-		if ((this.isLit() || !itemstack.isEmpty()) && !this.isEnergyFull()) {
-			if (this.isLit()) {
-				receiveEnergy(CommonConfig.chemicalGeneratorRate.get(), false);
-				flag1 = true;
-			} else {
-				this.litTime = ForgeHooks.getBurnTime(itemstack, RecipeType.SMELTING);
-				this.originalLitTime = this.litTime;
-				if (this.isLit()) {
-					flag1 = true;
-					if (itemstack.hasCraftingRemainingItem())
-						this.setItem(0, itemstack.getCraftingRemainingItem());
-					else if (!itemstack.isEmpty()) {
-						itemstack.shrink(1);
-						if (itemstack.isEmpty())
-							this.setItem(0, itemstack.getCraftingRemainingItem());
-					}
-				}
-			}
-		}
+		FluidStack fluid = getFluid(0).copy();
+		int rate = BURNABLES.getOrDefault(fluid.getFluid(), 0);
 
-		if (flag != this.isLit()) {
-			flag1 = true;
+		if (this.isLit()) {
+			receiveEnergy(rate, false);
+			if (fluid.getAmount() > 0) {
+				fluid.setAmount(fluid.getAmount() - 1);
+				setFluid(0, fluid);
+			} else {
+				setFluid(0, FluidStack.EMPTY);
+			}
 		}
 
 		BlockHelper.sendEnergy(level, worldPosition, getEnergy(), CommonConfig.chemicalGeneratorTransferRate.get(),
 				this);
 
-		if (flag1)
-			sync();
+		sync();
 
 		super.tick();
-	}
-
-	@Override
-	protected void saveAdditional(CompoundTag tag) {
-		super.saveAdditional(tag);
-		tag.putInt("litTime", litTime);
-		tag.putInt("originalLitTime", originalLitTime);
-	}
-
-	@Override
-	public void load(@NotNull CompoundTag tag) {
-		super.load(tag);
-		this.litTime = tag.getInt("litTime");
-		this.originalLitTime = tag.getInt("originalLitTime");
 	}
 
 	@Override
