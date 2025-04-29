@@ -9,6 +9,7 @@ import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
 import com.machina.client.ber.TankRenderer;
 import com.machina.client.screen.menu.BatteryScreen;
+import com.machina.client.screen.menu.ChemicalGeneratorScreen;
 import com.machina.client.screen.menu.ComposterVatScreen;
 import com.machina.client.screen.menu.CompressorScreen;
 import com.machina.client.screen.menu.CreativeBatteryScreen;
@@ -70,6 +71,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
 			MenuScreens.register(MenuTypeInit.MACHINE_CASE.get(), MachineCaseScreen::new);
 			MenuScreens.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
+			MenuScreens.register(MenuTypeInit.CHEMICAL_GENERATOR.get(), ChemicalGeneratorScreen::new);
 			MenuScreens.register(MenuTypeInit.ELECTRIC_SMELTER.get(), ElectricSmelterScreen::new);
 			MenuScreens.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
 			MenuScreens.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);

@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-27T16:33:09.154253	Loot Tables
+// 1.20.1	2025-04-29T08:53:57.87875	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -43,6 +43,7 @@ cd2fec633693d81ea280a2c3b3874b69da182fbe data/machina/loot_tables/blocks/chalk.j
 03493b8d56149365de131a85dc5553fcae098e98 data/machina/loot_tables/blocks/chalk_slab.json
 23b6932ee053a9fab80e88538db8ec01814372ac data/machina/loot_tables/blocks/chalk_stairs.json
 7417437f539ab791fb99a3c2136f38871b23ebf7 data/machina/loot_tables/blocks/chalk_wall.json
+4749ae4a88040755ec2b8228f58f354a8d2eb8c7 data/machina/loot_tables/blocks/chemical_generator.json
 7bb0a8bbde8ef363472ce0431f322d91ba8e3721 data/machina/loot_tables/blocks/chlorine_block.json
 de47a71e3e44d235353eb4fe2e4953047963e9ba data/machina/loot_tables/blocks/clover.json
 3d2d3a18ee85e44a6cb2531a1dd5e317f431f718 data/machina/loot_tables/blocks/composter_vat.json

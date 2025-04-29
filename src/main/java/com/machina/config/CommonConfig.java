@@ -24,6 +24,9 @@ public class CommonConfig {
 	public static ForgeConfigSpec.IntValue furnaceGeneratorCapacity;
 	public static ForgeConfigSpec.IntValue furnaceGeneratorRate;
 	public static ForgeConfigSpec.IntValue furnaceGeneratorTransferRate;
+	public static ForgeConfigSpec.IntValue chemicalGeneratorCapacity;
+	public static ForgeConfigSpec.IntValue chemicalGeneratorRate;
+	public static ForgeConfigSpec.IntValue chemicalGeneratorTransferRate;
 
 	private static void setupConfig(ForgeConfigSpec.Builder builder) {
 		builder.push("items");
@@ -65,6 +68,13 @@ public class CommonConfig {
 		furnaceGeneratorCapacity = builder.defineInRange("furnace_generator_capacity", 10_000, 1, 999_999_999);
 		furnaceGeneratorRate = builder.defineInRange("furnace_generator_rate", 60, 1, 9999);
 		furnaceGeneratorTransferRate = builder.defineInRange("furnace_generator_transfer_rate", 1_000, 1, 999_999);
+		builder.pop();
+		
+		builder.push("chemical_generator");
+		builder.comment("ChemicalGenerator settings");
+		chemicalGeneratorCapacity = builder.defineInRange("chemical_generator_capacity", 10_000, 1, 999_999_999);
+		chemicalGeneratorRate = builder.defineInRange("chemical_generator_rate", 70, 1, 9999);
+		chemicalGeneratorTransferRate = builder.defineInRange("chemical_generator_transfer_rate", 1_000, 1, 999_999);
 		builder.pop();
 
 		builder.pop();

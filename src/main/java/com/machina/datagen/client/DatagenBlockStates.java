@@ -66,6 +66,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		machineLit(BlockInit.COMPRESSOR, false);
 		machineLit(BlockInit.ELECTRIC_SMELTER, true);
 		machineLit(BlockInit.FURNACE_GENERATOR, true);
+		machineLit(BlockInit.CHEMICAL_GENERATOR, true);
 		machineLit(BlockInit.GRINDER, false);
 		machineLit(BlockInit.MELTER, false);
 		machineLit(BlockInit.REACTION_CHAMBER, false);

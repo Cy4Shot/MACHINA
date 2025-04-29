@@ -180,6 +180,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.CREATIVE_BATTERY, "Creative Battery");
 		add(BlockInit.ELECTRIC_SMELTER, "Electric Smelter");
 		add(BlockInit.FURNACE_GENERATOR, "Furnace Generator");
+		add(BlockInit.CHEMICAL_GENERATOR, "Chemical Generator");
 		add(BlockInit.GRINDER, "Grinder");
 		add(BlockInit.COMPRESSOR, "Compressor");
 		add(BlockInit.SAWMILL, "Sawmill");
@@ -640,6 +641,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("furnace_generator.progress", "Progress");
 		addUI("furnace_generator.no_input", "Insert Fuel");
 		addUI("furnace_generator.generating", "Generating");
+		
+		addUI("chemical_generator.progress", "Progress");
+		addUI("chemical_generator.no_input", "Insert Fuel");
+		addUI("chemical_generator.generating", "Generating");
 		
 		addUI("electric_smelter.no_input", "No Recipe Found");
 		addUI("electric_smelter.no_power", "No Power");

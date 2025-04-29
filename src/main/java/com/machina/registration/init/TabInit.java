@@ -36,6 +36,7 @@ public class TabInit {
 				add(a, BlockInit.TANK);
 				add(a, BlockInit.BASIC_MACHINE_CASE);
 				add(a, BlockInit.FURNACE_GENERATOR);
+				add(a, BlockInit.CHEMICAL_GENERATOR);
 				add(a, BlockInit.ELECTRIC_SMELTER);
 				add(a, BlockInit.GRINDER);
 				add(a, BlockInit.COMPRESSOR);

@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-27T16:33:09.1742523	Block States: machina
+// 1.20.1	2025-04-29T08:53:57.8907499	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -42,6 +42,7 @@ acefc01d6a7ba440338ec343f06ecb5163665c8c assets/machina/blockstates/chalk_pebble
 6d8074774d9a2bdbddfb6692c674a2957be3a219 assets/machina/blockstates/chalk_slab.json
 05d42980cc9329ca512ae25abe3915211ce92bbb assets/machina/blockstates/chalk_stairs.json
 f0f73ef747106574fd6f70784108c97dc5ddc117 assets/machina/blockstates/chalk_wall.json
+5bcee01105021743121f876f7223f342a816f707 assets/machina/blockstates/chemical_generator.json
 f4bcc7c02ef5c99fb0cfbabc9cd8a0a80938fae4 assets/machina/blockstates/chlorine_block.json
 ae9828878be96b63fac939e55bad97746486bdba assets/machina/blockstates/composter_vat.json
 c11463ebe0c17392072ba3867a39cf70cb04aad4 assets/machina/blockstates/compressor.json
@@ -449,6 +450,8 @@ eaddca5f3333162b97bec5f025cd6d4339b4f02b assets/machina/models/block/chalk_stair
 7f8d73b896bdbf44d05fdc2263a8a96fe92af5ee assets/machina/models/block/chalk_wall_post.json
 2fa32e0f3635f3cf9034c509fe0412c6ef505974 assets/machina/models/block/chalk_wall_side.json
 91b43dbcc7d127eeb07cebbdb6580a101de6d934 assets/machina/models/block/chalk_wall_side_tall.json
+16b87f26702a498d503131eed30e4f185c653ac7 assets/machina/models/block/chemical_generator.json
+8be8884a18ce65a81518ce7dc4dc87e3070a0157 assets/machina/models/block/chemical_generator_lit.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/chlorine_block.json
 1cf99146febf968b0681910d8a3754af095cbde9 assets/machina/models/block/composter_vat.json
 acf351bf01e8261a0e1c5c4a456a24f1ca2f3b52 assets/machina/models/block/compressor.json
@@ -1094,6 +1097,7 @@ bf9ece3a105b518eacf72a2976cb70d5f09b7b1f assets/machina/models/item/chalk_pebble
 05d3334153159451e13e31b36eae46d4434b28e6 assets/machina/models/item/chalk_slab.json
 89cf380a51e58c1d6470415df6b721955e2f1b37 assets/machina/models/item/chalk_stairs.json
 e37a13d75aa364aa3c4f5b2dcf3d7067675c261f assets/machina/models/item/chalk_wall.json
+0fff00d03b24dddd8639445de6359ccf33c798f0 assets/machina/models/item/chemical_generator.json
 c9ff72942111dd6c6e0a50b18ff3d88a236da509 assets/machina/models/item/composter_vat.json
 27006fdae9503f5360c66e11a1945286cc839a5f assets/machina/models/item/compressor.json
 45d59ee56ad556ec285dc13732874a6e41bd609d assets/machina/models/item/coniferous_button.json
