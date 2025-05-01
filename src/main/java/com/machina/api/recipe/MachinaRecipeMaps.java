@@ -25,6 +25,10 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 
 	public boolean isValid(C entity, MachinaRecipe<C> recipe) {
 		if (entity instanceof RecipeBlockEntity rbe) {
+			if (isExact()) {
+				return rbe.hasExactItemInputs(recipe.getInputItems())
+						&& rbe.hasExactFluidInputs(recipe.getInputFluids());
+			}
 			for (Ingredient i : recipe.getInputItems()) {
 				if (!rbe.hasItemInput(i))
 					return false;
@@ -38,6 +42,10 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 		}
 
 		return false;
+	}
+
+	public boolean isExact() {
+		return true;
 	}
 
 	protected abstract RecipeRegistryObject<C> getRegistryObject();

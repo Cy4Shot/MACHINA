@@ -691,11 +691,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("reaction_chamber.no_input", "No Recipe Found");
 		addUI("reaction_chamber.no_power", "No Power");
 		addUI("reaction_chamber.no_space", "No Output Space");
-		addUI("reaction_chamber.progress", "Progress");
+		addUI("reaction_chamber.progress", "Next Item");
 		addUI("reaction_chamber.usage", "Using");
 		addUI("reaction_chamber.requires", "Requires");
-		addUI("reaction_chamber.input", "Input");
-		addUI("reaction_chamber.output", "Output");
 
 		addUI("melter.no_input", "No Recipe Found");
 		addUI("melter.no_power", "No Power");
@@ -726,10 +724,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("electrolyzer.no_input", "No Recipe Found");
 		addUI("electrolyzer.no_power", "No Power");
 		addUI("electrolyzer.no_space", "No Output Space");
-		addUI("electrolyzer.progress", "Progress");
+		addUI("electrolyzer.progress", "Next Item");
 		addUI("electrolyzer.usage", "Using");
 		addUI("electrolyzer.requires", "Requires");
-		addUI("electrolyzer.input", "Input");
-		addUI("electrolyzer.output", "Output");
 	}
 }

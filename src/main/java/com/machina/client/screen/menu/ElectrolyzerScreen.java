@@ -53,11 +53,11 @@ public class ElectrolyzerScreen extends MachinaMenuScreen<ElectrolyzerMenu> {
 		MUI.blitCommon(gui, i + 31, j + 4, 486, 94, 4, 4);
 		MUI.blitCommon(gui, i + 31, j + 14, 486, 94, 4, 8);
 		MUI.blitCommon(gui, i + 30, j + 8, 443, 80, 6, 6);
-		
+
 		MUI.blitCommon(gui, i + 51, j - 13, 486, 94, 4, 18);
 		MUI.blitCommon(gui, i + 51, j + 4, 486, 94, 4, 4);
 		MUI.blitCommon(gui, i + 50, j + 8, 461, 80, 6, 6);
-		
+
 		MUI.blitCommon(gui, i + 180, j - 13, 486, 94, 4, 18);
 		MUI.blitCommon(gui, i + 180, j + 4, 486, 94, 4, 4);
 		MUI.blitCommon(gui, i + 179, j + 8, 461, 80, 6, 6);
@@ -73,10 +73,10 @@ public class ElectrolyzerScreen extends MachinaMenuScreen<ElectrolyzerMenu> {
 
 		MUI.blitCommon(gui, i + 16, j + 9, 428, 14, 14, 4);
 		MUI.blitCommon(gui, i + 205, j + 9, 428, 14, 14, 4);
-		
+
 		MUI.blitCommon(gui, i + 36, j + 9, 428, 14, 14, 4);
 		MUI.blitCommon(gui, i + 185, j + 9, 428, 14, 14, 4);
-		
+
 		MUI.blitCommon(gui, i + 56, j + 9, 405, 9, 6, 4);
 		MUI.blitCommon(gui, i + 62, j + 9, 405, 9, 26, 4);
 		MUI.blitCommon(gui, i + 88, j + 9, 405, 9, 26, 4);
@@ -95,10 +95,9 @@ public class ElectrolyzerScreen extends MachinaMenuScreen<ElectrolyzerMenu> {
 		Component text2 = Component.empty();
 		if (entity.isLit()) {
 			text = Component.literal(
-					MUI.uistrs("electrolyzer.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
-							+ " (" + StringUtils.formatTicks(entity.ticksRemaining()) + ")");
-			text2 = Component.literal(MUI.uistrs("electrolyzer.usage") + ": "
-					+ StringUtils.formatPower(entity.getPowerRate()) + "/t");
+					MUI.uistrs("electrolyzer.progress") + ": " + StringUtils.formatPercent(entity.getProgress()));
+			text2 = Component.literal(
+					MUI.uistrs("electrolyzer.usage") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
 		} else {
 			if (!entity.hasRecipe()) {
 				text = MUI.uistr("electrolyzer.no_input");

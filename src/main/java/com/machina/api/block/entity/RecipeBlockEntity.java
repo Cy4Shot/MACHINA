@@ -1,6 +1,7 @@
 package com.machina.api.block.entity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -132,7 +133,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 				if (this.progress == 0) {
 					useInputs(r, false);
 					produceOutputs(r, true);
-				} else if (this.progress == r.getPeriodicConsumption() + 1) {
+				} else if (this.progress == r.getPeriodicConsumption() - 1) {
 					useInputs(r, true);
 					produceOutputs(r, false);
 					this.progress = 0;
@@ -211,6 +212,37 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 		return false;
 	}
 
+	public boolean hasExactFluidInputs(List<FluidStack> requiredFluids) {
+		List<FluidStack> remaining = new ArrayList<>(requiredFluids);
+
+		for (RecipeSlot s : slots) {
+			if (s.type == SlotType.INPUT && !s.item) {
+				FluidStack fluid = getFluid(s.id());
+
+				if (fluid.isEmpty())
+					continue;
+
+				boolean matched = false;
+				Iterator<FluidStack> it = remaining.iterator();
+				while (it.hasNext()) {
+					FluidStack expected = it.next();
+					if (fluid.isFluidEqual(expected) && fluid.getAmount() >= expected.getAmount()) {
+						it.remove();
+						matched = true;
+						break;
+					}
+				}
+
+				if (!matched) {
+					return false; // Extra unexpected fluid
+				}
+			}
+		}
+
+		// If required fluids remain unmatched, return false
+		return remaining.isEmpty();
+	}
+
 	public boolean hasItemInput(Ingredient stack) {
 		for (RecipeSlot s : slots) {
 			if (s.type == SlotType.INPUT && s.item) {
@@ -221,6 +253,36 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 			}
 		}
 		return false;
+	}
+
+	public boolean hasExactItemInputs(List<Ingredient> requiredItems) {
+		List<Ingredient> remaining = new ArrayList<>(requiredItems);
+
+		for (RecipeSlot s : slots) {
+			if (s.type == SlotType.INPUT && s.item) {
+				ItemStack item = getItem(s.id());
+
+				if (item.isEmpty())
+					continue;
+
+				boolean matched = false;
+				Iterator<Ingredient> it = remaining.iterator();
+				while (it.hasNext()) {
+					if (it.next().test(item)) {
+						it.remove();
+						matched = true;
+						break;
+					}
+				}
+
+				if (!matched) {
+					return false; // Extra unexpected item
+				}
+			}
+		}
+
+		// If required items remain unmatched, return false
+		return remaining.isEmpty();
 	}
 
 	protected boolean hasSpace(MachinaRecipe<?> r) {
