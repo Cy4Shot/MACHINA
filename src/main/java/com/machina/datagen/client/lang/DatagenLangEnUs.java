@@ -188,6 +188,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.SOLIDIFIER, "Solidifier");
 		add(BlockInit.REACTION_CHAMBER, "Reaction Chamber");
 		add(BlockInit.COMPOSTER_VAT, "Composter Vat");
+		add(BlockInit.ELECTROLYZER, "Electrolyzer");
+		add(BlockInit.ELECTRIC_PUMP, "Electric Pump");
+		add(BlockInit.ATMOSPHERIC_SEPARATOR, "Atmospheric Separator");
 
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");
@@ -641,11 +644,12 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("furnace_generator.progress", "Progress");
 		addUI("furnace_generator.no_input", "Insert Fuel");
 		addUI("furnace_generator.generating", "Generating");
-		
+
 		addUI("chemical_generator.progress", "Burning Gas");
+		addUI("chemical_generator.no_space", "No Output Space");
 		addUI("chemical_generator.no_input", "Insert Fuel");
 		addUI("chemical_generator.generating", "Generating");
-		
+
 		addUI("electric_smelter.no_input", "No Recipe Found");
 		addUI("electric_smelter.no_power", "No Power");
 		addUI("electric_smelter.no_space", "No Output Space");
@@ -663,7 +667,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("grinder.requires", "Requires");
 		addUI("grinder.input", "Input");
 		addUI("grinder.output", "Output");
-		
+
 		addUI("sawmill.no_input", "No Recipe Found");
 		addUI("sawmill.no_power", "No Power");
 		addUI("sawmill.no_space", "No Output Space");
@@ -682,7 +686,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("compressor.input", "Input");
 		addUI("compressor.output", "Output");
 		addUI("compressor.mould", "Insert a Mould");
-		
+
 		addUI("reaction_chamber.no_input", "No Recipe Found");
 		addUI("reaction_chamber.no_power", "No Power");
 		addUI("reaction_chamber.no_space", "No Output Space");
@@ -691,7 +695,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("reaction_chamber.requires", "Requires");
 		addUI("reaction_chamber.input", "Input");
 		addUI("reaction_chamber.output", "Output");
-		
+
 		addUI("melter.no_input", "No Recipe Found");
 		addUI("melter.no_power", "No Power");
 		addUI("melter.no_space", "No Output Space");
@@ -700,7 +704,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("melter.requires", "Requires");
 		addUI("melter.input", "Input");
 		addUI("melter.output", "Output");
-		
+
 		addUI("solidifier.no_input", "No Recipe Found");
 		addUI("solidifier.no_power", "No Power");
 		addUI("solidifier.no_space", "No Output Space");

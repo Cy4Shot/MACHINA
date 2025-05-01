@@ -45,6 +45,9 @@ public class TabInit {
 				add(a, BlockInit.SOLIDIFIER);
 				add(a, BlockInit.REACTION_CHAMBER);
 				add(a, BlockInit.COMPOSTER_VAT);
+				add(a, BlockInit.ELECTROLYZER);
+				add(a, BlockInit.ELECTRIC_PUMP);
+				add(a, BlockInit.ATMOSPHERIC_SEPARATOR);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
 

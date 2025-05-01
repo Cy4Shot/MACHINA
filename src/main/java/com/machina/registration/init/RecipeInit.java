@@ -14,6 +14,7 @@ import com.machina.api.recipe.MachinaRecipeType;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.entity.machine.ComposterVatBlockEntity;
 import com.machina.block.entity.machine.CompressorBlockEntity;
+import com.machina.block.entity.machine.ElectrolyzerBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
@@ -22,6 +23,7 @@ import com.machina.block.entity.machine.SolidifierBlockEntity;
 import com.machina.compat.jei.JeiRecipeRegistrar;
 import com.machina.recipe.ComposterVatRecipeMaps;
 import com.machina.recipe.CompressorRecipeMaps;
+import com.machina.recipe.ElectrolyzerRecipeMaps;
 import com.machina.recipe.GrinderRecipeMaps;
 import com.machina.recipe.MelterRecipeMaps;
 import com.machina.recipe.ReactionChamberRecipeMaps;
@@ -63,6 +65,8 @@ public class RecipeInit {
 			register("composter_vat", BlockInit.COMPOSTER_VAT, ComposterVatRecipeMaps.INSTANCE, 80, 160);
 	public static final RecipeRegistryObject<SawmillBlockEntity> SAWMILL =
 			register("sawmill", BlockInit.SAWMILL, SawmillRecipeMaps.INSTANCE, 96, 160);
+	public static final RecipeRegistryObject<ElectrolyzerBlockEntity> ELECTROLYZER =
+			register("electrolyzer", BlockInit.ELECTROLYZER, ElectrolyzerRecipeMaps.INSTANCE, 112, 160);
 	//@formatter:on
 
 	public static class RecipeRegistryObject<C extends Container> {

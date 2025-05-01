@@ -8,12 +8,15 @@ import com.machina.block.entity.MachinaSignBlockEntity;
 import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.machina.block.entity.connector.ItemConduitBlockEntity;
+import com.machina.block.entity.machine.AtmosphericSeparatorBlockEntity;
 import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.entity.machine.ChemicalGeneratorBlockEntity;
 import com.machina.block.entity.machine.ComposterVatBlockEntity;
 import com.machina.block.entity.machine.CompressorBlockEntity;
 import com.machina.block.entity.machine.CreativeBatteryBlockEntity;
+import com.machina.block.entity.machine.ElectricPumpBlockEntity;
 import com.machina.block.entity.machine.ElectricSmelterBlockEntity;
+import com.machina.block.entity.machine.ElectrolyzerBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MachineCaseBlockEntity;
@@ -69,6 +72,12 @@ public class BlockEntityInit {
 			ComposterVatBlockEntity::new, BlockInit.COMPOSTER_VAT::get);
 	public static final RegistryObject<BlockEntityType<SawmillBlockEntity>> SAWMILL = register("sawmill",
 			SawmillBlockEntity::new, BlockInit.SAWMILL::get);
+	public static final RegistryObject<BlockEntityType<ElectrolyzerBlockEntity>> ELECTROLYZER = register("electrolyzer",
+			ElectrolyzerBlockEntity::new, BlockInit.ELECTROLYZER::get);
+	public static final RegistryObject<BlockEntityType<ElectricPumpBlockEntity>> ELECTRIC_PUMP = register("electric_pump",
+			ElectricPumpBlockEntity::new, BlockInit.ELECTRIC_PUMP::get);
+	public static final RegistryObject<BlockEntityType<AtmosphericSeparatorBlockEntity>> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator",
+			AtmosphericSeparatorBlockEntity::new, BlockInit.ATMOSPHERIC_SEPARATOR::get);
 	//@formatter:on
 
 	public static final RegistryObject<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",

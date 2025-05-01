@@ -1,0 +1,9 @@
+{
+  "parent": "machina:block/machine",
+  "textures": {
+    "bottom": "machina:block/electrolyzer_bottom",
+    "front": "machina:block/electrolyzer_front",
+    "side": "machina:block/electrolyzer_side",
+    "top": "machina:block/electrolyzer_top"
+  }
+}

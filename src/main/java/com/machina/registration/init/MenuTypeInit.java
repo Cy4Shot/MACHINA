@@ -1,12 +1,15 @@
 package com.machina.registration.init;
 
 import com.machina.Machina;
+import com.machina.block.menu.AtmosphericSeparatorMenu;
 import com.machina.block.menu.BatteryMenu;
 import com.machina.block.menu.ChemicalGeneratorMenu;
 import com.machina.block.menu.ComposterVatMenu;
 import com.machina.block.menu.CompressorMenu;
 import com.machina.block.menu.CreativeBatteryMenu;
+import com.machina.block.menu.ElectricPumpMenu;
 import com.machina.block.menu.ElectricSmelterMenu;
+import com.machina.block.menu.ElectrolyzerMenu;
 import com.machina.block.menu.FurnaceGeneratorMenu;
 import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
@@ -72,6 +75,12 @@ public class MenuTypeInit {
 			register("composter_vat", ComposterVatMenu::new);
 	public static final RegistryObject<MenuType<SawmillMenu>> SAWMILL =
 			register("sawmill", SawmillMenu::new);
+	public static final RegistryObject<MenuType<ElectrolyzerMenu>> ELECTROLYZER =
+            register("electrolyzer", ElectrolyzerMenu::new);
+	public static final RegistryObject<MenuType<ElectricPumpMenu>> ELECTRIC_PUMP =
+            register("electric_pump", ElectricPumpMenu::new);
+	public static final RegistryObject<MenuType<AtmosphericSeparatorMenu>> ATMOSPHERIC_SEPARATOR =
+            register("atmospheric_separator", AtmosphericSeparatorMenu::new);
 	//@formatter:on
 
 	private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String n,

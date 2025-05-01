@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-29T08:53:57.8907499	Block States: machina
+// 1.20.1	2025-05-01T08:20:41.1141495	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -103,6 +103,7 @@ afb27335ac69d398b911c489225ed61fb8af3b9c assets/machina/blockstates/dead_tropica
 b7cbec35f124a95a983734c226e50cee24886d4b assets/machina/blockstates/dead_tropical_wood.json
 79fc091b92b2490e92e14615bef6d3c9032e3715 assets/machina/blockstates/dragon_peony.json
 1d82b1a547038ccd56f55d7536e6cb9f87db7d07 assets/machina/blockstates/electric_smelter.json
+7ff49f4b10582625e652c59c204b2688ce6bc857 assets/machina/blockstates/electrolyzer.json
 0f1e97020d22d16862a01e929ed758ed464f4dd4 assets/machina/blockstates/erbi_pod.json
 871b92d8b57ab03715ce657a0f20026bba421bc9 assets/machina/blockstates/ethane_block.json
 cd0b0154f36db409338daa4e43c02ebacd120770 assets/machina/blockstates/ethanol_block.json
@@ -579,6 +580,7 @@ e03354affc6f5aa270a6e440ab045245c480d226 assets/machina/models/block/dead_tropic
 69604cfde9068d5e9cbb20fc62cb2cfc565b45af assets/machina/models/block/dragon_peony.json
 7e9f88649f2057a2bf9652ea694f19331886662c assets/machina/models/block/electric_smelter.json
 a137ee8ddf90f8e631679bdf46eafc6d19efb376 assets/machina/models/block/electric_smelter_lit.json
+1a507984b35dc89cbd377f847ee9673a71da7e1f assets/machina/models/block/electrolyzer.json
 6b74ff88a1332f230c97956ba99c22f6b00ff5b3 assets/machina/models/block/energy_cable.json
 3338e815f8cf83717f5d4888c920fb63d8c22479 assets/machina/models/block/erbi_pod.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/ethane_block.json
@@ -1145,6 +1147,7 @@ ae87f000d4ee9403fac91853451de7ce6e4933d1 assets/machina/models/item/dead_tropica
 e09736e01aa7631e6edab55d717acd581e1830a9 assets/machina/models/item/dead_tropical_wood.json
 8ec7ba2a27be9981669b9e62cd07d0d73a33fd8a assets/machina/models/item/dragon_peony.json
 a437b4b37577b0f79d2b737e0672125c4de47aaa assets/machina/models/item/electric_smelter.json
+55197b8327b684071f20905d479a255660801d56 assets/machina/models/item/electrolyzer.json
 92d580028d2b03c7e87d348f2ef8d7c9443595ff assets/machina/models/item/energy_cable.json
 a7844e3013ec7a1442111bba3facae0765c1b7ff assets/machina/models/item/feldspar.json
 2d6beeb1ab7c3a0f59b3d0cde58177e494f3e58a assets/machina/models/item/feldspar_button.json

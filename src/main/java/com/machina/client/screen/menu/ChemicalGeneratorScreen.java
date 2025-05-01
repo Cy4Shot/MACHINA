@@ -34,7 +34,8 @@ public class ChemicalGeneratorScreen extends MachinaMenuScreen<ChemicalGenerator
 		MUI.blitCommon(gui, i + 167, j - 11, 508, 0, 4, 22);
 
 		Component text = entity.isLit() ? MUI.uistr("chemical_generator.progress")
-				: MUI.uistr("chemical_generator.no_input");
+				: (entity.isEnergyFull() ? MUI.uistr("chemical_generator.no_space")
+						: MUI.uistr("chemical_generator.no_input"));
 		int color = entity.isLit() ? MUI.CYAN : MUI.RED;
 		MUI.drawCenteredString(gui, text, i + 117, j - 54, color);
 

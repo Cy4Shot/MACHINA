@@ -16,12 +16,15 @@ import com.machina.block.SmallFlowerBlock;
 import com.machina.block.connector.EnergyCableBlock;
 import com.machina.block.connector.FluidPipeBlock;
 import com.machina.block.connector.ItemConduitBlock;
+import com.machina.block.machine.AtmosphericSeparatorBlock;
 import com.machina.block.machine.BatteryBlock;
 import com.machina.block.machine.ChemicalGeneratorBlock;
 import com.machina.block.machine.ComposterVatBlock;
 import com.machina.block.machine.CompressorBlock;
 import com.machina.block.machine.CreativeBatteryBlock;
+import com.machina.block.machine.ElectricPumpBlock;
 import com.machina.block.machine.ElectricSmelterBlock;
+import com.machina.block.machine.ElectrolyzerBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
 import com.machina.block.machine.GrinderBlock;
 import com.machina.block.machine.MachineCaseBlock;
@@ -88,6 +91,9 @@ public class BlockInit {
 	public static final RegistryObject<ReactionChamberBlock> REACTION_CHAMBER = register("reaction_chamber", Blocks.IRON_BLOCK, ReactionChamberBlock::new);
 	public static final RegistryObject<ComposterVatBlock> COMPOSTER_VAT = register("composter_vat", Blocks.IRON_BLOCK, ComposterVatBlock::new);
 	public static final RegistryObject<SawmillBlock> SAWMILL = register("sawmill", Blocks.IRON_BLOCK, SawmillBlock::new);
+	public static final RegistryObject<ElectrolyzerBlock> ELECTROLYZER = register("electrolyzer", Blocks.IRON_BLOCK, ElectrolyzerBlock::new);
+	public static final RegistryObject<ElectricPumpBlock> ELECTRIC_PUMP = register("electric_pump", Blocks.IRON_BLOCK, ElectricPumpBlock::new);
+	public static final RegistryObject<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", Blocks.IRON_BLOCK, AtmosphericSeparatorBlock::new);
 
 	public static final RegistryObject<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final RegistryObject<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);
