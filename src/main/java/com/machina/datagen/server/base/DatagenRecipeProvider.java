@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.Machina;
 import com.machina.api.recipe.MachinaRecipeBuilder;
 import com.machina.registration.init.FluidInit.FluidObject;
-import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RecipeInit;
 
 import net.minecraft.data.PackOutput;
@@ -310,7 +309,8 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	}
 
 	protected static void electrolysis_i_ff_c(@NotNull Consumer<FinishedRecipe> gen, RegistryObject<? extends Item> i,
-			int a, FluidObject o1, int b1, FluidObject o2, int b2, RegistryObject<? extends Item> c, int p, int energy) {
+			int a, FluidObject o1, int b1, FluidObject o2, int b2, RegistryObject<? extends Item> c, int p,
+			int energy) {
 		//@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(i.get(), a)

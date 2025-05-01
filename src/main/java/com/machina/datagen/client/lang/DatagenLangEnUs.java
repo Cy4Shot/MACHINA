@@ -591,6 +591,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(RecipeInit.SOLIDIFIER, "Solidifying");
 		add(RecipeInit.REACTION_CHAMBER, "Reacting");
 		add(RecipeInit.SAWMILL, "Sawing");
+		add(RecipeInit.ELECTROLYZER, "Electrolyzing");
 
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");
@@ -721,5 +722,14 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("composter_vat.usage", "Using");
 		addUI("composter_vat.requires", "Requires");
 		addUI("composter_vat.input", "Input");
+		
+		addUI("electrolyzer.no_input", "No Recipe Found");
+		addUI("electrolyzer.no_power", "No Power");
+		addUI("electrolyzer.no_space", "No Output Space");
+		addUI("electrolyzer.progress", "Progress");
+		addUI("electrolyzer.usage", "Using");
+		addUI("electrolyzer.requires", "Requires");
+		addUI("electrolyzer.input", "Input");
+		addUI("electrolyzer.output", "Output");
 	}
 }
