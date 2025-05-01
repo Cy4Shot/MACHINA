@@ -1,0 +1,23 @@
+{
+  "type": "machina:electrolyzer",
+  "energy": 42,
+  "inputFluids": [
+    {
+      "amount": 2,
+      "fluid": "machina:hydrochloric_acid"
+    }
+  ],
+  "inputItems": [],
+  "outputFluids": [
+    {
+      "amount": 1,
+      "fluid": "machina:hydrogen"
+    },
+    {
+      "amount": 1,
+      "fluid": "machina:chlorine"
+    }
+  ],
+  "outputItems": [],
+  "periodicConsumption": 1
+}

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.Machina;
 import com.machina.api.recipe.MachinaRecipeBuilder;
 import com.machina.registration.init.FluidInit.FluidObject;
+import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RecipeInit;
 
 import net.minecraft.data.PackOutput;
@@ -196,5 +197,129 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 			.period(periodicity)
 			.save(gen, "reacting_ff_i_" + getItemName(o.get()));
 		//@formatter:on
+	}
+
+	protected static void electrolysis_f_ff(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a, FluidObject o1,
+			int b1, FluidObject o2, int b2, int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(new FluidStack(i.fluid(), a))
+            .out(new FluidStack(o1.fluid(), b1))
+            .out(new FluidStack(o2.fluid(), b2))
+            .energy(energy)
+            .save(gen, "electrolysis_f_ff_" + i.name());
+        //@formatter:on
+	}
+
+	protected static void electrolysis_f_fff(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a,
+			FluidObject o1, int b1, FluidObject o2, int b2, FluidObject o3, int b3, int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(new FluidStack(i.fluid(), a))
+            .out(new FluidStack(o1.fluid(), b1))
+            .out(new FluidStack(o2.fluid(), b2))
+            .out(new FluidStack(o3.fluid(), b3))
+            .energy(energy)
+            .save(gen, "electrolysis_f_fff_" + i.name());
+        //@formatter:on
+	}
+
+	protected static void electrolysis_ff_ff(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
+			FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(new FluidStack(i1.fluid(), a1))
+            .in(new FluidStack(i2.fluid(), a2))
+            .out(new FluidStack(o1.fluid(), b1))
+            .out(new FluidStack(o2.fluid(), b2))
+            .energy(energy)
+            .save(gen, "electrolysis_ff_ff_" + o1.name());
+        //@formatter:on
+	}
+
+	protected static void electrolysis_ff_fff(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
+			FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, FluidObject o3, int b3,
+			int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(new FluidStack(i1.fluid(), a1))
+            .in(new FluidStack(i2.fluid(), a2))
+            .out(new FluidStack(o1.fluid(), b1))
+            .out(new FluidStack(o2.fluid(), b2))
+            .out(new FluidStack(o3.fluid(), b3))
+            .energy(energy)
+            .save(gen, "electrolysis_ff_fff_" + o1.name());
+        //@formatter:on
+	}
+
+	protected static void electrolysis_ff_ffi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
+			FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, RegistryObject<? extends Item> o3,
+			int p, int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(new FluidStack(i1.fluid(), a1))
+            .in(new FluidStack(i2.fluid(), a2))
+            .out(new FluidStack(o1.fluid(), b1))
+            .out(new FluidStack(o2.fluid(), b2))
+            .out(o3.get(), 1)
+            .period(p)
+            .energy(energy)
+            .save(gen, "electrolysis_ff_ffi_" + getItemName(o3.get()));
+        //@formatter:on
+	}
+
+	protected static void electrolysis_fi_f(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a,
+			RegistryObject<? extends Item> o1, int a2, FluidObject o2, int b2, int period, int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(new FluidStack(i.fluid(), a))
+            .in(o1.get(), a2)
+            .out(new FluidStack(o2.fluid(), b2))
+            .period(period)
+            .energy(energy)
+            .save(gen, "electrolysis_fi_f_" + getItemName(o1.get()));
+        //@formatter:on
+	}
+
+	protected static void electrolysis_fi_fi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a,
+			RegistryObject<? extends Item> o1, int a2, FluidObject o2, int b2, RegistryObject<? extends Item> o3, int p,
+			int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(new FluidStack(i.fluid(), a))
+            .in(o1.get(), a2)
+            .out(new FluidStack(o2.fluid(), b2))
+            .out(o3.get(), 1)
+            .period(p)
+            .energy(energy)
+            .save(gen, "electrolysis_fi_fi_" + getItemName(o1.get()));
+        //@formatter:on
+	}
+
+	protected static void electrolysis_f_fi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a, FluidObject o1,
+			int b1, RegistryObject<? extends Item> o2, int p, int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(new FluidStack(i.fluid(), a))
+            .out(new FluidStack(o1.fluid(), b1))
+            .out(o2.get(), 1)
+            .period(p)
+            .energy(energy)
+            .save(gen, "electrolysis_f_fi_" + getItemName(o2.get()));
+        //@formatter:on
+	}
+
+	protected static void electrolysis_i_ff_c(@NotNull Consumer<FinishedRecipe> gen, RegistryObject<? extends Item> i,
+			int a, FluidObject o1, int b1, FluidObject o2, int b2, RegistryObject<? extends Item> c, int p, int energy) {
+		//@formatter:off
+        MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
+            .in(i.get(), a)
+            .in(c.get(), 1)
+            .out(new FluidStack(o1.fluid(), b1))
+            .out(new FluidStack(o2.fluid(), b2))
+            .period(p)
+            .energy(energy)
+            .save(gen, "electrolysis_i_ff_c_" + getItemName(i.get()));
+        //@formatter:on
 	}
 }

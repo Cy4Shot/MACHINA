@@ -1,0 +1,25 @@
+{
+  "type": "machina:electrolyzer",
+  "energy": 72,
+  "inputFluids": [],
+  "inputItems": [
+    {
+      "item": "machina:hexamine"
+    },
+    {
+      "item": "machina:palladium_on_carbon"
+    }
+  ],
+  "outputFluids": [
+    {
+      "amount": 6,
+      "fluid": "machina:methane"
+    },
+    {
+      "amount": 2,
+      "fluid": "machina:hydrogen"
+    }
+  ],
+  "outputItems": [],
+  "periodicConsumption": 60
+}

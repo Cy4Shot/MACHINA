@@ -35,6 +35,7 @@ public class ElectrolyzerBlockEntity extends RecipeBlockEntity {
 		fluidSlot(16_000, s -> true, SlotType.INPUT);
 		fluidSlot(16_000, s -> true, SlotType.OUTPUT);
 		fluidSlot(16_000, s -> true, SlotType.OUTPUT);
+		fluidSlot(16_000, s -> true, SlotType.OUTPUT);
 	}
 
 	@Override

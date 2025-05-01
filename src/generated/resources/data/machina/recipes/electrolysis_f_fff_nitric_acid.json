@@ -1,0 +1,27 @@
+{
+  "type": "machina:electrolyzer",
+  "energy": 42,
+  "inputFluids": [
+    {
+      "amount": 4,
+      "fluid": "machina:nitric_acid"
+    }
+  ],
+  "inputItems": [],
+  "outputFluids": [
+    {
+      "amount": 4,
+      "fluid": "machina:nitrogen_dioxide"
+    },
+    {
+      "amount": 1,
+      "fluid": "machina:oxygen"
+    },
+    {
+      "amount": 2,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "outputItems": [],
+  "periodicConsumption": 1
+}

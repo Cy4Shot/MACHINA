@@ -54,13 +54,27 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.showNotification(false)
 			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.MIGMATITE.get()));
 		
+		// Reaction Chamber
 		reactff_f(gen, FluidInit.MOLTEN_LEAD, 1, FluidInit.MOLTEN_BISMUTH, 1, FluidInit.LEAD_BISMUTH_EUTECTIC, 2, 10);
 		reactff_f(gen, FluidInit.SULPHUR_DIOXIDE, 2, FluidInit.OXYGEN, 1, FluidInit.SULPHUR_TRIOXIDE, 2, 10);
 		reactff_f(gen, FluidInit.SULPHUR_TRIOXIDE, 1, FluidObject.WATER, 1, FluidInit.SULPHURIC_ACID, 1, 7);
-		
 		reactfi_fi(gen, FluidInit.SULPHURIC_ACID, 1, ItemInit.NITER, 1, FluidInit.NITRIC_ACID, 1, ItemInit.POTASSIUM_BISULFATE, 1, 10, 144);
-		
 		reactff_i(gen, FluidInit.AMMONIA, 1, FluidInit.NITRIC_ACID, 1, ItemInit.AMMONIUM_NITRATE, 1, 17, 144);
+		
+		// Electrolysis Chamber
+		electrolysis_f_ff(gen, FluidObject.WATER, 2, FluidInit.HYDROGEN, 2, FluidInit.OXYGEN, 1, 38);
+		electrolysis_f_ff(gen, FluidInit.AMMONIA, 2, FluidInit.HYDROGEN, 3, FluidInit.NITROGEN, 1, 84);
+		electrolysis_f_ff(gen, FluidInit.METHANOL, 1, FluidInit.HYDROGEN, 2, FluidInit.CARBON_MONOXIDE, 1, 42);
+		electrolysis_f_ff(gen, FluidInit.HYDROCHLORIC_ACID, 2, FluidInit.HYDROGEN, 1, FluidInit.CHLORINE, 1, 42);
+		electrolysis_f_fff(gen, FluidInit.SULPHURIC_ACID, 2, FluidInit.SULPHUR_DIOXIDE, 2, FluidInit.OXYGEN, 1,FluidObject.WATER, 1, 42);
+		electrolysis_f_fff(gen, FluidInit.NITRIC_ACID, 4, FluidInit.NITROGEN_DIOXIDE, 4, FluidInit.OXYGEN, 1, FluidObject.WATER, 2, 42);
+		electrolysis_f_fff(gen, FluidInit.ETHANOL, 1, FluidInit.ETHYLENE, 1, FluidInit.HYDROGEN, 1, FluidObject.WATER, 1, 63);
+		electrolysis_ff_fff(gen, FluidInit.BENZYL_CHLORIDE, 2, FluidObject.WATER, 2, FluidInit.HYDROCHLORIC_ACID, 2, FluidInit.BENZENE, 2, FluidInit.OXYGEN, 1, 104);
+		electrolysis_ff_ffi(gen, FluidInit.BRINE, 2, FluidObject.WATER, 2, FluidInit.CHLORINE, 1, FluidInit.HYDROGEN, 1, ItemInit.SODIUM_HYDROXIDE, 72, 38);
+		electrolysis_fi_f(gen, FluidInit.BRINE, 2, ItemInit.SODIUM_HYDROXIDE, 3, FluidInit.CHLORINE, 2, 72, 72);
+		electrolysis_fi_fi(gen, FluidInit.CARBON_DIOXIDE, 1, ItemInit.SODIUM_HYDROXIDE, 1, FluidObject.WATER, 1, ItemInit.SODIUM_CARBONATE, 144, 72);
+		electrolysis_f_fi(gen, FluidInit.HYDROGEN_SULPHIDE, 2, FluidInit.HYDROGEN, 1, ItemInit.SULFUR, 500, 72);
+		electrolysis_i_ff_c(gen, ItemInit.HEXAMINE, 1, FluidInit.METHANE, 6, FluidInit.HYDROGEN, 2, ItemInit.PALLADIUM_ON_CARBON, 60, 72);
 		
 		//@formatter:on
 

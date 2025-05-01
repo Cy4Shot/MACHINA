@@ -1,0 +1,31 @@
+{
+  "type": "machina:electrolyzer",
+  "energy": 104,
+  "inputFluids": [
+    {
+      "amount": 2,
+      "fluid": "machina:benzyl_chloride"
+    },
+    {
+      "amount": 2,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "inputItems": [],
+  "outputFluids": [
+    {
+      "amount": 2,
+      "fluid": "machina:hydrochloric_acid"
+    },
+    {
+      "amount": 2,
+      "fluid": "machina:benzene"
+    },
+    {
+      "amount": 1,
+      "fluid": "machina:oxygen"
+    }
+  ],
+  "outputItems": [],
+  "periodicConsumption": 1
+}
