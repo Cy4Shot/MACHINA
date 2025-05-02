@@ -9,9 +9,7 @@ import com.machina.block.menu.ElectricPumpMenu;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ElectricPumpScreen extends MachinaMenuScreen<ElectricPumpMenu> {
@@ -22,21 +20,31 @@ public class ElectricPumpScreen extends MachinaMenuScreen<ElectricPumpMenu> {
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
+		ElectricPumpBlockEntity entity = this.<ElectricPumpBlockEntity>entity();
+
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
 
-		drawFluidBar(gui, 0, 0, 0);
+		drawFluidBar(gui, 0, -20, 0);
+
+		// Config
+		drawEnergyBar(gui, 0, 20, true, "");
 
 		int i = midWidth();
 		int j = midHeight();
+		MUI.blitCommon(gui, i + 61, j - 11, 508, 0, 4, 22);
+		MUI.blitCommon(gui, i + 167, j - 11, 508, 0, 4, 22);
 
-		FluidStack fluid = this.<ElectricPumpBlockEntity>entity().getFluid(0);
-		if (fluid.isEmpty()) {
-			MUI.drawCenteredString(gui, MUI.uistr("elecric_pump.empty"), i + 118, j - 30, MUI.RED);
+		FluidStack fluid = entity.getFluid(0);
+		if (entity.getTankCapacity(0) == fluid.getAmount()) {
+			MUI.drawCenteredString(gui, MUI.uistr("electric_pump.full"), i + 118, j - 46, MUI.RED);
 		} else {
-			int col = IClientFluidTypeExtensions.of(fluid.getFluid()).getTintColor();
-			MUI.drawCenteredString(gui, fluid.getDisplayName().copy().withStyle(Style.EMPTY.withBold(true)), i + 118,
-					j - 30, col);
+			// TODO: Config
+			if (entity.getEnergy() > 2000) {
+				MUI.drawCenteredString(gui, MUI.uistr("electric_pump.scanning"), i + 118, j - 46, MUI.CYAN);
+			} else {
+				MUI.drawCenteredString(gui, MUI.uistr("electric_pump.no_power"), i + 118, j - 46, MUI.RED);
+			}
 		}
 
 		drawOverlay(gui);

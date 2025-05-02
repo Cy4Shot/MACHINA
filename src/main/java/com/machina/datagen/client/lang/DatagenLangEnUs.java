@@ -727,5 +727,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("electrolyzer.progress", "Next Item");
 		addUI("electrolyzer.usage", "Using");
 		addUI("electrolyzer.requires", "Requires");
+		
+		addUI("electric_pump.scanning", "Scanning for fluids below");
+		addUI("electric_pump.no_power", "No Power");
+		addUI("electric_pump.full", "Tank Buffer Full");
 	}
 }
