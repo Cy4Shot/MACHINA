@@ -720,16 +720,19 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("composter_vat.usage", "Using");
 		addUI("composter_vat.requires", "Requires");
 		addUI("composter_vat.input", "Input");
-		
+
 		addUI("electrolyzer.no_input", "No Recipe Found");
 		addUI("electrolyzer.no_power", "No Power");
 		addUI("electrolyzer.no_space", "No Output Space");
 		addUI("electrolyzer.progress", "Next Item");
 		addUI("electrolyzer.usage", "Using");
 		addUI("electrolyzer.requires", "Requires");
-		
+
 		addUI("electric_pump.scanning", "Scanning for fluids below");
 		addUI("electric_pump.no_power", "No Power");
 		addUI("electric_pump.full", "Tank Buffer Full");
+
+		addUI("atmospheric_separator.no_power", "No Power");
+		addUI("atmospheric_separator.separating", "Separating Atmosphere");
 	}
 }

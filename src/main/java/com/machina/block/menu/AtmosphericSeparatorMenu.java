@@ -19,7 +19,6 @@ public class AtmosphericSeparatorMenu extends MachinaContainerMenu<AtmosphericSe
 
 	public AtmosphericSeparatorMenu(int id, Level level, BlockPos pos, Inventory inv) {
 		super(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), level, pos, id);
-
 		invSlots(inv, 0);
 	}
 

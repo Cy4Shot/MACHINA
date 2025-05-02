@@ -25,10 +25,10 @@ public class ElectricSmelterScreen extends MachinaMenuScreen<ElectricSmelterMenu
 
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
-		drawEnergyBar(gui, 0, 30, entity.getEnergy() > 0, "grinder.no_power");
+		drawEnergyBar(gui, 0, 30, entity.getEnergy() > 0, "electric_smelter.no_power");
 
-		drawDownFacingSlot(gui, 0, mx, my, 61, -20, MuiSlot.PLUS, "grinder.input");
-		drawDownFacingSlot(gui, 1, mx, my, 153, -20, MuiSlot.DUST, "grinder.output");
+		drawDownFacingSlot(gui, 0, mx, my, 61, -20, MuiSlot.PLUS, "electric_smelter.input");
+		drawDownFacingSlot(gui, 1, mx, my, 153, -20, MuiSlot.DUST, "electric_smelter.output");
 
 		int i = midWidth();
 		int j = midHeight();
@@ -49,23 +49,23 @@ public class ElectricSmelterScreen extends MachinaMenuScreen<ElectricSmelterMenu
 		Component text2 = Component.empty();
 		if (entity.isLit()) {
 			text = Component
-					.literal(MUI.uistrs("grinder.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
+					.literal(MUI.uistrs("electric_smelter.progress") + ": " + StringUtils.formatPercent(entity.getProgress())
 							+ " (" + StringUtils.formatTicks(entity.ticksRemaining()) + ")");
 			text2 = Component.literal(
-					MUI.uistrs("grinder.usage") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
+					MUI.uistrs("electric_smelter.usage") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
 		} else {
 			if (!entity.hasRecipe()) {
-				text = MUI.uistr("grinder.no_input");
+				text = MUI.uistr("electric_smelter.no_input");
 			} else if (!entity.meetsRequirements()) {
 				text = Component.literal(
-						MUI.uistrs("grinder.no_power") + " (" + StringUtils.formatPercent(entity.getProgress()) + ")");
+						MUI.uistrs("electric_smelter.no_power") + " (" + StringUtils.formatPercent(entity.getProgress()) + ")");
 				text2 = Component.literal(
-						MUI.uistrs("grinder.requires") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
+						MUI.uistrs("electric_smelter.requires") + ": " + StringUtils.formatPower(entity.getPowerRate()) + "/t");
 			} else if (!entity.hasSpace()) {
-				text = MUI.uistr("grinder.no_space");
+				text = MUI.uistr("electric_smelter.no_space");
 			} else {
 				// This should never happen. Who knows? Maybe it will.
-				text = MUI.uistr("grinder.no_input");
+				text = MUI.uistr("electric_smelter.no_input");
 			}
 		}
 		int color = entity.isLit() ? MUI.CYAN : MUI.RED;

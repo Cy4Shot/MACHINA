@@ -376,6 +376,8 @@
   "fluid_type.machina.sulphur_trioxide": "Sulphur Trioxide",
   "fluid_type.machina.sulphuric_acid": "Sulphuric Acid",
   "fluid_type.machina.toluene": "Toluene",
+  "gui.machina.atmospheric_separator.no_power": "No Power",
+  "gui.machina.atmospheric_separator.separating": "Separating Atmosphere",
   "gui.machina.battery.capacitor": "Capacitor",
   "gui.machina.battery.input": "Input Energy",
   "gui.machina.battery.missing": "Insert Capacitor",

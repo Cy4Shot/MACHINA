@@ -8,6 +8,7 @@ import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
 import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
 import com.machina.client.ber.TankRenderer;
+import com.machina.client.screen.menu.AtmosphericSeparatorScreen;
 import com.machina.client.screen.menu.BatteryScreen;
 import com.machina.client.screen.menu.ChemicalGeneratorScreen;
 import com.machina.client.screen.menu.ComposterVatScreen;
@@ -84,6 +85,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.SAWMILL.get(), SawmillScreen::new);
 			MenuScreens.register(MenuTypeInit.ELECTROLYZER.get(), ElectrolyzerScreen::new);
 			MenuScreens.register(MenuTypeInit.ELECTRIC_PUMP.get(), ElectricPumpScreen::new);
+			MenuScreens.register(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
 		});
 	}
 

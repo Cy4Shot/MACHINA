@@ -2,6 +2,7 @@ package com.machina.api.client.screen;
 
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -46,6 +47,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -98,7 +100,10 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		if (state != null) {
 			BakedModel model = mc.getBlockRenderer().getBlockModel(state);
 			for (Direction d : Direction.values()) {
-				sprites.put(d, model.getQuads(state, d, rand, ModelData.EMPTY, null).get(0).getSprite());
+				List<BakedQuad> quads = model.getQuads(state, d, rand, ModelData.EMPTY, null);
+				if (quads.size() > 0) {
+					sprites.put(d, quads.get(0).getSprite());
+				}
 			}
 		}
 	}
