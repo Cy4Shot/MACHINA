@@ -13,6 +13,7 @@ import com.machina.client.screen.menu.ChemicalGeneratorScreen;
 import com.machina.client.screen.menu.ComposterVatScreen;
 import com.machina.client.screen.menu.CompressorScreen;
 import com.machina.client.screen.menu.CreativeBatteryScreen;
+import com.machina.client.screen.menu.ElectricPumpScreen;
 import com.machina.client.screen.menu.ElectricSmelterScreen;
 import com.machina.client.screen.menu.ElectrolyzerScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
@@ -82,6 +83,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.COMPOSTER_VAT.get(), ComposterVatScreen::new);
 			MenuScreens.register(MenuTypeInit.SAWMILL.get(), SawmillScreen::new);
 			MenuScreens.register(MenuTypeInit.ELECTROLYZER.get(), ElectrolyzerScreen::new);
+			MenuScreens.register(MenuTypeInit.ELECTRIC_PUMP.get(), ElectricPumpScreen::new);
 		});
 	}
 

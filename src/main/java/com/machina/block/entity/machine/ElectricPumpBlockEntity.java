@@ -11,8 +11,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class ElectricPumpBlockEntity extends MachinaBlockEntity {
 
@@ -34,6 +38,27 @@ public class ElectricPumpBlockEntity extends MachinaBlockEntity {
 	public void tick() {
 		if (this.level != null && this.level.isClientSide()) {
 			return;
+		}
+
+		// TODO: Config
+		int energyPerMb = 2;
+
+		BlockPos fpos = this.getBlockPos().below();
+		FluidState fluid = this.level.getFluidState(fpos);
+
+		// Is block below a fluid?
+		if (fluid.isSource()) {
+			FluidStack stored = this.getFluid(0);
+			if (stored.isEmpty() || stored.getFluid().equals(fluid.getType())) {
+				int simulated = this.fill(0, new FluidStack(fluid.getType(), 1000), FluidAction.SIMULATE);
+				simulated = Math.min(simulated, this.consumeEnergySim(energyPerMb * simulated) / energyPerMb);
+				if (simulated == 1000) {
+					this.level.setBlock(fpos, Blocks.AIR.defaultBlockState(), 3);
+					this.fill(0, new FluidStack(fluid.getType(), simulated), FluidAction.EXECUTE);
+					this.consumeEnergy(simulated * energyPerMb);
+
+				}
+			}
 		}
 
 	}
