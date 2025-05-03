@@ -3,6 +3,7 @@ package com.machina.datagen.client.lang;
 import com.machina.Machina;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
+import com.machina.api.rocket.RocketPartType;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FruitInit;
@@ -602,6 +603,12 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ConnectionSide.OUTPUT, "Output");
 		add(ConnectionSide.NORMAL, "Connected");
 		add(ConnectionSide.NONE, "Disconnected");
+		
+		add(RocketPartType.CHASSIS, "Chassis");
+		add(RocketPartType.FUEL_TANK, "Fuel Tank");
+		add(RocketPartType.LIFE_SUPPORT, "Life Support");
+		add(RocketPartType.SHIELD, "Shielding");
+		add(RocketPartType.THRUSTER, "Thruster");
 
 		// UI
 		addUI("jei.input", "Input");

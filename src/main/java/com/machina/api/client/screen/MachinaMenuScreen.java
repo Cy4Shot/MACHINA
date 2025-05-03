@@ -386,6 +386,24 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 						: MUI.uistr(missing));
 		MUI.drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
 	}
+	
+	@SuppressWarnings("hiding")
+	private <T extends Number> void drawBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing,
+			Function<T, String> formatter, Supplier<MutableComponent> name, Supplier<T> value, Supplier<T> max,
+			Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
+		int i = midWidth() + x + 117 - 20;
+		int j = midHeight() + y - 9;
+		registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 43, j + 18,
+				() -> active
+						? name.get()
+								.append(Component
+										.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
+												+ " (" + StringUtils.formatPercent(f.get()) + ")")
+										.withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE)))
+						: MUI.uistr(missing));
+		MUI.drawBarSmall(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
+	}
+
 
 	@SuppressWarnings("hiding")
 	private <T extends Number> void drawBarVert(GuiGraphics gui, int x, int y, Function<T, String> formatter,
@@ -408,6 +426,16 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 			drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mbe::getEnergy,
 					mbe::getMaxEnergy, mbe::getEnergyF, (i, j, p) -> {
 						MUI.blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14);
+					});
+		}
+	}
+	
+	protected void drawEnergyBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing) {
+		if (entity instanceof MachinaBlockEntity) {
+			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
+			drawBarSmall(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mbe::getEnergy,
+					mbe::getMaxEnergy, mbe::getEnergyF, (i, j, p) -> {
+						MUI.blitCommon(gui, i + 1, j + 1, 366, 39, (int) (41 * p), 14);
 					});
 		}
 	}
@@ -895,7 +923,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		});
 	}
 
-	private void clickAndHover(String key, int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
+	protected void clickAndHover(String key, int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
 			Supplier<Component> text, Runnable action) {
 		registerHoverable(key, minX, minY, maxX, maxY, active, text);
 		registerClickable(key, minX, minY, maxX, maxY, active, action);

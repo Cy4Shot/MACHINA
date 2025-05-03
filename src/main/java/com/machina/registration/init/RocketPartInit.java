@@ -1,13 +1,11 @@
 package com.machina.registration.init;
 
+import com.machina.api.rocket.RocketPart;
+
+import net.minecraftforge.registries.DeferredRegister;
+
 public class RocketPartInit {
 
-	public static enum RocketPartType {
-		THRUSTER,
-		FUEL_TANIK,
-		CHASSIS,
-		LIFE_SUPPORT,
-		SHIELD
-	}
+	public static final DeferredRegister<RocketPart> ROCKET_PARTS = RegistryInit.ROCKET_PARTS;
 
 }

@@ -75,7 +75,7 @@ public final class MUI {
 	public static void blitCommon(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
 		gui.blit(COMMON_UI, x, y, u, v, w, h, 512, 512);
 	}
-	
+
 	public static void blitRocket(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
 		gui.blit(ROCKET_UI, x, y, u, v, w, h, 512, 512);
 	}
@@ -124,12 +124,12 @@ public final class MUI {
 			boolean decoVertical) {
 		int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
 		blitCommon(gui, i, j, 466, h, 19, 19);
-		
+
 		if (decoHorizontal) {
 			blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
 			blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
 		}
-		
+
 		if (decoVertical) {
 			blitCommon(gui, i + 1, j - 4, 480, 80, 16, 3);
 			blitCommon(gui, i + 1, j + 20, 480, 83, 16, 3);
@@ -203,6 +203,22 @@ public final class MUI {
 		gui.drawCenteredString(mc.font, c, i + 66, j + 20, active ? CYAN : RED);
 		blitCommon(gui, i + 66 + w, j + 18, 418 + dec_off, 5, 19, 8);
 		blitCommon(gui, i + 66 - w - 20, j + 18, 399 + dec_off, 5, 19, 8);
+	}
+
+	public static void drawBarSmall(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,
+			TriConsumer<Integer, Integer, Float> drawer) {
+		// Bar
+		blitCommon(gui, i, j, 433, 136, 43, 16);
+		drawer.accept(i, j, p);
+
+		// Deco
+		int dec_off = active ? 0 : 6;
+		blitCommon(gui, i - 5, j, 387 + dec_off, 0, 3, 16);
+		blitCommon(gui, i + 45, j, 390 + dec_off, 0, 3, 16);
+
+		if (!active) {
+			gui.drawCenteredString(mc.font, uistr(missing), i + 66, j + 6, RED);
+		}
 	}
 
 	public static void drawBarVert(GuiGraphics gui, int i, int j, float p,

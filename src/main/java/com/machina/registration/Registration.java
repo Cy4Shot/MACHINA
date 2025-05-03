@@ -16,6 +16,7 @@ import com.machina.registration.init.MenuTypeInit;
 import com.machina.registration.init.PlanetRockInit;
 import com.machina.registration.init.PlanetTreeInit;
 import com.machina.registration.init.RecipeInit;
+import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.TabInit;
 
@@ -35,6 +36,7 @@ public class Registration {
 
 		PlanetTreeInit.TREES.register(bus);
 		PlanetRockInit.ROCKS.register(bus);
+		RocketPartInit.ROCKET_PARTS.register(bus);
 		SoundInit.SOUNDS.register(bus);
 		ItemInit.ITEMS.register(bus);
 		BlockInit.BLOCKS.register(bus);
