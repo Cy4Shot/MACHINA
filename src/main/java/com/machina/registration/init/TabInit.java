@@ -48,6 +48,7 @@ public class TabInit {
 				add(a, BlockInit.ELECTROLYZER);
 				add(a, BlockInit.ELECTRIC_PUMP);
 				add(a, BlockInit.ATMOSPHERIC_SEPARATOR);
+				add(a, BlockInit.ROCKET_PART_BENCH);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
 

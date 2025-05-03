@@ -22,6 +22,7 @@ import com.machina.client.screen.menu.GrinderScreen;
 import com.machina.client.screen.menu.MachineCaseScreen;
 import com.machina.client.screen.menu.MelterScreen;
 import com.machina.client.screen.menu.ReactionChamberScreen;
+import com.machina.client.screen.menu.RocketPartBenchScreen;
 import com.machina.client.screen.menu.SawmillScreen;
 import com.machina.client.screen.menu.SolidifierScreen;
 import com.machina.client.screen.menu.TankScreen;
@@ -86,6 +87,7 @@ public class ClientModEvents {
 			MenuScreens.register(MenuTypeInit.ELECTROLYZER.get(), ElectrolyzerScreen::new);
 			MenuScreens.register(MenuTypeInit.ELECTRIC_PUMP.get(), ElectricPumpScreen::new);
 			MenuScreens.register(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
+			MenuScreens.register(MenuTypeInit.ROCKET_PART_BENCH.get(), RocketPartBenchScreen::new);
 		});
 	}
 

@@ -61,6 +61,7 @@ public final class MUI {
 
 	private static final ResourceLocation JEI_UI = new MachinaRL("textures/gui/jei_ui.png");
 	private static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
+	private static final ResourceLocation ROCKET_UI = new MachinaRL("textures/gui/rocket_ui.png");
 	private static final ResourceLocation BG_OVERLAY = new MachinaRL("textures/gui/bg_overlay.png");
 
 	public static MutableComponent uistr(String key) {
@@ -73,6 +74,10 @@ public final class MUI {
 
 	public static void blitCommon(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
 		gui.blit(COMMON_UI, x, y, u, v, w, h, 512, 512);
+	}
+	
+	public static void blitRocket(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
+		gui.blit(ROCKET_UI, x, y, u, v, w, h, 512, 512);
 	}
 
 	public static void blitJei(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {

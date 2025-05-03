@@ -1,0 +1,9 @@
+{
+  "parent": "machina:block/machine",
+  "textures": {
+    "bottom": "machina:block/rocket_part_bench_bottom",
+    "front": "machina:block/rocket_part_bench_front",
+    "side": "machina:block/rocket_part_bench_side",
+    "top": "machina:block/rocket_part_bench_top"
+  }
+}

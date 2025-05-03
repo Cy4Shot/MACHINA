@@ -30,6 +30,7 @@ import com.machina.block.machine.GrinderBlock;
 import com.machina.block.machine.MachineCaseBlock;
 import com.machina.block.machine.MelterBlock;
 import com.machina.block.machine.ReactionChamberBlock;
+import com.machina.block.machine.RocketPartBenchBlock;
 import com.machina.block.machine.SawmillBlock;
 import com.machina.block.machine.SolidifierBlock;
 import com.machina.block.machine.TankBlock;
@@ -94,6 +95,7 @@ public class BlockInit {
 	public static final RegistryObject<ElectrolyzerBlock> ELECTROLYZER = register("electrolyzer", Blocks.IRON_BLOCK, ElectrolyzerBlock::new);
 	public static final RegistryObject<ElectricPumpBlock> ELECTRIC_PUMP = register("electric_pump", Blocks.IRON_BLOCK, ElectricPumpBlock::new);
 	public static final RegistryObject<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", Blocks.IRON_BLOCK, AtmosphericSeparatorBlock::new);
+	public static final RegistryObject<RocketPartBenchBlock> ROCKET_PART_BENCH = register("rocket_part_bench", Blocks.IRON_BLOCK, RocketPartBenchBlock::new);
 
 	public static final RegistryObject<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final RegistryObject<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);

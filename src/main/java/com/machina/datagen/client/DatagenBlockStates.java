@@ -73,6 +73,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		machineLit(BlockInit.SAWMILL, false);
 		machineLit(BlockInit.SOLIDIFIER, false);
 		machineLit(BlockInit.ELECTROLYZER, false);
+		machine(BlockInit.ROCKET_PART_BENCH);
 
 		cube(BlockInit.ANTHRACITE);
 		slab(BlockInit.ANTHRACITE_SLAB, BlockInit.ANTHRACITE);

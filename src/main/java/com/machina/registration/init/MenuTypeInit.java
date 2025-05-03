@@ -15,6 +15,7 @@ import com.machina.block.menu.GrinderMenu;
 import com.machina.block.menu.MachineCaseMenu;
 import com.machina.block.menu.MelterMenu;
 import com.machina.block.menu.ReactionChamberMenu;
+import com.machina.block.menu.RocketPartBenchMenu;
 import com.machina.block.menu.SawmillMenu;
 import com.machina.block.menu.SolidifierMenu;
 import com.machina.block.menu.TankMenu;
@@ -81,6 +82,8 @@ public class MenuTypeInit {
             register("electric_pump", ElectricPumpMenu::new);
 	public static final RegistryObject<MenuType<AtmosphericSeparatorMenu>> ATMOSPHERIC_SEPARATOR =
             register("atmospheric_separator", AtmosphericSeparatorMenu::new);
+	public static final RegistryObject<MenuType<RocketPartBenchMenu>> ROCKET_PART_BENCH =
+            register("rocket_part_bench", RocketPartBenchMenu::new);
 	//@formatter:on
 
 	private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String n,

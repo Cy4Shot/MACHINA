@@ -191,6 +191,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.ELECTROLYZER, "Electrolyzer");
 		add(BlockInit.ELECTRIC_PUMP, "Electric Pump");
 		add(BlockInit.ATMOSPHERIC_SEPARATOR, "Atmospheric Separator");
+		add(BlockInit.ROCKET_PART_BENCH, "Rocket Part Bench");
 
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");
@@ -734,5 +735,8 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		addUI("atmospheric_separator.no_power", "No Power");
 		addUI("atmospheric_separator.separating", "Separating Atmosphere");
+		
+		addUI("rocket_part_bench.inv", "Inventory");
+		addUI("rocket_part_bench.no_power", "No Power");
 	}
 }

@@ -76,7 +76,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	private final ContainerBlockEntity entity;
 
 	protected long aliveTicks = 0;
-	private Float lsx, lsy = null;
+	protected Float lsx, lsy, usx, usy = null;
 	private float rotX, rotY;
 
 	private final Map<String, ClickArea> clickareas = new HashMap<>();
@@ -117,6 +117,13 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	public void render(@NotNull GuiGraphics gui, int mx, int my, float pt) {
+		if (this.usy == null || this.usy == null) {
+			this.usy = (float) mx;
+			this.usy = (float) my;
+		} else {
+			this.usy += (mx - this.usy) / 50f;
+			this.usy += (my - this.usy) / 50f;
+		}
 		this.renderBackground(gui);
 		if (appearDraw(this.aliveTicks))
 			super.render(gui, mx, my, pt);
@@ -215,6 +222,15 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		MUI.blitCommon(gui, i + 53, j - 7, 179, 245, 129, 85);
 		MUI.drawString(gui, this.menu.getName(), i + 55, j - 17);
 		registerClickArea("bg", i + 53, j - 7, i + 129 + 53, j + 78, () -> true);
+	}
+
+	protected void drawRocketBackground(GuiGraphics gui) {
+		int i = midWidth();
+		int j = midHeight();
+
+		MUI.blitRocket(gui, i, j - 73, 0, 0, 235, 151);
+		MUI.drawStringVertical(gui, this.menu.getName(), i + 245, j - 71);
+		registerClickArea("bg", i, j - 73, i + 235, j + 78, () -> true);
 	}
 
 	protected void drawDownFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot,
