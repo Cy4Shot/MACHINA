@@ -1,4 +1,4 @@
-// 1.20.1	2025-05-01T08:20:41.1141495	Block States: machina
+// 1.20.1	2025-05-03T07:49:17.4584306	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -1081,6 +1081,7 @@ e0cf1f057aa4e3786db16e0203dd128446e537e3 assets/machina/models/item/anthracite_p
 9503099af6a1844f678c88f0722c64c242488122 assets/machina/models/item/anthracite_slab.json
 521550cd570c2da28db71ab10ad0b9d9115a5f43 assets/machina/models/item/anthracite_stairs.json
 6076edee86f2370e0e6b273d361dbf66af00c923 assets/machina/models/item/anthracite_wall.json
+100c0f915d5def33a25ed7d57838ae5e2ffd7e34 assets/machina/models/item/atmospheric_separator.json
 7d8871e5d5c7b530ecc2ee0570078a5b76b6f1eb assets/machina/models/item/battery.json
 1322e181a25a670678e2fe06b16df61491570643 assets/machina/models/item/bismuth_ore.json
 f4abbee99c700e8d1275e4709e54723e93e3c338 assets/machina/models/item/blue_glowshroom.json
@@ -1146,6 +1147,7 @@ f559712f327007090af3d47c3c1c603238cae781 assets/machina/models/item/dead_tropica
 ae87f000d4ee9403fac91853451de7ce6e4933d1 assets/machina/models/item/dead_tropical_trapdoor.json
 e09736e01aa7631e6edab55d717acd581e1830a9 assets/machina/models/item/dead_tropical_wood.json
 8ec7ba2a27be9981669b9e62cd07d0d73a33fd8a assets/machina/models/item/dragon_peony.json
+85d0122472423a5be45e7a99275e7d9ccef4f480 assets/machina/models/item/electric_pump.json
 a437b4b37577b0f79d2b737e0672125c4de47aaa assets/machina/models/item/electric_smelter.json
 55197b8327b684071f20905d479a255660801d56 assets/machina/models/item/electrolyzer.json
 92d580028d2b03c7e87d348f2ef8d7c9443595ff assets/machina/models/item/energy_cable.json
@@ -1312,6 +1314,7 @@ de6f076b4b5cdce9d9d923f30e0b1560296d10c7 assets/machina/models/item/stripped_cyc
 002bef218c149ea906b34eb33c7391f445f404bc assets/machina/models/item/stripped_pine_wood.json
 7eb4be9d7cfdbc32d492d354a1af8d45aec00908 assets/machina/models/item/stripped_tropical_log.json
 6ac6d273d2e9a01290ff20e1a2907b8deb69c39f assets/machina/models/item/stripped_tropical_wood.json
+70e35246ca55082ce933e5419bf4a60440cbd199 assets/machina/models/item/tank.json
 192ecffeda1752d38b73018b8a6995cbc3aa3774 assets/machina/models/item/tectonite.json
 65828956fc5dbfcb420023c25777e13e1ecbe3c2 assets/machina/models/item/tectonite_button.json
 9be4dcdde966d7d726040223d121be3b6202c908 assets/machina/models/item/tectonite_pebbles.json

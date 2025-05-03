@@ -1,5 +1,6 @@
 {
 	"credit": "Made by reider",
+	"render_type": "minecraft:cutout",
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "machina:block/fluid_hopper",

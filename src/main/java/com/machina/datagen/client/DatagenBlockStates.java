@@ -381,6 +381,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 		flower(BlockInit.BLUE_GLOWSHROOM);
 		flower_pot(BlockInit.POTTED_BLUE_GLOWSHROOM);
 
+		item(BlockInit.ATMOSPHERIC_SEPARATOR);
+		item(BlockInit.ELECTRIC_PUMP);
+		item(BlockInit.TANK);
+
 		// Dynamic
 		FruitInit.FRUITS.forEach(this::fruit);
 		FluidInit.OBJS.forEach(this::fluid);
@@ -411,6 +415,11 @@ public class DatagenBlockStates extends BlockStateProvider {
 	private ConfiguredModel[] randomRotation(ModelFile model) {
 		return ConfiguredModel.builder().modelFile(model).nextModel().rotationY(270).modelFile(model).nextModel()
 				.rotationY(180).modelFile(model).nextModel().rotationY(90).modelFile(model).build();
+	}
+
+	private void item(RegistryObject<? extends Block> block) {
+		ModelFile model = models().getExistingFile(new MachinaRL("block/" + name(block.get())));
+		simpleBlockItem(block.get(), model);
 	}
 
 	private void cube(Block block) {
