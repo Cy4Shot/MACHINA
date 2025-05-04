@@ -8,6 +8,7 @@ import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.BlockStateProviderInit;
 import com.machina.registration.init.ChunkGeneratorInit;
+import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.ItemInit;
@@ -43,6 +44,7 @@ public class Registration {
 		FruitInit.registerAll();
 		FluidInit.FLUIDS.register(bus);
 		FluidInit.FLUID_TYPES.register(bus);
+		EntityTypeInit.ENTITY_TYPES.register(bus);
 		TabInit.CREATIVE_MODE_TABS.register(bus);
 		BlockEntityInit.BLOCK_ENTITY_TYPES.register(bus);
 		MenuTypeInit.MENU_TYPES.register(bus);

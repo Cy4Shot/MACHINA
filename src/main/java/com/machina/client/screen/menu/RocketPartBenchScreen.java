@@ -6,6 +6,8 @@ import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.rocket.RocketPartType;
 import com.machina.block.menu.RocketPartBenchMenu;
+import com.machina.client.rocket.model.RocketPartModel;
+import com.machina.client.rocket.model.thrusters.SimpleThrusterModel;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -54,7 +56,20 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 			clickAndHover("tab_" + x, i + 105 + x * 21, j - 71, i + 123 + x * 21, j - 53, () -> true,
 					() -> type.getName(), () -> {
 						this.selected = x1;
+						MUI.click();
 					});
+		}
+
+		// Main Body Background
+		MUI.blitRocket(gui, i + 85, j - 46, 253, 26, 145, 112);
+
+		// Main Body
+		for (int x = 0; x < 1; x++) {
+			MUI.drawString(gui, Component.literal("50% Efficiency"), i + 130, j - 40);
+
+			SimpleThrusterModel model = RocketPartModel.bake(SimpleThrusterModel::new,
+					SimpleThrusterModel::createBodyLayer);
+			MUI.rocketPart(gui, mx, my, 16, aliveTicks % 360, -30f, model);
 		}
 
 		// Moving Decorators

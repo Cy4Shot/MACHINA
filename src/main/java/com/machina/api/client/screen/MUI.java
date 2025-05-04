@@ -17,6 +17,7 @@ import com.machina.api.multiblock.ClientMultiblock;
 import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.math.VecUtil;
+import com.machina.client.rocket.model.RocketPartModel;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -26,22 +27,27 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.math.Axis;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.level.block.state.BlockState;
@@ -528,6 +534,29 @@ public final class MUI {
 		return mc.getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(spriteLocation);
 	}
 
+	public static void rocketPart(GuiGraphics gui, int x, int y, double scale, float yaw, float pitch,
+			RocketPartModel model) {
+		PoseStack vs = RenderSystem.getModelViewStack();
+		vs.pushPose();
+		vs.mulPoseMatrix(gui.pose().last().pose());
+		vs.translate(x, y, 50.0F);
+		vs.scale((float) -scale, (float) scale, (float) scale);
+		PoseStack ps = new PoseStack();
+		ps.mulPose(Axis.XN.rotationDegrees(pitch));
+		ps.mulPose(Axis.YP.rotationDegrees(yaw));
+		RenderSystem.applyModelViewMatrix();
+		EntityRenderDispatcher disp = mc.getEntityRenderDispatcher();
+		disp.setRenderShadow(false);
+		MultiBufferSource.BufferSource bufferSource = mc.renderBuffers().bufferSource();
+		RenderSystem.runAsFancy(() -> {
+			model.render(ps, bufferSource, 255, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+		});
+		bufferSource.endBatch();
+		disp.setRenderShadow(true);
+		vs.popPose();
+		RenderSystem.applyModelViewMatrix();
+	}
+
 	public static void color(int color) {
 		float r = getRed(color);
 		float g = getGreen(color);
@@ -558,5 +587,9 @@ public final class MUI {
 
 	private static boolean appearDraw(long elap) {
 		return elap > 9 || elap == 5 || elap == 7 || elap == 8;
+	}
+
+	public static void click() {
+		mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
 	}
 }
