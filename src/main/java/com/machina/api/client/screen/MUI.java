@@ -27,6 +27,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.blaze3d.vertex.VertexSorting;
 import com.mojang.math.Axis;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
@@ -536,23 +537,33 @@ public final class MUI {
 
 	public static void rocketPart(GuiGraphics gui, int x, int y, double scale, float yaw, float pitch,
 			RocketPartModel model) {
+		// PoseStack for GUI overlay
 		PoseStack vs = RenderSystem.getModelViewStack();
 		vs.pushPose();
+
+		// Apply GUI pose first
 		vs.mulPoseMatrix(gui.pose().last().pose());
-		vs.translate(x, y, 50.0F);
-		vs.scale((float) -scale, (float) scale, (float) scale);
+		vs.scale((float) scale, (float) scale, (float) scale);
+		vs.translate(x / scale, y / scale, 50.0F);
+
+		RenderSystem.applyModelViewMatrix();
+
+		// PoseStack for model orientation
 		PoseStack ps = new PoseStack();
 		ps.mulPose(Axis.XN.rotationDegrees(pitch));
 		ps.mulPose(Axis.YP.rotationDegrees(yaw));
-		RenderSystem.applyModelViewMatrix();
-		EntityRenderDispatcher disp = mc.getEntityRenderDispatcher();
+
+		MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+		EntityRenderDispatcher disp = Minecraft.getInstance().getEntityRenderDispatcher();
 		disp.setRenderShadow(false);
-		MultiBufferSource.BufferSource bufferSource = mc.renderBuffers().bufferSource();
+
 		RenderSystem.runAsFancy(() -> {
-			model.render(ps, bufferSource, 255, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+			model.render(ps, buffer, 15728880, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
 		});
-		bufferSource.endBatch();
+
+		buffer.endBatch();
 		disp.setRenderShadow(true);
+
 		vs.popPose();
 		RenderSystem.applyModelViewMatrix();
 	}

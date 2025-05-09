@@ -7,6 +7,7 @@ import java.util.Comparator;
 
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 import net.minecraft.client.renderer.block.model.BlockElementRotation;
@@ -53,6 +54,10 @@ public class VecUtil {
 		float m11 = (float) (1 / Math.tan(0.5f * fov));
 		matrix4f.set(m11 / aspect, 0, 0, 0, 0, m11, 0, 0, 0, 0, far * ood, 1, 0, 0, (-far * near) * ood, 0);
 		return matrix4f;
+	}
+
+	public static Vector3d avg(Vector3d a, Vector3d b) {
+		return new Vector3d((a.x() + b.x()) / 2, (a.y() + b.y()) / 2, (a.z() + b.z()) / 2);
 	}
 
 	public static final Comparator<Vec3i> X_COMP = Comparator.comparingInt(Vec3i::getX);

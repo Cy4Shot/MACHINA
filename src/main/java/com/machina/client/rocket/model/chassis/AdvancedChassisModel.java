@@ -38,7 +38,7 @@ public class AdvancedChassisModel extends RocketPartModel {
 						new CubeDeformation(0.0F)),
 				PartPose.offsetAndRotation(0.0F, -18.0F, 0.0F, 0.0F, 1.6144F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 16, 16);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 	@Override

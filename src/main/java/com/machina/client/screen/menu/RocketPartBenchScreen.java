@@ -69,7 +69,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 
 			TriTallThrusterModel model = RocketPartModel.bake(TriTallThrusterModel::new,
 					TriTallThrusterModel::createBodyLayer);
-			MUI.rocketPart(gui, mx, my, 8, 360 - aliveTicks % 360, -30f, model);
+			MUI.rocketPart(gui, mx, my, 32, aliveTicks % 360, -15f, model);
 		}
 
 		// Moving Decorators

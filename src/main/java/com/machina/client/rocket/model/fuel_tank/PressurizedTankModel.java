@@ -27,7 +27,7 @@ public class PressurizedTankModel extends RocketPartModel {
 		.texOffs(0, 80).addBox(-6.0F, -41.0F, -6.0F, 12.0F, 10.0F, 12.0F, new CubeDeformation(0.0F))
 		.texOffs(48, 87).addBox(-4.0F, -44.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(-0.001F)), PartPose.offset(0.0F, 52.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 16, 16);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 	@Override

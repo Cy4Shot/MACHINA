@@ -29,7 +29,7 @@ public class SimpleShieldModel extends RocketPartModel {
 		partdefinition.addOrReplaceChild("shield", CubeListBuilder.create().texOffs(64, 64).addBox(-6.0F, -87.0F, -6.0F,
 				12.0F, 11.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 100.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 16, 16);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 	@Override
