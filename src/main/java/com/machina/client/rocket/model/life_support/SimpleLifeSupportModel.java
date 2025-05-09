@@ -15,12 +15,14 @@ import net.minecraft.resources.ResourceLocation;
 public class SimpleLifeSupportModel extends RocketPartModel {
 	private final ModelPart LifeSupport;
 
-	public SimpleLifeSupportModel(ModelPart root) {
+	public SimpleLifeSupportModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.LifeSupport = root.getChild("LifeSupport");
 	}
 
 	@SuppressWarnings("unused")
-	public static LayerDefinition createBodyLayer() {
+	@Override
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

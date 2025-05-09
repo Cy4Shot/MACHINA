@@ -15,11 +15,13 @@ import net.minecraft.resources.ResourceLocation;
 public class TriTallThrusterModel extends RocketPartModel {
 	private final ModelPart thrusters;
 
-	public TriTallThrusterModel(ModelPart root) {
+	public TriTallThrusterModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.thrusters = root.getChild("thrusters");
 	}
 
-	public static LayerDefinition createBodyLayer() {
+	@Override
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

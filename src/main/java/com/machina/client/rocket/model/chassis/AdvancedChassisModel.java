@@ -15,11 +15,13 @@ import net.minecraft.resources.ResourceLocation;
 public class AdvancedChassisModel extends RocketPartModel {
 	private final ModelPart reactor;
 
-	public AdvancedChassisModel(ModelPart root) {
+	public AdvancedChassisModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.reactor = root.getChild("reactor");
 	}
 
-	public static LayerDefinition createBodyLayer() {
+	@Override
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

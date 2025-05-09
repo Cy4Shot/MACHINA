@@ -3,7 +3,6 @@ package com.machina.client.rocket.model.shield;
 import com.machina.api.util.MachinaRL;
 import com.machina.client.rocket.model.RocketPartModel;
 
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -14,15 +13,15 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 
 public class SimpleShieldModel extends RocketPartModel {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-			new ResourceLocation("modid", "custommodel"), "main");
 	private final ModelPart shield;
 
-	public SimpleShieldModel(ModelPart root) {
+	public SimpleShieldModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.shield = root.getChild("shield");
 	}
 
-	public static LayerDefinition createBodyLayer() {
+	@Override
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

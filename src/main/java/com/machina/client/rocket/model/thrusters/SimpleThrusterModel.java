@@ -15,12 +15,14 @@ import net.minecraft.resources.ResourceLocation;
 public class SimpleThrusterModel extends RocketPartModel {
 	private final ModelPart Thrusters;
 
-	public SimpleThrusterModel(ModelPart root) {
+	public SimpleThrusterModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.Thrusters = root.getChild("Thrusters");
 	}
 
 	@SuppressWarnings("unused")
-	public static LayerDefinition createBodyLayer() {
+	@Override
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

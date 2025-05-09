@@ -15,12 +15,14 @@ import net.minecraft.resources.ResourceLocation;
 public class ConeShieldModel extends RocketPartModel {
 	private final ModelPart Shields;
 
-	public ConeShieldModel(ModelPart root) {
+	public ConeShieldModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.Shields = root.getChild("Shields");
 	}
 
 	@SuppressWarnings("unused")
-	public static LayerDefinition createBodyLayer() {
+	@Override
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

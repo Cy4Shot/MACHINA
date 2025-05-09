@@ -1,8 +1,5 @@
 package com.machina.client.rocket.model;
 
-import java.util.function.Supplier;
-
-import com.google.common.base.Function;
 import com.machina.api.rocket.RocketEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -15,10 +12,15 @@ import net.minecraft.resources.ResourceLocation;
 
 public abstract class RocketPartModel extends EntityModel<RocketEntity> {
 
+	public RocketPartModel() {
+	}
+
 	@Override
 	public void setupAnim(RocketEntity p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_,
 			float p_102623_) {
 	}
+
+	protected abstract LayerDefinition createBodyLayer();
 
 	protected abstract ModelPart main();
 
@@ -34,10 +36,6 @@ public abstract class RocketPartModel extends EntityModel<RocketEntity> {
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
 			float red, float green, float blue, float alpha) {
 		main().render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
-
-	public static <T extends RocketPartModel> T bake(Function<ModelPart, T> model, Supplier<LayerDefinition> layer) {
-		return model.apply(layer.get().bakeRoot());
 	}
 
 }

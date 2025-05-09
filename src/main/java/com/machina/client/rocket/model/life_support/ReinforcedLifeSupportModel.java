@@ -15,11 +15,12 @@ import net.minecraft.resources.ResourceLocation;
 public class ReinforcedLifeSupportModel extends RocketPartModel {
 	private final ModelPart lifesupport;
 
-	public ReinforcedLifeSupportModel(ModelPart root) {
+	public ReinforcedLifeSupportModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.lifesupport = root.getChild("lifesupport");
 	}
 
-	public static LayerDefinition createBodyLayer() {
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

@@ -17,11 +17,11 @@ public class RegistryInit {
 			Machina.MOD_ID);
 	public static final DeferredRegister<RockMaker> ROCKS = DeferredRegister.create(new MachinaRL("rock"),
 			Machina.MOD_ID);
-	public static final DeferredRegister<RocketPart> ROCKET_PARTS = DeferredRegister
+	public static final DeferredRegister<RocketPart<?>> ROCKET_PARTS = DeferredRegister
 			.create(new MachinaRL("rocket_parts"), Machina.MOD_ID);
 
 	public static final Supplier<IForgeRegistry<TreeMaker>> TREE_REGISTRY = TREES.makeRegistry(RegistryBuilder::new);
 	public static final Supplier<IForgeRegistry<RockMaker>> ROCK_REGISTRY = ROCKS.makeRegistry(RegistryBuilder::new);
-	public static final Supplier<IForgeRegistry<RocketPart>> ROCKET_PARTS_REGISTRY = ROCKET_PARTS
+	public static final Supplier<IForgeRegistry<RocketPart<?>>> ROCKET_PARTS_REGISTRY = ROCKET_PARTS
 			.makeRegistry(RegistryBuilder::new);
 }

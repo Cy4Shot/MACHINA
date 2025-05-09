@@ -15,11 +15,13 @@ import net.minecraft.resources.ResourceLocation;
 public class SimpleFuelTankModel extends RocketPartModel {
 	private final ModelPart Reactor;
 
-	public SimpleFuelTankModel(ModelPart root) {
+	public SimpleFuelTankModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.Reactor = root.getChild("Reactor");
 	}
 
-	public static LayerDefinition createBodyLayer() {
+	@Override
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

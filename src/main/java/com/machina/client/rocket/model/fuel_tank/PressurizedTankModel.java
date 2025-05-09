@@ -15,11 +15,13 @@ import net.minecraft.resources.ResourceLocation;
 public class PressurizedTankModel extends RocketPartModel {
 	private final ModelPart core;
 
-	public PressurizedTankModel(ModelPart root) {
+	public PressurizedTankModel() {
+		ModelPart root = this.createBodyLayer().bakeRoot();
 		this.core = root.getChild("core");
 	}
 
-	public static LayerDefinition createBodyLayer() {
+	@Override
+	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 

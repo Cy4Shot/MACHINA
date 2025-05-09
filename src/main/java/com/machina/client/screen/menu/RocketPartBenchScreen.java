@@ -5,9 +5,10 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.rocket.RocketPartType;
+import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
 import com.machina.block.menu.RocketPartBenchMenu;
 import com.machina.client.rocket.model.RocketPartModel;
-import com.machina.client.rocket.model.thrusters.TriTallThrusterModel;
+import com.machina.registration.init.RocketPartInit;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -23,7 +24,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
-//		RocketPartBenchBlockEntity entity = this.<RocketPartBenchBlockEntity>entity();
+		RocketPartBenchBlockEntity entity = this.<RocketPartBenchBlockEntity>entity();
 
 		drawInventory(gui, mx, my);
 		drawRocketBackground(gui);
@@ -65,11 +66,10 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 
 		// Main Body
 		for (int x = 0; x < 1; x++) {
-			MUI.drawString(gui, Component.literal("50% Efficiency"), i + 130, j - 40);
+			RocketPartModel model = RocketPartInit.TRI_TALL_THRUSTER.get().bake();
+			MUI.rocketPart(gui, i + 120, j, 16, aliveTicks % 360, -15f, model);
 
-			TriTallThrusterModel model = RocketPartModel.bake(TriTallThrusterModel::new,
-					TriTallThrusterModel::createBodyLayer);
-			MUI.rocketPart(gui, mx, my, 32, aliveTicks % 360, -15f, model);
+			MUI.drawString(gui, Component.literal("50% Efficiency"), i + 150, j - 40);
 		}
 
 		// Moving Decorators
