@@ -1,9 +1,8 @@
-package com.machina.client.rocket.model.shield;
+package com.machina.client.rocket.model.life_support;
 
 import com.machina.api.util.MachinaRL;
 import com.machina.client.rocket.model.RocketPartModel;
 
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -13,28 +12,26 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 
-public class SimpleShieldModel extends RocketPartModel {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(
-			new ResourceLocation("modid", "custommodel"), "main");
-	private final ModelPart shield;
+public class ReinforcedLifeSupportModel extends RocketPartModel {
+	private final ModelPart lifesupport;
 
-	public SimpleShieldModel(ModelPart root) {
-		this.shield = root.getChild("shield");
+	public ReinforcedLifeSupportModel(ModelPart root) {
+		this.lifesupport = root.getChild("lifesupport");
 	}
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		partdefinition.addOrReplaceChild("shield", CubeListBuilder.create().texOffs(64, 64).addBox(-6.0F, -87.0F, -6.0F,
-				12.0F, 11.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 100.0F, 0.0F));
+		partdefinition.addOrReplaceChild("lifesupport", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -76.0F,
+				-8.0F, 16.0F, 32.0F, 16.0F, new CubeDeformation(-0.01F)), PartPose.offset(0.0F, 68.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 16, 16);
 	}
 
 	@Override
 	protected ModelPart main() {
-		return this.shield;
+		return this.lifesupport;
 	}
 
 	@Override

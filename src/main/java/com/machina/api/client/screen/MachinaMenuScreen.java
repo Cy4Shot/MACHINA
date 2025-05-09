@@ -117,11 +117,11 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	public void render(@NotNull GuiGraphics gui, int mx, int my, float pt) {
-		if (this.usy == null || this.usy == null) {
-			this.usy = (float) mx;
+		if (this.usx == null || this.usy == null) {
+			this.usx = (float) mx;
 			this.usy = (float) my;
 		} else {
-			this.usy += (mx - this.usy) / 50f;
+			this.usx += (mx - this.usx) / 50f;
 			this.usy += (my - this.usy) / 50f;
 		}
 		this.renderBackground(gui);
@@ -386,7 +386,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 						: MUI.uistr(missing));
 		MUI.drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
 	}
-	
+
 	@SuppressWarnings("hiding")
 	private <T extends Number> void drawBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing,
 			Function<T, String> formatter, Supplier<MutableComponent> name, Supplier<T> value, Supplier<T> max,
@@ -403,7 +403,6 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 						: MUI.uistr(missing));
 		MUI.drawBarSmall(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
 	}
-
 
 	@SuppressWarnings("hiding")
 	private <T extends Number> void drawBarVert(GuiGraphics gui, int x, int y, Function<T, String> formatter,
@@ -429,7 +428,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 					});
 		}
 	}
-	
+
 	protected void drawEnergyBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing) {
 		if (entity instanceof MachinaBlockEntity) {
 			MachinaBlockEntity mbe = (MachinaBlockEntity) entity;
