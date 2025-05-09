@@ -1,5 +1,6 @@
 package com.machina.api.client.screen;
 
+import java.nio.IntBuffer;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +12,15 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryStack;
 
 import com.machina.Machina;
 import com.machina.api.multiblock.ClientMultiblock;
 import com.machina.api.multiblock.MultiblockLoader;
+import com.machina.api.rocket.RocketPart;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.math.VecUtil;
-import com.machina.client.rocket.model.RocketPartModel;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -50,6 +53,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -418,6 +422,24 @@ public final class MUI {
 		}
 	}
 
+	public static void enableClipping(int x, int y, int w, int h) {
+		double scale = mc.getWindow().getGuiScale();
+		RenderSystem.enableScissor((int) (x * scale), (int) (mc.getWindow().getHeight() - (y + h) * scale), (int) (w * scale), (int) (h * scale));
+	}
+
+	public static void disableClipping() {
+		RenderSystem.disableScissor();
+	}
+
+	public static void renderItem(GuiGraphics gui, int i, int j, int mx, int my, boolean tooltip, ItemStack stack) {
+		gui.renderItem(stack, i, j);
+		gui.renderItemDecorations(mc.font, stack, i, j, String.valueOf(stack.getCount()));
+
+		if (tooltip && mx > i && mx < i + 16 && my > j && my < j + 16) {
+			gui.renderTooltip(mc.font, stack, mx, my);
+		}
+	}
+
 	public static void renderFluid(GuiGraphics gui, FluidStack fluid, int x, int y, int sx, int sy, int blit) {
 		if (!fluid.isEmpty()) {
 			TextureAtlasSprite icon = getFluidTexture(fluid);
@@ -535,7 +557,7 @@ public final class MUI {
 	}
 
 	public static void rocketPart(GuiGraphics gui, int x, int y, double scale, float yaw, float pitch,
-			RocketPartModel model) {
+			RocketPart<?> part) {
 		// PoseStack for GUI overlay
 		PoseStack vs = RenderSystem.getModelViewStack();
 		vs.pushPose();
@@ -557,7 +579,7 @@ public final class MUI {
 		disp.setRenderShadow(false);
 
 		RenderSystem.runAsFancy(() -> {
-			model.render(ps, buffer, 15728880, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+			part.bake().render(ps, buffer, 15728880, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
 		});
 
 		buffer.endBatch();
