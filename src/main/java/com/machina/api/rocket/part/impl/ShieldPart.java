@@ -12,16 +12,16 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ShieldPart<T extends RocketPartModel> extends RocketPart<T> {
 
-	private final float maxAtmDensity;
+	private final float maxAtmPressure;
 
 	public ShieldPart(ResourceLocation loc, Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight,
-			float maxAtmDensity) {
+			float maxAtmPressure) {
 		super(loc, RocketPartType.THRUSTER, upAnchor, downAnchor, model, weight);
-		this.maxAtmDensity = maxAtmDensity;
+		this.maxAtmPressure = maxAtmPressure;
 	}
 
-	public float getMaxAtmDensity() {
-		return maxAtmDensity;
+	public float getMaxAtmPressure() {
+		return maxAtmPressure;
 	}
 
 }

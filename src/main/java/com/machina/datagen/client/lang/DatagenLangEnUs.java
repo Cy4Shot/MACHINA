@@ -760,7 +760,6 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("atmospheric_separator.no_power", "No Power");
 		addUI("atmospheric_separator.separating", "Separating Atmosphere");
 
-		addUI("rocket_part_bench.inv", "Inventory");
 		addUI("rocket_part_bench.no_power", "No Power");
 	}
 }

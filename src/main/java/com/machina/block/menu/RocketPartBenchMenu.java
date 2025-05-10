@@ -2,7 +2,6 @@ package com.machina.block.menu;
 
 import com.machina.api.block.MachineBlock;
 import com.machina.api.block.menu.MachinaContainerMenu;
-import com.machina.api.block.menu.slot.InvSlot;
 import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
@@ -20,8 +19,6 @@ public class RocketPartBenchMenu extends MachinaContainerMenu<RocketPartBenchBlo
 
 	public RocketPartBenchMenu(int id, Level level, BlockPos pos, Inventory inv) {
 		super(MenuTypeInit.ROCKET_PART_BENCH.get(), level, pos, id);
-
-		this.addSlot(new InvSlot(be, 0, 25, -14));
 
 		invSlots(inv, 0);
 	}

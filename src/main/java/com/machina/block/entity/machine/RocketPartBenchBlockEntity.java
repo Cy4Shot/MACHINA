@@ -26,10 +26,6 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
 	@Override
 	public void createStorages() {
 		energyStorage(Side.INPUTS);
-
-		for (int i = 0; i < 12; i++) {
-			itemStorage(Side.NONES);
-		}
 	}
 
 	@Override

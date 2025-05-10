@@ -83,9 +83,9 @@ public class RocketPartInit {
 	}
 
 	private static final RegistryObject<ShieldPart<?>> shield(String name, double offset, float weight,
-			float maxAtmDensity, Supplier<? extends RocketPartModel> model) {
+			float maxAtmPressure, Supplier<? extends RocketPartModel> model) {
 		RegistryObject<ShieldPart<?>> ro = register(name + "_shield", offset,
-				(t, u, d) -> new ShieldPart<>(t, u, d, model, weight, maxAtmDensity));
+				(t, u, d) -> new ShieldPart<>(t, u, d, model, weight, maxAtmPressure));
 		SHIELDS.put(ro.getKey(), ro);
 		return ro;
 	}
