@@ -9,6 +9,7 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RecipeInit;
+import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.TabInit;
 
 import net.minecraft.data.PackOutput;
@@ -595,6 +596,22 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(RecipeInit.SAWMILL, "Sawing");
 		add(RecipeInit.ELECTROLYZER, "Electrolyzing");
 
+		// Rocket Parts
+		add(RocketPartInit.SIMPLE_CHASSIS, "Simple Chassis");
+		add(RocketPartInit.ADVANCED_CHASSIS, "Advanced Chassis");
+
+		add(RocketPartInit.SIMPLE_FUEL_TANK, "Simple Fuel Tank");
+		add(RocketPartInit.PRESSURIZED_FUEL_TANK, "Pressurized Fuel Tank");
+
+		add(RocketPartInit.SIMPLE_LIFE_SUPPORT, "Simple Life Support");
+		add(RocketPartInit.REINFORCED_LIFE_SUPPORT, "Reinforced Life Support");
+
+		add(RocketPartInit.SIMPLE_SHIELD, "Simple Shield");
+		add(RocketPartInit.CONE_SHIELD, "Cone Shield");
+
+		add(RocketPartInit.SIMPLE_THRUSTER, "Simple Thruster");
+		add(RocketPartInit.TRI_TALL_THRUSTER, "Tri Tall Thruster");
+
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");
 		add(Mode.BLACKLIST, "Blacklist");
@@ -603,7 +620,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ConnectionSide.OUTPUT, "Output");
 		add(ConnectionSide.NORMAL, "Connected");
 		add(ConnectionSide.NONE, "Disconnected");
-		
+
 		add(RocketPartType.CHASSIS, "Chassis");
 		add(RocketPartType.FUEL_TANK, "Fuel Tank");
 		add(RocketPartType.LIFE_SUPPORT, "Life Support");
@@ -742,7 +759,7 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		addUI("atmospheric_separator.no_power", "No Power");
 		addUI("atmospheric_separator.separating", "Separating Atmosphere");
-		
+
 		addUI("rocket_part_bench.inv", "Inventory");
 		addUI("rocket_part_bench.no_power", "No Power");
 	}

@@ -682,5 +682,15 @@
   "machina.tooltip.item_filter.configured": "Configured",
   "machina.tooltip.item_filter.empty": "Empty",
   "machina.tooltip.ldpe": "Low Density Polyethylene",
-  "machina.tooltip.uhmwpe": "Ultra High Molecular Weight Polyethylene"
+  "machina.tooltip.uhmwpe": "Ultra High Molecular Weight Polyethylene",
+  "rocket_part.machina.advanced_chassis": "Advanced Chassis",
+  "rocket_part.machina.cone_shield": "Cone Shield",
+  "rocket_part.machina.pressurized_fuel_tank": "Pressurized Fuel Tank",
+  "rocket_part.machina.reinforced_life_support": "Reinforced Life Support",
+  "rocket_part.machina.simple_chassis": "Simple Chassis",
+  "rocket_part.machina.simple_fuel_tank": "Simple Fuel Tank",
+  "rocket_part.machina.simple_life_support": "Simple Life Support",
+  "rocket_part.machina.simple_shield": "Simple Shield",
+  "rocket_part.machina.simple_thruster": "Simple Thruster",
+  "rocket_part.machina.tri_tall_thruster": "Tri Tall Thruster"
 }

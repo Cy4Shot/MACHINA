@@ -8,12 +8,15 @@ import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.client.rocket.model.RocketPartModel;
 
+import net.minecraft.resources.ResourceLocation;
+
 public class ShieldPart<T extends RocketPartModel> extends RocketPart<T> {
 
 	private final float maxAtmDensity;
 
-	public ShieldPart(Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight, float maxAtmDensity) {
-		super(RocketPartType.THRUSTER, upAnchor, downAnchor, model, weight);
+	public ShieldPart(ResourceLocation loc, Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight,
+			float maxAtmDensity) {
+		super(loc, RocketPartType.THRUSTER, upAnchor, downAnchor, model, weight);
 		this.maxAtmDensity = maxAtmDensity;
 	}
 

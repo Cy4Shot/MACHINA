@@ -9,14 +9,16 @@ import com.machina.api.rocket.part.RocketPartType;
 import com.machina.client.rocket.model.RocketPartModel;
 import com.machina.registration.init.FluidInit.FluidObject;
 
+import net.minecraft.resources.ResourceLocation;
+
 public class ThrusterPart<T extends RocketPartModel> extends RocketPart<T> {
 
 	private final FluidObject fuel;
 	private final float fuelEfficiency;
 
-	public ThrusterPart(Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight, FluidObject fuel,
+	public ThrusterPart(ResourceLocation loc, Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight, FluidObject fuel,
 			float fuelEfficiency) {
-		super(RocketPartType.THRUSTER, upAnchor, downAnchor, model, weight);
+		super(loc, RocketPartType.THRUSTER, upAnchor, downAnchor, model, weight);
 		this.fuel = fuel;
 		this.fuelEfficiency = fuelEfficiency;
 	}

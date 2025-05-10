@@ -9,14 +9,16 @@ import com.machina.api.rocket.part.RocketPartType;
 import com.machina.client.rocket.model.RocketPartModel;
 import com.machina.registration.init.FluidInit.FluidObject;
 
+import net.minecraft.resources.ResourceLocation;
+
 public class ChassisPart<T extends RocketPartModel> extends RocketPart<T> {
 
 	private final FluidObject coolant;
 	private final float coolantEfficiency;
 
-	public ChassisPart(Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight, FluidObject coolant,
-			float coolantEfficiency) {
-		super(RocketPartType.CHASSIS, upAnchor, downAnchor, model, weight);
+	public ChassisPart(ResourceLocation loc, Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight,
+			FluidObject coolant, float coolantEfficiency) {
+		super(loc, RocketPartType.CHASSIS, upAnchor, downAnchor, model, weight);
 		this.coolant = coolant;
 		this.coolantEfficiency = coolantEfficiency;
 	}

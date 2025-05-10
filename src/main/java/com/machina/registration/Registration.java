@@ -37,7 +37,6 @@ public class Registration {
 
 		PlanetTreeInit.TREES.register(bus);
 		PlanetRockInit.ROCKS.register(bus);
-		RocketPartInit.ROCKET_PARTS.register(bus);
 		SoundInit.SOUNDS.register(bus);
 		ItemInit.ITEMS.register(bus);
 		BlockInit.BLOCKS.register(bus);
@@ -53,6 +52,7 @@ public class Registration {
 		ChunkGeneratorInit.CHUNK_GENERATORS.register(bus);
 		RecipeInit.RECIPE_TYPES.register(bus);
 		RecipeInit.RECIPE_SERIALIZERS.register(bus);
+		RocketPartInit.ROCKET_PARTS.register(bus);
 	}
 
 	public static void onCommonSetup(final FMLCommonSetupEvent event) {

@@ -1,6 +1,5 @@
 package com.machina.api.client.screen;
 
-import java.nio.IntBuffer;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +11,6 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.MemoryStack;
 
 import com.machina.Machina;
 import com.machina.api.multiblock.ClientMultiblock;

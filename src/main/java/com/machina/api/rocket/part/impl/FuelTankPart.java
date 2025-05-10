@@ -8,23 +8,25 @@ import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.client.rocket.model.RocketPartModel;
 
+import net.minecraft.resources.ResourceLocation;
+
 public class FuelTankPart<T extends RocketPartModel> extends RocketPart<T> {
 
-	private final float fuelStorage;
-	private final float coolantStorage;
+	private final int fuelStorage;
+	private final int coolantStorage;
 
-	public FuelTankPart(Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight, float fuelStorage,
-			float coolantStorage) {
-		super(RocketPartType.THRUSTER, upAnchor, downAnchor, model, weight);
+	public FuelTankPart(ResourceLocation loc, Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight,
+			int fuelStorage, int coolantStorage) {
+		super(loc, RocketPartType.THRUSTER, upAnchor, downAnchor, model, weight);
 		this.fuelStorage = fuelStorage;
 		this.coolantStorage = coolantStorage;
 	}
 
-	public float getFuelStorage() {
+	public int getFuelStorage() {
 		return fuelStorage;
 	}
 
-	public float getCoolantStorage() {
+	public int getCoolantStorage() {
 		return coolantStorage;
 	}
 

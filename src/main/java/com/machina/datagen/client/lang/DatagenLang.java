@@ -7,9 +7,9 @@ import javax.swing.text.JTextComponent.KeyBinding;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.machina.Machina;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
+import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit.Fruit;
@@ -43,7 +43,9 @@ public abstract class DatagenLang extends LanguageProvider {
 		} else if (item instanceof Item) {
 			add(((Item) item).getDescriptionId(), name);
 		} else if (item instanceof CreativeModeTab) {
-			add(Machina.MOD_ID + ".creativemodetab." + key.getId().getPath(), name);
+			add(modid + ".creativemodetab." + key.getId().getPath(), name);
+		} else if (item instanceof RocketPart<?>) {
+			add("rocket_part." + modid + "." + key.getId().getPath(), name);
 		}
 	}
 
@@ -56,15 +58,15 @@ public abstract class DatagenLang extends LanguageProvider {
 	}
 
 	protected void add(Mode mode, String name) {
-		add(Machina.MOD_ID + ".filter." + mode.name().toLowerCase(), name);
+		add(modid + ".filter." + mode.name().toLowerCase(), name);
 	}
 
 	protected void add(ConnectionSide mode, String name) {
-		add(Machina.MOD_ID + ".connection_side." + mode.name().toLowerCase(), name);
+		add(modid + ".connection_side." + mode.name().toLowerCase(), name);
 	}
 
 	protected void add(RocketPartType mode, String name) {
-		add(Machina.MOD_ID + ".rocket_part_type." + mode.name().toLowerCase(), name);
+		add(modid + ".rocket_part_type." + mode.name().toLowerCase(), name);
 	}
 
 	protected void add(FluidObject obj, String name) {
