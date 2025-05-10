@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
-import com.machina.api.rocket.RocketPart;
-import com.machina.api.rocket.RocketPartType;
+import com.machina.api.rocket.part.RocketPart;
+import com.machina.api.rocket.part.RocketPartType;
 import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
 import com.machina.block.menu.RocketPartBenchMenu;
 import com.machina.registration.init.ItemInit;

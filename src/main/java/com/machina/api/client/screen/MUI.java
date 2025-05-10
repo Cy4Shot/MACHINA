@@ -18,7 +18,7 @@ import org.lwjgl.system.MemoryStack;
 import com.machina.Machina;
 import com.machina.api.multiblock.ClientMultiblock;
 import com.machina.api.multiblock.MultiblockLoader;
-import com.machina.api.rocket.RocketPart;
+import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.platform.GlStateManager;

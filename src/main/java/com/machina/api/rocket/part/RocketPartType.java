@@ -1,4 +1,4 @@
-package com.machina.api.rocket;
+package com.machina.api.rocket.part;
 
 import com.machina.Machina;
 

@@ -1,0 +1,32 @@
+package com.machina.api.rocket.part.impl;
+
+import java.util.function.Supplier;
+
+import org.joml.Vector3d;
+
+import com.machina.api.rocket.part.RocketPart;
+import com.machina.api.rocket.part.RocketPartType;
+import com.machina.client.rocket.model.RocketPartModel;
+import com.machina.registration.init.FluidInit.FluidObject;
+
+public class ChassisPart<T extends RocketPartModel> extends RocketPart<T> {
+
+	private final FluidObject coolant;
+	private final float coolantEfficiency;
+
+	public ChassisPart(Vector3d upAnchor, Vector3d downAnchor, Supplier<T> model, float weight, FluidObject coolant,
+			float coolantEfficiency) {
+		super(RocketPartType.CHASSIS, upAnchor, downAnchor, model, weight);
+		this.coolant = coolant;
+		this.coolantEfficiency = coolantEfficiency;
+	}
+
+	public FluidObject getCoolant() {
+		return coolant;
+	}
+
+	public float getCoolantEfficiency() {
+		return coolantEfficiency;
+	}
+
+}

@@ -3,7 +3,7 @@ package com.machina.datagen.client.lang;
 import com.machina.Machina;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
-import com.machina.api.rocket.RocketPartType;
+import com.machina.api.rocket.part.RocketPartType;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FruitInit;

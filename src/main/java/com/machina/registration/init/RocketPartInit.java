@@ -2,12 +2,17 @@ package com.machina.registration.init;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import org.joml.Vector3d;
 
-import com.machina.api.rocket.RocketPart;
-import com.machina.api.rocket.RocketPartType;
+import com.machina.api.rocket.part.RocketPart;
+import com.machina.api.rocket.part.impl.ChassisPart;
+import com.machina.api.rocket.part.impl.FuelTankPart;
+import com.machina.api.rocket.part.impl.LifeSupportPart;
+import com.machina.api.rocket.part.impl.ShieldPart;
+import com.machina.api.rocket.part.impl.ThrusterPart;
 import com.machina.client.rocket.model.RocketPartModel;
 import com.machina.client.rocket.model.chassis.AdvancedChassisModel;
 import com.machina.client.rocket.model.chassis.SimpleChassisModel;
@@ -19,6 +24,7 @@ import com.machina.client.rocket.model.shield.ConeShieldModel;
 import com.machina.client.rocket.model.shield.SimpleShieldModel;
 import com.machina.client.rocket.model.thrusters.SimpleThrusterModel;
 import com.machina.client.rocket.model.thrusters.TriTallThrusterModel;
+import com.machina.registration.init.FluidInit.FluidObject;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraftforge.registries.DeferredRegister;
@@ -26,69 +32,73 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class RocketPartInit {
 
-	public static final Map<ResourceKey<RocketPart<?>>, RegistryObject<RocketPart<?>>> CHASSIS = new HashMap<>();
-	public static final Map<ResourceKey<RocketPart<?>>, RegistryObject<RocketPart<?>>> FUEL_TANKS = new HashMap<>();
-	public static final Map<ResourceKey<RocketPart<?>>, RegistryObject<RocketPart<?>>> LIFE_SUPPORTS = new HashMap<>();
-	public static final Map<ResourceKey<RocketPart<?>>, RegistryObject<RocketPart<?>>> SHIELDS = new HashMap<>();
-	public static final Map<ResourceKey<RocketPart<?>>, RegistryObject<RocketPart<?>>> THRUSTERS = new HashMap<>();
+	public static final Map<ResourceKey<ChassisPart<?>>, RegistryObject<ChassisPart<?>>> CHASSIS = new HashMap<>();
+	public static final Map<ResourceKey<FuelTankPart<?>>, RegistryObject<FuelTankPart<?>>> FUEL_TANKS = new HashMap<>();
+	public static final Map<ResourceKey<LifeSupportPart<?>>, RegistryObject<LifeSupportPart<?>>> LIFE_SUPPORTS = new HashMap<>();
+	public static final Map<ResourceKey<ShieldPart<?>>, RegistryObject<ShieldPart<?>>> SHIELDS = new HashMap<>();
+	public static final Map<ResourceKey<ThrusterPart<?>>, RegistryObject<ThrusterPart<?>>> THRUSTERS = new HashMap<>();
 	public static final DeferredRegister<RocketPart<?>> ROCKET_PARTS = RegistryInit.ROCKET_PARTS;
 
 	//@formatter:off
-	public static final RegistryObject<RocketPart<?>> SIMPLE_CHASSIS = chassis("simple", 0.5, SimpleChassisModel::new);
-	public static final RegistryObject<RocketPart<?>> ADVANCED_CHASSIS = chassis("advanced", 0.5, AdvancedChassisModel::new);
+	public static final RegistryObject<ChassisPart<?>> SIMPLE_CHASSIS = chassis("simple", 0.5, 10, FluidObject.WATER, 1f, SimpleChassisModel::new);
+	public static final RegistryObject<ChassisPart<?>> ADVANCED_CHASSIS = chassis("advanced", 0.5, 15, FluidInit.LEAD_BISMUTH_EUTECTIC, 0.5f, AdvancedChassisModel::new);
 
-	public static final RegistryObject<RocketPart<?>> SIMPLE_FUEL_TANK = fuel_tank("simple", 0.5, SimpleFuelTankModel::new);
-	public static final RegistryObject<RocketPart<?>> PRESSURIZED_FUEL_TANK = fuel_tank("pressurized", 0.5, PressurizedTankModel::new);
+	public static final RegistryObject<FuelTankPart<?>> SIMPLE_FUEL_TANK = fuel_tank("simple", 0.5, 40, 1000, 5000, SimpleFuelTankModel::new);
+	public static final RegistryObject<FuelTankPart<?>> PRESSURIZED_FUEL_TANK = fuel_tank("pressurized", 0.5, 60, 2000, 10000, PressurizedTankModel::new);
 
-	public static final RegistryObject<RocketPart<?>> SIMPLE_LIFE_SUPPORT = life_support("simple", 0.5, SimpleLifeSupportModel::new);
-	public static final RegistryObject<RocketPart<?>> REINFORCED_LIFE_SUPPORT = life_support("reinforced", 0.5, ReinforcedLifeSupportModel::new);
+	public static final RegistryObject<LifeSupportPart<?>> SIMPLE_LIFE_SUPPORT = life_support("simple", 0.5, 10, 0, SimpleLifeSupportModel::new);
+	public static final RegistryObject<LifeSupportPart<?>> REINFORCED_LIFE_SUPPORT = life_support("reinforced", 0.5, 20, 27, ReinforcedLifeSupportModel::new);
 
-	public static final RegistryObject<RocketPart<?>> SIMPLE_SHIELD = shield("simple", 0.5, SimpleShieldModel::new);
-	public static final RegistryObject<RocketPart<?>> CONE_SHIELD = shield("cone", 0.5, ConeShieldModel::new);
+	public static final RegistryObject<ShieldPart<?>> SIMPLE_SHIELD = shield("simple", 0.5, 20, 4000, SimpleShieldModel::new);
+	public static final RegistryObject<ShieldPart<?>> CONE_SHIELD = shield("cone", 0.5, 30, 9000, ConeShieldModel::new);
 
-	public static final RegistryObject<RocketPart<?>> SIMPLE_THRUSTER = thruster("simple", 0.5, SimpleThrusterModel::new);
-	public static final RegistryObject<RocketPart<?>> TRI_TALL_THRUSTER = thruster("tri_tall", 0.5, TriTallThrusterModel::new);
+	public static final RegistryObject<ThrusterPart<?>> SIMPLE_THRUSTER = thruster("simple", 0.5, 10, FluidInit.AMMONIA, 1f,SimpleThrusterModel::new);
+	public static final RegistryObject<ThrusterPart<?>> TRI_TALL_THRUSTER = thruster("tri_tall", 0.5, 15, FluidInit.AMMONIA, 2f, TriTallThrusterModel::new);
 	//@formatter:on
 
-	private static final RegistryObject<RocketPart<?>> chassis(String name, double offset,
-			Supplier<? extends RocketPartModel> model) {
-		RegistryObject<RocketPart<?>> ro = register(name + "_chassis", RocketPartType.CHASSIS, offset, model);
+	private static final RegistryObject<ChassisPart<?>> chassis(String name, double offset, float weight,
+			FluidObject coolant, float coolantEfficiency, Supplier<? extends RocketPartModel> model) {
+		RegistryObject<ChassisPart<?>> ro = register(name + "_chassis", offset,
+				(u, d) -> new ChassisPart<>(u, d, model, weight, coolant, coolantEfficiency));
 		CHASSIS.put(ro.getKey(), ro);
 		return ro;
 	}
 
-	private static final RegistryObject<RocketPart<?>> fuel_tank(String name, double offset,
-			Supplier<? extends RocketPartModel> model) {
-		RegistryObject<RocketPart<?>> ro = register(name + "_fuel_tank", RocketPartType.FUEL_TANK, offset, model);
+	private static final RegistryObject<FuelTankPart<?>> fuel_tank(String name, double offset, float weight,
+			float fuelStorage, float coolantStorage, Supplier<? extends RocketPartModel> model) {
+		RegistryObject<FuelTankPart<?>> ro = register(name + "_fuel_tank", offset,
+				(u, d) -> new FuelTankPart<>(u, d, model, weight, fuelStorage, coolantStorage));
 		FUEL_TANKS.put(ro.getKey(), ro);
 		return ro;
 	}
 
-	private static final RegistryObject<RocketPart<?>> life_support(String name, double offset,
-			Supplier<? extends RocketPartModel> model) {
-		RegistryObject<RocketPart<?>> ro = register(name + "_life_support", RocketPartType.LIFE_SUPPORT, offset, model);
+	private static final RegistryObject<LifeSupportPart<?>> life_support(String name, double offset, float weight,
+			int slots, Supplier<? extends RocketPartModel> model) {
+		RegistryObject<LifeSupportPart<?>> ro = register(name + "_life_support", offset,
+				(u, d) -> new LifeSupportPart<>(u, d, model, weight, slots));
 		LIFE_SUPPORTS.put(ro.getKey(), ro);
 		return ro;
 	}
 
-	private static final RegistryObject<RocketPart<?>> shield(String name, double offset,
-			Supplier<? extends RocketPartModel> model) {
-		RegistryObject<RocketPart<?>> ro = register(name + "_shield", RocketPartType.SHIELD, offset, model);
+	private static final RegistryObject<ShieldPart<?>> shield(String name, double offset, float weight,
+			float maxAtmDensity, Supplier<? extends RocketPartModel> model) {
+		RegistryObject<ShieldPart<?>> ro = register(name + "_shield", offset,
+				(u, d) -> new ShieldPart<>(u, d, model, weight, maxAtmDensity));
 		SHIELDS.put(ro.getKey(), ro);
 		return ro;
 	}
 
-	private static final RegistryObject<RocketPart<?>> thruster(String name, double offset,
-			Supplier<? extends RocketPartModel> model) {
-		RegistryObject<RocketPart<?>> ro = register(name + "_thruster", RocketPartType.THRUSTER, offset, model);
+	private static final RegistryObject<ThrusterPart<?>> thruster(String name, double offset, float weight,
+			FluidObject fuel, float fuelEfficiency, Supplier<? extends RocketPartModel> model) {
+		RegistryObject<ThrusterPart<?>> ro = register(name + "_thruster", offset,
+				(u, d) -> new ThrusterPart<>(u, d, model, weight, fuel, fuelEfficiency));
 		THRUSTERS.put(ro.getKey(), ro);
 		return ro;
 	}
 
-	private static final RegistryObject<RocketPart<?>> register(String name, RocketPartType type, double offset,
-			Supplier<? extends RocketPartModel> model) {
-		return ROCKET_PARTS.register(name,
-				() -> new RocketPart<>(type, new Vector3d(0, 0, 0), new Vector3d(0, offset, 0), model));
+	private static final <T extends RocketPart<?>> RegistryObject<T> register(String name, double offset,
+			BiFunction<Vector3d, Vector3d, T> part) {
+		return ROCKET_PARTS.register(name, () -> part.apply(new Vector3d(0, 0, 0), new Vector3d(0, offset, 0)));
 	}
 
 }

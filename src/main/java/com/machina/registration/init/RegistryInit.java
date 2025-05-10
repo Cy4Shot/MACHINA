@@ -3,7 +3,7 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
-import com.machina.api.rocket.RocketPart;
+import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.starchart.planet_biome.RockMaker;
 import com.machina.api.starchart.planet_biome.TreeMaker;
 import com.machina.api.util.MachinaRL;
