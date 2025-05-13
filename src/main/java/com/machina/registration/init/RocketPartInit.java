@@ -57,43 +57,43 @@ public class RocketPartInit {
 	//@formatter:on
 
 	private static final RegistryObject<ChassisPart<?>> chassis(String name, float height, float offset, float guiScale,
-			float weight, FluidObject coolant, float coolantEfficiency, Supplier<? extends RocketPartModel> model) {
+			float mass, FluidObject coolant, float coolantEfficiency, Supplier<? extends RocketPartModel> model) {
 		RegistryObject<ChassisPart<?>> ro = register(name + "_chassis",
-				(t) -> new ChassisPart<>(t, height, model, weight, offset, guiScale, coolant, coolantEfficiency));
+				(t) -> new ChassisPart<>(t, height, model, mass, offset, guiScale, coolant, coolantEfficiency));
 		CHASSIS.put(ro.getKey(), ro);
 		return ro;
 	}
 
 	private static final RegistryObject<FuelTankPart<?>> fuel_tank(String name, float height, float offset,
-			float guiScale, float weight, int fuelStorage, int coolantStorage,
+			float guiScale, float mass, int fuelStorage, int coolantStorage,
 			Supplier<? extends RocketPartModel> model) {
 		RegistryObject<FuelTankPart<?>> ro = register(name + "_fuel_tank",
-				(t) -> new FuelTankPart<>(t, height, model, weight, offset, guiScale, fuelStorage, coolantStorage));
+				(t) -> new FuelTankPart<>(t, height, model, mass, offset, guiScale, fuelStorage, coolantStorage));
 		FUEL_TANKS.put(ro.getKey(), ro);
 		return ro;
 	}
 
 	private static final RegistryObject<LifeSupportPart<?>> life_support(String name, float height, float offset,
-			float guiScale, float weight, int slots, Supplier<? extends RocketPartModel> model) {
+			float guiScale, float mass, int slots, Supplier<? extends RocketPartModel> model) {
 		RegistryObject<LifeSupportPart<?>> ro = register(name + "_life_support",
-				(t) -> new LifeSupportPart<>(t, height, model, weight, offset, guiScale, slots));
+				(t) -> new LifeSupportPart<>(t, height, model, mass, offset, guiScale, slots));
 		LIFE_SUPPORTS.put(ro.getKey(), ro);
 		return ro;
 	}
 
 	private static final RegistryObject<ShieldPart<?>> shield(String name, float height, float offset, float guiScale,
-			float weight, float maxAtmPressure, Supplier<? extends RocketPartModel> model) {
+			float mass, float maxAtmPressure, Supplier<? extends RocketPartModel> model) {
 		RegistryObject<ShieldPart<?>> ro = register(name + "_shield",
-				(t) -> new ShieldPart<>(t, height, model, weight, offset, guiScale, maxAtmPressure));
+				(t) -> new ShieldPart<>(t, height, model, mass, offset, guiScale, maxAtmPressure));
 		SHIELDS.put(ro.getKey(), ro);
 		return ro;
 	}
 
 	private static final RegistryObject<ThrusterPart<?>> thruster(String name, float height, float offset,
-			float guiScale, float weight, FluidObject fuel, float fuelEfficiency,
+			float guiScale, float mass, FluidObject fuel, float fuelEfficiency,
 			Supplier<? extends RocketPartModel> model) {
 		RegistryObject<ThrusterPart<?>> ro = register(name + "_thruster",
-				(t) -> new ThrusterPart<>(t, height, model, weight, offset, guiScale, fuel, fuelEfficiency));
+				(t) -> new ThrusterPart<>(t, height, model, mass, offset, guiScale, fuel, fuelEfficiency));
 		THRUSTERS.put(ro.getKey(), ro);
 		return ro;
 	}

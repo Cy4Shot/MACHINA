@@ -98,6 +98,10 @@ public class StringUtils {
 		return formatNumberWithUnit(rad) + "rad";
 	}
 
+	public static String formatMass(float mass) {
+		return formatNumberWithUnit(mass * 1_000D) + "g";
+	}
+
 	public static String formatPercent(float percent) {
 		return String.format("%.1f%%", percent * 100);
 	}
@@ -107,8 +111,7 @@ public class StringUtils {
 	}
 
 	public static MutableComponent fluid(FluidStack stack, boolean bold) {
-		return stack.getDisplayName().copy()
-				.withStyle(Style.EMPTY.withBold(bold)
-						.withColor(IClientFluidTypeExtensions.of(stack.getFluid()).getTintColor()));
+		return stack.getDisplayName().copy().withStyle(
+				Style.EMPTY.withBold(bold).withColor(IClientFluidTypeExtensions.of(stack.getFluid()).getTintColor()));
 	}
 }

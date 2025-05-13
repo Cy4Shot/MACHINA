@@ -628,6 +628,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(RocketPartType.THRUSTER, "Thruster");
 
 		// UI
+		addUI("none", "");
+
 		addUI("jei.input", "Input");
 		addUI("jei.output", "Output");
 
@@ -760,6 +762,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("atmospheric_separator.no_power", "No Power");
 		addUI("atmospheric_separator.separating", "Separating Atmosphere");
 
+		addUI("rocket_part_bench.mass", "Mass");
 		addUI("rocket_part_bench.fuel_type", "Fuel");
 		addUI("rocket_part_bench.coolant_type", "Coolant");
 		addUI("rocket_part_bench.fuel_capacity", "Fuel Cap");

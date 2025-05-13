@@ -16,17 +16,17 @@ public class RocketPart<T extends RocketPartModel> {
 	private final float height, offset, guiScale;
 	private final Supplier<T> model;
 
-	private final float weight;
+	private final float mass;
 
 	public RocketPart(ResourceLocation loc, RocketPartType type, float height, float offset, float guiScale,
-			Supplier<T> model, float weight) {
+			Supplier<T> model, float mass) {
 		this.loc = loc;
 		this.type = type;
 		this.height = height;
 		this.offset = offset;
 		this.guiScale = guiScale;
 		this.model = model;
-		this.weight = weight;
+		this.mass = mass;
 	}
 
 	public MutableComponent getName() {
@@ -38,8 +38,8 @@ public class RocketPart<T extends RocketPartModel> {
 		return model.get();
 	}
 
-	public float getWeight() {
-		return weight;
+	public float getMass() {
+		return mass;
 	}
 
 	public RocketPartType getType() {

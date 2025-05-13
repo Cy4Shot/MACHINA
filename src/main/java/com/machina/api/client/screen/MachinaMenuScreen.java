@@ -377,7 +377,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int i = midWidth() + x + 117 - 66;
 		int j = midHeight() + y - 9;
 		registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 136, j + 18,
-				() -> active
+				() -> active || missing.equals("none")
 						? name.get()
 								.append(Component
 										.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
@@ -394,7 +394,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		int i = midWidth() + x + 117 - 20;
 		int j = midHeight() + y - 9;
 		registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 43, j + 18,
-				() -> active
+				() -> active || missing.equals("none")
 						? name.get()
 								.append(Component
 										.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())

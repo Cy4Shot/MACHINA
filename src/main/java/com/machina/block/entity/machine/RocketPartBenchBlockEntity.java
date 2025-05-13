@@ -41,7 +41,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
 	@Override
 	public int getMaxEnergy() {
 		// TODO: Config
-		return 10_000_000;
+		return 100_000;
 	}
 
 	@Override

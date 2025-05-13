@@ -50,9 +50,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.ItemDecoratorHandler;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
@@ -432,12 +434,44 @@ public final class MUI {
 		RenderSystem.disableScissor();
 	}
 
-	public static void renderItem(GuiGraphics gui, int i, int j, int mx, int my, boolean tooltip, ItemStack stack) {
+	public static void renderItem(GuiGraphics gui, int i, int j, int mx, int my, boolean tooltip, boolean active,
+			ItemStack stack) {
 		gui.renderItem(stack, i, j);
-		gui.renderItemDecorations(mc.font, stack, i, j, String.valueOf(stack.getCount()));
+		renderCustomItemDecorations(gui, stack, i, j, active);
 
 		if (tooltip && mx > i && mx < i + 16 && my > j && my < j + 16) {
 			gui.renderTooltip(mc.font, stack, mx, my);
+		}
+	}
+
+	private static void renderCustomItemDecorations(GuiGraphics gui, ItemStack stack, int x, int y, boolean active) {
+		if (!stack.isEmpty()) {
+			gui.pose().pushPose();
+			if (stack.getCount() != 1) {
+				String s = String.valueOf(stack.getCount());
+				gui.pose().translate(0.0F, 0.0F, 200.0F);
+				gui.drawString(mc.font, s, x + 17 - mc.font.width(s), y + 9, active ? MUI.WHITE : MUI.RED, true);
+			}
+
+			if (stack.isBarVisible()) {
+				int l = stack.getBarWidth();
+				int i = stack.getBarColor();
+				int j = x + 2;
+				int k = y + 13;
+				gui.fill(RenderType.guiOverlay(), j, k, j + 13, k + 2, -16777216);
+				gui.fill(RenderType.guiOverlay(), j, k, j + l, k + 1, i | -16777216);
+			}
+
+			float f = mc.player == null ? 0.0F
+					: mc.player.getCooldowns().getCooldownPercent(stack.getItem(), mc.getFrameTime());
+			if (f > 0.0F) {
+				int i1 = y + Mth.floor(16.0F * (1.0F - f));
+				int j1 = i1 + Mth.ceil(16.0F * f);
+				gui.fill(RenderType.guiOverlay(), x, i1, x + 16, j1, Integer.MAX_VALUE);
+			}
+
+			gui.pose().popPose();
+			ItemDecoratorHandler.of(stack).render(gui, mc.font, stack, x, y);
 		}
 	}
 
