@@ -36,6 +36,65 @@ public abstract class RocketPartModel extends EntityModel<RocketEntity> {
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
 			float red, float green, float blue, float alpha) {
 		main().render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+
+////		Debug Cube
+//		poseStack.pushPose();
+//		poseStack.translate(0, 0, 0);
+//		poseStack.scale(0.5F, 0.5F, 0.5F);
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, -1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, -1.0F, -1.0F).color(255, 0, 0, 255).uv(1, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, 1.0F, -1.0F).color(255, 0, 0, 255).uv(1, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, 1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, -1.0F, 1.0F).color(255, 0, 0, 255).uv(0, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, -1.0F, 1.0F).color(255, 0, 0, 255).uv(1, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, 1.0F, 1.0F).color(255, 0, 0, 255).uv(1, 1).overlayCoords(0)
+//				.uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, 1.0F, 1.0F).color(255, 0, 0, 255).uv(0, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, -1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, -1.0F, 1.0F).color(255, 0, 0, 255).uv(1, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, -1.0F, 1.0F).color(255, 0, 0, 255).uv(1, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, -1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, 1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, 1.0F, 1.0F).color(255, 0, 0, 255).uv(1, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, 1.0F, 1.0F).color(255, 0, 0, 255).uv(1, 1).overlayCoords(0)
+//				.uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, 1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, -1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, 1.0F, -1.0F).color(255, 0, 0, 255).uv(1, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, 1.0F, 1.0F).color(255, 0, 0, 255).uv(1, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, -1.0F, 1.0F).color(255, 0, 0, 255).uv(0, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, -1.0F, 1.0F).color(255, 0, 0, 255).uv(0, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, 1.0F, 1.0F).color(255, 0, 0, 255).uv(1, 0).overlayCoords(0)
+//				.uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, -1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), -1.0F, 1.0F, -1.0F).color(255, 0, 0, 255).uv(1, 0)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, 1.0F, -1.0F).color(255, 0, 0, 255).uv(1, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		vertexConsumer.vertex(poseStack.last().pose(), 1.0F, -1.0F, -1.0F).color(255, 0, 0, 255).uv(0, 1)
+//				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
+//		poseStack.popPose();
+
 	}
 
 }

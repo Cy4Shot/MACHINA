@@ -2,8 +2,6 @@ package com.machina.api.rocket.part;
 
 import java.util.function.Supplier;
 
-import org.joml.Vector3d;
-
 import com.machina.client.rocket.model.RocketPartModel;
 
 import net.minecraft.network.chat.Component;
@@ -14,18 +12,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class RocketPart<T extends RocketPartModel> {
 	private final ResourceLocation loc;
 	private final RocketPartType type;
-	private final Vector3d upAnchor;
-	private final Vector3d downAnchor;
+	private final float height, offset;
 	private final Supplier<T> model;
 
 	private final float weight;
 
-	public RocketPart(ResourceLocation loc, RocketPartType type, Vector3d upAnchor, Vector3d downAnchor,
-			Supplier<T> model, float weight) {
+	public RocketPart(ResourceLocation loc, RocketPartType type, float height, float offset, Supplier<T> model,
+			float weight) {
 		this.loc = loc;
 		this.type = type;
-		this.upAnchor = upAnchor;
-		this.downAnchor = downAnchor;
+		this.height = height;
+		this.offset = offset;
 		this.model = model;
 		this.weight = weight;
 	}
@@ -43,15 +40,15 @@ public class RocketPart<T extends RocketPartModel> {
 		return weight;
 	}
 
-	public Vector3d getDownAnchor() {
-		return downAnchor;
-	}
-
-	public Vector3d getUpAnchor() {
-		return upAnchor;
-	}
-
 	public RocketPartType getType() {
 		return type;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public float getModelOffset() {
+		return height + offset;
 	}
 }

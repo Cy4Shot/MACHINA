@@ -25,9 +25,12 @@ public class PressurizedTankModel extends RocketPartModel {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		partdefinition.addOrReplaceChild("core", CubeListBuilder.create().texOffs(48, 32).addBox(-8.0F, -44.0F, -8.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 80).addBox(-6.0F, -41.0F, -6.0F, 12.0F, 10.0F, 12.0F, new CubeDeformation(0.0F))
-		.texOffs(48, 87).addBox(-4.0F, -44.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(-0.001F)), PartPose.offset(0.0F, 52.0F, 0.0F));
+		partdefinition.addOrReplaceChild("core",
+				CubeListBuilder.create().texOffs(48, 32)
+						.addBox(-8.0F, 0.0F, -8.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F)).texOffs(0, 80)
+						.addBox(-6.0F, 3.0F, -6.0F, 12.0F, 10.0F, 12.0F, new CubeDeformation(0.0F)).texOffs(48, 87)
+						.addBox(-4.0F, 0.0F, -4.0F, 8.0F, 16.0F, 8.0F, new CubeDeformation(-0.001F)),
+				PartPose.ZERO);
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

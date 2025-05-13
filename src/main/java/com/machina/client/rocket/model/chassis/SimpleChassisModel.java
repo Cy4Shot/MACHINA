@@ -27,13 +27,12 @@ public class SimpleChassisModel extends RocketPartModel {
 
 		partdefinition.addOrReplaceChild("Core",
 				CubeListBuilder.create().texOffs(0, 36)
-						.addBox(-24.0F, -108.0F, 16.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(32, 36)
-						.addBox(-24.0F, -108.0F, -24.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(48, 0)
-						.addBox(16.0F, -108.0F, -24.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(64, 32)
-						.addBox(16.0F, -108.0F, 16.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(0, 0)
-						.addBox(-6.0F, -108.0F, -6.0F, 12.0F, 24.0F, 12.0F, new CubeDeformation(0.0F)).texOffs(48, 32)
-						.addBox(-1.0F, -2.0F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)),
-				PartPose.offset(0.0F, 108.0F, 0.0F));
+						.addBox(-24.0F, 0.0F, 16.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(32, 36)
+						.addBox(-24.0F, 0.0F, -24.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(48, 0)
+						.addBox(16.0F, 0.0F, -24.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(64, 32)
+						.addBox(16.0F, 0.0F, 16.0F, 8.0F, 24.0F, 8.0F, new CubeDeformation(0.0F)).texOffs(0, 0)
+						.addBox(-6.0F, 0.0F, -6.0F, 12.0F, 24.0F, 12.0F, new CubeDeformation(0.0F)).texOffs(48, 32),
+				PartPose.ZERO);
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

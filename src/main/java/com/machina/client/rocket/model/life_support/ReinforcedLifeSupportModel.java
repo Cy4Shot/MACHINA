@@ -24,8 +24,8 @@ public class ReinforcedLifeSupportModel extends RocketPartModel {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		partdefinition.addOrReplaceChild("lifesupport", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -76.0F,
-				-8.0F, 16.0F, 32.0F, 16.0F, new CubeDeformation(-0.01F)), PartPose.offset(0.0F, 68.0F, 0.0F));
+		partdefinition.addOrReplaceChild("lifesupport", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, 0.0F,
+				-8.0F, 16.0F, 32.0F, 16.0F, new CubeDeformation(-0.01F)), PartPose.ZERO);
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

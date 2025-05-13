@@ -27,13 +27,13 @@ public class TriTallThrusterModel extends RocketPartModel {
 
 		partdefinition.addOrReplaceChild("thrusters",
 				CubeListBuilder.create().texOffs(80, 87)
-						.addBox(6.0F, -26.0F, -11.0F, 6.0F, 26.0F, 6.0F, new CubeDeformation(0.0F)).texOffs(80, 87)
-						.addBox(-12.0F, -26.0F, -11.0F, 6.0F, 26.0F, 6.0F, new CubeDeformation(0.0F)).texOffs(80, 87)
-						.addBox(-3.0F, -26.0F, 6.0F, 6.0F, 26.0F, 6.0F, new CubeDeformation(0.0F)).texOffs(100, 0)
-						.addBox(-2.5F, -12.0F, -6.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).texOffs(100, 0)
-						.addBox(-6.0F, -12.0F, 0.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).texOffs(100, 0)
-						.addBox(1.0F, -12.0F, 0.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)),
-				PartPose.offset(0.0F, 0.0F, 0.0F));
+						.addBox(6.0F, 0.0F, -11.0F, 6.0F, 26.0F, 6.0F, new CubeDeformation(0.0F)).texOffs(80, 87)
+						.addBox(-12.0F, 0.0F, -11.0F, 6.0F, 26.0F, 6.0F, new CubeDeformation(0.0F)).texOffs(80, 87)
+						.addBox(-3.0F, 0.0F, 6.0F, 6.0F, 26.0F, 6.0F, new CubeDeformation(0.0F)).texOffs(100, 0)
+						.addBox(-2.5F, 14.0F, -6.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).texOffs(100, 0)
+						.addBox(-6.0F, 14.0F, 0.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)).texOffs(100, 0)
+						.addBox(1.0F, 14.0F, 0.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)),
+				PartPose.ZERO);
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

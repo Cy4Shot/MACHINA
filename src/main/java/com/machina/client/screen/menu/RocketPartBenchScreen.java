@@ -92,7 +92,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 		for (int x = 0; x < parts.size(); x++) {
 			int h = j + x * 60 - (int) (scrollDist);
 			RocketPart<?> part = parts.get(x);
-			MUI.rocketPart(gui, i + 45, h - 20, 16, aliveTicks % 360, -15f, part);
+			MUI.rocketPart(gui, i + 45, h - 16, 16, aliveTicks % 360, -15f, part);
 
 			MUI.drawString(gui, part.getName(), i + 90, h - 35);
 			switch (selected) {

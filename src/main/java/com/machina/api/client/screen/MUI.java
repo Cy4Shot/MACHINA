@@ -421,7 +421,8 @@ public final class MUI {
 
 	public static void enableClipping(int x, int y, int w, int h) {
 		double scale = mc.getWindow().getGuiScale();
-		RenderSystem.enableScissor((int) (x * scale), (int) (mc.getWindow().getHeight() - (y + h) * scale), (int) (w * scale), (int) (h * scale));
+		RenderSystem.enableScissor((int) (x * scale), (int) (mc.getWindow().getHeight() - (y + h) * scale),
+				(int) (w * scale), (int) (h * scale));
 	}
 
 	public static void disableClipping() {
@@ -561,6 +562,7 @@ public final class MUI {
 
 		// Apply GUI pose first
 		vs.mulPoseMatrix(gui.pose().last().pose());
+		vs.translate(0, -part.getHeight() * 8, 0);
 		vs.scale((float) scale, (float) scale, (float) scale);
 		vs.translate(x / scale, y / scale, 50.0F);
 
