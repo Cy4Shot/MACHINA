@@ -12,9 +12,9 @@ public class ShieldPart<T extends RocketPartModel> extends RocketPart<T> {
 
 	private final float maxAtmPressure;
 
-	public ShieldPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off,
+	public ShieldPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, float guiScale,
 			float maxAtmPressure) {
-		super(loc, RocketPartType.THRUSTER, height, off, model, weight);
+		super(loc, RocketPartType.THRUSTER, height, off, guiScale, model, weight);
 		this.maxAtmPressure = maxAtmPressure;
 	}
 

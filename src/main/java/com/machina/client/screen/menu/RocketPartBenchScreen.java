@@ -1,10 +1,12 @@
 package com.machina.client.screen.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.MUI;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
@@ -20,6 +22,7 @@ import com.machina.registration.init.RocketPartInit;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -27,12 +30,34 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu> {
 
-	public RocketPartBenchScreen(RocketPartBenchMenu menu, Inventory inv, Component title) {
-		super(menu, inv, title);
-	}
-
+	private List<? extends RocketPart<?>> parts = new ArrayList<>();
 	private int selected = 0;
 	private float scrollDist = 0;
+
+	public RocketPartBenchScreen(RocketPartBenchMenu menu, Inventory inv, Component title) {
+		super(menu, inv, title);
+		updateParts();
+	}
+
+	private void updateParts() {
+		switch (selected) {
+		case 0:
+			parts = RocketPartInit.THRUSTERS.values().stream().map(RegistryObject::get).toList();
+			break;
+		case 1:
+			parts = RocketPartInit.FUEL_TANKS.values().stream().map(RegistryObject::get).toList();
+			break;
+		case 2:
+			parts = RocketPartInit.CHASSIS.values().stream().map(RegistryObject::get).toList();
+			break;
+		case 3:
+			parts = RocketPartInit.LIFE_SUPPORTS.values().stream().map(RegistryObject::get).toList();
+			break;
+		default:
+			parts = RocketPartInit.SHIELDS.values().stream().map(RegistryObject::get).toList();
+			break;
+		}
+	}
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
@@ -61,8 +86,12 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 			final int x1 = x;
 			clickAndHover("tab_" + x, i + 35 + x * 21, j - 71, i + 53 + x * 21, j - 53, () -> true,
 					() -> type.getName(), () -> {
-						this.selected = x1;
-						MUI.click();
+						if (this.selected != x1) {
+							this.selected = x1;
+							this.scrollDist = 0;
+							updateParts();
+							MUI.click();
+						}
 					});
 		}
 
@@ -71,70 +100,65 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 
 		// Main Body
 		MUI.enableClipping(i + 5, j - 45, 225, 112);
-		List<? extends RocketPart<?>> parts;
-		switch (selected) {
-		case 0:
-			parts = RocketPartInit.THRUSTERS.values().stream().map(RegistryObject::get).toList();
-			break;
-		case 1:
-			parts = RocketPartInit.FUEL_TANKS.values().stream().map(RegistryObject::get).toList();
-			break;
-		case 2:
-			parts = RocketPartInit.CHASSIS.values().stream().map(RegistryObject::get).toList();
-			break;
-		case 3:
-			parts = RocketPartInit.LIFE_SUPPORTS.values().stream().map(RegistryObject::get).toList();
-			break;
-		default:
-			parts = RocketPartInit.SHIELDS.values().stream().map(RegistryObject::get).toList();
-			break;
-		}
 		for (int x = 0; x < parts.size(); x++) {
 			int h = j + x * 60 - (int) (scrollDist);
 			RocketPart<?> part = parts.get(x);
-			MUI.rocketPart(gui, i + 45, h - 16, 16, aliveTicks % 360, -15f, part);
+			MUI.rocketPart(gui, i + 48, h - 16, 24, aliveTicks % 360, -15f, part);
 
-			MUI.drawString(gui, part.getName(), i + 90, h - 35);
+			MUI.drawString(gui, part.getName().withStyle(Style.EMPTY.withBold(true)), i + 90, h - 35);
+			Component c = Component.literal(": ");
 			switch (selected) {
 			case 0:
 				ThrusterPart<?> thruster = (ThrusterPart<?>) part;
 				MUI.drawString(gui,
-						Component.literal("Fuel Type: ")
+						MUI.uistr("rocket_part_bench.fuel_type").append(c)
 								.append(StringUtils.fluid(new FluidStack(thruster.getFuel().fluid(), 1), true)),
 						i + 90, h - 25);
 				MUI.drawString(gui,
-						Component.literal("Efficiency: " + StringUtils.formatPercent(thruster.getFuelEfficiency())),
+						MUI.uistr("rocket_part_bench.efficiency").append(c)
+								.append(Component.literal(StringUtils.formatPercent(thruster.getFuelEfficiency()))
+										.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
 						i + 90, h - 15);
 				break;
 			case 1:
 				FuelTankPart<?> tank = (FuelTankPart<?>) part;
 				MUI.drawString(gui,
-						Component.literal("Fuel Capacity: " + StringUtils.formatFluid(tank.getFuelStorage())), i + 90,
-						h - 25);
+						MUI.uistr("rocket_part_bench.fuel_capacity").append(c)
+								.append(Component.literal(StringUtils.formatFluid(tank.getFuelStorage()))
+										.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+						i + 90, h - 25);
 				MUI.drawString(gui,
-						Component.literal("Coolant Capacity: " + StringUtils.formatFluid(tank.getCoolantStorage())),
+						MUI.uistr("rocket_part_bench.coolant_capacity").append(c)
+								.append(Component.literal(StringUtils.formatFluid(tank.getCoolantStorage()))
+										.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2))),
 						i + 90, h - 15);
 				break;
 			case 2:
 				ChassisPart<?> chassis = (ChassisPart<?>) part;
 				MUI.drawString(gui,
-						Component.literal("Coolant Type: ")
+						MUI.uistr("rocket_part_bench.coolant_type").append(c)
 								.append(StringUtils.fluid(new FluidStack(chassis.getCoolant().fluid(), 1), true)),
 						i + 90, h - 25);
 				MUI.drawString(gui,
-						Component.literal("Efficiency: " + StringUtils.formatPercent(chassis.getCoolantEfficiency())),
+						MUI.uistr("rocket_part_bench.efficiency").append(c)
+								.append(Component.literal(StringUtils.formatPercent(chassis.getCoolantEfficiency()))
+										.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
 						i + 90, h - 15);
 				break;
 			case 3:
 				LifeSupportPart<?> lifeSupport = (LifeSupportPart<?>) part;
-				MUI.drawString(gui, Component.literal("Storage Slots: " + String.valueOf(lifeSupport.getSlots())),
+				MUI.drawString(gui,
+						MUI.uistr("rocket_part_bench.storage").append(c)
+								.append(Component.literal(String.valueOf(lifeSupport.getSlots()))
+										.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
 						i + 90, h - 25);
 				break;
 			case 4:
 				ShieldPart<?> shield = (ShieldPart<?>) part;
 				MUI.drawString(gui,
-						Component.literal(
-								"Max Atm Pressure: " + StringUtils.formatPressure(shield.getMaxAtmPressure())),
+						MUI.uistr("rocket_part_bench.max_pressure").append(c)
+								.append(Component.literal(StringUtils.formatPressure(shield.getMaxAtmPressure()))
+										.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
 						i + 90, h - 25);
 				break;
 			}
@@ -142,6 +166,30 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 			MUI.renderItem(gui, i + 90, h - 5, mx, my, true, new ItemStack(ItemInit.CONSTANTAN_INGOT.get(), 30));
 			MUI.renderItem(gui, i + 110, h - 5, mx, my, true, new ItemStack(ItemInit.ALUMINUM_PLATE.get(), 78));
 			MUI.renderItem(gui, i + 130, h - 5, mx, my, true, new ItemStack(ItemInit.COPPER_ROD.get(), 34));
+
+			boolean allowed = true;
+			if (allowed) {
+				int but_shade = 94;
+				if (allowed & mx > i + 204 && mx < i + 221) {
+					if (my > j - 45 && my < j + 67) {
+						if (my > h - 5 && my < h + 12) {
+							but_shade = 113;
+						}
+					}
+				}
+				MUI.blitCommon(gui, i + 204, h - 5, 466, but_shade, 19, 19);
+				MuiSlot.TICK.draw(gui, i + 208, h - 1, this.aliveTicks);
+				
+				MUI.blitCommon(gui, i + 198, h - 4, 387, 0, 3, 16);
+				MUI.blitCommon(gui, i + 225, h - 4, 390, 0, 3, 16);
+			} else {
+				MuiSlot.CROSS_R.draw(gui, i + 212, h - 1, this.aliveTicks);
+			}
+
+			if (x != parts.size() - 1) {
+				MUI.blitCommon(gui, i + 6, h + 16, 179, 92, 184, 2);
+				MUI.blitCommon(gui, i + 192, h + 16, 179, 92, 38, 2);
+			}
 		}
 		MUI.disableClipping();
 
@@ -151,11 +199,12 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 	@Override
 	public boolean mouseScrolled(double mx, double my, double scroll) {
 		if (scroll != 0) {
+			float max = Math.max(0, parts.size() * 60 - 112);
 			this.scrollDist -= scroll * 10;
 			if (this.scrollDist < 0.0F)
 				this.scrollDist = 0.0F;
-			if (this.scrollDist > 200f)
-				this.scrollDist = 200f;
+			if (this.scrollDist > max)
+				this.scrollDist = max;
 			return true;
 		}
 		return false;

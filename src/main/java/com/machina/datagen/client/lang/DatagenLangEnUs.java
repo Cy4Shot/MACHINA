@@ -760,6 +760,12 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("atmospheric_separator.no_power", "No Power");
 		addUI("atmospheric_separator.separating", "Separating Atmosphere");
 
-		addUI("rocket_part_bench.no_power", "No Power");
+		addUI("rocket_part_bench.fuel_type", "Fuel");
+		addUI("rocket_part_bench.coolant_type", "Coolant");
+		addUI("rocket_part_bench.fuel_capacity", "Fuel Cap");
+		addUI("rocket_part_bench.coolant_capacity", "Coolant Cap");
+		addUI("rocket_part_bench.efficiency", "Efficiency");
+		addUI("rocket_part_bench.storage", "Storage Slots");
+		addUI("rocket_part_bench.max_pressure", "Max Pressure");
 	}
 }

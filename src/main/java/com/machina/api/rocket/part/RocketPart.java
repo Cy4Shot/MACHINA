@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.machina.client.rocket.model.RocketPartModel;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -12,22 +13,23 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class RocketPart<T extends RocketPartModel> {
 	private final ResourceLocation loc;
 	private final RocketPartType type;
-	private final float height, offset;
+	private final float height, offset, guiScale;
 	private final Supplier<T> model;
 
 	private final float weight;
 
-	public RocketPart(ResourceLocation loc, RocketPartType type, float height, float offset, Supplier<T> model,
-			float weight) {
+	public RocketPart(ResourceLocation loc, RocketPartType type, float height, float offset, float guiScale,
+			Supplier<T> model, float weight) {
 		this.loc = loc;
 		this.type = type;
 		this.height = height;
 		this.offset = offset;
+		this.guiScale = guiScale;
 		this.model = model;
 		this.weight = weight;
 	}
 
-	public Component getName() {
+	public MutableComponent getName() {
 		return Component.translatable("rocket_part." + loc.getNamespace() + "." + loc.getPath());
 	}
 
@@ -44,8 +46,8 @@ public class RocketPart<T extends RocketPartModel> {
 		return type;
 	}
 
-	public float getHeight() {
-		return height;
+	public float getGUIScale() {
+		return (1f / height) * guiScale;
 	}
 
 	public float getModelOffset() {

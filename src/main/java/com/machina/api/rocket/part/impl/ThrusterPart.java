@@ -14,9 +14,9 @@ public class ThrusterPart<T extends RocketPartModel> extends RocketPart<T> {
 	private final FluidObject fuel;
 	private final float fuelEfficiency;
 
-	public ThrusterPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off,
+	public ThrusterPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, float guiScale,
 			FluidObject fuel, float fuelEfficiency) {
-		super(loc, RocketPartType.THRUSTER, height, off, model, weight);
+		super(loc, RocketPartType.THRUSTER, height, off, guiScale, model, weight);
 		this.fuel = fuel;
 		this.fuelEfficiency = fuelEfficiency;
 	}

@@ -14,9 +14,9 @@ public class ChassisPart<T extends RocketPartModel> extends RocketPart<T> {
 	private final FluidObject coolant;
 	private final float coolantEfficiency;
 
-	public ChassisPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, FluidObject coolant,
-			float coolantEfficiency) {
-		super(loc, RocketPartType.CHASSIS, height, off, model, weight);
+	public ChassisPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, float guiScale,
+			FluidObject coolant, float coolantEfficiency) {
+		super(loc, RocketPartType.CHASSIS, height, off, guiScale, model, weight);
 		this.coolant = coolant;
 		this.coolantEfficiency = coolantEfficiency;
 	}

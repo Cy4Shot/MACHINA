@@ -63,6 +63,8 @@ public final class MUI {
 	public static final int RED = 0xFE0000;
 	public static final int GREEN = 0x00FE00;
 	public static final int WHITE = 0xFFFFFF;
+	public static final int ACC_1 = 0x00FF88;
+	public static final int ACC_2 = 0xE600FF;
 
 	private static final Minecraft mc = Minecraft.getInstance();
 
@@ -169,7 +171,8 @@ public final class MUI {
 		TIME(499, 103),
 		TEMP(499, 113),
 		PLATE(499, 123),
-		ROD(499, 133);
+		ROD(499, 133),
+		CROSS_R(499, 143);
 
 		private final int x;
 		private final int y;
@@ -562,7 +565,8 @@ public final class MUI {
 
 		// Apply GUI pose first
 		vs.mulPoseMatrix(gui.pose().last().pose());
-		vs.translate(0, -part.getHeight() * 8, 0);
+		scale *= part.getGUIScale();
+		vs.translate(0, -8, 0);
 		vs.scale((float) scale, (float) scale, (float) scale);
 		vs.translate(x / scale, y / scale, 50.0F);
 

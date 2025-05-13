@@ -12,8 +12,9 @@ public class LifeSupportPart<T extends RocketPartModel> extends RocketPart<T> {
 
 	private final int slots;
 
-	public LifeSupportPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, int slots) {
-		super(loc, RocketPartType.THRUSTER, height, off, model, weight);
+	public LifeSupportPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off,
+			float guiScale, int slots) {
+		super(loc, RocketPartType.THRUSTER, height, off, guiScale, model, weight);
 		this.slots = slots;
 	}
 
