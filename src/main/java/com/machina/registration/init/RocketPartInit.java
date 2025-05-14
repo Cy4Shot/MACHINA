@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.machina.api.item.RocketPartItem;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.impl.ChassisPart;
 import com.machina.api.rocket.part.impl.FuelTankPart;
@@ -27,6 +28,7 @@ import com.machina.registration.init.FluidInit.FluidObject;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -100,7 +102,12 @@ public class RocketPartInit {
 
 	private static final <T extends RocketPart<?>> RegistryObject<T> register(String name,
 			Function<ResourceLocation, T> part) {
-		return ROCKET_PARTS.register(name, () -> part.apply(new MachinaRL(name)));
+		RegistryObject<T> ro = ROCKET_PARTS.register(name, () -> part.apply(new MachinaRL(name)));
+		ItemInit.ITEMS.register("rocket_part_" + name, () -> {
+			System.out.println("Registering item for: " + name);
+			return new RocketPartItem(new Item.Properties(), ro.get());
+		});
+		return ro;
 	}
 
 }

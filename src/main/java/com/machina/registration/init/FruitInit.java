@@ -28,9 +28,6 @@ public class FruitInit {
 	public static final Fruit SPARR_BALL = register("sparr_ball", 1, 0.6f, 0);
 	public static final Fruit ERBI_POD = register("erbi_pod", 6, 0.1f, 0);
 
-	public static void registerAll() {
-	}
-
 	private static FoodProperties food(int nut, float sat, int flags) {
 		FoodProperties.Builder b = (new FoodProperties.Builder()).nutrition(nut).saturationMod(sat);
 		if ((flags & 1) == 1) {
