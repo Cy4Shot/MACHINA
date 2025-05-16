@@ -1,6 +1,7 @@
 package com.machina.api.client.model;
 
 import com.machina.Machina;
+import com.machina.api.client.model.bewlr.BEWLRLoader;
 import com.machina.api.client.model.connector.ConnectorModelLoader;
 import com.machina.api.util.MachinaRL;
 
@@ -38,5 +39,6 @@ public class ModelLoader {
 	public static void registerModels(final RegisterGeometryLoaders event) {
 		event.register("sided", new SimpleModel.Loader(SidedBakedModel::new));
 		event.register("connector", ConnectorModelLoader.INSTANCE);
+		event.register("bewlr", BEWLRLoader.INSTANCE);
 	}
 }

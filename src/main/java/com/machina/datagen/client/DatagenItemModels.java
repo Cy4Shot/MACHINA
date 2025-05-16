@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.machina.Machina;
 import com.machina.api.util.MachinaRL;
+import com.machina.datagen.client.builder.BEWLRModelLoaderBuilder;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FluidInit;
@@ -12,6 +13,7 @@ import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.FruitInit.Fruit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.RocketPartInit;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -88,6 +90,9 @@ public class DatagenItemModels extends ItemModelProvider {
 		FruitInit.FRUITS.forEach(this::fruit);
 		FluidInit.OBJS.forEach(this::bucket);
 		FamiliesInit.ORES.forEach(this::oreFamily);
+		RocketPartInit.ROCKET_PARTS.getEntries().forEach(part -> {
+			bewlr(part.get().getItem());
+		});
 	}
 
 	private String name(Item item) {
@@ -146,6 +151,9 @@ public class DatagenItemModels extends ItemModelProvider {
 						.texture("layer0", new MachinaRL("item/" + itemRegistryObject.getId().getPath()));
 			});
 		}
+	}
+	private void bewlr(Item item) {
+		getBuilder(name(item)).customLoader(BEWLRModelLoaderBuilder::new);
 	}
 
 	private void simpleItem(Item item) {

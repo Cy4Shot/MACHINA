@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-07T00:36:47.1356652	Item Models: machina
+// 1.20.1	2025-05-16T08:24:30.3749899	Item Models: machina
 a38be406000b52edfc5d6439eae91b0ad61a63dc assets/machina/models/item/acetaldehyde_bucket.json
 7548cc941b514c7510e6a96383a1341dec5684dc assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -136,6 +136,16 @@ f6fac02a935b4e3c15d68f4b87752f435dbaae3d assets/machina/models/item/quartz_dust.
 6acaf9461338b34076ff44bdcf4a20b143f13da4 assets/machina/models/item/raw_nickel.json
 0b9e3ec056cba7010962098dbe572a52205a9c5a assets/machina/models/item/raw_palladium.json
 5de2ea28a6e29b23781edca8f189aa9d6e83a91a assets/machina/models/item/raw_silver.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_advanced_chassis.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_cone_shield.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_pressurized_fuel_tank.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_reinforced_life_support.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_chassis.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_fuel_tank.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_life_support.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_shield.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_thruster.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_tri_tall_thruster.json
 6476d22880d8343451f1917ad8fe766e2cfa16c2 assets/machina/models/item/silver_dust.json
 d13e371598b1af49634275cf4452f087c437cc95 assets/machina/models/item/silver_ingot.json
 8722e8fdb7fadd09c564f826edbcf69877f6debd assets/machina/models/item/silver_nugget.json
