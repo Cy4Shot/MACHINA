@@ -1,7 +1,7 @@
 package com.machina.api.item;
 
 import java.util.List;
-import java.util.Map;
+import java.util.function.Supplier;
 
 import com.machina.api.rocket.part.RocketPart;
 
@@ -13,9 +13,9 @@ import net.minecraft.world.level.Level;
 
 public class RocketPartItem extends Item {
 
-	private final RocketPart<?> part;
+	private final Supplier<RocketPart<?>> part;
 
-	public RocketPartItem(Properties props, RocketPart<?> part) {
+	public RocketPartItem(Properties props, Supplier<RocketPart<?>> part) {
 		super(props.stacksTo(1));
 		this.part = part;
 	}
@@ -25,8 +25,8 @@ public class RocketPartItem extends Item {
 		super.appendHoverText(s, l, def, flag);
 	}
 
-	public void registerParts(Map<RocketPart<?>, Item> m, Item i) {
-		m.put(part, i);
+	public RocketPart<?> getRocketPart() {
+		return part.get();
 	}
 
 }

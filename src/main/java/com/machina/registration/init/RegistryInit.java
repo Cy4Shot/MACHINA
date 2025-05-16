@@ -1,6 +1,9 @@
 package com.machina.registration.init;
 
+import java.util.Map;
 import java.util.function.Supplier;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Maps;
 import com.machina.Machina;
@@ -9,9 +12,11 @@ import com.machina.api.starchart.planet_biome.RockMaker;
 import com.machina.api.starchart.planet_biome.TreeMaker;
 import com.machina.api.util.MachinaRL;
 
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistry.AddCallback;
 import net.minecraftforge.registries.IForgeRegistry.CreateCallback;
 import net.minecraftforge.registries.IForgeRegistryInternal;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -30,7 +35,7 @@ public class RegistryInit {
 	public static final Supplier<IForgeRegistry<RocketPart<?>>> ROCKET_PARTS_REGISTRY = ROCKET_PARTS
 			.makeRegistry(() -> new RegistryBuilder<RocketPart<?>>().addCallback(RocketPartCallbacks.INSTANCE));
 
-	public static class RocketPartCallbacks implements CreateCallback<RocketPart<?>> {
+	public static class RocketPartCallbacks implements CreateCallback<RocketPart<?>>, AddCallback<RocketPart<?>> {
 		public static final ResourceLocation ROCKET_PART_TO_ITEM = new MachinaRL("rocket_part_to_item");
 
 		static final RocketPartCallbacks INSTANCE = new RocketPartCallbacks();
@@ -38,6 +43,15 @@ public class RegistryInit {
 		@Override
 		public void onCreate(IForgeRegistryInternal<RocketPart<?>> owner, RegistryManager stage) {
 			owner.setSlaveMap(ROCKET_PART_TO_ITEM, Maps.newHashMap());
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void onAdd(IForgeRegistryInternal<RocketPart<?>> owner, RegistryManager stage, int id,
+				ResourceKey<RocketPart<?>> key, RocketPart<?> obj, @Nullable RocketPart<?> oldObj) {
+			Map<RocketPart<?>, ResourceLocation> map = (Map<RocketPart<?>, ResourceLocation>) owner
+					.getSlaveMap(ROCKET_PART_TO_ITEM, Map.class);
+			map.put(obj, new MachinaRL("rocket_part_" + key.location().getPath()));
 		}
 	}
 }

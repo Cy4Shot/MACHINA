@@ -19,6 +19,10 @@ public class FruitInit {
 
 	public static final List<Fruit> FRUITS = new ArrayList<>();
 
+	public static final void register() {
+		// This method is left intentionally blank.
+	}
+
 	public static final Fruit TAMA_SPORE = register("tama_spore", 4, 0f, 0);
 	public static final Fruit STRAPPLE = register("strapple", 4, 0.3f, 0);
 	public static final Fruit ARGO_BERRY = register("argo_berry", 2, 0.5f, 0);

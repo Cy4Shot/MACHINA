@@ -5,7 +5,6 @@
 	"refmap": "machina.mixins.refmap.json",
 	"plugin": "com.machina.config.MixinConfig",
 	"mixins": [
-	    "forge.MixinItemCallbacks",
 		"LevelMixin",
 		"ServerLevelMixin",
 		"DataLoadContextMixin"

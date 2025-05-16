@@ -1,15 +1,18 @@
 package com.machina.registration.init;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import com.machina.Machina;
+import com.machina.api.rocket.part.RocketPart;
 import com.machina.registration.init.FamiliesInit.ItemLikeFamily;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit.Fruit;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -48,7 +51,6 @@ public class TabInit {
 				add(a, BlockInit.ELECTROLYZER);
 				add(a, BlockInit.ELECTRIC_PUMP);
 				add(a, BlockInit.ATMOSPHERIC_SEPARATOR);
-				add(a, BlockInit.ROCKET_PART_BENCH);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
 
@@ -179,6 +181,16 @@ public class TabInit {
 				fruit(a, FruitInit.FRUITS);
 			});
 
+	public static final RegistryObject<CreativeModeTab> MACHINA_ROCKETRY = create("machina_rocketry",
+			BlockInit.ROCKET_PART_BENCH, a -> {
+				add(a, BlockInit.ROCKET_PART_BENCH);
+				add(a, RocketPartInit.THRUSTERS);
+				add(a, RocketPartInit.FUEL_TANKS);
+				add(a, RocketPartInit.CHASSIS);
+				add(a, RocketPartInit.LIFE_SUPPORTS);
+				add(a, RocketPartInit.SHIELDS);
+			});
+
 	public static final RegistryObject<CreativeModeTab> MACHINA_MISCELLANEOUS = create("machina_misc",
 			ItemInit.LOGIC_UNIT, a -> {
 				add(a, ItemInit.COPPER_COIL);
@@ -198,6 +210,13 @@ public class TabInit {
 
 	public static void add(CreativeModeTab.Output adder, Fruit fruit) {
 		add(adder, fruit.item());
+	}
+
+	private static <T extends RocketPart<?>> void add(CreativeModeTab.Output a,
+			Map<ResourceKey<T>, RegistryObject<T>> parts) {
+		parts.values().forEach(r -> {
+			add(a, r.get().getItem());
+		});
 	}
 
 	public static void fruit(CreativeModeTab.Output adder, List<Fruit> fruit) {

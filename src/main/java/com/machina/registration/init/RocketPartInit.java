@@ -105,7 +105,7 @@ public class RocketPartInit {
 		RegistryObject<T> ro = ROCKET_PARTS.register(name, () -> part.apply(new MachinaRL(name)));
 		ItemInit.ITEMS.register("rocket_part_" + name, () -> {
 			System.out.println("Registering item for: " + name);
-			return new RocketPartItem(new Item.Properties(), ro.get());
+			return new RocketPartItem(new Item.Properties(), ro::get);
 		});
 		return ro;
 	}
