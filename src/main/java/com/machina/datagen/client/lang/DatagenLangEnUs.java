@@ -771,5 +771,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket_part_bench.efficiency", "Efficiency");
 		addUI("rocket_part_bench.storage", "Storage Slots");
 		addUI("rocket_part_bench.max_pressure", "Max Pressure");
+		addUI("rocket_part_bench.craft", "Craft");
+		addUI("rocket_part_bench.requires", "Requires");
+		addUI("rocket_part_bench.unavailable", "(Unavailable)");
 	}
 }

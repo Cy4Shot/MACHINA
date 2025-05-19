@@ -446,12 +446,12 @@ public final class MUI {
 		}
 	}
 
-	public static void renderItemDeferred(GuiGraphics gui, int i, int j, int mx, int my, boolean tooltip,
-			boolean active, ItemStack stack, Queue<Runnable> deferred) {
+	public static void renderItemDeferred(GuiGraphics gui, int i, int j, int mx, int my, boolean active,
+			ItemStack stack, Queue<Runnable> deferred) {
 		gui.renderItem(stack, i, j);
 		renderCustomItemDecorations(gui, stack, i, j, active);
 
-		if (tooltip && mx > i && mx < i + 16 && my > j && my < j + 16) {
+		if (mx > i && mx < i + 16 && my > j && my < j + 16) {
 			deferred.add(() -> MUI.renderTooltip(gui, stack, mx, my));
 		}
 	}

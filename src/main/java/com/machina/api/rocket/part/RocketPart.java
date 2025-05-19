@@ -44,6 +44,10 @@ public class RocketPart<T extends RocketPartModel> {
 	public T bake() {
 		return model.get();
 	}
+	
+	public ResourceLocation getLoc() {
+		return loc;
+	}
 
 	public float getMass() {
 		return mass;

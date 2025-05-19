@@ -22,4 +22,9 @@ public class RocketPartBenchBlock extends MachineBlock {
 	public Class<? extends MachinaBlockEntity> getBlockEntityClass() {
 		return RocketPartBenchBlockEntity.class;
 	}
+	
+	@Override
+	protected boolean isTickable() {
+		return true;
+	}
 }

@@ -18,6 +18,7 @@ import com.machina.api.network.c2s.C2SFinishCinematic;
 import com.machina.api.network.c2s.C2SItemMenuSync;
 import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
+import com.machina.api.network.c2s.C2SPartBenchCraft;
 import com.machina.api.network.c2s.C2SSideConfig;
 import com.machina.api.network.s2c.S2CFluidSync;
 import com.machina.api.network.s2c.S2COpenDirectionalContainer;
@@ -39,6 +40,7 @@ public class MachinaNetwork {
 		c2s(C2SMenuToggleConnector.class);
 		c2s(C2SItemMenuSync.class);
 		c2s(C2SSideConfig.class);
+		c2s(C2SPartBenchCraft.class);
 
 		s2c(S2COpenDirectionalContainer.class);
 		s2c(S2CFluidSync.class);

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.machina.api.block.entity.RecipeBlockEntity;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
@@ -74,6 +75,11 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 	@SuppressWarnings("unchecked")
 	public <T extends MachinaRecipe<C>> Optional<T> findRecipe(C entity) {
 		return (Optional<T>) recipes.values().stream().filter(r -> isValid(entity, r)).findFirst();
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends MachinaRecipe<C>> Optional<T> findRecipe(Predicate<? super MachinaRecipe<C>> output) {
+		return (Optional<T>) recipes.values().stream().filter(output).findFirst();
 	}
 
 	public List<MachinaRecipe<C>> all() {

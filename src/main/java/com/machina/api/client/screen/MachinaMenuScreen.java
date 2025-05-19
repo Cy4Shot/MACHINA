@@ -71,7 +71,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends AbstractContainerScreen<T> {
 
-	private static final Minecraft mc = Minecraft.getInstance();
+	protected static final Minecraft mc = Minecraft.getInstance();
 
 	private final ContainerBlockEntity entity;
 

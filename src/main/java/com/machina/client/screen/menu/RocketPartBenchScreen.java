@@ -3,13 +3,18 @@ package com.machina.client.screen.menu;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
 
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
+import com.machina.api.network.PacketSender;
+import com.machina.api.network.c2s.C2SPartBenchCraft;
 import com.machina.api.client.screen.MachinaMenuScreen;
+import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.api.rocket.part.impl.ChassisPart;
@@ -17,10 +22,10 @@ import com.machina.api.rocket.part.impl.FuelTankPart;
 import com.machina.api.rocket.part.impl.LifeSupportPart;
 import com.machina.api.rocket.part.impl.ShieldPart;
 import com.machina.api.rocket.part.impl.ThrusterPart;
+import com.machina.api.util.PlayerHelper;
 import com.machina.api.util.StringUtils;
 import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
 import com.machina.block.menu.RocketPartBenchMenu;
-import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RocketPartInit;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -173,32 +178,48 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 				break;
 			}
 
-			MUI.renderItemDeferred(gui, i + 90, h + 15, mx, my, true, false,
-					new ItemStack(ItemInit.CONSTANTAN_INGOT.get(), 30), tooltips);
-			MUI.renderItemDeferred(gui, i + 110, h + 15, mx, my, true, true,
-					new ItemStack(ItemInit.ALUMINUM_PLATE.get(), 78), tooltips);
-			MUI.renderItemDeferred(gui, i + 130, h + 15, mx, my, true, false,
-					new ItemStack(ItemInit.COPPER_ROD.get(), 34), tooltips);
+			entity.getRecipe(part).ifPresent(r -> {
+				boolean hasAll = true;
+				boolean hasPower = entity.hasPower(r);
 
-			boolean allowed = true;
-			if (allowed) {
-				int but_shade = 94;
-				if (allowed & mx > i + 204 && mx < i + 221) {
-					if (my > j - 45 && my < j + 67) {
-						if (my > h + 15 && my < h + 32) {
-							but_shade = 113;
-							tooltips.add(() -> MUI.renderTooltip(gui, mx, my, MUI.uistr("rocket_part_bench.craft")));
+				int x1 = i + 90;
+				for (ItemStack s : r.getInputItems()) {
+					boolean has = PlayerHelper.hasAll(mc.player, s);
+					hasAll &= has;
+					MUI.renderItemDeferred(gui, x1, h + 15, mx, my, has, s, tooltips);
+					x1 += 20;
+				}
+
+				if (hasAll) {
+					int but_shade = 94;
+					if (mx > i + 204 && mx < i + 221) {
+						if (my > j - 45 && my < j + 67) {
+							if (my > h + 15 && my < h + 32) {
+								but_shade = 113;
+								tooltips.add(() -> MUI.renderTooltip(gui, mx, my,
+										MUI.uistr("rocket_part_bench.craft")
+												.withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(true))
+												.append(hasPower ? Component.literal("")
+														: Component.literal(" ")
+																.append(MUI.uistr("rocket_part_bench.unavailable")
+																		.withStyle(Style.EMPTY.withColor(MUI.RED)
+																				.withBold(false).withItalic(true)))),
+										MUI.uistr("rocket_part_bench.requires").append(c)
+												.append(Component.literal(StringUtils.formatPower(r.getPowerRate()))
+														.withStyle(Style.EMPTY.withColor(hasPower ? MUI.GREEN : MUI.RED)
+																.withBold(true)))));
+							}
 						}
 					}
-				}
-				MUI.blitCommon(gui, i + 204, h + 15, 466, but_shade, 19, 19);
-				MuiSlot.TICK.draw(gui, i + 208, h + 19, this.aliveTicks);
+					MUI.blitCommon(gui, i + 204, h + 15, 466, but_shade, 19, 19);
+					MuiSlot.TICK.draw(gui, i + 208, h + 19, this.aliveTicks);
 
-				MUI.blitCommon(gui, i + 198, h + 16, 387, 0, 3, 16);
-				MUI.blitCommon(gui, i + 225, h + 16, 390, 0, 3, 16);
-			} else {
-				MuiSlot.CROSS_R.draw(gui, i + 212, h + 19, this.aliveTicks);
-			}
+					MUI.blitCommon(gui, i + 198, h + 16, hasPower ? 387 : 393, 0, 3, 16);
+					MUI.blitCommon(gui, i + 225, h + 16, hasPower ? 390 : 396, 0, 3, 16);
+				} else {
+					MuiSlot.CROSS_R.draw(gui, i + 212, h + 19, this.aliveTicks);
+				}
+			});
 
 			if (x != parts.size() - 1) {
 				MUI.blitCommon(gui, i + 6, h + 36, 179, 92, 184, 2);
@@ -226,5 +247,38 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public boolean mouseClicked(double x, double y, int button) {
+		if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+			int i = midWidth();
+			int j = midHeight();
+
+			// Detect click on craft button
+			if (x > i + 204 && x < i + 221) {
+				if (y > j - 45 && y < j + 67) {
+					for (int x1 = 0; x1 < parts.size(); x1++) {
+						RocketPartBenchBlockEntity entity = this.<RocketPartBenchBlockEntity>entity();
+						RocketPart<?> part = parts.get(x1);
+						Optional<MachinaRecipe<RocketPartBenchBlockEntity>> or = entity.getRecipe(part);
+						if (or.isPresent()) {
+							MachinaRecipe<RocketPartBenchBlockEntity> r = or.get();
+							if (PlayerHelper.hasAll(mc.player, r.getInputItems()) && entity.hasPower(r)) {
+								int h = j + x1 * 80 - (int) (scrollDist);
+								if (y > h + 15 && y < h + 32) {
+									PacketSender.sendToServer(new C2SPartBenchCraft(part, entity.getBlockPos()));
+									MUI.click();
+									mc.player.closeContainer();
+									return true;
+								}
+							}
+						}
+					}
+
+				}
+			}
+		}
+		return super.mouseClicked(x, y, button);
 	}
 }
