@@ -4,9 +4,11 @@
   "inputFluids": [],
   "inputItems": [
     {
+      "count": 1,
       "item": "machina:hexamine"
     },
     {
+      "count": 1,
       "item": "machina:palladium_on_carbon"
     }
   ],

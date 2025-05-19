@@ -6,7 +6,9 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.Machina;
+import com.machina.api.item.RocketPartItem;
 import com.machina.api.recipe.MachinaRecipeBuilder;
+import com.machina.api.rocket.part.RocketPart;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.RecipeInit;
 
@@ -18,6 +20,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -321,5 +324,15 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
             .energy(energy)
             .save(gen, "electrolysis_i_ff_c_" + getItemName(i.get()));
         //@formatter:on
+	}
+
+	protected static void rocket_part(@NotNull Consumer<FinishedRecipe> gen,
+			RegistryObject<? extends RocketPart<?>> reg, int energy, ItemStack... in) {
+		MachinaRecipeBuilder<?> builder = MachinaRecipeBuilder.create(RecipeInit.ROCKET_PART_BENCH);
+		RocketPartItem item = reg.get().getItem();
+		for (ItemStack stack : in) {
+			builder.in(stack);
+		}
+		builder.out(item).energy(energy).save(gen, getItemName(item));
 	}
 }

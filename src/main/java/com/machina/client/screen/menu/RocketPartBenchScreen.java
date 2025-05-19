@@ -187,7 +187,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 					if (my > j - 45 && my < j + 67) {
 						if (my > h + 15 && my < h + 32) {
 							but_shade = 113;
-							tooltips.add(() -> MUI.renderTooltip(gui, mx, my, Component.literal("Craft")));
+							tooltips.add(() -> MUI.renderTooltip(gui, mx, my, MUI.uistr("rocket_part_bench.craft")));
 						}
 					}
 				}

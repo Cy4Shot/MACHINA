@@ -1,8 +1,10 @@
 package com.machina.api.block.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -17,7 +19,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
@@ -243,20 +244,34 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 		return remaining.isEmpty();
 	}
 
-	public boolean hasItemInput(Ingredient stack) {
+	public boolean hasItemInput(ItemStack stack) {
+		int totalCount = 0;
+
 		for (RecipeSlot s : slots) {
 			if (s.type == SlotType.INPUT && s.item) {
 				ItemStack item = getItem(s.id());
-				if (stack.test(item)) {
-					return true;
+				if (stack.getItem().equals(item.getItem())) {
+					totalCount += item.getCount();
+					if (totalCount >= stack.getCount()) {
+						return true;
+					}
 				}
 			}
 		}
+
 		return false;
 	}
 
-	public boolean hasExactItemInputs(List<Ingredient> requiredItems) {
-		List<Ingredient> remaining = new ArrayList<>(requiredItems);
+	public boolean hasExactItemInputs(List<ItemStack> requiredItems) {
+		// Map of required items and their total counts
+		Map<Predicate<ItemStack>, Integer> requiredCounts = new HashMap<>();
+		for (ItemStack required : requiredItems) {
+			// Use a lambda as key for matching logic
+			requiredCounts.merge(x -> x.getItem().equals(required.getItem()), required.getCount(), Integer::sum);
+		}
+
+		// Map to track how much we've matched so far
+		Map<Predicate<ItemStack>, Integer> matchedCounts = new HashMap<>();
 
 		for (RecipeSlot s : slots) {
 			if (s.type == SlotType.INPUT && s.item) {
@@ -266,11 +281,12 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 					continue;
 
 				boolean matched = false;
-				Iterator<Ingredient> it = remaining.iterator();
-				while (it.hasNext()) {
-					if (it.next().test(item)) {
-						it.remove();
+
+				for (Map.Entry<Predicate<ItemStack>, Integer> entry : requiredCounts.entrySet()) {
+					Predicate<ItemStack> matcher = entry.getKey();
+					if (matcher.test(item)) {
 						matched = true;
+						matchedCounts.merge(matcher, item.getCount(), Integer::sum);
 						break;
 					}
 				}
@@ -281,8 +297,16 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 			}
 		}
 
-		// If required items remain unmatched, return false
-		return remaining.isEmpty();
+		// Verify that all required items are fully matched
+		for (Map.Entry<Predicate<ItemStack>, Integer> entry : requiredCounts.entrySet()) {
+			int required = entry.getValue();
+			int matched = matchedCounts.getOrDefault(entry.getKey(), 0);
+			if (matched < required) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	protected boolean hasSpace(MachinaRecipe<?> r) {
@@ -322,13 +346,13 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
 
 	protected void useInputs(MachinaRecipe<?> r, boolean periodic) {
 		if (!periodic) {
-			for (Ingredient i : r.getInputItems()) {
-				int desired = i.getItems()[0].getCount();
+			for (ItemStack i : r.getInputItems()) {
+				int desired = i.getCount();
 				int count = 0;
 				for (RecipeSlot s : slots) {
 					if (s.type == SlotType.INPUT && s.item) {
 						ItemStack stack = getItem(s.id());
-						if (i.test(stack)) {
+						if (i.getItem().equals(stack.getItem())) {
 							int toShrink = Math.min(desired - count, stack.getCount());
 							stack.shrink(toShrink);
 							setItem(s.id(), stack);

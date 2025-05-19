@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -29,7 +29,7 @@ public abstract class MachinaRecipeMaps<C extends Container> {
 				return rbe.hasExactItemInputs(recipe.getInputItems())
 						&& rbe.hasExactFluidInputs(recipe.getInputFluids());
 			}
-			for (Ingredient i : recipe.getInputItems()) {
+			for (ItemStack i : recipe.getInputItems()) {
 				if (!rbe.hasItemInput(i))
 					return false;
 			}

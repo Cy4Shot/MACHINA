@@ -35,7 +35,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	public static final short HAS_PERIODIC_CONSUMPTION = 0x10;
 
 	private final ResourceLocation id;
-	protected final List<Ingredient> inputItems = new ArrayList<>();
+	protected final List<ItemStack> inputItems = new ArrayList<>();
 	protected final List<FluidStack> inputFluids = new ArrayList<>();
 	protected final List<ItemStack> outputItems = new ArrayList<>();
 	protected final List<FluidStack> outputFluids = new ArrayList<>();
@@ -46,7 +46,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	private final int periodicConsumption;
 
 	public MachinaRecipe(ResourceLocation id, int energy, int time, float pressure, float temperature,
-			int periodicConsumption, List<Ingredient> inputItems, List<FluidStack> inputFluids,
+			int periodicConsumption, List<ItemStack> inputItems, List<FluidStack> inputFluids,
 			List<ItemStack> outputItems, List<FluidStack> outputFluids) {
 
 		if (inputItems == null || inputFluids == null || outputItems == null || outputFluids == null) {
@@ -85,7 +85,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	public float getTemperature() {
 		return temperature;
 	}
-	
+
 	public int getPeriodicConsumption() {
 		return periodicConsumption;
 	}
@@ -94,7 +94,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 		return energy / time;
 	}
 
-	public List<Ingredient> getInputItems() {
+	public List<ItemStack> getInputItems() {
 		return inputItems;
 	}
 
@@ -113,7 +113,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
 		NonNullList<Ingredient> x = NonNullList.create();
-		x.addAll(inputItems);
+		inputItems.forEach(i -> x.add(Ingredient.of(i)));
 		return x;
 	}
 
@@ -172,7 +172,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			this.factory = new RecipeFactory<MachinaRecipe<C>>() {
 				@Override
 				public MachinaRecipe<C> apply(ResourceLocation loc, int energy, int time, float pressure,
-						float temperature, int periodicConsumption, List<Ingredient> inputItems,
+						float temperature, int periodicConsumption, List<ItemStack> inputItems,
 						List<FluidStack> inputFluids, List<ItemStack> outputItems, List<FluidStack> outputFluids) {
 					return new MachinaRecipe<C>(loc, energy, time, pressure, temperature, periodicConsumption,
 							inputItems, inputFluids, outputItems, outputFluids) {
@@ -196,13 +196,14 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			float pressure = 0;
 			float temperature = 0;
 			int periodicConsumption = 1;
-			ArrayList<Ingredient> inputItems = new ArrayList<>();
+			ArrayList<ItemStack> inputItems = new ArrayList<>();
 			ArrayList<FluidStack> inputFluids = new ArrayList<>();
 			ArrayList<ItemStack> outputItems = new ArrayList<>();
 			ArrayList<FluidStack> outputFluids = new ArrayList<>();
 
 			if (obj.has("inputItems") && obj.get("inputItems").isJsonArray()) {
-				obj.getAsJsonArray("inputItems").forEach(e -> inputItems.add(Ingredient.fromJson(e)));
+				obj.getAsJsonArray("inputItems")
+						.forEach(e -> inputItems.add(ShapedRecipe.itemStackFromJson(e.getAsJsonObject())));
 			}
 			if (obj.has("inputFluids") && obj.get("inputFluids").isJsonArray()) {
 				obj.getAsJsonArray("inputFluids").forEach(e -> inputFluids.add(FluidJson.load(e)));
@@ -271,7 +272,12 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			}
 
 			JsonArray inputItems = new JsonArray();
-			recipe.getInputItems().forEach(e -> inputItems.add(e.toJson()));
+			recipe.getInputItems().forEach(e -> {
+				JsonObject o = new JsonObject();
+				o.addProperty("item", BuiltInRegistries.ITEM.getKey(e.getItem()).toString());
+				o.addProperty("count", e.getCount());
+				inputItems.add(o);
+			});
 			obj.add("inputItems", inputItems);
 
 			JsonArray inputFluids = new JsonArray();
@@ -301,9 +307,9 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			int periodicConsumption = 1;
 
 			int num0 = buf.readVarInt();
-			ArrayList<Ingredient> inputItems = new ArrayList<>(num0);
+			ArrayList<ItemStack> inputItems = new ArrayList<>(num0);
 			for (int i = 0; i < num0; i++) {
-				inputItems.add(Ingredient.fromNetwork(buf));
+				inputItems.add(buf.readItem());
 			}
 
 			int num1 = buf.readVarInt();
@@ -351,7 +357,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 			int num0 = recipe.inputItems.size();
 			buf.writeVarInt(num0);
 			for (int i = 0; i < num0; i++) {
-				recipe.inputItems.get(i).toNetwork(buf);
+				buf.writeItem(recipe.inputItems.get(i));
 			}
 
 			int num1 = recipe.inputFluids.size();
@@ -395,7 +401,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
 	@FunctionalInterface
 	public interface RecipeFactory<R extends MachinaRecipe<?>> {
 		R apply(ResourceLocation loc, int energy, int time, float pressure, float temperature, int periodicConsumption,
-				List<Ingredient> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
+				List<ItemStack> inputItems, List<FluidStack> inputFluids, List<ItemStack> outputItems,
 				List<FluidStack> outputFluids);
 	}
 }

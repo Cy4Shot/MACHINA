@@ -18,6 +18,7 @@ import com.machina.block.entity.machine.ElectrolyzerBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
+import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
 import com.machina.block.entity.machine.SawmillBlockEntity;
 import com.machina.block.entity.machine.SolidifierBlockEntity;
 import com.machina.compat.jei.JeiRecipeRegistrar;
@@ -27,13 +28,13 @@ import com.machina.recipe.ElectrolyzerRecipeMaps;
 import com.machina.recipe.GrinderRecipeMaps;
 import com.machina.recipe.MelterRecipeMaps;
 import com.machina.recipe.ReactionChamberRecipeMaps;
+import com.machina.recipe.RocketPartBenchRecipeMaps;
 import com.machina.recipe.SawmillRecipeMaps;
 import com.machina.recipe.SolidifierRecipeMaps;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
@@ -67,6 +68,8 @@ public class RecipeInit {
 			register("sawmill", BlockInit.SAWMILL, SawmillRecipeMaps.INSTANCE, 96, 160);
 	public static final RecipeRegistryObject<ElectrolyzerBlockEntity> ELECTROLYZER =
 			register("electrolyzer", BlockInit.ELECTROLYZER, ElectrolyzerRecipeMaps.INSTANCE, 112, 160);
+	public static final RecipeRegistryObject<RocketPartBenchBlockEntity> ROCKET_PART_BENCH =
+			register("rocket_part_bench", BlockInit.ROCKET_PART_BENCH, RocketPartBenchRecipeMaps.INSTANCE, 128, 160);
 	//@formatter:on
 
 	public static class RecipeRegistryObject<C extends Container> {
@@ -134,7 +137,7 @@ public class RecipeInit {
 		RecipeFactory<MachinaRecipe<C>> factory = new RecipeFactory<MachinaRecipe<C>>() {
 			@Override
 			public MachinaRecipe<C> apply(ResourceLocation loc, int energy, int time, float pressure, float temperature,
-					int periodicConsumption, List<Ingredient> inputItems, List<FluidStack> inputFluids,
+					int periodicConsumption, List<ItemStack> inputItems, List<FluidStack> inputFluids,
 					List<ItemStack> outputItems, List<FluidStack> outputFluids) {
 				return new MachinaRecipe<C>(loc, energy, time, pressure, temperature, periodicConsumption, inputItems,
 						inputFluids, outputItems, outputFluids) {

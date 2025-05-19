@@ -27,7 +27,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.RegistryObject;
@@ -84,7 +83,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 	@Override
 	public void draw(MachinaRecipe<C> recipe, IRecipeSlotsView view, GuiGraphics gui, double mx, double my) {
 
-		List<Ingredient> iitems = recipe.getInputItems();
+		List<ItemStack> iitems = recipe.getInputItems();
 		List<ItemStack> oitems = recipe.getOutputItems();
 		List<FluidStack> ifluids = recipe.getInputFluids();
 		List<FluidStack> ofluids = recipe.getOutputFluids();
@@ -191,7 +190,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 	public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull MachinaRecipe<C> recipe,
 			@NotNull IFocusGroup focuses) {
 
-		List<Ingredient> iitems = recipe.getInputItems();
+		List<ItemStack> iitems = recipe.getInputItems();
 		List<ItemStack> oitems = recipe.getOutputItems();
 		List<FluidStack> ifluids = recipe.getInputFluids();
 		List<FluidStack> ofluids = recipe.getOutputFluids();
@@ -202,11 +201,11 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
 		int starti = 65 - total_inputs * 10;
 
 		int i = 0;
-		for (Ingredient ingredient : iitems) {
+		for (ItemStack ingredient : iitems) {
 			int x = starti + i * 20;
 			int y = rolling + 18;
 
-			builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(ingredient);
+			builder.addSlot(RecipeIngredientRole.INPUT, x, y).addItemStack(ingredient);
 			i++;
 		}
 		for (FluidStack fluid : ifluids) {

@@ -1,0 +1,30 @@
+{
+  "type": "machina:rocket_part_bench",
+  "energy": 150000,
+  "inputFluids": [],
+  "inputItems": [
+    {
+      "count": 128,
+      "item": "machina:steel_plate"
+    },
+    {
+      "count": 24,
+      "item": "machina:nickel_rod"
+    },
+    {
+      "count": 4,
+      "item": "machina:tank"
+    },
+    {
+      "count": 4,
+      "item": "machina:copper_coil"
+    }
+  ],
+  "outputFluids": [],
+  "outputItems": [
+    {
+      "count": 1,
+      "item": "machina:rocket_part_pressurized_fuel_tank"
+    }
+  ]
+}

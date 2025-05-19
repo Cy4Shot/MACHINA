@@ -1,0 +1,30 @@
+{
+  "type": "machina:rocket_part_bench",
+  "energy": 150000,
+  "inputFluids": [],
+  "inputItems": [
+    {
+      "count": 64,
+      "item": "machina:aluminum_plate"
+    },
+    {
+      "count": 12,
+      "item": "machina:lead_ingot"
+    },
+    {
+      "count": 48,
+      "item": "machina:iron_rod"
+    },
+    {
+      "count": 1,
+      "item": "machina:tank"
+    }
+  ],
+  "outputFluids": [],
+  "outputItems": [
+    {
+      "count": 1,
+      "item": "machina:rocket_part_reinforced_life_support"
+    }
+  ]
+}

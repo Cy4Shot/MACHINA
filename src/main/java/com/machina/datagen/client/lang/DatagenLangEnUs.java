@@ -595,6 +595,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(RecipeInit.REACTION_CHAMBER, "Reacting");
 		add(RecipeInit.SAWMILL, "Sawing");
 		add(RecipeInit.ELECTROLYZER, "Electrolyzing");
+		add(RecipeInit.ROCKET_PART_BENCH, "Rocket Part Bench");
 
 		// Rocket Parts
 		add(RocketPartInit.SIMPLE_CHASSIS, "Simple Chassis");

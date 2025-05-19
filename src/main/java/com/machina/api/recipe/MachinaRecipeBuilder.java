@@ -24,7 +24,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -35,7 +34,7 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 
 	private final RecipeRegistryObject<T> reg;
 
-	protected final List<Ingredient> inputItems = new ArrayList<>();
+	protected final List<ItemStack> inputItems = new ArrayList<>();
 	protected final List<FluidStack> inputFluids = new ArrayList<>();
 	protected final List<ItemStack> outputItems = new ArrayList<>();
 	protected final List<FluidStack> outputFluids = new ArrayList<>();
@@ -75,12 +74,17 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 	}
 
 	public MachinaRecipeBuilder<T> in(Item item) {
-		this.inputItems.add(Ingredient.of(new ItemStack(item, 1)));
+		this.inputItems.add(new ItemStack(item, 1));
+		return this;
+	}
+
+	public MachinaRecipeBuilder<T> in(ItemStack item) {
+		this.inputItems.add(item);
 		return this;
 	}
 
 	public MachinaRecipeBuilder<T> in(Item item, int count) {
-		this.inputItems.add(Ingredient.of(new ItemStack(item, count)));
+		this.inputItems.add(new ItemStack(item, count));
 		return this;
 	}
 

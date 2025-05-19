@@ -1,0 +1,30 @@
+{
+  "type": "machina:rocket_part_bench",
+  "energy": 100000,
+  "inputFluids": [],
+  "inputItems": [
+    {
+      "count": 60,
+      "item": "machina:iron_plate"
+    },
+    {
+      "count": 8,
+      "item": "machina:constantan_rod"
+    },
+    {
+      "count": 2,
+      "item": "machina:tank"
+    },
+    {
+      "count": 3,
+      "item": "machina:copper_coil"
+    }
+  ],
+  "outputFluids": [],
+  "outputItems": [
+    {
+      "count": 1,
+      "item": "machina:rocket_part_simple_chassis"
+    }
+  ]
+}

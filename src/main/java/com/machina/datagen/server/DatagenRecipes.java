@@ -15,6 +15,7 @@ import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.RocketPartInit;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -22,6 +23,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -76,6 +78,57 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 		electrolysis_f_fi(gen, FluidInit.HYDROGEN_SULPHIDE, 2, FluidInit.HYDROGEN, 1, ItemInit.SULFUR, 500, 72);
 		electrolysis_i_ff_c(gen, ItemInit.HEXAMINE, 1, FluidInit.METHANE, 6, FluidInit.HYDROGEN, 2, ItemInit.PALLADIUM_ON_CARBON, 60, 72);
 		
+		// Rocket Parts
+		rocket_part(gen, RocketPartInit.SIMPLE_CHASSIS, 100_000,
+				new ItemStack(ItemInit.IRON_PLATE.get(), 60),
+				new ItemStack(ItemInit.CONSTANTAN_ROD.get(), 8),
+				new ItemStack(BlockInit.TANK.get(), 2),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 3));
+		rocket_part(gen, RocketPartInit.ADVANCED_CHASSIS, 150_000,
+				new ItemStack(ItemInit.STEEL_PLATE.get(), 96),
+				new ItemStack(ItemInit.CONSTANTAN_ROD.get(), 12),
+				new ItemStack(BlockInit.TANK.get(), 4),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 4));
+		
+		rocket_part(gen, RocketPartInit.SIMPLE_FUEL_TANK, 100_000,
+				new ItemStack(ItemInit.IRON_PLATE.get(), 80),
+				new ItemStack(ItemInit.NICKEL_ROD.get(), 12),
+				new ItemStack(BlockInit.TANK.get(), 2),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 3));
+		rocket_part(gen, RocketPartInit.PRESSURIZED_FUEL_TANK, 150_000,
+				new ItemStack(ItemInit.STEEL_PLATE.get(), 128),
+				new ItemStack(ItemInit.NICKEL_ROD.get(), 24),
+				new ItemStack(BlockInit.TANK.get(), 4),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 4));
+		
+		rocket_part(gen, RocketPartInit.SIMPLE_LIFE_SUPPORT, 100_000,
+				new ItemStack(ItemInit.ALUMINUM_PLATE.get(), 48),
+				new ItemStack(ItemInit.LEAD_INGOT.get(), 6),
+				new ItemStack(ItemInit.IRON_ROD.get(), 32),
+				new ItemStack(BlockInit.TANK.get(), 1));
+		rocket_part(gen, RocketPartInit.REINFORCED_LIFE_SUPPORT, 150_000,
+				new ItemStack(ItemInit.ALUMINUM_PLATE.get(), 64),
+				new ItemStack(ItemInit.LEAD_INGOT.get(), 12),
+				new ItemStack(ItemInit.IRON_ROD.get(), 48),
+				new ItemStack(BlockInit.TANK.get(), 1));
+		
+		rocket_part(gen, RocketPartInit.SIMPLE_SHIELD, 100_000,
+				new ItemStack(ItemInit.IRON_PLATE.get(), 12),
+				new ItemStack(ItemInit.NICKEL_ROD.get(), 2),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 8));
+		rocket_part(gen, RocketPartInit.CONE_SHIELD, 150_000,
+				new ItemStack(ItemInit.IRON_PLATE.get(), 68),
+				new ItemStack(ItemInit.NICKEL_ROD.get(), 4),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 8));
+		
+		rocket_part(gen, RocketPartInit.SIMPLE_THRUSTER, 100_000,
+				new ItemStack(ItemInit.STEEL_PLATE.get(), 128),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 32));
+		rocket_part(gen, RocketPartInit.TRI_TALL_THRUSTER, 150_000,
+				new ItemStack(ItemInit.STEEL_ROD.get(), 96),
+				new ItemStack(ItemInit.ALUMINUM_DUST.get(), 32),
+				new ItemStack(ItemInit.GOLD_WIRE.get(), 96),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 48));
 		//@formatter:on
 
 		FamiliesInit.ORES.forEach(x -> oreFamily(gen, x));
