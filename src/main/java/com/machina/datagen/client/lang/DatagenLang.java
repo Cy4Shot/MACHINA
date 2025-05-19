@@ -44,8 +44,9 @@ public abstract class DatagenLang extends LanguageProvider {
 			add(((Item) item).getDescriptionId(), name);
 		} else if (item instanceof CreativeModeTab) {
 			add(modid + ".creativemodetab." + key.getId().getPath(), name);
-		} else if (item instanceof RocketPart<?>) {
+		} else if (item instanceof RocketPart<?> part) {
 			add("rocket_part." + modid + "." + key.getId().getPath(), name);
+			add(part.getItem().getDescriptionId(), name);
 		}
 	}
 

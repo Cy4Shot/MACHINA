@@ -1,7 +1,9 @@
 package com.machina.client.screen.menu;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -99,6 +101,8 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 		// Main Body Background
 		MUI.blitRocket(gui, i + 4, j - 46, 253, 26, 227, 114);
 
+		Queue<Runnable> tooltips = new ArrayDeque<>();
+
 		// Main Body
 		MUI.enableClipping(i + 5, j - 45, 225, 112);
 		for (int x = 0; x < parts.size(); x++) {
@@ -169,18 +173,21 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 				break;
 			}
 
-			MUI.renderItem(gui, i + 90, h + 15, mx, my, true, false,
-					new ItemStack(ItemInit.CONSTANTAN_INGOT.get(), 30));
-			MUI.renderItem(gui, i + 110, h + 15, mx, my, true, true, new ItemStack(ItemInit.ALUMINUM_PLATE.get(), 78));
-			MUI.renderItem(gui, i + 130, h + 15, mx, my, true, false, new ItemStack(ItemInit.COPPER_ROD.get(), 34));
+			MUI.renderItemDeferred(gui, i + 90, h + 15, mx, my, true, false,
+					new ItemStack(ItemInit.CONSTANTAN_INGOT.get(), 30), tooltips);
+			MUI.renderItemDeferred(gui, i + 110, h + 15, mx, my, true, true,
+					new ItemStack(ItemInit.ALUMINUM_PLATE.get(), 78), tooltips);
+			MUI.renderItemDeferred(gui, i + 130, h + 15, mx, my, true, false,
+					new ItemStack(ItemInit.COPPER_ROD.get(), 34), tooltips);
 
 			boolean allowed = true;
 			if (allowed) {
 				int but_shade = 94;
 				if (allowed & mx > i + 204 && mx < i + 221) {
 					if (my > j - 45 && my < j + 67) {
-						if (my > h - 5 && my < h + 12) {
+						if (my > h + 15 && my < h + 32) {
 							but_shade = 113;
+							tooltips.add(() -> MUI.renderTooltip(gui, mx, my, Component.literal("Craft")));
 						}
 					}
 				}
@@ -199,6 +206,10 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 			}
 		}
 		MUI.disableClipping();
+
+		while (!tooltips.isEmpty()) {
+			tooltips.poll().run();
+		}
 
 		drawOverlay(gui);
 	}

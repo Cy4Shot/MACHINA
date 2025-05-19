@@ -1,8 +1,10 @@
 package com.machina.api.client.screen;
 
+import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
@@ -440,8 +442,26 @@ public final class MUI {
 		renderCustomItemDecorations(gui, stack, i, j, active);
 
 		if (tooltip && mx > i && mx < i + 16 && my > j && my < j + 16) {
-			gui.renderTooltip(mc.font, stack, mx, my);
+			MUI.renderTooltip(gui, stack, mx, my);
 		}
+	}
+
+	public static void renderItemDeferred(GuiGraphics gui, int i, int j, int mx, int my, boolean tooltip,
+			boolean active, ItemStack stack, Queue<Runnable> deferred) {
+		gui.renderItem(stack, i, j);
+		renderCustomItemDecorations(gui, stack, i, j, active);
+
+		if (tooltip && mx > i && mx < i + 16 && my > j && my < j + 16) {
+			deferred.add(() -> MUI.renderTooltip(gui, stack, mx, my));
+		}
+	}
+
+	public static void renderTooltip(GuiGraphics gui, ItemStack stack, int x, int y) {
+		gui.renderTooltip(mc.font, stack, x, y);
+	}
+
+	public static void renderTooltip(GuiGraphics gui, int x, int y, Component... cs) {
+		gui.renderComponentTooltip(mc.font, Arrays.asList(cs), x, y);
 	}
 
 	private static void renderCustomItemDecorations(GuiGraphics gui, ItemStack stack, int x, int y, boolean active) {
