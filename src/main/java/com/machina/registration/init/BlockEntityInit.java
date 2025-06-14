@@ -22,6 +22,7 @@ import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.block.entity.machine.MachineCaseBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
+import com.machina.block.entity.machine.RocketAssemblyStationBlockEntity;
 import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
 import com.machina.block.entity.machine.SawmillBlockEntity;
 import com.machina.block.entity.machine.SolidifierBlockEntity;
@@ -81,6 +82,8 @@ public class BlockEntityInit {
 			AtmosphericSeparatorBlockEntity::new, BlockInit.ATMOSPHERIC_SEPARATOR::get);
 	public static final RegistryObject<BlockEntityType<RocketPartBenchBlockEntity>> ROCKET_PART_BENCH = register("rocket_part_bench",
 			RocketPartBenchBlockEntity::new, BlockInit.ROCKET_PART_BENCH::get);
+	public static final RegistryObject<BlockEntityType<RocketAssemblyStationBlockEntity>> ROCKET_ASSEMBLY_STATION = register("rocket_assembly_station",
+			RocketAssemblyStationBlockEntity::new, BlockInit.ROCKET_ASSEMBLY_STATION::get);
 	//@formatter:on
 
 	public static final RegistryObject<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",

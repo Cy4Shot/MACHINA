@@ -184,6 +184,7 @@ public class TabInit {
 	public static final RegistryObject<CreativeModeTab> MACHINA_ROCKETRY = create("machina_rocketry",
 			BlockInit.ROCKET_PART_BENCH, a -> {
 				add(a, BlockInit.ROCKET_PART_BENCH);
+				add(a, BlockInit.ROCKET_ASSEMBLY_STATION);
 				add(a, RocketPartInit.THRUSTERS);
 				add(a, RocketPartInit.FUEL_TANKS);
 				add(a, RocketPartInit.CHASSIS);

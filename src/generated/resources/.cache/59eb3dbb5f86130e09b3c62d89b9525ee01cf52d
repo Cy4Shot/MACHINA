@@ -1,4 +1,4 @@
-// 1.20.1	2025-05-03T08:16:20.8029806	Loot Tables
+// 1.20.1	2025-06-14T22:14:02.2996544	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -290,6 +290,7 @@ baebb42cc5383f94d5c018b9af79af2a40220017 data/machina/loot_tables/blocks/red_mus
 c3c101d2b52a1bd5340b1c7206e1cd6b47a237ef data/machina/loot_tables/blocks/red_mushroom_gills.json
 f316a112b69f99ba70b0e48dc01a17b0994e4905 data/machina/loot_tables/blocks/red_petals.json
 e19d911c21668377d54a645d13454957de9bcab0 data/machina/loot_tables/blocks/red_waterlily.json
+2683fff3d6dfa54dac365cbf64cbcd1448d101fb data/machina/loot_tables/blocks/rocket_assembly_station.json
 dfea6eeca5d65c9f4fe1affe31946fe25b30b54c data/machina/loot_tables/blocks/rocket_part_bench.json
 a69c401592f8860a9113c3ec98b7f43600317319 data/machina/loot_tables/blocks/saltpeter_ore.json
 12c652f33aa39751224c2ecc226e8ec2275f1d8d data/machina/loot_tables/blocks/sawmill.json

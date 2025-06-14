@@ -30,6 +30,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(TabInit.MACHINA_RESOURCES, "Machina: Resources");
 		add(TabInit.MACHINA_WORLDGEN, "Machina: Worldgen");
 		add(TabInit.MACHINA_MISCELLANEOUS, "Machina: Miscellaneous");
+		add(TabInit.MACHINA_ROCKETRY, "Machina: Rocketry");
 
 		// Items
 		add(ItemInit.COPPER_NUGGET, "Copper Nugget");
@@ -194,6 +195,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.ELECTRIC_PUMP, "Electric Pump");
 		add(BlockInit.ATMOSPHERIC_SEPARATOR, "Atmospheric Separator");
 		add(BlockInit.ROCKET_PART_BENCH, "Rocket Part Bench");
+		add(BlockInit.ROCKET_ASSEMBLY_STATION, "Rocket Assembly Station");
 
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");

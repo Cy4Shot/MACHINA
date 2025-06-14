@@ -2,6 +2,8 @@ package com.machina.api.util;
 
 import java.util.function.Predicate;
 
+import com.machina.api.item.RocketPartItem;
+import com.machina.api.rocket.part.RocketPartType;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TagInit.ItemTagInit;
 
@@ -35,5 +37,12 @@ public class ItemStackUtil {
 
 	public static boolean isBlueprint(ItemStack stack) {
 		return stack.getItem().equals(ItemInit.BLUEPRINT.get());
+	}
+
+	public static boolean isRocketPart(ItemStack stack, RocketPartType type) {
+		if (stack.getItem() instanceof RocketPartItem rpi) {
+			return rpi.getRocketPart().getType().equals(type);
+		}
+		return false;
 	}
 }
