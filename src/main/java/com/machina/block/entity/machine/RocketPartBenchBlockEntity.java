@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
+import com.machina.api.item.RocketPartItem;
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.util.PlayerHelper;
@@ -23,6 +24,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -55,7 +57,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public boolean activeModel() {
-		return false;
+		return true;
 	}
 
 	public boolean hasPower(MachinaRecipe<RocketPartBenchBlockEntity> r) {
@@ -105,11 +107,25 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
 		return RocketPartBenchMenu::new;
 	}
 
+	public boolean isCrafting() {
+		return this.recipe != null && this.progress > 0;
+	}
+
+	public RocketPart<?> output() {
+		if (this.recipe != null) {
+			Item i = this.recipe.getOutputItems().get(0).getItem();
+			if (i instanceof RocketPartItem rpi) {
+				return rpi.getRocketPart();
+			}
+		}
+		return null;
+	}
+
 	@Override
 	public void tick() {
 		if (this.level.isClientSide())
 			return;
-		if (this.recipe == null || this.progress <= 0)
+		if (!isCrafting())
 			return;
 
 		this.progress--;
@@ -140,7 +156,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
 		PlayerHelper.consumeAll(player, recipe.getInputItems());
 
 		this.recipe = recipe;
-		this.progress = 20;
+		this.progress = 2000;
 		this.setChanged();
 	}
 }

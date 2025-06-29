@@ -64,7 +64,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
 
 		// Fluid Slot
 		drawGhostSlot(gui, () -> false, mx, my, 74, 34, MuiSlot.FLUID, "", (i1, j1) -> {
-			renderFluid(gui, new FluidStack(FluidFilterItem.getFluid(menu.getBlockEntity().getItem(id)), 1), i1 + 1,
+			MUI.renderFluid(gui, new FluidStack(FluidFilterItem.getFluid(menu.getBlockEntity().getItem(id)), 1), i1 + 1,
 					j1 + 17, 16, 16, 0);
 		});
 		clickAndHoverItem(i + 74, j + 34, i + 74 + 17, j + 34 + 17, () -> true, () -> MUI.uistr("fluid_pipe.insert"),

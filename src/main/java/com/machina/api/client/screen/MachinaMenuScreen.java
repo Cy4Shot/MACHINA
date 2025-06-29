@@ -49,7 +49,6 @@ import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
@@ -65,9 +64,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.fluids.FluidStack;
 
 public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends AbstractContainerScreen<T> {
 
@@ -448,7 +445,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 					() -> mbe.getFluidMB(tank), () -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank),
 					(i, j, p) -> {
 						float prop = mbe.getFluidF(tank);
-						renderFluid(gui, mbe.getFluid(tank), i + 1, j + 17, (int) (131 * prop), 14, 0);
+						MUI.renderFluid(gui, mbe.getFluid(tank), i + 1, j + 17, (int) (131 * prop), 14, 0);
 					});
 		}
 	}
@@ -462,7 +459,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 					() -> mbe.getFluidMB(tank), () -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank),
 					(i, j, p) -> {
 						float prop = mbe.getFluidF(tank);
-						renderFluid(gui, mbe.getFluid(tank), i + 1, j + 41, 14, (int) (40 * prop), 0);
+						MUI.renderFluid(gui, mbe.getFluid(tank), i + 1, j + 41, 14, (int) (40 * prop), 0);
 					});
 		}
 	}
@@ -720,17 +717,6 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		}
 	}
 
-	public static void renderFluid(GuiGraphics gui, FluidStack fluid, int x, int y, int sx, int sy, int blit) {
-		if (!fluid.isEmpty()) {
-			TextureAtlasSprite icon = getFluidTexture(fluid);
-			if (icon != null) {
-				color(IClientFluidTypeExtensions.of(fluid.getFluid()).getTintColor(fluid));
-				drawTiledSprite(gui, x, y, 0, sx, sy, icon, 16, 16, 0, TilingDirection.DOWN_RIGHT);
-				resetColor();
-			}
-		}
-	}
-
 	// Mekanism
 	public enum TilingDirection {
 		DOWN_RIGHT(true, true),
@@ -826,14 +812,6 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		if (blend) {
 			RenderSystem.disableBlend();
 		}
-	}
-
-	public static TextureAtlasSprite getFluidTexture(@Nonnull FluidStack stack) {
-		return getSprite(IClientFluidTypeExtensions.of(stack.getFluid()).getStillTexture());
-	}
-
-	public static TextureAtlasSprite getSprite(ResourceLocation spriteLocation) {
-		return mc.getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(spriteLocation);
 	}
 
 	public static void color(int color) {

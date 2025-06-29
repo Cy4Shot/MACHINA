@@ -5,8 +5,10 @@ import com.machina.api.client.ClientTimer;
 import com.machina.api.client.cinema.CinematicHandler;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextOverlay;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
+import com.machina.api.client.shader.ShaderHandler;
 import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
+import com.machina.client.ber.RocketPartBenchRenderer;
 import com.machina.client.ber.TankRenderer;
 import com.machina.client.screen.menu.AtmosphericSeparatorScreen;
 import com.machina.client.screen.menu.BatteryScreen;
@@ -51,6 +53,7 @@ import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -96,6 +99,7 @@ public class ClientModEvents {
 	@SubscribeEvent
 	public static void registerRenderers(RegisterRenderers event) {
 		event.registerBlockEntityRenderer(BlockEntityInit.TANK.get(), TankRenderer::new);
+		event.registerBlockEntityRenderer(BlockEntityInit.ROCKET_PART_BENCH.get(), RocketPartBenchRenderer::new);
 	}
 
 	@SubscribeEvent
@@ -129,5 +133,10 @@ public class ClientModEvents {
 	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerBlockEntityRenderer(BlockEntityInit.SIGN.get(), SignRenderer::new);
 		event.registerBlockEntityRenderer(BlockEntityInit.HANGING_SIGN.get(), HangingSignRenderer::new);
+	}
+
+	@SubscribeEvent
+	public static void registerShaders(RegisterShadersEvent event) {
+		ShaderHandler.register(event::registerShader, event.getResourceProvider());
 	}
 }

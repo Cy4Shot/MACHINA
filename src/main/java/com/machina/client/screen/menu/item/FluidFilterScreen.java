@@ -57,7 +57,7 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> implem
 				i1 + 117, j1 + 6 + font.lineHeight);
 
 		drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.FLUID, "", (i, j) -> {
-			renderFluid(gui, new FluidStack(menu.getCurrentFilter(), 1), i + 1, j + 17, 16, 16, 0);
+			MUI.renderFluid(gui, new FluidStack(menu.getCurrentFilter(), 1), i + 1, j + 17, 16, 16, 0);
 		});
 
 		drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
