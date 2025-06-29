@@ -159,4 +159,10 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
 		this.progress = 2000;
 		this.setChanged();
 	}
+	
+	public float getProgressPercent() {
+		if (this.recipe == null || this.progress <= 0)
+			return 0f;
+		return 1f - ((float) this.progress / 2000f);
+	}
 }

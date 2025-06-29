@@ -1,6 +1,7 @@
 package com.machina.client.ber;
 
 import com.machina.api.client.RenderTypes;
+import com.machina.api.client.shader.ShaderHandler;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.util.math.VecUtil;
 import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
@@ -27,6 +28,9 @@ public class RocketPartBenchRenderer implements BlockEntityRenderer<RocketPartBe
 				float scale = part.getGUIScale();
 				float rot = be.getLevel().getGameTime() % 360;
 				VertexConsumer vc = buff.getBuffer(RenderTypes.CONSTRUCT);
+				
+				float eased = (float)(Math.pow(Math.sin(be.getProgressPercent() * Math.PI), 0.75));
+				ShaderHandler.ROCKET_PART_BENCH.instance().getUniform("RevealAmount").set(eased);
 
 				pose.pushPose();
 				pose.translate(0.5f, 1.75f, 0.5f);

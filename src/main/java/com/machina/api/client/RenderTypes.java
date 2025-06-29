@@ -126,25 +126,16 @@ public class RenderTypes {
 				}))
 		        .setTextureState(new TextureStateShard(
 		            new MachinaRL("textures/rocket/constructing.png"),
-		            false, // blur
-		            false  // mipmap
+		            false,
+		            false
 		        ))
-		        .setTransparencyState(NO_TRANSPARENCY) // Match cutout (no blend)
+		        .setTexturingState(GLINT_TEXTURING)
+		        .setTransparencyState(CONSTRUCT_TRANSPARENCY)
 		        .setLightmapState(new LightmapStateShard(true))
 		        .setOverlayState(new OverlayStateShard(true))
 		        .setDepthTestState(new DepthTestStateShard("<=", 515))
 		        .setCullState(new CullStateShard(true))
 		);
-	
-//	public static final RenderType CONSTRUCT = create("machina:rocket_construct",
-//            DefaultVertexFormat.NEW_ENTITY, Mode.QUADS,
-//            CompositeState.builder()
-//                    .setShaderState(new ShaderStateShard(() -> ShaderHandler.ROCKET_PART_BENCH.instance()))
-//                    .setTransparencyState(CONSTRUCT_TRANSPARENCY)
-//                    .setTextureState(new TextureStateShard(new MachinaRL("textures/rocket/constructing.png"), true, false))
-//                    .setLightmapState(new LightmapStateShard(true))
-//                    .setCullState(new CullStateShard(false))
-//                    .setTexturingState(GLINT_TEXTURING), false);
 	//@formatter:on
 
 	// Use a map to avoid creating the same render type twice.
