@@ -1,15 +1,10 @@
 package com.machina.block.entity.machine;
 
-import java.util.Optional;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.menu.ElectricSmelterMenu;
 import com.machina.registration.init.BlockEntityInit;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -21,165 +16,165 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
 
-	private SmeltingRecipe recipe = null;
-	private int progress = 0;
+    private SmeltingRecipe recipe = null;
+    private int progress = 0;
 
-	public ElectricSmelterBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-		super(type, pos, state);
-	}
+    public ElectricSmelterBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
 
-	public ElectricSmelterBlockEntity(BlockPos pos, BlockState state) {
-		this(BlockEntityInit.ELECTRIC_SMELTER.get(), pos, state);
-	}
+    public ElectricSmelterBlockEntity(BlockPos pos, BlockState state) {
+        this(BlockEntityInit.ELECTRIC_SMELTER.get(), pos, state);
+    }
 
-	@Override
-	public void createStorages() {
-		energyStorage(Side.INPUTS);
-		itemStorage(Side.INPUTS);
-		itemStorage(Side.OUTPUTS);
-	}
+    @Override
+    public void createStorages() {
+        energyStorage(Side.INPUTS);
+        itemStorage(Side.INPUTS);
+        itemStorage(Side.OUTPUTS);
+    }
 
-	@Override
-	public boolean isLit() {
-		return this.recipe != null && this.progress > 0 && this.meetsRequirements();
-	}
+    @Override
+    public boolean isLit() {
+        return this.recipe != null && this.progress > 0 && this.meetsRequirements();
+    }
 
-	public float getProgress() {
-		if (this.recipe == null)
-			return 0;
-		return (float) this.progress / (float) this.recipe.getCookingTime();
-	}
+    public float getProgress() {
+        if (this.recipe == null)
+            return 0;
+        return (float) this.progress / (float) this.recipe.getCookingTime();
+    }
 
-	public int ticksRemaining() {
-		if (this.recipe == null)
-			return 0;
-		return this.recipe.getCookingTime() - this.progress;
-	}
+    public int ticksRemaining() {
+        if (this.recipe == null)
+            return 0;
+        return this.recipe.getCookingTime() - this.progress;
+    }
 
-	@Override
-	public void tick() {
-		if (this.level != null && this.level.isClientSide())
-			return;
+    @Override
+    public void tick() {
+        if (this.level == null || this.level.isClientSide()) {
+            return;
+        }
 
-		Optional<SmeltingRecipe> rec = this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, this, level);
-		rec.ifPresentOrElse(r -> {
-			if (this.recipe != r) {
-				this.recipe = r;
-				this.progress = 0;
-				setChanged();
-			}
+        Optional<SmeltingRecipe> rec = this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, this, level);
+        rec.ifPresentOrElse(r -> {
+            if (this.recipe != r) {
+                this.recipe = r;
+                this.progress = 0;
+                setChanged();
+            }
 
-			if (meetsRequirements() && hasSpace(r)) {
-				if (!drainRequirements()) {
-					return;
-				}
+            if (meetsRequirements() && hasSpace(r)) {
+                if (!drainRequirements()) {
+                    return;
+                }
 
-				this.progress++;
-				if (this.progress >= r.getCookingTime()) {
-					useInputs(r);
-					produceOutputs(r);
-					this.progress = 0;
-					setChanged();
-				}
-			}
-		}, () -> {
-			this.progress = 0;
-			this.recipe = null;
-		});
-		super.tick();
-	}
+                this.progress++;
+                if (this.progress >= r.getCookingTime()) {
+                    useInputs(r);
+                    produceOutputs(r);
+                    this.progress = 0;
+                    setChanged();
+                }
+            }
+        }, () -> {
+            this.progress = 0;
+            this.recipe = null;
+        });
+        super.tick();
+    }
 
-	public boolean meetsRequirements() {
-		boolean meets = true;
-		if (getEnergy() < getPowerRate()) {
-			meets = false;
-		}
-		return meets;
-	}
+    public boolean meetsRequirements() {
+        return getEnergy() >= getPowerRate();
+    }
 
-	protected boolean drainRequirements() {
-		int consumed = consumeEnergy(getPowerRate());
-		if (consumed < getPowerRate()) {
-			receiveEnergy(consumed, false);
-			return false;
-		}
-		return true;
-	}
+    protected boolean drainRequirements() {
+        int consumed = consumeEnergy(getPowerRate());
+        if (consumed < getPowerRate()) {
+            receiveEnergy(consumed, false);
+            return false;
+        }
+        return true;
+    }
 
-	protected boolean hasSpace(SmeltingRecipe r) {
-		ItemStack stack = getItem(1);
-		return stack.isEmpty() || ItemStack.isSameItem(stack, r.result)
-				&& stack.getCount() + r.result.getCount() <= stack.getMaxStackSize();
-	}
+    protected boolean hasSpace(SmeltingRecipe r) {
+        ItemStack stack = getItem(1);
+        return stack.isEmpty() || ItemStack.isSameItem(stack, r.result)
+                && stack.getCount() + r.result.getCount() <= stack.getMaxStackSize();
+    }
 
-	public boolean hasRecipe() {
-		return this.recipe != null;
-	}
+    public boolean hasRecipe() {
+        return this.recipe != null;
+    }
 
-	public boolean hasSpace() {
-		return this.recipe != null && hasSpace(this.recipe);
-	}
+    public boolean hasSpace() {
+        return this.recipe != null && hasSpace(this.recipe);
+    }
 
-	protected void useInputs(SmeltingRecipe r) {
-		int desired = r.getIngredients().get(0).getItems()[0].getCount();
-		ItemStack stack = getItem(0);
-		stack.shrink(desired);
-		setItem(0, stack);
-	}
+    protected void useInputs(SmeltingRecipe r) {
+        int desired = r.getIngredients().get(0).getItems()[0].getCount();
+        ItemStack stack = getItem(0);
+        stack.shrink(desired);
+        setItem(0, stack);
+    }
 
-	protected void produceOutputs(SmeltingRecipe r) {
-		ItemStack stack = getItem(1);
-		ItemStack i = r.result.copy();
-		if (stack.isEmpty()) {
-			setItem(1, i);
-		} else if (ItemStack.isSameItem(stack, i) && stack.getCount() + i.getCount() <= stack.getMaxStackSize()) {
-			stack.grow(i.getCount());
-			setItem(1, stack);
-		}
-	}
+    protected void produceOutputs(SmeltingRecipe r) {
+        ItemStack stack = getItem(1);
+        ItemStack i = r.result.copy();
+        if (stack.isEmpty()) {
+            setItem(1, i);
+        } else if (ItemStack.isSameItem(stack, i) && stack.getCount() + i.getCount() <= stack.getMaxStackSize()) {
+            stack.grow(i.getCount());
+            setItem(1, stack);
+        }
+    }
 
-	@Override
-	protected void saveAdditional(CompoundTag tag) {
-		tag.putInt("progress", this.progress);
-		tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
-		super.saveAdditional(tag);
-	}
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag tag) {
+        tag.putInt("progress", this.progress);
+        tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
+        super.saveAdditional(tag);
+    }
 
-	@Override
-	public void load(@NotNull CompoundTag tag) {
-		this.progress = tag.getInt("progress");
-		String r = tag.getString("recipe");
-		if (!r.isEmpty()) {
-			this.level.getRecipeManager().byKey(new ResourceLocation(r)).ifPresent(rx -> {
-				if (rx instanceof SmeltingRecipe recipe) {
-					this.recipe = recipe;
-				}
-			});
-		}
-		super.load(tag);
-	}
+    @Override
+    public void load(@NotNull CompoundTag tag) {
+        this.progress = tag.getInt("progress");
+        String r = tag.getString("recipe");
+        if (!r.isEmpty() && this.level != null) {
+            this.level.getRecipeManager().byKey(new ResourceLocation(r)).ifPresent(rx -> {
+                if (rx instanceof SmeltingRecipe smeltingRecipe) {
+                    this.recipe = smeltingRecipe;
+                }
+            });
+        }
+        super.load(tag);
+    }
 
-	@Override
-	public int getMaxEnergy() {
-		// TODO: Config
-		return 1_000_000;
-	}
+    @Override
+    public int getMaxEnergy() {
+        // TODO: Config
+        return 1_000_000;
+    }
 
-	public int getPowerRate() {
-		// TODO: Config
-		return 50;
-	}
+    public int getPowerRate() {
+        // TODO: Config
+        return 50;
+    }
 
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return ElectricSmelterMenu::new;
-	}
+    @Override
+    protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
+        return ElectricSmelterMenu::new;
+    }
 
-	@Override
-	public boolean activeModel() {
-		return false;
-	}
+    @Override
+    public boolean activeModel() {
+        return false;
+    }
 }

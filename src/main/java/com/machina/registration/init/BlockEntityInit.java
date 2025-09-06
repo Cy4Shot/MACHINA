@@ -1,33 +1,12 @@
 package com.machina.registration.init;
 
-import java.util.function.Supplier;
-
 import com.machina.Machina;
 import com.machina.block.entity.MachinaHangingSignBlockEntity;
 import com.machina.block.entity.MachinaSignBlockEntity;
 import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.machina.block.entity.connector.ItemConduitBlockEntity;
-import com.machina.block.entity.machine.AtmosphericSeparatorBlockEntity;
-import com.machina.block.entity.machine.BatteryBlockEntity;
-import com.machina.block.entity.machine.ChemicalGeneratorBlockEntity;
-import com.machina.block.entity.machine.ComposterVatBlockEntity;
-import com.machina.block.entity.machine.CompressorBlockEntity;
-import com.machina.block.entity.machine.CreativeBatteryBlockEntity;
-import com.machina.block.entity.machine.ElectricPumpBlockEntity;
-import com.machina.block.entity.machine.ElectricSmelterBlockEntity;
-import com.machina.block.entity.machine.ElectrolyzerBlockEntity;
-import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
-import com.machina.block.entity.machine.GrinderBlockEntity;
-import com.machina.block.entity.machine.MachineCaseBlockEntity;
-import com.machina.block.entity.machine.MelterBlockEntity;
-import com.machina.block.entity.machine.ReactionChamberBlockEntity;
-import com.machina.block.entity.machine.RocketAssemblyStationBlockEntity;
-import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
-import com.machina.block.entity.machine.SawmillBlockEntity;
-import com.machina.block.entity.machine.SolidifierBlockEntity;
-import com.machina.block.entity.machine.TankBlockEntity;
-
+import com.machina.block.entity.machine.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -35,11 +14,13 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class BlockEntityInit {
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister
-			.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Machina.MOD_ID);
+import java.util.function.Supplier;
 
-	//@formatter:off
+public class BlockEntityInit {
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister
+            .create(ForgeRegistries.BLOCK_ENTITY_TYPES, Machina.MOD_ID);
+
+    //@formatter:off
 	public static final RegistryObject<BlockEntityType<ItemConduitBlockEntity>> ITEM_CONDUIT = register("item_conduit",
             ItemConduitBlockEntity::new, BlockInit.ITEM_CONDUIT::get);
 	public static final RegistryObject<BlockEntityType<EnergyCableBlockEntity>> ENERGY_CABLE = register("energy_cable",
@@ -86,19 +67,19 @@ public class BlockEntityInit {
 			RocketAssemblyStationBlockEntity::new, BlockInit.ROCKET_ASSEMBLY_STATION::get);
 	//@formatter:on
 
-	public static final RegistryObject<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",
-			MachinaSignBlockEntity::new, () -> BlockInit.SIGNS.stream().map(RegistryObject::get).toArray(Block[]::new));
-	public static final RegistryObject<BlockEntityType<MachinaHangingSignBlockEntity>> HANGING_SIGN = registerMany(
-			"hanging_sign", MachinaHangingSignBlockEntity::new,
-			() -> BlockInit.HANGING_SIGNS.stream().map(RegistryObject::get).toArray(Block[]::new));
+    public static final RegistryObject<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",
+            MachinaSignBlockEntity::new, () -> BlockInit.SIGNS.stream().map(RegistryObject::get).toArray(Block[]::new));
+    public static final RegistryObject<BlockEntityType<MachinaHangingSignBlockEntity>> HANGING_SIGN = registerMany(
+            "hanging_sign", MachinaHangingSignBlockEntity::new,
+            () -> BlockInit.HANGING_SIGNS.stream().map(RegistryObject::get).toArray(Block[]::new));
 
-	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String n,
-			BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block> b) {
-		return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));
-	}
+    private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String n,
+                                                                                       BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block> b) {
+        return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));
+    }
 
-	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerMany(String n,
-			BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block[]> b) {
-		return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));
-	}
+    private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerMany(String n,
+                                                                                           BlockEntityType.BlockEntitySupplier<T> s, Supplier<Block[]> b) {
+        return BLOCK_ENTITY_TYPES.register(n, () -> BlockEntityType.Builder.of(s, b.get()).build(null));
+    }
 }

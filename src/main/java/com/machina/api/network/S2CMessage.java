@@ -5,9 +5,9 @@ import net.minecraft.network.FriendlyByteBuf;
 
 public interface S2CMessage {
 
-	static Minecraft mc = Minecraft.getInstance();
+    Minecraft mc = Minecraft.getInstance();
 
-	void encode(FriendlyByteBuf buf);
+    void encode(FriendlyByteBuf buf);
 
-	void handle();
+    void handle();
 }

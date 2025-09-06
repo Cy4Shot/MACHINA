@@ -9,15 +9,15 @@ import net.minecraft.resources.ResourceLocation;
 
 public class PlanetTypeLoader extends JsonLoader<PlanetType> {
 
-	public static final PlanetTypeLoader INSTANCE = new PlanetTypeLoader();
+    public static final PlanetTypeLoader INSTANCE = new PlanetTypeLoader();
 
-	public PlanetTypeLoader() {
-		super("planet_type", PlanetTypeJsonInfo.class);
-	}
+    public PlanetTypeLoader() {
+        super("planet_type", PlanetTypeJsonInfo.class);
+    }
 
-	public ResourceLocation pickRandom(Random random) {
-		Set<ResourceLocation> set = getAllLoc();
-		ResourceLocation[] all = set.toArray(new ResourceLocation[0]);
-		return all[random.nextInt(all.length)];
-	}
+    public ResourceLocation pickRandom(Random random) {
+        Set<ResourceLocation> set = getAllLoc();
+        ResourceLocation[] all = set.toArray(new ResourceLocation[0]);
+        return all[random.nextInt(all.length)];
+    }
 }

@@ -11,36 +11,36 @@ import net.minecraftforge.fluids.FluidStack;
 
 public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2CMessage {
 
-	public static S2CFluidSync decode(FriendlyByteBuf buf) {
-		return new S2CFluidSync(buf.readBlockPos(), buf.readFluidStack(), buf.readInt());
-	}
+    public static S2CFluidSync decode(FriendlyByteBuf buf) {
+        return new S2CFluidSync(buf.readBlockPos(), buf.readFluidStack(), buf.readInt());
+    }
 
-	@Override
-	public void encode(FriendlyByteBuf buf) {
-		buf.writeBlockPos(pos);
-		buf.writeFluidStack(stack);
-		buf.writeInt(i);
-	}
+    @Override
+    public void encode(FriendlyByteBuf buf) {
+        buf.writeBlockPos(pos);
+        buf.writeFluidStack(stack);
+        buf.writeInt(i);
+    }
 
-	@Override
-	public void handle() {
-		BlockPos pos = pos();
-		FluidStack stack = stack();
-		int i = i();
+    @Override
+    public void handle() {
+        BlockPos pos = pos();
+        FluidStack stack = stack();
+        int i = i();
 
-		mc.execute(() -> {
-			BlockEntity be = null;
-			if (mc.level != null) {
-				be = mc.level.getBlockEntity(pos);
-			}
-			if (be instanceof MachinaBlockEntity) {
-				be.getCapability(ForgeCapabilities.FLUID_HANDLER).cast().ifPresent(o -> {
-					if (o instanceof MachinaBlockEntity) {
-						((MachinaBlockEntity) o).setFluid(i, stack);
-					}
-				});
-			}
-		});
-	}
+        mc.execute(() -> {
+            BlockEntity be = null;
+            if (mc.level != null) {
+                be = mc.level.getBlockEntity(pos);
+            }
+            if (be instanceof MachinaBlockEntity) {
+                be.getCapability(ForgeCapabilities.FLUID_HANDLER).cast().ifPresent(o -> {
+                    if (o instanceof MachinaBlockEntity) {
+                        ((MachinaBlockEntity) o).setFluid(i, stack);
+                    }
+                });
+            }
+        });
+    }
 
 }

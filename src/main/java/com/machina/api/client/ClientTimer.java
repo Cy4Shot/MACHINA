@@ -1,46 +1,42 @@
 package com.machina.api.client;
 
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 
 public class ClientTimer {
-	public static long gameTick = 0;
-	public static float partialTick = 0;
-	public static float deltaTick = 0;
-	public static float totalTick = 0;
+    public static long gameTick = 0;
+    public static float partialTick = 0;
+    public static float totalTick = 0;
 
-	private static void calcDelta() {
-		float oldTotal = totalTick;
-		totalTick = gameTick + partialTick;
-		deltaTick = totalTick - oldTotal;
-	}
+    private static void calcDelta() {
+        totalTick = gameTick + partialTick;
+    }
 
-	public static void renderTickBegin(float pt) {
-		partialTick = pt;
-	}
+    public static void renderTickBegin(float pt) {
+        partialTick = pt;
+    }
 
-	public static void renderTickFinish() {
-		calcDelta();
-	}
+    public static void renderTickFinish() {
+        calcDelta();
+    }
 
-	public static void endTick(Minecraft mc) {
-		gameTick++;
-		partialTick = 0;
-		calcDelta();
-	}
+    public static void endTick() {
+        gameTick++;
+        partialTick = 0;
+        calcDelta();
+    }
 
-	public static void setup() {
-		MinecraftForge.EVENT_BUS.addListener((TickEvent.ClientTickEvent e) -> {
-			if (e.phase == TickEvent.Phase.END)
-				endTick(Minecraft.getInstance());
-		});
+    public static void setup() {
+        MinecraftForge.EVENT_BUS.addListener((TickEvent.ClientTickEvent e) -> {
+            if (e.phase == TickEvent.Phase.END)
+                endTick();
+        });
 
-		MinecraftForge.EVENT_BUS.addListener((TickEvent.RenderTickEvent e) -> {
-			if (e.phase == TickEvent.Phase.START)
-				renderTickBegin(e.renderTickTime);
-			else
-				renderTickFinish();
-		});
-	}
+        MinecraftForge.EVENT_BUS.addListener((TickEvent.RenderTickEvent e) -> {
+            if (e.phase == TickEvent.Phase.START)
+                renderTickBegin(e.renderTickTime);
+            else
+                renderTickFinish();
+        });
+    }
 }

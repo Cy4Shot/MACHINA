@@ -14,20 +14,20 @@ import net.minecraft.world.level.Level;
 
 public class MelterMenu extends MachinaContainerMenu<MelterBlockEntity> {
 
-	public MelterMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
-	}
+    public MelterMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+        this(id, clientLevel(), buf.readBlockPos(), inv);
+    }
 
-	public MelterMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.MELTER.get(), level, pos, id);
+    public MelterMenu(int id, Level level, BlockPos pos, Inventory inv) {
+        super(MenuTypeInit.MELTER.get(), level, pos, id);
 
-		this.addSlot(new InvSlot(be, 0, 25, -14));
+        this.addSlot(new InvSlot(be, 0, 25, -14));
 
-		invSlots(inv, 0);
-	}
+        invSlots(inv, 0);
+    }
 
-	@Override
-	protected MachineBlock getBlock() {
-		return BlockInit.MELTER.get();
-	}
+    @Override
+    protected MachineBlock getBlock() {
+        return BlockInit.MELTER.get();
+    }
 }

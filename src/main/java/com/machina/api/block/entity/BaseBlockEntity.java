@@ -17,52 +17,52 @@ import java.util.Objects;
 /**
  * Basic BlockEntity class which all Machina BlockEntities should extend. It
  * provides basic methods for syncing between the client and server.
- * 
+ *
  * @author Cy4Shot
  * @since Machina v0.1.0
  */
 public abstract class BaseBlockEntity extends BlockEntity {
 
-	public BaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-		super(type, pos, state);
-	}
+    public BaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
 
-	@Override
-	public @NotNull CompoundTag getUpdateTag() {
-		return this.saveWithFullMetadata();
-	}
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        return this.saveWithFullMetadata();
+    }
 
-	@Override
-	public Packet<ClientGamePacketListener> getUpdatePacket() {
-		return ClientboundBlockEntityDataPacket.create(this);
-	}
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
 
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		super.onDataPacket(net, pkt);
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        super.onDataPacket(net, pkt);
 
-		if (activeModel() && level != null) {
-			Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
-		}
-	}
+        if (activeModel() && level != null) {
+            Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
+        }
+    }
 
-	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        super.handleUpdateTag(tag);
 
-		if (activeModel() && level != null) {
-			Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
-		}
-	}
+        if (activeModel() && level != null) {
+            Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
+        }
+    }
 
-	public void sync() {
-		if (this.level instanceof ServerLevel) {
-			final BlockState state = getBlockState();
-			this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
-			this.level.blockEntityChanged(this.worldPosition);
-			this.setChanged();
-		}
-	}
+    public void sync() {
+        if (this.level instanceof ServerLevel) {
+            final BlockState state = getBlockState();
+            this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
+            this.level.blockEntityChanged(this.worldPosition);
+            this.setChanged();
+        }
+    }
 
-	public abstract boolean activeModel();
+    public abstract boolean activeModel();
 }

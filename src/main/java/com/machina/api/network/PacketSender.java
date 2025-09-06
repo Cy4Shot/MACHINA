@@ -13,21 +13,21 @@ import java.util.Objects;
 
 public class PacketSender {
 
-	public static final SimpleChannel CHANNEL = NetworkRegistry
-			.newSimpleChannel(new ResourceLocation(Machina.MOD_ID, "main"), () -> "0", "0"::equals, "0"::equals);
+    public static final SimpleChannel CHANNEL = NetworkRegistry
+            .newSimpleChannel(new ResourceLocation(Machina.MOD_ID, "main"), () -> "0", "0"::equals, "0"::equals);
 
-	public static <T extends S2CMessage> void sendToClients(T packet) {
-		for (ServerPlayer player : Objects.requireNonNull(Minecraft.getInstance().getSingleplayerServer())
-				.getPlayerList().getPlayers()) {
-			sendToClient(player, packet);
-		}
-	}
+    public static <T extends S2CMessage> void sendToClients(T packet) {
+        for (ServerPlayer player : Objects.requireNonNull(Minecraft.getInstance().getSingleplayerServer())
+                .getPlayerList().getPlayers()) {
+            sendToClient(player, packet);
+        }
+    }
 
-	public static <T extends S2CMessage> void sendToClient(ServerPlayer player, T packet) {
-		CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
-	}
+    public static <T extends S2CMessage> void sendToClient(ServerPlayer player, T packet) {
+        CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
+    }
 
-	public static <T extends C2SMessage> void sendToServer(T packet) {
-		CHANNEL.sendToServer(packet);
-	}
+    public static <T extends C2SMessage> void sendToServer(T packet) {
+        CHANNEL.sendToServer(packet);
+    }
 }

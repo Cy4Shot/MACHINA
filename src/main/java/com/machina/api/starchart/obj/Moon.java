@@ -12,48 +12,49 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * Gravity: m/s^2</br>
  * Temperature, Surface: K</br>
  * Atmospheric Pressure: atm</br>
- * 
+ *
  * @author Cy4Shot
  * @since Machina v0.1.0
  */
 public record Moon(String name, double a, // semi-major axis of the orbit (in AU)
-		double e, // eccentricity of the orbit
-		double where_in_orbit, // position along orbit (in radians)
-		double mass, // mass (in Earth masses)
-		boolean gas_giant, // true if the planet is a gas giant
-		int orbit_zone, // the 'zone' of the planet
-		double radius, // equatorial radius (in km)
-		double density, // density (in g/cc)
-		double orb_period, // length of the local year (days)
-		double day, // length of the local day (hours)
-		int resonant_period, // true if in resonant rotation
-		int axial_tilt, // units of degrees
-		double esc_velocity, // units of cm/sec
-		double surf_accel, // units of cm/sec2
-		double surf_grav, // units of Earth gravities
-		double rms_velocity, // units of cm/sec
-		double molec_weight, // smallest molecular weight retained
-		double volatile_gas_inventory, double GH2, double GH2O, double GN2, double GO2, double GCO2, // gas retention
-																										// percentages
-		double surf_pressure, // units of millibars (mb)
-		boolean greenhouse_effect, // runaway greenhouse effect?
-		double boil_point, // the boiling point of water (Kelvin)
-		double albedo, // albedo of the planet
-		double surf_temp, // surface temperature in Kelvin
-		double min_temp, double max_temp, // surface temperature ranges
-		double avg_temp, // weighted average of iterations
-		double hydrosphere, // fraction of surface covered
-		double cloud_cover, // fraction of surface covered
-		double ice_cover, // fraction of surface covered
-		char plan_class, // general type classification
-		double r_ecosphere, double resonance, double stell_mass_ratio, double age, double cloud_factor,
-		double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
-		double airless_ice_factor, int its, boolean temp_unstable) {
+                   double e, // eccentricity of the orbit
+                   double where_in_orbit, // position along orbit (in radians)
+                   double mass, // mass (in Earth masses)
+                   boolean gas_giant, // true if the planet is a gas giant
+                   int orbit_zone, // the 'zone' of the planet
+                   double radius, // equatorial radius (in km)
+                   double density, // density (in g/cc)
+                   double orb_period, // length of the local year (days)
+                   double day, // length of the local day (hours)
+                   int resonant_period, // true if in resonant rotation
+                   int axial_tilt, // units of degrees
+                   double esc_velocity, // units of cm/sec
+                   double surf_accel, // units of cm/sec2
+                   double surf_grav, // units of Earth gravities
+                   double rms_velocity, // units of cm/sec
+                   double molec_weight, // smallest molecular weight retained
+                   double volatile_gas_inventory, double GH2, double GH2O, double GN2, double GO2, double GCO2,
+                   // gas retention
+                   // percentages
+                   double surf_pressure, // units of millibars (mb)
+                   boolean greenhouse_effect, // runaway greenhouse effect?
+                   double boil_point, // the boiling point of water (Kelvin)
+                   double albedo, // albedo of the planet
+                   double surf_temp, // surface temperature in Kelvin
+                   double min_temp, double max_temp, // surface temperature ranges
+                   double avg_temp, // weighted average of iterations
+                   double hydrosphere, // fraction of surface covered
+                   double cloud_cover, // fraction of surface covered
+                   double ice_cover, // fraction of surface covered
+                   char plan_class, // general type classification
+                   double r_ecosphere, double resonance, double stell_mass_ratio, double age, double cloud_factor,
+                   double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
+                   double airless_ice_factor, int its, boolean temp_unstable) {
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
-	}
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
+    }
 
 //	public static final Moon MOON = new Moon("Moon", 734.2f, 1737400, 384.399f, 1022, 0.0549f, 1.622f, 250, 0,
 //			AtmosphericComposition.NONE);

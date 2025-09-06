@@ -5,11 +5,11 @@ import com.machina.api.starchart.StarchartGenerator;
 import com.machina.api.starchart.obj.SolarSystem;
 
 public class ClientStarchart {
-	public static SolarSystem system;
+    public static SolarSystem system;
 
-	public static Starchart STARCHART = null;
+    public static Starchart STARCHART = null;
 
-	public static void sync(long seed) {
-		system = StarchartGenerator.gen(seed, "Example");
-	}
+    public static void sync(long seed) {
+        system = StarchartGenerator.gen(seed, "Example");
+    }
 }

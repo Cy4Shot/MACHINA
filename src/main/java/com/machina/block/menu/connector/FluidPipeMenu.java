@@ -15,20 +15,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 public class FluidPipeMenu extends ConnectorMenu<FluidPipeBlockEntity> {
-	public FluidPipeMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv, buf.readEnum(Direction.class));
-	}
+    public FluidPipeMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+        this(id, clientLevel(), buf.readBlockPos(), inv, buf.readEnum(Direction.class));
+    }
 
-	public FluidPipeMenu(int id, Level level, BlockPos pos, Inventory inv, Direction d) {
-		super(MenuTypeInit.FLUID_PIPE.get(), level, pos, id, d);
+    public FluidPipeMenu(int id, Level level, BlockPos pos, Inventory inv, Direction d) {
+        super(MenuTypeInit.FLUID_PIPE.get(), level, pos, id, d);
 
-		invSlots(inv, 0);
+        invSlots(inv, 0);
 
-		this.addSlot(new AcceptSlot(be, id(0), 108, 5, s -> s.is(ItemInit.FLUID_FILTER.get())));
-	}
+        this.addSlot(new AcceptSlot(be, id(0), 108, 5, s -> s.is(ItemInit.FLUID_FILTER.get())));
+    }
 
-	@Override
-	protected Block getBlock() {
-		return BlockInit.FLUID_PIPE.get();
-	}
+    @Override
+    protected Block getBlock() {
+        return BlockInit.FLUID_PIPE.get();
+    }
 }

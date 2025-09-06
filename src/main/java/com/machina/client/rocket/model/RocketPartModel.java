@@ -3,39 +3,39 @@ package com.machina.client.rocket.model;
 import com.machina.api.rocket.RocketEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class RocketPartModel extends EntityModel<RocketEntity> {
 
-	public RocketPartModel() {
-	}
+    public RocketPartModel() {
+    }
 
-	@Override
-	public void setupAnim(RocketEntity p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_,
-			float p_102623_) {
-	}
+    @Override
+    public void setupAnim(@NotNull RocketEntity p_102618_, float p_102619_, float p_102620_, float p_102621_, float p_102622_,
+                          float p_102623_) {
+    }
 
-	protected abstract LayerDefinition createBodyLayer();
+    protected abstract LayerDefinition createBodyLayer();
 
-	protected abstract ModelPart main();
+    protected abstract ModelPart main();
 
-	public void render(PoseStack poseStack, MultiBufferSource source, int packedLight, int packedOverlay, float red,
-			float green, float blue, float alpha) {
-		this.renderToBuffer(poseStack, source.getBuffer(renderType(getTextureLocation())), packedLight, packedOverlay,
-				red, green, blue, alpha);
-	}
+    public void render(PoseStack poseStack, MultiBufferSource source, int packedLight, int packedOverlay, float red,
+                       float green, float blue, float alpha) {
+        this.renderToBuffer(poseStack, source.getBuffer(renderType(getTextureLocation())), packedLight, packedOverlay,
+                red, green, blue, alpha);
+    }
 
-	protected abstract ResourceLocation getTextureLocation();
+    protected abstract ResourceLocation getTextureLocation();
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
-			float red, float green, float blue, float alpha) {
-		main().render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    @Override
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay,
+                               float red, float green, float blue, float alpha) {
+        main().render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 
 ////		Debug Cube
 //		poseStack.pushPose();
@@ -95,6 +95,6 @@ public abstract class RocketPartModel extends EntityModel<RocketEntity> {
 //				.overlayCoords(0).uv2(packedOverlay).normal(1.0F, 1.0F, 1.0F).endVertex();
 //		poseStack.popPose();
 
-	}
+    }
 
 }

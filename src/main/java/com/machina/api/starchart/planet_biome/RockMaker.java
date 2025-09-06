@@ -16,19 +16,19 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public interface RockMaker {
 
-	SDF build(PlanetBiomeBigRock config, RandomSource random, WorldGenLevel l, BlockPos p);
+    SDF build(PlanetBiomeBigRock config, RandomSource random, WorldGenLevel l, BlockPos p);
 
-	default List<SDFFruitPlacer> extras(RandomSource random, PlanetBiomeBigRock cfg) {
-		BlockState f = cfg.extra();
+    default List<SDFFruitPlacer> extras(RandomSource random, PlanetBiomeBigRock cfg) {
+        BlockState f = cfg.extra();
 
-		return Arrays.asList(
-				new SDFFruitPlacer(random, Direction.NORTH, cfg.side_extra_chance(), f, Predicates.alwaysTrue()),
-				new SDFFruitPlacer(random, Direction.SOUTH, cfg.side_extra_chance(), f, Predicates.alwaysTrue()),
-				new SDFFruitPlacer(random, Direction.WEST, cfg.side_extra_chance(), f, Predicates.alwaysTrue()),
-				new SDFFruitPlacer(random, Direction.EAST, cfg.side_extra_chance(), f, Predicates.alwaysTrue()),
+        return Arrays.asList(
+                new SDFFruitPlacer(random, Direction.NORTH, cfg.side_extra_chance(), f, Predicates.alwaysTrue()),
+                new SDFFruitPlacer(random, Direction.SOUTH, cfg.side_extra_chance(), f, Predicates.alwaysTrue()),
+                new SDFFruitPlacer(random, Direction.WEST, cfg.side_extra_chance(), f, Predicates.alwaysTrue()),
+                new SDFFruitPlacer(random, Direction.EAST, cfg.side_extra_chance(), f, Predicates.alwaysTrue()),
 
-				new SDFFruitPlacer(random, Direction.DOWN, cfg.down_extra_chance(), f, Predicates.alwaysTrue()),
+                new SDFFruitPlacer(random, Direction.DOWN, cfg.down_extra_chance(), f, Predicates.alwaysTrue()),
 
-				new SDFFruitPlacer(random, Direction.UP, cfg.up_extra_chance(), f, Predicates.alwaysTrue()));
-	}
+                new SDFFruitPlacer(random, Direction.UP, cfg.up_extra_chance(), f, Predicates.alwaysTrue()));
+    }
 }

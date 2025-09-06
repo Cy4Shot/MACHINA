@@ -23,82 +23,82 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class Multiblock {
-	public Vec3i size;
-	public Vec3i controller_pos;
-	public Map<String, BlockState> map;
-	public Map<String, BlockState> renderMap;
-	public Collection<BlockState> allowed;
-	public Set<Block> allowedBlock;
-	public String[][][] structure;
+    public Vec3i size;
+    public Vec3i controller_pos;
+    public Map<String, BlockState> map;
+    public Map<String, BlockState> renderMap;
+    public Collection<BlockState> allowed;
+    public Set<Block> allowedBlock;
+    public String[][][] structure;
 
-	public static class MultiblockJsonInfo implements JsonInfo<Multiblock> {
-		public List<Integer> size;
-		public Map<String, String> blocks;
-		public List<List<String>> structure;
+    public static class MultiblockJsonInfo implements JsonInfo<Multiblock> {
+        public List<Integer> size;
+        public Map<String, String> blocks;
+        public List<List<String>> structure;
 
-		public Multiblock cast() {
-			Multiblock mb = new Multiblock();
-			mb.size = new Vec3i(size.get(0), size.get(1), size.get(2));
-			mb.map = blocks.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> {
-				try {
-					return parse(s.getValue());
-				} catch (CommandSyntaxException e) {
-					Machina.LOGGER.error(e.getMessage());
-					return Blocks.AIR.defaultBlockState();
-				}
-			}));
+        public Multiblock cast() {
+            Multiblock mb = new Multiblock();
+            mb.size = new Vec3i(size.get(0), size.get(1), size.get(2));
+            mb.map = blocks.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> {
+                try {
+                    return parse(s.getValue());
+                } catch (CommandSyntaxException e) {
+                    Machina.LOGGER.error(e.getMessage());
+                    return Blocks.AIR.defaultBlockState();
+                }
+            }));
 
-			// TODO: Does rendermap need to exist?
-			mb.renderMap = mb.map;
+            // TODO: Does rendermap need to exist?
+            mb.renderMap = mb.map;
 
-			mb.structure = structure.stream()
-					.map(l1 -> l1.stream().map(l2 -> l2.split("(?!^)")).toArray(String[][]::new))
-					.toArray(String[][][]::new);
+            mb.structure = structure.stream()
+                    .map(l1 -> l1.stream().map(l2 -> l2.split("(?!^)")).toArray(String[][]::new))
+                    .toArray(String[][][]::new);
 
-			mb.controller_pos = null;
-			for (int x = 0; x < mb.size.getX(); x++) {
-				for (int y = 0; y < mb.size.getY(); y++) {
-					for (int z = 0; z < mb.size.getZ(); z++) {
-						if (mb.structure[x][y][z].equals("!")) {
-							mb.controller_pos = new Vec3i(x, y, z);
-							break;
-						}
-					}
-				}
-			}
+            mb.controller_pos = null;
+            for (int x = 0; x < mb.size.getX(); x++) {
+                for (int y = 0; y < mb.size.getY(); y++) {
+                    for (int z = 0; z < mb.size.getZ(); z++) {
+                        if (mb.structure[x][y][z].equals("!")) {
+                            mb.controller_pos = new Vec3i(x, y, z);
+                            break;
+                        }
+                    }
+                }
+            }
 
-			if (mb.controller_pos == null) {
-				throw new IllegalArgumentException("No controller found in structure");
-			}
+            if (mb.controller_pos == null) {
+                throw new IllegalArgumentException("No controller found in structure");
+            }
 
-			mb.allowed = mb.map.values();
-			mb.allowedBlock = mb.allowed.stream().map(BlockBehaviour.BlockStateBase::getBlock)
-					.collect(Collectors.toSet());
-			return mb;
-		}
-	}
+            mb.allowed = mb.map.values();
+            mb.allowedBlock = mb.allowed.stream().map(BlockBehaviour.BlockStateBase::getBlock)
+                    .collect(Collectors.toSet());
+            return mb;
+        }
+    }
 
-	private static BlockState parse(String value) throws CommandSyntaxException {
-		return BlockStateParser
-				.parseForBlock(RegistryLayer.createRegistryAccess().compositeAccess().lookup(Registries.BLOCK).get(),
-						value, true)
-				.blockState();
-	}
+    private static BlockState parse(String value) throws CommandSyntaxException {
+        return BlockStateParser
+                .parseForBlock(RegistryLayer.createRegistryAccess().compositeAccess().lookup(Registries.BLOCK).get(),
+                        value, true)
+                .blockState();
+    }
 
-	public BlockState getRenderAtPos(Vec3i pos) {
-		try {
-			BlockState bs = renderMap.get(structure[pos.getX()][pos.getY()][pos.getZ()]);
-			return bs == null ? Blocks.AIR.defaultBlockState() : bs;
-		} catch (IndexOutOfBoundsException e) {
-			return Blocks.AIR.defaultBlockState();
-		}
-	}
+    public BlockState getRenderAtPos(Vec3i pos) {
+        try {
+            BlockState bs = renderMap.get(structure[pos.getX()][pos.getY()][pos.getZ()]);
+            return bs == null ? Blocks.AIR.defaultBlockState() : bs;
+        } catch (IndexOutOfBoundsException e) {
+            return Blocks.AIR.defaultBlockState();
+        }
+    }
 
-	@Override
-	public String toString() {
-		return "Multiblock {" + "\n\t size = " + size.toString() + "\n\t map = "
-				+ Joiner.on(",").withKeyValueSeparator("=").join(
-						map.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> s.getValue().toString())))
-				+ "\n\t structure = " + Arrays.deepToString(structure) + '}';
-	}
+    @Override
+    public String toString() {
+        return "Multiblock {" + "\n\t size = " + size.toString() + "\n\t map = "
+                + Joiner.on(",").withKeyValueSeparator("=").join(
+                map.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> s.getValue().toString())))
+                + "\n\t structure = " + Arrays.deepToString(structure) + '}';
+    }
 }

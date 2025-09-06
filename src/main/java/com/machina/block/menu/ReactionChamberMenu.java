@@ -15,23 +15,23 @@ import net.minecraft.world.level.Level;
 
 public class ReactionChamberMenu extends MachinaContainerMenu<ReactionChamberBlockEntity> {
 
-	public ReactionChamberMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
-	}
+    public ReactionChamberMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+        this(id, clientLevel(), buf.readBlockPos(), inv);
+    }
 
-	public ReactionChamberMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.REACTION_CHAMBER.get(), level, pos, id);
+    public ReactionChamberMenu(int id, Level level, BlockPos pos, Inventory inv) {
+        super(MenuTypeInit.REACTION_CHAMBER.get(), level, pos, id);
 
-		this.addSlot(new InvSlot(be, 0, 5, 30));
-		this.addSlot(new InvSlot(be, 1, 25, 30));
-		this.addSlot(new ResultSlot(be, 2, 194, 30));
-		this.addSlot(new ResultSlot(be, 3, 214, 30));
+        this.addSlot(new InvSlot(be, 0, 5, 30));
+        this.addSlot(new InvSlot(be, 1, 25, 30));
+        this.addSlot(new ResultSlot(be, 2, 194, 30));
+        this.addSlot(new ResultSlot(be, 3, 214, 30));
 
-		invSlots(inv, 0);
-	}
+        invSlots(inv, 0);
+    }
 
-	@Override
-	protected MachineBlock getBlock() {
-		return BlockInit.REACTION_CHAMBER.get();
-	}
+    @Override
+    protected MachineBlock getBlock() {
+        return BlockInit.REACTION_CHAMBER.get();
+    }
 }

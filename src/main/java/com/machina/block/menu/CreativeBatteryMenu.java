@@ -12,18 +12,18 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 
 public class CreativeBatteryMenu extends MachinaContainerMenu<CreativeBatteryBlockEntity> {
-	public CreativeBatteryMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
-	}
+    public CreativeBatteryMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+        this(id, clientLevel(), buf.readBlockPos(), inv);
+    }
 
-	public CreativeBatteryMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.CREATIVE_BATTERY.get(), level, pos, id);
+    public CreativeBatteryMenu(int id, Level level, BlockPos pos, Inventory inv) {
+        super(MenuTypeInit.CREATIVE_BATTERY.get(), level, pos, id);
 
-		invSlots(inv, 0);
-	}
+        invSlots(inv, 0);
+    }
 
-	@Override
-	protected MachineBlock getBlock() {
-		return BlockInit.CREATIVE_BATTERY.get();
-	}
+    @Override
+    protected MachineBlock getBlock() {
+        return BlockInit.CREATIVE_BATTERY.get();
+    }
 }

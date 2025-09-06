@@ -7,7 +7,6 @@ import com.machina.block.menu.CompressorMenu;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -17,40 +16,40 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class CompressorBlockEntity extends RecipeBlockEntity {
 
-	public CompressorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-		super(type, pos, state);
-	}
+    public CompressorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
 
-	public CompressorBlockEntity(BlockPos pos, BlockState state) {
-		this(BlockEntityInit.COMPRESSOR.get(), pos, state);
-	}
+    public CompressorBlockEntity(BlockPos pos, BlockState state) {
+        this(BlockEntityInit.COMPRESSOR.get(), pos, state);
+    }
 
-	@Override
-	public void createStorages() {
-		energyStorage(Side.INPUTS);
-		itemSlot(SlotType.INPUT);
-		itemSlot(SlotType.EPHEMERAL);
-		itemSlot(SlotType.OUTPUT);
-	}
+    @Override
+    public void createStorages() {
+        energyStorage(Side.INPUTS);
+        itemSlot(SlotType.INPUT);
+        itemSlot(SlotType.EPHEMERAL);
+        itemSlot(SlotType.OUTPUT);
+    }
 
-	@Override
-	public int getMaxEnergy() {
-		// TODO: Config
-		return 1_000_000;
-	}
+    @Override
+    public int getMaxEnergy() {
+        // TODO: Config
+        return 1_000_000;
+    }
 
-	@Override
-	public RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe() {
-		return RecipeInit.COMPRESSOR;
-	}
+    @Override
+    public RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe() {
+        return RecipeInit.COMPRESSOR;
+    }
 
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return CompressorMenu::new;
-	}
+    @Override
+    protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
+        return CompressorMenu::new;
+    }
 
-	@Override
-	public boolean activeModel() {
-		return false;
-	}
+    @Override
+    public boolean activeModel() {
+        return false;
+    }
 }

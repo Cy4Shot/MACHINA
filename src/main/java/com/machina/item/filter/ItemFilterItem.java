@@ -1,14 +1,9 @@
 package com.machina.item.filter;
 
-import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.Machina;
 import com.machina.api.cap.item.ConduitItemStorage;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.item.menu.ItemFilterMenu;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -27,82 +22,87 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Objects;
 
 public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemStorage> {
 
-	private static final String ITEM = "item";
+    private static final String ITEM = "item";
 
-	public ItemFilterItem(Properties props) {
-		super(props);
-	}
+    public ItemFilterItem(Properties props) {
+        super(props);
+    }
 
-	public static Item getItem(ItemStack stack) {
-		CompoundTag nbt = stack.getOrCreateTag();
-		if (nbt.contains(ITEM)) {
-			ResourceLocation fluidName = new ResourceLocation(nbt.getString(ITEM));
-			Item f = ForgeRegistries.ITEMS.getValue(fluidName);
-			if (f != null)
-				return f;
-		}
-		return Items.AIR;
-	}
+    public static Item getItem(ItemStack stack) {
+        CompoundTag nbt = stack.getOrCreateTag();
+        if (nbt.contains(ITEM)) {
+            ResourceLocation fluidName = new ResourceLocation(nbt.getString(ITEM));
+            Item f = ForgeRegistries.ITEMS.getValue(fluidName);
+            if (f != null)
+                return f;
+        }
+        return Items.AIR;
+    }
 
-	public static ItemStack set(ItemStack stack, Item type, Mode mode) {
-		CompoundTag tag = stack.getOrCreateTag();
-		if (type != null)
-			tag.putString(ITEM, ForgeRegistries.ITEMS.getKey(type).toString());
-		if (mode != null)
-			tag.putString(MODE, mode.name());
-		stack.setTag(tag);
-		return stack;
-	}
+    public static ItemStack set(ItemStack stack, Item type, Mode mode) {
+        CompoundTag tag = stack.getOrCreateTag();
+        if (type != null) {
+            ResourceLocation key = ForgeRegistries.ITEMS.getKey(type);
+            if (key != null) {
+                tag.putString(ITEM, key.toString());
+            }
+        }
+        if (mode != null) {
+            tag.putString(MODE, mode.name());
+        }
+        stack.setTag(tag);
+        return stack;
+    }
 
-	@Override
-	public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip,
-			@NotNull TooltipFlag flag) {
-		Item item = getItem(stack);
-		if (item != Items.AIR) {
-			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.configured")
-					.setStyle(Style.EMPTY.withColor(65278)));
-		} else {
-			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.empty")
-					.setStyle(Style.EMPTY.withColor(65278)));
-		}
+    @Override
+    public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip,
+                                @NotNull TooltipFlag flag) {
+        Item item = getItem(stack);
+        if (item != Items.AIR) {
+            tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.configured")
+                    .setStyle(Style.EMPTY.withColor(65278)));
+        } else {
+            tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.empty")
+                    .setStyle(Style.EMPTY.withColor(65278)));
+        }
 
-		super.appendHoverText(stack, level, tooltip, flag);
-	}
+        super.appendHoverText(stack, level, tooltip, flag);
+    }
 
-	@Override
-	public boolean filter(ItemStack stack, ItemStack original) {
-		Mode mode = getMode(stack);
-		Item item = getItem(stack);
+    @Override
+    public boolean filter(ItemStack stack, ItemStack original) {
+        Mode mode = getMode(stack);
+        Item item = getItem(stack);
 
-		switch (mode) {
-		case BLACKLIST:
-			return !original.getItem().equals(item);
-		default:
-			return original.getItem().equals(item);
-		}
-	}
+        if (Objects.requireNonNull(mode) == Mode.BLACKLIST) {
+            return !original.getItem().equals(item);
+        }
+        return original.getItem().equals(item);
+    }
 
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-		if (level.isClientSide())
-			return super.use(level, player, hand);
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+        if (level.isClientSide())
+            return super.use(level, player, hand);
 
-		NetworkHooks.openScreen((ServerPlayer) player, new MenuProvider() {
-			@Override
-			public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
-				return new ItemFilterMenu(id, inv, hand);
-			}
+        NetworkHooks.openScreen((ServerPlayer) player, new MenuProvider() {
+            @Override
+            public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
+                return new ItemFilterMenu(id, inv, hand);
+            }
 
-			@Override
-			public Component getDisplayName() {
-				return Component.empty();
-			}
-		}, buf -> {
-			buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
-		});
-		return InteractionResultHolder.consume(player.getItemInHand(hand));
-	}
+            @Override
+            public @NotNull Component getDisplayName() {
+                return Component.empty();
+            }
+        }, buf -> buf.writeBoolean(hand == InteractionHand.MAIN_HAND));
+        return InteractionResultHolder.consume(player.getItemInHand(hand));
+    }
 }

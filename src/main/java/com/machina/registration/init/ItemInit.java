@@ -1,7 +1,5 @@
 package com.machina.registration.init;
 
-import java.util.function.Supplier;
-
 import com.machina.Machina;
 import com.machina.api.item.ChemicalItem;
 import com.machina.block.MachinaHangingSignBlock;
@@ -16,7 +14,6 @@ import com.machina.item.MouldItem.Mould;
 import com.machina.item.filter.AdvancedItemFilterItem;
 import com.machina.item.filter.FluidFilterItem;
 import com.machina.item.filter.ItemFilterItem;
-
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
@@ -27,11 +24,13 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Supplier;
+
 public class ItemInit {
 
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Machina.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Machina.MOD_ID);
 
-	//@formatter:off
+    //@formatter:off
 	public static final RegistryObject<Item> BLUEPRINT = basic("blueprint", BlueprintItem::new);
 	
 	public static final RegistryObject<CapacitorItem> BASIC_CAPACITOR = capacitor("basic_capacitor", () -> CommonConfig.basicCapacitorSize);
@@ -172,81 +171,81 @@ public class ItemInit {
 	public static final RegistryObject<HangingSignItem> CYCAD_HANGING_SIGN = hanging_sign("cycad_hanging_sign", BlockInit.CYCAD_HANGING_SIGN, BlockInit.CYCAD_WALL_HANGING_SIGN);
 	//@formatter:on
 
-	public static RegistryObject<Item> basic(String name) {
-		return register(name, ItemBuilder::basicItem);
-	}
+    public static RegistryObject<Item> basic(String name) {
+        return register(name, ItemBuilder::basicItem);
+    }
 
-	public static RegistryObject<MouldItem> mould(String name, Mould mould) {
-		return register(name, () -> ItemBuilder.basicItem(p -> new MouldItem(p, mould)));
-	}
+    public static RegistryObject<MouldItem> mould(String name, Mould mould) {
+        return register(name, () -> ItemBuilder.basicItem(p -> new MouldItem(p, mould)));
+    }
 
-	public static RegistryObject<CapacitorItem> capacitor(String name, Supplier<ForgeConfigSpec.IntValue> cap) {
-		return register(name, () -> ItemBuilder.basicItem(p -> new CapacitorItem(p, cap)));
-	}
+    public static RegistryObject<CapacitorItem> capacitor(String name, Supplier<ForgeConfigSpec.IntValue> cap) {
+        return register(name, () -> ItemBuilder.basicItem(p -> new CapacitorItem(p, cap)));
+    }
 
-	public static RegistryObject<ChemicalItem> chemical(String name, String chemical) {
-		return basic(name, p -> new ChemicalItem(p, chemical));
-	}
+    public static RegistryObject<ChemicalItem> chemical(String name, String chemical) {
+        return basic(name, p -> new ChemicalItem(p, chemical));
+    }
 
-	public static RegistryObject<ChemicalItem> chemical(String name, String tooltip, String chemical) {
-		return basic(name, p -> new ChemicalItem(p, tooltip, chemical));
-	}
+    public static RegistryObject<ChemicalItem> chemical(String name, String tooltip, String chemical) {
+        return basic(name, p -> new ChemicalItem(p, tooltip, chemical));
+    }
 
-	public static RegistryObject<SignItem> sign(String name, RegistryObject<MachinaSignBlock> standing,
-			RegistryObject<MachinaWallSignBlock> wall) {
-		return register(name, () -> new SignItem((new Item.Properties()).stacksTo(16), standing.get(), wall.get()));
-	}
+    public static RegistryObject<SignItem> sign(String name, RegistryObject<MachinaSignBlock> standing,
+                                                RegistryObject<MachinaWallSignBlock> wall) {
+        return register(name, () -> new SignItem((new Item.Properties()).stacksTo(16), standing.get(), wall.get()));
+    }
 
-	public static RegistryObject<HangingSignItem> hanging_sign(String name,
-			RegistryObject<MachinaHangingSignBlock> standing, RegistryObject<MachinaHangingWallSignBlock> wall) {
-		return register(name,
-				() -> new HangingSignItem(standing.get(), wall.get(), (new Item.Properties()).stacksTo(16)));
-	}
+    public static RegistryObject<HangingSignItem> hanging_sign(String name,
+                                                               RegistryObject<MachinaHangingSignBlock> standing, RegistryObject<MachinaHangingWallSignBlock> wall) {
+        return register(name,
+                () -> new HangingSignItem(standing.get(), wall.get(), (new Item.Properties()).stacksTo(16)));
+    }
 
-	public static RegistryObject<Item> props(String name,
-			NonNullFunction<Item.Properties, Item.Properties> propsProcessor) {
-		return register(name, () -> ItemBuilder.props(propsProcessor));
-	}
+    public static RegistryObject<Item> props(String name,
+                                             NonNullFunction<Item.Properties, Item.Properties> propsProcessor) {
+        return register(name, () -> ItemBuilder.props(propsProcessor));
+    }
 
-	public static <T extends Item> RegistryObject<T> basic(String name, NonNullFunction<Item.Properties, T> factory) {
-		return register(name, () -> ItemBuilder.basicItem(factory));
-	}
+    public static <T extends Item> RegistryObject<T> basic(String name, NonNullFunction<Item.Properties, T> factory) {
+        return register(name, () -> ItemBuilder.basicItem(factory));
+    }
 
-	public static <T extends Item> RegistryObject<T> register(String name, Supplier<T> item) {
-		return ITEMS.register(name, item);
-	}
+    public static <T extends Item> RegistryObject<T> register(String name, Supplier<T> item) {
+        return ITEMS.register(name, item);
+    }
 
-	public static class ItemBuilder<T extends Item> {
+    public static class ItemBuilder<T extends Item> {
 
-		private final NonNullFunction<Item.Properties, T> factory;
+        private final NonNullFunction<Item.Properties, T> factory;
 
-		protected ItemBuilder(NonNullFunction<Item.Properties, T> factory) {
-			this.factory = factory;
-		}
+        protected ItemBuilder(NonNullFunction<Item.Properties, T> factory) {
+            this.factory = factory;
+        }
 
-		public static Item basicItem() {
-			return new ItemBuilder<>(Item::new).build();
-		}
+        public static Item basicItem() {
+            return new ItemBuilder<>(Item::new).build();
+        }
 
-		public static Item props(NonNullFunction<Item.Properties, Item.Properties> propsProcessor) {
-			return new ItemBuilder<>(p -> new Item(propsProcessor.apply(p))).build();
-		}
+        public static Item props(NonNullFunction<Item.Properties, Item.Properties> propsProcessor) {
+            return new ItemBuilder<>(p -> new Item(propsProcessor.apply(p))).build();
+        }
 
-		public static <T extends Item> T basicItem(NonNullFunction<Item.Properties, T> factory) {
-			return new ItemBuilder<>(factory).build();
-		}
+        public static <T extends Item> T basicItem(NonNullFunction<Item.Properties, T> factory) {
+            return new ItemBuilder<>(factory).build();
+        }
 
-		public static <T extends Item> ItemBuilder<T> create(NonNullFunction<Item.Properties, T> factory) {
-			return new ItemBuilder<>(factory);
-		}
+        public static <T extends Item> ItemBuilder<T> create(NonNullFunction<Item.Properties, T> factory) {
+            return new ItemBuilder<>(factory);
+        }
 
-		public T build() {
-			return factory.apply(getProperties());
-		}
+        public T build() {
+            return factory.apply(getProperties());
+        }
 
-		public Properties getProperties() {
-			return new Properties();
-		}
-	}
+        public Properties getProperties() {
+            return new Properties();
+        }
+    }
 
 }

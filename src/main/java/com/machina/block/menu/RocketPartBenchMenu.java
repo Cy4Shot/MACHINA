@@ -13,18 +13,18 @@ import net.minecraft.world.level.Level;
 
 public class RocketPartBenchMenu extends MachinaContainerMenu<RocketPartBenchBlockEntity> {
 
-	public RocketPartBenchMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
-	}
+    public RocketPartBenchMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+        this(id, clientLevel(), buf.readBlockPos(), inv);
+    }
 
-	public RocketPartBenchMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.ROCKET_PART_BENCH.get(), level, pos, id);
+    public RocketPartBenchMenu(int id, Level level, BlockPos pos, Inventory inv) {
+        super(MenuTypeInit.ROCKET_PART_BENCH.get(), level, pos, id);
 
-		invSlots(inv, 0);
-	}
+        invSlots(inv, 0);
+    }
 
-	@Override
-	protected MachineBlock getBlock() {
-		return BlockInit.ROCKET_PART_BENCH.get();
-	}
+    @Override
+    protected MachineBlock getBlock() {
+        return BlockInit.ROCKET_PART_BENCH.get();
+    }
 }

@@ -59,66 +59,67 @@ package com.machina.api.starchart.burke;
  */
 public class AccreteObject {
 
-	/**
-	 * Produces a Gaussian random variate with mean=0, standard deviation=1.
-	 * Provides a local method with access to global random number generator.
-	 */
-	static public double NormalDeviate() {
-		return cr.NormalDeviate();
-	}
+    /**
+     * Produces a Gaussian random variate with mean=0, standard deviation=1.
+     * Provides a local method with access to global random number generator.
+     */
+    static public double NormalDeviate() {
+        return cr.NormalDeviate();
+    }
 
-	/**
-	 * Produces a random variate whose natural logarithm is from the Gaussian with
-	 * mean=0 and the specified standard deviation. Provides a local method with
-	 * access to global random number generator.
-	 * 
-	 * @param sigma Standard deviation
-	 */
-	static public double LognormalDeviate(double sigma) {
-		return cr.LognormalDeviate(sigma);
-	}
+    /**
+     * Produces a random variate whose natural logarithm is from the Gaussian with
+     * mean=0 and the specified standard deviation. Provides a local method with
+     * access to global random number generator.
+     *
+     * @param sigma Standard deviation
+     */
+    static public double LognormalDeviate(double sigma) {
+        return cr.LognormalDeviate(sigma);
+    }
 
-	/**
-	 * Returns a uniformly distributed random real number between the specified
-	 * inner and outer bounds. Provides a local method with access to global random
-	 * number generator.
-	 * 
-	 * @param inner Minimum value desired
-	 * @param outer Maximum value desired
-	 */
-	static public double random_number(double inner, double outer) {
-		return cr.random_number(inner, outer);
-	}
+    /**
+     * Returns a uniformly distributed random real number between the specified
+     * inner and outer bounds. Provides a local method with access to global random
+     * number generator.
+     *
+     * @param inner Minimum value desired
+     * @param outer Maximum value desired
+     */
+    static public double random_number(double inner, double outer) {
+        return cr.random_number(inner, outer);
+    }
 
-	/**
-	 * Returns a value within a certain uniform variation from the central value.
-	 * Provides a local method with access to global random number generator.
-	 * 
-	 * @param value     Central value
-	 * @param variation Maximum (uniform) variation above or below center
-	 */
-	static public double about(double value, double variation) {
-		return cr.about(value, variation);
-	}
+    /**
+     * Returns a value within a certain uniform variation from the central value.
+     * Provides a local method with access to global random number generator.
+     *
+     * @param value     Central value
+     * @param variation Maximum (uniform) variation above or below center
+     */
+    static public double about(double value, double variation) {
+        return cr.about(value, variation);
+    }
 
-	/**
-	 * Returns a value for orbital eccentricity between 0.0 and 1.0. Provides a
-	 * local method with access to global random number generator.
-	 */
-	static public double random_eccentricity() {
-		return cr.random_eccentricity();
-	}
+    /**
+     * Returns a value for orbital eccentricity between 0.0 and 1.0. Provides a
+     * local method with access to global random number generator.
+     */
+    static public double random_eccentricity() {
+        return cr.random_eccentricity();
+    }
 
-	/**
-	 * Returns a pseudo-random value between 0.0 and 1.0. Provides a local method
-	 * with access to global random number generator.
-	 */
-	static public double nextDouble() {
-		return cr.nextDouble();
-	}
+    /**
+     * Returns a pseudo-random value between 0.0 and 1.0. Provides a local method
+     * with access to global random number generator.
+     */
+    static public double nextDouble() {
+        return cr.nextDouble();
+    }
 
-	static public final CustomRandom cr;
-	static {
-		cr = new CustomRandom();
-	}
+    static public final CustomRandom cr;
+
+    static {
+        cr = new CustomRandom();
+    }
 }

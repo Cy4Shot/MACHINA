@@ -12,24 +12,24 @@ import net.minecraft.world.level.Level;
 
 public record S2CUpdateDimensionList(ResourceKey<Level> key) implements S2CMessage {
 
-	public static S2CUpdateDimensionList decode(FriendlyByteBuf buf) {
-		return new S2CUpdateDimensionList(ResourceKey.create(Registries.DIMENSION, buf.readResourceLocation()));
-	}
+    public static S2CUpdateDimensionList decode(FriendlyByteBuf buf) {
+        return new S2CUpdateDimensionList(ResourceKey.create(Registries.DIMENSION, buf.readResourceLocation()));
+    }
 
-	@Override
-	public void encode(FriendlyByteBuf buf) {
-		buf.writeResourceLocation(key.location());
-	}
+    @Override
+    public void encode(FriendlyByteBuf buf) {
+        buf.writeResourceLocation(key.location());
+    }
 
-	@Override
-	public void handle() {
-		ResourceKey<Level> nd = key();
-		mc.execute(() -> {
-			LocalPlayer player = mc.player;
-			if (player != null) {
-				final Set<ResourceKey<Level>> dl = player.connection.levels();
-				dl.add(nd);
-			}
-		});
-	}
+    @Override
+    public void handle() {
+        ResourceKey<Level> nd = key();
+        mc.execute(() -> {
+            LocalPlayer player = mc.player;
+            if (player != null) {
+                final Set<ResourceKey<Level>> dl = player.connection.levels();
+                dl.add(nd);
+            }
+        });
+    }
 }

@@ -12,9 +12,9 @@ import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 
 public class GUIParticles {
-	public static void planetGlow(Vec2 xy, ScreenParticleHolder target, Color col) {
-		Random random = new Random();
-		//@formatter:off
+    public static void planetGlow(Vec2 xy, ScreenParticleHolder target, Color col) {
+        Random random = new Random();
+        //@formatter:off
 //		if(random.nextInt(5) == 0)
 		ScreenParticleBuilder
 			.create(LodestoneScreenParticleRegistry.SMOKE, target)
@@ -25,5 +25,5 @@ public class GUIParticles {
 			.setLifetime(20 + random.nextInt(10))
 			.spawn(xy.x, xy.y);
 		//@formatter:on
-	}
+    }
 }
