@@ -43,10 +43,12 @@ import net.minecraftforge.fluids.FluidStack;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public final class MUI {
@@ -64,6 +66,7 @@ public final class MUI {
     private static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
     private static final ResourceLocation ROCKET_UI = new MachinaRL("textures/gui/rocket_ui.png");
     private static final ResourceLocation BG_OVERLAY = new MachinaRL("textures/gui/bg_overlay.png");
+    private static final ResourceLocation BG_STARS = new MachinaRL("textures/gui/stars_bg.png");
 
     public static MutableComponent uistr(String key) {
         return Component.translatable("gui.machina." + key);
@@ -83,6 +86,27 @@ public final class MUI {
 
     public static void blitJei(GuiGraphics gui, int x, int y, int u, int v, int w, int h) {
         gui.blit(JEI_UI, x, y, u, v, w, h, 256, 256);
+    }
+
+    public static void drawStars(GuiGraphics gui, int x, int y, int w, int h) {
+        renderOverflowHidden(gui, stack -> {
+            int textureSize = 1536;
+            int currentX = x;
+            int currentY = y;
+            int uncoveredWidth = w;
+            int uncoveredHeight = h;
+            while (uncoveredWidth > 0) {
+                while (uncoveredHeight > 0) {
+                    gui.blit(BG_STARS, currentX, currentY, textureSize, 0, Math.min(textureSize, uncoveredWidth), Math.min(textureSize, uncoveredHeight));
+                    uncoveredHeight -= textureSize;
+                    currentY += textureSize;
+                }
+                uncoveredWidth -= textureSize;
+                currentX += textureSize;
+                uncoveredHeight = h;
+                currentY = y;
+            }
+        });
     }
 
     public static void blitOverlay(GuiGraphics gui, int x, int y, int w, int h) {
@@ -119,6 +143,11 @@ public final class MUI {
         for (int i = 0; i < seq.size(); i++) {
             gui.drawCenteredString(mc.font, seq.get(i), x, y + i * sep, color);
         }
+    }
+
+    public static void drawStringShadow(GuiGraphics gui, Component text, float x, float y, int col) {
+        gui.drawString(mc.font, text, (int) x + 2, (int) y + 2, 0);
+        gui.drawString(mc.font, text, (int) x, (int) y, col);
     }
 
     public static void drawSlot(GuiGraphics gui, int i, int j, int mx, int my, boolean decoHorizontal,
@@ -591,6 +620,26 @@ public final class MUI {
         }
     }
 
+    public static void renderOverflowHidden(GuiGraphics gui, Consumer<PoseStack> bg) {
+        gui.pose().pushPose();
+        RenderSystem.enableDepthTest();
+        gui.pose().translate(0, 0, 950);
+        RenderSystem.colorMask(false, false, false, false);
+        gui.fill(4680, 2260, -4680, -2260, 0xff_000000);
+        RenderSystem.colorMask(true, true, true, true);
+        gui.pose().translate(0, 0, -950);
+        RenderSystem.depthFunc(GL11.GL_GEQUAL);
+        bg.accept(gui.pose());
+        gui.pose().translate(0, 0, -950);
+        RenderSystem.colorMask(false, false, false, false);
+        gui.fill(4680, 2260, -4680, -2260, 0xff_000000);
+        RenderSystem.colorMask(true, true, true, true);
+        gui.pose().translate(0, 0, 950);
+        RenderSystem.depthFunc(GL11.GL_LEQUAL);
+        RenderSystem.disableDepthTest();
+        gui.pose().popPose();
+    }
+
     public static TextureAtlasSprite getFluidTexture(@Nonnull FluidStack stack) {
         return getSprite(IClientFluidTypeExtensions.of(stack.getFluid()).getStillTexture());
     }
@@ -631,6 +680,39 @@ public final class MUI {
         vs.popPose();
         RenderSystem.applyModelViewMatrix();
     }
+
+
+    public static double[] keplerianOrbit(float cx, float cy, float semiMajorAxis, float eccentricity, int resolution) {
+        double[] buf = new double[resolution * 4 + 4];
+        double anomalyCoeff = 2.0 * Math.PI / resolution;
+        double zCoeff = semiMajorAxis * Math.sqrt(1 - eccentricity * eccentricity);
+
+        float xn = 0;
+        float yn = 0;
+        for (int i = 0; i < (resolution + 1); i++) {
+            double trueAnomaly = anomalyCoeff * i;
+            double x = semiMajorAxis * (Math.cos(trueAnomaly) - eccentricity);
+            double z = zCoeff * Math.sin(trueAnomaly);
+
+            xn = (float) (cx + x);
+            yn = (float) (cy + z);
+
+            if (i == 0) {
+                buf[0] = xn;
+                buf[1] = yn;
+            } else {
+                buf[i * 4 - 2] = xn;
+                buf[i * 4 - 1] = yn;
+                buf[i * 4] = xn;
+                buf[i * 4 + 1] = yn;
+            }
+        }
+
+        buf[resolution * 4 + 2] = xn;
+        buf[resolution * 4 + 3] = yn;
+        return buf;
+    }
+
 
     public static void color(int color) {
         float r = getRed(color);

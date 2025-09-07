@@ -1,14 +1,14 @@
 package com.machina.client.screen;
 
-import com.machina.api.client.UIHelper;
+import com.machina.api.client.planet.CelestialDeferredUI;
 import com.machina.api.client.planet.CelestialRenderInfo;
 import com.machina.api.client.planet.CelestialRenderer;
+import com.machina.api.client.screen.MUI;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
 import com.machina.api.util.math.MathUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,15 +20,16 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
-import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StarchartScreen extends Screen {
 
     final SolarSystem system;
 
-    float rotX = 90;
-    float rotY = 0;
+    float rotX = 0;
+    float rotY = 90;
     float posX = 0;
     float posY = 0;
     float zoom;
@@ -81,8 +82,8 @@ public class StarchartScreen extends Screen {
     }
 
     public Quaternionf createRotQuat(float x, float y) {
-        float hy = Mth.DEG_TO_RAD * x * 0.5F;
-        float hp = Mth.DEG_TO_RAD * y * 0.5F;
+        float hy = Mth.DEG_TO_RAD * y * 0.5F;
+        float hp = Mth.DEG_TO_RAD * x * 0.5F;
         float shy = Mth.sin(hy);
         float chy = Mth.cos(hy);
         float shp = Mth.sin(hp);
@@ -94,11 +95,9 @@ public class StarchartScreen extends Screen {
         return new Quaternionf(qx, qy, qz, qw);
     }
 
-    private final ScreenParticleHolder p_target = new ScreenParticleHolder();
-
     @Override
     public void render(@NotNull GuiGraphics gui, int mX, int mY, float partial) {
-        UIHelper.renderOverflowHidden(gui, this::renderBackground);
+        MUI.drawStars(gui, 0, 0, width, height);
 
         // Calculate Time
         float time = 0;
@@ -107,9 +106,6 @@ public class StarchartScreen extends Screen {
         }
 
         setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), time);
-
-        ScreenParticleHandler.renderParticles(p_target);
-        p_target.tick();
     }
 
     protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Quaternionf rot, double t) {
@@ -133,7 +129,7 @@ public class StarchartScreen extends Screen {
         if (minecraft != null) {
             vcp = minecraft.renderBuffers().bufferSource();
         }
-        renderCelestials(gui, rot, vcp, t);
+        List<CelestialDeferredUI> queue = renderCelestials(gui, rot, vcp, t);
         if (vcp != null) {
             vcp.endBatch();
         }
@@ -142,42 +138,45 @@ public class StarchartScreen extends Screen {
         matrixStack.popPose();
         RenderSystem.applyModelViewMatrix();
         RenderSystem.setShaderColor(1, 1, 1, 1);
+
+        queue.forEach(r -> r.render(gui, x, y));
     }
 
-    @Override
-    public void resize(@NotNull Minecraft p_96575_, int p_96576_, int p_96577_) {
-        p_target.particles.clear();
-        super.resize(p_96575_, p_96576_, p_96577_);
-    }
-
-    final CelestialRenderer renderer = new CelestialRenderer();
-
-    protected void renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t) {
+    protected List<CelestialDeferredUI> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t) {
+        List<CelestialDeferredUI> renderQueue = new ArrayList<>();
         PoseStack matrices = new PoseStack();
         matrices.scale(1.0F, 1.0F, 0.1F);
         matrices.scale(zoom, zoom, zoom);
         matrices.mulPose(rot);
 
+        // Render orbits first (behind celestial bodies)
+        for (Planet p : system.planets()) {
+            CelestialRenderer.drawOrbit(matrices, p, 0x40FFFFFF);
+        }
+
         // Render star
-        renderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(system.star(), gui), t, p_target);
+        CelestialRenderInfo starInfo = CelestialRenderInfo.from(system.star(), gui);
+        CelestialRenderer.drawStar(matrices, starInfo, t, zoom, renderQueue::add);
 
         // Render Planets
         for (Planet p : system.planets()) {
-            renderer.drawCelestial(c, matrices, 20, CelestialRenderInfo.from(p, gui), t, p_target);
+            CelestialRenderInfo planetInfo = CelestialRenderInfo.from(p, gui);
+            CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, zoom, renderQueue::add);
         }
+
+        return renderQueue;
     }
 
     @Override
     public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-
         // Rotate - Right Click
         if (pButton == GLFW.GLFW_MOUSE_BUTTON_2) {
 
             float rotSpeed = 100;
             float maxYAng = 89.9f;
 
-            this.rotX += (float) pDragY / (float) width * rotSpeed;
-            this.rotY += (float) pDragX / (float) height * rotSpeed;
+            this.rotX += (float) pDragX / (float) height * rotSpeed;
+            this.rotY += (float) pDragY / (float) width * rotSpeed;
 
             this.rotY = Math.min(this.rotY, maxYAng);
             this.rotY = Math.max(this.rotY, -maxYAng);
@@ -201,27 +200,5 @@ public class StarchartScreen extends Screen {
     @Override
     public boolean isPauseScreen() {
         return false;
-    }
-
-    private void renderBackground(PoseStack matrixStack) {
-        UIHelper.bindStars();
-
-        int textureSize = 1536;
-        int currentX = 0;
-        int currentY = 0;
-        int uncoveredWidth = this.width;
-        int uncoveredHeight = this.height;
-        while (uncoveredWidth > 0) {
-            while (uncoveredHeight > 0) {
-                UIHelper.blit(matrixStack, currentX, currentY, textureSize, 0, Math.min(textureSize, uncoveredWidth),
-                        Math.min(textureSize, uncoveredHeight));
-                uncoveredHeight -= textureSize;
-                currentY += textureSize;
-            }
-            uncoveredWidth -= textureSize;
-            currentX += textureSize;
-            uncoveredHeight = this.height;
-            currentY = 0;
-        }
     }
 }

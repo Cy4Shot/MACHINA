@@ -20,8 +20,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.ModList;
 import org.joml.Matrix4f;
-import team.lodestar.lodestone.handlers.RenderHandler;
-import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,49 +71,38 @@ public class RenderTypes {
         RenderSystem.setTextureMatrix(matrix4f);
     }, RenderSystem::resetTextureMatrix);
 
-    //@formatter:off
-	private static final Function<ResourceLocation, RenderType> CELESTIAL = 
-			tex -> create("machina:starchart_celestial",
-					DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, Mode.TRIANGLES,
-					true, false,
-					CompositeState.builder()
-							.setShaderState(new ShaderStateShard(GameRenderer::getRendertypeSolidShader))
-							.setTransparencyState(CELESTIAL_TRANSPARENCY)
-							.setTextureState(new TextureStateShard(tex, false, false))
-							.setLightmapState(new LightmapStateShard(true))
-							.setCullState(new CullStateShard(true)));
-			
-	public static final RenderType ORBIT = create("machina:orbit",
-			DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, Mode.DEBUG_LINES,
-			true, false,
-			CompositeState.builder()
-				.setShaderState(LodestoneShaderRegistry.TRIANGLE_TEXTURE.getShard())
-				.setTransparencyState(ORBIT_TRANSPARENCY)
-				.setTextureState(new TextureStateShard(new MachinaRL("textures/gui/starchart/white.png"), false, false))
-				.setLightmapState(new LightmapStateShard(true))
-				.setCullState(new CullStateShard(false)));
-	
-	// We can't use anonymous lambda because of a Java bug.
-public static final RenderType CONSTRUCT = create(
-		    "machina:rocket_construct",
-		    DefaultVertexFormat.NEW_ENTITY,
-		    VertexFormat.Mode.QUADS,
-		    true, true,
-		    CompositeState.builder()
-		    	.setShaderState(new ShaderStateShard(ShaderHandler.ROCKET_PART_BENCH::instance))
-		        .setTextureState(new TextureStateShard(
-		            new MachinaRL("textures/rocket/constructing.png"),
-		            false,
-		            false
-		        ))
-		        .setTexturingState(GLINT_TEXTURING)
-		        .setTransparencyState(CONSTRUCT_TRANSPARENCY)
-		        .setLightmapState(new LightmapStateShard(true))
-		        .setOverlayState(new OverlayStateShard(true))
-		        .setDepthTestState(new DepthTestStateShard("<=", 515))
-		        .setCullState(new CullStateShard(true))
-		);
-	//@formatter:on
+    private static final Function<ResourceLocation, RenderType> CELESTIAL =
+            tex -> create("machina:starchart_celestial",
+                    DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, Mode.TRIANGLES,
+                    true, false,
+                    CompositeState.builder()
+                            .setShaderState(new ShaderStateShard(GameRenderer::getRendertypeSolidShader))
+                            .setTransparencyState(CELESTIAL_TRANSPARENCY)
+                            .setTextureState(new TextureStateShard(tex, false, false))
+                            .setLightmapState(new LightmapStateShard(true))
+                            .setCullState(new CullStateShard(true)));
+
+
+    // We can't use anonymous lambda because of a Java bug.
+    public static final RenderType CONSTRUCT = create(
+            "machina:rocket_construct",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            true, true,
+            CompositeState.builder()
+                    .setShaderState(new ShaderStateShard(ShaderHandler.ROCKET_PART_BENCH::instance))
+                    .setTextureState(new TextureStateShard(
+                            new MachinaRL("textures/rocket/constructing.png"),
+                            false,
+                            false
+                    ))
+                    .setTexturingState(GLINT_TEXTURING)
+                    .setTransparencyState(CONSTRUCT_TRANSPARENCY)
+                    .setLightmapState(new LightmapStateShard(true))
+                    .setOverlayState(new OverlayStateShard(true))
+                    .setDepthTestState(new DepthTestStateShard("<=", 515))
+                    .setCullState(new CullStateShard(true))
+    );
 
     // Use a map to avoid creating the same render type twice.
     private static final Map<String, RenderType> CELESTIALS = new HashMap<>();
@@ -128,9 +115,7 @@ public static final RenderType CONSTRUCT = create(
     public static RenderType create(String name, VertexFormat format, Mode mode, boolean affectsOutline,
                                     boolean sorting, CompositeStateBuilder builder) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
-        RenderType type = RenderType.create(name, format, mode, size, sorting, false,
+        return RenderType.create(name, format, mode, size, sorting, false,
                 builder.createCompositeState(affectsOutline));
-        RenderHandler.addRenderType(type);
-        return type;
     }
 }

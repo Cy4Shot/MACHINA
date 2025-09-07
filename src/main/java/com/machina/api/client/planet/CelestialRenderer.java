@@ -1,177 +1,208 @@
 package com.machina.api.client.planet;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
-import org.joml.Matrix4f;
-import org.joml.Vector4f;
-
-import com.machina.api.client.RenderTypes;
-import com.machina.api.starchart.obj.Orbit;
+import com.machina.api.client.screen.MUI;
+import com.machina.api.starchart.obj.Planet;
+import com.machina.api.util.MachinaRL;
+import com.machina.api.util.math.MathUtil;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.Mth;
+import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
-import team.lodestar.lodestone.systems.rendering.VFXBuilders.WorldVFXBuilder;
-import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
-import team.lodestar.lodestone.systems.rendering.trail.TrailRenderPoint;
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
+import org.lwjgl.opengl.GL11;
 
-public class CelestialRenderer extends WorldVFXBuilder {
+import java.util.function.Consumer;
 
-    public CelestialRenderer() {
-        setPosColorTexLightmapDefaultFormat();
+public class CelestialRenderer {
+
+    private static final float UI_OVERLAY_MAX_THRESHOLD = 0.03f;
+    private static final float UI_OVERLAY_MIN_THRESHOLD = 0.002f;
+    private static final int SPHERE_SEGMENTS = 16;
+
+    public static void drawStar(PoseStack matrices, CelestialRenderInfo starInfo, double time, float zoom, Consumer<CelestialDeferredUI> enqueue) {
+        Vec3 pos = starInfo.getOrbitalCoords(time);
+
+        matrices.pushPose();
+        matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
+
+        Vector4f sp = asScreenPos(matrices);
+
+        if (zoom > UI_OVERLAY_MAX_THRESHOLD / starInfo.radius()) {
+            drawSphere(matrices, starInfo.bg(), (float) starInfo.radius(), 0xFFFF0000);
+        } else {
+            enqueue.accept(CelestialRenderer.createUIOverlay(asUIPos(sp, starInfo.width(), starInfo.height())));
+        }
+
+        matrices.popPose();
     }
 
-    public WorldVFXBuilder drawCelestial(MultiBufferSource mbs, PoseStack stack, int detail, CelestialRenderInfo info,
-                                         double time, ScreenParticleHolder p_target) {
+    public static void drawPlanet(PoseStack matrices, CelestialRenderInfo planetInfo, Planet planet, double time, float zoom, Consumer<CelestialDeferredUI> enqueue) {
+        Vec3 pos = planetInfo.getOrbitalCoords(time);
 
-        setColor(0, 255, 255, 1f);
-        List<TrailPoint> orbit = generateOrbitPoints(info.orbit(), 60).stream().map(TrailPoint::new).toList();
-        renderTrail(mbs.getBuffer(RenderTypes.ORBIT), stack.last().pose(), orbit, 0f);
-        setColor(Color.WHITE);
+        matrices.pushPose();
+        matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
-        Vec3 pos = info.getOrbitalCoords(time);
-        float rad = (float) info.radius();
-        stack.pushPose();
-        stack.translate(pos.x, pos.y, pos.z);
-        Vec2 sp = asScreenPos(stack, info.width(), info.height());
-        info.particle().accept(sp, p_target);
+        Vector4f sp = asScreenPos(matrices);
+        float sqDist = MathUtil.dot(sp.x, sp.y, sp.x, sp.y);
 
-        stack.scale(rad, rad, rad);
+        if (zoom > UI_OVERLAY_MAX_THRESHOLD / planetInfo.radius()) {
+            drawSphere(matrices, planetInfo.bg(), (float) planetInfo.radius(), getPlanetColor(planet));
+        } else if (sqDist > UI_OVERLAY_MIN_THRESHOLD) {
+            enqueue.accept(CelestialRenderer.createUIOverlay(asUIPos(sp, planetInfo.width(), planetInfo.height())));
+        }
 
-        sphere(mbs, RenderTypes.getOrCreateCelestial(info.bg()), stack, 1f, detail);
-        // TODO: Based on atm density
-        sphere(mbs, RenderTypes.getOrCreateCelestial(info.fg()), stack, 0.5f, detail);
-
-        stack.popPose();
-        return this;
+        matrices.popPose();
     }
 
-    public static Vec2 asScreenPos(PoseStack stack, int w, int h) {
+    public static void drawOrbit(PoseStack matrices, Planet planet, int color) {
+        if (planet.e() == 0 && planet.a() == 0) return; // Skip invalid orbits
+
+        matrices.pushPose();
+
+        // Generate orbit ellipse points
+        float semiMajor = (float) planet.a();
+        float eccentricity = (float) planet.e();
+        double[] orbitPoints = MUI.keplerianOrbit(0, 0, semiMajor, eccentricity, 64);
+
+        // Draw orbit lines
+        drawLines(matrices, orbitPoints, color);
+
+        matrices.popPose();
+    }
+
+
+    private static ResourceLocation getCelestialTexture(String name) {
+        return new MachinaRL("textures/gui/starchart/" + name + ".png");
+    }
+
+    private static void drawSphere(PoseStack matrices, String texName, float radius, int color) {
+        RenderSystem.setShaderTexture(0, getCelestialTexture(texName));
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA
+        );
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthFunc(GL11.GL_LESS);
+
+        float r = ((color >> 16) & 0xFF) / 255.0f;
+        float g = ((color >> 8) & 0xFF) / 255.0f;
+        float b = (color & 0xFF) / 255.0f;
+        float a = 1.0f; // Force full alpha
+
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+        Matrix4f pose = matrices.last().pose();
+        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+        buffer.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+
+        // Generate sphere vertices
+        for (int i = 0; i < SPHERE_SEGMENTS; i++) {
+            for (int j = 0; j < SPHERE_SEGMENTS; j++) {
+                // Calculate sphere coordinates
+                float theta1 = (float) (i * Math.PI / SPHERE_SEGMENTS);
+                float theta2 = (float) ((i + 1) * Math.PI / SPHERE_SEGMENTS);
+                float phi1 = (float) (j * 2 * Math.PI / SPHERE_SEGMENTS);
+                float phi2 = (float) ((j + 1) * 2 * Math.PI / SPHERE_SEGMENTS);
+
+                // First triangle
+                addSphereVertex(buffer, pose, radius, theta1, phi1, r, g, b, a);
+                addSphereVertex(buffer, pose, radius, theta2, phi1, r, g, b, a);
+                addSphereVertex(buffer, pose, radius, theta1, phi2, r, g, b, a);
+
+                // Second triangle
+                addSphereVertex(buffer, pose, radius, theta2, phi1, r, g, b, a);
+                addSphereVertex(buffer, pose, radius, theta2, phi2, r, g, b, a);
+                addSphereVertex(buffer, pose, radius, theta1, phi2, r, g, b, a);
+            }
+        }
+
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        BufferUploader.drawWithShader(buffer.end());
+
+        RenderSystem.disableBlend();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    private static void addSphereVertex(BufferBuilder buffer, Matrix4f pose, float radius, float theta, float phi, float r, float g, float b, float a) {
+        float x = (float) (radius * Math.sin(theta) * Math.cos(phi));
+        float y = (float) (radius * Math.cos(theta));
+        float z = (float) (radius * Math.sin(theta) * Math.sin(phi));
+
+        buffer.vertex(pose, x, y, z)
+                .color(r, g, b, a)
+                .endVertex();
+    }
+
+    private static Vector4f asScreenPos(PoseStack stack) {
         Vector4f spos = new Vector4f(0, 0, 0, 1);
         Matrix4f stm = new Matrix4f(stack.last().pose());
         Matrix4f mvp = new Matrix4f(RenderSystem.getProjectionMatrix()).mul(RenderSystem.getModelViewMatrix());
 
         stm.transform(spos);
         mvp.transform(spos);
+        return spos.div(spos.w);
+    }
 
-        Vector4f norm = spos.div(spos.w);
-        float x = (1.0f + norm.x) * 0.5f * w;
-        float y = (1.0f - norm.y) * 0.5f * h;
-
+    private static Vec2 asUIPos(Vector4f screenPos, int w, int h) {
+        float x = (1.0f + screenPos.x) * 0.5f * w;
+        float y = (1.0f - screenPos.y) * 0.5f * h;
         return new Vec2(x, y);
     }
 
-    public static List<Vec3> generateOrbitPoints(Orbit o, int numPoints) {
-        List<Vec3> orbitPoints = new ArrayList<>();
-        double a = o.a();
-        double e = o.e();
+    private static CelestialDeferredUI createUIOverlay(Vec2 pos) {
+        return (GuiGraphics gui, int centerX, int centerY) -> {
+            int screenX = (int) pos.x;
+            int screenY = (int) pos.y;
 
-        for (int i = 0; i < numPoints; i++) {
-            double trueAnomaly = 2 * Math.PI * i / numPoints;
-            double radius = a * (1 - e * e) / (1 + e * Math.cos(trueAnomaly));
-
-            double x = radius * Math.cos(trueAnomaly);
-            double y = radius * Math.sin(trueAnomaly);
-
-            orbitPoints.add(new Vec3(x, 0, y));
-        }
-
-        return orbitPoints;
-    }
-
-    public void renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<TrailPoint> trail, float w) {
-        if (trail.size() < 3) {
-            return;
-        }
-        List<Vector4f> positions = trail.stream().map(TrailPoint::getMatrixPosition).peek(p -> p.mul(pose)).toList();
-        ArrayList<TrailRenderPoint> points = new ArrayList<>();
-        for (int i = 0; i < trail.size() - 1; i++) {
-            points.add(new TrailRenderPoint(positions.get(i), Vec2.ZERO));
-        }
-        renderPoints(vertexConsumer, points);
-    }
-
-    public WorldVFXBuilder renderPoints(VertexConsumer vc, List<TrailRenderPoint> ps) {
-        Consumer<Integer> place = i -> {
-            TrailRenderPoint p = ps.get(i);
-            supplier.placeVertex(vc, null, p.xp, p.yp, p.z, u0, v1);
-        };
-
-        place.accept(0);
-        for (int i = 1; i < ps.size(); i++) {
-            place.accept(i);
-            place.accept(i);
-        }
-        place.accept(0);
-        return this;
-    }
-
-    private void sphere(MultiBufferSource m, RenderType t, PoseStack s, float a, int d) {
-        renderSphere(m.getBuffer(t), s, d, d, a);
-    }
-
-    // Thanks rat man :)
-    public CelestialRenderer renderSphere(VertexConsumer c, PoseStack stack, int longs, int lats, float a) {
-        Matrix4f last = stack.last().pose();
-        float startU = 0.0F;
-        float startV = 0.0F;
-        float radius = 1.0F;
-        float endU = Mth.TWO_PI;
-        float endV = Mth.PI;
-        float stepU = (endU - startU) / longs;
-        float stepV = (endV - startV) / lats;
-        for (int i = 0; i < longs; i++) {
-            for (int j = 0; j < lats; j++) {
-                float u = i * stepU + startU;
-                float v = j * stepV + startV;
-                float un = (i + 1 == longs) ? endU : ((i + 1) * stepU + startU);
-                float vn = (j + 1 == lats) ? endV : ((j + 1) * stepV + startV);
-                float cu = Mth.cos(u);
-                float su = Mth.sin(u);
-                float cv = Mth.cos(v);
-                float sv = Mth.sin(v);
-                float cun = Mth.cos(un);
-                float sun = Mth.sin(un);
-                float cvn = Mth.cos(vn);
-                float svn = Mth.sin(vn);
-                float p0x = cu * sv * radius;
-                float p0y = cv * radius;
-                float p0z = su * sv * radius;
-                float p1x = cu * svn * radius;
-                float p1y = cvn * radius;
-                float p1z = su * svn * radius;
-                float p2x = cun * sv * radius;
-                float p2y = cv * radius;
-                float p2z = sun * sv * radius;
-                float p3x = cun * svn * radius;
-                float p3y = cvn * radius;
-                float p3z = sun * svn * radius;
-                float textureU = u / endU * radius;
-                float textureV = v / endV * radius;
-                float textureUN = un / endU * radius;
-                float textureVN = vn / endV * radius;
-                v(c, last, p0x, p0y, p0z, r, g, b, a, textureU, textureV, light);
-                v(c, last, p2x, p2y, p2z, r, g, b, a, textureUN, textureV, light);
-                v(c, last, p1x, p1y, p1z, r, g, b, a, textureU, textureVN, light);
-                v(c, last, p3x, p3y, p3z, r, g, b, a, textureUN, textureVN, light);
-                v(c, last, p1x, p1y, p1z, r, g, b, a, textureU, textureVN, light);
-                v(c, last, p2x, p2y, p2z, r, g, b, a, textureUN, textureV, light);
+            // Only draw if on screen
+            if (screenX >= -10 && screenX <= gui.guiWidth() + 10 &&
+                    screenY >= -10 && screenY <= gui.guiHeight() + 10) {
+                gui.fill(screenX - 6, screenY - 6, screenX + 6, screenY + 6, 0x80000000);
+                MUI.drawCenteredString(gui, Component.literal("X"), screenX, screenY - 4, 0xFFFFFF);
             }
-        }
-        return this;
+        };
     }
 
-    public static void v(VertexConsumer c, Matrix4f m, float x, float y, float z, float r, float g, float b, float a,
-                         float u, float v, int l) {
-        c.vertex(m, x, y, z).color(r, g, b, a).uv(u, v).uv2(l).endVertex();
+    private static void drawLines(PoseStack matrices, double[] lines, int color) {
+        float r = ((color >> 16) & 0xFF) / 255.0f;
+        float g = ((color >> 8) & 0xFF) / 255.0f;
+        float b = (color & 0xFF) / 255.0f;
+        float a = ((color >> 24) & 0xFF) / 255.0f;
+
+        Matrix4f pose = matrices.last().pose();
+        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+        buffer.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
+
+        for (int i = 0; i < lines.length; i += 2) {
+            buffer.vertex(pose, (float) lines[i], 0, (float) lines[i + 1])
+                    .color(r, g, b, a)
+                    .endVertex();
+        }
+
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        BufferUploader.drawWithShader(buffer.end());
+    }
+
+    private static int getPlanetColor(Planet planet) {
+        // Color planets based on their classification or type
+        char planClass = planet.plan_class();
+        return switch (planClass) {
+            case 'M' -> 0xFF4169E1; // Earth-like - blue
+            case 'V' -> 0xFFFF6347; // Venus-like - orange-red
+            case 'J' -> 0xFFDEB887; // Jovian - tan/brown
+            case 'I' -> 0xFF87CEEB; // Ice world - light blue
+            case 'R' -> 0xFF8B4513; // Rock world - brown
+            case 'G' -> 0xFF9ACD32; // Greenhouse - yellow-green
+            default -> 0xFFB0B0B0;  // Unknown - gray
+        };
     }
 }

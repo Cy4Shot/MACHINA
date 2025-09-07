@@ -1,6 +1,6 @@
 package com.machina.api.client.cinema.effect.renderer;
 
-import com.machina.api.client.UIHelper;
+import com.machina.api.client.screen.MUI;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -33,7 +33,7 @@ public class CinematicTextOverlay {
             stack.scale(4.0F, 4.0F, 4.0F);
             int j2 = mc.font.width(title);
             drawBackdrop(gui, mc.font, -10, j2, 16777215 | i2);
-            UIHelper.drawStringShadow(gui, title, (float) (-j2 / 2), -10.0F, 0xFFFFFF + alphaT);
+            MUI.drawStringShadow(gui, title, (float) (-j2 / 2), -10.0F, 0xFFFFFF + alphaT);
             stack.popPose();
         }
 
@@ -42,7 +42,7 @@ public class CinematicTextOverlay {
             stack.scale(2.0F, 2.0F, 2.0F);
             int l2 = mc.font.width(subtitle);
             drawBackdrop(gui, mc.font, 5, l2, 16777215 | i2);
-            UIHelper.drawStringShadow(gui, subtitle, (float) (-l2 / 2), 5.0F, 0xFFFFFF + alphaS);
+            MUI.drawStringShadow(gui, subtitle, (float) (-l2 / 2), 5.0F, 0xFFFFFF + alphaS);
             stack.popPose();
         }
         RenderSystem.disableBlend();

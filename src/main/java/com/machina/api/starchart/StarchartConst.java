@@ -10,4 +10,6 @@ public class StarchartConst {
     public static final double M_TO_AU = 1D / 149600000000D;
     public static final double KM_TO_AU = 1D / 149597870.691D;
     public static final double STELLAR_RADIUS_TO_AU = 0.00465047D;
+
+    public static final double AU_TO_STELLAR_RADIUS = 1 / STELLAR_RADIUS_TO_AU;
 }

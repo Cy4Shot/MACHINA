@@ -20,7 +20,7 @@ minecraft {
     mappings channel: mapping_channel, version: mapping_version
     copyIdeResources = true
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    
+
     runs {
         configureEach {
             workingDirectory project.file("run/${it.name}")
@@ -48,7 +48,7 @@ minecraft {
             args "-mixin.config=${mod_id}.mixins.json"
             args '--nogui'
         }
-        
+
         gameTestServer {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
@@ -62,24 +62,24 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-	maven {
-		name = "Progwml6 maven"
-		url = "https://dvs1.progwml6.com/files/maven/"
-	}
-	maven {
-		name = "ModMaven"
-		url = "https://modmaven.dev"
-	}
-	maven {
-        name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' 
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
-		name = "BlameJared Maven"
-		url 'https://maven.blamejared.com/'
-	}
-	maven {
-		name = "Curse Maven"
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
+    maven {
+        name = "BlameJared Maven"
+        url 'https://maven.blamejared.com/'
+    }
+    maven {
+        name = "Curse Maven"
         url "https://cursemaven.com"
         content {
             includeGroup "curse.maven"
@@ -89,25 +89,24 @@ repositories {
 
 dependencies {
     minecraft "net.neoforged:forge:${minecraft_version}-${neo_version}"
-    
+
     // Dev Dependencies
     runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
     runtimeOnly fg.deobf("curse.maven:mekanism-268560:5662583")
-    
+
     // Optional Dependencies
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-    
+
     // Required Dependencies
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
-    implementation fg.deobf("team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}")
-    
+
     if (System.getProperty("idea.sync.active") != "true") {
         annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
         compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5"))
     }
-    
+
     implementation(jarJar("io.github.llamalad7:mixinextras-neoforge:0.3.5")) {
         jarJar.ranged(it, "[0.3.5,)")
     }
