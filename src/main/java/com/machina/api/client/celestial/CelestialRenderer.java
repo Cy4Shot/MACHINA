@@ -48,20 +48,14 @@ public class CelestialRenderer {
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
-        Vector4f sp = asScreenPos(matrices);
-
-        if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
-            drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF);
-            float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
-            if (zoom < threshold) {
-                float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
-                glowAlpha = (float) Math.pow(glowAlpha, 0.25);
-                int color = 0xFFFFFF | ((int) (glowAlpha * 255) << 24);
-                drawBillboard(matrices, getCelestialTexture("glow"),
-                        (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
-            }
-        } else {
-            enqueue.accept(CelestialUIRenderInfo.from(info, asUIPos(sp, info.width(), info.height())));
+        drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF);
+        float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
+        if (zoom < threshold) {
+            float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
+            glowAlpha = (float) Math.pow(glowAlpha, 0.25);
+            int color = 0xFFFFFF | ((int) (glowAlpha * 255) << 24);
+            drawBillboard(matrices, getCelestialTexture("glow"),
+                    (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
         }
 
         matrices.popPose();
