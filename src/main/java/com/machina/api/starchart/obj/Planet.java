@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.machina.api.starchart.StarchartConst;
 import com.machina.api.starchart.planet_type.PlanetType;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.api.util.ChemicalConstants;
@@ -12,7 +13,6 @@ import com.machina.api.util.ChemicalConstants.FluidTempState;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
 public record Planet(String name, ResourceLocation planet_type, double a, // semi-major axis of the orbit (in AU)
                      double e, // eccentricity of the orbit
@@ -47,7 +47,27 @@ public record Planet(String name, ResourceLocation planet_type, double a, // sem
                      char plan_class, // general type classification
                      double r_ecosphere, double resonance, double stell_mass_ratio, double age, double cloud_factor,
                      double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
-                     double airless_ice_factor, int its, boolean temp_unstable, List<Moon> moons) {
+                     double airless_ice_factor, int its, boolean temp_unstable, List<Moon> moons) implements Celestial {
+
+    @Override
+    public double radiusAU() {
+        return this.radius * StarchartConst.KM_TO_AU;
+    }
+
+    @Override
+    public Orbit orbit() {
+        return Orbit.from(this);
+    }
+
+    @Override
+    public String texture_fg() {
+        return "clouds";
+    }
+
+    @Override
+    public String texture_bg() {
+        return "earth";
+    }
 
     @Override
     public String toString() {
@@ -56,46 +76,6 @@ public record Planet(String name, ResourceLocation planet_type, double a, // sem
 
     public PlanetType type() {
         return PlanetTypeLoader.INSTANCE.get(planet_type);
-    }
-
-    public Vec3 calculateOrbitalCoordinates(double t) {
-        double trueAnomaly = calculateTrueAnomaly(t);
-
-        double x = a * (Math.cos(trueAnomaly) - e);
-        double z = a * Math.sqrt(1 - e * e) * Math.sin(trueAnomaly);
-
-        return new Vec3(x, 0, z);
-    }
-
-    private double calculateTrueAnomaly(double t) {
-        // Orbital parameters
-        double meanMotion = 2 * Math.PI / orb_period;
-        double meanAnomaly = meanMotion * t + where_in_orbit;
-
-        // Eccentricity
-        double eccentricAnomaly = calculateEccentricAnomaly(meanAnomaly);
-
-        // True anomaly
-        return 2 * Math.atan(Math.sqrt((1 + e) / (1 - e)) * Math.tan(eccentricAnomaly / 2));
-    }
-
-    private double calculateEccentricAnomaly(double meanAnomaly) {
-        double E = meanAnomaly;
-        double tolerance = 1e-9;
-        int maxIterations = 1000;
-        int iterations = 0;
-
-        do {
-            double nextE = E - ((E - e * Math.sin(E) - meanAnomaly) / (1 - e * Math.cos(E)));
-            if (Math.abs(nextE - E) < tolerance) {
-                E = nextE;
-                break;
-            }
-            E = nextE;
-            iterations++;
-        } while (iterations < maxIterations);
-
-        return E;
     }
 
     public double calculateAphelionDistance() {

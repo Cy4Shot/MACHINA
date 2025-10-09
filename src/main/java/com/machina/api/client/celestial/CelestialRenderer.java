@@ -1,4 +1,4 @@
-package com.machina.api.client.planet;
+package com.machina.api.client.celestial;
 
 import com.machina.api.client.screen.MUI;
 import com.machina.api.starchart.obj.Planet;
@@ -25,36 +25,48 @@ public class CelestialRenderer {
     private static final float UI_OVERLAY_MIN_THRESHOLD = 0.002f;
     private static final int SPHERE_SEGMENTS = 16;
 
-    public static void drawStar(PoseStack matrices, CelestialRenderInfo starInfo, double time, float zoom, Consumer<CelestialDeferredUI> enqueue) {
-        Vec3 pos = starInfo.getOrbitalCoords(time);
+    public static void drawUIOverlay(CelestialUIRenderInfo renderinfo, GuiGraphics gui) {
+        int screenX = (int) renderinfo.pos().x;
+        int screenY = (int) renderinfo.pos().y;
+
+        // Only draw if on screen
+        if (screenX >= -10 && screenX <= gui.guiWidth() + 10 &&
+                screenY >= -10 && screenY <= gui.guiHeight() + 10) {
+            gui.fill(screenX - 6, screenY - 6, screenX + 6, screenY + 6, 0x80000000);
+            MUI.drawCenteredString(gui, Component.literal("X"), screenX, screenY - 4, 0xFFFFFF);
+        }
+    }
+
+    public static void drawStar(PoseStack matrices, CelestialRenderInfo info, double time, float zoom, Consumer<CelestialUIRenderInfo> enqueue) {
+        Vec3 pos = info.getOrbitalCoords(time);
 
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
         Vector4f sp = asScreenPos(matrices);
 
-        if (zoom > UI_OVERLAY_MAX_THRESHOLD / starInfo.radius()) {
-            drawSphere(matrices, starInfo.bg(), (float) starInfo.radius(), 0xFFFF0000);
+        if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
+            drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFF0000);
         } else {
-            enqueue.accept(CelestialRenderer.createUIOverlay(asUIPos(sp, starInfo.width(), starInfo.height())));
+            enqueue.accept(CelestialUIRenderInfo.from(info, asUIPos(sp, info.width(), info.height())));
         }
 
         matrices.popPose();
     }
 
-    public static void drawPlanet(PoseStack matrices, CelestialRenderInfo planetInfo, Planet planet, double time, float zoom, Consumer<CelestialDeferredUI> enqueue) {
-        Vec3 pos = planetInfo.getOrbitalCoords(time);
+    public static void drawPlanet(PoseStack matrices, CelestialRenderInfo info, Planet planet, double time, float px, float py, float zoom, Consumer<CelestialUIRenderInfo> enqueue) {
+        Vec3 pos = info.getOrbitalCoords(time);
 
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
         Vector4f sp = asScreenPos(matrices);
-        float sqDist = MathUtil.dot(sp.x, sp.y, sp.x, sp.y);
+        float sqDist = MathUtil.sqDist(sp.x, sp.y, px, py);
 
-        if (zoom > UI_OVERLAY_MAX_THRESHOLD / planetInfo.radius()) {
-            drawSphere(matrices, planetInfo.bg(), (float) planetInfo.radius(), getPlanetColor(planet));
+        if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
+            drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), getPlanetColor(planet));
         } else if (sqDist > UI_OVERLAY_MIN_THRESHOLD) {
-            enqueue.accept(CelestialRenderer.createUIOverlay(asUIPos(sp, planetInfo.width(), planetInfo.height())));
+            enqueue.accept(CelestialUIRenderInfo.from(info, asUIPos(sp, info.width(), info.height())));
         }
 
         matrices.popPose();
@@ -92,6 +104,7 @@ public class CelestialRenderer {
         );
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(GL11.GL_LESS);
+        RenderSystem.depthMask(true);
 
         float r = ((color >> 16) & 0xFF) / 255.0f;
         float g = ((color >> 8) & 0xFF) / 255.0f;
@@ -157,21 +170,7 @@ public class CelestialRenderer {
         float y = (1.0f - screenPos.y) * 0.5f * h;
         return new Vec2(x, y);
     }
-
-    private static CelestialDeferredUI createUIOverlay(Vec2 pos) {
-        return (GuiGraphics gui, int centerX, int centerY) -> {
-            int screenX = (int) pos.x;
-            int screenY = (int) pos.y;
-
-            // Only draw if on screen
-            if (screenX >= -10 && screenX <= gui.guiWidth() + 10 &&
-                    screenY >= -10 && screenY <= gui.guiHeight() + 10) {
-                gui.fill(screenX - 6, screenY - 6, screenX + 6, screenY + 6, 0x80000000);
-                MUI.drawCenteredString(gui, Component.literal("X"), screenX, screenY - 4, 0xFFFFFF);
-            }
-        };
-    }
-
+    
     private static void drawLines(PoseStack matrices, double[] lines, int color) {
         float r = ((color >> 16) & 0xFF) / 255.0f;
         float g = ((color >> 8) & 0xFF) / 255.0f;
@@ -202,7 +201,7 @@ public class CelestialRenderer {
             case 'I' -> 0xFF87CEEB; // Ice world - light blue
             case 'R' -> 0xFF8B4513; // Rock world - brown
             case 'G' -> 0xFF9ACD32; // Greenhouse - yellow-green
-            default -> 0xFFB0B0B0;  // Unknown - gray
+        default -> 0xFFB0B0B0; // Unknown - gray
         };
     }
 }

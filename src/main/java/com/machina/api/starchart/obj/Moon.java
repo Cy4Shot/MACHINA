@@ -3,6 +3,8 @@ package com.machina.api.starchart.obj;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.machina.api.starchart.StarchartConst;
+
 /**
  * Mass: 10^20 kg</br>
  * Radius: m</br>
@@ -49,7 +51,27 @@ public record Moon(String name, double a, // semi-major axis of the orbit (in AU
                    char plan_class, // general type classification
                    double r_ecosphere, double resonance, double stell_mass_ratio, double age, double cloud_factor,
                    double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
-                   double airless_ice_factor, int its, boolean temp_unstable) {
+                   double airless_ice_factor, int its, boolean temp_unstable) implements Celestial {
+    
+    @Override
+    public double radiusAU() {
+        return this.radius * StarchartConst.KM_TO_AU;
+    }
+    
+    @Override
+    public String texture_fg() {
+        return "moon_fg";
+    }
+
+    @Override
+    public String texture_bg() {
+        return "moon_bg";
+    }
+
+    @Override
+    public Orbit orbit() {
+        return Orbit.from(this);
+    }
 
     @Override
     public String toString() {

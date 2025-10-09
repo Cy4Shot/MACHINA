@@ -1,28 +1,32 @@
 package com.machina.client.screen;
 
-import com.machina.api.client.planet.CelestialDeferredUI;
-import com.machina.api.client.planet.CelestialRenderInfo;
-import com.machina.api.client.planet.CelestialRenderer;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector4f;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
+
+import com.machina.api.client.celestial.CelestialRenderInfo;
+import com.machina.api.client.celestial.CelestialRenderer;
+import com.machina.api.client.celestial.CelestialUIRenderInfo;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
 import com.machina.api.util.math.MathUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector4f;
-import org.lwjgl.glfw.GLFW;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.world.phys.Vec2;
 
 public class StarchartScreen extends Screen {
 
@@ -33,6 +37,14 @@ public class StarchartScreen extends Screen {
     float posX = 0;
     float posY = 0;
     float zoom;
+    float orbitalSpeed = 0.01f;
+
+    List<CelestialUIRenderInfo> queue;
+    CelestialUIRenderInfo tracked;
+    float targetX;
+    float targetY;
+    float targetZ;
+    double accumulatedTime = 0;
 
     public StarchartScreen(SolarSystem s) {
         super(Component.empty());
@@ -99,27 +111,36 @@ public class StarchartScreen extends Screen {
     public void render(@NotNull GuiGraphics gui, int mX, int mY, float partial) {
         MUI.drawStars(gui, 0, 0, width, height);
 
-        // Calculate Time
-        float time = 0;
-        if (minecraft != null && minecraft.level != null) {
-            time = (float) (minecraft.level.getGameTime() % 2400000L) + minecraft.getFrameTime();
-        }
-
-        setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), time);
+        accumulatedTime += minecraft.getFrameTime() * orbitalSpeed;
+        setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), accumulatedTime);
     }
 
     protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Quaternionf rot, double t) {
+        
+        // Move towards target position and zoom:
+        if (this.tracked != null) {
+            float dx = targetX - this.posX;
+            float dy = targetY - this.posY;
+            float dz = targetZ - this.zoom;
+            this.posX += dx / 20;
+            this.posY += dy / 20;
+            this.zoom += dz / 20;
+        }
 
         // Configure Render System
         RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableCull();
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthFunc(GL11.GL_LESS);
+        RenderSystem.depthMask(true);
+        RenderSystem.clearDepth(1.0);
+        GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 
         // Apply to model view matrix
         PoseStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.pushPose();
         matrixStack.translate(x, y, 300.0D);
-        matrixStack.translate(posX, posY, 0);
         matrixStack.scale(1.0F, -1.0F, 1.0F);
         matrixStack.scale(32.0F, 32.0F, 32.0F);
         RenderSystem.applyModelViewMatrix();
@@ -129,7 +150,7 @@ public class StarchartScreen extends Screen {
         if (minecraft != null) {
             vcp = minecraft.renderBuffers().bufferSource();
         }
-        List<CelestialDeferredUI> queue = renderCelestials(gui, rot, vcp, t);
+        this.queue = renderCelestials(gui, rot, vcp, t);
         if (vcp != null) {
             vcp.endBatch();
         }
@@ -138,15 +159,18 @@ public class StarchartScreen extends Screen {
         matrixStack.popPose();
         RenderSystem.applyModelViewMatrix();
         RenderSystem.setShaderColor(1, 1, 1, 1);
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(true);
 
-        queue.forEach(r -> r.render(gui, x, y));
+        queue.forEach(r -> CelestialRenderer.drawUIOverlay(r, gui));
     }
 
-    protected List<CelestialDeferredUI> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t) {
-        List<CelestialDeferredUI> renderQueue = new ArrayList<>();
+    protected List<CelestialUIRenderInfo> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t) {
+        List<CelestialUIRenderInfo> renderQueue = new ArrayList<>();
         PoseStack matrices = new PoseStack();
         matrices.scale(1.0F, 1.0F, 0.1F);
         matrices.scale(zoom, zoom, zoom);
+        matrices.translate(posX / 32, -posY / 32, 0);
         matrices.mulPose(rot);
 
         // Render orbits first (behind celestial bodies)
@@ -161,38 +185,66 @@ public class StarchartScreen extends Screen {
         // Render Planets
         for (Planet p : system.planets()) {
             CelestialRenderInfo planetInfo = CelestialRenderInfo.from(p, gui);
-            CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, zoom, renderQueue::add);
+            CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, posX, posY, zoom, renderQueue::add);
         }
 
         return renderQueue;
     }
+    
+    @Override
+    public boolean mouseClicked(double mX, double mY, int button) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_1) {
+            Vec2 mPos = new Vec2((float) mX, (float) mY);
+            for (CelestialUIRenderInfo info : this.queue) {
+                if (info.pos().distanceToSqr(mPos) < 25) {
+                    this.tracked = info;
+                    float celestialScreenX = info.pos().x;
+                    float celestialScreenY = info.pos().y;
+                    float centerX = width / 2f;
+                    float centerY = height / 2f;
+                    float screenOffsetX = centerX - celestialScreenX;
+                    float screenOffsetY = centerY - celestialScreenY;
+                    int targetSize = Math.min(width, height);
+                    double celestialRadius = info.celestial().radiusAU();
+                    this.targetX = this.posX + (screenOffsetX / this.zoom);
+                    this.targetY = this.posY + (screenOffsetY / this.zoom);
+                    this.targetZ = calculateZoom(celestialRadius, targetSize, 100);
+                    MUI.click();
+                    return true;
+                }
+            }
+        }
+        return super.mouseClicked(mX, mY, button);
+    }
 
     @Override
-    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+    public boolean mouseDragged(double mX, double mY, int button, double dX, double dY) {
         // Rotate - Right Click
-        if (pButton == GLFW.GLFW_MOUSE_BUTTON_2) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_2) {
 
             float rotSpeed = 100;
             float maxYAng = 89.9f;
 
-            this.rotX += (float) pDragX / (float) height * rotSpeed;
-            this.rotY += (float) pDragY / (float) width * rotSpeed;
+            this.rotX += (float) dX / (float) height * rotSpeed;
+            this.rotY += (float) dY / (float) width * rotSpeed;
 
             this.rotY = Math.min(this.rotY, maxYAng);
             this.rotY = Math.max(this.rotY, -maxYAng);
         }
 
         // Pan - Middle Click or Left Click
-        if (pButton == GLFW.GLFW_MOUSE_BUTTON_1 || pButton == GLFW.GLFW_MOUSE_BUTTON_3) {
-            this.posX += (float) (pDragX / 2);
-            this.posY += (float) (pDragY / 2);
+        if (button == GLFW.GLFW_MOUSE_BUTTON_1 || button == GLFW.GLFW_MOUSE_BUTTON_3) {
+            this.tracked = null;
+            this.posX += (float) (dX / this.zoom);
+            this.posY += (float) (dY / this.zoom);
         }
 
-        return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+        return super.mouseDragged(mX, mY, button, dX, dY);
     }
 
     @Override
     public boolean mouseScrolled(double mX, double mY, double delta) {
+        this.tracked = null;
         this.zoom *= (float) Math.pow(1.1, delta);
         return super.mouseScrolled(mX, mY, delta);
     }
