@@ -121,12 +121,11 @@ public class CelestialRenderer {
             double z1 = planet.a() * Math.sqrt(1 - planet.e() * planet.e()) * Math.sin(theta1);
             double x2 = planet.a() * (Math.cos(theta2) - planet.e());
             double z2 = planet.a() * Math.sqrt(1 - planet.e() * planet.e()) * Math.sin(theta2);
+            float alpha1 = (float) Math.pow(1f - (float)s / (trailSamples - 1), 1.5f);
+            float alpha2 = (float) Math.pow(1f - (float)(s + 1) / (trailSamples - 1), 1.5f);
 
-            float t = (float) s / (trailSamples - 1);
-            float alpha = (float) Math.pow(1.0f - t, 1.5f);
-
-            buffer.vertex(pose, (float) x1, 0f, (float) z1).color(br, bg, bb, alpha).endVertex();
-            buffer.vertex(pose, (float) x2, 0f, (float) z2).color(br, bg, bb, alpha * 0.8f).endVertex();
+            buffer.vertex(pose, (float)x1, 0f, (float)z1).color(br, bg, bb, alpha1).endVertex();
+            buffer.vertex(pose, (float)x2, 0f, (float)z2).color(br, bg, bb, alpha2).endVertex();
         }
 
         BufferUploader.drawWithShader(buffer.end());
