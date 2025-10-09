@@ -37,7 +37,7 @@ public class StarchartScreen extends Screen {
     float posX = 0;
     float posY = 0;
     float zoom;
-    float orbitalSpeed = 0.01f;
+    float orbitalSpeed = 0.1f;
 
     List<CelestialUIRenderInfo> queue;
     CelestialUIRenderInfo tracked;
@@ -116,7 +116,7 @@ public class StarchartScreen extends Screen {
     }
 
     protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Quaternionf rot, double t) {
-        
+
         // Move towards target position and zoom:
         if (this.tracked != null) {
             float dx = targetX - this.posX;
@@ -165,7 +165,8 @@ public class StarchartScreen extends Screen {
         queue.forEach(r -> CelestialRenderer.drawUIOverlay(r, gui));
     }
 
-    protected List<CelestialUIRenderInfo> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t) {
+    protected List<CelestialUIRenderInfo> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c,
+            double t) {
         List<CelestialUIRenderInfo> renderQueue = new ArrayList<>();
         PoseStack matrices = new PoseStack();
         matrices.scale(1.0F, 1.0F, 0.1F);
@@ -190,7 +191,7 @@ public class StarchartScreen extends Screen {
 
         return renderQueue;
     }
-    
+
     @Override
     public boolean mouseClicked(double mX, double mY, int button) {
         if (button == GLFW.GLFW_MOUSE_BUTTON_1) {

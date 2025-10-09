@@ -1,0 +1,15 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "one",
+    "dstrgb": "one"
+  },
+  "vertex": "machina:flare",
+  "fragment": "machina:flare",
+  "samplers": [ ],
+  "uniforms": [
+    { "name": "lightPos",  "type": "float", "count": 2, "values": [ 0.5, 0.5 ] },
+    { "name": "intensity", "type": "float", "count": 1, "values": [ 0.5 ] },
+    { "name": "aspect",    "type": "float", "count": 1, "values": [ 1.0 ] }
+  ]
+}
