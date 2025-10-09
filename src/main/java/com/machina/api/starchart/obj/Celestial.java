@@ -32,6 +32,11 @@ public interface Celestial {
 
         return new Vec3(x, 0, z);
     }
+    
+    default double trueAnomalyFromMean(double M, double e) {
+        double E = calculateEccentricAnomaly(M, e);
+        return 2 * Math.atan(Math.sqrt((1 + e) / (1 - e)) * Math.tan(E / 2));
+    }
 
     default double calculateTrueAnomaly(double t, double e) {
         // Orbital parameters

@@ -175,7 +175,7 @@ public class StarchartScreen extends Screen {
 
         // Render orbits first (behind celestial bodies)
         for (Planet p : system.planets()) {
-            CelestialRenderer.drawOrbit(matrices, p, 0x40FFFFFF);
+            CelestialRenderer.drawOrbit(matrices, p, 0x40FFFFFF, t);
         }
 
         // Render star
