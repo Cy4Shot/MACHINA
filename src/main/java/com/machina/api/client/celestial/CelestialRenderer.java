@@ -2,8 +2,10 @@ package com.machina.api.client.celestial;
 
 import java.util.function.Consumer;
 
+import org.joml.Matrix4d;
 import org.joml.Matrix4f;
-import org.joml.Vector4f;
+import org.joml.Vector2d;
+import org.joml.Vector4d;
 import org.lwjgl.opengl.GL11;
 
 import com.machina.api.starchart.obj.Planet;
@@ -21,7 +23,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 public class CelestialRenderer {
@@ -32,12 +33,12 @@ public class CelestialRenderer {
     private static final int SPHERE_SEGMENTS = 16;
 
     public static void drawUIOverlay(CelestialUIRenderInfo renderinfo, GuiGraphics gui) {
-        int screenX = (int) renderinfo.pos().x;
-        int screenY = (int) renderinfo.pos().y;
+        int screenX = (int) renderinfo.screenPos().x;
+        int screenY = (int) renderinfo.screenPos().y;
 
         // Only draw if on screen
         if (screenX >= -10 && screenX <= gui.guiWidth() + 10 && screenY >= -10 && screenY <= gui.guiHeight() + 10) {
-//            gui.fill(screenX - 1, screenY - 1, screenX + 1, screenY + 1, 0xFFFFFFFF);
+            gui.fill(screenX - 1, screenY - 1, screenX + 1, screenY + 1, 0xFFFFFFFF);
         }
     }
 
@@ -47,7 +48,7 @@ public class CelestialRenderer {
 
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
-        Vector4f sp = asScreenPos(matrices);
+        Vector4d sp = asScreenPos(matrices);
 
         drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF);
         float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
@@ -76,8 +77,8 @@ public class CelestialRenderer {
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
-        Vector4f sp = asScreenPos(matrices);
-        float sqDist = MathUtil.sqDist(sp.x, sp.y, px, py);
+        Vector4d sp = asScreenPos(matrices);
+        float sqDist = MathUtil.sqDist((float) sp.x,(float) sp.y, px, py);
 
         if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
             int col = getPlanetColor(planet);
@@ -91,7 +92,7 @@ public class CelestialRenderer {
                         (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
             }
         } else if (sqDist > UI_OVERLAY_MIN_THRESHOLD) {
-            enqueue.accept(CelestialUIRenderInfo.from(info, asUIPos(sp, info.width(), info.height())));
+            enqueue.accept(CelestialUIRenderInfo.from(info, asUIPos(sp, info.width(), info.height()), pos));
         }
 
         matrices.popPose();
@@ -246,20 +247,20 @@ public class CelestialRenderer {
         buffer.vertex(pose, x, y, z).color(r, g, b, a).endVertex();
     }
 
-    private static Vector4f asScreenPos(PoseStack stack) {
-        Vector4f spos = new Vector4f(0, 0, 0, 1);
-        Matrix4f stm = new Matrix4f(stack.last().pose());
-        Matrix4f mvp = new Matrix4f(RenderSystem.getProjectionMatrix()).mul(RenderSystem.getModelViewMatrix());
+    private static Vector4d asScreenPos(PoseStack stack) {
+        Vector4d spos = new Vector4d(0, 0, 0, 1);
+        Matrix4d stm = new Matrix4d(stack.last().pose());
+        Matrix4d mvp = new Matrix4d(RenderSystem.getProjectionMatrix()).mul(new Matrix4d(RenderSystem.getModelViewMatrix()));
 
         stm.transform(spos);
         mvp.transform(spos);
         return spos.div(spos.w);
     }
 
-    private static Vec2 asUIPos(Vector4f screenPos, int w, int h) {
-        float x = (1.0f + screenPos.x) * 0.5f * w;
-        float y = (1.0f - screenPos.y) * 0.5f * h;
-        return new Vec2(x, y);
+    private static Vector2d asUIPos(Vector4d screenPos, int w, int h) {
+        double x = (1.0D + screenPos.x) * 0.5D * w;
+        double y = (1.0D - screenPos.y) * 0.5D * h;
+        return new Vector2d(x, y);
     }
 
     private static int getPlanetColor(Planet planet) {

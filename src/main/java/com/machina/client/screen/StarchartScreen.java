@@ -6,7 +6,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
-import org.joml.Vector4f;
+import org.joml.Vector2d;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -16,7 +16,6 @@ import com.machina.api.client.celestial.CelestialUIRenderInfo;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
-import com.machina.api.util.math.MathUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -26,25 +25,27 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 
 public class StarchartScreen extends Screen {
 
     final SolarSystem system;
 
-    float rotX = 0;
-    float rotY = 90;
-    float posX = 0;
-    float posY = 0;
-    float zoom;
-    float orbitalSpeed = 0.1f;
+    private float rotX = 0;
+    private float rotY = 90;
+    private float posX = 0;
+    private float posY = 0;
+    private float zoom;
+    private float orbitalSpeed = 0.1f;
 
-    List<CelestialUIRenderInfo> queue;
-    CelestialUIRenderInfo tracked;
-    float targetX;
-    float targetY;
-    float targetZ;
-    double accumulatedTime = 0;
+    private List<CelestialUIRenderInfo> queue;
+    private CelestialUIRenderInfo tracked;
+
+    private Vec3 trackedOrbitalPos;
+    private float targetZoom;
+    private float smoothing = 0.05f;
+
+    private double accumulatedTime = 0;
 
     public StarchartScreen(SolarSystem s) {
         super(Component.empty());
@@ -54,43 +55,11 @@ public class StarchartScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-
         zoom = calculateZoom(system.maxAphelion(), height, 40);
     }
 
     public float calculateZoom(double targetAphelion, int target, int padding) {
-        float max = (float) (targetAphelion * 2);
-
-        return (float) MathUtil.binarySearch(0.001D, 100D, (target - padding) / 2f, zoom -> {
-            float z = (float) zoom;
-            PoseStack matrixStack = RenderSystem.getModelViewStack();
-            matrixStack.pushPose();
-            matrixStack.translate((double) width / 2, (double) height / 2, 300.0D);
-            matrixStack.scale(1.0F, -1.0F, 1.0F);
-            matrixStack.scale(32.0F, 32.0F, 32.0F);
-
-            PoseStack matrices = new PoseStack();
-            matrices.scale(1.0F, 1.0F, 0.1F);
-            matrices.scale(z, z, z);
-            matrices.mulPose(createRotQuat(90, 0));
-            matrices.pushPose();
-
-            Vector4f spos = new Vector4f(max, max, 0, 1);
-            Matrix4f stm = new Matrix4f(matrices.last().pose());
-            Matrix4f mvp = new Matrix4f(RenderSystem.getProjectionMatrix()).mul(matrixStack.last().pose());
-
-            stm.transform(spos);
-            mvp.transform(spos);
-
-            Vector4f norm = spos.div(spos.w);
-            float x = (1.0f + norm.x) * 0.5f * target;
-            float y = (1.0f - norm.y) * 0.5f * target;
-
-            matrices.popPose();
-            matrixStack.popPose();
-
-            return (double) Math.max(x, y);
-        }, 0.01);
+        return (target - padding) / ((float) targetAphelion * 32.0F);
     }
 
     public Quaternionf createRotQuat(float x, float y) {
@@ -111,21 +80,36 @@ public class StarchartScreen extends Screen {
     public void render(@NotNull GuiGraphics gui, int mX, int mY, float partial) {
         MUI.drawStars(gui, 0, 0, width, height);
 
-        accumulatedTime += minecraft.getFrameTime() * orbitalSpeed;
+        accumulatedTime += minecraft.getFrameTime() * 0;
+        updateCameraTracking();
         setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), accumulatedTime);
     }
 
-    protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Quaternionf rot, double t) {
+    protected void updateCameraTracking() {
+        if (tracked != null && trackedOrbitalPos != null) {
+            float targetPosX = -(float) trackedOrbitalPos.x * 32.0F;
+            float targetPosY = -(float) trackedOrbitalPos.z * 32.0F;
 
-        // Move towards target position and zoom:
-        if (this.tracked != null) {
-            float dx = targetX - this.posX;
-            float dy = targetY - this.posY;
-            float dz = targetZ - this.zoom;
-            this.posX += dx / 20;
-            this.posY += dy / 20;
-            this.zoom += dz / 20;
+            // Linear interpolation for position (starts immediately)
+            posX = Mth.lerp(smoothing, posX, targetPosX);
+            posY = Mth.lerp(smoothing, posY, targetPosY);
+
+            // Snapping logic
+            if ((posX - targetPosX) * (posX - targetPosX) + (posY - targetPosY) * (posY - targetPosY) < 0.01f) {
+                posX = targetPosX;
+                posY = targetPosY;
+                float zoomSmoothing = smoothing; // Slower smoothing for zoom
+                float t = 1f - (float)Math.pow(1f - zoomSmoothing, 3.0);
+                zoom = Mth.lerp(t, zoom, targetZoom);
+            }
+            if (Math.abs(zoom - targetZoom) < 0.001f) {
+                zoom = targetZoom;
+                
+            }
         }
+    }
+
+    protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Quaternionf rot, double t) {
 
         // Configure Render System
         RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
@@ -136,6 +120,10 @@ public class StarchartScreen extends Screen {
         RenderSystem.depthMask(true);
         RenderSystem.clearDepth(1.0);
         GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+
+        Matrix4f projection = new Matrix4f(RenderSystem.getProjectionMatrix());
+        projection.m32(-1.0f);
+        RenderSystem.setProjectionMatrix(projection, RenderSystem.getVertexSorting());
 
         // Apply to model view matrix
         PoseStack matrixStack = RenderSystem.getModelViewStack();
@@ -195,24 +183,30 @@ public class StarchartScreen extends Screen {
     @Override
     public boolean mouseClicked(double mX, double mY, int button) {
         if (button == GLFW.GLFW_MOUSE_BUTTON_1) {
-            Vec2 mPos = new Vec2((float) mX, (float) mY);
+            Vector2d mPos = new Vector2d(mX, mY);
+
+            // Find the closest celestial object to the click
+            CelestialUIRenderInfo closest = null;
+            double closestDist = Double.MAX_VALUE;
+
             for (CelestialUIRenderInfo info : this.queue) {
-                if (info.pos().distanceToSqr(mPos) < 25) {
-                    this.tracked = info;
-                    float celestialScreenX = info.pos().x;
-                    float celestialScreenY = info.pos().y;
-                    float centerX = width / 2f;
-                    float centerY = height / 2f;
-                    float screenOffsetX = centerX - celestialScreenX;
-                    float screenOffsetY = centerY - celestialScreenY;
-                    int targetSize = Math.min(width, height);
-                    double celestialRadius = info.celestial().radiusAU();
-                    this.targetX = this.posX + (screenOffsetX / this.zoom);
-                    this.targetY = this.posY + (screenOffsetY / this.zoom);
-                    this.targetZ = calculateZoom(celestialRadius, targetSize, 100);
-                    MUI.click();
-                    return true;
+                double dist = info.screenPos().distance(mPos);
+                if (dist < 25 && dist < closestDist) {
+                    closest = info;
+                    closestDist = dist;
                 }
+            }
+
+            if (closest != null) {
+                this.tracked = closest;
+                this.trackedOrbitalPos = closest.worldPos();
+
+                int targetSize = Math.min(width, height);
+                double celestialRadius = closest.celestial().radiusAU();
+                this.targetZoom = calculateZoom(celestialRadius * 10, targetSize, 100);
+
+                MUI.click();
+                return true;
             }
         }
         return super.mouseClicked(mX, mY, button);

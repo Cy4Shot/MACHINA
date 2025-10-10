@@ -1,13 +1,14 @@
 package com.machina.api.client.celestial;
 
+import org.joml.Vector2d;
+
 import com.machina.api.starchart.obj.Celestial;
 
-import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 
+public record CelestialUIRenderInfo(Celestial celestial, Vector2d screenPos, Vec3 worldPos) {
 
-public record CelestialUIRenderInfo(Celestial celestial, Vec2 pos) {
-    
-    public static final CelestialUIRenderInfo from(CelestialRenderInfo info, Vec2 pos) {
-        return new CelestialUIRenderInfo(info.celestial(), pos);
+    public static final CelestialUIRenderInfo from(CelestialRenderInfo info, Vector2d screenPos, Vec3 worldPos) {
+        return new CelestialUIRenderInfo(info.celestial(), screenPos, worldPos);
     }
 }

@@ -1,5 +1,6 @@
 package com.machina.api.client.celestial;
 
+import org.joml.Vector2d;
 import org.lwjgl.opengl.GL11;
 
 import com.machina.api.client.shader.ShaderHandler;
@@ -12,10 +13,9 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.world.phys.Vec2;
 
 public class LensFlareRenderer {
-    public static void drawLensFlare(int width, int height, Vec2 screenPos, float intensity) {
+    public static void drawLensFlare(int width, int height, Vector2d screenPos, float intensity) {
         float aspect = (float) width / height;
 
         ShaderInstance flare = ShaderHandler.FLARE.instance();
