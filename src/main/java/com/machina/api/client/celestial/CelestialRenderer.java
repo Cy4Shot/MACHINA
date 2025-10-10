@@ -30,7 +30,7 @@ public class CelestialRenderer {
     private static final float UI_GLOW_MAX_THRESHOLD = 0.1f;
     private static final float UI_OVERLAY_MAX_THRESHOLD = 0.005f;
     private static final float UI_OVERLAY_MIN_THRESHOLD = 0.002f;
-   
+
     private static final int SPHERE_SEGMENTS_L0 = 32;
     private static final int SPHERE_SEGMENTS_L1 = 8;
     private static final int SPHERE_SEGMENTS_L2 = 4;
@@ -85,8 +85,7 @@ public class CelestialRenderer {
         float sqDist = MathUtil.sqDist((float) sp.x, (float) sp.y, px, py);
 
         if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
-            int col = getPlanetColor(planet);
-            drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), col, zoom, rt, 0);
+            drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0);
             float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
             if (zoom < threshold) {
                 float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
@@ -190,7 +189,7 @@ public class CelestialRenderer {
     }
 
     private static ResourceLocation getCelestialTexture(String name) {
-        return new MachinaRL("textures/gui/starchart/" + name + ".png");
+        return new MachinaRL("textures/celestial/" + name + ".png");
     }
 
     private static void drawSphere(PoseStack matrices, String texName, float radius, int color, float zoom, double time,
@@ -215,7 +214,6 @@ public class CelestialRenderer {
         BufferBuilder buffer = Tesselator.getInstance().getBuilder();
         buffer.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR_TEX);
 
-        System.out.println(Math.log10(zoom));
         // LOD
         int segments;
         if (zoom < 2f) {
@@ -284,17 +282,5 @@ public class CelestialRenderer {
         double x = (1.0D + screenPos.x) * 0.5D * w;
         double y = (1.0D - screenPos.y) * 0.5D * h;
         return new Vector2d(x, y);
-    }
-
-    private static int getPlanetColor(Planet planet) {
-        return switch (planet.plan_class()) {
-        case 'M' -> 0xFF4169E1;
-        case 'V' -> 0xFFFF6347;
-        case 'J' -> 0xFFDEB887;
-        case 'I' -> 0xFF87CEEB;
-        case 'R' -> 0xFF8B4513;
-        case 'G' -> 0xFF9ACD32;
-        default -> 0xFFB0B0B0;
-        };
     }
 }

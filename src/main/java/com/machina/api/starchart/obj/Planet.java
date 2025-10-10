@@ -66,7 +66,15 @@ public record Planet(String name, ResourceLocation planet_type, double a, // sem
 
     @Override
     public String texture_bg() {
-        return "earth";
+        return "planet_" + switch (plan_class) {
+        case 'M' -> "terrestrial";
+        case 'V' -> "venal";
+        case 'J' -> "jovian";
+        case 'I' -> "ice";
+        case 'R' -> "rocky";
+        case 'G' -> "garden";
+        default -> "rocky";
+        };
     }
 
     @Override
