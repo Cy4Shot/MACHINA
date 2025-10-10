@@ -45,6 +45,7 @@ public class StarchartScreen extends Screen {
     private float targetZoom;
     private float smoothing = 0.05f;
 
+    private double realTime = 0;
     private double accumulatedTime = 0;
 
     public StarchartScreen(SolarSystem s) {
@@ -81,8 +82,9 @@ public class StarchartScreen extends Screen {
         MUI.drawStars(gui, 0, 0, width, height);
 
         accumulatedTime += minecraft.getFrameTime() * 0;
+        realTime += minecraft.getFrameTime();
         updateCameraTracking();
-        setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), accumulatedTime);
+        setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), accumulatedTime, realTime);
     }
 
     protected void updateCameraTracking() {
@@ -99,17 +101,17 @@ public class StarchartScreen extends Screen {
                 posX = targetPosX;
                 posY = targetPosY;
                 float zoomSmoothing = smoothing; // Slower smoothing for zoom
-                float t = 1f - (float)Math.pow(1f - zoomSmoothing, 3.0);
+                float t = 1f - (float) Math.pow(1f - zoomSmoothing, 3.0);
                 zoom = Mth.lerp(t, zoom, targetZoom);
             }
             if (Math.abs(zoom - targetZoom) < 0.001f) {
                 zoom = targetZoom;
-                
+
             }
         }
     }
 
-    protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Quaternionf rot, double t) {
+    protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, Quaternionf rot, double t, double rt) {
 
         // Configure Render System
         RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
@@ -138,7 +140,7 @@ public class StarchartScreen extends Screen {
         if (minecraft != null) {
             vcp = minecraft.renderBuffers().bufferSource();
         }
-        this.queue = renderCelestials(gui, rot, vcp, t);
+        this.queue = renderCelestials(gui, rot, vcp, t, rt);
         if (vcp != null) {
             vcp.endBatch();
         }
@@ -154,7 +156,7 @@ public class StarchartScreen extends Screen {
     }
 
     protected List<CelestialUIRenderInfo> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c,
-            double t) {
+            double t, double rt) {
         List<CelestialUIRenderInfo> renderQueue = new ArrayList<>();
         PoseStack matrices = new PoseStack();
         matrices.scale(1.0F, 1.0F, 0.1F);
@@ -169,12 +171,12 @@ public class StarchartScreen extends Screen {
 
         // Render star
         CelestialRenderInfo starInfo = CelestialRenderInfo.from(system.star(), gui);
-        CelestialRenderer.drawStar(matrices, starInfo, t, zoom, renderQueue::add);
+        CelestialRenderer.drawStar(matrices, starInfo, t, rt, zoom, renderQueue::add);
 
         // Render Planets
         for (Planet p : system.planets()) {
             CelestialRenderInfo planetInfo = CelestialRenderInfo.from(p, gui);
-            CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, posX, posY, zoom, renderQueue::add);
+            CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, rt, posX, posY, zoom, renderQueue::add);
         }
 
         return renderQueue;

@@ -30,7 +30,10 @@ public class CelestialRenderer {
     private static final float UI_GLOW_MAX_THRESHOLD = 0.1f;
     private static final float UI_OVERLAY_MAX_THRESHOLD = 0.005f;
     private static final float UI_OVERLAY_MIN_THRESHOLD = 0.002f;
-    private static final int SPHERE_SEGMENTS = 16;
+   
+    private static final int SPHERE_SEGMENTS_L0 = 32;
+    private static final int SPHERE_SEGMENTS_L1 = 8;
+    private static final int SPHERE_SEGMENTS_L2 = 4;
 
     public static void drawUIOverlay(CelestialUIRenderInfo renderinfo, GuiGraphics gui) {
         int screenX = (int) renderinfo.screenPos().x;
@@ -42,7 +45,7 @@ public class CelestialRenderer {
         }
     }
 
-    public static void drawStar(PoseStack matrices, CelestialRenderInfo info, double time, float zoom,
+    public static void drawStar(PoseStack matrices, CelestialRenderInfo info, double time, double rt, float zoom,
             Consumer<CelestialUIRenderInfo> enqueue) {
         Vec3 pos = info.getOrbitalCoords(time);
 
@@ -50,7 +53,7 @@ public class CelestialRenderer {
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
         Vector4d sp = asScreenPos(matrices);
 
-        drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF);
+        drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0.005f);
         float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
         if (zoom < threshold) {
             float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
@@ -59,30 +62,31 @@ public class CelestialRenderer {
 //            drawBillboard(matrices, getCelestialTexture("glow"),
 //                    (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
         }
-        
+
         float flareThreshold = (float) (UI_OVERLAY_MIN_THRESHOLD / info.radius());
         float logZoom = (float) Math.log(zoom);
         float logThreshold = (float) Math.log(flareThreshold);
         float fadeWidth = 4f;
         float t = MathUtil.clamp((logZoom - logThreshold) / fadeWidth, 0f, 1f);
         float flareIntensity = t * t * (3f - 2f * t);
-        LensFlareRenderer.drawLensFlare(info.width(), info.height(), asUIPos(sp, info.width(), info.height()), flareIntensity);
+        LensFlareRenderer.drawLensFlare(info.width(), info.height(), asUIPos(sp, info.width(), info.height()),
+                flareIntensity);
         matrices.popPose();
     }
 
-    public static void drawPlanet(PoseStack matrices, CelestialRenderInfo info, Planet planet, double time, float px,
-            float py, float zoom, Consumer<CelestialUIRenderInfo> enqueue) {
+    public static void drawPlanet(PoseStack matrices, CelestialRenderInfo info, Planet planet, double time, double rt,
+            float px, float py, float zoom, Consumer<CelestialUIRenderInfo> enqueue) {
         Vec3 pos = info.getOrbitalCoords(time);
 
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
         Vector4d sp = asScreenPos(matrices);
-        float sqDist = MathUtil.sqDist((float) sp.x,(float) sp.y, px, py);
+        float sqDist = MathUtil.sqDist((float) sp.x, (float) sp.y, px, py);
 
         if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
             int col = getPlanetColor(planet);
-            drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), col);
+            drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), col, zoom, rt, 0);
             float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
             if (zoom < threshold) {
                 float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
@@ -108,7 +112,7 @@ public class CelestialRenderer {
         RenderSystem.enableDepthTest();
         RenderSystem.depthMask(true);
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        
+
         int trailSamples = 32;
         float br = ((color >> 16) & 0xFF) / 255.0f;
         float bg = ((color >> 8) & 0xFF) / 255.0f;
@@ -117,7 +121,7 @@ public class CelestialRenderer {
         Matrix4f pose = matrices.last().pose();
         BufferBuilder buffer = Tesselator.getInstance().getBuilder();
         buffer.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
-        
+
         double n = 2 * Math.PI / planet.orb_period();
         double M0 = n * time + planet.where_in_orbit();
         double deltaM = -Math.PI / trailSamples;
@@ -130,11 +134,11 @@ public class CelestialRenderer {
             double z1 = planet.a() * Math.sqrt(1 - planet.e() * planet.e()) * Math.sin(theta1);
             double x2 = planet.a() * (Math.cos(theta2) - planet.e());
             double z2 = planet.a() * Math.sqrt(1 - planet.e() * planet.e()) * Math.sin(theta2);
-            float alpha1 = (float) Math.pow(1f - (float)s / (trailSamples - 1), 1.5f);
-            float alpha2 = (float) Math.pow(1f - (float)(s + 1) / (trailSamples - 1), 1.5f);
+            float alpha1 = (float) Math.pow(1f - (float) s / (trailSamples - 1), 1.5f);
+            float alpha2 = (float) Math.pow(1f - (float) (s + 1) / (trailSamples - 1), 1.5f);
 
-            buffer.vertex(pose, (float)x1, 0f, (float)z1).color(br, bg, bb, alpha1).endVertex();
-            buffer.vertex(pose, (float)x2, 0f, (float)z2).color(br, bg, bb, alpha2).endVertex();
+            buffer.vertex(pose, (float) x1, 0f, (float) z1).color(br, bg, bb, alpha1).endVertex();
+            buffer.vertex(pose, (float) x2, 0f, (float) z2).color(br, bg, bb, alpha2).endVertex();
         }
 
         BufferUploader.drawWithShader(buffer.end());
@@ -189,7 +193,8 @@ public class CelestialRenderer {
         return new MachinaRL("textures/gui/starchart/" + name + ".png");
     }
 
-    private static void drawSphere(PoseStack matrices, String texName, float radius, int color) {
+    private static void drawSphere(PoseStack matrices, String texName, float radius, int color, float zoom, double time,
+            float deformStrength) {
         RenderSystem.setShaderTexture(0, getCelestialTexture(texName));
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
@@ -208,30 +213,44 @@ public class CelestialRenderer {
 
         Matrix4f pose = matrices.last().pose();
         BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-        buffer.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+        buffer.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR_TEX);
 
-        // Generate sphere vertices
-        for (int i = 0; i < SPHERE_SEGMENTS; i++) {
-            for (int j = 0; j < SPHERE_SEGMENTS; j++) {
-                // Calculate sphere coordinates
-                float theta1 = (float) (i * Math.PI / SPHERE_SEGMENTS);
-                float theta2 = (float) ((i + 1) * Math.PI / SPHERE_SEGMENTS);
-                float phi1 = (float) (j * 2 * Math.PI / SPHERE_SEGMENTS);
-                float phi2 = (float) ((j + 1) * 2 * Math.PI / SPHERE_SEGMENTS);
+        System.out.println(Math.log10(zoom));
+        // LOD
+        int segments;
+        if (zoom < 2f) {
+            segments = SPHERE_SEGMENTS_L2;
+        } else if (zoom < 100f) {
+            segments = SPHERE_SEGMENTS_L1;
+        } else {
+            segments = SPHERE_SEGMENTS_L0;
+        }
+
+        for (int i = 0; i < segments; i++) {
+            for (int j = 0; j < segments; j++) {
+                float theta1 = (float) (i * Math.PI / segments);
+                float theta2 = (float) ((i + 1) * Math.PI / segments);
+                float phi1 = (float) (j * 2 * Math.PI / segments);
+                float phi2 = (float) ((j + 1) * 2 * Math.PI / segments);
+
+                float u1 = (float) j / segments;
+                float u2 = (float) (j + 1) / segments;
+                float v1 = (float) i / segments;
+                float v2 = (float) (i + 1) / segments;
 
                 // First triangle
-                addSphereVertex(buffer, pose, radius, theta1, phi1, r, g, b, a);
-                addSphereVertex(buffer, pose, radius, theta2, phi1, r, g, b, a);
-                addSphereVertex(buffer, pose, radius, theta1, phi2, r, g, b, a);
+                addSphereVertex(buffer, pose, radius, theta1, phi1, u1, v1, r, g, b, a, time, deformStrength);
+                addSphereVertex(buffer, pose, radius, theta2, phi1, u1, v2, r, g, b, a, time, deformStrength);
+                addSphereVertex(buffer, pose, radius, theta1, phi2, u2, v1, r, g, b, a, time, deformStrength);
 
                 // Second triangle
-                addSphereVertex(buffer, pose, radius, theta2, phi1, r, g, b, a);
-                addSphereVertex(buffer, pose, radius, theta2, phi2, r, g, b, a);
-                addSphereVertex(buffer, pose, radius, theta1, phi2, r, g, b, a);
+                addSphereVertex(buffer, pose, radius, theta2, phi1, u1, v2, r, g, b, a, time, deformStrength);
+                addSphereVertex(buffer, pose, radius, theta2, phi2, u2, v2, r, g, b, a, time, deformStrength);
+                addSphereVertex(buffer, pose, radius, theta1, phi2, u2, v1, r, g, b, a, time, deformStrength);
             }
         }
 
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
         BufferUploader.drawWithShader(buffer.end());
 
         RenderSystem.disableBlend();
@@ -239,18 +258,22 @@ public class CelestialRenderer {
     }
 
     private static void addSphereVertex(BufferBuilder buffer, Matrix4f pose, float radius, float theta, float phi,
-            float r, float g, float b, float a) {
-        float x = (float) (radius * Math.sin(theta) * Math.cos(phi));
-        float y = (float) (radius * Math.cos(theta));
-        float z = (float) (radius * Math.sin(theta) * Math.sin(phi));
+            float u, float v, float r, float g, float b, float a, double time, float deformStrength) {
+        float deform = (float) Math.sin(theta * 3 + phi * 2 + time / 50D) * deformStrength;
+        float dynamicRadius = radius * (1.0f + deform);
 
-        buffer.vertex(pose, x, y, z).color(r, g, b, a).endVertex();
+        float x = (float) (dynamicRadius * Math.sin(theta) * Math.cos(phi));
+        float y = (float) (dynamicRadius * Math.cos(theta));
+        float z = (float) (dynamicRadius * Math.sin(theta) * Math.sin(phi));
+
+        buffer.vertex(pose, x, y, z).color(r, g, b, a).uv(u, v).endVertex();
     }
 
     private static Vector4d asScreenPos(PoseStack stack) {
         Vector4d spos = new Vector4d(0, 0, 0, 1);
         Matrix4d stm = new Matrix4d(stack.last().pose());
-        Matrix4d mvp = new Matrix4d(RenderSystem.getProjectionMatrix()).mul(new Matrix4d(RenderSystem.getModelViewMatrix()));
+        Matrix4d mvp = new Matrix4d(RenderSystem.getProjectionMatrix())
+                .mul(new Matrix4d(RenderSystem.getModelViewMatrix()));
 
         stm.transform(spos);
         mvp.transform(spos);
