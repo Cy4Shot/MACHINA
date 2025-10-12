@@ -51,14 +51,14 @@ public class CelestialRenderer {
 
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
-        Vector4d sp = asScreenPos(matrices);
+        Vector2d sp = asScreenPos(matrices, info.width(), info.height());
 
         drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0.005f);
         float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
         if (zoom < threshold) {
             float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
             glowAlpha = (float) Math.pow(glowAlpha, 0.25);
-            int color = 0xFFFFFF | ((int) (glowAlpha * 255) << 24);
+//            int color = 0xFFFFFF | ((int) (glowAlpha * 255) << 24);
 //            drawBillboard(matrices, getCelestialTexture("glow"),
 //                    (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
         }
@@ -69,8 +69,7 @@ public class CelestialRenderer {
         float fadeWidth = 4f;
         float t = MathUtil.clamp((logZoom - logThreshold) / fadeWidth, 0f, 1f);
         float flareIntensity = t * t * (3f - 2f * t);
-        LensFlareRenderer.drawLensFlare(info.width(), info.height(), asUIPos(sp, info.width(), info.height()),
-                flareIntensity);
+        LensFlareRenderer.drawLensFlare(info.width(), info.height(), sp, flareIntensity);
         matrices.popPose();
     }
 
@@ -81,7 +80,7 @@ public class CelestialRenderer {
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
-        Vector4d sp = asScreenPos(matrices);
+        Vector2d sp = asScreenPos(matrices, info.width(), info.height());
         float sqDist = MathUtil.sqDist((float) sp.x, (float) sp.y, px, py);
 
         if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
@@ -94,9 +93,8 @@ public class CelestialRenderer {
                 drawBillboard(matrices, getCelestialTexture("glow"),
                         (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
             }
-        } else if (sqDist > UI_OVERLAY_MIN_THRESHOLD) {
-            enqueue.accept(CelestialUIRenderInfo.from(info, asUIPos(sp, info.width(), info.height()), pos));
         }
+        enqueue.accept(CelestialUIRenderInfo.from(info, sp, pos));
 
         matrices.popPose();
     }
@@ -267,7 +265,7 @@ public class CelestialRenderer {
         buffer.vertex(pose, x, y, z).color(r, g, b, a).uv(u, v).endVertex();
     }
 
-    private static Vector4d asScreenPos(PoseStack stack) {
+    private static Vector2d asScreenPos(PoseStack stack, int width, int height) {
         Vector4d spos = new Vector4d(0, 0, 0, 1);
         Matrix4d stm = new Matrix4d(stack.last().pose());
         Matrix4d mvp = new Matrix4d(RenderSystem.getProjectionMatrix())
@@ -275,12 +273,10 @@ public class CelestialRenderer {
 
         stm.transform(spos);
         mvp.transform(spos);
-        return spos.div(spos.w);
-    }
+        Vector4d ndc = spos.div(spos.w);
 
-    private static Vector2d asUIPos(Vector4d screenPos, int w, int h) {
-        double x = (1.0D + screenPos.x) * 0.5D * w;
-        double y = (1.0D - screenPos.y) * 0.5D * h;
-        return new Vector2d(x, y);
+        double screenX = (ndc.x * 0.5 + 0.5) * width;
+        double screenY = (1.0 - (ndc.y * 0.5 + 0.5)) * height;
+        return new Vector2d(screenX, screenY);
     }
 }

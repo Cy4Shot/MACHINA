@@ -17,6 +17,7 @@ import com.machina.api.client.celestial.CelestialUIRenderInfo;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
+import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -29,16 +30,19 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class StarchartScreen extends Screen {
+    
+    private final static float NEAR_PLANE = 0.005f;
+    private final static float FAR_PLANE = 500000000f;
 
     final SolarSystem system;
+    
+    private final float maxZoom;
 
     private float rotX = 0;
     private float rotY = 90;
     private float posX = 0;
     private float posY = 0;
     private float zoom;
-    private float orbitalSpeed = 0.1f;
-
     private List<CelestialUIRenderInfo> queue;
     private CelestialUIRenderInfo tracked;
 
@@ -52,16 +56,12 @@ public class StarchartScreen extends Screen {
     public StarchartScreen(SolarSystem s) {
         super(Component.empty());
         this.system = s;
+        this.maxZoom = calculateZoom(system.maxAphelion());
+        this.zoom = maxZoom;
     }
 
-    @Override
-    protected void init() {
-        super.init();
-        zoom = calculateZoom(system.maxAphelion(), height, 40);
-    }
-
-    public float calculateZoom(double targetAphelion, int target, int padding) {
-        return (target - padding) / ((float) targetAphelion * 32.0F);
+    public float calculateZoom(double targetAphelion) {
+        return (float) targetAphelion / NEAR_PLANE;
     }
 
     public Quaternionf createRotQuat(float x, float y) {
@@ -90,8 +90,8 @@ public class StarchartScreen extends Screen {
 
     protected void updateCameraTracking() {
         if (tracked != null && trackedOrbitalPos != null) {
-            float targetPosX = -(float) trackedOrbitalPos.x * 32.0F;
-            float targetPosY = -(float) trackedOrbitalPos.z * 32.0F;
+            float targetPosX = -(float) trackedOrbitalPos.x;
+            float targetPosY = -(float) trackedOrbitalPos.z;
 
             posX = Mth.lerp(smoothing, posX, targetPosX);
             posY = Mth.lerp(smoothing, posY, targetPosY);
@@ -123,17 +123,17 @@ public class StarchartScreen extends Screen {
         RenderSystem.clearDepth(1.0);
         GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 
-        Matrix4f projection = new Matrix4f(RenderSystem.getProjectionMatrix());
-        projection.m32(-1.0f);
-        RenderSystem.setProjectionMatrix(projection, RenderSystem.getVertexSorting());
+        Matrix4f oldProj = RenderSystem.getProjectionMatrix();
+        float halfWidth = 1 / zoom;
+        float halfHeight = halfWidth * ((float) height / width);
+        Matrix4f newProj = new Matrix4f().frustum(-halfWidth, halfWidth, -halfHeight, halfHeight, NEAR_PLANE, FAR_PLANE);
+        RenderSystem.setProjectionMatrix(newProj, RenderSystem.getVertexSorting());
 
         // Apply to model view matrix
         PoseStack matrixStack = RenderSystem.getModelViewStack();
         matrixStack.pushPose();
-        matrixStack.translate(x, y, 300.0D);
-        matrixStack.scale(1.0F, -1.0F, 1.0F);
-        matrixStack.scale(32.0F, 32.0F, 32.0F);
-        matrixStack.translate(0, 0, 100);
+        matrixStack.mulPose(rot);
+        matrixStack.translate(posX, 0, posY);
         RenderSystem.applyModelViewMatrix();
 
         // Render
@@ -148,6 +148,7 @@ public class StarchartScreen extends Screen {
 
         // Reset
         matrixStack.popPose();
+        RenderSystem.setProjectionMatrix(oldProj, RenderSystem.getVertexSorting());
         RenderSystem.applyModelViewMatrix();
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.disableDepthTest();
@@ -160,10 +161,6 @@ public class StarchartScreen extends Screen {
             double t, double rt) {
         List<CelestialUIRenderInfo> renderQueue = new ArrayList<>();
         PoseStack matrices = new PoseStack();
-        matrices.scale(1.0F, 1.0F, 0.1F);
-        matrices.scale(zoom, zoom, zoom);
-        matrices.mulPose(rot);
-        matrices.translate(posX / 32, 0, posY / 32);
 
         // Render orbits first (behind celestial bodies)
         for (Planet p : system.planets()) {
@@ -203,10 +200,7 @@ public class StarchartScreen extends Screen {
             if (closest != null) {
                 this.tracked = closest;
                 this.trackedOrbitalPos = closest.worldPos();
-
-                int targetSize = Math.min(width, height);
-                double celestialRadius = closest.celestial().radiusAU();
-                this.targetZoom = calculateZoom(celestialRadius * 10, targetSize, 100);
+                this.targetZoom = calculateZoom(closest.celestial().a());
 
                 MUI.click();
                 return true;
@@ -233,10 +227,10 @@ public class StarchartScreen extends Screen {
         // Pan - Middle Click or Left Click
         if (button == GLFW.GLFW_MOUSE_BUTTON_1 || button == GLFW.GLFW_MOUSE_BUTTON_3) {
             this.tracked = null;
-            
+
             Quaternionf rot = createRotQuat(rotX, rotY);
-            Vector3f right = new Vector3f(1, 0, 0);
-            Vector3f up = new Vector3f(0, -1, 0);
+            Vector3f right = new Vector3f(VecUtil.XP);
+            Vector3f up = new Vector3f(VecUtil.YN);
             rot.transformInverse(right);
             rot.transformInverse(up);
             
@@ -256,9 +250,9 @@ public class StarchartScreen extends Screen {
                 upXZ.set(0, 0, 0);
             }
 
-            float panScale = 1.0f / this.zoom;
-            this.posX += (rightXZ.x * (float) dX + upXZ.x * (float) dY) * panScale;
-            this.posY += (rightXZ.z * (float) dX + upXZ.z * (float) dY) * panScale;
+            float panSpeed = 0.5f * maxZoom / zoom;
+            this.posX += (rightXZ.x * (float) dX + upXZ.x * (float) dY) * panSpeed;
+            this.posY += (rightXZ.z * (float) dX + upXZ.z * (float) dY) * panSpeed;
         }
 
         return super.mouseDragged(mX, mY, button, dX, dY);
