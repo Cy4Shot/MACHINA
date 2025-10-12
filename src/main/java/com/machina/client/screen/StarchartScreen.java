@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2d;
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -92,7 +93,6 @@ public class StarchartScreen extends Screen {
             float targetPosX = -(float) trackedOrbitalPos.x * 32.0F;
             float targetPosY = -(float) trackedOrbitalPos.z * 32.0F;
 
-            // Linear interpolation for position (starts immediately)
             posX = Mth.lerp(smoothing, posX, targetPosX);
             posY = Mth.lerp(smoothing, posY, targetPosY);
 
@@ -133,6 +133,7 @@ public class StarchartScreen extends Screen {
         matrixStack.translate(x, y, 300.0D);
         matrixStack.scale(1.0F, -1.0F, 1.0F);
         matrixStack.scale(32.0F, 32.0F, 32.0F);
+        matrixStack.translate(0, 0, 100);
         RenderSystem.applyModelViewMatrix();
 
         // Render
@@ -161,8 +162,8 @@ public class StarchartScreen extends Screen {
         PoseStack matrices = new PoseStack();
         matrices.scale(1.0F, 1.0F, 0.1F);
         matrices.scale(zoom, zoom, zoom);
-        matrices.translate(posX / 32, -posY / 32, 0);
         matrices.mulPose(rot);
+        matrices.translate(posX / 32, 0, posY / 32);
 
         // Render orbits first (behind celestial bodies)
         for (Planet p : system.planets()) {
@@ -232,8 +233,32 @@ public class StarchartScreen extends Screen {
         // Pan - Middle Click or Left Click
         if (button == GLFW.GLFW_MOUSE_BUTTON_1 || button == GLFW.GLFW_MOUSE_BUTTON_3) {
             this.tracked = null;
-            this.posX += (float) (dX / this.zoom);
-            this.posY += (float) (dY / this.zoom);
+            
+            Quaternionf rot = createRotQuat(rotX, rotY);
+            Vector3f right = new Vector3f(1, 0, 0);
+            Vector3f up = new Vector3f(0, -1, 0);
+            rot.transformInverse(right);
+            rot.transformInverse(up);
+            
+            Vector3f rightXZ = new Vector3f(right.x, 0, right.z);
+            Vector3f upXZ = new Vector3f(up.x, 0, up.z);
+
+            float rightLenSq = rightXZ.lengthSquared();
+            float upLenSq = upXZ.lengthSquared();
+            if (rightLenSq > 0.000001f) {
+                rightXZ.div(rightLenSq);
+            } else {
+                rightXZ.set(0, 0, 0);
+            }
+            if (upLenSq > 0.000001f) {
+                upXZ.div(upLenSq);
+            } else {
+                upXZ.set(0, 0, 0);
+            }
+
+            float panScale = 1.0f / this.zoom;
+            this.posX += (rightXZ.x * (float) dX + upXZ.x * (float) dY) * panScale;
+            this.posY += (rightXZ.z * (float) dX + upXZ.z * (float) dY) * panScale;
         }
 
         return super.mouseDragged(mX, mY, button, dX, dY);
