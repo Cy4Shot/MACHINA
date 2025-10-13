@@ -27,20 +27,48 @@ import net.minecraft.world.phys.Vec3;
 
 public class CelestialRenderer {
 
-    private static final float UI_GLOW_MAX_THRESHOLD = 0.1f;
-    private static final float UI_OVERLAY_MAX_THRESHOLD = 0.005f;
-    private static final float UI_OVERLAY_MIN_THRESHOLD = 10f;
+    private static record GizmosFade(float minZoom, float maxZoom, float fadeFactor) {
+        private float getAlpha(float zoom) {
+            float alpha;
+            float peakStart = minZoom * fadeFactor;
+            float peakEnd = maxZoom / fadeFactor;
+            if (zoom <= minZoom) {
+                alpha = 0f;
+            } else if (zoom < peakStart) {
+                float t = (zoom - minZoom) / (peakStart - minZoom);
+                alpha = MathUtil.clamp(t, 0f, 1f);
+                alpha = (float) Math.pow(alpha, 0.25);
+            } else if (zoom <= peakEnd) {
+                alpha = 1f;
+            } else if (zoom < maxZoom) {
+                float t = (maxZoom - zoom) / (maxZoom - peakEnd);
+                alpha = MathUtil.clamp(t, 0f, 1f);
+                alpha = (float) Math.pow(alpha, 0.25);
+            } else {
+                alpha = 0f;
+            }
+            return alpha;
+        };
+    }
+
+    private static final GizmosFade UI_OVERLAY_FADE = new GizmosFade(2500f, 1e8f, 5f);
+    private static final GizmosFade ORBIT_FADE = new GizmosFade(1f, 1e10f, 50f);
 
     private static final int SPHERE_SEGMENTS_L0 = 32;
     private static final int SPHERE_SEGMENTS_L1 = 8;
     private static final int SPHERE_SEGMENTS_L2 = 4;
+    private static final int SPHERE_THRESHOLD_L1 = (int) 5e6;
+    private static final int SPHERE_THRESHOLD_L2 = (int) 1e6;
 
     public static void drawUIOverlay(CelestialUIRenderInfo renderinfo, GuiGraphics gui) {
+        if (renderinfo.markerAlpha() < 0.01f) {
+            return;
+        }
+
         int screenX = (int) renderinfo.screenPos().x;
         int screenY = (int) renderinfo.screenPos().y;
-
-        // Only draw if on screen
         if (screenX >= -10 && screenX <= gui.guiWidth() + 10 && screenY >= -10 && screenY <= gui.guiHeight() + 10) {
+            RenderSystem.setShaderColor(1f, 1f, 1f, renderinfo.markerAlpha());
             gui.fill(screenX - 1, screenY - 1, screenX + 1, screenY + 1, 0xFFFFFFFF);
         }
     }
@@ -51,24 +79,16 @@ public class CelestialRenderer {
 
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
-        Vector2d sp = asScreenPos(matrices, info.width(), info.height());
 
         drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0.005f);
-//        float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
-//        if (zoom < threshold) {
-//            float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
-//            glowAlpha = (float) Math.pow(glowAlpha, 0.25);
-//            int color = 0xFFFFFF | ((int) (glowAlpha * 255) << 24);
-//            drawBillboard(matrices, getCelestialTexture("glow"),
-//                    (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
-//        }
 
-        float flareThreshold = (float) (UI_OVERLAY_MIN_THRESHOLD / info.radius());
+        float flareThreshold = (float) (UI_OVERLAY_FADE.minZoom());
         float logZoom = (float) Math.log(zoom);
         float logThreshold = (float) Math.log(flareThreshold);
         float t = MathUtil.clamp((logZoom - logThreshold) / 4f, 0f, 1f);
         float flareIntensity = t * t * (3f - 2f * t);
-        LensFlareRenderer.drawLensFlare(info.width(), info.height(), sp, flareIntensity * 0.77f);
+        LensFlareRenderer.drawLensFlare(info.width(), info.height(), asScreenPos(matrices, info),
+                flareIntensity * 0.77f);
         matrices.popPose();
     }
 
@@ -79,26 +99,15 @@ public class CelestialRenderer {
         matrices.pushPose();
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
-        Vector2d sp = asScreenPos(matrices, info.width(), info.height());
-        float sqDist = MathUtil.sqDist((float) sp.x, (float) sp.y, px, py); // TODO
-
-        if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
+        if (zoom > UI_OVERLAY_FADE.maxZoom()) {
             drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0);
-            float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
-            if (zoom < threshold) {
-                float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
-                glowAlpha = (float) Math.pow(glowAlpha, 0.25);
-                int color = 0xFFFFFF | ((int) (glowAlpha * 255) << 24);
-                drawBillboard(matrices, getCelestialTexture("glow"),
-                        (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
-            }
         }
-        enqueue.accept(CelestialUIRenderInfo.from(info, sp, pos));
-
+        enqueue.accept(
+                CelestialUIRenderInfo.from(info, asScreenPos(matrices, info), pos, UI_OVERLAY_FADE.getAlpha(zoom)));
         matrices.popPose();
     }
 
-    public static void drawOrbit(PoseStack matrices, Planet planet, int color, double time) {
+    public static void drawOrbit(PoseStack matrices, Planet planet, int color, float zoom, double time) {
         if (planet.e() == 0 && planet.a() == 0)
             return;
 
@@ -110,6 +119,7 @@ public class CelestialRenderer {
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         int trailSamples = 32;
+        float ba = ORBIT_FADE.getAlpha(zoom);
         float br = ((color >> 16) & 0xFF) / 255.0f;
         float bg = ((color >> 8) & 0xFF) / 255.0f;
         float bb = (color & 0xFF) / 255.0f;
@@ -120,7 +130,7 @@ public class CelestialRenderer {
 
         double n = 2 * Math.PI / planet.orb_period();
         double M0 = n * time + planet.where_in_orbit();
-        double deltaM = -Math.PI / trailSamples;
+        double deltaM = ba * -Math.PI / trailSamples;
         for (int s = 0; s < trailSamples; s++) {
             double M1 = M0 + deltaM * s;
             double M2 = M0 + deltaM * (s + 1);
@@ -130,8 +140,8 @@ public class CelestialRenderer {
             double z1 = planet.a() * Math.sqrt(1 - planet.e() * planet.e()) * Math.sin(theta1);
             double x2 = planet.a() * (Math.cos(theta2) - planet.e());
             double z2 = planet.a() * Math.sqrt(1 - planet.e() * planet.e()) * Math.sin(theta2);
-            float alpha1 = (float) Math.pow(1f - (float) s / (trailSamples - 1), 1.5f);
-            float alpha2 = (float) Math.pow(1f - (float) (s + 1) / (trailSamples - 1), 1.5f);
+            float alpha1 = (float) Math.pow(1f - (float) s / (trailSamples - 1), 1.5f) * ba;
+            float alpha2 = (float) Math.pow(1f - (float) (s + 1) / (trailSamples - 1), 1.5f) * ba;
 
             buffer.vertex(pose, (float) x1, 0f, (float) z1).color(br, bg, bb, alpha1).endVertex();
             buffer.vertex(pose, (float) x2, 0f, (float) z2).color(br, bg, bb, alpha2).endVertex();
@@ -191,7 +201,6 @@ public class CelestialRenderer {
 
     private static void drawSphere(PoseStack matrices, String texName, float radius, int color, float zoom, double time,
             float deformStrength) {
-        RenderSystem.setShaderTexture(0, getCelestialTexture(texName));
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
@@ -199,13 +208,9 @@ public class CelestialRenderer {
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(GL11.GL_LESS);
         RenderSystem.depthMask(true);
-
-        float r = ((color >> 16) & 0xFF) / 255.0f;
-        float g = ((color >> 8) & 0xFF) / 255.0f;
-        float b = (color & 0xFF) / 255.0f;
-        float a = 1.0f; // Force full alpha
-
+        RenderSystem.setShaderTexture(0, getCelestialTexture(texName));
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
 
         Matrix4f pose = matrices.last().pose();
         BufferBuilder buffer = Tesselator.getInstance().getBuilder();
@@ -213,13 +218,19 @@ public class CelestialRenderer {
 
         // LOD
         int segments;
-        if (zoom < 2f) {
+        if (zoom < SPHERE_THRESHOLD_L2) {
             segments = SPHERE_SEGMENTS_L2;
-        } else if (zoom < 100f) {
+        } else if (zoom < SPHERE_THRESHOLD_L1) {
             segments = SPHERE_SEGMENTS_L1;
         } else {
             segments = SPHERE_SEGMENTS_L0;
         }
+
+        // Col
+        float r = ((color >> 16) & 0xFF) / 255.0f;
+        float g = ((color >> 8) & 0xFF) / 255.0f;
+        float b = (color & 0xFF) / 255.0f;
+        float a = 1.0f;
 
         for (int i = 0; i < segments; i++) {
             for (int j = 0; j < segments; j++) {
@@ -245,9 +256,7 @@ public class CelestialRenderer {
             }
         }
 
-        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
         BufferUploader.drawWithShader(buffer.end());
-
         RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -264,7 +273,7 @@ public class CelestialRenderer {
         buffer.vertex(pose, x, y, z).color(r, g, b, a).uv(u, v).endVertex();
     }
 
-    private static Vector2d asScreenPos(PoseStack stack, int width, int height) {
+    private static Vector2d asScreenPos(PoseStack stack, CelestialRenderInfo info) {
         Vector4d spos = new Vector4d(0, 0, 0, 1);
         Matrix4d stm = new Matrix4d(stack.last().pose());
         Matrix4d mvp = new Matrix4d(RenderSystem.getProjectionMatrix())
@@ -274,8 +283,8 @@ public class CelestialRenderer {
         mvp.transform(spos);
         Vector4d ndc = spos.div(spos.w);
 
-        double screenX = (ndc.x * 0.5 + 0.5) * width;
-        double screenY = (1.0 - (ndc.y * 0.5 + 0.5)) * height;
+        double screenX = (ndc.x * 0.5 + 0.5) * info.width();
+        double screenY = (1.0 - (ndc.y * 0.5 + 0.5)) * info.height();
         return new Vector2d(screenX, screenY);
     }
 }

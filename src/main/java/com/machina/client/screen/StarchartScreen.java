@@ -8,7 +8,6 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2d;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -43,6 +42,7 @@ public class StarchartScreen extends Screen {
     private float rotY = 90;
     private float posX = 0;
     private float posY = 0;
+    private float orbitalSpeed = 0.01f;
     private float zoom;
     private List<CelestialUIRenderInfo> queue;
     private CelestialUIRenderInfo tracked;
@@ -88,7 +88,9 @@ public class StarchartScreen extends Screen {
     public void render(@NotNull GuiGraphics gui, int mX, int mY, float partial) {
         MUI.drawStars(gui, 0, 0, width, height);
 
-        accumulatedTime += minecraft.getFrameTime() * 0;
+        if (this.tracked == null) {
+            accumulatedTime += minecraft.getFrameTime() * orbitalSpeed;
+        }
         realTime += minecraft.getFrameTime();
         updateCameraTracking();
         setupAndRenderCelestials(gui, width / 2, height / 2, createRotQuat(rotX, rotY), accumulatedTime, realTime);
@@ -171,7 +173,7 @@ public class StarchartScreen extends Screen {
 
         // Render orbits first (behind celestial bodies)
         for (Planet p : system.planets()) {
-            CelestialRenderer.drawOrbit(matrices, p, 0x40FFFFFF, t);
+            CelestialRenderer.drawOrbit(matrices, p, 0x40FFFFFF, zoom, t);
         }
 
         // Render star
@@ -267,8 +269,8 @@ public class StarchartScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double mX, double mY, double delta) {
-        this.tracked = null;
         this.zoom *= (float) Math.pow(1.1, delta);
+        this.targetZoom = zoom;
         return super.mouseScrolled(mX, mY, delta);
     }
 
