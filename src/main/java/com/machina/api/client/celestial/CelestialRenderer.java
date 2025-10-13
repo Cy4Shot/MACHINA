@@ -29,7 +29,7 @@ public class CelestialRenderer {
 
     private static final float UI_GLOW_MAX_THRESHOLD = 0.1f;
     private static final float UI_OVERLAY_MAX_THRESHOLD = 0.005f;
-    private static final float UI_OVERLAY_MIN_THRESHOLD = 0.002f;
+    private static final float UI_OVERLAY_MIN_THRESHOLD = 10f;
 
     private static final int SPHERE_SEGMENTS_L0 = 32;
     private static final int SPHERE_SEGMENTS_L1 = 8;
@@ -54,22 +54,21 @@ public class CelestialRenderer {
         Vector2d sp = asScreenPos(matrices, info.width(), info.height());
 
         drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0.005f);
-        float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
-        if (zoom < threshold) {
-            float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
-            glowAlpha = (float) Math.pow(glowAlpha, 0.25);
+//        float threshold = (float) (UI_GLOW_MAX_THRESHOLD / info.radius());
+//        if (zoom < threshold) {
+//            float glowAlpha = MathUtil.clamp((threshold - zoom) / threshold, 0f, 1f);
+//            glowAlpha = (float) Math.pow(glowAlpha, 0.25);
 //            int color = 0xFFFFFF | ((int) (glowAlpha * 255) << 24);
 //            drawBillboard(matrices, getCelestialTexture("glow"),
 //                    (float) info.radius() * (float) Math.sqrt(zoom) * 100f, color);
-        }
+//        }
 
         float flareThreshold = (float) (UI_OVERLAY_MIN_THRESHOLD / info.radius());
         float logZoom = (float) Math.log(zoom);
         float logThreshold = (float) Math.log(flareThreshold);
-        float fadeWidth = 4f;
-        float t = MathUtil.clamp((logZoom - logThreshold) / fadeWidth, 0f, 1f);
+        float t = MathUtil.clamp((logZoom - logThreshold) / 4f, 0f, 1f);
         float flareIntensity = t * t * (3f - 2f * t);
-        LensFlareRenderer.drawLensFlare(info.width(), info.height(), sp, flareIntensity);
+        LensFlareRenderer.drawLensFlare(info.width(), info.height(), sp, flareIntensity * 0.77f);
         matrices.popPose();
     }
 
@@ -81,7 +80,7 @@ public class CelestialRenderer {
         matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
         Vector2d sp = asScreenPos(matrices, info.width(), info.height());
-        float sqDist = MathUtil.sqDist((float) sp.x, (float) sp.y, px, py);
+        float sqDist = MathUtil.sqDist((float) sp.x, (float) sp.y, px, py); // TODO
 
         if (zoom > UI_OVERLAY_MAX_THRESHOLD / info.radius()) {
             drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0);

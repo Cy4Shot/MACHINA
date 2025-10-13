@@ -8,6 +8,7 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector2d;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -30,12 +31,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class StarchartScreen extends Screen {
-    
+
     private final static float NEAR_PLANE = 0.005f;
     private final static float FAR_PLANE = 500000000f;
 
     final SolarSystem system;
-    
+
     private final float maxZoom;
 
     private float rotX = 0;
@@ -61,7 +62,12 @@ public class StarchartScreen extends Screen {
     }
 
     public float calculateZoom(double targetAphelion) {
-        return (float) targetAphelion / NEAR_PLANE;
+        double a = 1.34D;
+        double b = 0.032D;
+        double c = 20.25D;
+        double logx = Math.log(targetAphelion);
+        double logx2 = Math.pow(logx, 2);
+        return (float) Math.pow(2, -b * logx2 + -a * logx + c);
     }
 
     public Quaternionf createRotQuat(float x, float y) {
@@ -126,7 +132,8 @@ public class StarchartScreen extends Screen {
         Matrix4f oldProj = RenderSystem.getProjectionMatrix();
         float halfWidth = 1 / zoom;
         float halfHeight = halfWidth * ((float) height / width);
-        Matrix4f newProj = new Matrix4f().frustum(-halfWidth, halfWidth, -halfHeight, halfHeight, NEAR_PLANE, FAR_PLANE);
+        Matrix4f newProj = new Matrix4f().frustum(-halfWidth, halfWidth, -halfHeight, halfHeight, NEAR_PLANE,
+                FAR_PLANE);
         RenderSystem.setProjectionMatrix(newProj, RenderSystem.getVertexSorting());
 
         // Apply to model view matrix
@@ -200,7 +207,7 @@ public class StarchartScreen extends Screen {
             if (closest != null) {
                 this.tracked = closest;
                 this.trackedOrbitalPos = closest.worldPos();
-                this.targetZoom = calculateZoom(closest.celestial().a());
+                this.targetZoom = calculateZoom(closest.celestial().radiusAU());
 
                 MUI.click();
                 return true;
@@ -233,7 +240,7 @@ public class StarchartScreen extends Screen {
             Vector3f up = new Vector3f(VecUtil.YN);
             rot.transformInverse(right);
             rot.transformInverse(up);
-            
+
             Vector3f rightXZ = new Vector3f(right.x, 0, right.z);
             Vector3f upXZ = new Vector3f(up.x, 0, up.z);
 
