@@ -853,7 +853,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
         this.hoverables.putIfAbsent(key, new Hoverable(minX, minY, maxX, maxY, active, text));
     }
 
-    private void registerHoverable(String key, int minX, int minY, int maxX, int maxY, Supplier<Component> text) {
+    protected void registerHoverable(String key, int minX, int minY, int maxX, int maxY, Supplier<Component> text) {
         registerHoverable(key, minX, minY, maxX, maxY, () -> true, text);
     }
 

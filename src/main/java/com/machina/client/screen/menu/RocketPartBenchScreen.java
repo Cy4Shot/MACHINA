@@ -39,21 +39,21 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 
     private void updateParts() {
         switch (selected) {
-            case 0:
-                parts = RocketPartInit.THRUSTERS.values().stream().map(RegistryObject::get).toList();
-                break;
-            case 1:
-                parts = RocketPartInit.FUEL_TANKS.values().stream().map(RegistryObject::get).toList();
-                break;
-            case 2:
-                parts = RocketPartInit.CHASSIS.values().stream().map(RegistryObject::get).toList();
-                break;
-            case 3:
-                parts = RocketPartInit.LIFE_SUPPORTS.values().stream().map(RegistryObject::get).toList();
-                break;
-            default:
-                parts = RocketPartInit.SHIELDS.values().stream().map(RegistryObject::get).toList();
-                break;
+        case 0:
+            parts = RocketPartInit.THRUSTERS.values().stream().map(RegistryObject::get).toList();
+            break;
+        case 1:
+            parts = RocketPartInit.FUEL_TANKS.values().stream().map(RegistryObject::get).toList();
+            break;
+        case 2:
+            parts = RocketPartInit.CHASSIS.values().stream().map(RegistryObject::get).toList();
+            break;
+        case 3:
+            parts = RocketPartInit.LIFE_SUPPORTS.values().stream().map(RegistryObject::get).toList();
+            break;
+        default:
+            parts = RocketPartInit.SHIELDS.values().stream().map(RegistryObject::get).toList();
+            break;
         }
     }
 
@@ -63,15 +63,26 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 
         drawInventory(gui, mx, my);
         drawRocketBackground(gui);
-        drawEnergyBarSmall(gui, 70, -58, entity.getEnergyF() == 1, "none");
 
         int i = midWidth();
         int j = midHeight();
 
         // Progress Mode
         if (entity.isCrafting()) {
+            drawEnergyBar(gui, 0, -24, entity.getEnergyF() > 0, "rocket_part_bench.no_power");
+            int x = i + 51;
+            int y = j + 10;
+            registerHoverable("progress_bar", x + 1, y + 1, x + 136, y + 18,
+                    () -> Component.literal(StringUtils.formatPercent(entity.getProgressPercent())));
+            MUI.drawBar(gui, x, y, entity.getProgressPercent(), true, MUI.uistrs("rocket_part_bench.progress") + " ("
+                    + StringUtils.formatPercent(entity.getProgressPercent()) + ")", "", (xp, yp, p) -> {
+                        MUI.blitCommon(gui, xp + 2, yp + 4, 0, 404, (int) (131 * p), 14);
+                    });
             return;
         }
+
+        // Energy
+        drawEnergyBarSmall(gui, 70, -58, entity.getEnergyF() == 1, "none");
 
         // Tabs
         MUI.blitRocket(gui, i + 26, j - 72, 253, 0, 121, 26);
@@ -87,8 +98,8 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
             MUI.blitRocket(gui, i + 36 + x * 21, j - 70, type.getX(), 0, 16, 16);
 
             final int x1 = x;
-            clickAndHover("tab_" + x, i + 35 + x * 21, j - 71, i + 53 + x * 21, j - 53, () -> true,
-                    type::getName, () -> {
+            clickAndHover("tab_" + x, i + 35 + x * 21, j - 71, i + 53 + x * 21, j - 53, () -> true, type::getName,
+                    () -> {
                         if (this.selected != x1) {
                             this.selected = x1;
                             this.scrollDist = 0;
@@ -118,59 +129,59 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
                                     .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
                     i + 90, h - 20);
             switch (selected) {
-                case 0:
-                    ThrusterPart<?> thruster = (ThrusterPart<?>) part;
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket_part_bench.fuel_type").append(c)
-                                    .append(StringUtils.fluid(new FluidStack(thruster.getFuel().fluid(), 1), true)),
-                            i + 90, h - 10);
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket_part_bench.efficiency").append(c)
-                                    .append(Component.literal(StringUtils.formatPercent(thruster.getFuelEfficiency()))
-                                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
-                            i + 90, h);
-                    break;
-                case 1:
-                    FuelTankPart<?> tank = (FuelTankPart<?>) part;
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket_part_bench.fuel_capacity").append(c)
-                                    .append(Component.literal(StringUtils.formatFluid(tank.getFuelStorage()))
-                                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
-                            i + 90, h - 10);
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket_part_bench.coolant_capacity").append(c)
-                                    .append(Component.literal(StringUtils.formatFluid(tank.getCoolantStorage()))
-                                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2))),
-                            i + 90, h);
-                    break;
-                case 2:
-                    ChassisPart<?> chassis = (ChassisPart<?>) part;
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket_part_bench.coolant_type").append(c)
-                                    .append(StringUtils.fluid(new FluidStack(chassis.getCoolant().fluid(), 1), true)),
-                            i + 90, h - 10);
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket_part_bench.efficiency").append(c)
-                                    .append(Component.literal(StringUtils.formatPercent(chassis.getCoolantEfficiency()))
-                                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
-                            i + 90, h);
-                    break;
-                case 3:
-                    LifeSupportPart<?> lifeSupport = (LifeSupportPart<?>) part;
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket_part_bench.storage").append(c)
-                                    .append(Component.literal(String.valueOf(lifeSupport.getSlots()))
-                                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
-                            i + 90, h - 10);
-                    break;
-                case 4:
-                    ShieldPart<?> shield = (ShieldPart<?>) part;
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket_part_bench.max_pressure").append(c)
-                                    .append(Component.literal(StringUtils.formatPressure(shield.getMaxAtmPressure()))
-                                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
-                            i + 90, h - 10);
-                    break;
+            case 0:
+                ThrusterPart<?> thruster = (ThrusterPart<?>) part;
+                MUI.drawString(gui,
+                        MUI.uistr("rocket_part_bench.fuel_type").append(c)
+                                .append(StringUtils.fluid(new FluidStack(thruster.getFuel().fluid(), 1), true)),
+                        i + 90, h - 10);
+                MUI.drawString(gui,
+                        MUI.uistr("rocket_part_bench.efficiency").append(c)
+                                .append(Component.literal(StringUtils.formatPercent(thruster.getFuelEfficiency()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                        i + 90, h);
+                break;
+            case 1:
+                FuelTankPart<?> tank = (FuelTankPart<?>) part;
+                MUI.drawString(gui,
+                        MUI.uistr("rocket_part_bench.fuel_capacity").append(c)
+                                .append(Component.literal(StringUtils.formatFluid(tank.getFuelStorage()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                        i + 90, h - 10);
+                MUI.drawString(gui,
+                        MUI.uistr("rocket_part_bench.coolant_capacity").append(c)
+                                .append(Component.literal(StringUtils.formatFluid(tank.getCoolantStorage()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2))),
+                        i + 90, h);
+                break;
+            case 2:
+                ChassisPart<?> chassis = (ChassisPart<?>) part;
+                MUI.drawString(gui,
+                        MUI.uistr("rocket_part_bench.coolant_type").append(c)
+                                .append(StringUtils.fluid(new FluidStack(chassis.getCoolant().fluid(), 1), true)),
+                        i + 90, h - 10);
+                MUI.drawString(gui,
+                        MUI.uistr("rocket_part_bench.efficiency").append(c)
+                                .append(Component.literal(StringUtils.formatPercent(chassis.getCoolantEfficiency()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                        i + 90, h);
+                break;
+            case 3:
+                LifeSupportPart<?> lifeSupport = (LifeSupportPart<?>) part;
+                MUI.drawString(gui,
+                        MUI.uistr("rocket_part_bench.storage").append(c)
+                                .append(Component.literal(String.valueOf(lifeSupport.getSlots()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                        i + 90, h - 10);
+                break;
+            case 4:
+                ShieldPart<?> shield = (ShieldPart<?>) part;
+                MUI.drawString(gui,
+                        MUI.uistr("rocket_part_bench.max_pressure").append(c)
+                                .append(Component.literal(StringUtils.formatPressure(shield.getMaxAtmPressure()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                        i + 90, h - 10);
+                break;
             }
 
             entity.getRecipe(part).ifPresent(r -> {
@@ -196,9 +207,9 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
                                                 .withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(true))
                                                 .append(hasPower ? Component.literal("")
                                                         : Component.literal(" ")
-                                                        .append(MUI.uistr("rocket_part_bench.unavailable")
-                                                                .withStyle(Style.EMPTY.withColor(MUI.RED)
-                                                                        .withBold(false).withItalic(true)))),
+                                                                .append(MUI.uistr("rocket_part_bench.unavailable")
+                                                                        .withStyle(Style.EMPTY.withColor(MUI.RED)
+                                                                                .withBold(false).withItalic(true)))),
                                         MUI.uistr("rocket_part_bench.requires").append(c)
                                                 .append(Component.literal(StringUtils.formatPower(r.getPowerRate()))
                                                         .withStyle(Style.EMPTY.withColor(hasPower ? MUI.GREEN : MUI.RED)

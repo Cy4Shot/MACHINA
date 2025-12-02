@@ -1,18 +1,22 @@
 package com.machina.api.rocket.part;
 
+import java.util.Map;
+import java.util.function.Supplier;
+
 import com.machina.api.item.RocketPartItem;
 import com.machina.client.rocket.model.RocketPartModel;
 import com.machina.registration.init.RegistryInit;
+import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.RegistryInit.RocketPartCallbacks;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.Map;
-import java.util.function.Supplier;
 
 public class RocketPart<T extends RocketPartModel> {
     private final ResourceLocation loc;
@@ -25,7 +29,7 @@ public class RocketPart<T extends RocketPartModel> {
     private RocketPartItem item;
 
     public RocketPart(ResourceLocation loc, RocketPartType type, float height, float offset, float guiScale,
-                      Supplier<T> model, float mass) {
+            Supplier<T> model, float mass) {
         this.loc = loc;
         this.type = type;
         this.height = height;
@@ -77,5 +81,16 @@ public class RocketPart<T extends RocketPartModel> {
             return rocketPartItem;
         }
         throw new IllegalStateException("Rocket part item not found for " + loc);
+    }
+
+    public CompoundTag toNBT() {
+        CompoundTag tag = new CompoundTag();
+        tag.put("name", StringTag.valueOf(loc.toString()));
+        return tag;
+    }
+
+    public static RocketPart<?> fromNBT(CompoundTag tag) {
+        ResourceLocation loc = new ResourceLocation(tag.get("name").getAsString());
+        return RegistryInit.ROCKET_PARTS_REGISTRY.get().getValue(loc);
     }
 }

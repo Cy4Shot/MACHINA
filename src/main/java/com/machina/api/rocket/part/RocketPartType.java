@@ -24,4 +24,8 @@ public enum RocketPartType {
     public Component getName() {
         return Component.translatable(Machina.MOD_ID + ".rocket_part_type." + name().toLowerCase());
     }
+    
+    public String getNBTName() {
+        return "rocket_type_" + name().toLowerCase();
+    }
 }

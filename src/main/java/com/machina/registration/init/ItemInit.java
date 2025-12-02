@@ -2,6 +2,7 @@ package com.machina.registration.init;
 
 import com.machina.Machina;
 import com.machina.api.item.ChemicalItem;
+import com.machina.api.item.RocketItem;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
@@ -32,6 +33,7 @@ public class ItemInit {
 
     //@formatter:off
 	public static final RegistryObject<Item> BLUEPRINT = basic("blueprint", BlueprintItem::new);
+	public static final RegistryObject<Item> ROCKET = basic("rocket", RocketItem::new);
 	
 	public static final RegistryObject<CapacitorItem> BASIC_CAPACITOR = capacitor("basic_capacitor", () -> CommonConfig.basicCapacitorSize);
 	public static final RegistryObject<CapacitorItem> ADVANCED_CAPACITOR = capacitor("advanced_capacitor", () -> CommonConfig.advancedCapacitorSize);

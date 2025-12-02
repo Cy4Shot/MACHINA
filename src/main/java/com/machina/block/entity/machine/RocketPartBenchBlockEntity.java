@@ -152,13 +152,17 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
         PlayerHelper.consumeAll(player, recipe.getInputItems());
 
         this.recipe = recipe;
-        this.progress = 200;
+        this.progress = getMaxProgress();
         this.setChanged();
+    }
+    
+    public int getMaxProgress() {
+        return 500;
     }
 
     public float getProgressPercent() {
         if (this.recipe == null || this.progress <= 0)
             return 0f;
-        return 1f - ((float) this.progress / 200f);
+        return 1f - ((float) this.progress / (float) getMaxProgress());
     }
 }

@@ -81,6 +81,8 @@ public class DatagenItemModels extends ItemModelProvider {
 
         simpleItem(ItemInit.CYCAD_SIGN);
         simpleItem(ItemInit.CYCAD_HANGING_SIGN);
+        
+        bewlr(ItemInit.ROCKET.get());
 
         // Dynamic
         FruitInit.FRUITS.forEach(this::fruit);

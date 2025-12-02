@@ -26,6 +26,8 @@ public class DatagenLangEnUs extends DatagenLang {
         add(TabInit.MACHINA_ROCKETRY, "Machina: Rocketry");
 
         // Items
+        add(ItemInit.ROCKET, "Rocket");
+
         add(ItemInit.COPPER_NUGGET, "Copper Nugget");
 
         add(ItemInit.COAL_DUST, "Coal Dust");
@@ -769,5 +771,7 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket_part_bench.craft", "Craft");
         addUI("rocket_part_bench.requires", "Requires");
         addUI("rocket_part_bench.unavailable", "(Unavailable)");
+        addUI("rocket_part_bench.progress", "Crafting");
+        addUI("rocket_part_bench.no_power", "No Power");
     }
 }
