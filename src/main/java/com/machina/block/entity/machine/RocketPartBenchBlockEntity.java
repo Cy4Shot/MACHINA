@@ -95,7 +95,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
     @Override
     public int getMaxEnergy() {
         // TODO: Config
-        return 100_000;
+        return 1_000_000;
     }
 
     @Override
@@ -152,13 +152,13 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
         PlayerHelper.consumeAll(player, recipe.getInputItems());
 
         this.recipe = recipe;
-        this.progress = 2000;
+        this.progress = 200;
         this.setChanged();
     }
 
     public float getProgressPercent() {
         if (this.recipe == null || this.progress <= 0)
             return 0f;
-        return 1f - ((float) this.progress / 2000f);
+        return 1f - ((float) this.progress / 200f);
     }
 }

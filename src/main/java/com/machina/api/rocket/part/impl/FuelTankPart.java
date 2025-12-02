@@ -15,7 +15,7 @@ public class FuelTankPart<T extends RocketPartModel> extends RocketPart<T> {
 
     public FuelTankPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, float guiScale,
                         int fuelStorage, int coolantStorage) {
-        super(loc, RocketPartType.THRUSTER, height, off, guiScale, model, weight);
+        super(loc, RocketPartType.FUEL_TANK, height, off, guiScale, model, weight);
         this.fuelStorage = fuelStorage;
         this.coolantStorage = coolantStorage;
     }

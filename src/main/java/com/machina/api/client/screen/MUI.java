@@ -110,12 +110,16 @@ public final class MUI {
     }
 
     public static void blitOverlay(GuiGraphics gui, int x, int y, int w, int h) {
+        drawWithAlpha(0.1f, () -> gui.blit(BG_OVERLAY, x, y, 0, 0, w, h, 512, 512));
+    }
+    
+    public static void drawWithAlpha(float alpha, Runnable draw) {
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.setShaderColor(1f, 1f, 1f, 0.1f);
-        gui.blit(BG_OVERLAY, x, y, 0, 0, w, h, 512, 512);
+        RenderSystem.setShaderColor(1f, 1f, 1f, alpha);
+        draw.run();
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
@@ -172,6 +176,17 @@ public final class MUI {
         gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.ZP, 90));
         gui.drawString(mc.font, text, 0, 0, 65278);
         gui.pose().popPose();
+    }
+    
+    public static void drawLine(GuiGraphics gui, int x1, int y1, int x2, int y2, boolean hFirst, int col) {
+        col |= 0xFF000000;
+        if (hFirst) {
+            gui.hLine(x1, x2, y1, col);
+            gui.vLine(x2, y1, y2, col);
+        } else {
+            gui.vLine(x1, y1, y2, col);
+            gui.hLine(x1, x2, y2, col);
+        }
     }
 
     public enum MuiSlot {

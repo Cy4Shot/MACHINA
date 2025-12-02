@@ -13,8 +13,10 @@ import java.nio.charset.StandardCharsets;
 
 public class StringUtils {
 
-    private static final String[] units = {"", "K", "M", "B", "T", "P", "E", "Z", "Y"};
-    private static final String[] smallUnits = {"", "m", "μ", "n", "p", "f", "a", "z", "y"};
+    private static final String[] SMALL_UNITS = { "", "K", "M", "B", "T", "P", "E", "Z", "Y" };
+    private static final String[] LARGE_UNITS = { "", "m", "μ", "n", "p", "f", "a", "z", "y" };
+    private static final String[] MASS_LARGE_UNITS = { "kg", "t", "kt", "Mt", "Gt", "Tt", "Pt", "Et", "Zt", "Yt" };
+    private static final String[] MASS_SMALL_UNITS = { "kg", "g", "mg", "µg", "ng", "pg", "fg", "ag", "zg", "yg" };
 
     public static final String TREE_V = "│";
     public static final String TREE_H = "─";
@@ -58,18 +60,18 @@ public class StringUtils {
 
         if (number >= 1_000) {
             int magnitude = 0;
-            while (number >= 1_000 && magnitude < units.length - 1) {
+            while (number >= 1_000 && magnitude < SMALL_UNITS.length - 1) {
                 number /= 1_000;
                 magnitude++;
             }
-            return String.format("%.1f%s", number, units[magnitude]);
+            return String.format("%.1f%s", number, SMALL_UNITS[magnitude]);
         } else if (number > 0) {
             int magnitude = 0;
-            while (number < 1 && magnitude < smallUnits.length - 1) {
+            while (number < 1 && magnitude < LARGE_UNITS.length - 1) {
                 number *= 1_000;
                 magnitude++;
             }
-            return String.format("%.1f%s", number, smallUnits[magnitude]);
+            return String.format("%.1f%s", number, LARGE_UNITS[magnitude]);
         }
 
         return String.format("%.1f", number);
@@ -95,12 +97,38 @@ public class StringUtils {
         return formatNumberWithUnit(rad) + "rad";
     }
 
-    public static String formatMass(float mass) {
-        return formatNumberWithUnit(mass * 1_000D) + "g";
+    public static String formatMass(double kg) {
+        String formatted;
+        String unit;
+        if (kg >= 1.0) {
+            int magnitude = 0;
+            double value = kg;
+            while (value >= 1000 && magnitude < MASS_LARGE_UNITS.length - 1) {
+                value /= 1000.0;
+                magnitude++;
+            }
+            formatted = String.format("%.2f", value);
+            unit = MASS_LARGE_UNITS[magnitude];
+        } else if (kg > 0) {
+            int magnitude = 0;
+            double value = kg;
+            while (value < 1 && magnitude < MASS_SMALL_UNITS.length - 1) {
+                value *= 1000.0;
+                magnitude++;
+            }
+            formatted = String.format("%.2f", value);
+            unit = MASS_SMALL_UNITS[magnitude];
+
+        } else {
+            formatted = String.format("%.2f", kg);
+            unit = "kg";
+        }
+        formatted = formatted.replaceAll("\\.?0+$", "");
+        return formatted + unit;
     }
 
     public static String formatPercent(float percent) {
-        return String.format("%.1f%%", percent * 100);
+        return String.format("%.2f%%", percent * 100);
     }
 
     public static String formatTicks(float ticks) {

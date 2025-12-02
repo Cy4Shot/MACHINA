@@ -32,7 +32,8 @@ public class RocketPartBenchRenderer implements BlockEntityRenderer<RocketPartBe
                 float rot = level.getGameTime() % 360;
                 VertexConsumer vc = buff.getBuffer(RenderTypes.CONSTRUCT);
 
-                float eased = (float) (Math.pow(Math.sin(be.getProgressPercent() * Math.PI), 0.75));
+                // Ease on a scaled arcsin
+                float eased = (float) Math.pow(2 * Math.asin(be.getProgressPercent()) / Math.PI, 0.5);
                 Uniform revealAmount = ShaderHandler.ROCKET_PART_BENCH.instance().getUniform("RevealAmount");
                 if (revealAmount != null) {
                     revealAmount.set(eased);
