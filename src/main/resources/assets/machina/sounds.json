@@ -61,7 +61,22 @@
 				"preload": true
 			},
 			{
+				"name": "machina:music/machina_07",
+				"stream": true,
+				"preload": true
+			},
+			{
 				"name": "machina:music/machina_08",
+				"stream": true,
+				"preload": true
+			},
+			{
+				"name": "machina:music/machina_09",
+				"stream": true,
+				"preload": true
+			},
+			{
+				"name": "machina:music/machina_10",
 				"stream": true,
 				"preload": true
 			}
