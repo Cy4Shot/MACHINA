@@ -5,49 +5,49 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.machina.api.fluid.ChemicalFluid;
 import com.machina.api.starchart.StarchartConst;
 import com.machina.api.starchart.planet_type.PlanetType;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
-import com.machina.api.util.ChemicalConstants;
-import com.machina.api.util.ChemicalConstants.FluidTempState;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
 public record Planet(String name, ResourceLocation planet_type, double a, // semi-major axis of the orbit (in AU)
-                     double e, // eccentricity of the orbit
-                     double where_in_orbit, // position along orbit (in radians)
-                     double mass, // mass (in Earth masses)
-                     boolean gas_giant, // true if the planet is gassy
-                     int orbit_zone, // the 'zone' of the planet
-                     double radius, // equatorial radius (in km)
-                     double density, // density (in g/cc)
-                     double orb_period, // length of the local year (days)
-                     double day, // length of the local day (hours)
-                     int resonant_period, // true if in resonant rotation
-                     int axial_tilt, // units of degrees
-                     double esc_velocity, // units of cm/sec
-                     double surf_accel, // units of cm/sec2
-                     double surf_grav, // units of Earth gravities
-                     double rms_velocity, // units of cm/sec
-                     double molec_weight, // smallest molecular weight retained
-                     double volatile_gas_inventory, double GH2, double GH2O, double GN2, double GO2, double GCO2,
-                     // gas retention
-                     // percentages
-                     double surf_pressure, // units of millibars (mb)
-                     boolean greenhouse_effect, // runaway greenhouse effect?
-                     double boil_point, // the boiling point of water (Kelvin)
-                     double albedo, // albedo of the planet
-                     double surf_temp, // surface temperature in Kelvin
-                     double min_temp, double max_temp, // surface temperature ranges
-                     double avg_temp, // weighted average of iterations
-                     double hydrosphere, // fraction of surface covered
-                     double cloud_cover, // fraction of surface covered
-                     double ice_cover, // fraction of surface covered
-                     char plan_class, // general type classification
-                     double r_ecosphere, double resonance, double stell_mass_ratio, double age, double cloud_factor,
-                     double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
-                     double airless_ice_factor, int its, boolean temp_unstable, List<Moon> moons) implements Celestial {
+        double e, // eccentricity of the orbit
+        double where_in_orbit, // position along orbit (in radians)
+        double mass, // mass (in Earth masses)
+        boolean gas_giant, // true if the planet is gassy
+        int orbit_zone, // the 'zone' of the planet
+        double radius, // equatorial radius (in km)
+        double density, // density (in g/cc)
+        double orb_period, // length of the local year (days)
+        double day, // length of the local day (hours)
+        int resonant_period, // true if in resonant rotation
+        int axial_tilt, // units of degrees
+        double esc_velocity, // units of cm/sec
+        double surf_accel, // units of cm/sec2
+        double surf_grav, // units of Earth gravities
+        double rms_velocity, // units of cm/sec
+        double molec_weight, // smallest molecular weight retained
+        double volatile_gas_inventory, double GH2, double GH2O, double GN2, double GO2, double GCO2,
+        // gas retention
+        // percentages
+        double surf_pressure, // units of millibars (mb)
+        boolean greenhouse_effect, // runaway greenhouse effect?
+        double boil_point, // the boiling point of water (Kelvin)
+        double albedo, // albedo of the planet
+        double surf_temp, // surface temperature in Kelvin
+        double min_temp, double max_temp, // surface temperature ranges
+        double avg_temp, // weighted average of iterations
+        double hydrosphere, // fraction of surface covered
+        double cloud_cover, // fraction of surface covered
+        double ice_cover, // fraction of surface covered
+        char plan_class, // general type classification
+        double r_ecosphere, double resonance, double stell_mass_ratio, double age, double cloud_factor,
+        double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
+        double airless_ice_factor, int its, boolean temp_unstable, ChemicalFluid dominant_liquid,
+        boolean dominant_liquid_frozen, List<Moon> moons) implements Celestial {
 
     @Override
     public double radiusAU() {
@@ -97,33 +97,15 @@ public record Planet(String name, ResourceLocation planet_type, double a, // sem
     // Extra Props
 
     public boolean hasGenLiquid() {
-        return getDominantLiquidChemical() != null;
+        return dominant_liquid != null;
     }
 
     public boolean isFluidFrozen() {
-        ChemicalConstants c = getDominantLiquidChemical();
-        if (c != null) {
-            return c.fluidState(surf_temp).equals(FluidTempState.SOLID);
-        }
-        return false;
-    }
-
-    public ChemicalConstants getDominantLiquidChemical() {
-        for (ChemicalConstants c : ChemicalConstants.OCEANIC) {
-            if (molec_weight < c.molec_mass() && c.fluidState(surf_temp).equals(FluidTempState.LIQUID)) {
-                return c;
-            }
-        }
-        if (ChemicalConstants.LAVA.fluidState(surf_temp).equals(FluidTempState.LIQUID)) {
-            return ChemicalConstants.LAVA;
-        }
-
-        return null;
+        return dominant_liquid_frozen;
     }
 
     public BlockState getDominantLiquidBodyBlock() {
-        ChemicalConstants fluid = getDominantLiquidChemical();
-        return fluid == null ? null : fluid.state().createLegacyBlock();
+        return dominant_liquid == null ? null : dominant_liquid.fluid().defaultFluidState().createLegacyBlock();
     }
 
     public boolean doesRain() {

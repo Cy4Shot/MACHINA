@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.machina.api.fluid.ChemicalFluid;
+import com.machina.api.fluid.FluidPhase;
 import com.machina.api.starchart.burke.AccreteObject;
 import com.machina.api.starchart.burke.BPlanet;
 import com.machina.api.starchart.burke.BStar;
@@ -14,11 +16,17 @@ import com.machina.api.starchart.obj.SolarSystem;
 import com.machina.api.starchart.obj.Star;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.api.util.math.RomanNumber;
+import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.resources.ResourceLocation;
 
 public class StarchartGenerator {
+
+    public static final FluidObject[] OCEANIC = new FluidObject[] { FluidInit.AMMONIA, FluidInit.METHANE,
+            FluidInit.SULPHUR_DIOXIDE, FluidInit.SULPHURIC_ACID, FluidInit.CARBON_DISULPHIDE,
+            FluidInit.HYDROGEN_SULPHIDE };
 
     public static SolarSystem gen(long seed, String name) {
         Random rand = new Random(seed);
@@ -40,6 +48,25 @@ public class StarchartGenerator {
         return new SolarSystem(seed, name + " System", star, planets);
     }
 
+    private static ChemicalFluid getDominantLiquidChemical(BPlanet p, Random rand) {
+        if (p.water_factor > 0) {
+            return ChemicalFluid.WATER;
+        }
+
+        List<FluidObject> filtered = new ArrayList<>();
+        for (FluidObject obj : OCEANIC) {
+            if (obj.chem().getPhase(p.surf_temp, p.surf_pressure * 100d).equals(FluidPhase.LIQUID)) {
+                filtered.add(obj);
+            }
+        }
+        if (!filtered.isEmpty()) {
+            FluidObject sel = filtered.get(rand.nextInt(0, filtered.size()));
+            return new ChemicalFluid(sel.chem(), sel.fluid());
+        }
+
+        return null;
+    }
+
     private static Star convertStar(String name, BStar sp) {
         return new Star(name, sp.classCode(), sp.VM, sp.LUM, sp.SM, sp.main_seq_life, sp.age, sp.radius, sp.r_ecosphere,
                 sp.r_greenhouse);
@@ -59,14 +86,20 @@ public class StarchartGenerator {
         }
 
         ResourceLocation type = PlanetTypeLoader.INSTANCE.pickRandom(rand);
-
+        
+        ChemicalFluid sea = getDominantLiquidChemical(p, rand);
+        boolean frozen_sea = false;
+        if (sea != null) {
+            frozen_sea = sea.chem().getPhase(p.surf_temp, p.surf_pressure * 100d).equals(FluidPhase.SOLID);
+        }
+        
         Planet planet = new Planet(name, type, p.a, p.e, p.where_in_orbit, p.mass, p.gas_giant, p.orbit_zone, p.radius,
                 p.density, p.orb_period, p.day, p.resonant_period, p.axial_tilt, p.esc_velocity, p.surf_accel,
                 p.surf_grav, p.rms_velocity, p.molec_weight, p.volatile_gas_inventory, p.GH2, p.GH2O, p.GN2, p.GO2,
                 p.GCO2, p.surf_pressure, p.greenhouse_effect, p.boil_point, p.albedo, p.surf_temp, p.min_temp,
                 p.max_temp, p.avg_temp, p.hydrosphere, p.cloud_cover, p.ice_cover, p.plan_class, p.r_ecosphere,
                 p.resonance, p.stell_mass_ratio, p.age, p.cloud_factor, p.water_factor, p.rock_factor,
-                p.airless_rock_factor, p.ice_factor, p.airless_ice_factor, p.its, p.temp_unstable, moons);
+                p.airless_rock_factor, p.ice_factor, p.airless_ice_factor, p.its, p.temp_unstable, sea, frozen_sea, moons);
         return Pair.of(planet, p.next_planet);
     }
 

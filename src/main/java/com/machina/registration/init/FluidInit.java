@@ -1,10 +1,19 @@
 package com.machina.registration.init;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
+import org.joml.Vector3f;
+
 import com.google.common.base.Function;
 import com.machina.Machina;
 import com.machina.api.fluid.BaseFluidType;
+import com.machina.api.fluid.FluidPhase;
 import com.machina.api.item.MachinaBucket;
+import com.machina.api.natives.CoolpropJNA;
 import com.machina.api.util.StringUtils;
+
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -22,11 +31,6 @@ import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.joml.Vector3f;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
 
 public class FluidInit {
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS,
@@ -49,35 +53,36 @@ public class FluidInit {
     public static final FluidObject MOLTEN_CONSTANTAN = create("molten_constantan", "Cu+Ni", 0xFF_c67600);
     public static final FluidObject MOLTEN_BISMUTH = create("molten_bismuth", "Bi", 0xFF_597c7a);
 
-    public static final FluidObject OXYGEN = create("oxygen", "O2", 0xFF_ffffff);
-    public static final FluidObject NITROGEN = create("nitrogen", "N2", 0xFF_b2d4db);
-    public static final FluidObject AMMONIA = create("ammonia", "NH3", 0xFF_44db6c);
-    public static final FluidObject CARBON_DIOXIDE = create("carbon_dioxide", "CO2", 0xFF_f7e4c1);
+    public static final FluidObject OXYGEN = create("oxygen", "O2", 0xFF_ffffff, "Oxygen");
+    public static final FluidObject NITROGEN = create("nitrogen", "N2", 0xFF_b2d4db, "Nitrogen");
+    public static final FluidObject AMMONIA = create("ammonia", "NH3", 0xFF_44db6c, "Ammonia");
+    public static final FluidObject CARBON_DIOXIDE = create("carbon_dioxide", "CO2", 0xFF_f7e4c1, "CarbonDioxide");
     public static final FluidObject CARBON_DISULPHIDE = create("carbon_disulphide", "CS2", 0xFF_f2d891);
-    public static final FluidObject HYDROGEN = create("hydrogen", "H2", 0xFF_6ce2ff);
-    public static final FluidObject METHANE = create("methane", "CH4", 0xFF_ece0f9);
-    public static final FluidObject ETHANE = create("ethane", "C2H6", 0xFF_bbd68d);
-    public static final FluidObject ETHYLENE = create("ethylene", "C2H4", 0xFF_8dd6be);
+    public static final FluidObject HYDROGEN = create("hydrogen", "H2", 0xFF_6ce2ff, "Hydrogen");
+    public static final FluidObject METHANE = create("methane", "CH4", 0xFF_ece0f9, "Methane");
+    public static final FluidObject ETHANE = create("ethane", "C2H6", 0xFF_bbd68d, "Ethane");
+    public static final FluidObject ETHYLENE = create("ethylene", "C2H4", 0xFF_8dd6be, "Ethylene");
     public static final FluidObject CHLORINE = create("chlorine", "Cl2", 0xFF_bfd25f);
     public static final FluidObject BORON_TRIFLUORIDE = create("boron_trifluoride", "BF3", 0xFF_f8f9fa);
     public static final FluidObject FORMALDEHYDE = create("formaldehyde", "CH2O", 0xFF_f5f5f5);
     public static final FluidObject NITROGEN_DIOXIDE = create("nitrogen_dioxide", "NO2", 0xFF_560003);
-    public static final FluidObject SULPHUR_DIOXIDE = create("sulphur_dioxide", "SO2", 0xFF_f3f7ef);
+    public static final FluidObject SULPHUR_DIOXIDE = create("sulphur_dioxide", "SO2", 0xFF_f3f7ef, "SulfurDioxide");
     public static final FluidObject HYDROGEN_BROMIDE = create("hydrogen_bromide", "HBr", 0xFF_e3e3e3);
-    public static final FluidObject HYDROGEN_SULPHIDE = create("hydrogen_sulphide", "H2S", 0xFF_acaeb5);
-    public static final FluidObject CARBON_MONOXIDE = create("carbon_monoxide", "CO", 0xFF_e0b9b6);
-    public static final FluidObject ARGON = create("argon", "Ar", 0xFF_cfcfd0);
-    public static final FluidObject HELIUM = create("helium", "He", 0xFF_e1e1e1);
+    public static final FluidObject HYDROGEN_SULPHIDE = create("hydrogen_sulphide", "H2S", 0xFF_acaeb5,
+            "HydrogenSulfide");
+    public static final FluidObject CARBON_MONOXIDE = create("carbon_monoxide", "CO", 0xFF_e0b9b6, "CarbonMonoxide");
+    public static final FluidObject ARGON = create("argon", "Ar", 0xFF_cfcfd0, "Argon");
+    public static final FluidObject HELIUM = create("helium", "He", 0xFF_e1e1e1, "Helium");
     public static final FluidObject ACETIC_ACID = create("acetic_acid", "CH3COOH", 0xFF_fbfff1);
     public static final FluidObject BRINE = create("brine", "NaCl", 0xFF_63d1ea);
     public static final FluidObject SULPHUR_TRIOXIDE = create("sulphur_trioxide", "SO3", 0xFF_fafafa);
     public static final FluidObject HYDROCHLORIC_ACID = create("hydrochloric_acid", "HCl", 0xFF_fafbf8);
     public static final FluidObject SULPHURIC_ACID = create("sulphuric_acid", "H2SO4", 0xFF_fcfff8);
     public static final FluidObject BROMINE = create("bromine", "Br2", 0xFF_fc6f37);
-    public static final FluidObject BENZENE = create("benzene", "C6H6", 0xFF_c9cbc6);
+    public static final FluidObject BENZENE = create("benzene", "C6H6", 0xFF_c9cbc6, "Benzene");
     public static final FluidObject TOLUENE = create("toluene", "C6H5CH3", 0xFF_d7dadb);
-    public static final FluidObject METHANOL = create("methanol", "CH3OH", 0xFF_ecefe6);
-    public static final FluidObject ETHANOL = create("ethanol", "CH3CH2OH", 0xFF_f7fdfb);
+    public static final FluidObject METHANOL = create("methanol", "CH3OH", 0xFF_ecefe6, "Methanol");
+    public static final FluidObject ETHANOL = create("ethanol", "CH3CH2OH", 0xFF_f7fdfb, "Ethanol");
     public static final FluidObject HYDROGEN_FLUORIDE = create("hydrogen_fluoride", "HF", 0xFF_e6e7eb);
     public static final FluidObject ACETALDEHYDE = create("acetaldehyde", "CH3CHO", 0xFF_f2f2f2);
     public static final FluidObject BENZYL_CHLORIDE = create("benzyl_chloride", "C6H5CH2Cl", 0xFF_dbdbdc);
@@ -92,6 +97,10 @@ public class FluidInit {
 
     public static FluidObject create(String name, String code, int col) {
         return new FluidObject(name, code, b -> b.col(col));
+    }
+
+    public static FluidObject create(String name, String code, int col, String coolprops) {
+        return new FluidObject(name, code, b -> b.col(col).coolprops(coolprops));
     }
 
     public static class FluidObject {
@@ -170,7 +179,7 @@ public class FluidInit {
         }
 
         private static ForgeFlowingFluid.Properties make(Supplier<FluidType> type, Supplier<FlowingFluid> still,
-                                                         Supplier<FlowingFluid> flowing, Supplier<MachinaBucket> bucket, Supplier<LiquidBlock> block) {
+                Supplier<FlowingFluid> flowing, Supplier<MachinaBucket> bucket, Supplier<LiquidBlock> block) {
             return new ForgeFlowingFluid.Properties(type, still, flowing).bucket(bucket).block(block);
         }
 
@@ -191,7 +200,7 @@ public class FluidInit {
         private final Chemical c;
 
         private ChemicalBuilder() {
-            c = new Chemical("", 0, 0, 1);
+            c = new Chemical("", 0, 0, 1, null);
         }
 
         public ChemicalBuilder col(int v) {
@@ -201,6 +210,11 @@ public class FluidInit {
 
         public ChemicalBuilder lum(int v) {
             c.luminosity = v;
+            return this;
+        }
+
+        public ChemicalBuilder coolprops(String coolprops) {
+            c.coolprops = coolprops;
             return this;
         }
 
@@ -215,16 +229,21 @@ public class FluidInit {
     }
 
     public static class Chemical {
+
+        public static final Chemical WATER = new Chemical("Water", 0x0000FF, 0, 1, "Water");
+
         private String name;
         private int color;
         private int luminosity;
         private final int density;
+        private String coolprops;
 
-        public Chemical(String name, int color, int luminosity, int density) {
+        public Chemical(String name, int color, int luminosity, int density, String coolprops) {
             this.name = name;
             this.color = color;
             this.luminosity = luminosity;
             this.density = density;
+            this.coolprops = coolprops;
         }
 
         public String getName() {
@@ -245,6 +264,43 @@ public class FluidInit {
 
         public int getLuminosity() {
             return luminosity;
+        }
+
+        public String getCoolpropsID() {
+            return this.coolprops;
+        }
+
+        public FluidPhase getPhase(double T, double P) {
+            if (this.coolprops == null) {
+                return FluidPhase.UNDEFINED;
+            }
+
+            String phaseStr;
+            try {
+                phaseStr = CoolpropJNA.PhaseSI("T", T, "P", P, this.coolprops);
+            } catch (Exception e) {
+                return FluidPhase.UNDEFINED;
+            }
+
+            // We abstract things a bittle bit here :)
+            switch (phaseStr.toLowerCase()) {
+            case "liquid":
+                return FluidPhase.LIQUID;
+            case "gas":
+                return FluidPhase.VAPOR;
+            case "two_phase":
+                return FluidPhase.LIQUID;
+            case "supercritical":
+                return FluidPhase.SUPERCRITICAL;
+            case "supercritical_liquid":
+                return FluidPhase.LIQUID;
+            case "supercritical_gas":
+                return FluidPhase.VAPOR;
+            case "solid":
+                return FluidPhase.SOLID;
+            default:
+                return FluidPhase.UNDEFINED;
+            }
         }
     }
 
