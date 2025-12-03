@@ -136,6 +136,10 @@ public class StringUtils {
     }
 
     public static MutableComponent fluid(FluidStack stack, boolean bold) {
+        if (stack.isEmpty()) {
+            return Component.translatable(Machina.MOD_ID + ".none_fluid").withStyle(Style.EMPTY.withBold(bold)
+                    .withColor(IClientFluidTypeExtensions.of(stack.getFluid()).getTintColor()));
+        }
         return stack.getDisplayName().copy().withStyle(
                 Style.EMPTY.withBold(bold).withColor(IClientFluidTypeExtensions.of(stack.getFluid()).getTintColor()));
     }

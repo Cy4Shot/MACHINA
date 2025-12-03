@@ -34,6 +34,7 @@ public class MachinaNetwork {
         c2s(C2SItemMenuSync.class);
         c2s(C2SSideConfig.class);
         c2s(C2SPartBenchCraft.class);
+        c2s(C2SAssemblyStationCraft.class);
 
         s2c(S2COpenDirectionalContainer.class);
         s2c(S2CFluidSync.class);

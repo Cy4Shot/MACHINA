@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 import com.machina.api.item.RocketPartItem;
 import com.machina.client.rocket.model.RocketPartModel;
 import com.machina.registration.init.RegistryInit;
-import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.RegistryInit.RocketPartCallbacks;
 
 import net.minecraft.nbt.CompoundTag;

@@ -154,6 +154,7 @@ public class CelestialRenderer {
         RenderSystem.depthMask(true);
     }
 
+    @SuppressWarnings("unused")
     private static void drawBillboard(PoseStack matrices, ResourceLocation texture, float size, int color) {
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, texture);

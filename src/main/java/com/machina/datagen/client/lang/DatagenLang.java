@@ -1,5 +1,12 @@
 package com.machina.datagen.client.lang;
 
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.swing.text.JTextComponent.KeyBinding;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.rocket.part.RocketPart;
@@ -7,6 +14,7 @@ import com.machina.api.rocket.part.RocketPartType;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit.Fruit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
+
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -15,11 +23,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.text.JTextComponent.KeyBinding;
-import java.util.Map;
-import java.util.TreeMap;
 
 public abstract class DatagenLang extends LanguageProvider {
 
@@ -85,7 +88,7 @@ public abstract class DatagenLang extends LanguageProvider {
     }
 
     protected void addUI(String key, String name) {
-        add("gui.machina." + key, name);
+        add("gui." + modid + "." + key, name);
     }
 
     protected void addKeyCategory(String category, String name) {
@@ -95,6 +98,10 @@ public abstract class DatagenLang extends LanguageProvider {
     public void addMusicDisc(Item key, String desc) {
         add(key.getDescriptionId(), this.music_disc);
         add(key.getDescriptionId() + ".desc", desc);
+    }
+    
+    protected void addMisc(String thing, String name) {
+        add(modid + "." + thing, name);
     }
 
     public void add(@NotNull String key, @NotNull String value) {

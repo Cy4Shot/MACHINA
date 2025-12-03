@@ -625,6 +625,8 @@ public class DatagenLangEnUs extends DatagenLang {
         add(RocketPartType.SHIELD, "Shielding");
         add(RocketPartType.THRUSTER, "Thruster");
 
+        addMisc("none_fluid", "None");
+
         // UI
         addUI("none", "");
 
@@ -773,5 +775,24 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket_part_bench.unavailable", "(Unavailable)");
         addUI("rocket_part_bench.progress", "Crafting");
         addUI("rocket_part_bench.no_power", "No Power");
+
+        addUI("rocket_assembly_station.mass", "Mass");
+        addUI("rocket_assembly_station.fuel_type", "Fuel");
+        addUI("rocket_assembly_station.coolant_type", "Coolant");
+        addUI("rocket_assembly_station.fuel_capacity", "Fuel Cap");
+        addUI("rocket_assembly_station.coolant_capacity", "Coolant Cap");
+        addUI("rocket_assembly_station.fuel_efficiency", "Fuel Eff");
+        addUI("rocket_assembly_station.coolant_efficiency", "Coolant Eff");
+        addUI("rocket_assembly_station.storage", "Storage Slots");
+        addUI("rocket_assembly_station.max_pressure", "Max Pressure");
+        addUI("rocket_assembly_station.craft", "Craft");
+        addUI("rocket_assembly_station.unavailable", "(Unavailable)");
+        addUI("rocket_assembly_station.progress", "Crafting");
+        addUI("rocket_assembly_station.no_power", "No Power");
+        addUI("rocket_assembly_station.chassis", "Chassis");
+        addUI("rocket_assembly_station.fuel_tank", "Fuel Tank");
+        addUI("rocket_assembly_station.life_support", "Life Support");
+        addUI("rocket_assembly_station.shield", "Shields");
+        addUI("rocket_assembly_station.thruster", "Thrusters");
     }
 }
