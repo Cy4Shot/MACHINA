@@ -1,7 +1,8 @@
-package com.machina.client.rocket.model.life_support;
+package com.machina.client.model.rocket;
 
+import com.machina.api.client.model.rocket.RocketPartModel;
 import com.machina.api.util.MachinaRL;
-import com.machina.client.rocket.model.RocketPartModel;
+
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -57,7 +58,7 @@ public class SimpleLifeSupportModel extends RocketPartModel {
     }
 
     @Override
-    protected ModelPart main() {
+    public ModelPart main() {
         return this.LifeSupport;
     }
 

@@ -3,8 +3,8 @@ package com.machina.api.rocket.part;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import com.machina.api.client.model.rocket.RocketPartModel;
 import com.machina.api.item.RocketPartItem;
-import com.machina.client.rocket.model.RocketPartModel;
 import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.RegistryInit.RocketPartCallbacks;
 
@@ -62,9 +62,13 @@ public class RocketPart<T extends RocketPartModel> {
     public float getGUIScale() {
         return (1f / height) * guiScale;
     }
+    
+    public float getModelHeight() {
+        return height;
+    }
 
     public float getModelOffset() {
-        return height + offset;
+        return offset;
     }
 
     @SuppressWarnings("unchecked")

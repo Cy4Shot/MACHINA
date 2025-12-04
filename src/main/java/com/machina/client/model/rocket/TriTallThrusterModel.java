@@ -1,7 +1,8 @@
-package com.machina.client.rocket.model.thrusters;
+package com.machina.client.model.rocket;
 
+import com.machina.api.client.model.rocket.RocketPartModel;
 import com.machina.api.util.MachinaRL;
-import com.machina.client.rocket.model.RocketPartModel;
+
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -34,7 +35,7 @@ public class TriTallThrusterModel extends RocketPartModel {
     }
 
     @Override
-    protected ModelPart main() {
+    public ModelPart main() {
         return this.thrusters;
     }
 

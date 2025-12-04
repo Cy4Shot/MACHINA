@@ -1,4 +1,4 @@
-package com.machina.client.rocket.model;
+package com.machina.api.client.model.rocket;
 
 import com.machina.api.rocket.RocketEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,7 +22,7 @@ public abstract class RocketPartModel extends EntityModel<RocketEntity> {
 
     protected abstract LayerDefinition createBodyLayer();
 
-    protected abstract ModelPart main();
+    public abstract ModelPart main();
 
     public void render(PoseStack poseStack, MultiBufferSource source, int packedLight, int packedOverlay, float red,
                        float green, float blue, float alpha) {

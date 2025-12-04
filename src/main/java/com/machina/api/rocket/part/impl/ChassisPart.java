@@ -2,9 +2,9 @@ package com.machina.api.rocket.part.impl;
 
 import java.util.function.Supplier;
 
+import com.machina.api.client.model.rocket.RocketPartModel;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
-import com.machina.client.rocket.model.RocketPartModel;
 import com.machina.registration.init.FluidInit.FluidObject;
 
 import net.minecraft.resources.ResourceLocation;
