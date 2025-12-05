@@ -106,7 +106,7 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
     }
 
     public int getMaxProgress() {
-        return 500;
+        return 200;
     }
 
     public float getProgressPercent() {
@@ -170,8 +170,9 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
             if (this.progress == 0) {
                 ItemStack rocket = new ItemStack(ItemInit.ROCKET.get(), 1);
                 for (RocketPartType type : RocketPartType.values()) {
-                    RocketItem.set(rocket, type, this.parts[type.ordinal()]);
+                    RocketItem.setPart(rocket, type, this.parts[type.ordinal()]);
                 }
+                RocketItem.initProperties(rocket);
 
                 Vec3 pos = this.getBlockPos().above().getCenter();
                 ItemEntity itementity = new ItemEntity(level, pos.x, pos.y, pos.z, rocket);

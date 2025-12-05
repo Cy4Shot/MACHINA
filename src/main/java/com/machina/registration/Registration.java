@@ -29,6 +29,7 @@ public class Registration {
         FluidInit.FLUID_TYPES.register(bus);
         FruitInit.register();
         EntityTypeInit.ENTITY_TYPES.register(bus);
+        EntityDataSerializerInit.ENTITY_DATA_SERIALIZERS.register(bus);
         TabInit.CREATIVE_MODE_TABS.register(bus);
         BlockEntityInit.BLOCK_ENTITY_TYPES.register(bus);
         MenuTypeInit.MENU_TYPES.register(bus);

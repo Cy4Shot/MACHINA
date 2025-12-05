@@ -30,7 +30,7 @@ public class RocketBEWLR extends BlockEntityWithoutLevelRenderer {
         if (stack.getItem() instanceof RocketItem) {
             RocketModelBuilder builder = new RocketModelBuilder();
             for (RocketPartType type : RocketPartType.values()) {
-                builder.add(RocketItem.get(stack, type));
+                builder.add(RocketItem.getPart(stack, type));
             }
             RocketModel model = builder.build();
             float scale = model.getGUIScale();

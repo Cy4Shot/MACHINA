@@ -5,6 +5,7 @@ import com.machina.api.client.ClientTimer;
 import com.machina.api.client.cinema.CinematicHandler;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextOverlay;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
+import com.machina.api.client.entity.RocketRenderer;
 import com.machina.api.client.shader.ShaderHandler;
 import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
@@ -17,6 +18,7 @@ import com.machina.client.screen.menu.item.AdvancedItemFilterScreen;
 import com.machina.client.screen.menu.item.FluidFilterScreen;
 import com.machina.client.screen.menu.item.ItemFilterScreen;
 import com.machina.registration.init.BlockEntityInit;
+import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.KeyBindingInit;
@@ -109,6 +111,7 @@ public class ClientModEvents {
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(BlockEntityInit.SIGN.get(), SignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntityInit.HANGING_SIGN.get(), HangingSignRenderer::new);
+        event.registerEntityRenderer(EntityTypeInit.ROCKET.get(), RocketRenderer::new);
     }
 
     @SubscribeEvent
