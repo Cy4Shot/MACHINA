@@ -70,6 +70,10 @@ public class RocketItem extends Item {
         final RocketProps props = RocketProps.fromParts(thruster, fuel_tank, chassis, life_support, shield);
         stack.getOrCreateTag().put(PROPERTY_KEY, props.toNBT());
     }
+    
+    public static void setProperties(ItemStack stack, RocketProps props) {
+        stack.getOrCreateTag().put(PROPERTY_KEY, props.toNBT());
+    }
 
     private static RocketProps getProperties(ItemStack stack) {
         if (!stack.getOrCreateTag().contains(PROPERTY_KEY)) {

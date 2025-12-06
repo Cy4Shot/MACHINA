@@ -20,12 +20,13 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelStorage, float fuelEfficiency,
         Fluid coolantType, int coolantStorage, float coolantEfficiency, int slots, float maxPressure,
-        List<RocketPart<?>> parts) {
+        List<RocketPart<?>> parts, AABB boundingBox) {
 
     public static final EntityDataSerializer<RocketProps> SERIALIZER = new EntityDataSerializer.ForValueType<RocketProps>() {
         @Override
@@ -62,11 +63,21 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
                 parts.add(RegistryInit.ROCKET_PARTS_REGISTRY.get().getValue(buf.readResourceLocation()));
             }
             return new RocketProps(false, mass, fuel.getFluid(), fuel.getAmount(), fuelEfficiency, coolant.getFluid(),
-                    coolant.getAmount(), coolantEfficiency, slots, maxPressure, parts);
+                    coolant.getAmount(), coolantEfficiency, slots, maxPressure, parts, calculateAABB(parts));
         }
     };
 
-    public static final RocketProps NULL = new RocketProps(true, 0, null, 0, 0, null, 0, 0, 0, 0, List.of());
+    public static final RocketProps NULL = new RocketProps(true, 0, null, 0, 0, null, 0, 0, 0, 0, List.of(),
+            new AABB(0, 0, 0, 1, 1, 1));
+    
+    private static final AABB calculateAABB(List<RocketPart<?>> parts) {
+        float maxY = 0;
+        for (RocketPart<?> part : parts) {
+            maxY += part.getModelHeight();
+            maxY += part.getModelOffset();
+        }
+        return new AABB(-0.5, 0, -0.5, 0.5, maxY, 0.5);
+    }
 
     private static final String PROPERTY_EMPTY = "nully";
     private static final String PROPERTY_MASS = "mass";
@@ -84,10 +95,11 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
             LifeSupportPart<?> lifeSupport, ShieldPart<?> shield) {
         float mass = thruster.getMass() + fuelTank.getMass() + chassis.getMass() + lifeSupport.getMass()
                 + shield.getMass();
+        List<RocketPart<?>> parts = List.of(thruster, fuelTank, chassis, lifeSupport, shield);
         return new RocketProps(false, mass, thruster.getFuel().fluid(), fuelTank.getFuelStorage(),
                 thruster.getFuelEfficiency(), chassis.getCoolant().fluid(), fuelTank.getCoolantStorage(),
                 chassis.getCoolantEfficiency(), lifeSupport.getSlots(), shield.getMaxAtmPressure(),
-                List.of(thruster, fuelTank, chassis, lifeSupport, shield));
+                parts, calculateAABB(parts));
     }
 
     public static RocketProps fromNBT(CompoundTag tag) {
@@ -106,7 +118,7 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
         return new RocketProps(false, tag.getFloat(PROPERTY_MASS), fuel, tag.getInt(PROPERTY_FUEL_STORAGE),
                 tag.getFloat(PROPERTY_FUEL_EFFICIENCY), coolant, tag.getInt(PROPERTY_COOLANT_STORAGE),
                 tag.getFloat(PROPERTY_COOLANT_EFFICIENCY), tag.getInt(PROPERTY_SLOTS),
-                tag.getFloat(PROPERTY_MAX_PRESSURE), parts);
+                tag.getFloat(PROPERTY_MAX_PRESSURE), parts, calculateAABB(parts));
     }
 
     public CompoundTag toNBT() {

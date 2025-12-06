@@ -5,7 +5,9 @@ import javax.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.model.rocket.RocketModel;
+import com.machina.api.item.RocketItem;
 import com.machina.registration.init.EntityTypeInit;
+import com.machina.registration.init.ItemInit;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -19,11 +21,15 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HasCustomInventoryScreen;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
@@ -74,6 +80,22 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     @Override
     protected void defineSynchedData() {
         this.entityData.define(PROPS, RocketProps.NULL);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        // Apply Gravity
+        double d0 = 0.08D;
+        float f3 = 0.91F;
+        this.move(MoverType.SELF, this.getDeltaMovement());
+        Vec3 vec35 = this.getDeltaMovement();
+        double d2 = vec35.y;
+        if (!this.isNoGravity()) {
+            d2 -= d0;
+        }
+        this.setDeltaMovement(vec35.x * (double) f3, d2 * (double) 0.98F, vec35.z * (double) f3);
     }
 
     @Override
@@ -141,5 +163,35 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         if (props == null)
             return null;
         return new RocketModel(props.parts());
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return true;
+    }
+
+    public void destroyRocket() {
+        ItemStack item = new ItemStack(ItemInit.ROCKET.get());
+        RocketItem.setProperties(item, getProps());
+        this.spawnAtLocation(item);
+
+        if (this.inventory != null) {
+            for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
+                ItemStack itemstack = this.inventory.getItem(i);
+                if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack)) {
+                    this.spawnAtLocation(itemstack);
+                }
+            }
+        }
+
+        this.kill();
+    }
+
+    @Override
+    protected AABB makeBoundingBox() {
+        RocketProps props = getProps();
+        if (props == null)
+            return super.makeBoundingBox();
+        return props.boundingBox().move(this.position());
     }
 }

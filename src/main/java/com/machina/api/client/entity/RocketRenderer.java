@@ -25,7 +25,10 @@ public class RocketRenderer extends EntityRenderer<RocketEntity> {
     public void render(RocketEntity e, float yaw, float part, PoseStack pose, MultiBufferSource buff, int light) {
         RocketModel model = e.getModel();
         if (model != null) {
+            pose.pushPose();
+            pose.scale(1, -1, -1);
             model.render(pose, buff, light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+            pose.popPose();
         }
     }
 }
