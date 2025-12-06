@@ -2,6 +2,7 @@ package com.machina.api.client.entity;
 
 import com.machina.api.client.model.rocket.RocketModel;
 import com.machina.api.rocket.RocketEntity;
+import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -27,6 +28,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity> {
         if (model != null) {
             pose.pushPose();
             pose.scale(1, -1, -1);
+            pose.mulPose(VecUtil.rotationDegrees(VecUtil.YP, e.getYRot()));
             model.render(pose, buff, light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
             pose.popPose();
         }

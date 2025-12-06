@@ -22,22 +22,19 @@ import com.machina.registration.init.RocketPartInit;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class RocketItem extends Item {
@@ -70,7 +67,7 @@ public class RocketItem extends Item {
         final RocketProps props = RocketProps.fromParts(thruster, fuel_tank, chassis, life_support, shield);
         stack.getOrCreateTag().put(PROPERTY_KEY, props.toNBT());
     }
-    
+
     public static void setProperties(ItemStack stack, RocketProps props) {
         stack.getOrCreateTag().put(PROPERTY_KEY, props.toNBT());
     }
@@ -143,31 +140,29 @@ public class RocketItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        BlockHitResult blockhitresult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
-        if (blockhitresult.getType() != HitResult.Type.BLOCK) {
-            return InteractionResultHolder.pass(itemstack);
-        } else if (!(level instanceof ServerLevel)) {
-            return InteractionResultHolder.success(itemstack);
-        } else {
-            BlockPos blockpos = blockhitresult.getBlockPos();
-            if (level.mayInteract(player, blockpos)
-                    && player.mayUseItemAt(blockpos, blockhitresult.getDirection(), itemstack)) {
-                RocketEntity rocket = new RocketEntity(level, getProperties(itemstack));
-                rocket.setPos(blockpos.getCenter());
-                level.addFreshEntity(rocket);
+    public InteractionResult useOn(UseOnContext ctx) {
+        ItemStack itemstack = ctx.getItemInHand();
+        if (!(ctx.getLevel() instanceof ServerLevel)) {
+            return InteractionResult.SUCCESS;
+        } else if (ctx.getClickedFace().equals(Direction.UP)) {
+            BlockPos blockpos = ctx.getClickedPos();
+            if (ctx.getLevel().mayInteract(ctx.getPlayer(), blockpos)
+                    && ctx.getPlayer().mayUseItemAt(blockpos, Direction.UP, itemstack)) {
+                RocketEntity rocket = new RocketEntity(ctx.getLevel(), getProperties(itemstack));
+                rocket.setPos(blockpos.above().getCenter().subtract(0, 0.5D, 0));
+                rocket.setYRot(ctx.getHorizontalDirection().getOpposite().toYRot());
+                ctx.getLevel().addFreshEntity(rocket);
 
-                if (!player.getAbilities().instabuild) {
+                if (!ctx.getPlayer().getAbilities().instabuild) {
                     itemstack.shrink(1);
                 }
 
-                player.awardStat(Stats.ITEM_USED.get(this));
-                level.gameEvent(player, GameEvent.ENTITY_PLACE, rocket.position());
-                return InteractionResultHolder.consume(itemstack);
-            } else {
-                return InteractionResultHolder.fail(itemstack);
+                ctx.getPlayer().awardStat(Stats.ITEM_USED.get(this));
+                ctx.getLevel().gameEvent(ctx.getPlayer(), GameEvent.ENTITY_PLACE, rocket.position());
+                return InteractionResult.CONSUME;
             }
         }
+
+        return InteractionResult.FAIL;
     }
 }
