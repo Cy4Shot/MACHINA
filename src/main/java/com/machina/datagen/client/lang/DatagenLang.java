@@ -16,6 +16,7 @@ import com.machina.registration.init.FruitInit.Fruit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -42,6 +43,8 @@ public abstract class DatagenLang extends LanguageProvider {
             add(((Block) item).getDescriptionId(), name);
         } else if (item instanceof Item) {
             add(((Item) item).getDescriptionId(), name);
+        } else if (item instanceof EntityType<?>) {
+            add(((EntityType<?>) item).getDescriptionId(), name);
         } else if (item instanceof CreativeModeTab) {
             add(modid + ".creativemodetab." + key.getId().getPath(), name);
         } else if (item instanceof RocketPart<?> part) {
@@ -99,7 +102,7 @@ public abstract class DatagenLang extends LanguageProvider {
         add(key.getDescriptionId(), this.music_disc);
         add(key.getDescriptionId() + ".desc", desc);
     }
-    
+
     protected void addMisc(String thing, String name) {
         add(modid + "." + thing, name);
     }

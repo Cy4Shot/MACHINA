@@ -6,9 +6,7 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.machina.api.client.bewlr.RocketBEWLR;
 import com.machina.api.client.screen.MUI;
-import com.machina.api.rocket.RocketEntity;
 import com.machina.api.rocket.RocketProps;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
@@ -18,7 +16,9 @@ import com.machina.api.rocket.part.impl.LifeSupportPart;
 import com.machina.api.rocket.part.impl.ShieldPart;
 import com.machina.api.rocket.part.impl.ThrusterPart;
 import com.machina.api.util.StringUtils;
+import com.machina.client.bewlr.RocketBEWLR;
 import com.machina.registration.init.RocketPartInit;
+import com.machina.rocket.RocketEntity;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;

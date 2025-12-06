@@ -1,6 +1,6 @@
-package com.machina.api.client.model.rocket;
+package com.machina.client.model.rocket;
 
-import com.machina.api.rocket.RocketEntity;
+import com.machina.rocket.RocketEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;

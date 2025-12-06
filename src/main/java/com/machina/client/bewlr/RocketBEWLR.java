@@ -1,12 +1,12 @@
-package com.machina.api.client.bewlr;
+package com.machina.client.bewlr;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.machina.api.client.model.rocket.RocketModel;
-import com.machina.api.client.model.rocket.RocketModel.RocketModelBuilder;
 import com.machina.api.item.RocketItem;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.api.util.math.ItemTransformUtil;
+import com.machina.client.model.rocket.RocketModel;
+import com.machina.client.model.rocket.RocketModel.RocketModelBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;

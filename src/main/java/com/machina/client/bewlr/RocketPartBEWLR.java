@@ -1,4 +1,4 @@
-package com.machina.api.client.bewlr;
+package com.machina.client.bewlr;
 
 import com.machina.api.item.RocketPartItem;
 import com.machina.api.rocket.part.RocketPart;

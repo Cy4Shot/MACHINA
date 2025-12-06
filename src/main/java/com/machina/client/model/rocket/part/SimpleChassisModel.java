@@ -1,7 +1,7 @@
-package com.machina.client.model.rocket;
+package com.machina.client.model.rocket.part;
 
-import com.machina.api.client.model.rocket.RocketPartModel;
 import com.machina.api.util.MachinaRL;
+import com.machina.client.model.rocket.RocketPartModel;
 
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;

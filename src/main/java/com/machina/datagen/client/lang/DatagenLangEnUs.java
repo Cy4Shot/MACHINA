@@ -609,6 +609,9 @@ public class DatagenLangEnUs extends DatagenLang {
 
         add(RocketPartInit.SIMPLE_THRUSTER, "Simple Thruster");
         add(RocketPartInit.TRI_TALL_THRUSTER, "Tri Tall Thruster");
+        
+        // Entities
+        add(EntityTypeInit.ROCKET, "Rocket");
 
         // Misc
         add(Mode.WHITELIST, "Whitelist");

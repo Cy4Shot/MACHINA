@@ -7,6 +7,8 @@ import com.machina.block.menu.connector.ItemConduitMenu;
 import com.machina.item.menu.AdvancedItemFilterMenu;
 import com.machina.item.menu.FluidFilterMenu;
 import com.machina.item.menu.ItemFilterMenu;
+import com.machina.rocket.RocketMenu;
+
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -20,6 +22,8 @@ public class MenuTypeInit {
             Machina.MOD_ID);
 
     //@formatter:off
+    public static final RegistryObject<MenuType<RocketMenu>> ROCKET =
+            register("rocket", RocketMenu::new);
 	public static final RegistryObject<MenuType<ItemConduitMenu>> ITEM_CONDUIT =
 			register("item_conduit", ItemConduitMenu::new);
 	public static final RegistryObject<MenuType<ItemFilterMenu>> ITEM_FILTER =

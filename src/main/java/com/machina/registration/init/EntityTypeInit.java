@@ -1,7 +1,7 @@
 package com.machina.registration.init;
 
 import com.machina.Machina;
-import com.machina.api.rocket.RocketEntity;
+import com.machina.rocket.RocketEntity;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;

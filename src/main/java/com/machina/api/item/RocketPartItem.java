@@ -1,7 +1,8 @@
 package com.machina.api.item;
 
-import com.machina.api.client.bewlr.RocketPartBEWLR;
 import com.machina.api.rocket.part.RocketPart;
+import com.machina.client.bewlr.RocketPartBEWLR;
+
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

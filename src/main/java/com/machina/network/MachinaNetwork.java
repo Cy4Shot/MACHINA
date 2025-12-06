@@ -7,6 +7,7 @@ import com.machina.api.network.S2CMessage;
 import com.machina.api.network.c2s.*;
 import com.machina.api.network.s2c.S2CFluidSync;
 import com.machina.api.network.s2c.S2COpenDirectionalContainer;
+import com.machina.api.network.s2c.S2CRocketScreenOpen;
 import com.machina.api.network.s2c.S2CSyncStarchart;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
 import net.minecraft.network.FriendlyByteBuf;
@@ -40,6 +41,7 @@ public class MachinaNetwork {
         s2c(S2CFluidSync.class);
         s2c(S2CSyncStarchart.class);
         s2c(S2CUpdateDimensionList.class);
+        s2c(S2CRocketScreenOpen.class);
     }
 
     // Note from Cy4, this is probably the worst registration code I have ever

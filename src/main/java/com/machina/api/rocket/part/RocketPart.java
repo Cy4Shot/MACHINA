@@ -3,8 +3,8 @@ package com.machina.api.rocket.part;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import com.machina.api.client.model.rocket.RocketPartModel;
 import com.machina.api.item.RocketPartItem;
+import com.machina.client.model.rocket.RocketPartModel;
 import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.RegistryInit.RocketPartCallbacks;
 

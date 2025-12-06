@@ -1,8 +1,8 @@
-package com.machina.api.client.entity;
+package com.machina.client.entity;
 
-import com.machina.api.client.model.rocket.RocketModel;
-import com.machina.api.rocket.RocketEntity;
 import com.machina.api.util.math.VecUtil;
+import com.machina.client.model.rocket.RocketModel;
+import com.machina.rocket.RocketEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
