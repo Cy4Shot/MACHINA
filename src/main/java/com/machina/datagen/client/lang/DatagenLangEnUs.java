@@ -797,5 +797,22 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket_assembly_station.life_support", "Life Support");
         addUI("rocket_assembly_station.shield", "Shields");
         addUI("rocket_assembly_station.thruster", "Thrusters");
+        
+        addUI("rocket.tab.info", "Info");
+        addUI("rocket.info.mass", "Mass");
+        addUI("rocket.info.fuel_type", "Fuel");
+        addUI("rocket.info.coolant_type", "Coolant");
+        addUI("rocket.info.fuel_capacity", "Fuel Cap");
+        addUI("rocket.info.coolant_capacity", "Coolant Cap");
+        addUI("rocket.info.fuel_efficiency", "Fuel Eff");
+        addUI("rocket.info.coolant_efficiency", "Coolant Eff");
+        addUI("rocket.info.storage", "Storage Slots");
+        addUI("rocket.info.max_pressure", "Max Pressure");
+
+        addUI("rocket.tab.fueling", "Fueling");
+
+        addUI("rocket.tab.destination", "Destination");
+
+        addUI("rocket.tab.starmap", "Starmap");
     }
 }
