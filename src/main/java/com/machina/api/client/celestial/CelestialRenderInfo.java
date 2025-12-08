@@ -8,10 +8,10 @@ import net.minecraft.world.phys.Vec3;
 
 // TODO: Texture variation
 // TODO: Particle to match texture
-public record CelestialRenderInfo(Celestial celestial, double radius, Orbit orbit, int width, int height) {
+public record CelestialRenderInfo(int id, Celestial celestial, double radius, Orbit orbit, int width, int height) {
     
-    public static CelestialRenderInfo from(Celestial celestial, GuiGraphics graphics) {
-        return new CelestialRenderInfo(celestial, celestial.radiusAU(), celestial.orbit(), graphics.guiWidth(), graphics.guiHeight());
+    public static CelestialRenderInfo from(int id, Celestial celestial, GuiGraphics graphics) {
+        return new CelestialRenderInfo(id, celestial, celestial.radiusAU(), celestial.orbit(), graphics.guiWidth(), graphics.guiHeight());
     }
 
     public Vec3 getOrbitalCoords(double t) {

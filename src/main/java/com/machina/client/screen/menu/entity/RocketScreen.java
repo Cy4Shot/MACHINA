@@ -7,16 +7,23 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
+import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
+import com.machina.api.starchart.obj.Planet;
+import com.machina.api.util.MachinaRL;
+import com.machina.api.util.PlanetHelper;
 import com.machina.api.util.StringUtils;
 import com.machina.client.screen.StarchartRenderable;
 import com.machina.rocket.RocketEntity;
 import com.machina.rocket.RocketMenu;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.Level;
 
 public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
@@ -107,6 +114,81 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     private final RocketTabDisplay DESTINATION = new RocketTabDisplay() {
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
+            RocketProps props = entity.getProps();
+            RocketCosts costs = entity.getCosts();
+            ResourceKey<Level> destination = entity.getDestination();
+
+            // TODO: Allow travel back to overworld
+            if (destination.equals(Level.OVERWORLD)) {
+                MUI.drawString(gui, MUI.uistr("rocket.destination.invalid")
+                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 6, j + 6);
+                return;
+            }
+
+            Planet dst = ClientStarchart.system.planets().get(PlanetHelper.getIdLevel(destination));
+
+            Component c = Component.literal(": ");
+            Component ob = Component.literal(" (");
+            Component cb = Component.literal(")");
+            MUI.drawString(gui,
+                    MUI.uistr("rocket.destination.destination").append(c).append(
+                            Component.literal(dst.name()).withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
+                    i + 6, j + 6);
+            MUI.drawString(gui,
+                    MUI.uistr("rocket.destination.distance").append(c)
+                            .append(Component.literal(StringUtils.formatDistanceAU(costs.distance()))
+                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
+                    i + 6, j + 16);
+            MUI.drawString(gui,
+                    MUI.uistr("rocket.destination.max_temperature").append(c)
+                            .append(Component.literal(StringUtils.formatTemp(costs.maxTemp()))
+                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
+                    i + 6, j + 26);
+
+            if (costs.fuelRequired() < props.fuelStorage()) {
+                MUI.drawString(gui,
+                        MUI.uistr("rocket.destination.fuel").append(c)
+                                .append(Component.literal(StringUtils.formatFluid(costs.fuelRequired()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                        i + 6, j + 36);
+            } else {
+                Component invalid = Component.literal(StringUtils.formatFluid(costs.fuelRequired())).append(ob)
+                        .append(Component.literal(StringUtils.formatFluid(props.fuelStorage()))).append(cb);
+                MUI.drawString(gui,
+                        MUI.uistr("rocket.destination.fuel").append(c)
+                                .append(invalid.copy().withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED))),
+                        i + 6, j + 36);
+            }
+
+            if (costs.coolantRequired() < props.coolantStorage()) {
+                MUI.drawString(gui,
+                        MUI.uistr("rocket.destination.coolant").append(c)
+                                .append(Component.literal(StringUtils.formatFluid(costs.coolantRequired()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                        i + 6, j + 46);
+            } else {
+                Component invalid = Component.literal(StringUtils.formatFluid(costs.coolantRequired())).append(ob)
+                        .append(Component.literal(StringUtils.formatFluid(props.coolantStorage()))).append(cb);
+                MUI.drawString(gui,
+                        MUI.uistr("rocket.destination.coolant").append(c)
+                                .append(invalid.copy().withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED))),
+                        i + 6, j + 46);
+            }
+
+            if (costs.maxPres() < props.maxPressure()) {
+                MUI.drawString(gui,
+                        MUI.uistr("rocket.destination.max_pressure").append(c)
+                                .append(Component.literal(StringUtils.formatPressure(costs.maxPres()))
+                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                        i + 6, j + 56);
+            } else {
+                Component invalid = Component.literal(StringUtils.formatPressure(costs.maxPres())).append(ob)
+                        .append(Component.literal(StringUtils.formatPressure(props.maxPressure()))).append(cb);
+                MUI.drawString(gui,
+                        MUI.uistr("rocket.destination.max_pressure").append(c)
+                                .append(invalid.copy().withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED))),
+                        i + 6, j + 56);
+            }
         }
 
         @Override
@@ -123,8 +205,12 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     private final RocketTabDisplay STARMAP = new RocketTabDisplay() {
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
-            MUI.enableClipping(i + 1, j + 1, 225, 112);
-            starchart.render(gui, i + 1, j + 1, 225, 112);
+            int x = i + 1;
+            int y = j + 1;
+            int w = 225;
+            int h = 112;
+            MUI.enableClipping(x, y, w, h);
+            starchart.render(gui, x, y, width / 2 - (x + w / 2), height / 2 - (y + h / 2), w, h);
             MUI.disableClipping();
         }
 
@@ -152,6 +238,10 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     public RocketScreen(RocketMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
         this.starchart = new StarchartRenderable(ClientStarchart.system);
+        this.starchart.addSelectListener(selected -> {
+            this.menu.entity
+                    .setDestination(ResourceKey.create(Registries.DIMENSION, new MachinaRL(String.valueOf(selected))));
+        });
     }
 
     @Override
@@ -163,7 +253,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
         int j = midHeight();
 
         final RocketTabDisplay sel = getSelected();
-        
+
         MUI.blitRocket(gui, i + 26, j - 72, 253, 0, 121, 26);
         MUI.drawCenteredString(gui, sel.getName().copy().setStyle(Style.EMPTY.withBold(true)), i + 190, j - 63);
 

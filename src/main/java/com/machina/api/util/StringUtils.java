@@ -78,8 +78,21 @@ public class StringUtils {
         return String.format("%.1f", number);
     }
 
+    private static String formatNumberWithUnitSmall(double number) {
+        if (number > 0) {
+            int magnitude = 0;
+            while (number < 1 && magnitude < LARGE_UNITS.length - 1) {
+                number *= 1_000;
+                magnitude++;
+            }
+            return String.format("%.1f%s", number, LARGE_UNITS[magnitude]);
+        }
+
+        return String.format("%.1f", number);
+    }
+
     public static String formatTemp(double temp) {
-        return formatNumberWithUnit(temp) + "K";
+        return formatNumberWithUnitSmall(temp) + "K";
     }
 
     public static String formatPower(int energy) {
@@ -96,6 +109,10 @@ public class StringUtils {
 
     public static String formatRadiation(float rad) {
         return formatNumberWithUnit(rad) + "rad";
+    }
+
+    public static String formatDistanceAU(float dist) {
+        return formatNumberWithUnit(dist) + "AU";
     }
 
     public static String formatMass(double kg) {

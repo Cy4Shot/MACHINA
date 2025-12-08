@@ -7,7 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.item.RocketItem;
 import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
+import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
+import com.machina.api.starchart.Starchart;
 import com.machina.client.model.rocket.RocketModel;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.ItemInit;
@@ -16,6 +18,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
@@ -45,9 +48,14 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 
     private static final int DEFAULT_SLOTS = 2;
     private static final String TAG_PROPS = "rocket_props";
+    private static final String TAG_COSTS = "rocket_costs";
+    private static final String TAG_DESTINATION = "rocket_destination";
 
-    private static final EntityDataAccessor<RocketProps> PROPS = SynchedEntityData.defineId(RocketEntity.class,
-            RocketProps.SERIALIZER);
+    // @formatter:off
+    private static final EntityDataAccessor<RocketProps> PROPS = SynchedEntityData.defineId(RocketEntity.class, RocketProps.SERIALIZER);
+    private static final EntityDataAccessor<RocketCosts> COSTS = SynchedEntityData.defineId(RocketEntity.class, RocketCosts.SERIALIZER);
+    private static final EntityDataAccessor<ResourceKey<Level>> DESTINATION = SynchedEntityData.defineId(RocketEntity.class, DimensionSerializer.SERIALIZER);
+    // @formatter:on
 
     protected SimpleContainer inventory;
 
@@ -83,6 +91,8 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     @Override
     protected void defineSynchedData() {
         this.entityData.define(PROPS, RocketProps.NULL);
+        this.entityData.define(COSTS, RocketCosts.NULL);
+        this.entityData.define(DESTINATION, Level.OVERWORLD);
     }
 
     @Override
@@ -106,6 +116,8 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         if (tag.contains(TAG_PROPS)) {
             setProps(RocketProps.fromNBT(tag.getCompound(TAG_PROPS)));
         }
+        setCosts(RocketCosts.fromNBT(tag.getCompound(TAG_COSTS)));
+
     }
 
     @Override
@@ -114,6 +126,8 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         if (props != null) {
             tag.put(TAG_PROPS, props.toNBT());
         }
+        tag.put(TAG_COSTS, getCosts().toNBT());
+        tag.putString(TAG_DESTINATION, getDestination().location().toString());
     }
 
     @Override
@@ -171,6 +185,23 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 
     public RocketProps getProps() {
         return this.entityData.get(PROPS);
+    }
+
+    public void setCosts(RocketCosts costs) {
+        this.entityData.set(COSTS, costs);
+    }
+
+    public RocketCosts getCosts() {
+        return this.entityData.get(COSTS);
+    }
+
+    public void setDestination(ResourceKey<Level> dim) {
+        this.entityData.set(DESTINATION, dim);
+        this.setCosts(RocketCosts.from(Starchart.system(this.level()), this.getProps(), this.level().dimension(), dim));
+    }
+
+    public ResourceKey<Level> getDestination() {
+        return this.entityData.get(DESTINATION);
     }
 
     @OnlyIn(Dist.CLIENT)

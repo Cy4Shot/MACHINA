@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.machina.api.client.ClientStarchart;
 import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CSyncStarchart;
 import com.machina.api.starchart.name.SystemNameGenerator;
@@ -11,6 +12,7 @@ import com.machina.api.starchart.obj.SolarSystem;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 
 public class Starchart {
     private static Starchart INSTANCE = null;
@@ -20,6 +22,14 @@ public class Starchart {
     public Starchart(long seed) {
         SystemNameGenerator gen = new SystemNameGenerator();
         system = StarchartGenerator.gen(seed, gen.gen(new Random(seed)));
+    }
+    
+    public static SolarSystem system(@NotNull Level l) {
+        if (l.isClientSide()) {
+            return ClientStarchart.system;
+        } else {
+            return system((ServerLevel) l);
+        }
     }
 
     public static SolarSystem system(@NotNull ServerLevel l) {

@@ -2,6 +2,7 @@ package com.machina.client.screen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -38,6 +39,8 @@ public class StarchartRenderable {
 
     private final float maxZoom;
 
+    private List<Consumer<Integer>> select;
+    
     private float rotX = 0;
     private float rotY = 90;
     private float posX = 0;
@@ -58,6 +61,8 @@ public class StarchartRenderable {
         this.system = s;
         this.maxZoom = calculateZoom(system.maxAphelion());
         this.zoom = maxZoom;
+        
+        this.select = new ArrayList<>();
     }
 
     public float calculateZoom(double targetAphelion) {
@@ -82,17 +87,22 @@ public class StarchartRenderable {
         float qz = shy * shp;
         return new Quaternionf(qx, qy, qz, qw);
     }
+    
+    public void addSelectListener(Consumer<Integer> selected) {
+        this.select.add(selected);
+    }
 
-    public void render(@NotNull GuiGraphics gui, int x, int y, int width, int height) {
+    public void render(@NotNull GuiGraphics gui, int x, int y, int xOff, int yOff, int width, int height) {
         MUI.drawStars(gui, x, y, width, height);
+        
+        // TODO: Move the entire inner display by this many pixels!
 
         if (this.tracked == null) {
             accumulatedTime += mc.getFrameTime() * orbitalSpeed;
         }
         realTime += mc.getFrameTime();
         updateCameraTracking();
-        setupAndRenderCelestials(gui, x - width / 2, y - height / 2, width, height, createRotQuat(rotX, rotY),
-                accumulatedTime, realTime);
+        setupAndRenderCelestials(gui, width, height, createRotQuat(rotX, rotY), accumulatedTime, realTime);
     }
 
     protected void updateCameraTracking() {
@@ -118,7 +128,7 @@ public class StarchartRenderable {
         }
     }
 
-    protected void setupAndRenderCelestials(GuiGraphics gui, int x, int y, int w, int h, Quaternionf rot, double t,
+    protected void setupAndRenderCelestials(GuiGraphics gui, int w, int h, Quaternionf rot, double t,
             double rt) {
 
         // Configure Render System
@@ -166,8 +176,7 @@ public class StarchartRenderable {
         queue.forEach(r -> CelestialRenderer.drawUIOverlay(r, gui));
     }
 
-    protected List<CelestialUIRenderInfo> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c,
-            double t, double rt) {
+    protected List<CelestialUIRenderInfo> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t, double rt) {
         List<CelestialUIRenderInfo> renderQueue = new ArrayList<>();
         PoseStack matrices = new PoseStack();
 
@@ -177,12 +186,13 @@ public class StarchartRenderable {
         }
 
         // Render star
-        CelestialRenderInfo starInfo = CelestialRenderInfo.from(system.star(), gui);
+        CelestialRenderInfo starInfo = CelestialRenderInfo.from(-1, system.star(), gui);
         CelestialRenderer.drawStar(matrices, starInfo, t, rt, zoom, renderQueue::add);
 
         // Render Planets
-        for (Planet p : system.planets()) {
-            CelestialRenderInfo planetInfo = CelestialRenderInfo.from(p, gui);
+        for (int i = 0; i < system.planets().size(); i++) {
+            Planet p = system.planets().get(i);
+            CelestialRenderInfo planetInfo = CelestialRenderInfo.from(i, p, gui);
             CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, rt, posX, posY, zoom, renderQueue::add);
         }
 
@@ -210,6 +220,9 @@ public class StarchartRenderable {
                 this.trackedOrbitalPos = closest.worldPos();
                 this.targetZoom = calculateZoom(closest.celestial().radiusAU());
 
+                final int id = closest.id();
+                this.select.forEach(selected -> selected.accept(id));
+
                 MUI.click();
                 return true;
             }
@@ -221,7 +234,7 @@ public class StarchartRenderable {
         // Rotate - Right Click
         if (button == GLFW.GLFW_MOUSE_BUTTON_2) {
 
-            float rotSpeed = 100;
+            float rotSpeed = 400;
             float maxYAng = 89.9f;
 
             this.rotX += (float) dX / (float) h * rotSpeed;

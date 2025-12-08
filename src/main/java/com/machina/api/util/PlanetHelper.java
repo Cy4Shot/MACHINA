@@ -16,6 +16,15 @@ public class PlanetHelper {
         return Integer.parseInt(dim.location().getPath());
     }
 
+    public static Integer getIdLevelOr(ResourceKey<Level> dim, Integer or) {
+        String path = dim.location().getPath();
+        try {
+            return Integer.parseInt(path);
+        } catch (NumberFormatException e) {
+            return or;
+        }
+    }
+
     public static boolean isPlanetDim(ResourceKey<LevelStem> dim) {
         try {
             getIdDim(dim);
