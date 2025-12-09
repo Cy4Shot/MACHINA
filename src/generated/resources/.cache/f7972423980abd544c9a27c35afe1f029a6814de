@@ -1,4 +1,4 @@
-// 1.20.1	2025-05-03T08:16:20.8079815	Block States: machina
+// 1.20.1	2025-12-09T12:26:49.690369	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -283,6 +283,7 @@ f642da2ce4d85f88e8ede01e9a51b5c6a317b094 assets/machina/blockstates/red_groundli
 d53544881b48562087cbaf1318415d0a1c31915f assets/machina/blockstates/red_mushroom_gills.json
 14402b66486cb852b01162adf53764d3ae1893d0 assets/machina/blockstates/red_petals.json
 fc09dffff0610d7183339e990c3e62db161b107f assets/machina/blockstates/red_waterlily.json
+b6ea59e60dcb50894ac6ec02930c9cf38e267104 assets/machina/blockstates/rocket_assembly_station.json
 11b4c4434a403d8e4b1581cfa678b72ef8628831 assets/machina/blockstates/rocket_part_bench.json
 1a47e39cb5f5fe4b5ffc145bc906d5af12c0a1e1 assets/machina/blockstates/saltpeter_ore.json
 b7ff2ddb790deac68a4254bc56a4c041d7508237 assets/machina/blockstates/sawmill.json
@@ -893,6 +894,7 @@ b75f325c891c0d57d8129231ae9049aadcc83590 assets/machina/models/block/red_petals_
 6f4fc4d324351c9070f2f4b59e04b0287a2049fa assets/machina/models/block/red_petals_3.json
 c7a49c9f7a4641e1ce521de68b2d561a0c77b3e1 assets/machina/models/block/red_petals_4.json
 48700d3fbc5eb07cf19d88e5ef69d0a1b8d5402c assets/machina/models/block/red_waterlily.json
+248061eb9f2391325345a9e2bc3bae14f7591f77 assets/machina/models/block/rocket_assembly_station.json
 f624ea72e4f9421df955f48e3a2f7915139c814b assets/machina/models/block/rocket_part_bench.json
 05e1016251e337aefe8c142434b152cfb9f7f6fc assets/machina/models/block/saltpeter_ore.json
 0f8a1aa7671544115192fcffaf9502863ba5675c assets/machina/models/block/sawmill.json
@@ -1281,6 +1283,7 @@ b5d264785ec64dc83d5e0f34a9c65a5dd1f77524 assets/machina/models/item/red_groundli
 95b982d8d554e91ac6913e670c4ca0e882ddd6e9 assets/machina/models/item/red_mushroom_gills.json
 6a313c6a7aceb4148f9f86c02ad01662aafb6037 assets/machina/models/item/red_petals.json
 1b3d1b443280ba45c8d4a6e4c1c42816d6fa1ca0 assets/machina/models/item/red_waterlily.json
+2f1591cd9babe324e2d5f30796cfc852e3b7bddb assets/machina/models/item/rocket_assembly_station.json
 36aa56817bd475523faa8f7d7bad7c49f6d42496 assets/machina/models/item/rocket_part_bench.json
 b85c6a14d0e662f6f2f8b9b5aae745613d1ed470 assets/machina/models/item/saltpeter_ore.json
 3e0ebc1e83ffe277f074b581ccaa9de48db4763f assets/machina/models/item/sawmill.json

@@ -1,0 +1,9 @@
+{
+  "parent": "machina:block/machine",
+  "textures": {
+    "bottom": "machina:block/rocket_assembly_station_bottom",
+    "front": "machina:block/rocket_assembly_station_front",
+    "side": "machina:block/rocket_assembly_station_side",
+    "top": "machina:block/rocket_assembly_station_top"
+  }
+}
