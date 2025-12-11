@@ -15,10 +15,12 @@ import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.ItemInit;
 
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
@@ -116,8 +118,9 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         if (tag.contains(TAG_PROPS)) {
             setProps(RocketProps.fromNBT(tag.getCompound(TAG_PROPS)));
         }
+        this.entityData.set(DESTINATION,
+                ResourceKey.create(Registries.DIMENSION, new ResourceLocation(tag.getString(TAG_DESTINATION))));
         setCosts(RocketCosts.fromNBT(tag.getCompound(TAG_COSTS)));
-
     }
 
     @Override

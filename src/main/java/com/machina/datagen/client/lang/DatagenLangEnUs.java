@@ -810,6 +810,8 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket.info.max_pressure", "Max Pressure");
 
         addUI("rocket.tab.fueling", "Fueling");
+        
+        addUI("rocket.tab.storage", "Storage");
 
         addUI("rocket.tab.destination", "Destination");
         addUI("rocket.destination.invalid", "Invalid");

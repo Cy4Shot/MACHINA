@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
+import com.machina.api.network.PacketSender;
+import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
 import com.machina.api.starchart.obj.Planet;
@@ -98,6 +100,19 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     private final RocketTabDisplay FUELING = new RocketTabDisplay() {
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
+            ResourceKey<Level> destination = entity.getDestination();
+
+            // TODO: Allow travel back to overworld
+            if (destination.equals(Level.OVERWORLD)) {
+                MUI.drawString(gui, MUI.uistr("rocket.storage.invalid")
+                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 6, j + 6);
+            } else {
+                MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.missing_fuel")
+                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
+            }
+            
+            MUI.drawSlot(gui, i + 44, j + 46, mx, my, true, false);
+            MUI.drawSlot(gui, i + 164, j + 46, mx, my, true, false);
         }
 
         @Override
@@ -108,6 +123,22 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
         @Override
         public int getIconX() {
             return 16;
+        }
+    };
+    
+    private final RocketTabDisplay STORAGE = new RocketTabDisplay() {
+        @Override
+        public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
+        }
+
+        @Override
+        public Component getName() {
+            return MUI.uistr("rocket.tab.storage");
+        }
+
+        @Override
+        public int getIconX() {
+            return 64;
         }
     };
 
@@ -137,12 +168,12 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             MUI.drawString(gui,
                     MUI.uistr("rocket.destination.distance").append(c)
                             .append(Component.literal(StringUtils.formatDistanceAU(costs.distance()))
-                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
+                                    .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
                     i + 6, j + 16);
             MUI.drawString(gui,
                     MUI.uistr("rocket.destination.max_temperature").append(c)
                             .append(Component.literal(StringUtils.formatTemp(costs.maxTemp()))
-                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
+                                    .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
                     i + 6, j + 26);
 
             if (costs.fuelRequired() < props.fuelStorage()) {
@@ -230,17 +261,17 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
         };
     };
 
-    private final List<RocketTabDisplay> TABS = List.of(INFO, FUELING, DESTINATION, STARMAP);
+    private final List<RocketTabDisplay> TABS = List.of(INFO, FUELING, STORAGE, DESTINATION, STARMAP);
 
     private final StarchartRenderable starchart;
     private int selected = 0;
 
     public RocketScreen(RocketMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
-        this.starchart = new StarchartRenderable(ClientStarchart.system);
+        this.starchart = new StarchartRenderable(ClientStarchart.system, true);
         this.starchart.addSelectListener(selected -> {
-            this.menu.entity
-                    .setDestination(ResourceKey.create(Registries.DIMENSION, new MachinaRL(String.valueOf(selected))));
+            ResourceKey<Level> dim = ResourceKey.create(Registries.DIMENSION, new MachinaRL(String.valueOf(selected)));
+            PacketSender.sendToServer(new C2SRocketSetDestination(this.menu.entity.getId(), dim));
         });
     }
 

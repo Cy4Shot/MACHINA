@@ -36,6 +36,7 @@ public class StarchartRenderable {
     private final static float FAR_PLANE = 500000000f;
 
     final SolarSystem system;
+    final boolean paused;
 
     private final float maxZoom;
 
@@ -57,8 +58,10 @@ public class StarchartRenderable {
     private double realTime = 0;
     private double accumulatedTime = 0;
 
-    public StarchartRenderable(SolarSystem s) {
+    public StarchartRenderable(SolarSystem s, boolean paused) {
         this.system = s;
+        this.paused = paused;
+
         this.maxZoom = calculateZoom(system.maxAphelion());
         this.zoom = maxZoom;
         
@@ -97,7 +100,7 @@ public class StarchartRenderable {
         
         // TODO: Move the entire inner display by this many pixels!
 
-        if (this.tracked == null) {
+        if (!this.paused && this.tracked == null) {
             accumulatedTime += mc.getFrameTime() * orbitalSpeed;
         }
         realTime += mc.getFrameTime();

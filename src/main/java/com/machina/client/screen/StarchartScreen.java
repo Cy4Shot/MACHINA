@@ -14,7 +14,7 @@ public class StarchartScreen extends Screen {
 
     public StarchartScreen(SolarSystem s) {
         super(Component.empty());
-        this.renderable = new StarchartRenderable(s);
+        this.renderable = new StarchartRenderable(s, false);
     }
 
     @Override

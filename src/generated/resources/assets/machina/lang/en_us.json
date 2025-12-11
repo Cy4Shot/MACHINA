@@ -489,6 +489,7 @@
   "gui.machina.rocket.tab.fueling": "Fueling",
   "gui.machina.rocket.tab.info": "Info",
   "gui.machina.rocket.tab.starmap": "Starmap",
+  "gui.machina.rocket.tab.storage": "Storage",
   "gui.machina.rocket_assembly_station.chassis": "Chassis",
   "gui.machina.rocket_assembly_station.coolant_capacity": "Coolant Cap",
   "gui.machina.rocket_assembly_station.coolant_efficiency": "Coolant Eff",
