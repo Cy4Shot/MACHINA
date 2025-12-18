@@ -13,4 +13,16 @@ public class DirUtil {
         return Util.getRandom(HORIZONTAL_VALUES, r);
     }
 
+    public static int toYaw(Direction d) {
+        switch (d) {
+        case EAST:
+            return -90;
+        case NORTH:
+            return -180;
+        case WEST:
+            return 90;
+        default:
+            return 0;
+        }
+    }
 }

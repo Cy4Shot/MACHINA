@@ -1,5 +1,7 @@
 package com.machina.api.client.cinema;
 
+import com.machina.api.client.cinema.effect.renderer.CinematicTextOverlay;
+import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
 import com.machina.api.client.cinema.entity.CameraClientEntity;
 import com.machina.api.client.cinema.entity.CinematicClientEntity;
 import com.machina.api.network.PacketSender;
@@ -91,6 +93,8 @@ public abstract class Cinematic {
         }
 
         CameraUtil.resetCamera();
+        CinematicTextOverlay.render = false;
+        CinematicTextureOverlay.render = false;
 
         if (mc.level != null && this.clientEntity != null) {
             mc.level.removeEntity(this.clientEntity.getId(), Entity.RemovalReason.DISCARDED);

@@ -10,8 +10,6 @@ public record FadeOutEffect(int totalDuration, int fadeDuration) implements Came
         if (tick == 1 + totalDuration - fadeDuration) {
             CinematicTextureOverlay.rl = new MachinaRL("textures/cinematic/black.png");
             CinematicTextureOverlay.render = true;
-        } else if (tick == totalDuration - 1) {
-            CinematicTextureOverlay.render = false;
         }
         CinematicTextureOverlay.opacity = Math.max(0f,
                 (float) (tick - totalDuration + fadeDuration) / (float) (fadeDuration));

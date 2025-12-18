@@ -1,21 +1,5 @@
 package com.machina.network;
 
-import com.machina.Machina;
-import com.machina.api.network.C2SMessage;
-import com.machina.api.network.PacketSender;
-import com.machina.api.network.S2CMessage;
-import com.machina.api.network.c2s.*;
-import com.machina.api.network.s2c.S2CFluidSync;
-import com.machina.api.network.s2c.S2COpenDirectionalContainer;
-import com.machina.api.network.s2c.S2CRocketScreenOpen;
-import com.machina.api.network.s2c.S2CSyncStarchart;
-import com.machina.api.network.s2c.S2CUpdateDimensionList;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
-import org.apache.logging.log4j.util.TriConsumer;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -24,12 +8,41 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.apache.logging.log4j.util.TriConsumer;
+
+import com.machina.Machina;
+import com.machina.api.network.C2SMessage;
+import com.machina.api.network.PacketSender;
+import com.machina.api.network.S2CMessage;
+import com.machina.api.network.c2s.C2SAssemblyStationCraft;
+import com.machina.api.network.c2s.C2SFinishCinematic;
+import com.machina.api.network.c2s.C2SItemMenuSync;
+import com.machina.api.network.c2s.C2SMenuSetItem;
+import com.machina.api.network.c2s.C2SMenuToggleConnector;
+import com.machina.api.network.c2s.C2SPartBenchCraft;
+import com.machina.api.network.c2s.C2SRocketLaunch;
+import com.machina.api.network.c2s.C2SRocketSetDestination;
+import com.machina.api.network.c2s.C2SSideConfig;
+import com.machina.api.network.c2s.C2SSpawnParticle;
+import com.machina.api.network.s2c.S2CCinematicLaunch;
+import com.machina.api.network.s2c.S2CFluidSync;
+import com.machina.api.network.s2c.S2COpenDirectionalContainer;
+import com.machina.api.network.s2c.S2CRocketScreenOpen;
+import com.machina.api.network.s2c.S2CSyncStarchart;
+import com.machina.api.network.s2c.S2CUpdateDimensionList;
+
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkEvent;
+
 public class MachinaNetwork {
 
     public static int i = 0;
 
     public static void init() {
         c2s(C2SFinishCinematic.class);
+        c2s(C2SSpawnParticle.class);
         c2s(C2SMenuSetItem.class);
         c2s(C2SMenuToggleConnector.class);
         c2s(C2SItemMenuSync.class);
@@ -37,12 +50,14 @@ public class MachinaNetwork {
         c2s(C2SPartBenchCraft.class);
         c2s(C2SAssemblyStationCraft.class);
         c2s(C2SRocketSetDestination.class);
+        c2s(C2SRocketLaunch.class);
 
         s2c(S2COpenDirectionalContainer.class);
         s2c(S2CFluidSync.class);
         s2c(S2CSyncStarchart.class);
         s2c(S2CUpdateDimensionList.class);
         s2c(S2CRocketScreenOpen.class);
+        s2c(S2CCinematicLaunch.class);
     }
 
     // Note from Cy4, this is probably the worst registration code I have ever

@@ -821,6 +821,7 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket.destination.coolant", "Coolant Cost");
         addUI("rocket.destination.max_temperature", "Max Temperature");
         addUI("rocket.destination.max_pressure", "Max Pressure");
+        addUI("rocket.destination.launch", "LAUNCH");
 
         addUI("rocket.tab.starmap", "Starmap");
     }

@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.item.RocketItem;
 import com.machina.api.network.PacketSender;
+import com.machina.api.network.s2c.S2CCinematicLaunch;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
 import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
@@ -248,5 +249,10 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         if (props == null)
             return super.makeBoundingBox();
         return props.boundingBox().move(this.position());
+    }
+
+    public void tryLaunch(ServerPlayer player) {
+        PacketSender.sendToClient(player, new S2CCinematicLaunch(this.getId()));
+        System.out.println("Launch!");
     }
 }

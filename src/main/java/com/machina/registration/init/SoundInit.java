@@ -13,10 +13,11 @@ public class SoundInit {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,
             Machina.MOD_ID);
 
-    public static final RegistryObject<SoundEvent> MUSIC = create();
+    public static final RegistryObject<SoundEvent> MUSIC = create("music");
+    public static final RegistryObject<SoundEvent> ROCKET_LAUNCH = create("rocket_launch");
 
-    private static RegistryObject<SoundEvent> create() {
-        return SOUNDS.register("music", () -> SoundEvent.createVariableRangeEvent(new MachinaRL("music")));
+    private static RegistryObject<SoundEvent> create(String name) {
+        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new MachinaRL(name)));
     }
 
     public static Music asMusic(RegistryObject<SoundEvent> reg) {

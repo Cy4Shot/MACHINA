@@ -6,8 +6,10 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MUI;
+import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.network.PacketSender;
+import com.machina.api.network.c2s.C2SRocketLaunch;
 import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
@@ -104,13 +106,14 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
             // TODO: Allow travel back to overworld
             if (destination.equals(Level.OVERWORLD)) {
-                MUI.drawString(gui, MUI.uistr("rocket.storage.invalid")
-                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 6, j + 6);
+                MUI.drawString(gui,
+                        MUI.uistr("rocket.storage.invalid").withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)),
+                        i + 6, j + 6);
             } else {
                 MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.missing_fuel")
                         .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
             }
-            
+
             MUI.drawSlot(gui, i + 44, j + 46, mx, my, true, false);
             MUI.drawSlot(gui, i + 164, j + 46, mx, my, true, false);
         }
@@ -125,7 +128,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             return 16;
         }
     };
-    
+
     private final RocketTabDisplay STORAGE = new RocketTabDisplay() {
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
@@ -220,6 +223,14 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
                                 .append(invalid.copy().withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED))),
                         i + 6, j + 56);
             }
+
+            // Launch Button
+            drawButton(gui, mx, my, 112, 31, MuiSlot.TICK, () -> {
+                PacketSender.sendToServer(new C2SRocketLaunch(RocketScreen.this.menu.entity.getId()));
+            }, () -> MUI.uistr("rocket.destination.launch"));
+            
+            MUI.blitCommon(gui, i + 134, j + 84, 405, 13, 17, 6);
+            MUI.blitCommon(gui, i + 82, j + 84, 422, 13, 17, 6);
         }
 
         @Override
@@ -261,7 +272,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
         };
     };
 
-    private final List<RocketTabDisplay> TABS = List.of(INFO, FUELING, STORAGE, DESTINATION, STARMAP);
+    private final List<RocketTabDisplay> TABS = List.of(INFO, FUELING, STORAGE, STARMAP, DESTINATION);
 
     private final StarchartRenderable starchart;
     private int selected = 0;
@@ -304,6 +315,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
                     () -> {
                         if (this.selected != x1) {
                             this.selected = x1;
+                            this.init();
                             MUI.click();
                         }
                     });

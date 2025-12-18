@@ -474,6 +474,7 @@
   "gui.machina.rocket.destination.distance": "Distance",
   "gui.machina.rocket.destination.fuel": "Fuel Cost",
   "gui.machina.rocket.destination.invalid": "Invalid",
+  "gui.machina.rocket.destination.launch": "LAUNCH",
   "gui.machina.rocket.destination.max_pressure": "Max Pressure",
   "gui.machina.rocket.destination.max_temperature": "Max Temperature",
   "gui.machina.rocket.info.coolant_capacity": "Coolant Cap",
