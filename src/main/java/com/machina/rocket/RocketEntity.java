@@ -1,27 +1,35 @@
 package com.machina.rocket;
 
+import java.util.function.Function;
+
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.item.RocketItem;
 import com.machina.api.network.PacketSender;
+import com.machina.api.network.s2c.S2CCinematicLand;
 import com.machina.api.network.s2c.S2CCinematicLaunch;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
 import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
 import com.machina.api.starchart.Starchart;
+import com.machina.api.util.PlanetHelper;
 import com.machina.client.model.rocket.RocketModel;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.world.PlanetRegistrationHandler;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
@@ -36,6 +44,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,11 +53,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class RocketEntity extends Entity implements ContainerListener, HasCustomInventoryScreen {
+
+    public enum RocketStage {
+        NONE,
+        TAKEOFF,
+        LANDING;
+
+        public static final EntityDataSerializer<RocketStage> SERIALIZER = EntityDataSerializer
+                .simpleEnum(RocketStage.class);
+    }
 
     private static final int DEFAULT_SLOTS = 2;
     private static final String TAG_PROPS = "rocket_props";
@@ -55,6 +75,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     private static final String TAG_DESTINATION = "rocket_destination";
 
     // @formatter:off
+    private static final EntityDataAccessor<RocketStage> STAGE = SynchedEntityData.defineId(RocketEntity.class, RocketStage.SERIALIZER);
     private static final EntityDataAccessor<RocketProps> PROPS = SynchedEntityData.defineId(RocketEntity.class, RocketProps.SERIALIZER);
     private static final EntityDataAccessor<RocketCosts> COSTS = SynchedEntityData.defineId(RocketEntity.class, RocketCosts.SERIALIZER);
     private static final EntityDataAccessor<ResourceKey<Level>> DESTINATION = SynchedEntityData.defineId(RocketEntity.class, DimensionSerializer.SERIALIZER);
@@ -93,6 +114,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 
     @Override
     protected void defineSynchedData() {
+        this.entityData.define(STAGE, RocketStage.NONE);
         this.entityData.define(PROPS, RocketProps.NULL);
         this.entityData.define(COSTS, RocketCosts.NULL);
         this.entityData.define(DESTINATION, Level.OVERWORLD);
@@ -102,16 +124,18 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     public void tick() {
         super.tick();
 
-        // Apply Gravity (TODO: Respect Planet Gravity)
-        double d0 = 0.08D;
-        float f3 = 0.91F;
-        this.move(MoverType.SELF, this.getDeltaMovement());
-        Vec3 vec35 = this.getDeltaMovement();
-        double d2 = vec35.y;
-        if (!this.isNoGravity()) {
-            d2 -= d0;
+        if (this.entityData.get(STAGE).equals(RocketStage.NONE)) {
+            // Apply Gravity (TODO: Respect Planet Gravity)
+            double d0 = 0.08D;
+            float f3 = 0.91F;
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            Vec3 vec35 = this.getDeltaMovement();
+            double d2 = vec35.y;
+            if (!this.isNoGravity()) {
+                d2 -= d0;
+            }
+            this.setDeltaMovement(vec35.x * (double) f3, d2 * (double) 0.98F, vec35.z * (double) f3);
         }
-        this.setDeltaMovement(vec35.x * (double) f3, d2 * (double) 0.98F, vec35.z * (double) f3);
     }
 
     @Override
@@ -252,7 +276,38 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     }
 
     public void tryLaunch(ServerPlayer player) {
+        this.entityData.set(STAGE, RocketStage.TAKEOFF);
         PacketSender.sendToClient(player, new S2CCinematicLaunch(this.getId()));
-        System.out.println("Launch!");
+    }
+
+    public void tryLand(ServerPlayer player) {
+        this.entityData.set(STAGE, RocketStage.LANDING);
+        PacketSender.sendToClient(player, new S2CCinematicLand(this.getId()));
+    }
+
+    public void completeLaunch(ServerPlayer player) {
+        ResourceKey<Level> dst = getDestination();
+        ServerLevel planet = PlanetRegistrationHandler.createPlanet(player.getServer(), PlanetHelper.getIdLevel(dst));
+        Entity transported = this.changeDimension(planet, new ITeleporter() {
+            @Override
+            public @Nullable PortalInfo getPortalInfo(Entity entity, ServerLevel destWorld,
+                    Function<ServerLevel, PortalInfo> defaultPortalInfo) {
+                BlockPos assp = entity.blockPosition();
+                destWorld.getChunk(assp); // Preload the chunk
+                int assh = destWorld.getHeight(Types.WORLD_SURFACE_WG, assp.getX(), assp.getZ());
+                Vec3 pos = new BlockPos(assp.getX(), assh + 1, assp.getZ()).getCenter();
+                return new PortalInfo(pos, Vec3.ZERO, entity.getYRot(), entity.getXRot());
+            }
+        });
+
+        PlanetRegistrationHandler.sendPlayerToDimension(player, planet, transported.blockPosition());
+        if (transported instanceof RocketEntity rocket) {
+            rocket.tryLand(player);
+        }
+    }
+    
+    public void completeLand(ServerPlayer player) {
+        this.entityData.set(STAGE, RocketStage.NONE);
+        setDestination(Level.OVERWORLD);
     }
 }

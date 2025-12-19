@@ -20,10 +20,14 @@ import com.machina.api.network.c2s.C2SItemMenuSync;
 import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
 import com.machina.api.network.c2s.C2SPartBenchCraft;
+import com.machina.api.network.c2s.C2SRocketLandComplete;
 import com.machina.api.network.c2s.C2SRocketLaunch;
+import com.machina.api.network.c2s.C2SRocketLaunchComplete;
+import com.machina.api.network.c2s.C2SRocketCinematicOffset;
 import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.network.c2s.C2SSideConfig;
 import com.machina.api.network.c2s.C2SSpawnParticle;
+import com.machina.api.network.s2c.S2CCinematicLand;
 import com.machina.api.network.s2c.S2CCinematicLaunch;
 import com.machina.api.network.s2c.S2CFluidSync;
 import com.machina.api.network.s2c.S2COpenDirectionalContainer;
@@ -51,6 +55,9 @@ public class MachinaNetwork {
         c2s(C2SAssemblyStationCraft.class);
         c2s(C2SRocketSetDestination.class);
         c2s(C2SRocketLaunch.class);
+        c2s(C2SRocketCinematicOffset.class);
+        c2s(C2SRocketLaunchComplete.class);
+        c2s(C2SRocketLandComplete.class);
 
         s2c(S2COpenDirectionalContainer.class);
         s2c(S2CFluidSync.class);
@@ -58,6 +65,7 @@ public class MachinaNetwork {
         s2c(S2CUpdateDimensionList.class);
         s2c(S2CRocketScreenOpen.class);
         s2c(S2CCinematicLaunch.class);
+        s2c(S2CCinematicLand.class);
     }
 
     // Note from Cy4, this is probably the worst registration code I have ever

@@ -2,16 +2,16 @@ package com.machina.api.network.s2c;
 
 import com.machina.api.client.cinema.CinematicHandler;
 import com.machina.api.network.S2CMessage;
-import com.machina.client.cinema.LaunchCinematic;
+import com.machina.client.cinema.LandCinematic;
 import com.machina.rocket.RocketEntity;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 
-public record S2CCinematicLaunch(int entity) implements S2CMessage {
+public record S2CCinematicLand(int entity) implements S2CMessage {
 
-    public static S2CCinematicLaunch decode(FriendlyByteBuf buf) {
-        return new S2CCinematicLaunch(buf.readInt());
+    public static S2CCinematicLand decode(FriendlyByteBuf buf) {
+        return new S2CCinematicLand(buf.readInt());
     }
 
     @Override
@@ -26,7 +26,7 @@ public record S2CCinematicLaunch(int entity) implements S2CMessage {
             CinematicHandler.INSTANCE.enqueueCinematic(() -> mc.level != null, () -> {
                 Entity e = mc.level.getEntity(id);
                 if (e instanceof RocketEntity rocket) {
-                    return new LaunchCinematic(rocket);
+                    return new LandCinematic(rocket);
                 }
                 return null;
             });

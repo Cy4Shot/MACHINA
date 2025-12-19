@@ -41,6 +41,10 @@ public abstract class Cinematic {
     public abstract void onRenderTick(int tick, float par);
 
     public abstract int getDuration();
+    
+    protected boolean suppressFadeReset() {
+        return false;
+    }
 
     public String getId() {
         return this.id;
@@ -93,8 +97,10 @@ public abstract class Cinematic {
         }
 
         CameraUtil.resetCamera();
-        CinematicTextOverlay.render = false;
-        CinematicTextureOverlay.render = false;
+        if (!suppressFadeReset()) {
+            CinematicTextOverlay.render = false;
+            CinematicTextureOverlay.render = false;
+        }
 
         if (mc.level != null && this.clientEntity != null) {
             mc.level.removeEntity(this.clientEntity.getId(), Entity.RemovalReason.DISCARDED);

@@ -1,15 +1,26 @@
 package com.machina.api.client.cinema;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
+
 import com.machina.Machina;
 import com.machina.api.client.ClientTimer;
 import com.machina.api.client.cinema.entity.CinematicClientEntity;
 import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,6 +31,7 @@ public class CinematicHandler {
 
     public static final CinematicHandler INSTANCE = new CinematicHandler();
     private static final Minecraft mc = Minecraft.getInstance();
+    private Queue<Pair<BooleanSupplier, Supplier<Cinematic>>> queue = new LinkedList<>();
     private Cinematic current = null;
     private int elapsed = 0;
 
@@ -44,6 +56,16 @@ public class CinematicHandler {
                 } else if (type == TickEvent.Type.RENDER) {
                     current.onRenderTick(elapsed, partial);
                 }
+            } else {
+                Pair<BooleanSupplier, Supplier<Cinematic>> top = this.queue.peek();
+                if (top != null && top.getFirst().getAsBoolean()) {
+                    Cinematic next = top.getSecond().get();
+                    if (next != null) {
+                        mc.setScreen(null);
+                        this.current = next;
+                        this.queue.poll(); // Dequeue
+                    }
+                }
             }
         }
     }
@@ -52,12 +74,8 @@ public class CinematicHandler {
         return current != null;
     }
 
-    public void setCinematic(Cinematic c) {
-        if (!isActive()) {
-            mc.setScreen(null);
-            System.out.println("Playing cinematic " + c.getDuration());
-            this.current = c;
-        }
+    public void enqueueCinematic(BooleanSupplier predicate, Supplier<Cinematic> c) {
+        this.queue.offer(Pair.of(predicate, c));
     }
 
     @SubscribeEvent

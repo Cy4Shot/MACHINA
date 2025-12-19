@@ -12,6 +12,8 @@ import com.machina.api.client.cinema.effect.ShakeEffect;
 import com.machina.api.client.cinema.effect.SoundEffect;
 import com.machina.api.client.cinema.entity.CameraClientEntity;
 import com.machina.api.network.PacketSender;
+import com.machina.api.network.c2s.C2SRocketLaunchComplete;
+import com.machina.api.network.c2s.C2SRocketCinematicOffset;
 import com.machina.api.network.c2s.C2SSpawnParticle;
 import com.machina.api.util.math.DirUtil;
 import com.machina.registration.init.SoundInit;
@@ -23,8 +25,15 @@ import net.minecraft.world.phys.Vec3;
 
 public class LaunchCinematic extends PathCinematic {
 
+    private final int id;
+    
+    public LaunchCinematic(RocketEntity entity) {
+        this(new CameraClientEntity(), entity);
+    }
+
     public LaunchCinematic(CameraClientEntity p, RocketEntity entity) {
         super("launch", p);
+        this.id = entity.getId();
 
         Direction d = entity.getDirection();
         int yaw = DirUtil.toYaw(d.getOpposite());
@@ -41,6 +50,7 @@ public class LaunchCinematic extends PathCinematic {
         CameraEffect LAUNCH = new ActionEffect(ting -> {
             double off = Math.pow(Math.E, (double) ting / 9D) - 1D;
             clientEntity.moveTo(pos.add(0, off, 0));
+            entity.moveTo(pos.add(0, off, 0));
             PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.FLAME, -0.1f, 20, pos.add(0, off - 2.1D, 0),
                     new Vec3(0d, 1d, 0d)));
             PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.ANGRY_VILLAGER, -0.1f, 2,
@@ -51,7 +61,7 @@ public class LaunchCinematic extends PathCinematic {
                     pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
             PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.EXPLOSION, -0.1f, 6,
                     pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
-//            PacketSender.sendToServer(new C2SShipLaunchEffect(pos, ting));
+            PacketSender.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
         });
 
         CameraEffect PLACE_PLAYER = new ActionEffect(ting -> {
@@ -86,6 +96,11 @@ public class LaunchCinematic extends PathCinematic {
     @Override
     public void finish() {
         super.finish();
+        PacketSender.sendToServer(new C2SRocketLaunchComplete(this.id));
     }
-
+    
+    @Override
+    protected boolean suppressFadeReset() {
+        return true;
+    }
 }
