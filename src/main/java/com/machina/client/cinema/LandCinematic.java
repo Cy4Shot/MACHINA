@@ -48,13 +48,9 @@ public class LandCinematic extends PathCinematic {
             clientEntity.moveTo(pos.add(0, off, 0));
             entity.moveTo(pos.add(0, off, 0));
             PacketSender.sendToServer(
-                    new C2SSpawnParticle<>(ParticleTypes.FLAME, -0.1f, 2, pos.add(0, off - 2.1D, 0), Vec3.ZERO));
-            PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.ANGRY_VILLAGER, -0.1f, 4,
-                    pos.add(0, off - 2.1D, 0), Vec3.ZERO));
+                    new C2SSpawnParticle<>(ParticleTypes.FLAME, -0.1f, 3, pos.add(0, off - 2.1D, 0), Vec3.ZERO));
             PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
                     pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
-            PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 10,
-                    pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
             PacketSender.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
         });
 
@@ -77,5 +73,4 @@ public class LandCinematic extends PathCinematic {
         super.finish();
         PacketSender.sendToServer(new C2SRocketLandComplete(this.id));
     }
-
 }

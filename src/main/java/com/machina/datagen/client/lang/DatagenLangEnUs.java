@@ -812,6 +812,10 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket.tab.fueling", "Fueling");
         
         addUI("rocket.tab.storage", "Storage");
+        addUI("rocket.storage.invalid", "Destination Not Set");
+        addUI("rocket.storage.too_far", "Destination Too Far");
+        addUI("rocket.storage.missing_fuel", "Missing Fuel");
+        addUI("rocket.storage.valid", "Rocket Fully Fueled");
 
         addUI("rocket.tab.destination", "Destination");
         addUI("rocket.destination.invalid", "Invalid");

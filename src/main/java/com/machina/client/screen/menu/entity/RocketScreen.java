@@ -106,16 +106,29 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
             // TODO: Allow travel back to overworld
             if (destination.equals(Level.OVERWORLD)) {
-                MUI.drawString(gui,
-                        MUI.uistr("rocket.storage.invalid").withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)),
-                        i + 6, j + 6);
+                MUI.drawCenteredString(gui,
+                        MUI.uistr("rocket.storage.invalid").withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2)),
+                        i + 112, j + 6);
             } else {
-                MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.missing_fuel")
-                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
+                if (entity.isPossible()) {
+                    if (entity.fuelSatisfied()) {
+                        MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.valid")
+                                .withStyle(Style.EMPTY.withBold(true).withColor(MUI.GREEN)), i + 112, j + 6);
+                    } else {
+                        MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.missing_fuel")
+                                .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
+                    }
+                } else {
+                    MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.too_far")
+                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
+                }
             }
 
-            MUI.drawSlot(gui, i + 44, j + 46, mx, my, true, false);
-            MUI.drawSlot(gui, i + 164, j + 46, mx, my, true, false);
+            MUI.drawSlot(gui, i + 44, j + 88, mx, my, true, false);
+            MUI.drawSlot(gui, i + 164, j + 88, mx, my, true, false);
+
+            drawFluidBarVert(gui, 49, -10, 0);
+            drawFluidBarVert(gui, 169, -10, 1);
         }
 
         @Override
@@ -228,7 +241,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             drawButton(gui, mx, my, 112, 31, MuiSlot.TICK, () -> {
                 PacketSender.sendToServer(new C2SRocketLaunch(RocketScreen.this.menu.entity.getId()));
             }, () -> MUI.uistr("rocket.destination.launch"));
-            
+
             MUI.blitCommon(gui, i + 134, j + 84, 405, 13, 17, 6);
             MUI.blitCommon(gui, i + 82, j + 84, 422, 13, 17, 6);
         }
@@ -324,6 +337,19 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
         MUI.blitRocket(gui, i + 4, j - 47, 253, 26, 227, 114);
         sel.render(gui, this.menu.entity, mx, my, i + 4, j - 47);
         drawOverlay(gui);
+    }
+
+    @Override
+    protected void drawFluidBarVert(GuiGraphics gui, int x, int y, int tank) {
+        RocketEntity rocket = this.menu.entity;
+        drawBarVert(gui, x, y, StringUtils::formatFluid,
+                () -> StringUtils.fluid(rocket.getFluid(tank), true)
+                        .append(Component.literal(": ").withStyle(Style.EMPTY)),
+                () -> rocket.getFluidMB(tank), () -> rocket.getTankCapacity(tank), () -> rocket.getFluidF(tank),
+                (i, j, p) -> {
+                    float prop = rocket.getFluidF(tank);
+                    MUI.renderFluid(gui, rocket.getFluid(tank), i + 1, j + 41, 14, (int) (40 * prop), 0);
+                });
     }
 
     @Override

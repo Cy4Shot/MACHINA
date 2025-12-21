@@ -20,15 +20,16 @@ import com.machina.api.network.c2s.C2SItemMenuSync;
 import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
 import com.machina.api.network.c2s.C2SPartBenchCraft;
+import com.machina.api.network.c2s.C2SRocketCinematicOffset;
 import com.machina.api.network.c2s.C2SRocketLandComplete;
 import com.machina.api.network.c2s.C2SRocketLaunch;
 import com.machina.api.network.c2s.C2SRocketLaunchComplete;
-import com.machina.api.network.c2s.C2SRocketCinematicOffset;
 import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.network.c2s.C2SSideConfig;
 import com.machina.api.network.c2s.C2SSpawnParticle;
 import com.machina.api.network.s2c.S2CCinematicLand;
 import com.machina.api.network.s2c.S2CCinematicLaunch;
+import com.machina.api.network.s2c.S2CFluidEntitySync;
 import com.machina.api.network.s2c.S2CFluidSync;
 import com.machina.api.network.s2c.S2COpenDirectionalContainer;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
@@ -61,6 +62,7 @@ public class MachinaNetwork {
 
         s2c(S2COpenDirectionalContainer.class);
         s2c(S2CFluidSync.class);
+        s2c(S2CFluidEntitySync.class);
         s2c(S2CSyncStarchart.class);
         s2c(S2CUpdateDimensionList.class);
         s2c(S2CRocketScreenOpen.class);

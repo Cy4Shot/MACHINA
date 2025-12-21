@@ -111,7 +111,7 @@ public record RocketCosts(boolean possible, float distance, int fuelRequired, in
         double srcDist = src != -1 ? srcPlanet.a() : 0;
         double dstDist = dst != -1 ? dstPlanet.a() : 0;
 
-        float distance = (float) (dstDist - srcDist); // Weird Approximation
+        float distance = (float) Math.abs(dstDist - srcDist); // Weird Approximation
 
         float[] stats = new float[] { distance * 5_000, 0, 0 }; // 5 Bucket per AU
         calculateAtmCosts(rocket, srcPlanet, false, stats);

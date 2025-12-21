@@ -219,7 +219,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     protected void drawDownFacingSlot(GuiGraphics gui, int id, int mx, int my, int x, int y, MuiSlot slot,
-                                      String hover) {
+            String hover) {
         int i = midWidth() + x;
         int j = midHeight() + y;
         int h = mx > i && mx < i + 19 && my > j && my < j + 21 ? 115 : 94;
@@ -271,7 +271,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     protected void drawGhostSlot(GuiGraphics gui, Supplier<Boolean> empty, int mx, int my, int x, int y, MuiSlot slot,
-                                 String hover, BiConsumer<Integer, Integer> render) {
+            String hover, BiConsumer<Integer, Integer> render) {
         int i = midWidth() + x;
         int j = midHeight() + y;
         int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
@@ -290,7 +290,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     protected void drawButton(GuiGraphics gui, int mx, int my, int x, int y, MuiSlot slot, Runnable onClick,
-                              Supplier<Component> onHover) {
+            Supplier<Component> onHover) {
         String key = "button_" + x + "_" + y;
 
         int i = midWidth() + x;
@@ -306,7 +306,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     protected void drawButtonSmall(GuiGraphics gui, int mx, int my, int x, int y, MuiSlot slot, Runnable onClick,
-                                   Supplier<Component> onHover) {
+            Supplier<Component> onHover) {
         String key = "button_" + x + "_" + y;
 
         int i = midWidth() + x;
@@ -319,7 +319,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     protected void drawToggle(GuiGraphics gui, int mx, int my, int x, int y, boolean initial, MuiSlot slot1,
-                              MuiSlot slot2, Consumer<Boolean> onClick, Supplier<Component> onHover) {
+            MuiSlot slot2, Consumer<Boolean> onClick, Supplier<Component> onHover) {
         String key = "toggle_" + x + "_" + y;
         initState(key, initial);
 
@@ -338,7 +338,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     protected void drawToggleIO(GuiGraphics gui, int mx, int my, int x, int y, Side side, Supplier<Component> onHover,
-                                Runnable onClick) {
+            Runnable onClick) {
         String key = "toggle_" + x + "_" + y;
 
         int i = midWidth() + x;
@@ -356,40 +356,40 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     private <N extends Number> void drawBar(GuiGraphics gui, int x, int y, boolean active, String missing,
-                                            Function<N, String> formatter, Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max,
-                                            Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
+            Function<N, String> formatter, Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max,
+            Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
         int i = midWidth() + x + 117 - 66;
         int j = midHeight() + y - 9;
         registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 136, j + 18,
                 () -> active || missing.equals("none")
                         ? name.get()
-                        .append(Component
-                                .literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
-                                        + " (" + StringUtils.formatPercent(f.get()) + ")")
-                                .withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE)))
+                                .append(Component
+                                        .literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
+                                                + " (" + StringUtils.formatPercent(f.get()) + ")")
+                                        .withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE)))
                         : MUI.uistr(missing));
         MUI.drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
     }
 
     private <N extends Number> void drawBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing,
-                                                 Function<N, String> formatter, Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max,
-                                                 Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
+            Function<N, String> formatter, Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max,
+            Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
         int i = midWidth() + x + 117 - 20;
         int j = midHeight() + y - 9;
         registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 43, j + 18,
                 () -> active || missing.equals("none")
                         ? name.get()
-                        .append(Component
-                                .literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
-                                        + " (" + StringUtils.formatPercent(f.get()) + ")")
-                                .withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE)))
+                                .append(Component
+                                        .literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
+                                                + " (" + StringUtils.formatPercent(f.get()) + ")")
+                                        .withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE)))
                         : MUI.uistr(missing));
         MUI.drawBarSmall(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
     }
 
-    private <N extends Number> void drawBarVert(GuiGraphics gui, int x, int y, Function<N, String> formatter,
-                                                Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max, Supplier<Float> f,
-                                                TriConsumer<Integer, Integer, Float> drawer) {
+    protected <N extends Number> void drawBarVert(GuiGraphics gui, int x, int y, Function<N, String> formatter,
+            Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max, Supplier<Float> f,
+            TriConsumer<Integer, Integer, Float> drawer) {
         int i = midWidth() + x;
         int j = midHeight() + y;
         registerHoverable("bar_" + x + "_" + y, i, j, i + 15, j + 41,
@@ -404,14 +404,16 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, String missing) {
         if (entity instanceof MachinaBlockEntity mbe) {
             drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mbe::getEnergy,
-                    mbe::getMaxEnergy, mbe::getEnergyF, (i, j, p) -> MUI.blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14));
+                    mbe::getMaxEnergy, mbe::getEnergyF,
+                    (i, j, p) -> MUI.blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14));
         }
     }
 
     protected void drawEnergyBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing) {
         if (entity instanceof MachinaBlockEntity mbe) {
             drawBarSmall(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mbe::getEnergy,
-                    mbe::getMaxEnergy, mbe::getEnergyF, (i, j, p) -> MUI.blitCommon(gui, i + 1, j + 1, 366, 39, (int) (41 * p), 14));
+                    mbe::getMaxEnergy, mbe::getEnergyF,
+                    (i, j, p) -> MUI.blitCommon(gui, i + 1, j + 1, 366, 39, (int) (41 * p), 14));
         }
     }
 
@@ -465,7 +467,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     protected void drawSideConfig(GuiGraphics gui, int x, int y, int mx, int my, String name,
-                                  Supplier<ISideAdapter> adapter, MuiSlot slot) {
+            Supplier<ISideAdapter> adapter, MuiSlot slot) {
         int i = midWidth() - 3 + x;
         int j = midHeight() - 73 + y;
 
@@ -576,7 +578,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     private static BufferSource mbBuffers = null;
 
     private static void renderElements(PoseStack ms, ClientMultiblock mb, Vec3i dest, float par,
-                                       Predicate<BlockPos> transparency, boolean flip) {
+            Predicate<BlockPos> transparency, boolean flip) {
         if (mbBuffers == null) {
             mbBuffers = initBuffers(mc.renderBuffers().bufferSource());
         }
@@ -595,8 +597,8 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     private static void doWorldRenderPass(PoseStack ms, @Nonnull BufferSource tpBuffers,
-                                          @Nonnull BufferSource nmBuffers, ClientMultiblock mb, Vec3i dest, Predicate<BlockPos> transparency,
-                                          boolean flip) {
+            @Nonnull BufferSource nmBuffers, ClientMultiblock mb, Vec3i dest, Predicate<BlockPos> transparency,
+            boolean flip) {
         boolean last = false;
         for (int y = 0; y < dest.getY(); y++) {
             for (int x = 0; x < dest.getX(); x++) {
@@ -710,16 +712,16 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
     // https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
     public static void drawTiledSprite(GuiGraphics gui, int xPosition, int yPosition, int yOffset, int desiredWidth,
-                                       int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
-                                       TilingDirection tilingDirection) {
+            int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
+            TilingDirection tilingDirection) {
         drawTiledSprite(gui, xPosition, yPosition, yOffset, desiredWidth, desiredHeight, sprite, textureWidth,
                 textureHeight, zLevel, tilingDirection, true);
     }
 
     // https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
     public static void drawTiledSprite(GuiGraphics guiGraphics, int xPosition, int yPosition, int yOffset,
-                                       int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight,
-                                       int zLevel, TilingDirection tilingDirection, boolean blend) {
+            int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight,
+            int zLevel, TilingDirection tilingDirection, boolean blend) {
         if (desiredWidth == 0 || desiredHeight == 0 || textureWidth == 0 || textureHeight == 0) {
             return;
         }
@@ -835,7 +837,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     private record Hoverable(int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
-                             Supplier<Component> text) {
+            Supplier<Component> text) {
     }
 
     private record Clickable(int minX, int minY, int maxX, int maxY, Supplier<Boolean> active, Runnable action) {
@@ -849,7 +851,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     private void registerHoverable(String key, int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
-                                   Supplier<Component> text) {
+            Supplier<Component> text) {
         this.hoverables.putIfAbsent(key, new Hoverable(minX, minY, maxX, maxY, active, text));
     }
 
@@ -858,7 +860,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     private void registerClickable(String key, int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
-                                   Runnable action) {
+            Runnable action) {
         this.clickables.putIfAbsent(key, new Clickable(minX, minY, maxX, maxY, active, action));
     }
 
@@ -867,7 +869,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     private void registerClickable(String key, int minX, int minY, int maxX, int maxY, String state,
-                                   Consumer<Boolean> setter) {
+            Consumer<Boolean> setter) {
         registerClickable(key, minX, minY, maxX, maxY, () -> true, () -> {
             boolean val = getState(state);
             setState(state, !val);
@@ -876,13 +878,13 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
     }
 
     protected void clickAndHover(String key, int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
-                                 Supplier<Component> text, Runnable action) {
+            Supplier<Component> text, Runnable action) {
         registerHoverable(key, minX, minY, maxX, maxY, active, text);
         registerClickable(key, minX, minY, maxX, maxY, active, action);
     }
 
     protected void clickAndHoverItem(int minX, int minY, int maxX, int maxY, Supplier<Boolean> active,
-                                     Supplier<Component> text, Consumer<ItemStack> action) {
+            Supplier<Component> text, Consumer<ItemStack> action) {
         clickAndHover("click_and_hover" + minX + "_" + minY, minX, minY, maxX, maxY, active, text,
                 () -> action.accept(this.menu.getCarried()));
     }
