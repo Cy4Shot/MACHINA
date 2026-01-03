@@ -1,4 +1,4 @@
-// 1.20.1	2025-12-09T12:26:49.690369	Block States: machina
+// 1.20.1	2026-01-03T14:39:53.5423128	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -348,6 +348,7 @@ f011dcd5d43323c21522f401679cecfe0103258d assets/machina/blockstates/tropical_doo
 e44b8affc7723cc1ed2c1c62ebb887411a635c50 assets/machina/blockstates/tropical_log.json
 323647610d382b88b804e288e4bbdb860cfcc2bd assets/machina/blockstates/tropical_planks.json
 c2805bc4b9243ca2beef358f3658852ab478ca3c assets/machina/blockstates/tropical_pressure_plate.json
+2ceb6ea18d77c45ba6fc60bbf0ced56997ee6fa5 assets/machina/blockstates/tropical_sand.json
 19d28379d70a6dc2104544fb097e0cfbd13f4b9b assets/machina/blockstates/tropical_sign.json
 dfdafc4cdefd6607414bce6a00f36745b1773078 assets/machina/blockstates/tropical_slab.json
 4011681f93873847c05ecbcba4147e25e9bbaf1b assets/machina/blockstates/tropical_stairs.json
@@ -1016,6 +1017,7 @@ d8a06b64acbcff8abb5f9b4d10c21581926838bd assets/machina/models/block/tropical_le
 cda3f09b272259747cf22ac51d946c6ce219f9c2 assets/machina/models/block/tropical_planks.json
 c80918ab062cf3f508f0f96bcddde7c4dc638943 assets/machina/models/block/tropical_pressure_plate.json
 30d73a4d6d157cce570b044229271cbf1d7d2846 assets/machina/models/block/tropical_pressure_plate_down.json
+0365541d4b9bd17e84a482cb54dd88914fc34061 assets/machina/models/block/tropical_sand.json
 eeb3fb06ef445d09a26606edc818c7bc87d99d28 assets/machina/models/block/tropical_sign.json
 af3ce44943ab11a7329168d2ea065b446e7618b5 assets/machina/models/block/tropical_slab.json
 609291c04f12c18e14a00aaae6657850d2985ddd assets/machina/models/block/tropical_slab_top.json
@@ -1341,6 +1343,7 @@ c88f9305d1b5371c666e865351312a00c660a29e assets/machina/models/item/tropical_fen
 05a218dd36003c5a6ce7452bb2593bcab5c2fa4d assets/machina/models/item/tropical_log.json
 20071b367bd1329498d7bf190f2f8e2bdbe4a6c9 assets/machina/models/item/tropical_planks.json
 2d64b10ebea467e59f71736f2b11a7918b7d5fff assets/machina/models/item/tropical_pressure_plate.json
+7d097281b0e62dd1adaad4ec5e0fdbc9c32f5048 assets/machina/models/item/tropical_sand.json
 a4e91d47ffd7039e5e2d2a611af005ddca928ebf assets/machina/models/item/tropical_slab.json
 5d32623edd86bfe8171ff32d89a331c5d21745ae assets/machina/models/item/tropical_stairs.json
 39458103994db705a0f1c7539060e03616a46df5 assets/machina/models/item/tropical_trapdoor.json

@@ -1,5 +1,11 @@
 package com.machina.datagen.server;
 
+import java.util.concurrent.CompletableFuture;
+
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.Machina;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FamiliesInit;
@@ -8,6 +14,7 @@ import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.TagInit.BlockTagInit;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
@@ -22,14 +29,10 @@ import net.minecraft.world.level.block.TallFlowerBlock;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.concurrent.CompletableFuture;
 
 public class DatagenBlockTags extends BlockTagsProvider {
     public DatagenBlockTags(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
-                            @Nullable ExistingFileHelper existingFileHelper) {
+            @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Machina.MOD_ID, existingFileHelper);
     }
 
@@ -53,6 +56,8 @@ public class DatagenBlockTags extends BlockTagsProvider {
         tallFlower(BlockInit.SPINDLEGRASS);
         tallFlower(BlockInit.NEEDLETHATCH);
         tallFlower(BlockInit.ORPHEUM);
+
+        sand(BlockInit.TROPICAL_SAND);
 
         tag(BlockTags.FLOWERS).add(BlockInit.CLOVER.get(), BlockInit.PURPLE_GROUNDLILY.get(),
                 BlockInit.PINK_GROUNDLILY.get(), BlockInit.RED_GROUNDLILY.get(), BlockInit.ORANGE_GROUNDLILY.get(),
@@ -78,6 +83,10 @@ public class DatagenBlockTags extends BlockTagsProvider {
     private void tallFlower(RegistryObject<TallFlowerBlock> flower) {
         tag(BlockTags.FLOWERS).add(flower.get());
         tag(BlockTags.TALL_FLOWERS).add(flower.get());
+    }
+
+    private void sand(RegistryObject<? extends Block> sand) {
+        tag(BlockTags.SAND).add(sand.get());
     }
 
     private void oreFamily(OreFamily family) {

@@ -1,6 +1,7 @@
 package com.machina.client.screen.menu.entity;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +27,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.Level;
 
 public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
@@ -40,6 +43,9 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
         default boolean starchartVisible() {
             return false;
+        }
+
+        default void addSlots(RocketEntity entity, Consumer<Slot> add) {
         }
     }
 
@@ -100,6 +106,13 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     };
 
     private final RocketTabDisplay FUELING = new RocketTabDisplay() {
+
+        public void addSlots(RocketEntity entity, Consumer<Slot> add) {
+            SimpleContainer inv = entity.getOrCreateInventory();
+            add.accept(new Slot(inv, 0, 15, 15));
+            add.accept(new Slot(inv, 1, 15, 45));
+        }
+
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
             ResourceKey<Level> destination = entity.getDestination();
@@ -297,6 +310,14 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             ResourceKey<Level> dim = ResourceKey.create(Registries.DIMENSION, new MachinaRL(String.valueOf(selected)));
             PacketSender.sendToServer(new C2SRocketSetDestination(this.menu.entity.getId(), dim));
         });
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.menu.slots.clear();
+        this.menu.invSlots(mc.player.getInventory(), 0);
+        TABS.get(selected).addSlots(this.menu.entity, this.menu.slots::add);
     }
 
     @Override

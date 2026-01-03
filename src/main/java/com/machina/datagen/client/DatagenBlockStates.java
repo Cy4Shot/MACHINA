@@ -1,5 +1,7 @@
 package com.machina.datagen.client;
 
+import java.util.function.Function;
+
 import com.machina.Machina;
 import com.machina.api.block.ConnectorBlock;
 import com.machina.api.block.LitMachineBlock;
@@ -15,11 +17,27 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.FruitInit.Fruit;
+
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.PinkPetalsBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SignBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TallFlowerBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -29,8 +47,6 @@ import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.function.Function;
 
 public class DatagenBlockStates extends BlockStateProvider {
     public DatagenBlockStates(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -210,6 +226,8 @@ public class DatagenBlockStates extends BlockStateProvider {
         cubeRandomRotation(BlockInit.SILT);
         slab(BlockInit.SILT_SLAB, BlockInit.SILT);
         stairs(BlockInit.SILT_STAIRS, BlockInit.SILT);
+
+        cube(BlockInit.TROPICAL_SAND);
 
         cube(BlockInit.TROPICAL_PLANKS);
         leaves(BlockInit.TROPICAL_LEAVES);
@@ -412,7 +430,7 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleBlockWithItem(block, cubeAll(block));
     }
 
-    private void cube(RegistryObject<Block> blockRegistryObject) {
+    private void cube(RegistryObject<? extends Block> blockRegistryObject) {
         cube(blockRegistryObject.get());
     }
 

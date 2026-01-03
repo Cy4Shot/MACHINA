@@ -1,5 +1,12 @@
 package com.machina.datagen.server;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
+
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.Machina;
 import com.machina.item.CapacitorItem;
 import com.machina.registration.init.BlockInit;
@@ -12,6 +19,7 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TagInit.ItemTagInit;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
@@ -26,15 +34,10 @@ import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.TallFlowerBlock;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Stream;
 
 public class DatagenItemTags extends ItemTagsProvider {
     public DatagenItemTags(PackOutput po, CompletableFuture<HolderLookup.Provider> provider,
-                           CompletableFuture<TagLookup<Block>> lookup, @Nullable ExistingFileHelper helper) {
+            CompletableFuture<TagLookup<Block>> lookup, @Nullable ExistingFileHelper helper) {
         super(po, provider, lookup, Machina.MOD_ID, helper);
     }
 
@@ -79,6 +82,8 @@ public class DatagenItemTags extends ItemTagsProvider {
         tallFlower(BlockInit.NEEDLETHATCH);
         tallFlower(BlockInit.ORPHEUM);
 
+        sand(BlockInit.TROPICAL_SAND);
+
         FamiliesInit.ORES.forEach(this::oreFamily);
         FamiliesInit.DIRTS.forEach(this::dirtFamily);
         FamiliesInit.STONES.forEach(this::stoneFamily);
@@ -98,6 +103,10 @@ public class DatagenItemTags extends ItemTagsProvider {
 
     private void flower(RegistryObject<? extends BushBlock> flower) {
         tag(ItemTags.FLOWERS).add(flower.get().asItem());
+    }
+
+    private void sand(RegistryObject<? extends Block> sand) {
+        tag(ItemTags.SAND).add(sand.get().asItem());
     }
 
     private void capacitor(RegistryObject<? extends CapacitorItem> capacitor) {

@@ -122,7 +122,7 @@ public class PlanetBiome extends Biome {
         }
 
         for (PlanetBiomeRock rock : s.rocks()) {
-            add(builder, Decoration.SURFACE_STRUCTURES, new PlanetRockFeature(),
+            add(builder, Decoration.VEGETAL_DECORATION, new PlanetRockFeature(),
                     new PlanetRockFeature.PlanetRockFeatureConfig(rock), chance(rock.chance()), spread(), onSurface(),
                     biome());
         }

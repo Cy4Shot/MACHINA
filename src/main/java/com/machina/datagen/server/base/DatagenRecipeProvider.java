@@ -125,24 +125,24 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void ore(Consumer<FinishedRecipe> gen, List<ItemLike> ing, ItemLike res, float exp, int duration,
-                              String group) {
+            String group) {
         oreSmelting(gen, ing, res, exp, duration, group);
         oreBlasting(gen, ing, res, exp, duration / 2, group);
     }
 
     protected static void oreSmelting(@NotNull Consumer<FinishedRecipe> gen, List<ItemLike> ing, @NotNull ItemLike res,
-                                      float exp, int pCookingTIme, @NotNull String group) {
+            float exp, int pCookingTIme, @NotNull String group) {
         oreCooking(gen, RecipeSerializer.SMELTING_RECIPE, ing, res, exp, pCookingTIme, group, "_from_smelting");
     }
 
     protected static void oreBlasting(@NotNull Consumer<FinishedRecipe> gen, List<ItemLike> ing, @NotNull ItemLike res,
-                                      float exp, int time, @NotNull String group) {
+            float exp, int time, @NotNull String group) {
         oreCooking(gen, RecipeSerializer.BLASTING_RECIPE, ing, res, exp, time, group, "_from_blasting");
     }
 
     protected static void oreCooking(@NotNull Consumer<FinishedRecipe> gen,
-                                     @NotNull RecipeSerializer<? extends AbstractCookingRecipe> ser, List<ItemLike> ing, @NotNull ItemLike res,
-                                     float exp, int time, @NotNull String group, String name) {
+            @NotNull RecipeSerializer<? extends AbstractCookingRecipe> ser, List<ItemLike> ing, @NotNull ItemLike res,
+            float exp, int time, @NotNull String group, String name) {
         for (ItemLike itemlike : ing) {
             //@formatter:off
 			SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), RecipeCategory.MISC, res, exp, time, ser)
@@ -155,7 +155,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 
     // Machina Recipe Builders
     protected static void reactff_f(@NotNull Consumer<FinishedRecipe> gen, FluidObject input1, int amount1,
-                                    FluidObject input2, int amount2, FluidObject output, int amount, int energy) {
+            FluidObject input2, int amount2, FluidObject output, int amount, int energy) {
         //@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
 			.in(new FluidStack(input1.fluid(), amount1))
@@ -167,8 +167,8 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void reactfi_fi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
-                                     RegistryObject<? extends Item> i2, int a2, FluidObject o1, int b1, RegistryObject<? extends Item> o2,
-                                     int b2, int energy, int periodicity) {
+            RegistryObject<? extends Item> i2, int a2, FluidObject o1, int b1, RegistryObject<? extends Item> o2,
+            int b2, int energy, int periodicity) {
         //@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
 			.in(new FluidStack(i1.fluid(), a1))
@@ -182,7 +182,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void reactff_i(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1, FluidObject i2,
-                                    int a2, RegistryObject<? extends Item> o, int b, int energy, int periodicity) {
+            int a2, RegistryObject<? extends Item> o, int b, int energy, int periodicity) {
         //@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
 			.in(new FluidStack(i1.fluid(), a1))
@@ -195,7 +195,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_f_ff(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a, FluidObject o1,
-                                            int b1, FluidObject o2, int b2, int energy) {
+            int b1, FluidObject o2, int b2, int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i.fluid(), a))
@@ -207,7 +207,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_f_fff(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a,
-                                             FluidObject o1, int b1, FluidObject o2, int b2, FluidObject o3, int b3, int energy) {
+            FluidObject o1, int b1, FluidObject o2, int b2, FluidObject o3, int b3, int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i.fluid(), a))
@@ -220,7 +220,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_ff_ff(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
-                                             FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, int energy) {
+            FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i1.fluid(), a1))
@@ -233,8 +233,8 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_ff_fff(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
-                                              FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, FluidObject o3, int b3,
-                                              int energy) {
+            FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, FluidObject o3, int b3,
+            int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i1.fluid(), a1))
@@ -248,8 +248,8 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_ff_ffi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i1, int a1,
-                                              FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, RegistryObject<? extends Item> o3,
-                                              int p, int energy) {
+            FluidObject i2, int a2, FluidObject o1, int b1, FluidObject o2, int b2, RegistryObject<? extends Item> o3,
+            int p, int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i1.fluid(), a1))
@@ -264,7 +264,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_fi_f(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a,
-                                            RegistryObject<? extends Item> o1, int a2, FluidObject o2, int b2, int period, int energy) {
+            RegistryObject<? extends Item> o1, int a2, FluidObject o2, int b2, int period, int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i.fluid(), a))
@@ -277,8 +277,8 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_fi_fi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a,
-                                             RegistryObject<? extends Item> o1, int a2, FluidObject o2, int b2, RegistryObject<? extends Item> o3, int p,
-                                             int energy) {
+            RegistryObject<? extends Item> o1, int a2, FluidObject o2, int b2, RegistryObject<? extends Item> o3, int p,
+            int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i.fluid(), a))
@@ -292,7 +292,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_f_fi(@NotNull Consumer<FinishedRecipe> gen, FluidObject i, int a, FluidObject o1,
-                                            int b1, RegistryObject<? extends Item> o2, int p, int energy) {
+            int b1, RegistryObject<? extends Item> o2, int p, int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i.fluid(), a))
@@ -305,8 +305,8 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void electrolysis_i_ff_c(@NotNull Consumer<FinishedRecipe> gen, RegistryObject<? extends Item> i,
-                                              int a, FluidObject o1, int b1, FluidObject o2, int b2, RegistryObject<? extends Item> c, int p,
-                                              int energy) {
+            int a, FluidObject o1, int b1, FluidObject o2, int b2, RegistryObject<? extends Item> c, int p,
+            int energy) {
         //@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(i.get(), a)
@@ -320,7 +320,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
     }
 
     protected static void rocket_part(@NotNull Consumer<FinishedRecipe> gen,
-                                      RegistryObject<? extends RocketPart<?>> reg, int energy, ItemStack... in) {
+            RegistryObject<? extends RocketPart<?>> reg, int energy, ItemStack... in) {
         MachinaRecipeBuilder<?> builder = MachinaRecipeBuilder.create(RecipeInit.ROCKET_PART_BENCH);
         RocketPartItem item = reg.get().getItem();
         for (ItemStack stack : in) {

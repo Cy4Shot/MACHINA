@@ -1,6 +1,5 @@
 package com.machina.rocket;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
@@ -20,9 +19,9 @@ public class RocketMenu extends MachinaAnyMenu {
 
     public RocketEntity entity;
     private final Container container;
-    
+
     public RocketMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-        this(id, inv, null, null);
+        this(id, inv, inv, null);
     }
 
     public RocketMenu(int w, Inventory playerInv, Container container, RocketEntity entity) {
@@ -30,10 +29,8 @@ public class RocketMenu extends MachinaAnyMenu {
 
         this.entity = entity;
         this.container = container;
-        
+
         container.startOpen(playerInv.player);
-        
-        invSlots(playerInv, 0);
     }
 
     @Override
@@ -42,41 +39,16 @@ public class RocketMenu extends MachinaAnyMenu {
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int i) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = slots.get(i);
-
-        if (slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
-            itemstack = itemstack1.copy();
-
-            if (i < getContainerSize()) {
-                if (!moveItemStackTo(itemstack1, getContainerSize(), getContainerSize() + 36, true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else {
-                for (int x = 0; x < getContainerSize(); x++) {
-                    if (slots.get(x).mayPlace(itemstack) && !moveItemStackTo(itemstack1, x, x + 1, true)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
-            }
-
-            if (itemstack1.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
-
-            if (itemstack1.getCount() == itemstack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
-            slot.onTake(player, itemstack1);
+    public ItemStack quickMoveStack(Player player, int id) {
+        if (id >= this.slots.size() - 9 && id < this.slots.size()) {
+           Slot slot = this.slots.get(id);
+           if (slot != null && slot.hasItem()) {
+              slot.setByPlayer(ItemStack.EMPTY);
+           }
         }
 
-        return itemstack;
-    }
+        return ItemStack.EMPTY;
+     }
 
     @Override
     public @Nullable BlockState getDefaultState() {
@@ -93,10 +65,6 @@ public class RocketMenu extends MachinaAnyMenu {
         return this.entity.getDisplayName();
     }
 
-    private int getContainerSize() {
-        return this.container.getContainerSize();
-    }
-    
     @Override
     public void removed(Player player) {
         super.removed(player);

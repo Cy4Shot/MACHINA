@@ -156,6 +156,8 @@ public class DatagenLootTables extends LootTableProvider {
             FamiliesInit.DIRTS.forEach(this::dirtFamily);
             FamiliesInit.STONES.forEach(this::stoneFamily);
             FamiliesInit.WOODS.forEach(this::woodFamily);
+
+            dropSelf(BlockInit.TROPICAL_SAND.get());
         }
 
         private void oreFamily(OreFamily family) {

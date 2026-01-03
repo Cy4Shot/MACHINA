@@ -105,6 +105,11 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         this(EntityTypeInit.ROCKET.get(), level);
         this.setProps(props);
     }
+    
+    public SimpleContainer getOrCreateInventory() {
+        createInventory(getProps());
+        return this.inventory;
+    }
 
     protected void createInventory(RocketProps props) {
         SimpleContainer sc = this.inventory;

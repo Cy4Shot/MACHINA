@@ -1,11 +1,41 @@
 package com.machina.registration.init;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import com.machina.Machina;
-import com.machina.block.*;
+import com.machina.block.MachinaHangingSignBlock;
+import com.machina.block.MachinaHangingWallSignBlock;
+import com.machina.block.MachinaSignBlock;
+import com.machina.block.MachinaWallSignBlock;
+import com.machina.block.MachinaWaterlilyBlock;
+import com.machina.block.PebbleBlock;
+import com.machina.block.SmallFlowerBlock;
 import com.machina.block.connector.EnergyCableBlock;
 import com.machina.block.connector.FluidPipeBlock;
 import com.machina.block.connector.ItemConduitBlock;
-import com.machina.block.machine.*;
+import com.machina.block.machine.AtmosphericSeparatorBlock;
+import com.machina.block.machine.BatteryBlock;
+import com.machina.block.machine.ChemicalGeneratorBlock;
+import com.machina.block.machine.ComposterVatBlock;
+import com.machina.block.machine.CompressorBlock;
+import com.machina.block.machine.CreativeBatteryBlock;
+import com.machina.block.machine.ElectricPumpBlock;
+import com.machina.block.machine.ElectricSmelterBlock;
+import com.machina.block.machine.ElectrolyzerBlock;
+import com.machina.block.machine.FurnaceGeneratorBlock;
+import com.machina.block.machine.GrinderBlock;
+import com.machina.block.machine.MachineCaseBlock;
+import com.machina.block.machine.MelterBlock;
+import com.machina.block.machine.ReactionChamberBlock;
+import com.machina.block.machine.RocketAssemblyStationBlock;
+import com.machina.block.machine.RocketPartBenchBlock;
+import com.machina.block.machine.SawmillBlock;
+import com.machina.block.machine.SolidifierBlock;
+import com.machina.block.machine.TankBlock;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -13,18 +43,31 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.FlowerBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.PinkPetalsBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TallFlowerBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class BlockInit {
     public static final List<RegistryObject<? extends Block>> SIGNS = new ArrayList<>();
@@ -213,13 +256,15 @@ public class BlockInit {
 	public static final RegistryObject<Block> PEAT = block("peat", Blocks.MUD);
 	public static final RegistryObject<StairBlock> PEAT_STAIRS = stairs("peat_stairs", PEAT, Blocks.MUD);
 	public static final RegistryObject<SlabBlock> PEAT_SLAB = slab("peat_slab", Blocks.MUD);
-	
+
+    public static final RegistryObject<FallingBlock> TROPICAL_SAND = falling("tropical_sand", Blocks.SAND);
+
 	public static final WoodType TROPICAL = registerWoodType("tropical");
 	public static final WoodType DEAD_TROPICAL = registerWoodType("dead_tropical");
 	public static final WoodType PINE = registerWoodType("pine");
 	public static final WoodType CONIFEROUS = registerWoodType("coniferous");
 	public static final WoodType CYCAD = registerWoodType("cycad");
-	
+
 	public static final RegistryObject<RotatedPillarBlock> TROPICAL_LOG = log("tropical_log", Blocks.OAK_LOG);
 	public static final RegistryObject<RotatedPillarBlock> TROPICAL_WOOD = log("tropical_wood", Blocks.OAK_WOOD);
 	public static final RegistryObject<RotatedPillarBlock> STRIPPED_TROPICAL_LOG = log("stripped_tropical_log", Blocks.STRIPPED_OAK_LOG);
@@ -436,6 +481,10 @@ public class BlockInit {
 
     public static RegistryObject<Block> block(String name, Block prop) {
         return register(name, prop, a -> a, Block::new);
+    }
+    
+    public static RegistryObject<FallingBlock> falling(String name, Block prop) {
+        return register(name, prop, a -> a, FallingBlock::new);
     }
 
     public static RegistryObject<SlabBlock> slab(String name, Block prop) {

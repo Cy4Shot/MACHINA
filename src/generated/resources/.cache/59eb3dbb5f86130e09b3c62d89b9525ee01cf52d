@@ -1,4 +1,4 @@
-// 1.20.1	2025-06-14T22:14:02.2996544	Loot Tables
+// 1.20.1	2026-01-03T14:39:53.5243081	Loot Tables
 883abec946b74ce741aa82e45538d67d7e112d29 data/machina/loot_tables/blocks/acetaldehyde_block.json
 d36695d846607834cf751d97f1c8e685437f7766 data/machina/loot_tables/blocks/acetic_acid_block.json
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_tables/blocks/aluminum_block.json
@@ -356,6 +356,7 @@ ea85694c96a997fe24f781abf6765906d4ce65ed data/machina/loot_tables/blocks/tropica
 735d7f86ba8da9e94c5445f37d1cb11e42ddd41f data/machina/loot_tables/blocks/tropical_log.json
 f9ede7b23a90405026ff632bab14d2aafdd5fbf2 data/machina/loot_tables/blocks/tropical_planks.json
 7c17f6bd6585c2ed55615933490f70fbc629d182 data/machina/loot_tables/blocks/tropical_pressure_plate.json
+3a8727efc88a2fdcb3043e5fd562c2d0ce21614e data/machina/loot_tables/blocks/tropical_sand.json
 f0d3b0a7d70a8cfa4aa966eee91c456e2efe2dcb data/machina/loot_tables/blocks/tropical_sign.json
 737a0e0fb369ffcc4facefecfa055847d0d31390 data/machina/loot_tables/blocks/tropical_slab.json
 c2ad72386e2b08a512b836d5809935d40b331159 data/machina/loot_tables/blocks/tropical_stairs.json

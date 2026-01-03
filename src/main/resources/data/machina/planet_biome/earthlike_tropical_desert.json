@@ -4,102 +4,122 @@
 		"sky_color": 0,
 		"water_color": 0,
 		"water_fog_color": 0,
-		"grass_color": 3563283
+		"grass_color": 6057754
 	},
-	"base": "machina:forest_dirt",
-	"stair": "machina:forest_dirt_stairs",
-	"slab": "machina:forest_dirt_slab",
-	"extra": "machina:peat",
-	"top": "machina:forest_grass_block",
-	"second": "machina:forest_dirt",
+	"base": "machina:feldspar",
+	"stair": "machina:feldspar_stairs",
+	"slab": "machina:feldspar_slab",
+	"extra": "machina:tropical_sand",
+	"top": "machina:tropical_sand",
+	"second": "machina:tropical_sand",
 	"trees": [
 		{
-			"type": "machina:fir",
+			"type": "machina:radial_baobab",
 			"blocks": [
-				"machina:pine_wood",
-				"machina:pine_leaves[persistent=true]"
+				"machina:dead_tropical_wood",
+				"minecraft:air"
 			],
-			"chance": 1,
+			"chance": 0.02,
 			"fruits": [
-				"machina:strapple"
+			],
+			"fruit_dirs": [
+			],
+			"fruit_chance": 0,
+			"tree_fruit_chance": 0
+		},
+		{
+			"type": "machina:cone",
+			"blocks": [
+				"machina:dead_tropical_wood",
+				"minecraft:air"
+			],
+			"chance": 0.02,
+			"fruits": [
+			],
+			"fruit_dirs": [
+			],
+			"fruit_chance": 0,
+			"tree_fruit_chance": 0
+		},
+		{
+			"type": "machina:radial_baobab",
+			"blocks": [
+				"machina:dead_tropical_wood",
+				"machina:dead_tropical_leaves"
+			],
+			"chance": 0.01,
+			"fruits": [
+				"machina:dead_tropical_fence"
 			],
 			"fruit_dirs": [
 				"DOWN"
 			],
 			"fruit_chance": 0.03,
-			"tree_fruit_chance": 0.1
+			"tree_fruit_chance": 0.8
+		},
+		{
+			"type": "machina:cone",
+			"blocks": [
+				"machina:dead_tropical_wood",
+				"machina:dead_tropical_leaves"
+			],
+			"chance": 0.01,
+			"fruits": [
+				"machina:dead_tropical_fence"
+			],
+			"fruit_dirs": [
+				"DOWN"
+			],
+			"fruit_chance": 0.03,
+			"tree_fruit_chance": 0.8
 		}
 	],
 	"bushes": [
-		{
-			"block": "machina:pine_leaves[persistent=true]",
-			"radius": 2.5,
-			"chance": 3
-		}
 	],
 	"grass": {
 		"enabled": true,
-		"min": 20,
-		"max": 30,
+		"min": 1,
+		"max": 2,
 		"grasses": [
 			{
-				"block": "machina:coniferous_grass",
-				"weight": 25
-			},
-			{
-				"block": "machina:short_coniferous_grass",
-				"weight": 25
-			},
-			{
-				"block": "machina:shale_pebbles",
+				"block": "machina:feldspar_pebbles",
 				"weight": 5
 			},
 			{
-				"block": "machina:spindlesprout",
-				"weight": 2
-			},
-			{
-				"block": "machina:green_glowshroom",
-				"weight": 5
-			},
-			{
-				"block": "machina:spruce_cup",
-				"weight": 5
-			},
-			{
-				"block": "machina:green_petals[flower_amount=1]",
-				"weight": 2
-			},
-			{
-				"block": "machina:green_petals[flower_amount=2]",
-				"weight": 1
-			},
-			{
-				"block": "machina:turquoise_petals[flower_amount=1]",
+				"block": "machina:migmatite_pebbles",
 				"weight": 1
 			}
 		]
 	},
 	"lakes": {
-		"enabled": true,
-		"block": "machina:peat",
-		"chance": 0.1,
+		"enabled": false,
+		"block": "minecraft:air",
+		"chance": 0,
 		"decorator_chance": 0,
 		"decorators": [
 		]
 	},
 	"rocks": [
 		{
-			"base": "machina:shale",
-			"stair": "machina:shale_stairs",
-			"slab": "machina:shale_slab",
-			"wall": "machina:shale_wall",
+			"base": "machina:feldspar",
+			"stair": "machina:feldspar_stairs",
+			"slab": "machina:feldspar_slab",
+			"wall": "machina:feldspar_wall",
 			"chance": 1,
 			"radius": 1.01,
 			"deform": 2.0
 		}
 	],
 	"big_rocks": [
+		{
+			"type": "machina:wisp",
+			"block": "machina:feldspar",
+			"extra": "machina:feldspar_wall",
+			"chance": 0.1,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0.3,
+			"side_extra_chance": 0
+		}
 	],
 	"ores": [
 		{

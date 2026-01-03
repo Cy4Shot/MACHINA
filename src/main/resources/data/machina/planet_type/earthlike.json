@@ -23,6 +23,12 @@
 			]
 		},
 		{
+			"name": "machina:earthlike_tropical_desert",
+			"placements": [
+				"MIDDLE", "BEACH"
+			]
+		},
+		{
 			"name": "machina:earthlike_coniferous_forest",
 			"placements": [
 				"MIDDLE", "PLATEAU"
@@ -50,6 +56,12 @@
 			"name": "machina:earthlike_windswept_plateau",
 			"placements": [
 				"PLATEAU"
+			]
+		},
+		{
+			"name": "machina:earthlike_bayou",
+			"placements": [
+				"OCEAN"
 			]
 		}
 	],

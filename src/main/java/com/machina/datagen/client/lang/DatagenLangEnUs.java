@@ -343,6 +343,8 @@ public class DatagenLangEnUs extends DatagenLang {
         add(BlockInit.SILT_STAIRS, "Silt Stairs");
         add(BlockInit.SILT_SLAB, "Silt Slab");
 
+        add(BlockInit.TROPICAL_SAND, "Tropical Sand");
+
         add(BlockInit.TROPICAL_BUTTON, "Tropical Button");
         add(BlockInit.TROPICAL_DOOR, "Tropical Door");
         add(BlockInit.TROPICAL_FENCE, "Tropical Fence");
