@@ -41,6 +41,12 @@
 			]
 		},
 		{
+			"name": "machina:earthlike_tropical_forest",
+			"placements": [
+				"MIDDLE"
+			]
+		},
+		{
 			"name": "machina:earthlike_mushroom_forest",
 			"placements": [
 				"MIDDLE"

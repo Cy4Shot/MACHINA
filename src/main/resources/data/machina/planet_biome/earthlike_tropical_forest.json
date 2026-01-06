@@ -1,0 +1,307 @@
+{
+	"effects": {
+		"fog_color": 0,
+		"sky_color": 0,
+		"water_color": 0,
+		"water_fog_color": 0,
+		"grass_color": 6057754
+	},
+	"base": "machina:tropical_dirt",
+	"stair": "machina:tropical_dirt_stairs",
+	"slab": "machina:tropical_dirt_slab",
+	"extra": "machina:silt",
+	"top": "machina:tropical_grass_block",
+	"second": "machina:tropical_dirt",
+	"trees": [
+		{
+			"type": "machina:radial_baobab",
+			"blocks": [
+				"machina:tropical_wood",
+				"machina:tropical_leaves[persistent=true]"
+			],
+			"chance": 0.3,
+			"fruits": [
+				"machina:tama_spore"
+			],
+			"fruit_dirs": [
+				"DOWN"
+			],
+			"fruit_chance": 0.03,
+			"tree_fruit_chance": 0.3
+		},
+		{
+			"type": "machina:acacia",
+			"blocks": [
+				"machina:tropical_wood",
+				"machina:tropical_leaves[persistent=true]"
+			],
+			"chance": 1.2,
+			"fruits": [
+			],
+			"fruit_dirs": [
+			],
+			"fruit_chance": 0,
+			"tree_fruit_chance": 0
+		},
+		{
+			"type": "machina:lollipop",
+			"blocks": [
+				"machina:tropical_wood",
+				"machina:tropical_leaves[persistent=true]"
+			],
+			"chance": 0.5,
+			"fruits": [
+			],
+			"fruit_dirs": [
+			],
+			"fruit_chance": 0,
+			"tree_fruit_chance": 0
+		},
+		{
+			"type": "machina:bell_mushroom",
+			"blocks": [
+				"machina:tropical_wood",
+				"machina:tropical_leaves[persistent=true]",
+				"machina:tropical_leaves[persistent=true]"
+			],
+			"chance": 0.2,
+			"fruits": [
+				"machina:erbi_pod"
+			],
+			"fruit_dirs": [
+				"DOWN"
+			],
+			"fruit_chance": 0.03,
+			"tree_fruit_chance": 0.3
+		},
+		{
+			"type": "machina:jungle",
+			"blocks": [
+				"machina:tropical_wood",
+				"machina:tropical_leaves[persistent=true]"
+			],
+			"chance": 0.2,
+			"fruits": [
+				"machina:y2_nana"
+			],
+			"fruit_dirs": [
+				"DOWN"
+			],
+			"fruit_chance": 0.05,
+			"tree_fruit_chance": 0.8
+		}
+	],
+	"bushes": [
+		{
+			"block": "machina:tropical_leaves[persistent=true]",
+			"radius": 2.5,
+			"chance": 5
+		}
+	],
+	"grass": {
+		"enabled": true,
+		"min": 20,
+		"max": 30,
+		"grasses": [
+			{
+				"block": "machina:tropical_grass",
+				"weight": 200
+			},
+			{
+				"block": "machina:small_fern",
+				"weight": 40
+			},
+			{
+				"block": "machina:feldspar_pebbles",
+				"weight": 20
+			},
+			{
+				"block": "machina:gneiss_pebbles",
+				"weight": 20
+			},
+			{
+				"block": "machina:dead_small_fern",
+				"weight": 20
+			},
+			{
+				"block": "machina:spindlegrass",
+				"weight": 20
+			},
+			{
+				"block": "machina:spindlesprout",
+				"weight": 20
+			},
+			{
+				"block": "machina:clover",
+				"weight": 20
+			},
+			{
+				"block": "machina:yellow_petals[flower_amount=1]",
+				"weight": 1
+			},
+			{
+				"block": "machina:yellow_petals[flower_amount=2]",
+				"weight": 1
+			}
+		]
+	},
+	"lakes": {
+		"enabled": true,
+		"block": "machina:silt",
+		"chance": 0.8,
+		"decorator_chance": 0.4,
+		"decorators": [
+			{
+				"block": "machina:yellow_waterlily",
+				"weight": 2
+			},
+			{
+				"block": "machina:orange_waterlily",
+				"weight": 4
+			},
+			{
+				"block": "machina:red_waterlily",
+				"weight": 1
+			}
+		]
+	},
+	"rocks": [
+		{
+			"base": "machina:feldspar",
+			"stair": "machina:feldspar_stairs",
+			"slab": "machina:feldspar_slab",
+			"wall": "machina:feldspar_wall",
+			"chance": 0.45,
+			"radius": 1.01,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:feldspar",
+			"stair": "machina:feldspar_stairs",
+			"slab": "machina:feldspar_slab",
+			"wall": "machina:feldspar_wall",
+			"chance": 0.7,
+			"radius": 2.51,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:gneiss",
+			"stair": "machina:gneiss_stairs",
+			"slab": "machina:gneiss_slab",
+			"wall": "machina:gneiss_wall",
+			"chance": 0.45,
+			"radius": 1.01,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:gneiss",
+			"stair": "machina:gneiss_stairs",
+			"slab": "machina:gneiss_slab",
+			"wall": "machina:gneiss_wall",
+			"chance": 0.7,
+			"radius": 2.51,
+			"deform": 2.0
+		}
+	],
+	"big_rocks": [
+		{
+			"type": "machina:wisp",
+			"block": "machina:feldspar",
+			"extra": "machina:feldspar_wall",
+			"chance": 0.1,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0.3,
+			"side_extra_chance": 0
+		}
+	],
+	"ores": [
+		{
+			"block": "machina:green_soapstone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:limestone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:gneiss",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:andesite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 4,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:granite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:diorite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:migmatite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:marble",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:anthracite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:shale",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:chalk",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 10,
+			"min_y": -64,
+			"max_y": 256
+		}
+	]
+}

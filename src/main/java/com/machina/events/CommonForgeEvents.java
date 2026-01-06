@@ -1,17 +1,23 @@
 package com.machina.events;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.machina.Machina;
 import com.machina.api.block.IClickableBlock;
 import com.machina.api.recipe.RecipeRefreshManager;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeTree;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.JsonLoaderInit;
+import com.machina.registration.init.PlanetTreeInit;
 import com.machina.world.PlanetRegistrationHandler;
 import com.machina.world.biome.PlanetBiome;
 import com.machina.world.data.PlanetDimensionData;
+import com.machina.world.feature.PlanetTreeFeature;
 import com.mojang.serialization.Lifecycle;
 
 import net.minecraft.core.BlockPos;
@@ -28,9 +34,13 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ToolAction;
@@ -83,20 +93,20 @@ public class CommonForgeEvents {
     @SubscribeEvent
     public static void onDebug(final ItemTossEvent event) {
 
-//		if (event.getEntity().getItem().getItem().equals(Items.STICK)) {
-//			System.out.println("Placing tree");
-//			boolean val = new PlanetTreeFeature().place(new FeaturePlaceContext<>(Optional.empty(),
-//					(WorldGenLevel) event.getPlayer().level(), null, event.getPlayer().getRandom(),
-//					event.getPlayer().level().getHeightmapPos(Types.OCEAN_FLOOR, event.getPlayer().blockPosition())
-//							.above(5),
-//					new PlanetTreeFeature.PlanetTreeFeatureConfig(
-//							new PlanetBiomeTree(PlanetTreeInit.BRANCH_FUNNEL_MUSHROOM.getId(),
-//									List.of(Blocks.DIAMOND_BLOCK.defaultBlockState(),
-//											Blocks.GREEN_STAINED_GLASS.defaultBlockState()),
-//									1, List.of(), List.of(), 0, 0))));
-//			System.out.println("Result: " + val);
-//			return;
-//		}
+		if (event.getEntity().getItem().getItem().equals(Items.STICK)) {
+			System.out.println("Placing tree");
+			boolean val = new PlanetTreeFeature().place(new FeaturePlaceContext<>(Optional.empty(),
+					(WorldGenLevel) event.getPlayer().level(), null, event.getPlayer().getRandom(),
+					event.getPlayer().level().getHeightmapPos(Types.OCEAN_FLOOR, event.getPlayer().blockPosition())
+							.above(5),
+					new PlanetTreeFeature.PlanetTreeFeatureConfig(
+							new PlanetBiomeTree(PlanetTreeInit.JUNGLE.getId(),
+									List.of(Blocks.DIAMOND_BLOCK.defaultBlockState(),
+											Blocks.GREEN_STAINED_GLASS.defaultBlockState()),
+									1, List.of(), List.of(), 0, 0))));
+			System.out.println("Result: " + val);
+			return;
+		}
 //
 		int id = 2;
 		if (!event.getPlayer().level().isClientSide()) {

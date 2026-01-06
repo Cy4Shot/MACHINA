@@ -9,6 +9,7 @@ import com.machina.world.feature.tree.BranchFunnelMushroomTree;
 import com.machina.world.feature.tree.ConeTree;
 import com.machina.world.feature.tree.DeadRadialBaobabTree;
 import com.machina.world.feature.tree.FirTree;
+import com.machina.world.feature.tree.JungleTree;
 import com.machina.world.feature.tree.LollipopTree;
 import com.machina.world.feature.tree.RadialBaobabTree;
 import com.machina.world.feature.tree.SmallFirTree;
@@ -31,5 +32,6 @@ public class PlanetTreeInit {
 	public static final RegistryObject<BellMushroomTree> BELL_MUSHROOM = TREES.register("bell_mushroom", BellMushroomTree::new);
 	public static final RegistryObject<BranchFunnelMushroomTree> BRANCH_FUNNEL_MUSHROOM = TREES.register("branch_funnel_mushroom", BranchFunnelMushroomTree::new);
     public static final RegistryObject<BayouTree> BAYOU = TREES.register("bayou", BayouTree::new);
+    public static final RegistryObject<JungleTree> JUNGLE = TREES.register("jungle", JungleTree::new);
 	//@formatter:on
 }
