@@ -29,4 +29,9 @@ public class FloatingIslandRock implements RockMaker {
         rock = new SDFTranslate(rock, 0, heightOffset - height, 0);
         return rock;
     }
+
+    @Override
+    public boolean allowsWaterPlacement() {
+        return true;
+    }
 }

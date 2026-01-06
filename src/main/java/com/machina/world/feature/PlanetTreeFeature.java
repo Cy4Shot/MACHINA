@@ -38,11 +38,10 @@ public class PlanetTreeFeature extends Feature<PlanetTreeFeature.PlanetTreeFeatu
         RandomSource random = ctx.random();
         WorldGenLevel level = ctx.level();
 
-//		if (!level.getBlockState(origin.below()).is(BlockTagInit.PLANET_GROWABLE)) {
-//			return false;
-//		}
-
         TreeMaker maker = ctx.config().getTree();
+        if (!maker.allowsWaterPlacement() && !level.getFluidState(origin).isEmpty())
+            return false;
+
         SDF tree = maker.build(cfg, random, level, origin);
         if (tree == null)
             return false;

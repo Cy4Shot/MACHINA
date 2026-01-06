@@ -22,4 +22,8 @@ public interface TreeMaker {
         return cfg.fruit_dirs().stream().map(d -> new SDFFruitPlacer(random, d, cfg.fruit_chance(), f,
                 s -> s.equals(getLeafAttachment(cfg, random)))).toList();
     }
+    
+    default boolean allowsWaterPlacement() {
+        return false;
+    }
 }

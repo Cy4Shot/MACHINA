@@ -37,6 +37,9 @@ public class PlanetBigRockFeature extends Feature<PlanetBigRockFeature.PlanetBig
         WorldGenLevel level = ctx.level();
 
         RockMaker maker = ctx.config().getRock();
+        if (!maker.allowsWaterPlacement() && !level.getFluidState(origin).isEmpty())
+            return false;
+
         SDF rock = maker.build(cfg, random, level, origin);
         if (rock == null)
             return false;

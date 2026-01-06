@@ -88,4 +88,9 @@ public class BayouTree implements TreeMaker {
     public BlockState getLeafAttachment(PlanetBiomeTree config, RandomSource random) {
         return config.leaves();
     }
+    
+    @Override
+    public boolean allowsWaterPlacement() {
+        return true;
+    }
 }

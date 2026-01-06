@@ -65,6 +65,12 @@
 			]
 		},
 		{
+			"name": "machina:earthlike_barren_mountains",
+			"placements": [
+				"SLOPE", "PEAK"
+			]
+		},
+		{
 			"name": "machina:earthlike_bayou",
 			"placements": [
 				"OCEAN"

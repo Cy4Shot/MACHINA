@@ -31,4 +31,8 @@ public interface RockMaker {
 
                 new SDFFruitPlacer(random, Direction.UP, cfg.up_extra_chance(), f, Predicates.alwaysTrue()));
     }
+    
+    default boolean allowsWaterPlacement() {
+        return false;
+    }
 }
