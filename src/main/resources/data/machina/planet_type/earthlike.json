@@ -75,6 +75,30 @@
 			"placements": [
 				"OCEAN"
 			]
+		},
+		{
+			"name": "machina:earthlike_ocean",
+			"placements": [
+				"OCEAN", "DEEP_OCEAN"
+			]
+		},
+		{
+			"name": "machina:earthlike_river",
+			"placements": [
+				"RIVER"
+			]
+		},
+		{
+			"name": "machina:earthlike_river_marsh",
+			"placements": [
+				"RIVER"
+			]
+		},
+		{
+			"name": "machina:earthlike_desert_oasis",
+			"placements": [
+				"RIVER"
+			]
 		}
 	],
 	"base": "minecraft:stone"

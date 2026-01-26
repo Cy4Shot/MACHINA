@@ -1,0 +1,182 @@
+{
+	"effects": {
+		"fog_color": 0,
+		"sky_color": 0,
+		"water_color": 0,
+		"water_fog_color": 0,
+		"grass_color": 6057754
+	},
+	"base": "machina:gray_soapstone",
+	"stair": "machina:gray_soapstone_stairs",
+	"slab": "machina:gray_soapstone_slab",
+	"extra": "machina:shale",
+	"top": "machina:gray_soapstone",
+	"second": "machina:gray_soapstone",
+	"trees": [
+	],
+	"bushes": [
+	],
+	"grass": {
+		"enabled": true,
+		"min": 1,
+		"max": 3,
+		"grasses": [
+			{
+				"block": "machina:shale_pebbles",
+				"weight": 1
+			},
+			{
+				"block": "machina:gray_soapstone_pebbles",
+				"weight": 1
+			},
+			{
+				"block": "machina:green_soapstone_pebbles",
+				"weight": 1
+			},
+			{
+				"block": "machina:migmatite_pebbles",
+				"weight": 1
+			},
+			{
+				"block": "machina:anthracite_pebbles",
+				"weight": 1
+			},
+			{
+				"block": "machina:tectonite_pebbles",
+				"weight": 1
+			}
+		]
+	},
+	"lakes": {
+		"enabled": true,
+		"block": "machina:silt",
+		"chance": 0.01,
+		"decorator_chance": 0.4,
+		"decorators": [
+			{
+				"block": "machina:green_waterlily",
+				"weight": 1
+			},
+			{
+				"block": "machina:turquoise_waterlily",
+				"weight": 4
+			},
+			{
+				"block": "machina:purple_waterlily",
+				"weight": 2
+			}
+		]
+	},
+	"rocks": [
+	],
+	"big_rocks": [
+		{
+			"type": "machina:floating_island",
+			"block": "machina:peat",
+			"extra": "machina:red_groundlily",
+			"chance": 0.01,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0
+		},
+		{
+			"type": "machina:floating_island",
+			"block": "machina:silt",
+			"extra": "machina:red_groundlily",
+			"chance": 0.01,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0
+		}
+	],
+	"ores": [
+		{
+			"block": "machina:green_soapstone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:limestone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:gneiss",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:andesite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 4,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:granite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:diorite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:migmatite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:marble",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:anthracite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:shale",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:chalk",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 10,
+			"min_y": -64,
+			"max_y": 256
+		}
+	]
+}
