@@ -50,9 +50,48 @@
 			],
 			"fruit_chance": 1,
 			"tree_fruit_chance": 1
+		},
+		{
+			"type": "machina:acacia",
+			"blocks": [
+				"machina:green_mushroom_stalk",
+				"machina:yellow_mushroom_cap"
+			],
+			"chance": 0.1,
+			"fruits": [
+				"machina:imbued_yellow_mushroom_cap",
+				"machina:speckled_yellow_mushroom_cap"
+			],
+			"fruit_dirs": [
+			    "UP", "DOWN"
+			],
+			"fruit_chance": 1,
+			"tree_fruit_chance": 1
+		},
+		{
+			"type": "machina:acacia",
+			"blocks": [
+				"machina:green_mushroom_stalk",
+				"machina:yellow_mushroom_gills"
+			],
+			"chance": 0.1,
+			"fruits": [
+				"machina:imbued_yellow_mushroom_cap",
+				"machina:speckled_yellow_mushroom_cap"
+			],
+			"fruit_dirs": [
+			    "UP", "DOWN"
+			],
+			"fruit_chance": 1,
+			"tree_fruit_chance": 1
 		}
 	],
 	"bushes": [
+		{
+			"block": "machina:dead_tropical_leaves[persistent=true]",
+			"radius": 2.5,
+			"chance": 5
+		}
 	],
 	"grass": {
 		"enabled": true,
@@ -90,16 +129,95 @@
 		]
 	},
 	"lakes": {
-		"enabled": false,
-		"block": "minecraft:air",
-		"chance": 0.0,
-		"decorator_chance": 0,
+		"enabled": true,
+		"block": "machina:silt",
+		"chance": 0.5,
+		"decorator_chance": 0.1,
 		"decorators": [
+			{
+				"block": "machina:yellow_waterlily",
+				"weight": 2
+			},
+			{
+				"block": "machina:orange_waterlily",
+				"weight": 2
+			},
+			{
+				"block": "machina:red_waterlily",
+				"weight": 1
+			},
+			{
+				"block": "machina:green_waterlily",
+				"weight": 1
+			}
 		]
 	},
 	"rocks": [
+		{
+			"base": "machina:feldspar",
+			"stair": "machina:feldspar_stairs",
+			"slab": "machina:feldspar_slab",
+			"wall": "machina:feldspar_wall",
+			"chance": 0.35,
+			"radius": 1.01,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:feldspar",
+			"stair": "machina:feldspar_stairs",
+			"slab": "machina:feldspar_slab",
+			"wall": "machina:feldspar_wall",
+			"chance": 0.6,
+			"radius": 2.51,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:green_soapstone",
+			"stair": "machina:green_soapstone_stairs",
+			"slab": "machina:green_soapstone_slab",
+			"wall": "machina:green_soapstone_wall",
+			"chance": 0.35,
+			"radius": 1.01,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:green_soapstone",
+			"stair": "machina:green_soapstone_stairs",
+			"slab": "machina:green_soapstone_slab",
+			"wall": "machina:green_soapstone_wall",
+			"chance": 0.6,
+			"radius": 2.51,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:tectonite",
+			"stair": "machina:tectonite_stairs",
+			"slab": "machina:tectonite_slab",
+			"wall": "machina:tectonite_wall",
+			"chance": 0.35,
+			"radius": 1.01,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:migmatite",
+			"stair": "machina:migmatite_stairs",
+			"slab": "machina:migmatite_slab",
+			"wall": "machina:migmatite_wall",
+			"chance": 0.6,
+			"radius": 2.51,
+			"deform": 2.0
+		}
 	],
 	"big_rocks": [
+		{
+			"type": "machina:wisp",
+			"block": "machina:feldspar",
+			"extra": "machina:feldspar_wall",
+			"chance": 0.1,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0.3,
+			"side_extra_chance": 0
+		}
 	],
 	"ores": [
 		{

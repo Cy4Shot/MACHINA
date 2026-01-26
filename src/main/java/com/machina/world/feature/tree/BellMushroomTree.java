@@ -25,9 +25,9 @@ public class BellMushroomTree implements TreeMaker {
     public SDF build(PlanetBiomeTree config, RandomSource random, WorldGenLevel l, BlockPos p) {
 
         OpenSimplex2F noise = new OpenSimplex2F(random.nextLong());
-        float size = MathUtil.randRange(random, 10, 15);
+        float size = MathUtil.randRange(random, 10, 25);
 
-        float r = size * MathUtil.randRange(random, 0.9F, 0.95F) / 3f * 1.15F;
+        float r = size * MathUtil.randRange(random, 0.9F, 0.95F) / 3f * 1.05F;
         float r2 = (r + 4) / 2f;
 
         List<Vector3f> spline = SplineUtil.makeSpline(0, 0, 0, 0, size, 0, 6);

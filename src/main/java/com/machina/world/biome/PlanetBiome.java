@@ -89,6 +89,13 @@ public class PlanetBiome extends Biome {
 
     private static void addVegetationFeatures(BiomeGenerationSettings.PlainBuilder builder, PlanetBiomeSettings s) {
 
+        if (s.lakes().enabled()) {
+            add(builder, Decoration.LAKES, new PlanetLakeFeature(),
+                    new PlanetLakeFeature.PlanetLakeFeatureConfig(s.lakes().base(), s.lakes().decorator_chance(),
+                            s.lakes().provider()),
+                    chance(s.lakes().chance()), spread(), onSurface(), biome());
+        }
+
         for (PlanetBiomeBigRock rock : s.big_rocks()) {
             add(builder, Decoration.SURFACE_STRUCTURES, new PlanetBigRockFeature(),
                     new PlanetBigRockFeature.PlanetBigRockFeatureConfig(rock), chance(rock.chance()), spread(),
@@ -112,13 +119,6 @@ public class PlanetBiome extends Biome {
                     new PlanetGrassFeatureConfig(s.grass().provider()),
                     NoiseThresholdCountPlacement.of(-0.8f, s.grass().min(), s.grass().max()), spread(), onSurface(),
                     biome());
-        }
-
-        if (s.lakes().enabled()) {
-            add(builder, Decoration.LAKES, new PlanetLakeFeature(),
-                    new PlanetLakeFeature.PlanetLakeFeatureConfig(s.lakes().base(), s.lakes().decorator_chance(),
-                            s.lakes().provider()),
-                    chance(s.lakes().chance()), spread(), onSurface(), biome());
         }
 
         for (PlanetBiomeRock rock : s.rocks()) {
