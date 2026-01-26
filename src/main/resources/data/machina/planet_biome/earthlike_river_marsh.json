@@ -6,11 +6,15 @@
 		"water_fog_color": 0,
 		"grass_color": 6057754
 	},
+	"surface": "machina:medium_patches",
 	"base": "machina:peat",
 	"stair": "machina:peat_stairs",
 	"slab": "machina:peat_slab",
 	"extra": "machina:silt",
-	"top": "machina:peat",
+	"top": [
+		"machina:peat",
+		"machina:silt"
+	],
 	"second": "machina:peat",
 	"trees": [
 		{

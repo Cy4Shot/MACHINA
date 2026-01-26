@@ -1,20 +1,28 @@
 package com.machina.world.functions;
 
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.function.TriFunction;
+import org.jetbrains.annotations.NotNull;
+
 import com.google.common.collect.ImmutableList;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.world.biome.PlanetBiome;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Noises;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
-import org.apache.commons.lang3.function.TriFunction;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
+import net.minecraft.world.level.levelgen.synth.NormalNoise;
+import net.minecraft.world.level.levelgen.synth.NormalNoise.NoiseParameters;
 
 public class PlanetSurfaceRule {
 
@@ -30,7 +38,7 @@ public class PlanetSurfaceRule {
     }
 
     public static SurfaceRules.RuleSource planetLike(Planet p, boolean top, boolean bottom) {
-        SurfaceRules.RuleSource top_block = new PlanetBiomeTopBlockRuleSource(AIR);
+        SurfaceRules.RuleSource top_block = new PlanetBiomeTopBlockRuleSource(AIR, Noises.SURFACE);
         SurfaceRules.RuleSource second_top_block = new PlanetBiomeSecondBlockRuleSource(AIR);
         SurfaceRules.RuleSource rock = new PlanetBiomeThirdBlockRuleSource(makeStateRule(p.type().base()));
 
@@ -38,7 +46,7 @@ public class PlanetSurfaceRule {
         ImmutableList.Builder<SurfaceRules.RuleSource> builder = ImmutableList.builder();
         if (top) {
             builder.add(SurfaceRules.ifTrue(SurfaceRules.not(
-                            SurfaceRules.verticalGradient("bedrock_roof", VerticalAnchor.belowTop(5), VerticalAnchor.top())),
+                    SurfaceRules.verticalGradient("bedrock_roof", VerticalAnchor.belowTop(5), VerticalAnchor.top())),
                     BEDROCK));
         }
         if (bottom) {
@@ -50,24 +58,29 @@ public class PlanetSurfaceRule {
         return SurfaceRules.sequence(builder.build().toArray(SurfaceRules.RuleSource[]::new));
     }
 
-    private static SurfaceRules.@NotNull RuleSource getRuleSource(SurfaceRules.RuleSource top_block, SurfaceRules.RuleSource second_top_block, SurfaceRules.RuleSource rock) {
+    private static SurfaceRules.@NotNull RuleSource getRuleSource(SurfaceRules.RuleSource top_block,
+            SurfaceRules.RuleSource second_top_block, SurfaceRules.RuleSource rock) {
         SurfaceRules.ConditionSource cs7 = SurfaceRules.waterBlockCheck(-1, 0);
         SurfaceRules.ConditionSource cs8 = SurfaceRules.waterBlockCheck(0, 0);
         SurfaceRules.ConditionSource cs9 = SurfaceRules.waterStartCheck(-6, -1);
         SurfaceRules.RuleSource rs = SurfaceRules.sequence(SurfaceRules.ifTrue(cs8, top_block), second_top_block);
         SurfaceRules.RuleSource rs2 = SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, rock);
         SurfaceRules.RuleSource rs7 = SurfaceRules.sequence(rs);
-        return SurfaceRules.sequence(
-                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.ifTrue(cs7, rs7)),
+        return SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.ifTrue(cs7, rs7)),
                 SurfaceRules.ifTrue(cs9,
                         SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, second_top_block))),
                 SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, rs2));
     }
 
-    public record PlanetBiomeTopBlockRuleSource(SurfaceRules.RuleSource fallback) implements SurfaceRules.RuleSource {
+    public record PlanetBiomeTopBlockRuleSource(SurfaceRules.RuleSource fallback, ResourceKey<NoiseParameters> noise)
+            implements SurfaceRules.RuleSource {
         public static final KeyDispatchDataCodec<PlanetBiomeTopBlockRuleSource> CODEC = KeyDispatchDataCodec
-                .of(SurfaceRules.RuleSource.CODEC.xmap(PlanetBiomeTopBlockRuleSource::new,
-                        PlanetBiomeTopBlockRuleSource::fallback));
+                .of(RecordCodecBuilder.mapCodec(instance -> instance
+                        .group(SurfaceRules.RuleSource.CODEC.fieldOf("fallback")
+                                .forGetter(PlanetBiomeTopBlockRuleSource::fallback),
+                                ResourceKey.codec(Registries.NOISE).fieldOf("noise")
+                                        .forGetter(PlanetBiomeTopBlockRuleSource::noise))
+                        .apply(instance, PlanetBiomeTopBlockRuleSource::new)));
 
         public @NotNull KeyDispatchDataCodec<PlanetBiomeTopBlockRuleSource> codec() {
             return CODEC;
@@ -78,7 +91,8 @@ public class PlanetSurfaceRule {
                 Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
                 biome.get();
                 if (biome.get() instanceof PlanetBiome) {
-                    BlockState state = ((PlanetBiome) biome.get()).getTopBlock();
+                    NormalNoise normalnoise = ctx.randomState.getOrCreateNoise(noise);
+                    BlockState state = ((PlanetBiome) biome.get()).surface.getState(x, y, z, normalnoise);
                     if (state != null) {
                         return state;
                     }

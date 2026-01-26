@@ -6,11 +6,14 @@
 		"water_fog_color": 0,
 		"grass_color": 6057754
 	},
+	"surface": "machina:simple",
 	"base": "machina:tropical_dirt",
 	"stair": "machina:tropical_dirt_stairs",
 	"slab": "machina:tropical_dirt_slab",
 	"extra": "machina:silt",
-	"top": "machina:tropical_grass_block",
+	"top": [
+		"machina:tropical_grass_block"
+	],
 	"second": "machina:tropical_dirt",
 	"trees": [
 		{

@@ -11,12 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, BlockState top, BlockState second,
-                                  BlockState stair, BlockState slab, BlockState extra, List<PlanetBiomeTree> trees,
-                                  List<PlanetBiomeBush> bushes,
-                                  PlanetBiomeGrass grass, PlanetBiomeLakes lakes, List<PlanetBiomeRock> rocks,
-                                  List<PlanetBiomeBigRock> big_rocks,
-                                  List<PlanetBiomeOre> ores) {
+public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, ResourceLocation surface,
+        List<BlockState> top, BlockState second, BlockState stair, BlockState slab, BlockState extra,
+        List<PlanetBiomeTree> trees, List<PlanetBiomeBush> bushes, PlanetBiomeGrass grass, PlanetBiomeLakes lakes,
+        List<PlanetBiomeRock> rocks, List<PlanetBiomeBigRock> big_rocks, List<PlanetBiomeOre> ores) {
 
     private static WeightedStateProviderProvider.Builder weighted(List<PlanetBlockWeight> gs) {
         WeightedStateProviderProvider.Builder builder = WeightedStateProviderProvider.builder();
@@ -30,7 +28,8 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, B
             .create(instance -> instance
                     .group(PlanetBiomeEffects.CODEC.fieldOf("effects").forGetter(PlanetBiomeSettings::effects),
                             BlockState.CODEC.fieldOf("base").forGetter(PlanetBiomeSettings::base),
-                            BlockState.CODEC.fieldOf("top").forGetter(PlanetBiomeSettings::top),
+                            ResourceLocation.CODEC.fieldOf("surface").forGetter(PlanetBiomeSettings::surface),
+                            Codec.list(BlockState.CODEC).fieldOf("top").forGetter(PlanetBiomeSettings::top),
                             BlockState.CODEC.fieldOf("second").forGetter(PlanetBiomeSettings::second),
                             BlockState.CODEC.fieldOf("stair").forGetter(PlanetBiomeSettings::stair),
                             BlockState.CODEC.fieldOf("slab").forGetter(PlanetBiomeSettings::slab),
@@ -46,7 +45,7 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, B
                     .apply(instance, PlanetBiomeSettings::new));
 
     public record PlanetBiomeEffects(int fog_color, int sky_color, int water_color, int water_fog_color,
-                                     int grass_color) {
+            int grass_color) {
 
         public static final Codec<PlanetBiomeEffects> CODEC = RecordCodecBuilder.create(instance -> instance
                 .group(Codec.INT.fieldOf("fog_color").forGetter(PlanetBiomeEffects::fog_color),
@@ -63,7 +62,7 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, B
     }
 
     public record PlanetBiomeTree(ResourceLocation tree, List<BlockState> blocks, float chance, List<BlockState> fruit,
-                                  List<Direction> fruit_dirs, float fruit_chance, float tree_fruit_chance) {
+            List<Direction> fruit_dirs, float fruit_chance, float tree_fruit_chance) {
 
         public static final Codec<PlanetBiomeTree> CODEC = RecordCodecBuilder
                 .create(instance -> instance
@@ -122,10 +121,10 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, B
     }
 
     public record PlanetBiomeLakes(BlockState base, boolean enabled, float chance, float decorator_chance,
-                                   WeightedStateProviderProvider provider) {
+            WeightedStateProviderProvider provider) {
 
         public PlanetBiomeLakes(BlockState base, boolean enabled, float chance, float decorator_chance,
-                                List<PlanetBlockWeight> decorators) {
+                List<PlanetBlockWeight> decorators) {
             this(base, enabled, chance, decorator_chance, weighted(decorators).build());
         }
 
@@ -139,7 +138,7 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, B
     }
 
     public record PlanetBiomeRock(BlockState base, BlockState stair, BlockState slab, BlockState wall, float chance,
-                                  float radius, float deform) {
+            float radius, float deform) {
 
         public static final Codec<PlanetBiomeRock> CODEC = RecordCodecBuilder.create(instance -> instance
                 .group(BlockState.CODEC.fieldOf("base").forGetter(PlanetBiomeRock::base),
@@ -154,7 +153,7 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, B
     }
 
     public record PlanetBiomeBigRock(ResourceLocation rock, BlockState block, BlockState extra, float chance,
-                                     float up_extra_chance, float down_extra_chance, float side_extra_chance) {
+            float up_extra_chance, float down_extra_chance, float side_extra_chance) {
 
         public static final Codec<PlanetBiomeBigRock> CODEC = RecordCodecBuilder.create(instance -> instance
                 .group(ResourceLocation.CODEC.fieldOf("rock").forGetter(PlanetBiomeBigRock::rock),
@@ -168,7 +167,7 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, B
     }
 
     public record PlanetBiomeOre(BlockState block, int size, float exposure_removal_chance, float chance, int min_y,
-                                 int max_y) {
+            int max_y) {
 
         public static final Codec<PlanetBiomeOre> CODEC = RecordCodecBuilder.create(instance -> instance
                 .group(BlockState.CODEC.fieldOf("block").forGetter(PlanetBiomeOre::block),

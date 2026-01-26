@@ -6,11 +6,15 @@
 		"water_fog_color": 0,
 		"grass_color": 3563283
 	},
+	"surface": "machina:medium_patches",
 	"base": "machina:gray_soapstone",
 	"stair": "machina:gray_soapstone_stairs",
 	"slab": "machina:gray_soapstone_slab",
 	"extra": "machina:shale",
-	"top": "machina:mycelial_grass_block",
+	"top": [
+		"machina:mycelial_grass_block",
+		"machina:mycelial_dirt"
+	],
 	"second": "machina:mycelial_dirt",
 	"trees": [
 		{
@@ -46,7 +50,7 @@
 				"machina:imbued_purple_mushroom_cap"
 			],
 			"fruit_dirs": [
-			    "UP"
+				"UP"
 			],
 			"fruit_chance": 1,
 			"tree_fruit_chance": 1
@@ -63,7 +67,8 @@
 				"machina:speckled_yellow_mushroom_cap"
 			],
 			"fruit_dirs": [
-			    "UP", "DOWN"
+				"UP",
+				"DOWN"
 			],
 			"fruit_chance": 1,
 			"tree_fruit_chance": 1
@@ -80,7 +85,8 @@
 				"machina:speckled_yellow_mushroom_cap"
 			],
 			"fruit_dirs": [
-			    "UP", "DOWN"
+				"UP",
+				"DOWN"
 			],
 			"fruit_chance": 1,
 			"tree_fruit_chance": 1

@@ -6,11 +6,14 @@
 		"water_fog_color": 0,
 		"grass_color": 6057754
 	},
+	"surface": "machina:simple",
 	"base": "machina:coniferous_dirt",
 	"stair": "machina:coniferous_dirt_stairs",
 	"slab": "machina:coniferous_dirt_slab",
 	"extra": "machina:silt",
-	"top": "machina:coniferous_grass_block",
+	"top": [
+		"machina:coniferous_grass_block"
+	],
 	"second": "machina:coniferous_dirt",
 	"trees": [
 		{

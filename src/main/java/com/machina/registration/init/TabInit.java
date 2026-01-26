@@ -95,6 +95,7 @@ public class TabInit {
     public static final RegistryObject<CreativeModeTab> MACHINA_WORLDGEN = create("machina_worldgen",
             BlockInit.TROPICAL_GRASS_BLOCK, a -> {
                 family(a, FamiliesInit.DIRTS);
+                add(a, BlockInit.TROPICAL_SAND);
 
                 add(a, BlockInit.ALUMINUM_ORE);
                 family(a, FamiliesInit.STONES);

@@ -9,6 +9,7 @@ import com.machina.api.util.PlanetHelper;
 import com.machina.world.biome.PlanetBiomeSource;
 import com.machina.world.functions.PlanetDensityFunction;
 import com.machina.world.functions.PlanetSurfaceRule;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -39,7 +40,7 @@ public class PlanetFactory {
             fluid = Blocks.WATER.defaultBlockState();
             sea_level = -1;
         }
-
+        
         NoiseGeneratorSettings settings = new NoiseGeneratorSettings(type.shape().noise_settings(), type.base(), fluid,
                 PlanetDensityFunction.planet(planet, lookup.lookup(Registries.DENSITY_FUNCTION).get(),
                         lookup.lookup(Registries.NOISE).get()),

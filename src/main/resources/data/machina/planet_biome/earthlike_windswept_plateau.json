@@ -6,11 +6,14 @@
 		"water_fog_color": 0,
 		"grass_color": 3563283
 	},
+	"surface": "machina:simple",
 	"base": "machina:gray_soapstone",
 	"stair": "machina:gray_soapstone_stairs",
 	"slab": "machina:gray_soapstone_slab",
 	"extra": "machina:shale",
-	"top": "machina:windswept_grass_block",
+	"top": [
+		"machina:windswept_grass_block"
+	],
 	"second": "machina:windswept_dirt",
 	"trees": [
 	],

@@ -19,7 +19,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, String top, String second, String stair,
+public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, String surface, List<String> top, String second, String stair,
                                   String slab, String extra, List<PlanetBiomeTreeJsonInfo> trees,
                                   List<PlanetBiomeBushJsonInfo> bushes,
                                   PlanetBiomeGrassJsonInfo grass, PlanetBiomeLakesJsonInfo lakes,
@@ -110,6 +110,7 @@ public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, Strin
 
     @Override
     public PlanetBiomeSettings cast() {
+        List<BlockState> tops = top.stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
         List<PlanetBiomeTree> trees = trees().stream().map(PlanetBiomeTreeJsonInfo::cast).collect(Collectors.toList());
         List<PlanetBiomeBush> bushes = bushes().stream().map(PlanetBiomeBushJsonInfo::cast)
                 .collect(Collectors.toList());
@@ -120,7 +121,7 @@ public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, Strin
                 .collect(Collectors.toList());
         List<PlanetBiomeOre> ores = ores().stream().map(PlanetBiomeOreJsonInfo::cast).collect(Collectors.toList());
 
-        return new PlanetBiomeSettings(effects, getBlock(base), getBlock(top), getBlock(second), getBlock(stair),
+        return new PlanetBiomeSettings(effects, getBlock(base), new ResourceLocation(surface), tops, getBlock(second), getBlock(stair),
                 getBlock(slab), getBlock(extra), trees, bushes, grass, lakes, rocks, big_rocks, ores);
     }
 }

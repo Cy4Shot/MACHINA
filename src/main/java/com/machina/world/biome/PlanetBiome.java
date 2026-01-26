@@ -1,11 +1,27 @@
 package com.machina.world.biome;
 
+import java.util.Arrays;
+
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings;
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.*;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBigRock;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBush;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOre;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRock;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeTree;
+import com.machina.api.starchart.planet_biome.PlanetSurface.PlanetSurfaceGetter;
+import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.SoundInit;
-import com.machina.world.feature.*;
+import com.machina.world.feature.PlanetBigRockFeature;
+import com.machina.world.feature.PlanetBushFeature;
+import com.machina.world.feature.PlanetCaveSlopeFeature;
 import com.machina.world.feature.PlanetCaveSlopeFeature.PlanetCaveSlopeFeatureConfig;
+import com.machina.world.feature.PlanetGrassFeature;
 import com.machina.world.feature.PlanetGrassFeature.PlanetGrassFeatureConfig;
+import com.machina.world.feature.PlanetLakeFeature;
+import com.machina.world.feature.PlanetOreFeature;
+import com.machina.world.feature.PlanetRockFeature;
+import com.machina.world.feature.PlanetTreeFeature;
+
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
@@ -20,13 +36,22 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.placement.*;
-
-import java.util.Arrays;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.CaveSurface;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
+import net.minecraft.world.level.levelgen.placement.EnvironmentScanPlacement;
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
+import net.minecraft.world.level.levelgen.placement.HeightmapPlacement;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
+import net.minecraft.world.level.levelgen.placement.NoiseThresholdCountPlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.RarityFilter;
 
 public class PlanetBiome extends Biome {
 
     public final PlanetBiomeSettings settings;
+    public final PlanetSurfaceGetter surface;
 
     public PlanetBiome(PlanetBiomeSettings s) {
         this(createClimate(s), createEffects(s), createGeneration(s), s);
@@ -36,10 +61,7 @@ public class PlanetBiome extends Biome {
                         PlanetBiomeSettings s) {
         super(climate, special, genset, MobSpawnSettings.EMPTY);
         this.settings = s;
-    }
-
-    public BlockState getTopBlock() {
-        return settings.top();
+        this.surface = RegistryInit.SURFACE_REGISTRY.get().getValue(s.surface()).create(settings.top());
     }
 
     public BlockState getSecondBlock() {

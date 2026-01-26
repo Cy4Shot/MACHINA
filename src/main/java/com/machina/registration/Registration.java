@@ -4,7 +4,25 @@ import com.machina.Machina;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
 import com.machina.network.MachinaNetwork;
-import com.machina.registration.init.*;
+import com.machina.registration.init.BlockEntityInit;
+import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.BlockStateProviderInit;
+import com.machina.registration.init.ChunkGeneratorInit;
+import com.machina.registration.init.EntityDataSerializerInit;
+import com.machina.registration.init.EntityTypeInit;
+import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.FruitInit;
+import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.MaterialRuleInit;
+import com.machina.registration.init.MenuTypeInit;
+import com.machina.registration.init.PlanetRockInit;
+import com.machina.registration.init.PlanetSurfaceInit;
+import com.machina.registration.init.PlanetTreeInit;
+import com.machina.registration.init.RecipeInit;
+import com.machina.registration.init.RocketPartInit;
+import com.machina.registration.init.SoundInit;
+import com.machina.registration.init.TabInit;
+
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -21,6 +39,7 @@ public class Registration {
 
         PlanetTreeInit.TREES.register(bus);
         PlanetRockInit.ROCKS.register(bus);
+        PlanetSurfaceInit.SURFACES.register(bus);
         SoundInit.SOUNDS.register(bus);
         ItemInit.ITEMS.register(bus);
         RocketPartInit.ROCKET_PARTS.register(bus);

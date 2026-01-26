@@ -1,31 +1,41 @@
 package com.machina.registration.init;
 
+import java.util.Map;
+import java.util.function.Supplier;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.collect.Maps;
 import com.machina.Machina;
 import com.machina.api.rocket.part.RocketPart;
+import com.machina.api.starchart.planet_biome.PlanetSurface;
 import com.machina.api.starchart.planet_biome.RockMaker;
 import com.machina.api.starchart.planet_biome.TreeMaker;
 import com.machina.api.util.MachinaRL;
+
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.*;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistry.AddCallback;
 import net.minecraftforge.registries.IForgeRegistry.CreateCallback;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
-import java.util.function.Supplier;
+import net.minecraftforge.registries.IForgeRegistryInternal;
+import net.minecraftforge.registries.RegistryBuilder;
+import net.minecraftforge.registries.RegistryManager;
 
 public class RegistryInit {
     public static final DeferredRegister<TreeMaker> TREES = DeferredRegister.create(new MachinaRL("tree"),
             Machina.MOD_ID);
     public static final DeferredRegister<RockMaker> ROCKS = DeferredRegister.create(new MachinaRL("rock"),
             Machina.MOD_ID);
+    public static final DeferredRegister<PlanetSurface> SURFACES = DeferredRegister.create(new MachinaRL("surface"),
+            Machina.MOD_ID);
     public static final DeferredRegister<RocketPart<?>> ROCKET_PARTS = DeferredRegister
             .create(new MachinaRL("rocket_parts"), Machina.MOD_ID);
 
     public static final Supplier<IForgeRegistry<TreeMaker>> TREE_REGISTRY = TREES.makeRegistry(RegistryBuilder::new);
     public static final Supplier<IForgeRegistry<RockMaker>> ROCK_REGISTRY = ROCKS.makeRegistry(RegistryBuilder::new);
+    public static final Supplier<IForgeRegistry<PlanetSurface>> SURFACE_REGISTRY = SURFACES.makeRegistry(RegistryBuilder::new);
     public static final Supplier<IForgeRegistry<RocketPart<?>>> ROCKET_PARTS_REGISTRY = ROCKET_PARTS
             .makeRegistry(() -> new RegistryBuilder<RocketPart<?>>().addCallback(RocketPartCallbacks.INSTANCE));
 

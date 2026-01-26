@@ -6,92 +6,74 @@
 		"water_fog_color": 0,
 		"grass_color": 6057754
 	},
-	"surface": "machina:large_patches",
+	"surface": "machina:simple",
 	"base": "machina:gray_soapstone",
 	"stair": "machina:gray_soapstone_stairs",
 	"slab": "machina:gray_soapstone_slab",
 	"extra": "machina:shale",
 	"top": [
-		"machina:gray_soapstone",
-		"machina:shale"
+		"machina:tropical_sand"
 	],
-	"second": "machina:gray_soapstone",
+	"second": "machina:tropical_sand",
 	"trees": [
+		{
+			"type": "machina:radial_baobab",
+			"blocks": [
+				"machina:cycad_wood",
+				"machina:cycad_leaves[persistent=true]"
+			],
+			"chance": 0.2,
+			"fruits": [
+				"machina:y2_nana",
+				"machina:ava_fruit",
+				"machina:erbi_pod",
+				"machina:strapple",
+				"machina:cycad_fence"
+			],
+			"fruit_dirs": [
+				"DOWN"
+			],
+			"fruit_chance": 0.03,
+			"tree_fruit_chance": 0.7
+		}
 	],
 	"bushes": [
 	],
 	"grass": {
 		"enabled": true,
 		"min": 1,
-		"max": 3,
+		"max": 2,
 		"grasses": [
 			{
-				"block": "machina:shale_pebbles",
-				"weight": 1
-			},
-			{
-				"block": "machina:gray_soapstone_pebbles",
-				"weight": 1
-			},
-			{
-				"block": "machina:green_soapstone_pebbles",
-				"weight": 1
+				"block": "machina:feldspar_pebbles",
+				"weight": 5
 			},
 			{
 				"block": "machina:migmatite_pebbles",
-				"weight": 1
-			},
-			{
-				"block": "machina:anthracite_pebbles",
-				"weight": 1
-			},
-			{
-				"block": "machina:tectonite_pebbles",
 				"weight": 1
 			}
 		]
 	},
 	"lakes": {
-		"enabled": true,
-		"block": "machina:silt",
-		"chance": 0.01,
-		"decorator_chance": 0.4,
+		"enabled": false,
+		"block": "minecraft:air",
+		"chance": 0,
+		"decorator_chance": 0,
 		"decorators": [
-			{
-				"block": "machina:green_waterlily",
-				"weight": 1
-			},
-			{
-				"block": "machina:turquoise_waterlily",
-				"weight": 4
-			},
-			{
-				"block": "machina:purple_waterlily",
-				"weight": 2
-			}
 		]
 	},
 	"rocks": [
+		{
+			"base": "machina:feldspar",
+			"stair": "machina:feldspar_stairs",
+			"slab": "machina:feldspar_slab",
+			"wall": "machina:feldspar_wall",
+			"chance": 0.02,
+			"radius": 1.01,
+			"deform": 2.0
+		}
 	],
 	"big_rocks": [
-		{
-			"type": "machina:floating_island",
-			"block": "machina:peat",
-			"extra": "machina:red_groundlily",
-			"chance": 0.01,
-			"up_extra_chance": 0.3,
-			"down_extra_chance": 0,
-			"side_extra_chance": 0
-		},
-		{
-			"type": "machina:floating_island",
-			"block": "machina:silt",
-			"extra": "machina:red_groundlily",
-			"chance": 0.01,
-			"up_extra_chance": 0.3,
-			"down_extra_chance": 0,
-			"side_extra_chance": 0
-		}
 	],
 	"ores": [
 		{

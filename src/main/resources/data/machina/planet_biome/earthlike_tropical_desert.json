@@ -6,12 +6,16 @@
 		"water_fog_color": 0,
 		"grass_color": 6057754
 	},
+	"surface": "machina:medium_patches",
 	"base": "machina:feldspar",
 	"stair": "machina:feldspar_stairs",
 	"slab": "machina:feldspar_slab",
 	"extra": "machina:tropical_sand",
-	"top": "machina:tropical_sand",
-	"second": "machina:tropical_sand",
+	"top": [
+		"machina:tropical_sand",
+		"machina:feldspar"
+	],
+	"second": "machina:feldspar",
 	"trees": [
 		{
 			"type": "machina:radial_baobab",
@@ -19,7 +23,7 @@
 				"machina:dead_tropical_wood",
 				"minecraft:air"
 			],
-			"chance": 0.02,
+			"chance": 0.04,
 			"fruits": [
 			],
 			"fruit_dirs": [
@@ -33,7 +37,7 @@
 				"machina:dead_tropical_wood",
 				"minecraft:air"
 			],
-			"chance": 0.02,
+			"chance": 0.04,
 			"fruits": [
 			],
 			"fruit_dirs": [
@@ -47,7 +51,7 @@
 				"machina:dead_tropical_wood",
 				"machina:dead_tropical_leaves"
 			],
-			"chance": 0.01,
+			"chance": 0.02,
 			"fruits": [
 				"machina:dead_tropical_fence"
 			],
@@ -63,7 +67,7 @@
 				"machina:dead_tropical_wood",
 				"machina:dead_tropical_leaves"
 			],
-			"chance": 0.01,
+			"chance": 0.02,
 			"fruits": [
 				"machina:dead_tropical_fence"
 			],

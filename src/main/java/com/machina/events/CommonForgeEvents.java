@@ -92,6 +92,8 @@ public class CommonForgeEvents {
 
     @SubscribeEvent
     public static void onDebug(final ItemTossEvent event) {
+        
+        // TODO: Disable
 
 		if (event.getEntity().getItem().getItem().equals(Items.STICK)) {
 			System.out.println("Placing tree");
