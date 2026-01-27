@@ -5,15 +5,19 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.machina.api.client.screen.MUI;
 import com.machina.api.fluid.ChemicalFluid;
 import com.machina.api.starchart.StarchartConst;
 import com.machina.api.starchart.planet_type.PlanetType;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
+import com.machina.api.util.MachinaRL;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record Planet(String name, ResourceLocation planet_type, double a, // semi-major axis of the orbit (in AU)
+public record Planet(String name, ResourceLocation planet_type, int icon_variant, double a, // semi-major axis of the
+                                                                                            // orbit (in AU)
         double e, // eccentricity of the orbit
         double where_in_orbit, // position along orbit (in radians)
         double mass, // mass (in Earth masses)
@@ -110,5 +114,20 @@ public record Planet(String name, ResourceLocation planet_type, double a, // sem
 
     public boolean doesRain() {
         return hydrosphere > 0;
+    }
+
+    private static final ResourceLocation PLANETS = new MachinaRL("textures/gui/starchart/planets.png");
+
+    @Override
+    public void drawIcon(GuiGraphics gui, int x, int y, float alpha) {
+        final float scale = 0.5f;
+        int tx = this.icon_variant * 16;
+        int ty = this.type().iconY() * 16;
+        gui.pose().pushPose();
+        gui.pose().scale(scale, scale, scale);
+        MUI.drawWithAlpha(alpha, () -> {
+            gui.blit(PLANETS, (int) (x / scale)  - 8, (int) (y / scale) - 8, tx, ty, 16, 16, 512, 512);
+        });
+        gui.pose().popPose();
     }
 }

@@ -68,8 +68,7 @@ public class CelestialRenderer {
         int screenX = (int) renderinfo.screenPos().x;
         int screenY = (int) renderinfo.screenPos().y;
         if (screenX >= -10 && screenX <= gui.guiWidth() + 10 && screenY >= -10 && screenY <= gui.guiHeight() + 10) {
-            RenderSystem.setShaderColor(1f, 1f, 1f, renderinfo.markerAlpha());
-            gui.fill(screenX - 1, screenY - 1, screenX + 1, screenY + 1, 0xFFFFFFFF);
+            renderinfo.celestial().drawIcon(gui, screenX, screenY, renderinfo.markerAlpha());
         }
     }
 

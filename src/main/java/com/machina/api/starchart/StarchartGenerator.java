@@ -74,6 +74,8 @@ public class StarchartGenerator {
 
     private static Pair<Planet, BPlanet> convertPlanet(String name, BPlanet p, Random rand) {
 
+        int icon_variant = rand.nextInt(6);
+
         List<Moon> moons = new ArrayList<>();
         if (p.first_moon != null) {
             Pair<Moon, BPlanet> curr = Pair.of(null, p.first_moon);
@@ -86,20 +88,21 @@ public class StarchartGenerator {
         }
 
         ResourceLocation type = PlanetTypeLoader.INSTANCE.pickRandom(rand);
-        
+
         ChemicalFluid sea = getDominantLiquidChemical(p, rand);
         boolean frozen_sea = false;
         if (sea != null) {
             frozen_sea = sea.chem().getPhase(p.surf_temp, p.surf_pressure * 100d).equals(FluidPhase.SOLID);
         }
-        
-        Planet planet = new Planet(name, type, p.a, p.e, p.where_in_orbit, p.mass, p.gas_giant, p.orbit_zone, p.radius,
-                p.density, p.orb_period, p.day, p.resonant_period, p.axial_tilt, p.esc_velocity, p.surf_accel,
-                p.surf_grav, p.rms_velocity, p.molec_weight, p.volatile_gas_inventory, p.GH2, p.GH2O, p.GN2, p.GO2,
-                p.GCO2, p.surf_pressure, p.greenhouse_effect, p.boil_point, p.albedo, p.surf_temp, p.min_temp,
-                p.max_temp, p.avg_temp, p.hydrosphere, p.cloud_cover, p.ice_cover, p.plan_class, p.r_ecosphere,
-                p.resonance, p.stell_mass_ratio, p.age, p.cloud_factor, p.water_factor, p.rock_factor,
-                p.airless_rock_factor, p.ice_factor, p.airless_ice_factor, p.its, p.temp_unstable, sea, frozen_sea, moons);
+
+        Planet planet = new Planet(name, type, icon_variant, p.a, p.e, p.where_in_orbit, p.mass, p.gas_giant,
+                p.orbit_zone, p.radius, p.density, p.orb_period, p.day, p.resonant_period, p.axial_tilt, p.esc_velocity,
+                p.surf_accel, p.surf_grav, p.rms_velocity, p.molec_weight, p.volatile_gas_inventory, p.GH2, p.GH2O,
+                p.GN2, p.GO2, p.GCO2, p.surf_pressure, p.greenhouse_effect, p.boil_point, p.albedo, p.surf_temp,
+                p.min_temp, p.max_temp, p.avg_temp, p.hydrosphere, p.cloud_cover, p.ice_cover, p.plan_class,
+                p.r_ecosphere, p.resonance, p.stell_mass_ratio, p.age, p.cloud_factor, p.water_factor, p.rock_factor,
+                p.airless_rock_factor, p.ice_factor, p.airless_ice_factor, p.its, p.temp_unstable, sea, frozen_sea,
+                moons);
         return Pair.of(planet, p.next_planet);
     }
 

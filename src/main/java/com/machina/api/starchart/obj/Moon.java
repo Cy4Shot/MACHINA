@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.machina.api.starchart.StarchartConst;
 
+import net.minecraft.client.gui.GuiGraphics;
+
 /**
  * Mass: 10^20 kg</br>
  * Radius: m</br>
@@ -76,6 +78,10 @@ public record Moon(String name, double a, // semi-major axis of the orbit (in AU
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
+    }
+
+    @Override
+    public void drawIcon(GuiGraphics gui, int x, int y, float alpha) {
     }
 
 //	public static final Moon MOON = new Moon("Moon", 734.2f, 1737400, 384.399f, 1022, 0.0549f, 1.622f, 250, 0,

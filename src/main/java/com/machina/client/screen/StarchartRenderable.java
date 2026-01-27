@@ -185,7 +185,7 @@ public class StarchartRenderable {
 
         // Render orbits first (behind celestial bodies)
         for (Planet p : system.planets()) {
-            CelestialRenderer.drawOrbit(matrices, p, 0x40FFFFFF, zoom, t);
+            CelestialRenderer.drawOrbit(matrices, p, 0x4000FEFE, zoom, t);
         }
 
         // Render star

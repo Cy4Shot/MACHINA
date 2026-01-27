@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetTypeJsonInfo(String name, Shape shape, List<BiomePlacementJsonInfo> biomes, String base)
+public record PlanetTypeJsonInfo(String name, int iconY, Shape shape, List<BiomePlacementJsonInfo> biomes, String base)
         implements JsonInfo<PlanetType> {
 
     public record BiomePlacementJsonInfo(String name, List<String> placements) implements JsonInfo<BiomePlacement> {
@@ -32,6 +32,6 @@ public record PlanetTypeJsonInfo(String name, Shape shape, List<BiomePlacementJs
 
         HolderLookup<Block> block = BlockHelper.blockHolderLookup();
         BlockState base = BlockHelper.parseState(block, base());
-        return new PlanetType(name, shape(), biomes, base);
+        return new PlanetType(name, iconY, shape(), biomes, base);
     }
 }

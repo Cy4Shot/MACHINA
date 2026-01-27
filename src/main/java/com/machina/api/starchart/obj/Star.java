@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.machina.api.starchart.StarchartConst;
 
+import net.minecraft.client.gui.GuiGraphics;
+
 public record Star(String name, String stellarClass, double absolute_magnitude, double luminosity, double stellar_mass,
                    double main_seq_life, double age, double radius, double r_ecosphere, double r_greenhouse) implements Celestial {
 
@@ -51,5 +53,9 @@ public record Star(String name, String stellarClass, double absolute_magnitude, 
     @Override
     public String texture_bg() {
         return "star_bg";
+    }
+
+    @Override
+    public void drawIcon(GuiGraphics gui, int x, int y, float alpha) {
     }
 }

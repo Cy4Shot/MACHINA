@@ -1,5 +1,6 @@
 package com.machina.api.starchart.obj;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.phys.Vec3;
 
 public interface Celestial {
@@ -21,6 +22,8 @@ public interface Celestial {
     double where_in_orbit();
     
     String name();
+    
+    void drawIcon(GuiGraphics gui, int x, int y, float alpha);
     
     default Vec3 calculateOrbitalCoordinates(double t) {
         double a = a();

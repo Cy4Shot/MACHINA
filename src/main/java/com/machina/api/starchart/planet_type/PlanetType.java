@@ -9,11 +9,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.NoiseSettings;
 
-public record PlanetType(ResourceLocation name, Shape shape, List<BiomePlacement> biomes, BlockState base) {
+public record PlanetType(ResourceLocation name, int iconY, Shape shape, List<BiomePlacement> biomes, BlockState base) {
 
     public static final Codec<PlanetType> CODEC = RecordCodecBuilder
             .create(instance -> instance
                     .group(ResourceLocation.CODEC.fieldOf("name").forGetter(PlanetType::name),
+                            Codec.INT.fieldOf("iconY").forGetter(PlanetType::iconY),
                             Shape.CODEC.fieldOf("shape").forGetter(PlanetType::shape),
                             Codec.list(BiomePlacement.CODEC).fieldOf("biomes").forGetter(PlanetType::biomes),
                             BlockState.CODEC.fieldOf("base").forGetter(PlanetType::base))
