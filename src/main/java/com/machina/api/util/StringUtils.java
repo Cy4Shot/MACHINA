@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import com.machina.Machina;
+import com.machina.api.client.screen.MUI;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -114,6 +115,14 @@ public class StringUtils {
     public static String formatDistanceAU(float dist) {
         return formatNumberWithUnit(dist) + "AU";
     }
+    
+    public static String formatGravity(float grav) {
+        return String.format("%.1f", grav) + "g";
+    }
+
+    public static String formatHours(float hours) {
+        return String.format("%.1f", hours) + "h";
+    }
 
     public static String formatMass(double kg) {
         String formatted;
@@ -151,6 +160,14 @@ public class StringUtils {
 
     public static String formatTicks(float ticks) {
         return formatNumberWithUnit(ticks / 20f) + "s";
+    }
+    
+    public static Component formatBool(boolean bool) {
+        if (bool) {
+            return Component.translatable("machina.yes").withStyle(Style.EMPTY.withBold(true).withColor(MUI.GREEN));
+        } else {
+            return Component.translatable("machina.no").withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED));
+        }
     }
 
     public static MutableComponent fluid(FluidStack stack, boolean bold) {

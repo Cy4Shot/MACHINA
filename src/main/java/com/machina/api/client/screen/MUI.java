@@ -1,5 +1,22 @@
 package com.machina.api.client.screen;
 
+import java.util.Arrays;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.util.TriConsumer;
+import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.base.Function;
 import com.machina.Machina;
 import com.machina.api.multiblock.ClientMultiblock;
 import com.machina.api.multiblock.MultiblockLoader;
@@ -8,9 +25,16 @@ import com.machina.api.util.MachinaRL;
 import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Axis;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -40,16 +64,6 @@ import net.minecraftforge.client.ItemDecoratorHandler;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
-import org.apache.logging.log4j.util.TriConsumer;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public final class MUI {
 
@@ -97,7 +111,8 @@ public final class MUI {
             int uncoveredHeight = h;
             while (uncoveredWidth > 0) {
                 while (uncoveredHeight > 0) {
-                    gui.blit(BG_STARS, currentX, currentY, textureSize, 0, Math.min(textureSize, uncoveredWidth), Math.min(textureSize, uncoveredHeight));
+                    gui.blit(BG_STARS, currentX, currentY, textureSize, 0, Math.min(textureSize, uncoveredWidth),
+                            Math.min(textureSize, uncoveredHeight));
                     uncoveredHeight -= textureSize;
                     currentY += textureSize;
                 }
@@ -112,7 +127,7 @@ public final class MUI {
     public static void blitOverlay(GuiGraphics gui, int x, int y, int w, int h) {
         drawWithAlpha(0.1f, () -> gui.blit(BG_OVERLAY, x, y, 0, 0, w, h, 512, 512));
     }
-    
+
     public static void drawWithAlpha(float alpha, Runnable draw) {
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
@@ -123,6 +138,13 @@ public final class MUI {
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
+    }
+
+    public static <T> void drawWithScale(GuiGraphics gui, float scale, Consumer<Function<Float, Float>> render) {
+        gui.pose().pushPose();
+        gui.pose().scale(scale, scale, scale);
+        render.accept(c -> c / scale);
+        gui.pose().popPose();
     }
 
     public static void drawString(GuiGraphics gui, Component text, int x, int y) {
@@ -142,7 +164,7 @@ public final class MUI {
     }
 
     public static void drawCenteredMultilineString(GuiGraphics gui, Component text, int x, int y, int color, int max,
-                                                   int sep) {
+            int sep) {
         List<FormattedCharSequence> seq = mc.font.split(text, max);
         for (int i = 0; i < seq.size(); i++) {
             gui.drawCenteredString(mc.font, seq.get(i), x, y + i * sep, color);
@@ -155,7 +177,7 @@ public final class MUI {
     }
 
     public static void drawSlot(GuiGraphics gui, int i, int j, int mx, int my, boolean decoHorizontal,
-                                boolean decoVertical) {
+            boolean decoVertical) {
         int h = mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
         blitCommon(gui, i, j, 466, h, 19, 19);
 
@@ -177,7 +199,7 @@ public final class MUI {
         gui.drawString(mc.font, text, 0, 0, 65278);
         gui.pose().popPose();
     }
-    
+
     public static void drawLine(GuiGraphics gui, int x1, int y1, int x2, int y2, boolean hFirst, int col) {
         col |= 0xFF000000;
         if (hFirst) {
@@ -187,6 +209,44 @@ public final class MUI {
             gui.vLine(x1, y1, y2, col);
             gui.hLine(x1, x2, y2, col);
         }
+    }
+
+    public static void drawLine(GuiGraphics gui, float x1, float y1, float x2, float y2, float width, int color) {
+        float a = ((color >> 24) & 0xFF) / 255f;
+        float r = ((color >> 16) & 0xFF) / 255f;
+        float g = ((color >> 8) & 0xFF) / 255f;
+        float b = (color & 0xFF) / 255f;
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+        float len = (float) Math.sqrt(dx * dx + dy * dy);
+        if (len <= 0.0001f)
+            return;
+        float nx = -dy / len * width * 0.5f;
+        float ny = dx / len * width * 0.5f;
+
+        gui.flush();
+
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableDepthTest();
+        RenderSystem.disableCull();
+
+        Matrix4f m = gui.pose().last().pose();
+        BufferBuilder buf = Tesselator.getInstance().getBuilder();
+
+        buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+
+        buf.vertex(m, x1 + nx, y1 + ny, 0).color(r, g, b, a).endVertex();
+        buf.vertex(m, x1 - nx, y1 - ny, 0).color(r, g, b, a).endVertex();
+        buf.vertex(m, x2 - nx, y2 - ny, 0).color(r, g, b, a).endVertex();
+        buf.vertex(m, x2 + nx, y2 + ny, 0).color(r, g, b, a).endVertex();
+
+        BufferUploader.drawWithShader(buf.end());
+
+        RenderSystem.enableCull();
+        RenderSystem.enableDepthTest();
+        RenderSystem.disableBlend();
     }
 
     public enum MuiSlot {
@@ -229,7 +289,7 @@ public final class MUI {
     }
 
     public static void drawBar(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,
-                               TriConsumer<Integer, Integer, Float> drawer) {
+            TriConsumer<Integer, Integer, Float> drawer) {
         // Bar
         blitCommon(gui, i, j, 366, 21, 133, 18);
         drawer.accept(i, j, p);
@@ -252,7 +312,7 @@ public final class MUI {
     }
 
     public static void drawBarSmall(GuiGraphics gui, int i, int j, float p, boolean active, String text, String missing,
-                                    TriConsumer<Integer, Integer, Float> drawer) {
+            TriConsumer<Integer, Integer, Float> drawer) {
         // Bar
         blitCommon(gui, i, j, 433, 136, 43, 16);
         drawer.accept(i, j, p);
@@ -268,7 +328,7 @@ public final class MUI {
     }
 
     public static void drawBarVert(GuiGraphics gui, int i, int j, float p,
-                                   TriConsumer<Integer, Integer, Float> drawer) {
+            TriConsumer<Integer, Integer, Float> drawer) {
         // Bar
         blitCommon(gui, i, j, 414, 152, 16, 42);
         drawer.accept(i, j, p);
@@ -305,7 +365,7 @@ public final class MUI {
     }
 
     public static void drawMultiblock(GuiGraphics gui, ResourceLocation mbloc, int xPos, int yPos, float rotX,
-                                      float rotY, int s, float pt) {
+            float rotY, int s, float pt) {
         ClientMultiblock mb = new ClientMultiblock(MultiblockLoader.INSTANCE.get(mbloc));
         Vec3i size = mb.mb.size;
         int sizeX = size.getX();
@@ -342,7 +402,7 @@ public final class MUI {
     private static BufferSource mbBuffers = null;
 
     private static void renderElements(PoseStack ms, ClientMultiblock mb, Vec3i dest, float par,
-                                       Predicate<BlockPos> transparency, boolean flip) {
+            Predicate<BlockPos> transparency, boolean flip) {
         if (mbBuffers == null) {
             mbBuffers = initBuffers(mc.renderBuffers().bufferSource());
         }
@@ -361,8 +421,8 @@ public final class MUI {
     }
 
     private static void doWorldRenderPass(PoseStack ms, @Nonnull BufferSource tpBuffers,
-                                          @Nonnull BufferSource nmBuffers, ClientMultiblock mb, Vec3i dest, Predicate<BlockPos> transparency,
-                                          boolean flip) {
+            @Nonnull BufferSource nmBuffers, ClientMultiblock mb, Vec3i dest, Predicate<BlockPos> transparency,
+            boolean flip) {
         boolean last = false;
         for (int y = 0; y < dest.getY(); y++) {
             for (int x = 0; x < dest.getX(); x++) {
@@ -469,7 +529,7 @@ public final class MUI {
     }
 
     public static void renderItem(GuiGraphics gui, int i, int j, int mx, int my, boolean tooltip, boolean active,
-                                  ItemStack stack) {
+            ItemStack stack) {
         gui.renderItem(stack, i, j);
         renderCustomItemDecorations(gui, stack, i, j, active);
 
@@ -479,7 +539,7 @@ public final class MUI {
     }
 
     public static void renderItemDeferred(GuiGraphics gui, int i, int j, int mx, int my, boolean active,
-                                          ItemStack stack, Queue<Runnable> deferred) {
+            ItemStack stack, Queue<Runnable> deferred) {
         gui.renderItem(stack, i, j);
         renderCustomItemDecorations(gui, stack, i, j, active);
 
@@ -556,16 +616,16 @@ public final class MUI {
 
     // https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
     public static void drawTiledSprite(GuiGraphics gui, int xPosition, int yPosition, int yOffset, int desiredWidth,
-                                       int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
-                                       TilingDirection tilingDirection) {
+            int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int zLevel,
+            TilingDirection tilingDirection) {
         drawTiledSprite(gui, xPosition, yPosition, yOffset, desiredWidth, desiredHeight, sprite, textureWidth,
                 textureHeight, zLevel, tilingDirection, true);
     }
 
     // https://github.com/mekanism/Mekanism/blob/160d59e8d4b11aec446fc4d7d84b9f01dba5da68/src/main/java/mekanism/client/gui/GuiUtils.java
     public static void drawTiledSprite(GuiGraphics guiGraphics, int xPosition, int yPosition, int yOffset,
-                                       int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight,
-                                       int zLevel, TilingDirection tilingDirection, boolean blend) {
+            int desiredWidth, int desiredHeight, TextureAtlasSprite sprite, int textureWidth, int textureHeight,
+            int zLevel, TilingDirection tilingDirection, boolean blend) {
         if (desiredWidth == 0 || desiredHeight == 0 || textureWidth == 0 || textureHeight == 0) {
             return;
         }
@@ -664,7 +724,7 @@ public final class MUI {
     }
 
     public static void rocketPart(GuiGraphics gui, int x, int y, double scale, float yaw, float pitch,
-                                  RocketPart<?> part) {
+            RocketPart<?> part) {
         // PoseStack for GUI overlay
         PoseStack vs = RenderSystem.getModelViewStack();
         vs.pushPose();
@@ -687,7 +747,8 @@ public final class MUI {
         EntityRenderDispatcher disp = Minecraft.getInstance().getEntityRenderDispatcher();
         disp.setRenderShadow(false);
 
-        RenderSystem.runAsFancy(() -> part.bake().render(ps, buffer, 15728880, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f));
+        RenderSystem
+                .runAsFancy(() -> part.bake().render(ps, buffer, 15728880, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f));
 
         buffer.endBatch();
         disp.setRenderShadow(true);
@@ -695,7 +756,6 @@ public final class MUI {
         vs.popPose();
         RenderSystem.applyModelViewMatrix();
     }
-
 
     public static double[] keplerianOrbit(float cx, float cy, float semiMajorAxis, float eccentricity, int resolution) {
         double[] buf = new double[resolution * 4 + 4];
@@ -727,7 +787,6 @@ public final class MUI {
         buf[resolution * 4 + 3] = yn;
         return buf;
     }
-
 
     public static void color(int color) {
         float r = getRed(color);

@@ -611,7 +611,7 @@ public class DatagenLangEnUs extends DatagenLang {
 
         add(RocketPartInit.SIMPLE_THRUSTER, "Simple Thruster");
         add(RocketPartInit.TRI_TALL_THRUSTER, "Tri Tall Thruster");
-        
+
         // Entities
         add(EntityTypeInit.ROCKET, "Rocket");
 
@@ -631,6 +631,8 @@ public class DatagenLangEnUs extends DatagenLang {
         add(RocketPartType.THRUSTER, "Thruster");
 
         addMisc("none_fluid", "None");
+        addMisc("yes", "Yes");
+        addMisc("no", "No");
 
         // UI
         addUI("none", "");
@@ -799,7 +801,7 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket_assembly_station.life_support", "Life Support");
         addUI("rocket_assembly_station.shield", "Shields");
         addUI("rocket_assembly_station.thruster", "Thrusters");
-        
+
         addUI("rocket.tab.info", "Info");
         addUI("rocket.info.mass", "Mass");
         addUI("rocket.info.fuel_type", "Fuel");
@@ -812,12 +814,13 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket.info.max_pressure", "Max Pressure");
 
         addUI("rocket.tab.fueling", "Fueling");
-        
+        addUI("rocket.fueling.invalid", "Destination Not Set");
+        addUI("rocket.fueling.too_far", "Destination Too Far");
+        addUI("rocket.fueling.missing_fuel", "Missing Fuel");
+        addUI("rocket.fueling.valid", "Rocket Fully Fueled");
+
         addUI("rocket.tab.storage", "Storage");
-        addUI("rocket.storage.invalid", "Destination Not Set");
-        addUI("rocket.storage.too_far", "Destination Too Far");
-        addUI("rocket.storage.missing_fuel", "Missing Fuel");
-        addUI("rocket.storage.valid", "Rocket Fully Fueled");
+        addUI("rocket.storage.soon", "Coming Soon!");
 
         addUI("rocket.tab.destination", "Destination");
         addUI("rocket.destination.invalid", "Invalid");
@@ -830,5 +833,12 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket.destination.launch", "LAUNCH");
 
         addUI("rocket.tab.starmap", "Starmap");
+        addUI("rocket.starmap.pan", "Pan");
+        addUI("rocket.starmap.rotate", "Rotate");
+        addUI("rocket.starmap.zoom", "Zoom");
+        addUI("rocket.starmap.planet_type", "Planet Type");
+        addUI("rocket.starmap.day_length", "Day Length");
+        addUI("rocket.starmap.gravity", "Gravity");
+        addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
     }
 }

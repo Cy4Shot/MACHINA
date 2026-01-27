@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector2d;
 
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MUI;
@@ -120,19 +121,19 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             // TODO: Allow travel back to overworld
             if (destination.equals(Level.OVERWORLD)) {
                 MUI.drawCenteredString(gui,
-                        MUI.uistr("rocket.storage.invalid").withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2)),
+                        MUI.uistr("rocket.fueling.invalid").withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2)),
                         i + 112, j + 6);
             } else {
                 if (entity.isPossible()) {
                     if (entity.fuelSatisfied()) {
-                        MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.valid")
+                        MUI.drawCenteredString(gui, MUI.uistr("rocket.fueling.valid")
                                 .withStyle(Style.EMPTY.withBold(true).withColor(MUI.GREEN)), i + 112, j + 6);
                     } else {
-                        MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.missing_fuel")
+                        MUI.drawCenteredString(gui, MUI.uistr("rocket.fueling.missing_fuel")
                                 .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
                     }
                 } else {
-                    MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.too_far")
+                    MUI.drawCenteredString(gui, MUI.uistr("rocket.fueling.too_far")
                             .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
                 }
             }
@@ -158,6 +159,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     private final RocketTabDisplay STORAGE = new RocketTabDisplay() {
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
+            MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.soon"), i + 112, j + 46);
         }
 
         @Override
@@ -271,6 +273,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     };
 
     private final RocketTabDisplay STARMAP = new RocketTabDisplay() {
+
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
             int x = i + 1;
@@ -280,6 +283,67 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             MUI.enableClipping(x, y, w, h);
             starchart.render(gui, x, y, width / 2 - (x + w / 2), height / 2 - (y + h / 2), w, h);
             MUI.disableClipping();
+
+            MUI.drawWithScale(gui, 0.5f, t -> {
+
+                // Draw Help
+                MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 4f).intValue(), 448, 160, 16, 16);
+                MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 14f).intValue(), 464, 160, 16, 16);
+                MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 24f).intValue(), 496, 160, 16, 16);
+
+                MUI.drawString(gui, MUI.uistr("rocket.starmap.pan"), t.apply(i + 14f).intValue(),
+                        t.apply(j + 6f).intValue());
+                MUI.drawString(gui, MUI.uistr("rocket.starmap.rotate"), t.apply(i + 14f).intValue(),
+                        t.apply(j + 16f).intValue());
+                MUI.drawString(gui, MUI.uistr("rocket.starmap.zoom"), t.apply(i + 14f).intValue(),
+                        t.apply(j + 26f).intValue());
+
+                if (starchart.tracked != null) {
+                    Planet planet = (Planet) starchart.tracked.celestial();
+                    Vector2d uiPos = starchart.tracked.screenPos();
+
+                    // Draw Tracking Box
+                    MUI.blitRocket(gui, t.apply(i + 56f).intValue(), t.apply(j + 5f).intValue(), 253, 26, 227, 114);
+                    MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y), t.apply(i + 56f),
+                            t.apply(j + 5f) + 114f, 1, MUI.CYAN | 0xA0000000);
+                    MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y), t.apply(i + 56f) + 227f,
+                            t.apply(j + 5f) + 114f, 1, MUI.CYAN | 0xA0000000);
+                    float parts = 67;
+                    for (int inc = 1; inc < parts; inc++) {
+                        MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y),
+                                t.apply(i + 56f) + (227f / parts) * inc, t.apply(j + 5f) + 114f, 2,
+                                MUI.CYAN | 0x50000000);
+                    }
+
+                    // Draw Planet Title
+                    MUI.drawCenteredString(gui, planet.getName(), t.apply(i + 56f).intValue() + 112,
+                            t.apply(j + 5f).intValue() + 10);
+                    MUI.blitCommon(gui, t.apply(i + 56f).intValue() + 55, t.apply(j + 5f).intValue() + 22, 308, 245,
+                            115, 6);
+
+                    // Draw Planet Info
+                    Component c = Component.literal(": ");
+                    MUI.drawString(gui,
+                            MUI.uistr("rocket.starmap.planet_type").append(c)
+                                    .append(Component.literal("Earthlike")
+                                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                            t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 32);
+                    MUI.drawString(gui,
+                            MUI.uistr("rocket.starmap.day_length").append(c)
+                                    .append(Component.literal(StringUtils.formatHours((float) planet.day()))
+                                            .withStyle(Style.EMPTY.withBold(true))),
+                            t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 42);
+                    MUI.drawString(gui,
+                            MUI.uistr("rocket.starmap.gravity").append(c)
+                                    .append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
+                                            .withStyle(Style.EMPTY.withBold(true))),
+                            t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+                    MUI.drawString(gui,
+                            MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
+                                    .append(StringUtils.formatBool(planet.breathable())),
+                            t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
+                }
+            });
         }
 
         @Override

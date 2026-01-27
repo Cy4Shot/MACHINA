@@ -13,6 +13,8 @@ import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.api.util.MachinaRL;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -52,6 +54,10 @@ public record Planet(String name, ResourceLocation planet_type, int icon_variant
         double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
         double airless_ice_factor, int its, boolean temp_unstable, ChemicalFluid dominant_liquid,
         boolean dominant_liquid_frozen, List<Moon> moons) implements Celestial {
+
+    public Component getName() {
+        return Component.literal(name).withStyle(Style.EMPTY.withBold(true));
+    }
 
     @Override
     public double radiusAU() {
@@ -116,18 +122,21 @@ public record Planet(String name, ResourceLocation planet_type, int icon_variant
         return hydrosphere > 0;
     }
 
+    public boolean breathable() {
+        return GO2 >= 19; // Gross oversimplification, but its a game!
+    }
+
     private static final ResourceLocation PLANETS = new MachinaRL("textures/gui/starchart/planets.png");
 
     @Override
     public void drawIcon(GuiGraphics gui, int x, int y, float alpha) {
-        final float scale = 0.5f;
         int tx = this.icon_variant * 16;
         int ty = this.type().iconY() * 16;
-        gui.pose().pushPose();
-        gui.pose().scale(scale, scale, scale);
-        MUI.drawWithAlpha(alpha, () -> {
-            gui.blit(PLANETS, (int) (x / scale)  - 8, (int) (y / scale) - 8, tx, ty, 16, 16, 512, 512);
+        MUI.drawWithScale(gui, 0.5f, trans -> {
+            MUI.drawWithAlpha(alpha, () -> {
+                gui.blit(PLANETS, trans.apply((float) x).intValue() - 8, trans.apply((float) y).intValue() - 8, tx, ty,
+                        16, 16, 512, 512);
+            });
         });
-        gui.pose().popPose();
     }
 }

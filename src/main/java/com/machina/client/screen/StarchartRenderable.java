@@ -41,7 +41,7 @@ public class StarchartRenderable {
     private final float maxZoom;
 
     private List<Consumer<Integer>> select;
-    
+
     private float rotX = 0;
     private float rotY = 90;
     private float posX = 0;
@@ -49,7 +49,7 @@ public class StarchartRenderable {
     private float orbitalSpeed = 0.01f;
     private float zoom;
     private List<CelestialUIRenderInfo> queue;
-    private CelestialUIRenderInfo tracked;
+    public CelestialUIRenderInfo tracked;
 
     private Vec3 trackedOrbitalPos;
     private float targetZoom;
@@ -64,7 +64,7 @@ public class StarchartRenderable {
 
         this.maxZoom = calculateZoom(system.maxAphelion());
         this.zoom = maxZoom;
-        
+
         this.select = new ArrayList<>();
     }
 
@@ -90,14 +90,14 @@ public class StarchartRenderable {
         float qz = shy * shp;
         return new Quaternionf(qx, qy, qz, qw);
     }
-    
+
     public void addSelectListener(Consumer<Integer> selected) {
         this.select.add(selected);
     }
 
     public void render(@NotNull GuiGraphics gui, int x, int y, int xOff, int yOff, int width, int height) {
         MUI.drawStars(gui, x, y, width, height);
-        
+
         // TODO: Move the entire inner display by this many pixels!
 
         if (!this.paused && this.tracked == null) {
@@ -131,8 +131,7 @@ public class StarchartRenderable {
         }
     }
 
-    protected void setupAndRenderCelestials(GuiGraphics gui, int w, int h, Quaternionf rot, double t,
-            double rt) {
+    protected void setupAndRenderCelestials(GuiGraphics gui, int w, int h, Quaternionf rot, double t, double rt) {
 
         // Configure Render System
         RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
@@ -179,7 +178,8 @@ public class StarchartRenderable {
         queue.forEach(r -> CelestialRenderer.drawUIOverlay(r, gui));
     }
 
-    protected List<CelestialUIRenderInfo> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c, double t, double rt) {
+    protected List<CelestialUIRenderInfo> renderCelestials(GuiGraphics gui, Quaternionf rot, MultiBufferSource c,
+            double t, double rt) {
         List<CelestialUIRenderInfo> renderQueue = new ArrayList<>();
         PoseStack matrices = new PoseStack();
 
@@ -196,7 +196,12 @@ public class StarchartRenderable {
         for (int i = 0; i < system.planets().size(); i++) {
             Planet p = system.planets().get(i);
             CelestialRenderInfo planetInfo = CelestialRenderInfo.from(i, p, gui);
-            CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, rt, posX, posY, zoom, renderQueue::add);
+            CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, rt, posX, posY, zoom, info -> {
+                if (tracked != null && info.id() == tracked.id()) {
+                    this.tracked = info;
+                }
+                renderQueue.add(info);
+            });
         }
 
         return renderQueue;
