@@ -113,7 +113,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 
     protected void createInventory(RocketProps props) {
         SimpleContainer sc = this.inventory;
-        int targetSize = props.slots() + DEFAULT_SLOTS;
+        int targetSize = DEFAULT_SLOTS + props.slots();
         if (sc == null || sc.getContainerSize() != targetSize) {
             this.inventory = new SimpleContainer(targetSize);
             if (sc != null) {
@@ -174,13 +174,13 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         // Insert fuel & coolant
         RocketProps props = getProps();
         if (props != null) {
-            int transferRate = 100; // TODO: Make this configurable
-            getSlot(0).get().getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
+            int transferRate = 1000; // TODO: Make this configurable
+            getOrCreateInventory().getItem(0).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
                 int amount = Math.min(transferRate, this.fuelTank.getSpace());
                 FluidStack result = handler.drain(new FluidStack(props.fuelType(), amount), FluidAction.EXECUTE);
                 this.fuelTank.fill(result, FluidAction.EXECUTE);
             });
-            getSlot(1).get().getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
+            getOrCreateInventory().getItem(1).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
                 int amount = Math.min(transferRate, this.coolTank.getSpace());
                 FluidStack result = handler.drain(new FluidStack(props.coolantType(), amount), FluidAction.EXECUTE);
                 this.coolTank.fill(result, FluidAction.EXECUTE);
@@ -191,13 +191,11 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     @Override
     public MachinaEntityTank getTank(int id) {
         this.createFluidInventory(getProps());
-        switch (id) {
-        case FUEL_TANK:
-            return this.fuelTank;
-        case COOL_TANK:
-            return this.coolTank;
-        }
-        return null;
+        return switch (id) {
+            case FUEL_TANK -> this.fuelTank;
+            case COOL_TANK -> this.coolTank;
+            default -> null;
+        };
     }
 
     @Override

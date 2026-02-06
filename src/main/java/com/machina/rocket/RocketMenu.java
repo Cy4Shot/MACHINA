@@ -39,15 +39,28 @@ public class RocketMenu extends MachinaAnyMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int id) {
-        if (id >= this.slots.size() - 9 && id < this.slots.size()) {
-           Slot slot = this.slots.get(id);
-           if (slot != null && slot.hasItem()) {
-              slot.setByPlayer(ItemStack.EMPTY);
-           }
-        }
+    public ItemStack quickMoveStack(Player player, int index) {
+        ItemStack stack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot.hasItem()) {
+            int size = this.container.getContainerSize();
+            ItemStack stack1 = slot.getItem();
+            stack = stack1.copy();
+            if (index < size
+                    && !this.moveItemStackTo(stack1, size, this.slots.size(), true)) {
+                return ItemStack.EMPTY;
+            }
+            if (!this.moveItemStackTo(stack1, 0, size, false)) {
+                return ItemStack.EMPTY;
+            }
 
-        return ItemStack.EMPTY;
+            if (stack1.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+        }
+        return stack;
      }
 
     @Override
