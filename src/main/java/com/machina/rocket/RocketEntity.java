@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.nbt.ListTag;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.util.concurrent.Runnables;
@@ -80,6 +81,8 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     private static final String TAG_DESTINATION = "rocket_destination";
     private static final String TAG_FUEL = "rocket_tank_fuel";
     private static final String TAG_COOL = "rocket_tank_cool";
+    private static final String TAG_ITEMS = "Items";
+    private static final String TAG_SLOT = "Slot";
 
     private static final int FUEL_TANK = 0;
     private static final int COOL_TANK = 1;
@@ -136,10 +139,10 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     protected void createFluidInventory(RocketProps props) {
         //@formatter:off
         if (this.fuelTank == null) {
-            this.fuelTank = new MachinaEntityTank(this, props.fuelStorage(), stack -> stack.isFluidEqual(props.fuelStack()), FUEL_TANK, Runnables.doNothing());
+            this.fuelTank = new MachinaEntityTank(this, props.fuelStorage(), stack -> stack.isFluidEqual(props.fuelStack()), FUEL_TANK, () -> {});
         }
         if (this.coolTank == null) {
-            this.coolTank = new MachinaEntityTank(this, props.coolantStorage(), stack -> stack.isFluidEqual(props.coolantStack()), COOL_TANK, Runnables.doNothing());
+            this.coolTank = new MachinaEntityTank(this, props.coolantStorage(), stack -> stack.isFluidEqual(props.coolantStack()), COOL_TANK, () -> {});
         }
         //@formatter:on
     }
@@ -173,17 +176,24 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 
         // Insert fuel & coolant
         RocketProps props = getProps();
-        if (props != null) {
+        if (props != null && !this.level().isClientSide()) {
             int transferRate = 1000; // TODO: Make this configurable
-            getOrCreateInventory().getItem(0).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
+            Container inv = getOrCreateInventory();
+            inv.getItem(0).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
                 int amount = Math.min(transferRate, this.fuelTank.getSpace());
                 FluidStack result = handler.drain(new FluidStack(props.fuelType(), amount), FluidAction.EXECUTE);
-                this.fuelTank.fill(result, FluidAction.EXECUTE);
+                if (!result.isEmpty()) {
+                    this.fuelTank.fill(result, FluidAction.EXECUTE);
+                    inv.setItem(0, handler.getContainer());
+                }
             });
-            getOrCreateInventory().getItem(1).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
+            inv.getItem(1).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
                 int amount = Math.min(transferRate, this.coolTank.getSpace());
                 FluidStack result = handler.drain(new FluidStack(props.coolantType(), amount), FluidAction.EXECUTE);
-                this.coolTank.fill(result, FluidAction.EXECUTE);
+                if (!result.isEmpty()) {
+                    this.coolTank.fill(result, FluidAction.EXECUTE);
+                    inv.setItem(1, handler.getContainer());
+                }
             });
         }
     }
@@ -208,6 +218,14 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         setCosts(RocketCosts.fromNBT(tag.getCompound(TAG_COSTS)));
         fuelTank.readFromNBT(tag.getCompound(TAG_FUEL));
         coolTank.readFromNBT(tag.getCompound(TAG_COOL));
+        ListTag listtag = tag.getList(TAG_ITEMS, CompoundTag.TAG_COMPOUND);
+        for(int i = 0; i < listtag.size(); ++i) {
+            CompoundTag compoundtag = listtag.getCompound(i);
+            int j = compoundtag.getByte(TAG_SLOT) & 255;
+            if (j >= 2 && j < this.inventory.getContainerSize()) {
+                this.inventory.setItem(j, ItemStack.of(compoundtag));
+            }
+        }
     }
 
     @Override
@@ -220,10 +238,21 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         tag.putString(TAG_DESTINATION, getDestination().location().toString());
         tag.put(TAG_FUEL, fuelTank.writeToNBT(new CompoundTag()));
         tag.put(TAG_COOL, coolTank.writeToNBT(new CompoundTag()));
+        ListTag listtag = new ListTag();
+        for(int i = 2; i < this.inventory.getContainerSize(); ++i) {
+            ItemStack itemstack = this.inventory.getItem(i);
+            if (!itemstack.isEmpty()) {
+                CompoundTag compoundtag = new CompoundTag();
+                compoundtag.putByte(TAG_SLOT, (byte)i);
+                itemstack.save(compoundtag);
+                listtag.add(compoundtag);
+            }
+        }
+        tag.put(TAG_ITEMS, listtag);
     }
 
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
+    public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
         if (capability == ForgeCapabilities.ITEM_HANDLER && this.isAlive() && itemHandler != null)
             return itemHandler.cast();
         return super.getCapability(capability, facing);
@@ -240,7 +269,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     }
 
     @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public @NotNull InteractionResult interact(Player player, InteractionHand hand) {
         if (player.isSecondaryUseActive()) {
             this.openCustomInventoryScreen(player);
             return InteractionResult.sidedSuccess(this.level().isClientSide());
@@ -249,7 +278,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     }
 
     @Override
-    public void openCustomInventoryScreen(Player p) {
+    public void openCustomInventoryScreen(@NotNull Player p) {
         if (this.level().isClientSide()) {
             return;
         }
@@ -267,7 +296,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     }
 
     @Override
-    public void containerChanged(Container container) {
+    public void containerChanged(@NotNull Container container) {
     }
 
     public void setProps(RocketProps props) {
@@ -332,7 +361,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     }
 
     @Override
-    protected AABB makeBoundingBox() {
+    protected @NotNull AABB makeBoundingBox() {
         RocketProps props = getProps();
         if (props == null)
             return super.makeBoundingBox();

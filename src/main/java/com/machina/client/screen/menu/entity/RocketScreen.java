@@ -3,6 +3,10 @@ package com.machina.client.screen.menu.entity;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.machina.api.block.menu.slot.AcceptSlot;
+import com.machina.api.network.c2s.C2SRocketSetTab;
+import com.machina.api.util.ItemStackUtil;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
 
@@ -44,9 +48,6 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
         default boolean starchartVisible() {
             return false;
-        }
-
-        default void addSlots(RocketEntity entity, Consumer<Slot> add) {
         }
     }
 
@@ -107,12 +108,6 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     };
 
     private final RocketTabDisplay FUELING = new RocketTabDisplay() {
-
-        public void addSlots(RocketEntity entity, Consumer<Slot> add) {
-            SimpleContainer inv = entity.getOrCreateInventory();
-            add.accept(new Slot(inv, 0, 15, 15));
-            add.accept(new Slot(inv, 1, 15, 45));
-        }
 
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
@@ -378,10 +373,8 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
     @Override
     protected void init() {
+        PacketSender.sendToServer(new C2SRocketSetTab(menu.entity.getId(), (byte) this.selected));
         super.init();
-        this.menu.slots.clear();
-        this.menu.invSlots(mc.player.getInventory(), 0);
-        TABS.get(selected).addSlots(this.menu.entity, this.menu.slots::add);
     }
 
     @Override

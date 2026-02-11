@@ -7,10 +7,12 @@ import com.machina.registration.init.TagInit.ItemTagInit;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 public class ItemStackUtil {
 
@@ -24,6 +26,14 @@ public class ItemStackUtil {
 
     public static boolean hasFluid(ItemStack stack) {
         return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+    }
+
+    public static boolean hasFluid(ItemStack stack, Fluid fluid) {
+        return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM)
+                .map(h ->
+                        IntStream.range(0, h.getTanks())
+                                .anyMatch(i -> h.getFluidInTank(i).getFluid().isSame(fluid)))
+                .orElse(false);
     }
 
     public static boolean isCapacitor(ItemStack stack) {
