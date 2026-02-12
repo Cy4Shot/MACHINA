@@ -1,12 +1,7 @@
 package com.machina.client.screen.menu.entity;
 
 import java.util.List;
-import java.util.function.Consumer;
 
-import com.machina.api.block.menu.slot.AcceptSlot;
-import com.machina.api.network.c2s.C2SRocketSetTab;
-import com.machina.api.util.ItemStackUtil;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
 
@@ -32,9 +27,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.Level;
 
 public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
@@ -373,8 +366,8 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
     @Override
     protected void init() {
-        PacketSender.sendToServer(new C2SRocketSetTab(menu.entity.getId(), (byte) this.selected));
         super.init();
+        menu.rebuildSlotPositions(this.selected);
     }
 
     @Override

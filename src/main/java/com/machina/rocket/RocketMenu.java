@@ -1,14 +1,13 @@
 package com.machina.rocket;
 
-import com.machina.api.block.menu.slot.AcceptSlot;
-import com.machina.api.rocket.RocketProps;
-import com.machina.api.util.ItemStackUtil;
-import net.minecraft.world.SimpleContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
+import com.machina.api.block.menu.slot.AcceptSlot;
+import com.machina.api.rocket.RocketProps;
+import com.machina.api.util.ItemStackUtil;
 import com.machina.registration.init.MenuTypeInit;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -37,25 +36,36 @@ public class RocketMenu extends MachinaAnyMenu {
 
         container.startOpen(playerInv.player);
 
-        rebuildSlots((byte) 0, playerInv);
-    }
+        if (entity != null) {
+            RocketProps props = entity.getProps();
 
-    public void rebuildSlots(int tab, Inventory playerInv) {
-        this.slots.clear();
+            this.addSlot(
+                    new AcceptSlot(container, 0, 0, 0, s -> ItemStackUtil.hasFluid(s, props.fuelStack().getFluid())));
+            this.addSlot(new AcceptSlot(container, 1, 0, 0,
+                    s -> ItemStackUtil.hasFluid(s, props.coolantStack().getFluid())));
+        }
 
         this.invSlots(playerInv, 0);
+        rebuildSlotPositions(0);
+    }
 
-        switch (tab) {
-            case 1 -> { // FUELING
-                SimpleContainer inv = entity.getOrCreateInventory();
-                RocketProps props = entity.getProps();
+    public void rebuildSlotPositions(int tab) {
+        if (entity == null)
+            return;
 
-                this.addSlot(new AcceptSlot(inv, 0, 49, 42,
-                        s -> ItemStackUtil.hasFluid(s, props.fuelStack().getFluid())));
+        Slot fuelSlot = this.getSlot(0);
+        Slot clntSlot = this.getSlot(1);
 
-                this.addSlot(new AcceptSlot(inv, 1, 169, 42,
-                        s -> ItemStackUtil.hasFluid(s, props.coolantStack().getFluid())));
-            }
+        if (tab == 1) {
+            fuelSlot.x = 49;
+            fuelSlot.y = 42;
+            clntSlot.x = 169;
+            clntSlot.y = 42;
+        } else {
+            fuelSlot.x = -1000;
+            fuelSlot.y = -1000;
+            clntSlot.x = -1000;
+            clntSlot.y = -1000;
         }
     }
 
@@ -72,8 +82,7 @@ public class RocketMenu extends MachinaAnyMenu {
             int size = this.container.getContainerSize();
             ItemStack stack1 = slot.getItem();
             stack = stack1.copy();
-            if (index < size
-                    && !this.moveItemStackTo(stack1, size, this.slots.size(), true)) {
+            if (index < size && !this.moveItemStackTo(stack1, size, this.slots.size(), true)) {
                 return ItemStack.EMPTY;
             }
             if (!this.moveItemStackTo(stack1, 0, size, false)) {
@@ -87,7 +96,7 @@ public class RocketMenu extends MachinaAnyMenu {
             }
         }
         return stack;
-     }
+    }
 
     @Override
     public @Nullable BlockState getDefaultState() {

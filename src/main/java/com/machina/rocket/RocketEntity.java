@@ -4,10 +4,8 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.nbt.ListTag;
 import org.jetbrains.annotations.NotNull;
 
-import com.google.common.util.concurrent.Runnables;
 import com.machina.api.cap.fluid.FluidHandlerEntity;
 import com.machina.api.cap.fluid.MachinaEntityTank;
 import com.machina.api.item.RocketItem;
@@ -28,6 +26,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -59,12 +61,15 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.network.NetworkHooks;
 
-public class RocketEntity extends Entity implements ContainerListener, HasCustomInventoryScreen, FluidHandlerEntity {
+public class RocketEntity extends Entity
+        implements ContainerListener, HasCustomInventoryScreen, FluidHandlerEntity, IEntityAdditionalSpawnData {
 
     public enum RocketStage {
         NONE,
@@ -98,6 +103,9 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     protected MachinaEntityTank fuelTank;
     protected MachinaEntityTank coolTank;
 
+    private CompoundTag pendingFuelNBT;
+    private CompoundTag pendingCoolNBT;
+
     private LazyOptional<InvWrapper> itemHandler = null;
 
     public RocketEntity(EntityType<? extends RocketEntity> t, Level l) {
@@ -108,7 +116,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         this(EntityTypeInit.ROCKET.get(), level);
         this.setProps(props);
     }
-    
+
     public SimpleContainer getOrCreateInventory() {
         createInventory(getProps());
         return this.inventory;
@@ -137,13 +145,17 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
     }
 
     protected void createFluidInventory(RocketProps props) {
+        if (this.fuelTank != null && this.coolTank != null)
+            return;
+
         //@formatter:off
-        if (this.fuelTank == null) {
-            this.fuelTank = new MachinaEntityTank(this, props.fuelStorage(), stack -> stack.isFluidEqual(props.fuelStack()), FUEL_TANK, () -> {});
-        }
-        if (this.coolTank == null) {
-            this.coolTank = new MachinaEntityTank(this, props.coolantStorage(), stack -> stack.isFluidEqual(props.coolantStack()), COOL_TANK, () -> {});
-        }
+        this.fuelTank = new MachinaEntityTank(this, props.fuelStorage(),
+                stack -> stack.isFluidEqual(props.fuelStack()),
+                FUEL_TANK, () -> { });
+
+        this.coolTank = new MachinaEntityTank(this, props.coolantStorage(),
+                stack -> stack.isFluidEqual(props.coolantStack()),
+                COOL_TANK, () -> { });
         //@formatter:on
     }
 
@@ -200,30 +212,53 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 
     @Override
     public MachinaEntityTank getTank(int id) {
-        this.createFluidInventory(getProps());
         return switch (id) {
-            case FUEL_TANK -> this.fuelTank;
-            case COOL_TANK -> this.coolTank;
-            default -> null;
+        case FUEL_TANK -> this.fuelTank;
+        case COOL_TANK -> this.coolTank;
+        default -> null;
         };
     }
 
     @Override
     protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+
         if (tag.contains(TAG_PROPS)) {
-            setProps(RocketProps.fromNBT(tag.getCompound(TAG_PROPS)));
+            RocketProps props = RocketProps.fromNBT(tag.getCompound(TAG_PROPS));
+            setProps(props); // this recreates inventory + tanks safely
         }
-        this.entityData.set(DESTINATION,
-                ResourceKey.create(Registries.DIMENSION, new ResourceLocation(tag.getString(TAG_DESTINATION))));
-        setCosts(RocketCosts.fromNBT(tag.getCompound(TAG_COSTS)));
-        fuelTank.readFromNBT(tag.getCompound(TAG_FUEL));
-        coolTank.readFromNBT(tag.getCompound(TAG_COOL));
-        ListTag listtag = tag.getList(TAG_ITEMS, CompoundTag.TAG_COMPOUND);
-        for(int i = 0; i < listtag.size(); ++i) {
-            CompoundTag compoundtag = listtag.getCompound(i);
-            int j = compoundtag.getByte(TAG_SLOT) & 255;
-            if (j >= 2 && j < this.inventory.getContainerSize()) {
-                this.inventory.setItem(j, ItemStack.of(compoundtag));
+
+        RocketProps props = getProps();
+        if (props != null) {
+            createInventory(props);
+            createFluidInventory(props);
+        }
+
+        if (tag.contains(TAG_DESTINATION)) {
+            this.entityData.set(DESTINATION,
+                    ResourceKey.create(Registries.DIMENSION, new ResourceLocation(tag.getString(TAG_DESTINATION))));
+        }
+
+        if (tag.contains(TAG_COSTS)) {
+            setCosts(RocketCosts.fromNBT(tag.getCompound(TAG_COSTS)));
+        }
+
+        if (fuelTank != null && tag.contains(TAG_FUEL)) {
+            fuelTank.readFromNBT(tag.getCompound(TAG_FUEL));
+        }
+
+        if (coolTank != null && tag.contains(TAG_COOL)) {
+            coolTank.readFromNBT(tag.getCompound(TAG_COOL));
+        }
+
+        if (this.inventory != null && tag.contains(TAG_ITEMS)) {
+            ListTag listtag = tag.getList(TAG_ITEMS, CompoundTag.TAG_COMPOUND);
+
+            for (int i = 0; i < listtag.size(); ++i) {
+                CompoundTag compoundtag = listtag.getCompound(i);
+                int slot = compoundtag.getByte(TAG_SLOT) & 255;
+                if (slot >= 0 && slot < this.inventory.getContainerSize()) {
+                    this.inventory.setItem(slot, ItemStack.of(compoundtag));
+                }
             }
         }
     }
@@ -234,21 +269,34 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         if (props != null) {
             tag.put(TAG_PROPS, props.toNBT());
         }
+
         tag.put(TAG_COSTS, getCosts().toNBT());
         tag.putString(TAG_DESTINATION, getDestination().location().toString());
-        tag.put(TAG_FUEL, fuelTank.writeToNBT(new CompoundTag()));
-        tag.put(TAG_COOL, coolTank.writeToNBT(new CompoundTag()));
-        ListTag listtag = new ListTag();
-        for(int i = 2; i < this.inventory.getContainerSize(); ++i) {
-            ItemStack itemstack = this.inventory.getItem(i);
-            if (!itemstack.isEmpty()) {
-                CompoundTag compoundtag = new CompoundTag();
-                compoundtag.putByte(TAG_SLOT, (byte)i);
-                itemstack.save(compoundtag);
-                listtag.add(compoundtag);
-            }
+
+        if (fuelTank != null) {
+            tag.put(TAG_FUEL, fuelTank.writeToNBT(new CompoundTag()));
         }
-        tag.put(TAG_ITEMS, listtag);
+
+        if (coolTank != null) {
+            tag.put(TAG_COOL, coolTank.writeToNBT(new CompoundTag()));
+        }
+
+        if (this.inventory != null) {
+            ListTag listtag = new ListTag();
+
+            for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
+                ItemStack stack = this.inventory.getItem(i);
+
+                if (!stack.isEmpty()) {
+                    CompoundTag compoundtag = new CompoundTag();
+                    compoundtag.putByte(TAG_SLOT, (byte) i);
+                    stack.save(compoundtag);
+                    listtag.add(compoundtag);
+                }
+            }
+
+            tag.put(TAG_ITEMS, listtag);
+        }
     }
 
     @Override
@@ -293,6 +341,43 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
         player.containerMenu = new RocketMenu(player.containerCounter, player.getInventory(), this.inventory, this);
         player.initMenu(player.containerMenu);
         MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(player, player.containerMenu));
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    public void writeSpawnData(FriendlyByteBuf buffer) {
+        buffer.writeNbt(fuelTank.writeToNBT(new CompoundTag()));
+        buffer.writeNbt(coolTank.writeToNBT(new CompoundTag()));
+    }
+
+    @Override
+    public void readSpawnData(FriendlyByteBuf buffer) {
+        pendingFuelNBT = buffer.readNbt();
+        pendingCoolNBT = buffer.readNbt();
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        super.onSyncedDataUpdated(key);
+
+        if (key.equals(PROPS)) {
+
+            createInventory(getProps()); // rebuild tanks correctly
+
+            if (pendingFuelNBT != null && fuelTank != null) {
+                fuelTank.readFromNBT(pendingFuelNBT);
+                pendingFuelNBT = null;
+            }
+
+            if (pendingCoolNBT != null && coolTank != null) {
+                coolTank.readFromNBT(pendingCoolNBT);
+                pendingCoolNBT = null;
+            }
+        }
     }
 
     @Override
