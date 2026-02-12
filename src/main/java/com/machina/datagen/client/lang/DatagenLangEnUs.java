@@ -814,16 +814,23 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket.info.max_pressure", "Max Pressure");
 
         addUI("rocket.tab.fueling", "Fueling");
-        addUI("rocket.fueling.invalid", "Destination Not Set");
         addUI("rocket.fueling.too_far", "Destination Too Far");
-        addUI("rocket.fueling.missing_fuel", "Missing Fuel");
-        addUI("rocket.fueling.valid", "Rocket Fully Fueled");
+        addUI("rocket.fueling.ready", "READY FOR LAUNCH");
+        addUI("rocket.fueling.insufficient", "INSUFFICIENT FUEL");
+        addUI("rocket.fueling.fuel_stored", "Fuel Stored");
+        addUI("rocket.fueling.fuel_capacity", "Fuel Capacity");
+        addUI("rocket.fueling.fuel_required", "Fuel Required");
+        addUI("rocket.fueling.cool_stored", "Coolant Stored");
+        addUI("rocket.fueling.cool_capacity", "Coolant Capacity");
+        addUI("rocket.fueling.cool_required", "Coolant Required");
 
         addUI("rocket.tab.storage", "Storage");
         addUI("rocket.storage.soon", "Coming Soon!");
 
         addUI("rocket.tab.destination", "Destination");
-        addUI("rocket.destination.invalid", "Invalid");
+        addUI("rocket.destination.invalid", "NO DESTINATION SELECTED");
+        addUI("rocket.destination.hint", "Select a planet in the Starmap tab");
+        addUI("rocket.destination.clear", "Clear Destination");
         addUI("rocket.destination.destination", "Destination");
         addUI("rocket.destination.distance", "Distance");
         addUI("rocket.destination.fuel", "Fuel Cost");
@@ -831,6 +838,8 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket.destination.max_temperature", "Max Temperature");
         addUI("rocket.destination.max_pressure", "Max Pressure");
         addUI("rocket.destination.launch", "LAUNCH");
+        addUI("rocket.destination.out_of_range", "Destination out of range");
+        addUI("rocket.destination.insufficient_fuel", "Insufficient fuel or coolant");
 
         addUI("rocket.tab.starmap", "Starmap");
         addUI("rocket.starmap.pan", "Pan");
@@ -840,5 +849,6 @@ public class DatagenLangEnUs extends DatagenLang {
         addUI("rocket.starmap.day_length", "Day Length");
         addUI("rocket.starmap.gravity", "Gravity");
         addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
+        addUI("rocket.starmap.gas_giant", "Gas Giant");
     }
 }

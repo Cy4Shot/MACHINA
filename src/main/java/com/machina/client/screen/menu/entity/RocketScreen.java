@@ -25,6 +25,7 @@ import com.machina.rocket.RocketMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
@@ -104,33 +105,68 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
         @Override
         public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
-            ResourceKey<Level> destination = entity.getDestination();
+            RocketCosts costs = entity.getCosts();
 
-            // TODO: Allow travel back to overworld
-            if (destination.equals(Level.OVERWORLD)) {
+            int fuel = entity.getFluidMB(0);
+            int fuelCap = entity.getTankCapacity(0);
+
+            int cool = entity.getFluidMB(1);
+            int coolCap = entity.getTankCapacity(1);
+
+            Component c = Component.literal(": ");
+
+            // ---------- STATUS HEADER ----------
+            if (!entity.isPossible()) {
                 MUI.drawCenteredString(gui,
-                        MUI.uistr("rocket.fueling.invalid").withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2)),
+                        MUI.uistr("rocket.fueling.too_far").withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)),
+                        i + 112, j + 6);
+            } else if (entity.fuelSatisfied()) {
+                MUI.drawCenteredString(gui,
+                        MUI.uistr("rocket.fueling.ready").withStyle(Style.EMPTY.withBold(true).withColor(MUI.GREEN)),
                         i + 112, j + 6);
             } else {
-                if (entity.isPossible()) {
-                    if (entity.fuelSatisfied()) {
-                        MUI.drawCenteredString(gui, MUI.uistr("rocket.fueling.valid")
-                                .withStyle(Style.EMPTY.withBold(true).withColor(MUI.GREEN)), i + 112, j + 6);
-                    } else {
-                        MUI.drawCenteredString(gui, MUI.uistr("rocket.fueling.missing_fuel")
-                                .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
-                    }
-                } else {
-                    MUI.drawCenteredString(gui, MUI.uistr("rocket.fueling.too_far")
-                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
-                }
+                MUI.drawCenteredString(gui, MUI.uistr("rocket.fueling.insufficient")
+                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 6);
             }
 
-            MUI.drawSlot(gui, i + 44, j + 88, mx, my, true, false);
-            MUI.drawSlot(gui, i + 164, j + 88, mx, my, true, false);
+            // ---------- FUEL INFO ----------
+            MUI.drawString(gui, MUI.uistr("rocket.fueling.fuel_stored").append(c).append(Component
+                    .literal(StringUtils.formatFluid(fuel)).withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+                    i + 6, j + 20);
 
-            drawFluidBarVert(gui, 49, -10, 0);
-            drawFluidBarVert(gui, 169, -10, 1);
+            MUI.drawString(gui,
+                    MUI.uistr("rocket.fueling.fuel_capacity").append(c).append(
+                            Component.literal(StringUtils.formatFluid(fuelCap)).withStyle(Style.EMPTY.withBold(true))),
+                    i + 6, j + 30);
+
+            MUI.drawString(gui, MUI.uistr("rocket.fueling.fuel_required").append(c)
+                    .append(Component.literal(StringUtils.formatFluid(costs.fuelRequired())).withStyle(
+                            Style.EMPTY.withBold(true).withColor(fuel >= costs.fuelRequired() ? MUI.GREEN : MUI.RED))),
+                    i + 6, j + 40);
+
+            // ---------- COOLANT INFO ----------
+            MUI.drawString(gui, MUI.uistr("rocket.fueling.cool_stored").append(c).append(Component
+                    .literal(StringUtils.formatFluid(cool)).withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2))),
+                    i + 6, j + 60);
+
+            MUI.drawString(gui,
+                    MUI.uistr("rocket.fueling.cool_capacity").append(c).append(
+                            Component.literal(StringUtils.formatFluid(coolCap)).withStyle(Style.EMPTY.withBold(true))),
+                    i + 6, j + 70);
+
+            MUI.drawString(gui,
+                    MUI.uistr("rocket.fueling.cool_required").append(c)
+                            .append(Component.literal(StringUtils.formatFluid(costs.coolantRequired()))
+                                    .withStyle(Style.EMPTY.withBold(true)
+                                            .withColor(cool >= costs.coolantRequired() ? MUI.GREEN : MUI.RED))),
+                    i + 6, j + 80);
+
+            // ---------- SLOTS ----------
+            MUI.drawSlot(gui, i + 172, j + 82, mx, my, false, true);
+            MUI.drawSlot(gui, i + 194, j + 82, mx, my, false, true);
+
+            drawFluidBarVert(gui, 177, -20, 0);
+            drawFluidBarVert(gui, 199, -20, 1);
         }
 
         @Override
@@ -168,12 +204,18 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             RocketCosts costs = entity.getCosts();
             ResourceKey<Level> destination = entity.getDestination();
 
-            // TODO: Allow travel back to overworld
             if (destination.equals(Level.OVERWORLD)) {
-                MUI.drawString(gui, MUI.uistr("rocket.destination.invalid")
-                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 6, j + 6);
+                MUI.drawCenteredString(gui, MUI.uistr("rocket.destination.invalid")
+                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)), i + 112, j + 20);
+                MUI.drawCenteredString(gui,
+                        MUI.uistr("rocket.destination.hint").withStyle(Style.EMPTY.withColor(MUI.CYAN)), i + 112,
+                        j + 36);
                 return;
             }
+
+            drawButton(gui, mx, my, 204, -43, MuiSlot.CROSS, () -> !destination.equals(Level.OVERWORLD), () -> {
+                PacketSender.sendToServer(new C2SRocketSetDestination(entity.getId(), Level.OVERWORLD));
+            }, () -> MUI.uistr("rocket.destination.clear"));
 
             Planet dst = ClientStarchart.system.planets().get(PlanetHelper.getIdLevel(destination));
 
@@ -195,35 +237,27 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
                                     .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
                     i + 6, j + 26);
 
-            if (costs.fuelRequired() < props.fuelStorage()) {
-                MUI.drawString(gui,
-                        MUI.uistr("rocket.destination.fuel").append(c)
-                                .append(Component.literal(StringUtils.formatFluid(costs.fuelRequired()))
-                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
-                        i + 6, j + 36);
-            } else {
-                Component invalid = Component.literal(StringUtils.formatFluid(costs.fuelRequired())).append(ob)
-                        .append(Component.literal(StringUtils.formatFluid(props.fuelStorage()))).append(cb);
-                MUI.drawString(gui,
-                        MUI.uistr("rocket.destination.fuel").append(c)
-                                .append(invalid.copy().withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED))),
-                        i + 6, j + 36);
-            }
+            int storedFuel = entity.getFluidMB(0);
+            int requiredFuel = costs.fuelRequired();
 
-            if (costs.coolantRequired() < props.coolantStorage()) {
-                MUI.drawString(gui,
-                        MUI.uistr("rocket.destination.coolant").append(c)
-                                .append(Component.literal(StringUtils.formatFluid(costs.coolantRequired()))
-                                        .withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
-                        i + 6, j + 46);
-            } else {
-                Component invalid = Component.literal(StringUtils.formatFluid(costs.coolantRequired())).append(ob)
-                        .append(Component.literal(StringUtils.formatFluid(props.coolantStorage()))).append(cb);
-                MUI.drawString(gui,
-                        MUI.uistr("rocket.destination.coolant").append(c)
-                                .append(invalid.copy().withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED))),
-                        i + 6, j + 46);
-            }
+            MutableComponent fuelLine = Component.literal(StringUtils.formatFluid(requiredFuel))
+                    .append(Component.literal(" / ")).append(Component.literal(StringUtils.formatFluid(storedFuel)));
+
+            MUI.drawString(gui,
+                    MUI.uistr("rocket.destination.fuel").append(c).append(fuelLine.withStyle(
+                            Style.EMPTY.withBold(true).withColor(storedFuel >= requiredFuel ? MUI.GREEN : MUI.RED))),
+                    i + 6, j + 36);
+
+            int storedCool = entity.getFluidMB(1);
+            int requiredCool = costs.coolantRequired();
+
+            MutableComponent coolLine = Component.literal(StringUtils.formatFluid(requiredCool))
+                    .append(Component.literal(" / ")).append(Component.literal(StringUtils.formatFluid(storedCool)));
+
+            MUI.drawString(gui,
+                    MUI.uistr("rocket.destination.coolant").append(c).append(coolLine.withStyle(
+                            Style.EMPTY.withBold(true).withColor(storedCool >= requiredCool ? MUI.GREEN : MUI.RED))),
+                    i + 6, j + 46);
 
             if (costs.maxPres() < props.maxPressure()) {
                 MUI.drawString(gui,
@@ -241,12 +275,26 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             }
 
             // Launch Button
-            drawButton(gui, mx, my, 112, 31, MuiSlot.TICK, () -> {
-                PacketSender.sendToServer(new C2SRocketLaunch(RocketScreen.this.menu.entity.getId()));
-            }, () -> MUI.uistr("rocket.destination.launch"));
+            boolean possible = entity.isPossible();
+            boolean fueled = entity.fuelSatisfied();
 
-            MUI.blitCommon(gui, i + 134, j + 84, 405, 13, 17, 6);
-            MUI.blitCommon(gui, i + 82, j + 84, 422, 13, 17, 6);
+            if (possible && fueled) {
+                drawButton(gui, mx, my, 112, 31, MuiSlot.TICK, () -> true,
+                        () -> PacketSender.sendToServer(new C2SRocketLaunch(entity.getId())),
+                        () -> MUI.uistr("rocket.destination.launch"));
+                MUI.blitCommon(gui, i + 134, j + 84, 405, 13, 17, 6);
+                MUI.blitCommon(gui, i + 82, j + 84, 422, 13, 17, 6);
+            } else {
+                Component reason;
+                if (!possible) {
+                    reason = MUI.uistr("rocket.destination.out_of_range")
+                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED));
+                } else {
+                    reason = MUI.uistr("rocket.destination.insufficient_fuel")
+                            .withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED));
+                }
+                MUI.drawCenteredString(gui, reason, i + 112, j + 84);
+            }
         }
 
         @Override
@@ -321,11 +369,17 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
                                     .append(Component.literal(StringUtils.formatHours((float) planet.day()))
                                             .withStyle(Style.EMPTY.withBold(true))),
                             t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 42);
-                    MUI.drawString(gui,
-                            MUI.uistr("rocket.starmap.gravity").append(c)
-                                    .append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
-                                            .withStyle(Style.EMPTY.withBold(true))),
-                            t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+                    if (planet.gas_giant()) {
+                        MUI.drawString(gui,
+                                MUI.uistr("rocket.starmap.gas_giant").append(c).append(StringUtils.formatBool(true)),
+                                t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+                    } else {
+                        MUI.drawString(gui,
+                                MUI.uistr("rocket.starmap.gravity").append(c)
+                                        .append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
+                                                .withStyle(Style.EMPTY.withBold(true))),
+                                t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+                    }
                     MUI.drawString(gui,
                             MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
                                     .append(StringUtils.formatBool(planet.breathable())),

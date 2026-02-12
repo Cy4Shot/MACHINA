@@ -475,6 +475,12 @@ public class RocketEntity extends Entity
     }
 
     public void completeLaunch(ServerPlayer player) {
+        RocketCosts costs = getCosts();
+        if (costs != null) {
+            this.fuelTank.drain(costs.fuelRequired(), FluidAction.EXECUTE);
+            this.coolTank.drain(costs.coolantRequired(), FluidAction.EXECUTE);
+        }
+
         ResourceKey<Level> dst = getDestination();
         ServerLevel planet = PlanetRegistrationHandler.createPlanet(player.getServer(), PlanetHelper.getIdLevel(dst));
         Entity transported = this.changeDimension(planet, new ITeleporter() {

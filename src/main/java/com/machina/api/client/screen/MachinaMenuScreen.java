@@ -305,6 +305,22 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
         clickAndHover(key, i, j, i + 18, j + 18, () -> true, onHover, onClick);
     }
 
+    protected void drawButton(GuiGraphics gui, int mx, int my, int x, int y, MuiSlot slot, Supplier<Boolean> active,
+            Runnable onClick, Supplier<Component> onHover) {
+        String key = "button_" + x + "_" + y;
+
+        int i = midWidth() + x;
+        int j = midHeight() + y;
+        int h = active.get() && mx > i && mx < i + 18 && my > j && my < j + 18 ? 113 : 94;
+        MUI.blitCommon(gui, i, j, 466, h, 19, 19);
+        slot.draw(gui, i + 4, j + 4, this.aliveTicks);
+
+        MUI.blitCommon(gui, i - 6, j + 1, 387, 0, 3, 16);
+        MUI.blitCommon(gui, i + 21, j + 1, 390, 0, 3, 16);
+
+        clickAndHover(key, i, j, i + 18, j + 18, active, onHover, onClick);
+    }
+
     protected void drawButtonSmall(GuiGraphics gui, int mx, int my, int x, int y, MuiSlot slot, Runnable onClick,
             Supplier<Component> onHover) {
         String key = "button_" + x + "_" + y;
