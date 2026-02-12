@@ -57,10 +57,10 @@ public class RocketMenu extends MachinaAnyMenu {
         Slot clntSlot = this.getSlot(1);
 
         if (tab == 1) {
-            fuelSlot.x = 49;
-            fuelSlot.y = 42;
-            clntSlot.x = 169;
-            clntSlot.y = 42;
+            fuelSlot.x = 177;
+            fuelSlot.y = 36;
+            clntSlot.x = 199;
+            clntSlot.y = 36;
         } else {
             fuelSlot.x = -1000;
             fuelSlot.y = -1000;

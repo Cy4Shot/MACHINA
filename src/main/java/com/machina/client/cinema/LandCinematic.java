@@ -8,12 +8,14 @@ import com.machina.api.client.cinema.effect.FadeInEffect;
 import com.machina.api.client.cinema.effect.FadeOutEffect;
 import com.machina.api.client.cinema.effect.ParticleEffect;
 import com.machina.api.client.cinema.effect.ShakeEffect;
+import com.machina.api.client.cinema.effect.SoundEffect;
 import com.machina.api.client.cinema.entity.CameraClientEntity;
 import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SRocketLandComplete;
 import com.machina.api.network.c2s.C2SRocketCinematicOffset;
 import com.machina.api.network.c2s.C2SSpawnParticle;
 import com.machina.api.util.math.DirUtil;
+import com.machina.registration.init.SoundInit;
 import com.machina.rocket.RocketEntity;
 
 import net.minecraft.core.Direction;
@@ -37,6 +39,7 @@ public class LandCinematic extends PathCinematic {
 
         Vec3 pos = entity.position();
 
+        CameraEffect SOUND = new SoundEffect(SoundInit.ROCKET_LAND);
         CameraEffect FADE_IN = new FadeInEffect(10);
         CameraEffect FADE_OUT = new FadeOutEffect(150, 50);
         CameraEffect SHAKE1 = new ShakeEffect(0.3f);
@@ -56,7 +59,7 @@ public class LandCinematic extends PathCinematic {
 
         // @formatter:off
         setPath(CameraPath.builder(pos)
-        .addPath(InterpolationMethod.BEZIER, 200, effects(FADE_IN, SHAKE2, LAND),
+        .addPath(InterpolationMethod.BEZIER, 200, effects(FADE_IN, SHAKE2, LAND, SOUND),
                 node(d.getStepX() * 10, 0, d.getStepZ() * 10, -85, yaw),
                 node(d.getStepX() * 8, 0, d.getStepZ() * 8, -80, yaw),
                 node(d.getStepX() * 5, 0, d.getStepZ() * 5, -70, yaw),

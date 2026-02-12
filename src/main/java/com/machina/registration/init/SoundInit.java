@@ -15,6 +15,7 @@ public class SoundInit {
 
     public static final RegistryObject<SoundEvent> MUSIC = create("music");
     public static final RegistryObject<SoundEvent> ROCKET_LAUNCH = create("rocket_launch");
+    public static final RegistryObject<SoundEvent> ROCKET_LAND = create("rocket_land");
 
     private static RegistryObject<SoundEvent> create(String name) {
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new MachinaRL(name)));

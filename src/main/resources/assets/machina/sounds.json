@@ -9,6 +9,16 @@
 			}
 		]
 	},
+	"rocket_land": {
+		"subtitle": "machina.subtitle.rocket_land",
+		"sounds": [
+			{
+				"name": "machina:rocket_land",
+				"stream": true,
+				"preload": true
+			}
+		]
+	},
 	"beyond": {
 		"category": "music",
 		"subtitle": "machina.subtitle.beyond",
