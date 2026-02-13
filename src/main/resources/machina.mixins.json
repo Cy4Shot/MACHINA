@@ -2,7 +2,7 @@
 	"required": true,
 	"package": "com.machina.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"refmap": "machina.mixins.refmap.json",
+	"refmap": "machina.refmap.json",
 	"plugin": "com.machina.config.MixinConfig",
 	"mixins": [
 		"LevelMixin",
