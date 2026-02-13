@@ -15,6 +15,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -71,7 +72,11 @@ public class RecipeInit {
             this.serializer = serializer;
             this.mapInstance = mapInstance;
             this.block = block;
-            this.jei = new JeiRecipeRegistrar<>(this, block, x, y);
+            if (ModList.get().isLoaded("jei")) {
+                this.jei = new JeiRecipeRegistrar<>(this, block, x, y);
+            } else {
+                this.jei = null;
+            }
         }
 
         public ResourceLocation id() {

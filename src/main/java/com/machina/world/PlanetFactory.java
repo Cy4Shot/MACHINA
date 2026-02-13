@@ -40,8 +40,9 @@ public class PlanetFactory {
             fluid = Blocks.WATER.defaultBlockState();
             sea_level = -1;
         }
-        
-        NoiseGeneratorSettings settings = new NoiseGeneratorSettings(type.shape().noise_settings(), type.base(), fluid,
+
+        NoiseGeneratorSettings settings = new NoiseGeneratorSettings(type.shape().getNoiseSettings(), type.base(),
+                fluid,
                 PlanetDensityFunction.planet(planet, lookup.lookup(Registries.DENSITY_FUNCTION).get(),
                         lookup.lookup(Registries.NOISE).get()),
                 PlanetSurfaceRule.planet(planet), PlanetBiomeSource.spawnTarget(), sea_level, false, true, false,
