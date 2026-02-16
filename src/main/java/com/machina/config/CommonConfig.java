@@ -1,33 +1,33 @@
 package com.machina.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class CommonConfig {
-    public static final ForgeConfigSpec COMMON_SPEC;
+    public static final ModConfigSpec COMMON_SPEC;
 
     static {
-        ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
         COMMON_SPEC = configBuilder.build();
     }
 
-    public static ForgeConfigSpec.IntValue basicCapacitorSize;
-    public static ForgeConfigSpec.IntValue advancedCapacitorSize;
-    public static ForgeConfigSpec.IntValue supremeCapacitorSize;
+    public static ModConfigSpec.IntValue basicCapacitorSize;
+    public static ModConfigSpec.IntValue advancedCapacitorSize;
+    public static ModConfigSpec.IntValue supremeCapacitorSize;
 
-    public static ForgeConfigSpec.IntValue cableTransferRate;
-    public static ForgeConfigSpec.IntValue pipeTransferRate;
-    public static ForgeConfigSpec.IntValue conduitTransferRate;
-    public static ForgeConfigSpec.IntValue batteryTransferRate;
-    public static ForgeConfigSpec.IntValue batteryChargeRate;
-    public static ForgeConfigSpec.IntValue batteryDischargeRate;
-    public static ForgeConfigSpec.IntValue furnaceGeneratorCapacity;
-    public static ForgeConfigSpec.IntValue furnaceGeneratorRate;
-    public static ForgeConfigSpec.IntValue furnaceGeneratorTransferRate;
-    public static ForgeConfigSpec.IntValue chemicalGeneratorCapacity;
-    public static ForgeConfigSpec.IntValue chemicalGeneratorTransferRate;
+    public static ModConfigSpec.IntValue cableTransferRate;
+    public static ModConfigSpec.IntValue pipeTransferRate;
+    public static ModConfigSpec.IntValue conduitTransferRate;
+    public static ModConfigSpec.IntValue batteryTransferRate;
+    public static ModConfigSpec.IntValue batteryChargeRate;
+    public static ModConfigSpec.IntValue batteryDischargeRate;
+    public static ModConfigSpec.IntValue furnaceGeneratorCapacity;
+    public static ModConfigSpec.IntValue furnaceGeneratorRate;
+    public static ModConfigSpec.IntValue furnaceGeneratorTransferRate;
+    public static ModConfigSpec.IntValue chemicalGeneratorCapacity;
+    public static ModConfigSpec.IntValue chemicalGeneratorTransferRate;
 
-    private static void setupConfig(ForgeConfigSpec.Builder builder) {
+    private static void setupConfig(ModConfigSpec.Builder builder) {
         builder.push("items");
 
         builder.push("capacitors");

@@ -35,7 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 
@@ -60,7 +60,18 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
         itemStorage(Side.INPUTS);
     }
 
+    public boolean areSlotsFilled() {
+        for (RocketPartType type : RocketPartType.values()) {
+            if (getPart(type) == null)
+                return false;
+        }
+        return true;
+    }
+
     public void startCrafting() {
+        if (!areSlotsFilled())
+            return;
+
         this.parts = new RocketPart<?>[5];
         for (RocketPartType type : RocketPartType.values()) {
             this.parts[type.ordinal()] = getPart(type);

@@ -17,13 +17,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -66,6 +64,8 @@ public class DatagenItemModels extends ItemModelProvider {
         simpleItem(ItemInit.FLUID_FILTER);
 
         simpleItem(ItemInit.COAL_CHUNK);
+        simpleItem(ItemInit.AMMONIUM_NITRATE);
+        simpleItem(ItemInit.COPPER_COIL);
 
         simpleItem(ItemInit.TROPICAL_SIGN);
         simpleItem(ItemInit.TROPICAL_HANGING_SIGN);
@@ -107,7 +107,7 @@ public class DatagenItemModels extends ItemModelProvider {
 
     protected void bucket(FluidObject obj) {
         DynamicFluidContainerModelBuilder<ItemModelBuilder> builder = withExistingParent(name(obj.fluid().getBucket()),
-                new ResourceLocation("forge", "item/bucket")).customLoader(DynamicFluidContainerModelBuilder::begin);
+                ResourceLocation.withDefaultNamespace("forge", "item/bucket")).customLoader(DynamicFluidContainerModelBuilder::begin);
         if (obj.fluid().getFluidType().getDensity() < 0) {
             builder.flipGas(true);
         }
@@ -115,8 +115,8 @@ public class DatagenItemModels extends ItemModelProvider {
     }
 
     @SuppressWarnings("unused")
-    private void trimmedArmorItem(RegistryObject<Item> itemRegistryObject) {
-        if (itemRegistryObject.get() instanceof ArmorItem armorItem) {
+    private void trimmedArmorItem(DeferredBlock<Item> itemDeferredBlock) {
+        if (itemDeferredBlock.get() instanceof ArmorItem armorItem) {
             trimMaterials.forEach((trimMaterial, value) -> {
 
                 float trimValue = value;
@@ -132,19 +132,19 @@ public class DatagenItemModels extends ItemModelProvider {
                 String armorItemPath = "item/" + armorItem;
                 String trimPath = "trims/items/" + armorType + "_trim_" + trimMaterial.location().getPath();
                 String currentTrimName = armorItemPath + "_" + trimMaterial.location().getPath() + "_trim";
-                ResourceLocation armorItemResLoc = new MachinaRL(armorItemPath);
-                ResourceLocation trimResLoc = new ResourceLocation(trimPath);
-                ResourceLocation trimNameResLoc = new MachinaRL(currentTrimName);
+                ResourceLocation armorItemResLoc = MachinaRL.create(armorItemPath);
+                ResourceLocation trimResLoc = ResourceLocation.withDefaultNamespace(trimPath);
+                ResourceLocation trimNameResLoc = MachinaRL.create(currentTrimName);
 
                 existingFileHelper.trackGenerated(trimResLoc, PackType.CLIENT_RESOURCES, ".png", "textures");
 
                 getBuilder(currentTrimName).parent(new ModelFile.UncheckedModelFile("item/generated"))
                         .texture("layer0", armorItemResLoc).texture("layer1", trimResLoc);
 
-                this.withExistingParent(itemRegistryObject.getId().getPath(), mcLoc("item/generated")).override()
+                this.withExistingParent(itemDeferredBlock.getId().getPath(), mcLoc("item/generated")).override()
                         .model(new ModelFile.UncheckedModelFile(trimNameResLoc))
                         .predicate(mcLoc("trim_type"), trimValue).end()
-                        .texture("layer0", new MachinaRL("item/" + itemRegistryObject.getId().getPath()));
+                        .texture("layer0", MachinaRL.create("item/" + itemDeferredBlock.getId().getPath()));
             });
         }
     }
@@ -155,44 +155,44 @@ public class DatagenItemModels extends ItemModelProvider {
 
     private void simpleItem(Item item) {
         String name = name(item);
-        withExistingParent(name, new ResourceLocation("item/generated")).texture("layer0",
-                new MachinaRL("item/" + name));
+        withExistingParent(name, ResourceLocation.withDefaultNamespace("item/generated")).texture("layer0",
+                MachinaRL.create("item/" + name));
     }
 
-    private void simpleItem(RegistryObject<? extends Item> item) {
-        withExistingParent(item.getId().getPath(), new ResourceLocation("item/generated")).texture("layer0",
-                new MachinaRL("item/" + item.getId().getPath()));
+    private void simpleItem(DeferredItem<? extends Item> item) {
+        withExistingParent(item.getId().getPath(), ResourceLocation.withDefaultNamespace("item/generated")).texture("layer0",
+                MachinaRL.create("item/" + item.getId().getPath()));
     }
 
-    public void evenSimplerBlockItem(RegistryObject<? extends Block> block) {
+    public void evenSimplerBlockItem(DeferredBlock<? extends Block> block) {
         this.withExistingParent(
-                Machina.MOD_ID + ":" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+                Machina.MOD_ID + ":" + Objects.requireNonNull(ForgeRegistries.BLOCK.getKey(block.get())).getPath(),
                 modLoc("block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath()));
     }
 
-    public void trapdoorItem(RegistryObject<Block> block) {
+    public void trapdoorItem(DeferredBlock<Block> block) {
         this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), modLoc(
                 "block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath() + "_bottom"));
     }
 
-    public void fenceItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+    public void fenceItem(DeferredBlock<Block> block, DeferredBlock<Block> baseBlock) {
         this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
                         mcLoc("block/fence_inventory"))
-                .texture("texture", new ResourceLocation(Machina.MOD_ID,
+                .texture("texture", ResourceLocation.withDefaultNamespace(Machina.MOD_ID,
                         "block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
     }
 
-    public void buttonItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+    public void buttonItem(DeferredBlock<Block> block, DeferredBlock<Block> baseBlock) {
         this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
                         mcLoc("block/button_inventory"))
-                .texture("texture", new ResourceLocation(Machina.MOD_ID,
+                .texture("texture", ResourceLocation.withDefaultNamespace(Machina.MOD_ID,
                         "block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
     }
 
-    public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+    public void wallItem(DeferredBlock<Block> block, DeferredBlock<Block> baseBlock) {
         this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
                         mcLoc("block/wall_inventory"))
-                .texture("wall", new ResourceLocation(Machina.MOD_ID,
+                .texture("wall", ResourceLocation.withDefaultNamespace(Machina.MOD_ID,
                         "block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
     }
 
@@ -201,20 +201,20 @@ public class DatagenItemModels extends ItemModelProvider {
     }
 
     @SuppressWarnings("unused")
-    private ItemModelBuilder handheldItem(RegistryObject<Item> item) {
-        return withExistingParent(item.getId().getPath(), new ResourceLocation("item/handheld")).texture("layer0",
-                new MachinaRL("item/" + item.getId().getPath()));
+    private ItemModelBuilder handheldItem(DeferredBlock<Item> item) {
+        return withExistingParent(item.getId().getPath(), ResourceLocation.withDefaultNamespace("item/handheld")).texture("layer0",
+                MachinaRL.create("item/" + item.getId().getPath()));
     }
 
     @SuppressWarnings("unused")
-    private ItemModelBuilder simpleBlockItem(RegistryObject<? extends Block> item) {
-        return withExistingParent(item.getId().getPath(), new ResourceLocation("item/generated")).texture("layer0",
-                new MachinaRL("item/" + item.getId().getPath()));
+    private ItemModelBuilder simpleBlockItem(DeferredBlock<? extends Block> item) {
+        return withExistingParent(item.getId().getPath(), ResourceLocation.withDefaultNamespace("item/generated")).texture("layer0",
+                MachinaRL.create("item/" + item.getId().getPath()));
     }
 
     @SuppressWarnings("unused")
-    private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<? extends Block> item) {
-        return withExistingParent(item.getId().getPath(), new ResourceLocation("item/generated")).texture("layer0",
-                new MachinaRL("block/" + item.getId().getPath()));
+    private ItemModelBuilder simpleBlockItemBlockTexture(DeferredBlock<? extends Block> item) {
+        return withExistingParent(item.getId().getPath(), ResourceLocation.withDefaultNamespace("item/generated")).texture("layer0",
+                MachinaRL.create("block/" + item.getId().getPath()));
     }
 }

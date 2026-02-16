@@ -1,6 +1,5 @@
 package com.machina.world;
 
-import com.machina.Machina;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.planet_type.PlanetType;
@@ -25,7 +24,7 @@ import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 public class PlanetFactory {
 
     public static final ResourceKey<DimensionType> TYPE_KEY = ResourceKey.create(Registries.DIMENSION_TYPE,
-            new MachinaRL(Machina.MOD_ID));
+            MachinaRL.ID);
 
     public static LevelStem createDimension(MinecraftServer server, ResourceKey<LevelStem> key) {
         long seed = server.overworld().getSeed();

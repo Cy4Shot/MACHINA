@@ -5,7 +5,7 @@ import com.machina.api.network.S2CMessage;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public record S2CFluidEntitySync(int entity, FluidStack stack, int i) implements S2CMessage {
 

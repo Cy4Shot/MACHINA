@@ -16,7 +16,7 @@ public record OverlayEffect(float duration, String path, float opacity) implemen
     @Override
     public void tickEffect(int tick) {
         if (tick == 1) {
-            CinematicTextureOverlay.rl = new MachinaRL("textures/cinematic/" + path + ".png");
+            CinematicTextureOverlay.rl = MachinaRL.create("textures/cinematic/" + path + ".png");
             CinematicTextureOverlay.render = true;
         }
         CinematicTextureOverlay.opacity = opacity;

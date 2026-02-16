@@ -1,6 +1,6 @@
 package com.machina.api.cap.fluid;
 
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public interface FluidHandlerEntity {
 

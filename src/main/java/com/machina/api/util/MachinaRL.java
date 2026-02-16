@@ -8,38 +8,40 @@ import net.minecraft.ResourceLocationException;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class MachinaRL extends ResourceLocation {
+public class MachinaRL {
+    
+    public static final ResourceLocation ID = MachinaRL.create(Machina.MOD_ID);
 
     private static final SimpleCommandExceptionType ERROR_INVALID = new SimpleCommandExceptionType(
             Component.literal("argument.id.invalid"));
 
-    public MachinaRL(int id) {
-        super(Machina.MOD_ID, String.valueOf(id));
+    public static ResourceLocation create(int id) {
+        return ResourceLocation.fromNamespaceAndPath(Machina.MOD_ID, String.valueOf(id));
     }
 
-    public MachinaRL(String name) {
-        super(checkModId(name));
+    public static ResourceLocation create(String name) {
+        return ResourceLocation.parse(checkModId(name));
     }
 
-    public MachinaRL(String modId, String path) {
-        super(modId, path);
+    public static ResourceLocation create(String modId, String path) {
+        return ResourceLocation.fromNamespaceAndPath(modId, path);
     }
 
     public static String checkModId(String input) {
         return input.contains(":") ? input : Machina.MOD_ID + ":" + input;
     }
 
-    public static MachinaRL read(StringReader pReader) throws CommandSyntaxException {
+    public static ResourceLocation read(StringReader pReader) throws CommandSyntaxException {
         int i = pReader.getCursor();
 
-        while (pReader.canRead() && isAllowedInResourceLocation(pReader.peek())) {
+        while (pReader.canRead() && ResourceLocation.isAllowedInResourceLocation(pReader.peek())) {
             pReader.skip();
         }
 
         String s = pReader.getString().substring(i, pReader.getCursor());
 
         try {
-            return new MachinaRL(s);
+            return create(s);
         } catch (ResourceLocationException resourcelocationexception) {
             pReader.setCursor(i);
             throw ERROR_INVALID.createWithContext(pReader);

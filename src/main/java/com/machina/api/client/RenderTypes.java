@@ -16,9 +16,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderType.CompositeState;
 import net.minecraft.client.renderer.RenderType.CompositeState.CompositeStateBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.ModList;
+import net.neoforged.api.distmarker.Dist;
+
 import org.joml.Matrix4f;
 
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class RenderTypes {
             CompositeState.builder()
                     .setShaderState(new ShaderStateShard(ShaderHandler.ROCKET_PART_BENCH::instance))
                     .setTextureState(new TextureStateShard(
-                            new MachinaRL("textures/rocket/constructing.png"),
+                            MachinaRL.create("textures/rocket/constructing.png"),
                             false,
                             false
                     ))
@@ -109,7 +110,7 @@ public class RenderTypes {
 
     public static RenderType getOrCreateCelestial(String tex) {
         return CELESTIALS.computeIfAbsent(tex,
-                t -> CELESTIAL.apply(new MachinaRL("textures/gui/starchart/" + t + ".png")));
+                t -> CELESTIAL.apply(MachinaRL.create("textures/gui/starchart/" + t + ".png")));
     }
 
     public static RenderType create(String name, VertexFormat format, Mode mode, boolean affectsOutline,

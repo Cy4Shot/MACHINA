@@ -94,7 +94,7 @@ public class PlanetDensityFunction {
     }
 
     private static ResourceKey<DensityFunction> createKey(String key) {
-        return ResourceKey.create(Registries.DENSITY_FUNCTION, new ResourceLocation(key));
+        return ResourceKey.create(Registries.DENSITY_FUNCTION, ResourceLocation.parse(key));
     }
 
     private static DensityFunction getFunction(HolderGetter<DensityFunction> densities,

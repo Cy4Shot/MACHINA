@@ -5,9 +5,9 @@ import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
 import com.machina.api.util.MachinaRL;
 import com.machina.world.data.PlanetDimensionData;
-import com.mojang.serialization.Lifecycle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -20,8 +20,8 @@ import net.minecraft.world.level.border.BorderChangeListener.DelegateBorderChang
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.storage.DerivedLevelData;
 import net.minecraft.world.level.storage.WorldData;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.LevelEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.level.LevelEvent;
 
 import java.util.Map;
 import java.util.Objects;
@@ -36,7 +36,7 @@ public class PlanetRegistrationHandler {
 
     public static ServerLevel createPlanet(MinecraftServer server, int id) {
         PlanetDimensionData.getDefaultInstance(server).addId(id);
-        return getOrCreateWorld(server, ResourceKey.create(Registries.DIMENSION, new MachinaRL(id)),
+        return getOrCreateWorld(server, ResourceKey.create(Registries.DIMENSION, MachinaRL.create(id)),
                 PlanetFactory::createDimension, id);
     }
 
@@ -62,7 +62,7 @@ public class PlanetRegistrationHandler {
         Registry<LevelStem> dimRegFrozen = server.registryAccess().registryOrThrow(Registries.LEVEL_STEM);
         if (dimRegFrozen instanceof MappedRegistry<LevelStem> dimReg) {
             dimReg.unfreeze();
-            dimReg.register(dimensionKey, dimension, Lifecycle.stable());
+            dimReg.register(dimensionKey, dimension, RegistrationInfo.BUILT_IN);
         } else {
             throw new IllegalStateException(String.format(
                     "Unable to register dimension %s -- dimension registry not writable", dimensionKey.location()));
@@ -78,7 +78,7 @@ public class PlanetRegistrationHandler {
 
         map.put(worldKey, newWorld);
         server.markWorldsDirty();
-        MinecraftForge.EVENT_BUS.post(new LevelEvent.Load(newWorld));
+        NeoForge.EVENT_BUS.post(new LevelEvent.Load(newWorld));
         PacketSender.sendToClients(new S2CUpdateDimensionList(worldKey));
 
         return newWorld;

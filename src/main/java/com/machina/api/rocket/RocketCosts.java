@@ -5,7 +5,9 @@ import com.machina.api.starchart.obj.SolarSystem;
 import com.machina.api.util.PlanetHelper;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
@@ -15,23 +17,16 @@ public record RocketCosts(boolean possible, float distance, int fuelRequired, in
 
     public static final EntityDataSerializer<RocketCosts> SERIALIZER = new EntityDataSerializer.ForValueType<RocketCosts>() {
         @Override
-        public void write(FriendlyByteBuf buf, RocketCosts props) {
-            buf.writeBoolean(props.possible());
-            if (!props.possible())
-                return;
-            buf.writeFloat(props.distance());
-            buf.writeInt(props.fuelRequired());
-            buf.writeInt(props.coolantRequired());
-            buf.writeFloat(props.maxTemp());
-            buf.writeFloat(props.maxPres());
-        }
-
-        @Override
-        public RocketCosts read(FriendlyByteBuf buf) {
-            if (!buf.readBoolean())
-                return RocketCosts.NULL;
-            return new RocketCosts(true, buf.readFloat(), buf.readInt(), buf.readInt(), buf.readFloat(),
-                    buf.readFloat());
+        public StreamCodec<? super RegistryFriendlyByteBuf, RocketCosts> codec() {
+            return StreamCodec.composite(// @formatter:off
+                    ByteBufCodecs.BOOL, RocketCosts::possible,
+                    ByteBufCodecs.FLOAT, RocketCosts::distance,
+                    ByteBufCodecs.INT, RocketCosts::fuelRequired,
+                    ByteBufCodecs.INT, RocketCosts::coolantRequired,
+                    ByteBufCodecs.FLOAT, RocketCosts::maxTemp,
+                    ByteBufCodecs.FLOAT, RocketCosts::maxPres,
+                    RocketCosts::new
+            ); // @formatter:on
         }
     };
 

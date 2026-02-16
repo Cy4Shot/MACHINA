@@ -18,6 +18,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
+public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements RecipeInput {
 
     private static final Map<RocketPart<?>, MachinaRecipe<RocketPartBenchBlockEntity>> RECIPE_CACHE = new HashMap<>();
 
@@ -88,7 +89,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
     public void load(@NotNull CompoundTag tag) {
         this.progress = tag.getInt("progress");
         String r = tag.getString("recipe");
-        this.recipe = r.isEmpty() ? null : RecipeInit.ROCKET_PART_BENCH.maps().getRecipe(new ResourceLocation(r));
+        this.recipe = r.isEmpty() ? null : RecipeInit.ROCKET_PART_BENCH.maps().getRecipe(ResourceLocation.parse(r));
         super.load(tag);
     }
 
@@ -164,5 +165,10 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity {
         if (this.recipe == null || this.progress <= 0)
             return 0f;
         return 1f - ((float) this.progress / (float) getMaxProgress());
+    }
+
+    @Override
+    public int size() {
+        return 4;
     }
 }

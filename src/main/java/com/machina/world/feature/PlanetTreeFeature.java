@@ -23,7 +23,7 @@ public class PlanetTreeFeature extends Feature<PlanetTreeFeature.PlanetTreeFeatu
                 .apply(instance, PlanetTreeFeatureConfig::new));
 
         public TreeMaker getTree() {
-            return RegistryInit.TREE_REGISTRY.get().getValue(tree.tree());
+            return RegistryInit.TREE_REGISTRY.get(tree.tree());
         }
     }
 

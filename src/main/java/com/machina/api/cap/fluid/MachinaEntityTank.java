@@ -5,11 +5,12 @@ import java.util.function.Predicate;
 import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CFluidEntitySync;
 
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 public class MachinaEntityTank extends FluidTank {
 
@@ -27,16 +28,16 @@ public class MachinaEntityTank extends FluidTank {
     }
 
     @Override
-    public CompoundTag writeToNBT(CompoundTag nbt) {
+    public CompoundTag writeToNBT(Provider lookupProvider, CompoundTag nbt) {
         CompoundTag comp = new CompoundTag();
-        super.writeToNBT(comp);
+        super.writeToNBT(lookupProvider, comp);
         nbt.put("MachinaTank" + id, comp);
         return nbt;
     }
 
     @Override
-    public FluidTank readFromNBT(CompoundTag nbt) {
-        return super.readFromNBT(nbt.getCompound("MachinaTank" + id));
+    public FluidTank readFromNBT(Provider lookupProvider, CompoundTag nbt) {
+        return super.readFromNBT(lookupProvider, nbt.getCompound("MachinaTank" + id));
     }
 
     @Override

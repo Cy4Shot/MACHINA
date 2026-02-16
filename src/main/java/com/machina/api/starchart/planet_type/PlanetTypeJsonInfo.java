@@ -20,14 +20,14 @@ public record PlanetTypeJsonInfo(String name, int iconY, Shape shape, List<Biome
 
         @Override
         public BiomePlacement cast() {
-            ResourceLocation biome = new ResourceLocation(name());
+            ResourceLocation biome = ResourceLocation.parse(name());
             return new BiomePlacement(biome, placements());
         }
     }
 
     @Override
     public PlanetType cast() {
-        ResourceLocation name = new ResourceLocation(name());
+        ResourceLocation name = ResourceLocation.parse(name());
         List<BiomePlacement> biomes = biomes().stream().map(BiomePlacementJsonInfo::cast).collect(Collectors.toList());
 
         HolderLookup<Block> block = BlockHelper.blockHolderLookup();

@@ -2,6 +2,8 @@ package com.machina.api.util.block;
 
 import com.machina.registration.init.BlockStateProviderInit;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -14,9 +16,9 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import org.jetbrains.annotations.NotNull;
 
 public class HorizontalFacingBlockProvider extends BlockStateProvider {
-    public static final Codec<HorizontalFacingBlockProvider> CODEC = BlockState.CODEC.fieldOf("state")
+    public static final MapCodec<HorizontalFacingBlockProvider> CODEC = BlockState.CODEC.fieldOf("state")
             .xmap(BlockBehaviour.BlockStateBase::getBlock, Block::defaultBlockState)
-            .xmap(HorizontalFacingBlockProvider::new, instance -> instance.block).codec();
+            .xmap(HorizontalFacingBlockProvider::new, instance -> instance.block);
     private final Block block;
 
     public HorizontalFacingBlockProvider(Block block) {

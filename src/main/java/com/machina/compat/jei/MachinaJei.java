@@ -18,7 +18,8 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.RecipeInput;
+
 import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
@@ -26,7 +27,7 @@ public class MachinaJei implements IModPlugin {
 
     @Override
     public @NotNull ResourceLocation getPluginUid() {
-        return new MachinaRL("jei_plugin");
+        return MachinaRL.create("jei_plugin");
     }
 
     @Override
@@ -46,7 +47,7 @@ public class MachinaJei implements IModPlugin {
         RecipeInit.RECIPES.forEach(recipe -> reg.addRecipeCategories(recipe.jei().category(gui)));
     }
 
-    private <T extends Container> void registerRecipe(IRecipeRegistration reg, RecipeRegistryObject<T> obj) {
+    private <T extends RecipeInput> void registerRecipe(IRecipeRegistration reg, RecipeRegistryObject<T> obj) {
         reg.addRecipes(obj.jei().type(), obj.maps().all());
     }
 

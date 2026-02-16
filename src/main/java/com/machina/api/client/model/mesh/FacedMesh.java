@@ -9,9 +9,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.IModelBuilder;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.IModelBuilder;
+import net.neoforged.api.distmarker.Dist;
+
 import org.joml.Vector3f;
 
 import java.util.Arrays;
@@ -28,15 +29,15 @@ public class FacedMesh implements IMesh {
     public final boolean shade;
 
     public static FacedMesh cube(Vector3f from, Vector3f to, String tex) {
-        Material m = new Material(TextureAtlas.LOCATION_BLOCKS, new MachinaRL(tex));
+        Material m = new Material(TextureAtlas.LOCATION_BLOCKS, MachinaRL.create(tex));
         Map<Direction, MeshFace> faces = Arrays.stream(Direction.values())
                 .collect(Collectors.toMap(x -> x, f -> new MeshFace(f, m, new BlockFaceUV(null, 0))));
         return new FacedMesh(from, to, faces, true);
     }
 
     public static FacedMesh pipe(Vector3f from, Vector3f to, String tex, String tex_2) {
-        Material m = new Material(TextureAtlas.LOCATION_BLOCKS, new MachinaRL(tex));
-        Material m1 = new Material(TextureAtlas.LOCATION_BLOCKS, new MachinaRL(tex_2));
+        Material m = new Material(TextureAtlas.LOCATION_BLOCKS, MachinaRL.create(tex));
+        Material m1 = new Material(TextureAtlas.LOCATION_BLOCKS, MachinaRL.create(tex_2));
         Map<Direction, MeshFace> faces = Map.of(
                 //@formatter:off
 			Direction.UP, new MeshFace(Direction.UP, m, new BlockFaceUV(null, 0)),
@@ -91,17 +92,17 @@ public class FacedMesh implements IMesh {
 
     @Override
     public void addQuads(IModelBuilder<?> modelBuilder, Function<Material, TextureAtlasSprite> spriteGetter,
-                         BlockElementRotation rotation) {
+            BlockElementRotation rotation) {
         for (Direction direction : faces.keySet()) {
-            MeshFace face = faces.get(direction);
-            TextureAtlasSprite sprite = spriteGetter.apply(face.texture);
-            BakedQuad quad = bakeQuad(from, to, face, sprite, direction, rotation, shade);
+          MeshFace face = faces.get(direction);
+          TextureAtlasSprite sprite = spriteGetter.apply(face.texture);
+          BakedQuad quad = bakeQuad(from, to, face, sprite, direction, rotation, shade);
 
-            if (face.cullForDirection == null)
-                modelBuilder.addUnculledFace(quad);
-            else
-                modelBuilder.addCulledFace(face.cullForDirection, quad);
-        }
+          if (face.cullForDirection == null)
+              modelBuilder.addUnculledFace(quad);
+          else
+              modelBuilder.addCulledFace(face.cullForDirection, quad);
+      }
     }
 
 }

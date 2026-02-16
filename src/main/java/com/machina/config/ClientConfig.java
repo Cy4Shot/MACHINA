@@ -1,21 +1,21 @@
 package com.machina.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig {
 
-    public static final ForgeConfigSpec CLIENT_SPEC;
+    public static final ModConfigSpec CLIENT_SPEC;
 
     static {
-        ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
         CLIENT_SPEC = configBuilder.build();
     }
 
     // Terminal Options
-    public static ForgeConfigSpec.BooleanValue devMode;
+    public static ModConfigSpec.BooleanValue devMode;
 
-    private static void setupConfig(ForgeConfigSpec.Builder builder) {
+    private static void setupConfig(ModConfigSpec.Builder builder) {
         builder.comment(" The following options are only used for development of the mod.");
         builder.push("Dev Options");
         {

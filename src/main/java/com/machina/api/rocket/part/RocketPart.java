@@ -13,9 +13,8 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
 
 public class RocketPart<T extends RocketPartModel> {
     private final ResourceLocation loc;
@@ -62,7 +61,7 @@ public class RocketPart<T extends RocketPartModel> {
     public float getGUIScale() {
         return (1f / height) * guiScale;
     }
-    
+
     public float getModelHeight() {
         return height;
     }
@@ -76,8 +75,8 @@ public class RocketPart<T extends RocketPartModel> {
         if (item != null) {
             return item;
         }
-        Map<RocketPart<?>, ResourceLocation> map = (Map<RocketPart<?>, ResourceLocation>) RegistryInit.ROCKET_PARTS_REGISTRY
-                .get().getSlaveMap(RocketPartCallbacks.ROCKET_PART_TO_ITEM, Map.class);
+        Map<RocketPart<?>, ResourceLocation> map = (Map<RocketPart<?>, ResourceLocation>) RegistryInit.ROCKET_PART_REGISTRY
+                .getSlaveMap(RocketPartCallbacks.ROCKET_PART_TO_ITEM, Map.class);
         ResourceLocation itemLoc = map.get(this);
         if (ForgeRegistries.ITEMS.getValue(itemLoc) instanceof RocketPartItem rocketPartItem) {
             this.item = rocketPartItem;
@@ -93,7 +92,7 @@ public class RocketPart<T extends RocketPartModel> {
     }
 
     public static RocketPart<?> fromNBT(CompoundTag tag) {
-        ResourceLocation loc = new ResourceLocation(tag.get("name").getAsString());
-        return RegistryInit.ROCKET_PARTS_REGISTRY.get().getValue(loc);
+        ResourceLocation loc = ResourceLocation.parse(tag.get("name").getAsString());
+        return RegistryInit.ROCKET_PART_REGISTRY.get(loc);
     }
 }

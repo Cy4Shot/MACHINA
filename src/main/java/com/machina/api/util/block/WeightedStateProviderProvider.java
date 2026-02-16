@@ -3,6 +3,8 @@ package com.machina.api.util.block;
 import com.machina.registration.init.BlockStateProviderInit;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -12,10 +14,9 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import org.jetbrains.annotations.NotNull;
 
 public class WeightedStateProviderProvider extends BlockStateProvider {
-    public static final Codec<WeightedStateProviderProvider> CODEC = SimpleWeightedRandomList
+    public static final MapCodec<WeightedStateProviderProvider> CODEC = SimpleWeightedRandomList
             .wrappedCodec(BlockStateProvider.CODEC)
-            .comapFlatMap(WeightedStateProviderProvider::create, instance -> instance.weightedList).fieldOf("entries")
-            .codec();
+            .comapFlatMap(WeightedStateProviderProvider::create, instance -> instance.weightedList).fieldOf("entries");
     private final SimpleWeightedRandomList<BlockStateProvider> weightedList;
 
     private static DataResult<WeightedStateProviderProvider> create(SimpleWeightedRandomList<BlockStateProvider> list) {

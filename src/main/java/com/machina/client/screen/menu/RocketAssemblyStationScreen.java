@@ -15,7 +15,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class RocketAssemblyStationScreen extends MachinaMenuScreen<RocketAssemblyStationMenu> {
 
@@ -126,7 +126,7 @@ public class RocketAssemblyStationScreen extends MachinaMenuScreen<RocketAssembl
         drawNoFacingSlot(gui, 0, mx, my, 79, 40, MuiSlot.PLUS, "rocket_assembly_station.thruster");
 
         // Craft button
-        drawButton(gui, mx, my, 159, 46, MuiSlot.TICK, () -> {
+        drawButton(gui, mx, my, 159, 46, MuiSlot.TICK, () -> entity.areSlotsFilled(),() -> {
             PacketSender.sendToServer(new C2SAssemblyStationCraft(this.entity().getBlockPos()));
             MUI.click();
         }, () -> Component.literal("Craft"));

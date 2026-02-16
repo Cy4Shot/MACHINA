@@ -5,6 +5,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.SequencedMap;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -14,10 +15,12 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Function;
 import com.machina.Machina;
+import com.machina.api.client.screen.MachinaMenuScreen.MultiblockRenderType;
 import com.machina.api.multiblock.ClientMultiblock;
 import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.api.rocket.part.RocketPart;
@@ -27,6 +30,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -60,10 +64,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.ItemDecoratorHandler;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.client.ItemDecoratorHandler;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public final class MUI {
 
@@ -76,11 +80,11 @@ public final class MUI {
 
     private static final Minecraft mc = Minecraft.getInstance();
 
-    private static final ResourceLocation JEI_UI = new MachinaRL("textures/gui/jei_ui.png");
-    private static final ResourceLocation COMMON_UI = new MachinaRL("textures/gui/common_ui.png");
-    private static final ResourceLocation ROCKET_UI = new MachinaRL("textures/gui/rocket_ui.png");
-    private static final ResourceLocation BG_OVERLAY = new MachinaRL("textures/gui/bg_overlay.png");
-    private static final ResourceLocation BG_STARS = new MachinaRL("textures/gui/stars_bg.png");
+    private static final ResourceLocation JEI_UI = MachinaRL.create("textures/gui/jei_ui.png");
+    private static final ResourceLocation COMMON_UI = MachinaRL.create("textures/gui/common_ui.png");
+    private static final ResourceLocation ROCKET_UI = MachinaRL.create("textures/gui/rocket_ui.png");
+    private static final ResourceLocation BG_OVERLAY = MachinaRL.create("textures/gui/bg_overlay.png");
+    private static final ResourceLocation BG_STARS = MachinaRL.create("textures/gui/stars_bg.png");
 
     public static MutableComponent uistr(String key) {
         return Component.translatable("gui.machina." + key);
@@ -212,10 +216,6 @@ public final class MUI {
     }
 
     public static void drawLine(GuiGraphics gui, float x1, float y1, float x2, float y2, float width, int color) {
-        float a = ((color >> 24) & 0xFF) / 255f;
-        float r = ((color >> 16) & 0xFF) / 255f;
-        float g = ((color >> 8) & 0xFF) / 255f;
-        float b = (color & 0xFF) / 255f;
         float dx = x2 - x1;
         float dy = y2 - y1;
         float len = (float) Math.sqrt(dx * dx + dy * dy);
@@ -233,16 +233,13 @@ public final class MUI {
         RenderSystem.disableCull();
 
         Matrix4f m = gui.pose().last().pose();
-        BufferBuilder buf = Tesselator.getInstance().getBuilder();
+        BufferBuilder buf = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        buf.addVertex(m, x1 + nx, y1 + ny, 0).setColor(color);
+        buf.addVertex(m, x1 - nx, y1 - ny, 0).setColor(color);
+        buf.addVertex(m, x2 - nx, y2 - ny, 0).setColor(color);
+        buf.addVertex(m, x2 + nx, y2 + ny, 0).setColor(color);
 
-        buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-
-        buf.vertex(m, x1 + nx, y1 + ny, 0).color(r, g, b, a).endVertex();
-        buf.vertex(m, x1 - nx, y1 - ny, 0).color(r, g, b, a).endVertex();
-        buf.vertex(m, x2 - nx, y2 - ny, 0).color(r, g, b, a).endVertex();
-        buf.vertex(m, x2 + nx, y2 + ny, 0).color(r, g, b, a).endVertex();
-
-        BufferUploader.drawWithShader(buf.end());
+        BufferUploader.drawWithShader(buf.build());
 
         RenderSystem.enableCull();
         RenderSystem.enableDepthTest();
@@ -454,7 +451,7 @@ public final class MUI {
     }
 
     private static BufferSource initBuffers(BufferSource original) {
-        Map<RenderType, BufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
+        SequencedMap<RenderType, BufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
         for (Map.Entry<RenderType, BufferBuilder> e : original.fixedBuffers.entrySet()) {
             remapped.put(MultiblockRenderType.remap(e.getKey(), (float) 0.2), e.getValue());
         }
@@ -465,8 +462,9 @@ public final class MUI {
 
         private final float alpha;
 
-        protected MultiblockBuffers(BufferBuilder fallback, Map<RenderType, BufferBuilder> layerBuffers) {
-            super(fallback, layerBuffers);
+        protected MultiblockBuffers(ByteBufferBuilder sharedBuffer,
+                SequencedMap<RenderType, ByteBufferBuilder> fixedBuffers) {
+            super(sharedBuffer, fixedBuffers);
             this.alpha = (float) 0.2;
         }
 
@@ -645,8 +643,7 @@ public final class MUI {
         if (blend) {
             RenderSystem.enableBlend();
         }
-        BufferBuilder vertexBuffer = Tesselator.getInstance().getBuilder();
-        vertexBuffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        BufferBuilder vertexBuffer = Tesselator.getInstance().begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
         for (int xTile = 0; xTile <= xTileCount; xTile++) {
             int width = (xTile == xTileCount) ? xRemainder : textureWidth;
@@ -683,13 +680,13 @@ public final class MUI {
                     vLocalMin = vMin + vLocalDif;
                     vLocalMax = vMax;
                 }
-                vertexBuffer.vertex(matrix4f, x, y + textureHeight, zLevel).uv(uLocalMin, vLocalMax).endVertex();
-                vertexBuffer.vertex(matrix4f, shiftedX, y + textureHeight, zLevel).uv(uLocalMax, vLocalMax).endVertex();
-                vertexBuffer.vertex(matrix4f, shiftedX, y + maskTop, zLevel).uv(uLocalMax, vLocalMin).endVertex();
-                vertexBuffer.vertex(matrix4f, x, y + maskTop, zLevel).uv(uLocalMin, vLocalMin).endVertex();
+                vertexBuffer.addVertex(matrix4f, x, y + textureHeight, zLevel).setUv(uLocalMin, vLocalMax);
+                vertexBuffer.addVertex(matrix4f, shiftedX, y + textureHeight, zLevel).setUv(uLocalMax, vLocalMax);
+                vertexBuffer.addVertex(matrix4f, shiftedX, y + maskTop, zLevel).setUv(uLocalMax, vLocalMin);
+                vertexBuffer.addVertex(matrix4f, x, y + maskTop, zLevel).setUv(uLocalMin, vLocalMin);
             }
         }
-        BufferUploader.drawWithShader(vertexBuffer.end());
+        BufferUploader.drawWithShader(vertexBuffer.build());
         if (blend) {
             RenderSystem.disableBlend();
         }
@@ -723,17 +720,17 @@ public final class MUI {
         return mc.getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(spriteLocation);
     }
 
-    public static void rocketPart(GuiGraphics gui, int x, int y, double scale, float yaw, float pitch,
+    public static void rocketPart(GuiGraphics gui, int x, int y, float scale, float yaw, float pitch,
             RocketPart<?> part) {
         // PoseStack for GUI overlay
-        PoseStack vs = RenderSystem.getModelViewStack();
-        vs.pushPose();
+        Matrix4fStack vs = RenderSystem.getModelViewStack();
+        vs.pushMatrix();
 
         // Apply GUI pose first
-        vs.mulPoseMatrix(gui.pose().last().pose());
+        vs.mul(gui.pose().last().pose());
         scale *= part.getGUIScale();
         vs.translate(0, -8, 0);
-        vs.scale((float) scale, (float) scale, (float) scale);
+        vs.scale(scale, scale, scale);
         vs.translate(x / scale, y / scale, 50.0F);
 
         RenderSystem.applyModelViewMatrix();
@@ -747,13 +744,12 @@ public final class MUI {
         EntityRenderDispatcher disp = Minecraft.getInstance().getEntityRenderDispatcher();
         disp.setRenderShadow(false);
 
-        RenderSystem
-                .runAsFancy(() -> part.bake().render(ps, buffer, 15728880, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f));
+        RenderSystem.runAsFancy(() -> part.bake().render(ps, buffer, 15728880, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF));
 
         buffer.endBatch();
         disp.setRenderShadow(true);
 
-        vs.popPose();
+        vs.popMatrix();
         RenderSystem.applyModelViewMatrix();
     }
 

@@ -32,8 +32,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.TallFlowerBlock;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 public class DatagenItemTags extends ItemTagsProvider {
     public DatagenItemTags(PackOutput po, CompletableFuture<HolderLookup.Provider> provider,
@@ -91,25 +92,25 @@ public class DatagenItemTags extends ItemTagsProvider {
         FluidInit.OBJS.forEach(this::fluidObj);
     }
 
-    private void smallFlower(RegistryObject<? extends BushBlock> flower) {
+    private void smallFlower(DeferredBlock<? extends BushBlock> flower) {
         flower(flower);
         tag(ItemTags.SMALL_FLOWERS).add(flower.get().asItem());
     }
 
-    private void tallFlower(RegistryObject<TallFlowerBlock> flower) {
+    private void tallFlower(DeferredBlock<TallFlowerBlock> flower) {
         flower(flower);
         tag(ItemTags.TALL_FLOWERS).add(flower.get().asItem());
     }
 
-    private void flower(RegistryObject<? extends BushBlock> flower) {
+    private void flower(DeferredBlock<? extends BushBlock> flower) {
         tag(ItemTags.FLOWERS).add(flower.get().asItem());
     }
 
-    private void sand(RegistryObject<? extends Block> sand) {
+    private void sand(DeferredBlock<? extends Block> sand) {
         tag(ItemTags.SAND).add(sand.get().asItem());
     }
 
-    private void capacitor(RegistryObject<? extends CapacitorItem> capacitor) {
+    private void capacitor(DeferredItem<? extends CapacitorItem> capacitor) {
         tag(ItemTagInit.CAPACITOR).add(capacitor.get());
     }
 
@@ -248,6 +249,6 @@ public class DatagenItemTags extends ItemTagsProvider {
     }
 
     private static TagKey<Item> common(String name) {
-        return TagKey.create(Registries.ITEM, new ResourceLocation("c", name));
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name));
     }
 }

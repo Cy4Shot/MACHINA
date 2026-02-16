@@ -413,7 +413,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
         super(menu, inv, title);
         this.starchart = new StarchartRenderable(ClientStarchart.system, true);
         this.starchart.addSelectListener(selected -> {
-            ResourceKey<Level> dim = ResourceKey.create(Registries.DIMENSION, new MachinaRL(String.valueOf(selected)));
+            ResourceKey<Level> dim = ResourceKey.create(Registries.DIMENSION, MachinaRL.create(String.valueOf(selected)));
             PacketSender.sendToServer(new C2SRocketSetDestination(this.menu.entity.getId(), dim));
         });
     }
@@ -494,11 +494,11 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
     }
 
     @Override
-    public boolean mouseScrolled(double mX, double mY, double delta) {
-        if (inStarchart(mX, mY) && starchart.mouseScrolled(delta)) {
+    public boolean mouseScrolled(double mX, double mY, double deltaX, double deltaY) {
+        if (inStarchart(mX, mY) && starchart.mouseScrolled(deltaY)) {
             return true;
         }
-        return super.mouseScrolled(mX, mY, delta);
+        return super.mouseScrolled(mX, mY, deltaX, deltaY);
     }
 
     @Override

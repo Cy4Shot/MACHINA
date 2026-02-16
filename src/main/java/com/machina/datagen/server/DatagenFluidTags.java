@@ -11,7 +11,8 @@ import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -33,6 +34,6 @@ public class DatagenFluidTags extends FluidTagsProvider {
     }
 
     private static TagKey<Fluid> common(String name) {
-        return TagKey.create(Registries.FLUID, new ResourceLocation("c", name));
+        return TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath("c", name));
     }
 }

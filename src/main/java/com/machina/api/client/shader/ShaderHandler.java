@@ -30,7 +30,7 @@ public class ShaderHandler {
     public static void register(BiConsumer<ShaderInstance, Consumer<ShaderInstance>> cons, ResourceProvider man) {
         SHADERS.forEach(shader -> {
             try {
-                cons.accept(new ShaderInstance(man, new MachinaRL(shader.name), DefaultVertexFormat.NEW_ENTITY),
+                cons.accept(new ShaderInstance(man, MachinaRL.create(shader.name), DefaultVertexFormat.NEW_ENTITY),
                         shader::setShaderInstance);
             } catch (IOException e) {
                 e.printStackTrace();

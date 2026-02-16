@@ -13,63 +13,65 @@ import com.machina.api.rocket.part.impl.ShieldPart;
 import com.machina.api.rocket.part.impl.ThrusterPart;
 import com.machina.registration.init.RegistryInit;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelStorage, float fuelEfficiency,
         Fluid coolantType, int coolantStorage, float coolantEfficiency, int slots, float maxPressure,
         List<RocketPart<?>> parts, AABB boundingBox) {
 
     public static final EntityDataSerializer<RocketProps> SERIALIZER = new EntityDataSerializer.ForValueType<RocketProps>() {
-        @Override
-        public void write(FriendlyByteBuf buf, RocketProps props) {
-            buf.writeBoolean(props.empty());
-            if (props.empty())
-                return;
-            buf.writeFloat(props.mass());
-            buf.writeFluidStack(props.fuelStack());
-            buf.writeFloat(props.fuelEfficiency());
-            buf.writeFluidStack(props.coolantStack());
-            buf.writeFloat(props.coolantEfficiency());
-            buf.writeInt(props.slots());
-            buf.writeFloat(props.maxPressure());
-            for (RocketPart<?> part : props.parts()) {
-                buf.writeResourceLocation(part.getLoc());
-            }
-        }
+        public static final StreamCodec<RegistryFriendlyByteBuf, RocketProps> CODEC = StreamCodec.of((buf, value) -> {
+            buf.writeBoolean(value.empty());
+            buf.writeFloat(value.mass());
+            FluidStack.STREAM_CODEC.encode(buf, value.fuelStack());
+            buf.writeFloat(value.fuelEfficiency());
+            FluidStack.STREAM_CODEC.encode(buf, value.coolantStack());
+            buf.writeFloat(value.coolantEfficiency());
+            buf.writeVarInt(value.slots());
+            buf.writeFloat(value.maxPressure());
+            ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key()).apply(ByteBufCodecs.list(5)).encode(buf,
+                    value.parts());
+            buf.writeVec3(value.boundingBox().getMinPosition());
+            buf.writeVec3(value.boundingBox().getMaxPosition());
+        }, buf -> new RocketProps( //@formatter:off
+                buf.readBoolean(),
+                buf.readFloat(),
+                FluidStack.STREAM_CODEC.decode(buf).getFluid(),
+                FluidStack.STREAM_CODEC.decode(buf).getAmount(),
+                buf.readFloat(),
+                FluidStack.STREAM_CODEC.decode(buf).getFluid(),
+                FluidStack.STREAM_CODEC.decode(buf).getAmount(),
+                buf.readFloat(),
+                buf.readVarInt(),
+                buf.readFloat(),
+                ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key())
+                    .apply(ByteBufCodecs.list(5))
+                    .decode(buf),
+                new AABB(buf.readVec3(), buf.readVec3())
+            ) // @formatter:on
+        );
 
         @Override
-        public RocketProps read(FriendlyByteBuf buf) {
-            if (buf.readBoolean())
-                return RocketProps.NULL;
-
-            float mass = buf.readFloat();
-            FluidStack fuel = buf.readFluidStack();
-            float fuelEfficiency = buf.readFloat();
-            FluidStack coolant = buf.readFluidStack();
-            float coolantEfficiency = buf.readFloat();
-            int slots = buf.readInt();
-            float maxPressure = buf.readFloat();
-            List<RocketPart<?>> parts = new ArrayList<RocketPart<?>>();
-            for (int i = 0; i < RocketPartType.values().length; i++) {
-                parts.add(RegistryInit.ROCKET_PARTS_REGISTRY.get().getValue(buf.readResourceLocation()));
-            }
-            return new RocketProps(false, mass, fuel.getFluid(), fuel.getAmount(), fuelEfficiency, coolant.getFluid(),
-                    coolant.getAmount(), coolantEfficiency, slots, maxPressure, parts, calculateAABB(parts));
+        public StreamCodec<RegistryFriendlyByteBuf, RocketProps> codec() {
+            return CODEC;
         }
     };
 
     public static final RocketProps NULL = new RocketProps(true, 0, null, 0, 0, null, 0, 0, 0, 0, List.of(),
             new AABB(0, 0, 0, 1, 1, 1));
-    
+
     private static final AABB calculateAABB(List<RocketPart<?>> parts) {
         float maxY = 0;
         for (RocketPart<?> part : parts) {
@@ -98,8 +100,8 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
         List<RocketPart<?>> parts = List.of(thruster, fuelTank, chassis, lifeSupport, shield);
         return new RocketProps(false, mass, thruster.getFuel().fluid(), fuelTank.getFuelStorage(),
                 thruster.getFuelEfficiency(), chassis.getCoolant().fluid(), fuelTank.getCoolantStorage(),
-                chassis.getCoolantEfficiency(), lifeSupport.getSlots(), shield.getMaxAtmPressure(),
-                parts, calculateAABB(parts));
+                chassis.getCoolantEfficiency(), lifeSupport.getSlots(), shield.getMaxAtmPressure(), parts,
+                calculateAABB(parts));
     }
 
     public static RocketProps fromNBT(CompoundTag tag) {
@@ -107,8 +109,8 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
             return NULL;
         }
 
-        Fluid fuel = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString(PROPERTY_FUEL_TYPE)));
-        Fluid coolant = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString(PROPERTY_COOLANT_TYPE)));
+        Fluid fuel = Registries.FLUID.getValue(ResourceLocation.parse(tag.getString(PROPERTY_FUEL_TYPE)));
+        Fluid coolant = Registries.FLUID.getValue(ResourceLocation.parse(tag.getString(PROPERTY_COOLANT_TYPE)));
         List<RocketPart<?>> parts = new ArrayList<RocketPart<?>>();
         ListTag rocket_parts = tag.getList(PROPERTY_PARTS, Tag.TAG_COMPOUND);
         for (int i = 0; i < rocket_parts.size(); i++) {

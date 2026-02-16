@@ -107,6 +107,6 @@ public class SimpleThrusterModel extends RocketPartModel {
 
     @Override
     protected ResourceLocation getTextureLocation() {
-        return new MachinaRL("textures/rocket/simple_thruster.png");
+        return MachinaRL.create("textures/rocket/simple_thruster.png");
     }
 }

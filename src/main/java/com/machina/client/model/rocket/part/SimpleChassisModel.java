@@ -40,6 +40,6 @@ public class SimpleChassisModel extends RocketPartModel {
 
     @Override
     protected ResourceLocation getTextureLocation() {
-        return new MachinaRL("textures/rocket/simple_chassis.png");
+        return MachinaRL.create("textures/rocket/simple_chassis.png");
     }
 }

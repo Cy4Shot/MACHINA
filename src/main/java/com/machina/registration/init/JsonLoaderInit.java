@@ -4,7 +4,8 @@ import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.api.util.loader.JsonLoader;
-import net.minecraftforge.event.AddReloadListenerEvent;
+
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -19,8 +19,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
@@ -40,19 +41,19 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
     private void updateParts() {
         switch (selected) {
         case 0:
-            parts = RocketPartInit.THRUSTERS.values().stream().map(RegistryObject::get).toList();
+            parts = RocketPartInit.THRUSTERS.values().stream().map(DeferredHolder::get).toList();
             break;
         case 1:
-            parts = RocketPartInit.FUEL_TANKS.values().stream().map(RegistryObject::get).toList();
+            parts = RocketPartInit.FUEL_TANKS.values().stream().map(DeferredHolder::get).toList();
             break;
         case 2:
-            parts = RocketPartInit.CHASSIS.values().stream().map(RegistryObject::get).toList();
+            parts = RocketPartInit.CHASSIS.values().stream().map(DeferredHolder::get).toList();
             break;
         case 3:
-            parts = RocketPartInit.LIFE_SUPPORTS.values().stream().map(RegistryObject::get).toList();
+            parts = RocketPartInit.LIFE_SUPPORTS.values().stream().map(DeferredHolder::get).toList();
             break;
         default:
-            parts = RocketPartInit.SHIELDS.values().stream().map(RegistryObject::get).toList();
+            parts = RocketPartInit.SHIELDS.values().stream().map(DeferredHolder::get).toList();
             break;
         }
     }
@@ -242,10 +243,10 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
     }
 
     @Override
-    public boolean mouseScrolled(double mx, double my, double scroll) {
-        if (scroll != 0) {
+    public boolean mouseScrolled(double mx, double my, double scrollX, double scrollY) {
+        if (scrollY != 0) {
             float max = Math.max(0, parts.size() * 80 - 112);
-            this.scrollDist -= (float) (scroll * 10);
+            this.scrollDist -= (float) (scrollY * 10);
             if (this.scrollDist < 0.0F)
                 this.scrollDist = 0.0F;
             if (this.scrollDist > max)

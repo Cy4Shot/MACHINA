@@ -39,7 +39,7 @@ public class RocketPartBEWLR extends BlockEntityWithoutLevelRenderer {
                 pose.scale(scale, scale, scale);
             }
 
-            rocket.bake().render(pose, buffer, light, overlay, 1f, 1f, 1f, 1f);
+            rocket.bake().render(pose, buffer, light, overlay, 0xFFFFFFFF);
 
             pose.popPose();
         }

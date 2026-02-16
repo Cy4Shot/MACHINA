@@ -5,28 +5,27 @@ import java.util.Queue;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
-import com.machina.Machina;
-import com.machina.api.client.ClientTimer;
 import com.machina.api.client.cinema.entity.CinematicClientEntity;
 import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.client.event.RenderHandEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderPlayerEvent;
+import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class CinematicHandler {
 
     public static final CinematicHandler INSTANCE = new CinematicHandler();
@@ -35,11 +34,12 @@ public class CinematicHandler {
     private Cinematic current = null;
     private int elapsed = 0;
 
-    public void tick(TickEvent.Type type, float partial) {
+    public void tick(boolean isClient) {
         if (!mc.isPaused()) {
             if (this.isActive()) {
                 mc.setScreen(null);
-                if (type == TickEvent.Type.CLIENT) {
+                float partial = ((DeltaTracker.Timer) mc.getTimer()).getGameTimeDeltaTicks();
+                if (isClient) {
                     current.transform();
 
                     if (elapsed == 0)
@@ -53,7 +53,7 @@ public class CinematicHandler {
                         current = null;
                         elapsed = 0;
                     }
-                } else if (type == TickEvent.Type.RENDER) {
+                } else {
                     current.onRenderTick(elapsed, partial);
                 }
             } else {
@@ -86,14 +86,13 @@ public class CinematicHandler {
     }
 
     public static void setup() {
-        MinecraftForge.EVENT_BUS.addListener((TickEvent.ClientTickEvent e) -> {
-            if (e.phase == TickEvent.Phase.START)
-                INSTANCE.tick(e.type, ClientTimer.partialTick);
+        NeoForge.EVENT_BUS.addListener((ClientTickEvent.Pre e) -> {
+            INSTANCE.tick(true);
         });
 
-        MinecraftForge.EVENT_BUS.addListener((RenderLevelStageEvent e) -> {
+        NeoForge.EVENT_BUS.addListener((RenderLevelStageEvent e) -> {
             if (e.getStage().equals(RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES))
-                INSTANCE.tick(TickEvent.Type.RENDER, ClientTimer.partialTick);
+                INSTANCE.tick(false);
 
             if (e.getStage().equals(RenderLevelStageEvent.Stage.AFTER_ENTITIES)) {
                 if (INSTANCE.isActive() && INSTANCE.current.clientEntity != null) {
@@ -113,21 +112,20 @@ public class CinematicHandler {
             }
         });
 
-        MinecraftForge.EVENT_BUS.addListener((RenderGuiOverlayEvent.Pre e) -> {
+        NeoForge.EVENT_BUS.addListener((RenderGuiEvent.Pre e) -> {
             if (INSTANCE.isActive() && !mc.isPaused()) {
-                if (!e.getOverlay().id().getNamespace().equals(Machina.MOD_ID))
-                    e.setCanceled(true);
+                e.setCanceled(true);
             }
         });
 
-        MinecraftForge.EVENT_BUS.addListener((ScreenEvent.Opening e) -> {
+        NeoForge.EVENT_BUS.addListener((ScreenEvent.Opening e) -> {
             if (INSTANCE.isActive() && !mc.isPaused()) {
                 e.getScreen();
                 e.setCanceled(true);
             }
         });
 
-        MinecraftForge.EVENT_BUS.addListener((RenderHandEvent e) -> {
+        NeoForge.EVENT_BUS.addListener((RenderHandEvent e) -> {
             if (INSTANCE.isActive() && !mc.isPaused()) {
                 e.setCanceled(true);
             }

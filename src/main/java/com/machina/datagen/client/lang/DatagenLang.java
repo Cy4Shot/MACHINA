@@ -2,6 +2,7 @@ package com.machina.datagen.client.lang;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 
 import javax.swing.text.JTextComponent.KeyBinding;
 
@@ -21,9 +22,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public abstract class DatagenLang extends LanguageProvider {
 
@@ -37,7 +38,7 @@ public abstract class DatagenLang extends LanguageProvider {
         this.modid = modid;
     }
 
-    public <T> void add(RegistryObject<T> key, String name) {
+    public <T> void add(Supplier<T> key, String name) {
         T item = key.get();
         if (item instanceof Block) {
             add(((Block) item).getDescriptionId(), name);
@@ -45,18 +46,23 @@ public abstract class DatagenLang extends LanguageProvider {
             add(((Item) item).getDescriptionId(), name);
         } else if (item instanceof EntityType<?>) {
             add(((EntityType<?>) item).getDescriptionId(), name);
-        } else if (item instanceof CreativeModeTab) {
-            add(modid + ".creativemodetab." + key.getId().getPath(), name);
-        } else if (item instanceof RocketPart<?> part) {
-            add("rocket_part." + modid + "." + key.getId().getPath(), name);
-            add(part.getItem().getDescriptionId(), name);
         }
+    }
+    
+    protected void addTab(DeferredHolder<CreativeModeTab, CreativeModeTab> tab, String name) {
+        add(modid + ".creativemodetab." + tab.getId().getPath(), name);
+    }
+    
+    protected void addPart(DeferredHolder<RocketPart<?>, RocketPart<?>> part, String name) {
+        add("rocket_part." + modid + "." + part.getId().getPath(), name);
+        add(part.get().getItem().getDescriptionId(), name);
     }
 
     protected void add(Fruit fruit, String name) {
         add(fruit.block(), name);
     }
 
+    @SuppressWarnings("removal")
     protected void add(Fluid fluid, String name) {
         add(new FluidStack(fluid, 2).getTranslationKey(), name);
     }

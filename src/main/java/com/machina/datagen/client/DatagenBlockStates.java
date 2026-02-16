@@ -40,13 +40,12 @@ import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.ModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class DatagenBlockStates extends BlockStateProvider {
     public DatagenBlockStates(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -401,14 +400,14 @@ public class DatagenBlockStates extends BlockStateProvider {
         fam.getRawBlock().ifPresent(this::cube);
     }
 
-    private void cubeRandomRotation(RegistryObject<Block> block) {
+    private void cubeRandomRotation(DeferredBlock<Block> block) {
         Block b = block.get();
         ModelFile model = cubeAll(b);
         simpleBlock(b, randomRotation(model));
         simpleBlockItem(b, model);
     }
 
-    private void cubeBottomTopRandomRotation(RegistryObject<Block> block) {
+    private void cubeBottomTopRandomRotation(DeferredBlock<Block> block) {
         ResourceLocation t = blockTexture(block.get());
         Block b = block.get();
         ModelFile model = models().cubeBottomTop(name(b), extend(t, "_side"), extend(t, "_bottom"), extend(t, "_top"));
@@ -421,8 +420,8 @@ public class DatagenBlockStates extends BlockStateProvider {
                 .rotationY(180).modelFile(model).nextModel().rotationY(90).modelFile(model).build();
     }
 
-    private void item(RegistryObject<? extends Block> block) {
-        ModelFile model = models().getExistingFile(new MachinaRL("block/" + name(block.get())));
+    private void item(DeferredBlock<? extends Block> block) {
+        ModelFile model = models().getExistingFile(MachinaRL.create("block/" + name(block.get())));
         simpleBlockItem(block.get(), model);
     }
 
@@ -430,86 +429,86 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleBlockWithItem(block, cubeAll(block));
     }
 
-    private void cube(RegistryObject<? extends Block> blockRegistryObject) {
-        cube(blockRegistryObject.get());
+    private void cube(DeferredBlock<? extends Block> blockDeferredBlock) {
+        cube(blockDeferredBlock.get());
     }
 
-    private void leaves(RegistryObject<LeavesBlock> leaves) {
+    private void leaves(DeferredBlock<LeavesBlock> leaves) {
         LeavesBlock b = leaves.get();
         simpleBlockWithItem(b, models().cubeAll(name(b), blockTexture(b)).renderType("translucent"));
     }
 
-    private void slab(RegistryObject<SlabBlock> slab, RegistryObject<Block> material) {
+    private void slab(DeferredBlock<SlabBlock> slab, DeferredBlock<Block> material) {
         ResourceLocation texture = blockTexture(material.get());
         SlabBlock b = slab.get();
         slabBlock(b, texture, texture);
         simpleBlockItem(b, models().slab(name(b), texture, texture, texture));
     }
 
-    private void log(RegistryObject<RotatedPillarBlock> log) {
+    private void log(DeferredBlock<RotatedPillarBlock> log) {
         ResourceLocation texture = blockTexture(log.get());
         RotatedPillarBlock b = log.get();
         logBlock(b);
         simpleBlockItem(b, models().cubeColumn(name(b), texture, extend(texture, "_top")));
     }
 
-    private void wall(RegistryObject<WallBlock> wall, RegistryObject<Block> material) {
+    private void wall(DeferredBlock<WallBlock> wall, DeferredBlock<Block> material) {
         ResourceLocation texture = blockTexture(material.get());
         WallBlock b = wall.get();
         wallBlock(b, texture);
         simpleBlockItem(b, models().wallInventory(name(b) + "_inventory", texture));
     }
 
-    private void stairs(RegistryObject<StairBlock> stair, RegistryObject<Block> material) {
+    private void stairs(DeferredBlock<StairBlock> stair, DeferredBlock<Block> material) {
         ResourceLocation texture = blockTexture(material.get());
         StairBlock b = stair.get();
         stairsBlock(b, texture);
         simpleBlockItem(b, models().stairs(name(b), texture, texture, texture));
     }
 
-    private void button(RegistryObject<ButtonBlock> button, RegistryObject<Block> material) {
+    private void button(DeferredBlock<ButtonBlock> button, DeferredBlock<Block> material) {
         ResourceLocation texture = blockTexture(material.get());
         ButtonBlock b = button.get();
         buttonBlock(b, texture);
         simpleBlockItem(b, models().buttonInventory(name(b) + "_inventory", texture));
     }
 
-    private void pressure_plate(RegistryObject<PressurePlateBlock> plate, RegistryObject<Block> material) {
+    private void pressure_plate(DeferredBlock<PressurePlateBlock> plate, DeferredBlock<Block> material) {
         ResourceLocation texture = blockTexture(material.get());
         PressurePlateBlock b = plate.get();
         pressurePlateBlock(b, texture);
         simpleBlockItem(b, models().pressurePlate(name(b), texture));
     }
 
-    private void fence(RegistryObject<FenceBlock> fence, RegistryObject<Block> material) {
+    private void fence(DeferredBlock<FenceBlock> fence, DeferredBlock<Block> material) {
         ResourceLocation texture = blockTexture(material.get());
         FenceBlock b = fence.get();
         fenceBlock(b, texture);
         simpleBlockItem(b, models().fenceInventory(name(b) + "_inventory", texture));
     }
 
-    private void fence_gate(RegistryObject<FenceGateBlock> fence, RegistryObject<Block> material) {
+    private void fence_gate(DeferredBlock<FenceGateBlock> fence, DeferredBlock<Block> material) {
         ResourceLocation texture = blockTexture(material.get());
         FenceGateBlock b = fence.get();
         fenceGateBlock(b, texture);
         simpleBlockItem(b, models().fenceGate(name(b), texture));
     }
 
-    private void sign(RegistryObject<? extends SignBlock> sign, RegistryObject<? extends SignBlock> wall,
-                      RegistryObject<Block> material) {
+    private void sign(DeferredBlock<? extends SignBlock> sign, DeferredBlock<? extends SignBlock> wall,
+                      DeferredBlock<Block> material) {
         ModelFile mod = models().sign(name(sign.get()), blockTexture(material.get()));
         simpleBlock(sign.get(), mod);
         simpleBlock(wall.get(), mod);
     }
 
-    private void trapdoor(RegistryObject<TrapDoorBlock> door) {
+    private void trapdoor(DeferredBlock<TrapDoorBlock> door) {
         ResourceLocation texture = blockTexture(door.get());
         TrapDoorBlock b = door.get();
         trapdoorBlockWithRenderType(b, texture, true, "cutout");
         simpleBlockItem(b, models().trapdoorBottom(name(b), texture));
     }
 
-    private void door(RegistryObject<DoorBlock> door) {
+    private void door(DeferredBlock<DoorBlock> door) {
         ResourceLocation texture = blockTexture(door.get());
         DoorBlock b = door.get();
         doorBlockWithRenderType(b, extend(texture, "_bottom"), extend(texture, "_top"), "cutout");
@@ -518,10 +517,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 
     private void fluid(FluidObject obj) {
         getVariantBuilder(obj.block()).partialState().modelForState()
-                .modelFile(models().cubeAll(name(obj.block()), new ResourceLocation("block/water_still"))).addModel();
+                .modelFile(models().cubeAll(name(obj.block()), ResourceLocation.withDefaultNamespace("block/water_still"))).addModel();
     }
 
-    private void flower(RegistryObject<? extends Block> flower) {
+    private void flower(DeferredBlock<? extends Block> flower) {
         Block f = flower.get();
         ResourceLocation tex = blockTexture(f);
         simpleBlock(f, models().cross(name(f), tex).renderType("cutout"));
@@ -534,7 +533,7 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleBlock(f, models().cross(name(f), tex).renderType("cutout"));
     }
 
-    private void tall_flower(RegistryObject<TallFlowerBlock> flower) {
+    private void tall_flower(DeferredBlock<TallFlowerBlock> flower) {
         TallFlowerBlock f = flower.get();
         ResourceLocation tex = blockTexture(f);
         getVariantBuilder(flower.get()).forAllStates(state -> {
@@ -546,17 +545,17 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleFlatItem(f, extend(tex, "_top"));
     }
 
-    private void flower_pot(RegistryObject<FlowerPotBlock> pot) {
+    private void flower_pot(DeferredBlock<FlowerPotBlock> pot) {
         FlowerPotBlock p = pot.get();
         simpleBlock(p, models().withExistingParent(name(p), ModelProvider.BLOCK_FOLDER + "/flower_pot_cross")
-                .texture("plant", blockTexture(p.getContent())).renderType("cutout"));
+                .texture("plant", blockTexture(p.getPotted())).renderType("cutout"));
     }
 
-    private void pebble(RegistryObject<PebbleBlock> pebble) {
+    private void pebble(DeferredBlock<PebbleBlock> pebble) {
         PebbleBlock p = pebble.get();
 
         Function<Integer, ModelFile> getModel = i -> models()
-                .withExistingParent(name(p) + "_" + i, new MachinaRL("block/pebble" + i))
+                .withExistingParent(name(p) + "_" + i, MachinaRL.create("block/pebble" + i))
                 .texture("pebbles", blockTexture(p)).renderType("cutout");
 
         getVariantBuilder(p).forAllStates(
@@ -566,11 +565,11 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleFlatItem(p, itemTexture(p));
     }
 
-    private void groundlily(RegistryObject<SmallFlowerBlock> lily, String col) {
+    private void groundlily(DeferredBlock<SmallFlowerBlock> lily, String col) {
         SmallFlowerBlock l = lily.get();
 
-        ModelFile m = models().withExistingParent(name(l), new MachinaRL("block/ground_lillies"))
-                .texture("flower", new MachinaRL("block/" + col + "_lily_flower")).renderType("cutout");
+        ModelFile m = models().withExistingParent(name(l), MachinaRL.create("block/ground_lillies"))
+                .texture("flower", MachinaRL.create("block/" + col + "_lily_flower")).renderType("cutout");
 
         getVariantBuilder(l).forAllStates(state -> ConfiguredModel.builder().modelFile(m)
                 .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
@@ -578,11 +577,11 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleFlatItem(l, itemTexture(l));
     }
 
-    private void waterlily(RegistryObject<MachinaWaterlilyBlock> lily, String col) {
+    private void waterlily(DeferredBlock<MachinaWaterlilyBlock> lily, String col) {
         MachinaWaterlilyBlock l = lily.get();
 
-        ModelFile m = models().withExistingParent(name(l), new MachinaRL("block/water_lillies"))
-                .texture("flower", new MachinaRL("block/" + col + "_lily_flower")).renderType("cutout");
+        ModelFile m = models().withExistingParent(name(l), MachinaRL.create("block/water_lillies"))
+                .texture("flower", MachinaRL.create("block/" + col + "_lily_flower")).renderType("cutout");
 
         getVariantBuilder(l).forAllStates(state -> ConfiguredModel.builder().modelFile(m)
                 .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
@@ -590,12 +589,12 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleFlatItem(l, itemTexture(l));
     }
 
-    public void machineAllLit(RegistryObject<? extends LitMachineBlock> machine, boolean lit) {
+    public void machineAllLit(DeferredBlock<? extends LitMachineBlock> machine, boolean lit) {
         LitMachineBlock b = machine.get();
-        ModelFile unlitm = models().withExistingParent(name(b), new MachinaRL("block/machine"))
+        ModelFile unlitm = models().withExistingParent(name(b), MachinaRL.create("block/machine"))
                 .texture("side", extend(blockTexture(b), "_side")).texture("front", extend(blockTexture(b), "_front"))
                 .texture("top", extend(blockTexture(b), "_top")).texture("bottom", extend(blockTexture(b), "_bottom"));
-        ModelFile litm = lit ? models().withExistingParent(name(b) + "_lit", new MachinaRL("block/machine"))
+        ModelFile litm = lit ? models().withExistingParent(name(b) + "_lit", MachinaRL.create("block/machine"))
                 .texture("side", extend(blockTexture(b), "_side_lit"))
                 .texture("front", extend(blockTexture(b), "_front_lit"))
                 .texture("top", extend(blockTexture(b), "_top_lit"))
@@ -608,12 +607,12 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleBlockItem(b, litm);
     }
 
-    public void machineLit(RegistryObject<? extends LitMachineBlock> machine, boolean lit) {
+    public void machineLit(DeferredBlock<? extends LitMachineBlock> machine, boolean lit) {
         LitMachineBlock b = machine.get();
-        ModelFile unlitm = models().withExistingParent(name(b), new MachinaRL("block/machine"))
+        ModelFile unlitm = models().withExistingParent(name(b), MachinaRL.create("block/machine"))
                 .texture("side", extend(blockTexture(b), "_side")).texture("front", extend(blockTexture(b), "_front"))
                 .texture("top", extend(blockTexture(b), "_top")).texture("bottom", extend(blockTexture(b), "_bottom"));
-        ModelFile litm = lit ? models().withExistingParent(name(b) + "_lit", new MachinaRL("block/machine"))
+        ModelFile litm = lit ? models().withExistingParent(name(b) + "_lit", MachinaRL.create("block/machine"))
                 .texture("side", extend(blockTexture(b), "_side"))
                 .texture("front", extend(blockTexture(b), "_front_lit")).texture("top", extend(blockTexture(b), "_top"))
                 .texture("bottom", extend(blockTexture(b), "_bottom")) : unlitm;
@@ -625,9 +624,9 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleBlockItem(b, litm);
     }
 
-    public void machine(RegistryObject<? extends MachineBlock> machine) {
+    public void machine(DeferredBlock<? extends MachineBlock> machine) {
         MachineBlock b = machine.get();
-        ModelFile m = models().withExistingParent(name(b), new MachinaRL("block/machine"))
+        ModelFile m = models().withExistingParent(name(b), MachinaRL.create("block/machine"))
                 .texture("side", extend(blockTexture(b), "_side")).texture("front", extend(blockTexture(b), "_front"))
                 .texture("top", extend(blockTexture(b), "_top")).texture("bottom", extend(blockTexture(b), "_bottom"));
 
@@ -637,13 +636,13 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleBlockItem(b, m);
     }
 
-    private void petals(RegistryObject<PinkPetalsBlock> petals) {
+    private void petals(DeferredBlock<PinkPetalsBlock> petals) {
         PinkPetalsBlock p = petals.get();
         ResourceLocation b = blockTexture(p);
 
         Function<Integer, ModelFile> m = i -> models()
-                .withExistingParent(name(p) + "_" + i, new ResourceLocation("block/flowerbed_" + i))
-                .texture("flowerbed", b).texture("stem", new MachinaRL("block/petals_stem")).renderType("cutout");
+                .withExistingParent(name(p) + "_" + i, ResourceLocation.withDefaultNamespace("block/flowerbed_" + i))
+                .texture("flowerbed", b).texture("stem", MachinaRL.create("block/petals_stem")).renderType("cutout");
 
         //@formatter:off
 		getMultipartBuilder(p)
@@ -700,11 +699,11 @@ public class DatagenBlockStates extends BlockStateProvider {
         simpleFlatItem(p, itemTexture(p));
     }
 
-    private void connector(RegistryObject<? extends ConnectorBlock> connector) {
+    private void connector(DeferredBlock<? extends ConnectorBlock> connector) {
         ConnectorBlock p = connector.get();
         ResourceLocation b = blockTexture(p);
 
-        ModelFile main = models().withExistingParent(name(p), new MachinaRL("block/connector/base"))
+        ModelFile main = models().withExistingParent(name(p), MachinaRL.create("block/connector/base"))
                 .texture("connector", b).renderType("cutout");
 
         simpleBlockItem(p, main);
@@ -720,7 +719,7 @@ public class DatagenBlockStates extends BlockStateProvider {
     }
 
     private ResourceLocation extend(ResourceLocation rl, String suffix) {
-        return new ResourceLocation(rl.getNamespace(), rl.getPath() + suffix);
+        return ResourceLocation.fromNamespaceAndPath(rl.getNamespace(), rl.getPath() + suffix);
     }
 
     private ResourceLocation key(Block block) {
@@ -729,6 +728,6 @@ public class DatagenBlockStates extends BlockStateProvider {
 
     public ResourceLocation itemTexture(Block block) {
         ResourceLocation name = key(block);
-        return new ResourceLocation(name.getNamespace(), ModelProvider.ITEM_FOLDER + "/" + name.getPath());
+        return ResourceLocation.fromNamespaceAndPath(name.getNamespace(), ModelProvider.ITEM_FOLDER + "/" + name.getPath());
     }
 }

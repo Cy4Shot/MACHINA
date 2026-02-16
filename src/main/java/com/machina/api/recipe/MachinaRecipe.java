@@ -3,24 +3,34 @@ package com.machina.api.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.machina.api.util.loader.FluidJson;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
-public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
+public abstract class MachinaRecipe<C extends RecipeInput> implements Recipe<C> {
 
     public static final short HAS_ENERGY = 0x1;
     public static final short HAS_PRESSURE = 0x2;
@@ -40,8 +50,8 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
     private final int periodicConsumption;
 
     public MachinaRecipe(ResourceLocation id, int energy, int time, float pressure, float temperature,
-                         int periodicConsumption, List<ItemStack> inputItems, List<FluidStack> inputFluids,
-                         List<ItemStack> outputItems, List<FluidStack> outputFluids) {
+            int periodicConsumption, List<ItemStack> inputItems, List<FluidStack> inputFluids,
+            List<ItemStack> outputItems, List<FluidStack> outputFluids) {
 
         if (inputItems == null || inputFluids == null || outputItems == null || outputFluids == null) {
             throw new IllegalArgumentException("Input and output lists must not be null");
@@ -59,8 +69,14 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
         this.outputFluids.addAll(outputFluids);
     }
 
-    @Override
-    public @NotNull ResourceLocation getId() {
+    private static <C extends RecipeInput> MachinaRecipe<C> createFromCodec(ResourceLocation id, int energy, int time,
+            float pressure, float temperature, int periodicConsumption, List<ItemStack> inputItems,
+            List<FluidStack> inputFluids, List<ItemStack> outputItems, List<FluidStack> outputFluids) {
+        return new MachinaRecipe<C>(id, energy, time, pressure, temperature, periodicConsumption, inputItems,
+                inputFluids, outputItems, outputFluids);
+    }
+
+    public ResourceLocation getId() {
         return id;
     }
 
@@ -117,7 +133,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull C inv, @NotNull RegistryAccess registry) {
+    public ItemStack assemble(C input, Provider registries) {
         if (getOutputItems().isEmpty()) {
             return ItemStack.EMPTY;
         }
@@ -130,7 +146,7 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
     }
 
     @Override
-    public @NotNull ItemStack getResultItem(@NotNull RegistryAccess registry) {
+    public ItemStack getResultItem(Provider registries) {
         if (getOutputItems().isEmpty()) {
             return ItemStack.EMPTY;
         }
@@ -156,20 +172,21 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
         return new MachinaRecipeSerializer<>(this::getMachinaType);
     }
 
-    public static class MachinaRecipeSerializer<C extends Container> implements RecipeSerializer<MachinaRecipe<C>> {
+    public static class MachinaRecipeSerializer<C extends RecipeInput> implements RecipeSerializer<MachinaRecipe<C>> {
 
         private final Supplier<MachinaRecipeType<C>> type;
         private final RecipeFactory<MachinaRecipe<C>> factory;
 
         public MachinaRecipeSerializer(Supplier<MachinaRecipeType<C>> type) {
             this.type = type;
-            this.factory = (loc, energy, time, pressure, temperature, periodicConsumption, inputItems, inputFluids, outputItems, outputFluids) -> new MachinaRecipe<>(loc, energy, time, pressure, temperature, periodicConsumption,
-                    inputItems, inputFluids, outputItems, outputFluids) {
-                @Override
-                public @NotNull RecipeType<MachinaRecipe<C>> getType() {
-                    return type.get();
-                }
-            };
+            this.factory = (loc, energy, time, pressure, temperature, periodicConsumption, inputItems, inputFluids,
+                    outputItems, outputFluids) -> new MachinaRecipe<>(loc, energy, time, pressure, temperature,
+                            periodicConsumption, inputItems, inputFluids, outputItems, outputFluids) {
+                        @Override
+                        public @NotNull RecipeType<MachinaRecipe<C>> getType() {
+                            return type.get();
+                        }
+                    };
         }
 
         private int getFlags() {
@@ -177,211 +194,46 @@ public abstract class MachinaRecipe<C extends Container> implements Recipe<C> {
         }
 
         @Override
-        public @NotNull MachinaRecipe<C> fromJson(@NotNull ResourceLocation loc, JsonObject obj) {
-            int energy = 0;
-            int time = 0;
-            float pressure = 0;
-            float temperature = 0;
-            int periodicConsumption = 1;
-            ArrayList<ItemStack> inputItems = new ArrayList<>();
-            ArrayList<FluidStack> inputFluids = new ArrayList<>();
-            ArrayList<ItemStack> outputItems = new ArrayList<>();
-            ArrayList<FluidStack> outputFluids = new ArrayList<>();
-
-            if (obj.has("inputItems") && obj.get("inputItems").isJsonArray()) {
-                obj.getAsJsonArray("inputItems")
-                        .forEach(e -> inputItems.add(ShapedRecipe.itemStackFromJson(e.getAsJsonObject())));
-            }
-            if (obj.has("inputFluids") && obj.get("inputFluids").isJsonArray()) {
-                obj.getAsJsonArray("inputFluids").forEach(e -> inputFluids.add(FluidJson.load(e)));
-            }
-            if (obj.has("outputItems") && obj.get("outputItems").isJsonArray()) {
-                obj.getAsJsonArray("outputItems")
-                        .forEach(e -> outputItems.add(ShapedRecipe.itemStackFromJson(e.getAsJsonObject())));
-            }
-            if (obj.has("outputFluids") && obj.get("outputFluids").isJsonArray()) {
-                obj.getAsJsonArray("outputFluids").forEach(e -> outputFluids.add(FluidJson.load(e)));
-            }
-
-            int flags = getFlags();
-            if ((flags & HAS_ENERGY) != 0) {
-                if (obj.has("energy")) {
-                    energy = obj.get("energy").getAsInt();
-                }
-            }
-            if ((flags & HAS_TIME) != 0) {
-                if (obj.has("time")) {
-                    time = obj.get("time").getAsInt();
-                }
-            }
-            if ((flags & HAS_PRESSURE) != 0) {
-                if (obj.has("pressure")) {
-                    pressure = obj.get("pressure").getAsFloat();
-                }
-            }
-            if ((flags & HAS_TEMPERATURE) != 0) {
-                if (obj.has("temperature")) {
-                    temperature = obj.get("temperature").getAsFloat();
-                }
-            }
-
-            if ((flags & HAS_PERIODIC_CONSUMPTION) != 0) {
-                if (obj.has("periodicConsumption")) {
-                    periodicConsumption = obj.get("periodicConsumption").getAsInt();
-                }
-            }
-
-            return factory.apply(loc, energy, time, pressure, temperature, periodicConsumption, inputItems, inputFluids,
-                    outputItems, outputFluids);
+        public MapCodec<MachinaRecipe<C>> codec() {
+            return RecordCodecBuilder.mapCodec(inst -> inst
+                    .group(ItemStack.CODEC.listOf().fieldOf("input_items").forGetter(r -> r.inputItems),
+                            /* if you have a codec for FluidStack */ FluidStack.CODEC.listOf().fieldOf("input_fluids")
+                                    .forGetter(r -> r.inputFluids),
+                            ItemStack.CODEC.listOf().fieldOf("output_items").forGetter(r -> r.outputItems),
+                            FluidStack.CODEC.listOf().fieldOf("output_fluids").forGetter(r -> r.outputFluids),
+                            Codec.INT.fieldOf("energy").forGetter(MachinaRecipe::getEnergy),
+                            Codec.INT.fieldOf("time").forGetter(MachinaRecipe::getTime),
+                            Codec.FLOAT.fieldOf("pressure").forGetter(MachinaRecipe::getPressure),
+                            Codec.FLOAT.fieldOf("temperature").forGetter(MachinaRecipe::getTemperature),
+                            Codec.INT.fieldOf("periodic_consumption").forGetter(r -> r.periodicConsumption))
+                    .apply(inst, (energy, time, pressure, temperature, periodic, inItems, inFluids, outItems, outFluids) ->
+                    factory.apply(
+                        loc, energy, time, pressure, temperature, periodic,
+                        inItems, inFluids, outItems, outFluids
+                    )
+                ));
         }
-
-        public void toJson(JsonObject obj, MachinaRecipe<C> recipe) {
-            int flags = getFlags();
-
-            if ((flags & HAS_ENERGY) != 0) {
-                obj.addProperty("energy", recipe.getEnergy());
-            }
-
-            if ((flags & HAS_TIME) != 0) {
-                obj.addProperty("time", recipe.getTime());
-            }
-
-            if ((flags & HAS_PRESSURE) != 0) {
-                obj.addProperty("pressure", recipe.getPressure());
-            }
-
-            if ((flags & HAS_TEMPERATURE) != 0) {
-                obj.addProperty("temperature", recipe.getTemperature());
-            }
-
-            if ((flags & HAS_PERIODIC_CONSUMPTION) != 0) {
-                obj.addProperty("periodicConsumption", recipe.periodicConsumption);
-            }
-
-            JsonArray inputItems = new JsonArray();
-            recipe.getInputItems().forEach(e -> {
-                JsonObject o = new JsonObject();
-                o.addProperty("item", BuiltInRegistries.ITEM.getKey(e.getItem()).toString());
-                o.addProperty("count", e.getCount());
-                inputItems.add(o);
-            });
-            obj.add("inputItems", inputItems);
-
-            JsonArray inputFluids = new JsonArray();
-            recipe.getInputFluids().forEach(e -> inputFluids.add(FluidJson.save(e)));
-            obj.add("inputFluids", inputFluids);
-
-            JsonArray outputItems = new JsonArray();
-            recipe.getOutputItems().forEach(e -> {
-                JsonObject o = new JsonObject();
-                o.addProperty("item", BuiltInRegistries.ITEM.getKey(e.getItem()).toString());
-                o.addProperty("count", e.getCount());
-                outputItems.add(o);
-            });
-            obj.add("outputItems", outputItems);
-
-            JsonArray outputFluids = new JsonArray();
-            recipe.getOutputFluids().forEach(e -> outputFluids.add(FluidJson.save(e)));
-            obj.add("outputFluids", outputFluids);
-        }
+        
+        Function<RecipeFactory<MachinaRecipe<C>>, StreamCodec<RegistryFriendlyByteBuf, MachinaRecipe<C>>> CODEC = f -> StreamCodec.composite(
+                ByteBufCodecs.VAR_INT, (MachinaRecipe<C> r) -> r.getEnergy(),
+                ByteBufCodecs.VAR_INT, MachinaRecipe::getTime,
+                ByteBufCodecs.FLOAT, MachinaRecipe::getPressure,
+                ByteBufCodecs.FLOAT, MachinaRecipe::getTemperature,
+                ByteBufCodecs.VAR_INT, MachinaRecipe::getPeriodicConsumption,
+                ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list()), MachinaRecipe::getInputItems,
+                FluidStack.STREAM_CODEC.apply(ByteBufCodecs.list()), MachinaRecipe::getInputFluids,
+                ItemStack.STREAM_CODEC.apply(ByteBufCodecs.list()), MachinaRecipe::getOutputItems,
+                FluidStack.STREAM_CODEC.apply(ByteBufCodecs.list()), MachinaRecipe::getOutputFluids,
+                (energy, time, pressure, temperature, periodic, inItems, inFluids, outItems, outFluids) ->
+                    f.apply(
+                        loc, energy, time, pressure, temperature,
+                        periodic, inItems, inFluids, outItems, outFluids
+                    )
+            );
 
         @Override
-        public @Nullable MachinaRecipe<C> fromNetwork(@NotNull ResourceLocation loc, FriendlyByteBuf buf) {
-            int energy = 0;
-            int time = 0;
-            float pressure = 0;
-            float temperature = 0;
-            int periodicConsumption = 1;
-
-            int num0 = buf.readVarInt();
-            ArrayList<ItemStack> inputItems = new ArrayList<>(num0);
-            for (int i = 0; i < num0; i++) {
-                inputItems.add(buf.readItem());
-            }
-
-            int num1 = buf.readVarInt();
-            ArrayList<FluidStack> inputFluids = new ArrayList<>(num1);
-            for (int i = 0; i < num1; i++) {
-                inputFluids.add(FluidStack.readFromPacket(buf));
-            }
-
-            int num2 = buf.readVarInt();
-            ArrayList<ItemStack> outputItems = new ArrayList<>(num2);
-            for (int i = 0; i < num2; i++) {
-                outputItems.add(buf.readItem());
-            }
-
-            int num3 = buf.readVarInt();
-            ArrayList<FluidStack> outputFluids = new ArrayList<>(num3);
-            for (int i = 0; i < num3; i++) {
-                outputFluids.add(FluidStack.readFromPacket(buf));
-            }
-
-            int flags = getFlags();
-            if ((flags & HAS_ENERGY) != 0) {
-                energy = buf.readVarInt();
-            }
-            if ((flags & HAS_TIME) != 0) {
-                time = buf.readVarInt();
-            }
-            if ((flags & HAS_PRESSURE) != 0) {
-                pressure = buf.readFloat();
-            }
-            if ((flags & HAS_TEMPERATURE) != 0) {
-                temperature = buf.readFloat();
-            }
-
-            if ((flags & HAS_PERIODIC_CONSUMPTION) != 0) {
-                periodicConsumption = buf.readVarInt();
-            }
-
-            return factory.apply(loc, energy, time, pressure, temperature, periodicConsumption, inputItems, inputFluids,
-                    outputItems, outputFluids);
-        }
-
-        @Override
-        public void toNetwork(FriendlyByteBuf buf, MachinaRecipe<C> recipe) {
-            int num0 = recipe.inputItems.size();
-            buf.writeVarInt(num0);
-            for (int i = 0; i < num0; i++) {
-                buf.writeItem(recipe.inputItems.get(i));
-            }
-
-            int num1 = recipe.inputFluids.size();
-            buf.writeVarInt(num1);
-            for (int i = 0; i < num1; i++) {
-                recipe.inputFluids.get(i).writeToPacket(buf);
-            }
-
-            int num2 = recipe.outputItems.size();
-            buf.writeVarInt(num2);
-            for (int i = 0; i < num2; i++) {
-                buf.writeItem(recipe.outputItems.get(i));
-            }
-
-            int num3 = recipe.outputFluids.size();
-            buf.writeVarInt(num3);
-            for (int i = 0; i < num3; i++) {
-                recipe.outputFluids.get(i).writeToPacket(buf);
-            }
-
-            int flags = getFlags();
-            if ((flags & HAS_ENERGY) != 0) {
-                buf.writeVarInt(recipe.getEnergy());
-            }
-            if ((flags & HAS_TIME) != 0) {
-                buf.writeVarInt(recipe.getTime());
-            }
-            if ((flags & HAS_PRESSURE) != 0) {
-                buf.writeFloat(recipe.getPressure());
-            }
-            if ((flags & HAS_TEMPERATURE) != 0) {
-                buf.writeFloat(recipe.getTemperature());
-            }
-
-            if ((flags & HAS_PERIODIC_CONSUMPTION) != 0) {
-                buf.writeVarInt(recipe.periodicConsumption);
-            }
+        public StreamCodec<RegistryFriendlyByteBuf, MachinaRecipe<C>> streamCodec() {
+            return CODEC.apply(factory);
         }
     }
 

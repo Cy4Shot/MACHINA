@@ -1,6 +1,7 @@
 package com.machina.api.block.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
@@ -10,7 +11,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -28,8 +28,8 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     @Override
-    public @NotNull CompoundTag getUpdateTag() {
-        return this.saveWithFullMetadata();
+    public CompoundTag getUpdateTag(Provider registries) {
+        return this.saveWithFullMetadata(registries);
     }
 
     @Override
@@ -38,8 +38,8 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, Provider lookupProvider) {
+        super.onDataPacket(net, pkt, lookupProvider);
 
         if (activeModel() && level != null) {
             Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
@@ -47,8 +47,8 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        super.handleUpdateTag(tag);
+    public void handleUpdateTag(CompoundTag tag, Provider lookupProvider) {
+        super.handleUpdateTag(tag, lookupProvider);
 
         if (activeModel() && level != null) {
             Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);

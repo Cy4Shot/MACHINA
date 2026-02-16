@@ -8,16 +8,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Predicate;
 
-public abstract class RecipeBlockEntity extends MachinaBlockEntity {
+public abstract class RecipeBlockEntity extends MachinaBlockEntity implements RecipeInput {
 
     protected enum SlotType {
         INPUT,
@@ -423,12 +425,20 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity {
     public void load(@NotNull CompoundTag tag) {
         this.progress = tag.getInt("progress");
         String r = tag.getString("recipe");
-        this.recipe = r.isEmpty() ? null : getRecipeMap().getRecipe(new ResourceLocation(r));
+        this.recipe = r.isEmpty() ? null : getRecipeMap().getRecipe(ResourceLocation.parse(r));
         String t = tag.getString("temporary");
         this.temporaryRecipe = t.isEmpty() ? null
-                : getRecipeMap().getRecipe(new ResourceLocation(t));
+                : getRecipeMap().getRecipe(ResourceLocation.parse(t));
         this.tickCount = tag.getInt("tickCount");
         super.load(tag);
+    }
+    
+
+
+    @Override
+    public int size() {
+        // TODO: This is the recipe input size: maybe restrict to input slots only?
+        return this.getContainerSize();
     }
 
 }

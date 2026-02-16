@@ -29,7 +29,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity> {
             pose.pushPose();
             pose.scale(1, -1, -1);
             pose.mulPose(VecUtil.rotationDegrees(VecUtil.YP, e.getYRot()));
-            model.render(pose, buff, light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+            model.render(pose, buff, light, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
             pose.popPose();
         }
     }

@@ -7,12 +7,13 @@ import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.function.Function;
 
-public class JeiRecipeRegistrar<C extends Container> {
+public class JeiRecipeRegistrar<C extends RecipeInput> {
     private final RecipeType<MachinaRecipe<C>> type;
     private final Function<IGuiHelper, MachinaRecipeCategory<C>> category;
     private final int flags;
@@ -21,7 +22,7 @@ public class JeiRecipeRegistrar<C extends Container> {
     public final int x, y;
 
     @SuppressWarnings("unchecked")
-    public JeiRecipeRegistrar(RecipeRegistryObject<C> obj, RegistryObject<? extends Block> block, int x, int y) {
+    public JeiRecipeRegistrar(RecipeRegistryObject<C> obj, DeferredBlock<? extends Block> block, int x, int y) {
         this.type = (RecipeType<MachinaRecipe<C>>) (RecipeType<?>) RecipeType.create(Machina.MOD_ID, obj.id().getPath(), MachinaRecipe.class);
         this.category = gui -> new MachinaRecipeCategory<>(gui, obj, block);
         this.x = x;

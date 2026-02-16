@@ -26,9 +26,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.TallFlowerBlock;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class DatagenBlockTags extends BlockTagsProvider {
     public DatagenBlockTags(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
@@ -74,18 +74,18 @@ public class DatagenBlockTags extends BlockTagsProvider {
         FamiliesInit.WOODS.forEach(this::woodFamily);
     }
 
-    private void smallFlower(RegistryObject<? extends Block> flower, RegistryObject<FlowerPotBlock> potted) {
+    private void smallFlower(DeferredBlock<? extends Block> flower, DeferredBlock<FlowerPotBlock> potted) {
         tag(BlockTags.FLOWERS).add(flower.get());
         tag(BlockTags.SMALL_FLOWERS).add(flower.get());
         tag(BlockTags.FLOWER_POTS).add(potted.get());
     }
 
-    private void tallFlower(RegistryObject<TallFlowerBlock> flower) {
+    private void tallFlower(DeferredBlock<TallFlowerBlock> flower) {
         tag(BlockTags.FLOWERS).add(flower.get());
         tag(BlockTags.TALL_FLOWERS).add(flower.get());
     }
 
-    private void sand(RegistryObject<? extends Block> sand) {
+    private void sand(DeferredBlock<? extends Block> sand) {
         tag(BlockTags.SAND).add(sand.get());
     }
 
@@ -197,6 +197,6 @@ public class DatagenBlockTags extends BlockTagsProvider {
     }
 
     private static TagKey<Block> common(String name) {
-        return TagKey.create(Registries.BLOCK, new ResourceLocation("c", name));
+        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", name));
     }
 }

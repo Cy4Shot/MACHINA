@@ -1,27 +1,28 @@
 package com.machina.registration.init;
 
+import java.util.function.Supplier;
+
 import com.machina.Machina;
 import com.machina.api.util.MachinaRL;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class SoundInit {
-    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT,
             Machina.MOD_ID);
 
-    public static final RegistryObject<SoundEvent> MUSIC = create("music");
-    public static final RegistryObject<SoundEvent> ROCKET_LAUNCH = create("rocket_launch");
-    public static final RegistryObject<SoundEvent> ROCKET_LAND = create("rocket_land");
+    public static final Supplier<SoundEvent> MUSIC = create("music");
+    public static final Supplier<SoundEvent> ROCKET_LAUNCH = create("rocket_launch");
+    public static final Supplier<SoundEvent> ROCKET_LAND = create("rocket_land");
 
-    private static RegistryObject<SoundEvent> create(String name) {
-        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new MachinaRL(name)));
+    private static Supplier<SoundEvent> create(String name) {
+        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(MachinaRL.create(name)));
     }
 
-    public static Music asMusic(RegistryObject<SoundEvent> reg) {
+    public static Music asMusic(Supplier<SoundEvent> reg) {
         return new Music(Holder.direct(reg.get()), 0, 0, true);
     }
 }

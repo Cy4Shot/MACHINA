@@ -15,7 +15,7 @@ public class TagInit {
         public static final TagKey<Block> PLANET_CARVABLE = create("planet_carvable");
 
         private static TagKey<Block> create(String name) {
-            return BlockTags.create(new MachinaRL(name));
+            return BlockTags.create(MachinaRL.create(name));
         }
 
 //		private static TagKey<Block> common(String name) {
@@ -121,11 +121,11 @@ public class TagInit {
         public static final TagKey<Item> WIRES_URANIUM = common("wires/uranium");
 
         private static TagKey<Item> create(String name) {
-            return ItemTags.create(new MachinaRL(name));
+            return ItemTags.create(MachinaRL.create(name));
         }
 
         private static TagKey<Item> common(String name) {
-            return ItemTags.create(new ResourceLocation("c", name));
+            return ItemTags.create(MachinaRL.create("c", name));
         }
     }
 }

@@ -2,6 +2,8 @@ package com.machina.api.block;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.util.block.BlockHelper;
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +20,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class MachineBlock extends HorizontalDirectionalBlock implements EntityBlock {
@@ -67,5 +68,11 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
             return (level1, pos, state1, blockEntity) -> ((MachinaBlockEntity) blockEntity).tick();
         }
         return EntityBlock.super.getTicker(level, state, type);
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

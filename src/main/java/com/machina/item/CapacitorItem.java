@@ -4,13 +4,13 @@ import java.util.function.Supplier;
 
 import com.machina.api.item.EnergyItem;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class CapacitorItem extends EnergyItem {
 
-    private final Supplier<ForgeConfigSpec.IntValue> capacity;
+    private final Supplier<ModConfigSpec.IntValue> capacity;
 
-    public CapacitorItem(Properties props, Supplier<ForgeConfigSpec.IntValue> capacity) {
+    public CapacitorItem(Properties props, Supplier<ModConfigSpec.IntValue> capacity) {
         super(props);
         this.capacity = capacity;
     }

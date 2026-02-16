@@ -8,7 +8,7 @@ public record FadeInEffect(int fadeDuration) implements CameraEffect {
     @Override
     public void tickEffect(int tick) {
         if (tick == 1) {
-            CinematicTextureOverlay.rl = new MachinaRL("textures/cinematic/black.png");
+            CinematicTextureOverlay.rl = MachinaRL.create("textures/cinematic/black.png");
             CinematicTextureOverlay.render = true;
         }
         CinematicTextureOverlay.opacity = 1 - Math.max(0f, (float) (tick) / (float) (fadeDuration));

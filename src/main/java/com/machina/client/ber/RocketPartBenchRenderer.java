@@ -44,7 +44,7 @@ public class RocketPartBenchRenderer implements BlockEntityRenderer<RocketPartBe
                 pose.mulPose(VecUtil.rotationDegrees(VecUtil.YP, rot));
                 pose.mulPose(VecUtil.rotationDegrees(VecUtil.XP, 180));
                 pose.scale(scale, scale, scale);
-                part.bake().renderToBuffer(pose, vc, 0xF000F0, overlay, 1f, 1f, 1f, 1f);
+                part.bake().renderToBuffer(pose, vc, 0xF000F0, overlay, 0xFFFFFFFF);
                 pose.popPose();
             }
         }

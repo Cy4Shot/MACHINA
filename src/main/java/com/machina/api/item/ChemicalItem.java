@@ -8,8 +8,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -33,14 +31,13 @@ public class ChemicalItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tip,
-                                @NotNull TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tip, TooltipFlag tooltipFlag) {
         if (!toolTipKey.isEmpty()) {
             tip.add(Component.translatable(Machina.MOD_ID + ".tooltip." + toolTipKey)
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x9D_00fefe))));
         }
         tip.add(Component.literal(StringUtils.chemical(chem))
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x9D_AAAAAA))));
-        super.appendHoverText(stack, level, tip, flag);
+        super.appendHoverText(stack, context, tip, tooltipFlag);
     }
 }

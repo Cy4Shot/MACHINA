@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
 import org.joml.Vector2d;
 import org.joml.Vector3f;
@@ -151,9 +152,9 @@ public class StarchartRenderable {
         RenderSystem.setProjectionMatrix(newProj, RenderSystem.getVertexSorting());
 
         // Apply to model view matrix
-        PoseStack matrixStack = RenderSystem.getModelViewStack();
-        matrixStack.pushPose();
-        matrixStack.mulPose(rot);
+        Matrix4fStack matrixStack = RenderSystem.getModelViewStack();
+        matrixStack.pushMatrix();
+        matrixStack.rotate(rot);
         matrixStack.translate(posX, 0, posY);
         RenderSystem.applyModelViewMatrix();
 
@@ -168,7 +169,7 @@ public class StarchartRenderable {
         }
 
         // Reset
-        matrixStack.popPose();
+        matrixStack.popMatrix();
         RenderSystem.setProjectionMatrix(oldProj, RenderSystem.getVertexSorting());
         RenderSystem.applyModelViewMatrix();
         RenderSystem.setShaderColor(1, 1, 1, 1);

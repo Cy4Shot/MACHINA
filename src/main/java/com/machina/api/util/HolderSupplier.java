@@ -34,6 +34,10 @@ public record HolderSupplier<T>(Supplier<T> val) implements Holder<T> {
         return false;
     }
 
+    public boolean is(Holder<T> holder) {
+        return false;
+    }
+
     public @NotNull Either<ResourceKey<T>, T> unwrap() {
         return Either.right(this.val.get());
     }

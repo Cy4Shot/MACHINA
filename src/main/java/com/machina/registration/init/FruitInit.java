@@ -6,14 +6,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FruitInit {
 
-    public record Fruit(RegistryObject<Block> block, RegistryObject<FruitItem> item) {
+    public record Fruit(DeferredHolder<Block, Block> block, DeferredHolder<Item, FruitItem> item) {
     }
 
     public static final List<Fruit> FRUITS = new ArrayList<>();
@@ -32,7 +34,7 @@ public class FruitInit {
     public static final Fruit ERBI_POD = register("erbi_pod", 6, 0.1f, 0);
 
     private static FoodProperties food(int nut, float sat, int flags) {
-        FoodProperties.Builder b = (new FoodProperties.Builder()).nutrition(nut).saturationMod(sat);
+        FoodProperties.Builder b = (new FoodProperties.Builder()).nutrition(nut).saturationModifier(sat);
         if ((flags & 1) == 1) {
             b = b.fast();
         }
@@ -40,9 +42,9 @@ public class FruitInit {
     }
 
     private static Fruit register(String name, int nut, float sat, int flags) {
-        RegistryObject<Block> rb = BlockInit.BLOCKS.register(name,
+        DeferredHolder<Block, Block> rb = BlockInit.BLOCKS.register(name,
                 () -> new Block(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.CROP)));
-        RegistryObject<FruitItem> ri = ItemInit.ITEMS.register(name,
+        DeferredHolder<Item, FruitItem> ri = ItemInit.ITEMS.register(name,
                 () -> new FruitItem(rb.get(), new Item.Properties().food(food(nut, sat, flags))));
 
         Fruit f = new Fruit(rb, ri);

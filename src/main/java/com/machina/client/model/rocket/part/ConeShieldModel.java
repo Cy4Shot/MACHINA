@@ -62,6 +62,6 @@ public class ConeShieldModel extends RocketPartModel {
 
     @Override
     protected ResourceLocation getTextureLocation() {
-        return new MachinaRL("textures/rocket/simple_shield.png");
+        return MachinaRL.create("textures/rocket/simple_shield.png");
     }
 }

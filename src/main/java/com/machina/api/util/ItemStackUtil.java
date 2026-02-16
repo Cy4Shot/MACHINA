@@ -8,8 +8,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -21,19 +21,20 @@ public class ItemStackUtil {
     }
 
     public static boolean hasEnergy(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.ENERGY).isPresent();
+        return stack.getCapability(Capabilities.EnergyStorage.ITEM) != null;
     }
 
     public static boolean hasFluid(ItemStack stack) {
-        return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent();
+        return stack.getCapability(Capabilities.FluidHandler.ITEM) != null;
     }
 
     public static boolean hasFluid(ItemStack stack, Fluid fluid) {
-        return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM)
-                .map(h ->
-                        IntStream.range(0, h.getTanks())
-                                .anyMatch(i -> h.getFluidInTank(i).getFluid().isSame(fluid)))
-                .orElse(false);
+        IFluidHandler handler = stack.getCapability(Capabilities.FluidHandler.ITEM);
+        if (handler != null) {
+            return IntStream.range(0, handler.getTanks())
+                    .anyMatch(i -> handler.getFluidInTank(i).getFluid().isSame(fluid));
+        }
+        return false;
     }
 
     public static boolean isCapacitor(ItemStack stack) {
@@ -41,7 +42,7 @@ public class ItemStackUtil {
     }
 
     public static boolean isBurnable(ItemStack stack) {
-        return ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
+        return stack.getBurnTime(RecipeType.SMELTING) > 0;
     }
 
     public static boolean isBlueprint(ItemStack stack) {

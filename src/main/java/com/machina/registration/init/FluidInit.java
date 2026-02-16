@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.joml.Vector3f;
-
 import com.google.common.base.Function;
 import com.machina.Machina;
-import com.machina.api.fluid.BaseFluidType;
 import com.machina.api.fluid.FluidPhase;
 import com.machina.api.item.MachinaBucket;
 import com.machina.api.natives.CoolpropJNA;
@@ -16,7 +13,7 @@ import com.machina.api.util.StringUtils;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -25,18 +22,18 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class FluidInit {
-    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS,
-            Machina.MOD_ID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(Registries.FLUID, Machina.MOD_ID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister
-            .create(ForgeRegistries.Keys.FLUID_TYPES, Machina.MOD_ID);
+            .create(NeoForgeRegistries.Keys.FLUID_TYPES, Machina.MOD_ID);
     public static final List<String> BLOCKS = new ArrayList<>();
     public static final List<FluidObject> OBJS = new ArrayList<>();
 
@@ -112,21 +109,18 @@ public class FluidInit {
             }
         };
 
-        private static final ResourceLocation STILL_RL = new ResourceLocation("block/water_still");
-        private static final ResourceLocation FLOWING_RL = new ResourceLocation("block/water_flow");
-        private static final ResourceLocation OVERLAY_RL = new ResourceLocation("block/water_overlay");
         private static final Item.Properties BUCKET_PROP = new Item.Properties().stacksTo(1)
                 .craftRemainder(Items.BUCKET);
-        private static final Block.Properties BLOCK_PROP = Block.Properties.copy(Blocks.WATER);
+        private static final Block.Properties BLOCK_PROP = Block.Properties.ofFullCopy(Blocks.WATER);
 
         private final String name;
         private final Chemical CHEM;
-        private final ForgeFlowingFluid.Properties PROPS;
-        private RegistryObject<LiquidBlock> BLOCK;
-        private RegistryObject<MachinaBucket> BUCKET;
-        private RegistryObject<ForgeFlowingFluid> FLUID;
-        private RegistryObject<ForgeFlowingFluid> FLOWING;
-        private RegistryObject<BaseFluidType> FLUID_TYPE;
+        private final BaseFlowingFluid.Properties PROPS;
+        private DeferredBlock<LiquidBlock> BLOCK;
+        private DeferredItem<MachinaBucket> BUCKET;
+        private Supplier<BaseFlowingFluid> FLUID;
+        private Supplier<BaseFlowingFluid> FLOWING;
+        private Supplier<FluidType> FLUID_TYPE;
 
         public FluidObject(String name, String code, Function<ChemicalBuilder, ChemicalBuilder> builder) {
             this.name = name;
@@ -140,12 +134,12 @@ public class FluidInit {
 
             FLUID_TYPE = builder(name, CHEM);
             PROPS = make(sFluidType, sFluid, sFlowing, sBucket, sBlock);
-            BLOCK = BlockInit.register(name + "_block", () -> new LiquidBlock(sFluid, BLOCK_PROP));
+            BLOCK = BlockInit.register(name + "_block", () -> new LiquidBlock(sFluid.get(), BLOCK_PROP));
             BLOCKS.add(name + "_block");
 
             BUCKET = ItemInit.register(name + "_bucket", () -> new MachinaBucket(sFluid, BUCKET_PROP, code));
-            FLUID = FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(PROPS));
-            FLOWING = FLUIDS.register("flowing_" + name, () -> new ForgeFlowingFluid.Flowing(PROPS));
+            FLUID = FLUIDS.register(name, () -> new BaseFlowingFluid.Source(PROPS));
+            FLOWING = FLUIDS.register("flowing_" + name, () -> new BaseFlowingFluid.Flowing(PROPS));
 
             OBJS.add(FluidObject.this);
         }
@@ -166,7 +160,7 @@ public class FluidInit {
             return FLUID.get();
         }
 
-        public ForgeFlowingFluid flowing() {
+        public BaseFlowingFluid flowing() {
             return FLOWING.get();
         }
 
@@ -178,20 +172,15 @@ public class FluidInit {
             return CHEM;
         }
 
-        private static ForgeFlowingFluid.Properties make(Supplier<FluidType> type, Supplier<FlowingFluid> still,
+        private static BaseFlowingFluid.Properties make(Supplier<FluidType> type, Supplier<FlowingFluid> still,
                 Supplier<FlowingFluid> flowing, Supplier<MachinaBucket> bucket, Supplier<LiquidBlock> block) {
-            return new ForgeFlowingFluid.Properties(type, still, flowing).bucket(bucket).block(block);
+            return new BaseFlowingFluid.Properties(type, still, flowing).bucket(bucket).block(block);
         }
 
-        public static RegistryObject<BaseFluidType> builder(String name, Chemical value) {
-            int r = (value.getColor() >> 16) & 0xFF;
-            int g = (value.getColor() >> 8) & 0xFF;
-            int b = (value.getColor()) & 0xFF;
-            Vector3f fog = new Vector3f((float) r / 255, (float) g / 255, (float) b / 255);
+        public static Supplier<FluidType> builder(String name, Chemical value) {
             FluidType.Properties props = FluidType.Properties.create().density(value.getDensity()).temperature(0)
                     .lightLevel(value.getLuminosity());
-            return FLUID_TYPES.register(name,
-                    () -> new BaseFluidType(STILL_RL, FLOWING_RL, OVERLAY_RL, value.getColor(), fog, props));
+            return FLUID_TYPES.register(name, () -> new FluidType(props));
         }
     }
 

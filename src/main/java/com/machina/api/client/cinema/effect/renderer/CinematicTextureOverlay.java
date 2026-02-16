@@ -2,6 +2,7 @@ package com.machina.api.client.cinema.effect.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
@@ -32,13 +33,12 @@ public class CinematicTextureOverlay {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, opacity);
         RenderSystem.setShaderTexture(0, rl);
 
-        BufferBuilder builder = tesselator.getBuilder();
-        builder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        builder.vertex(0.0D, scaledHeight, -90.0D).uv(0.0F, 1.0F).endVertex();
-        builder.vertex(scaledWidth, scaledHeight, -90.0D).uv(1.0F, 1.0F).endVertex();
-        builder.vertex(scaledWidth, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
-        builder.vertex(0.0D, 0.0D, -90.0D).uv(0.0F, 0.0F).endVertex();
-        tesselator.end();
+        BufferBuilder builder = tesselator.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        builder.addVertex(0.0F, scaledHeight, -90.0F).setUv(0.0F, 1.0F);
+        builder.addVertex(scaledWidth, scaledHeight, -90.0F).setUv(1.0F, 1.0F);
+        builder.addVertex(scaledWidth, 0.0F, -90.0F).setUv(1.0F, 0.0F);
+        builder.addVertex(0.0F, 0.0F, -90.0F).setUv(0.0F, 0.0F);
+        BufferUploader.drawWithShader(builder.build());
 
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();

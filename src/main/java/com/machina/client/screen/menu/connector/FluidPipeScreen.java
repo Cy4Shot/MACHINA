@@ -17,9 +17,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -33,7 +34,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
     }
 
     private void setFluidStack(ItemStack stack) {
-        Optional<IFluidHandlerItem> handler = FluidUtil.getFluidHandler(stack.copyWithCount(1)).resolve();
+        Optional<IFluidHandlerItem> handler = FluidUtil.getFluidHandler(stack.copyWithCount(1));
         if (handler.isPresent()) {
             IFluidHandlerItem f = handler.get();
             FluidStack fluid = f.getFluidInTank(0);

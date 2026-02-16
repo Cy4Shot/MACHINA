@@ -13,34 +13,25 @@ import com.machina.api.starchart.planet_biome.RockMaker;
 import com.machina.api.starchart.planet_biome.TreeMaker;
 import com.machina.api.util.MachinaRL;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistry.AddCallback;
-import net.minecraftforge.registries.IForgeRegistry.CreateCallback;
-import net.minecraftforge.registries.IForgeRegistryInternal;
-import net.minecraftforge.registries.RegistryBuilder;
-import net.minecraftforge.registries.RegistryManager;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegistryBuilder;
+import net.neoforged.neoforge.registries.callback.AddCallback;
+import net.neoforged.neoforge.registries.callback.BakeCallback;
+import net.neoforged.neoforge.registries.callback.RegistryCallback;
 
 public class RegistryInit {
-    public static final DeferredRegister<TreeMaker> TREES = DeferredRegister.create(new MachinaRL("tree"),
-            Machina.MOD_ID);
-    public static final DeferredRegister<RockMaker> ROCKS = DeferredRegister.create(new MachinaRL("rock"),
-            Machina.MOD_ID);
-    public static final DeferredRegister<PlanetSurface> SURFACES = DeferredRegister.create(new MachinaRL("surface"),
-            Machina.MOD_ID);
-    public static final DeferredRegister<RocketPart<?>> ROCKET_PARTS = DeferredRegister
-            .create(new MachinaRL("rocket_parts"), Machina.MOD_ID);
 
-    public static final Supplier<IForgeRegistry<TreeMaker>> TREE_REGISTRY = TREES.makeRegistry(RegistryBuilder::new);
-    public static final Supplier<IForgeRegistry<RockMaker>> ROCK_REGISTRY = ROCKS.makeRegistry(RegistryBuilder::new);
-    public static final Supplier<IForgeRegistry<PlanetSurface>> SURFACE_REGISTRY = SURFACES.makeRegistry(RegistryBuilder::new);
-    public static final Supplier<IForgeRegistry<RocketPart<?>>> ROCKET_PARTS_REGISTRY = ROCKET_PARTS
-            .makeRegistry(() -> new RegistryBuilder<RocketPart<?>>().addCallback(RocketPartCallbacks.INSTANCE));
+    public static final Registry<TreeMaker> TREE_REGISTRY = createRegistry(MachinaRL.create("tree"), null);
+    public static final Registry<RockMaker> ROCK_REGISTRY = createRegistry(MachinaRL.create("tree"), null);
+    public static final Registry<PlanetSurface> SURFACE_REGISTRY = createRegistry(MachinaRL.create("tree"), null);
+    public static final Registry<RocketPart<?>> ROCKET_PART_REGISTRY = createRegistry(MachinaRL.create("tree"),
+            RocketPartCallbacks.INSTANCE);
 
-    public static class RocketPartCallbacks implements CreateCallback<RocketPart<?>>, AddCallback<RocketPart<?>> {
-        public static final ResourceLocation ROCKET_PART_TO_ITEM = new MachinaRL("rocket_part_to_item");
+    public static class RocketPartCallbacks implements BakeCallback<RocketPart<?>>, AddCallback<RocketPart<?>> {
+        public static final ResourceLocation ROCKET_PART_TO_ITEM = MachinaRL.create("rocket_part_to_item");
 
         static final RocketPartCallbacks INSTANCE = new RocketPartCallbacks();
 
@@ -52,10 +43,31 @@ public class RegistryInit {
         @SuppressWarnings("unchecked")
         @Override
         public void onAdd(IForgeRegistryInternal<RocketPart<?>> owner, RegistryManager stage, int id,
-                          ResourceKey<RocketPart<?>> key, RocketPart<?> obj, @Nullable RocketPart<?> oldObj) {
+                ResourceKey<RocketPart<?>> key, RocketPart<?> obj, @Nullable RocketPart<?> oldObj) {
             Map<RocketPart<?>, ResourceLocation> map = (Map<RocketPart<?>, ResourceLocation>) owner
                     .getSlaveMap(ROCKET_PART_TO_ITEM, Map.class);
-            map.put(obj, new MachinaRL("rocket_part_" + key.location().getPath()));
+            map.put(obj, MachinaRL.create("rocket_part_" + key.location().getPath()));
         }
+
+        @Override
+        public void onAdd(Registry<RocketPart<?>> registry, int id, ResourceKey<RocketPart<?>> key,
+                RocketPart<?> value) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onBake(Registry<RocketPart<?>> registry) {
+            // TODO
+        }
+    }
+
+    private static final <T> Registry<T> createRegistry(ResourceLocation RL, @Nullable RegistryCallback<T> callback) {
+        RegistryBuilder<T> builder = new RegistryBuilder<T>(ResourceKey.createRegistryKey(RL)).sync(true)
+                .defaultKey(MachinaRL.create("empty")).maxId(256);
+        if (callback != null) {
+            builder = builder.callback(callback);
+        }
+        return builder.create();
     }
 }

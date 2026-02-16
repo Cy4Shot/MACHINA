@@ -7,23 +7,22 @@ import com.machina.api.util.MachinaRL;
 import com.machina.config.ClientConfig;
 import com.machina.registration.Registration;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import software.bernie.geckolib.GeckoLib;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(Machina.MOD_ID)
 public class Machina {
 
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "machina";
-    public static final MachinaRL MACHINA_ID = new MachinaRL(MOD_ID);
+    public static final MachinaRL MACHINA_ID = MachinaRL.create(MOD_ID);
 
-    public Machina() {
-        Registration.register(FMLJavaModLoadingContext.get().getModEventBus());
-        GeckoLib.initialize();
-        MinecraftForge.EVENT_BUS.register(this);
+    public Machina(IEventBus modEventBus, ModContainer modContainer) {
+        Registration.register(modEventBus, modContainer);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     public static String getVersion() {

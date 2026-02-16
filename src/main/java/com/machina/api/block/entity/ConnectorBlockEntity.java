@@ -28,6 +28,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -128,7 +130,7 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
     public abstract int getRate();
 
     @Override
-    public <C> @NotNull LazyOptional<C> getCapability(@NotNull Capability<C> cap, Direction d) {
+    public <C> @NotNull LazyOptional<C> getCapability(@NotNull BlockCapability<C, Direction> cap, Direction d) {
         if (cap == getCapability())
             return this.cap.get(d).cast();
 

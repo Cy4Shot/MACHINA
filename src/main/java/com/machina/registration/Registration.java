@@ -23,19 +23,19 @@ import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.TabInit;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class Registration {
 
-    public static void register(IEventBus bus) {
+    public static void register(IEventBus bus, ModContainer cont) {
         bus.addListener(Registration::onCommonSetup);
 
-        registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
-        registerConfig(ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
+        registerConfig(cont, ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
+        registerConfig(cont, ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 
         PlanetTreeInit.TREES.register(bus);
         PlanetRockInit.ROCKS.register(bus);
@@ -63,8 +63,7 @@ public class Registration {
         MachinaNetwork.init();
     }
 
-    private static void registerConfig(ModConfig.Type type, ForgeConfigSpec spec) {
-        ModLoadingContext.get().registerConfig(type, spec,
-                Machina.MOD_ID + "-" + type.toString().toLowerCase() + ".toml");
+    private static void registerConfig(ModContainer cont, ModConfig.Type type, ModConfigSpec spec) {
+        cont.registerConfig(type, spec, Machina.MOD_ID + "-" + type.toString().toLowerCase() + ".toml");
     }
 }

@@ -14,10 +14,11 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.IDynamicBakedModel;
-import net.minecraftforge.client.model.IModelBuilder;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
+import net.neoforged.neoforge.client.model.IDynamicBakedModel;
+import net.neoforged.neoforge.client.model.IModelBuilder;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -65,7 +66,7 @@ public class ConnectorModel implements IDynamicBakedModel {
 
     @Override
     public @NotNull TextureAtlasSprite getParticleIcon() {
-        return spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, new MachinaRL(connText(type, "middle"))));
+        return spriteGetter.apply(new Material(TextureAtlas.LOCATION_BLOCKS, MachinaRL.create(connText(type, "middle"))));
     }
 
     @Override
@@ -87,8 +88,8 @@ public class ConnectorModel implements IDynamicBakedModel {
             new Vector3f(10f, 10f, 3f), connText(t, "output"));
 
     @Override
-    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side,
-                                             @NotNull RandomSource rand, @NotNull ModelData extraData, @Nullable RenderType renderType) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand,
+            ModelData extraData, @Nullable RenderType renderType) {
         List<BakedQuad> quads = new ArrayList<>();
         IModelBuilder<?> builder = IModelBuilder.collecting(quads);
 
@@ -154,5 +155,4 @@ public class ConnectorModel implements IDynamicBakedModel {
             return middle(data.get(PROPERTY));
         }
     }
-
 }

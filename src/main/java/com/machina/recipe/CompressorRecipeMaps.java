@@ -45,7 +45,7 @@ public class CompressorRecipeMaps extends MachinaRecipeMaps<CompressorBlockEntit
 
     @Override
     protected void addExtraRecipes(RecipeManager man) {
-        ITagManager<Item> items = ForgeRegistries.ITEMS.tags();
+        ITagManager<Item> items = Registries.ITEMS.tags();
         if (items == null) {
             return;
         }

@@ -2,6 +2,8 @@ package com.machina.world.data;
 
 import com.google.common.primitives.Ints;
 import com.machina.Machina;
+
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -9,12 +11,14 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.Map.Entry;
 
 public class PlanetDimensionData extends SavedData {
+
+    private static final Factory<PlanetDimensionData> FACTORY = new Factory<PlanetDimensionData>(
+            PlanetDimensionData::new, PlanetDimensionData::new);
 
     public final Map<Integer, Set<Integer>> ids = new HashMap<>();
     public long lastKnownSeed = 0L;
@@ -23,8 +27,8 @@ public class PlanetDimensionData extends SavedData {
         super();
     }
 
-    public PlanetDimensionData(CompoundTag tag) {
-        load(tag);
+    public PlanetDimensionData(CompoundTag tag, Provider registries) {
+        load(tag, registries);
     }
 
     public static final String ID = Machina.MOD_ID + "_planet_dimensions";
@@ -34,10 +38,10 @@ public class PlanetDimensionData extends SavedData {
     }
 
     public static PlanetDimensionData getDefaultInstance(DimensionDataStorage storage) {
-        return storage.computeIfAbsent(PlanetDimensionData::new, PlanetDimensionData::new, ID);
+        return storage.computeIfAbsent(FACTORY, ID);
     }
 
-    public void load(CompoundTag nbt) {
+    public void load(CompoundTag nbt, Provider registries) {
         ids.clear();
         ListTag listNBT = nbt.getList("ids", Tag.TAG_COMPOUND);
         for (Tag cnbt : listNBT) {
@@ -50,7 +54,7 @@ public class PlanetDimensionData extends SavedData {
     }
 
     @Override
-    public @NotNull CompoundTag save(@NotNull CompoundTag nbt) {
+    public CompoundTag save(CompoundTag nbt, Provider registries) {
         ListTag listNBT = new ListTag();
         for (Entry<Integer, Set<Integer>> e : ids.entrySet()) {
             CompoundTag tag = new CompoundTag();
@@ -83,4 +87,5 @@ public class PlanetDimensionData extends SavedData {
         ids.get(dim).add(id);
         setDirty();
     }
+
 }

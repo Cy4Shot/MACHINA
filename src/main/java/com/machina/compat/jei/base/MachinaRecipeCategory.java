@@ -20,15 +20,17 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.registries.DeferredBlock;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MachinaRecipeCategory<C extends Container> implements IRecipeCategory<MachinaRecipe<C>> {
+public class MachinaRecipeCategory<C extends RecipeInput> implements IRecipeCategory<MachinaRecipe<C>> {
 
     private static final Minecraft mc = Minecraft.getInstance();
 
@@ -36,7 +38,7 @@ public class MachinaRecipeCategory<C extends Container> implements IRecipeCatego
     private final IDrawable icon, bg;
     private final ITickTimer ticktimer;
 
-    public MachinaRecipeCategory(IGuiHelper gui, RecipeRegistryObject<C> obj, RegistryObject<? extends Block> block) {
+    public MachinaRecipeCategory(IGuiHelper gui, RecipeRegistryObject<C> obj, DeferredBlock<? extends Block> block) {
         this.obj = obj;
         this.icon = gui.createDrawableItemStack(block.get().asItem().getDefaultInstance());
         this.bg = new IDrawable() {

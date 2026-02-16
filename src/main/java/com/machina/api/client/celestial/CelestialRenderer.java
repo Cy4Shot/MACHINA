@@ -124,8 +124,7 @@ public class CelestialRenderer {
         float bb = (color & 0xFF) / 255.0f;
 
         Matrix4f pose = matrices.last().pose();
-        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-        buffer.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
+        BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
 
         double n = 2 * Math.PI / planet.orb_period();
         double M0 = n * time + planet.where_in_orbit();
@@ -142,11 +141,11 @@ public class CelestialRenderer {
             float alpha1 = (float) Math.pow(1f - (float) s / (trailSamples - 1), 1.5f) * ba;
             float alpha2 = (float) Math.pow(1f - (float) (s + 1) / (trailSamples - 1), 1.5f) * ba;
 
-            buffer.vertex(pose, (float) x1, 0f, (float) z1).color(br, bg, bb, alpha1).endVertex();
-            buffer.vertex(pose, (float) x2, 0f, (float) z2).color(br, bg, bb, alpha2).endVertex();
+            buffer.addVertex(pose, (float) x1, 0f, (float) z1).setColor(br, bg, bb, alpha1);
+            buffer.addVertex(pose, (float) x2, 0f, (float) z2).setColor(br, bg, bb, alpha2);
         }
 
-        BufferUploader.drawWithShader(buffer.end());
+        BufferUploader.drawWithShader(buffer.build());
         matrices.popPose();
 
         RenderSystem.disableBlend();
@@ -181,13 +180,12 @@ public class CelestialRenderer {
         float g = ((color >> 8) & 0xFF) / 255.0f;
         float b = (color & 0xFF) / 255.0f;
 
-        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        buffer.vertex(billboardPose, -0.5f, -0.5f, 0).uv(0, 1).color(r, g, b, a).endVertex();
-        buffer.vertex(billboardPose, 0.5f, -0.5f, 0).uv(1, 1).color(r, g, b, a).endVertex();
-        buffer.vertex(billboardPose, 0.5f, 0.5f, 0).uv(1, 0).color(r, g, b, a).endVertex();
-        buffer.vertex(billboardPose, -0.5f, 0.5f, 0).uv(0, 0).color(r, g, b, a).endVertex();
-        BufferUploader.drawWithShader(buffer.end());
+        BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        buffer.addVertex(billboardPose, -0.5f, -0.5f, 0).setUv(0, 1).setColor(r, g, b, a);
+        buffer.addVertex(billboardPose, 0.5f, -0.5f, 0).setUv(1, 1).setColor(r, g, b, a);
+        buffer.addVertex(billboardPose, 0.5f, 0.5f, 0).setUv(1, 0).setColor(r, g, b, a);
+        buffer.addVertex(billboardPose, -0.5f, 0.5f, 0).setUv(0, 0).setColor(r, g, b, a);
+        BufferUploader.drawWithShader(buffer.build());
         matrices.popPose();
 
         RenderSystem.enableDepthTest();
@@ -196,7 +194,7 @@ public class CelestialRenderer {
     }
 
     private static ResourceLocation getCelestialTexture(String name) {
-        return new MachinaRL("textures/celestial/" + name + ".png");
+        return MachinaRL.create("textures/celestial/" + name + ".png");
     }
 
     private static void drawSphere(PoseStack matrices, String texName, float radius, int color, float zoom, double time,
@@ -210,11 +208,10 @@ public class CelestialRenderer {
         RenderSystem.depthMask(true);
         RenderSystem.setShaderTexture(0, getCelestialTexture(texName));
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
 
         Matrix4f pose = matrices.last().pose();
-        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
-        buffer.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR_TEX);
+        BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_TEX_COLOR);
 
         // LOD
         int segments;
@@ -256,7 +253,7 @@ public class CelestialRenderer {
             }
         }
 
-        BufferUploader.drawWithShader(buffer.end());
+        BufferUploader.drawWithShader(buffer.build());
         RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -270,7 +267,7 @@ public class CelestialRenderer {
         float y = (float) (dynamicRadius * Math.cos(theta));
         float z = (float) (dynamicRadius * Math.sin(theta) * Math.sin(phi));
 
-        buffer.vertex(pose, x, y, z).color(r, g, b, a).uv(u, v).endVertex();
+        buffer.addVertex(pose, x, y, z).setUv(u, v).setColor(r, g, b, a);
     }
 
     private static Vector2d asScreenPos(PoseStack stack, CelestialRenderInfo info) {

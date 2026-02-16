@@ -13,13 +13,12 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraftforge.client.model.IModelBuilder;
-import net.minecraftforge.client.model.SimpleModelState;
-import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
-import net.minecraftforge.client.model.geometry.SimpleUnbakedGeometry;
+import net.neoforged.neoforge.client.model.IModelBuilder;
+import net.neoforged.neoforge.client.model.SimpleModelState;
+import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
+import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.model.geometry.SimpleUnbakedGeometry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +35,8 @@ public class ElementsModelWrapped extends SimpleUnbakedGeometry<ElementsModelWra
     }
 
     @Override
-    public void addQuads(IGeometryBakingContext context, IModelBuilder<?> modelBuilder, ModelBaker bakery,
-                         Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState,
-                         ResourceLocation modelLocation) {
-
+    protected void addQuads(IGeometryBakingContext context, IModelBuilder<?> modelBuilder, ModelBaker baker,
+            Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState) {
         var rootTransform = context.getRootTransform();
         if (!rootTransform.isIdentity())
             modelState = new SimpleModelState(modelState.getRotation().compose(rootTransform), modelState.isUvLocked());
@@ -47,10 +44,10 @@ public class ElementsModelWrapped extends SimpleUnbakedGeometry<ElementsModelWra
         for (BlockElement element : elements) {
             for (Direction direction : element.faces.keySet()) {
                 BlockElementFace face = element.faces.get(direction);
-                TextureAtlasSprite sprite = spriteGetter.apply(context.getMaterial(face.texture));
-                BakedQuad quad = BlockModel.bakeFace(element, face, sprite, direction, modelState, modelLocation);
+                TextureAtlasSprite sprite = spriteGetter.apply(context.getMaterial(face.texture()));
+                BakedQuad quad = BlockModel.bakeFace(element, face, sprite, direction, modelState);
 
-                modelBuilder.addCulledFace(modelState.getRotation().rotateTransform(face.cullForDirection), quad);
+                modelBuilder.addCulledFace(modelState.getRotation().rotateTransform(face.cullForDirection()), quad);
             }
         }
     }

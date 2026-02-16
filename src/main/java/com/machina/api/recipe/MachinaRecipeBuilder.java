@@ -15,20 +15,19 @@ import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
-public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder {
+public class MachinaRecipeBuilder<T extends RecipeInput> implements RecipeBuilder {
 
     private final Advancement.Builder advancement = Advancement.Builder.recipeAdvancement();
 
@@ -145,7 +144,7 @@ public class MachinaRecipeBuilder<T extends Container> implements RecipeBuilder 
 
     @Override
     public void save(@NotNull Consumer<FinishedRecipe> recipe, @NotNull String string) {
-        this.save(recipe, new MachinaRL(string));
+        this.save(recipe, MachinaRL.create(string));
     }
 
     @Override

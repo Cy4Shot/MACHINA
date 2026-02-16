@@ -29,7 +29,8 @@ public class ComposterVatRecipeMaps extends MachinaRecipeMaps<ComposterVatBlockE
     @Override
     protected void addExtraRecipes(RecipeManager man) {
         ComposterBlock.COMPOSTABLES.forEach((item, val) -> {
-            ResourceLocation loc = new MachinaRL(
+            ResourceLocation loc = MachinaRL
+                    .create(
                     "compost_vat_" + BuiltInRegistries.ITEM.getKey(item.asItem()).getPath());
             builder().energy(900).time(30).in(item.asItem()).out(FluidInit.AMMONIA.fluid(), (int) (1000 * val))
                     .save(loc, this::add);

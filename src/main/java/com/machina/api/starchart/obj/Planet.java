@@ -126,7 +126,7 @@ public record Planet(String name, ResourceLocation planet_type, int icon_variant
         return GO2 >= 19; // Gross oversimplification, but its a game!
     }
 
-    private static final ResourceLocation PLANETS = new MachinaRL("textures/gui/starchart/planets.png");
+    private static final ResourceLocation PLANETS = MachinaRL.create("textures/gui/starchart/planets.png");
 
     @Override
     public void drawIcon(GuiGraphics gui, int x, int y, float alpha) {

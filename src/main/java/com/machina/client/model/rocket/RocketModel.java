@@ -19,16 +19,14 @@ public class RocketModel extends EntityModel<RocketEntity> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack stack, VertexConsumer buff, int light, int overlay, float r, float g, float b,
-            float a) {
+    public void renderToBuffer(PoseStack stack, VertexConsumer buff, int light, int overlay, int color) {
     }
 
-    public void render(PoseStack stack, MultiBufferSource buff, int light, int overlay, float r, float g, float b,
-            float a) {
+    public void render(PoseStack stack, MultiBufferSource buff, int light, int overlay, int color) {
         stack.pushPose();
         for (RocketPart<?> part : this.parts) {
             stack.translate(0, -part.getModelHeight(), 0);
-            part.bake().render(stack, buff, light, overlay, r, g, b, a);
+            part.bake().render(stack, buff, light, overlay, color);
             stack.translate(0, -part.getModelOffset(), 0);
         }
         stack.popPose();

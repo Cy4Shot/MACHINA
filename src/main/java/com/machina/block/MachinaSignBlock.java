@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class MachinaSignBlock extends StandingSignBlock {
     public MachinaSignBlock(Properties props, WoodType type) {
-        super(props, type);
+        super(type, props);
     }
 
     @Override

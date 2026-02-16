@@ -10,25 +10,31 @@ import com.machina.api.util.MachinaRL;
 import com.machina.block.entity.machine.*;
 import com.machina.compat.jei.JeiRecipeRegistrar;
 import com.machina.recipe.*;
+
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeInit {
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister
-            .create(ForgeRegistries.RECIPE_TYPES, Machina.MOD_ID);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registries.RECIPE_TYPE,
+            Machina.MOD_ID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
-            .create(ForgeRegistries.RECIPE_SERIALIZERS, Machina.MOD_ID);
+            .create(Registries.RECIPE_SERIALIZER, Machina.MOD_ID);
     public static final List<MachinaRecipeMaps<?>> MAPS = new ArrayList<>();
     public static final List<RecipeRegistryObject<?>> RECIPES = new ArrayList<>();
 
@@ -53,19 +59,19 @@ public class RecipeInit {
 			register("rocket_part_bench", BlockInit.ROCKET_PART_BENCH, RocketPartBenchRecipeMaps.INSTANCE, 128, 160);
 	//@formatter:on
 
-    public static class RecipeRegistryObject<C extends Container> {
+    public static class RecipeRegistryObject<C extends RecipeInput> {
 
         private final ResourceLocation id;
-        private final RegistryObject<MachinaRecipeType<C>> type;
+        private final DeferredHolder<RecipeType<?>, MachinaRecipeType<C>> type;
         private final RecipeFactory<MachinaRecipe<C>> factory;
-        private final RegistryObject<MachinaRecipeSerializer<C>> serializer;
+        private final DeferredHolder<RecipeSerializer<?>, MachinaRecipeSerializer<C>> serializer;
         private final MachinaRecipeMaps<C> mapInstance;
-        private final RegistryObject<? extends Block> block;
+        private final DeferredBlock<? extends Block> block;
         private final JeiRecipeRegistrar<C> jei;
 
-        public RecipeRegistryObject(ResourceLocation id, RegistryObject<MachinaRecipeType<C>> type,
-                                    RecipeFactory<MachinaRecipe<C>> factory, RegistryObject<MachinaRecipeSerializer<C>> serializer,
-                                    MachinaRecipeMaps<C> mapInstance, RegistryObject<? extends Block> block, int x, int y) {
+        public RecipeRegistryObject(ResourceLocation id, DeferredHolder<RecipeType<?>, MachinaRecipeType<C>> type,
+                RecipeFactory<MachinaRecipe<C>> factory, DeferredHolder<RecipeSerializer<?>, MachinaRecipeSerializer<C>> serializer,
+                MachinaRecipeMaps<C> mapInstance, DeferredBlock<? extends Block> block, int x, int y) {
             this.id = id;
             this.type = type;
             this.factory = factory;
@@ -83,7 +89,7 @@ public class RecipeInit {
             return id;
         }
 
-        public RegistryObject<MachinaRecipeType<C>> type() {
+        public DeferredHolder<RecipeType<?>, MachinaRecipeType<C>> type() {
             return type;
         }
 
@@ -91,7 +97,7 @@ public class RecipeInit {
             return factory;
         }
 
-        public RegistryObject<MachinaRecipeSerializer<C>> serializer() {
+        public DeferredHolder<RecipeSerializer<?>, MachinaRecipeSerializer<C>> serializer() {
             return serializer;
         }
 
@@ -99,7 +105,7 @@ public class RecipeInit {
             return mapInstance;
         }
 
-        public RegistryObject<? extends Block> block() {
+        public DeferredBlock<? extends Block> block() {
             return block;
         }
 
@@ -112,22 +118,23 @@ public class RecipeInit {
         }
     }
 
-    private static <C extends Container> RecipeRegistryObject<C> register(String name,
-                                                                          RegistryObject<? extends Block> block, MachinaRecipeMaps<C> mapInstance, int x, int y) {
-        ResourceLocation id = new MachinaRL(name);
-        RegistryObject<MachinaRecipeType<C>> type = RECIPE_TYPES.register(name,
+    private static <C extends RecipeInput> RecipeRegistryObject<C> register(String name,
+            DeferredBlock<? extends Block> block, MachinaRecipeMaps<C> mapInstance, int x, int y) {
+        ResourceLocation id = MachinaRL.create(name);
+        DeferredHolder<RecipeType<?>, MachinaRecipeType<C>> type = RECIPE_TYPES.register(name,
                 () -> new MachinaRecipeType<>(id, mapInstance.getFlags()));
 
         // Create an anonymous factory for the recipe
-        RecipeFactory<MachinaRecipe<C>> factory = (loc, energy, time, pressure, temperature, periodicConsumption, inputItems, inputFluids, outputItems, outputFluids) -> new MachinaRecipe<>(loc, energy, time, pressure, temperature, periodicConsumption, inputItems,
-                inputFluids, outputItems, outputFluids) {
-            @Override
-            public @NotNull RecipeType<MachinaRecipe<C>> getType() {
-                return type.get();
-            }
-        };
+        RecipeFactory<MachinaRecipe<C>> factory = (loc, energy, time, pressure, temperature, periodicConsumption,
+                inputItems, inputFluids, outputItems, outputFluids) -> new MachinaRecipe<>(loc, energy, time, pressure,
+                        temperature, periodicConsumption, inputItems, inputFluids, outputItems, outputFluids) {
+                    @Override
+                    public @NotNull RecipeType<MachinaRecipe<C>> getType() {
+                        return type.get();
+                    }
+                };
 
-        RegistryObject<MachinaRecipeSerializer<C>> serializer = RECIPE_SERIALIZERS.register(name,
+        DeferredHolder<RecipeSerializer<?>, MachinaRecipeSerializer<C>> serializer = RECIPE_SERIALIZERS.register(name,
                 () -> new MachinaRecipeSerializer<>(type));
         RecipeRegistryObject<C> obj = new RecipeRegistryObject<>(id, type, factory, serializer, mapInstance, block, x,
                 y);

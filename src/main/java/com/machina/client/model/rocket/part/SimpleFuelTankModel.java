@@ -95,6 +95,6 @@ public class SimpleFuelTankModel extends RocketPartModel {
 
     @Override
     protected ResourceLocation getTextureLocation() {
-        return new MachinaRL("textures/rocket/simple_fuel_tank.png");
+        return MachinaRL.create("textures/rocket/simple_fuel_tank.png");
     }
 }

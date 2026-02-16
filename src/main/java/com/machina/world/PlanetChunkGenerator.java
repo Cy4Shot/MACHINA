@@ -5,6 +5,7 @@ import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.util.PlanetHelper;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlanetChunkGenerator extends NoiseBasedChunkGenerator {
 
-    public static final Codec<PlanetChunkGenerator> CODEC = RecordCodecBuilder.create(instance -> instance
+    public static final MapCodec<PlanetChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
             .group(BiomeSource.CODEC.fieldOf("biome_source").forGetter(c -> c.biomeSource),
                     NoiseGeneratorSettings.CODEC.fieldOf("settings").forGetter(c -> c.settings),
                     Codec.INT.fieldOf("id").forGetter(c -> c.id), Codec.LONG.fieldOf("seed").forGetter(c -> c.seed))
@@ -46,7 +47,7 @@ public class PlanetChunkGenerator extends NoiseBasedChunkGenerator {
     }
 
     @Override
-    protected @NotNull Codec<? extends ChunkGenerator> codec() {
+    protected @NotNull MapCodec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 }

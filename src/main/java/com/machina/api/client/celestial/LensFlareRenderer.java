@@ -29,15 +29,12 @@ public class LensFlareRenderer {
         RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         RenderSystem.setShader(() -> flare);
 
-        Tesselator tess = Tesselator.getInstance();
-        BufferBuilder buffer = tess.getBuilder();
-
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        buffer.vertex(-1, -1, 0).uv(0, 0).endVertex();
-        buffer.vertex(1, -1, 0).uv(1, 0).endVertex();
-        buffer.vertex(1, 1, 0).uv(1, 1).endVertex();
-        buffer.vertex(-1, 1, 0).uv(0, 1).endVertex();
-        BufferUploader.drawWithShader(buffer.end());
+        BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        buffer.addVertex(-1, -1, 0).setUv(0, 0);
+        buffer.addVertex(1, -1, 0).setUv(1, 0);
+        buffer.addVertex(1, 1, 0).setUv(1, 1);
+        buffer.addVertex(-1, 1, 0).setUv(0, 1);
+        BufferUploader.drawWithShader(buffer.build());
 
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();

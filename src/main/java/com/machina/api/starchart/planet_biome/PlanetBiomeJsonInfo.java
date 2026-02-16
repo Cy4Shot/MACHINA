@@ -40,7 +40,7 @@ public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, Strin
             List<BlockState> blocks = blocks().stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
             List<BlockState> fruits = fruits().stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
             List<Direction> fruit_dirs = fruit_dirs().stream().map(Direction::valueOf).collect(Collectors.toList());
-            return new PlanetBiomeTree(new ResourceLocation(type), blocks, chance, fruits, fruit_dirs, fruit_chance,
+            return new PlanetBiomeTree(ResourceLocation.parse(type), blocks, chance, fruits, fruit_dirs, fruit_chance,
                     tree_fruit_chance);
         }
     }
@@ -88,7 +88,7 @@ public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, Strin
 
         @Override
         public PlanetBiomeBigRock cast() {
-            return new PlanetBiomeBigRock(new ResourceLocation(type), getBlock(block), getBlock(extra), chance,
+            return new PlanetBiomeBigRock(ResourceLocation.parse(type), getBlock(block), getBlock(extra), chance,
                     up_extra_chance, down_extra_chance, side_extra_chance);
         }
     }
@@ -121,7 +121,7 @@ public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, Strin
                 .collect(Collectors.toList());
         List<PlanetBiomeOre> ores = ores().stream().map(PlanetBiomeOreJsonInfo::cast).collect(Collectors.toList());
 
-        return new PlanetBiomeSettings(effects, getBlock(base), new ResourceLocation(surface), tops, getBlock(second), getBlock(stair),
+        return new PlanetBiomeSettings(effects, getBlock(base), ResourceLocation.parse(surface), tops, getBlock(second), getBlock(stair),
                 getBlock(slab), getBlock(extra), trees, bushes, grass, lakes, rocks, big_rocks, ores);
     }
 }

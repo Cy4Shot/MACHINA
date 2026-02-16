@@ -89,10 +89,10 @@ public class PlanetSurfaceRule {
         public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
             return new StateRule((x, y, z) -> {
                 Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-                biome.get();
-                if (biome.get() instanceof PlanetBiome) {
+                biome.value();
+                if (biome.value() instanceof PlanetBiome) {
                     NormalNoise normalnoise = ctx.randomState.getOrCreateNoise(noise);
-                    BlockState state = ((PlanetBiome) biome.get()).surface.getState(x, y, z, normalnoise);
+                    BlockState state = ((PlanetBiome) biome.value()).surface.getState(x, y, z, normalnoise);
                     if (state != null) {
                         return state;
                     }
@@ -115,9 +115,9 @@ public class PlanetSurfaceRule {
         public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
             return new StateRule((x, y, z) -> {
                 Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-                biome.get();
-                if (biome.get() instanceof PlanetBiome) {
-                    BlockState state = ((PlanetBiome) biome.get()).getSecondBlock();
+                biome.value();
+                if (biome.value() instanceof PlanetBiome) {
+                    BlockState state = ((PlanetBiome) biome.value()).getSecondBlock();
                     if (state != null) {
                         return state;
                     }
@@ -139,9 +139,9 @@ public class PlanetSurfaceRule {
         public SurfaceRules.SurfaceRule apply(SurfaceRules.Context ctx) {
             return new StateRule((x, y, z) -> {
                 Holder<Biome> biome = ctx.biomeGetter.apply(new BlockPos(x, y, z));
-                biome.get();
-                if (biome.get() instanceof PlanetBiome) {
-                    BlockState state = ((PlanetBiome) biome.get()).getThirdBlock();
+                biome.value();
+                if (biome.value() instanceof PlanetBiome) {
+                    BlockState state = ((PlanetBiome) biome.value()).getThirdBlock();
                     if (state != null) {
                         return state;
                     }

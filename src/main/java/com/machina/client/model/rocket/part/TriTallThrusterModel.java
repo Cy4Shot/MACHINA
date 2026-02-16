@@ -41,6 +41,6 @@ public class TriTallThrusterModel extends RocketPartModel {
 
     @Override
     protected ResourceLocation getTextureLocation() {
-        return new MachinaRL("textures/rocket/tri_rocket.png");
+        return MachinaRL.create("textures/rocket/tri_rocket.png");
     }
 }

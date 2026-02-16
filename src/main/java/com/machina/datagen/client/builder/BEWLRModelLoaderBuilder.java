@@ -8,7 +8,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class BEWLRModelLoaderBuilder<T extends ModelBuilder<T>> extends CustomLoaderBuilder<T> {
 
     public BEWLRModelLoaderBuilder(T parent, ExistingFileHelper existingFileHelper) {
-        super(new MachinaRL("bewlr"), parent, existingFileHelper);
+        super(MachinaRL.create("bewlr"), parent, existingFileHelper);
     }
 
 }

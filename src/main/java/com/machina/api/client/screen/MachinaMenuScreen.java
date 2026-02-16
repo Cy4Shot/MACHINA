@@ -40,7 +40,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
+
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -52,6 +53,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SequencedMap;
 import java.util.function.*;
 
 public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends AbstractContainerScreen<T> {
@@ -109,7 +111,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
             this.usx += (mx - this.usx) / 50f;
             this.usy += (my - this.usy) / 50f;
         }
-        this.renderBackground(gui);
+        this.renderBackground(gui, mx, my, pt);
         if (appearDraw(this.aliveTicks))
             super.render(gui, mx, my, pt);
         else
@@ -555,161 +557,6 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
         MUI.drawOverlay(gui, this.width, this.height, this.aliveTicks);
     }
 
-    public void drawMultiblock(GuiGraphics gui, ResourceLocation mbloc, int xPos, int yPos, int s, float pt) {
-        int x = midWidth() + xPos;
-        int y = midHeight() + yPos;
-        ClientMultiblock mb = new ClientMultiblock(MultiblockLoader.INSTANCE.get(mbloc));
-        Vec3i size = mb.mb.size;
-        int sizeX = size.getX();
-        int sizeY = size.getY();
-        int sizeZ = size.getZ();
-        float maxX = 90;
-        float maxY = 90;
-        float diag = (float) Math.sqrt(sizeX * sizeX + sizeZ * sizeZ);
-        float scaleX = maxX / diag;
-        float scaleY = maxY / sizeY;
-        float scale = -Math.min(scaleX, scaleY) * s;
-
-        gui.pose().pushPose();
-        gui.pose().translate(x, y, 100);
-        gui.pose().scale(scale, scale, scale);
-        gui.pose().translate(-(float) sizeX / 2, -(float) sizeY / 2, 0);
-        Matrix4f rotMat = new Matrix4f();
-        rotMat.identity();
-        gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.XP, rotX - 30F));
-        rotMat.rotate(VecUtil.rotationDegrees(VecUtil.XP, 30F - rotX));
-
-        float offX = (float) -sizeX / 2;
-        float offZ = (float) -sizeZ / 2 + 1;
-        gui.pose().translate(-offX, 0, -offZ);
-        gui.pose().mulPose(VecUtil.rotationDegrees(VecUtil.YP, 45F - rotY));
-        rotMat.rotate(VecUtil.rotationDegrees(VecUtil.YP, rotY - 45F));
-        gui.pose().translate(offX, 0, offZ);
-
-        renderElements(gui.pose(), mb, size, pt, pos -> false, rotX < 30F);
-
-        gui.pose().popPose();
-    }
-
-    private static BufferSource mbBuffers = null;
-
-    private static void renderElements(PoseStack ms, ClientMultiblock mb, Vec3i dest, float par,
-            Predicate<BlockPos> transparency, boolean flip) {
-        if (mbBuffers == null) {
-            mbBuffers = initBuffers(mc.renderBuffers().bufferSource());
-        }
-
-        BufferSource buffers = mc.renderBuffers().bufferSource();
-
-        ms.pushPose();
-        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-        ms.translate(0, 0, -1);
-
-        doWorldRenderPass(ms, mbBuffers, buffers, mb, dest, transparency, flip);
-        mbBuffers.endBatch();
-        buffers.endBatch();
-
-        ms.popPose();
-    }
-
-    private static void doWorldRenderPass(PoseStack ms, @Nonnull BufferSource tpBuffers,
-            @Nonnull BufferSource nmBuffers, ClientMultiblock mb, Vec3i dest, Predicate<BlockPos> transparency,
-            boolean flip) {
-        boolean last = false;
-        for (int y = 0; y < dest.getY(); y++) {
-            for (int x = 0; x < dest.getX(); x++) {
-                for (int z = 0; z < dest.getZ(); z++) {
-                    BlockPos pos = new BlockPos(x, flip ? y : dest.getY() - y - 1, z);
-                    boolean tp = !transparency.test(pos);
-                    if (last != tp) {
-                        (last ? nmBuffers : tpBuffers).endBatch();
-                    }
-                    mb = mb.restrict(has -> tp != transparency.test(has));
-                    BlockState bs = mb.getBlockState(pos);
-
-                    ms.pushPose();
-                    ms.translate(pos.getX(), pos.getY(), pos.getZ());
-                    for (RenderType layer : RenderType.chunkBufferLayers()) {
-                        VertexConsumer buffer = (tp ? nmBuffers : tpBuffers).getBuffer(layer);
-                        Vec3 vector3d = bs.getOffset(mb, pos);
-                        ms.translate(vector3d.x, vector3d.y, vector3d.z);
-                        BakedModel model = mc.getBlockRenderer().getBlockModel(bs);
-                        ModelData modelData = model.getModelData(mb, pos, bs, ModelData.EMPTY);
-                        mc.getBlockRenderer().getModelRenderer().renderModel(ms.last(), buffer, bs, model, pos.getX(),
-                                pos.getY(), pos.getZ(), 255, OverlayTexture.NO_OVERLAY, modelData, layer);
-                    }
-                    ms.popPose();
-                    last = tp;
-                }
-            }
-        }
-    }
-
-    private static BufferSource initBuffers(BufferSource original) {
-        Map<RenderType, BufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
-        for (Map.Entry<RenderType, BufferBuilder> e : original.fixedBuffers.entrySet()) {
-            remapped.put(MultiblockRenderType.remap(e.getKey(), (float) 0.2), e.getValue());
-        }
-        return new MultiblockBuffers(original.builder, remapped);
-    }
-
-    private static class MultiblockBuffers extends BufferSource {
-
-        private final float alpha;
-
-        protected MultiblockBuffers(BufferBuilder fallback, Map<RenderType, BufferBuilder> layerBuffers) {
-            super(fallback, layerBuffers);
-            this.alpha = (float) 0.2;
-        }
-
-        @Override
-        public @NotNull VertexConsumer getBuffer(@NotNull RenderType type) {
-            return super.getBuffer(MultiblockRenderType.remap(type, alpha));
-        }
-    }
-
-    private static class MultiblockRenderType extends RenderType {
-        private static final Map<RenderType, RenderType> remappedTypes = new IdentityHashMap<>();
-
-        private MultiblockRenderType(RenderType original, float alpha) {
-            super(String.format("%s_%s_multiblock", original.toString(), Machina.MOD_ID), original.format(),
-                    original.mode(), original.bufferSize(), original.affectsCrumbling(), true, () -> {
-                        original.setupRenderState();
-
-                        RenderSystem.disableDepthTest();
-                        RenderSystem.enableBlend();
-                        RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA,
-                                GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
-                        RenderSystem.setShaderColor(1, 1, 1, alpha);
-                    }, () -> {
-                        RenderSystem.setShaderColor(1, 1, 1, 1);
-                        RenderSystem.defaultBlendFunc();
-                        RenderSystem.disableBlend();
-                        RenderSystem.enableDepthTest();
-
-                        original.clearRenderState();
-                    });
-        }
-
-        @Override
-        public boolean equals(@Nullable Object other) {
-            return this == other;
-        }
-
-        @Override
-        public int hashCode() {
-            return System.identityHashCode(this);
-        }
-
-        public static RenderType remap(RenderType in, float alpha) {
-            if (in instanceof MultiblockRenderType) {
-                return in;
-            } else {
-                return remappedTypes.computeIfAbsent(in, a -> new MultiblockRenderType(a, alpha));
-            }
-        }
-    }
-
     // Mekanism
     public enum TilingDirection {
         DOWN_RIGHT(true, true),
@@ -757,8 +604,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
         if (blend) {
             RenderSystem.enableBlend();
         }
-        BufferBuilder vertexBuffer = Tesselator.getInstance().getBuilder();
-        vertexBuffer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        BufferBuilder vertexBuffer = Tesselator.getInstance().begin(Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
         for (int xTile = 0; xTile <= xTileCount; xTile++) {
             int width = (xTile == xTileCount) ? xRemainder : textureWidth;
@@ -795,13 +641,13 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
                     vLocalMin = vMin + vLocalDif;
                     vLocalMax = vMax;
                 }
-                vertexBuffer.vertex(matrix4f, x, y + textureHeight, zLevel).uv(uLocalMin, vLocalMax).endVertex();
-                vertexBuffer.vertex(matrix4f, shiftedX, y + textureHeight, zLevel).uv(uLocalMax, vLocalMax).endVertex();
-                vertexBuffer.vertex(matrix4f, shiftedX, y + maskTop, zLevel).uv(uLocalMax, vLocalMin).endVertex();
-                vertexBuffer.vertex(matrix4f, x, y + maskTop, zLevel).uv(uLocalMin, vLocalMin).endVertex();
+                vertexBuffer.addVertex(matrix4f, x, y + textureHeight, zLevel).setUv(uLocalMin, vLocalMax);
+                vertexBuffer.addVertex(matrix4f, shiftedX, y + textureHeight, zLevel).setUv(uLocalMax, vLocalMax);
+                vertexBuffer.addVertex(matrix4f, shiftedX, y + maskTop, zLevel).setUv(uLocalMax, vLocalMin);
+                vertexBuffer.addVertex(matrix4f, x, y + maskTop, zLevel).setUv(uLocalMin, vLocalMin);
             }
         }
-        BufferUploader.drawWithShader(vertexBuffer.end());
+        BufferUploader.drawWithShader(vertexBuffer.build());
         if (blend) {
             RenderSystem.disableBlend();
         }

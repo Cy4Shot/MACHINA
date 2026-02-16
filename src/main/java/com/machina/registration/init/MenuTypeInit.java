@@ -1,5 +1,7 @@
 package com.machina.registration.init;
 
+import java.util.function.Supplier;
+
 import com.machina.Machina;
 import com.machina.block.menu.*;
 import com.machina.block.menu.connector.FluidPipeMenu;
@@ -9,73 +11,72 @@ import com.machina.item.menu.FluidFilterMenu;
 import com.machina.item.menu.ItemFilterMenu;
 import com.machina.rocket.RocketMenu;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.network.IContainerFactory;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.network.IContainerFactory;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class MenuTypeInit {
-    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
+    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU,
             Machina.MOD_ID);
 
     //@formatter:off
-    public static final RegistryObject<MenuType<RocketMenu>> ROCKET =
+    public static final Supplier<MenuType<RocketMenu>> ROCKET =
             register("rocket", RocketMenu::new);
-	public static final RegistryObject<MenuType<ItemConduitMenu>> ITEM_CONDUIT =
+	public static final Supplier<MenuType<ItemConduitMenu>> ITEM_CONDUIT =
 			register("item_conduit", ItemConduitMenu::new);
-	public static final RegistryObject<MenuType<ItemFilterMenu>> ITEM_FILTER =
+	public static final Supplier<MenuType<ItemFilterMenu>> ITEM_FILTER =
 			register("item_filter",	ItemFilterMenu::new);
-	public static final RegistryObject<MenuType<AdvancedItemFilterMenu>> ADVANCED_ITEM_FILTER =
+	public static final Supplier<MenuType<AdvancedItemFilterMenu>> ADVANCED_ITEM_FILTER =
 			register("advanced_item_filter", AdvancedItemFilterMenu::new);
-	public static final RegistryObject<MenuType<FluidPipeMenu>> FLUID_PIPE =
+	public static final Supplier<MenuType<FluidPipeMenu>> FLUID_PIPE =
 			register("fluid_pipe", FluidPipeMenu::new);
-	public static final RegistryObject<MenuType<FluidFilterMenu>> FLUID_FILTER =
+	public static final Supplier<MenuType<FluidFilterMenu>> FLUID_FILTER =
 			register("fluid_filter", FluidFilterMenu::new);
-	public static final RegistryObject<MenuType<BatteryMenu>> BATTERY =
+	public static final Supplier<MenuType<BatteryMenu>> BATTERY =
 			register("battery", BatteryMenu::new);
-	public static final RegistryObject<MenuType<TankMenu>> TANK =
+	public static final Supplier<MenuType<TankMenu>> TANK =
 			register("tank", TankMenu::new);
-	public static final RegistryObject<MenuType<CreativeBatteryMenu>> CREATIVE_BATTERY =
+	public static final Supplier<MenuType<CreativeBatteryMenu>> CREATIVE_BATTERY =
 			register("creative_battery", CreativeBatteryMenu::new);
-	public static final RegistryObject<MenuType<MachineCaseMenu>> MACHINE_CASE =
+	public static final Supplier<MenuType<MachineCaseMenu>> MACHINE_CASE =
 			register("machine_case", MachineCaseMenu::new);
-	public static final RegistryObject<MenuType<FurnaceGeneratorMenu>> FURNACE_GENERATOR =
+	public static final Supplier<MenuType<FurnaceGeneratorMenu>> FURNACE_GENERATOR =
 			register("furnace_generator", FurnaceGeneratorMenu::new);
-	public static final RegistryObject<MenuType<ChemicalGeneratorMenu>> CHEMICAL_GENERATOR =
+	public static final Supplier<MenuType<ChemicalGeneratorMenu>> CHEMICAL_GENERATOR =
 			register("chemical_generator", ChemicalGeneratorMenu::new);
-	public static final RegistryObject<MenuType<ElectricSmelterMenu>> ELECTRIC_SMELTER =
+	public static final Supplier<MenuType<ElectricSmelterMenu>> ELECTRIC_SMELTER =
 			register("eletric_smelter", ElectricSmelterMenu::new);
-	public static final RegistryObject<MenuType<GrinderMenu>> GRINDER =
+	public static final Supplier<MenuType<GrinderMenu>> GRINDER =
 			register("grinder", GrinderMenu::new);
-	public static final RegistryObject<MenuType<CompressorMenu>> COMPRESSOR =
+	public static final Supplier<MenuType<CompressorMenu>> COMPRESSOR =
 			register("compressor", CompressorMenu::new);
-	public static final RegistryObject<MenuType<MelterMenu>> MELTER =
+	public static final Supplier<MenuType<MelterMenu>> MELTER =
 			register("melter", MelterMenu::new);
-	public static final RegistryObject<MenuType<SolidifierMenu>> SOLIDIFIER =
+	public static final Supplier<MenuType<SolidifierMenu>> SOLIDIFIER =
 			register("solidifier", SolidifierMenu::new);
-	public static final RegistryObject<MenuType<ReactionChamberMenu>> REACTION_CHAMBER =
+	public static final Supplier<MenuType<ReactionChamberMenu>> REACTION_CHAMBER =
 			register("reaction_chamber", ReactionChamberMenu::new);
-	public static final RegistryObject<MenuType<ComposterVatMenu>> COMPOSTER_VAT =
+	public static final Supplier<MenuType<ComposterVatMenu>> COMPOSTER_VAT =
 			register("composter_vat", ComposterVatMenu::new);
-	public static final RegistryObject<MenuType<SawmillMenu>> SAWMILL =
+	public static final Supplier<MenuType<SawmillMenu>> SAWMILL =
 			register("sawmill", SawmillMenu::new);
-	public static final RegistryObject<MenuType<ElectrolyzerMenu>> ELECTROLYZER =
+	public static final Supplier<MenuType<ElectrolyzerMenu>> ELECTROLYZER =
             register("electrolyzer", ElectrolyzerMenu::new);
-	public static final RegistryObject<MenuType<ElectricPumpMenu>> ELECTRIC_PUMP =
+	public static final Supplier<MenuType<ElectricPumpMenu>> ELECTRIC_PUMP =
             register("electric_pump", ElectricPumpMenu::new);
-	public static final RegistryObject<MenuType<AtmosphericSeparatorMenu>> ATMOSPHERIC_SEPARATOR =
+	public static final Supplier<MenuType<AtmosphericSeparatorMenu>> ATMOSPHERIC_SEPARATOR =
             register("atmospheric_separator", AtmosphericSeparatorMenu::new);
-	public static final RegistryObject<MenuType<RocketPartBenchMenu>> ROCKET_PART_BENCH =
+	public static final Supplier<MenuType<RocketPartBenchMenu>> ROCKET_PART_BENCH =
             register("rocket_part_bench", RocketPartBenchMenu::new);
-	public static final RegistryObject<MenuType<RocketAssemblyStationMenu>> ROCKET_ASSEMBLY_STATION =
+	public static final Supplier<MenuType<RocketAssemblyStationMenu>> ROCKET_ASSEMBLY_STATION =
             register("rocket_assembly_station", RocketAssemblyStationMenu::new);
 	//@formatter:on
 
-    private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> register(String n,
-                                                                                          IContainerFactory<T> sup) {
-        return MENU_TYPES.register(n, () -> IForgeMenuType.create(sup));
+    private static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(String n,
+            IContainerFactory<T> sup) {
+        return MENU_TYPES.register(n, () -> new MenuType<>(sup, FeatureFlags.DEFAULT_FLAGS));
     }
 }

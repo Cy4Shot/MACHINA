@@ -4,8 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Objects;
 
@@ -16,7 +15,7 @@ public class FluidJson {
         }
         JsonObject obj = json.getAsJsonObject();
         if (obj.has("fluid") && obj.has("amount")) {
-            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(obj.get("fluid").getAsString()));
+            Fluid fluid = ForgeRegistries.FLUIDS.getValue(ResourceLocation.parse(obj.get("fluid").getAsString()));
             if (fluid == null) {
                 return FluidStack.EMPTY;
             }

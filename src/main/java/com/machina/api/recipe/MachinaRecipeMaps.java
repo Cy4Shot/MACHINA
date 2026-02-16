@@ -16,11 +16,12 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
-public abstract class MachinaRecipeMaps<C extends Container> {
+public abstract class MachinaRecipeMaps<C extends RecipeInput> {
 
     protected final Map<ResourceLocation, MachinaRecipe<C>> recipes = new HashMap<>();
 

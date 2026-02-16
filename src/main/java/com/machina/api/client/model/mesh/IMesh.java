@@ -10,8 +10,9 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.model.IModelBuilder;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.client.model.IModelBuilder;
+
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -26,7 +27,7 @@ public interface IMesh {
     float RESCALE_45 = 1.0F / (float) Math.cos((float) Math.PI / 4F) - 1.0F;
 
     default BakedQuad bakeQuad(Vector3f from, Vector3f to, MeshFace face, TextureAtlasSprite tex, Direction dir,
-                               @Nullable BlockElementRotation rot, boolean shade) {
+            @Nullable BlockElementRotation rot, boolean shade) {
         BlockFaceUV blockfaceuv = face.uv;
 
         float[] afloat = new float[blockfaceuv.uvs.length];
@@ -45,7 +46,7 @@ public interface IMesh {
             recalculateWinding(aint, direction);
         }
 
-        ForgeHooksClient.fillNormal(aint, direction);
+        ClientHooks.fillNormal(aint, direction);
         return new BakedQuad(aint, -1, direction, tex, shade, true);
     }
 
@@ -61,7 +62,7 @@ public interface IMesh {
     }
 
     default int[] makeVertices(BlockFaceUV uv, TextureAtlasSprite tex, Direction d, float[] light, Transformation t,
-                               @Nullable BlockElementRotation r, boolean s) {
+            @Nullable BlockElementRotation r, boolean s) {
         int[] aint = new int[32];
         for (int i = 0; i < 4; ++i) {
             this.bakeVertex(aint, i, d, uv, light, tex, t, r, s);
@@ -70,8 +71,8 @@ public interface IMesh {
     }
 
     default void bakeVertex(int[] p_111621_, int p_111622_, Direction p_111623_, BlockFaceUV p_111624_,
-                            float[] p_111625_, TextureAtlasSprite p_111626_, Transformation p_111627_,
-                            @Nullable BlockElementRotation p_111628_, boolean p_111629_) {
+            float[] p_111625_, TextureAtlasSprite p_111626_, Transformation p_111627_,
+            @Nullable BlockElementRotation p_111628_, boolean p_111629_) {
         FaceInfo.VertexInfo faceinfo$vertexinfo = FaceInfo.fromFacing(p_111623_).getVertexInfo(p_111622_);
         Vector3f vector3f = new Vector3f(p_111625_[faceinfo$vertexinfo.xFace], p_111625_[faceinfo$vertexinfo.yFace],
                 p_111625_[faceinfo$vertexinfo.zFace]);
@@ -81,35 +82,35 @@ public interface IMesh {
     }
 
     default void fillVertex(int[] p_111615_, int p_111616_, Vector3f p_254291_, TextureAtlasSprite p_111618_,
-                            BlockFaceUV p_111619_) {
+            BlockFaceUV p_111619_) {
         int i = p_111616_ * 8;
         p_111615_[i] = Float.floatToRawIntBits(p_254291_.x());
         p_111615_[i + 1] = Float.floatToRawIntBits(p_254291_.y());
         p_111615_[i + 2] = Float.floatToRawIntBits(p_254291_.z());
         p_111615_[i + 3] = -1;
         p_111615_[i + 4] = Float.floatToRawIntBits(
-                p_111618_.getU((double) p_111619_.getU(p_111616_) * .999 + p_111619_.getU((p_111616_ + 2) % 4) * .001));
+                p_111618_.getU(p_111619_.getU(p_111616_) * .999F + p_111619_.getU((p_111616_ + 2) % 4) * .001F));
         p_111615_[i + 4 + 1] = Float.floatToRawIntBits(
-                p_111618_.getV((double) p_111619_.getV(p_111616_) * .999 + p_111619_.getV((p_111616_ + 2) % 4) * .001));
+                p_111618_.getV(p_111619_.getV(p_111616_) * .999F + p_111619_.getV((p_111616_ + 2) % 4) * .001F));
     }
 
     default void applyElementRotation(Vector3f p_254412_, @Nullable BlockElementRotation p_254150_) {
         if (p_254150_ != null) {
             Vector3f vector3f;
             Vector3f vector3f1 = switch (p_254150_.axis()) {
-                case X -> {
-                    vector3f = new Vector3f(1.0F, 0.0F, 0.0F);
-                    yield new Vector3f(0.0F, 1.0F, 1.0F);
-                }
-                case Y -> {
-                    vector3f = new Vector3f(0.0F, 1.0F, 0.0F);
-                    yield new Vector3f(1.0F, 0.0F, 1.0F);
-                }
-                case Z -> {
-                    vector3f = new Vector3f(0.0F, 0.0F, 1.0F);
-                    yield new Vector3f(1.0F, 1.0F, 0.0F);
-                }
-                default -> throw new IllegalArgumentException("There are only 3 axes");
+            case X -> {
+                vector3f = new Vector3f(1.0F, 0.0F, 0.0F);
+                yield new Vector3f(0.0F, 1.0F, 1.0F);
+            }
+            case Y -> {
+                vector3f = new Vector3f(0.0F, 1.0F, 0.0F);
+                yield new Vector3f(1.0F, 0.0F, 1.0F);
+            }
+            case Z -> {
+                vector3f = new Vector3f(0.0F, 0.0F, 1.0F);
+                yield new Vector3f(1.0F, 1.0F, 0.0F);
+            }
+            default -> throw new IllegalArgumentException("There are only 3 axes");
             };
 
             Quaternionf quaternionf = (new Quaternionf()).rotationAxis(p_254150_.angle() * ((float) Math.PI / 180F),
@@ -126,8 +127,8 @@ public interface IMesh {
                 vector3f1.set(1.0F, 1.0F, 1.0F);
             }
 
-            this.rotateVertexBy(p_254412_, new Vector3f(p_254150_.origin()),
-                    (new Matrix4f()).rotation(quaternionf), vector3f1);
+            this.rotateVertexBy(p_254412_, new Vector3f(p_254150_.origin()), (new Matrix4f()).rotation(quaternionf),
+                    vector3f1);
         }
     }
 
@@ -213,5 +214,5 @@ public interface IMesh {
     }
 
     void addQuads(IModelBuilder<?> modelBuilder, Function<Material, TextureAtlasSprite> spriteGetter,
-                  BlockElementRotation rotation);
+            BlockElementRotation rotation);
 }
