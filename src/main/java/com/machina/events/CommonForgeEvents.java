@@ -1,27 +1,21 @@
 package com.machina.events;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.machina.Machina;
 import com.machina.api.block.IClickableBlock;
 import com.machina.api.recipe.RecipeRefreshManager;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeTree;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.JsonLoaderInit;
-import com.machina.registration.init.PlanetTreeInit;
 import com.machina.world.PlanetRegistrationHandler;
 import com.machina.world.biome.PlanetBiome;
 import com.machina.world.data.PlanetDimensionData;
-import com.machina.world.feature.PlanetTreeFeature;
-import com.mojang.serialization.Lifecycle;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -34,32 +28,26 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraftforge.client.event.RecipesUpdatedEvent;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
-import net.minecraftforge.eventbus.api.Event.Result;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
+import net.neoforged.neoforge.common.util.TriState;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 
-@Mod.EventBusSubscriber(modid = Machina.MOD_ID, bus = Bus.FORGE)
+@EventBusSubscriber(modid = Machina.MOD_ID)
 public class CommonForgeEvents {
 
     @SubscribeEvent
@@ -94,22 +82,6 @@ public class CommonForgeEvents {
     public static void onDebug(final ItemTossEvent event) {
         
         // TODO: Disable
-
-		if (event.getEntity().getItem().getItem().equals(Items.STICK)) {
-			System.out.println("Placing tree");
-			boolean val = new PlanetTreeFeature().place(new FeaturePlaceContext<>(Optional.empty(),
-					(WorldGenLevel) event.getPlayer().level(), null, event.getPlayer().getRandom(),
-					event.getPlayer().level().getHeightmapPos(Types.OCEAN_FLOOR, event.getPlayer().blockPosition())
-							.above(5),
-					new PlanetTreeFeature.PlanetTreeFeatureConfig(
-							new PlanetBiomeTree(PlanetTreeInit.JUNGLE.getId(),
-									List.of(Blocks.DIAMOND_BLOCK.defaultBlockState(),
-											Blocks.GREEN_STAINED_GLASS.defaultBlockState()),
-									1, List.of(), List.of(), 0, 0))));
-			System.out.println("Result: " + val);
-			return;
-		}
-//
 		int id = 2;
 		if (!event.getPlayer().level().isClientSide()) {
 			ServerLevel planet = PlanetRegistrationHandler.createPlanet(event.getPlayer().getServer(), id);
@@ -123,7 +95,7 @@ public class CommonForgeEvents {
     @SubscribeEvent
     public static void getBurnTime(final FurnaceFuelBurnTimeEvent event) {
         if (event.getItemStack().getItem().equals(ItemInit.COAL_CHUNK.get())) {
-            event.setBurnTime(ForgeHooks.getBurnTime(new ItemStack(Items.COAL), event.getRecipeType()) / 9);
+            event.setBurnTime(new ItemStack(Items.COAL).getBurnTime(event.getRecipeType()) / 9);
         }
     }
 
@@ -156,7 +128,7 @@ public class CommonForgeEvents {
         }
         if (dimRegFrozen instanceof MappedRegistry<Biome> biomeReg) {
             biomeReg.unfreeze();
-            biomeReg.register(key, biome, Lifecycle.stable());
+            biomeReg.register(key, biome, RegistrationInfo.BUILT_IN);
         } else {
             throw new IllegalStateException(
                     String.format("Unable to register dimension %s -- dimension registry not writable", loc));
@@ -165,10 +137,10 @@ public class CommonForgeEvents {
 
     @SubscribeEvent
     public static void blockToolModification(BlockEvent.BlockToolModificationEvent event) {
-        ToolAction action = event.getToolAction();
+        ItemAbility action = event.getItemAbility();
         BlockState state = event.getState();
         if (!event.isSimulated()) {
-            if (action == ToolActions.AXE_STRIP) {
+            if (action == ItemAbilities.AXE_STRIP) {
                 for (WoodFamily family : FamiliesInit.WOODS) {
                     if (state.is(family.log())) {
                         event.setFinalState(family.stripped_log().withPropertiesOf(state));
@@ -192,7 +164,7 @@ public class CommonForgeEvents {
         Block block = state.getBlock();
 
         if (block instanceof IClickableBlock) {
-            event.setUseBlock(Result.ALLOW);
+            event.setUseBlock(TriState.TRUE);
         }
     }
 }

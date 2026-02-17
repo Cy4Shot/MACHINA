@@ -4,10 +4,10 @@ import com.machina.Machina;
 import com.machina.api.cap.item.ConduitItemStorage;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.item.menu.ItemFilterMenu;
-import net.minecraft.nbt.CompoundTag;
+import com.machina.registration.init.DataComponentsInit;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -20,8 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -29,41 +27,23 @@ import java.util.Objects;
 
 public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemStorage> {
 
-    private static final String ITEM = "item";
-
     public ItemFilterItem(Properties props) {
-        super(props);
+        super(props.component(DataComponentsInit.ITEM, Items.AIR));
     }
 
     public static Item getItem(ItemStack stack) {
-        CompoundTag nbt = stack.getOrCreateTag();
-        if (nbt.contains(ITEM)) {
-            ResourceLocation fluidName = new ResourceLocation(nbt.getString(ITEM));
-            Item f = ForgeRegistries.ITEMS.getValue(fluidName);
-            if (f != null)
-                return f;
-        }
-        return Items.AIR;
+        return stack.get(DataComponentsInit.ITEM);
     }
 
     public static ItemStack set(ItemStack stack, Item type, Mode mode) {
-        CompoundTag tag = stack.getOrCreateTag();
-        if (type != null) {
-            ResourceLocation key = ForgeRegistries.ITEMS.getKey(type);
-            if (key != null) {
-                tag.putString(ITEM, key.toString());
-            }
-        }
-        if (mode != null) {
-            tag.putString(MODE, mode.name());
-        }
-        stack.setTag(tag);
+        stack.set(DataComponentsInit.ITEM, type);
+        stack.set(DataComponentsInit.FILTER_MODE, mode);
         return stack;
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip,
-                                @NotNull TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, TooltipContext ctx, @NotNull List<Component> tooltip,
+            @NotNull TooltipFlag flag) {
         Item item = getItem(stack);
         if (item != Items.AIR) {
             tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.configured")
@@ -73,7 +53,7 @@ public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemSt
                     .setStyle(Style.EMPTY.withColor(65278)));
         }
 
-        super.appendHoverText(stack, level, tooltip, flag);
+        super.appendHoverText(stack, ctx, tooltip, flag);
     }
 
     @Override
@@ -88,11 +68,12 @@ public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemSt
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player,
+            @NotNull InteractionHand hand) {
         if (level.isClientSide())
             return super.use(level, player, hand);
 
-        NetworkHooks.openScreen((ServerPlayer) player, new MenuProvider() {
+        ((ServerPlayer) player).openMenu(new MenuProvider() {
             @Override
             public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
                 return new ItemFilterMenu(id, inv, hand);

@@ -6,9 +6,9 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -183,10 +183,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 
     @Nullable
     private IItemHandler getItemHandler(ItemConduitBlockEntity be, BlockPos pos, Direction direction) {
-        BlockEntity te = Objects.requireNonNull(be.getLevel()).getBlockEntity(pos);
-        if (te == null)
-            return null;
-        return te.getCapability(ForgeCapabilities.ITEM_HANDLER, direction).resolve().orElse(null);
+        return be.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, pos, direction);
     }
 
     private static ItemStack drainItem(IItemHandler handler, ItemStack test, boolean simulate) {

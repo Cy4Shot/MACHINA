@@ -3,11 +3,11 @@ package com.machina.events;
 import org.joml.Vector3f;
 
 import com.machina.Machina;
-import com.machina.api.client.ClientTimer;
 import com.machina.api.client.cinema.CinematicHandler;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextOverlay;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
 import com.machina.api.client.shader.ShaderHandler;
+import com.machina.api.util.MachinaRL;
 import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
 import com.machina.client.ber.RocketPartBenchRenderer;
@@ -50,68 +50,63 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.material.FluidState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.neoforged.neoforge.common.NeoForgeMod;
 
 @EventBusSubscriber(modid = Machina.MOD_ID, value = Dist.CLIENT)
 public class ClientModEvents {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        ClientTimer.setup();
         CinematicHandler.setup();
-
         FluidInit.setRenderLayers();
-
-        event.enqueueWork(() -> {
-            MenuScreens.register(MenuTypeInit.ROCKET.get(), RocketScreen::new);
-            MenuScreens.register(MenuTypeInit.FLUID_PIPE.get(), FluidPipeScreen::new);
-            MenuScreens.register(MenuTypeInit.ITEM_CONDUIT.get(), ItemConduitScreen::new);
-            MenuScreens.register(MenuTypeInit.FLUID_FILTER.get(), FluidFilterScreen::new);
-            MenuScreens.register(MenuTypeInit.ITEM_FILTER.get(), ItemFilterScreen::new);
-            MenuScreens.register(MenuTypeInit.ADVANCED_ITEM_FILTER.get(), AdvancedItemFilterScreen::new);
-            MenuScreens.register(MenuTypeInit.BATTERY.get(), BatteryScreen::new);
-            MenuScreens.register(MenuTypeInit.TANK.get(), TankScreen::new);
-            MenuScreens.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
-            MenuScreens.register(MenuTypeInit.MACHINE_CASE.get(), MachineCaseScreen::new);
-            MenuScreens.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
-            MenuScreens.register(MenuTypeInit.CHEMICAL_GENERATOR.get(), ChemicalGeneratorScreen::new);
-            MenuScreens.register(MenuTypeInit.ELECTRIC_SMELTER.get(), ElectricSmelterScreen::new);
-            MenuScreens.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
-            MenuScreens.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);
-            MenuScreens.register(MenuTypeInit.SOLIDIFIER.get(), SolidifierScreen::new);
-            MenuScreens.register(MenuTypeInit.MELTER.get(), MelterScreen::new);
-            MenuScreens.register(MenuTypeInit.REACTION_CHAMBER.get(), ReactionChamberScreen::new);
-            MenuScreens.register(MenuTypeInit.COMPOSTER_VAT.get(), ComposterVatScreen::new);
-            MenuScreens.register(MenuTypeInit.SAWMILL.get(), SawmillScreen::new);
-            MenuScreens.register(MenuTypeInit.ELECTROLYZER.get(), ElectrolyzerScreen::new);
-            MenuScreens.register(MenuTypeInit.ELECTRIC_PUMP.get(), ElectricPumpScreen::new);
-            MenuScreens.register(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
-            MenuScreens.register(MenuTypeInit.ROCKET_PART_BENCH.get(), RocketPartBenchScreen::new);
-            MenuScreens.register(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), RocketAssemblyStationScreen::new);
-        });
     }
+    
+    @SubscribeEvent // on the mod event bus only on the physical client
+    public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(MenuTypeInit.ROCKET.get(), RocketScreen::new);
+        event.register(MenuTypeInit.FLUID_PIPE.get(), FluidPipeScreen::new);
+        event.register(MenuTypeInit.ITEM_CONDUIT.get(), ItemConduitScreen::new);
+        event.register(MenuTypeInit.FLUID_FILTER.get(), FluidFilterScreen::new);
+        event.register(MenuTypeInit.ITEM_FILTER.get(), ItemFilterScreen::new);
+        event.register(MenuTypeInit.ADVANCED_ITEM_FILTER.get(), AdvancedItemFilterScreen::new);
+        event.register(MenuTypeInit.BATTERY.get(), BatteryScreen::new);
+        event.register(MenuTypeInit.TANK.get(), TankScreen::new);
+        event.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
+        event.register(MenuTypeInit.MACHINE_CASE.get(), MachineCaseScreen::new);
+        event.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
+        event.register(MenuTypeInit.CHEMICAL_GENERATOR.get(), ChemicalGeneratorScreen::new);
+        event.register(MenuTypeInit.ELECTRIC_SMELTER.get(), ElectricSmelterScreen::new);
+        event.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
+        event.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);
+        event.register(MenuTypeInit.SOLIDIFIER.get(), SolidifierScreen::new);
+        event.register(MenuTypeInit.MELTER.get(), MelterScreen::new);
+        event.register(MenuTypeInit.REACTION_CHAMBER.get(), ReactionChamberScreen::new);
+        event.register(MenuTypeInit.COMPOSTER_VAT.get(), ComposterVatScreen::new);
+        event.register(MenuTypeInit.SAWMILL.get(), SawmillScreen::new);
+        event.register(MenuTypeInit.ELECTROLYZER.get(), ElectrolyzerScreen::new);
+        event.register(MenuTypeInit.ELECTRIC_PUMP.get(), ElectricPumpScreen::new);
+        event.register(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
+        event.register(MenuTypeInit.ROCKET_PART_BENCH.get(), RocketPartBenchScreen::new);
+        event.register(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), RocketAssemblyStationScreen::new);
+    }
+    
 
     @SubscribeEvent
     public static void registerRenderers(RegisterRenderers event) {
@@ -125,11 +120,9 @@ public class ClientModEvents {
     }
 
     @SubscribeEvent
-    public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("cinematic_overlay",
-                (gui, graphics, partialTick, width, height) -> CinematicTextureOverlay.renderOverlay());
-        event.registerAboveAll("cinematic_title", (gui, graphics, partialTick, width, height) -> CinematicTextOverlay
-                .renderOverlay(graphics, graphics.pose(), width, height));
+    public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
+        event.registerAboveAll(MachinaRL.create("cinematic_overlay"), (gui, delta) -> CinematicTextureOverlay.renderOverlay());
+        event.registerAboveAll(MachinaRL.create("cinematic_title"), (gui, delta) -> CinematicTextOverlay.renderOverlay(gui));
     }
 
     @SubscribeEvent
@@ -137,7 +130,7 @@ public class ClientModEvents {
         ItemColors colors = event.getItemColors();
 
         for (FluidObject obj : FluidInit.OBJS) {
-            colors.register((stack, index) -> index == 1 ? obj.chem() : -1, obj.bucket());
+            colors.register((stack, index) -> index == 1 ? obj.chem().getColor() : -1, obj.bucket());
         }
     }
 

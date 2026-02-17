@@ -5,9 +5,11 @@ import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,8 +33,8 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
     }
 
     private List<RecipeSlot> slots;
-    private MachinaRecipe<?> recipe = null;
-    private MachinaRecipe<?> temporaryRecipe = null;
+    private RecipeHolder<? extends MachinaRecipe<?>> recipe = null;
+    private RecipeHolder<? extends MachinaRecipe<?>> temporaryRecipe = null;
     private int tickCount = 0;
 
     private int progress = 0;
@@ -67,7 +69,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
 
     @Override
     public boolean isLit() {
-        return this.recipe != null && this.progress > 0 && this.meetsRequirements(recipe)
+        return this.recipe != null && this.progress > 0 && this.meetsRequirements(recipe.value())
                 || (this.temporaryRecipe != null && this.getRecipeMap().hasPeriodicConsumption()
                 && this.ticksRemaining() >= 0);
     }
@@ -76,20 +78,20 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
         if (this.recipe == null)
             return 0;
         if (getRecipeMap().hasPeriodicConsumption()) {
-            return (float) this.progress / (float) this.recipe.getPeriodicConsumption();
+            return (float) this.progress / (float) this.recipe.value().getPeriodicConsumption();
         }
-        if (!getRecipe().maps().hasTime() || this.recipe.getTime() == 0)
+        if (!getRecipe().maps().hasTime() || this.recipe.value().getTime() == 0)
             return 1;
-        return (float) this.progress / (float) this.recipe.getTime();
+        return (float) this.progress / (float) this.recipe.value().getTime();
     }
 
     public int ticksRemaining() {
         if (this.recipe == null)
             return 0;
         if (getRecipeMap().hasPeriodicConsumption()) {
-            return this.recipe.getPeriodicConsumption() - this.progress;
+            return this.recipe.value().getPeriodicConsumption() - this.progress;
         }
-        return this.recipe.getTime() - this.progress;
+        return this.recipe.value().getTime() - this.progress;
     }
 
     @Override
@@ -97,19 +99,21 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
         if (this.level != null && this.level.isClientSide())
             return;
 
-        Optional<MachinaRecipe<RecipeBlockEntity>> rec = getRecipeMap().findRecipe(this);
-        rec.ifPresentOrElse(r -> {
+        Optional<RecipeHolder<? extends MachinaRecipe<RecipeBlockEntity>>> rec = getRecipeMap().findRecipe(this);
+        rec.ifPresentOrElse(holder -> {
             if (tickCount == 0) {
-                this.temporaryRecipe = r;
+                this.temporaryRecipe = holder;
                 tickCount = 2;
                 setChanged();
             }
-            if (this.recipe != r) {
-                this.recipe = r;
+            if (this.recipe.id() != holder.id()) {
+                this.recipe = holder;
                 this.progress = 0;
 
                 setChanged();
             }
+            
+            MachinaRecipe<RecipeBlockEntity> r = holder.value();
 
             if (getRecipeMap().hasPeriodicConsumption() && r.getPeriodicConsumption() > 1) {
                 if (this.progress == 0) {
@@ -178,6 +182,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
         return true;
     }
 
+    @SuppressWarnings("removal")
     public boolean hasFluidInput(FluidStack stack) {
         for (RecipeSlot s : slots) {
             if (s.type == SlotType.INPUT && !s.item) {
@@ -190,6 +195,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
         return false;
     }
 
+    @SuppressWarnings("removal")
     public boolean hasExactFluidInputs(List<FluidStack> requiredFluids) {
         List<FluidStack> remaining = new ArrayList<>(requiredFluids);
 
@@ -286,6 +292,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
         return true;
     }
 
+    @SuppressWarnings("removal")
     protected boolean hasSpace(MachinaRecipe<?> r) {
         for (ItemStack i : r.getOutputItems()) {
             boolean found = false;
@@ -321,6 +328,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
         return true;
     }
 
+    @SuppressWarnings("removal")
     protected void useInputs(MachinaRecipe<?> r, boolean periodic) {
         if (!periodic) {
             for (ItemStack i : r.getInputItems()) {
@@ -359,6 +367,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
         }
     }
 
+    @SuppressWarnings("removal")
     protected void produceOutputs(MachinaRecipe<?> r, boolean periodic) {
         if (!periodic) {
             for (ItemStack i : r.getOutputItems()) {
@@ -400,29 +409,29 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
     }
 
     public boolean hasSpace() {
-        return this.recipe != null && hasSpace(this.recipe);
+        return this.recipe != null && hasSpace(this.recipe.value());
     }
 
     public boolean meetsRequirements() {
-        return this.recipe != null && meetsRequirements(this.recipe)
+        return this.recipe != null && meetsRequirements(this.recipe.value())
                 || (this.temporaryRecipe != null && getRecipeMap().hasPeriodicConsumption());
     }
 
     public int getPowerRate() {
-        return this.recipe == null ? 0 : this.recipe.getPowerRate();
+        return this.recipe == null ? 0 : this.recipe.value().getPowerRate();
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
         tag.putInt("progress", this.progress);
-        tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
-        tag.putString("temporary", this.temporaryRecipe == null ? "" : this.temporaryRecipe.getId().toString());
+        tag.putString("recipe", this.recipe == null ? "" : this.recipe.id().toString());
+        tag.putString("temporary", this.temporaryRecipe == null ? "" : this.temporaryRecipe.id().toString());
         tag.putInt("tickCount", this.tickCount);
-        super.saveAdditional(tag);
+        super.saveAdditional(tag, registries);
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
+    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
         this.progress = tag.getInt("progress");
         String r = tag.getString("recipe");
         this.recipe = r.isEmpty() ? null : getRecipeMap().getRecipe(ResourceLocation.parse(r));
@@ -430,7 +439,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
         this.temporaryRecipe = t.isEmpty() ? null
                 : getRecipeMap().getRecipe(ResourceLocation.parse(t));
         this.tickCount = tag.getInt("tickCount");
-        super.load(tag);
+        super.loadAdditional(tag, registries);
     }
     
 

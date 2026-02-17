@@ -5,6 +5,7 @@ import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.util.reflect.MachinaCodecs;
 import com.machina.api.util.reflect.MachinaStreamCodecs;
 import com.machina.api.util.reflect.MachinaStreamCodecs.HasId;
+import com.machina.registration.init.DataComponentsInit;
 import com.mojang.serialization.Codec;
 
 import io.netty.buffer.ByteBuf;
@@ -17,10 +18,14 @@ import net.minecraft.world.item.ItemStack;
 public abstract class ConnectorFilterItem<U, T extends IConnectorStorage<U>> extends Item {
 
     public ConnectorFilterItem(Properties props) {
-        super(props);
+        super(props.component(DataComponentsInit.FILTER_MODE, Mode.WHITELIST));
     }
 
     public abstract boolean filter(ItemStack stack, U original);
+    
+    public static Mode getMode(ItemStack stack) {
+        return stack.get(DataComponentsInit.FILTER_MODE);
+    }
 
     public enum Mode implements HasId {
         WHITELIST,

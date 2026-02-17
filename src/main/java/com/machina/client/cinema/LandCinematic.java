@@ -10,7 +10,6 @@ import com.machina.api.client.cinema.effect.ParticleEffect;
 import com.machina.api.client.cinema.effect.ShakeEffect;
 import com.machina.api.client.cinema.effect.SoundEffect;
 import com.machina.api.client.cinema.entity.CameraClientEntity;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SRocketLandComplete;
 import com.machina.api.network.c2s.C2SRocketCinematicOffset;
 import com.machina.api.network.c2s.C2SSpawnParticle;

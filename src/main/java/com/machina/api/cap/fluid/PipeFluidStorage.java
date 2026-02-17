@@ -5,10 +5,10 @@ import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -186,10 +186,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 
     @Nullable
     private IFluidHandler getFluidHandler(FluidPipeBlockEntity be, BlockPos pos, Direction direction) {
-        BlockEntity te = Objects.requireNonNull(be.getLevel()).getBlockEntity(pos);
-        if (te == null)
-            return null;
-        return te.getCapability(ForgeCapabilities.FLUID_HANDLER, direction).resolve().orElse(null);
+        return be.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, pos, direction);
     }
 
     public FluidStack pushFluid(IFluidHandler provider, IFluidHandler receiver, FluidStack maxAmount) {

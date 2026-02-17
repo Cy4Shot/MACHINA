@@ -8,7 +8,6 @@ import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
 import com.machina.block.MachinaWallSignBlock;
 import com.machina.config.CommonConfig;
-import com.machina.item.BlueprintItem;
 import com.machina.item.CapacitorItem;
 import com.machina.item.MouldItem;
 import com.machina.item.MouldItem.Mould;
@@ -32,7 +31,6 @@ public class ItemInit {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.createItems(Machina.MOD_ID);
 
     //@formatter:off
-	public static final DeferredItem<Item> BLUEPRINT = basic("blueprint", BlueprintItem::new);
 	public static final DeferredItem<Item> ROCKET = basic("rocket", RocketItem::new);
 	
 	public static final DeferredItem<CapacitorItem> BASIC_CAPACITOR = capacitor("basic_capacitor", () -> CommonConfig.basicCapacitorSize);

@@ -9,13 +9,18 @@ import com.machina.api.recipe.MachinaRecipeType;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.entity.machine.*;
 import com.machina.compat.jei.JeiRecipeRegistrar;
-import com.machina.recipe.*;
+import com.machina.recipe.ComposterVatRecipeMaps;
+import com.machina.recipe.CompressorRecipeMaps;
+import com.machina.recipe.ElectrolyzerRecipeMaps;
+import com.machina.recipe.GrinderRecipeMaps;
+import com.machina.recipe.MelterRecipeMaps;
+import com.machina.recipe.ReactionChamberRecipeMaps;
+import com.machina.recipe.RocketPartBenchRecipeMaps;
+import com.machina.recipe.SawmillRecipeMaps;
+import com.machina.recipe.SolidifierRecipeMaps;
 
-import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -70,7 +75,8 @@ public class RecipeInit {
         private final JeiRecipeRegistrar<C> jei;
 
         public RecipeRegistryObject(ResourceLocation id, DeferredHolder<RecipeType<?>, MachinaRecipeType<C>> type,
-                RecipeFactory<MachinaRecipe<C>> factory, DeferredHolder<RecipeSerializer<?>, MachinaRecipeSerializer<C>> serializer,
+                RecipeFactory<MachinaRecipe<C>> factory,
+                DeferredHolder<RecipeSerializer<?>, MachinaRecipeSerializer<C>> serializer,
                 MachinaRecipeMaps<C> mapInstance, DeferredBlock<? extends Block> block, int x, int y) {
             this.id = id;
             this.type = type;
@@ -125,9 +131,9 @@ public class RecipeInit {
                 () -> new MachinaRecipeType<>(id, mapInstance.getFlags()));
 
         // Create an anonymous factory for the recipe
-        RecipeFactory<MachinaRecipe<C>> factory = (loc, energy, time, pressure, temperature, periodicConsumption,
-                inputItems, inputFluids, outputItems, outputFluids) -> new MachinaRecipe<>(loc, energy, time, pressure,
-                        temperature, periodicConsumption, inputItems, inputFluids, outputItems, outputFluids) {
+        RecipeFactory<MachinaRecipe<C>> factory = (energy, time, pressure, temperature, periodicConsumption, inputItems,
+                inputFluids, outputItems, outputFluids) -> new MachinaRecipe<>(energy, time, pressure, temperature,
+                        periodicConsumption, inputItems, inputFluids, outputItems, outputFluids) {
                     @Override
                     public @NotNull RecipeType<MachinaRecipe<C>> getType() {
                         return type.get();

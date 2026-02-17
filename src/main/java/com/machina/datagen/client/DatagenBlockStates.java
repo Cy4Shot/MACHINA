@@ -723,7 +723,7 @@ public class DatagenBlockStates extends BlockStateProvider {
     }
 
     private ResourceLocation key(Block block) {
-        return ForgeRegistries.BLOCKS.getKey(block);
+        return BuiltInRegistries.BLOCK.getKey(block);
     }
 
     public ResourceLocation itemTexture(Block block) {

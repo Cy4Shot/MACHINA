@@ -1,7 +1,8 @@
 package com.machina.api.cap.energy;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+
 import org.jetbrains.annotations.NotNull;
 
 public class EnergyBlockItemWrapper extends EnergyItemWrapper {

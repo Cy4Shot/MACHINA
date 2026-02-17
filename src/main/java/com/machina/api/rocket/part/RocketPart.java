@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import com.machina.api.item.RocketPartItem;
+import com.machina.api.util.reflect.MachinaCodecs;
 import com.machina.client.model.rocket.RocketPartModel;
 import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.RegistryInit.RocketPartCallbacks;
@@ -27,13 +28,7 @@ public class RocketPart<T extends RocketPartModel> {
     public static final StreamCodec<RegistryFriendlyByteBuf, RocketPart<?>> STREAM_CODEC = ByteBufCodecs
             .registry(RegistryInit.ROCKET_PART_REGISTRY.key());
 
-    public static final Codec<RocketPart<?>> CODEC = ResourceLocation.CODEC.comapFlatMap(loc -> {
-        RocketPart<?> part = RegistryInit.ROCKET_PART_REGISTRY.get(loc);
-        if (part == null) {
-            return DataResult.error(() -> "Unknown RocketPart: " + loc);
-        }
-        return DataResult.success(part);
-    }, RocketPart::getLoc);
+    public static final Codec<RocketPart<?>> CODEC = MachinaCodecs.registryCodec(RegistryInit.ROCKET_PART_REGISTRY);
 
     private final ResourceLocation loc;
     private final RocketPartType type;

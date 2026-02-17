@@ -19,6 +19,7 @@ public class TankScreen extends MachinaMenuScreen<TankMenu> {
         super(menu, inv, title);
     }
 
+    @SuppressWarnings("removal")
     @Override
     protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
         drawInventory(gui, mx, my);

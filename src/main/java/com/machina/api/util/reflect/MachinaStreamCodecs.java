@@ -14,10 +14,14 @@ import com.mojang.datafixers.util.Function9;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ByIdMap;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -30,10 +34,16 @@ public class MachinaStreamCodecs {
     public static final StreamCodec<ByteBuf, FriendlyByteBuf> FRIENDLY_BYTE_BUF = ByteBufCodecs.BYTE_ARRAY
             .map(x -> new FriendlyByteBuf(Unpooled.wrappedBuffer(x)), b -> b.readByteArray());
 
-    public static final StreamCodec<ByteBuf, Vec3> VEC3_CODEC = ByteBufCodecs.VECTOR3F.map(Vec3::new, Vec3::toVector3f);
+    public static final StreamCodec<ByteBuf, Vec3> VEC3 = ByteBufCodecs.VECTOR3F.map(Vec3::new, Vec3::toVector3f);
 
-    public static final StreamCodec<ByteBuf, AABB> AABB_CODEC = StreamCodec.composite(VEC3_CODEC, AABB::getMinPosition,
-            VEC3_CODEC, AABB::getMaxPosition, AABB::new);
+    public static final StreamCodec<ByteBuf, AABB> AABB_CODEC = StreamCodec.composite(VEC3, AABB::getMinPosition, VEC3,
+            AABB::getMaxPosition, AABB::new);
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, Item> ITEM = ByteBufCodecs
+            .registry(BuiltInRegistries.ITEM.key());
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, Fluid> FLUID = ByteBufCodecs
+            .registry(BuiltInRegistries.FLUID.key());
 
     public static <T extends Enum<T> & HasId> StreamCodec<ByteBuf, T> enumCodec(Class<T> enumClass) {
         return ByteBufCodecs.idMapper(

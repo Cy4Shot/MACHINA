@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.cap.fluid.FluidHandlerEntity;
 import com.machina.api.cap.fluid.MachinaEntityTank;
 import com.machina.api.item.RocketItem;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CCinematicLand;
 import com.machina.api.network.s2c.S2CCinematicLaunch;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
@@ -17,22 +16,27 @@ import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.util.PlanetHelper;
+import com.machina.api.util.reflect.MachinaStreamCodecs;
+import com.machina.api.util.reflect.MachinaStreamCodecs.HasId;
 import com.machina.client.model.rocket.RocketModel;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.world.PlanetRegistrationHandler;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -51,33 +55,36 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.ITeleporter;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.event.entity.player.PlayerContainerEvent;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class RocketEntity extends Entity
         implements ContainerListener, HasCustomInventoryScreen, FluidHandlerEntity, IEntityAdditionalSpawnData {
 
-    public enum RocketStage {
+    public enum RocketStage implements HasId {
         NONE,
         TAKEOFF,
         LANDING;
 
+        @Override
+        public int getId() {
+            return this.ordinal();
+        }
+
+        public static final StreamCodec<ByteBuf, RocketStage> STREAM_CODEC = MachinaStreamCodecs
+                .enumCodec(RocketStage.class);
+
         public static final EntityDataSerializer<RocketStage> SERIALIZER = EntityDataSerializer
-                .simpleEnum(RocketStage.class);
+                .forValueType(STREAM_CODEC);
     }
 
     private static final int DEFAULT_SLOTS = 2;
@@ -144,6 +151,7 @@ public class RocketEntity extends Entity
         this.createFluidInventory(props);
     }
 
+    @SuppressWarnings("removal")
     protected void createFluidInventory(RocketProps props) {
         if (this.fuelTank != null && this.coolTank != null)
             return;
@@ -160,11 +168,11 @@ public class RocketEntity extends Entity
     }
 
     @Override
-    protected void defineSynchedData() {
-        this.entityData.define(STAGE, RocketStage.NONE);
-        this.entityData.define(PROPS, RocketProps.NULL);
-        this.entityData.define(COSTS, RocketCosts.NULL);
-        this.entityData.define(DESTINATION, Level.OVERWORLD);
+    protected void defineSynchedData(Builder builder) {
+        builder.define(STAGE, RocketStage.NONE);
+        builder.define(PROPS, RocketProps.NULL);
+        builder.define(COSTS, RocketCosts.NULL);
+        builder.define(DESTINATION, Level.OVERWORLD);
     }
 
     @Override
@@ -191,22 +199,24 @@ public class RocketEntity extends Entity
         if (props != null && !this.level().isClientSide()) {
             int transferRate = 1000; // TODO: Make this configurable
             Container inv = getOrCreateInventory();
-            inv.getItem(0).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
+            IFluidHandlerItem h1 = inv.getItem(0).getCapability(Capabilities.FluidHandler.ITEM);
+            if (h1 != null) {
                 int amount = Math.min(transferRate, this.fuelTank.getSpace());
-                FluidStack result = handler.drain(new FluidStack(props.fuelType(), amount), FluidAction.EXECUTE);
+                FluidStack result = h1.drain(new FluidStack(props.fuelType(), amount), FluidAction.EXECUTE);
                 if (!result.isEmpty()) {
                     this.fuelTank.fill(result, FluidAction.EXECUTE);
-                    inv.setItem(0, handler.getContainer());
+                    inv.setItem(0, h1.getContainer());
                 }
-            });
-            inv.getItem(1).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(handler -> {
+            }
+            IFluidHandlerItem h2 = inv.getItem(1).getCapability(Capabilities.FluidHandler.ITEM);
+            if (h2 != null) {
                 int amount = Math.min(transferRate, this.coolTank.getSpace());
-                FluidStack result = handler.drain(new FluidStack(props.coolantType(), amount), FluidAction.EXECUTE);
+                FluidStack result = h2.drain(new FluidStack(props.coolantType(), amount), FluidAction.EXECUTE);
                 if (!result.isEmpty()) {
                     this.coolTank.fill(result, FluidAction.EXECUTE);
-                    inv.setItem(1, handler.getContainer());
+                    inv.setItem(1, h2.getContainer());
                 }
-            });
+            }
         }
     }
 
@@ -235,7 +245,7 @@ public class RocketEntity extends Entity
 
         if (tag.contains(TAG_DESTINATION)) {
             this.entityData.set(DESTINATION,
-                    ResourceKey.create(Registries.DIMENSION, new ResourceLocation(tag.getString(TAG_DESTINATION))));
+                    ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(tag.getString(TAG_DESTINATION))));
         }
 
         if (tag.contains(TAG_COSTS)) {
@@ -243,11 +253,11 @@ public class RocketEntity extends Entity
         }
 
         if (fuelTank != null && tag.contains(TAG_FUEL)) {
-            fuelTank.readFromNBT(tag.getCompound(TAG_FUEL));
+            fuelTank.readFromNBT(this.registryAccess(), tag.getCompound(TAG_FUEL));
         }
 
         if (coolTank != null && tag.contains(TAG_COOL)) {
-            coolTank.readFromNBT(tag.getCompound(TAG_COOL));
+            coolTank.readFromNBT(this.registryAccess(), tag.getCompound(TAG_COOL));
         }
 
         if (this.inventory != null && tag.contains(TAG_ITEMS)) {
@@ -257,7 +267,7 @@ public class RocketEntity extends Entity
                 CompoundTag compoundtag = listtag.getCompound(i);
                 int slot = compoundtag.getByte(TAG_SLOT) & 255;
                 if (slot >= 0 && slot < this.inventory.getContainerSize()) {
-                    this.inventory.setItem(slot, ItemStack.of(compoundtag));
+                    this.inventory.setItem(slot, ItemStack.parse(this.registryAccess(), compoundtag).get());
                 }
             }
         }
@@ -274,11 +284,11 @@ public class RocketEntity extends Entity
         tag.putString(TAG_DESTINATION, getDestination().location().toString());
 
         if (fuelTank != null) {
-            tag.put(TAG_FUEL, fuelTank.writeToNBT(new CompoundTag()));
+            tag.put(TAG_FUEL, fuelTank.writeToNBT(this.registryAccess(), new CompoundTag()));
         }
 
         if (coolTank != null) {
-            tag.put(TAG_COOL, coolTank.writeToNBT(new CompoundTag()));
+            tag.put(TAG_COOL, coolTank.writeToNBT(this.registryAccess(), new CompoundTag()));
         }
 
         if (this.inventory != null) {
@@ -336,11 +346,11 @@ public class RocketEntity extends Entity
         }
 
         player.nextContainerCounter();
-        PacketSender.sendToClient(player,
+        PacketDistributor.sendToPlayer(player,
                 new S2CRocketScreenOpen(player.containerCounter, this.inventory.getContainerSize(), getId()));
         player.containerMenu = new RocketMenu(player.containerCounter, player.getInventory(), this.inventory, this);
         player.initMenu(player.containerMenu);
-        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(player, player.containerMenu));
+        NeoForge.EVENT_BUS.post(new PlayerContainerEvent.Open(player, player.containerMenu));
     }
 
     @Override
@@ -369,12 +379,12 @@ public class RocketEntity extends Entity
             createInventory(getProps()); // rebuild tanks correctly
 
             if (pendingFuelNBT != null && fuelTank != null) {
-                fuelTank.readFromNBT(pendingFuelNBT);
+                fuelTank.readFromNBT(this.registryAccess(), pendingFuelNBT);
                 pendingFuelNBT = null;
             }
 
             if (pendingCoolNBT != null && coolTank != null) {
-                coolTank.readFromNBT(pendingCoolNBT);
+                coolTank.readFromNBT(this.registryAccess(), pendingCoolNBT);
                 pendingCoolNBT = null;
             }
         }
@@ -436,7 +446,7 @@ public class RocketEntity extends Entity
         if (this.inventory != null) {
             for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
                 ItemStack itemstack = this.inventory.getItem(i);
-                if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack)) {
+                if (!itemstack.isEmpty()) {
                     this.spawnAtLocation(itemstack);
                 }
             }
@@ -466,12 +476,12 @@ public class RocketEntity extends Entity
 
     public void tryLaunch(ServerPlayer player) {
         this.entityData.set(STAGE, RocketStage.TAKEOFF);
-        PacketSender.sendToClient(player, new S2CCinematicLaunch(this.getId()));
+        PacketDistributor.sendToPlayer(player, new S2CCinematicLaunch(this.getId()));
     }
 
     public void tryLand(ServerPlayer player) {
         this.entityData.set(STAGE, RocketStage.LANDING);
-        PacketSender.sendToClient(player, new S2CCinematicLand(this.getId()));
+        PacketDistributor.sendToPlayer(player, new S2CCinematicLand(this.getId()));
     }
 
     public void completeLaunch(ServerPlayer player) {

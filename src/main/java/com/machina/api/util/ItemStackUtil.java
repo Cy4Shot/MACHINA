@@ -2,7 +2,6 @@ package com.machina.api.util;
 
 import com.machina.api.item.RocketPartItem;
 import com.machina.api.rocket.part.RocketPartType;
-import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.TagInit.ItemTagInit;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -43,10 +42,6 @@ public class ItemStackUtil {
 
     public static boolean isBurnable(ItemStack stack) {
         return stack.getBurnTime(RecipeType.SMELTING) > 0;
-    }
-
-    public static boolean isBlueprint(ItemStack stack) {
-        return stack.getItem().equals(ItemInit.BLUEPRINT.get());
     }
 
     public static boolean isRocketPart(ItemStack stack, RocketPartType type) {

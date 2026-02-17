@@ -136,7 +136,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
         }
         ListTag tanks = tag.getList("tanks", Tag.TAG_COMPOUND);
         for (int i = 0; i < tanks.size(); i++) {
-            this.tanks.get(i).readFromNBT(tanks.getCompound(i));
+            this.tanks.get(i).readFromNBT(registries, tanks.getCompound(i));
         }
         this.setChanged();
 
@@ -159,7 +159,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
         ListTag tanks = new ListTag();
         for (MachinaTank tank : this.tanks) {
             CompoundTag tankTag = new CompoundTag();
-            tank.writeToNBT(tankTag);
+            tank.writeToNBT(registries, tankTag);
             tanks.add(tankTag);
         }
         tag.put("tanks", tanks);

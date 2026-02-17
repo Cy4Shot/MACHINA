@@ -27,8 +27,6 @@ public class TabInit {
 
     public static final Supplier<CreativeModeTab> MACHINA_MACHINERY = create("machina_machinery",
             BlockInit.FURNACE_GENERATOR, a -> {
-                add(a, ItemInit.BLUEPRINT);
-
                 add(a, BlockInit.ENERGY_CABLE);
                 add(a, BlockInit.FLUID_PIPE);
                 add(a, BlockInit.ITEM_CONDUIT);

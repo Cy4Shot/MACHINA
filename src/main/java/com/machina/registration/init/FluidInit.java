@@ -137,7 +137,7 @@ public class FluidInit {
             BLOCK = BlockInit.register(name + "_block", () -> new LiquidBlock(sFluid.get(), BLOCK_PROP));
             BLOCKS.add(name + "_block");
 
-            BUCKET = ItemInit.register(name + "_bucket", () -> new MachinaBucket(sFluid, BUCKET_PROP, code));
+            BUCKET = ItemInit.register(name + "_bucket", () -> new MachinaBucket(sFluid.get(), BUCKET_PROP, code));
             FLUID = FLUIDS.register(name, () -> new BaseFlowingFluid.Source(PROPS));
             FLOWING = FLUIDS.register("flowing_" + name, () -> new BaseFlowingFluid.Flowing(PROPS));
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.machina.api.block.entity.RecipeBlockEntity;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
@@ -13,7 +14,6 @@ import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -24,10 +24,11 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 public abstract class MachinaRecipeMaps<C extends RecipeInput> {
 
-    protected final Map<ResourceLocation, MachinaRecipe<C>> recipes = new HashMap<>();
+    protected final Map<ResourceLocation, RecipeHolder<? extends MachinaRecipe<C>>> recipes = new HashMap<>();
 
-    public boolean isValid(C entity, MachinaRecipe<C> recipe) {
+    public boolean isValid(C entity, RecipeHolder<? extends MachinaRecipe<C>> holder) {
         if (entity instanceof RecipeBlockEntity rbe) {
+            MachinaRecipe<C> recipe = holder.value();
             if (isExact()) {
                 return rbe.hasExactItemInputs(recipe.getInputItems())
                         && rbe.hasExactFluidInputs(recipe.getInputFluids());
@@ -57,35 +58,33 @@ public abstract class MachinaRecipeMaps<C extends RecipeInput> {
 
     public abstract int getFlags();
 
-    @SuppressWarnings("unchecked")
-    public <T extends MachinaRecipe<C>> T getRecipe(ResourceLocation id) {
-        return (T) recipes.get(id);
+    public RecipeHolder<? extends MachinaRecipe<C>> getRecipe(ResourceLocation id) {
+        return recipes.get(id);
     }
 
     public void refresh(RecipeManager man) {
         recipes.clear();
-        for (RecipeHolder<MachinaRecipe<C>> r : man.getAllRecipesFor(getRegistryObject().type().get())) {
-            recipes.put(r.id(), r.value());
+        for (RecipeHolder<? extends MachinaRecipe<C>> r : man.getAllRecipesFor(getRegistryObject().type().get())) {
+            recipes.put(r.id(), r);
         }
         addExtraRecipes(man);
     }
 
     public void add(ResourceLocation id, MachinaRecipe<C> recipe) {
-        recipes.put(id, recipe);
+        recipes.put(id, new RecipeHolder<>(id, recipe));
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends MachinaRecipe<C>> Optional<T> findRecipe(C entity) {
-        return (Optional<T>) recipes.values().stream().filter(r -> isValid(entity, r)).findFirst();
+    public Optional<RecipeHolder<? extends MachinaRecipe<C>>> findRecipe(C entity) {
+        return recipes.values().stream().filter(r -> isValid(entity, r)).findFirst();
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends MachinaRecipe<C>> Optional<T> findRecipe(Predicate<? super MachinaRecipe<C>> output) {
-        return (Optional<T>) recipes.values().stream().filter(output).findFirst();
+    public Optional<RecipeHolder<? extends MachinaRecipe<C>>> findRecipe(
+            Predicate<? super RecipeHolder<? extends MachinaRecipe<C>>> output) {
+        return recipes.values().stream().filter(output).findFirst();
     }
 
     public List<MachinaRecipe<C>> all() {
-        return new ArrayList<>(recipes.values());
+        return recipes.values().stream().map(RecipeHolder::value).collect(Collectors.toList());
     }
 
     public boolean hasInputs() {

@@ -7,13 +7,14 @@ import com.machina.item.MouldItem;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
+
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.registries.tags.ITagManager;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 public class CompressorRecipeMaps extends MachinaRecipeMaps<CompressorBlockEntity> {
 
@@ -29,34 +30,31 @@ public class CompressorRecipeMaps extends MachinaRecipeMaps<CompressorBlockEntit
         return MachinaRecipe.HAS_ENERGY | MachinaRecipe.HAS_TIME;
     }
 
-    private void add(ITagManager<Item> items, String name, TagKey<Item> tag, String type,
-                     RegistryObject<MouldItem> mould, int quant) {
-        items.getTag(ci(type + "/" + name)).forEach(item -> items.getTag(tag).forEach(ingot -> {
-            ResourceLocation key = ForgeRegistries.ITEMS.getKey(ingot);
-            if (key == null) {
-                return;
-            }
+    private void add(Registry<Item> items, String name, TagKey<Item> tag, String type, DeferredItem<MouldItem> mould,
+            int quant) {
+        items.getTag(ci(type + "/" + name))
+                .ifPresent(x -> x.forEach(item -> items.getTag(tag).ifPresent(y -> y.forEach(ingot -> {
+                    ResourceLocation key = items.getKey(ingot.value());
+                    if (key == null) {
+                        return;
+                    }
 
-            ResourceLocation iloc = new ResourceLocation(key.getNamespace(),
-                    "compress_" + key.getPath() + "_" + type);
-            builder().energy(10000).time(200).in(ingot).in(mould.get()).out(item, quant).save(iloc, this::add);
-        }));
+                    ResourceLocation iloc = ResourceLocation.fromNamespaceAndPath(key.getNamespace(),
+                            "compress_" + key.getPath() + "_" + type);
+                    builder().energy(10000).time(200).in(ingot.value()).in(mould.get()).out(item.value(), quant)
+                            .save(iloc, this::add);
+                }))));
     }
 
     @Override
     protected void addExtraRecipes(RecipeManager man) {
-        ITagManager<Item> items = Registries.ITEMS.tags();
-        if (items == null) {
-            return;
-        }
-
-        items.getTagNames().forEach(tag -> {
+        BuiltInRegistries.ITEM.getTagNames().forEach(tag -> {
             ResourceLocation loc = tag.location();
             if (loc.getNamespace().equals("c") && loc.getPath().startsWith("ingots/")) {
                 String name = loc.getPath().replaceFirst("ingots/", "");
-                add(items, name, tag, "plates", ItemInit.MOULD_PLATE, 1);
-                add(items, name, tag, "rods", ItemInit.MOULD_ROD, 1);
-                add(items, name, tag, "wires", ItemInit.MOULD_WIRE, 2);
+                add(BuiltInRegistries.ITEM, name, tag, "plates", ItemInit.MOULD_PLATE, 1);
+                add(BuiltInRegistries.ITEM, name, tag, "rods", ItemInit.MOULD_ROD, 1);
+                add(BuiltInRegistries.ITEM, name, tag, "wires", ItemInit.MOULD_WIRE, 2);
             }
         });
     }

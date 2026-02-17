@@ -1,5 +1,7 @@
 package com.machina.item.menu;
 
+import java.util.Optional;
+
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.item.menu.ItemMenu;
 import com.machina.item.filter.FluidFilterItem;
@@ -10,10 +12,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
 public class FluidFilterMenu extends ItemMenu {
 
@@ -28,15 +29,14 @@ public class FluidFilterMenu extends ItemMenu {
     }
 
     public void insertFluidFilter(ItemStack stack) {
-        LazyOptional<IFluidHandlerItem> handler = FluidUtil.getFluidHandler(stack.copyWithCount(1));
-        if (handler.isPresent()) {
-            IFluidHandlerItem f = handler.resolve().get();
+        Optional<IFluidHandlerItem> handler = FluidUtil.getFluidHandler(stack.copyWithCount(1));
+        handler.ifPresent(f -> {
             FluidStack fluid = f.getFluidInTank(0);
             if (!fluid.isEmpty()) {
                 this.stack = FluidFilterItem.set(this.stack, fluid.getFluid(), null);
                 this.containerChanged();
             }
-        }
+        });
     }
 
     public void toggleMode() {

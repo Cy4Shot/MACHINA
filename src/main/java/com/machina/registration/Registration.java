@@ -3,7 +3,6 @@ package com.machina.registration;
 import com.machina.Machina;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
-import com.machina.network.MachinaNetwork;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.BlockStateProviderInit;
@@ -26,14 +25,11 @@ import com.machina.registration.init.TabInit;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class Registration {
 
     public static void register(IEventBus bus, ModContainer cont) {
-        bus.addListener(Registration::onCommonSetup);
-
         registerConfig(cont, ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
         registerConfig(cont, ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 
@@ -57,10 +53,6 @@ public class Registration {
         ChunkGeneratorInit.CHUNK_GENERATORS.register(bus);
         RecipeInit.RECIPE_TYPES.register(bus);
         RecipeInit.RECIPE_SERIALIZERS.register(bus);
-    }
-
-    public static void onCommonSetup(final FMLCommonSetupEvent event) {
-        MachinaNetwork.init();
     }
 
     private static void registerConfig(ModContainer cont, ModConfig.Type type, ModConfigSpec spec) {

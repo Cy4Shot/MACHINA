@@ -1,19 +1,16 @@
 package com.machina.api.item;
 
-import com.machina.api.cap.energy.EnergyItemWrapper;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.util.StringUtils;
 import com.machina.registration.init.DataComponentsInit;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
+
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public abstract class EnergyItem extends Item {
     private static final float BAR = (float) Item.MAX_BAR_WIDTH;
 
     public EnergyItem(Properties props) {
-        super(props);
+        super(props.component(DataComponentsInit.ENERGY, 0));
     }
 
     public abstract int getMaxEnergy();
@@ -36,11 +33,6 @@ public abstract class EnergyItem extends Item {
     @Override
     public int getMaxStackSize(ItemStack stack) {
         return 1;
-    }
-
-    @Override
-    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new EnergyItemWrapper(stack);
     }
 
     @Override

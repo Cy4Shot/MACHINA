@@ -19,6 +19,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -32,10 +33,10 @@ import java.util.Optional;
 
 public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements RecipeInput {
 
-    private static final Map<RocketPart<?>, MachinaRecipe<RocketPartBenchBlockEntity>> RECIPE_CACHE = new HashMap<>();
+    private static final Map<RocketPart<?>, RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> RECIPE_CACHE = new HashMap<>();
 
     private int progress = 0;
-    private MachinaRecipe<RocketPartBenchBlockEntity> recipe = null;
+    private RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>> recipe = null;
 
     public RocketPartBenchBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -64,13 +65,14 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
         return this.getEnergy() >= r.getPowerRate();
     }
 
-    public Optional<MachinaRecipe<RocketPartBenchBlockEntity>> getRecipe(RocketPart<?> part) {
+    public Optional<RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> getRecipe(RocketPart<?> part) {
         if (RECIPE_CACHE.containsKey(part))
             return Optional.of(RECIPE_CACHE.get(part));
         else {
-            Optional<MachinaRecipe<RocketPartBenchBlockEntity>> x = RecipeInit.ROCKET_PART_BENCH.maps()
-                    .findRecipe(r -> r.getOutputItems().get(0).getItem().equals(part.getItem()));
-            x.ifPresent(rocketPartBenchBlockEntityMachinaRecipe -> RECIPE_CACHE.put(part, rocketPartBenchBlockEntityMachinaRecipe));
+            Optional<RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> x = RecipeInit.ROCKET_PART_BENCH
+                    .maps().findRecipe(r -> r.value().getOutputItems().get(0).getItem().equals(part.getItem()));
+            x.ifPresent(rocketPartBenchBlockEntityMachinaRecipe -> RECIPE_CACHE.put(part,
+                    rocketPartBenchBlockEntityMachinaRecipe));
             return x;
         }
     }
@@ -82,7 +84,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
         tag.putInt("progress", progress);
-        tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
+        tag.putString("recipe", this.recipe == null ? "" : this.recipe.id().toString());
         super.saveAdditional(tag, registries);
     }
 
@@ -111,7 +113,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
 
     public RocketPart<?> output() {
         if (this.recipe != null) {
-            Item i = this.recipe.getOutputItems().get(0).getItem();
+            Item i = this.recipe.value().getOutputItems().get(0).getItem();
             if (i instanceof RocketPartItem rpi) {
                 return rpi.getRocketPart();
             }
@@ -130,7 +132,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
         if (this.progress == 0) {
 
             Vec3 pos = this.getBlockPos().above().getCenter();
-            ItemEntity itementity = new ItemEntity(level, pos.x, pos.y, pos.z, recipe.getOutputItems().get(0));
+            ItemEntity itementity = new ItemEntity(level, pos.x, pos.y, pos.z, recipe.value().getOutputItems().get(0));
             itementity.setDeltaMovement(level.random.triangle(0.0D, 0.11485000171139836D),
                     level.random.triangle(0.2D, 0.11485000171139836D),
                     level.random.triangle(0.0D, 0.11485000171139836D));
@@ -142,22 +144,22 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
     }
 
     public void startCrafting(ServerPlayer player, RocketPart<?> part) {
-        MachinaRecipe<RocketPartBenchBlockEntity> recipe = getRecipe(part).orElse(null);
+        RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>> recipe = getRecipe(part).orElse(null);
         if (recipe == null)
             return;
-        if (!hasPower(recipe))
+        if (!hasPower(recipe.value()))
             return;
-        if (!PlayerHelper.hasAll(player, recipe.getInputItems()))
+        if (!PlayerHelper.hasAll(player, recipe.value().getInputItems()))
             return;
 
-        consumeEnergy(recipe.getPowerRate());
-        PlayerHelper.consumeAll(player, recipe.getInputItems());
+        consumeEnergy(recipe.value().getPowerRate());
+        PlayerHelper.consumeAll(player, recipe.value().getInputItems());
 
         this.recipe = recipe;
         this.progress = getMaxProgress();
         this.setChanged();
     }
-    
+
     public int getMaxProgress() {
         return 500;
     }

@@ -1,7 +1,6 @@
 package com.machina.world;
 
 import com.google.common.collect.ImmutableList;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
 import com.machina.api.util.MachinaRL;
 import com.machina.world.data.PlanetDimensionData;
@@ -22,6 +21,7 @@ import net.minecraft.world.level.storage.DerivedLevelData;
 import net.minecraft.world.level.storage.WorldData;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Map;
 import java.util.Objects;
@@ -79,7 +79,7 @@ public class PlanetRegistrationHandler {
         map.put(worldKey, newWorld);
         server.markWorldsDirty();
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(newWorld));
-        PacketSender.sendToClients(new S2CUpdateDimensionList(worldKey));
+        PacketDistributor.sendToAllPlayers(new S2CUpdateDimensionList(worldKey));
 
         return newWorld;
     }

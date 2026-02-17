@@ -7,6 +7,8 @@ import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.FluidInit.FluidObject;
+
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.ItemStack;
@@ -14,19 +16,19 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.concurrent.CompletableFuture;
 
 public class DatagenRecipes extends DatagenRecipeProvider implements IConditionBuilder {
 
-    public DatagenRecipes(PackOutput po) {
-        super(po);
+    public DatagenRecipes(PackOutput po, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(po, lookupProvider);
     }
 
     @Override
-    protected void buildRecipes(@NotNull Consumer<FinishedRecipe> gen) {
+    protected void buildRecipes(RecipeOutput gen) {
         ore(gen, List.of(BlockInit.ANTHRACITE.get()), ItemInit.COAL_CHUNK.get(), 0.05f, 40, "anthracite");
 
         //@formatter:off
@@ -125,7 +127,7 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
         FamiliesInit.WOODS.forEach(x -> woodFamily(gen, x));
     }
 
-    protected static void oreFamily(Consumer<FinishedRecipe> gen, OreFamily family) {
+    protected static void oreFamily(RecipeOutput gen, OreFamily family) {
         // Crafting ingot
         family.getIngot().ifPresent(ingot -> {
             family.ore().ifPresent(ore -> ore(gen, List.of(ore), ingot, 0.7f, 200, family.name()));
@@ -142,7 +144,7 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
         family.getNugget().ifPresent(nugget -> family.ingot().ifPresent(ingot -> compact(gen, ingot, nugget)));
     }
 
-    protected static void woodFamily(Consumer<FinishedRecipe> gen, WoodFamily family) {
+    protected static void woodFamily(RecipeOutput gen, WoodFamily family) {
         //@formatter:off
 		log_and_plank(gen, family.log(), family.wood(), family.planks());
 		log_and_plank(gen, family.stripped_log(), family.stripped_wood(), family.planks());
@@ -193,7 +195,7 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 		//@formatter:on
     }
 
-    protected static void log_and_plank(Consumer<FinishedRecipe> gen, ItemLike log, ItemLike wood, ItemLike planks) {
+    protected static void log_and_plank(RecipeOutput gen, ItemLike log, ItemLike wood, ItemLike planks) {
         //@formatter:off
 		// LOG -> WOOD
 		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, wood, 3)
@@ -218,7 +220,7 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 		//@formatter:on
     }
 
-    protected static void stoneFamily(Consumer<FinishedRecipe> gen, StoneFamily family) {
+    protected static void stoneFamily(RecipeOutput gen, StoneFamily family) {
         //@formatter:off
 		slab(gen, family.base(), family.slab());
 		stair(gen, family.base(), family.stairs());

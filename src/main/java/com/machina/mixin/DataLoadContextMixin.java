@@ -7,6 +7,7 @@ import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.world.biome.PlanetBiome;
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -54,7 +55,7 @@ public abstract class DataLoadContextMixin {
             }
             if (biomes instanceof MappedRegistry<Biome> biomeReg) {
                 biomeReg.unfreeze();
-                biomeReg.register(key, new PlanetBiome(e.getValue()), Lifecycle.stable());
+                biomeReg.register(key, new PlanetBiome(e.getValue()), RegistrationInfo.BUILT_IN);
             } else {
                 throw new IllegalStateException(String
                         .format("Unable to register dimension %s -- dimension registry not writable", e.getKey()));

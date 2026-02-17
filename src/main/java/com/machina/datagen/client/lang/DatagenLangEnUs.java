@@ -122,8 +122,6 @@ public class DatagenLangEnUs extends DatagenLang {
         add(ItemInit.NITER_DUST, "Niter Dust");
         add(ItemInit.BISMUTH_DUST, "Bismuth Dust");
 
-        add(ItemInit.BLUEPRINT, "Blueprint");
-
         add(ItemInit.BASIC_CAPACITOR, "Basic Capacitor");
         add(ItemInit.ADVANCED_CAPACITOR, "Advanced Capacitor");
         add(ItemInit.SUPREME_CAPACITOR, "Supreme Capacitor");

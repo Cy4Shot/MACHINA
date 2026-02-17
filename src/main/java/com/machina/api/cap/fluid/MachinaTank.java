@@ -1,12 +1,16 @@
 package com.machina.api.cap.fluid;
 
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CFluidSync;
+
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.function.Predicate;
 
@@ -26,22 +30,23 @@ public class MachinaTank extends FluidTank {
     }
 
     @Override
-    public CompoundTag writeToNBT(CompoundTag nbt) {
+    public CompoundTag writeToNBT(Provider provider, CompoundTag nbt) {
         CompoundTag comp = new CompoundTag();
-        super.writeToNBT(comp);
+        super.writeToNBT(provider, comp);
         nbt.put("MachinaTank" + id, comp);
         return nbt;
     }
 
     @Override
-    public FluidTank readFromNBT(CompoundTag nbt) {
-        return super.readFromNBT(nbt.getCompound("MachinaTank" + id));
+    public FluidTank readFromNBT(Provider provider, CompoundTag nbt) {
+        return super.readFromNBT(provider, nbt.getCompound("MachinaTank" + id));
     }
 
     @Override
     protected void onContentsChanged() {
         if (tile.getLevel() != null && !tile.getLevel().isClientSide()) {
-            PacketSender.sendToClients(new S2CFluidSync(tile.getBlockPos(), getFluid(), id));
+            PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) tile.getLevel(),
+                    new ChunkPos(tile.getBlockPos()), new S2CFluidSync(tile.getBlockPos(), getFluid(), id));
         }
         onChanged.run();
     }

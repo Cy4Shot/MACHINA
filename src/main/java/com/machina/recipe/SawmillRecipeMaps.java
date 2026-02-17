@@ -5,12 +5,11 @@ import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.block.entity.machine.SawmillBlockEntity;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
+
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.tags.ITagManager;
 
 public class SawmillRecipeMaps extends MachinaRecipeMaps<SawmillBlockEntity> {
 
@@ -28,41 +27,40 @@ public class SawmillRecipeMaps extends MachinaRecipeMaps<SawmillBlockEntity> {
 
     @Override
     protected void addExtraRecipes(RecipeManager man) {
-        ITagManager<Item> items = ForgeRegistries.ITEMS.tags();
-        if (items == null) {
-            return;
-        }
-
         // Log -> Planks
-        items.getTagNames().forEach(tag -> {
+        BuiltInRegistries.ITEM.getTagNames().forEach(tag -> {
             ResourceLocation loc = tag.location();
             if (loc.getNamespace().equals("c") && loc.getPath().startsWith("logs/")) {
                 String name = loc.getPath().replaceFirst("logs/", "");
-                items.getTag(ci("planks/" + name)).forEach(small -> items.getTag(tag).forEach(big -> {
-                    ResourceLocation key = ForgeRegistries.ITEMS.getKey(big);
-                    if (key == null) {
-                        return;
-                    }
+                BuiltInRegistries.ITEM.getTag(ci("planks/" + name)).ifPresent(
+                        x -> x.forEach(small -> BuiltInRegistries.ITEM.getTag(tag).ifPresent(y -> y.forEach(big -> {
+                            ResourceLocation key = BuiltInRegistries.ITEM.getKey(big.value());
+                            if (key == null) {
+                                return;
+                            }
 
-                    ResourceLocation iloc = new ResourceLocation(key.getNamespace(), "saw_" + key.getPath());
-                    builder().energy(2000).time(100).in(big, 1).out(small, 6).save(iloc, this::add);
-                }));
+                            ResourceLocation iloc = ResourceLocation.fromNamespaceAndPath(key.getNamespace(),
+                                    "saw_" + key.getPath());
+                            builder().energy(2000).time(100).in(big.value(), 1).out(small.value(), 6).save(iloc,
+                                    this::add);
+                        }))));
             }
         });
 
         // Planks -> Sticks
-        items.getTagNames().forEach(tag -> {
+        BuiltInRegistries.ITEM.getTagNames().forEach(tag -> {
             ResourceLocation loc = tag.location();
             if (loc.getNamespace().equals("c") && loc.getPath().startsWith("planks/")) {
-                items.getTag(tag).forEach(big -> {
-                    ResourceLocation key = ForgeRegistries.ITEMS.getKey(big);
+                BuiltInRegistries.ITEM.getTag(tag).ifPresent(x -> x.forEach(big -> {
+                    ResourceLocation key = BuiltInRegistries.ITEM.getKey(big.value());
                     if (key == null) {
                         return;
                     }
 
-                    ResourceLocation iloc = new ResourceLocation(key.getNamespace(), "saw_" + key.getPath());
-                    builder().energy(2000).time(100).in(big, 1).out(Items.STICK, 4).save(iloc, this::add);
-                });
+                    ResourceLocation iloc = ResourceLocation.fromNamespaceAndPath(key.getNamespace(),
+                            "saw_" + key.getPath());
+                    builder().energy(2000).time(100).in(big.value(), 1).out(Items.STICK, 4).save(iloc, this::add);
+                }));
             }
         });
     }

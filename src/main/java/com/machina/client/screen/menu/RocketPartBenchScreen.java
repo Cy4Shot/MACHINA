@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -187,10 +188,10 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 
             entity.getRecipe(part).ifPresent(r -> {
                 boolean hasAll = true;
-                boolean hasPower = entity.hasPower(r);
+                boolean hasPower = entity.hasPower(r.value());
 
                 int x1 = i + 90;
-                for (ItemStack s : r.getInputItems()) {
+                for (ItemStack s : r.value().getInputItems()) {
                     boolean has = PlayerHelper.hasAll(mc.player, s);
                     hasAll &= has;
                     MUI.renderItemDeferred(gui, x1, h + 15, mx, my, has, s, tooltips);
@@ -212,7 +213,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
                                                                         .withStyle(Style.EMPTY.withColor(MUI.RED)
                                                                                 .withBold(false).withItalic(true)))),
                                         MUI.uistr("rocket_part_bench.requires").append(c)
-                                                .append(Component.literal(StringUtils.formatPower(r.getPowerRate()))
+                                                .append(Component.literal(StringUtils.formatPower(r.value().getPowerRate()))
                                                         .withStyle(Style.EMPTY.withColor(hasPower ? MUI.GREEN : MUI.RED)
                                                                 .withBold(true)))));
                             }
@@ -268,9 +269,9 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
                     for (int x1 = 0; x1 < parts.size(); x1++) {
                         RocketPartBenchBlockEntity entity = this.entity();
                         RocketPart<?> part = parts.get(x1);
-                        Optional<MachinaRecipe<RocketPartBenchBlockEntity>> or = entity.getRecipe(part);
+                        Optional<RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> or = entity.getRecipe(part);
                         if (or.isPresent() && mc.player != null) {
-                            MachinaRecipe<RocketPartBenchBlockEntity> r = or.get();
+                            MachinaRecipe<RocketPartBenchBlockEntity> r = or.get().value();
                             if (PlayerHelper.hasAll(mc.player, r.getInputItems()) && entity.hasPower(r)) {
                                 int h = j + x1 * 80 - (int) (scrollDist);
                                 if (y > h + 15 && y < h + 32) {

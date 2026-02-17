@@ -105,8 +105,10 @@ public class PlanetSurfaceRule {
     public record PlanetBiomeSecondBlockRuleSource(SurfaceRules.RuleSource fallback)
             implements SurfaceRules.RuleSource {
         public static final KeyDispatchDataCodec<PlanetBiomeSecondBlockRuleSource> CODEC = KeyDispatchDataCodec
-                .of(SurfaceRules.RuleSource.CODEC.xmap(PlanetBiomeSecondBlockRuleSource::new,
-                        PlanetBiomeSecondBlockRuleSource::fallback));
+                .of(RecordCodecBuilder.mapCodec(instance -> instance
+                        .group(SurfaceRules.RuleSource.CODEC.fieldOf("fallback")
+                                .forGetter(PlanetBiomeSecondBlockRuleSource::fallback))
+                        .apply(instance, PlanetBiomeSecondBlockRuleSource::new)));
 
         public @NotNull KeyDispatchDataCodec<PlanetBiomeSecondBlockRuleSource> codec() {
             return CODEC;
@@ -129,8 +131,10 @@ public class PlanetSurfaceRule {
 
     public record PlanetBiomeThirdBlockRuleSource(SurfaceRules.RuleSource fallback) implements SurfaceRules.RuleSource {
         public static final KeyDispatchDataCodec<PlanetBiomeThirdBlockRuleSource> CODEC = KeyDispatchDataCodec
-                .of(SurfaceRules.RuleSource.CODEC.xmap(PlanetBiomeThirdBlockRuleSource::new,
-                        PlanetBiomeThirdBlockRuleSource::fallback));
+                .of(RecordCodecBuilder.mapCodec(instance -> instance
+                        .group(SurfaceRules.RuleSource.CODEC.fieldOf("fallback")
+                                .forGetter(PlanetBiomeThirdBlockRuleSource::fallback))
+                        .apply(instance, PlanetBiomeThirdBlockRuleSource::new)));
 
         public @NotNull KeyDispatchDataCodec<PlanetBiomeThirdBlockRuleSource> codec() {
             return CODEC;

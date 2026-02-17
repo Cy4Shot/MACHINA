@@ -3,7 +3,6 @@ package com.machina.block.entity.machine;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.model.SidedBakedModel;
-import com.machina.api.item.EnergyItem;
 import com.machina.api.util.ItemStackUtil;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.reflect.QuadFunction;
@@ -11,6 +10,8 @@ import com.machina.block.menu.BatteryMenu;
 import com.machina.config.CommonConfig;
 import com.machina.item.CapacitorItem;
 import com.machina.registration.init.BlockEntityInit;
+import com.machina.registration.init.DataComponentsInit;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -112,12 +113,12 @@ public class BatteryBlockEntity extends MachinaBlockEntity {
 
     @Override
     public int getEnergy() {
-        return doWithCapacitor((s, i) -> EnergyItem.getEnergy(s), 0);
+        return doWithCapacitor((s, i) -> s.get(DataComponentsInit.ENERGY), 0);
     }
 
     @Override
     protected void setEnergy(int n) {
-        doWithCapacitor((s, i) -> EnergyItem.setEnergy(s, n), false);
+        doWithCapacitor((s, i) -> s.set(DataComponentsInit.ENERGY, n), false);
     }
 
     public boolean hasCapacitor() {

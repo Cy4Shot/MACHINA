@@ -10,6 +10,8 @@ import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
 import com.machina.block.menu.connector.ItemConduitMenu;
+import com.machina.registration.init.DataComponentsInit;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -47,8 +49,8 @@ public class ItemConduitScreen extends MachinaMenuScreen<ItemConduitMenu> {
         drawToggle(gui, mx, my, 89, 34,
                 ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id)) == Mode.BLACKLIST, MuiSlot.BLACKLIST,
                 MuiSlot.WHITELIST, (val) -> {
-                    ItemStack stack = ConnectorFilterItem.setMode(menu.getBlockEntity().getItem(id),
-                            val ? Mode.BLACKLIST : Mode.WHITELIST);
+                    ItemStack stack = menu.getBlockEntity().getItem(id);
+                    stack.set(DataComponentsInit.FILTER_MODE, val ? Mode.BLACKLIST : Mode.WHITELIST);
                     PacketDistributor
                             .sendToServer(new C2SMenuSetItem(menu.id(0), stack, menu.getBlockEntity().getBlockPos()));
                 }, () -> ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id)).comp());

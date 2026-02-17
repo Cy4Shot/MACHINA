@@ -5,13 +5,11 @@ import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
+
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.tags.ITagManager;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 
 public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 
@@ -29,29 +27,25 @@ public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 
     @Override
     protected void addExtraRecipes(RecipeManager man) {
-        ITagManager<Item> items = ForgeRegistries.ITEMS.tags();
-        ITagManager<Fluid> fluids = ForgeRegistries.FLUIDS.tags();
-        if (items == null || fluids == null) {
-            return;
-        }
-
-        items.getTagNames().forEach(tag -> {
+        BuiltInRegistries.ITEM.getTagNames().forEach(tag -> {
             ResourceLocation loc = tag.location();
             if (loc.getNamespace().equals("c") && loc.getPath().startsWith("ingots/")) {
                 String name = loc.getPath().replaceFirst("ingots/", "");
-                fluids.getTag(cf("molten_" + name)).forEach(fluid -> {
-                    if (fluid instanceof ForgeFlowingFluid f) {
-                        items.getTag(tag).forEach(item -> {
-                            ResourceLocation key = ForgeRegistries.ITEMS.getKey(item);
+                BuiltInRegistries.FLUID.getTag(cf("molten_" + name)).ifPresent(x -> x.forEach(fluid -> {
+                    if (fluid instanceof BaseFlowingFluid f) {
+                        BuiltInRegistries.ITEM.getTag(tag).ifPresent(y -> y.forEach(item -> {
+                            ResourceLocation key = BuiltInRegistries.ITEM.getKey(item.value());
                             if (key == null) {
                                 return;
                             }
 
-                            ResourceLocation iloc = new ResourceLocation(key.getNamespace(), "melt_" + key.getPath());
-                            builder().energy(1820).time(70).in(item).out(f.getSource(), 144).save(iloc, this::add);
-                        });
+                            ResourceLocation iloc = ResourceLocation.fromNamespaceAndPath(key.getNamespace(),
+                                    "melt_" + key.getPath());
+                            builder().energy(1820).time(70).in(item.value()).out(f.getSource(), 144).save(iloc,
+                                    this::add);
+                        }));
                     }
-                });
+                }));
             }
         });
     }

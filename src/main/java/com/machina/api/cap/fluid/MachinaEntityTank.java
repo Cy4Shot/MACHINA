@@ -2,15 +2,16 @@ package com.machina.api.cap.fluid;
 
 import java.util.function.Predicate;
 
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CFluidEntitySync;
 
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class MachinaEntityTank extends FluidTank {
 
@@ -43,7 +44,8 @@ public class MachinaEntityTank extends FluidTank {
     @Override
     protected void onContentsChanged() {
         if (entity.level() != null && !entity.level().isClientSide()) {
-            PacketSender.sendToClients(new S2CFluidEntitySync(entity.getId(), getFluid(), id));
+            PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) entity.level(), entity.chunkPosition(),
+                    new S2CFluidEntitySync(entity.getId(), getFluid(), id));
         }
         onChanged.run();
     }

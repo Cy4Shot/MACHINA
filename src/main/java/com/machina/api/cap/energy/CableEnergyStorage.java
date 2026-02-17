@@ -5,9 +5,8 @@ import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -112,10 +111,7 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage<Int
 
     @Nullable
     private IEnergyStorage getEnergyStorage(EnergyCableBlockEntity be, BlockPos pos, Direction direction) {
-        BlockEntity te = Objects.requireNonNull(be.getLevel()).getBlockEntity(pos);
-        if (te == null)
-            return null;
-        return te.getCapability(ForgeCapabilities.ENERGY, direction).resolve().orElse(null);
+        return be.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, pos, direction);
     }
 
     @Override

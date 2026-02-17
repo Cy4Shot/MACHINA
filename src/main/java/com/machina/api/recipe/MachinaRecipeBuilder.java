@@ -1,37 +1,34 @@
 package com.machina.api.recipe;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.google.gson.JsonObject;
 import com.machina.api.util.MachinaRL;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class MachinaRecipeBuilder<T extends RecipeInput> implements RecipeBuilder {
 
-    private final Advancement.Builder advancement = Advancement.Builder.recipeAdvancement();
+    protected final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
 
     private final RecipeRegistryObject<T> reg;
 
@@ -125,7 +122,7 @@ public class MachinaRecipeBuilder<T extends RecipeInput> implements RecipeBuilde
 
     @Override
     public RecipeBuilder unlockedBy(String name, Criterion<?> criterion) {
-        this.advancement.addCriterion(name, criterion);
+        this.criteria.put(name, criterion);
         return this;
     }
 
@@ -149,60 +146,19 @@ public class MachinaRecipeBuilder<T extends RecipeInput> implements RecipeBuilde
         this.save(recipe, MachinaRL.create(string));
     }
 
-    @SuppressWarnings("removal")
     @Override
-    public void save(RecipeOutput save, @NotNull ResourceLocation loc) {
-        this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
-                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(loc))
-                .rewards(AdvancementRewards.Builder.recipe(loc)).requirements(RequirementsStrategy.OR);
-        save.accept(new Result<>(loc, this.advancement, this.reg, () -> this.reg.factory().apply(loc, energy, time,
-                pressure, temperature, periodicConsumption, inputItems, inputFluids, outputItems, outputFluids)));
+    public void save(RecipeOutput save, @NotNull ResourceLocation id) {
+        Advancement.Builder advancement = save.advancement()
+                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id))
+                .rewards(AdvancementRewards.Builder.recipe(id)).requirements(AdvancementRequirements.Strategy.OR);
+        this.criteria.forEach(advancement::addCriterion);
+        MachinaRecipe<T> recipe = reg.factory().apply(energy, time, pressure, temperature, periodicConsumption,
+                inputItems, inputFluids, outputItems, outputFluids);
+        save.accept(id, recipe, advancement.build(id.withPrefix("recipes/")));
     }
 
     public void save(ResourceLocation loc, BiConsumer<ResourceLocation, MachinaRecipe<T>> saver) {
-        saver.accept(loc, this.reg.factory().apply(loc, energy, time, pressure, temperature, periodicConsumption,
-                inputItems, inputFluids, outputItems, outputFluids));
+        saver.accept(loc, this.reg.factory().apply(energy, time, pressure, temperature, periodicConsumption, inputItems,
+                inputFluids, outputItems, outputFluids));
     }
-
-    public static class Result<T extends RecipeInput> implements FinishedRecipe {
-
-        private final ResourceLocation id;
-        private final Advancement.Builder advancement;
-        private final RecipeRegistryObject<T> reg;
-        private final Supplier<MachinaRecipe<T>> recipe;
-
-        protected Result(ResourceLocation id, Advancement.Builder advancement, RecipeRegistryObject<T> reg,
-                         Supplier<MachinaRecipe<T>> recipe) {
-            this.id = id;
-            this.advancement = advancement;
-            this.reg = reg;
-            this.recipe = recipe;
-        }
-
-        @Override
-        public void serializeRecipeData(@NotNull JsonObject obj) {
-            this.reg.serializer().get().toJson(obj, this.recipe.get());
-        }
-
-        @Override
-        public @NotNull ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        public @NotNull RecipeSerializer<?> getType() {
-            return this.reg.serializer().get();
-        }
-
-        @Override
-        public JsonObject serializeAdvancement() {
-            return this.advancement.serializeToJson();
-        }
-
-        @Override
-        public ResourceLocation getAdvancementId() {
-            return this.id.withPrefix("recipes/misc/");
-        }
-    }
-
 }

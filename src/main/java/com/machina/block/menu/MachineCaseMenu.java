@@ -22,7 +22,7 @@ public class MachineCaseMenu extends MachinaContainerMenu<MachineCaseBlockEntity
     public MachineCaseMenu(int id, Level level, BlockPos pos, Inventory inv) {
         super(MenuTypeInit.MACHINE_CASE.get(), level, pos, id);
 
-        this.addSlot(new AcceptSlot(be, 0, -2, 74, ItemStackUtil::isBlueprint));
+//        this.addSlot(new AcceptSlot(be, 0, -2, 74, ItemStackUtil::isBlueprint));
 
         invSlots(inv, 0);
     }

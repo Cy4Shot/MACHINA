@@ -25,6 +25,7 @@ import com.machina.rocket.RocketEntity;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
@@ -40,7 +41,8 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 public class RocketItem extends Item {
 
     public RocketItem(Properties props) {
-        super(props.stacksTo(1));
+        super(props.stacksTo(1).component(DataComponentsInit.ROCKET_PROPS, RocketProps.NULL)
+                .component(DataComponentsInit.ROCKET_PARTS, Map.of()));
     }
 
     public static RocketPart<?> getPart(ItemStack stack, RocketPartType type) {

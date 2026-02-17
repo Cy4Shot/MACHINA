@@ -12,7 +12,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -23,7 +25,7 @@ import java.util.Optional;
 
 public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
 
-    private SmeltingRecipe recipe = null;
+    private RecipeHolder<SmeltingRecipe> recipe = null;
     private int progress = 0;
 
     public ElectricSmelterBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -49,13 +51,13 @@ public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
     public float getProgress() {
         if (this.recipe == null)
             return 0;
-        return (float) this.progress / (float) this.recipe.getCookingTime();
+        return (float) this.progress / (float) this.recipe.value().getCookingTime();
     }
 
     public int ticksRemaining() {
         if (this.recipe == null)
             return 0;
-        return this.recipe.getCookingTime() - this.progress;
+        return this.recipe.value().getCookingTime() - this.progress;
     }
 
     @Override
@@ -64,23 +66,24 @@ public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
             return;
         }
 
-        Optional<SmeltingRecipe> rec = this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, this, level);
+        Optional<RecipeHolder<SmeltingRecipe>> rec = this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING,
+                new SingleRecipeInput(this.getItem(0)), level);
         rec.ifPresentOrElse(r -> {
-            if (this.recipe != r) {
+            if (this.recipe.id() != r.id()) {
                 this.recipe = r;
                 this.progress = 0;
                 setChanged();
             }
 
-            if (meetsRequirements() && hasSpace(r)) {
+            if (meetsRequirements() && hasSpace(r.value())) {
                 if (!drainRequirements()) {
                     return;
                 }
 
                 this.progress++;
-                if (this.progress >= r.getCookingTime()) {
-                    useInputs(r);
-                    produceOutputs(r);
+                if (this.progress >= r.value().getCookingTime()) {
+                    useInputs(r.value());
+                    produceOutputs(r.value());
                     this.progress = 0;
                     setChanged();
                 }
@@ -116,7 +119,7 @@ public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
     }
 
     public boolean hasSpace() {
-        return this.recipe != null && hasSpace(this.recipe);
+        return this.recipe != null && hasSpace(this.recipe.value());
     }
 
     protected void useInputs(SmeltingRecipe r) {
@@ -140,18 +143,19 @@ public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
         tag.putInt("progress", this.progress);
-        tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
+        tag.putString("recipe", this.recipe.id().toString());
         super.saveAdditional(tag, registries);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
         this.progress = tag.getInt("progress");
         String r = tag.getString("recipe");
         if (!r.isEmpty() && this.level != null) {
             this.level.getRecipeManager().byKey(ResourceLocation.parse(r)).ifPresent(rx -> {
-                if (rx instanceof SmeltingRecipe smeltingRecipe) {
-                    this.recipe = smeltingRecipe;
+                if (rx.value() instanceof SmeltingRecipe) {
+                    this.recipe = (RecipeHolder<SmeltingRecipe>) rx;
                 }
             });
         }

@@ -4,7 +4,7 @@ import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.IMachinaStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 /**
  * Block entity storage for energy.

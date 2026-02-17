@@ -5,19 +5,26 @@ import com.machina.datagen.client.DatagenBlockStates;
 import com.machina.datagen.client.DatagenItemModels;
 import com.machina.datagen.client.lang.DatagenLangEnUs;
 import com.machina.datagen.server.*;
+import com.machina.datagen.server.loot.BlockLoot;
+
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.LootTableProvider.SubProviderEntry;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = Machina.MOD_ID)
 public class Datagen {
-    
+
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
@@ -34,7 +41,8 @@ public class Datagen {
         DatagenBlockTags blocks = gen.addProvider(event.includeServer(), new DatagenBlockTags(po, lookup, files));
         gen.addProvider(event.includeServer(), new DatagenItemTags(po, lookup, blocks.contentsGetter(), files));
         gen.addProvider(event.includeServer(), new DatagenFluidTags(po, lookup, files));
-        gen.addProvider(event.includeServer(), new DatagenLootTables(po));
-        gen.addProvider(event.includeServer(), new DatagenRecipes(po));
+        gen.addProvider(event.includeServer(), new LootTableProvider(po, Set.of(),
+                List.of(new SubProviderEntry(BlockLoot::new, LootContextParamSets.BLOCK)), lookup));
+        gen.addProvider(event.includeServer(), new DatagenRecipes(po, lookup));
     }
 }

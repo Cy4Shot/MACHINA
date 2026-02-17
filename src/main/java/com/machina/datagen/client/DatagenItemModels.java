@@ -19,6 +19,8 @@ import net.minecraft.world.item.armortrim.TrimMaterials;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -48,8 +50,6 @@ public class DatagenItemModels extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        simpleItem(ItemInit.BLUEPRINT);
-
         simpleItem(ItemInit.BASIC_CAPACITOR);
         simpleItem(ItemInit.ADVANCED_CAPACITOR);
         simpleItem(ItemInit.SUPREME_CAPACITOR);
@@ -107,7 +107,7 @@ public class DatagenItemModels extends ItemModelProvider {
 
     protected void bucket(FluidObject obj) {
         DynamicFluidContainerModelBuilder<ItemModelBuilder> builder = withExistingParent(name(obj.fluid().getBucket()),
-                ResourceLocation.withDefaultNamespace("forge", "item/bucket")).customLoader(DynamicFluidContainerModelBuilder::begin);
+                ResourceLocation.fromNamespaceAndPath("forge", "item/bucket")).customLoader(DynamicFluidContainerModelBuilder::begin);
         if (obj.fluid().getFluidType().getDensity() < 0) {
             builder.flipGas(true);
         }
@@ -115,7 +115,7 @@ public class DatagenItemModels extends ItemModelProvider {
     }
 
     @SuppressWarnings("unused")
-    private void trimmedArmorItem(DeferredBlock<Item> itemDeferredBlock) {
+    private void trimmedArmorItem(DeferredItem<Item> itemDeferredBlock) {
         if (itemDeferredBlock.get() instanceof ArmorItem armorItem) {
             trimMaterials.forEach((trimMaterial, value) -> {
 
@@ -166,42 +166,42 @@ public class DatagenItemModels extends ItemModelProvider {
 
     public void evenSimplerBlockItem(DeferredBlock<? extends Block> block) {
         this.withExistingParent(
-                Machina.MOD_ID + ":" + Objects.requireNonNull(ForgeRegistries.BLOCK.getKey(block.get())).getPath(),
-                modLoc("block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath()));
+                Machina.MOD_ID + ":" + Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block.get())).getPath(),
+                modLoc("block/" + Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block.get())).getPath()));
     }
 
     public void trapdoorItem(DeferredBlock<Block> block) {
-        this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(), modLoc(
-                "block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath() + "_bottom"));
+        this.withExistingParent(Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block.get())).getPath(), modLoc(
+                "block/" + Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block.get())).getPath() + "_bottom"));
     }
 
     public void fenceItem(DeferredBlock<Block> block, DeferredBlock<Block> baseBlock) {
-        this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+        this.withExistingParent(Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block.get())).getPath(),
                         mcLoc("block/fence_inventory"))
-                .texture("texture", ResourceLocation.withDefaultNamespace(Machina.MOD_ID,
-                        "block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
+                .texture("texture", ResourceLocation.fromNamespaceAndPath(Machina.MOD_ID,
+                        "block/" + Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(baseBlock.get())).getPath()));
     }
 
     public void buttonItem(DeferredBlock<Block> block, DeferredBlock<Block> baseBlock) {
-        this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+        this.withExistingParent(Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block.get())).getPath(),
                         mcLoc("block/button_inventory"))
-                .texture("texture", ResourceLocation.withDefaultNamespace(Machina.MOD_ID,
-                        "block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
+                .texture("texture", ResourceLocation.fromNamespaceAndPath(Machina.MOD_ID,
+                        "block/" + Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(baseBlock.get())).getPath()));
     }
 
     public void wallItem(DeferredBlock<Block> block, DeferredBlock<Block> baseBlock) {
-        this.withExistingParent(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(block.get())).getPath(),
+        this.withExistingParent(Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block.get())).getPath(),
                         mcLoc("block/wall_inventory"))
-                .texture("wall", ResourceLocation.withDefaultNamespace(Machina.MOD_ID,
-                        "block/" + Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(baseBlock.get())).getPath()));
+                .texture("wall", ResourceLocation.fromNamespaceAndPath(Machina.MOD_ID,
+                        "block/" + Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(baseBlock.get())).getPath()));
     }
 
     private void fruit(Fruit fruit) {
-        simpleItem(fruit.item());
+        simpleItem(fruit.item().get());
     }
 
     @SuppressWarnings("unused")
-    private ItemModelBuilder handheldItem(DeferredBlock<Item> item) {
+    private ItemModelBuilder handheldItem(DeferredItem<Item> item) {
         return withExistingParent(item.getId().getPath(), ResourceLocation.withDefaultNamespace("item/handheld")).texture("layer0",
                 MachinaRL.create("item/" + item.getId().getPath()));
     }

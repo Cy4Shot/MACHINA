@@ -17,16 +17,18 @@ public class CinematicTextOverlay {
     public static float titleOpacity = 1f;
     public static float subOpacity = 1f;
 
-    public static void renderOverlay(GuiGraphics gui, PoseStack stack, int w, int h) {
+    public static void renderOverlay(GuiGraphics gui) {
         if (!render)
             return;
+        
+        PoseStack stack = gui.pose();
 
         int alphaT = (int) (titleOpacity * 256f) << 24;
         int alphaS = (int) (subOpacity * 256f) << 24;
         int i2 = 255 << 24 & -16777216;
 
         stack.pushPose();
-        stack.translate((float) w / 2, (float) h / 2, 0.0F);
+        stack.translate((float) gui.guiWidth() / 2, (float) gui.guiHeight() / 2, 0.0F);
         RenderSystem.enableBlend();
         if (alphaT != 0 || titleOpacity == 1f) {
             stack.pushPose();
