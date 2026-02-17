@@ -1,19 +1,22 @@
 package com.machina.api.network.s2c;
 
+import java.util.function.Function;
+
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.network.S2CMessage;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
-public record S2CSyncStarchart(long seed) implements S2CMessage {
-
-    public static S2CSyncStarchart decode(FriendlyByteBuf buf) {
-        return new S2CSyncStarchart(buf.readLong());
-    }
+public record S2CSyncStarchart(long seed) implements S2CMessage<S2CSyncStarchart> {
 
     @Override
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeLong(seed);
+    public StreamCodec<? super RegistryFriendlyByteBuf, S2CSyncStarchart> streamCodec() {
+        return ByteBufCodecs.VAR_LONG.map(S2CSyncStarchart::new, S2CSyncStarchart::seed).cast();
     }
 
     @Override

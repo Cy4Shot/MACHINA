@@ -1,22 +1,27 @@
 package com.machina.api.network.c2s;
 
+import java.util.function.Function;
+
 import com.machina.api.network.C2SMessage;
 import com.machina.rocket.RocketEntity;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 
-public record C2SRocketLandComplete(int entity) implements C2SMessage {
-    public static C2SRocketLandComplete decode(FriendlyByteBuf buf) {
-        return new C2SRocketLandComplete(buf.readInt());
+public record C2SRocketLandComplete(int entity) implements C2SMessage<C2SRocketLandComplete> {
+
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, C2SRocketLandComplete> streamCodec() {
+        return ByteBufCodecs.INT.map(C2SRocketLandComplete::new, C2SRocketLandComplete::entity).cast();
     }
 
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeInt(entity);
-    }
-
+    @Override
     public void handle(MinecraftServer server, ServerPlayer player) {
         server.execute(() -> {
             Entity e = player.level().getEntity(entity);

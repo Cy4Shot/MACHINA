@@ -1,23 +1,25 @@
 package com.machina.api.network.s2c;
 
+import java.util.function.Function;
+
 import com.machina.api.cap.fluid.FluidHandlerEntity;
 import com.machina.api.network.S2CMessage;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public record S2CFluidEntitySync(int entity, FluidStack stack, int i) implements S2CMessage {
-
-    public static S2CFluidEntitySync decode(FriendlyByteBuf buf) {
-        return new S2CFluidEntitySync(buf.readInt(), buf.readFluidStack(), buf.readInt());
-    }
+public record S2CFluidEntitySync(int entity, FluidStack stack, int i) implements S2CMessage<S2CFluidEntitySync> {
 
     @Override
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeInt(entity);
-        buf.writeFluidStack(stack);
-        buf.writeInt(i);
+    public StreamCodec<? super RegistryFriendlyByteBuf, S2CFluidEntitySync> streamCodec() {
+        return StreamCodec.composite(ByteBufCodecs.INT, S2CFluidEntitySync::entity, FluidStack.STREAM_CODEC,
+                S2CFluidEntitySync::stack, ByteBufCodecs.INT, S2CFluidEntitySync::i, S2CFluidEntitySync::new);
     }
 
     @Override

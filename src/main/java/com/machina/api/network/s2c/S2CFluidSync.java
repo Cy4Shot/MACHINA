@@ -1,25 +1,28 @@
 package com.machina.api.network.s2c;
 
+import java.util.function.Function;
+
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.network.S2CMessage;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2CMessage {
-
-    public static S2CFluidSync decode(FriendlyByteBuf buf) {
-        return new S2CFluidSync(buf.readBlockPos(), buf.readFluidStack(), buf.readInt());
-    }
+public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2CMessage<S2CFluidSync> {
 
     @Override
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeBlockPos(pos);
-        buf.writeFluidStack(stack);
-        buf.writeInt(i);
+    public StreamCodec<? super RegistryFriendlyByteBuf, S2CFluidSync> streamCodec() {
+        return StreamCodec.composite(BlockPos.STREAM_CODEC, S2CFluidSync::pos, FluidStack.STREAM_CODEC,
+                S2CFluidSync::stack, ByteBufCodecs.INT, S2CFluidSync::i, S2CFluidSync::new);
     }
 
     @Override

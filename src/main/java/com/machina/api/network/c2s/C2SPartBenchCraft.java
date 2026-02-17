@@ -1,27 +1,33 @@
 package com.machina.api.network.c2s;
 
+import java.util.function.Function;
+
 import com.machina.api.network.C2SMessage;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
 import com.machina.registration.init.RegistryInit;
+
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
-public record C2SPartBenchCraft(RocketPart<?> part, BlockPos pos) implements C2SMessage {
-    public static C2SPartBenchCraft decode(FriendlyByteBuf buf) {
-        return new C2SPartBenchCraft(RegistryInit.ROCKET_PARTS_REGISTRY.get().getValue(buf.readResourceLocation()),
-                buf.readBlockPos());
+public record C2SPartBenchCraft(RocketPart<?> part, BlockPos pos) implements C2SMessage<C2SPartBenchCraft> {
+
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, C2SPartBenchCraft> streamCodec() {
+        return StreamCodec.composite(ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key()),
+                C2SPartBenchCraft::part, BlockPos.STREAM_CODEC, C2SPartBenchCraft::pos, C2SPartBenchCraft::new);
     }
 
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeResourceLocation(part.getLoc());
-        buf.writeBlockPos(pos);
-    }
-
+    @Override
     public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> BlockHelper.doWithTe(player.level(), pos, RocketPartBenchBlockEntity.class, te -> te.startCrafting(player, part())));
+        server.execute(() -> BlockHelper.doWithTe(player.level(), pos, RocketPartBenchBlockEntity.class,
+                te -> te.startCrafting(player, part())));
     }
 }

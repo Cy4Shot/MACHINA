@@ -1,33 +1,35 @@
 package com.machina.api.network.s2c;
 
+
 import com.machina.api.network.S2CMessage;
-import io.netty.buffer.Unpooled;
-import net.minecraft.client.Minecraft;
+import com.machina.api.util.reflect.MachinaStreamCodecs;
+
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 
 public record S2COpenDirectionalContainer(int id, int windowId, Component name, FriendlyByteBuf additional)
-        implements S2CMessage {
+        implements S2CMessage<S2COpenDirectionalContainer> {
     public S2COpenDirectionalContainer(MenuType<?> type, int openContainerId, FriendlyByteBuf output) {
         this(BuiltInRegistries.MENU.getId(type), openContainerId, Component.empty(), output);
     }
 
-    public static S2COpenDirectionalContainer decode(FriendlyByteBuf buf) {
-        return new S2COpenDirectionalContainer(buf.readVarInt(), buf.readVarInt(), buf.readComponent(),
-                new FriendlyByteBuf(Unpooled.wrappedBuffer(buf.readByteArray(32600))));
-    }
-
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeVarInt(id);
-        buf.writeVarInt(windowId);
-        buf.writeComponent(name);
-        buf.writeByteArray(additional.readByteArray());
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, S2COpenDirectionalContainer> streamCodec() {
+        return StreamCodec.composite(ByteBufCodecs.INT, S2COpenDirectionalContainer::id, ByteBufCodecs.INT,
+                S2COpenDirectionalContainer::windowId, ComponentSerialization.TRUSTED_STREAM_CODEC,
+                S2COpenDirectionalContainer::name, MachinaStreamCodecs.FRIENDLY_BYTE_BUF,
+                S2COpenDirectionalContainer::additional, S2COpenDirectionalContainer::new);
     }
 
     public MenuType<?> getType() {
@@ -39,11 +41,12 @@ public record S2COpenDirectionalContainer(int id, int windowId, Component name, 
         mc.execute(() -> {
             try {
                 MenuType<?> type = getType();
-                MenuScreens.getScreenFactory(type, Minecraft.getInstance(), windowId, name).ifPresent(f -> {
+                MenuScreens.getScreenFactory(type).ifPresent(f -> {
                     if (mc.player == null)
                         return;
 
-                    AbstractContainerMenu c = type.create(windowId, mc.player.getInventory(), additional);
+                    RegistryAccess access = mc.player.registryAccess();
+                    AbstractContainerMenu c = type.create(windowId, mc.player.getInventory(), new RegistryFriendlyByteBuf(additional, access));
 
                     @SuppressWarnings("unchecked")
                     Screen s = ((MenuScreens.ScreenConstructor<AbstractContainerMenu, ?>) f).create(c,

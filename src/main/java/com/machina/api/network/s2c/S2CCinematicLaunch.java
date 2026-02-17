@@ -1,22 +1,24 @@
 package com.machina.api.network.s2c;
 
+import java.util.function.Function;
+
 import com.machina.api.client.cinema.CinematicHandler;
 import com.machina.api.network.S2CMessage;
 import com.machina.client.cinema.LaunchCinematic;
 import com.machina.rocket.RocketEntity;
 
-import net.minecraft.network.FriendlyByteBuf;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.Entity;
 
-public record S2CCinematicLaunch(int entity) implements S2CMessage {
-
-    public static S2CCinematicLaunch decode(FriendlyByteBuf buf) {
-        return new S2CCinematicLaunch(buf.readInt());
-    }
+public record S2CCinematicLaunch(int entity) implements S2CMessage<S2CCinematicLaunch> {
 
     @Override
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeInt(entity);
+    public StreamCodec<? super RegistryFriendlyByteBuf, S2CCinematicLaunch> streamCodec() {
+        return ByteBufCodecs.INT.map(S2CCinematicLaunch::new, S2CCinematicLaunch::entity).cast();
     }
 
     @Override

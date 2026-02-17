@@ -4,6 +4,8 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
@@ -29,8 +31,8 @@ public class ParticleHelper {
         world.addParticle(type, d0, d1, d2, d3, d4, d5);
     }
 
-    public static void spawnParticle(ServerLevel world, ParticleOptions type, Vec3 pos, int count, double speed,
-            @Nullable Vec3 offset) {
+    public static void spawnParticle(ServerLevel world, ParticleOptions type, Vector3f pos, int count, double speed,
+            @Nullable Vector3f offset) {
         world.sendParticles(type, pos.x(), pos.y(), pos.z(), count, speed, offset.x(), offset.y(), offset.z());
     }
 }

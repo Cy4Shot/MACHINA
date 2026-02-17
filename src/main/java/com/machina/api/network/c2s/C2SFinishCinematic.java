@@ -1,23 +1,28 @@
 package com.machina.api.network.c2s;
 
+import java.util.function.Function;
+
 import com.machina.api.event.CinematicCompleteEvent;
 import com.machina.api.network.C2SMessage;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 
-public record C2SFinishCinematic(String id) implements C2SMessage {
-    public static C2SFinishCinematic decode(FriendlyByteBuf buf) {
-        return new C2SFinishCinematic(buf.readUtf());
-    }
+public record C2SFinishCinematic(String id) implements C2SMessage<C2SFinishCinematic> {
 
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeUtf(id);
-    }
-
+    @Override
     public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> MinecraftForge.EVENT_BUS.post(new CinematicCompleteEvent(player, id)));
+        server.execute(() -> NeoForge.EVENT_BUS.post(new CinematicCompleteEvent(player, id)));
+    }
+
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, C2SFinishCinematic> streamCodec() {
+        return ByteBufCodecs.STRING_UTF8.map(C2SFinishCinematic::new, C2SFinishCinematic::id).cast();
     }
 }

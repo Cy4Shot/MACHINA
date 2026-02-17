@@ -1,22 +1,26 @@
 package com.machina.api.network.c2s;
 
+import java.util.function.Function;
+
 import com.machina.api.network.C2SMessage;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
-public record C2SItemMenuSync(int slot, ItemStack stack) implements C2SMessage {
-    public static C2SItemMenuSync decode(FriendlyByteBuf buf) {
-        return new C2SItemMenuSync(buf.readInt(), buf.readItem());
+public record C2SItemMenuSync(int slot, ItemStack stack) implements C2SMessage<C2SItemMenuSync> {
+
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, C2SItemMenuSync> streamCodec() {
+        return StreamCodec.composite(ByteBufCodecs.INT, C2SItemMenuSync::slot, ItemStack.STREAM_CODEC, C2SItemMenuSync::stack, C2SItemMenuSync::new);
     }
 
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeInt(slot);
-        buf.writeItem(stack);
-    }
-
+    @Override
     public void handle(MinecraftServer server, ServerPlayer player) {
         server.execute(() -> {
             player.getInventory().setItem(slot, stack);

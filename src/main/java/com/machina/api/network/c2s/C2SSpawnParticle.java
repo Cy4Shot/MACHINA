@@ -1,42 +1,32 @@
 package com.machina.api.network.c2s;
 
+import java.util.function.Function;
+
+import org.joml.Vector3f;
+
 import com.machina.api.network.C2SMessage;
 import com.machina.api.util.ParticleHelper;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.phys.Vec3;
 
-public record C2SSpawnParticle<T extends ParticleOptions>(T options, float maxSpeed, int count, Vec3 pos, Vec3 offset)
-        implements C2SMessage {
+public record C2SSpawnParticle<T extends ParticleOptions>(T options, float maxSpeed, int count, Vector3f pos, Vector3f offset)
+        implements C2SMessage<C2SSpawnParticle<T>> {
 
     @SuppressWarnings("unchecked")
-    public static <X extends ParticleOptions> C2SSpawnParticle<X> decode(FriendlyByteBuf buf) {
-        Vec3 pos = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
-        Vec3 off = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
-        float speed = buf.readFloat();
-        int count = buf.readInt();
-        ParticleType<X> type = (ParticleType<X>) BuiltInRegistries.PARTICLE_TYPE.byId(buf.readInt());
-        X opts = type.getDeserializer().fromNetwork(type, buf);
-        return new C2SSpawnParticle<>(opts, speed, count, pos, off);
-    }
-
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeDouble(pos.x());
-        buf.writeDouble(pos.y());
-        buf.writeDouble(pos.z());
-        buf.writeDouble(offset.x());
-        buf.writeDouble(offset.y());
-        buf.writeDouble(offset.z());
-        buf.writeFloat(this.maxSpeed);
-        buf.writeInt(this.count);
-        buf.writeInt(BuiltInRegistries.PARTICLE_TYPE.getId(options.getType()));
-        options.writeToNetwork(buf);
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, C2SSpawnParticle<T>> streamCodec() {
+        return StreamCodec.composite(ParticleTypes.STREAM_CODEC, C2SSpawnParticle::options, ByteBufCodecs.FLOAT,
+                C2SSpawnParticle::maxSpeed, ByteBufCodecs.INT, C2SSpawnParticle::count, ByteBufCodecs.VECTOR3F,
+                C2SSpawnParticle::pos, ByteBufCodecs.VECTOR3F, C2SSpawnParticle::offset, C2SSpawnParticle::new);
     }
 
     public void handle(MinecraftServer server, ServerPlayer player) {
