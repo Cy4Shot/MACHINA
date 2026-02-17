@@ -3,6 +3,7 @@ package com.machina.api.block.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -14,13 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public abstract class ContainerBlockEntity extends BaseBlockEntity implements WorldlyContainer {
 
@@ -36,47 +31,20 @@ public abstract class ContainerBlockEntity extends BaseBlockEntity implements Wo
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
+    protected void loadAdditional(CompoundTag tag, Provider registries) {
         this.lockKey = LockCode.fromTag(tag);
-        ContainerHelper.loadAllItems(tag, this.items);
-        super.load(tag);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
+        super.loadAdditional(tag, registries);
     }
-
+    
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        ContainerHelper.saveAllItems(tag, this.items);
+    protected void saveAdditional(CompoundTag tag, Provider registries) {
+        ContainerHelper.saveAllItems(tag, this.items, registries);
         this.lockKey.addToTag(tag);
-        super.saveAdditional(tag);
+        super.saveAdditional(tag, registries);
     }
 
     public abstract boolean hasItemIO();
-
-    LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
-
-    @Override
-    public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (hasItemIO() && side != null) {
-            if (cap == ForgeCapabilities.ITEM_HANDLER && !this.remove) {
-                return handlers[side.ordinal()].cast();
-            }
-        }
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        for (LazyOptional<? extends IItemHandler> handler : handlers) {
-            handler.invalidate();
-        }
-        super.invalidateCaps();
-    }
-
-    @Override
-    public void reviveCaps() {
-        handlers = SidedInvWrapper.create(this, Direction.values());
-        this.items.clear();
-        super.reviveCaps();
-    }
 
     @Override
     public int getContainerSize() {

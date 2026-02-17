@@ -7,7 +7,6 @@ import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
 import com.machina.block.menu.connector.FluidPipeMenu;
@@ -20,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +41,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
             if (!fluid.isEmpty() && menu.getBlockEntity() != null) {
                 ItemStack newStack = FluidFilterItem.set(menu.getBlockEntity().getItem(menu.id(0)), fluid.getFluid(),
                         null);
-                PacketSender
+                PacketDistributor
                         .sendToServer(new C2SMenuSetItem(menu.id(0), newStack, menu.getBlockEntity().getBlockPos()));
             }
         }
@@ -66,8 +66,10 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
         MUI.blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
 
         // Fluid Slot
-        drawGhostSlot(gui, () -> false, mx, my, 74, 34, MuiSlot.FLUID, "", (i1, j1) -> MUI.renderFluid(gui, new FluidStack(FluidFilterItem.getFluid(menu.getBlockEntity().getItem(id)), 1), i1 + 1,
-                j1 + 17, 16, 16, 0));
+        drawGhostSlot(gui, () -> false, mx, my, 74, 34, MuiSlot.FLUID, "",
+                (i1, j1) -> MUI.renderFluid(gui,
+                        new FluidStack(FluidFilterItem.getFluid(menu.getBlockEntity().getItem(id)), 1), i1 + 1, j1 + 17,
+                        16, 16, 0));
         clickAndHoverItem(i + 74, j + 34, i + 74 + 17, j + 34 + 17, () -> true, () -> MUI.uistr("fluid_pipe.insert"),
                 this::setFluidStack);
 
@@ -76,7 +78,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
                 MuiSlot.BLACKLIST, MuiSlot.WHITELIST, (val) -> {
                     ItemStack stack = FluidFilterItem.set(menu.getBlockEntity().getItem(id), null,
                             val ? Mode.BLACKLIST : Mode.WHITELIST);
-                    PacketSender
+                    PacketDistributor
                             .sendToServer(new C2SMenuSetItem(menu.id(0), stack, menu.getBlockEntity().getBlockPos()));
                 }, () -> FluidFilterItem.getMode(menu.getBlockEntity().getItem(id)).comp());
 
@@ -87,7 +89,7 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
                     () -> menu.be.getConnection(menu.dir).comp()
                             .setStyle(Style.EMPTY.withColor(
                                     menu.be.getConnection(menu.dir) == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
-                    () -> PacketSender.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.be.getBlockPos())));
+                    () -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.be.getBlockPos())));
         }
 
         drawOverlay(gui);

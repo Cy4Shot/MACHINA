@@ -1,7 +1,6 @@
 package com.machina.block.entity.machine;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
-import com.machina.api.cap.energy.EnergyBlockItemWrapper;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.model.SidedBakedModel;
 import com.machina.api.item.EnergyItem;
@@ -13,17 +12,16 @@ import com.machina.config.CommonConfig;
 import com.machina.item.CapacitorItem;
 import com.machina.registration.init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
@@ -64,25 +62,23 @@ public class BatteryBlockEntity extends MachinaBlockEntity {
         // Power IN
         ItemStack input = getItem(1);
         if (ItemStackUtil.hasEnergy(input)) {
-            input.getCapability(ForgeCapabilities.ENERGY).ifPresent(storage -> {
-                int extracted = storage.extractEnergy(CommonConfig.batteryChargeRate.get(), true);
-                extracted = this.receiveEnergy(extracted, false);
-                storage.extractEnergy(extracted, false);
-                if (extracted > 0)
-                    this.setChanged();
-            });
+            IEnergyStorage storage = input.getCapability(Capabilities.EnergyStorage.ITEM);
+            int extracted = storage.extractEnergy(CommonConfig.batteryChargeRate.get(), true);
+            extracted = this.receiveEnergy(extracted, false);
+            storage.extractEnergy(extracted, false);
+            if (extracted > 0)
+                this.setChanged();
         }
 
         // Power OUT
         ItemStack output = getItem(2);
         if (ItemStackUtil.hasEnergy(output)) {
-            output.getCapability(ForgeCapabilities.ENERGY).ifPresent(storage -> {
-                int extracted = this.consumeEnergySim(CommonConfig.batteryDischargeRate.get());
-                extracted = storage.receiveEnergy(extracted, false);
-                this.consumeEnergy(extracted);
-                if (extracted > 0)
-                    this.setChanged();
-            });
+            IEnergyStorage storage = output.getCapability(Capabilities.EnergyStorage.ITEM);
+            int extracted = this.consumeEnergySim(CommonConfig.batteryDischargeRate.get());
+            extracted = storage.receiveEnergy(extracted, false);
+            this.consumeEnergy(extracted);
+            if (extracted > 0)
+                this.setChanged();
         }
 
         // Send out energy
@@ -126,20 +122,6 @@ public class BatteryBlockEntity extends MachinaBlockEntity {
 
     public boolean hasCapacitor() {
         return doWithCapacitor((s, i) -> true, false);
-    }
-
-    @Override
-    public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
-        if (side != null) {
-            if (cap == ForgeCapabilities.ENERGY) {
-                if (energyCap.isNonNullMode(side)) {
-                    return doWithCapacitor((s, i) -> s.getCapability(ForgeCapabilities.ENERGY, side)
-                            .lazyMap(EnergyBlockItemWrapper::from).cast(), super.getCapability(cap, side));
-                }
-            }
-        }
-
-        return super.getCapability(cap, side);
     }
 
     @Override

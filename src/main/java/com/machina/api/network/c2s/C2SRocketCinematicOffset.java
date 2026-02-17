@@ -15,6 +15,10 @@ import net.minecraft.world.phys.Vec3;
 
 public record C2SRocketCinematicOffset(int entity, Vector3f pos, double off)
         implements C2SMessage<C2SRocketCinematicOffset> {
+    
+    public C2SRocketCinematicOffset(int entity, Vec3 pos, double off) {
+        this(entity, pos.toVector3f(), off);
+    }
 
     @Override
     public StreamCodec<? super RegistryFriendlyByteBuf, C2SRocketCinematicOffset> streamCodec() {

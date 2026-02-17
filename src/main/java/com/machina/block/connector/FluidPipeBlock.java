@@ -7,6 +7,7 @@ import com.machina.api.util.block.BlockHelper;
 import com.machina.registration.init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,8 +28,8 @@ public class FluidPipeBlock extends ConnectorBlock {
     }
 
     @Override
-    public boolean canConnect(BlockEntity be, Direction dir) {
-        return BlockHelper.hasFluid(be, dir);
+    public boolean canConnect(Level level, BlockPos pos, Direction dir) {
+        return BlockHelper.hasFluid(level, pos, dir);
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.machina.api.util.block.BlockHelper;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -33,12 +32,11 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
     }
 
     public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos,
-                                          @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult res) {
+            @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult res) {
         if (world.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
-            BlockHelper.doWithTe(world, pos, getBlockEntityClass(),
-                    te -> NetworkHooks.openScreen((ServerPlayer) player, te, te.getBlockPos()));
+            BlockHelper.doWithTe(world, pos, getBlockEntityClass(), player::openMenu);
             return InteractionResult.CONSUME;
         }
     }
@@ -63,7 +61,7 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state,
-                                                                  @NotNull BlockEntityType<T> type) {
+            @NotNull BlockEntityType<T> type) {
         if (isTickable() && getBlockEntityType() == type) {
             return (level1, pos, state1, blockEntity) -> ((MachinaBlockEntity) blockEntity).tick();
         }

@@ -8,6 +8,9 @@ import com.machina.registration.init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,8 +30,8 @@ public class ItemConduitBlock extends ConnectorBlock {
     }
 
     @Override
-    public boolean canConnect(BlockEntity be, Direction dir) {
-        return BlockHelper.hasItem(be, dir);
+    public boolean canConnect(Level level, BlockPos pos, Direction dir) {
+        return BlockHelper.hasItem(level, pos, dir);
     }
 
     @Override

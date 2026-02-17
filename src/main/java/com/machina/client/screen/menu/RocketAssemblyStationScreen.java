@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SAssemblyStationCraft;
 import com.machina.api.util.StringUtils;
 import com.machina.block.entity.machine.RocketAssemblyStationBlockEntity;
@@ -16,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class RocketAssemblyStationScreen extends MachinaMenuScreen<RocketAssemblyStationMenu> {
 
@@ -52,7 +52,7 @@ public class RocketAssemblyStationScreen extends MachinaMenuScreen<RocketAssembl
 
         // Draw rocket ship animation
         long tick = mc.level.getGameTime() / 10;
-        float alpha = 0.7f + (tick % 3) * 0.05f + (tick % 5) * 0.03f + mc.getFrameTime() / 20;
+        float alpha = 0.7f + (tick % 3) * 0.05f + (tick % 5) * 0.03f + mc.getTimer().getGameTimeDeltaPartialTick(true) / 20;
         MUI.drawWithAlpha(alpha, () -> {
             int frame = (int) (mc.level.getGameTime() / 10 % 8);
             MUI.blitRocket(gui, i + 2, j - 60, frame * 64, 158, 64, 116);
@@ -127,7 +127,7 @@ public class RocketAssemblyStationScreen extends MachinaMenuScreen<RocketAssembl
 
         // Craft button
         drawButton(gui, mx, my, 159, 46, MuiSlot.TICK, () -> entity.areSlotsFilled(),() -> {
-            PacketSender.sendToServer(new C2SAssemblyStationCraft(this.entity().getBlockPos()));
+            PacketDistributor.sendToServer(new C2SAssemblyStationCraft(this.entity().getBlockPos()));
             MUI.click();
         }, () -> Component.literal("Craft"));
         MUI.blitCommon(gui, i + 185, j + 52, 405, 13, 17, 6);

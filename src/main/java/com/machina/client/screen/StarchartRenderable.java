@@ -101,10 +101,11 @@ public class StarchartRenderable {
 
         // TODO: Move the entire inner display by this many pixels!
 
+        float frameTime = mc.getTimer().getGameTimeDeltaPartialTick(true);
         if (!this.paused && this.tracked == null) {
-            accumulatedTime += mc.getFrameTime() * orbitalSpeed;
+            accumulatedTime += frameTime * orbitalSpeed;
         }
-        realTime += mc.getFrameTime();
+        realTime += frameTime;
         updateCameraTracking();
         setupAndRenderCelestials(gui, width, height, createRotQuat(rotX, rotY), accumulatedTime, realTime);
     }

@@ -11,6 +11,7 @@ import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.reflect.QuintFunction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -25,10 +26,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -158,9 +157,10 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
         this.cap.invalidate();
         super.setRemoved();
     }
+    
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
         CompoundTag mycons = new CompoundTag();
         for (Direction dir : Direction.values()) {
             if (myConnectors.containsKey(dir)) {
@@ -186,11 +186,11 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
             sides.add(postag);
         });
         tag.put("dirs", sides);
-        super.saveAdditional(tag);
+        super.saveAdditional(tag, registries);
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
+    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
         connectors = new ArrayList<>();
         dirs = new ArrayList<>();
 
@@ -213,7 +213,7 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
         for (int j = 0; j < sides.size(); j++) {
             dirs.add(Direction.from3DDataValue(sides.getCompound(j).getInt("dir")));
         }
-        super.load(tag);
+        super.loadAdditional(tag, registries);
 
         if (this.level != null) {
             level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
@@ -291,7 +291,7 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
         }
 
         public static Connection load(CompoundTag nbt) {
-            BlockPos p = NbtUtils.readBlockPos(nbt.getCompound("CPos"));
+            BlockPos p = NbtUtils.readBlockPos(nbt, "CPos").orElse(BlockPos.ZERO);
             Direction d = Direction.from3DDataValue(nbt.getInt("CDir"));
             int dist = nbt.getInt("CDis");
             return new Connection(p, d, dist);

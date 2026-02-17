@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class MachinaHangingWallSignBlock extends WallHangingSignBlock {
     public MachinaHangingWallSignBlock(Properties props, WoodType type) {
-        super(props, type);
+        super(type, props);
     }
 
     @Override

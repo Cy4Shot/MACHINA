@@ -3,7 +3,6 @@ package com.machina.client.screen.menu;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SPartBenchCraft;
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.rocket.part.RocketPart;
@@ -20,6 +19,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import org.jetbrains.annotations.NotNull;
@@ -274,7 +274,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
                             if (PlayerHelper.hasAll(mc.player, r.getInputItems()) && entity.hasPower(r)) {
                                 int h = j + x1 * 80 - (int) (scrollDist);
                                 if (y > h + 15 && y < h + 32) {
-                                    PacketSender.sendToServer(new C2SPartBenchCraft(part, entity.getBlockPos()));
+                                    PacketDistributor.sendToServer(new C2SPartBenchCraft(part, entity.getBlockPos()));
                                     MUI.click();
                                     mc.player.closeContainer();
                                     return true;

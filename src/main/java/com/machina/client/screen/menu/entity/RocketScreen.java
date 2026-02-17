@@ -9,7 +9,6 @@ import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SRocketLaunch;
 import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.rocket.RocketCosts;
@@ -30,6 +29,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
@@ -214,7 +214,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
             }
 
             drawButton(gui, mx, my, 204, -43, MuiSlot.CROSS, () -> !destination.equals(Level.OVERWORLD), () -> {
-                PacketSender.sendToServer(new C2SRocketSetDestination(entity.getId(), Level.OVERWORLD));
+                PacketDistributor.sendToServer(new C2SRocketSetDestination(entity.getId(), Level.OVERWORLD));
             }, () -> MUI.uistr("rocket.destination.clear"));
 
             Planet dst = ClientStarchart.system.planets().get(PlanetHelper.getIdLevel(destination));
@@ -280,7 +280,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
             if (possible && fueled) {
                 drawButton(gui, mx, my, 112, 31, MuiSlot.TICK, () -> true,
-                        () -> PacketSender.sendToServer(new C2SRocketLaunch(entity.getId())),
+                        () -> PacketDistributor.sendToServer(new C2SRocketLaunch(entity.getId())),
                         () -> MUI.uistr("rocket.destination.launch"));
                 MUI.blitCommon(gui, i + 134, j + 84, 405, 13, 17, 6);
                 MUI.blitCommon(gui, i + 82, j + 84, 422, 13, 17, 6);
@@ -414,7 +414,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
         this.starchart = new StarchartRenderable(ClientStarchart.system, true);
         this.starchart.addSelectListener(selected -> {
             ResourceKey<Level> dim = ResourceKey.create(Registries.DIMENSION, MachinaRL.create(String.valueOf(selected)));
-            PacketSender.sendToServer(new C2SRocketSetDestination(this.menu.entity.getId(), dim));
+            PacketDistributor.sendToServer(new C2SRocketSetDestination(this.menu.entity.getId(), dim));
         });
     }
 

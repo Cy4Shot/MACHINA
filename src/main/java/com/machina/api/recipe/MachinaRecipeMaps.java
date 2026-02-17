@@ -16,6 +16,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
@@ -63,8 +64,8 @@ public abstract class MachinaRecipeMaps<C extends RecipeInput> {
 
     public void refresh(RecipeManager man) {
         recipes.clear();
-        for (MachinaRecipe<C> r : man.getAllRecipesFor(getRegistryObject().type().get())) {
-            recipes.put(r.getId(), r);
+        for (RecipeHolder<MachinaRecipe<C>> r : man.getAllRecipesFor(getRegistryObject().type().get())) {
+            recipes.put(r.id(), r.value());
         }
         addExtraRecipes(man);
     }
@@ -120,10 +121,10 @@ public abstract class MachinaRecipeMaps<C extends RecipeInput> {
     }
 
     protected static TagKey<Item> ci(String name) {
-        return TagKey.create(Registries.ITEM, new ResourceLocation("c", name));
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name));
     }
 
     protected static TagKey<Fluid> cf(String name) {
-        return TagKey.create(Registries.FLUID, new ResourceLocation("c", name));
+        return TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath("c", name));
     }
 }

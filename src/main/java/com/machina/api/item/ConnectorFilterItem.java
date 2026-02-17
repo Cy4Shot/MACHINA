@@ -2,45 +2,32 @@ package com.machina.api.item;
 
 import com.machina.Machina;
 import com.machina.api.cap.IConnectorStorage;
-import net.minecraft.nbt.CompoundTag;
+import com.machina.api.util.reflect.MachinaCodecs;
+import com.machina.api.util.reflect.MachinaStreamCodecs;
+import com.machina.api.util.reflect.MachinaStreamCodecs.HasId;
+import com.mojang.serialization.Codec;
+
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class ConnectorFilterItem<U, T extends IConnectorStorage<U>> extends Item {
 
-    protected static final String MODE = "mode";
-
     public ConnectorFilterItem(Properties props) {
         super(props);
     }
 
-    public static Mode getMode(ItemStack stack) {
-        CompoundTag nbt = stack.getOrCreateTag();
-        if (nbt.contains(MODE)) {
-            try {
-                return Mode.valueOf(nbt.getString(MODE));
-            } catch (IllegalArgumentException e) {
-                // Do nothing here :)
-            }
-        }
-        return Mode.BLACKLIST;
-    }
-
-    public static ItemStack setMode(ItemStack stack, Mode mode) {
-        CompoundTag tag = stack.getOrCreateTag();
-        if (mode != null)
-            tag.putString(MODE, mode.name());
-        stack.setTag(tag);
-        return stack;
-    }
-
     public abstract boolean filter(ItemStack stack, U original);
 
-    public enum Mode {
+    public enum Mode implements HasId {
         WHITELIST,
         BLACKLIST;
+
+        public static final Codec<Mode> CODEC = MachinaCodecs.enumCodec(Mode.class);
+        public static final StreamCodec<ByteBuf, Mode> STREAM_CODEC = MachinaStreamCodecs.enumCodec(Mode.class);
 
         public Mode opposite() {
             return this == WHITELIST ? BLACKLIST : WHITELIST;
@@ -48,6 +35,11 @@ public abstract class ConnectorFilterItem<U, T extends IConnectorStorage<U>> ext
 
         public MutableComponent comp() {
             return Component.translatable(Machina.MOD_ID + ".filter." + name().toLowerCase());
+        }
+
+        @Override
+        public int getId() {
+            return this == WHITELIST ? 1 : 0;
         }
     }
 

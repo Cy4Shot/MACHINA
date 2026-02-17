@@ -6,11 +6,13 @@ import com.machina.api.block.menu.DirectionalMenuFactory;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.math.MathUtil;
+
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -56,8 +58,8 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
     private static final VoxelShape CONN_U = Block.box(6, 13, 6, 10, 16, 10);
     private static final VoxelShape CONN_D = Block.box(6, 0, 6, 10, 3, 10);
 
-    private static final VoxelShape[] PARTS = new VoxelShape[]{PART_D, PART_U, PART_N, PART_S, PART_W, PART_E};
-    private static final VoxelShape[] CONNS = new VoxelShape[]{CONN_D, CONN_U, CONN_N, CONN_S, CONN_W, CONN_E};
+    private static final VoxelShape[] PARTS = new VoxelShape[] { PART_D, PART_U, PART_N, PART_S, PART_W, PART_E };
+    private static final VoxelShape[] CONNS = new VoxelShape[] { CONN_D, CONN_U, CONN_N, CONN_S, CONN_W, CONN_E };
 
     public ConnectorBlock(Properties props) {
         super(props.noOcclusion());
@@ -65,7 +67,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
         this.registerDefaultState(this.stateDefinition.any().setValue(TILE, false));
     }
 
-    public boolean[] getModelData(@NotNull BlockGetter level, BlockPos pos) {
+    public boolean[] getModelData(@NotNull Level level, BlockPos pos) {
         boolean north = canAttach(level, pos, Direction.NORTH);
         boolean south = canAttach(level, pos, Direction.SOUTH);
         boolean west = canAttach(level, pos, Direction.WEST);
@@ -84,13 +86,13 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
             }
         }
 
-        return new boolean[]{down, up, north, south, west, east, middle};
+        return new boolean[] { down, up, north, south, west, east, middle };
     }
 
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
-                                        @NotNull CollisionContext pContext) {
-        boolean[] data = getModelData(level, pos);
+            @NotNull CollisionContext pContext) {
+        boolean[] data = getModelData(level.getBlockEntity(pos).getLevel(), pos);
         VoxelShape shape = data[6] ? PART_M : PART_C;
         for (int i = 0; i < 6; i++) {
             if (data[i])
@@ -110,7 +112,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
     }
 
     @SuppressWarnings("unchecked")
-    public void syncConnections(LevelAccessor level, BlockPos pos) {
+    public void syncConnections(Level level, BlockPos pos) {
         BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, cable -> {
             if (!level.isClientSide()) {
                 cable.dirs.clear();
@@ -124,16 +126,18 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 
     @Override
     public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing,
-                                           @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
-                                           @NotNull BlockPos facingPos) {
-        if (level.isClientSide() && level.getModelDataManager() != null) {
-            BlockHelper.doWithTe(level, pos, BlockEntity.class, level.getModelDataManager()::requestRefresh);
+            @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
+            @NotNull BlockPos facingPos) {
+        if (level instanceof ClientLevel clientLevel) {
+            if (level.isClientSide() && clientLevel.getModelDataManager() != null) {
+                BlockHelper.doWithTe(level, pos, BlockEntity.class, clientLevel.getModelDataManager()::requestRefresh);
+            }
         } else {
             if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
                 findConnectors(level, pos, pos);
             }
         }
-        return createState(level, pos);
+        return createState(level.getBlockEntity(pos).getLevel(), pos);
     }
 
     @Override
@@ -141,19 +145,19 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
         return createState(ctx.getLevel(), ctx.getClickedPos());
     }
 
-    public abstract boolean canConnect(BlockEntity be, Direction dir);
+    public abstract boolean canConnect(Level level, BlockPos be, Direction dir);
 
-    private boolean isConnectable(BlockGetter level, BlockPos pos, Direction dir) {
+    private boolean isConnectable(Level level, BlockPos pos, Direction dir) {
         BlockEntity be = level.getBlockEntity(pos.relative(dir));
-        return !(be instanceof ConnectorBlockEntity) && canConnect(be, dir.getOpposite());
+        return !(be instanceof ConnectorBlockEntity) && canConnect(level, pos.relative(dir), dir.getOpposite());
     }
 
-    private boolean canAttach(BlockGetter level, BlockPos pos, Direction dir) {
+    private boolean canAttach(Level level, BlockPos pos, Direction dir) {
         boolean connectable = isConnectable(level, pos, dir);
         return level.getBlockState(pos.relative(dir)).getBlock() == this || connectable;
     }
 
-    private BlockState createState(BlockGetter level, BlockPos pos) {
+    private BlockState createState(Level level, BlockPos pos) {
 
         boolean tile = isConnectable(level, pos, Direction.NORTH) || isConnectable(level, pos, Direction.SOUTH)
                 || isConnectable(level, pos, Direction.WEST) || isConnectable(level, pos, Direction.EAST)
@@ -177,10 +181,10 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
         b.add(TILE);
         super.createBlockStateDefinition(b);
     }
-
+    
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand,
-                                          @NotNull BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+            Player player, InteractionHand hand, BlockHitResult hit) {
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof ConnectorBlockEntity<?, ?> cable) {
             Vec3 offset = hit.getLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
@@ -192,23 +196,23 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
                         if (player.isShiftKeyDown()) {
                             if (!level.isClientSide()) {
                                 DirectionalMenuFactory.create((ServerPlayer) player, cable, pos, d);
-                                return InteractionResult.SUCCESS;
+                                return ItemInteractionResult.SUCCESS;
                             }
-                            return InteractionResult.CONSUME;
+                            return ItemInteractionResult.CONSUME;
                         }
                         cable.setConnection(d, side.toggleIO());
-                        return InteractionResult.SUCCESS;
+                        return ItemInteractionResult.SUCCESS;
                     }
                 }
             }
         }
 
-        return InteractionResult.FAIL;
+        return ItemInteractionResult.FAIL;
     }
 
     @Override
     public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity placer,
-                            @NotNull ItemStack stack) {
+            @NotNull ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
         if (level.isClientSide())
             return;
@@ -220,7 +224,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 
     @Override
     public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState old,
-                        boolean moving) {
+            boolean moving) {
         if (level.isClientSide())
             return;
 
@@ -231,7 +235,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 
     @Override
     public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
-                         @NotNull BlockState newState, boolean moving) {
+            @NotNull BlockState newState, boolean moving) {
         findConnectors(level, pos, pos);
         super.onRemove(state, level, pos, newState, moving);
     }
@@ -289,7 +293,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 
     @Override
     public <E extends BlockEntity> BlockEntityTicker<E> getTicker(@NotNull Level level, @NotNull BlockState state,
-                                                                  @NotNull BlockEntityType<E> type) {
+            @NotNull BlockEntityType<E> type) {
         return type == getBlockEntityType() ? ConnectorBlockEntity::tick : null;
     }
 

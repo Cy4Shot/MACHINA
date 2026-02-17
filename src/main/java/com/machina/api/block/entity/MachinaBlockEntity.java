@@ -3,7 +3,6 @@ package com.machina.api.block.entity;
 import com.machina.api.block.menu.IMachinaMenuProvider;
 import com.machina.api.cap.energy.MachinaEnergyStorage;
 import com.machina.api.cap.fluid.MachinaTank;
-import com.machina.api.cap.fluid.SidedFluidWrapper;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.MultiSidedStorage;
 import com.machina.api.cap.sided.Side;
@@ -14,6 +13,7 @@ import com.machina.block.machine.BatteryBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -30,7 +30,6 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,10 +119,10 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
         super.setRemoved();
         forEachStorage(SidedStorage::invalidate);
     }
-
+    
     @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
+        super.loadAdditional(tag, registries);
         forEachStorage(s -> s.loadAdditional(tag));
         this.energy = tag.getInt("energy");
         this.itemSides = NonNullList.create();
@@ -144,7 +143,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
         forEachStorage(s -> s.saveAdditional(tag));
         tag.putInt("energy", energy);
         ListTag sides = new ListTag();
@@ -164,43 +163,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
             tanks.add(tankTag);
         }
         tag.put("tanks", tanks);
-        super.saveAdditional(tag);
-    }
-
-    LazyOptional<? extends IFluidHandler>[] fluidHandlers = SidedFluidWrapper.create(this, Direction.values());
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (side != null) {
-            if (cap == ForgeCapabilities.ENERGY) {
-                if (energyCap != null && energyCap.isNonNullMode(side)) {
-                    return energyCap.getLazy(side).cast();
-                }
-            } else if (cap == ForgeCapabilities.FLUID_HANDLER && !this.remove) {
-                return fluidHandlers[side.ordinal()].cast();
-            }
-        }
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        forEachStorage(SidedStorage::invalidate);
-        for (LazyOptional<? extends IFluidHandler> handler : fluidHandlers) {
-            handler.invalidate();
-        }
-        super.invalidateCaps();
-    }
-
-    @Override
-    public void reviveCaps() {
-        this.itemSides.clear();
-        this.fluidSides.clear();
-        this.createStorages();
-        fluidHandlers = SidedFluidWrapper.create(this, Direction.values());
-        this.tanks.clear();
-        super.reviveCaps();
+        super.saveAdditional(tag, registries);
     }
 
     public boolean isLit() {
@@ -263,6 +226,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
         return this.tanks.get(id);
     }
 
+    @SuppressWarnings("removal")
     public boolean hasFluid(FluidStack other) {
         for (int i = 0; i < this.getTanks(); i++) {
             FluidStack a = this.getFluid(i);

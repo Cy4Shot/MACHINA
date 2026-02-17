@@ -21,6 +21,7 @@ import com.machina.rocket.RocketEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class LandCinematic extends PathCinematic {
 
@@ -50,11 +51,11 @@ public class LandCinematic extends PathCinematic {
             double off = Math.pow(Math.E, (200D - (double) ting) / 60D) - 1D;
             clientEntity.moveTo(pos.add(0, off, 0));
             entity.moveTo(pos.add(0, off, 0));
-            PacketSender.sendToServer(
+            PacketDistributor.sendToServer(
                     new C2SSpawnParticle<>(ParticleTypes.FLAME, -0.1f, 3, pos.add(0, off - 2.1D, 0), Vec3.ZERO));
-            PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
+            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
                     pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
-            PacketSender.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
+            PacketDistributor.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
         });
 
         // @formatter:off
@@ -74,6 +75,6 @@ public class LandCinematic extends PathCinematic {
     @Override
     public void finish() {
         super.finish();
-        PacketSender.sendToServer(new C2SRocketLandComplete(this.id));
+        PacketDistributor.sendToServer(new C2SRocketLandComplete(this.id));
     }
 }

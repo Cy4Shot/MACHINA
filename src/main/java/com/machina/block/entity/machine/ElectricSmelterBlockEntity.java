@@ -6,6 +6,7 @@ import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.menu.ElectricSmelterMenu;
 import com.machina.registration.init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -137,24 +138,24 @@ public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
         tag.putInt("progress", this.progress);
         tag.putString("recipe", this.recipe == null ? "" : this.recipe.getId().toString());
-        super.saveAdditional(tag);
+        super.saveAdditional(tag, registries);
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
+    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
         this.progress = tag.getInt("progress");
         String r = tag.getString("recipe");
         if (!r.isEmpty() && this.level != null) {
-            this.level.getRecipeManager().byKey(new ResourceLocation(r)).ifPresent(rx -> {
+            this.level.getRecipeManager().byKey(ResourceLocation.parse(r)).ifPresent(rx -> {
                 if (rx instanceof SmeltingRecipe smeltingRecipe) {
                     this.recipe = smeltingRecipe;
                 }
             });
         }
-        super.load(tag);
+        super.loadAdditional(tag, registries);
     }
 
     @Override

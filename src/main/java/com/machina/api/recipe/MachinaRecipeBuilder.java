@@ -14,9 +14,11 @@ import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
@@ -122,8 +124,8 @@ public class MachinaRecipeBuilder<T extends RecipeInput> implements RecipeBuilde
     }
 
     @Override
-    public @NotNull RecipeBuilder unlockedBy(@NotNull String key, @NotNull CriterionTriggerInstance criterion) {
-        this.advancement.addCriterion(key, criterion);
+    public RecipeBuilder unlockedBy(String name, Criterion<?> criterion) {
+        this.advancement.addCriterion(name, criterion);
         return this;
     }
 
@@ -138,17 +140,18 @@ public class MachinaRecipeBuilder<T extends RecipeInput> implements RecipeBuilde
     }
 
     @Override
-    public void save(@NotNull Consumer<FinishedRecipe> p_176499_) {
+    public void save(RecipeOutput p_176499_) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void save(@NotNull Consumer<FinishedRecipe> recipe, @NotNull String string) {
+    public void save(RecipeOutput recipe, @NotNull String string) {
         this.save(recipe, MachinaRL.create(string));
     }
 
+    @SuppressWarnings("removal")
     @Override
-    public void save(Consumer<FinishedRecipe> save, @NotNull ResourceLocation loc) {
+    public void save(RecipeOutput save, @NotNull ResourceLocation loc) {
         this.advancement.parent(ROOT_RECIPE_ADVANCEMENT)
                 .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(loc))
                 .rewards(AdvancementRewards.Builder.recipe(loc)).requirements(RequirementsStrategy.OR);
@@ -161,7 +164,7 @@ public class MachinaRecipeBuilder<T extends RecipeInput> implements RecipeBuilde
                 inputItems, inputFluids, outputItems, outputFluids));
     }
 
-    public static class Result<T extends Container> implements FinishedRecipe {
+    public static class Result<T extends RecipeInput> implements FinishedRecipe {
 
         private final ResourceLocation id;
         private final Advancement.Builder advancement;

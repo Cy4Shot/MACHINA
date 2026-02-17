@@ -1,6 +1,7 @@
 package com.machina.api.item;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -17,13 +18,13 @@ import com.machina.api.rocket.part.impl.ShieldPart;
 import com.machina.api.rocket.part.impl.ThrusterPart;
 import com.machina.api.util.StringUtils;
 import com.machina.client.bewlr.RocketBEWLR;
+import com.machina.registration.init.DataComponentsInit;
 import com.machina.registration.init.RocketPartInit;
 import com.machina.rocket.RocketEntity;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
@@ -33,27 +34,23 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 public class RocketItem extends Item {
-
-    private static final String PROPERTY_KEY = "rocket_prop";
 
     public RocketItem(Properties props) {
         super(props.stacksTo(1));
     }
 
     public static RocketPart<?> getPart(ItemStack stack, RocketPartType type) {
-        CompoundTag nbt = stack.getOrCreateTag();
-        if (nbt.contains(type.getNBTName()))
-            return RocketPart.fromNBT(nbt.getCompound(type.getNBTName()));
-        return null;
+        return stack.get(DataComponentsInit.ROCKET_PARTS).get(type);
     }
 
     public static void setPart(ItemStack stack, RocketPartType type, RocketPart<?> part) {
-        stack.getOrCreateTag().put(type.getNBTName(), part.toNBT());
+        Map<RocketPartType, RocketPart<?>> parts = stack.get(DataComponentsInit.ROCKET_PARTS);
+        parts.put(type, part);
+        stack.set(DataComponentsInit.ROCKET_PARTS, parts);
     }
 
     public static void initProperties(ItemStack stack) {
@@ -64,23 +61,19 @@ public class RocketItem extends Item {
                 .requireNonNull(getPart(stack, RocketPartType.LIFE_SUPPORT));
         ShieldPart<?> shield = (ShieldPart<?>) Objects.requireNonNull(getPart(stack, RocketPartType.SHIELD));
 
-        final RocketProps props = RocketProps.fromParts(thruster, fuel_tank, chassis, life_support, shield);
-        stack.getOrCreateTag().put(PROPERTY_KEY, props.toNBT());
+        setProperties(stack, RocketProps.fromParts(thruster, fuel_tank, chassis, life_support, shield));
     }
 
     public static void setProperties(ItemStack stack, RocketProps props) {
-        stack.getOrCreateTag().put(PROPERTY_KEY, props.toNBT());
+        stack.set(DataComponentsInit.ROCKET_PROPS, props);
     }
 
     private static RocketProps getProperties(ItemStack stack) {
-        if (!stack.getOrCreateTag().contains(PROPERTY_KEY)) {
-            return null;
-        }
-        return RocketProps.fromNBT(stack.getOrCreateTag().getCompound(PROPERTY_KEY));
+        return stack.get(DataComponentsInit.ROCKET_PROPS);
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, Level level, @NotNull List<Component> tooltip,
+    public void appendHoverText(@NotNull ItemStack stack, TooltipContext context, @NotNull List<Component> tooltip,
             @NotNull TooltipFlag flag) {
 
         RocketProps props = getProperties(stack);
@@ -115,7 +108,7 @@ public class RocketItem extends Item {
                     .append(Component.literal(StringUtils.formatPressure(props.maxPressure()))
                             .withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))));
         }
-        super.appendHoverText(stack, level, tooltip, flag);
+        super.appendHoverText(stack, context, tooltip, flag);
     }
 
     @Override

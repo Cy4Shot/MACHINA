@@ -64,7 +64,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
     protected long aliveTicks = 0;
     protected Float lsx, lsy, usx, usy = null;
-    private float rotX, rotY;
+    protected float rotX, rotY;
 
     private final Map<String, ClickArea> clickareas = new HashMap<>();
     private final Map<String, Clickable> clickables = new HashMap<>();

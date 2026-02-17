@@ -20,7 +20,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Function;
 import com.machina.Machina;
-import com.machina.api.client.screen.MachinaMenuScreen.MultiblockRenderType;
 import com.machina.api.multiblock.ClientMultiblock;
 import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.api.rocket.part.RocketPart;
@@ -573,7 +572,7 @@ public final class MUI {
             }
 
             float f = mc.player == null ? 0.0F
-                    : mc.player.getCooldowns().getCooldownPercent(stack.getItem(), mc.getFrameTime());
+                    : mc.player.getCooldowns().getCooldownPercent(stack.getItem(), mc.getTimer().getGameTimeDeltaPartialTick(true));
             if (f > 0.0F) {
                 int i1 = y + Mth.floor(16.0F * (1.0F - f));
                 int j1 = i1 + Mth.ceil(16.0F * f);

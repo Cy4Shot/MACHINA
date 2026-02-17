@@ -8,6 +8,7 @@ import com.machina.block.menu.FurnaceGeneratorMenu;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -16,7 +17,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 
 public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
@@ -68,7 +68,7 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
                 receiveEnergy(CommonConfig.furnaceGeneratorRate.get(), false);
                 flag1 = true;
             } else {
-                this.litTime = ForgeHooks.getBurnTime(itemstack, RecipeType.SMELTING);
+                this.litTime = itemstack.getBurnTime(RecipeType.SMELTING);
                 this.originalLitTime = this.litTime;
                 if (this.isLit()) {
                     flag1 = true;
@@ -97,15 +97,15 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
+        super.saveAdditional(tag, registries);
         tag.putInt("litTime", litTime);
         tag.putInt("originalLitTime", originalLitTime);
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
+    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
+        super.loadAdditional(tag, registries);
         this.litTime = tag.getInt("litTime");
         this.originalLitTime = tag.getInt("originalLitTime");
     }

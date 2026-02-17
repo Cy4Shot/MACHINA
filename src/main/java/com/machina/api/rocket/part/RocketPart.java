@@ -7,16 +7,34 @@ import com.machina.api.item.RocketPartItem;
 import com.machina.client.model.rocket.RocketPartModel;
 import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.RegistryInit.RocketPartCallbacks;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.api.distmarker.Dist;
 
 public class RocketPart<T extends RocketPartModel> {
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, RocketPart<?>> STREAM_CODEC = ByteBufCodecs
+            .registry(RegistryInit.ROCKET_PART_REGISTRY.key());
+
+    public static final Codec<RocketPart<?>> CODEC = ResourceLocation.CODEC.comapFlatMap(loc -> {
+        RocketPart<?> part = RegistryInit.ROCKET_PART_REGISTRY.get(loc);
+        if (part == null) {
+            return DataResult.error(() -> "Unknown RocketPart: " + loc);
+        }
+        return DataResult.success(part);
+    }, RocketPart::getLoc);
+
     private final ResourceLocation loc;
     private final RocketPartType type;
     private final float height, offset, guiScale;
@@ -78,7 +96,7 @@ public class RocketPart<T extends RocketPartModel> {
         Map<RocketPart<?>, ResourceLocation> map = (Map<RocketPart<?>, ResourceLocation>) RegistryInit.ROCKET_PART_REGISTRY
                 .getSlaveMap(RocketPartCallbacks.ROCKET_PART_TO_ITEM, Map.class);
         ResourceLocation itemLoc = map.get(this);
-        if (ForgeRegistries.ITEMS.getValue(itemLoc) instanceof RocketPartItem rocketPartItem) {
+        if (BuiltInRegistries.ITEM.get(itemLoc) instanceof RocketPartItem rocketPartItem) {
             this.item = rocketPartItem;
             return rocketPartItem;
         }

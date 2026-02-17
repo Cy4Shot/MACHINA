@@ -11,8 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -27,16 +25,11 @@ public class MachinaBucket extends BucketItem {
         this.chem = chemical;
     }
 
-    public MachinaBucket(Supplier<? extends Fluid> supplier, Item.Properties builder, String chemical) {
-        super(supplier, builder);
-        this.chem = chemical;
-    }
-
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, Level level, List<Component> tip, @NotNull TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, TooltipContext ctx, List<Component> tip, @NotNull TooltipFlag flag) {
         tip.add(Component.translatable(StringUtils.chemical(chem))
                 .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x9D_AAAAAA))));
-        super.appendHoverText(stack, level, tip, flag);
+        super.appendHoverText(stack, ctx, tip, flag);
     }
 
     @Override

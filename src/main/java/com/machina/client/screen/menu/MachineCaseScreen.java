@@ -1,5 +1,6 @@
 package com.machina.client.screen.menu;
 
+import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.block.menu.MachineCaseMenu;
 import com.machina.registration.init.MultiblockInit;
@@ -20,6 +21,6 @@ public class MachineCaseScreen extends MachinaMenuScreen<MachineCaseMenu> {
     protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
         drawInventory(gui, mx, my);
         drawOverlay(gui);
-        drawMultiblock(gui, MultiblockInit.HABER, this.imageWidth / 2, this.imageHeight / 2, 1, pt);
+        MUI.drawMultiblock(gui, MultiblockInit.HABER, this.imageWidth / 2, this.imageHeight / 2, rotX, rotY, 1, pt);
     }
 }

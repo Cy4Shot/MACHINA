@@ -5,7 +5,6 @@ import java.util.Random;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.ClientStarchart;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.s2c.S2CSyncStarchart;
 import com.machina.api.starchart.name.SystemNameGenerator;
 import com.machina.api.starchart.obj.SolarSystem;

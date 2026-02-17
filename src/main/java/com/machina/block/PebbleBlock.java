@@ -2,6 +2,8 @@ package com.machina.block;
 
 import com.machina.api.util.block.BlockProperties;
 import com.machina.api.util.math.DirUtil;
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -11,6 +13,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -63,5 +66,10 @@ public class PebbleBlock extends HorizontalDirectionalBlock {
                                            @NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockPos pos2) {
         return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, dir, state2, level, pos, pos2);
+    }
+    
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return simpleCodec(PebbleBlock::new);
     }
 }

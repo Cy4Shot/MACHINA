@@ -1,25 +1,26 @@
 package com.machina.api.network.c2s;
 
-import java.util.function.Function;
-
 import org.joml.Vector3f;
 
 import com.machina.api.network.C2SMessage;
 import com.machina.api.util.ParticleHelper;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.phys.Vec3;
 
 public record C2SSpawnParticle<T extends ParticleOptions>(T options, float maxSpeed, int count, Vector3f pos, Vector3f offset)
         implements C2SMessage<C2SSpawnParticle<T>> {
+    
+    public C2SSpawnParticle(T options, float maxSpeed, int count, Vec3 pos, Vec3 offset) {
+        this(options, maxSpeed, count, pos.toVector3f(), offset.toVector3f());
+    }
 
     @SuppressWarnings("unchecked")
     @Override

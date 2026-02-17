@@ -11,7 +11,6 @@ import com.machina.api.client.cinema.effect.ParticleEffect;
 import com.machina.api.client.cinema.effect.ShakeEffect;
 import com.machina.api.client.cinema.effect.SoundEffect;
 import com.machina.api.client.cinema.entity.CameraClientEntity;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SRocketLaunchComplete;
 import com.machina.api.network.c2s.C2SRocketCinematicOffset;
 import com.machina.api.network.c2s.C2SSpawnParticle;
@@ -22,6 +21,7 @@ import com.machina.rocket.RocketEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class LaunchCinematic extends PathCinematic {
 
@@ -51,17 +51,17 @@ public class LaunchCinematic extends PathCinematic {
             double off = Math.pow(Math.E, (double) ting / 9D) - 1D;
             clientEntity.moveTo(pos.add(0, off, 0));
             entity.moveTo(pos.add(0, off, 0));
-            PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.FLAME, -0.1f, 20, pos.add(0, off - 2.1D, 0),
+            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.FLAME, -0.1f, 20, pos.add(0, off - 2.1D, 0),
                     new Vec3(0d, 1d, 0d)));
-            PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.ANGRY_VILLAGER, -0.1f, 2,
+            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.ANGRY_VILLAGER, -0.1f, 2,
                     pos.add(0, off - 2.1D, 0), new Vec3(1d, 1d, 1d)));
-            PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
+            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
                     pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
-            PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 10,
+            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 10,
                     pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
-            PacketSender.sendToServer(new C2SSpawnParticle<>(ParticleTypes.EXPLOSION, -0.1f, 6,
+            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.EXPLOSION, -0.1f, 6,
                     pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
-            PacketSender.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
+            PacketDistributor.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
         });
 
         CameraEffect PLACE_PLAYER = new ActionEffect(ting -> {
@@ -96,7 +96,7 @@ public class LaunchCinematic extends PathCinematic {
     @Override
     public void finish() {
         super.finish();
-        PacketSender.sendToServer(new C2SRocketLaunchComplete(this.id));
+        PacketDistributor.sendToServer(new C2SRocketLaunchComplete(this.id));
     }
     
     @Override

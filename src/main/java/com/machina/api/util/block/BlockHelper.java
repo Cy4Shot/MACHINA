@@ -18,9 +18,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -54,15 +53,6 @@ public class BlockHelper {
         return todo.apply((T) e);
     }
 
-    public static <C> LazyOptional<C> getCapability(BlockGetter world, BlockPos pos, Direction side,
-                                                    Capability<C> capability) {
-        BlockEntity be = world.getBlockEntity(pos);
-        if (be != null) {
-            return be.getCapability(capability, side);
-        }
-        return LazyOptional.empty();
-    }
-
     public static BlockState waterlog(BlockState state, BlockGetter world, BlockPos pos) {
         FluidState fluidState = world.getFluidState(pos);
         return state.setValue(BlockStateProperties.WATERLOGGED,
@@ -81,40 +71,23 @@ public class BlockHelper {
         }
     }
 
-    public static boolean hasEnergy(BlockEntity be, @Nullable Direction side) {
-        if (be == null) {
-            return false;
-        }
-        return be.getCapability(ForgeCapabilities.ENERGY, side).isPresent();
+    public static boolean hasEnergy(Level level, BlockPos pos, @Nullable Direction side) {
+        return level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, side) != null;
     }
 
-    public static boolean hasFluid(BlockEntity be, @Nullable Direction side) {
-        if (be == null) {
-            return false;
-        }
-        return be.getCapability(ForgeCapabilities.FLUID_HANDLER, side).isPresent();
+    public static boolean hasFluid(Level level, BlockPos pos, @Nullable Direction side) {
+        return level.getCapability(Capabilities.FluidHandler.BLOCK, pos, side) != null;
     }
 
-    public static boolean hasItem(BlockEntity be, @Nullable Direction side) {
-        if (be == null) {
-            return false;
-        }
-        return be.getCapability(ForgeCapabilities.ITEM_HANDLER, side).isPresent();
+    public static boolean hasItem(Level level, BlockPos pos, @Nullable Direction side) {
+        return level.getCapability(Capabilities.ItemHandler.BLOCK, pos, side) != null;
     }
 
     // McJty
-    public static int receiveEnergy(BlockEntity tileEntity, Direction from, long maxReceive) {
-        if (tileEntity != null) {
-            return tileEntity.getCapability(ForgeCapabilities.ENERGY, from)
-                    .map(handler -> handler.receiveEnergy(MathUtil.unsignedClampToInt(maxReceive), false)).orElse(0);
-        }
-        return 0;
-    }
-
-    public static int extractEnergy(BlockEntity tileEntity, Direction from, int maxExtract) {
-        if (tileEntity != null) {
-            return tileEntity.getCapability(ForgeCapabilities.ENERGY, from)
-                    .map(handler -> handler.extractEnergy(maxExtract, false)).orElse(0);
+    public static int receiveEnergy(Level level, BlockPos pos, Direction from, long maxReceive) {
+        IEnergyStorage store = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, from);
+        if (store != null) {
+            return store.receiveEnergy(MathUtil.unsignedClampToInt(maxReceive), false);
         }
         return 0;
     }
@@ -125,11 +98,10 @@ public class BlockHelper {
             if (!storage.canConsumeEnergy(facing))
                 continue;
             BlockPos p = pos.relative(facing);
-            BlockEntity te = world.getBlockEntity(p);
             Direction opposite = facing.getOpposite();
-            if (hasEnergy(te, opposite)) {
+            if (hasEnergy(world, p, opposite)) {
                 long rfToGive = Math.min(sendPerTick, storedPower);
-                int received = receiveEnergy(te, opposite, rfToGive);
+                int received = receiveEnergy(world, p, opposite, rfToGive);
                 storage.consumeEnergy(received);
                 storedPower -= received;
                 if (storedPower <= 0) {

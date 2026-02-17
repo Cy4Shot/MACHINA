@@ -3,6 +3,8 @@ package com.machina.api.item;
 import com.machina.api.cap.energy.EnergyItemWrapper;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.util.StringUtils;
+import com.machina.registration.init.DataComponentsInit;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -10,7 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,29 +27,9 @@ public abstract class EnergyItem extends Item {
 
     public abstract int getMaxEnergy();
 
-    public static int getEnergy(ItemStack stack) {
-        if (stack.getItem() instanceof EnergyItem) {
-            CompoundTag nbt = stack.getTagElement("energy");
-            if (nbt != null && nbt.contains("energy")) {
-                return nbt.getInt("energy");
-            }
-        }
-        return 0;
-    }
-
-    public static boolean setEnergy(ItemStack stack, int energy) {
-        if (stack.getItem() instanceof EnergyItem) {
-            CompoundTag nbt = new CompoundTag();
-            nbt.putInt("energy", energy);
-            stack.addTagElement("energy", nbt);
-            return true;
-        }
-        return false;
-    }
-
     private float getEnergyProp(ItemStack stack) {
         float max = (float) getMaxEnergy();
-        float stored = (float) getEnergy(stack);
+        float stored = (float) stack.get(DataComponentsInit.ENERGY);
         return stored / max;
     }
 
@@ -65,7 +46,7 @@ public abstract class EnergyItem extends Item {
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = new ItemStack(this);
-        setEnergy(stack, 0);
+        stack.set(DataComponentsInit.ENERGY, 0);
         return stack;
     }
 
@@ -75,12 +56,12 @@ public abstract class EnergyItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, Level level, List<Component> tooltip,
+    public void appendHoverText(@NotNull ItemStack stack, TooltipContext context, List<Component> tooltip,
                                 @NotNull TooltipFlag flag) {
         tooltip.add(Component
-                .literal(StringUtils.formatPower(getEnergy(stack)) + " / " + StringUtils.formatPower(getMaxEnergy()))
+                .literal(StringUtils.formatPower(stack.get(DataComponentsInit.ENERGY)) + " / " + StringUtils.formatPower(getMaxEnergy()))
                 .setStyle(Style.EMPTY.withColor(MUI.CYAN)));
-        super.appendHoverText(stack, level, tooltip, flag);
+        super.appendHoverText(stack, context, tooltip, flag);
     }
 
     @Override

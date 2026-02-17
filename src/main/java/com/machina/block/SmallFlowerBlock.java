@@ -16,6 +16,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+import com.mojang.serialization.MapCodec;
+
 public class SmallFlowerBlock extends BushBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -44,5 +46,10 @@ public class SmallFlowerBlock extends BushBlock {
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_272634_) {
         p_272634_.add(FACING);
+    }
+
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return simpleCodec(SmallFlowerBlock::new);
     }
 }

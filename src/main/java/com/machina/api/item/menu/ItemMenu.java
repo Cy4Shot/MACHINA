@@ -2,7 +2,6 @@ package com.machina.api.item.menu;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SItemMenuSync;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -13,6 +12,8 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,7 +47,7 @@ public abstract class ItemMenu extends MachinaAnyMenu {
 
     public void containerChanged() {
         int slot = hand == InteractionHand.MAIN_HAND ? inv.selected : Inventory.SLOT_OFFHAND;
-        PacketSender.sendToServer(new C2SItemMenuSync(slot, stack));
+        PacketDistributor.sendToServer(new C2SItemMenuSync(slot, stack));
     }
 
     @Override

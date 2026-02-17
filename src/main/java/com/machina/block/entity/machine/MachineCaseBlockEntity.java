@@ -8,6 +8,7 @@ import com.machina.block.menu.MachineCaseMenu;
 import com.machina.registration.init.BlockEntityInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -49,15 +50,15 @@ public class MachineCaseBlockEntity extends MachinaBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
         tag.putBoolean("formed", formed);
-        super.saveAdditional(tag);
+        super.saveAdditional(tag, registries);
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
+    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
         this.formed = tag.getBoolean("formed");
-        super.load(tag);
+        super.loadAdditional(tag, registries);
     }
 
     private boolean valid() {

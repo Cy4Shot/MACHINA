@@ -4,13 +4,13 @@ import com.machina.api.client.cinema.effect.renderer.CinematicTextOverlay;
 import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
 import com.machina.api.client.cinema.entity.CameraClientEntity;
 import com.machina.api.client.cinema.entity.CinematicClientEntity;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SFinishCinematic;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Objects;
 
@@ -92,7 +92,7 @@ public abstract class Cinematic {
             Objects.requireNonNull(mc.player).setYRot(pitch);
             mc.player.setDeltaMovement(0, 0, 0);
             this.active = false;
-            PacketSender.sendToServer(new C2SFinishCinematic(this.id));
+            PacketDistributor.sendToServer(new C2SFinishCinematic(this.id));
             Entity.setViewScale(viewScale);
         }
 

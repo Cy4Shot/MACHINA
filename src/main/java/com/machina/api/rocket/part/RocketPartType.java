@@ -1,10 +1,11 @@
 package com.machina.api.rocket.part;
 
 import com.machina.Machina;
+import com.machina.api.util.reflect.MachinaStreamCodecs.HasId;
 
 import net.minecraft.network.chat.Component;
 
-public enum RocketPartType {
+public enum RocketPartType implements HasId {
     THRUSTER(384),
     FUEL_TANK(400),
     CHASSIS(416),
@@ -27,5 +28,10 @@ public enum RocketPartType {
     
     public String getNBTName() {
         return "rocket_type_" + name().toLowerCase();
+    }
+
+    @Override
+    public int getId() {
+        return this.ordinal();
     }
 }

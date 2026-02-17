@@ -2,6 +2,8 @@ package com.machina.api.util.loader;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -15,7 +17,7 @@ public class FluidJson {
         }
         JsonObject obj = json.getAsJsonObject();
         if (obj.has("fluid") && obj.has("amount")) {
-            Fluid fluid = ForgeRegistries.FLUIDS.getValue(ResourceLocation.parse(obj.get("fluid").getAsString()));
+            Fluid fluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(obj.get("fluid").getAsString()));
             if (fluid == null) {
                 return FluidStack.EMPTY;
             }
@@ -27,7 +29,7 @@ public class FluidJson {
 
     public static JsonObject save(FluidStack stack) {
         JsonObject obj = new JsonObject();
-        obj.addProperty("fluid", Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(stack.getFluid())).toString());
+        obj.addProperty("fluid", Objects.requireNonNull(BuiltInRegistries.FLUID.getKey(stack.getFluid())).toString());
         obj.addProperty("amount", stack.getAmount());
         return obj;
     }

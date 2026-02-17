@@ -1,7 +1,9 @@
 package com.machina.api.rocket;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.machina.api.rocket.part.RocketPart;
@@ -11,13 +13,16 @@ import com.machina.api.rocket.part.impl.FuelTankPart;
 import com.machina.api.rocket.part.impl.LifeSupportPart;
 import com.machina.api.rocket.part.impl.ShieldPart;
 import com.machina.api.rocket.part.impl.ThrusterPart;
+import com.machina.api.util.reflect.MachinaCodecs;
+import com.machina.api.util.reflect.MachinaStreamCodecs;
 import com.machina.registration.init.RegistryInit;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -31,41 +36,55 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
         Fluid coolantType, int coolantStorage, float coolantEfficiency, int slots, float maxPressure,
         List<RocketPart<?>> parts, AABB boundingBox) {
 
-    public static final EntityDataSerializer<RocketProps> SERIALIZER = new EntityDataSerializer.ForValueType<RocketProps>() {
-        public static final StreamCodec<RegistryFriendlyByteBuf, RocketProps> CODEC = StreamCodec.of((buf, value) -> {
-            buf.writeBoolean(value.empty());
-            buf.writeFloat(value.mass());
-            FluidStack.STREAM_CODEC.encode(buf, value.fuelStack());
-            buf.writeFloat(value.fuelEfficiency());
-            FluidStack.STREAM_CODEC.encode(buf, value.coolantStack());
-            buf.writeFloat(value.coolantEfficiency());
-            buf.writeVarInt(value.slots());
-            buf.writeFloat(value.maxPressure());
-            ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key()).apply(ByteBufCodecs.list(5)).encode(buf,
-                    value.parts());
-            buf.writeVec3(value.boundingBox().getMinPosition());
-            buf.writeVec3(value.boundingBox().getMaxPosition());
-        }, buf -> new RocketProps( //@formatter:off
-                buf.readBoolean(),
-                buf.readFloat(),
-                FluidStack.STREAM_CODEC.decode(buf).getFluid(),
-                FluidStack.STREAM_CODEC.decode(buf).getAmount(),
-                buf.readFloat(),
-                FluidStack.STREAM_CODEC.decode(buf).getFluid(),
-                FluidStack.STREAM_CODEC.decode(buf).getAmount(),
-                buf.readFloat(),
-                buf.readVarInt(),
-                buf.readFloat(),
-                ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key())
-                    .apply(ByteBufCodecs.list(5))
-                    .decode(buf),
-                new AABB(buf.readVec3(), buf.readVec3())
-            ) // @formatter:on
-        );
+    public RocketProps(boolean empty, float mass, FluidStack fuelStack, float fuelEfficiency, FluidStack coolantStack,
+            float coolantEfficiency, int slots, float maxPressure, List<RocketPart<?>> parts, AABB boundingBox) {
+        this(empty, mass, fuelStack.getFluid(), fuelStack.getAmount(), fuelEfficiency, coolantStack.getFluid(),
+                coolantStack.getAmount(), coolantEfficiency, slots, maxPressure, parts, boundingBox);
+    }
 
+    //@formatter:off
+    public static final StreamCodec<RegistryFriendlyByteBuf, RocketProps> STREAM_CODEC = MachinaStreamCodecs.composite(
+            ByteBufCodecs.BOOL, RocketProps::empty,
+            ByteBufCodecs.FLOAT, RocketProps::mass,
+            FluidStack.STREAM_CODEC, RocketProps::fuelStack,
+            ByteBufCodecs.FLOAT, RocketProps::fuelEfficiency,
+            FluidStack.STREAM_CODEC, RocketProps::coolantStack,
+            ByteBufCodecs.FLOAT, RocketProps::coolantEfficiency,
+            ByteBufCodecs.VAR_INT, RocketProps::slots,
+            ByteBufCodecs.FLOAT, RocketProps::maxPressure,
+            ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key()).apply(ByteBufCodecs.list(5)), RocketProps::parts,
+            MachinaStreamCodecs.AABB_CODEC, RocketProps::boundingBox,
+            RocketProps::new);
+    
+    public static final Codec<RocketProps> CODEC = RecordCodecBuilder.create(instance ->
+        instance.group(
+                Codec.BOOL.fieldOf("empty").forGetter(RocketProps::empty),
+                Codec.FLOAT.fieldOf("mass").forGetter(RocketProps::mass),
+                FluidStack.CODEC.fieldOf("fuelStack").forGetter(RocketProps::fuelStack),
+                Codec.FLOAT.fieldOf("fuelEfficiency").forGetter(RocketProps::fuelEfficiency),
+                FluidStack.CODEC.fieldOf("coolantStack").forGetter(RocketProps::coolantStack),
+                Codec.FLOAT.fieldOf("coolantEfficiency").forGetter(RocketProps::coolantEfficiency),
+                Codec.INT.fieldOf("slots").forGetter(RocketProps::slots),
+                Codec.FLOAT.fieldOf("maxPressure").forGetter(RocketProps::maxPressure),
+                RocketPart.CODEC.listOf(5, 5).fieldOf("parts").forGetter(RocketProps::parts),
+                MachinaCodecs.AABB.fieldOf("boundingBox").forGetter(RocketProps::boundingBox)
+        ).apply(instance, RocketProps::new));
+    
+    public static final StreamCodec<RegistryFriendlyByteBuf, Map<RocketPartType, RocketPart<?>>> PARTMAP_STREAM_CODEC = ByteBufCodecs.map(
+            HashMap::new,
+            MachinaStreamCodecs.enumCodec(RocketPartType.class),
+            RocketPart.STREAM_CODEC,
+            5);
+    
+    public static final Codec<Map<RocketPartType, RocketPart<?>>> PARTMAP_CODEC = Codec.unboundedMap(
+            MachinaCodecs.enumCodec(RocketPartType.class), 
+            RocketPart.CODEC);
+    //@formatter:on
+
+    public static final EntityDataSerializer<RocketProps> SERIALIZER = new EntityDataSerializer.ForValueType<RocketProps>() {
         @Override
         public StreamCodec<RegistryFriendlyByteBuf, RocketProps> codec() {
-            return CODEC;
+            return STREAM_CODEC;
         }
     };
 
@@ -109,8 +128,8 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
             return NULL;
         }
 
-        Fluid fuel = Registries.FLUID.getValue(ResourceLocation.parse(tag.getString(PROPERTY_FUEL_TYPE)));
-        Fluid coolant = Registries.FLUID.getValue(ResourceLocation.parse(tag.getString(PROPERTY_COOLANT_TYPE)));
+        Fluid fuel = BuiltInRegistries.FLUID.get(ResourceLocation.parse(tag.getString(PROPERTY_FUEL_TYPE)));
+        Fluid coolant = BuiltInRegistries.FLUID.get(ResourceLocation.parse(tag.getString(PROPERTY_COOLANT_TYPE)));
         List<RocketPart<?>> parts = new ArrayList<RocketPart<?>>();
         ListTag rocket_parts = tag.getList(PROPERTY_PARTS, Tag.TAG_COMPOUND);
         for (int i = 0; i < rocket_parts.size(); i++) {
@@ -130,8 +149,8 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
             return props;
         }
 
-        String fuel = Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fuelType)).toString();
-        String coolant = Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(coolantType)).toString();
+        String fuel = Objects.requireNonNull(BuiltInRegistries.FLUID.getKey(fuelType)).toString();
+        String coolant = Objects.requireNonNull(BuiltInRegistries.FLUID.getKey(coolantType)).toString();
         props.putFloat(PROPERTY_MASS, mass);
         props.putString(PROPERTY_FUEL_TYPE, fuel);
         props.putInt(PROPERTY_FUEL_STORAGE, fuelStorage);

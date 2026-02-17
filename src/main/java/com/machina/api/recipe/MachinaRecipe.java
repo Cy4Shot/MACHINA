@@ -3,6 +3,7 @@ package com.machina.api.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.machina.api.util.loader.FluidJson;
+import com.machina.api.util.reflect.MachinaStreamCodecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -214,7 +215,7 @@ public abstract class MachinaRecipe<C extends RecipeInput> implements Recipe<C> 
                 ));
         }
         
-        Function<RecipeFactory<MachinaRecipe<C>>, StreamCodec<RegistryFriendlyByteBuf, MachinaRecipe<C>>> CODEC = f -> StreamCodec.composite(
+        Function<RecipeFactory<MachinaRecipe<C>>, StreamCodec<RegistryFriendlyByteBuf, MachinaRecipe<C>>> CODEC = f -> MachinaStreamCodecs.composite(
                 ByteBufCodecs.VAR_INT, (MachinaRecipe<C> r) -> r.getEnergy(),
                 ByteBufCodecs.VAR_INT, MachinaRecipe::getTime,
                 ByteBufCodecs.FLOAT, MachinaRecipe::getPressure,

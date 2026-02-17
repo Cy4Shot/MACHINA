@@ -24,6 +24,7 @@ import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.ItemInit;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -127,7 +128,7 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
         tag.putBoolean("has_rocket_parts", this.parts != null);
         if (this.parts != null) {
             ListTag rocket_parts = new ListTag();
@@ -137,11 +138,11 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
             tag.put("rocket_parts", rocket_parts);
         }
         tag.putInt("progress", progress);
-        super.saveAdditional(tag);
+        super.saveAdditional(tag, registries);
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
+    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
         this.progress = tag.getInt("progress");
         if (tag.getBoolean("has_rocket_parts")) {
             this.parts = new RocketPart<?>[5];
@@ -152,7 +153,7 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
         } else {
             this.parts = null;
         }
-        super.load(tag);
+        super.loadAdditional(tag, registries);
     }
 
     @Override

@@ -2,11 +2,11 @@ package com.machina.api.client.cinema.effect;
 
 import java.util.Random;
 
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SSpawnParticle;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ParticleEffect implements CameraEffect {
 
@@ -27,7 +27,7 @@ public class ParticleEffect implements CameraEffect {
     @Override
     public void tickEffect(int tick) {
         if (new Random().nextFloat() < chance)
-            PacketSender.sendToServer(new C2SSpawnParticle<>(particle, speed, 1, pos, maxOffset));
+            PacketDistributor.sendToServer(new C2SSpawnParticle<>(particle, speed, 1, pos, maxOffset));
     }
 
 }
