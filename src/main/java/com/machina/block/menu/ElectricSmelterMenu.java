@@ -8,6 +8,7 @@ import com.machina.block.entity.machine.ElectricSmelterBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
 
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -15,8 +16,8 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class ElectricSmelterMenu extends MachinaContainerMenu<ElectricSmelterBlockEntity> {
 
-	public ElectricSmelterMenu(int id, Inventory inv) {
-		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(2));
+	public ElectricSmelterMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+		this(id, inv, client(buf), new ItemStackHandler(2));
 	}
 
 	public ElectricSmelterMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {

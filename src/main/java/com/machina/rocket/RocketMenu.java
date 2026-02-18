@@ -70,40 +70,52 @@ public class RocketMenu extends MachinaAnyMenu {
 	}
 
 	@Override
-	public ItemStack quickMoveStack(Player player, int quickMovedSlotIndex) {
-		ItemStack quickMovedStack = ItemStack.EMPTY;
-		Slot quickMovedSlot = this.slots.get(quickMovedSlotIndex);
+	public ItemStack quickMoveStack(Player player, int index) {
+		ItemStack empty = ItemStack.EMPTY;
+		Slot slot = this.slots.get(index);
 
-		if (quickMovedSlot != null && quickMovedSlot.hasItem()) {
-			ItemStack rawStack = quickMovedSlot.getItem();
-			quickMovedStack = rawStack.copy();
+		if (slot == null || !slot.hasItem() || this.slots.size() <= 36) {
+			return empty;
+		}
 
-			if (quickMovedSlotIndex == 0) {
-				if (!this.moveItemStackTo(rawStack, 5, 41, true)) {
-					return ItemStack.EMPTY;
-				}
-			} else if (quickMovedSlotIndex >= 5 && quickMovedSlotIndex < 41) {
-				if (!this.moveItemStackTo(rawStack, 1, 5, false)) {
-					if (quickMovedSlotIndex < 32) {
-						if (!this.moveItemStackTo(rawStack, 32, 41, false)) {
-							return ItemStack.EMPTY;
-						}
-					} else if (!this.moveItemStackTo(rawStack, 5, 32, false)) {
-						return ItemStack.EMPTY;
-					}
-				}
-			} else if (!this.moveItemStackTo(rawStack, 5, 41, false)) {
+		ItemStack stackInSlot = slot.getItem();
+		ItemStack stackCopy = stackInSlot.copy();
+
+		int machineSlotCount = this.slots.size() - 36;
+		int playerInventoryStart = machineSlotCount;
+		int playerInventoryEnd = this.slots.size();
+		if (index < machineSlotCount) {
+			if (!this.moveItemStackTo(stackInSlot, playerInventoryStart, playerInventoryEnd, true)) {
 				return ItemStack.EMPTY;
 			}
+		} else {
+			boolean moved = false;
 
-			if (rawStack.isEmpty()) {
-				quickMovedSlot.set(ItemStack.EMPTY);
-			} else {
-				quickMovedSlot.setChanged();
+			for (int i = 0; i < machineSlotCount; i++) {
+				Slot machineSlot = this.slots.get(i);
+
+				if (machineSlot.mayPlace(stackInSlot)) {
+					if (this.moveItemStackTo(stackInSlot, i, i + 1, false)) {
+						moved = true;
+						break;
+					}
+				}
+			}
+
+			if (!moved) {
+				return ItemStack.EMPTY;
 			}
 		}
 
-		return quickMovedStack;
+		if (stackInSlot.isEmpty()) {
+			slot.set(ItemStack.EMPTY);
+		} else {
+			slot.setChanged();
+		}
+
+		slot.onTake(player, stackInSlot);
+
+		return stackCopy;
 	}
 
 	@Override

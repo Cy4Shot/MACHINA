@@ -17,7 +17,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class ItemConduitMenu extends ConnectorMenu<ItemConduitBlockEntity> {
 	public ItemConduitMenu(int id, Inventory inv, FriendlyByteBuf extra) {
-		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(1), extra.readEnum(Direction.class));
+		this(id, inv, client(extra), new ItemStackHandler(1), extra.readEnum(Direction.class));
 	}
 
 	public ItemConduitMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container, Direction d) {

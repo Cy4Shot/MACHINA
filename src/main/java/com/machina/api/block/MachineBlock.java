@@ -45,7 +45,7 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
 		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		} else {
-			((ServerPlayer) player).openMenu(state.getMenuProvider(level, pos));
+			((ServerPlayer) player).openMenu(state.getMenuProvider(level, pos), pos);
 			return InteractionResult.CONSUME;
 		}
 	}

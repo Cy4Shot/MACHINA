@@ -15,7 +15,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 public class ChemicalGeneratorMenu extends MachinaContainerMenu<ChemicalGeneratorBlockEntity> {
 
 	public ChemicalGeneratorMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(0));
+		this(id, inv, client(buf), new ItemStackHandler(0));
 	}
 
 	public ChemicalGeneratorMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {

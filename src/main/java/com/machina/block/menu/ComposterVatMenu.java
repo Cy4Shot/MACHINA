@@ -7,6 +7,7 @@ import com.machina.block.entity.machine.ComposterVatBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
 
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -15,8 +16,8 @@ import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 
 public class ComposterVatMenu extends MachinaContainerMenu<ComposterVatBlockEntity> {
 
-	public ComposterVatMenu(int id, Inventory inv) {
-		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(1));
+	public ComposterVatMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+		this(id, inv, client(buf), new ItemStackHandler(1));
 	}
 
 	public ComposterVatMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {
