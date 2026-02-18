@@ -16,24 +16,24 @@ import net.minecraft.world.level.Level;
 
 public class RocketAssemblyStationMenu extends MachinaContainerMenu<RocketAssemblyStationBlockEntity> {
 
-    public RocketAssemblyStationMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-        this(id, clientLevel(), buf.readBlockPos(), inv);
-    }
+	public RocketAssemblyStationMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+		this(id, clientLevel(), buf.readBlockPos(), inv);
+	}
 
-    public RocketAssemblyStationMenu(int id, Level level, BlockPos pos, Inventory inv) {
-        super(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), level, pos, id);
+	public RocketAssemblyStationMenu(int id, Level level, BlockPos pos, Inventory inv) {
+		super(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), level, pos, id);
 
-        invSlots(inv, 0);
+		invSlots(inv, 0);
 
-        this.addSlot(new AcceptSlot(be, 0, 80, 41, i -> ItemStackUtil.isRocketPart(i, RocketPartType.THRUSTER)));
-        this.addSlot(new AcceptSlot(be, 1, 80, 16, i -> ItemStackUtil.isRocketPart(i, RocketPartType.FUEL_TANK)));
-        this.addSlot(new AcceptSlot(be, 2, 80, -9, i -> ItemStackUtil.isRocketPart(i, RocketPartType.CHASSIS)));
-        this.addSlot(new AcceptSlot(be, 3, 80, -34, i -> ItemStackUtil.isRocketPart(i, RocketPartType.LIFE_SUPPORT)));
-        this.addSlot(new AcceptSlot(be, 4, 80, -59, i -> ItemStackUtil.isRocketPart(i, RocketPartType.SHIELD)));
-    }
+		this.addSlot(new AcceptSlot(be, 0, 80, 41, i -> ItemStackUtil.isRocketPart(i, RocketPartType.THRUSTER)));
+		this.addSlot(new AcceptSlot(be, 1, 80, 16, i -> ItemStackUtil.isRocketPart(i, RocketPartType.FUEL_TANK)));
+		this.addSlot(new AcceptSlot(be, 2, 80, -9, i -> ItemStackUtil.isRocketPart(i, RocketPartType.CHASSIS)));
+		this.addSlot(new AcceptSlot(be, 3, 80, -34, i -> ItemStackUtil.isRocketPart(i, RocketPartType.LIFE_SUPPORT)));
+		this.addSlot(new AcceptSlot(be, 4, 80, -59, i -> ItemStackUtil.isRocketPart(i, RocketPartType.SHIELD)));
+	}
 
-    @Override
-    protected MachineBlock getBlock() {
-        return BlockInit.ROCKET_ASSEMBLY_STATION.get();
-    }
+	@Override
+	protected MachineBlock getBlock() {
+		return BlockInit.ROCKET_ASSEMBLY_STATION.get();
+	}
 }

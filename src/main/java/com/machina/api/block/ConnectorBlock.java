@@ -1,5 +1,11 @@
 package com.machina.api.block;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.block.entity.ConnectorBlockEntity.Connection;
 import com.machina.api.block.menu.DirectionalMenuFactory;
@@ -33,11 +39,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public abstract class ConnectorBlock extends Block implements EntityBlock, IClickableBlock {
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");

@@ -16,10 +16,10 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries.Keys;
 
 public class EntityDataSerializerInit {
 
-    public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister
-            .create(Keys.ENTITY_DATA_SERIALIZERS, Machina.MOD_ID);
+	public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister
+			.create(Keys.ENTITY_DATA_SERIALIZERS, Machina.MOD_ID);
 
-    //@formatter:off
+	//@formatter:off
     public static final Supplier<EntityDataSerializer<RocketStage>> ROCKET_STAGE = ENTITY_DATA_SERIALIZERS .register("rocket_stage", () -> RocketStage.SERIALIZER);
 	public static final Supplier<EntityDataSerializer<RocketProps>> ROCKET_PROPS = ENTITY_DATA_SERIALIZERS.register("rocket_props", () -> RocketProps.SERIALIZER);
     public static final Supplier<EntityDataSerializer<RocketCosts>> ROCKET_COSTS = ENTITY_DATA_SERIALIZERS.register("rocket_costs", () -> RocketCosts.SERIALIZER);

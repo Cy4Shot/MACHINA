@@ -12,13 +12,13 @@ import net.neoforged.neoforge.common.NeoForge;
 
 public record C2SFinishCinematic(String id) implements C2SMessage<C2SFinishCinematic> {
 
-    @Override
-    public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> NeoForge.EVENT_BUS.post(new CinematicCompleteEvent(player, id)));
-    }
+	@Override
+	public void handle(MinecraftServer server, ServerPlayer player) {
+		server.execute(() -> NeoForge.EVENT_BUS.post(new CinematicCompleteEvent(player, id)));
+	}
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, C2SFinishCinematic> streamCodec() {
-        return ByteBufCodecs.STRING_UTF8.map(C2SFinishCinematic::new, C2SFinishCinematic::id).cast();
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, C2SFinishCinematic> streamCodec() {
+		return ByteBufCodecs.STRING_UTF8.map(C2SFinishCinematic::new, C2SFinishCinematic::id).cast();
+	}
 }

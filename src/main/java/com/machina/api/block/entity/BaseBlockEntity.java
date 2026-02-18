@@ -1,5 +1,7 @@
 package com.machina.api.block.entity;
 
+import java.util.Objects;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
@@ -12,8 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.Objects;
-
 /**
  * Basic BlockEntity class which all Machina BlockEntities should extend. It
  * provides basic methods for syncing between the client and server.
@@ -23,46 +23,46 @@ import java.util.Objects;
  */
 public abstract class BaseBlockEntity extends BlockEntity {
 
-    public BaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
+	public BaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
+	}
 
-    @Override
-    public CompoundTag getUpdateTag(Provider registries) {
-        return this.saveWithFullMetadata(registries);
-    }
+	@Override
+	public CompoundTag getUpdateTag(Provider registries) {
+		return this.saveWithFullMetadata(registries);
+	}
 
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
+	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
 
-    @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, Provider lookupProvider) {
-        super.onDataPacket(net, pkt, lookupProvider);
+	@Override
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, Provider lookupProvider) {
+		super.onDataPacket(net, pkt, lookupProvider);
 
-        if (activeModel() && level != null) {
-            Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
-        }
-    }
+		if (activeModel() && level != null) {
+			Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
+		}
+	}
 
-    @Override
-    public void handleUpdateTag(CompoundTag tag, Provider lookupProvider) {
-        super.handleUpdateTag(tag, lookupProvider);
+	@Override
+	public void handleUpdateTag(CompoundTag tag, Provider lookupProvider) {
+		super.handleUpdateTag(tag, lookupProvider);
 
-        if (activeModel() && level != null) {
-            Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
-        }
-    }
+		if (activeModel() && level != null) {
+			Objects.requireNonNull(level.getModelDataManager()).requestRefresh(this);
+		}
+	}
 
-    public void sync() {
-        if (this.level instanceof ServerLevel) {
-            final BlockState state = getBlockState();
-            this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
-            this.level.blockEntityChanged(this.worldPosition);
-            this.setChanged();
-        }
-    }
+	public void sync() {
+		if (this.level instanceof ServerLevel) {
+			final BlockState state = getBlockState();
+			this.level.sendBlockUpdated(this.worldPosition, state, state, 3);
+			this.level.blockEntityChanged(this.worldPosition);
+			this.setChanged();
+		}
+	}
 
-    public abstract boolean activeModel();
+	public abstract boolean activeModel();
 }

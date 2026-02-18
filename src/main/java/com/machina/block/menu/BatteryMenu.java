@@ -14,22 +14,22 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 
 public class BatteryMenu extends MachinaContainerMenu<BatteryBlockEntity> {
-    public BatteryMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-        this(id, clientLevel(), buf.readBlockPos(), inv);
-    }
+	public BatteryMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+		this(id, clientLevel(), buf.readBlockPos(), inv);
+	}
 
-    public BatteryMenu(int id, Level level, BlockPos pos, Inventory inv) {
-        super(MenuTypeInit.BATTERY.get(), level, pos, id);
+	public BatteryMenu(int id, Level level, BlockPos pos, Inventory inv) {
+		super(MenuTypeInit.BATTERY.get(), level, pos, id);
 
-        this.addSlot(new AcceptSlot(be, 0, 108, -57, ItemStackUtil::isCapacitor));
-        this.addSlot(new AcceptSlot(be, 1, 21, 31, ItemStackUtil::hasEnergy));
-        this.addSlot(new AcceptSlot(be, 2, 198, 31, ItemStackUtil::hasEnergy));
+		this.addSlot(new AcceptSlot(be, 0, 108, -57, ItemStackUtil::isCapacitor));
+		this.addSlot(new AcceptSlot(be, 1, 21, 31, ItemStackUtil::hasEnergy));
+		this.addSlot(new AcceptSlot(be, 2, 198, 31, ItemStackUtil::hasEnergy));
 
-        invSlots(inv, 0);
-    }
+		invSlots(inv, 0);
+	}
 
-    @Override
-    protected MachineBlock getBlock() {
-        return BlockInit.BATTERY.get();
-    }
+	@Override
+	protected MachineBlock getBlock() {
+		return BlockInit.BATTERY.get();
+	}
 }

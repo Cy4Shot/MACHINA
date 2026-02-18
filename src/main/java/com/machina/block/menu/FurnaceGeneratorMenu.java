@@ -17,20 +17,20 @@ import net.minecraft.world.level.Level;
 
 public class FurnaceGeneratorMenu extends MachinaContainerMenu<FurnaceGeneratorBlockEntity> {
 
-    public FurnaceGeneratorMenu(int id, Inventory inv, @NonNull FriendlyByteBuf buf) {
-        this(id, clientLevel(), buf.readBlockPos(), inv);
-    }
+	public FurnaceGeneratorMenu(int id, Inventory inv, @NonNull FriendlyByteBuf buf) {
+		this(id, clientLevel(), buf.readBlockPos(), inv);
+	}
 
-    public FurnaceGeneratorMenu(int id, Level level, BlockPos pos, Inventory inv) {
-        super(MenuTypeInit.FURNACE_GENERATOR.get(), level, pos, id);
+	public FurnaceGeneratorMenu(int id, Level level, BlockPos pos, Inventory inv) {
+		super(MenuTypeInit.FURNACE_GENERATOR.get(), level, pos, id);
 
-        this.addSlot(new AcceptSlot(be, 0, 108, -25, ItemStackUtil::isBurnable));
+		this.addSlot(new AcceptSlot(be, 0, 108, -25, ItemStackUtil::isBurnable));
 
-        invSlots(inv, 0);
-    }
+		invSlots(inv, 0);
+	}
 
-    @Override
-    protected MachineBlock getBlock() {
-        return BlockInit.FURNACE_GENERATOR.get();
-    }
+	@Override
+	protected MachineBlock getBlock() {
+		return BlockInit.FURNACE_GENERATOR.get();
+	}
 }

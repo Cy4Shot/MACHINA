@@ -12,22 +12,22 @@ import net.minecraft.world.entity.Entity;
 
 public record S2CCinematicLaunch(int entity) implements S2CMessage<S2CCinematicLaunch> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, S2CCinematicLaunch> streamCodec() {
-        return ByteBufCodecs.INT.map(S2CCinematicLaunch::new, S2CCinematicLaunch::entity).cast();
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, S2CCinematicLaunch> streamCodec() {
+		return ByteBufCodecs.INT.map(S2CCinematicLaunch::new, S2CCinematicLaunch::entity).cast();
+	}
 
-    @Override
-    public void handle() {
-        int id = entity();
-        mc.execute(() -> {
-            CinematicHandler.INSTANCE.enqueueCinematic(() -> mc.level != null, () -> {
-                Entity e = mc.level.getEntity(id);
-                if (e instanceof RocketEntity rocket) {
-                    return new LaunchCinematic(rocket);
-                }
-                return null;
-            });
-        });
-    }
+	@Override
+	public void handle() {
+		int id = entity();
+		mc.execute(() -> {
+			CinematicHandler.INSTANCE.enqueueCinematic(() -> mc.level != null, () -> {
+				Entity e = mc.level.getEntity(id);
+				if (e instanceof RocketEntity rocket) {
+					return new LaunchCinematic(rocket);
+				}
+				return null;
+			});
+		});
+	}
 }

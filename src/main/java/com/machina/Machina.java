@@ -14,15 +14,15 @@ import net.neoforged.fml.loading.FMLEnvironment;
 @Mod(Machina.MOD_ID)
 public class Machina {
 
-    public static final Logger LOGGER = LogManager.getLogger();
-    public static final String MOD_ID = "machina";
-    public static final String VERSION = "0.1.0";
+	public static final Logger LOGGER = LogManager.getLogger();
+	public static final String MOD_ID = "machina";
+	public static final String VERSION = "0.1.0";
 
-    public Machina(IEventBus modEventBus, ModContainer modContainer) {
-        Registration.register(modEventBus, modContainer);
-    }
+	public Machina(IEventBus modEventBus, ModContainer modContainer) {
+		Registration.register(modEventBus, modContainer);
+	}
 
-    public static boolean isDevEnvironment() {
-        return !FMLEnvironment.production || ClientConfig.devMode.get();
-    }
+	public static boolean isDevEnvironment() {
+		return !FMLEnvironment.production || ClientConfig.devMode.get();
+	}
 }

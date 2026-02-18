@@ -40,235 +40,235 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 
-    private int progress = 0;
-    private RocketPart<?>[] parts = null;
+	private int progress = 0;
+	private RocketPart<?>[] parts = null;
 
-    public RocketAssemblyStationBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
+	public RocketAssemblyStationBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
+	}
 
-    public RocketAssemblyStationBlockEntity(BlockPos pos, BlockState state) {
-        this(BlockEntityInit.ROCKET_ASSEMBLY_STATION.get(), pos, state);
-    }
+	public RocketAssemblyStationBlockEntity(BlockPos pos, BlockState state) {
+		this(BlockEntityInit.ROCKET_ASSEMBLY_STATION.get(), pos, state);
+	}
 
-    @Override
-    public void createStorages() {
-        energyStorage(Side.INPUTS);
-        itemStorage(Side.INPUTS);
-        itemStorage(Side.INPUTS);
-        itemStorage(Side.INPUTS);
-        itemStorage(Side.INPUTS);
-        itemStorage(Side.INPUTS);
-    }
+	@Override
+	public void createStorages() {
+		energyStorage(Side.INPUTS);
+		itemStorage(Side.INPUTS);
+		itemStorage(Side.INPUTS);
+		itemStorage(Side.INPUTS);
+		itemStorage(Side.INPUTS);
+		itemStorage(Side.INPUTS);
+	}
 
-    public boolean areSlotsFilled() {
-        for (RocketPartType type : RocketPartType.values()) {
-            if (getPart(type) == null)
-                return false;
-        }
-        return true;
-    }
+	public boolean areSlotsFilled() {
+		for (RocketPartType type : RocketPartType.values()) {
+			if (getPart(type) == null)
+				return false;
+		}
+		return true;
+	}
 
-    public void startCrafting() {
-        if (!areSlotsFilled())
-            return;
+	public void startCrafting() {
+		if (!areSlotsFilled())
+			return;
 
-        this.parts = new RocketPart<?>[5];
-        for (RocketPartType type : RocketPartType.values()) {
-            this.parts[type.ordinal()] = getPart(type);
-            this.setItem(getSlot(type), ItemStack.EMPTY);
-        }
-        this.progress = getMaxProgress();
-        this.setChanged();
-    }
+		this.parts = new RocketPart<?>[5];
+		for (RocketPartType type : RocketPartType.values()) {
+			this.parts[type.ordinal()] = getPart(type);
+			this.setItem(getSlot(type), ItemStack.EMPTY);
+		}
+		this.progress = getMaxProgress();
+		this.setChanged();
+	}
 
-    @Override
-    public boolean hasItemIO() {
-        return false;
-    }
+	@Override
+	public boolean hasItemIO() {
+		return false;
+	}
 
-    @Override
-    public boolean activeModel() {
-        return false;
-    }
+	@Override
+	public boolean activeModel() {
+		return false;
+	}
 
-    public boolean hasPower() {
-        return this.getEnergy() >= getPowerRate();
-    }
+	public boolean hasPower() {
+		return this.getEnergy() >= getPowerRate();
+	}
 
-    public int getPowerRate() {
-        return 200;
-    }
+	public int getPowerRate() {
+		return 200;
+	}
 
-    protected boolean consumePower() {
-        int consumed = consumeEnergy(getPowerRate());
-        if (consumed < getPowerRate()) {
-            receiveEnergy(consumed, false);
-            return false;
-        }
-        return true;
-    }
+	protected boolean consumePower() {
+		int consumed = consumeEnergy(getPowerRate());
+		if (consumed < getPowerRate()) {
+			receiveEnergy(consumed, false);
+			return false;
+		}
+		return true;
+	}
 
-    public boolean isCrafting() {
-        return this.progress > 0 && this.parts != null;
-    }
+	public boolean isCrafting() {
+		return this.progress > 0 && this.parts != null;
+	}
 
-    public int getProgress() {
-        return progress;
-    }
+	public int getProgress() {
+		return progress;
+	}
 
-    public int getMaxProgress() {
-        return 200;
-    }
+	public int getMaxProgress() {
+		return 200;
+	}
 
-    public float getProgressPercent() {
-        if (this.progress <= 0)
-            return 0f;
-        return 1f - ((float) this.progress / (float) getMaxProgress());
-    }
+	public float getProgressPercent() {
+		if (this.progress <= 0)
+			return 0f;
+		return 1f - ((float) this.progress / (float) getMaxProgress());
+	}
 
-    @Override
-    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
-        tag.putBoolean("has_rocket_parts", this.parts != null);
-        if (this.parts != null) {
-            ListTag rocket_parts = new ListTag();
-            for (RocketPart<?> part : this.parts) {
-                rocket_parts.add(part.toNBT());
-            }
-            tag.put("rocket_parts", rocket_parts);
-        }
-        tag.putInt("progress", progress);
-        super.saveAdditional(tag, registries);
-    }
+	@Override
+	protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
+		tag.putBoolean("has_rocket_parts", this.parts != null);
+		if (this.parts != null) {
+			ListTag rocket_parts = new ListTag();
+			for (RocketPart<?> part : this.parts) {
+				rocket_parts.add(part.toNBT());
+			}
+			tag.put("rocket_parts", rocket_parts);
+		}
+		tag.putInt("progress", progress);
+		super.saveAdditional(tag, registries);
+	}
 
-    @Override
-    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
-        this.progress = tag.getInt("progress");
-        if (tag.getBoolean("has_rocket_parts")) {
-            this.parts = new RocketPart<?>[5];
-            ListTag rocket_parts = tag.getList("rocket_parts", Tag.TAG_COMPOUND);
-            for (int i = 0; i < rocket_parts.size(); i++) {
-                this.parts[i] = RocketPart.fromNBT(rocket_parts.getCompound(i));
-            }
-        } else {
-            this.parts = null;
-        }
-        super.loadAdditional(tag, registries);
-    }
+	@Override
+	public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
+		this.progress = tag.getInt("progress");
+		if (tag.getBoolean("has_rocket_parts")) {
+			this.parts = new RocketPart<?>[5];
+			ListTag rocket_parts = tag.getList("rocket_parts", Tag.TAG_COMPOUND);
+			for (int i = 0; i < rocket_parts.size(); i++) {
+				this.parts[i] = RocketPart.fromNBT(rocket_parts.getCompound(i));
+			}
+		} else {
+			this.parts = null;
+		}
+		super.loadAdditional(tag, registries);
+	}
 
-    @Override
-    public int getMaxEnergy() {
-        // TODO: Config
-        return 100_000;
-    }
+	@Override
+	public int getMaxEnergy() {
+		// TODO: Config
+		return 100_000;
+	}
 
-    @Override
-    protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-        return RocketAssemblyStationMenu::new;
-    }
+	@Override
+	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
+		return RocketAssemblyStationMenu::new;
+	}
 
-    @Override
-    public void tick() {
-        if (this.level == null || this.level.isClientSide())
-            return;
-        if (!this.isCrafting())
-            return;
+	@Override
+	public void tick() {
+		if (this.level == null || this.level.isClientSide())
+			return;
+		if (!this.isCrafting())
+			return;
 
-        if (this.hasPower()) {
-            if (!consumePower()) {
-                return;
-            }
-            this.progress--;
-            if (this.progress == 0) {
-                ItemStack rocket = new ItemStack(ItemInit.ROCKET.get(), 1);
-                for (RocketPartType type : RocketPartType.values()) {
-                    RocketItem.setPart(rocket, type, this.parts[type.ordinal()]);
-                }
-                RocketItem.initProperties(rocket);
+		if (this.hasPower()) {
+			if (!consumePower()) {
+				return;
+			}
+			this.progress--;
+			if (this.progress == 0) {
+				ItemStack rocket = new ItemStack(ItemInit.ROCKET.get(), 1);
+				for (RocketPartType type : RocketPartType.values()) {
+					RocketItem.setPart(rocket, type, this.parts[type.ordinal()]);
+				}
+				RocketItem.initProperties(rocket);
 
-                Vec3 pos = this.getBlockPos().above().getCenter();
-                ItemEntity itementity = new ItemEntity(level, pos.x, pos.y, pos.z, rocket);
-                itementity.setDeltaMovement(level.random.triangle(0.0D, 0.11485000171139836D),
-                        level.random.triangle(0.2D, 0.11485000171139836D),
-                        level.random.triangle(0.0D, 0.11485000171139836D));
-                level.addFreshEntity(itementity);
-                this.parts = null;
-            }
-            this.setChanged();
-        }
-    }
+				Vec3 pos = this.getBlockPos().above().getCenter();
+				ItemEntity itementity = new ItemEntity(level, pos.x, pos.y, pos.z, rocket);
+				itementity.setDeltaMovement(level.random.triangle(0.0D, 0.11485000171139836D),
+						level.random.triangle(0.2D, 0.11485000171139836D),
+						level.random.triangle(0.0D, 0.11485000171139836D));
+				level.addFreshEntity(itementity);
+				this.parts = null;
+			}
+			this.setChanged();
+		}
+	}
 
-    private int getSlot(RocketPartType type) {
-        switch (type) {
-        case THRUSTER:
-            return 0;
-        case FUEL_TANK:
-            return 1;
-        case CHASSIS:
-            return 2;
-        case LIFE_SUPPORT:
-            return 3;
-        case SHIELD:
-            return 4;
-        }
-        return -1;
-    }
+	private int getSlot(RocketPartType type) {
+		switch (type) {
+		case THRUSTER:
+			return 0;
+		case FUEL_TANK:
+			return 1;
+		case CHASSIS:
+			return 2;
+		case LIFE_SUPPORT:
+			return 3;
+		case SHIELD:
+			return 4;
+		}
+		return -1;
+	}
 
-    private <T, P extends RocketPart<?>> Optional<T> partGetter(RocketPartType type, Class<P> partClass,
-            Function<P, T> getter) {
-        RocketPart<?> part = getPart(type);
-        if (part != null) {
-            if (partClass.isInstance(part)) {
-                return Optional.of(getter.apply(partClass.cast(part)));
-            }
-        }
-        return Optional.empty();
-    }
+	private <T, P extends RocketPart<?>> Optional<T> partGetter(RocketPartType type, Class<P> partClass,
+			Function<P, T> getter) {
+		RocketPart<?> part = getPart(type);
+		if (part != null) {
+			if (partClass.isInstance(part)) {
+				return Optional.of(getter.apply(partClass.cast(part)));
+			}
+		}
+		return Optional.empty();
+	}
 
-    public RocketPart<?> getPart(RocketPartType type) {
-        ItemStack stack = getItem(getSlot(type));
-        if (!stack.isEmpty()) {
-            if (stack.getItem() instanceof RocketPartItem rpi) {
-                return rpi.getRocketPart();
-            }
-        }
-        return null;
-    }
+	public RocketPart<?> getPart(RocketPartType type) {
+		ItemStack stack = getItem(getSlot(type));
+		if (!stack.isEmpty()) {
+			if (stack.getItem() instanceof RocketPartItem rpi) {
+				return rpi.getRocketPart();
+			}
+		}
+		return null;
+	}
 
-    public float getTotalMass() {
-        return (float) Stream.of(RocketPartType.values()).map(this::getPart).filter(Objects::nonNull)
-                .mapToDouble(RocketPart::getMass).sum();
-    }
+	public float getTotalMass() {
+		return (float) Stream.of(RocketPartType.values()).map(this::getPart).filter(Objects::nonNull)
+				.mapToDouble(RocketPart::getMass).sum();
+	}
 
-    public Optional<FluidStack> getTotalFuelType() {
-        return partGetter(RocketPartType.THRUSTER, ThrusterPart.class, t -> new FluidStack(t.getFuel().fluid(), 1));
-    }
+	public Optional<FluidStack> getTotalFuelType() {
+		return partGetter(RocketPartType.THRUSTER, ThrusterPart.class, t -> new FluidStack(t.getFuel().fluid(), 1));
+	}
 
-    public Optional<Float> getTotalFuelEfficiency() {
-        return partGetter(RocketPartType.THRUSTER, ThrusterPart.class, ThrusterPart::getFuelEfficiency);
-    }
+	public Optional<Float> getTotalFuelEfficiency() {
+		return partGetter(RocketPartType.THRUSTER, ThrusterPart.class, ThrusterPart::getFuelEfficiency);
+	}
 
-    public Optional<Integer> getTotalFuelStorage() {
-        return partGetter(RocketPartType.FUEL_TANK, FuelTankPart.class, FuelTankPart::getFuelStorage);
-    }
+	public Optional<Integer> getTotalFuelStorage() {
+		return partGetter(RocketPartType.FUEL_TANK, FuelTankPart.class, FuelTankPart::getFuelStorage);
+	}
 
-    public Optional<Integer> getTotalCoolantStorage() {
-        return partGetter(RocketPartType.FUEL_TANK, FuelTankPart.class, FuelTankPart::getCoolantStorage);
-    }
+	public Optional<Integer> getTotalCoolantStorage() {
+		return partGetter(RocketPartType.FUEL_TANK, FuelTankPart.class, FuelTankPart::getCoolantStorage);
+	}
 
-    public Optional<FluidStack> getTotalCoolantType() {
-        return partGetter(RocketPartType.CHASSIS, ChassisPart.class, t -> new FluidStack(t.getCoolant().fluid(), 1));
-    }
+	public Optional<FluidStack> getTotalCoolantType() {
+		return partGetter(RocketPartType.CHASSIS, ChassisPart.class, t -> new FluidStack(t.getCoolant().fluid(), 1));
+	}
 
-    public Optional<Float> getTotalCoolantEfficiency() {
-        return partGetter(RocketPartType.CHASSIS, ChassisPart.class, ChassisPart::getCoolantEfficiency);
-    }
+	public Optional<Float> getTotalCoolantEfficiency() {
+		return partGetter(RocketPartType.CHASSIS, ChassisPart.class, ChassisPart::getCoolantEfficiency);
+	}
 
-    public Optional<Integer> getTotalSlots() {
-        return partGetter(RocketPartType.LIFE_SUPPORT, LifeSupportPart.class, LifeSupportPart::getSlots);
-    }
+	public Optional<Integer> getTotalSlots() {
+		return partGetter(RocketPartType.LIFE_SUPPORT, LifeSupportPart.class, LifeSupportPart::getSlots);
+	}
 
-    public Optional<Float> getTotalMaxPressure() {
-        return partGetter(RocketPartType.SHIELD, ShieldPart.class, ShieldPart::getMaxAtmPressure);
-    }
+	public Optional<Float> getTotalMaxPressure() {
+		return partGetter(RocketPartType.SHIELD, ShieldPart.class, ShieldPart::getMaxAtmPressure);
+	}
 }

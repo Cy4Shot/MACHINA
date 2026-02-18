@@ -23,35 +23,35 @@ import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 
 public class PlanetFactory {
 
-    public static final ResourceKey<DimensionType> TYPE_KEY = ResourceKey.create(Registries.DIMENSION_TYPE,
-            MachinaRL.ID);
+	public static final ResourceKey<DimensionType> TYPE_KEY = ResourceKey.create(Registries.DIMENSION_TYPE,
+			MachinaRL.ID);
 
-    public static LevelStem createDimension(MinecraftServer server, ResourceKey<LevelStem> key) {
-        long seed = server.overworld().getSeed();
-        Planet planet = Starchart.system(seed).planets().get(PlanetHelper.getIdDim(key));
-        PlanetType type = planet.type();
-        RegistryAccess lookup = server.registryAccess();
-        MultiNoiseBiomeSource bs = new PlanetBiomeSource(key, seed, lookup).build();
+	public static LevelStem createDimension(MinecraftServer server, ResourceKey<LevelStem> key) {
+		long seed = server.overworld().getSeed();
+		Planet planet = Starchart.system(seed).planets().get(PlanetHelper.getIdDim(key));
+		PlanetType type = planet.type();
+		RegistryAccess lookup = server.registryAccess();
+		MultiNoiseBiomeSource bs = new PlanetBiomeSource(key, seed, lookup).build();
 
-        BlockState fluid = planet.getDominantLiquidBodyBlock();
-        int sea_level = type.shape().sea_level();
-        if (fluid == null) {
-            fluid = Blocks.WATER.defaultBlockState();
-            sea_level = -1;
-        }
+		BlockState fluid = planet.getDominantLiquidBodyBlock();
+		int sea_level = type.shape().sea_level();
+		if (fluid == null) {
+			fluid = Blocks.WATER.defaultBlockState();
+			sea_level = -1;
+		}
 
-        NoiseGeneratorSettings settings = new NoiseGeneratorSettings(type.shape().getNoiseSettings(), type.base(),
-                fluid,
-                PlanetDensityFunction.planet(planet, lookup.lookup(Registries.DENSITY_FUNCTION).get(),
-                        lookup.lookup(Registries.NOISE).get()),
-                PlanetSurfaceRule.planet(planet), PlanetBiomeSource.spawnTarget(), sea_level, false, true, false,
-                false);
+		NoiseGeneratorSettings settings = new NoiseGeneratorSettings(type.shape().getNoiseSettings(), type.base(),
+				fluid,
+				PlanetDensityFunction.planet(planet, lookup.lookup(Registries.DENSITY_FUNCTION).get(),
+						lookup.lookup(Registries.NOISE).get()),
+				PlanetSurfaceRule.planet(planet), PlanetBiomeSource.spawnTarget(), sea_level, false, true, false,
+				false);
 
-        return new LevelStem(getDimensionType(server),
-                new PlanetChunkGenerator(bs, Holder.direct(settings), key, seed));
-    }
+		return new LevelStem(getDimensionType(server),
+				new PlanetChunkGenerator(bs, Holder.direct(settings), key, seed));
+	}
 
-    public static Holder<DimensionType> getDimensionType(MinecraftServer server) {
-        return server.registryAccess().registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(TYPE_KEY);
-    }
+	public static Holder<DimensionType> getDimensionType(MinecraftServer server) {
+		return server.registryAccess().registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(TYPE_KEY);
+	}
 }

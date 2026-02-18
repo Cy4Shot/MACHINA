@@ -13,120 +13,119 @@ import net.minecraft.world.phys.Vec3;
 
 public class CameraPath {
 
-    private final LinkedHashMap<SinglePath, Integer> paths;
-    private final Vec3 origin;
+	private final LinkedHashMap<SinglePath, Integer> paths;
+	private final Vec3 origin;
 
-    public CameraPath(LinkedHashMap<SinglePath, Integer> ps, Vec3 o) {
-        this.paths = ps;
-        this.origin = o;
-    }
+	public CameraPath(LinkedHashMap<SinglePath, Integer> ps, Vec3 o) {
+		this.paths = ps;
+		this.origin = o;
+	}
 
-    public void tick(Player renderView, int tick, float partial) {
-        int elapsed = 0;
-        for (Map.Entry<SinglePath, Integer> path : paths.entrySet()) {
-            if (elapsed + path.getValue() >= tick + partial) {
-                float per = (tick + partial - elapsed) / (float) path.getValue();
-                path.getKey().interpolate(renderView, per, partial, origin);
-                return;
-            } else {
-                elapsed += path.getValue();
-            }
-        }
-    }
+	public void tick(Player renderView, int tick, float partial) {
+		int elapsed = 0;
+		for (Map.Entry<SinglePath, Integer> path : paths.entrySet()) {
+			if (elapsed + path.getValue() >= tick + partial) {
+				float per = (tick + partial - elapsed) / (float) path.getValue();
+				path.getKey().interpolate(renderView, per, partial, origin);
+				return;
+			} else {
+				elapsed += path.getValue();
+			}
+		}
+	}
 
-    public void renderTick(Player renderView, int tick, float partial) {
-        this.tick(renderView, tick, partial);
-        int elapsed = 0;
-        for (Map.Entry<SinglePath, Integer> path : paths.entrySet()) {
-            if (elapsed + path.getValue() >= tick) {
-                for (CameraEffect e : path.getKey().effects)
-                    e.tickEffect(tick - elapsed);
-                return;
-            } else {
-                elapsed += path.getValue();
-            }
-        }
-    }
+	public void renderTick(Player renderView, int tick, float partial) {
+		this.tick(renderView, tick, partial);
+		int elapsed = 0;
+		for (Map.Entry<SinglePath, Integer> path : paths.entrySet()) {
+			if (elapsed + path.getValue() >= tick) {
+				for (CameraEffect e : path.getKey().effects)
+					e.tickEffect(tick - elapsed);
+				return;
+			} else {
+				elapsed += path.getValue();
+			}
+		}
+	}
 
-    public int duration() {
-        return paths.values().stream().mapToInt(Integer::intValue).sum();
-    }
+	public int duration() {
+		return paths.values().stream().mapToInt(Integer::intValue).sum();
+	}
 
-    public static Builder builder() {
-        return new Builder(Vec3.ZERO);
-    }
+	public static Builder builder() {
+		return new Builder(Vec3.ZERO);
+	}
 
-    public static Builder builder(Vec3 origin) {
-        return new Builder(origin);
-    }
+	public static Builder builder(Vec3 origin) {
+		return new Builder(origin);
+	}
 
-    public static class Builder {
-        private final Vec3 o;
-        private final LinkedHashMap<SinglePath, Integer> p = new LinkedHashMap<>();
+	public static class Builder {
+		private final Vec3 o;
+		private final LinkedHashMap<SinglePath, Integer> p = new LinkedHashMap<>();
 
-        public Builder(Vec3 origin) {
-            this.o = origin;
-        }
+		public Builder(Vec3 origin) {
+			this.o = origin;
+		}
 
-        public Builder addPath(InterpolationMethod method, int duration, List<CameraEffect> effects,
-                               CameraNode... points) {
-            p.put(new SinglePath(method, o, effects, points), duration);
-            return this;
-        }
+		public Builder addPath(InterpolationMethod method, int duration, List<CameraEffect> effects,
+				CameraNode... points) {
+			p.put(new SinglePath(method, o, effects, points), duration);
+			return this;
+		}
 
-        public CameraPath build() {
-            return new CameraPath(p, o);
-        }
-    }
+		public CameraPath build() {
+			return new CameraPath(p, o);
+		}
+	}
 
-    public static class SinglePath {
-        private final InterpolationMethod method;
-        private final List<CameraNode> points;
-        private final List<CameraEffect> effects;
+	public static class SinglePath {
+		private final InterpolationMethod method;
+		private final List<CameraNode> points;
+		private final List<CameraEffect> effects;
 
-        public SinglePath(InterpolationMethod method, Vec3 origin, List<CameraEffect> effects, CameraNode... nodes) {
-            this.method = method;
-            this.effects = effects;
-            this.points = Arrays.asList(nodes);
-        }
+		public SinglePath(InterpolationMethod method, Vec3 origin, List<CameraEffect> effects, CameraNode... nodes) {
+			this.method = method;
+			this.effects = effects;
+			this.points = Arrays.asList(nodes);
+		}
 
-        public void interpolate(Player render, float per, float par, Vec3 o) {
+		public void interpolate(Player render, float per, float par, Vec3 o) {
 
-            Vec3 pos = render.position();
-            float pitch = render.getXRot();
-            float yaw = render.getYRot();
+			Vec3 pos = render.position();
+			float pitch = render.getXRot();
+			float yaw = render.getYRot();
 
-            if (method == InterpolationMethod.BEZIER) {
-                pos = MathUtil.bezier(per, points.stream().map(p -> p.pos).toArray(Vec3[]::new));
-                pitch = MathUtil.bezier(per, points.stream().map(p -> p.xRot).toArray(Float[]::new));
-                yaw = MathUtil.bezier(per, points.stream().map(p -> p.yRot).toArray(Float[]::new));
-            } else if (method == InterpolationMethod.LERP) {
-                pos = MathUtil.lerp(points.get(0).pos, points.get(1).pos, per);
-                pitch = MathUtil.lerp(points.get(0).xRot, points.get(1).xRot, per);
-                yaw = MathUtil.lerp(points.get(0).yRot, points.get(1).yRot, per);
-            }
+			if (method == InterpolationMethod.BEZIER) {
+				pos = MathUtil.bezier(per, points.stream().map(p -> p.pos).toArray(Vec3[]::new));
+				pitch = MathUtil.bezier(per, points.stream().map(p -> p.xRot).toArray(Float[]::new));
+				yaw = MathUtil.bezier(per, points.stream().map(p -> p.yRot).toArray(Float[]::new));
+			} else if (method == InterpolationMethod.LERP) {
+				pos = MathUtil.lerp(points.get(0).pos, points.get(1).pos, per);
+				pitch = MathUtil.lerp(points.get(0).xRot, points.get(1).xRot, per);
+				yaw = MathUtil.lerp(points.get(0).yRot, points.get(1).yRot, per);
+			}
 
-            pos = pos.add(o);
+			pos = pos.add(o);
 
-            CameraUtil.positionCamera(render, par, pos.x, pos.y, pos.z, render.getX(), render.getY(), render.getZ(),
-                    yaw, render.getYRot(), pitch, render.getXRot());
-        }
-    }
+			CameraUtil.positionCamera(render, par, pos.x, pos.y, pos.z, render.getX(), render.getY(), render.getZ(),
+					yaw, render.getYRot(), pitch, render.getXRot());
+		}
+	}
 
-    public static class CameraNode {
-        public final Vec3 pos;
-        public final float xRot;
-        public final float yRot;
+	public static class CameraNode {
+		public final Vec3 pos;
+		public final float xRot;
+		public final float yRot;
 
-        public CameraNode(Vec3 p, float x, float y) {
-            this.pos = p;
-            this.xRot = x;
-            this.yRot = y;
-        }
-    }
+		public CameraNode(Vec3 p, float x, float y) {
+			this.pos = p;
+			this.xRot = x;
+			this.yRot = y;
+		}
+	}
 
-    public enum InterpolationMethod {
-        BEZIER,
-        LERP
-    }
+	public enum InterpolationMethod {
+		BEZIER, LERP
+	}
 }

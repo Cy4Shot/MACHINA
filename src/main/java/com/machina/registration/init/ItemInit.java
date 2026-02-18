@@ -1,5 +1,8 @@
 package com.machina.registration.init;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import com.machina.Machina;
 import com.machina.api.item.ChemicalItem;
 import com.machina.api.item.RocketItem;
@@ -14,6 +17,7 @@ import com.machina.item.MouldItem.Mould;
 import com.machina.item.filter.AdvancedItemFilterItem;
 import com.machina.item.filter.FluidFilterItem;
 import com.machina.item.filter.ItemFilterItem;
+
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
@@ -23,14 +27,11 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
-
 public class ItemInit {
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.createItems(Machina.MOD_ID);
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.createItems(Machina.MOD_ID);
 
-    //@formatter:off
+	//@formatter:off
 	public static final DeferredItem<Item> ROCKET = basic("rocket", RocketItem::new);
 	
 	public static final DeferredItem<CapacitorItem> BASIC_CAPACITOR = capacitor("basic_capacitor", () -> CommonConfig.basicCapacitorSize);
@@ -171,80 +172,80 @@ public class ItemInit {
 	public static final DeferredItem<HangingSignItem> CYCAD_HANGING_SIGN = hanging_sign("cycad_hanging_sign", BlockInit.CYCAD_HANGING_SIGN, BlockInit.CYCAD_WALL_HANGING_SIGN);
 	//@formatter:on
 
-    public static DeferredItem<Item> basic(String name) {
-        return register(name, ItemBuilder::basicItem);
-    }
+	public static DeferredItem<Item> basic(String name) {
+		return register(name, ItemBuilder::basicItem);
+	}
 
-    public static DeferredItem<MouldItem> mould(String name, Mould mould) {
-        return register(name, () -> ItemBuilder.basicItem(p -> new MouldItem(p, mould)));
-    }
+	public static DeferredItem<MouldItem> mould(String name, Mould mould) {
+		return register(name, () -> ItemBuilder.basicItem(p -> new MouldItem(p, mould)));
+	}
 
-    public static DeferredItem<CapacitorItem> capacitor(String name, Supplier<ModConfigSpec.IntValue> cap) {
-        return register(name, () -> ItemBuilder.basicItem(p -> new CapacitorItem(p, cap)));
-    }
+	public static DeferredItem<CapacitorItem> capacitor(String name, Supplier<ModConfigSpec.IntValue> cap) {
+		return register(name, () -> ItemBuilder.basicItem(p -> new CapacitorItem(p, cap)));
+	}
 
-    public static DeferredItem<ChemicalItem> chemical(String name, String chemical) {
-        return basic(name, p -> new ChemicalItem(p, chemical));
-    }
+	public static DeferredItem<ChemicalItem> chemical(String name, String chemical) {
+		return basic(name, p -> new ChemicalItem(p, chemical));
+	}
 
-    public static DeferredItem<ChemicalItem> chemical(String name, String tooltip, String chemical) {
-        return basic(name, p -> new ChemicalItem(p, tooltip, chemical));
-    }
+	public static DeferredItem<ChemicalItem> chemical(String name, String tooltip, String chemical) {
+		return basic(name, p -> new ChemicalItem(p, tooltip, chemical));
+	}
 
-    public static DeferredItem<SignItem> sign(String name, DeferredBlock<MachinaSignBlock> standing,
-            DeferredBlock<MachinaWallSignBlock> wall) {
-        return register(name, () -> new SignItem((new Item.Properties()).stacksTo(16), standing.get(), wall.get()));
-    }
+	public static DeferredItem<SignItem> sign(String name, DeferredBlock<MachinaSignBlock> standing,
+			DeferredBlock<MachinaWallSignBlock> wall) {
+		return register(name, () -> new SignItem((new Item.Properties()).stacksTo(16), standing.get(), wall.get()));
+	}
 
-    public static DeferredItem<HangingSignItem> hanging_sign(String name,
-            DeferredBlock<MachinaHangingSignBlock> standing, DeferredBlock<MachinaHangingWallSignBlock> wall) {
-        return register(name,
-                () -> new HangingSignItem(standing.get(), wall.get(), (new Item.Properties()).stacksTo(16)));
-    }
+	public static DeferredItem<HangingSignItem> hanging_sign(String name,
+			DeferredBlock<MachinaHangingSignBlock> standing, DeferredBlock<MachinaHangingWallSignBlock> wall) {
+		return register(name,
+				() -> new HangingSignItem(standing.get(), wall.get(), (new Item.Properties()).stacksTo(16)));
+	}
 
-    public static DeferredItem<Item> props(String name, Function<Item.Properties, Item.Properties> propsProcessor) {
-        return register(name, () -> ItemBuilder.props(propsProcessor));
-    }
+	public static DeferredItem<Item> props(String name, Function<Item.Properties, Item.Properties> propsProcessor) {
+		return register(name, () -> ItemBuilder.props(propsProcessor));
+	}
 
-    public static <T extends Item> DeferredItem<T> basic(String name, Function<Item.Properties, T> factory) {
-        return register(name, () -> ItemBuilder.basicItem(factory));
-    }
+	public static <T extends Item> DeferredItem<T> basic(String name, Function<Item.Properties, T> factory) {
+		return register(name, () -> ItemBuilder.basicItem(factory));
+	}
 
-    public static <T extends Item> DeferredItem<T> register(String name, Supplier<T> item) {
-        return (DeferredItem<T>) ITEMS.register(name, item);
-    }
+	public static <T extends Item> DeferredItem<T> register(String name, Supplier<T> item) {
+		return (DeferredItem<T>) ITEMS.register(name, item);
+	}
 
-    public static class ItemBuilder<T extends Item> {
+	public static class ItemBuilder<T extends Item> {
 
-        private final Function<Item.Properties, T> factory;
+		private final Function<Item.Properties, T> factory;
 
-        protected ItemBuilder(Function<Item.Properties, T> factory) {
-            this.factory = factory;
-        }
+		protected ItemBuilder(Function<Item.Properties, T> factory) {
+			this.factory = factory;
+		}
 
-        public static Item basicItem() {
-            return new ItemBuilder<>(Item::new).build();
-        }
+		public static Item basicItem() {
+			return new ItemBuilder<>(Item::new).build();
+		}
 
-        public static Item props(Function<Item.Properties, Item.Properties> propsProcessor) {
-            return new ItemBuilder<>(p -> new Item(propsProcessor.apply(p))).build();
-        }
+		public static Item props(Function<Item.Properties, Item.Properties> propsProcessor) {
+			return new ItemBuilder<>(p -> new Item(propsProcessor.apply(p))).build();
+		}
 
-        public static <T extends Item> T basicItem(Function<Item.Properties, T> factory) {
-            return new ItemBuilder<>(factory).build();
-        }
+		public static <T extends Item> T basicItem(Function<Item.Properties, T> factory) {
+			return new ItemBuilder<>(factory).build();
+		}
 
-        public static <T extends Item> ItemBuilder<T> create(Function<Item.Properties, T> factory) {
-            return new ItemBuilder<>(factory);
-        }
+		public static <T extends Item> ItemBuilder<T> create(Function<Item.Properties, T> factory) {
+			return new ItemBuilder<>(factory);
+		}
 
-        public T build() {
-            return factory.apply(getProperties());
-        }
+		public T build() {
+			return factory.apply(getProperties());
+		}
 
-        public Properties getProperties() {
-            return new Properties();
-        }
-    }
+		public Properties getProperties() {
+			return new Properties();
+		}
+	}
 
 }

@@ -15,21 +15,21 @@ import net.minecraft.world.level.Level;
 
 public class ElectricSmelterMenu extends MachinaContainerMenu<ElectricSmelterBlockEntity> {
 
-    public ElectricSmelterMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-        this(id, clientLevel(), buf.readBlockPos(), inv);
-    }
+	public ElectricSmelterMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+		this(id, clientLevel(), buf.readBlockPos(), inv);
+	}
 
-    public ElectricSmelterMenu(int id, Level level, BlockPos pos, Inventory inv) {
-        super(MenuTypeInit.ELECTRIC_SMELTER.get(), level, pos, id);
+	public ElectricSmelterMenu(int id, Level level, BlockPos pos, Inventory inv) {
+		super(MenuTypeInit.ELECTRIC_SMELTER.get(), level, pos, id);
 
-        this.addSlot(new InvSlot(be, 0, 62, -17));
-        this.addSlot(new ResultSlot(be, 1, 154, -17));
+		this.addSlot(new InvSlot(be, 0, 62, -17));
+		this.addSlot(new ResultSlot(be, 1, 154, -17));
 
-        invSlots(inv, 0);
-    }
+		invSlots(inv, 0);
+	}
 
-    @Override
-    protected MachineBlock getBlock() {
-        return BlockInit.ELECTRIC_SMELTER.get();
-    }
+	@Override
+	protected MachineBlock getBlock() {
+		return BlockInit.ELECTRIC_SMELTER.get();
+	}
 }

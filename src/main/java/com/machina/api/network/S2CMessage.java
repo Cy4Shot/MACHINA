@@ -9,20 +9,20 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 public interface S2CMessage<T extends S2CMessage<T>> extends CustomPacketPayload {
 
-    Minecraft mc = Minecraft.getInstance();
+	Minecraft mc = Minecraft.getInstance();
 
-    void handle();
-    
-    public static <T extends S2CMessage<T>> Type<T> getType(Class<T> clazz) {
-        String id = clazz.getSimpleName().toLowerCase();
-        return new CustomPacketPayload.Type<>(MachinaRL.create(id));
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    default Type<? extends CustomPacketPayload> type() {
-        return getType(getClass());
-    }
-    
-    StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec();
+	void handle();
+
+	public static <T extends S2CMessage<T>> Type<T> getType(Class<T> clazz) {
+		String id = clazz.getSimpleName().toLowerCase();
+		return new CustomPacketPayload.Type<>(MachinaRL.create(id));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	default Type<? extends CustomPacketPayload> type() {
+		return getType(getClass());
+	}
+
+	StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec();
 }

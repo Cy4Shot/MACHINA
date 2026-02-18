@@ -16,22 +16,22 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 
 public class FloatingIslandRock implements RockMaker {
-    @Override
-    public SDF build(PlanetBiomeBigRock config, RandomSource random, WorldGenLevel l, BlockPos p) {
-        int wh = l.getHeight(Types.WORLD_SURFACE_WG, p.getX(), p.getZ());
-        int heightOffset = wh - p.getY();
+	@Override
+	public SDF build(PlanetBiomeBigRock config, RandomSource random, WorldGenLevel l, BlockPos p) {
+		int wh = l.getHeight(Types.WORLD_SURFACE_WG, p.getX(), p.getZ());
+		int heightOffset = wh - p.getY();
 
-        float height = MathUtil.randRange(random, 3, 6);
-        float toprad = MathUtil.randRange(random, 2.5f, height);
+		float height = MathUtil.randRange(random, 3, 6);
+		float toprad = MathUtil.randRange(random, 2.5f, height);
 
-        SDF rock = new SDFCappedCone(0, toprad, height).setBlock(config.block());
-        rock = new SDFDirectionalDisplacement(rock, random, 3f, new Vector3f(1, 0, 1), height);
-        rock = new SDFTranslate(rock, 0, heightOffset - height, 0);
-        return rock;
-    }
+		SDF rock = new SDFCappedCone(0, toprad, height).setBlock(config.block());
+		rock = new SDFDirectionalDisplacement(rock, random, 3f, new Vector3f(1, 0, 1), height);
+		rock = new SDFTranslate(rock, 0, heightOffset - height, 0);
+		return rock;
+	}
 
-    @Override
-    public boolean allowsWaterPlacement() {
-        return true;
-    }
+	@Override
+	public boolean allowsWaterPlacement() {
+		return true;
+	}
 }

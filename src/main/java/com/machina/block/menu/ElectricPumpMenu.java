@@ -13,18 +13,18 @@ import net.minecraft.world.level.Level;
 
 public class ElectricPumpMenu extends MachinaContainerMenu<ElectricPumpBlockEntity> {
 
-    public ElectricPumpMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-        this(id, clientLevel(), buf.readBlockPos(), inv);
-    }
+	public ElectricPumpMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+		this(id, clientLevel(), buf.readBlockPos(), inv);
+	}
 
-    public ElectricPumpMenu(int id, Level level, BlockPos pos, Inventory inv) {
-        super(MenuTypeInit.ELECTRIC_PUMP.get(), level, pos, id);
+	public ElectricPumpMenu(int id, Level level, BlockPos pos, Inventory inv) {
+		super(MenuTypeInit.ELECTRIC_PUMP.get(), level, pos, id);
 
-        invSlots(inv, 0);
-    }
+		invSlots(inv, 0);
+	}
 
-    @Override
-    protected MachineBlock getBlock() {
-        return BlockInit.ELECTRIC_PUMP.get();
-    }
+	@Override
+	protected MachineBlock getBlock() {
+		return BlockInit.ELECTRIC_PUMP.get();
+	}
 }

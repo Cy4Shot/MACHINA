@@ -55,92 +55,92 @@ package com.machina.api.starchart.burke;
  * </p>
  */
 public class StarSystem extends AccreteObject implements PhysicalConstants {
-    public double x, y, z;
-    public final BStar primary;
-    public BPlanet planets;
+	public double x, y, z;
+	public final BStar primary;
+	public BPlanet planets;
 
-    /**
-     * Public constructor builds a star system with a random star.
-     */
-    public StarSystem() {
-        primary = new BStar((int) (nextDouble() * 60)); // more variety
-        // primary = new Star(random_number(0.6, 1.3)); // starform method
-        Initialize();
-    }
+	/**
+	 * Public constructor builds a star system with a random star.
+	 */
+	public StarSystem() {
+		primary = new BStar((int) (nextDouble() * 60)); // more variety
+		// primary = new Star(random_number(0.6, 1.3)); // starform method
+		Initialize();
+	}
 
-    /**
-     * Creates the planets of this system using Dole's accretion algorithm.
-     */
-    private void Initialize() {
-        BPlanet last_planet = null, cur_planet;
-        Protoplanet p;
+	/**
+	 * Creates the planets of this system using Dole's accretion algorithm.
+	 */
+	private void Initialize() {
+		BPlanet last_planet = null, cur_planet;
+		Protoplanet p;
 
-        Protosystem ps = new Protosystem(primary);
-        ps.dist_planetary_masses();
-        p = ps.planet_head;
-        while (p != null) {
-            if (p.mass > 0.0) {
-                cur_planet = new BPlanet(p);
-                cur_planet.orbit_zone = primary.orb_zone(cur_planet.a);
-                cur_planet.set_vital_stats(primary.SM, primary.r_greenhouse, primary.r_ecosphere, primary.age);
-                // could generate moons here
-                // 1. generate a new protosystem based on the planet and star
-                // 2. pull out all of the protoplanets and create moons from them
-                // 3. delete the protosystem
-                if (last_planet == null) {
-                    planets = cur_planet;
-                } else {
-                    last_planet.next_planet = cur_planet;
-                }
-                last_planet = cur_planet;
-            }
-            p = p.next_planet;
-        }
-    }
+		Protosystem ps = new Protosystem(primary);
+		ps.dist_planetary_masses();
+		p = ps.planet_head;
+		while (p != null) {
+			if (p.mass > 0.0) {
+				cur_planet = new BPlanet(p);
+				cur_planet.orbit_zone = primary.orb_zone(cur_planet.a);
+				cur_planet.set_vital_stats(primary.SM, primary.r_greenhouse, primary.r_ecosphere, primary.age);
+				// could generate moons here
+				// 1. generate a new protosystem based on the planet and star
+				// 2. pull out all of the protoplanets and create moons from them
+				// 3. delete the protosystem
+				if (last_planet == null) {
+					planets = cur_planet;
+				} else {
+					last_planet.next_planet = cur_planet;
+				}
+				last_planet = cur_planet;
+			}
+			p = p.next_planet;
+		}
+	}
 
-    /**
-     * Creates the planets of this system using a diddled Bode's Law.
-     */
-    public void initializeBode() {
-        /* BODE - BODE-TITIUS SEQUENCE FOR SATELLITE ORBITS */
-        double[] BODE = {0.4, 0.7, 1.0, 1.6, 2.8, 5.2, 10.0, 19.6, 29.2, 38.8};
-        BPlanet last_planet = null, cur_planet;
-        int I;
+	/**
+	 * Creates the planets of this system using a diddled Bode's Law.
+	 */
+	public void initializeBode() {
+		/* BODE - BODE-TITIUS SEQUENCE FOR SATELLITE ORBITS */
+		double[] BODE = { 0.4, 0.7, 1.0, 1.6, 2.8, 5.2, 10.0, 19.6, 29.2, 38.8 };
+		BPlanet last_planet = null, cur_planet;
+		int I;
 
-        for (I = 0; I < 10; I++) {
-            cur_planet = new BPlanet(primary.AU * BODE[I], primary.EM, primary.SM);
-            cur_planet.orbit_zone = primary.orb_zone(cur_planet.a);
-            cur_planet.set_vital_stats(primary.SM, primary.r_greenhouse, primary.r_ecosphere, primary.age);
-            if (I == 0)
-                planets = cur_planet;
-            else
-                last_planet.next_planet = cur_planet;
-            last_planet = cur_planet;
-        }
+		for (I = 0; I < 10; I++) {
+			cur_planet = new BPlanet(primary.AU * BODE[I], primary.EM, primary.SM);
+			cur_planet.orbit_zone = primary.orb_zone(cur_planet.a);
+			cur_planet.set_vital_stats(primary.SM, primary.r_greenhouse, primary.r_ecosphere, primary.age);
+			if (I == 0)
+				planets = cur_planet;
+			else
+				last_planet.next_planet = cur_planet;
+			last_planet = cur_planet;
+		}
 
-        // the following loop adjusts planet types based on system layout
-        // beyond a certain mass ratio, assume the smaller planet couldn't form
-        cur_planet = planets;
-        last_planet = null;
-        while (cur_planet != null) {
-            if (cur_planet.plan_class != '-') {
-                if (last_planet != null) {
-                    if (last_planet.plan_class != '-') {
-                        if ((cur_planet.mass / last_planet.mass) < 0.005) {
-                            cur_planet.plan_class = 'B';
-                        }
-                    }
-                }
-                if (cur_planet.next_planet != null) {
-                    if (cur_planet.next_planet.plan_class != '-') {
-                        if ((cur_planet.mass / cur_planet.next_planet.mass) < 0.005) {
-                            cur_planet.plan_class = 'B';
-                        }
-                    }
-                }
-            }
-            last_planet = cur_planet;
-            cur_planet = cur_planet.next_planet;
-        }
-    }
+		// the following loop adjusts planet types based on system layout
+		// beyond a certain mass ratio, assume the smaller planet couldn't form
+		cur_planet = planets;
+		last_planet = null;
+		while (cur_planet != null) {
+			if (cur_planet.plan_class != '-') {
+				if (last_planet != null) {
+					if (last_planet.plan_class != '-') {
+						if ((cur_planet.mass / last_planet.mass) < 0.005) {
+							cur_planet.plan_class = 'B';
+						}
+					}
+				}
+				if (cur_planet.next_planet != null) {
+					if (cur_planet.next_planet.plan_class != '-') {
+						if ((cur_planet.mass / cur_planet.next_planet.mass) < 0.005) {
+							cur_planet.plan_class = 'B';
+						}
+					}
+				}
+			}
+			last_planet = cur_planet;
+			cur_planet = cur_planet.next_planet;
+		}
+	}
 }

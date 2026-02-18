@@ -73,12 +73,12 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class BlockInit {
-    public static final List<DeferredBlock<? extends Block>> SIGNS = new ArrayList<>();
-    public static final List<DeferredBlock<? extends Block>> HANGING_SIGNS = new ArrayList<>();
+	public static final List<DeferredBlock<? extends Block>> SIGNS = new ArrayList<>();
+	public static final List<DeferredBlock<? extends Block>> HANGING_SIGNS = new ArrayList<>();
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.createBlocks(Machina.MOD_ID);
+	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.createBlocks(Machina.MOD_ID);
 
-    //@formatter:off
+	//@formatter:off
 	public static final DeferredBlock<ItemConduitBlock> ITEM_CONDUIT = register("item_conduit", ItemConduitBlock::new);
 	public static final DeferredBlock<EnergyCableBlock> ENERGY_CABLE = register("energy_cable", EnergyCableBlock::new);
 	public static final DeferredBlock<FluidPipeBlock> FLUID_PIPE = register("fluid_pipe", FluidPipeBlock::new);
@@ -457,181 +457,181 @@ public class BlockInit {
 	public static final DeferredBlock<FlowerPotBlock> POTTED_BLUE_GLOWSHROOM = flower_pot("potted_blue_glowshroom", BLUE_GLOWSHROOM, light(7));
 	//@formatter:on
 
-    private static WoodType registerWoodType(String name) {
-        String id = Machina.MOD_ID + ":" + name;
-        return WoodType.register(new WoodType(id, new BlockSetType(id)));
-    }
+	private static WoodType registerWoodType(String name) {
+		String id = Machina.MOD_ID + ":" + name;
+		return WoodType.register(new WoodType(id, new BlockSetType(id)));
+	}
 
-    private static Function<Block.Properties, Block.Properties> light(int light) {
-        return p -> p.lightLevel(s -> light);
-    }
+	private static Function<Block.Properties, Block.Properties> light(int light) {
+		return p -> p.lightLevel(s -> light);
+	}
 
-    private static <T extends Block> Supplier<T> of(Block block, Function<Block.Properties, Block.Properties> extra,
-            Function<Block.Properties, T> constructor) {
-        return () -> constructor.apply((extra.apply(Block.Properties.ofFullCopy(block))));
-    }
+	private static <T extends Block> Supplier<T> of(Block block, Function<Block.Properties, Block.Properties> extra,
+			Function<Block.Properties, T> constructor) {
+		return () -> constructor.apply((extra.apply(Block.Properties.ofFullCopy(block))));
+	}
 
-    public static <T extends Block> DeferredBlock<T> _register(String name, Supplier<T> block) {
-        return (DeferredBlock<T>) BLOCKS.register(name, block);
-    }
+	public static <T extends Block> DeferredBlock<T> _register(String name, Supplier<T> block) {
+		return (DeferredBlock<T>) BLOCKS.register(name, block);
+	}
 
-    public static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block) {
-        DeferredBlock<T> ro = _register(name, block);
-        registerBlockItem(name, ro);
-        return ro;
-    }
+	public static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block) {
+		DeferredBlock<T> ro = _register(name, block);
+		registerBlockItem(name, ro);
+		return ro;
+	}
 
-    public static DeferredBlock<Block> block(String name, Block prop) {
-        return register(name, prop, a -> a, Block::new);
-    }
+	public static DeferredBlock<Block> block(String name, Block prop) {
+		return register(name, prop, a -> a, Block::new);
+	}
 
-    public static DeferredBlock<FallingBlock> falling(String name, int dustRGBA, Block prop) {
-        return register(name, prop, a -> a, p -> new ColoredFallingBlock(new ColorRGBA(dustRGBA), p));
-    }
+	public static DeferredBlock<FallingBlock> falling(String name, int dustRGBA, Block prop) {
+		return register(name, prop, a -> a, p -> new ColoredFallingBlock(new ColorRGBA(dustRGBA), p));
+	}
 
-    public static DeferredBlock<SlabBlock> slab(String name, Block prop) {
-        return register(name, prop, a -> a, SlabBlock::new);
-    }
+	public static DeferredBlock<SlabBlock> slab(String name, Block prop) {
+		return register(name, prop, a -> a, SlabBlock::new);
+	}
 
-    public static DeferredBlock<StairBlock> stairs(String name, DeferredBlock<Block> block, Block prop) {
-        return register(name, prop, a -> a, p -> new StairBlock(block.get().defaultBlockState(), p));
-    }
+	public static DeferredBlock<StairBlock> stairs(String name, DeferredBlock<Block> block, Block prop) {
+		return register(name, prop, a -> a, p -> new StairBlock(block.get().defaultBlockState(), p));
+	}
 
-    public static DeferredBlock<WallBlock> wall(String name, Block prop) {
-        return register(name, prop, a -> a.hasPostProcess(BlockInit::always), WallBlock::new);
-    }
+	public static DeferredBlock<WallBlock> wall(String name, Block prop) {
+		return register(name, prop, a -> a.hasPostProcess(BlockInit::always), WallBlock::new);
+	}
 
-    public static DeferredBlock<RotatedPillarBlock> log(String name, Block prop) {
-        return register(name, prop, a -> a, RotatedPillarBlock::new);
-    }
+	public static DeferredBlock<RotatedPillarBlock> log(String name, Block prop) {
+		return register(name, prop, a -> a, RotatedPillarBlock::new);
+	}
 
-    public static DeferredBlock<LeavesBlock> leaves(String name, Block prop) {
-        return register(name, prop, a -> a, LeavesBlock::new);
-    }
+	public static DeferredBlock<LeavesBlock> leaves(String name, Block prop) {
+		return register(name, prop, a -> a, LeavesBlock::new);
+	}
 
-    public static DeferredBlock<MachinaSignBlock> sign(String name, Block prop, WoodType wood) {
-        DeferredBlock<MachinaSignBlock> s = registerNI(name, prop, a -> a, p -> new MachinaSignBlock(p, wood));
-        SIGNS.add(s);
-        return s;
-    }
+	public static DeferredBlock<MachinaSignBlock> sign(String name, Block prop, WoodType wood) {
+		DeferredBlock<MachinaSignBlock> s = registerNI(name, prop, a -> a, p -> new MachinaSignBlock(p, wood));
+		SIGNS.add(s);
+		return s;
+	}
 
-    public static DeferredBlock<MachinaWallSignBlock> wall_sign(String name, Block prop, WoodType wood) {
-        DeferredBlock<MachinaWallSignBlock> s = registerNI(name, prop, a -> a, p -> new MachinaWallSignBlock(p, wood));
-        SIGNS.add(s);
-        return s;
-    }
+	public static DeferredBlock<MachinaWallSignBlock> wall_sign(String name, Block prop, WoodType wood) {
+		DeferredBlock<MachinaWallSignBlock> s = registerNI(name, prop, a -> a, p -> new MachinaWallSignBlock(p, wood));
+		SIGNS.add(s);
+		return s;
+	}
 
-    public static DeferredBlock<MachinaHangingSignBlock> hanging_sign(String name, Block prop, WoodType wood) {
-        DeferredBlock<MachinaHangingSignBlock> s = registerNI(name, prop, a -> a,
-                p -> new MachinaHangingSignBlock(p, wood));
-        HANGING_SIGNS.add(s);
-        return s;
-    }
+	public static DeferredBlock<MachinaHangingSignBlock> hanging_sign(String name, Block prop, WoodType wood) {
+		DeferredBlock<MachinaHangingSignBlock> s = registerNI(name, prop, a -> a,
+				p -> new MachinaHangingSignBlock(p, wood));
+		HANGING_SIGNS.add(s);
+		return s;
+	}
 
-    public static DeferredBlock<MachinaHangingWallSignBlock> wall_hanging_sign(String name, Block prop, WoodType wood) {
-        DeferredBlock<MachinaHangingWallSignBlock> s = registerNI(name, prop, a -> a,
-                p -> new MachinaHangingWallSignBlock(p, wood));
-        HANGING_SIGNS.add(s);
-        return s;
-    }
+	public static DeferredBlock<MachinaHangingWallSignBlock> wall_hanging_sign(String name, Block prop, WoodType wood) {
+		DeferredBlock<MachinaHangingWallSignBlock> s = registerNI(name, prop, a -> a,
+				p -> new MachinaHangingWallSignBlock(p, wood));
+		HANGING_SIGNS.add(s);
+		return s;
+	}
 
-    public static DeferredBlock<ButtonBlock> wood_button(String name, Block prop, WoodType wood) {
-        return register(name, prop, a -> a, p -> new ButtonBlock(wood.setType(), 30, p));
-    }
+	public static DeferredBlock<ButtonBlock> wood_button(String name, Block prop, WoodType wood) {
+		return register(name, prop, a -> a, p -> new ButtonBlock(wood.setType(), 30, p));
+	}
 
-    public static DeferredBlock<DoorBlock> wood_door(String name, Block prop, WoodType wood) {
-        return register(name, prop, a -> a, p -> new DoorBlock(wood.setType(), p));
-    }
+	public static DeferredBlock<DoorBlock> wood_door(String name, Block prop, WoodType wood) {
+		return register(name, prop, a -> a, p -> new DoorBlock(wood.setType(), p));
+	}
 
-    public static DeferredBlock<TrapDoorBlock> wood_trapdoor(String name, Block prop, WoodType wood) {
-        return register(name, prop, a -> a, p -> new TrapDoorBlock(wood.setType(), p));
-    }
+	public static DeferredBlock<TrapDoorBlock> wood_trapdoor(String name, Block prop, WoodType wood) {
+		return register(name, prop, a -> a, p -> new TrapDoorBlock(wood.setType(), p));
+	}
 
-    public static DeferredBlock<FenceBlock> fence(String name, Block prop) {
-        return register(name, prop, a -> a, FenceBlock::new);
-    }
+	public static DeferredBlock<FenceBlock> fence(String name, Block prop) {
+		return register(name, prop, a -> a, FenceBlock::new);
+	}
 
-    public static DeferredBlock<FenceGateBlock> fence_gate(String name, Block prop, WoodType wood) {
-        return register(name, prop, a -> a, p -> new FenceGateBlock(wood, p));
-    }
+	public static DeferredBlock<FenceGateBlock> fence_gate(String name, Block prop, WoodType wood) {
+		return register(name, prop, a -> a, p -> new FenceGateBlock(wood, p));
+	}
 
-    public static DeferredBlock<PressurePlateBlock> wood_pressure_plate(String name, Block prop, WoodType wood) {
-        return register(name, prop, a -> a, p -> new PressurePlateBlock(wood.setType(), p));
-    }
+	public static DeferredBlock<PressurePlateBlock> wood_pressure_plate(String name, Block prop, WoodType wood) {
+		return register(name, prop, a -> a, p -> new PressurePlateBlock(wood.setType(), p));
+	}
 
-    public static DeferredBlock<ButtonBlock> stone_button(String name, Block prop) {
-        return register(name, prop, a -> a, p -> new ButtonBlock(BlockSetType.STONE, 20, p));
-    }
+	public static DeferredBlock<ButtonBlock> stone_button(String name, Block prop) {
+		return register(name, prop, a -> a, p -> new ButtonBlock(BlockSetType.STONE, 20, p));
+	}
 
-    public static DeferredBlock<PressurePlateBlock> stone_pressure_plate(String name, Block prop) {
-        return register(name, prop, a -> a, p -> new PressurePlateBlock(BlockSetType.STONE, p));
-    }
+	public static DeferredBlock<PressurePlateBlock> stone_pressure_plate(String name, Block prop) {
+		return register(name, prop, a -> a, p -> new PressurePlateBlock(BlockSetType.STONE, p));
+	}
 
-    public static DeferredBlock<FlowerBlock> flower(String name, Holder<MobEffect> effect, int duration, Block prop,
-            Function<Block.Properties, Block.Properties> extra) {
-        return register(name, prop, extra, p -> new FlowerBlock(effect, duration, p));
-    }
+	public static DeferredBlock<FlowerBlock> flower(String name, Holder<MobEffect> effect, int duration, Block prop,
+			Function<Block.Properties, Block.Properties> extra) {
+		return register(name, prop, extra, p -> new FlowerBlock(effect, duration, p));
+	}
 
-    public static DeferredBlock<FlowerBlock> flower(String name, Holder<MobEffect> effect, int duration, Block prop) {
-        return register(name, prop, a -> a, p -> new FlowerBlock(effect, duration, p));
-    }
+	public static DeferredBlock<FlowerBlock> flower(String name, Holder<MobEffect> effect, int duration, Block prop) {
+		return register(name, prop, a -> a, p -> new FlowerBlock(effect, duration, p));
+	}
 
-    public static DeferredBlock<TallFlowerBlock> tall_flower(String name, Block prop) {
-        return register(name, prop, a -> a, TallFlowerBlock::new);
-    }
+	public static DeferredBlock<TallFlowerBlock> tall_flower(String name, Block prop) {
+		return register(name, prop, a -> a, TallFlowerBlock::new);
+	}
 
-    public static DeferredBlock<FlowerPotBlock> flower_pot(String name, DeferredBlock<? extends Block> flower) {
-        return _register(name, BlockInit.of(Blocks.FLOWER_POT, a -> a, p -> new FlowerPotBlock(null, flower, p)));
-    }
+	public static DeferredBlock<FlowerPotBlock> flower_pot(String name, DeferredBlock<? extends Block> flower) {
+		return _register(name, BlockInit.of(Blocks.FLOWER_POT, a -> a, p -> new FlowerPotBlock(null, flower, p)));
+	}
 
-    public static DeferredBlock<FlowerPotBlock> flower_pot(String name, DeferredBlock<FlowerBlock> flower,
-            Function<Block.Properties, Block.Properties> extra) {
-        return _register(name, BlockInit.of(Blocks.FLOWER_POT, extra, p -> new FlowerPotBlock(null, flower, p)));
-    }
+	public static DeferredBlock<FlowerPotBlock> flower_pot(String name, DeferredBlock<FlowerBlock> flower,
+			Function<Block.Properties, Block.Properties> extra) {
+		return _register(name, BlockInit.of(Blocks.FLOWER_POT, extra, p -> new FlowerPotBlock(null, flower, p)));
+	}
 
-    public static DeferredBlock<PebbleBlock> pebbles(String name) {
-        return register(name, Blocks.ANDESITE, a -> a.noCollission().noOcclusion(), PebbleBlock::new);
-    }
+	public static DeferredBlock<PebbleBlock> pebbles(String name) {
+		return register(name, Blocks.ANDESITE, a -> a.noCollission().noOcclusion(), PebbleBlock::new);
+	}
 
-    public static DeferredBlock<SmallFlowerBlock> groundlily(String name) {
-        return register(name, Blocks.PINK_PETALS, a -> a, SmallFlowerBlock::new);
-    }
+	public static DeferredBlock<SmallFlowerBlock> groundlily(String name) {
+		return register(name, Blocks.PINK_PETALS, a -> a, SmallFlowerBlock::new);
+	}
 
-    public static DeferredBlock<MachinaWaterlilyBlock> waterlily(String name) {
-        return registerCI(name, Blocks.LILY_PAD, a -> a, MachinaWaterlilyBlock::new,
-                ro -> new PlaceOnWaterBlockItem(ro.get(), new Item.Properties()));
-    }
+	public static DeferredBlock<MachinaWaterlilyBlock> waterlily(String name) {
+		return registerCI(name, Blocks.LILY_PAD, a -> a, MachinaWaterlilyBlock::new,
+				ro -> new PlaceOnWaterBlockItem(ro.get(), new Item.Properties()));
+	}
 
-    public static <T extends Block> DeferredBlock<T> register(String name, Block prop,
-            Function<Block.Properties, T> constructor) {
-        return register(name, prop, a -> a, constructor);
-    }
+	public static <T extends Block> DeferredBlock<T> register(String name, Block prop,
+			Function<Block.Properties, T> constructor) {
+		return register(name, prop, a -> a, constructor);
+	}
 
-    public static <T extends Block> DeferredBlock<T> registerNI(String name, Block prop,
-            Function<Block.Properties, Block.Properties> extra, Function<Block.Properties, T> constructor) {
-        return _register(name, BlockInit.of(prop, extra, constructor));
-    }
+	public static <T extends Block> DeferredBlock<T> registerNI(String name, Block prop,
+			Function<Block.Properties, Block.Properties> extra, Function<Block.Properties, T> constructor) {
+		return _register(name, BlockInit.of(prop, extra, constructor));
+	}
 
-    public static <T extends Block> DeferredBlock<T> registerCI(String name, Block prop,
-            Function<Block.Properties, Block.Properties> extra, Function<Block.Properties, T> constructor,
-            Function<DeferredBlock<T>, ? extends BlockItem> item) {
-        DeferredBlock<T> ro = _register(name, BlockInit.of(prop, extra, constructor));
-        ItemInit.ITEMS.register(name, () -> item.apply(ro));
-        return ro;
-    }
+	public static <T extends Block> DeferredBlock<T> registerCI(String name, Block prop,
+			Function<Block.Properties, Block.Properties> extra, Function<Block.Properties, T> constructor,
+			Function<DeferredBlock<T>, ? extends BlockItem> item) {
+		DeferredBlock<T> ro = _register(name, BlockInit.of(prop, extra, constructor));
+		ItemInit.ITEMS.register(name, () -> item.apply(ro));
+		return ro;
+	}
 
-    public static <T extends Block> DeferredBlock<T> register(String name, Block prop,
-            Function<Block.Properties, Block.Properties> extra, Function<Block.Properties, T> constructor) {
-        DeferredBlock<T> ro = _register(name, BlockInit.of(prop, extra, constructor));
-        registerBlockItem(name, ro);
-        return ro;
-    }
+	public static <T extends Block> DeferredBlock<T> register(String name, Block prop,
+			Function<Block.Properties, Block.Properties> extra, Function<Block.Properties, T> constructor) {
+		DeferredBlock<T> ro = _register(name, BlockInit.of(prop, extra, constructor));
+		registerBlockItem(name, ro);
+		return ro;
+	}
 
-    private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
-        ItemInit.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
-    }
+	private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
+		ItemInit.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+	}
 
-    private static boolean always(BlockState state, BlockGetter getter, BlockPos pos) {
-        return true;
-    }
+	private static boolean always(BlockState state, BlockGetter getter, BlockPos pos) {
+		return true;
+	}
 }

@@ -1,9 +1,12 @@
 package com.machina.api.client.model.bewlr;
 
+import java.util.function.Function;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.machina.api.client.model.bewlr.BEWLRLoader.BEWLRGeometry;
+
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
@@ -14,27 +17,25 @@ import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
 import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
 import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
 
-import java.util.function.Function;
-
 public class BEWLRLoader implements IGeometryLoader<BEWLRGeometry> {
 
-    public static final BEWLRLoader INSTANCE = new BEWLRLoader();
+	public static final BEWLRLoader INSTANCE = new BEWLRLoader();
 
-    @Override
-    public BEWLRGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext)
-            throws JsonParseException {
-        return new BEWLRGeometry();
-    }
+	@Override
+	public BEWLRGeometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext)
+			throws JsonParseException {
+		return new BEWLRGeometry();
+	}
 
-    public static class BEWLRGeometry implements IUnbakedGeometry<BEWLRGeometry> {
+	public static class BEWLRGeometry implements IUnbakedGeometry<BEWLRGeometry> {
 
-        public BEWLRGeometry() {
-        }
+		public BEWLRGeometry() {
+		}
 
-        @Override
-        public BakedModel bake(IGeometryBakingContext context, ModelBaker baker,
-                Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
-            return new BEWLRItemModel(context.useAmbientOcclusion(), context.isGui3d(), context.useBlockLight());
-        }
-    }
+		@Override
+		public BakedModel bake(IGeometryBakingContext context, ModelBaker baker,
+				Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
+			return new BEWLRItemModel(context.useAmbientOcclusion(), context.isGui3d(), context.useBlockLight());
+		}
+	}
 }

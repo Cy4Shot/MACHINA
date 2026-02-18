@@ -11,9 +11,9 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ChunkGeneratorInit {
-    public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNK_GENERATORS = DeferredRegister
-            .create(Registries.CHUNK_GENERATOR, Machina.MOD_ID);
+	public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNK_GENERATORS = DeferredRegister
+			.create(Registries.CHUNK_GENERATOR, Machina.MOD_ID);
 
-    public static final Supplier<MapCodec<PlanetChunkGenerator>> PLANET = CHUNK_GENERATORS.register("planet",
-            () -> PlanetChunkGenerator.CODEC);
+	public static final Supplier<MapCodec<PlanetChunkGenerator>> PLANET = CHUNK_GENERATORS.register("planet",
+			() -> PlanetChunkGenerator.CODEC);
 }

@@ -15,15 +15,15 @@ import net.minecraft.server.level.ServerPlayer;
 
 public record C2SPartBenchCraft(RocketPart<?> part, BlockPos pos) implements C2SMessage<C2SPartBenchCraft> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, C2SPartBenchCraft> streamCodec() {
-        return StreamCodec.composite(ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key()),
-                C2SPartBenchCraft::part, BlockPos.STREAM_CODEC, C2SPartBenchCraft::pos, C2SPartBenchCraft::new);
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, C2SPartBenchCraft> streamCodec() {
+		return StreamCodec.composite(ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key()),
+				C2SPartBenchCraft::part, BlockPos.STREAM_CODEC, C2SPartBenchCraft::pos, C2SPartBenchCraft::new);
+	}
 
-    @Override
-    public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> BlockHelper.doWithTe(player.level(), pos, RocketPartBenchBlockEntity.class,
-                te -> te.startCrafting(player, part())));
-    }
+	@Override
+	public void handle(MinecraftServer server, ServerPlayer player) {
+		server.execute(() -> BlockHelper.doWithTe(player.level(), pos, RocketPartBenchBlockEntity.class,
+				te -> te.startCrafting(player, part())));
+	}
 }

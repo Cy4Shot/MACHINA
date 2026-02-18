@@ -14,24 +14,24 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public record PlanetTypeJsonInfo(String name, int iconY, Shape shape, List<BiomePlacementJsonInfo> biomes, String base)
-        implements JsonInfo<PlanetType> {
+		implements JsonInfo<PlanetType> {
 
-    public record BiomePlacementJsonInfo(String name, List<String> placements) implements JsonInfo<BiomePlacement> {
+	public record BiomePlacementJsonInfo(String name, List<String> placements) implements JsonInfo<BiomePlacement> {
 
-        @Override
-        public BiomePlacement cast() {
-            ResourceLocation biome = ResourceLocation.parse(name());
-            return new BiomePlacement(biome, placements());
-        }
-    }
+		@Override
+		public BiomePlacement cast() {
+			ResourceLocation biome = ResourceLocation.parse(name());
+			return new BiomePlacement(biome, placements());
+		}
+	}
 
-    @Override
-    public PlanetType cast() {
-        ResourceLocation name = ResourceLocation.parse(name());
-        List<BiomePlacement> biomes = biomes().stream().map(BiomePlacementJsonInfo::cast).collect(Collectors.toList());
+	@Override
+	public PlanetType cast() {
+		ResourceLocation name = ResourceLocation.parse(name());
+		List<BiomePlacement> biomes = biomes().stream().map(BiomePlacementJsonInfo::cast).collect(Collectors.toList());
 
-        HolderLookup<Block> block = BlockHelper.blockHolderLookup();
-        BlockState base = BlockHelper.parseState(block, base());
-        return new PlanetType(name, iconY, shape(), biomes, base);
-    }
+		HolderLookup<Block> block = BlockHelper.blockHolderLookup();
+		BlockState base = BlockHelper.parseState(block, base());
+		return new PlanetType(name, iconY, shape(), biomes, base);
+	}
 }

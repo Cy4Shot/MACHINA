@@ -12,18 +12,18 @@ import net.minecraft.world.entity.Entity;
 
 public record C2SRocketLaunchComplete(int entity) implements C2SMessage<C2SRocketLaunchComplete> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, C2SRocketLaunchComplete> streamCodec() {
-        return ByteBufCodecs.INT.map(C2SRocketLaunchComplete::new, C2SRocketLaunchComplete::entity).cast();
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, C2SRocketLaunchComplete> streamCodec() {
+		return ByteBufCodecs.INT.map(C2SRocketLaunchComplete::new, C2SRocketLaunchComplete::entity).cast();
+	}
 
-    @Override
-    public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> {
-            Entity e = player.level().getEntity(entity);
-            if (e instanceof RocketEntity rocket) {
-                rocket.completeLaunch(player);
-            }
-        });
-    }
+	@Override
+	public void handle(MinecraftServer server, ServerPlayer player) {
+		server.execute(() -> {
+			Entity e = player.level().getEntity(entity);
+			if (e instanceof RocketEntity rocket) {
+				rocket.completeLaunch(player);
+			}
+		});
+	}
 }

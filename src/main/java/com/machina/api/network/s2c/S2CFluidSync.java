@@ -14,29 +14,29 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2CMessage<S2CFluidSync> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, S2CFluidSync> streamCodec() {
-        return StreamCodec.composite(BlockPos.STREAM_CODEC, S2CFluidSync::pos, FluidStack.STREAM_CODEC,
-                S2CFluidSync::stack, ByteBufCodecs.INT, S2CFluidSync::i, S2CFluidSync::new);
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, S2CFluidSync> streamCodec() {
+		return StreamCodec.composite(BlockPos.STREAM_CODEC, S2CFluidSync::pos, FluidStack.STREAM_CODEC,
+				S2CFluidSync::stack, ByteBufCodecs.INT, S2CFluidSync::i, S2CFluidSync::new);
+	}
 
-    @Override
-    public void handle() {
-        BlockPos pos = pos();
-        FluidStack stack = stack();
-        int i = i();
+	@Override
+	public void handle() {
+		BlockPos pos = pos();
+		FluidStack stack = stack();
+		int i = i();
 
-        mc.execute(() -> {
-            if (mc.level != null) {
-                IFluidHandler handler = mc.level.getCapability(Capabilities.FluidHandler.BLOCK, pos, null);
-                if (handler != null) {
-                   BlockEntity be = mc.level.getBlockEntity(pos);
-                    if (be instanceof MachinaBlockEntity) {
-                        ((MachinaBlockEntity) be).setFluid(i, stack);
-                    }
-                }
-            }
-        });
-    }
+		mc.execute(() -> {
+			if (mc.level != null) {
+				IFluidHandler handler = mc.level.getCapability(Capabilities.FluidHandler.BLOCK, pos, null);
+				if (handler != null) {
+					BlockEntity be = mc.level.getBlockEntity(pos);
+					if (be instanceof MachinaBlockEntity) {
+						((MachinaBlockEntity) be).setFluid(i, stack);
+					}
+				}
+			}
+		});
+	}
 
 }

@@ -11,8 +11,8 @@ import com.machina.api.client.cinema.effect.ParticleEffect;
 import com.machina.api.client.cinema.effect.ShakeEffect;
 import com.machina.api.client.cinema.effect.SoundEffect;
 import com.machina.api.client.cinema.entity.CameraClientEntity;
-import com.machina.api.network.c2s.C2SRocketLaunchComplete;
 import com.machina.api.network.c2s.C2SRocketCinematicOffset;
+import com.machina.api.network.c2s.C2SRocketLaunchComplete;
 import com.machina.api.network.c2s.C2SSpawnParticle;
 import com.machina.api.util.math.DirUtil;
 import com.machina.registration.init.SoundInit;
@@ -25,52 +25,52 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class LaunchCinematic extends PathCinematic {
 
-    private final int id;
+	private final int id;
 
-    public LaunchCinematic(RocketEntity entity) {
-        this(new CameraClientEntity(), entity);
-    }
+	public LaunchCinematic(RocketEntity entity) {
+		this(new CameraClientEntity(), entity);
+	}
 
-    public LaunchCinematic(CameraClientEntity p, RocketEntity entity) {
-        super("launch", p);
-        this.id = entity.getId();
+	public LaunchCinematic(CameraClientEntity p, RocketEntity entity) {
+		super("launch", p);
+		this.id = entity.getId();
 
-        Direction d = entity.getDirection();
-        int yaw = DirUtil.toYaw(d.getOpposite());
+		Direction d = entity.getDirection();
+		int yaw = DirUtil.toYaw(d.getOpposite());
 
-        Vec3 pos = entity.position();
+		Vec3 pos = entity.position();
 
-        CameraEffect SOUND = new SoundEffect(SoundInit.ROCKET_LAUNCH);
-        CameraEffect FADE_IN = new FadeInEffect(10);
-        CameraEffect FADE_OUT = new FadeOutEffect(180, 70);
-        CameraEffect SHAKE1 = new ShakeEffect(0.3f);
-        CameraEffect SHAKE2 = new ShakeEffect(0.75f);
-        CameraEffect SMOKE = new ParticleEffect(ParticleTypes.CAMPFIRE_COSY_SMOKE, pos, 0.05D, 0f, 0.8f);
-        CameraEffect EXPLOSIONS = new ParticleEffect(ParticleTypes.EXPLOSION, pos, 0.05D, 1f, 0.1f);
-        CameraEffect LAUNCH = new ActionEffect(ting -> {
-            double off = Math.pow(Math.E, (double) ting / 9D) - 1D;
-            clientEntity.moveTo(pos.add(0, off, 0));
-            entity.moveTo(pos.add(0, off, 0));
-            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.FLAME, -0.1f, 20,
-                    pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
-            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.ANGRY_VILLAGER, -0.1f, 2,
-                    pos.add(0, off - 2.1D, 0), new Vec3(1d, 1d, 1d)));
-            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
-                    pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
-            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 10,
-                    pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
-            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.EXPLOSION, -0.1f, 6,
-                    pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
-            PacketDistributor.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
-        });
+		CameraEffect SOUND = new SoundEffect(SoundInit.ROCKET_LAUNCH);
+		CameraEffect FADE_IN = new FadeInEffect(10);
+		CameraEffect FADE_OUT = new FadeOutEffect(180, 70);
+		CameraEffect SHAKE1 = new ShakeEffect(0.3f);
+		CameraEffect SHAKE2 = new ShakeEffect(0.75f);
+		CameraEffect SMOKE = new ParticleEffect(ParticleTypes.CAMPFIRE_COSY_SMOKE, pos, 0.05D, 0f, 0.8f);
+		CameraEffect EXPLOSIONS = new ParticleEffect(ParticleTypes.EXPLOSION, pos, 0.05D, 1f, 0.1f);
+		CameraEffect LAUNCH = new ActionEffect(ting -> {
+			double off = Math.pow(Math.E, (double) ting / 9D) - 1D;
+			clientEntity.moveTo(pos.add(0, off, 0));
+			entity.moveTo(pos.add(0, off, 0));
+			PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.FLAME, -0.1f, 20,
+					pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
+			PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.ANGRY_VILLAGER, -0.1f, 2,
+					pos.add(0, off - 2.1D, 0), new Vec3(1d, 1d, 1d)));
+			PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
+					pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
+			PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 10,
+					pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
+			PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.EXPLOSION, -0.1f, 6,
+					pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
+			PacketDistributor.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
+		});
 
-        CameraEffect PLACE_PLAYER = new ActionEffect(ting -> {
-            clientEntity.moveTo(pos);
-        });
+		CameraEffect PLACE_PLAYER = new ActionEffect(ting -> {
+			clientEntity.moveTo(pos);
+		});
 
-        CameraEffect DARK = new OverlayEffect(50);
+		CameraEffect DARK = new OverlayEffect(50);
 
-        // @formatter:off
+		// @formatter:off
         setPath(CameraPath.builder(pos)
         .addPath(InterpolationMethod.LERP, 100, effects(FADE_IN, SOUND, SMOKE),
                 node(d.getStepX() * 3, 0, d.getStepZ() * 3, p.xRot, yaw),
@@ -91,16 +91,16 @@ public class LaunchCinematic extends PathCinematic {
                 node(d.getStepX() * 10, 1, d.getStepZ() * 10, -90, yaw))
         .build());
         // @formatter:on
-    }
+	}
 
-    @Override
-    public void finish() {
-        super.finish();
-        PacketDistributor.sendToServer(new C2SRocketLaunchComplete(this.id));
-    }
+	@Override
+	public void finish() {
+		super.finish();
+		PacketDistributor.sendToServer(new C2SRocketLaunchComplete(this.id));
+	}
 
-    @Override
-    protected boolean suppressFadeReset() {
-        return true;
-    }
+	@Override
+	protected boolean suppressFadeReset() {
+		return true;
+	}
 }

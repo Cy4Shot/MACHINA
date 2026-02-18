@@ -1,5 +1,9 @@
 package com.machina.block;
 
+import org.jetbrains.annotations.NotNull;
+
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -14,42 +18,40 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
-
-import com.mojang.serialization.MapCodec;
 
 public class SmallFlowerBlock extends BushBlock {
 
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public SmallFlowerBlock(Properties props) {
-        super(props);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-    }
+	public SmallFlowerBlock(Properties props) {
+		super(props);
+		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+	}
 
-    public @NotNull BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-    }
+	public @NotNull BlockState rotate(BlockState state, Rotation rot) {
+		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+	}
 
-    public @NotNull BlockState mirror(BlockState state, Mirror mir) {
-        return state.rotate(mir.getRotation(state.getValue(FACING)));
-    }
+	@SuppressWarnings("deprecation")
+	public @NotNull BlockState mirror(BlockState state, Mirror mir) {
+		return state.rotate(mir.getRotation(state.getValue(FACING)));
+	}
 
-    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos,
-                                        @NotNull CollisionContext collision) {
-        return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
-    }
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter getter, @NotNull BlockPos pos,
+			@NotNull CollisionContext collision) {
+		return Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
+	}
 
-    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
-    }
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+		return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
+	}
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_272634_) {
-        p_272634_.add(FACING);
-    }
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_272634_) {
+		p_272634_.add(FACING);
+	}
 
-    @Override
-    protected MapCodec<? extends BushBlock> codec() {
-        return simpleCodec(SmallFlowerBlock::new);
-    }
+	@Override
+	protected MapCodec<? extends BushBlock> codec() {
+		return simpleCodec(SmallFlowerBlock::new);
+	}
 }

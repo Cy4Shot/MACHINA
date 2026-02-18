@@ -10,16 +10,16 @@ import net.minecraft.resources.ResourceLocation;
 
 public class LifeSupportPart<T extends RocketPartModel> extends RocketPart<T> {
 
-    private final int slots;
+	private final int slots;
 
-    public LifeSupportPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off,
-                           float guiScale, int slots) {
-        super(loc, RocketPartType.LIFE_SUPPORT, height, off, guiScale, model, weight);
-        this.slots = slots;
-    }
+	public LifeSupportPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off,
+			float guiScale, int slots) {
+		super(loc, RocketPartType.LIFE_SUPPORT, height, off, guiScale, model, weight);
+		this.slots = slots;
+	}
 
-    public int getSlots() {
-        return slots;
-    }
+	public int getSlots() {
+		return slots;
+	}
 
 }

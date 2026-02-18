@@ -13,24 +13,24 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RocketRenderer extends EntityRenderer<RocketEntity> {
 
-    public RocketRenderer(Context ctx) {
-        super(ctx);
-    }
+	public RocketRenderer(Context ctx) {
+		super(ctx);
+	}
 
-    @Override
-    public ResourceLocation getTextureLocation(RocketEntity entity) {
-        return null;
-    }
+	@Override
+	public ResourceLocation getTextureLocation(RocketEntity entity) {
+		return null;
+	}
 
-    @Override
-    public void render(RocketEntity e, float yaw, float part, PoseStack pose, MultiBufferSource buff, int light) {
-        RocketModel model = e.getModel();
-        if (model != null) {
-            pose.pushPose();
-            pose.scale(1, -1, -1);
-            pose.mulPose(VecUtil.rotationDegrees(VecUtil.YP, e.getYRot()));
-            model.render(pose, buff, light, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
-            pose.popPose();
-        }
-    }
+	@Override
+	public void render(RocketEntity e, float yaw, float part, PoseStack pose, MultiBufferSource buff, int light) {
+		RocketModel model = e.getModel();
+		if (model != null) {
+			pose.pushPose();
+			pose.scale(1, -1, -1);
+			pose.mulPose(VecUtil.rotationDegrees(VecUtil.YP, e.getYRot()));
+			model.render(pose, buff, light, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
+			pose.popPose();
+		}
+	}
 }

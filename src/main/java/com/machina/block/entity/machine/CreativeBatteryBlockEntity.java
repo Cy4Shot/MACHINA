@@ -16,61 +16,61 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class CreativeBatteryBlockEntity extends MachinaBlockEntity {
 
-    public CreativeBatteryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
+	public CreativeBatteryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
+	}
 
-    public CreativeBatteryBlockEntity(BlockPos pos, BlockState state) {
-        this(BlockEntityInit.CREATIVE_BATTERY.get(), pos, state);
-    }
+	public CreativeBatteryBlockEntity(BlockPos pos, BlockState state) {
+		this(BlockEntityInit.CREATIVE_BATTERY.get(), pos, state);
+	}
 
-    @Override
-    public void createStorages() {
-        energyStorage(Side.OUTPUTS);
-    }
+	@Override
+	public void createStorages() {
+		energyStorage(Side.OUTPUTS);
+	}
 
-    @Override
-    public void tick() {
-        if (this.level != null && this.level.isClientSide())
-            return;
+	@Override
+	public void tick() {
+		if (this.level != null && this.level.isClientSide())
+			return;
 
-        // Send out energy
-        BlockHelper.sendEnergy(level, worldPosition, 1_000_000_000, 1_000_000_000, this);
+		// Send out energy
+		BlockHelper.sendEnergy(level, worldPosition, 1_000_000_000, 1_000_000_000, this);
 
-        super.tick();
-    }
+		super.tick();
+	}
 
-    @Override
-    protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-        return CreativeBatteryMenu::new;
-    }
+	@Override
+	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
+		return CreativeBatteryMenu::new;
+	}
 
-    @Override
-    public int getEnergy() {
-        return 1_000_000_000;
-    }
+	@Override
+	public int getEnergy() {
+		return 1_000_000_000;
+	}
 
-    @Override
-    public int getMaxEnergy() {
-        return 1_000_000_000;
-    }
+	@Override
+	public int getMaxEnergy() {
+		return 1_000_000_000;
+	}
 
-    @Override
-    protected void setEnergy(int n) {
-    }
+	@Override
+	protected void setEnergy(int n) {
+	}
 
-    @Override
-    public int consumeEnergy(int amount) {
-        return amount;
-    }
+	@Override
+	public int consumeEnergy(int amount) {
+		return amount;
+	}
 
-    @Override
-    public int consumeEnergySim(int amount) {
-        return amount;
-    }
+	@Override
+	public int consumeEnergySim(int amount) {
+		return amount;
+	}
 
-    @Override
-    public boolean activeModel() {
-        return false;
-    }
+	@Override
+	public boolean activeModel() {
+		return false;
+	}
 }

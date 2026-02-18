@@ -10,22 +10,22 @@ import net.minecraft.resources.ResourceLocation;
 
 public class FuelTankPart<T extends RocketPartModel> extends RocketPart<T> {
 
-    private final int fuelStorage;
-    private final int coolantStorage;
+	private final int fuelStorage;
+	private final int coolantStorage;
 
-    public FuelTankPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, float guiScale,
-                        int fuelStorage, int coolantStorage) {
-        super(loc, RocketPartType.FUEL_TANK, height, off, guiScale, model, weight);
-        this.fuelStorage = fuelStorage;
-        this.coolantStorage = coolantStorage;
-    }
+	public FuelTankPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, float guiScale,
+			int fuelStorage, int coolantStorage) {
+		super(loc, RocketPartType.FUEL_TANK, height, off, guiScale, model, weight);
+		this.fuelStorage = fuelStorage;
+		this.coolantStorage = coolantStorage;
+	}
 
-    public int getFuelStorage() {
-        return fuelStorage;
-    }
+	public int getFuelStorage() {
+		return fuelStorage;
+	}
 
-    public int getCoolantStorage() {
-        return coolantStorage;
-    }
+	public int getCoolantStorage() {
+		return coolantStorage;
+	}
 
 }

@@ -1,9 +1,20 @@
 package com.machina.api.block.entity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.api.cap.sided.Side;
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.recipe.MachinaRecipeMaps;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
@@ -16,438 +27,428 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
-import java.util.function.Predicate;
-
 public abstract class RecipeBlockEntity extends MachinaBlockEntity implements RecipeInput {
 
-    protected enum SlotType {
-        INPUT,
-        OUTPUT,
-        EPHEMERAL,
-    }
+	protected enum SlotType {
+		INPUT, OUTPUT, EPHEMERAL,
+	}
 
-    private record RecipeSlot(int id, boolean item, SlotType type) {
-    }
+	private record RecipeSlot(int id, boolean item, SlotType type) {
+	}
 
-    private List<RecipeSlot> slots;
-    private RecipeHolder<? extends MachinaRecipe<?>> recipe = null;
-    private RecipeHolder<? extends MachinaRecipe<?>> temporaryRecipe = null;
-    private int tickCount = 0;
+	private List<RecipeSlot> slots;
+	private RecipeHolder<? extends MachinaRecipe<?>> recipe = null;
+	private RecipeHolder<? extends MachinaRecipe<?>> temporaryRecipe = null;
+	private int tickCount = 0;
 
-    private int progress = 0;
+	private int progress = 0;
 
-    public RecipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
+	public RecipeBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
+	}
 
-    protected void itemSlot(SlotType type) {
-        int id = switch (type) {
-            case INPUT -> itemStorage(Side.INPUTS);
-            case OUTPUT -> itemStorage(Side.OUTPUTS);
-            case EPHEMERAL -> itemStorage(Side.NONES);
-        };
-        if (this.slots == null) {
-            this.slots = new ArrayList<>();
-        }
-        slots.add(new RecipeSlot(id, true, type));
-    }
+	protected void itemSlot(SlotType type) {
+		int id = switch (type) {
+		case INPUT -> itemStorage(Side.INPUTS);
+		case OUTPUT -> itemStorage(Side.OUTPUTS);
+		case EPHEMERAL -> itemStorage(Side.NONES);
+		};
+		if (this.slots == null) {
+			this.slots = new ArrayList<>();
+		}
+		slots.add(new RecipeSlot(id, true, type));
+	}
 
-    protected void fluidSlot(int capacity, Predicate<FluidStack> valid, SlotType type) {
-        int id = switch (type) {
-            case INPUT -> fluidStorage(capacity, valid, Side.INPUTS);
-            case OUTPUT -> fluidStorage(capacity, valid, Side.OUTPUTS);
-            case EPHEMERAL -> fluidStorage(capacity, valid, Side.NONES);
-        };
-        if (this.slots == null) {
-            this.slots = new ArrayList<>();
-        }
-        slots.add(new RecipeSlot(id, false, type));
-    }
+	protected void fluidSlot(int capacity, Predicate<FluidStack> valid, SlotType type) {
+		int id = switch (type) {
+		case INPUT -> fluidStorage(capacity, valid, Side.INPUTS);
+		case OUTPUT -> fluidStorage(capacity, valid, Side.OUTPUTS);
+		case EPHEMERAL -> fluidStorage(capacity, valid, Side.NONES);
+		};
+		if (this.slots == null) {
+			this.slots = new ArrayList<>();
+		}
+		slots.add(new RecipeSlot(id, false, type));
+	}
 
-    @Override
-    public boolean isLit() {
-        return this.recipe != null && this.progress > 0 && this.meetsRequirements(recipe.value())
-                || (this.temporaryRecipe != null && this.getRecipeMap().hasPeriodicConsumption()
-                && this.ticksRemaining() >= 0);
-    }
+	@Override
+	public boolean isLit() {
+		return this.recipe != null && this.progress > 0 && this.meetsRequirements(recipe.value())
+				|| (this.temporaryRecipe != null && this.getRecipeMap().hasPeriodicConsumption()
+						&& this.ticksRemaining() >= 0);
+	}
 
-    public float getProgress() {
-        if (this.recipe == null)
-            return 0;
-        if (getRecipeMap().hasPeriodicConsumption()) {
-            return (float) this.progress / (float) this.recipe.value().getPeriodicConsumption();
-        }
-        if (!getRecipe().maps().hasTime() || this.recipe.value().getTime() == 0)
-            return 1;
-        return (float) this.progress / (float) this.recipe.value().getTime();
-    }
+	public float getProgress() {
+		if (this.recipe == null)
+			return 0;
+		if (getRecipeMap().hasPeriodicConsumption()) {
+			return (float) this.progress / (float) this.recipe.value().getPeriodicConsumption();
+		}
+		if (!getRecipe().maps().hasTime() || this.recipe.value().getTime() == 0)
+			return 1;
+		return (float) this.progress / (float) this.recipe.value().getTime();
+	}
 
-    public int ticksRemaining() {
-        if (this.recipe == null)
-            return 0;
-        if (getRecipeMap().hasPeriodicConsumption()) {
-            return this.recipe.value().getPeriodicConsumption() - this.progress;
-        }
-        return this.recipe.value().getTime() - this.progress;
-    }
+	public int ticksRemaining() {
+		if (this.recipe == null)
+			return 0;
+		if (getRecipeMap().hasPeriodicConsumption()) {
+			return this.recipe.value().getPeriodicConsumption() - this.progress;
+		}
+		return this.recipe.value().getTime() - this.progress;
+	}
 
-    @Override
-    public void tick() {
-        if (this.level != null && this.level.isClientSide())
-            return;
+	@Override
+	public void tick() {
+		if (this.level != null && this.level.isClientSide())
+			return;
 
-        Optional<RecipeHolder<? extends MachinaRecipe<RecipeBlockEntity>>> rec = getRecipeMap().findRecipe(this);
-        rec.ifPresentOrElse(holder -> {
-            if (tickCount == 0) {
-                this.temporaryRecipe = holder;
-                tickCount = 2;
-                setChanged();
-            }
-            if (this.recipe.id() != holder.id()) {
-                this.recipe = holder;
-                this.progress = 0;
+		Optional<RecipeHolder<? extends MachinaRecipe<RecipeBlockEntity>>> rec = getRecipeMap().findRecipe(this);
+		rec.ifPresentOrElse(holder -> {
+			if (tickCount == 0) {
+				this.temporaryRecipe = holder;
+				tickCount = 2;
+				setChanged();
+			}
+			if (this.recipe.id() != holder.id()) {
+				this.recipe = holder;
+				this.progress = 0;
 
-                setChanged();
-            }
-            
-            MachinaRecipe<RecipeBlockEntity> r = holder.value();
+				setChanged();
+			}
 
-            if (getRecipeMap().hasPeriodicConsumption() && r.getPeriodicConsumption() > 1) {
-                if (this.progress == 0) {
-                    useInputs(r, false);
-                    produceOutputs(r, true);
-                } else if (this.progress == r.getPeriodicConsumption() - 1) {
-                    useInputs(r, true);
-                    produceOutputs(r, false);
-                    this.progress = 0;
-                } else {
-                    useInputs(r, true);
-                    produceOutputs(r, true);
-                }
-                this.progress++;
-                setChanged();
-            } else {
-                if (meetsRequirements(r) && hasSpace(r)) {
-                    if (!drainRequirements(r)) {
-                        return;
-                    }
+			MachinaRecipe<RecipeBlockEntity> r = holder.value();
 
-                    this.progress++;
-                    if (this.progress >= r.getTime()) {
-                        useInputs(r, false);
-                        produceOutputs(r, false);
-                        this.progress = 0;
-                        setChanged();
-                    }
-                }
-            }
-        }, () -> {
-            this.progress = 0;
-            this.recipe = null;
-        });
+			if (getRecipeMap().hasPeriodicConsumption() && r.getPeriodicConsumption() > 1) {
+				if (this.progress == 0) {
+					useInputs(r, false);
+					produceOutputs(r, true);
+				} else if (this.progress == r.getPeriodicConsumption() - 1) {
+					useInputs(r, true);
+					produceOutputs(r, false);
+					this.progress = 0;
+				} else {
+					useInputs(r, true);
+					produceOutputs(r, true);
+				}
+				this.progress++;
+				setChanged();
+			} else {
+				if (meetsRequirements(r) && hasSpace(r)) {
+					if (!drainRequirements(r)) {
+						return;
+					}
 
-        if (recipe == null && tickCount > 0) {
-            tickCount--;
-            if (tickCount == 0) {
-                this.temporaryRecipe = null;
-            }
-            setChanged();
-        }
+					this.progress++;
+					if (this.progress >= r.getTime()) {
+						useInputs(r, false);
+						produceOutputs(r, false);
+						this.progress = 0;
+						setChanged();
+					}
+				}
+			}
+		}, () -> {
+			this.progress = 0;
+			this.recipe = null;
+		});
 
-        super.tick();
-    }
+		if (recipe == null && tickCount > 0) {
+			tickCount--;
+			if (tickCount == 0) {
+				this.temporaryRecipe = null;
+			}
+			setChanged();
+		}
 
-    @SuppressWarnings("unchecked")
-    private MachinaRecipeMaps<RecipeBlockEntity> getRecipeMap() {
-        return (MachinaRecipeMaps<RecipeBlockEntity>) getRecipe().maps();
-    }
+		super.tick();
+	}
 
-    protected abstract RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe();
+	@SuppressWarnings("unchecked")
+	private MachinaRecipeMaps<RecipeBlockEntity> getRecipeMap() {
+		return (MachinaRecipeMaps<RecipeBlockEntity>) getRecipe().maps();
+	}
 
-    protected boolean meetsRequirements(MachinaRecipe<?> r) {
-        return !getRecipe().maps().hasEnergy() || getEnergy() >= r.getPowerRate();
-    }
+	protected abstract RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe();
 
-    protected boolean drainRequirements(MachinaRecipe<?> r) {
-        if (getRecipe().maps().hasEnergy()) {
-            int consumed = consumeEnergy(r.getPowerRate());
-            if (consumed < r.getPowerRate()) {
-                receiveEnergy(consumed, false);
-                return false;
-            }
-        }
-        return true;
-    }
+	protected boolean meetsRequirements(MachinaRecipe<?> r) {
+		return !getRecipe().maps().hasEnergy() || getEnergy() >= r.getPowerRate();
+	}
 
-    @SuppressWarnings("removal")
-    public boolean hasFluidInput(FluidStack stack) {
-        for (RecipeSlot s : slots) {
-            if (s.type == SlotType.INPUT && !s.item) {
-                FluidStack fluid = getFluid(s.id());
-                if (fluid.isFluidEqual(stack) && fluid.getAmount() >= stack.getAmount()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+	protected boolean drainRequirements(MachinaRecipe<?> r) {
+		if (getRecipe().maps().hasEnergy()) {
+			int consumed = consumeEnergy(r.getPowerRate());
+			if (consumed < r.getPowerRate()) {
+				receiveEnergy(consumed, false);
+				return false;
+			}
+		}
+		return true;
+	}
 
-    @SuppressWarnings("removal")
-    public boolean hasExactFluidInputs(List<FluidStack> requiredFluids) {
-        List<FluidStack> remaining = new ArrayList<>(requiredFluids);
+	@SuppressWarnings("removal")
+	public boolean hasFluidInput(FluidStack stack) {
+		for (RecipeSlot s : slots) {
+			if (s.type == SlotType.INPUT && !s.item) {
+				FluidStack fluid = getFluid(s.id());
+				if (fluid.isFluidEqual(stack) && fluid.getAmount() >= stack.getAmount()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-        for (RecipeSlot s : slots) {
-            if (s.type == SlotType.INPUT && !s.item) {
-                FluidStack fluid = getFluid(s.id());
+	@SuppressWarnings("removal")
+	public boolean hasExactFluidInputs(List<FluidStack> requiredFluids) {
+		List<FluidStack> remaining = new ArrayList<>(requiredFluids);
 
-                if (fluid.isEmpty())
-                    continue;
+		for (RecipeSlot s : slots) {
+			if (s.type == SlotType.INPUT && !s.item) {
+				FluidStack fluid = getFluid(s.id());
 
-                boolean matched = false;
-                Iterator<FluidStack> it = remaining.iterator();
-                while (it.hasNext()) {
-                    FluidStack expected = it.next();
-                    if (fluid.isFluidEqual(expected) && fluid.getAmount() >= expected.getAmount()) {
-                        it.remove();
-                        matched = true;
-                        break;
-                    }
-                }
+				if (fluid.isEmpty())
+					continue;
 
-                if (!matched) {
-                    return false; // Extra unexpected fluid
-                }
-            }
-        }
+				boolean matched = false;
+				Iterator<FluidStack> it = remaining.iterator();
+				while (it.hasNext()) {
+					FluidStack expected = it.next();
+					if (fluid.isFluidEqual(expected) && fluid.getAmount() >= expected.getAmount()) {
+						it.remove();
+						matched = true;
+						break;
+					}
+				}
 
-        // If required fluids remain unmatched, return false
-        return remaining.isEmpty();
-    }
+				if (!matched) {
+					return false; // Extra unexpected fluid
+				}
+			}
+		}
 
-    public boolean hasItemInput(ItemStack stack) {
-        int totalCount = 0;
+		// If required fluids remain unmatched, return false
+		return remaining.isEmpty();
+	}
 
-        for (RecipeSlot s : slots) {
-            if (s.type == SlotType.INPUT && s.item) {
-                ItemStack item = getItem(s.id());
-                if (stack.getItem().equals(item.getItem())) {
-                    totalCount += item.getCount();
-                    if (totalCount >= stack.getCount()) {
-                        return true;
-                    }
-                }
-            }
-        }
+	public boolean hasItemInput(ItemStack stack) {
+		int totalCount = 0;
 
-        return false;
-    }
+		for (RecipeSlot s : slots) {
+			if (s.type == SlotType.INPUT && s.item) {
+				ItemStack item = getItem(s.id());
+				if (stack.getItem().equals(item.getItem())) {
+					totalCount += item.getCount();
+					if (totalCount >= stack.getCount()) {
+						return true;
+					}
+				}
+			}
+		}
 
-    public boolean hasExactItemInputs(List<ItemStack> requiredItems) {
-        // Map of required items and their total counts
-        Map<Predicate<ItemStack>, Integer> requiredCounts = new HashMap<>();
-        for (ItemStack required : requiredItems) {
-            // Use a lambda as key for matching logic
-            requiredCounts.merge(x -> x.getItem().equals(required.getItem()), required.getCount(), Integer::sum);
-        }
+		return false;
+	}
 
-        // Map to track how much we've matched so far
-        Map<Predicate<ItemStack>, Integer> matchedCounts = new HashMap<>();
+	public boolean hasExactItemInputs(List<ItemStack> requiredItems) {
+		// Map of required items and their total counts
+		Map<Predicate<ItemStack>, Integer> requiredCounts = new HashMap<>();
+		for (ItemStack required : requiredItems) {
+			// Use a lambda as key for matching logic
+			requiredCounts.merge(x -> x.getItem().equals(required.getItem()), required.getCount(), Integer::sum);
+		}
 
-        for (RecipeSlot s : slots) {
-            if (s.type == SlotType.INPUT && s.item) {
-                ItemStack item = getItem(s.id());
+		// Map to track how much we've matched so far
+		Map<Predicate<ItemStack>, Integer> matchedCounts = new HashMap<>();
 
-                if (item.isEmpty())
-                    continue;
+		for (RecipeSlot s : slots) {
+			if (s.type == SlotType.INPUT && s.item) {
+				ItemStack item = getItem(s.id());
 
-                boolean matched = false;
+				if (item.isEmpty())
+					continue;
 
-                for (Map.Entry<Predicate<ItemStack>, Integer> entry : requiredCounts.entrySet()) {
-                    Predicate<ItemStack> matcher = entry.getKey();
-                    if (matcher.test(item)) {
-                        matched = true;
-                        matchedCounts.merge(matcher, item.getCount(), Integer::sum);
-                        break;
-                    }
-                }
+				boolean matched = false;
 
-                if (!matched) {
-                    return false; // Extra unexpected item
-                }
-            }
-        }
+				for (Map.Entry<Predicate<ItemStack>, Integer> entry : requiredCounts.entrySet()) {
+					Predicate<ItemStack> matcher = entry.getKey();
+					if (matcher.test(item)) {
+						matched = true;
+						matchedCounts.merge(matcher, item.getCount(), Integer::sum);
+						break;
+					}
+				}
 
-        // Verify that all required items are fully matched
-        for (Map.Entry<Predicate<ItemStack>, Integer> entry : requiredCounts.entrySet()) {
-            int required = entry.getValue();
-            int matched = matchedCounts.getOrDefault(entry.getKey(), 0);
-            if (matched < required) {
-                return false;
-            }
-        }
+				if (!matched) {
+					return false; // Extra unexpected item
+				}
+			}
+		}
 
-        return true;
-    }
+		// Verify that all required items are fully matched
+		for (Map.Entry<Predicate<ItemStack>, Integer> entry : requiredCounts.entrySet()) {
+			int required = entry.getValue();
+			int matched = matchedCounts.getOrDefault(entry.getKey(), 0);
+			if (matched < required) {
+				return false;
+			}
+		}
 
-    @SuppressWarnings("removal")
-    protected boolean hasSpace(MachinaRecipe<?> r) {
-        for (ItemStack i : r.getOutputItems()) {
-            boolean found = false;
-            for (RecipeSlot s : slots) {
-                if (s.type == SlotType.OUTPUT && s.item) {
-                    ItemStack stack = getItem(s.id());
-                    if (stack.isEmpty() || ItemStack.isSameItem(stack, i)
-                            && stack.getCount() + i.getCount() <= stack.getMaxStackSize()) {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found)
-                return false;
-        }
+		return true;
+	}
 
-        for (FluidStack f : r.getOutputFluids()) {
-            boolean found = false;
-            for (RecipeSlot s : slots) {
-                if (s.type == SlotType.OUTPUT && !s.item) {
-                    FluidStack stack = getFluid(s.id());
-                    if (stack.isEmpty()
-                            || stack.isFluidEqual(f) && stack.getAmount() + f.getAmount() <= getTankCapacity(s.id())) {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found)
-                return false;
-        }
-        return true;
-    }
+	@SuppressWarnings("removal")
+	protected boolean hasSpace(MachinaRecipe<?> r) {
+		for (ItemStack i : r.getOutputItems()) {
+			boolean found = false;
+			for (RecipeSlot s : slots) {
+				if (s.type == SlotType.OUTPUT && s.item) {
+					ItemStack stack = getItem(s.id());
+					if (stack.isEmpty() || ItemStack.isSameItem(stack, i)
+							&& stack.getCount() + i.getCount() <= stack.getMaxStackSize()) {
+						found = true;
+						break;
+					}
+				}
+			}
+			if (!found)
+				return false;
+		}
 
-    @SuppressWarnings("removal")
-    protected void useInputs(MachinaRecipe<?> r, boolean periodic) {
-        if (!periodic) {
-            for (ItemStack i : r.getInputItems()) {
-                int desired = i.getCount();
-                int count = 0;
-                for (RecipeSlot s : slots) {
-                    if (s.type == SlotType.INPUT && s.item) {
-                        ItemStack stack = getItem(s.id());
-                        if (i.getItem().equals(stack.getItem())) {
-                            int toShrink = Math.min(desired - count, stack.getCount());
-                            stack.shrink(toShrink);
-                            setItem(s.id(), stack);
-                            count += toShrink;
-                        }
-                        if (count >= desired)
-                            break;
-                    }
-                }
-            }
-        }
+		for (FluidStack f : r.getOutputFluids()) {
+			boolean found = false;
+			for (RecipeSlot s : slots) {
+				if (s.type == SlotType.OUTPUT && !s.item) {
+					FluidStack stack = getFluid(s.id());
+					if (stack.isEmpty()
+							|| stack.isFluidEqual(f) && stack.getAmount() + f.getAmount() <= getTankCapacity(s.id())) {
+						found = true;
+						break;
+					}
+				}
+			}
+			if (!found)
+				return false;
+		}
+		return true;
+	}
 
-        for (FluidStack f : r.getInputFluids()) {
-            int desired = f.getAmount();
-            int count = 0;
-            for (RecipeSlot s : slots) {
-                if (s.type == SlotType.INPUT && !s.item) {
-                    FluidStack stack = getFluid(s.id());
-                    if (stack.isFluidEqual(f)) {
-                        FluidStack filled = drain(s.id(), desired - count, FluidAction.EXECUTE);
-                        count += filled.getAmount();
-                    }
-                    if (count >= desired)
-                        break;
-                }
-            }
-        }
-    }
+	@SuppressWarnings("removal")
+	protected void useInputs(MachinaRecipe<?> r, boolean periodic) {
+		if (!periodic) {
+			for (ItemStack i : r.getInputItems()) {
+				int desired = i.getCount();
+				int count = 0;
+				for (RecipeSlot s : slots) {
+					if (s.type == SlotType.INPUT && s.item) {
+						ItemStack stack = getItem(s.id());
+						if (i.getItem().equals(stack.getItem())) {
+							int toShrink = Math.min(desired - count, stack.getCount());
+							stack.shrink(toShrink);
+							setItem(s.id(), stack);
+							count += toShrink;
+						}
+						if (count >= desired)
+							break;
+					}
+				}
+			}
+		}
 
-    @SuppressWarnings("removal")
-    protected void produceOutputs(MachinaRecipe<?> r, boolean periodic) {
-        if (!periodic) {
-            for (ItemStack i : r.getOutputItems()) {
-                for (RecipeSlot s : slots) {
-                    if (s.type == SlotType.OUTPUT && s.item) {
-                        ItemStack stack = getItem(s.id());
-                        if (stack.isEmpty()) {
-                            setItem(s.id(), i.copy());
-                            break;
-                        } else if (ItemStack.isSameItem(stack, i)
-                                && stack.getCount() + i.getCount() <= stack.getMaxStackSize()) {
-                            stack.grow(i.getCount());
-                            setItem(s.id(), stack);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+		for (FluidStack f : r.getInputFluids()) {
+			int desired = f.getAmount();
+			int count = 0;
+			for (RecipeSlot s : slots) {
+				if (s.type == SlotType.INPUT && !s.item) {
+					FluidStack stack = getFluid(s.id());
+					if (stack.isFluidEqual(f)) {
+						FluidStack filled = drain(s.id(), desired - count, FluidAction.EXECUTE);
+						count += filled.getAmount();
+					}
+					if (count >= desired)
+						break;
+				}
+			}
+		}
+	}
 
-        for (FluidStack f : r.getOutputFluids()) {
-            for (RecipeSlot s : slots) {
-                if (s.type == SlotType.OUTPUT && !s.item) {
-                    FluidStack stack = getFluid(s.id());
-                    if (stack.isEmpty()) {
-                        fill(s.id(), f.copy(), FluidAction.EXECUTE);
-                        break;
-                    } else if (stack.isFluidEqual(f) && stack.getAmount() + f.getAmount() <= getTankCapacity(s.id())) {
-                        fill(s.id(), f, FluidAction.EXECUTE);
-                        break;
-                    }
-                }
-            }
-        }
-    }
+	@SuppressWarnings("removal")
+	protected void produceOutputs(MachinaRecipe<?> r, boolean periodic) {
+		if (!periodic) {
+			for (ItemStack i : r.getOutputItems()) {
+				for (RecipeSlot s : slots) {
+					if (s.type == SlotType.OUTPUT && s.item) {
+						ItemStack stack = getItem(s.id());
+						if (stack.isEmpty()) {
+							setItem(s.id(), i.copy());
+							break;
+						} else if (ItemStack.isSameItem(stack, i)
+								&& stack.getCount() + i.getCount() <= stack.getMaxStackSize()) {
+							stack.grow(i.getCount());
+							setItem(s.id(), stack);
+							break;
+						}
+					}
+				}
+			}
+		}
 
-    public boolean hasRecipe() {
-        return this.temporaryRecipe != null || this.recipe != null;
-    }
+		for (FluidStack f : r.getOutputFluids()) {
+			for (RecipeSlot s : slots) {
+				if (s.type == SlotType.OUTPUT && !s.item) {
+					FluidStack stack = getFluid(s.id());
+					if (stack.isEmpty()) {
+						fill(s.id(), f.copy(), FluidAction.EXECUTE);
+						break;
+					} else if (stack.isFluidEqual(f) && stack.getAmount() + f.getAmount() <= getTankCapacity(s.id())) {
+						fill(s.id(), f, FluidAction.EXECUTE);
+						break;
+					}
+				}
+			}
+		}
+	}
 
-    public boolean hasSpace() {
-        return this.recipe != null && hasSpace(this.recipe.value());
-    }
+	public boolean hasRecipe() {
+		return this.temporaryRecipe != null || this.recipe != null;
+	}
 
-    public boolean meetsRequirements() {
-        return this.recipe != null && meetsRequirements(this.recipe.value())
-                || (this.temporaryRecipe != null && getRecipeMap().hasPeriodicConsumption());
-    }
+	public boolean hasSpace() {
+		return this.recipe != null && hasSpace(this.recipe.value());
+	}
 
-    public int getPowerRate() {
-        return this.recipe == null ? 0 : this.recipe.value().getPowerRate();
-    }
+	public boolean meetsRequirements() {
+		return this.recipe != null && meetsRequirements(this.recipe.value())
+				|| (this.temporaryRecipe != null && getRecipeMap().hasPeriodicConsumption());
+	}
 
-    @Override
-    protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
-        tag.putInt("progress", this.progress);
-        tag.putString("recipe", this.recipe == null ? "" : this.recipe.id().toString());
-        tag.putString("temporary", this.temporaryRecipe == null ? "" : this.temporaryRecipe.id().toString());
-        tag.putInt("tickCount", this.tickCount);
-        super.saveAdditional(tag, registries);
-    }
+	public int getPowerRate() {
+		return this.recipe == null ? 0 : this.recipe.value().getPowerRate();
+	}
 
-    @Override
-    public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
-        this.progress = tag.getInt("progress");
-        String r = tag.getString("recipe");
-        this.recipe = r.isEmpty() ? null : getRecipeMap().getRecipe(ResourceLocation.parse(r));
-        String t = tag.getString("temporary");
-        this.temporaryRecipe = t.isEmpty() ? null
-                : getRecipeMap().getRecipe(ResourceLocation.parse(t));
-        this.tickCount = tag.getInt("tickCount");
-        super.loadAdditional(tag, registries);
-    }
-    
+	@Override
+	protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
+		tag.putInt("progress", this.progress);
+		tag.putString("recipe", this.recipe == null ? "" : this.recipe.id().toString());
+		tag.putString("temporary", this.temporaryRecipe == null ? "" : this.temporaryRecipe.id().toString());
+		tag.putInt("tickCount", this.tickCount);
+		super.saveAdditional(tag, registries);
+	}
 
+	@Override
+	public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
+		this.progress = tag.getInt("progress");
+		String r = tag.getString("recipe");
+		this.recipe = r.isEmpty() ? null : getRecipeMap().getRecipe(ResourceLocation.parse(r));
+		String t = tag.getString("temporary");
+		this.temporaryRecipe = t.isEmpty() ? null : getRecipeMap().getRecipe(ResourceLocation.parse(t));
+		this.tickCount = tag.getInt("tickCount");
+		super.loadAdditional(tag, registries);
+	}
 
-    @Override
-    public int size() {
-        // TODO: This is the recipe input size: maybe restrict to input slots only?
-        return this.getContainerSize();
-    }
+	@Override
+	public int size() {
+		// TODO: This is the recipe input size: maybe restrict to input slots only?
+		return this.getContainerSize();
+	}
 
 }

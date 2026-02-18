@@ -1,199 +1,200 @@
 package com.machina.api.cap.fluid;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.machina.api.cap.IConnectorStorage;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidStack> {
 
-    protected final FluidPipeBlockEntity pipe;
-    protected final Direction side;
-    protected long lastReceived;
+	protected final FluidPipeBlockEntity pipe;
+	protected final Direction side;
+	protected long lastReceived;
 
-    public PipeFluidStorage(FluidPipeBlockEntity p, Direction side) {
-        this.pipe = p;
-        this.side = side;
-    }
+	public PipeFluidStorage(FluidPipeBlockEntity p, Direction side) {
+		this.pipe = p;
+		this.side = side;
+	}
 
-    @Override
-    public void tick() {
-        if (Objects.requireNonNull(pipe.getLevel()).getGameTime() - lastReceived > 1) {
-            pullFluid(pipe, side);
-        }
-    }
+	@Override
+	public void tick() {
+		if (Objects.requireNonNull(pipe.getLevel()).getGameTime() - lastReceived > 1) {
+			pullFluid(pipe, side);
+		}
+	}
 
-    @Override
-    public int getTanks() {
-        return 1;
-    }
+	@Override
+	public int getTanks() {
+		return 1;
+	}
 
-    @Override
-    public @NotNull FluidStack getFluidInTank(int tank) {
-        return FluidStack.EMPTY;
-    }
+	@Override
+	public @NotNull FluidStack getFluidInTank(int tank) {
+		return FluidStack.EMPTY;
+	}
 
-    @Override
-    public int getTankCapacity(int tank) {
-        return Integer.MAX_VALUE;
-    }
+	@Override
+	public int getTankCapacity(int tank) {
+		return Integer.MAX_VALUE;
+	}
 
-    @Override
-    public boolean isFluidValid(int tank, @NotNull FluidStack stack) {
-        return true;
-    }
+	@Override
+	public boolean isFluidValid(int tank, @NotNull FluidStack stack) {
+		return true;
+	}
 
-    @Override
-    public int fill(FluidStack resource, FluidAction action) {
-        return receive(pipe, side, resource, action == FluidAction.SIMULATE);
-    }
+	@Override
+	public int fill(FluidStack resource, FluidAction action) {
+		return receive(pipe, side, resource, action == FluidAction.SIMULATE);
+	}
 
-    @Override
-    public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
-        return FluidStack.EMPTY;
-    }
+	@Override
+	public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
+		return FluidStack.EMPTY;
+	}
 
-    @Override
-    public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
-        return FluidStack.EMPTY;
-    }
+	@Override
+	public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
+		return FluidStack.EMPTY;
+	}
 
-    public void pullFluid(FluidPipeBlockEntity be, Direction side) {
-        if (!be.getConnection(side).isOutput()) {
-            return;
-        }
-        IFluidHandler handler = getFluidHandler(be, be.getBlockPos().relative(side), side.getOpposite());
-        if (handler == null)
-            return;
+	public void pullFluid(FluidPipeBlockEntity be, Direction side) {
+		if (!be.getConnection(side).isOutput()) {
+			return;
+		}
+		IFluidHandler handler = getFluidHandler(be, be.getBlockPos().relative(side), side.getOpposite());
+		if (handler == null)
+			return;
 
-        insertEqually(be, side, be.getSortedConnections(), handler);
-    }
+		insertEqually(be, side, be.getSortedConnections(), handler);
+	}
 
-    public int receive(FluidPipeBlockEntity be, Direction side, FluidStack stack, boolean simulate) {
-        if (!be.getConnection(side).isOutput()) {
-            return 0;
-        }
-        return receiveEqually(be, side, be.getSortedConnections(),
-                new FluidStack(stack.getFluid(), Math.min(be.getRate(), stack.getAmount())), simulate);
-    }
+	public int receive(FluidPipeBlockEntity be, Direction side, FluidStack stack, boolean simulate) {
+		if (!be.getConnection(side).isOutput()) {
+			return 0;
+		}
+		return receiveEqually(be, side, be.getSortedConnections(),
+				new FluidStack(stack.getFluid(), Math.min(be.getRate(), stack.getAmount())), simulate);
+	}
 
-    protected void insertEqually(FluidPipeBlockEntity be, Direction side,
-                                 List<FluidPipeBlockEntity.Connection> connections, IFluidHandler handler) {
-        if (connections.isEmpty())
-            return;
+	protected void insertEqually(FluidPipeBlockEntity be, Direction side,
+			List<FluidPipeBlockEntity.Connection> connections, IFluidHandler handler) {
+		if (connections.isEmpty())
+			return;
 
-        int completeAmount = be.getRate();
-        int fluidToTransfer = completeAmount;
-        int p = be.getRoundRobinIndex(side) % connections.size();
+		int completeAmount = be.getRate();
+		int fluidToTransfer = completeAmount;
+		int p = be.getRoundRobinIndex(side) % connections.size();
 
-        FluidStack testExtract = handler.drain(1, FluidAction.SIMULATE);
-        if (testExtract.isEmpty() || !be.filter(side, testExtract))
-            return;
+		FluidStack testExtract = handler.drain(1, FluidAction.SIMULATE);
+		if (testExtract.isEmpty() || !be.filter(side, testExtract))
+			return;
 
-        List<IFluidHandler> destinations = new ArrayList<>(connections.size());
-        for (int i = 0; i < connections.size(); i++) {
-            int index = (i + p) % connections.size();
+		List<IFluidHandler> destinations = new ArrayList<>(connections.size());
+		for (int i = 0; i < connections.size(); i++) {
+			int index = (i + p) % connections.size();
 
-            FluidPipeBlockEntity.Connection connection = connections.get(index);
-            if (connection.getSide(be.getLevel()).isInput()) {
-                IFluidHandler destination = getFluidHandler(be, connection.pos().relative(connection.direction()),
-                        connection.direction().getOpposite());
+			FluidPipeBlockEntity.Connection connection = connections.get(index);
+			if (connection.getSide(be.getLevel()).isInput()) {
+				IFluidHandler destination = getFluidHandler(be, connection.pos().relative(connection.direction()),
+						connection.direction().getOpposite());
 
-                if (destination != null) {
-                    FluidStack tester = new FluidStack(testExtract.getFluid(), 1);
-                    if (destination.fill(tester, FluidAction.SIMULATE) >= 1 && connection.filter(be.getLevel(), tester))
-                        destinations.add(destination);
-                }
-            }
-        }
+				if (destination != null) {
+					FluidStack tester = new FluidStack(testExtract.getFluid(), 1);
+					if (destination.fill(tester, FluidAction.SIMULATE) >= 1 && connection.filter(be.getLevel(), tester))
+						destinations.add(destination);
+				}
+			}
+		}
 
-        for (IFluidHandler destination : destinations) {
-            FluidStack simulatedExtract = handler.drain(
-                    Math.min(Math.max(completeAmount / destinations.size(), 1), fluidToTransfer), FluidAction.SIMULATE);
-            if (simulatedExtract.getAmount() > 0) {
-                FluidStack transferred = pushFluid(handler, destination, simulatedExtract);
-                if (transferred.getAmount() > 0)
-                    fluidToTransfer -= transferred.getAmount();
-            }
+		for (IFluidHandler destination : destinations) {
+			FluidStack simulatedExtract = handler.drain(
+					Math.min(Math.max(completeAmount / destinations.size(), 1), fluidToTransfer), FluidAction.SIMULATE);
+			if (simulatedExtract.getAmount() > 0) {
+				FluidStack transferred = pushFluid(handler, destination, simulatedExtract);
+				if (transferred.getAmount() > 0)
+					fluidToTransfer -= transferred.getAmount();
+			}
 
-            p = (p + 1) % connections.size();
+			p = (p + 1) % connections.size();
 
-            if (fluidToTransfer <= 0)
-                break;
-        }
+			if (fluidToTransfer <= 0)
+				break;
+		}
 
-        be.setRoundRobinIndex(side, p);
-    }
+		be.setRoundRobinIndex(side, p);
+	}
 
-    protected int receiveEqually(FluidPipeBlockEntity be, Direction side,
-                                 List<FluidPipeBlockEntity.Connection> connections, FluidStack maxReceive, boolean simulate) {
-        if (connections.isEmpty() || maxReceive.getAmount() <= 0 || !be.filter(side, maxReceive))
-            return 0;
-        if (be.pushRecursion())
-            return 0;
-        int actuallyTransferred = 0;
-        int fluidToTransfer = maxReceive.getAmount();
-        int p = be.getRoundRobinIndex(side) % connections.size();
-        List<Pair<IFluidHandler, Integer>> destinations = new ArrayList<>(connections.size());
-        for (int i = 0; i < connections.size(); i++) {
-            int index = (i + p) % connections.size();
+	protected int receiveEqually(FluidPipeBlockEntity be, Direction side,
+			List<FluidPipeBlockEntity.Connection> connections, FluidStack maxReceive, boolean simulate) {
+		if (connections.isEmpty() || maxReceive.getAmount() <= 0 || !be.filter(side, maxReceive))
+			return 0;
+		if (be.pushRecursion())
+			return 0;
+		int actuallyTransferred = 0;
+		int fluidToTransfer = maxReceive.getAmount();
+		int p = be.getRoundRobinIndex(side) % connections.size();
+		List<Pair<IFluidHandler, Integer>> destinations = new ArrayList<>(connections.size());
+		for (int i = 0; i < connections.size(); i++) {
+			int index = (i + p) % connections.size();
 
-            FluidPipeBlockEntity.Connection connection = connections.get(index);
-            if (connection.getSide(be.getLevel()).isInput()) {
-                IFluidHandler destination = getFluidHandler(be, connection.pos().relative(connection.direction()),
-                        connection.direction().getOpposite());
+			FluidPipeBlockEntity.Connection connection = connections.get(index);
+			if (connection.getSide(be.getLevel()).isInput()) {
+				IFluidHandler destination = getFluidHandler(be, connection.pos().relative(connection.direction()),
+						connection.direction().getOpposite());
 
-                if (destination != null) {
-                    FluidStack tester = new FluidStack(maxReceive.getFluid(), 1);
-                    if (destination.fill(tester, FluidAction.SIMULATE) >= 1 && connection.filter(be.getLevel(), tester))
-                        destinations.add(new Pair<>(destination, index));
-                }
-            }
-        }
+				if (destination != null) {
+					FluidStack tester = new FluidStack(maxReceive.getFluid(), 1);
+					if (destination.fill(tester, FluidAction.SIMULATE) >= 1 && connection.filter(be.getLevel(), tester))
+						destinations.add(new Pair<>(destination, index));
+				}
+			}
+		}
 
-        for (Pair<IFluidHandler, Integer> destination : destinations) {
-            int maxTransfer = Math.min(Math.max(maxReceive.getAmount() / destinations.size(), 1), fluidToTransfer);
-            int extracted = destination.getFirst().fill(
-                    new FluidStack(maxReceive.getFluid(), Math.min(maxTransfer, maxReceive.getAmount())),
-                    simulate ? FluidAction.SIMULATE : FluidAction.EXECUTE);
-            if (extracted > 0) {
-                fluidToTransfer -= extracted;
-                actuallyTransferred += extracted;
-            }
+		for (Pair<IFluidHandler, Integer> destination : destinations) {
+			int maxTransfer = Math.min(Math.max(maxReceive.getAmount() / destinations.size(), 1), fluidToTransfer);
+			int extracted = destination.getFirst().fill(
+					new FluidStack(maxReceive.getFluid(), Math.min(maxTransfer, maxReceive.getAmount())),
+					simulate ? FluidAction.SIMULATE : FluidAction.EXECUTE);
+			if (extracted > 0) {
+				fluidToTransfer -= extracted;
+				actuallyTransferred += extracted;
+			}
 
-            p = destination.getSecond() + 1;
+			p = destination.getSecond() + 1;
 
-            if (fluidToTransfer <= 0)
-                break;
-        }
+			if (fluidToTransfer <= 0)
+				break;
+		}
 
-        if (!simulate)
-            be.setRoundRobinIndex(side, p);
-        be.popRecursion();
-        return actuallyTransferred;
-    }
+		if (!simulate)
+			be.setRoundRobinIndex(side, p);
+		be.popRecursion();
+		return actuallyTransferred;
+	}
 
-    @Nullable
-    private IFluidHandler getFluidHandler(FluidPipeBlockEntity be, BlockPos pos, Direction direction) {
-        return be.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, pos, direction);
-    }
+	@Nullable
+	private IFluidHandler getFluidHandler(FluidPipeBlockEntity be, BlockPos pos, Direction direction) {
+		return be.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, pos, direction);
+	}
 
-    public FluidStack pushFluid(IFluidHandler provider, IFluidHandler receiver, FluidStack maxAmount) {
-        FluidStack fluidSim = provider.drain(maxAmount, FluidAction.SIMULATE);
-        int receivedSim = receiver.fill(fluidSim, FluidAction.SIMULATE);
-        FluidStack fluid = provider.drain(receivedSim, FluidAction.EXECUTE);
-        receiver.fill(fluid, FluidAction.EXECUTE);
-        return fluid;
-    }
+	public FluidStack pushFluid(IFluidHandler provider, IFluidHandler receiver, FluidStack maxAmount) {
+		FluidStack fluidSim = provider.drain(maxAmount, FluidAction.SIMULATE);
+		int receivedSim = receiver.fill(fluidSim, FluidAction.SIMULATE);
+		FluidStack fluid = provider.drain(receivedSim, FluidAction.EXECUTE);
+		receiver.fill(fluid, FluidAction.EXECUTE);
+		return fluid;
+	}
 }

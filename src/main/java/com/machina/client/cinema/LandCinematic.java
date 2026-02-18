@@ -10,8 +10,8 @@ import com.machina.api.client.cinema.effect.ParticleEffect;
 import com.machina.api.client.cinema.effect.ShakeEffect;
 import com.machina.api.client.cinema.effect.SoundEffect;
 import com.machina.api.client.cinema.entity.CameraClientEntity;
-import com.machina.api.network.c2s.C2SRocketLandComplete;
 import com.machina.api.network.c2s.C2SRocketCinematicOffset;
+import com.machina.api.network.c2s.C2SRocketLandComplete;
 import com.machina.api.network.c2s.C2SSpawnParticle;
 import com.machina.api.util.math.DirUtil;
 import com.machina.registration.init.SoundInit;
@@ -24,40 +24,40 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class LandCinematic extends PathCinematic {
 
-    private final int id;
+	private final int id;
 
-    public LandCinematic(RocketEntity entity) {
-        this(new CameraClientEntity(), entity);
-    }
+	public LandCinematic(RocketEntity entity) {
+		this(new CameraClientEntity(), entity);
+	}
 
-    public LandCinematic(CameraClientEntity p, RocketEntity entity) {
-        super("land", p);
-        this.id = entity.getId();
+	public LandCinematic(CameraClientEntity p, RocketEntity entity) {
+		super("land", p);
+		this.id = entity.getId();
 
-        Direction d = entity.getDirection();
-        int yaw = DirUtil.toYaw(d.getOpposite());
+		Direction d = entity.getDirection();
+		int yaw = DirUtil.toYaw(d.getOpposite());
 
-        Vec3 pos = entity.position();
+		Vec3 pos = entity.position();
 
-        CameraEffect SOUND = new SoundEffect(SoundInit.ROCKET_LAND);
-        CameraEffect FADE_IN = new FadeInEffect(10);
-        CameraEffect FADE_OUT = new FadeOutEffect(150, 50);
-        CameraEffect SHAKE1 = new ShakeEffect(0.3f);
-        CameraEffect SHAKE2 = new ShakeEffect(0.75f);
-        CameraEffect SMOKE = new ParticleEffect(ParticleTypes.CAMPFIRE_COSY_SMOKE, pos, 0.05D, 0f, 0.3f);
+		CameraEffect SOUND = new SoundEffect(SoundInit.ROCKET_LAND);
+		CameraEffect FADE_IN = new FadeInEffect(10);
+		CameraEffect FADE_OUT = new FadeOutEffect(150, 50);
+		CameraEffect SHAKE1 = new ShakeEffect(0.3f);
+		CameraEffect SHAKE2 = new ShakeEffect(0.75f);
+		CameraEffect SMOKE = new ParticleEffect(ParticleTypes.CAMPFIRE_COSY_SMOKE, pos, 0.05D, 0f, 0.3f);
 
-        CameraEffect LAND = new ActionEffect(ting -> {
-            double off = Math.pow(Math.E, (200D - (double) ting) / 60D) - 1D;
-            clientEntity.moveTo(pos.add(0, off, 0));
-            entity.moveTo(pos.add(0, off, 0));
-            PacketDistributor.sendToServer(
-                    new C2SSpawnParticle(ParticleTypes.FLAME, -0.1f, 3, pos.add(0, off - 2.1D, 0), Vec3.ZERO));
-            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
-                    pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
-            PacketDistributor.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
-        });
+		CameraEffect LAND = new ActionEffect(ting -> {
+			double off = Math.pow(Math.E, (200D - (double) ting) / 60D) - 1D;
+			clientEntity.moveTo(pos.add(0, off, 0));
+			entity.moveTo(pos.add(0, off, 0));
+			PacketDistributor.sendToServer(
+					new C2SSpawnParticle(ParticleTypes.FLAME, -0.1f, 3, pos.add(0, off - 2.1D, 0), Vec3.ZERO));
+			PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
+					pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
+			PacketDistributor.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
+		});
 
-        // @formatter:off
+		// @formatter:off
         setPath(CameraPath.builder(pos)
         .addPath(InterpolationMethod.BEZIER, 200, effects(FADE_IN, SHAKE2, LAND, SOUND),
                 node(d.getStepX() * 10, 0, d.getStepZ() * 10, -85, yaw),
@@ -69,11 +69,11 @@ public class LandCinematic extends PathCinematic {
                 node(0, 8, 0, 90, yaw + 45))
         .build());
         // @formatter:on
-    }
+	}
 
-    @Override
-    public void finish() {
-        super.finish();
-        PacketDistributor.sendToServer(new C2SRocketLandComplete(this.id));
-    }
+	@Override
+	public void finish() {
+		super.finish();
+		PacketDistributor.sendToServer(new C2SRocketLandComplete(this.id));
+	}
 }

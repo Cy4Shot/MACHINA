@@ -1,10 +1,17 @@
 package com.machina.datagen;
 
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+
 import com.machina.Machina;
 import com.machina.datagen.client.DatagenBlockStates;
 import com.machina.datagen.client.DatagenItemModels;
 import com.machina.datagen.client.lang.DatagenLangEnUs;
-import com.machina.datagen.server.*;
+import com.machina.datagen.server.DatagenBlockTags;
+import com.machina.datagen.server.DatagenFluidTags;
+import com.machina.datagen.server.DatagenItemTags;
+import com.machina.datagen.server.DatagenRecipes;
 import com.machina.datagen.server.loot.BlockLoot;
 
 import net.minecraft.core.HolderLookup;
@@ -18,31 +25,27 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-
 @EventBusSubscriber(modid = Machina.MOD_ID)
 public class Datagen {
 
-    @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
-        DataGenerator gen = event.getGenerator();
-        PackOutput po = gen.getPackOutput();
-        ExistingFileHelper files = event.getExistingFileHelper();
-        CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
+	@SubscribeEvent
+	public static void gatherData(GatherDataEvent event) {
+		DataGenerator gen = event.getGenerator();
+		PackOutput po = gen.getPackOutput();
+		ExistingFileHelper files = event.getExistingFileHelper();
+		CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
-        // Client
-        gen.addProvider(event.includeClient(), new DatagenLangEnUs(po));
-        gen.addProvider(event.includeClient(), new DatagenItemModels(po, files));
-        gen.addProvider(event.includeClient(), new DatagenBlockStates(po, files));
+		// Client
+		gen.addProvider(event.includeClient(), new DatagenLangEnUs(po));
+		gen.addProvider(event.includeClient(), new DatagenItemModels(po, files));
+		gen.addProvider(event.includeClient(), new DatagenBlockStates(po, files));
 
-        // Server
-        DatagenBlockTags blocks = gen.addProvider(event.includeServer(), new DatagenBlockTags(po, lookup, files));
-        gen.addProvider(event.includeServer(), new DatagenItemTags(po, lookup, blocks.contentsGetter(), files));
-        gen.addProvider(event.includeServer(), new DatagenFluidTags(po, lookup, files));
-        gen.addProvider(event.includeServer(), new LootTableProvider(po, Set.of(),
-                List.of(new SubProviderEntry(BlockLoot::new, LootContextParamSets.BLOCK)), lookup));
-        gen.addProvider(event.includeServer(), new DatagenRecipes(po, lookup));
-    }
+		// Server
+		DatagenBlockTags blocks = gen.addProvider(event.includeServer(), new DatagenBlockTags(po, lookup, files));
+		gen.addProvider(event.includeServer(), new DatagenItemTags(po, lookup, blocks.contentsGetter(), files));
+		gen.addProvider(event.includeServer(), new DatagenFluidTags(po, lookup, files));
+		gen.addProvider(event.includeServer(), new LootTableProvider(po, Set.of(),
+				List.of(new SubProviderEntry(BlockLoot::new, LootContextParamSets.BLOCK)), lookup));
+		gen.addProvider(event.includeServer(), new DatagenRecipes(po, lookup));
+	}
 }

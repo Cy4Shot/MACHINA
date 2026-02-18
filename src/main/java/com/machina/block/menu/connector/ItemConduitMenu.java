@@ -15,21 +15,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 public class ItemConduitMenu extends ConnectorMenu<ItemConduitBlockEntity> {
-    public ItemConduitMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-        this(id, clientLevel(), buf.readBlockPos(), inv, buf.readEnum(Direction.class));
-    }
+	public ItemConduitMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+		this(id, clientLevel(), buf.readBlockPos(), inv, buf.readEnum(Direction.class));
+	}
 
-    public ItemConduitMenu(int id, Level level, BlockPos pos, Inventory inv, Direction d) {
-        super(MenuTypeInit.ITEM_CONDUIT.get(), level, pos, id, d);
+	public ItemConduitMenu(int id, Level level, BlockPos pos, Inventory inv, Direction d) {
+		super(MenuTypeInit.ITEM_CONDUIT.get(), level, pos, id, d);
 
-        invSlots(inv, 0);
+		invSlots(inv, 0);
 
-        this.addSlot(new AcceptSlot(be, id(0), 108, 5,
-                s -> s.is(ItemInit.ITEM_FILTER.get()) || s.is(ItemInit.ADVANCED_ITEM_FILTER.get())));
-    }
+		this.addSlot(new AcceptSlot(be, id(0), 108, 5,
+				s -> s.is(ItemInit.ITEM_FILTER.get()) || s.is(ItemInit.ADVANCED_ITEM_FILTER.get())));
+	}
 
-    @Override
-    protected Block getBlock() {
-        return BlockInit.ITEM_CONDUIT.get();
-    }
+	@Override
+	protected Block getBlock() {
+		return BlockInit.ITEM_CONDUIT.get();
+	}
 }

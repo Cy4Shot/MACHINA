@@ -17,35 +17,34 @@ import net.minecraft.world.item.ItemStack;
 
 public abstract class ConnectorFilterItem<U, T extends IConnectorStorage<U>> extends Item {
 
-    public ConnectorFilterItem(Properties props) {
-        super(props.component(DataComponentsInit.FILTER_MODE, Mode.WHITELIST));
-    }
+	public ConnectorFilterItem(Properties props) {
+		super(props.component(DataComponentsInit.FILTER_MODE, Mode.WHITELIST));
+	}
 
-    public abstract boolean filter(ItemStack stack, U original);
-    
-    public static Mode getMode(ItemStack stack) {
-        return stack.get(DataComponentsInit.FILTER_MODE);
-    }
+	public abstract boolean filter(ItemStack stack, U original);
 
-    public enum Mode implements HasId {
-        WHITELIST,
-        BLACKLIST;
+	public static Mode getMode(ItemStack stack) {
+		return stack.get(DataComponentsInit.FILTER_MODE);
+	}
 
-        public static final Codec<Mode> CODEC = MachinaCodecs.enumCodec(Mode.class);
-        public static final StreamCodec<ByteBuf, Mode> STREAM_CODEC = MachinaStreamCodecs.enumCodec(Mode.class);
+	public enum Mode implements HasId {
+		WHITELIST, BLACKLIST;
 
-        public Mode opposite() {
-            return this == WHITELIST ? BLACKLIST : WHITELIST;
-        }
+		public static final Codec<Mode> CODEC = MachinaCodecs.enumCodec(Mode.class);
+		public static final StreamCodec<ByteBuf, Mode> STREAM_CODEC = MachinaStreamCodecs.enumCodec(Mode.class);
 
-        public MutableComponent comp() {
-            return Component.translatable(Machina.MOD_ID + ".filter." + name().toLowerCase());
-        }
+		public Mode opposite() {
+			return this == WHITELIST ? BLACKLIST : WHITELIST;
+		}
 
-        @Override
-        public int getId() {
-            return this == WHITELIST ? 1 : 0;
-        }
-    }
+		public MutableComponent comp() {
+			return Component.translatable(Machina.MOD_ID + ".filter." + name().toLowerCase());
+		}
+
+		@Override
+		public int getId() {
+			return this == WHITELIST ? 1 : 0;
+		}
+	}
 
 }

@@ -1,5 +1,5 @@
 package com.machina.api.client.cinema.effect;
 
 public interface CameraEffect {
-    void tickEffect(int tick);
+	void tickEffect(int tick);
 }

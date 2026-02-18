@@ -16,22 +16,22 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
 public record C2SSpawnParticle(ParticleOptions options, float maxSpeed, int count, Vector3f pos, Vector3f offset)
-        implements C2SMessage<C2SSpawnParticle> {
-    
-    public C2SSpawnParticle(ParticleOptions options, float maxSpeed, int count, Vec3 pos, Vec3 offset) {
-        this(options, maxSpeed, count, pos.toVector3f(), offset.toVector3f());
-    }
+		implements C2SMessage<C2SSpawnParticle> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, C2SSpawnParticle> streamCodec() {
-        return StreamCodec.composite(ParticleTypes.STREAM_CODEC, C2SSpawnParticle::options, ByteBufCodecs.FLOAT,
-                C2SSpawnParticle::maxSpeed, ByteBufCodecs.INT, C2SSpawnParticle::count, ByteBufCodecs.VECTOR3F,
-                C2SSpawnParticle::pos, ByteBufCodecs.VECTOR3F, C2SSpawnParticle::offset, C2SSpawnParticle::new);
-    }
+	public C2SSpawnParticle(ParticleOptions options, float maxSpeed, int count, Vec3 pos, Vec3 offset) {
+		this(options, maxSpeed, count, pos.toVector3f(), offset.toVector3f());
+	}
 
-    public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> {
-            ParticleHelper.spawnParticle((ServerLevel) player.level(), options, pos, count, maxSpeed, offset);
-        });
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, C2SSpawnParticle> streamCodec() {
+		return StreamCodec.composite(ParticleTypes.STREAM_CODEC, C2SSpawnParticle::options, ByteBufCodecs.FLOAT,
+				C2SSpawnParticle::maxSpeed, ByteBufCodecs.INT, C2SSpawnParticle::count, ByteBufCodecs.VECTOR3F,
+				C2SSpawnParticle::pos, ByteBufCodecs.VECTOR3F, C2SSpawnParticle::offset, C2SSpawnParticle::new);
+	}
+
+	public void handle(MinecraftServer server, ServerPlayer player) {
+		server.execute(() -> {
+			ParticleHelper.spawnParticle((ServerLevel) player.level(), options, pos, count, maxSpeed, offset);
+		});
+	}
 }

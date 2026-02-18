@@ -14,26 +14,26 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 public record C2SRocketCinematicOffset(int entity, Vector3f pos, double off)
-        implements C2SMessage<C2SRocketCinematicOffset> {
-    
-    public C2SRocketCinematicOffset(int entity, Vec3 pos, double off) {
-        this(entity, pos.toVector3f(), off);
-    }
+		implements C2SMessage<C2SRocketCinematicOffset> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, C2SRocketCinematicOffset> streamCodec() {
-        return StreamCodec.composite(ByteBufCodecs.INT, C2SRocketCinematicOffset::entity, ByteBufCodecs.VECTOR3F,
-                C2SRocketCinematicOffset::pos, ByteBufCodecs.DOUBLE, C2SRocketCinematicOffset::off,
-                C2SRocketCinematicOffset::new);
-    }
+	public C2SRocketCinematicOffset(int entity, Vec3 pos, double off) {
+		this(entity, pos.toVector3f(), off);
+	}
 
-    @Override
-    public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> {
-            Entity e = player.level().getEntity(entity);
-            if (e instanceof RocketEntity rocket) {
-                rocket.moveTo(new Vec3(pos).add(0, off, 0));
-            }
-        });
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, C2SRocketCinematicOffset> streamCodec() {
+		return StreamCodec.composite(ByteBufCodecs.INT, C2SRocketCinematicOffset::entity, ByteBufCodecs.VECTOR3F,
+				C2SRocketCinematicOffset::pos, ByteBufCodecs.DOUBLE, C2SRocketCinematicOffset::off,
+				C2SRocketCinematicOffset::new);
+	}
+
+	@Override
+	public void handle(MinecraftServer server, ServerPlayer player) {
+		server.execute(() -> {
+			Entity e = player.level().getEntity(entity);
+			if (e instanceof RocketEntity rocket) {
+				rocket.moveTo(new Vec3(pos).add(0, off, 0));
+			}
+		});
+	}
 }

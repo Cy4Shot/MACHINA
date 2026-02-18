@@ -9,14 +9,14 @@ import net.minecraft.network.codec.StreamCodec;
 
 public record S2CSyncStarchart(long seed) implements S2CMessage<S2CSyncStarchart> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, S2CSyncStarchart> streamCodec() {
-        return ByteBufCodecs.VAR_LONG.map(S2CSyncStarchart::new, S2CSyncStarchart::seed).cast();
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, S2CSyncStarchart> streamCodec() {
+		return ByteBufCodecs.VAR_LONG.map(S2CSyncStarchart::new, S2CSyncStarchart::seed).cast();
+	}
 
-    @Override
-    public void handle() {
-        long seed = seed();
-        mc.execute(() -> ClientStarchart.sync(seed));
-    }
+	@Override
+	public void handle() {
+		long seed = seed();
+		mc.execute(() -> ClientStarchart.sync(seed));
+	}
 }

@@ -3,7 +3,25 @@ package com.machina.registration.init;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
-import com.machina.block.menu.*;
+import com.machina.block.menu.AtmosphericSeparatorMenu;
+import com.machina.block.menu.BatteryMenu;
+import com.machina.block.menu.ChemicalGeneratorMenu;
+import com.machina.block.menu.ComposterVatMenu;
+import com.machina.block.menu.CompressorMenu;
+import com.machina.block.menu.CreativeBatteryMenu;
+import com.machina.block.menu.ElectricPumpMenu;
+import com.machina.block.menu.ElectricSmelterMenu;
+import com.machina.block.menu.ElectrolyzerMenu;
+import com.machina.block.menu.FurnaceGeneratorMenu;
+import com.machina.block.menu.GrinderMenu;
+import com.machina.block.menu.MachineCaseMenu;
+import com.machina.block.menu.MelterMenu;
+import com.machina.block.menu.ReactionChamberMenu;
+import com.machina.block.menu.RocketAssemblyStationMenu;
+import com.machina.block.menu.RocketPartBenchMenu;
+import com.machina.block.menu.SawmillMenu;
+import com.machina.block.menu.SolidifierMenu;
+import com.machina.block.menu.TankMenu;
 import com.machina.block.menu.connector.FluidPipeMenu;
 import com.machina.block.menu.connector.ItemConduitMenu;
 import com.machina.item.menu.AdvancedItemFilterMenu;
@@ -19,10 +37,10 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class MenuTypeInit {
-    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU,
-            Machina.MOD_ID);
+	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU,
+			Machina.MOD_ID);
 
-    //@formatter:off
+	//@formatter:off
     public static final Supplier<MenuType<RocketMenu>> ROCKET =
             register("rocket", RocketMenu::new);
 	public static final Supplier<MenuType<ItemConduitMenu>> ITEM_CONDUIT =
@@ -75,8 +93,8 @@ public class MenuTypeInit {
             register("rocket_assembly_station", RocketAssemblyStationMenu::new);
 	//@formatter:on
 
-    private static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(String n,
-            IContainerFactory<T> sup) {
-        return MENU_TYPES.register(n, () -> new MenuType<>(sup, FeatureFlags.DEFAULT_FLAGS));
-    }
+	private static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(String n,
+			IContainerFactory<T> sup) {
+		return MENU_TYPES.register(n, () -> new MenuType<>(sup, FeatureFlags.DEFAULT_FLAGS));
+	}
 }

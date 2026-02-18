@@ -1,5 +1,9 @@
 package com.machina.block.entity.machine;
 
+import java.util.function.BiFunction;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.model.SidedBakedModel;
@@ -23,115 +27,111 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.BiFunction;
-
 public class BatteryBlockEntity extends MachinaBlockEntity {
-    int prev = -1;
+	int prev = -1;
 
-    public BatteryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
+	public BatteryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
+	}
 
-    public BatteryBlockEntity(BlockPos pos, BlockState state) {
-        this(BlockEntityInit.BATTERY.get(), pos, state);
-    }
+	public BatteryBlockEntity(BlockPos pos, BlockState state) {
+		this(BlockEntityInit.BATTERY.get(), pos, state);
+	}
 
-    @Override
-    public void createStorages() {
-        energyStorage(Side.INPUTS);
-        itemStorage(Side.NONES);
-        itemStorage(Side.INPUTS);
-        itemStorage(Side.OUTPUTS);
-    }
+	@Override
+	public void createStorages() {
+		energyStorage(Side.INPUTS);
+		itemStorage(Side.NONES);
+		itemStorage(Side.INPUTS);
+		itemStorage(Side.OUTPUTS);
+	}
 
-    @Override
-    public void tick() {
-        if (this.level != null && this.level.isClientSide()) {
-            super.tick();
-            return;
-        }
+	@Override
+	public void tick() {
+		if (this.level != null && this.level.isClientSide()) {
+			super.tick();
+			return;
+		}
 
-        // Force update energy
-        int energy = getEnergy();
-        if (energy != prev) {
-            this.prev = energy;
-            this.setChanged();
-        }
+		// Force update energy
+		int energy = getEnergy();
+		if (energy != prev) {
+			this.prev = energy;
+			this.setChanged();
+		}
 
-        // Power IN
-        ItemStack input = getItem(1);
-        if (ItemStackUtil.hasEnergy(input)) {
-            IEnergyStorage storage = input.getCapability(Capabilities.EnergyStorage.ITEM);
-            int extracted = storage.extractEnergy(CommonConfig.batteryChargeRate.get(), true);
-            extracted = this.receiveEnergy(extracted, false);
-            storage.extractEnergy(extracted, false);
-            if (extracted > 0)
-                this.setChanged();
-        }
+		// Power IN
+		ItemStack input = getItem(1);
+		if (ItemStackUtil.hasEnergy(input)) {
+			IEnergyStorage storage = input.getCapability(Capabilities.EnergyStorage.ITEM);
+			int extracted = storage.extractEnergy(CommonConfig.batteryChargeRate.get(), true);
+			extracted = this.receiveEnergy(extracted, false);
+			storage.extractEnergy(extracted, false);
+			if (extracted > 0)
+				this.setChanged();
+		}
 
-        // Power OUT
-        ItemStack output = getItem(2);
-        if (ItemStackUtil.hasEnergy(output)) {
-            IEnergyStorage storage = output.getCapability(Capabilities.EnergyStorage.ITEM);
-            int extracted = this.consumeEnergySim(CommonConfig.batteryDischargeRate.get());
-            extracted = storage.receiveEnergy(extracted, false);
-            this.consumeEnergy(extracted);
-            if (extracted > 0)
-                this.setChanged();
-        }
+		// Power OUT
+		ItemStack output = getItem(2);
+		if (ItemStackUtil.hasEnergy(output)) {
+			IEnergyStorage storage = output.getCapability(Capabilities.EnergyStorage.ITEM);
+			int extracted = this.consumeEnergySim(CommonConfig.batteryDischargeRate.get());
+			extracted = storage.receiveEnergy(extracted, false);
+			this.consumeEnergy(extracted);
+			if (extracted > 0)
+				this.setChanged();
+		}
 
-        // Send out energy
-        BlockHelper.sendEnergy(level, worldPosition, energy, CommonConfig.batteryTransferRate.get(), this);
+		// Send out energy
+		BlockHelper.sendEnergy(level, worldPosition, energy, CommonConfig.batteryTransferRate.get(), this);
 
-        super.tick();
-    }
+		super.tick();
+	}
 
-    @Override
-    public boolean isLit() {
-        return this.getEnergy() > 0;
-    }
+	@Override
+	public boolean isLit() {
+		return this.getEnergy() > 0;
+	}
 
-    @Override
-    protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-        return BatteryMenu::new;
-    }
+	@Override
+	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
+		return BatteryMenu::new;
+	}
 
-    private <T> T doWithCapacitor(BiFunction<ItemStack, CapacitorItem, T> func, T def) {
-        ItemStack cap = getItem(0);
-        if (cap.isEmpty() || !(cap.getItem() instanceof CapacitorItem))
-            return def;
+	private <T> T doWithCapacitor(BiFunction<ItemStack, CapacitorItem, T> func, T def) {
+		ItemStack cap = getItem(0);
+		if (cap.isEmpty() || !(cap.getItem() instanceof CapacitorItem))
+			return def;
 
-        return func.apply(cap, (CapacitorItem) cap.getItem());
-    }
+		return func.apply(cap, (CapacitorItem) cap.getItem());
+	}
 
-    @Override
-    public int getMaxEnergy() {
-        return doWithCapacitor((s, i) -> i.getMaxEnergy(), 0);
-    }
+	@Override
+	public int getMaxEnergy() {
+		return doWithCapacitor((s, i) -> i.getMaxEnergy(), 0);
+	}
 
-    @Override
-    public int getEnergy() {
-        return doWithCapacitor((s, i) -> s.get(DataComponentsInit.ENERGY), 0);
-    }
+	@Override
+	public int getEnergy() {
+		return doWithCapacitor((s, i) -> s.get(DataComponentsInit.ENERGY), 0);
+	}
 
-    @Override
-    protected void setEnergy(int n) {
-        doWithCapacitor((s, i) -> s.set(DataComponentsInit.ENERGY, n), false);
-    }
+	@Override
+	protected void setEnergy(int n) {
+		doWithCapacitor((s, i) -> s.set(DataComponentsInit.ENERGY, n), false);
+	}
 
-    public boolean hasCapacitor() {
-        return doWithCapacitor((s, i) -> true, false);
-    }
+	public boolean hasCapacitor() {
+		return doWithCapacitor((s, i) -> true, false);
+	}
 
-    @Override
-    public @NotNull ModelData getModelData() {
-        return ModelData.builder().with(SidedBakedModel.SIDES, getSideConfig(energyCap)).build();
-    }
+	@Override
+	public @NotNull ModelData getModelData() {
+		return ModelData.builder().with(SidedBakedModel.SIDES, getSideConfig(energyCap)).build();
+	}
 
-    @Override
-    public boolean activeModel() {
-        return true;
-    }
+	@Override
+	public boolean activeModel() {
+		return true;
+	}
 }

@@ -17,46 +17,46 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class ElectrolyzerBlockEntity extends RecipeBlockEntity {
 
-    public ElectrolyzerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
+	public ElectrolyzerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
+	}
 
-    public ElectrolyzerBlockEntity(BlockPos pos, BlockState state) {
-        this(BlockEntityInit.ELECTROLYZER.get(), pos, state);
-    }
+	public ElectrolyzerBlockEntity(BlockPos pos, BlockState state) {
+		this(BlockEntityInit.ELECTROLYZER.get(), pos, state);
+	}
 
-    @Override
-    public void createStorages() {
-        energyStorage(Side.INPUTS);
-        itemSlot(SlotType.INPUT);
-        itemSlot(SlotType.EPHEMERAL);
-        itemSlot(SlotType.OUTPUT);
-        fluidSlot(16_000, s -> true, SlotType.INPUT);
-        fluidSlot(16_000, s -> true, SlotType.INPUT);
-        fluidSlot(16_000, s -> true, SlotType.INPUT);
-        fluidSlot(16_000, s -> true, SlotType.OUTPUT);
-        fluidSlot(16_000, s -> true, SlotType.OUTPUT);
-        fluidSlot(16_000, s -> true, SlotType.OUTPUT);
-    }
+	@Override
+	public void createStorages() {
+		energyStorage(Side.INPUTS);
+		itemSlot(SlotType.INPUT);
+		itemSlot(SlotType.EPHEMERAL);
+		itemSlot(SlotType.OUTPUT);
+		fluidSlot(16_000, s -> true, SlotType.INPUT);
+		fluidSlot(16_000, s -> true, SlotType.INPUT);
+		fluidSlot(16_000, s -> true, SlotType.INPUT);
+		fluidSlot(16_000, s -> true, SlotType.OUTPUT);
+		fluidSlot(16_000, s -> true, SlotType.OUTPUT);
+		fluidSlot(16_000, s -> true, SlotType.OUTPUT);
+	}
 
-    @Override
-    public int getMaxEnergy() {
-        // TODO: Config
-        return 1_000_000;
-    }
+	@Override
+	public int getMaxEnergy() {
+		// TODO: Config
+		return 1_000_000;
+	}
 
-    @Override
-    public RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe() {
-        return RecipeInit.ELECTROLYZER;
-    }
+	@Override
+	public RecipeRegistryObject<? extends RecipeBlockEntity> getRecipe() {
+		return RecipeInit.ELECTROLYZER;
+	}
 
-    @Override
-    protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-        return ElectrolyzerMenu::new;
-    }
+	@Override
+	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
+		return ElectrolyzerMenu::new;
+	}
 
-    @Override
-    public boolean activeModel() {
-        return false;
-    }
+	@Override
+	public boolean activeModel() {
+		return false;
+	}
 }

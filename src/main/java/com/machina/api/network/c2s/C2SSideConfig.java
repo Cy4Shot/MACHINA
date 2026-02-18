@@ -12,15 +12,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 public record C2SSideConfig(String id, BlockPos pos, byte[] config) implements C2SMessage<C2SSideConfig> {
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, C2SSideConfig> streamCodec() {
-        return StreamCodec.composite(ByteBufCodecs.STRING_UTF8, C2SSideConfig::id, BlockPos.STREAM_CODEC,
-                C2SSideConfig::pos, ByteBufCodecs.BYTE_ARRAY, C2SSideConfig::config, C2SSideConfig::new);
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, C2SSideConfig> streamCodec() {
+		return StreamCodec.composite(ByteBufCodecs.STRING_UTF8, C2SSideConfig::id, BlockPos.STREAM_CODEC,
+				C2SSideConfig::pos, ByteBufCodecs.BYTE_ARRAY, C2SSideConfig::config, C2SSideConfig::new);
+	}
 
-    @Override
-    public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> BlockHelper.doWithTe(player.level(), pos(), MachinaBlockEntity.class,
-                te -> te.updateSideConfig(id(), config())));
-    }
+	@Override
+	public void handle(MinecraftServer server, ServerPlayer player) {
+		server.execute(() -> BlockHelper.doWithTe(player.level(), pos(), MachinaBlockEntity.class,
+				te -> te.updateSideConfig(id(), config())));
+	}
 }

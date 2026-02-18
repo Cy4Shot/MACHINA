@@ -15,38 +15,38 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class MachinaEntityTank extends FluidTank {
 
-    protected final Runnable onChanged;
+	protected final Runnable onChanged;
 
-    private final Entity entity;
-    public final int id;
+	private final Entity entity;
+	public final int id;
 
-    public MachinaEntityTank(Entity entity, int capacity, Predicate<FluidStack> validator, int id, Runnable onChanged) {
-        super(capacity, validator);
-        this.entity = entity;
-        this.id = id;
-        this.setFluid(new FluidStack(Fluids.EMPTY, 0));
-        this.onChanged = onChanged;
-    }
+	public MachinaEntityTank(Entity entity, int capacity, Predicate<FluidStack> validator, int id, Runnable onChanged) {
+		super(capacity, validator);
+		this.entity = entity;
+		this.id = id;
+		this.setFluid(new FluidStack(Fluids.EMPTY, 0));
+		this.onChanged = onChanged;
+	}
 
-    @Override
-    public CompoundTag writeToNBT(Provider lookupProvider, CompoundTag nbt) {
-        CompoundTag comp = new CompoundTag();
-        super.writeToNBT(lookupProvider, comp);
-        nbt.put("MachinaTank" + id, comp);
-        return nbt;
-    }
+	@Override
+	public CompoundTag writeToNBT(Provider lookupProvider, CompoundTag nbt) {
+		CompoundTag comp = new CompoundTag();
+		super.writeToNBT(lookupProvider, comp);
+		nbt.put("MachinaTank" + id, comp);
+		return nbt;
+	}
 
-    @Override
-    public FluidTank readFromNBT(Provider lookupProvider, CompoundTag nbt) {
-        return super.readFromNBT(lookupProvider, nbt.getCompound("MachinaTank" + id));
-    }
+	@Override
+	public FluidTank readFromNBT(Provider lookupProvider, CompoundTag nbt) {
+		return super.readFromNBT(lookupProvider, nbt.getCompound("MachinaTank" + id));
+	}
 
-    @Override
-    protected void onContentsChanged() {
-        if (entity.level() != null && !entity.level().isClientSide()) {
-            PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) entity.level(), entity.chunkPosition(),
-                    new S2CFluidEntitySync(entity.getId(), getFluid(), id));
-        }
-        onChanged.run();
-    }
+	@Override
+	protected void onContentsChanged() {
+		if (entity.level() != null && !entity.level().isClientSide()) {
+			PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) entity.level(), entity.chunkPosition(),
+					new S2CFluidEntitySync(entity.getId(), getFluid(), id));
+		}
+		onChanged.run();
+	}
 }

@@ -1,16 +1,27 @@
 package com.machina.datagen.server;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import com.machina.Machina;
 import com.machina.datagen.server.base.DatagenRecipeProvider;
-import com.machina.registration.init.*;
+import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
+import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
+import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.RocketPartInit;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -18,20 +29,17 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 public class DatagenRecipes extends DatagenRecipeProvider implements IConditionBuilder {
 
-    public DatagenRecipes(PackOutput po, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-        super(po, lookupProvider);
-    }
+	public DatagenRecipes(PackOutput po, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+		super(po, lookupProvider);
+	}
 
-    @Override
-    protected void buildRecipes(RecipeOutput gen) {
-        ore(gen, List.of(BlockInit.ANTHRACITE.get()), ItemInit.COAL_CHUNK.get(), 0.05f, 40, "anthracite");
+	@Override
+	protected void buildRecipes(RecipeOutput gen) {
+		ore(gen, List.of(BlockInit.ANTHRACITE.get()), ItemInit.COAL_CHUNK.get(), 0.05f, 40, "anthracite");
 
-        //@formatter:off
+		//@formatter:off
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.ANTHRACITE.get())
 			.requires(Blocks.STONE)
 			.requires(ItemInit.COAL_CHUNK.get())
@@ -122,30 +130,30 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 				new ItemStack(ItemInit.COPPER_COIL.get(), 48));
 		//@formatter:on
 
-        FamiliesInit.ORES.forEach(x -> oreFamily(gen, x));
-        FamiliesInit.STONES.forEach(x -> stoneFamily(gen, x));
-        FamiliesInit.WOODS.forEach(x -> woodFamily(gen, x));
-    }
+		FamiliesInit.ORES.forEach(x -> oreFamily(gen, x));
+		FamiliesInit.STONES.forEach(x -> stoneFamily(gen, x));
+		FamiliesInit.WOODS.forEach(x -> woodFamily(gen, x));
+	}
 
-    protected static void oreFamily(RecipeOutput gen, OreFamily family) {
-        // Crafting ingot
-        family.getIngot().ifPresent(ingot -> {
-            family.ore().ifPresent(ore -> ore(gen, List.of(ore), ingot, 0.7f, 200, family.name()));
-            family.raw().ifPresent(raw -> ore(gen, List.of(raw), ingot, 0.7f, 200, family.name()));
-        });
+	protected static void oreFamily(RecipeOutput gen, OreFamily family) {
+		// Crafting ingot
+		family.getIngot().ifPresent(ingot -> {
+			family.ore().ifPresent(ore -> ore(gen, List.of(ore), ingot, 0.7f, 200, family.name()));
+			family.raw().ifPresent(raw -> ore(gen, List.of(raw), ingot, 0.7f, 200, family.name()));
+		});
 
-        // Crafting block
-        family.getBlock().ifPresent(block -> {
-            family.ingot().ifPresent(ingot -> compact(gen, block, ingot));
-            family.rawBlock().ifPresent(raw -> ore(gen, List.of(raw), block, 2.7f, 200, family.name()));
-        });
+		// Crafting block
+		family.getBlock().ifPresent(block -> {
+			family.ingot().ifPresent(ingot -> compact(gen, block, ingot));
+			family.rawBlock().ifPresent(raw -> ore(gen, List.of(raw), block, 2.7f, 200, family.name()));
+		});
 
-        // Crafting nugget
-        family.getNugget().ifPresent(nugget -> family.ingot().ifPresent(ingot -> compact(gen, ingot, nugget)));
-    }
+		// Crafting nugget
+		family.getNugget().ifPresent(nugget -> family.ingot().ifPresent(ingot -> compact(gen, ingot, nugget)));
+	}
 
-    protected static void woodFamily(RecipeOutput gen, WoodFamily family) {
-        //@formatter:off
+	protected static void woodFamily(RecipeOutput gen, WoodFamily family) {
+		//@formatter:off
 		log_and_plank(gen, family.log(), family.wood(), family.planks());
 		log_and_plank(gen, family.stripped_log(), family.stripped_wood(), family.planks());
 		slab(gen, family.planks(), family.slab());
@@ -193,10 +201,10 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.showNotification(false)
 			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(family.hangingsign()));
 		//@formatter:on
-    }
+	}
 
-    protected static void log_and_plank(RecipeOutput gen, ItemLike log, ItemLike wood, ItemLike planks) {
-        //@formatter:off
+	protected static void log_and_plank(RecipeOutput gen, ItemLike log, ItemLike wood, ItemLike planks) {
+		//@formatter:off
 		// LOG -> WOOD
 		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, wood, 3)
 			.pattern("BB")
@@ -218,10 +226,10 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.unlockedBy(getHasName(wood), has(wood))
 			.save(gen, Machina.MOD_ID + ":" + getItemName(planks) + "_from_" + getItemName(wood));
 		//@formatter:on
-    }
+	}
 
-    protected static void stoneFamily(RecipeOutput gen, StoneFamily family) {
-        //@formatter:off
+	protected static void stoneFamily(RecipeOutput gen, StoneFamily family) {
+		//@formatter:off
 		slab(gen, family.base(), family.slab());
 		stair(gen, family.base(), family.stairs());
 		pressure_plate(gen, family.base(), family.pressure_plate());
@@ -253,5 +261,5 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.unlockedBy(getHasName(family.base()), has(family.base()))
 			.save(gen, Machina.MOD_ID + ":stonecutting_" + getItemName(family.wall()));
 		//@formatter:on
-    }
+	}
 }

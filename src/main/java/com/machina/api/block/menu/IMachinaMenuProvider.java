@@ -1,8 +1,9 @@
 package com.machina.api.block.menu;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Interface to allow Machina BlockEntities to have menus, and hence GUIs.
@@ -12,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface IMachinaMenuProvider extends MenuProvider {
 
-    @Override
-    default @NotNull Component getDisplayName() {
-        return Component.empty();
-    }
+	@Override
+	default @NotNull Component getDisplayName() {
+		return Component.empty();
+	}
 }

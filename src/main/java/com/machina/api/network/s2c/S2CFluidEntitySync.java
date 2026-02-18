@@ -11,24 +11,24 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 public record S2CFluidEntitySync(int entity, FluidStack stack, int i) implements S2CMessage<S2CFluidEntitySync> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, S2CFluidEntitySync> streamCodec() {
-        return StreamCodec.composite(ByteBufCodecs.INT, S2CFluidEntitySync::entity, FluidStack.STREAM_CODEC,
-                S2CFluidEntitySync::stack, ByteBufCodecs.INT, S2CFluidEntitySync::i, S2CFluidEntitySync::new);
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, S2CFluidEntitySync> streamCodec() {
+		return StreamCodec.composite(ByteBufCodecs.INT, S2CFluidEntitySync::entity, FluidStack.STREAM_CODEC,
+				S2CFluidEntitySync::stack, ByteBufCodecs.INT, S2CFluidEntitySync::i, S2CFluidEntitySync::new);
+	}
 
-    @Override
-    public void handle() {
-        int id = entity();
-        FluidStack stack = stack();
-        int i = i();
+	@Override
+	public void handle() {
+		int id = entity();
+		FluidStack stack = stack();
+		int i = i();
 
-        mc.execute(() -> {
-            Entity e = mc.level.getEntity(id);
-            if (e instanceof FluidHandlerEntity) {
-                ((FluidHandlerEntity) e).setFluid(i, stack);
-            }
-        });
-    }
+		mc.execute(() -> {
+			Entity e = mc.level.getEntity(id);
+			if (e instanceof FluidHandlerEntity) {
+				((FluidHandlerEntity) e).setFluid(i, stack);
+			}
+		});
+	}
 
 }

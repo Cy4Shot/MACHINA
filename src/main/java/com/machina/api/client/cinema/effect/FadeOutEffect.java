@@ -5,13 +5,13 @@ import com.machina.api.util.MachinaRL;
 
 public record FadeOutEffect(int totalDuration, int fadeDuration) implements CameraEffect {
 
-    @Override
-    public void tickEffect(int tick) {
-        if (tick == 1 + totalDuration - fadeDuration) {
-            CinematicTextureOverlay.rl = MachinaRL.create("textures/cinematic/black.png");
-            CinematicTextureOverlay.render = true;
-        }
-        CinematicTextureOverlay.opacity = Math.max(0f,
-                (float) (tick - totalDuration + fadeDuration) / (float) (fadeDuration));
-    }
+	@Override
+	public void tickEffect(int tick) {
+		if (tick == 1 + totalDuration - fadeDuration) {
+			CinematicTextureOverlay.rl = MachinaRL.create("textures/cinematic/black.png");
+			CinematicTextureOverlay.render = true;
+		}
+		CinematicTextureOverlay.opacity = Math.max(0f,
+				(float) (tick - totalDuration + fadeDuration) / (float) (fadeDuration));
+	}
 }

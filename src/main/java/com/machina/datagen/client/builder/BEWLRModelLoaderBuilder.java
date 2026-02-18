@@ -8,8 +8,8 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class BEWLRModelLoaderBuilder<T extends ModelBuilder<T>> extends CustomLoaderBuilder<T> {
 
-    public BEWLRModelLoaderBuilder(T parent, ExistingFileHelper existingFileHelper) {
-        super(MachinaRL.create("bewlr"), parent, existingFileHelper, true);
-    }
+	public BEWLRModelLoaderBuilder(T parent, ExistingFileHelper existingFileHelper) {
+		super(MachinaRL.create("bewlr"), parent, existingFileHelper, true);
+	}
 
 }

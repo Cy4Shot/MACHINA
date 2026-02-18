@@ -12,14 +12,14 @@ import net.minecraft.server.level.ServerPlayer;
 
 public record C2SAssemblyStationCraft(BlockPos pos) implements C2SMessage<C2SAssemblyStationCraft> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, C2SAssemblyStationCraft> streamCodec() {
-        return BlockPos.STREAM_CODEC.map(C2SAssemblyStationCraft::new, C2SAssemblyStationCraft::pos).cast();
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, C2SAssemblyStationCraft> streamCodec() {
+		return BlockPos.STREAM_CODEC.map(C2SAssemblyStationCraft::new, C2SAssemblyStationCraft::pos).cast();
+	}
 
-    @Override
-    public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> BlockHelper.doWithTe(player.level(), pos, RocketAssemblyStationBlockEntity.class,
-                RocketAssemblyStationBlockEntity::startCrafting));
-    }
+	@Override
+	public void handle(MinecraftServer server, ServerPlayer player) {
+		server.execute(() -> BlockHelper.doWithTe(player.level(), pos, RocketAssemblyStationBlockEntity.class,
+				RocketAssemblyStationBlockEntity::startCrafting));
+	}
 }

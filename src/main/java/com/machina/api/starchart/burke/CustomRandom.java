@@ -1,7 +1,7 @@
 package com.machina.api.starchart.burke;
 
 import java.io.Serial;
-import java.util.*;
+import java.util.Random;
 
 /**
  * This class provides a random number generator with additional access methods.
@@ -59,97 +59,97 @@ import java.util.*;
  * </p>
  */
 public class CustomRandom extends Random implements PhysicalConstants {
-    /**
-     *
-     */
-    @Serial
-    private static final long serialVersionUID = 5158047548907191525L;
-    protected boolean normdone = false;
-    protected double normstore;
+	/**
+	 *
+	 */
+	@Serial
+	private static final long serialVersionUID = 5158047548907191525L;
+	protected boolean normdone = false;
+	protected double normstore;
 
-    /**
-     * Default constructor. Calls the constructor for Random with no seed.
-     */
-    public CustomRandom() {
-        super();
-    }
+	/**
+	 * Default constructor. Calls the constructor for Random with no seed.
+	 */
+	public CustomRandom() {
+		super();
+	}
 
-    /**
-     * Default constructor. Calls the constructor for Random with the specified
-     * seed.
-     */
-    public CustomRandom(long seed) {
-        super(seed);
-    }
+	/**
+	 * Default constructor. Calls the constructor for Random with the specified
+	 * seed.
+	 */
+	public CustomRandom(long seed) {
+		super(seed);
+	}
 
-    /**
-     * Sets the random seed to the new value, performing additional housekeeping.
-     */
-    public void setSeed(long s) {
-        super.setSeed(s);
-        normdone = false;
-    }
+	/**
+	 * Sets the random seed to the new value, performing additional housekeeping.
+	 */
+	public void setSeed(long s) {
+		super.setSeed(s);
+		normdone = false;
+	}
 
-    /**
-     * Produces a Gaussian random variate with mean=0, standard deviation=1.
-     */
-    public double NormalDeviate() {
-        double v1, v2, r, fac;
+	/**
+	 * Produces a Gaussian random variate with mean=0, standard deviation=1.
+	 */
+	public double NormalDeviate() {
+		double v1, v2, r, fac;
 
-        if (normdone) {
-            normdone = false;
-            return normstore;
-        } else {
-            v1 = 2.0 * nextDouble() - 1.0;
-            v2 = 2.0 * nextDouble() - 1.0;
-            r = v1 * v1 + v2 * v2;
-            if (r >= 1.0) {
-                return NormalDeviate();
-            } else {
-                fac = Math.sqrt(-2.0 * Math.log(r) / r);
-                normstore = v1 * fac;
-                normdone = true;
-                return v2 * fac;
-            }
-        }
-    }
+		if (normdone) {
+			normdone = false;
+			return normstore;
+		} else {
+			v1 = 2.0 * nextDouble() - 1.0;
+			v2 = 2.0 * nextDouble() - 1.0;
+			r = v1 * v1 + v2 * v2;
+			if (r >= 1.0) {
+				return NormalDeviate();
+			} else {
+				fac = Math.sqrt(-2.0 * Math.log(r) / r);
+				normstore = v1 * fac;
+				normdone = true;
+				return v2 * fac;
+			}
+		}
+	}
 
-    /**
-     * Produces a random variate whose natural logarithm is from the Gaussian with
-     * mean=0 and the specified standard deviation.
-     *
-     * @param sigma Standard deviation
-     */
-    public double LognormalDeviate(double sigma) {
-        return Math.exp(NormalDeviate() * sigma);
-    }
+	/**
+	 * Produces a random variate whose natural logarithm is from the Gaussian with
+	 * mean=0 and the specified standard deviation.
+	 *
+	 * @param sigma Standard deviation
+	 */
+	public double LognormalDeviate(double sigma) {
+		return Math.exp(NormalDeviate() * sigma);
+	}
 
-    /**
-     * Returns a uniformly distributed random real number between the specified
-     * inner and outer bounds.
-     *
-     * @param inner Minimum value desired
-     * @param outer Maximum value desired
-     */
-    public double random_number(double inner, double outer) {
-        double range = outer - inner;
-        return (nextDouble() * range + inner);
-    }
+	/**
+	 * Returns a uniformly distributed random real number between the specified
+	 * inner and outer bounds.
+	 *
+	 * @param inner Minimum value desired
+	 * @param outer Maximum value desired
+	 */
+	public double random_number(double inner, double outer) {
+		double range = outer - inner;
+		return (nextDouble() * range + inner);
+	}
 
-    /**
-     * Returns a value within a certain uniform variation from the central value.
-     *
-     * @param value     Central value
-     * @param variation Maximum (uniform) variation above or below center
-     */
-    public double about(double value, double variation) {
-        return (value + (value * random_number(-variation, variation)));
-    }
+	/**
+	 * Returns a value within a certain uniform variation from the central value.
+	 *
+	 * @param value     Central value
+	 * @param variation Maximum (uniform) variation above or below center
+	 */
+	public double about(double value, double variation) {
+		return (value + (value * random_number(-variation, variation)));
+	}
 
-    /**
-     * Returns a value for orbital eccentricity between 0.0 and 1.0
-     */
-    public double random_eccentricity() {
-        return (1.0 - Math.pow(nextDouble(), ECCENTRICITY_COEFF));
-    }
+	/**
+	 * Returns a value for orbital eccentricity between 0.0 and 1.0
+	 */
+	public double random_eccentricity() {
+		return (1.0 - Math.pow(nextDouble(), ECCENTRICITY_COEFF));
+	}
 }

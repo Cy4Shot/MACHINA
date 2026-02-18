@@ -14,20 +14,20 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public record C2SMenuSetItem(int slot, ItemStack stack, BlockPos pos) implements C2SMessage<C2SMenuSetItem> {
 
-    @Override
-    public StreamCodec<? super RegistryFriendlyByteBuf, C2SMenuSetItem> streamCodec() {
-        return StreamCodec.composite(ByteBufCodecs.INT, C2SMenuSetItem::slot, ItemStack.STREAM_CODEC,
-                C2SMenuSetItem::stack, BlockPos.STREAM_CODEC, C2SMenuSetItem::pos, C2SMenuSetItem::new).cast();
-    }
+	@Override
+	public StreamCodec<? super RegistryFriendlyByteBuf, C2SMenuSetItem> streamCodec() {
+		return StreamCodec.composite(ByteBufCodecs.INT, C2SMenuSetItem::slot, ItemStack.STREAM_CODEC,
+				C2SMenuSetItem::stack, BlockPos.STREAM_CODEC, C2SMenuSetItem::pos, C2SMenuSetItem::new).cast();
+	}
 
-    @Override
-    public void handle(MinecraftServer server, ServerPlayer player) {
-        server.execute(() -> {
-            BlockEntity be = player.level().getBlockEntity(pos);
-            if (be instanceof Container c) {
-                c.setItem(slot, stack);
-                c.setChanged();
-            }
-        });
-    }
+	@Override
+	public void handle(MinecraftServer server, ServerPlayer player) {
+		server.execute(() -> {
+			BlockEntity be = player.level().getBlockEntity(pos);
+			if (be instanceof Container c) {
+				c.setItem(slot, stack);
+				c.setChanged();
+			}
+		});
+	}
 }

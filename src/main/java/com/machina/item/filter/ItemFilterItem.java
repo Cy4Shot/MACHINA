@@ -1,5 +1,10 @@
 package com.machina.item.filter;
 
+import java.util.List;
+import java.util.Objects;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.machina.Machina;
 import com.machina.api.cap.item.ConduitItemStorage;
 import com.machina.api.item.ConnectorFilterItem;
@@ -20,70 +25,66 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-import java.util.Objects;
 
 public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemStorage> {
 
-    public ItemFilterItem(Properties props) {
-        super(props.component(DataComponentsInit.ITEM, Items.AIR));
-    }
+	public ItemFilterItem(Properties props) {
+		super(props.component(DataComponentsInit.ITEM, Items.AIR));
+	}
 
-    public static Item getItem(ItemStack stack) {
-        return stack.get(DataComponentsInit.ITEM);
-    }
+	public static Item getItem(ItemStack stack) {
+		return stack.get(DataComponentsInit.ITEM);
+	}
 
-    public static ItemStack set(ItemStack stack, Item type, Mode mode) {
-        stack.set(DataComponentsInit.ITEM, type);
-        stack.set(DataComponentsInit.FILTER_MODE, mode);
-        return stack;
-    }
+	public static ItemStack set(ItemStack stack, Item type, Mode mode) {
+		stack.set(DataComponentsInit.ITEM, type);
+		stack.set(DataComponentsInit.FILTER_MODE, mode);
+		return stack;
+	}
 
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, TooltipContext ctx, @NotNull List<Component> tooltip,
-            @NotNull TooltipFlag flag) {
-        Item item = getItem(stack);
-        if (item != Items.AIR) {
-            tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.configured")
-                    .setStyle(Style.EMPTY.withColor(65278)));
-        } else {
-            tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.empty")
-                    .setStyle(Style.EMPTY.withColor(65278)));
-        }
+	@Override
+	public void appendHoverText(@NotNull ItemStack stack, TooltipContext ctx, @NotNull List<Component> tooltip,
+			@NotNull TooltipFlag flag) {
+		Item item = getItem(stack);
+		if (item != Items.AIR) {
+			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.configured")
+					.setStyle(Style.EMPTY.withColor(65278)));
+		} else {
+			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.item_filter.empty")
+					.setStyle(Style.EMPTY.withColor(65278)));
+		}
 
-        super.appendHoverText(stack, ctx, tooltip, flag);
-    }
+		super.appendHoverText(stack, ctx, tooltip, flag);
+	}
 
-    @Override
-    public boolean filter(ItemStack stack, ItemStack original) {
-        Mode mode = getMode(stack);
-        Item item = getItem(stack);
+	@Override
+	public boolean filter(ItemStack stack, ItemStack original) {
+		Mode mode = getMode(stack);
+		Item item = getItem(stack);
 
-        if (Objects.requireNonNull(mode) == Mode.BLACKLIST) {
-            return !original.getItem().equals(item);
-        }
-        return original.getItem().equals(item);
-    }
+		if (Objects.requireNonNull(mode) == Mode.BLACKLIST) {
+			return !original.getItem().equals(item);
+		}
+		return original.getItem().equals(item);
+	}
 
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player,
-            @NotNull InteractionHand hand) {
-        if (level.isClientSide())
-            return super.use(level, player, hand);
+	@Override
+	public @NotNull InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player,
+			@NotNull InteractionHand hand) {
+		if (level.isClientSide())
+			return super.use(level, player, hand);
 
-        ((ServerPlayer) player).openMenu(new MenuProvider() {
-            @Override
-            public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
-                return new ItemFilterMenu(id, inv, hand);
-            }
+		((ServerPlayer) player).openMenu(new MenuProvider() {
+			@Override
+			public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
+				return new ItemFilterMenu(id, inv, hand);
+			}
 
-            @Override
-            public @NotNull Component getDisplayName() {
-                return Component.empty();
-            }
-        }, buf -> buf.writeBoolean(hand == InteractionHand.MAIN_HAND));
-        return InteractionResultHolder.consume(player.getItemInHand(hand));
-    }
+			@Override
+			public @NotNull Component getDisplayName() {
+				return Component.empty();
+			}
+		}, buf -> buf.writeBoolean(hand == InteractionHand.MAIN_HAND));
+		return InteractionResultHolder.consume(player.getItemInHand(hand));
+	}
 }
