@@ -1,7 +1,5 @@
 package com.machina.rocket;
 
-import java.util.function.Function;
-
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,14 +23,12 @@ import com.machina.world.PlanetRegistrationHandler;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -47,28 +43,35 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HasCustomInventoryScreen;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.ContainerEntity;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.PortalShape;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class RocketEntity extends Entity
-        implements ContainerListener, HasCustomInventoryScreen, FluidHandlerEntity, IEntityAdditionalSpawnData {
+public class RocketEntity extends Entity implements ContainerListener, HasCustomInventoryScreen, ContainerEntity,
+        FluidHandlerEntity, IEntityWithComplexSpawn {
 
     public enum RocketStage implements HasId {
         NONE,
@@ -113,7 +116,9 @@ public class RocketEntity extends Entity
     private CompoundTag pendingFuelNBT;
     private CompoundTag pendingCoolNBT;
 
-    private LazyOptional<InvWrapper> itemHandler = null;
+    @Nullable
+    private ResourceKey<LootTable> lootTable;
+    private long lootTableSeed;
 
     public RocketEntity(EntityType<? extends RocketEntity> t, Level l) {
         super(t, l);
@@ -146,7 +151,6 @@ public class RocketEntity extends Entity
                 }
             }
             this.inventory.addListener(this);
-            this.itemHandler = LazyOptional.of(() -> new InvWrapper(this.inventory));
         }
         this.createFluidInventory(props);
     }
@@ -300,29 +304,12 @@ public class RocketEntity extends Entity
                 if (!stack.isEmpty()) {
                     CompoundTag compoundtag = new CompoundTag();
                     compoundtag.putByte(TAG_SLOT, (byte) i);
-                    stack.save(compoundtag);
+                    stack.save(this.registryAccess(), compoundtag);
                     listtag.add(compoundtag);
                 }
             }
 
             tag.put(TAG_ITEMS, listtag);
-        }
-    }
-
-    @Override
-    public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-        if (capability == ForgeCapabilities.ITEM_HANDLER && this.isAlive() && itemHandler != null)
-            return itemHandler.cast();
-        return super.getCapability(capability, facing);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        if (itemHandler != null) {
-            LazyOptional<InvWrapper> oldHandler = itemHandler;
-            itemHandler = null;
-            oldHandler.invalidate();
         }
     }
 
@@ -354,18 +341,13 @@ public class RocketEntity extends Entity
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
+        buffer.writeNbt(fuelTank.writeToNBT(this.registryAccess(), new CompoundTag()));
+        buffer.writeNbt(coolTank.writeToNBT(this.registryAccess(), new CompoundTag()));
     }
 
     @Override
-    public void writeSpawnData(FriendlyByteBuf buffer) {
-        buffer.writeNbt(fuelTank.writeToNBT(new CompoundTag()));
-        buffer.writeNbt(coolTank.writeToNBT(new CompoundTag()));
-    }
-
-    @Override
-    public void readSpawnData(FriendlyByteBuf buffer) {
+    public void readSpawnData(RegistryFriendlyByteBuf buffer) {
         pendingFuelNBT = buffer.readNbt();
         pendingCoolNBT = buffer.readNbt();
     }
@@ -484,6 +466,17 @@ public class RocketEntity extends Entity
         PacketDistributor.sendToPlayer(player, new S2CCinematicLand(this.getId()));
     }
 
+    private static DimensionTransition createCustomDimensionTransition(ServerLevel level, Entity entity, Vec3 speed,
+            float yRot, float xRot, DimensionTransition.PostDimensionTransition postDimensionTransition) {
+        BlockPos origin = entity.blockPosition();
+        level.getChunk(origin);
+        int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, origin.getX(), origin.getZ());
+        EntityDimensions dimensions = entity.getDimensions(entity.getPose());
+        Vec3 spawnPos = new Vec3(origin.getX() + 0.5, surfaceY + 1, origin.getZ() + 0.5);
+        Vec3 safePos = PortalShape.findCollisionFreePosition(spawnPos, level, entity, dimensions);
+        return new DimensionTransition(level, safePos, speed, yRot, xRot, postDimensionTransition);
+    }
+
     public void completeLaunch(ServerPlayer player) {
         RocketCosts costs = getCosts();
         if (costs != null) {
@@ -493,26 +486,92 @@ public class RocketEntity extends Entity
 
         ResourceKey<Level> dst = getDestination();
         ServerLevel planet = PlanetRegistrationHandler.createPlanet(player.getServer(), PlanetHelper.getIdLevel(dst));
-        Entity transported = this.changeDimension(planet, new ITeleporter() {
-            @Override
-            public @Nullable PortalInfo getPortalInfo(Entity entity, ServerLevel destWorld,
-                    Function<ServerLevel, PortalInfo> defaultPortalInfo) {
-                BlockPos assp = entity.blockPosition();
-                destWorld.getChunk(assp); // Preload the chunk
-                int assh = destWorld.getHeight(Types.WORLD_SURFACE_WG, assp.getX(), assp.getZ());
-                Vec3 pos = new BlockPos(assp.getX(), assh + 1, assp.getZ()).getCenter();
-                return new PortalInfo(pos, Vec3.ZERO, entity.getYRot(), entity.getXRot());
+        this.changeDimension(createCustomDimensionTransition(planet, this, Vec3.ZERO, this.yRot, this.xRot, transported -> {
+            PlanetRegistrationHandler.sendPlayerToDimension(player, planet, transported.blockPosition());
+            if (transported instanceof RocketEntity rocket) {
+                rocket.tryLand(player);
             }
-        });
-
-        PlanetRegistrationHandler.sendPlayerToDimension(player, planet, transported.blockPosition());
-        if (transported instanceof RocketEntity rocket) {
-            rocket.tryLand(player);
-        }
+        }));
     }
 
     public void completeLand(ServerPlayer player) {
         this.entityData.set(STAGE, RocketStage.NONE);
         setDestination(Level.OVERWORLD);
+    }
+
+    @Override
+    public int getContainerSize() {
+        return this.getOrCreateInventory().getContainerSize();
+    }
+
+    @Override
+    public ItemStack getItem(int slot) {
+        return this.getOrCreateInventory().getItem(slot);
+    }
+
+    @Override
+    public ItemStack removeItem(int slot, int amount) {
+        return this.getOrCreateInventory().removeItem(slot, amount);
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        return this.getOrCreateInventory().removeItemNoUpdate(slot);
+    }
+
+    @Override
+    public void setItem(int slot, ItemStack stack) {
+        this.getOrCreateInventory().setItem(slot, stack);
+    }
+
+    @Override
+    public void setChanged() {
+        this.getOrCreateInventory().setChanged();
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return this.getOrCreateInventory().stillValid(player);
+    }
+
+    @Override
+    public void clearContent() {
+        this.getOrCreateInventory().clearContent();
+    }
+
+    @Override
+    public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+        return new RocketMenu(containerId, playerInventory, this.inventory, this);
+    }
+
+    @Override
+    public ResourceKey<LootTable> getLootTable() {
+        return this.lootTable;
+    }
+
+    @Override
+    public void setLootTable(ResourceKey<LootTable> lootTable) {
+        this.lootTable = lootTable;
+    }
+
+    @Override
+    public long getLootTableSeed() {
+        return this.lootTableSeed;
+    }
+
+    @Override
+    public void setLootTableSeed(long lootTableSeed) {
+        this.lootTableSeed = lootTableSeed;
+    }
+
+    @Override
+    public NonNullList<ItemStack> getItemStacks() {
+        return this.getOrCreateInventory().getItems();
+    }
+
+    @Override
+    public void clearItemStacks() {
+        this.clearContent();
+        this.setChanged();
     }
 }

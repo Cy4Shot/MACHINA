@@ -4,7 +4,7 @@ import com.machina.api.block.ConnectorBlock;
 import com.machina.api.block.menu.IDirectionalMenuProvider;
 import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.cap.sided.ConnectionSide;
-import com.machina.api.cap.sided.SidedLazyOptionalCache;
+import com.machina.api.cap.sided.SidedOptionalCache;
 import com.machina.api.client.model.connector.ConnectorModel.ConnectorModelData;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.api.util.block.BlockHelper;
@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
 import org.jetbrains.annotations.NotNull;
@@ -46,13 +45,17 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
     public final List<BlockPos> cache = new ArrayList<>();
     public List<Direction> dirs = new ArrayList<>();
 
-    private final SidedLazyOptionalCache<T> cap;
+    private final SidedOptionalCache<T> cap;
 
     public ConnectorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
-        this.cap = new SidedLazyOptionalCache<>();
+        this.cap = new SidedOptionalCache<>();
         this.roundrobin = new int[Direction.values().length];
-        this.reviveCaps();
+        for (Direction dir : Direction.values()) {
+            for (int i = 0; i < slotsPerSide(); i++)
+                itemStorage();
+            cap.revalidate(dir, s -> true, this::createStorage);
+        }
     }
 
     public abstract T createStorage(Direction side);
@@ -124,40 +127,7 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
         return myConnectors.getOrDefault(dir, ConnectionSide.NONE);
     }
 
-    public abstract Capability<?> getCapability();
-
     public abstract int getRate();
-
-    @Override
-    public <C> @NotNull LazyOptional<C> getCapability(@NotNull BlockCapability<C, Direction> cap, Direction d) {
-        if (cap == getCapability())
-            return this.cap.get(d).cast();
-
-        return super.getCapability(cap, d);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        this.cap.invalidate();
-        super.invalidateCaps();
-    }
-
-    @Override
-    public void reviveCaps() {
-        super.reviveCaps();
-        for (Direction dir : Direction.values()) {
-            for (int i = 0; i < slotsPerSide(); i++)
-                itemStorage();
-            cap.revalidate(dir, s -> true, this::createStorage);
-        }
-    }
-
-    @Override
-    public void setRemoved() {
-        this.cap.invalidate();
-        super.setRemoved();
-    }
-    
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {

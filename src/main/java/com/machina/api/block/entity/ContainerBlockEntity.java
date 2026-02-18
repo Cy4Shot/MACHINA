@@ -100,17 +100,17 @@ public abstract class ContainerBlockEntity extends BaseBlockEntity implements Wo
 
     @Override
     public int @NotNull [] getSlotsForFace(@NotNull Direction dir) {
-        return new int[0];
+        return new int[getContainerSize()];
     }
 
     @Override
     public boolean canPlaceItemThroughFace(int p_19235_, @NotNull ItemStack p_19236_, Direction p_19237_) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean canTakeItemThroughFace(int p_19239_, @NotNull ItemStack p_19240_, @NotNull Direction p_19241_) {
-        return false;
+        return true;
     }
 
     @Override

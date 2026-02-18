@@ -1,13 +1,14 @@
 package com.machina.api.cap.sided;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
-import com.machina.api.network.PacketSender;
 import com.machina.api.network.c2s.C2SSideConfig;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.util.StringRepresentable;
+import net.neoforged.neoforge.network.PacketDistributor;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
@@ -89,7 +90,7 @@ public enum Side implements StringRepresentable {
         input[d.ordinal()] = values()[(input[d.ordinal()].ordinal() + 1) % values().length];
 
         if (Objects.requireNonNull(e.getLevel()).isClientSide()) {
-            PacketSender.sendToServer(new C2SSideConfig(tag, e.getBlockPos(), getRaw(input)));
+            PacketDistributor.sendToServer(new C2SSideConfig(tag, e.getBlockPos(), getRaw(input)));
             if (e.getLevel().getModelDataManager() != null) {
                 e.getLevel().getModelDataManager().requestRefresh(e);
             }

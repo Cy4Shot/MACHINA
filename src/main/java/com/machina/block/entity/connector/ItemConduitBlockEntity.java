@@ -14,8 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 public class ItemConduitBlockEntity extends ConnectorBlockEntity<ItemStack, ConduitItemStorage> {
 
@@ -35,11 +33,6 @@ public class ItemConduitBlockEntity extends ConnectorBlockEntity<ItemStack, Cond
     @Override
     public ConduitItemStorage createStorage(Direction side) {
         return new ConduitItemStorage(this, side);
-    }
-
-    @Override
-    public Capability<?> getCapability() {
-        return ForgeCapabilities.ITEM_HANDLER;
     }
 
     @Override

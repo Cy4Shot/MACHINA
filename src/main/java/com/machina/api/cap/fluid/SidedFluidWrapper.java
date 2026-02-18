@@ -4,7 +4,6 @@ import com.machina.api.block.entity.MachinaBlockEntity;
 import net.minecraft.core.Direction;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,12 +14,11 @@ public class SidedFluidWrapper implements IFluidHandler {
     @Nullable
     protected final Direction side;
 
-    @SuppressWarnings("unchecked")
-    public static LazyOptional<IFluidHandler>[] create(MachinaBlockEntity inv, Direction... sides) {
-        LazyOptional<IFluidHandler>[] ret = new LazyOptional[sides.length];
+    public static IFluidHandler[] create(MachinaBlockEntity inv, Direction... sides) {
+        IFluidHandler[] ret = new IFluidHandler[sides.length];
         for (int x = 0; x < sides.length; x++) {
             final Direction side = sides[x];
-            ret[x] = LazyOptional.of(() -> new SidedFluidWrapper(inv, side));
+            ret[x] = new SidedFluidWrapper(inv, side);
         }
         return ret;
     }

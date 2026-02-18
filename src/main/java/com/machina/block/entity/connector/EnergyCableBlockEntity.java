@@ -12,8 +12,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 
 public class EnergyCableBlockEntity extends ConnectorBlockEntity<Integer, CableEnergyStorage> {
 
@@ -33,11 +31,6 @@ public class EnergyCableBlockEntity extends ConnectorBlockEntity<Integer, CableE
     @Override
     public CableEnergyStorage createStorage(Direction side) {
         return new CableEnergyStorage(this, side);
-    }
-
-    @Override
-    public Capability<?> getCapability() {
-        return ForgeCapabilities.ENERGY;
     }
 
     @Override

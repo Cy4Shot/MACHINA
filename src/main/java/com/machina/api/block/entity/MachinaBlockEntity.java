@@ -25,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 
@@ -114,12 +115,10 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
         };
     }
 
-    @Override
-    public void setRemoved() {
-        super.setRemoved();
-        forEachStorage(SidedStorage::invalidate);
+    public IEnergyStorage getEnergyStorage(Direction side) {
+        return this.energyCap.getCap(side);
     }
-    
+
     @Override
     public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
         super.loadAdditional(tag, registries);

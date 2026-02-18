@@ -34,8 +34,6 @@ public abstract class SidedStorage implements ISideAdapter {
         Side.cycle(modes, dir, e, tag);
     }
 
-    public abstract void invalidate();
-
     protected abstract void save(CompoundTag tag);
 
     protected abstract void load(CompoundTag tag);

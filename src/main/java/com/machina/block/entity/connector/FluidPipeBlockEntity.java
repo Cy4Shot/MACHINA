@@ -13,8 +13,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class FluidPipeBlockEntity extends ConnectorBlockEntity<FluidStack, PipeFluidStorage> {
@@ -35,11 +33,6 @@ public class FluidPipeBlockEntity extends ConnectorBlockEntity<FluidStack, PipeF
     @Override
     public PipeFluidStorage createStorage(Direction side) {
         return new PipeFluidStorage(this, side);
-    }
-
-    @Override
-    public Capability<?> getCapability() {
-        return ForgeCapabilities.FLUID_HANDLER;
     }
 
     @Override
