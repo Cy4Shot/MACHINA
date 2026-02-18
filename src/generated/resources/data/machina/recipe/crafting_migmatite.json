@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "G": {
+      "item": "minecraft:granite"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "SG",
+    "GS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:migmatite"
+  },
+  "show_notification": false
+}

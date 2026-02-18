@@ -112,7 +112,7 @@ public class DatagenItemModels extends ItemModelProvider {
 
 	protected void bucket(FluidObject obj) {
 		DynamicFluidContainerModelBuilder<ItemModelBuilder> builder = withExistingParent(name(obj.fluid().getBucket()),
-				ResourceLocation.fromNamespaceAndPath("forge", "item/bucket"))
+				ResourceLocation.fromNamespaceAndPath("neoforge", "item/bucket"))
 				.customLoader(DynamicFluidContainerModelBuilder::begin);
 		if (obj.fluid().getFluidType().getDensity() < 0) {
 			builder.flipGas(true);

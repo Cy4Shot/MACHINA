@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "machina:green_soapstone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:green_soapstone_button"
+  }
+}

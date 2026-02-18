@@ -1,0 +1,34 @@
+{
+  "type": "machina:rocket_part_bench",
+  "energy": 150000,
+  "input_fluids": [],
+  "input_items": [
+    {
+      "count": 64,
+      "id": "machina:aluminum_plate"
+    },
+    {
+      "count": 12,
+      "id": "machina:lead_ingot"
+    },
+    {
+      "count": 48,
+      "id": "machina:iron_rod"
+    },
+    {
+      "count": 1,
+      "id": "machina:tank"
+    }
+  ],
+  "output_fluids": [],
+  "output_items": [
+    {
+      "count": 1,
+      "id": "machina:rocket_part_reinforced_life_support"
+    }
+  ],
+  "periodic_consumption": 1,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

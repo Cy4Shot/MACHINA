@@ -137,6 +137,8 @@ public class RecipeInit {
 		ResourceLocation id = MachinaRL.create(name);
 		DeferredHolder<RecipeType<?>, MachinaRecipeType<C>> type = RECIPE_TYPES.register(name,
 				() -> new MachinaRecipeType<>(id, mapInstance.getFlags()));
+		DeferredHolder<RecipeSerializer<?>, MachinaRecipeSerializer<C>> serializer = RECIPE_SERIALIZERS.register(name,
+				() -> new MachinaRecipeSerializer<>(type));
 
 		// Create an anonymous factory for the recipe
 		RecipeFactory<MachinaRecipe<C>> factory = (energy, time, pressure, temperature, periodicConsumption, inputItems,
@@ -146,10 +148,13 @@ public class RecipeInit {
 					public @NotNull RecipeType<MachinaRecipe<C>> getType() {
 						return type.get();
 					}
+
+					@Override
+					public RecipeSerializer<?> getSerializer() {
+						return serializer.get();
+					}
 				};
 
-		DeferredHolder<RecipeSerializer<?>, MachinaRecipeSerializer<C>> serializer = RECIPE_SERIALIZERS.register(name,
-				() -> new MachinaRecipeSerializer<>(type));
 		RecipeRegistryObject<C> obj = new RecipeRegistryObject<>(id, type, factory, serializer, mapInstance, block, x,
 				y);
 

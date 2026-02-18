@@ -1,0 +1,26 @@
+{
+  "type": "machina:reaction_chamber",
+  "energy": 17,
+  "input_fluids": [
+    {
+      "amount": 1,
+      "id": "machina:ammonia"
+    },
+    {
+      "amount": 1,
+      "id": "machina:nitric_acid"
+    }
+  ],
+  "input_items": [],
+  "output_fluids": [],
+  "output_items": [
+    {
+      "count": 1,
+      "id": "machina:ammonium_nitrate"
+    }
+  ],
+  "periodic_consumption": 144,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

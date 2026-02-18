@@ -5,9 +5,12 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 
@@ -44,4 +47,11 @@ public class MachinaCodecs {
 
 	public static final Codec<Item> ITEM = registryCodec(BuiltInRegistries.ITEM);
 	public static final Codec<Fluid> FLUID = registryCodec(BuiltInRegistries.FLUID);
+
+	public static final Codec<ItemStack> UNBOUNDED_ITEMSTACK = Codec.lazyInitialized(() -> RecordCodecBuilder.create(
+			builder -> builder.group(ItemStack.ITEM_NON_AIR_CODEC.fieldOf("id").forGetter(ItemStack::getItemHolder),
+					ExtraCodecs.NON_NEGATIVE_INT.fieldOf("count").orElse(1).forGetter(ItemStack::getCount),
+					DataComponentPatch.CODEC.optionalFieldOf("components", DataComponentPatch.EMPTY)
+							.forGetter(s -> s.components.asPatch()))
+					.apply(builder, ItemStack::new)));
 }

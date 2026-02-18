@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "machina:gneiss"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:gneiss_wall"
+  }
+}

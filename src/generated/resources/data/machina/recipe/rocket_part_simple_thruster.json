@@ -1,0 +1,26 @@
+{
+  "type": "machina:rocket_part_bench",
+  "energy": 100000,
+  "input_fluids": [],
+  "input_items": [
+    {
+      "count": 128,
+      "id": "machina:steel_plate"
+    },
+    {
+      "count": 32,
+      "id": "machina:copper_coil"
+    }
+  ],
+  "output_fluids": [],
+  "output_items": [
+    {
+      "count": 1,
+      "id": "machina:rocket_part_simple_thruster"
+    }
+  ],
+  "periodic_consumption": 1,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

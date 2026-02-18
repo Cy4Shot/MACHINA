@@ -1,0 +1,26 @@
+{
+  "type": "machina:reaction_chamber",
+  "energy": 7,
+  "input_fluids": [
+    {
+      "amount": 1,
+      "id": "machina:sulphur_trioxide"
+    },
+    {
+      "amount": 1,
+      "id": "minecraft:water"
+    }
+  ],
+  "input_items": [],
+  "output_fluids": [
+    {
+      "amount": 1,
+      "id": "machina:sulphuric_acid"
+    }
+  ],
+  "output_items": [],
+  "periodic_consumption": 1,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

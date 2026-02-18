@@ -16,7 +16,7 @@ public record S2CFluidSync(BlockPos pos, FluidStack stack, int i) implements S2C
 
 	@Override
 	public StreamCodec<? super RegistryFriendlyByteBuf, S2CFluidSync> streamCodec() {
-		return StreamCodec.composite(BlockPos.STREAM_CODEC, S2CFluidSync::pos, FluidStack.STREAM_CODEC,
+		return StreamCodec.composite(BlockPos.STREAM_CODEC, S2CFluidSync::pos, FluidStack.OPTIONAL_STREAM_CODEC,
 				S2CFluidSync::stack, ByteBufCodecs.INT, S2CFluidSync::i, S2CFluidSync::new);
 	}
 

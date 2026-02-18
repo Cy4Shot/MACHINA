@@ -1,0 +1,32 @@
+{
+  "type": "machina:electrolyzer",
+  "energy": 72,
+  "input_fluids": [
+    {
+      "amount": 1,
+      "id": "machina:carbon_dioxide"
+    }
+  ],
+  "input_items": [
+    {
+      "count": 1,
+      "id": "machina:sodium_hydroxide"
+    }
+  ],
+  "output_fluids": [
+    {
+      "amount": 1,
+      "id": "minecraft:water"
+    }
+  ],
+  "output_items": [
+    {
+      "count": 1,
+      "id": "machina:sodium_carbonate"
+    }
+  ],
+  "periodic_consumption": 144,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

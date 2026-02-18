@@ -1,0 +1,32 @@
+{
+  "type": "machina:reaction_chamber",
+  "energy": 10,
+  "input_fluids": [
+    {
+      "amount": 1,
+      "id": "machina:sulphuric_acid"
+    }
+  ],
+  "input_items": [
+    {
+      "count": 1,
+      "id": "machina:niter"
+    }
+  ],
+  "output_fluids": [
+    {
+      "amount": 1,
+      "id": "machina:nitric_acid"
+    }
+  ],
+  "output_items": [
+    {
+      "count": 1,
+      "id": "machina:potassium_bisulfate"
+    }
+  ],
+  "periodic_consumption": 144,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

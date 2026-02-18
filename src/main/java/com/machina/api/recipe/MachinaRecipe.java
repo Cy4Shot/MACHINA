@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.machina.api.util.reflect.MachinaCodecs;
 import com.machina.api.util.reflect.MachinaStreamCodecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -150,11 +151,6 @@ public abstract class MachinaRecipe<C extends RecipeInput> implements Recipe<C> 
 		return null;
 	}
 
-	@Override
-	public @NotNull RecipeSerializer<?> getSerializer() {
-		return new MachinaRecipeSerializer<>(this::getMachinaType);
-	}
-
 	public static class MachinaRecipeSerializer<C extends RecipeInput> implements RecipeSerializer<MachinaRecipe<C>> {
 
 		private final RecipeFactory<MachinaRecipe<C>> factory;
@@ -167,6 +163,11 @@ public abstract class MachinaRecipe<C extends RecipeInput> implements Recipe<C> 
 						public @NotNull RecipeType<MachinaRecipe<C>> getType() {
 							return type.get();
 						}
+
+						@Override
+						public RecipeSerializer<?> getSerializer() {
+							return MachinaRecipeSerializer.this;
+						}
 					};
 		}
 
@@ -178,9 +179,11 @@ public abstract class MachinaRecipe<C extends RecipeInput> implements Recipe<C> 
 							Codec.FLOAT.fieldOf("pressure").forGetter(MachinaRecipe::getPressure),
 							Codec.FLOAT.fieldOf("temperature").forGetter(MachinaRecipe::getTemperature),
 							Codec.INT.fieldOf("periodic_consumption").forGetter(r -> r.periodicConsumption),
-							ItemStack.CODEC.listOf().fieldOf("input_items").forGetter(r -> r.inputItems),
+							MachinaCodecs.UNBOUNDED_ITEMSTACK.listOf().fieldOf("input_items")
+									.forGetter(r -> r.inputItems),
 							FluidStack.CODEC.listOf().fieldOf("input_fluids").forGetter(r -> r.inputFluids),
-							ItemStack.CODEC.listOf().fieldOf("output_items").forGetter(r -> r.outputItems),
+							MachinaCodecs.UNBOUNDED_ITEMSTACK.listOf().fieldOf("output_items")
+									.forGetter(r -> r.outputItems),
 							FluidStack.CODEC.listOf().fieldOf("output_fluids").forGetter(r -> r.outputFluids))
 					.apply(inst,
 							(energy, time, pressure, temperature, periodic, inItems, inFluids, outItems,

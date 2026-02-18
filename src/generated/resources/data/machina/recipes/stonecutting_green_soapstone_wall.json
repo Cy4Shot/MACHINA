@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "machina:green_soapstone"
-  },
-  "result": "machina:green_soapstone_wall"
-}

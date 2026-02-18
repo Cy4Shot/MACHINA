@@ -1,0 +1,27 @@
+{
+  "type": "machina:electrolyzer",
+  "energy": 72,
+  "input_fluids": [
+    {
+      "amount": 2,
+      "id": "machina:brine"
+    }
+  ],
+  "input_items": [
+    {
+      "count": 3,
+      "id": "machina:sodium_hydroxide"
+    }
+  ],
+  "output_fluids": [
+    {
+      "amount": 2,
+      "id": "machina:chlorine"
+    }
+  ],
+  "output_items": [],
+  "periodic_consumption": 72,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 2,
-  "ingredient": {
-    "item": "machina:limestone"
-  },
-  "result": "machina:limestone_slab"
-}

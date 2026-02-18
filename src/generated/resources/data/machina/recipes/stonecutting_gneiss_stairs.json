@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "machina:gneiss"
-  },
-  "result": "machina:gneiss_stairs"
-}

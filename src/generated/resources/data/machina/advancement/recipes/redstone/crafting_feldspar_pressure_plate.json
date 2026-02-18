@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_feldspar": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:feldspar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:crafting_feldspar_pressure_plate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_feldspar"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:crafting_feldspar_pressure_plate"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "machina:rocket_part_bench",
+  "energy": 150000,
+  "input_fluids": [],
+  "input_items": [
+    {
+      "count": 68,
+      "id": "machina:iron_plate"
+    },
+    {
+      "count": 4,
+      "id": "machina:nickel_rod"
+    },
+    {
+      "count": 8,
+      "id": "machina:copper_coil"
+    }
+  ],
+  "output_fluids": [],
+  "output_items": [
+    {
+      "count": 1,
+      "id": "machina:rocket_part_cone_shield"
+    }
+  ],
+  "periodic_consumption": 1,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

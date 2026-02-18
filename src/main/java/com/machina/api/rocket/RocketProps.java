@@ -46,9 +46,9 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
     public static final StreamCodec<RegistryFriendlyByteBuf, RocketProps> STREAM_CODEC = MachinaStreamCodecs.composite(
             ByteBufCodecs.BOOL, RocketProps::empty,
             ByteBufCodecs.FLOAT, RocketProps::mass,
-            FluidStack.STREAM_CODEC, RocketProps::fuelStack,
+            FluidStack.OPTIONAL_STREAM_CODEC, RocketProps::fuelStack,
             ByteBufCodecs.FLOAT, RocketProps::fuelEfficiency,
-            FluidStack.STREAM_CODEC, RocketProps::coolantStack,
+            FluidStack.OPTIONAL_STREAM_CODEC, RocketProps::coolantStack,
             ByteBufCodecs.FLOAT, RocketProps::coolantEfficiency,
             ByteBufCodecs.VAR_INT, RocketProps::slots,
             ByteBufCodecs.FLOAT, RocketProps::maxPressure,
@@ -60,9 +60,9 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
         instance.group(
                 Codec.BOOL.fieldOf("empty").forGetter(RocketProps::empty),
                 Codec.FLOAT.fieldOf("mass").forGetter(RocketProps::mass),
-                FluidStack.CODEC.fieldOf("fuelStack").forGetter(RocketProps::fuelStack),
+                FluidStack.OPTIONAL_CODEC.fieldOf("fuelStack").forGetter(RocketProps::fuelStack),
                 Codec.FLOAT.fieldOf("fuelEfficiency").forGetter(RocketProps::fuelEfficiency),
-                FluidStack.CODEC.fieldOf("coolantStack").forGetter(RocketProps::coolantStack),
+                FluidStack.OPTIONAL_CODEC.fieldOf("coolantStack").forGetter(RocketProps::coolantStack),
                 Codec.FLOAT.fieldOf("coolantEfficiency").forGetter(RocketProps::coolantEfficiency),
                 Codec.INT.fieldOf("slots").forGetter(RocketProps::slots),
                 Codec.FLOAT.fieldOf("maxPressure").forGetter(RocketProps::maxPressure),

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_coniferous_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:coniferous_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:crafting_coniferous_fence"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_coniferous_planks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:crafting_coniferous_fence"
+    ]
+  }
+}

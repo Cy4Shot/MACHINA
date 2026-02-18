@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "machina:migmatite"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:migmatite_wall"
+  }
+}

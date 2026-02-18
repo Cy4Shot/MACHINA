@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "machina:cycad_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BBB",
+    " S "
+  ],
+  "result": {
+    "count": 3,
+    "id": "machina:cycad_sign"
+  },
+  "show_notification": false
+}

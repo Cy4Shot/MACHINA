@@ -1,0 +1,26 @@
+{
+  "type": "machina:electrolyzer",
+  "energy": 42,
+  "input_fluids": [
+    {
+      "amount": 1,
+      "id": "machina:methanol"
+    }
+  ],
+  "input_items": [],
+  "output_fluids": [
+    {
+      "amount": 2,
+      "id": "machina:hydrogen"
+    },
+    {
+      "amount": 1,
+      "id": "machina:carbon_monoxide"
+    }
+  ],
+  "output_items": [],
+  "periodic_consumption": 1,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

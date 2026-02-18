@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gneiss": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:gneiss"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:crafting_gneiss_pressure_plate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gneiss"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:crafting_gneiss_pressure_plate"
+    ]
+  }
+}

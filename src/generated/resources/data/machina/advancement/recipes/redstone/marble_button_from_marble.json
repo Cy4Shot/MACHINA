@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_marble": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:marble"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:marble_button_from_marble"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_marble"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:marble_button_from_marble"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "machina:dead_tropical_log"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "machina:dead_tropical_planks"
+  }
+}

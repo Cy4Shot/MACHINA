@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "machina:gneiss"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:gneiss_button"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_marble": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:marble"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:stonecutting_marble_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_marble"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:stonecutting_marble_slab"
+    ]
+  }
+}

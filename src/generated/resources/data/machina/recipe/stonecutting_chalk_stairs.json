@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "machina:chalk"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:chalk_stairs"
+  }
+}

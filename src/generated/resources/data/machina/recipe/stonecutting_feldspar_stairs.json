@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "machina:feldspar"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:feldspar_stairs"
+  }
+}

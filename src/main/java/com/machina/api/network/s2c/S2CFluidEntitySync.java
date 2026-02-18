@@ -13,7 +13,7 @@ public record S2CFluidEntitySync(int entity, FluidStack stack, int i) implements
 
 	@Override
 	public StreamCodec<? super RegistryFriendlyByteBuf, S2CFluidEntitySync> streamCodec() {
-		return StreamCodec.composite(ByteBufCodecs.INT, S2CFluidEntitySync::entity, FluidStack.STREAM_CODEC,
+		return StreamCodec.composite(ByteBufCodecs.INT, S2CFluidEntitySync::entity, FluidStack.OPTIONAL_STREAM_CODEC,
 				S2CFluidEntitySync::stack, ByteBufCodecs.INT, S2CFluidEntitySync::i, S2CFluidEntitySync::new);
 	}
 

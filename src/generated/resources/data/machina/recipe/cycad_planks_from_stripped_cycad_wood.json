@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "machina:stripped_cycad_wood"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "machina:cycad_planks"
+  }
+}

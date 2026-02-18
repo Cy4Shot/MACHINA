@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_migmatite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:migmatite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:migmatite_button_from_migmatite"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_migmatite"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:migmatite_button_from_migmatite"
+    ]
+  }
+}

@@ -8,8 +8,6 @@ import com.machina.registration.init.FamiliesInit.DirtFamily;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
-import com.machina.registration.init.FluidInit;
-import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.FruitInit.Fruit;
 
@@ -162,11 +160,6 @@ public class BlockLoot extends BlockLootSubProvider {
 		// Fruit
 		for (Fruit fruit : FruitInit.FRUITS) {
 			dropSelf(fruit.block().get());
-		}
-
-		// Fluids
-		for (FluidObject obj : FluidInit.OBJS) {
-			dropNone(obj.block());
 		}
 
 		FamiliesInit.ORES.forEach(this::oreFamily);

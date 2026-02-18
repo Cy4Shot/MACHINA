@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "machina:dead_tropical_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "BBB",
+    " S "
+  ],
+  "result": {
+    "count": 3,
+    "id": "machina:dead_tropical_sign"
+  },
+  "show_notification": false
+}

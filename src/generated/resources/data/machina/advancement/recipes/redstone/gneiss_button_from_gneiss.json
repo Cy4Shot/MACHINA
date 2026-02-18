@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gneiss": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:gneiss"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:gneiss_button_from_gneiss"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gneiss"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:gneiss_button_from_gneiss"
+    ]
+  }
+}

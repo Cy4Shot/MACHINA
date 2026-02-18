@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "machina:limestone"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:limestone_wall"
+  }
+}

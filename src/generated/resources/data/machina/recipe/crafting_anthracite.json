@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "machina:coal_chunk"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:anthracite"
+  }
+}

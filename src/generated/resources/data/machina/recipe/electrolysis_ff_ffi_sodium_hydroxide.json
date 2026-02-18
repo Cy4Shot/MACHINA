@@ -1,0 +1,35 @@
+{
+  "type": "machina:electrolyzer",
+  "energy": 38,
+  "input_fluids": [
+    {
+      "amount": 2,
+      "id": "machina:brine"
+    },
+    {
+      "amount": 2,
+      "id": "minecraft:water"
+    }
+  ],
+  "input_items": [],
+  "output_fluids": [
+    {
+      "amount": 1,
+      "id": "machina:chlorine"
+    },
+    {
+      "amount": 1,
+      "id": "machina:hydrogen"
+    }
+  ],
+  "output_items": [
+    {
+      "count": 1,
+      "id": "machina:sodium_hydroxide"
+    }
+  ],
+  "periodic_consumption": 72,
+  "pressure": 0.0,
+  "temperature": 0.0,
+  "time": 1
+}

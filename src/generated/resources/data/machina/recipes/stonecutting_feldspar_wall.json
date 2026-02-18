@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "machina:feldspar"
-  },
-  "result": "machina:feldspar_wall"
-}
