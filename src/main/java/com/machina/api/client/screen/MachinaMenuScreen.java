@@ -1,45 +1,32 @@
 package com.machina.api.client.screen;
 
-import com.machina.Machina;
 import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.screen.MUI.MuiSlot;
-import com.machina.api.multiblock.ClientMultiblock;
-import com.machina.api.multiblock.MultiblockLoader;
 import com.machina.api.util.StringUtils;
 import com.machina.api.util.math.MathUtil;
-import com.machina.api.util.math.VecUtil;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
 import org.apache.logging.log4j.util.TriConsumer;
@@ -47,13 +34,10 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
-import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SequencedMap;
 import java.util.function.*;
 
 public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends AbstractContainerScreen<T> {

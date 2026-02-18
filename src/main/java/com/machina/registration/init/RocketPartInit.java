@@ -30,6 +30,7 @@ import java.util.function.Supplier;
 
 public class RocketPartInit {
 
+    public static final Map<ResourceKey<RocketPart<?>>, ResourceLocation> ITEM_MAP = new HashMap<>();
     public static final Map<ResourceKey<RocketPart<?>>, DeferredHolder<RocketPart<?>, ChassisPart<?>>> CHASSIS = new HashMap<>();
     public static final Map<ResourceKey<RocketPart<?>>, DeferredHolder<RocketPart<?>, FuelTankPart<?>>> FUEL_TANKS = new HashMap<>();
     public static final Map<ResourceKey<RocketPart<?>>, DeferredHolder<RocketPart<?>, LifeSupportPart<?>>> LIFE_SUPPORTS = new HashMap<>();
@@ -55,52 +56,55 @@ public class RocketPartInit {
 	public static final DeferredHolder<RocketPart<?>, ThrusterPart<?>> TRI_TALL_THRUSTER = thruster("tri_tall", 1.625f, -0.875f, 1f, 150, FluidInit.AMMONIA, 2f, TriTallThrusterModel::new);
 	//@formatter:on
 
-    private static DeferredHolder<RocketPart<?>, ChassisPart<?>> chassis(String name, float height, float offset, float guiScale, float mass,
-            FluidObject coolant, float coolantEfficiency, Supplier<? extends RocketPartModel> model) {
+    private static DeferredHolder<RocketPart<?>, ChassisPart<?>> chassis(String name, float height, float offset,
+            float guiScale, float mass, FluidObject coolant, float coolantEfficiency,
+            Supplier<? extends RocketPartModel> model) {
         DeferredHolder<RocketPart<?>, ChassisPart<?>> ro = register(name + "_chassis",
                 (t) -> new ChassisPart<>(t, height, model, mass, offset, guiScale, coolant, coolantEfficiency));
         CHASSIS.put(ro.getKey(), ro);
         return ro;
     }
 
-    private static DeferredHolder<RocketPart<?>, FuelTankPart<?>> fuel_tank(String name, float height, float offset, float guiScale,
-            float mass, int fuelStorage, int coolantStorage, Supplier<? extends RocketPartModel> model) {
+    private static DeferredHolder<RocketPart<?>, FuelTankPart<?>> fuel_tank(String name, float height, float offset,
+            float guiScale, float mass, int fuelStorage, int coolantStorage,
+            Supplier<? extends RocketPartModel> model) {
         DeferredHolder<RocketPart<?>, FuelTankPart<?>> ro = register(name + "_fuel_tank",
                 (t) -> new FuelTankPart<>(t, height, model, mass, offset, guiScale, fuelStorage, coolantStorage));
         FUEL_TANKS.put(ro.getKey(), ro);
         return ro;
     }
 
-    private static DeferredHolder<RocketPart<?>, LifeSupportPart<?>> life_support(String name, float height, float offset, float guiScale,
-            float mass, int slots, Supplier<? extends RocketPartModel> model) {
+    private static DeferredHolder<RocketPart<?>, LifeSupportPart<?>> life_support(String name, float height,
+            float offset, float guiScale, float mass, int slots, Supplier<? extends RocketPartModel> model) {
         DeferredHolder<RocketPart<?>, LifeSupportPart<?>> ro = register(name + "_life_support",
                 (t) -> new LifeSupportPart<>(t, height, model, mass, offset, guiScale, slots));
         LIFE_SUPPORTS.put(ro.getKey(), ro);
         return ro;
     }
 
-    private static DeferredHolder<RocketPart<?>, ShieldPart<?>> shield(String name, float height, float offset, float guiScale, float mass,
-            float maxAtmPressure, Supplier<? extends RocketPartModel> model) {
+    private static DeferredHolder<RocketPart<?>, ShieldPart<?>> shield(String name, float height, float offset,
+            float guiScale, float mass, float maxAtmPressure, Supplier<? extends RocketPartModel> model) {
         DeferredHolder<RocketPart<?>, ShieldPart<?>> ro = register(name + "_shield",
                 (t) -> new ShieldPart<>(t, height, model, mass, offset, guiScale, maxAtmPressure));
         SHIELDS.put(ro.getKey(), ro);
         return ro;
     }
 
-    private static DeferredHolder<RocketPart<?>, ThrusterPart<?>> thruster(String name, float height, float offset, float guiScale,
-            float mass, FluidObject fuel, float fuelEfficiency, Supplier<? extends RocketPartModel> model) {
+    private static DeferredHolder<RocketPart<?>, ThrusterPart<?>> thruster(String name, float height, float offset,
+            float guiScale, float mass, FluidObject fuel, float fuelEfficiency,
+            Supplier<? extends RocketPartModel> model) {
         DeferredHolder<RocketPart<?>, ThrusterPart<?>> ro = register(name + "_thruster",
                 (t) -> new ThrusterPart<>(t, height, model, mass, offset, guiScale, fuel, fuelEfficiency));
         THRUSTERS.put(ro.getKey(), ro);
         return ro;
     }
 
-    private static <T extends RocketPart<?>> DeferredHolder<RocketPart<?>, T> register(String name, Function<ResourceLocation, T> part) {
+    private static <T extends RocketPart<?>> DeferredHolder<RocketPart<?>, T> register(String name,
+            Function<ResourceLocation, T> part) {
         DeferredHolder<RocketPart<?>, T> ro = ROCKET_PARTS.register(name, () -> part.apply(MachinaRL.create(name)));
-        ItemInit.ITEMS.register("rocket_part_" + name, () -> {
-            System.out.println("Registering item for: " + name);
-            return new RocketPartItem(new Item.Properties(), ro::get);
-        });
+        DeferredHolder<Item, RocketPartItem> item = ItemInit.ITEMS.register("rocket_part_" + name,
+                () -> new RocketPartItem(new Item.Properties(), ro::get));
+        ITEM_MAP.put(ro.getKey(), item.getId());
         return ro;
     }
 

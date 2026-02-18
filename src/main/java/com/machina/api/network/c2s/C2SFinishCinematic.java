@@ -1,12 +1,8 @@
 package com.machina.api.network.c2s;
 
-import java.util.function.Function;
-
 import com.machina.api.event.CinematicCompleteEvent;
 import com.machina.api.network.C2SMessage;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;

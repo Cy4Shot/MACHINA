@@ -6,7 +6,6 @@ import com.machina.compat.jei.base.MachinaRecipeCategory;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredBlock;

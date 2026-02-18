@@ -1,15 +1,13 @@
 package com.machina.api.rocket.part;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
 import com.machina.api.item.RocketPartItem;
 import com.machina.api.util.reflect.MachinaCodecs;
 import com.machina.client.model.rocket.RocketPartModel;
 import com.machina.registration.init.RegistryInit;
-import com.machina.registration.init.RegistryInit.RocketPartCallbacks;
+import com.machina.registration.init.RocketPartInit;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -83,14 +81,12 @@ public class RocketPart<T extends RocketPartModel> {
         return offset;
     }
 
-    @SuppressWarnings("unchecked")
     public RocketPartItem getItem() {
         if (item != null) {
             return item;
         }
-        Map<RocketPart<?>, ResourceLocation> map = (Map<RocketPart<?>, ResourceLocation>) RegistryInit.ROCKET_PART_REGISTRY
-                .getSlaveMap(RocketPartCallbacks.ROCKET_PART_TO_ITEM, Map.class);
-        ResourceLocation itemLoc = map.get(this);
+        ResourceLocation itemLoc = RocketPartInit.ITEM_MAP
+                .get(RegistryInit.ROCKET_PART_REGISTRY.getResourceKey(this).get());
         if (BuiltInRegistries.ITEM.get(itemLoc) instanceof RocketPartItem rocketPartItem) {
             this.item = rocketPartItem;
             return rocketPartItem;

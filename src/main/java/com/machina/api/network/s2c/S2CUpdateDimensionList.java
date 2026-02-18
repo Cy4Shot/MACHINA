@@ -1,15 +1,10 @@
 package com.machina.api.network.s2c;
 
 import java.util.Set;
-import java.util.function.Function;
-
 import com.machina.api.network.S2CMessage;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;

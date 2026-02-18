@@ -3,8 +3,6 @@ package com.machina.registration;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
-import com.machina.api.block.entity.ConnectorBlockEntity;
-import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.energy.EnergyItemWrapper;
 import com.machina.api.cap.fluid.SidedFluidWrapper;

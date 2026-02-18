@@ -1,7 +1,6 @@
 package com.machina.registration.init;
 
 import com.machina.api.util.MachinaRL;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;

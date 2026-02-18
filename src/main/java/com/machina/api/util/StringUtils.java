@@ -170,6 +170,7 @@ public class StringUtils {
         }
     }
 
+    @SuppressWarnings("removal")
     public static MutableComponent fluid(FluidStack stack, boolean bold) {
         if (stack.isEmpty()) {
             return Component.translatable(Machina.MOD_ID + ".none_fluid").withStyle(Style.EMPTY.withBold(bold)

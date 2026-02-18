@@ -5,7 +5,6 @@ import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.world.biome.PlanetBiome;
-import com.mojang.serialization.Lifecycle;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.Registry;

@@ -450,11 +450,11 @@ public final class MUI {
     }
 
     private static BufferSource initBuffers(BufferSource original) {
-        SequencedMap<RenderType, BufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
-        for (Map.Entry<RenderType, BufferBuilder> e : original.fixedBuffers.entrySet()) {
+        SequencedMap<RenderType, ByteBufferBuilder> remapped = new Object2ObjectLinkedOpenHashMap<>();
+        for (Map.Entry<RenderType, ByteBufferBuilder> e : original.fixedBuffers.entrySet()) {
             remapped.put(MultiblockRenderType.remap(e.getKey(), (float) 0.2), e.getValue());
         }
-        return new MultiblockBuffers(original.builder, remapped);
+        return new MultiblockBuffers(original.sharedBuffer, remapped);
     }
 
     private static class MultiblockBuffers extends BufferSource {

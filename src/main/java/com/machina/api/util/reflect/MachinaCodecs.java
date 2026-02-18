@@ -1,7 +1,5 @@
 package com.machina.api.util.reflect;
 
-import java.util.List;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
