@@ -1,5 +1,6 @@
 package com.machina.api.item;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -49,7 +50,7 @@ public class RocketItem extends Item {
 	}
 
 	public static void setPart(ItemStack stack, RocketPartType type, RocketPart<?> part) {
-		Map<RocketPartType, RocketPart<?>> parts = stack.get(DataComponentsInit.ROCKET_PARTS);
+		Map<RocketPartType, RocketPart<?>> parts = new HashMap<>(stack.get(DataComponentsInit.ROCKET_PARTS));
 		parts.put(type, part);
 		stack.set(DataComponentsInit.ROCKET_PARTS, parts);
 	}

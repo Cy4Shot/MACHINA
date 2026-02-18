@@ -96,7 +96,7 @@ public class PlanetBiome extends Biome {
 		// Cave Slope
 		for (CaveSurface surf : CaveSurface.values())
 			add(builder, Decoration.UNDERGROUND_DECORATION, new PlanetCaveSlopeFeature(),
-					new PlanetCaveSlopeFeatureConfig(surf, s), count(256), spread(), range(0, 256),
+					new PlanetCaveSlopeFeatureConfig(surf, s), count(256), spread(), range(-64, 320),
 					EnvironmentScanPlacement.scanningFor(surf.getDirection(), BlockPredicate.solid(),
 							BlockPredicate.matchesBlocks(Blocks.AIR), 12),
 					biome());

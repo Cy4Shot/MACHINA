@@ -1,4 +1,4 @@
-#version 150
+#version 330 core
 
 #moj_import <minecraft:light.glsl>
 #moj_import <minecraft:fog.glsl>
@@ -15,7 +15,6 @@ uniform sampler2D Sampler2;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
-uniform mat3 IViewRotMat;
 uniform int FogShape;
 
 uniform vec3 Light0_Direction;
@@ -31,10 +30,18 @@ out vec4 normal;
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 
-    vertexDistance = fog_distance(ModelViewMat, IViewRotMat * Position, FogShape);
+    // Compute fog distance
+    vec3 viewPos = (ModelViewMat * vec4(Position, 1.0)).xyz;
+	vertexDistance = fog_distance(viewPos, FogShape);
+
+    // Compute vertex lighting
     vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color);
+
+    // Sample lightmap and overlay textures
     lightMapColor = texelFetch(Sampler2, UV2 / 16, 0);
     overlayColor = texelFetch(Sampler1, UV1, 0);
+
+    // Pass UV and transformed normal to fragment shader
     texCoord0 = UV0;
     normal = ProjMat * ModelViewMat * vec4(Normal, 0.0);
 }
