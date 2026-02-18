@@ -28,6 +28,18 @@
     "machina:peat_stairs",
     "machina:silt",
     "machina:silt_slab",
-    "machina:silt_stairs"
+    "machina:silt_stairs",
+    "machina:anthracite",
+    "machina:feldspar",
+    "machina:gray_soapstone",
+    "machina:green_soapstone",
+    "machina:white_soapstone",
+    "machina:shale",
+    "machina:tectonite",
+    "machina:marble",
+    "machina:chalk",
+    "machina:limestone",
+    "machina:migmatite",
+    "machina:gneiss"
   ]
 }

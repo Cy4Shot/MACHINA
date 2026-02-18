@@ -27,11 +27,11 @@ public class DatagenLangEnUs extends DatagenLang {
 	@Override
 	protected void addTranslations() {
 		// Creative Tabs
-		add(TabInit.MACHINA_MACHINERY, "Machina: Machinery");
-		add(TabInit.MACHINA_RESOURCES, "Machina: Resources");
-		add(TabInit.MACHINA_WORLDGEN, "Machina: Worldgen");
-		add(TabInit.MACHINA_MISCELLANEOUS, "Machina: Miscellaneous");
-		add(TabInit.MACHINA_ROCKETRY, "Machina: Rocketry");
+		addTab(TabInit.MACHINA_MACHINERY, "Machina: Machinery");
+		addTab(TabInit.MACHINA_RESOURCES, "Machina: Resources");
+		addTab(TabInit.MACHINA_WORLDGEN, "Machina: Worldgen");
+		addTab(TabInit.MACHINA_MISCELLANEOUS, "Machina: Miscellaneous");
+		addTab(TabInit.MACHINA_ROCKETRY, "Machina: Rocketry");
 
 		// Items
 		add(ItemInit.ROCKET, "Rocket");
@@ -603,20 +603,20 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(RecipeInit.ROCKET_PART_BENCH, "Rocket Part Bench");
 
 		// Rocket Parts
-		add(RocketPartInit.SIMPLE_CHASSIS, "Simple Chassis");
-		add(RocketPartInit.ADVANCED_CHASSIS, "Advanced Chassis");
+		addPart(RocketPartInit.SIMPLE_CHASSIS, "Simple Chassis");
+		addPart(RocketPartInit.ADVANCED_CHASSIS, "Advanced Chassis");
 
-		add(RocketPartInit.SIMPLE_FUEL_TANK, "Simple Fuel Tank");
-		add(RocketPartInit.PRESSURIZED_FUEL_TANK, "Pressurized Fuel Tank");
+		addPart(RocketPartInit.SIMPLE_FUEL_TANK, "Simple Fuel Tank");
+		addPart(RocketPartInit.PRESSURIZED_FUEL_TANK, "Pressurized Fuel Tank");
 
-		add(RocketPartInit.SIMPLE_LIFE_SUPPORT, "Simple Life Support");
-		add(RocketPartInit.REINFORCED_LIFE_SUPPORT, "Reinforced Life Support");
+		addPart(RocketPartInit.SIMPLE_LIFE_SUPPORT, "Simple Life Support");
+		addPart(RocketPartInit.REINFORCED_LIFE_SUPPORT, "Reinforced Life Support");
 
-		add(RocketPartInit.SIMPLE_SHIELD, "Simple Shield");
-		add(RocketPartInit.CONE_SHIELD, "Cone Shield");
+		addPart(RocketPartInit.SIMPLE_SHIELD, "Simple Shield");
+		addPart(RocketPartInit.CONE_SHIELD, "Cone Shield");
 
-		add(RocketPartInit.SIMPLE_THRUSTER, "Simple Thruster");
-		add(RocketPartInit.TRI_TALL_THRUSTER, "Tri Tall Thruster");
+		addPart(RocketPartInit.SIMPLE_THRUSTER, "Simple Thruster");
+		addPart(RocketPartInit.TRI_TALL_THRUSTER, "Tri Tall Thruster");
 
 		// Entities
 		add(EntityTypeInit.ROCKET, "Rocket");

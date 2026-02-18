@@ -156,53 +156,51 @@ public class ClientModEvents {
 	@SubscribeEvent
 	static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
 		FluidInit.OBJS.forEach(obj -> {
-			if (!obj.isVanillaMapped()) {
-				event.registerFluidType(new IClientFluidTypeExtensions() {
-					private static final ResourceLocation UNDERWATER_LOCATION = ResourceLocation
-							.withDefaultNamespace("textures/misc/underwater.png");
-					private static final ResourceLocation WATER_STILL = ResourceLocation
-							.withDefaultNamespace("block/water_still");
-					private static final ResourceLocation WATER_FLOW = ResourceLocation
-							.withDefaultNamespace("block/water_flow");
-					private static final ResourceLocation WATER_OVERLAY = ResourceLocation
-							.withDefaultNamespace("block/water_overlay");
+			event.registerFluidType(new IClientFluidTypeExtensions() {
+				private static final ResourceLocation UNDERWATER_LOCATION = ResourceLocation
+						.withDefaultNamespace("textures/misc/underwater.png");
+				private static final ResourceLocation WATER_STILL = ResourceLocation
+						.withDefaultNamespace("block/water_still");
+				private static final ResourceLocation WATER_FLOW = ResourceLocation
+						.withDefaultNamespace("block/water_flow");
+				private static final ResourceLocation WATER_OVERLAY = ResourceLocation
+						.withDefaultNamespace("block/water_overlay");
 
-					@Override
-					public ResourceLocation getStillTexture() {
-						return WATER_STILL;
-					}
+				@Override
+				public ResourceLocation getStillTexture() {
+					return WATER_STILL;
+				}
 
-					@Override
-					public ResourceLocation getFlowingTexture() {
-						return WATER_FLOW;
-					}
+				@Override
+				public ResourceLocation getFlowingTexture() {
+					return WATER_FLOW;
+				}
 
-					@Override
-					public ResourceLocation getOverlayTexture() {
-						return WATER_OVERLAY;
-					}
+				@Override
+				public ResourceLocation getOverlayTexture() {
+					return WATER_OVERLAY;
+				}
 
-					@Override
-					public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
-						return UNDERWATER_LOCATION;
-					}
+				@Override
+				public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
+					return UNDERWATER_LOCATION;
+				}
 
-					@Override
-					public int getTintColor() {
-						return obj.chem().getColor();
-					}
+				@Override
+				public int getTintColor() {
+					return obj.chem().getColor();
+				}
 
-					@Override
-					public Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level,
-							int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
-						int color = getTintColor();
-						int r = (color >> 16) & 0xFF;
-						int g = (color >> 8) & 0xFF;
-						int b = (color) & 0xFF;
-						return new Vector3f((float) r / 255, (float) g / 255, (float) b / 255);
-					}
-				}, obj.fluid().getFluidType());
-			}
+				@Override
+				public Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance,
+						float darkenWorldAmount, Vector3f fluidFogColor) {
+					int color = getTintColor();
+					int r = (color >> 16) & 0xFF;
+					int g = (color >> 8) & 0xFF;
+					int b = (color) & 0xFF;
+					return new Vector3f((float) r / 255, (float) g / 255, (float) b / 255);
+				}
+			}, obj.type());
 		});
 	}
 }

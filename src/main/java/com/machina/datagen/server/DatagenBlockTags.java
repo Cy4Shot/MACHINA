@@ -129,6 +129,7 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(BlockTags.STONE_PRESSURE_PLATES).add(family.pressure_plate());
 
 		tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES).add(family.base());
+		tag(BlockTagInit.PLANET_CARVABLE).add(family.base());
 	}
 
 	private void woodFamily(WoodFamily family) {

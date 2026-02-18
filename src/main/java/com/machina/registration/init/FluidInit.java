@@ -102,17 +102,7 @@ public class FluidInit {
 
 	public static class FluidObject {
 
-		public static final FluidObject WATER = new FluidObject("water", "H20", c -> c) {
-			@Override
-			public FlowingFluid fluid() {
-				return Fluids.WATER;
-			}
-
-			@Override
-			public boolean isVanillaMapped() {
-				return true;
-			}
-		};
+		public static final FluidObject WATER = new FluidObject(Fluids.WATER, "water", c -> c);
 
 		private static final Item.Properties BUCKET_PROP = new Item.Properties().stacksTo(1)
 				.craftRemainder(Items.BUCKET);
@@ -120,13 +110,22 @@ public class FluidInit {
 
 		private final String name;
 		private final Chemical CHEM;
-		private final BaseFlowingFluid.Properties PROPS;
+		private BaseFlowingFluid.Properties PROPS;
 		private DeferredBlock<LiquidBlock> BLOCK;
 		private DeferredItem<MachinaBucket> BUCKET;
-		private Supplier<BaseFlowingFluid> FLUID;
+		private Supplier<FlowingFluid> FLUID;
 		private Supplier<BaseFlowingFluid> FLOWING;
 		private Supplier<FluidType> FLUID_TYPE;
 
+		// Vanilla constructor
+		public FluidObject(FlowingFluid fluid, String name, Function<ChemicalBuilder, ChemicalBuilder> builder) {
+			this.name = name;
+
+			CHEM = builder.apply(ChemicalBuilder.init()).build(name);
+			FLUID = () -> fluid;
+		}
+
+		// Machina constructor
 		public FluidObject(String name, String code, Function<ChemicalBuilder, ChemicalBuilder> builder) {
 			this.name = name;
 
@@ -177,6 +176,10 @@ public class FluidInit {
 			return CHEM;
 		}
 
+		public FluidType type() {
+			return FLUID_TYPE.get();
+		}
+
 		private static BaseFlowingFluid.Properties make(Supplier<FluidType> type, Supplier<FlowingFluid> still,
 				Supplier<FlowingFluid> flowing, Supplier<MachinaBucket> bucket, Supplier<LiquidBlock> block) {
 			return new BaseFlowingFluid.Properties(type, still, flowing).bucket(bucket).block(block);
@@ -186,10 +189,6 @@ public class FluidInit {
 			FluidType.Properties props = FluidType.Properties.create().density(value.getDensity()).temperature(0)
 					.lightLevel(value.getLuminosity());
 			return FLUID_TYPES.register(name, () -> new FluidType(props));
-		}
-
-		public boolean isVanillaMapped() {
-			return false;
 		}
 	}
 

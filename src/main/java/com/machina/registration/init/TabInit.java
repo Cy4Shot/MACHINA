@@ -26,7 +26,7 @@ public class TabInit {
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister
 			.create(Registries.CREATIVE_MODE_TAB, Machina.MOD_ID);
 
-	public static final Supplier<CreativeModeTab> MACHINA_MACHINERY = create("machina_machinery",
+	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINA_MACHINERY = create("machina_machinery",
 			BlockInit.FURNACE_GENERATOR, a -> {
 				add(a, BlockInit.ENERGY_CABLE);
 				add(a, BlockInit.FLUID_PIPE);
@@ -65,7 +65,7 @@ public class TabInit {
 				add(a, ItemInit.MOULD_WIRE);
 			});
 
-	public static final Supplier<CreativeModeTab> MACHINA_RESOURCES = create("machina_resources",
+	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINA_RESOURCES = create("machina_resources",
 			ItemInit.ALUMINUM_INGOT, a -> {
 
 				add(a, ItemInit.COAL_CHUNK);
@@ -94,7 +94,7 @@ public class TabInit {
 				}
 			});
 
-	public static final Supplier<CreativeModeTab> MACHINA_WORLDGEN = create("machina_worldgen",
+	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINA_WORLDGEN = create("machina_worldgen",
 			BlockInit.TROPICAL_GRASS_BLOCK, a -> {
 				family(a, FamiliesInit.DIRTS);
 				add(a, BlockInit.TROPICAL_SAND);
@@ -183,7 +183,7 @@ public class TabInit {
 				fruit(a, FruitInit.FRUITS);
 			});
 
-	public static final Supplier<CreativeModeTab> MACHINA_ROCKETRY = create("machina_rocketry",
+	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINA_ROCKETRY = create("machina_rocketry",
 			BlockInit.ROCKET_PART_BENCH, a -> {
 				add(a, BlockInit.ROCKET_PART_BENCH);
 				add(a, BlockInit.ROCKET_ASSEMBLY_STATION);
@@ -194,8 +194,8 @@ public class TabInit {
 				add(a, RocketPartInit.SHIELDS);
 			});
 
-	public static final Supplier<CreativeModeTab> MACHINA_MISCELLANEOUS = create("machina_misc", ItemInit.LOGIC_UNIT,
-			a -> {
+	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINA_MISCELLANEOUS = create("machina_misc",
+			ItemInit.LOGIC_UNIT, a -> {
 				add(a, ItemInit.COPPER_COIL);
 				add(a, ItemInit.LOGIC_UNIT);
 				add(a, ItemInit.PROCESSOR);
@@ -232,8 +232,8 @@ public class TabInit {
 		family.forEach(f -> f.tab().forEach(i -> add(adder, i)));
 	}
 
-	public static Supplier<CreativeModeTab> create(String name, Supplier<? extends ItemLike> item,
-			Consumer<CreativeModeTab.Output> gen) {
+	public static DeferredHolder<CreativeModeTab, CreativeModeTab> create(String name,
+			Supplier<? extends ItemLike> item, Consumer<CreativeModeTab.Output> gen) {
 		return CREATIVE_MODE_TABS.register(name,
 				() -> CreativeModeTab.builder().icon(() -> new ItemStack(item.get()))
 						.title(Component.translatable(Machina.MOD_ID + ".creativemodetab." + name))
