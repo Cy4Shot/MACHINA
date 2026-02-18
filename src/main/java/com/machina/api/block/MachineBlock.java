@@ -3,13 +3,18 @@ package com.machina.api.block;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
-import com.machina.api.util.block.BlockHelper;
+import com.machina.api.util.reflect.QuadFunction;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +26,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 
 public abstract class MachineBlock extends HorizontalDirectionalBlock implements EntityBlock {
 	protected MachineBlock(Properties props) {
@@ -32,12 +39,13 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
 		builder.add(FACING);
 	}
 
-	public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos,
-			@NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult res) {
-		if (world.isClientSide) {
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
+			BlockHitResult hitResult) {
+		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		} else {
-			BlockHelper.doWithTe(world, pos, getBlockEntityClass(), ((ServerPlayer) player)::openMenu);
+			((ServerPlayer) player).openMenu(state.getMenuProvider(level, pos));
 			return InteractionResult.CONSUME;
 		}
 	}
@@ -45,6 +53,8 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
 	public abstract Class<? extends MachinaBlockEntity> getBlockEntityClass();
 
 	public abstract BlockEntityType<?> getBlockEntityType();
+
+	protected abstract QuadFunction<Integer, Inventory, ContainerLevelAccess, IItemHandler, AbstractContainerMenu> createMenu();
 
 	protected boolean isTickable() {
 		return false;
@@ -67,5 +77,13 @@ public abstract class MachineBlock extends HorizontalDirectionalBlock implements
 			return (level1, pos, state1, blockEntity) -> ((MachinaBlockEntity) blockEntity).tick();
 		}
 		return EntityBlock.super.getTicker(level, state, type);
+	}
+
+	@Override
+	protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+		return new SimpleMenuProvider((containerId, playerInventory, player) -> {
+			return createMenu().apply(containerId, playerInventory, ContainerLevelAccess.create(level, pos),
+					level.getCapability(Capabilities.ItemHandler.BLOCK, pos, null));
+		}, Component.empty());
 	}
 }

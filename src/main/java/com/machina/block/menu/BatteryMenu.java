@@ -8,22 +8,22 @@ import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class BatteryMenu extends MachinaContainerMenu<BatteryBlockEntity> {
-	public BatteryMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
+	public BatteryMenu(int id, Inventory inv) {
+		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(3));
 	}
 
-	public BatteryMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.BATTERY.get(), level, pos, id);
+	public BatteryMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {
+		super(MenuTypeInit.BATTERY.get(), id, level);
 
-		this.addSlot(new AcceptSlot(be, 0, 108, -57, ItemStackUtil::isCapacitor));
-		this.addSlot(new AcceptSlot(be, 1, 21, 31, ItemStackUtil::hasEnergy));
-		this.addSlot(new AcceptSlot(be, 2, 198, 31, ItemStackUtil::hasEnergy));
+		this.addSlot(new AcceptSlot(container, 0, 108, -57, ItemStackUtil::isCapacitor));
+		this.addSlot(new AcceptSlot(container, 1, 21, 31, ItemStackUtil::hasEnergy));
+		this.addSlot(new AcceptSlot(container, 2, 198, 31, ItemStackUtil::hasEnergy));
 
 		invSlots(inv, 0);
 	}

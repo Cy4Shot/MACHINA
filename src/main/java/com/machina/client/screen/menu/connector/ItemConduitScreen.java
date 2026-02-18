@@ -56,13 +56,12 @@ public class ItemConduitScreen extends MachinaMenuScreen<ItemConduitMenu> {
 				}, () -> ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id)).comp());
 
 		// IO Slot
-		ConnectionSide side = menu.be.getConnection(menu.dir);
+		ConnectionSide side = menu.getConnection();
 		if (side.isIO()) {
 			drawToggleIO(gui, mx, my, 125, 34, side.isInput() ? Side.INPUT : Side.OUTPUT,
-					() -> menu.be.getConnection(menu.dir).comp()
-							.setStyle(Style.EMPTY.withColor(
-									menu.be.getConnection(menu.dir) == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
-					() -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.be.getBlockPos())));
+					() -> menu.getConnection().comp().setStyle(
+							Style.EMPTY.withColor(menu.getConnection() == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
+					() -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.getBlockPos())));
 		}
 
 		drawOverlay(gui);

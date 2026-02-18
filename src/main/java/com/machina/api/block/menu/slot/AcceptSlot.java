@@ -4,15 +4,15 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
-public class AcceptSlot extends Slot {
+public class AcceptSlot extends SlotItemHandler {
 
 	private final Predicate<ItemStack> acceptor;
 
-	public AcceptSlot(Container container, int id, int x, int y, Predicate<ItemStack> acceptor) {
+	public AcceptSlot(IItemHandler container, int id, int x, int y, Predicate<ItemStack> acceptor) {
 		super(container, id, x, y);
 
 		this.acceptor = acceptor;

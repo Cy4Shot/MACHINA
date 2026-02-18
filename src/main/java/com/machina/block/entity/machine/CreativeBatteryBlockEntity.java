@@ -3,14 +3,9 @@ package com.machina.block.entity.machine;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.block.BlockHelper;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.CreativeBatteryMenu;
 import com.machina.registration.init.BlockEntityInit;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -38,11 +33,6 @@ public class CreativeBatteryBlockEntity extends MachinaBlockEntity {
 		BlockHelper.sendEnergy(level, worldPosition, 1_000_000_000, 1_000_000_000, this);
 
 		super.tick();
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return CreativeBatteryMenu::new;
 	}
 
 	@Override

@@ -5,19 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.block.BlockHelper;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.FurnaceGeneratorMenu;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -115,11 +110,6 @@ public class FurnaceGeneratorBlockEntity extends MachinaBlockEntity {
 	@Override
 	public int getMaxEnergy() {
 		return CommonConfig.furnaceGeneratorCapacity.get();
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return FurnaceGeneratorMenu::new;
 	}
 
 	@Override

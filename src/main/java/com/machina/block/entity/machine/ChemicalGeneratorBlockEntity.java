@@ -6,16 +6,11 @@ import java.util.Map;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.block.BlockHelper;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.ChemicalGeneratorMenu;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.FluidInit;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -99,11 +94,6 @@ public class ChemicalGeneratorBlockEntity extends MachinaBlockEntity {
 	@Override
 	public int getMaxEnergy() {
 		return CommonConfig.chemicalGeneratorCapacity.get();
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return ChemicalGeneratorMenu::new;
 	}
 
 	@Override

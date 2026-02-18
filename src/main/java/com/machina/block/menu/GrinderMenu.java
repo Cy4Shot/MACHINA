@@ -8,22 +8,22 @@ import com.machina.block.entity.machine.GrinderBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class GrinderMenu extends MachinaContainerMenu<GrinderBlockEntity> {
 
-	public GrinderMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
+	public GrinderMenu(int id, Inventory inv) {
+		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(2));
 	}
 
-	public GrinderMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.GRINDER.get(), level, pos, id);
+	public GrinderMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {
+		super(MenuTypeInit.GRINDER.get(), id, level);
 
-		this.addSlot(new InvSlot(be, 0, 62, -17));
-		this.addSlot(new ResultSlot(be, 1, 154, -17));
+		this.addSlot(new InvSlot(container, 0, 62, -17));
+		this.addSlot(new ResultSlot(container, 1, 154, -17));
 
 		invSlots(inv, 0);
 	}

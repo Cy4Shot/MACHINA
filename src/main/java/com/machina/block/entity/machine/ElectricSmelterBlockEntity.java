@@ -6,22 +6,17 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.ElectricSmelterMenu;
 import com.machina.registration.init.BlockEntityInit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -175,11 +170,6 @@ public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
 	public int getPowerRate() {
 		// TODO: Config
 		return 50;
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return ElectricSmelterMenu::new;
 	}
 
 	@Override

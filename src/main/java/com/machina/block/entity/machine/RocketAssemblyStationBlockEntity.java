@@ -18,8 +18,6 @@ import com.machina.api.rocket.part.impl.FuelTankPart;
 import com.machina.api.rocket.part.impl.LifeSupportPart;
 import com.machina.api.rocket.part.impl.ShieldPart;
 import com.machina.api.rocket.part.impl.ThrusterPart;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.RocketAssemblyStationMenu;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.ItemInit;
 
@@ -29,10 +27,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -160,11 +155,6 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 	public int getMaxEnergy() {
 		// TODO: Config
 		return 100_000;
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return RocketAssemblyStationMenu::new;
 	}
 
 	@Override

@@ -10,14 +10,12 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.ConnectorBlock;
-import com.machina.api.block.menu.IDirectionalMenuProvider;
 import com.machina.api.cap.IConnectorStorage;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.SidedOptionalCache;
 import com.machina.api.client.model.connector.ConnectorModel.ConnectorModelData;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.api.util.block.BlockHelper;
-import com.machina.api.util.reflect.QuintFunction;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,9 +24,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -38,8 +33,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
-public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> extends ContainerBlockEntity
-		implements IDirectionalMenuProvider {
+public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> extends ContainerBlockEntity {
 
 	protected final int[] roundrobin;
 	private int recursionDepth;
@@ -88,16 +82,6 @@ public abstract class ConnectorBlockEntity<U, T extends IConnectorStorage<U>> ex
 			cbe.sync();
 		}
 	}
-
-	@Override
-	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player, Direction d) {
-		if (this.canOpen(player)) {
-			return getMenu().apply(id, getLevel(), getBlockPos(), inv, d);
-		}
-		return null;
-	}
-
-	public abstract QuintFunction<Integer, Level, BlockPos, Inventory, Direction, AbstractContainerMenu> getMenu();
 
 	@SuppressWarnings("unchecked")
 	public boolean filter(Direction dir, U resource) {

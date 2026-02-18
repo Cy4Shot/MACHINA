@@ -9,18 +9,13 @@ import com.machina.api.cap.sided.Side;
 import com.machina.api.client.model.SidedBakedModel;
 import com.machina.api.util.ItemStackUtil;
 import com.machina.api.util.block.BlockHelper;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.BatteryMenu;
 import com.machina.config.CommonConfig;
 import com.machina.item.CapacitorItem;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.DataComponentsInit;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -91,11 +86,6 @@ public class BatteryBlockEntity extends MachinaBlockEntity {
 	@Override
 	public boolean isLit() {
 		return this.getEnergy() > 0;
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return BatteryMenu::new;
 	}
 
 	private <T> T doWithCapacitor(BiFunction<ItemStack, CapacitorItem, T> func, T def) {

@@ -7,8 +7,6 @@ import java.util.Map;
 import com.google.common.base.Predicates;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.AtmosphericSeparatorMenu;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -16,8 +14,6 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -79,11 +75,6 @@ public class AtmosphericSeparatorBlockEntity extends MachinaBlockEntity {
 				this.fill(i, new FluidStack(p.getFirst().fluid(), p.getSecond()), FluidAction.EXECUTE);
 			}
 		}
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return AtmosphericSeparatorMenu::new;
 	}
 
 	@Override

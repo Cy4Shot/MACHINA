@@ -8,8 +8,6 @@ import com.google.common.base.Predicates;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.util.ItemStackUtil;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.TankMenu;
 import com.machina.registration.init.BlockEntityInit;
 
 import net.minecraft.core.BlockPos;
@@ -17,10 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -78,11 +73,6 @@ public class TankBlockEntity extends MachinaBlockEntity {
 				this.setChanged();
 			}
 		}
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return TankMenu::new;
 	}
 
 	@Override

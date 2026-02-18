@@ -1,26 +1,25 @@
 package com.machina.block.menu;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import com.machina.api.block.MachineBlock;
 import com.machina.api.block.menu.MachinaContainerMenu;
 import com.machina.block.entity.machine.ChemicalGeneratorBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class ChemicalGeneratorMenu extends MachinaContainerMenu<ChemicalGeneratorBlockEntity> {
 
-	public ChemicalGeneratorMenu(int id, Inventory inv, @NonNull FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
+	public ChemicalGeneratorMenu(int id, Inventory inv, FriendlyByteBuf buf) {
+		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(0));
 	}
 
-	public ChemicalGeneratorMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.CHEMICAL_GENERATOR.get(), level, pos, id);
+	public ChemicalGeneratorMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {
+		super(MenuTypeInit.CHEMICAL_GENERATOR.get(), id, level);
 
 		invSlots(inv, 0);
 	}

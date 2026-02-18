@@ -9,8 +9,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public record S2CRocketScreenOpen(int window, int size, int entity) implements S2CMessage<S2CRocketScreenOpen> {
 
@@ -34,7 +34,7 @@ public record S2CRocketScreenOpen(int window, int size, int entity) implements S
 			if (entity instanceof RocketEntity) {
 				LocalPlayer localplayer = mc.player;
 				RocketEntity rocket = (RocketEntity) entity;
-				SimpleContainer simplecontainer = new SimpleContainer(size);
+				ItemStackHandler simplecontainer = new ItemStackHandler(size);
 				RocketMenu rocketmenu = new RocketMenu(window, localplayer.getInventory(), simplecontainer, rocket);
 				localplayer.containerMenu = rocketmenu;
 				mc.setScreen(new RocketScreen(rocketmenu, localplayer.getInventory(), rocketmenu.getName()));

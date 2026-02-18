@@ -6,19 +6,19 @@ import com.machina.block.entity.machine.AtmosphericSeparatorBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class AtmosphericSeparatorMenu extends MachinaContainerMenu<AtmosphericSeparatorBlockEntity> {
 
-	public AtmosphericSeparatorMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
+	public AtmosphericSeparatorMenu(int id, Inventory inv) {
+		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(0));
 	}
 
-	public AtmosphericSeparatorMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), level, pos, id);
+	public AtmosphericSeparatorMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {
+		super(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), id, level);
 		invSlots(inv, 0);
 	}
 

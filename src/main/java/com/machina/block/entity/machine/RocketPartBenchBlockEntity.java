@@ -12,8 +12,6 @@ import com.machina.api.item.RocketPartItem;
 import com.machina.api.recipe.MachinaRecipe;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.util.PlayerHelper;
-import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.menu.RocketPartBenchMenu;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.RecipeInit;
 
@@ -23,12 +21,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -102,11 +97,6 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
 	public int getMaxEnergy() {
 		// TODO: Config
 		return 1_000_000;
-	}
-
-	@Override
-	protected QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu() {
-		return RocketPartBenchMenu::new;
 	}
 
 	public boolean isCrafting() {

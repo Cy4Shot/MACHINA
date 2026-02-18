@@ -68,6 +68,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class RocketEntity extends Entity implements ContainerListener, HasCustomInventoryScreen, ContainerEntity,
@@ -333,7 +334,8 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 		player.nextContainerCounter();
 		PacketDistributor.sendToPlayer(player,
 				new S2CRocketScreenOpen(player.containerCounter, this.inventory.getContainerSize(), getId()));
-		player.containerMenu = new RocketMenu(player.containerCounter, player.getInventory(), this.inventory, this);
+		player.containerMenu = new RocketMenu(player.containerCounter, player.getInventory(),
+				new InvWrapper(this.inventory), this);
 		player.initMenu(player.containerMenu);
 		NeoForge.EVENT_BUS.post(new PlayerContainerEvent.Open(player, player.containerMenu));
 	}
@@ -540,7 +542,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 
 	@Override
 	public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-		return new RocketMenu(containerId, playerInventory, this.inventory, this);
+		return new RocketMenu(containerId, playerInventory, new InvWrapper(this.inventory), this);
 	}
 
 	@Override

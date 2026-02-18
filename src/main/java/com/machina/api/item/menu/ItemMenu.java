@@ -3,7 +3,7 @@ package com.machina.api.item.menu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.machina.api.block.entity.MachinaBlockEntity;
+import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
 import com.machina.api.network.c2s.C2SItemMenuSync;
 
@@ -96,7 +96,7 @@ public abstract class ItemMenu extends MachinaAnyMenu {
 	}
 
 	@Override
-	public @Nullable MachinaBlockEntity getBlockEntity() {
+	public ContainerBlockEntity getBlockEntity() {
 		return null;
 	}
 

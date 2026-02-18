@@ -2,13 +2,13 @@ package com.machina.api.block.menu.slot;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
-public class ResultSlot extends Slot {
+public class ResultSlot extends SlotItemHandler {
 
-	public ResultSlot(Container container, int id, int x, int y) {
+	public ResultSlot(IItemHandler container, int id, int x, int y) {
 		super(container, id, x, y);
 	}
 

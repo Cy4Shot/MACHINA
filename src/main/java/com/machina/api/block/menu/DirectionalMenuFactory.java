@@ -34,7 +34,7 @@ public class DirectionalMenuFactory {
 			throw new IllegalArgumentException(
 					"Invalid PacketBuffer for directional menu, found " + output.readableBytes() + " bytes");
 		}
-		var c = cont.createMenu(openContainerId, player.getInventory(), player, d);
+		var c = cont.createMenu(openContainerId, player.getInventory(), player, pos, d);
 		if (c == null)
 			return;
 		MenuType<?> type = c.getType();

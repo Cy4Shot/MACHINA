@@ -27,7 +27,8 @@ public class CameraClientEntity extends AbstractClientPlayer {
 	public CameraClientEntity() {
 		super(Objects.requireNonNull(mc.level), Objects.requireNonNull(mc.player).getGameProfile());
 
-		this.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).addTransientModifier(new AttributeModifier(MachinaRL.ID, -99999, Operation.ADD_VALUE));
+		this.getAttribute(NeoForgeMod.CREATIVE_FLIGHT)
+				.addTransientModifier(new AttributeModifier(MachinaRL.ID, -99999, Operation.ADD_VALUE));
 		this.getAbilities().flying = true;
 		this.getAbilities().invulnerable = true;
 	}

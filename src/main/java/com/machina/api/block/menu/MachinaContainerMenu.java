@@ -5,42 +5,31 @@ import org.jetbrains.annotations.Nullable;
 
 import com.machina.api.block.entity.ContainerBlockEntity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public abstract class MachinaContainerMenu<T extends WorldlyContainer> extends MachinaAnyMenu {
 
-	public final T be;
+	protected final ContainerLevelAccess access;
 
-	@SuppressWarnings("unchecked")
-	public MachinaContainerMenu(MenuType<?> type, Level level, BlockPos pos, int id) {
+	public MachinaContainerMenu(MenuType<?> type, int id, ContainerLevelAccess access) {
 		super(type, id);
-		this.be = (T) level.getBlockEntity(pos);
-	}
-
-	@SuppressWarnings("resource")
-	@OnlyIn(Dist.CLIENT)
-	protected static Level clientLevel() {
-		return Minecraft.getInstance().level;
+		this.access = access;
 	}
 
 	protected abstract Block getBlock();
 
 	@Override
 	public boolean stillValid(@NotNull Player player) {
-		return this.be.stillValid(player);
+		return stillValid(this.access, player, getBlock());
 	}
 
 	@Override
@@ -54,39 +43,53 @@ public abstract class MachinaContainerMenu<T extends WorldlyContainer> extends M
 	}
 
 	@Override
-	public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
-		ItemStack stack = ItemStack.EMPTY;
-		Slot slot = this.slots.get(index);
-		if (slot.hasItem()) {
-			ItemStack stack1 = slot.getItem();
-			stack = stack1.copy();
-			if (index < be.getContainerSize()
-					&& !this.moveItemStackTo(stack1, be.getContainerSize(), this.slots.size(), true)) {
-				return ItemStack.EMPTY;
-			}
-			if (!this.moveItemStackTo(stack1, 0, be.getContainerSize(), false)) {
+	public ItemStack quickMoveStack(Player player, int quickMovedSlotIndex) {
+		ItemStack quickMovedStack = ItemStack.EMPTY;
+		Slot quickMovedSlot = this.slots.get(quickMovedSlotIndex);
+
+		if (quickMovedSlot != null && quickMovedSlot.hasItem()) {
+			ItemStack rawStack = quickMovedSlot.getItem();
+			quickMovedStack = rawStack.copy();
+
+			if (quickMovedSlotIndex == 0) {
+				if (!this.moveItemStackTo(rawStack, 5, 41, true)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (quickMovedSlotIndex >= 5 && quickMovedSlotIndex < 41) {
+				if (!this.moveItemStackTo(rawStack, 1, 5, false)) {
+					if (quickMovedSlotIndex < 32) {
+						if (!this.moveItemStackTo(rawStack, 32, 41, false)) {
+							return ItemStack.EMPTY;
+						}
+					} else if (!this.moveItemStackTo(rawStack, 5, 32, false)) {
+						return ItemStack.EMPTY;
+					}
+				}
+			} else if (!this.moveItemStackTo(rawStack, 5, 41, false)) {
 				return ItemStack.EMPTY;
 			}
 
-			if (stack1.isEmpty()) {
-				slot.set(ItemStack.EMPTY);
+			if (rawStack.isEmpty()) {
+				quickMovedSlot.set(ItemStack.EMPTY);
 			} else {
-				slot.setChanged();
+				quickMovedSlot.setChanged();
 			}
 		}
-		return stack;
-	}
 
-	public Container getContainer() {
-		return this.be;
+		return quickMovedStack;
 	}
 
 	@Override
-	public @Nullable ContainerBlockEntity getBlockEntity() {
-		if (this.be instanceof ContainerBlockEntity containerBlockEntity) {
-			return containerBlockEntity;
-		}
-		return null;
+	public ContainerBlockEntity getBlockEntity() {
+		return this.access.evaluate((level, pos) -> level.getBlockEntity(pos)).map(e -> {
+			if (e instanceof ContainerBlockEntity cbe) {
+				return cbe;
+			}
+			return null;
+		}).orElse(null);
 	}
 
+	public BlockPos getBlockPos() {
+		return this.access.evaluate((level, pos) -> pos).get();
+	}
 }

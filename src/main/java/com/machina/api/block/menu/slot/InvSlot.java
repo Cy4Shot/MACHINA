@@ -1,11 +1,11 @@
 package com.machina.api.block.menu.slot;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.Slot;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
-public class InvSlot extends Slot {
+public class InvSlot extends SlotItemHandler {
 
-	public InvSlot(Container container, int id, int x, int y) {
+	public InvSlot(IItemHandler container, int id, int x, int y) {
 		super(container, id, x, y);
 	}
 

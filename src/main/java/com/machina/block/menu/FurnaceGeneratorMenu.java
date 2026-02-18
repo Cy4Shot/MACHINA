@@ -1,7 +1,5 @@
 package com.machina.block.menu;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 import com.machina.api.block.MachineBlock;
 import com.machina.api.block.menu.MachinaContainerMenu;
 import com.machina.api.block.menu.slot.AcceptSlot;
@@ -10,21 +8,21 @@ import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class FurnaceGeneratorMenu extends MachinaContainerMenu<FurnaceGeneratorBlockEntity> {
 
-	public FurnaceGeneratorMenu(int id, Inventory inv, @NonNull FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
+	public FurnaceGeneratorMenu(int id, Inventory inv) {
+		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(1));
 	}
 
-	public FurnaceGeneratorMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.FURNACE_GENERATOR.get(), level, pos, id);
+	public FurnaceGeneratorMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {
+		super(MenuTypeInit.FURNACE_GENERATOR.get(), id, level);
 
-		this.addSlot(new AcceptSlot(be, 0, 108, -25, ItemStackUtil::isBurnable));
+		this.addSlot(new AcceptSlot(container, 0, 108, -25, ItemStackUtil::isBurnable));
 
 		invSlots(inv, 0);
 	}

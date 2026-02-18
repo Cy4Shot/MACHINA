@@ -67,8 +67,7 @@ public class ConnectorModel implements IDynamicBakedModel {
 
 	@Override
 	public @NotNull TextureAtlasSprite getParticleIcon() {
-		return spriteGetter
-				.apply(new Material(InventoryMenu.BLOCK_ATLAS, MachinaRL.create(connText(type, "middle"))));
+		return spriteGetter.apply(new Material(InventoryMenu.BLOCK_ATLAS, MachinaRL.create(connText(type, "middle"))));
 	}
 
 	@Override

@@ -9,9 +9,11 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.block.entity.ConnectorBlockEntity.Connection;
 import com.machina.api.block.menu.DirectionalMenuFactory;
+import com.machina.api.block.menu.IDirectionalMenuProvider;
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.math.MathUtil;
+import com.machina.api.util.reflect.QuintFunction;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -20,7 +22,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -39,8 +44,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 
-public abstract class ConnectorBlock extends Block implements EntityBlock, IClickableBlock {
+public abstract class ConnectorBlock extends Block implements EntityBlock, IClickableBlock, IDirectionalMenuProvider {
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");
 
 	private static final VoxelShape PART_C = Block.box(6, 6, 6, 10, 10, 10);
@@ -203,7 +210,7 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 					if (CONNS[d.get3DDataValue()].bounds().distanceToSqr(offset) < 0.001f) {
 						if (player.isShiftKeyDown()) {
 							if (!level.isClientSide()) {
-								DirectionalMenuFactory.create((ServerPlayer) player, cable, pos, d);
+								DirectionalMenuFactory.create((ServerPlayer) player, this, pos, d);
 								return ItemInteractionResult.SUCCESS;
 							}
 							return ItemInteractionResult.CONSUME;
@@ -305,4 +312,14 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 		return type == getBlockEntityType() ? ConnectorBlockEntity::tick : null;
 	}
 
+	@Override
+	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player, BlockPos pos, Direction d) {
+		if (getMenu() != null) {
+			return getMenu().apply(id, inv, ContainerLevelAccess.create(player.level(), pos),
+					player.level().getCapability(Capabilities.ItemHandler.BLOCK, pos, d), d);
+		}
+		return null;
+	}
+
+	public abstract QuintFunction<Integer, Inventory, ContainerLevelAccess, IItemHandler, Direction, AbstractContainerMenu> getMenu();
 }

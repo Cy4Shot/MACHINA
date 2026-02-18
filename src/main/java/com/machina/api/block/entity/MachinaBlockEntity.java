@@ -6,11 +6,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.machina.api.block.menu.IMachinaMenuProvider;
 import com.machina.api.cap.energy.MachinaEnergyStorage;
 import com.machina.api.cap.fluid.MachinaTank;
 import com.machina.api.cap.sided.ISideAdapter;
@@ -18,7 +15,6 @@ import com.machina.api.cap.sided.MultiSidedStorage;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.cap.sided.SidedStorage;
 import com.machina.api.util.block.BlockProperties;
-import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.machine.BatteryBlock;
 
 import net.minecraft.core.BlockPos;
@@ -29,11 +25,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -47,7 +39,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
  * @author Cy4Shot
  * @since Machina v0.1.0
  */
-public abstract class MachinaBlockEntity extends ContainerBlockEntity implements IMachinaMenuProvider {
+public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 
 	protected MultiSidedStorage<MachinaEnergyStorage> energyCap;
 	protected NonNullList<Side[]> itemSides = NonNullList.create();
@@ -371,14 +363,6 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity implements
 		}
 		super.setChanged();
 	}
-
-	@Nullable
-	@Override
-	public AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
-		return this.canOpen(player) ? createMenu().apply(id, this.level, this.worldPosition, inv) : null;
-	}
-
-	protected abstract QuadFunction<Integer, Level, BlockPos, Inventory, AbstractContainerMenu> createMenu();
 
 	public void tick() {
 		BlockState state = getBlockState();

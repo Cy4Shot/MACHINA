@@ -8,24 +8,24 @@ import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.MenuTypeInit;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class ReactionChamberMenu extends MachinaContainerMenu<ReactionChamberBlockEntity> {
 
-	public ReactionChamberMenu(int id, Inventory inv, FriendlyByteBuf buf) {
-		this(id, clientLevel(), buf.readBlockPos(), inv);
+	public ReactionChamberMenu(int id, Inventory inv) {
+		this(id, inv, ContainerLevelAccess.NULL, new ItemStackHandler(4));
 	}
 
-	public ReactionChamberMenu(int id, Level level, BlockPos pos, Inventory inv) {
-		super(MenuTypeInit.REACTION_CHAMBER.get(), level, pos, id);
+	public ReactionChamberMenu(int id, Inventory inv, ContainerLevelAccess level, IItemHandler container) {
+		super(MenuTypeInit.REACTION_CHAMBER.get(), id, level);
 
-		this.addSlot(new InvSlot(be, 0, 5, 30));
-		this.addSlot(new InvSlot(be, 1, 25, 30));
-		this.addSlot(new ResultSlot(be, 2, 194, 30));
-		this.addSlot(new ResultSlot(be, 3, 214, 30));
+		this.addSlot(new InvSlot(container, 0, 5, 30));
+		this.addSlot(new InvSlot(container, 1, 25, 30));
+		this.addSlot(new ResultSlot(container, 2, 194, 30));
+		this.addSlot(new ResultSlot(container, 3, 214, 30));
 
 		invSlots(inv, 0);
 	}

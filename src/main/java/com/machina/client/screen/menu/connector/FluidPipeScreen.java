@@ -40,10 +40,8 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
 			IFluidHandlerItem f = handler.get();
 			FluidStack fluid = f.getFluidInTank(0);
 			if (!fluid.isEmpty() && menu.getBlockEntity() != null) {
-				ItemStack newStack = FluidFilterItem.set(menu.getBlockEntity().getItem(menu.id(0)), fluid.getFluid(),
-						null);
-				PacketDistributor
-						.sendToServer(new C2SMenuSetItem(menu.id(0), newStack, menu.getBlockEntity().getBlockPos()));
+				ItemStack newStack = FluidFilterItem.set(menu.getSlot(menu.id(0)).getItem(), fluid.getFluid(), null);
+				PacketDistributor.sendToServer(new C2SMenuSetItem(menu.id(0), newStack, menu.getBlockPos()));
 			}
 		}
 	}
@@ -84,13 +82,12 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
 				}, () -> FluidFilterItem.getMode(menu.getBlockEntity().getItem(id)).comp());
 
 		// IO Slot
-		ConnectionSide side = menu.be.getConnection(menu.dir);
+		ConnectionSide side = menu.getConnection();
 		if (side.isIO()) {
 			drawToggleIO(gui, mx, my, 140, 34, side.isInput() ? Side.INPUT : Side.OUTPUT,
-					() -> menu.be.getConnection(menu.dir).comp()
-							.setStyle(Style.EMPTY.withColor(
-									menu.be.getConnection(menu.dir) == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
-					() -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.be.getBlockPos())));
+					() -> menu.getConnection().comp().setStyle(
+							Style.EMPTY.withColor(menu.getConnection() == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
+					() -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.getBlockPos())));
 		}
 
 		drawOverlay(gui);
