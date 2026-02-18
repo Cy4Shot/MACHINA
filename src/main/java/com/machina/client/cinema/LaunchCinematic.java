@@ -26,7 +26,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public class LaunchCinematic extends PathCinematic {
 
     private final int id;
-    
+
     public LaunchCinematic(RocketEntity entity) {
         this(new CameraClientEntity(), entity);
     }
@@ -51,15 +51,15 @@ public class LaunchCinematic extends PathCinematic {
             double off = Math.pow(Math.E, (double) ting / 9D) - 1D;
             clientEntity.moveTo(pos.add(0, off, 0));
             entity.moveTo(pos.add(0, off, 0));
-            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.FLAME, -0.1f, 20, pos.add(0, off - 2.1D, 0),
-                    new Vec3(0d, 1d, 0d)));
-            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.ANGRY_VILLAGER, -0.1f, 2,
-                    pos.add(0, off - 2.1D, 0), new Vec3(1d, 1d, 1d)));
-            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
-                    pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
-            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 10,
+            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.FLAME, -0.1f, 20,
                     pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
-            PacketDistributor.sendToServer(new C2SSpawnParticle<>(ParticleTypes.EXPLOSION, -0.1f, 6,
+            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.ANGRY_VILLAGER, -0.1f, 2,
+                    pos.add(0, off - 2.1D, 0), new Vec3(1d, 1d, 1d)));
+            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 5,
+                    pos.add(0, off - 2.1D, 0), new Vec3(0.1d, 1d, 0.1d)));
+            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, -0.1f, 10,
+                    pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
+            PacketDistributor.sendToServer(new C2SSpawnParticle(ParticleTypes.EXPLOSION, -0.1f, 6,
                     pos.add(0, off - 2.1D, 0), new Vec3(0d, 1d, 0d)));
             PacketDistributor.sendToServer(new C2SRocketCinematicOffset(this.id, pos, off));
         });
@@ -98,7 +98,7 @@ public class LaunchCinematic extends PathCinematic {
         super.finish();
         PacketDistributor.sendToServer(new C2SRocketLaunchComplete(this.id));
     }
-    
+
     @Override
     protected boolean suppressFadeReset() {
         return true;

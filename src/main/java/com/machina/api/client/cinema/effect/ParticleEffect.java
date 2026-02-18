@@ -27,7 +27,7 @@ public class ParticleEffect implements CameraEffect {
     @Override
     public void tickEffect(int tick) {
         if (new Random().nextFloat() < chance)
-            PacketDistributor.sendToServer(new C2SSpawnParticle<>(particle, speed, 1, pos, maxOffset));
+            PacketDistributor.sendToServer(new C2SSpawnParticle(particle, speed, 1, pos, maxOffset));
     }
 
 }
