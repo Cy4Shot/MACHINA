@@ -19,7 +19,7 @@ public class ClientForgeEvents {
     private static final Minecraft mc = Minecraft.getInstance();
 
     @SubscribeEvent
-    public static void onClientTick(final ClientTickEvent event) {
+    public static void onClientTick(final ClientTickEvent.Pre event) {
         if (mc.screen != null || mc.level == null)
             return;
 

@@ -7,6 +7,7 @@ import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.BlockStateProviderInit;
 import com.machina.registration.init.ChunkGeneratorInit;
+import com.machina.registration.init.DataComponentsInit;
 import com.machina.registration.init.EntityDataSerializerInit;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.FluidInit;
@@ -37,6 +38,7 @@ public class Registration {
         PlanetRockInit.ROCKS.register(bus);
         PlanetSurfaceInit.SURFACES.register(bus);
         SoundInit.SOUNDS.register(bus);
+        DataComponentsInit.DATA_COMPONENTS.register(bus);
         ItemInit.ITEMS.register(bus);
         RocketPartInit.ROCKET_PARTS.register(bus);
         BlockInit.BLOCKS.register(bus);

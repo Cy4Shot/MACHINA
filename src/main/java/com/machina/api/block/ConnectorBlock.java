@@ -40,130 +40,137 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class ConnectorBlock extends Block implements EntityBlock, IClickableBlock {
-    public static final BooleanProperty TILE = BooleanProperty.create("tile");
+	public static final BooleanProperty TILE = BooleanProperty.create("tile");
 
-    private static final VoxelShape PART_C = Block.box(6, 6, 6, 10, 10, 10);
-    private static final VoxelShape PART_M = Block.box(6.5, 6.5, 6.5, 9.5, 9.5, 9.5);
-    private static final VoxelShape PART_N = Block.box(6.5, 6.5, 0, 9.5, 9.5, 7);
-    private static final VoxelShape PART_E = Block.box(9.5, 6.5, 6.5, 16, 9.5, 9.5);
-    private static final VoxelShape PART_S = Block.box(6.5, 6.5, 9.5, 9.5, 9.5, 16);
-    private static final VoxelShape PART_W = Block.box(0, 6.5, 6.5, 6.5, 9.5, 9.5);
-    private static final VoxelShape PART_U = Block.box(6.5, 9.5, 6.5, 9.5, 16, 9.5);
-    private static final VoxelShape PART_D = Block.box(6.5, 0, 6.5, 9.5, 7, 9.5);
+	private static final VoxelShape PART_C = Block.box(6, 6, 6, 10, 10, 10);
+	private static final VoxelShape PART_M = Block.box(6.5, 6.5, 6.5, 9.5, 9.5, 9.5);
+	private static final VoxelShape PART_N = Block.box(6.5, 6.5, 0, 9.5, 9.5, 7);
+	private static final VoxelShape PART_E = Block.box(9.5, 6.5, 6.5, 16, 9.5, 9.5);
+	private static final VoxelShape PART_S = Block.box(6.5, 6.5, 9.5, 9.5, 9.5, 16);
+	private static final VoxelShape PART_W = Block.box(0, 6.5, 6.5, 6.5, 9.5, 9.5);
+	private static final VoxelShape PART_U = Block.box(6.5, 9.5, 6.5, 9.5, 16, 9.5);
+	private static final VoxelShape PART_D = Block.box(6.5, 0, 6.5, 9.5, 7, 9.5);
 
-    private static final VoxelShape CONN_N = Block.box(6, 6, 0, 10, 10, 3);
-    private static final VoxelShape CONN_E = Block.box(13, 6, 6, 16, 10, 10);
-    private static final VoxelShape CONN_S = Block.box(6, 6, 13, 10, 10, 16);
-    private static final VoxelShape CONN_W = Block.box(0, 6, 6, 3, 10, 10);
-    private static final VoxelShape CONN_U = Block.box(6, 13, 6, 10, 16, 10);
-    private static final VoxelShape CONN_D = Block.box(6, 0, 6, 10, 3, 10);
+	private static final VoxelShape CONN_N = Block.box(6, 6, 0, 10, 10, 3);
+	private static final VoxelShape CONN_E = Block.box(13, 6, 6, 16, 10, 10);
+	private static final VoxelShape CONN_S = Block.box(6, 6, 13, 10, 10, 16);
+	private static final VoxelShape CONN_W = Block.box(0, 6, 6, 3, 10, 10);
+	private static final VoxelShape CONN_U = Block.box(6, 13, 6, 10, 16, 10);
+	private static final VoxelShape CONN_D = Block.box(6, 0, 6, 10, 3, 10);
 
-    private static final VoxelShape[] PARTS = new VoxelShape[] { PART_D, PART_U, PART_N, PART_S, PART_W, PART_E };
-    private static final VoxelShape[] CONNS = new VoxelShape[] { CONN_D, CONN_U, CONN_N, CONN_S, CONN_W, CONN_E };
+	private static final VoxelShape[] PARTS = new VoxelShape[] { PART_D, PART_U, PART_N, PART_S, PART_W, PART_E };
+	private static final VoxelShape[] CONNS = new VoxelShape[] { CONN_D, CONN_U, CONN_N, CONN_S, CONN_W, CONN_E };
 
-    public ConnectorBlock(Properties props) {
-        super(props.noOcclusion());
+	private static final boolean[] DEFAULT_MODEL = new boolean[] { false, false, false, false, false, false, false };
 
-        this.registerDefaultState(this.stateDefinition.any().setValue(TILE, false));
-    }
+	public ConnectorBlock(Properties props) {
+		super(props.noOcclusion());
 
-    public boolean[] getModelData(@NotNull Level level, BlockPos pos) {
-        boolean north = canAttach(level, pos, Direction.NORTH);
-        boolean south = canAttach(level, pos, Direction.SOUTH);
-        boolean west = canAttach(level, pos, Direction.WEST);
-        boolean east = canAttach(level, pos, Direction.EAST);
-        boolean up = canAttach(level, pos, Direction.UP);
-        boolean down = canAttach(level, pos, Direction.DOWN);
+		this.registerDefaultState(this.stateDefinition.any().setValue(TILE, false));
+	}
 
-        boolean middle = false;
-        if (MathUtil.numTrue(north, south, west, east, up, down) == 2) {
-            for (Direction dir : Direction.values()) {
-                if (canAttach(level, pos, dir)) {
-                    if (canAttach(level, pos, dir.getOpposite()))
-                        middle = true;
-                    break;
-                }
-            }
-        }
+	public boolean[] getModelData(@NotNull Level level, BlockPos pos) {
+		boolean north = canAttach(level, pos, Direction.NORTH);
+		boolean south = canAttach(level, pos, Direction.SOUTH);
+		boolean west = canAttach(level, pos, Direction.WEST);
+		boolean east = canAttach(level, pos, Direction.EAST);
+		boolean up = canAttach(level, pos, Direction.UP);
+		boolean down = canAttach(level, pos, Direction.DOWN);
 
-        return new boolean[] { down, up, north, south, west, east, middle };
-    }
+		boolean middle = false;
+		if (MathUtil.numTrue(north, south, west, east, up, down) == 2) {
+			for (Direction dir : Direction.values()) {
+				if (canAttach(level, pos, dir)) {
+					if (canAttach(level, pos, dir.getOpposite()))
+						middle = true;
+					break;
+				}
+			}
+		}
 
-    @Override
-    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
-            @NotNull CollisionContext pContext) {
-        boolean[] data = getModelData(level.getBlockEntity(pos).getLevel(), pos);
-        VoxelShape shape = data[6] ? PART_M : PART_C;
-        for (int i = 0; i < 6; i++) {
-            if (data[i])
-                shape = Shapes.or(shape, PARTS[i]);
-        }
+		return new boolean[] { down, up, north, south, west, east, middle };
+	}
 
-        BlockEntity be = level.getBlockEntity(pos);
-        if (be != null && be instanceof ConnectorBlockEntity<?, ?> cable) {
-            for (Direction d : Direction.values()) {
-                if (data[d.get3DDataValue()] && cable.getConnection(d).isIO()) {
-                    shape = Shapes.or(shape, CONNS[d.get3DDataValue()]);
-                }
-            }
-        }
+	@Override
+	public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
+			@NotNull CollisionContext pContext) {
+		BlockEntity be = level.getBlockEntity(pos);
+		boolean[] data;
+		if (be != null) {
+			data = getModelData(be.getLevel(), pos);
+		} else {
+			data = DEFAULT_MODEL;
+		}
+		VoxelShape shape = data[6] ? PART_M : PART_C;
+		for (int i = 0; i < 6; i++) {
+			if (data[i])
+				shape = Shapes.or(shape, PARTS[i]);
+		}
 
-        return shape;
-    }
+		if (be != null && be instanceof ConnectorBlockEntity<?, ?> cable) {
+			for (Direction d : Direction.values()) {
+				if (data[d.get3DDataValue()] && cable.getConnection(d).isIO()) {
+					shape = Shapes.or(shape, CONNS[d.get3DDataValue()]);
+				}
+			}
+		}
 
-    @SuppressWarnings("unchecked")
-    public void syncConnections(Level level, BlockPos pos) {
-        BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, cable -> {
-            if (!level.isClientSide()) {
-                cable.dirs.clear();
-                for (Direction dir : Direction.values()) {
-                    if (isConnectable(level, pos, dir))
-                        cable.dirs.add(dir);
-                }
-            }
-        });
-    }
+		return shape;
+	}
 
-    @Override
-    public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing,
-            @NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
-            @NotNull BlockPos facingPos) {
-        if (level instanceof ClientLevel clientLevel) {
-            if (level.isClientSide() && clientLevel.getModelDataManager() != null) {
-                BlockHelper.doWithTe(level, pos, BlockEntity.class, clientLevel.getModelDataManager()::requestRefresh);
-            }
-        } else {
-            if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
-                findConnectors(level, pos, pos);
-            }
-        }
-        return createState(level.getBlockEntity(pos).getLevel(), pos);
-    }
+	@SuppressWarnings("unchecked")
+	public void syncConnections(Level level, BlockPos pos) {
+		BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, cable -> {
+			if (!level.isClientSide()) {
+				cable.dirs.clear();
+				for (Direction dir : Direction.values()) {
+					if (isConnectable(level, pos, dir))
+						cable.dirs.add(dir);
+				}
+			}
+		});
+	}
 
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        return createState(ctx.getLevel(), ctx.getClickedPos());
-    }
+	@Override
+	public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction facing,
+			@NotNull BlockState facingState, @NotNull LevelAccessor level, @NotNull BlockPos pos,
+			@NotNull BlockPos facingPos) {
+		if (level instanceof ClientLevel clientLevel) {
+			if (level.isClientSide() && clientLevel.getModelDataManager() != null) {
+				BlockHelper.doWithTe(level, pos, BlockEntity.class, clientLevel.getModelDataManager()::requestRefresh);
+			}
+		} else {
+			if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
+				findConnectors(level, pos, pos);
+			}
+		}
+		return createState(level.getBlockEntity(pos).getLevel(), pos);
+	}
 
-    public abstract boolean canConnect(Level level, BlockPos be, Direction dir);
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+		return createState(ctx.getLevel(), ctx.getClickedPos());
+	}
 
-    private boolean isConnectable(Level level, BlockPos pos, Direction dir) {
-        BlockEntity be = level.getBlockEntity(pos.relative(dir));
-        return !(be instanceof ConnectorBlockEntity) && canConnect(level, pos.relative(dir), dir.getOpposite());
-    }
+	public abstract boolean canConnect(Level level, BlockPos be, Direction dir);
 
-    private boolean canAttach(Level level, BlockPos pos, Direction dir) {
-        boolean connectable = isConnectable(level, pos, dir);
-        return level.getBlockState(pos.relative(dir)).getBlock() == this || connectable;
-    }
+	private boolean isConnectable(Level level, BlockPos pos, Direction dir) {
+		BlockEntity be = level.getBlockEntity(pos.relative(dir));
+		return !(be instanceof ConnectorBlockEntity) && canConnect(level, pos.relative(dir), dir.getOpposite());
+	}
 
-    private BlockState createState(Level level, BlockPos pos) {
+	private boolean canAttach(Level level, BlockPos pos, Direction dir) {
+		boolean connectable = isConnectable(level, pos, dir);
+		return level.getBlockState(pos.relative(dir)).getBlock() == this || connectable;
+	}
 
-        boolean tile = isConnectable(level, pos, Direction.NORTH) || isConnectable(level, pos, Direction.SOUTH)
-                || isConnectable(level, pos, Direction.WEST) || isConnectable(level, pos, Direction.EAST)
-                || isConnectable(level, pos, Direction.UP) || isConnectable(level, pos, Direction.DOWN);
+	private BlockState createState(Level level, BlockPos pos) {
 
-        // TODO: What do we do about dead tile entities? If we don't tick its okay?
+		boolean tile = isConnectable(level, pos, Direction.NORTH) || isConnectable(level, pos, Direction.SOUTH)
+				|| isConnectable(level, pos, Direction.WEST) || isConnectable(level, pos, Direction.EAST)
+				|| isConnectable(level, pos, Direction.UP) || isConnectable(level, pos, Direction.DOWN);
+
+		// TODO: What do we do about dead tile entities? If we don't tick its okay?
 //		BlockEntity be = level.getBlockEntity(pos);
 //		if (be != null) {
 //			if (tile) {
@@ -173,128 +180,128 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 //			}
 //		}
 
-        return defaultBlockState().setValue(TILE, tile);
-    }
+		return defaultBlockState().setValue(TILE, tile);
+	}
 
-    @Override
-    protected void createBlockStateDefinition(Builder<Block, BlockState> b) {
-        b.add(TILE);
-        super.createBlockStateDefinition(b);
-    }
-    
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
-            Player player, InteractionHand hand, BlockHitResult hit) {
-        BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof ConnectorBlockEntity<?, ?> cable) {
-            Vec3 offset = hit.getLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
+	@Override
+	protected void createBlockStateDefinition(Builder<Block, BlockState> b) {
+		b.add(TILE);
+		super.createBlockStateDefinition(b);
+	}
 
-            for (Direction d : Direction.values()) {
-                ConnectionSide side = cable.getConnection(d);
-                if (side.isIO()) {
-                    if (CONNS[d.get3DDataValue()].bounds().distanceToSqr(offset) < 0.001f) {
-                        if (player.isShiftKeyDown()) {
-                            if (!level.isClientSide()) {
-                                DirectionalMenuFactory.create((ServerPlayer) player, cable, pos, d);
-                                return ItemInteractionResult.SUCCESS;
-                            }
-                            return ItemInteractionResult.CONSUME;
-                        }
-                        cable.setConnection(d, side.toggleIO());
-                        return ItemInteractionResult.SUCCESS;
-                    }
-                }
-            }
-        }
+	@Override
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+			Player player, InteractionHand hand, BlockHitResult hit) {
+		BlockEntity be = level.getBlockEntity(pos);
+		if (be instanceof ConnectorBlockEntity<?, ?> cable) {
+			Vec3 offset = hit.getLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
 
-        return ItemInteractionResult.FAIL;
-    }
+			for (Direction d : Direction.values()) {
+				ConnectionSide side = cable.getConnection(d);
+				if (side.isIO()) {
+					if (CONNS[d.get3DDataValue()].bounds().distanceToSqr(offset) < 0.001f) {
+						if (player.isShiftKeyDown()) {
+							if (!level.isClientSide()) {
+								DirectionalMenuFactory.create((ServerPlayer) player, cable, pos, d);
+								return ItemInteractionResult.SUCCESS;
+							}
+							return ItemInteractionResult.CONSUME;
+						}
+						cable.setConnection(d, side.toggleIO());
+						return ItemInteractionResult.SUCCESS;
+					}
+				}
+			}
+		}
 
-    @Override
-    public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity placer,
-            @NotNull ItemStack stack) {
-        super.setPlacedBy(level, pos, state, placer, stack);
-        if (level.isClientSide())
-            return;
+		return ItemInteractionResult.FAIL;
+	}
 
-        if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
-            findConnectors(level, pos, pos);
-        }
-    }
+	@Override
+	public void setPlacedBy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, LivingEntity placer,
+			@NotNull ItemStack stack) {
+		super.setPlacedBy(level, pos, state, placer, stack);
+		if (level.isClientSide())
+			return;
 
-    @Override
-    public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState old,
-            boolean moving) {
-        if (level.isClientSide())
-            return;
+		if (!BlockHelper.doWithTe(level, pos, ConnectorBlockEntity.class, ConnectorBlockEntity::enqueueSearch)) {
+			findConnectors(level, pos, pos);
+		}
+	}
 
-        syncConnections(level, pos);
+	@Override
+	public void onPlace(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull BlockState old,
+			boolean moving) {
+		if (level.isClientSide())
+			return;
 
-        super.onPlace(state, level, pos, old, moving);
-    }
+		syncConnections(level, pos);
 
-    @Override
-    public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
-            @NotNull BlockState newState, boolean moving) {
-        findConnectors(level, pos, pos);
-        super.onRemove(state, level, pos, newState, moving);
-    }
+		super.onPlace(state, level, pos, old, moving);
+	}
 
-    protected abstract Map<BlockPos, Set<BlockPos>> getCache();
+	@Override
+	public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+			@NotNull BlockState newState, boolean moving) {
+		findConnectors(level, pos, pos);
+		super.onRemove(state, level, pos, newState, moving);
+	}
 
-    public void findConnectors(LevelAccessor world, BlockPos poss, BlockPos pos) {
-        Set<BlockPos> ss = getCache().get(poss);
-        if (ss == null)
-            ss = new HashSet<>();
+	protected abstract Map<BlockPos, Set<BlockPos>> getCache();
 
-        if (!ss.contains(pos)) {
-            for (Direction direction : Direction.values()) {
-                BlockPos blockPos = pos.relative(direction);
-                Block block = world.getBlockState(blockPos).getBlock();
-                if (block == this) {
-                    BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class,
-                            ConnectorBlockEntity::enqueueSearch);
-                    ss.add(pos);
-                    getCache().put(poss, ss);
-                    ((ConnectorBlock) block).findConnectors(world, poss, blockPos);
-                }
-            }
-        }
-        getCache().clear();
-    }
+	public void findConnectors(LevelAccessor world, BlockPos poss, BlockPos pos) {
+		Set<BlockPos> ss = getCache().get(poss);
+		if (ss == null)
+			ss = new HashSet<>();
 
-    @SuppressWarnings("unchecked")
-    public void searchConnectors(LevelAccessor world, BlockPos pos, ConnectorBlockEntity<?, ?> first, int dist) {
-        int newdist = dist + 1;
-        for (Direction dir : Direction.values()) {
-            BlockPos blockPos = pos.relative(dir);
+		if (!ss.contains(pos)) {
+			for (Direction direction : Direction.values()) {
+				BlockPos blockPos = pos.relative(direction);
+				Block block = world.getBlockState(blockPos).getBlock();
+				if (block == this) {
+					BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class,
+							ConnectorBlockEntity::enqueueSearch);
+					ss.add(pos);
+					getCache().put(poss, ss);
+					((ConnectorBlock) block).findConnectors(world, poss, blockPos);
+				}
+			}
+		}
+		getCache().clear();
+	}
 
-            if (!first.isInCache(blockPos)) {
-                if (!blockPos.equals(first.getBlockPos())) {
+	@SuppressWarnings("unchecked")
+	public void searchConnectors(LevelAccessor world, BlockPos pos, ConnectorBlockEntity<?, ?> first, int dist) {
+		int newdist = dist + 1;
+		for (Direction dir : Direction.values()) {
+			BlockPos blockPos = pos.relative(dir);
 
-                    Block block = world.getBlockState(blockPos).getBlock();
-                    if (block == this) {
-                        BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class, be -> be.dirs
-                                .forEach(d -> first.connectors.add(new Connection(blockPos, (Direction) d, newdist))));
-                        first.addToCache(blockPos);
-                        ((ConnectorBlock) block).searchConnectors(world, blockPos, first, newdist);
-                    }
-                }
-            }
-        }
-    }
+			if (!first.isInCache(blockPos)) {
+				if (!blockPos.equals(first.getBlockPos())) {
 
-    protected abstract BlockEntityType<? extends ConnectorBlockEntity<?, ?>> getBlockEntityType();
+					Block block = world.getBlockState(blockPos).getBlock();
+					if (block == this) {
+						BlockHelper.doWithTe(world, blockPos, ConnectorBlockEntity.class, be -> be.dirs
+								.forEach(d -> first.connectors.add(new Connection(blockPos, (Direction) d, newdist))));
+						first.addToCache(blockPos);
+						((ConnectorBlock) block).searchConnectors(world, blockPos, first, newdist);
+					}
+				}
+			}
+		}
+	}
 
-    @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-        return getBlockEntityType().create(pos, state);
-    }
+	protected abstract BlockEntityType<? extends ConnectorBlockEntity<?, ?>> getBlockEntityType();
 
-    @Override
-    public <E extends BlockEntity> BlockEntityTicker<E> getTicker(@NotNull Level level, @NotNull BlockState state,
-            @NotNull BlockEntityType<E> type) {
-        return type == getBlockEntityType() ? ConnectorBlockEntity::tick : null;
-    }
+	@Override
+	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+		return getBlockEntityType().create(pos, state);
+	}
+
+	@Override
+	public <E extends BlockEntity> BlockEntityTicker<E> getTicker(@NotNull Level level, @NotNull BlockState state,
+			@NotNull BlockEntityType<E> type) {
+		return type == getBlockEntityType() ? ConnectorBlockEntity::tick : null;
+	}
 
 }

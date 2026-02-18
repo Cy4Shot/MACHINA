@@ -72,133 +72,137 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 @EventBusSubscriber(modid = Machina.MOD_ID, value = Dist.CLIENT)
 public class ClientModEvents {
 
-    @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        CinematicHandler.setup();
-        FluidInit.setRenderLayers();
-    }
-    
-    @SubscribeEvent // on the mod event bus only on the physical client
-    public static void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(MenuTypeInit.ROCKET.get(), RocketScreen::new);
-        event.register(MenuTypeInit.FLUID_PIPE.get(), FluidPipeScreen::new);
-        event.register(MenuTypeInit.ITEM_CONDUIT.get(), ItemConduitScreen::new);
-        event.register(MenuTypeInit.FLUID_FILTER.get(), FluidFilterScreen::new);
-        event.register(MenuTypeInit.ITEM_FILTER.get(), ItemFilterScreen::new);
-        event.register(MenuTypeInit.ADVANCED_ITEM_FILTER.get(), AdvancedItemFilterScreen::new);
-        event.register(MenuTypeInit.BATTERY.get(), BatteryScreen::new);
-        event.register(MenuTypeInit.TANK.get(), TankScreen::new);
-        event.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
-        event.register(MenuTypeInit.MACHINE_CASE.get(), MachineCaseScreen::new);
-        event.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
-        event.register(MenuTypeInit.CHEMICAL_GENERATOR.get(), ChemicalGeneratorScreen::new);
-        event.register(MenuTypeInit.ELECTRIC_SMELTER.get(), ElectricSmelterScreen::new);
-        event.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
-        event.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);
-        event.register(MenuTypeInit.SOLIDIFIER.get(), SolidifierScreen::new);
-        event.register(MenuTypeInit.MELTER.get(), MelterScreen::new);
-        event.register(MenuTypeInit.REACTION_CHAMBER.get(), ReactionChamberScreen::new);
-        event.register(MenuTypeInit.COMPOSTER_VAT.get(), ComposterVatScreen::new);
-        event.register(MenuTypeInit.SAWMILL.get(), SawmillScreen::new);
-        event.register(MenuTypeInit.ELECTROLYZER.get(), ElectrolyzerScreen::new);
-        event.register(MenuTypeInit.ELECTRIC_PUMP.get(), ElectricPumpScreen::new);
-        event.register(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
-        event.register(MenuTypeInit.ROCKET_PART_BENCH.get(), RocketPartBenchScreen::new);
-        event.register(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), RocketAssemblyStationScreen::new);
-    }
-    
+	@SubscribeEvent
+	public static void onClientSetup(FMLClientSetupEvent event) {
+		CinematicHandler.setup();
+		FluidInit.setRenderLayers();
+	}
 
-    @SubscribeEvent
-    public static void registerRenderers(RegisterRenderers event) {
-        event.registerBlockEntityRenderer(BlockEntityInit.TANK.get(), TankRenderer::new);
-        event.registerBlockEntityRenderer(BlockEntityInit.ROCKET_PART_BENCH.get(), RocketPartBenchRenderer::new);
-    }
+	@SubscribeEvent // on the mod event bus only on the physical client
+	public static void registerScreens(RegisterMenuScreensEvent event) {
+		event.register(MenuTypeInit.ROCKET.get(), RocketScreen::new);
+		event.register(MenuTypeInit.FLUID_PIPE.get(), FluidPipeScreen::new);
+		event.register(MenuTypeInit.ITEM_CONDUIT.get(), ItemConduitScreen::new);
+		event.register(MenuTypeInit.FLUID_FILTER.get(), FluidFilterScreen::new);
+		event.register(MenuTypeInit.ITEM_FILTER.get(), ItemFilterScreen::new);
+		event.register(MenuTypeInit.ADVANCED_ITEM_FILTER.get(), AdvancedItemFilterScreen::new);
+		event.register(MenuTypeInit.BATTERY.get(), BatteryScreen::new);
+		event.register(MenuTypeInit.TANK.get(), TankScreen::new);
+		event.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
+		event.register(MenuTypeInit.MACHINE_CASE.get(), MachineCaseScreen::new);
+		event.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
+		event.register(MenuTypeInit.CHEMICAL_GENERATOR.get(), ChemicalGeneratorScreen::new);
+		event.register(MenuTypeInit.ELECTRIC_SMELTER.get(), ElectricSmelterScreen::new);
+		event.register(MenuTypeInit.GRINDER.get(), GrinderScreen::new);
+		event.register(MenuTypeInit.COMPRESSOR.get(), CompressorScreen::new);
+		event.register(MenuTypeInit.SOLIDIFIER.get(), SolidifierScreen::new);
+		event.register(MenuTypeInit.MELTER.get(), MelterScreen::new);
+		event.register(MenuTypeInit.REACTION_CHAMBER.get(), ReactionChamberScreen::new);
+		event.register(MenuTypeInit.COMPOSTER_VAT.get(), ComposterVatScreen::new);
+		event.register(MenuTypeInit.SAWMILL.get(), SawmillScreen::new);
+		event.register(MenuTypeInit.ELECTROLYZER.get(), ElectrolyzerScreen::new);
+		event.register(MenuTypeInit.ELECTRIC_PUMP.get(), ElectricPumpScreen::new);
+		event.register(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
+		event.register(MenuTypeInit.ROCKET_PART_BENCH.get(), RocketPartBenchScreen::new);
+		event.register(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), RocketAssemblyStationScreen::new);
+	}
 
-    @SubscribeEvent
-    public static void registerKeys(RegisterKeyMappingsEvent event) {
-        ClassHelper.<KeyMapping>doWithStatics(KeyBindingInit.class, (name, map) -> event.register(map));
-    }
+	@SubscribeEvent
+	public static void registerRenderers(RegisterRenderers event) {
+		event.registerBlockEntityRenderer(BlockEntityInit.TANK.get(), TankRenderer::new);
+		event.registerBlockEntityRenderer(BlockEntityInit.ROCKET_PART_BENCH.get(), RocketPartBenchRenderer::new);
+	}
 
-    @SubscribeEvent
-    public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
-        event.registerAboveAll(MachinaRL.create("cinematic_overlay"), (gui, delta) -> CinematicTextureOverlay.renderOverlay());
-        event.registerAboveAll(MachinaRL.create("cinematic_title"), (gui, delta) -> CinematicTextOverlay.renderOverlay(gui));
-    }
+	@SubscribeEvent
+	public static void registerKeys(RegisterKeyMappingsEvent event) {
+		ClassHelper.<KeyMapping>doWithStatics(KeyBindingInit.class, (name, map) -> event.register(map));
+	}
 
-    @SubscribeEvent
-    public static void itemColors(RegisterColorHandlersEvent.Item event) {
-        ItemColors colors = event.getItemColors();
+	@SubscribeEvent
+	public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
+		event.registerAboveAll(MachinaRL.create("cinematic_overlay"),
+				(gui, delta) -> CinematicTextureOverlay.renderOverlay());
+		event.registerAboveAll(MachinaRL.create("cinematic_title"),
+				(gui, delta) -> CinematicTextOverlay.renderOverlay(gui));
+	}
 
-        for (FluidObject obj : FluidInit.OBJS) {
-            colors.register((stack, index) -> index == 1 ? obj.chem().getColor() : -1, obj.bucket());
-        }
-    }
+	@SuppressWarnings("deprecation")
+	@SubscribeEvent
+	public static void itemColors(RegisterColorHandlersEvent.Item event) {
+		ItemColors colors = event.getItemColors();
 
-    @SubscribeEvent
-    public static void registerDimensionSpecialEffects(RegisterDimensionSpecialEffectsEvent event) {
-        event.register(PlanetFactory.TYPE_KEY.location(), new PlanetSpecialEffects());
-    }
+		for (FluidObject obj : FluidInit.OBJS) {
+			colors.register((stack, index) -> index == 1 ? obj.chem().getColor() : -1, obj.bucket());
+		}
+	}
 
-    @SubscribeEvent
-    public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(BlockEntityInit.SIGN.get(), SignRenderer::new);
-        event.registerBlockEntityRenderer(BlockEntityInit.HANGING_SIGN.get(), HangingSignRenderer::new);
-        event.registerEntityRenderer(EntityTypeInit.ROCKET.get(), RocketRenderer::new);
-    }
+	@SubscribeEvent
+	public static void registerDimensionSpecialEffects(RegisterDimensionSpecialEffectsEvent event) {
+		event.register(PlanetFactory.TYPE_KEY.location(), new PlanetSpecialEffects());
+	}
 
-    @SubscribeEvent
-    public static void registerShaders(RegisterShadersEvent event) {
-        ShaderHandler.register(event::registerShader, event.getResourceProvider());
-    }
+	@SubscribeEvent
+	public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		event.registerBlockEntityRenderer(BlockEntityInit.SIGN.get(), SignRenderer::new);
+		event.registerBlockEntityRenderer(BlockEntityInit.HANGING_SIGN.get(), HangingSignRenderer::new);
+		event.registerEntityRenderer(EntityTypeInit.ROCKET.get(), RocketRenderer::new);
+	}
 
-    @SubscribeEvent
-    static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
-        FluidInit.OBJS.forEach(obj -> {
-            event.registerFluidType(new IClientFluidTypeExtensions() {
-                private static final ResourceLocation UNDERWATER_LOCATION = ResourceLocation
-                        .withDefaultNamespace("textures/misc/underwater.png");
-                private static final ResourceLocation WATER_STILL = ResourceLocation
-                        .withDefaultNamespace("block/water_still");
-                private static final ResourceLocation WATER_FLOW = ResourceLocation
-                        .withDefaultNamespace("block/water_flow");
-                private static final ResourceLocation WATER_OVERLAY = ResourceLocation
-                        .withDefaultNamespace("block/water_overlay");
+	@SubscribeEvent
+	public static void registerShaders(RegisterShadersEvent event) {
+		ShaderHandler.register(event::registerShader, event.getResourceProvider());
+	}
 
-                @Override
-                public ResourceLocation getStillTexture() {
-                    return WATER_STILL;
-                }
+	@SubscribeEvent
+	static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
+		FluidInit.OBJS.forEach(obj -> {
+			if (!obj.isVanillaMapped()) {
+				event.registerFluidType(new IClientFluidTypeExtensions() {
+					private static final ResourceLocation UNDERWATER_LOCATION = ResourceLocation
+							.withDefaultNamespace("textures/misc/underwater.png");
+					private static final ResourceLocation WATER_STILL = ResourceLocation
+							.withDefaultNamespace("block/water_still");
+					private static final ResourceLocation WATER_FLOW = ResourceLocation
+							.withDefaultNamespace("block/water_flow");
+					private static final ResourceLocation WATER_OVERLAY = ResourceLocation
+							.withDefaultNamespace("block/water_overlay");
 
-                @Override
-                public ResourceLocation getFlowingTexture() {
-                    return WATER_FLOW;
-                }
+					@Override
+					public ResourceLocation getStillTexture() {
+						return WATER_STILL;
+					}
 
-                @Override
-                public ResourceLocation getOverlayTexture() {
-                    return WATER_OVERLAY;
-                }
+					@Override
+					public ResourceLocation getFlowingTexture() {
+						return WATER_FLOW;
+					}
 
-                @Override
-                public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
-                    return UNDERWATER_LOCATION;
-                }
+					@Override
+					public ResourceLocation getOverlayTexture() {
+						return WATER_OVERLAY;
+					}
 
-                @Override
-                public int getTintColor() {
-                    return obj.chem().getColor();
-                }
+					@Override
+					public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
+						return UNDERWATER_LOCATION;
+					}
 
-                @Override
-                public Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance,
-                        float darkenWorldAmount, Vector3f fluidFogColor) {
-                    int color = getTintColor();
-                    int r = (color >> 16) & 0xFF;
-                    int g = (color >> 8) & 0xFF;
-                    int b = (color) & 0xFF;
-                    return new Vector3f((float) r / 255, (float) g / 255, (float) b / 255);
-                }
-            }, obj.fluid().getFluidType());
-        });
-    }
+					@Override
+					public int getTintColor() {
+						return obj.chem().getColor();
+					}
+
+					@Override
+					public Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level,
+							int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
+						int color = getTintColor();
+						int r = (color >> 16) & 0xFF;
+						int g = (color >> 8) & 0xFF;
+						int b = (color) & 0xFF;
+						return new Vector3f((float) r / 255, (float) g / 255, (float) b / 255);
+					}
+				}, obj.fluid().getFluidType());
+			}
+		});
+	}
 }

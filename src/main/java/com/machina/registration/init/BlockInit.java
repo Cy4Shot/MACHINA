@@ -581,12 +581,12 @@ public class BlockInit {
     }
 
     public static DeferredBlock<FlowerPotBlock> flower_pot(String name, DeferredBlock<? extends Block> flower) {
-        return _register(name, BlockInit.of(Blocks.FLOWER_POT, a -> a, p -> new FlowerPotBlock(flower.get(), p)));
+        return _register(name, BlockInit.of(Blocks.FLOWER_POT, a -> a, p -> new FlowerPotBlock(null, flower, p)));
     }
 
     public static DeferredBlock<FlowerPotBlock> flower_pot(String name, DeferredBlock<FlowerBlock> flower,
             Function<Block.Properties, Block.Properties> extra) {
-        return _register(name, BlockInit.of(Blocks.FLOWER_POT, extra, p -> new FlowerPotBlock(flower.get(), p)));
+        return _register(name, BlockInit.of(Blocks.FLOWER_POT, extra, p -> new FlowerPotBlock(null, flower, p)));
     }
 
     public static DeferredBlock<PebbleBlock> pebbles(String name) {

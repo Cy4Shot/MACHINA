@@ -10,7 +10,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(Machina.MOD_ID)
 public class Machina {
@@ -21,7 +20,6 @@ public class Machina {
 
     public Machina(IEventBus modEventBus, ModContainer modContainer) {
         Registration.register(modEventBus, modContainer);
-        NeoForge.EVENT_BUS.register(this);
     }
 
     public static boolean isDevEnvironment() {

@@ -29,7 +29,8 @@ public abstract class MachinaContainerMenu<T extends WorldlyContainer> extends M
         this.be = (T) level.getBlockEntity(pos);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @SuppressWarnings("resource")
+	@OnlyIn(Dist.CLIENT)
     protected static Level clientLevel() {
         return Minecraft.getInstance().level;
     }

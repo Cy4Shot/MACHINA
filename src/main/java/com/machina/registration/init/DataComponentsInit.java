@@ -21,34 +21,34 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class DataComponentsInit {
-    public static final DeferredRegister.DataComponents REGISTRAR = DeferredRegister
+	public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister
             .createDataComponents(Registries.DATA_COMPONENT_TYPE, Machina.MOD_ID);
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ConnectorFilterItem.Mode>> FILTER_MODE = REGISTRAR
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ConnectorFilterItem.Mode>> FILTER_MODE = DATA_COMPONENTS
             .registerComponentType("filter_mode", builder -> builder.persistent(ConnectorFilterItem.Mode.CODEC)
                     .networkSynchronized(ConnectorFilterItem.Mode.STREAM_CODEC));
     
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Item>> ITEM = REGISTRAR
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Item>> ITEM = DATA_COMPONENTS
             .registerComponentType("item", builder -> builder.persistent(MachinaCodecs.ITEM)
                     .networkSynchronized(MachinaStreamCodecs.ITEM));
     
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Item>>> ITEMS = REGISTRAR
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Item>>> ITEMS = DATA_COMPONENTS
             .registerComponentType("items", builder -> builder.persistent(MachinaCodecs.ITEM.listOf())
                     .networkSynchronized(MachinaStreamCodecs.ITEM.apply(ByteBufCodecs.list())));
     
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Fluid>> FLUID = REGISTRAR
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Fluid>> FLUID = DATA_COMPONENTS
             .registerComponentType("fluid", builder -> builder.persistent(MachinaCodecs.FLUID)
                     .networkSynchronized(MachinaStreamCodecs.FLUID));
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ENERGY = REGISTRAR
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ENERGY = DATA_COMPONENTS
             .registerComponentType("energy", builder -> builder.persistent(ExtraCodecs.NON_NEGATIVE_INT)
                     .networkSynchronized(ByteBufCodecs.VAR_INT));
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<RocketProps>> ROCKET_PROPS = REGISTRAR
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<RocketProps>> ROCKET_PROPS = DATA_COMPONENTS
             .registerComponentType("rocket_props",
                     builder -> builder.persistent(RocketProps.CODEC).networkSynchronized(RocketProps.STREAM_CODEC));
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Map<RocketPartType, RocketPart<?>>>> ROCKET_PARTS = REGISTRAR
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Map<RocketPartType, RocketPart<?>>>> ROCKET_PARTS = DATA_COMPONENTS
             .registerComponentType("rocket_parts", builder -> builder.persistent(RocketProps.PARTMAP_CODEC)
                     .networkSynchronized(RocketProps.PARTMAP_STREAM_CODEC));
 }
