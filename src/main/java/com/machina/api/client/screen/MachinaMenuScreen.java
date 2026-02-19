@@ -18,6 +18,7 @@ import org.lwjgl.glfw.GLFW;
 import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.block.menu.MachinaAnyMenu;
+import com.machina.api.block.menu.MachinaMachineMenu;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.screen.MUI.MuiSlot;
@@ -412,17 +413,17 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, String missing) {
-		if (entity instanceof MachinaBlockEntity mbe) {
-			drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mbe::getEnergy,
-					mbe::getMaxEnergy, mbe::getEnergyF,
+		if (this.menu instanceof MachinaMachineMenu<?> mmm) {
+			drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mmm::getEnergy,
+					mmm::getMaxEnergy, mmm::getEnergyF,
 					(i, j, p) -> MUI.blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14));
 		}
 	}
 
 	protected void drawEnergyBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing) {
-		if (entity instanceof MachinaBlockEntity mbe) {
-			drawBarSmall(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mbe::getEnergy,
-					mbe::getMaxEnergy, mbe::getEnergyF,
+		if (this.menu instanceof MachinaMachineMenu<?> mmm) {
+			drawBarSmall(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mmm::getEnergy,
+					mmm::getMaxEnergy, mmm::getEnergyF,
 					(i, j, p) -> MUI.blitCommon(gui, i + 1, j + 1, 366, 39, (int) (41 * p), 14));
 		}
 	}

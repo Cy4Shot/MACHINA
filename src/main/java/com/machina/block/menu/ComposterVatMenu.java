@@ -1,7 +1,7 @@
 package com.machina.block.menu;
 
 import com.machina.api.block.MachineBlock;
-import com.machina.api.block.menu.MachinaContainerMenu;
+import com.machina.api.block.menu.MachinaMachineMenu;
 import com.machina.api.block.menu.slot.AcceptSlot;
 import com.machina.block.entity.machine.ComposterVatBlockEntity;
 import com.machina.registration.init.BlockInit;
@@ -14,7 +14,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 
-public class ComposterVatMenu extends MachinaContainerMenu<ComposterVatBlockEntity> {
+public class ComposterVatMenu extends MachinaMachineMenu<ComposterVatBlockEntity> {
 
 	public ComposterVatMenu(int id, Inventory inv, FriendlyByteBuf buf) {
 		this(id, inv, client(buf), new ItemStackHandler(1));

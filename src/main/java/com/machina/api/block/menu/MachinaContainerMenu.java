@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.MenuType;
@@ -20,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public abstract class MachinaContainerMenu<T extends WorldlyContainer> extends MachinaAnyMenu {
+public abstract class MachinaContainerMenu<T extends ContainerBlockEntity> extends MachinaAnyMenu {
 
 	protected final ContainerLevelAccess access;
 
@@ -101,11 +100,12 @@ public abstract class MachinaContainerMenu<T extends WorldlyContainer> extends M
 		return stackCopy;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public ContainerBlockEntity getBlockEntity() {
+	public T getBlockEntity() {
 		return this.access.evaluate((level, pos) -> level.getBlockEntity(pos)).map(e -> {
 			if (e instanceof ContainerBlockEntity cbe) {
-				return cbe;
+				return (T) cbe;
 			}
 			return null;
 		}).orElse(null);

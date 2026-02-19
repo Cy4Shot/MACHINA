@@ -1,7 +1,7 @@
 package com.machina.block.menu;
 
 import com.machina.api.block.MachineBlock;
-import com.machina.api.block.menu.MachinaContainerMenu;
+import com.machina.api.block.menu.MachinaMachineMenu;
 import com.machina.api.block.menu.slot.InvSlot;
 import com.machina.api.block.menu.slot.ResultSlot;
 import com.machina.block.entity.machine.CompressorBlockEntity;
@@ -14,7 +14,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
-public class CompressorMenu extends MachinaContainerMenu<CompressorBlockEntity> {
+public class CompressorMenu extends MachinaMachineMenu<CompressorBlockEntity> {
 
 	public CompressorMenu(int id, Inventory inv, FriendlyByteBuf buf) {
 		this(id, inv, client(buf), new ItemStackHandler(3));

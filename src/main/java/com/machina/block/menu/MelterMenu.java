@@ -1,7 +1,7 @@
 package com.machina.block.menu;
 
 import com.machina.api.block.MachineBlock;
-import com.machina.api.block.menu.MachinaContainerMenu;
+import com.machina.api.block.menu.MachinaMachineMenu;
 import com.machina.api.block.menu.slot.InvSlot;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.registration.init.BlockInit;
@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
-public class MelterMenu extends MachinaContainerMenu<MelterBlockEntity> {
+public class MelterMenu extends MachinaMachineMenu<MelterBlockEntity> {
 
 	public MelterMenu(int id, Inventory inv, FriendlyByteBuf buf) {
 		this(id, inv, client(buf), new ItemStackHandler(1));

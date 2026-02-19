@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.client.screen.MachinaMenuScreen;
-import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.menu.BatteryMenu;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,7 +21,7 @@ public class BatteryScreen extends MachinaMenuScreen<BatteryMenu> {
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
-		drawEnergyBar(gui, 0, 0, this.<BatteryBlockEntity>entity().hasCapacitor(), "battery.missing");
+		drawEnergyBar(gui, 0, 0, this.menu.hasCapacitor.read(), "battery.missing");
 		drawUpFacingSlot(gui, 1, mx, my, 20, 30, MuiSlot.PLUS, "battery.input");
 		drawUpFacingSlot(gui, 2, mx, my, 197, 30, MuiSlot.MINUS, "battery.output");
 		drawDownFacingSlot(gui, 0, mx, my, 107, -60, MuiSlot.ENERGY, "battery.capacitor");
