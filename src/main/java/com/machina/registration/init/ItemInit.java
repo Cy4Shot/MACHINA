@@ -215,37 +215,31 @@ public class ItemInit {
 		return (DeferredItem<T>) ITEMS.register(name, item);
 	}
 
-	public static class ItemBuilder<T extends Item> {
+    public record ItemBuilder<T extends Item>(Function<Properties, T> factory) {
 
-		private final Function<Item.Properties, T> factory;
+        public static Item basicItem() {
+            return new ItemBuilder<>(Item::new).build();
+        }
 
-		protected ItemBuilder(Function<Item.Properties, T> factory) {
-			this.factory = factory;
-		}
+        public static Item props(Function<Properties, Properties> propsProcessor) {
+            return new ItemBuilder<>(p -> new Item(propsProcessor.apply(p))).build();
+        }
 
-		public static Item basicItem() {
-			return new ItemBuilder<>(Item::new).build();
-		}
+        public static <T extends Item> T basicItem(Function<Properties, T> factory) {
+            return new ItemBuilder<>(factory).build();
+        }
 
-		public static Item props(Function<Item.Properties, Item.Properties> propsProcessor) {
-			return new ItemBuilder<>(p -> new Item(propsProcessor.apply(p))).build();
-		}
+        public static <T extends Item> ItemBuilder<T> create(Function<Properties, T> factory) {
+            return new ItemBuilder<>(factory);
+        }
 
-		public static <T extends Item> T basicItem(Function<Item.Properties, T> factory) {
-			return new ItemBuilder<>(factory).build();
-		}
+        public T build() {
+            return factory.apply(getProperties());
+        }
 
-		public static <T extends Item> ItemBuilder<T> create(Function<Item.Properties, T> factory) {
-			return new ItemBuilder<>(factory);
-		}
-
-		public T build() {
-			return factory.apply(getProperties());
-		}
-
-		public Properties getProperties() {
-			return new Properties();
-		}
-	}
+        public Properties getProperties() {
+            return new Properties();
+        }
+    }
 
 }

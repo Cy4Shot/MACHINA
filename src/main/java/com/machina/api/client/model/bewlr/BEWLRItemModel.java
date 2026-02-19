@@ -15,51 +15,38 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.IDynamicBakedModel;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
-public class BEWLRItemModel implements IDynamicBakedModel {
+public record BEWLRItemModel(boolean isAmbientOcclusion, boolean isGui3d,
+                             boolean useBlockLight) implements IDynamicBakedModel {
 
-	private final boolean isAmbientOcclusion;
-	private final boolean isGui3d;
-	private final boolean useBlockLight;
+    @Override
+    public boolean useAmbientOcclusion() {
+        return this.isAmbientOcclusion;
+    }
 
-	public BEWLRItemModel(boolean isAmbientOcclusion, boolean isGui3d, boolean useBlockLight) {
-		this.isAmbientOcclusion = isAmbientOcclusion;
-		this.isGui3d = isGui3d;
-		this.useBlockLight = useBlockLight;
-	}
 
-	@Override
-	public boolean useAmbientOcclusion() {
-		return this.isAmbientOcclusion;
-	}
+    @Override
+    public boolean usesBlockLight() {
+        return this.useBlockLight;
+    }
 
-	@Override
-	public boolean isGui3d() {
-		return this.isGui3d;
-	}
+    @Override
+    public boolean isCustomRenderer() {
+        return true;
+    }
 
-	@Override
-	public boolean usesBlockLight() {
-		return this.useBlockLight;
-	}
+    @Override
+    public @NotNull ItemOverrides getOverrides() {
+        return ItemOverrides.EMPTY;
+    }
 
-	@Override
-	public boolean isCustomRenderer() {
-		return true;
-	}
+    @Override
+    public @NotNull TextureAtlasSprite getParticleIcon() {
+        return null; //TODO: implement
+    }
 
-	@Override
-	public @NotNull ItemOverrides getOverrides() {
-		return ItemOverrides.EMPTY;
-	}
-
-	@Override
-	public @NotNull TextureAtlasSprite getParticleIcon() {
-		return null;
-	}
-
-	@Override
-	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand,
-			ModelData extraData, @Nullable RenderType renderType) {
-		return List.of();
-	}
+    @Override
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand,
+                                    ModelData extraData, @Nullable RenderType renderType) {
+        return List.of();
+    }
 }
