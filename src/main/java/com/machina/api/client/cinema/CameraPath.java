@@ -70,7 +70,7 @@ public class CameraPath {
 
 		public Builder addPath(InterpolationMethod method, int duration, List<CameraEffect> effects,
 				CameraNode... points) {
-			p.put(new SinglePath(method, o, effects, points), duration);
+			p.put(new SinglePath(method, effects, points), duration);
 			return this;
 		}
 
@@ -84,7 +84,7 @@ public class CameraPath {
 		private final List<CameraNode> points;
 		private final List<CameraEffect> effects;
 
-		public SinglePath(InterpolationMethod method, Vec3 origin, List<CameraEffect> effects, CameraNode... nodes) {
+		public SinglePath(InterpolationMethod method, List<CameraEffect> effects, CameraNode... nodes) {
 			this.method = method;
 			this.effects = effects;
 			this.points = Arrays.asList(nodes);
@@ -113,17 +113,8 @@ public class CameraPath {
 		}
 	}
 
-	public static class CameraNode {
-		public final Vec3 pos;
-		public final float xRot;
-		public final float yRot;
-
-		public CameraNode(Vec3 p, float x, float y) {
-			this.pos = p;
-			this.xRot = x;
-			this.yRot = y;
-		}
-	}
+    public record CameraNode(Vec3 pos, float xRot, float yRot) {
+    }
 
 	public enum InterpolationMethod {
 		BEZIER, LERP
