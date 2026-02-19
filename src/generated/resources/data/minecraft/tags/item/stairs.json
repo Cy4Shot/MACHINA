@@ -23,6 +23,16 @@
     "machina:dead_tropical_stairs",
     "machina:pine_stairs",
     "machina:coniferous_stairs",
-    "machina:cycad_stairs"
+    "machina:cycad_stairs",
+    "minecraft:oak_stairs",
+    "minecraft:spruce_stairs",
+    "minecraft:birch_stairs",
+    "minecraft:jungle_stairs",
+    "minecraft:acacia_stairs",
+    "minecraft:dark_oak_stairs",
+    "minecraft:mangrove_stairs",
+    "minecraft:cherry_stairs",
+    "minecraft:crimson_stairs",
+    "minecraft:warped_stairs"
   ]
 }

@@ -4,6 +4,16 @@
     "#c:wooden_planks/dead_tropical",
     "#c:wooden_planks/pine",
     "#c:wooden_planks/coniferous",
-    "#c:wooden_planks/cycad"
+    "#c:wooden_planks/cycad",
+    "#c:wooden_planks/oak",
+    "#c:wooden_planks/spruce",
+    "#c:wooden_planks/birch",
+    "#c:wooden_planks/jungle",
+    "#c:wooden_planks/acacia",
+    "#c:wooden_planks/dark_oak",
+    "#c:wooden_planks/mangrove",
+    "#c:wooden_planks/cherry",
+    "#c:wooden_planks/crimson",
+    "#c:wooden_planks/warped"
   ]
 }

@@ -4,6 +4,16 @@
     "#c:planks/dead_tropical",
     "#c:planks/pine",
     "#c:planks/coniferous",
-    "#c:planks/cycad"
+    "#c:planks/cycad",
+    "#c:planks/oak",
+    "#c:planks/spruce",
+    "#c:planks/birch",
+    "#c:planks/jungle",
+    "#c:planks/acacia",
+    "#c:planks/dark_oak",
+    "#c:planks/mangrove",
+    "#c:planks/cherry",
+    "#c:planks/crimson",
+    "#c:planks/warped"
   ]
 }

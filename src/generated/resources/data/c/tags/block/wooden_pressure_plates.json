@@ -4,6 +4,16 @@
     "#c:wooden_pressure_plates/dead_tropical",
     "#c:wooden_pressure_plates/pine",
     "#c:wooden_pressure_plates/coniferous",
-    "#c:wooden_pressure_plates/cycad"
+    "#c:wooden_pressure_plates/cycad",
+    "#c:wooden_pressure_plates/oak",
+    "#c:wooden_pressure_plates/spruce",
+    "#c:wooden_pressure_plates/birch",
+    "#c:wooden_pressure_plates/jungle",
+    "#c:wooden_pressure_plates/acacia",
+    "#c:wooden_pressure_plates/dark_oak",
+    "#c:wooden_pressure_plates/mangrove",
+    "#c:wooden_pressure_plates/cherry",
+    "#c:wooden_pressure_plates/crimson",
+    "#c:wooden_pressure_plates/warped"
   ]
 }

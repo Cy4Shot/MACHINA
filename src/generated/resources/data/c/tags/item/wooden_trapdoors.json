@@ -4,6 +4,16 @@
     "#c:wooden_trapdoors/dead_tropical",
     "#c:wooden_trapdoors/pine",
     "#c:wooden_trapdoors/coniferous",
-    "#c:wooden_trapdoors/cycad"
+    "#c:wooden_trapdoors/cycad",
+    "#c:wooden_trapdoors/oak",
+    "#c:wooden_trapdoors/spruce",
+    "#c:wooden_trapdoors/birch",
+    "#c:wooden_trapdoors/jungle",
+    "#c:wooden_trapdoors/acacia",
+    "#c:wooden_trapdoors/dark_oak",
+    "#c:wooden_trapdoors/mangrove",
+    "#c:wooden_trapdoors/cherry",
+    "#c:wooden_trapdoors/crimson",
+    "#c:wooden_trapdoors/warped"
   ]
 }

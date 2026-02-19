@@ -4,6 +4,16 @@
     "#c:hanging_signs/dead_tropical",
     "#c:hanging_signs/pine",
     "#c:hanging_signs/coniferous",
-    "#c:hanging_signs/cycad"
+    "#c:hanging_signs/cycad",
+    "#c:hanging_signs/oak",
+    "#c:hanging_signs/spruce",
+    "#c:hanging_signs/birch",
+    "#c:hanging_signs/jungle",
+    "#c:hanging_signs/acacia",
+    "#c:hanging_signs/dark_oak",
+    "#c:hanging_signs/mangrove",
+    "#c:hanging_signs/cherry",
+    "#c:hanging_signs/crimson",
+    "#c:hanging_signs/warped"
   ]
 }

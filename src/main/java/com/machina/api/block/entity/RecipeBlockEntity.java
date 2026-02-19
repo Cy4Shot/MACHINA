@@ -110,10 +110,10 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
 				tickCount = 2;
 				setChanged();
 			}
-			if (this.recipe.id() != holder.id()) {
+
+			if (this.recipe == null || this.recipe.id() != holder.id()) {
 				this.recipe = holder;
 				this.progress = 0;
-
 				setChanged();
 			}
 
@@ -261,7 +261,7 @@ public abstract class RecipeBlockEntity extends MachinaBlockEntity implements Re
 		Map<Predicate<ItemStack>, Integer> matchedCounts = new HashMap<>();
 
 		for (RecipeSlot s : slots) {
-			if (s.type == SlotType.INPUT && s.item) {
+			if (s.type != SlotType.OUTPUT && s.item) { // Allow ephermeral items
 				ItemStack item = getItem(s.id());
 
 				if (item.isEmpty())

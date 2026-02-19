@@ -4,6 +4,16 @@
     "#c:leaves/dead_tropical",
     "#c:leaves/pine",
     "#c:leaves/coniferous",
-    "#c:leaves/cycad"
+    "#c:leaves/cycad",
+    "#c:leaves/oak",
+    "#c:leaves/spruce",
+    "#c:leaves/birch",
+    "#c:leaves/jungle",
+    "#c:leaves/acacia",
+    "#c:leaves/dark_oak",
+    "#c:leaves/mangrove",
+    "#c:leaves/cherry",
+    "#c:leaves/crimson",
+    "#c:leaves/warped"
   ]
 }

@@ -7,6 +7,14 @@
     "machina:yellow_coniferous_leaves",
     "machina:orange_coniferous_leaves",
     "machina:red_coniferous_leaves",
-    "machina:cycad_leaves"
+    "machina:cycad_leaves",
+    "minecraft:oak_leaves",
+    "minecraft:spruce_leaves",
+    "minecraft:birch_leaves",
+    "minecraft:jungle_leaves",
+    "minecraft:acacia_leaves",
+    "minecraft:dark_oak_leaves",
+    "minecraft:mangrove_leaves",
+    "minecraft:cherry_leaves"
   ]
 }

@@ -4,6 +4,16 @@
     "machina:dead_tropical_door",
     "machina:pine_door",
     "machina:coniferous_door",
-    "machina:cycad_door"
+    "machina:cycad_door",
+    "minecraft:oak_door",
+    "minecraft:spruce_door",
+    "minecraft:birch_door",
+    "minecraft:jungle_door",
+    "minecraft:acacia_door",
+    "minecraft:dark_oak_door",
+    "minecraft:mangrove_door",
+    "minecraft:cherry_door",
+    "minecraft:crimson_door",
+    "minecraft:warped_door"
   ]
 }

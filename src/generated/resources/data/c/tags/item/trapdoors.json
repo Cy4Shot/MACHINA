@@ -4,6 +4,16 @@
     "#c:trapdoors/dead_tropical",
     "#c:trapdoors/pine",
     "#c:trapdoors/coniferous",
-    "#c:trapdoors/cycad"
+    "#c:trapdoors/cycad",
+    "#c:trapdoors/oak",
+    "#c:trapdoors/spruce",
+    "#c:trapdoors/birch",
+    "#c:trapdoors/jungle",
+    "#c:trapdoors/acacia",
+    "#c:trapdoors/dark_oak",
+    "#c:trapdoors/mangrove",
+    "#c:trapdoors/cherry",
+    "#c:trapdoors/crimson",
+    "#c:trapdoors/warped"
   ]
 }

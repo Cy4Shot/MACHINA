@@ -4,6 +4,16 @@
     "#c:fencegates/dead_tropical",
     "#c:fencegates/pine",
     "#c:fencegates/coniferous",
-    "#c:fencegates/cycad"
+    "#c:fencegates/cycad",
+    "#c:fencegates/oak",
+    "#c:fencegates/spruce",
+    "#c:fencegates/birch",
+    "#c:fencegates/jungle",
+    "#c:fencegates/acacia",
+    "#c:fencegates/dark_oak",
+    "#c:fencegates/mangrove",
+    "#c:fencegates/cherry",
+    "#c:fencegates/crimson",
+    "#c:fencegates/warped"
   ]
 }

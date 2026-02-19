@@ -4,6 +4,16 @@
     "#c:logs/dead_tropical",
     "#c:logs/pine",
     "#c:logs/coniferous",
-    "#c:logs/cycad"
+    "#c:logs/cycad",
+    "#c:logs/oak",
+    "#c:logs/spruce",
+    "#c:logs/birch",
+    "#c:logs/jungle",
+    "#c:logs/acacia",
+    "#c:logs/dark_oak",
+    "#c:logs/mangrove",
+    "#c:logs/cherry",
+    "#c:logs/crimson",
+    "#c:logs/warped"
   ]
 }

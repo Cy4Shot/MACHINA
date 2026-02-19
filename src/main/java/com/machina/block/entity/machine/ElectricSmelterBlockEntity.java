@@ -66,7 +66,7 @@ public class ElectricSmelterBlockEntity extends MachinaBlockEntity {
 		Optional<RecipeHolder<SmeltingRecipe>> rec = this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING,
 				new SingleRecipeInput(this.getItem(0)), level);
 		rec.ifPresentOrElse(r -> {
-			if (this.recipe.id() != r.id()) {
+			if (this.recipe == null || this.recipe.id() != r.id()) {
 				this.recipe = r;
 				this.progress = 0;
 				setChanged();

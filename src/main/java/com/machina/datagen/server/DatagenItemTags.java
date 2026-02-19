@@ -89,6 +89,7 @@ public class DatagenItemTags extends ItemTagsProvider {
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);
 		FamiliesInit.STONES.forEach(this::stoneFamily);
 		FamiliesInit.WOODS.forEach(this::woodFamily);
+		FamiliesInit.WOODS_VANILLA.forEach(this::woodFamily);
 		FluidInit.OBJS.forEach(this::fluidObj);
 	}
 

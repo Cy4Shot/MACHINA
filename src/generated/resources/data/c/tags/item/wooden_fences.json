@@ -4,6 +4,16 @@
     "#c:wooden_fences/dead_tropical",
     "#c:wooden_fences/pine",
     "#c:wooden_fences/coniferous",
-    "#c:wooden_fences/cycad"
+    "#c:wooden_fences/cycad",
+    "#c:wooden_fences/oak",
+    "#c:wooden_fences/spruce",
+    "#c:wooden_fences/birch",
+    "#c:wooden_fences/jungle",
+    "#c:wooden_fences/acacia",
+    "#c:wooden_fences/dark_oak",
+    "#c:wooden_fences/mangrove",
+    "#c:wooden_fences/cherry",
+    "#c:wooden_fences/crimson",
+    "#c:wooden_fences/warped"
   ]
 }

@@ -4,6 +4,16 @@
     "#c:signs/dead_tropical",
     "#c:signs/pine",
     "#c:signs/coniferous",
-    "#c:signs/cycad"
+    "#c:signs/cycad",
+    "#c:signs/oak",
+    "#c:signs/spruce",
+    "#c:signs/birch",
+    "#c:signs/jungle",
+    "#c:signs/acacia",
+    "#c:signs/dark_oak",
+    "#c:signs/mangrove",
+    "#c:signs/cherry",
+    "#c:signs/crimson",
+    "#c:signs/warped"
   ]
 }

@@ -4,6 +4,16 @@
     "#c:slabs/dead_tropical",
     "#c:slabs/pine",
     "#c:slabs/coniferous",
-    "#c:slabs/cycad"
+    "#c:slabs/cycad",
+    "#c:slabs/oak",
+    "#c:slabs/spruce",
+    "#c:slabs/birch",
+    "#c:slabs/jungle",
+    "#c:slabs/acacia",
+    "#c:slabs/dark_oak",
+    "#c:slabs/mangrove",
+    "#c:slabs/cherry",
+    "#c:slabs/crimson",
+    "#c:slabs/warped"
   ]
 }

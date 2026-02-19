@@ -4,6 +4,16 @@
     "machina:dead_tropical_trapdoor",
     "machina:pine_trapdoor",
     "machina:coniferous_trapdoor",
-    "machina:cycad_trapdoor"
+    "machina:cycad_trapdoor",
+    "minecraft:oak_trapdoor",
+    "minecraft:spruce_trapdoor",
+    "minecraft:birch_trapdoor",
+    "minecraft:jungle_trapdoor",
+    "minecraft:acacia_trapdoor",
+    "minecraft:dark_oak_trapdoor",
+    "minecraft:mangrove_trapdoor",
+    "minecraft:cherry_trapdoor",
+    "minecraft:crimson_trapdoor",
+    "minecraft:warped_trapdoor"
   ]
 }

@@ -4,6 +4,16 @@
     "#c:wooden_buttons/dead_tropical",
     "#c:wooden_buttons/pine",
     "#c:wooden_buttons/coniferous",
-    "#c:wooden_buttons/cycad"
+    "#c:wooden_buttons/cycad",
+    "#c:wooden_buttons/oak",
+    "#c:wooden_buttons/spruce",
+    "#c:wooden_buttons/birch",
+    "#c:wooden_buttons/jungle",
+    "#c:wooden_buttons/acacia",
+    "#c:wooden_buttons/dark_oak",
+    "#c:wooden_buttons/mangrove",
+    "#c:wooden_buttons/cherry",
+    "#c:wooden_buttons/crimson",
+    "#c:wooden_buttons/warped"
   ]
 }

@@ -23,6 +23,16 @@
     "machina:dead_tropical_slab",
     "machina:pine_slab",
     "machina:coniferous_slab",
-    "machina:cycad_slab"
+    "machina:cycad_slab",
+    "minecraft:oak_slab",
+    "minecraft:spruce_slab",
+    "minecraft:birch_slab",
+    "minecraft:jungle_slab",
+    "minecraft:acacia_slab",
+    "minecraft:dark_oak_slab",
+    "minecraft:mangrove_slab",
+    "minecraft:cherry_slab",
+    "minecraft:crimson_slab",
+    "minecraft:warped_slab"
   ]
 }

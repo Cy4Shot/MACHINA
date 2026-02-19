@@ -4,6 +4,16 @@
     "#c:wooden_doors/dead_tropical",
     "#c:wooden_doors/pine",
     "#c:wooden_doors/coniferous",
-    "#c:wooden_doors/cycad"
+    "#c:wooden_doors/cycad",
+    "#c:wooden_doors/oak",
+    "#c:wooden_doors/spruce",
+    "#c:wooden_doors/birch",
+    "#c:wooden_doors/jungle",
+    "#c:wooden_doors/acacia",
+    "#c:wooden_doors/dark_oak",
+    "#c:wooden_doors/mangrove",
+    "#c:wooden_doors/cherry",
+    "#c:wooden_doors/crimson",
+    "#c:wooden_doors/warped"
   ]
 }
