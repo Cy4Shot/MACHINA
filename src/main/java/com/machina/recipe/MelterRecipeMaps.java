@@ -33,7 +33,7 @@ public class MelterRecipeMaps extends MachinaRecipeMaps<MelterBlockEntity> {
 			if (loc.getNamespace().equals("c") && loc.getPath().startsWith("ingots/")) {
 				String name = loc.getPath().replaceFirst("ingots/", "");
 				BuiltInRegistries.FLUID.getTag(cf("molten_" + name)).ifPresent(x -> x.forEach(fluid -> {
-					if (fluid instanceof BaseFlowingFluid f) {
+					if (fluid.value() instanceof BaseFlowingFluid f) {
 						BuiltInRegistries.ITEM.getTag(tag).ifPresent(y -> y.forEach(item -> {
 							ResourceLocation key = BuiltInRegistries.ITEM.getKey(item.value());
 							if (key == null) {
