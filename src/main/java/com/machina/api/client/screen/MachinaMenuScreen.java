@@ -107,7 +107,7 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		if (appearDraw(this.aliveTicks))
 			super.render(gui, mx, my, pt);
 		else
-			this.renderBg(gui, pt, mx, my);
+			this.renderBackground(gui, mx, my, pt);
 		this.renderTooltip(gui, mx, my);
 	}
 

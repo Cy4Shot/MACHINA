@@ -64,8 +64,6 @@ public class CapabilityRegistrar {
 				fluidItem(event, item);
 			}
 		});
-		energyItem(event, ItemInit.ADVANCED_CAPACITOR);
-		energyItem(event, ItemInit.SUPREME_CAPACITOR);
 
 		// Entity
 		event.registerEntity(Capabilities.ItemHandler.ENTITY, EntityTypeInit.ROCKET.get(),

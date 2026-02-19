@@ -24,7 +24,6 @@ public class EnergyItemWrapper implements IEnergyStorage {
 		int received = Math.min(getMaxEnergyStored() - getEnergyStored(), maxReceive);
 		if (received > 0 && !simulate) {
 			setEnergyStored(energy + received);
-			return 0;
 		}
 		return received;
 	}
@@ -35,7 +34,6 @@ public class EnergyItemWrapper implements IEnergyStorage {
 		int extracted = Math.min(energy, maxExtract);
 		if (extracted > 0 && !simulate) {
 			setEnergyStored(energy - extracted);
-			return 0;
 		}
 		return extracted;
 	}
