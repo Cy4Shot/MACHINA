@@ -90,7 +90,7 @@ public class MachinaNetwork {
 			Method codecGetter = clazz.getMethod("streamCodec");
 			StreamCodec<? super RegistryFriendlyByteBuf, M> codec = (StreamCodec<? super RegistryFriendlyByteBuf, M>) codecGetter
 					.invoke(createDummyInstance(clazz));
-			reg.playToClient(type, codec, (payload, ctx) -> payload.handle());
+			reg.playToClient(type, codec, (payload, ctx) -> payload.handle(ctx.player()));
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

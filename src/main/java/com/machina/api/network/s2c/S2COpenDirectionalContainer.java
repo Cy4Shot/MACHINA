@@ -3,6 +3,7 @@ package com.machina.api.network.s2c;
 import com.machina.api.network.S2CMessage;
 import com.machina.api.util.reflect.MachinaStreamCodecs;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -14,8 +15,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.connection.ConnectionType;
 
 public record S2COpenDirectionalContainer(int id, int windowId, Component name, FriendlyByteBuf additional)
@@ -37,27 +41,26 @@ public record S2COpenDirectionalContainer(int id, int windowId, Component name, 
 	}
 
 	@Override
-	public void handle() {
-		mc.execute(() -> {
-			try {
-				MenuType<?> type = getType();
-				MenuScreens.getScreenFactory(type).ifPresent(f -> {
-					if (mc.player == null)
-						return;
+	@OnlyIn(Dist.CLIENT)
+	public void handle(Player player) {
+		try {
+			MenuType<?> type = getType();
+			MenuScreens.getScreenFactory(type).ifPresent(f -> {
+				if (player == null)
+					return;
 
-					RegistryAccess access = mc.player.registryAccess();
-					AbstractContainerMenu c = type.create(windowId, mc.player.getInventory(),
-							new RegistryFriendlyByteBuf(additional, access, ConnectionType.OTHER));
+				RegistryAccess access = player.registryAccess();
+				AbstractContainerMenu c = type.create(windowId, player.getInventory(),
+						new RegistryFriendlyByteBuf(additional, access, ConnectionType.OTHER));
 
-					@SuppressWarnings("unchecked")
-					Screen s = ((MenuScreens.ScreenConstructor<AbstractContainerMenu, ?>) f).create(c,
-							mc.player.getInventory(), name);
-					mc.player.containerMenu = ((MenuAccess<?>) s).getMenu();
-					mc.setScreen(s);
-				});
-			} finally {
-				additional.release();
-			}
-		});
+				@SuppressWarnings("unchecked")
+				Screen s = ((MenuScreens.ScreenConstructor<AbstractContainerMenu, ?>) f).create(c,
+						player.getInventory(), name);
+				player.containerMenu = ((MenuAccess<?>) s).getMenu();
+				Minecraft.getInstance().setScreen(s);
+			});
+		} finally {
+			additional.release();
+		}
 	}
 }

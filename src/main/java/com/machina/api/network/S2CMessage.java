@@ -2,16 +2,14 @@ package com.machina.api.network;
 
 import com.machina.api.util.MachinaRL;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.world.entity.player.Player;
 
 public interface S2CMessage<T extends S2CMessage<T>> extends CustomPacketPayload {
 
-	Minecraft mc = Minecraft.getInstance();
-
-	void handle();
+	void handle(Player player);
 
 	public static <T extends S2CMessage<T>> Type<T> getType(Class<T> clazz) {
 		String id = clazz.getSimpleName().toLowerCase();

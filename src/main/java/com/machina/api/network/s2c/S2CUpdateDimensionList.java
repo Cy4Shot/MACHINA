@@ -9,7 +9,10 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public record S2CUpdateDimensionList(ResourceKey<Level> key) implements S2CMessage<S2CUpdateDimensionList> {
 
@@ -20,14 +23,12 @@ public record S2CUpdateDimensionList(ResourceKey<Level> key) implements S2CMessa
 	}
 
 	@Override
-	public void handle() {
-		ResourceKey<Level> nd = key();
-		mc.execute(() -> {
-			LocalPlayer player = mc.player;
-			if (player != null) {
-				final Set<ResourceKey<Level>> dl = player.connection.levels();
-				dl.add(nd);
-			}
-		});
+	@OnlyIn(Dist.CLIENT)
+	public void handle(Player player) {
+		LocalPlayer p = (LocalPlayer) player;
+		if (p != null) {
+			final Set<ResourceKey<Level>> dl = p.connection.levels();
+			dl.add(key);
+		}
 	}
 }

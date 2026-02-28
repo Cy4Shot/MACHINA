@@ -6,6 +6,9 @@ import com.machina.api.network.S2CMessage;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public record S2CSyncStarchart(long seed) implements S2CMessage<S2CSyncStarchart> {
 
@@ -15,8 +18,8 @@ public record S2CSyncStarchart(long seed) implements S2CMessage<S2CSyncStarchart
 	}
 
 	@Override
-	public void handle() {
-		long seed = seed();
-		mc.execute(() -> ClientStarchart.sync(seed));
+	@OnlyIn(Dist.CLIENT)
+	public void handle(Player player) {
+		ClientStarchart.sync(seed);
 	}
 }
