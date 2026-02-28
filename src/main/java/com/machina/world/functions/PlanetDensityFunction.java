@@ -55,7 +55,7 @@ public class PlanetDensityFunction {
 				DensityFunctions.mul(DensityFunctions.constant(5.0D), getFunction(densities, ENTRANCES)));
 		DensityFunction df13 = DensityFunctions.rangeChoice(df11, -1000000.0D, 1.5625D, df12,
 				underground(densities, noises, df11));
-		DensityFunction df14 = DensityFunctions.min(postProcess(slideOverworld(df13)), getFunction(densities, NOODLE));
+		DensityFunction df14 = DensityFunctions.min(postProcess(slide(df13)), getFunction(densities, NOODLE));
 		DensityFunction df15 = getFunction(densities, Y);
 		int i = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224495_) -> p_224495_.minY).min()
 				.orElse(-DimensionType.MIN_Y * 2);
@@ -72,8 +72,8 @@ public class PlanetDensityFunction {
 		DensityFunction df20 = DensityFunctions.noise(noises.getOrThrow(Noises.ORE_GAP));
 		return new NoiseRouter(df, df1, df2, df3, df6, df7, getFunction(densities, CONTINENTS_LARGE),
 				getFunction(densities, EROSION_LARGE), df9, getFunction(densities, RIDGES),
-				slideOverworld(DensityFunctions.add(df10, DensityFunctions.constant(-0.703125D)).clamp(-64.0D, 64.0D)),
-				df14, df16, df19, df20);
+				slide(DensityFunctions.add(df10, DensityFunctions.constant(-0.703125D)).clamp(-64.0D, 64.0D)), df14,
+				df16, df19, df20);
 	}
 
 	private static DensityFunction underground(HolderGetter<DensityFunction> densities,
@@ -110,11 +110,6 @@ public class PlanetDensityFunction {
 	private static DensityFunction noiseGradientDensity(DensityFunction f1, DensityFunction f2) {
 		DensityFunction df = DensityFunctions.mul(f2, f1);
 		return DensityFunctions.mul(DensityFunctions.constant(4.0D), df.quarterNegative());
-	}
-
-	private static DensityFunction slideOverworld(DensityFunction df) {
-//		return slide(df, -64, 384, 16, 0, -0.078125D, 0, 24, 0.4D);
-		return slide(df);
 	}
 
 	private static DensityFunction slide(DensityFunction p_224444_) {

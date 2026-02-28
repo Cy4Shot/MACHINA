@@ -9,7 +9,6 @@ import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.JsonLoaderInit;
-import com.machina.world.PlanetRegistrationHandler;
 import com.machina.world.biome.PlanetBiome;
 import com.machina.world.data.PlanetDimensionData;
 
@@ -19,7 +18,6 @@ import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -83,15 +81,14 @@ public class CommonForgeEvents {
 	@SubscribeEvent
 	public static void onDebug(final ItemTossEvent event) {
 
-		// TODO: Disable
-		int id = 2;
-		if (!event.getPlayer().level().isClientSide()) {
-			ServerLevel planet = PlanetRegistrationHandler.createPlanet(event.getPlayer().getServer(), id);
-			event.getPlayer().sendSystemMessage(
-					Component.literal("Sending to: " + Starchart.system(planet).planets().get(id).name()));
-			PlanetRegistrationHandler.sendPlayerToDimension((ServerPlayer) event.getPlayer(), planet,
-					new BlockPos(0, 100, 0));
-		}
+//		int id = 2;
+//		if (!event.getPlayer().level().isClientSide()) {
+//			ServerLevel planet = PlanetRegistrationHandler.createPlanet(event.getPlayer().getServer(), id);
+//			event.getPlayer().sendSystemMessage(
+//					Component.literal("Sending to: " + Starchart.system(planet).planets().get(id).name()));
+//			PlanetRegistrationHandler.sendPlayerToDimension((ServerPlayer) event.getPlayer(), planet,
+//					new BlockPos(0, 100, 0));
+//		}
 	}
 
 	@SubscribeEvent
