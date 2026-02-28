@@ -4,15 +4,14 @@ import java.util.function.Supplier;
 
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
-import com.machina.client.model.rocket.RocketPartModel;
 
 import net.minecraft.resources.ResourceLocation;
 
-public class LifeSupportPart<T extends RocketPartModel> extends RocketPart<T> {
+public class LifeSupportPart extends RocketPart {
 
 	private final int slots;
 
-	public LifeSupportPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off,
+	public LifeSupportPart(ResourceLocation loc, float height, Supplier<?> model, float weight, float off,
 			float guiScale, int slots) {
 		super(loc, RocketPartType.LIFE_SUPPORT, height, off, guiScale, model, weight);
 		this.slots = slots;

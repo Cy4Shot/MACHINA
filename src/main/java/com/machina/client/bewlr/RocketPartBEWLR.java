@@ -27,7 +27,7 @@ public class RocketPartBEWLR extends BlockEntityWithoutLevelRenderer {
 			@NotNull MultiBufferSource buffer, int light, int overlay) {
 		if (stack.getItem() instanceof RocketPartItem part) {
 
-			RocketPart<?> rocket = part.getRocketPart();
+			RocketPart rocket = part.getRocketPart();
 			ItemTransform transforms = ItemTransformUtil.BLOCK.getTransform(ctx);
 			float scale = rocket.getGUIScale();
 

@@ -39,7 +39,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu> {
 
-	private List<? extends RocketPart<?>> parts = new ArrayList<>();
+	private List<? extends RocketPart> parts = new ArrayList<>();
 	private int selected = 0;
 	private float scrollDist = 0;
 
@@ -129,7 +129,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 		MUI.enableClipping(i + 5, j - 45, 225, 112);
 		for (int x = 0; x < parts.size(); x++) {
 			int h = j + x * 80 - (int) (scrollDist);
-			RocketPart<?> part = parts.get(x);
+			RocketPart part = parts.get(x);
 			MUI.rocketPart(gui, i + 48, h - 8, 24, aliveTicks % 360, -15f, part);
 
 			MUI.drawString(gui, part.getName().withStyle(Style.EMPTY.withBold(true)), i + 90, h - 35);
@@ -141,7 +141,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 					i + 90, h - 20);
 			switch (selected) {
 			case 0:
-				ThrusterPart<?> thruster = (ThrusterPart<?>) part;
+				ThrusterPart thruster = (ThrusterPart) part;
 				MUI.drawString(gui,
 						MUI.uistr("rocket_part_bench.fuel_type").append(c)
 								.append(StringUtils.fluid(new FluidStack(thruster.getFuel().fluid(), 1), true)),
@@ -153,7 +153,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 						i + 90, h);
 				break;
 			case 1:
-				FuelTankPart<?> tank = (FuelTankPart<?>) part;
+				FuelTankPart tank = (FuelTankPart) part;
 				MUI.drawString(gui,
 						MUI.uistr("rocket_part_bench.fuel_capacity").append(c)
 								.append(Component.literal(StringUtils.formatFluid(tank.getFuelStorage()))
@@ -166,7 +166,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 						i + 90, h);
 				break;
 			case 2:
-				ChassisPart<?> chassis = (ChassisPart<?>) part;
+				ChassisPart chassis = (ChassisPart) part;
 				MUI.drawString(gui,
 						MUI.uistr("rocket_part_bench.coolant_type").append(c)
 								.append(StringUtils.fluid(new FluidStack(chassis.getCoolant().fluid(), 1), true)),
@@ -178,7 +178,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 						i + 90, h);
 				break;
 			case 3:
-				LifeSupportPart<?> lifeSupport = (LifeSupportPart<?>) part;
+				LifeSupportPart lifeSupport = (LifeSupportPart) part;
 				MUI.drawString(gui,
 						MUI.uistr("rocket_part_bench.storage").append(c)
 								.append(Component.literal(String.valueOf(lifeSupport.getSlots()))
@@ -186,7 +186,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 						i + 90, h - 10);
 				break;
 			case 4:
-				ShieldPart<?> shield = (ShieldPart<?>) part;
+				ShieldPart shield = (ShieldPart) part;
 				MUI.drawString(gui,
 						MUI.uistr("rocket_part_bench.max_pressure").append(c)
 								.append(Component.literal(StringUtils.formatPressure(shield.getMaxAtmPressure()))
@@ -278,7 +278,7 @@ public class RocketPartBenchScreen extends MachinaMenuScreen<RocketPartBenchMenu
 				if (y > j - 45 && y < j + 67) {
 					for (int x1 = 0; x1 < parts.size(); x1++) {
 						RocketPartBenchBlockEntity entity = this.entity();
-						RocketPart<?> part = parts.get(x1);
+						RocketPart part = parts.get(x1);
 						Optional<RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> or = entity
 								.getRecipe(part);
 						if (or.isPresent() && mc.player != null) {

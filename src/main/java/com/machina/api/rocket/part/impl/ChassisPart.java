@@ -4,17 +4,16 @@ import java.util.function.Supplier;
 
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
-import com.machina.client.model.rocket.RocketPartModel;
 import com.machina.registration.init.FluidInit.FluidObject;
 
 import net.minecraft.resources.ResourceLocation;
 
-public class ChassisPart<T extends RocketPartModel> extends RocketPart<T> {
+public class ChassisPart extends RocketPart {
 
 	private final FluidObject coolant;
 	private final float coolantEfficiency;
 
-	public ChassisPart(ResourceLocation loc, float height, Supplier<T> model, float weight, float off, float guiScale,
+	public ChassisPart(ResourceLocation loc, float height, Supplier<?> model, float weight, float off, float guiScale,
 			FluidObject coolant, float coolantEfficiency) {
 		super(loc, RocketPartType.CHASSIS, height, off, guiScale, model, weight);
 		this.coolant = coolant;

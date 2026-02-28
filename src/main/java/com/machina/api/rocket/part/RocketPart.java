@@ -21,24 +21,24 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public class RocketPart<T extends RocketPartModel> {
+public class RocketPart {
 
-	public static final StreamCodec<RegistryFriendlyByteBuf, RocketPart<?>> STREAM_CODEC = ByteBufCodecs
+	public static final StreamCodec<RegistryFriendlyByteBuf, RocketPart> STREAM_CODEC = ByteBufCodecs
 			.registry(RegistryInit.ROCKET_PART_REGISTRY.key());
 
-	public static final Codec<RocketPart<?>> CODEC = MachinaCodecs.registryCodec(RegistryInit.ROCKET_PART_REGISTRY);
+	public static final Codec<RocketPart> CODEC = MachinaCodecs.registryCodec(RegistryInit.ROCKET_PART_REGISTRY);
 
 	private final ResourceLocation loc;
 	private final RocketPartType type;
 	private final float height, offset, guiScale;
-	private final Supplier<T> model;
+	private final Supplier<?> model;
 
 	private final float mass;
 
 	private RocketPartItem item;
 
 	public RocketPart(ResourceLocation loc, RocketPartType type, float height, float offset, float guiScale,
-			Supplier<T> model, float mass) {
+			Supplier<?> model, float mass) {
 		this.loc = loc;
 		this.type = type;
 		this.height = height;
@@ -53,8 +53,8 @@ public class RocketPart<T extends RocketPartModel> {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public T bake() {
-		return model.get();
+	public RocketPartModel bake() {
+		return (RocketPartModel) model.get();
 	}
 
 	public ResourceLocation getLoc() {
@@ -100,7 +100,7 @@ public class RocketPart<T extends RocketPartModel> {
 		return tag;
 	}
 
-	public static RocketPart<?> fromNBT(CompoundTag tag) {
+	public static RocketPart fromNBT(CompoundTag tag) {
 		ResourceLocation loc = ResourceLocation.parse(tag.get("name").getAsString());
 		return RegistryInit.ROCKET_PART_REGISTRY.get(loc);
 	}

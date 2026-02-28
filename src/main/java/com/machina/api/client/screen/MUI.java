@@ -703,7 +703,7 @@ public final class MUI {
 
 	@SuppressWarnings("deprecation")
 	public static void rocketPart(GuiGraphics gui, int x, int y, float scale, float yaw, float pitch,
-			RocketPart<?> part) {
+			RocketPart part) {
 		// PoseStack for GUI overlay
 		Matrix4fStack vs = RenderSystem.getModelViewStack();
 		vs.pushMatrix();

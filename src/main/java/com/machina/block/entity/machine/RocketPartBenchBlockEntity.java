@@ -30,7 +30,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements RecipeInput {
 
-	private static final Map<RocketPart<?>, RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> RECIPE_CACHE = new HashMap<>();
+	private static final Map<RocketPart, RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> RECIPE_CACHE = new HashMap<>();
 
 	private int progress = 0;
 	private RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>> recipe = null;
@@ -62,7 +62,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
 		return this.getEnergy() >= r.getPowerRate();
 	}
 
-	public Optional<RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> getRecipe(RocketPart<?> part) {
+	public Optional<RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>>> getRecipe(RocketPart part) {
 		if (RECIPE_CACHE.containsKey(part))
 			return Optional.of(RECIPE_CACHE.get(part));
 		else {
@@ -103,7 +103,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
 		return this.recipe != null && this.progress > 0;
 	}
 
-	public RocketPart<?> output() {
+	public RocketPart output() {
 		if (this.recipe != null) {
 			Item i = this.recipe.value().getOutputItems().get(0).getItem();
 			if (i instanceof RocketPartItem rpi) {
@@ -135,7 +135,7 @@ public class RocketPartBenchBlockEntity extends MachinaBlockEntity implements Re
 		this.setChanged();
 	}
 
-	public void startCrafting(ServerPlayer player, RocketPart<?> part) {
+	public void startCrafting(ServerPlayer player, RocketPart part) {
 		RecipeHolder<? extends MachinaRecipe<RocketPartBenchBlockEntity>> recipe = getRecipe(part).orElse(null);
 		if (recipe == null)
 			return;

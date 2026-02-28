@@ -12,14 +12,14 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 public class RocketPartItem extends Item {
 
-	private final Supplier<RocketPart<?>> part;
+	private final Supplier<RocketPart> part;
 
-	public RocketPartItem(Properties props, Supplier<RocketPart<?>> part) {
+	public RocketPartItem(Properties props, Supplier<RocketPart> part) {
 		super(props.stacksTo(1));
 		this.part = part;
 	}
 
-	public RocketPart<?> getRocketPart() {
+	public RocketPart getRocketPart() {
 		return part.get();
 	}
 

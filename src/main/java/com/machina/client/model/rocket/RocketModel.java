@@ -12,9 +12,9 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 
 public class RocketModel extends EntityModel<RocketEntity> {
-	private final List<RocketPart<?>> parts;
+	private final List<RocketPart> parts;
 
-	public RocketModel(List<RocketPart<?>> parts) {
+	public RocketModel(List<RocketPart> parts) {
 		this.parts = parts;
 	}
 
@@ -24,7 +24,7 @@ public class RocketModel extends EntityModel<RocketEntity> {
 
 	public void render(PoseStack stack, MultiBufferSource buff, int light, int overlay, int color) {
 		stack.pushPose();
-		for (RocketPart<?> part : this.parts) {
+		for (RocketPart part : this.parts) {
 			stack.translate(0, -part.getModelHeight(), 0);
 			part.bake().render(stack, buff, light, overlay, color);
 			stack.translate(0, -part.getModelOffset(), 0);
@@ -34,7 +34,7 @@ public class RocketModel extends EntityModel<RocketEntity> {
 
 	public float getGUIScale() {
 		float tot = 0;
-		for (RocketPart<?> part : this.parts) {
+		for (RocketPart part : this.parts) {
 			tot += part.getModelHeight();
 			tot += part.getModelOffset();
 		}
@@ -47,13 +47,13 @@ public class RocketModel extends EntityModel<RocketEntity> {
 	}
 
 	public static class RocketModelBuilder {
-		private final List<RocketPart<?>> parts;
+		private final List<RocketPart> parts;
 
 		public RocketModelBuilder() {
 			this.parts = new ArrayList<>();
 		}
 
-		public RocketModelBuilder add(RocketPart<?> part) {
+		public RocketModelBuilder add(RocketPart part) {
 			this.parts.add(part);
 			return this;
 		}

@@ -107,7 +107,8 @@ public record Planet(String name, ResourceLocation planet_type, int icon_variant
 	// Extra Props
 
 	public boolean hasGenLiquid() {
-		return dominant_liquid != null;
+//		return dominant_liquid != null;
+		return true; // TODO: Enable no-liquid planets
 	}
 
 	public boolean isFluidFrozen() {

@@ -48,7 +48,7 @@ public class DataComponentsInit {
 			.registerComponentType("rocket_props",
 					builder -> builder.persistent(RocketProps.CODEC).networkSynchronized(RocketProps.STREAM_CODEC));
 
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Map<RocketPartType, RocketPart<?>>>> ROCKET_PARTS = DATA_COMPONENTS
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Map<RocketPartType, RocketPart>>> ROCKET_PARTS = DATA_COMPONENTS
 			.registerComponentType("rocket_parts", builder -> builder.persistent(RocketProps.PARTMAP_CODEC)
 					.networkSynchronized(RocketProps.PARTMAP_STREAM_CODEC));
 }

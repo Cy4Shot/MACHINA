@@ -36,7 +36,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 
 	private int progress = 0;
-	private RocketPart<?>[] parts = null;
+	private RocketPart[] parts = null;
 
 	public RocketAssemblyStationBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -68,7 +68,7 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 		if (!areSlotsFilled())
 			return;
 
-		this.parts = new RocketPart<?>[5];
+		this.parts = new RocketPart[5];
 		for (RocketPartType type : RocketPartType.values()) {
 			this.parts[type.ordinal()] = getPart(type);
 			this.setItem(getSlot(type), ItemStack.EMPTY);
@@ -127,7 +127,7 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 		tag.putBoolean("has_rocket_parts", this.parts != null);
 		if (this.parts != null) {
 			ListTag rocket_parts = new ListTag();
-			for (RocketPart<?> part : this.parts) {
+			for (RocketPart part : this.parts) {
 				rocket_parts.add(part.toNBT());
 			}
 			tag.put("rocket_parts", rocket_parts);
@@ -140,7 +140,7 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 	public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
 		this.progress = tag.getInt("progress");
 		if (tag.getBoolean("has_rocket_parts")) {
-			this.parts = new RocketPart<?>[5];
+			this.parts = new RocketPart[5];
 			ListTag rocket_parts = tag.getList("rocket_parts", Tag.TAG_COMPOUND);
 			for (int i = 0; i < rocket_parts.size(); i++) {
 				this.parts[i] = RocketPart.fromNBT(rocket_parts.getCompound(i));
@@ -204,9 +204,9 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 		return -1;
 	}
 
-	private <T, P extends RocketPart<?>> Optional<T> partGetter(RocketPartType type, Class<P> partClass,
+	private <T, P extends RocketPart> Optional<T> partGetter(RocketPartType type, Class<P> partClass,
 			Function<P, T> getter) {
-		RocketPart<?> part = getPart(type);
+		RocketPart part = getPart(type);
 		if (part != null) {
 			if (partClass.isInstance(part)) {
 				return Optional.of(getter.apply(partClass.cast(part)));
@@ -215,7 +215,7 @@ public class RocketAssemblyStationBlockEntity extends MachinaBlockEntity {
 		return Optional.empty();
 	}
 
-	public RocketPart<?> getPart(RocketPartType type) {
+	public RocketPart getPart(RocketPartType type) {
 		ItemStack stack = getItem(getSlot(type));
 		if (!stack.isEmpty()) {
 			if (stack.getItem() instanceof RocketPartItem rpi) {

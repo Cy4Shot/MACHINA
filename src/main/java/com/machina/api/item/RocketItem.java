@@ -45,23 +45,23 @@ public class RocketItem extends Item {
 				.component(DataComponentsInit.ROCKET_PARTS, Map.of()));
 	}
 
-	public static RocketPart<?> getPart(ItemStack stack, RocketPartType type) {
+	public static RocketPart getPart(ItemStack stack, RocketPartType type) {
 		return stack.get(DataComponentsInit.ROCKET_PARTS).get(type);
 	}
 
-	public static void setPart(ItemStack stack, RocketPartType type, RocketPart<?> part) {
-		Map<RocketPartType, RocketPart<?>> parts = new HashMap<>(stack.get(DataComponentsInit.ROCKET_PARTS));
+	public static void setPart(ItemStack stack, RocketPartType type, RocketPart part) {
+		Map<RocketPartType, RocketPart> parts = new HashMap<>(stack.get(DataComponentsInit.ROCKET_PARTS));
 		parts.put(type, part);
 		stack.set(DataComponentsInit.ROCKET_PARTS, parts);
 	}
 
 	public static void initProperties(ItemStack stack) {
-		ThrusterPart<?> thruster = (ThrusterPart<?>) Objects.requireNonNull(getPart(stack, RocketPartType.THRUSTER));
-		FuelTankPart<?> fuel_tank = (FuelTankPart<?>) Objects.requireNonNull(getPart(stack, RocketPartType.FUEL_TANK));
-		ChassisPart<?> chassis = (ChassisPart<?>) Objects.requireNonNull(getPart(stack, RocketPartType.CHASSIS));
-		LifeSupportPart<?> life_support = (LifeSupportPart<?>) Objects
+		ThrusterPart thruster = (ThrusterPart) Objects.requireNonNull(getPart(stack, RocketPartType.THRUSTER));
+		FuelTankPart fuel_tank = (FuelTankPart) Objects.requireNonNull(getPart(stack, RocketPartType.FUEL_TANK));
+		ChassisPart chassis = (ChassisPart) Objects.requireNonNull(getPart(stack, RocketPartType.CHASSIS));
+		LifeSupportPart life_support = (LifeSupportPart) Objects
 				.requireNonNull(getPart(stack, RocketPartType.LIFE_SUPPORT));
-		ShieldPart<?> shield = (ShieldPart<?>) Objects.requireNonNull(getPart(stack, RocketPartType.SHIELD));
+		ShieldPart shield = (ShieldPart) Objects.requireNonNull(getPart(stack, RocketPartType.SHIELD));
 
 		setProperties(stack, RocketProps.fromParts(thruster, fuel_tank, chassis, life_support, shield));
 	}

@@ -25,7 +25,7 @@ public class RocketPartBenchRenderer implements BlockEntityRenderer<RocketPartBe
 	public void render(RocketPartBenchBlockEntity be, float partial, @NotNull PoseStack pose,
 			@NotNull MultiBufferSource buff, int light, int overlay) {
 		if (be.isCrafting()) {
-			RocketPart<?> part = be.output();
+			RocketPart part = be.output();
 			Level level = be.getLevel();
 
 			if (part != null && level != null) {

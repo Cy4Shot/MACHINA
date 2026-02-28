@@ -53,7 +53,7 @@ public abstract class DatagenLang extends LanguageProvider {
 		add(modid + ".creativemodetab." + tab.getId().getPath(), name);
 	}
 
-	protected void addPart(DeferredHolder<RocketPart<?>, ? extends RocketPart<?>> part, String name) {
+	protected void addPart(DeferredHolder<RocketPart, ? extends RocketPart> part, String name) {
 		add("rocket_part." + modid + "." + part.getId().getPath(), name);
 		add(part.get().getItem().getDescriptionId(), name);
 	}

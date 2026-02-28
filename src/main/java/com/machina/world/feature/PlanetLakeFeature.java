@@ -51,7 +51,7 @@ public class PlanetLakeFeature extends Feature<PlanetLakeFeature.PlanetLakeFeatu
 			fluid = p.getDominantLiquidBodyBlock();
 		}
 		if (fluid == null || fluid.getFluidState().isEmpty()) {
-			fluid = Blocks.WATER.defaultBlockState();
+			fluid = Blocks.WATER.defaultBlockState(); // TODO: No lake default
 		}
 
 		if (pos.getY() <= level.getMinBuildHeight() + 4) {

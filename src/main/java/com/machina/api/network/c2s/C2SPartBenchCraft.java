@@ -13,7 +13,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
-public record C2SPartBenchCraft(RocketPart<?> part, BlockPos pos) implements C2SMessage<C2SPartBenchCraft> {
+public record C2SPartBenchCraft(RocketPart part, BlockPos pos) implements C2SMessage<C2SPartBenchCraft> {
 
 	@Override
 	public StreamCodec<? super RegistryFriendlyByteBuf, C2SPartBenchCraft> streamCodec() {

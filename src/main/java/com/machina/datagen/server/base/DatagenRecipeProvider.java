@@ -329,7 +329,7 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	}
 
 	protected static void rocket_part(@NotNull RecipeOutput gen,
-			DeferredHolder<RocketPart<?>, ? extends RocketPart<?>> reg, int energy, ItemStack... in) {
+			DeferredHolder<RocketPart, ? extends RocketPart> reg, int energy, ItemStack... in) {
 		MachinaRecipeBuilder<?> builder = MachinaRecipeBuilder.create(RecipeInit.ROCKET_PART_BENCH);
 		RocketPartItem item = reg.get().getItem();
 		for (ItemStack stack : in) {

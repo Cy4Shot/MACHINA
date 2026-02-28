@@ -25,7 +25,7 @@ public class RegistryInit {
 	public static final Registry<TreeMaker> TREE_REGISTRY = createRegistry(MachinaRL.create("tree"));
 	public static final Registry<RockMaker> ROCK_REGISTRY = createRegistry(MachinaRL.create("rock"));
 	public static final Registry<PlanetSurface> SURFACE_REGISTRY = createRegistry(MachinaRL.create("surface"));
-	public static final Registry<RocketPart<?>> ROCKET_PART_REGISTRY = createRegistry(MachinaRL.create("rocket_part"));
+	public static final Registry<RocketPart> ROCKET_PART_REGISTRY = createRegistry(MachinaRL.create("rocket_part"));
 
 	private static final <T> Registry<T> createRegistry(ResourceLocation RL) {
 		Registry<T> reg = new RegistryBuilder<T>(ResourceKey.createRegistryKey(RL)).sync(true)

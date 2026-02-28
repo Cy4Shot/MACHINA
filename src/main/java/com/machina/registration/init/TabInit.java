@@ -219,8 +219,8 @@ public class TabInit {
 		add(adder, fruit.item().get());
 	}
 
-	private static <T extends RocketPart<?>> void add(CreativeModeTab.Output a,
-			Map<ResourceKey<RocketPart<?>>, DeferredHolder<RocketPart<?>, T>> parts) {
+	private static <T extends RocketPart> void add(CreativeModeTab.Output a,
+			Map<ResourceKey<RocketPart>, DeferredHolder<RocketPart, T>> parts) {
 		parts.values().forEach(r -> add(a, r.get().getItem()));
 	}
 

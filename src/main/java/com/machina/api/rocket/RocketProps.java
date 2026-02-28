@@ -34,10 +34,10 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelStorage, float fuelEfficiency,
 		Fluid coolantType, int coolantStorage, float coolantEfficiency, int slots, float maxPressure,
-		List<RocketPart<?>> parts, AABB boundingBox) {
+		List<RocketPart> parts, AABB boundingBox) {
 
 	public RocketProps(boolean empty, float mass, FluidStack fuelStack, float fuelEfficiency, FluidStack coolantStack,
-			float coolantEfficiency, int slots, float maxPressure, List<RocketPart<?>> parts, AABB boundingBox) {
+			float coolantEfficiency, int slots, float maxPressure, List<RocketPart> parts, AABB boundingBox) {
 		this(empty, mass, fuelStack.getFluid(), fuelStack.getAmount(), fuelEfficiency, coolantStack.getFluid(),
 				coolantStack.getAmount(), coolantEfficiency, slots, maxPressure, parts, boundingBox);
 	}
@@ -70,13 +70,13 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
                 MachinaCodecs.AABB.fieldOf("boundingBox").forGetter(RocketProps::boundingBox)
         ).apply(instance, RocketProps::new));
     
-    public static final StreamCodec<RegistryFriendlyByteBuf, Map<RocketPartType, RocketPart<?>>> PARTMAP_STREAM_CODEC = ByteBufCodecs.map(
+    public static final StreamCodec<RegistryFriendlyByteBuf, Map<RocketPartType, RocketPart>> PARTMAP_STREAM_CODEC = ByteBufCodecs.map(
             HashMap::new,
             MachinaStreamCodecs.enumCodec(RocketPartType.class),
             RocketPart.STREAM_CODEC,
             5);
     
-    public static final Codec<Map<RocketPartType, RocketPart<?>>> PARTMAP_CODEC = Codec.unboundedMap(
+    public static final Codec<Map<RocketPartType, RocketPart>> PARTMAP_CODEC = Codec.unboundedMap(
             MachinaCodecs.enumCodec(RocketPartType.class), 
             RocketPart.CODEC);
     //@formatter:on
@@ -91,9 +91,9 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
 	public static final RocketProps NULL = new RocketProps(true, 0, null, 0, 0, null, 0, 0, 0, 0, List.of(),
 			new AABB(0, 0, 0, 1, 1, 1));
 
-	private static final AABB calculateAABB(List<RocketPart<?>> parts) {
+	private static final AABB calculateAABB(List<RocketPart> parts) {
 		float maxY = 0;
-		for (RocketPart<?> part : parts) {
+		for (RocketPart part : parts) {
 			maxY += part.getModelHeight();
 			maxY += part.getModelOffset();
 		}
@@ -112,11 +112,11 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
 	private static final String PROPERTY_MAX_PRESSURE = "max_pressure";
 	private static final String PROPERTY_PARTS = "parts";
 
-	public static RocketProps fromParts(ThrusterPart<?> thruster, FuelTankPart<?> fuelTank, ChassisPart<?> chassis,
-			LifeSupportPart<?> lifeSupport, ShieldPart<?> shield) {
+	public static RocketProps fromParts(ThrusterPart thruster, FuelTankPart fuelTank, ChassisPart chassis,
+			LifeSupportPart lifeSupport, ShieldPart shield) {
 		float mass = thruster.getMass() + fuelTank.getMass() + chassis.getMass() + lifeSupport.getMass()
 				+ shield.getMass();
-		List<RocketPart<?>> parts = List.of(thruster, fuelTank, chassis, lifeSupport, shield);
+		List<RocketPart> parts = List.of(thruster, fuelTank, chassis, lifeSupport, shield);
 		return new RocketProps(false, mass, thruster.getFuel().fluid(), fuelTank.getFuelStorage(),
 				thruster.getFuelEfficiency(), chassis.getCoolant().fluid(), fuelTank.getCoolantStorage(),
 				chassis.getCoolantEfficiency(), lifeSupport.getSlots(), shield.getMaxAtmPressure(), parts,
@@ -130,7 +130,7 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
 
 		Fluid fuel = BuiltInRegistries.FLUID.get(ResourceLocation.parse(tag.getString(PROPERTY_FUEL_TYPE)));
 		Fluid coolant = BuiltInRegistries.FLUID.get(ResourceLocation.parse(tag.getString(PROPERTY_COOLANT_TYPE)));
-		List<RocketPart<?>> parts = new ArrayList<RocketPart<?>>();
+		List<RocketPart> parts = new ArrayList<RocketPart>();
 		ListTag rocket_parts = tag.getList(PROPERTY_PARTS, Tag.TAG_COMPOUND);
 		for (int i = 0; i < rocket_parts.size(); i++) {
 			parts.add(RocketPart.fromNBT(rocket_parts.getCompound(i)));
@@ -162,7 +162,7 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
 		props.putFloat(PROPERTY_MAX_PRESSURE, maxPressure);
 
 		ListTag rocket_parts = new ListTag();
-		for (RocketPart<?> part : this.parts) {
+		for (RocketPart part : this.parts) {
 			rocket_parts.add(part.toNBT());
 		}
 		props.put(PROPERTY_PARTS, rocket_parts);
