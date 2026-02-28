@@ -1,7 +1,5 @@
 package com.machina.api.rocket.part.impl;
 
-import java.util.function.Supplier;
-
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -13,9 +11,9 @@ public class ThrusterPart extends RocketPart {
 	private final FluidObject fuel;
 	private final float fuelEfficiency;
 
-	public ThrusterPart(ResourceLocation loc, float height, Supplier<?> model, float weight, float off, float guiScale,
+	public ThrusterPart(ResourceLocation loc, float height, float weight, float off, float guiScale,
 			FluidObject fuel, float fuelEfficiency) {
-		super(loc, RocketPartType.THRUSTER, height, off, guiScale, model, weight);
+		super(loc, RocketPartType.THRUSTER, height, off, guiScale, weight);
 		this.fuel = fuel;
 		this.fuelEfficiency = fuelEfficiency;
 	}

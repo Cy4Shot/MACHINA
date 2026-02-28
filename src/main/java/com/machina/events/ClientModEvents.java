@@ -13,6 +13,17 @@ import com.machina.client.PlanetSpecialEffects;
 import com.machina.client.ber.RocketPartBenchRenderer;
 import com.machina.client.ber.TankRenderer;
 import com.machina.client.entity.RocketRenderer;
+import com.machina.client.model.rocket.RocketPartModels;
+import com.machina.client.model.rocket.part.AdvancedChassisModel;
+import com.machina.client.model.rocket.part.ConeShieldModel;
+import com.machina.client.model.rocket.part.PressurizedTankModel;
+import com.machina.client.model.rocket.part.ReinforcedLifeSupportModel;
+import com.machina.client.model.rocket.part.SimpleChassisModel;
+import com.machina.client.model.rocket.part.SimpleFuelTankModel;
+import com.machina.client.model.rocket.part.SimpleLifeSupportModel;
+import com.machina.client.model.rocket.part.SimpleShieldModel;
+import com.machina.client.model.rocket.part.SimpleThrusterModel;
+import com.machina.client.model.rocket.part.TriTallThrusterModel;
 import com.machina.client.screen.menu.AtmosphericSeparatorScreen;
 import com.machina.client.screen.menu.BatteryScreen;
 import com.machina.client.screen.menu.ChemicalGeneratorScreen;
@@ -44,6 +55,7 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.KeyBindingInit;
 import com.machina.registration.init.MenuTypeInit;
+import com.machina.registration.init.RocketPartInit;
 import com.machina.world.PlanetFactory;
 
 import net.minecraft.client.Camera;
@@ -76,6 +88,21 @@ public class ClientModEvents {
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		CinematicHandler.setup();
 		FluidInit.setRenderLayers();
+		
+		RocketPartModels.register(RocketPartInit.SIMPLE_CHASSIS.get(), SimpleChassisModel::new);
+        RocketPartModels.register(RocketPartInit.ADVANCED_CHASSIS.get(), AdvancedChassisModel::new);
+
+        RocketPartModels.register(RocketPartInit.SIMPLE_FUEL_TANK.get(), SimpleFuelTankModel::new);
+        RocketPartModels.register(RocketPartInit.PRESSURIZED_FUEL_TANK.get(), PressurizedTankModel::new);
+
+        RocketPartModels.register(RocketPartInit.SIMPLE_LIFE_SUPPORT.get(), SimpleLifeSupportModel::new);
+        RocketPartModels.register(RocketPartInit.REINFORCED_LIFE_SUPPORT.get(), ReinforcedLifeSupportModel::new);
+
+        RocketPartModels.register(RocketPartInit.SIMPLE_SHIELD.get(), SimpleShieldModel::new);
+        RocketPartModels.register(RocketPartInit.CONE_SHIELD.get(), ConeShieldModel::new);
+
+        RocketPartModels.register(RocketPartInit.SIMPLE_THRUSTER.get(), SimpleThrusterModel::new);
+        RocketPartModels.register(RocketPartInit.TRI_TALL_THRUSTER.get(), TriTallThrusterModel::new);
 	}
 
 	@SubscribeEvent // on the mod event bus only on the physical client

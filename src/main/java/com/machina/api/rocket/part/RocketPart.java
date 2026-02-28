@@ -1,10 +1,9 @@
 package com.machina.api.rocket.part;
 
-import java.util.function.Supplier;
-
 import com.machina.api.item.RocketPartItem;
 import com.machina.api.util.reflect.MachinaCodecs;
 import com.machina.client.model.rocket.RocketPartModel;
+import com.machina.client.model.rocket.RocketPartModels;
 import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.RocketPartInit;
 import com.mojang.serialization.Codec;
@@ -31,20 +30,17 @@ public class RocketPart {
 	private final ResourceLocation loc;
 	private final RocketPartType type;
 	private final float height, offset, guiScale;
-	private final Supplier<?> model;
 
 	private final float mass;
 
 	private RocketPartItem item;
 
-	public RocketPart(ResourceLocation loc, RocketPartType type, float height, float offset, float guiScale,
-			Supplier<?> model, float mass) {
+	public RocketPart(ResourceLocation loc, RocketPartType type, float height, float offset, float guiScale,  float mass) {
 		this.loc = loc;
 		this.type = type;
 		this.height = height;
 		this.offset = offset;
 		this.guiScale = guiScale;
-		this.model = model;
 		this.mass = mass;
 	}
 
@@ -54,7 +50,7 @@ public class RocketPart {
 
 	@OnlyIn(Dist.CLIENT)
 	public RocketPartModel bake() {
-		return (RocketPartModel) model.get();
+		return RocketPartModels.bake(this);
 	}
 
 	public ResourceLocation getLoc() {

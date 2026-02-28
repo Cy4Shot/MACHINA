@@ -1,7 +1,5 @@
 package com.machina.api.rocket.part.impl;
 
-import java.util.function.Supplier;
-
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -13,9 +11,9 @@ public class ChassisPart extends RocketPart {
 	private final FluidObject coolant;
 	private final float coolantEfficiency;
 
-	public ChassisPart(ResourceLocation loc, float height, Supplier<?> model, float weight, float off, float guiScale,
+	public ChassisPart(ResourceLocation loc, float height, float weight, float off, float guiScale,
 			FluidObject coolant, float coolantEfficiency) {
-		super(loc, RocketPartType.CHASSIS, height, off, guiScale, model, weight);
+		super(loc, RocketPartType.CHASSIS, height, off, guiScale, weight);
 		this.coolant = coolant;
 		this.coolantEfficiency = coolantEfficiency;
 	}

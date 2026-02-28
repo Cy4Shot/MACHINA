@@ -1,7 +1,5 @@
 package com.machina.api.rocket.part.impl;
 
-import java.util.function.Supplier;
-
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 
@@ -12,9 +10,9 @@ public class FuelTankPart extends RocketPart {
 	private final int fuelStorage;
 	private final int coolantStorage;
 
-	public FuelTankPart(ResourceLocation loc, float height, Supplier<?> model, float weight, float off, float guiScale,
+	public FuelTankPart(ResourceLocation loc, float height, float weight, float off, float guiScale,
 			int fuelStorage, int coolantStorage) {
-		super(loc, RocketPartType.FUEL_TANK, height, off, guiScale, model, weight);
+		super(loc, RocketPartType.FUEL_TANK, height, off, guiScale, weight);
 		this.fuelStorage = fuelStorage;
 		this.coolantStorage = coolantStorage;
 	}

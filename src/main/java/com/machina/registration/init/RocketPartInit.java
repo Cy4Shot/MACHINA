@@ -3,7 +3,6 @@ package com.machina.registration.init;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import com.machina.Machina;
 import com.machina.api.item.RocketPartItem;
@@ -14,17 +13,6 @@ import com.machina.api.rocket.part.impl.LifeSupportPart;
 import com.machina.api.rocket.part.impl.ShieldPart;
 import com.machina.api.rocket.part.impl.ThrusterPart;
 import com.machina.api.util.MachinaRL;
-import com.machina.client.model.rocket.RocketPartModel;
-import com.machina.client.model.rocket.part.AdvancedChassisModel;
-import com.machina.client.model.rocket.part.ConeShieldModel;
-import com.machina.client.model.rocket.part.PressurizedTankModel;
-import com.machina.client.model.rocket.part.ReinforcedLifeSupportModel;
-import com.machina.client.model.rocket.part.SimpleChassisModel;
-import com.machina.client.model.rocket.part.SimpleFuelTankModel;
-import com.machina.client.model.rocket.part.SimpleLifeSupportModel;
-import com.machina.client.model.rocket.part.SimpleShieldModel;
-import com.machina.client.model.rocket.part.SimpleThrusterModel;
-import com.machina.client.model.rocket.part.TriTallThrusterModel;
 import com.machina.registration.init.FluidInit.FluidObject;
 
 import net.minecraft.resources.ResourceKey;
@@ -45,61 +33,58 @@ public class RocketPartInit {
 			.create(RegistryInit.ROCKET_PART_REGISTRY, Machina.MOD_ID);
 
 	//@formatter:off
-	public static final DeferredHolder<RocketPart, ChassisPart> SIMPLE_CHASSIS = chassis("simple", 1.5f, 0f, 1f, 100, FluidObject.WATER, 1f, SimpleChassisModel::new);
-	public static final DeferredHolder<RocketPart, ChassisPart> ADVANCED_CHASSIS = chassis("advanced", 1f, 0f, 1f, 150, FluidInit.LEAD_BISMUTH_EUTECTIC, 0.5f, AdvancedChassisModel::new);
+	public static final DeferredHolder<RocketPart, ChassisPart> SIMPLE_CHASSIS = chassis("simple", 1.5f, 0f, 1f, 100, FluidObject.WATER, 1f);
+	public static final DeferredHolder<RocketPart, ChassisPart> ADVANCED_CHASSIS = chassis("advanced", 1f, 0f, 1f, 150, FluidInit.LEAD_BISMUTH_EUTECTIC, 0.5f);
 
-	public static final DeferredHolder<RocketPart, FuelTankPart> SIMPLE_FUEL_TANK = fuel_tank("simple", 3f, 0f, 1f, 400, 16_000, 36_000, SimpleFuelTankModel::new);
-	public static final DeferredHolder<RocketPart, FuelTankPart> PRESSURIZED_FUEL_TANK = fuel_tank("pressurized", 1f, 0f, 1f, 600, 100_000, 100_000, PressurizedTankModel::new);
+	public static final DeferredHolder<RocketPart, FuelTankPart> SIMPLE_FUEL_TANK = fuel_tank("simple", 3f, 0f, 1f, 400, 16_000, 36_000);
+	public static final DeferredHolder<RocketPart, FuelTankPart> PRESSURIZED_FUEL_TANK = fuel_tank("pressurized", 1f, 0f, 1f, 600, 100_000, 100_000);
 
-	public static final DeferredHolder<RocketPart, LifeSupportPart> SIMPLE_LIFE_SUPPORT = life_support("simple", 3f, 0f, 1f, 100, 0, SimpleLifeSupportModel::new);
-	public static final DeferredHolder<RocketPart, LifeSupportPart> REINFORCED_LIFE_SUPPORT = life_support("reinforced", 2f, 0f, 1f, 200, 27, ReinforcedLifeSupportModel::new);
+	public static final DeferredHolder<RocketPart, LifeSupportPart> SIMPLE_LIFE_SUPPORT = life_support("simple", 3f, 0f, 1f, 100, 0);
+	public static final DeferredHolder<RocketPart, LifeSupportPart> REINFORCED_LIFE_SUPPORT = life_support("reinforced", 2f, 0f, 1f, 200, 27);
 
-	public static final DeferredHolder<RocketPart, ShieldPart> SIMPLE_SHIELD = shield("simple", 0.6875f, 0f, 1f, 200, 10_000_000, SimpleShieldModel::new);
-	public static final DeferredHolder<RocketPart, ShieldPart> CONE_SHIELD = shield("cone", 1f, 0f, 1f, 30, 32_000_000, ConeShieldModel::new);
+	public static final DeferredHolder<RocketPart, ShieldPart> SIMPLE_SHIELD = shield("simple", 0.6875f, 0f, 1f, 200, 10_000_000);
+	public static final DeferredHolder<RocketPart, ShieldPart> CONE_SHIELD = shield("cone", 1f, 0f, 1f, 30, 32_000_000);
 
-	public static final DeferredHolder<RocketPart, ThrusterPart> SIMPLE_THRUSTER = thruster("simple", 0.75f, 0f, 0.5f, 100, FluidInit.AMMONIA, 1f, SimpleThrusterModel::new);
-	public static final DeferredHolder<RocketPart, ThrusterPart> TRI_TALL_THRUSTER = thruster("tri_tall", 1.625f, -0.875f, 1f, 150, FluidInit.AMMONIA, 2f, TriTallThrusterModel::new);
+	public static final DeferredHolder<RocketPart, ThrusterPart> SIMPLE_THRUSTER = thruster("simple", 0.75f, 0f, 0.5f, 100, FluidInit.AMMONIA, 1f);
+	public static final DeferredHolder<RocketPart, ThrusterPart> TRI_TALL_THRUSTER = thruster("tri_tall", 1.625f, -0.875f, 1f, 150, FluidInit.AMMONIA, 2f);
 	//@formatter:on
 
 	private static DeferredHolder<RocketPart, ChassisPart> chassis(String name, float height, float offset,
-			float guiScale, float mass, FluidObject coolant, float coolantEfficiency,
-			Supplier<? extends RocketPartModel> model) {
+			float guiScale, float mass, FluidObject coolant, float coolantEfficiency) {
 		DeferredHolder<RocketPart, ChassisPart> ro = register(name + "_chassis",
-				(t) -> new ChassisPart(t, height, model, mass, offset, guiScale, coolant, coolantEfficiency));
+				(t) -> new ChassisPart(t, height, mass, offset, guiScale, coolant, coolantEfficiency));
 		CHASSIS.put(ro.getKey(), ro);
 		return ro;
 	}
 
 	private static DeferredHolder<RocketPart, FuelTankPart> fuel_tank(String name, float height, float offset,
-			float guiScale, float mass, int fuelStorage, int coolantStorage,
-			Supplier<? extends RocketPartModel> model) {
+			float guiScale, float mass, int fuelStorage, int coolantStorage) {
 		DeferredHolder<RocketPart, FuelTankPart> ro = register(name + "_fuel_tank",
-				(t) -> new FuelTankPart(t, height, model, mass, offset, guiScale, fuelStorage, coolantStorage));
+				(t) -> new FuelTankPart(t, height, mass, offset, guiScale, fuelStorage, coolantStorage));
 		FUEL_TANKS.put(ro.getKey(), ro);
 		return ro;
 	}
 
 	private static DeferredHolder<RocketPart, LifeSupportPart> life_support(String name, float height,
-			float offset, float guiScale, float mass, int slots, Supplier<? extends RocketPartModel> model) {
+			float offset, float guiScale, float mass, int slots) {
 		DeferredHolder<RocketPart, LifeSupportPart> ro = register(name + "_life_support",
-				(t) -> new LifeSupportPart(t, height, model, mass, offset, guiScale, slots));
+				(t) -> new LifeSupportPart(t, height, mass, offset, guiScale, slots));
 		LIFE_SUPPORTS.put(ro.getKey(), ro);
 		return ro;
 	}
 
 	private static DeferredHolder<RocketPart, ShieldPart> shield(String name, float height, float offset,
-			float guiScale, float mass, float maxAtmPressure, Supplier<? extends RocketPartModel> model) {
+			float guiScale, float mass, float maxAtmPressure) {
 		DeferredHolder<RocketPart, ShieldPart> ro = register(name + "_shield",
-				(t) -> new ShieldPart(t, height, model, mass, offset, guiScale, maxAtmPressure));
+				(t) -> new ShieldPart(t, height, mass, offset, guiScale, maxAtmPressure));
 		SHIELDS.put(ro.getKey(), ro);
 		return ro;
 	}
 
 	private static DeferredHolder<RocketPart, ThrusterPart> thruster(String name, float height, float offset,
-			float guiScale, float mass, FluidObject fuel, float fuelEfficiency,
-			Supplier<? extends RocketPartModel> model) {
+			float guiScale, float mass, FluidObject fuel, float fuelEfficiency) {
 		DeferredHolder<RocketPart, ThrusterPart> ro = register(name + "_thruster",
-				(t) -> new ThrusterPart(t, height, model, mass, offset, guiScale, fuel, fuelEfficiency));
+				(t) -> new ThrusterPart(t, height, mass, offset, guiScale, fuel, fuelEfficiency));
 		THRUSTERS.put(ro.getKey(), ro);
 		return ro;
 	}
