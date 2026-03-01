@@ -55,6 +55,9 @@ public class DatagenBlockStates extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 
+		casing(BlockInit.BASIC_CASING);
+		casing(BlockInit.LIGHTWEIGHT_CASING);
+		
 		connector(BlockInit.ENERGY_CABLE);
 		connector(BlockInit.FLUID_PIPE);
 		connector(BlockInit.ITEM_CONDUIT);
@@ -589,6 +592,16 @@ public class DatagenBlockStates extends BlockStateProvider {
 				.rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
 				.build());
 		simpleFlatItem(l, itemTexture(l));
+	}
+
+	private void casing(DeferredBlock<? extends Block> casing) {
+		Block p = casing.get();
+
+		ModelFile model = models().withExistingParent(name(p), MachinaRL.create("block/machine_casing"))
+				.texture("0", blockTexture(p)).renderType("cutout");
+
+		simpleBlock(p, model);
+		simpleBlockItem(p, model);
 	}
 
 	public void machineAllLit(DeferredBlock<? extends LitMachineBlock> machine, boolean lit) {

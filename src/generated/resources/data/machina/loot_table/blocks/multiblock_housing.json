@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "machina:basic_machine_case"
+          "name": "machina:multiblock_housing"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "machina:blocks/basic_machine_case"
+  "random_sequence": "machina:blocks/multiblock_housing"
 }

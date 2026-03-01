@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/machine_casing",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "0": "machina:block/basic_casing"
+  }
+}

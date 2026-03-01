@@ -43,7 +43,7 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.ANTHRACITE.get())
 			.requires(Blocks.STONE)
 			.requires(ItemInit.COAL_CHUNK.get())
-			.unlockedBy(getHasName(BlockInit.ANTHRACITE.get()), has(BlockInit.ANTHRACITE.get()))
+			.unlockedBy(getHasName(ItemInit.COAL_CHUNK.get()), has(ItemInit.COAL_CHUNK.get()))
 			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ANTHRACITE.get()));
 		
 		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockInit.MIGMATITE.get())
@@ -51,9 +51,19 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.pattern("GS")
 			.define('S', Blocks.STONE)
 			.define('G', Blocks.GRANITE)
-			.unlockedBy(getHasName(BlockInit.MIGMATITE.get()), has(BlockInit.MIGMATITE.get()))
+			.unlockedBy(getHasName(Blocks.GRANITE), has(Blocks.GRANITE))
 			.showNotification(false)
 			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.MIGMATITE.get()));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.COPPER_COIL.get())
+			.pattern("NNN")
+			.pattern("NSN")
+			.pattern("NNN")
+			.define('S', Items.STICK)
+			.define('N', ItemInit.COPPER_NUGGET.get())
+			.unlockedBy(getHasName(ItemInit.COPPER_NUGGET.get()), has(ItemInit.COPPER_NUGGET.get()))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.COPPER_COIL.get()));
 		
 		// Reaction Chamber
 		reactff_f(gen, FluidInit.MOLTEN_LEAD, 1, FluidInit.MOLTEN_BISMUTH, 1, FluidInit.LEAD_BISMUTH_EUTECTIC, 2, 10);

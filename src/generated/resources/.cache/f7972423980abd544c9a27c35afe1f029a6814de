@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-18T17:40:57.8891568	Block States: machina
+// 1.21.1	2026-03-01T20:07:47.0039426	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -14,6 +14,7 @@ db6509b45eee783dce69b491febbe9cf29ce2d4f assets/machina/blockstates/anthracite_p
 a558c8e8c95da2e86a8a053c5924c8627dff8205 assets/machina/blockstates/argon_block.json
 1af730e50f1a338b9748971765ca9477b6bcfc30 assets/machina/blockstates/argo_berry.json
 694bf9823b14703c92d7fad64b3c8a265f8968de assets/machina/blockstates/ava_fruit.json
+2b245d29a0d275b046194e23d21949d4570c3b24 assets/machina/blockstates/basic_casing.json
 f43aaa46110c9275c8940d541f5c93c9a0a5b6e8 assets/machina/blockstates/battery.json
 f4545552f9845908e915f24483ac885875ea66a1 assets/machina/blockstates/benzene_block.json
 ae4ea389abbe1ffea135d237f6afd59f586e6b53 assets/machina/blockstates/benzylamine_block.json
@@ -167,6 +168,7 @@ b3e81068cbb328e8a5a9cb63014037b4a044f916 assets/machina/blockstates/imbued_red_m
 b5fcdda739d9f781c6da94df6a6d49656158eb11 assets/machina/blockstates/lead_bismuth_eutectic_block.json
 ff6863d8bcbc16df68cb05ad51db11e675107ab4 assets/machina/blockstates/lead_block.json
 aa41e81e2690b916928adaf6d89e80d138c3094c assets/machina/blockstates/lead_ore.json
+463116f7a43df531cac9830c50327a3ac2cb2539 assets/machina/blockstates/lightweight_casing.json
 2a96c102fd54d1c046c136b5fdf26949f3da3d43 assets/machina/blockstates/limestone.json
 eb62304d1c2b68692598aa30a694722dedbb8b26 assets/machina/blockstates/limestone_button.json
 9c38f7106d3b930b1b6f035a4d3918a1bac15f1d assets/machina/blockstates/limestone_pebbles.json
@@ -409,6 +411,7 @@ c38d47a0297859d24051ff2f386b405e14556081 assets/machina/models/block/anthracite_
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/argon_block.json
 bdd27e2f33fe4d22d4553e6a36b48e3087351279 assets/machina/models/block/argo_berry.json
 a63d8aff3f06167442147e7cd15280725070e1ba assets/machina/models/block/ava_fruit.json
+91224f81d8290159c92c7533e29fbf1da0838d19 assets/machina/models/block/basic_casing.json
 6536ca9fd279a89f0f31c91ff3bb902d02b9b316 assets/machina/models/block/battery.json
 dc543de521d1870cd94dfb146594522e8f456b88 assets/machina/models/block/battery_lit.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/benzene_block.json
@@ -704,6 +707,7 @@ ed1bdb8a6149b42f3422dc0161b3c7e5fc14593a assets/machina/models/block/imbued_yell
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/lead_bismuth_eutectic_block.json
 1c943f2b4f014a34b580cf51fc737395d1ab1e6d assets/machina/models/block/lead_block.json
 36cba713a8fbc868a3f12782fcc82c532c294f7b assets/machina/models/block/lead_ore.json
+3de2ad6596deba1cd0faa0aa241b31f0bdaf49f7 assets/machina/models/block/lightweight_casing.json
 046dc1963716fb7da13cd21f61cecfdb679d2363 assets/machina/models/block/limestone.json
 ad8b98af5e8b9844f35c87bed9420c5192e5c257 assets/machina/models/block/limestone_button.json
 0025e4e5938e067339854074da70e7577acba158 assets/machina/models/block/limestone_button_inventory.json
@@ -1086,6 +1090,7 @@ e0cf1f057aa4e3786db16e0203dd128446e537e3 assets/machina/models/item/anthracite_p
 521550cd570c2da28db71ab10ad0b9d9115a5f43 assets/machina/models/item/anthracite_stairs.json
 6076edee86f2370e0e6b273d361dbf66af00c923 assets/machina/models/item/anthracite_wall.json
 100c0f915d5def33a25ed7d57838ae5e2ffd7e34 assets/machina/models/item/atmospheric_separator.json
+0e9509b573c70f9465d20506720e703adecfb409 assets/machina/models/item/basic_casing.json
 7d8871e5d5c7b530ecc2ee0570078a5b76b6f1eb assets/machina/models/item/battery.json
 1322e181a25a670678e2fe06b16df61491570643 assets/machina/models/item/bismuth_ore.json
 f4abbee99c700e8d1275e4709e54723e93e3c338 assets/machina/models/item/blue_glowshroom.json
@@ -1204,6 +1209,7 @@ ec0865efa6e6d072feb298ffce49638fe1b37f6d assets/machina/models/item/imbued_yello
 c3a2d40cc04143332011570f05a426f829c72c1e assets/machina/models/item/item_conduit.json
 43bb54351d86f61564b4c64ec44dfca818eed562 assets/machina/models/item/lead_block.json
 5539d01a827bb319f6453040c4853cec13d893e6 assets/machina/models/item/lead_ore.json
+16ce9ea0a3a143eca5accd856e773e79d95328a9 assets/machina/models/item/lightweight_casing.json
 9cf584e1726d91b06b20ceabddb48f6cc62e1651 assets/machina/models/item/limestone.json
 d1e640d9d1e28a70ff03215e4d787d4d1bb65683 assets/machina/models/item/limestone_button.json
 ad4c1ba985b8715114d56c632860aa388335353c assets/machina/models/item/limestone_pebbles.json

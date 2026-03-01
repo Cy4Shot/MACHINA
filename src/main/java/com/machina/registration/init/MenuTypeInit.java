@@ -14,7 +14,7 @@ import com.machina.block.menu.ElectricSmelterMenu;
 import com.machina.block.menu.ElectrolyzerMenu;
 import com.machina.block.menu.FurnaceGeneratorMenu;
 import com.machina.block.menu.GrinderMenu;
-import com.machina.block.menu.MachineCaseMenu;
+import com.machina.block.menu.MultiblockHousingMenu;
 import com.machina.block.menu.MelterMenu;
 import com.machina.block.menu.ReactionChamberMenu;
 import com.machina.block.menu.RocketAssemblyStationMenu;
@@ -60,8 +60,8 @@ public class MenuTypeInit {
 			register("tank", TankMenu::new);
 	public static final Supplier<MenuType<CreativeBatteryMenu>> CREATIVE_BATTERY =
 			register("creative_battery", CreativeBatteryMenu::new);
-	public static final Supplier<MenuType<MachineCaseMenu>> MACHINE_CASE =
-			register("machine_case", MachineCaseMenu::new);
+	public static final Supplier<MenuType<MultiblockHousingMenu>> MULTIBLOCK_HOUSING =
+			register("multiblock_housing", MultiblockHousingMenu::new);
 	public static final Supplier<MenuType<FurnaceGeneratorMenu>> FURNACE_GENERATOR =
 			register("furnace_generator", FurnaceGeneratorMenu::new);
 	public static final Supplier<MenuType<ChemicalGeneratorMenu>> CHEMICAL_GENERATOR =

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "N": {
+      "item": "machina:copper_nugget"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NSN",
+    "NNN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:copper_coil"
+  },
+  "show_notification": false
+}

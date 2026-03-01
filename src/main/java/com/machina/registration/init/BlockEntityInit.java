@@ -19,7 +19,7 @@ import com.machina.block.entity.machine.ElectricSmelterBlockEntity;
 import com.machina.block.entity.machine.ElectrolyzerBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
-import com.machina.block.entity.machine.MachineCaseBlockEntity;
+import com.machina.block.entity.machine.MultiblockHousingBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.block.entity.machine.RocketAssemblyStationBlockEntity;
@@ -51,8 +51,8 @@ public class BlockEntityInit {
             TankBlockEntity::new, BlockInit.TANK::get);
 	public static final Supplier<BlockEntityType<CreativeBatteryBlockEntity>> CREATIVE_BATTERY = register("creaitve_battery",
             CreativeBatteryBlockEntity::new, BlockInit.CREATIVE_BATTERY::get);
-	public static final Supplier<BlockEntityType<MachineCaseBlockEntity>> MACHINE_CASE = register("machine_case",
-            MachineCaseBlockEntity::new, BlockInit.BASIC_MACHINE_CASE::get);
+	public static final Supplier<BlockEntityType<MultiblockHousingBlockEntity>> MULTIBLOCK_HOUSING = register("multiblock_housing",
+            MultiblockHousingBlockEntity::new, BlockInit.MULTIBLOCK_HOUSING::get);
 	public static final Supplier<BlockEntityType<FurnaceGeneratorBlockEntity>> FURNACE_GENERATOR = register("furnace_generator",
             FurnaceGeneratorBlockEntity::new, BlockInit.FURNACE_GENERATOR::get);
 	public static final Supplier<BlockEntityType<ChemicalGeneratorBlockEntity>> CHEMICAL_GENERATOR = register("chemical_generator",

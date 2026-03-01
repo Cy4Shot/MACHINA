@@ -27,7 +27,7 @@ import com.machina.block.machine.ElectricSmelterBlock;
 import com.machina.block.machine.ElectrolyzerBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
 import com.machina.block.machine.GrinderBlock;
-import com.machina.block.machine.MachineCaseBlock;
+import com.machina.block.machine.MultiblockHousingBlock;
 import com.machina.block.machine.MelterBlock;
 import com.machina.block.machine.ReactionChamberBlock;
 import com.machina.block.machine.RocketAssemblyStationBlock;
@@ -79,13 +79,16 @@ public class BlockInit {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.createBlocks(Machina.MOD_ID);
 
 	//@formatter:off
+	public static final DeferredBlock<Block> BASIC_CASING = cutout("basic_casing", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> LIGHTWEIGHT_CASING = cutout("lightweight_casing", Blocks.IRON_BLOCK);
+
 	public static final DeferredBlock<ItemConduitBlock> ITEM_CONDUIT = register("item_conduit", ItemConduitBlock::new);
 	public static final DeferredBlock<EnergyCableBlock> ENERGY_CABLE = register("energy_cable", EnergyCableBlock::new);
 	public static final DeferredBlock<FluidPipeBlock> FLUID_PIPE = register("fluid_pipe", FluidPipeBlock::new);
 	public static final DeferredBlock<BatteryBlock> BATTERY = register("battery", Blocks.IRON_BLOCK, BatteryBlock::new);
 	public static final DeferredBlock<TankBlock> TANK = register("tank", Blocks.IRON_BLOCK, TankBlock::new);
 	public static final DeferredBlock<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery", Blocks.IRON_BLOCK, CreativeBatteryBlock::new);
-	public static final DeferredBlock<MachineCaseBlock> BASIC_MACHINE_CASE = register("basic_machine_case", Blocks.IRON_BLOCK, MachineCaseBlock::new);
+	public static final DeferredBlock<MultiblockHousingBlock> MULTIBLOCK_HOUSING = register("multiblock_housing", Blocks.IRON_BLOCK, MultiblockHousingBlock::new);
 	public static final DeferredBlock<FurnaceGeneratorBlock> FURNACE_GENERATOR = register("furnace_generator", Blocks.IRON_BLOCK, FurnaceGeneratorBlock::new);
 	public static final DeferredBlock<ChemicalGeneratorBlock> CHEMICAL_GENERATOR = register("chemical_generator", Blocks.IRON_BLOCK, ChemicalGeneratorBlock::new);
 	public static final DeferredBlock<ElectricSmelterBlock> ELECTRIC_SMELTER = register("electric_smelter", Blocks.IRON_BLOCK, ElectricSmelterBlock::new);
@@ -483,6 +486,10 @@ public class BlockInit {
 
 	public static DeferredBlock<Block> block(String name, Block prop) {
 		return register(name, prop, a -> a, Block::new);
+	}
+	
+	public static DeferredBlock<Block> cutout(String name, Block prop) {
+		return register(name, prop, a -> a.noOcclusion(), Block::new);
 	}
 
 	public static DeferredBlock<FallingBlock> falling(String name, int dustRGBA, Block prop) {

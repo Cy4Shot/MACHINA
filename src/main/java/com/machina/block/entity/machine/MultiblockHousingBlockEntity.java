@@ -16,19 +16,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MachineCaseBlockEntity extends MachinaBlockEntity {
+public class MultiblockHousingBlockEntity extends MachinaBlockEntity {
 
 	public final Multiblock mb;
 	public boolean formed = false;
 
-	public MachineCaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+	public MultiblockHousingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 
 		this.mb = null;
 	}
 
-	public MachineCaseBlockEntity(BlockPos pos, BlockState state) {
-		this(BlockEntityInit.MACHINE_CASE.get(), pos, state);
+	public MultiblockHousingBlockEntity(BlockPos pos, BlockState state) {
+		this(BlockEntityInit.MULTIBLOCK_HOUSING.get(), pos, state);
 	}
 
 	@Override

@@ -4,16 +4,16 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MachinaMenuScreen;
-import com.machina.block.menu.MachineCaseMenu;
+import com.machina.block.menu.MultiblockHousingMenu;
 import com.machina.registration.init.MultiblockInit;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MachineCaseScreen extends MachinaMenuScreen<MachineCaseMenu> {
+public class MultiblockHousingScreen extends MachinaMenuScreen<MultiblockHousingMenu> {
 
-	public MachineCaseScreen(MachineCaseMenu menu, Inventory inv, Component title) {
+	public MultiblockHousingScreen(MultiblockHousingMenu menu, Inventory inv, Component title) {
 		super(menu, inv, title);
 		this.imageWidth = 230;
 		this.imageHeight = 219;

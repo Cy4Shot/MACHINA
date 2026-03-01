@@ -34,7 +34,7 @@ public class AdvancedItemFilterItem extends ConnectorFilterItem<ItemStack, Condu
 	}
 
 	public static NonNullList<Item> getItems(ItemStack stack) {
-		return NonNullList.copyOf(stack.get(DataComponentsInit.ITEMS));
+		return NonNullList.copyOf(stack.getOrDefault(DataComponentsInit.ITEMS, List.of()));
 	}
 
 	public static ItemStack set(ItemStack stack, NonNullList<Item> types, Mode mode) {

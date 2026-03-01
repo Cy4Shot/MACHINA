@@ -50,7 +50,9 @@ public class BlockLoot extends BlockLootSubProvider {
 		dropSelf(BlockInit.FLUID_PIPE.get());
 		dropSelf(BlockInit.ITEM_CONDUIT.get());
 
-		dropSelf(BlockInit.BASIC_MACHINE_CASE.get());
+		dropSelf(BlockInit.BASIC_CASING.get());
+		dropSelf(BlockInit.LIGHTWEIGHT_CASING.get());
+		dropSelf(BlockInit.MULTIBLOCK_HOUSING.get());
 
 		dropSelf(BlockInit.BATTERY.get());
 		dropSelf(BlockInit.TANK.get());

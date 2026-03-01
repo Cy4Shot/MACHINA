@@ -323,6 +323,7 @@ public class FamiliesInit {
 
 			ore.ifPresent(add);
 			ingot.ifPresent(add);
+			nugget.ifPresent(add);
 			block.ifPresent(add);
 			dust.ifPresent(add);
 			plate.ifPresent(add);

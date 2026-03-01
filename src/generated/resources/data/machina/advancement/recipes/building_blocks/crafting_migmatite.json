@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_migmatite": {
+    "has_granite": {
       "conditions": {
         "items": [
           {
-            "items": "machina:migmatite"
+            "items": "minecraft:granite"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_migmatite"
+      "has_granite"
     ]
   ],
   "rewards": {

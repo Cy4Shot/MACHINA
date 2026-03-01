@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-18T17:13:58.1165616	Loot Tables
+// 1.21.1	2026-03-01T20:05:43.5353419	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 16527e08325d88bd82d3799706b5436a77965f7f data/machina/loot_table/blocks/aluminum_ore.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
@@ -11,7 +11,7 @@ ab4cd54166411b3a7ed10f070f70d05c4ad8f812 data/machina/loot_table/blocks/anthraci
 06b010bf9ba168aad1098b6d59684a734db6d581 data/machina/loot_table/blocks/argo_berry.json
 4d0d6db108c864c22c0d90b5eecfe2aab2edcb80 data/machina/loot_table/blocks/atmospheric_separator.json
 db96cf72c0093a5b6d109ad82db999ba1c354f0a data/machina/loot_table/blocks/ava_fruit.json
-f8be84875c72f553f6d6fd04b8ec511b71e4baed data/machina/loot_table/blocks/basic_machine_case.json
+af3874920d4d8c91fbbb18798533cf19df200f22 data/machina/loot_table/blocks/basic_casing.json
 51dba9c5dea1a7bea6043f46828fb118f5c0a845 data/machina/loot_table/blocks/battery.json
 e4506ba38cca0a0cf31e8eea0da931b435b10fdf data/machina/loot_table/blocks/bismuth_ore.json
 6657627281250b83ea04d45715505111e603bebf data/machina/loot_table/blocks/blue_glowshroom.json
@@ -145,6 +145,7 @@ b7047389e69cc49cb4ee4915f81a614870f08371 data/machina/loot_table/blocks/imbued_r
 a7765f956eb0f4ea8a4cd98c9fdd52770a48b1dc data/machina/loot_table/blocks/item_conduit.json
 6006329da0f7a8c59c04bff479cd74dc77ae592e data/machina/loot_table/blocks/lead_block.json
 df9a550244eb069e2f0496c4d4b5ef733c5ec7e9 data/machina/loot_table/blocks/lead_ore.json
+6236dacb05ec51e15e109211e35bfb6bd7e8d451 data/machina/loot_table/blocks/lightweight_casing.json
 a54abc9fcc1a4da950f5f96e0d65525239ab246c data/machina/loot_table/blocks/limestone.json
 53b0b9aa4ee00d70d1bb6b72b59a7eba0b13692d data/machina/loot_table/blocks/limestone_button.json
 e217dff67d3604eaf86fffe45047694db2c47853 data/machina/loot_table/blocks/limestone_pebbles.json
@@ -167,6 +168,7 @@ ad884b112db57a9f15671e3e8980af6f1d47eed6 data/machina/loot_table/blocks/migmatit
 8a98cfbb9783cd8c996a0c82074b0e6f04289b69 data/machina/loot_table/blocks/migmatite_slab.json
 883eeb0e67b7750d00c879a85ed4478b66e5a541 data/machina/loot_table/blocks/migmatite_stairs.json
 d4c47df92287c79e621c54e08990f8a423a733f0 data/machina/loot_table/blocks/migmatite_wall.json
+95c4b78df5a5e73ad6f579d2cfde70a5a96717e2 data/machina/loot_table/blocks/multiblock_housing.json
 d8aba5cbc8715e7e683f1bf8f03135dd5b4bda7a data/machina/loot_table/blocks/mycelial_dirt.json
 a03cbc06e952be2b4f6e5e1ffd52d11034603fe0 data/machina/loot_table/blocks/mycelial_dirt_slab.json
 04286f63d80b7e489771010728d29f5e2e366d11 data/machina/loot_table/blocks/mycelial_dirt_stairs.json

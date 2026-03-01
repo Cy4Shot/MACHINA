@@ -35,7 +35,7 @@ import com.machina.client.screen.menu.ElectricSmelterScreen;
 import com.machina.client.screen.menu.ElectrolyzerScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
 import com.machina.client.screen.menu.GrinderScreen;
-import com.machina.client.screen.menu.MachineCaseScreen;
+import com.machina.client.screen.menu.MultiblockHousingScreen;
 import com.machina.client.screen.menu.MelterScreen;
 import com.machina.client.screen.menu.ReactionChamberScreen;
 import com.machina.client.screen.menu.RocketAssemblyStationScreen;
@@ -116,7 +116,7 @@ public class ClientModEvents {
 		event.register(MenuTypeInit.BATTERY.get(), BatteryScreen::new);
 		event.register(MenuTypeInit.TANK.get(), TankScreen::new);
 		event.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
-		event.register(MenuTypeInit.MACHINE_CASE.get(), MachineCaseScreen::new);
+		event.register(MenuTypeInit.MULTIBLOCK_HOUSING.get(), MultiblockHousingScreen::new);
 		event.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
 		event.register(MenuTypeInit.CHEMICAL_GENERATOR.get(), ChemicalGeneratorScreen::new);
 		event.register(MenuTypeInit.ELECTRIC_SMELTER.get(), ElectricSmelterScreen::new);

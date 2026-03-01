@@ -38,7 +38,7 @@ public class TabInit {
 
 				add(a, BlockInit.BATTERY);
 				add(a, BlockInit.TANK);
-				add(a, BlockInit.BASIC_MACHINE_CASE);
+				add(a, BlockInit.MULTIBLOCK_HOUSING);
 				add(a, BlockInit.FURNACE_GENERATOR);
 				add(a, BlockInit.CHEMICAL_GENERATOR);
 				add(a, BlockInit.ELECTRIC_SMELTER);
@@ -196,6 +196,9 @@ public class TabInit {
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINA_MISCELLANEOUS = create("machina_misc",
 			ItemInit.LOGIC_UNIT, a -> {
+				add(a, BlockInit.BASIC_CASING);
+				add(a, BlockInit.LIGHTWEIGHT_CASING);
+				
 				add(a, ItemInit.COPPER_COIL);
 				add(a, ItemInit.LOGIC_UNIT);
 				add(a, ItemInit.PROCESSOR);

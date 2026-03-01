@@ -175,10 +175,13 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FruitInit.ERBI_POD, "Erbi Pod");
 
 		// Blocks
+		add(BlockInit.BASIC_CASING, "Basic Casing");
+		add(BlockInit.LIGHTWEIGHT_CASING, "Lightweight Casing");
+		
 		add(BlockInit.ENERGY_CABLE, "Energy Cable");
 		add(BlockInit.FLUID_PIPE, "Fluid Pipe");
 		add(BlockInit.ITEM_CONDUIT, "Item Conduit");
-		add(BlockInit.BASIC_MACHINE_CASE, "Basic Machine Case");
+		add(BlockInit.MULTIBLOCK_HOUSING, "Multiblock Housing");
 		add(BlockInit.BATTERY, "Battery");
 		add(BlockInit.TANK, "Tank");
 		add(BlockInit.CREATIVE_BATTERY, "Creative Battery");
