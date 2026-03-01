@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "machina:palladium_ore_deep_peak",
+  "step": "underground_ores"
+}

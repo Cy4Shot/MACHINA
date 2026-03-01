@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "machina:aluminum_ore_upper",
+  "step": "underground_ores"
+}

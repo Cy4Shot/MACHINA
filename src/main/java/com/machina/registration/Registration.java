@@ -15,6 +15,7 @@ import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.MaterialRuleInit;
 import com.machina.registration.init.MenuTypeInit;
+import com.machina.registration.init.OverworldOresInit;
 import com.machina.registration.init.PlanetRockInit;
 import com.machina.registration.init.PlanetSurfaceInit;
 import com.machina.registration.init.PlanetTreeInit;
@@ -55,6 +56,8 @@ public class Registration {
 		ChunkGeneratorInit.CHUNK_GENERATORS.register(bus);
 		RecipeInit.RECIPE_TYPES.register(bus);
 		RecipeInit.RECIPE_SERIALIZERS.register(bus);
+		
+		OverworldOresInit.init(); // Only used for datagen
 	}
 
 	private static void registerConfig(ModContainer cont, ModConfig.Type type, ModConfigSpec spec) {

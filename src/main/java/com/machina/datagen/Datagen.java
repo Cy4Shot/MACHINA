@@ -12,6 +12,7 @@ import com.machina.datagen.server.DatagenBlockTags;
 import com.machina.datagen.server.DatagenFluidTags;
 import com.machina.datagen.server.DatagenItemTags;
 import com.machina.datagen.server.DatagenRecipes;
+import com.machina.datagen.server.DatapackProvider;
 import com.machina.datagen.server.loot.BlockLoot;
 
 import net.minecraft.core.HolderLookup;
@@ -47,5 +48,6 @@ public class Datagen {
 		gen.addProvider(event.includeServer(), new LootTableProvider(po, Set.of(),
 				List.of(new SubProviderEntry(BlockLoot::new, LootContextParamSets.BLOCK)), lookup));
 		gen.addProvider(event.includeServer(), new DatagenRecipes(po, lookup));
+		gen.addProvider(event.includeServer(), new DatapackProvider(po, lookup));
 	}
 }
