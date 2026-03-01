@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "machina:lightweight_casing"
+    },
+    "I": {
+      "item": "machina:aluminum_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "X": {
+      "item": "machina:copper_coil"
+    },
+    "Y": {
+      "item": "minecraft:furnace"
+    },
+    "Z": {
+      "item": "machina:basic_capacitor"
+    }
+  },
+  "pattern": [
+    "RYR",
+    "XCX",
+    "IZI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:furnace_generator"
+  },
+  "show_notification": false
+}

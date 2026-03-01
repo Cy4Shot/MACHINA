@@ -37,33 +37,327 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 
 	@Override
 	protected void buildRecipes(RecipeOutput gen) {
-		ore(gen, List.of(BlockInit.ANTHRACITE.get()), ItemInit.COAL_CHUNK.get(), 0.05f, 40, "anthracite");
+		ore(gen, List.of(BlockInit.ANTHRACITE), ItemInit.COAL_CHUNK, 0.05f, 40, "anthracite");
 
 		//@formatter:off
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.ANTHRACITE.get())
-			.requires(Blocks.STONE)
-			.requires(ItemInit.COAL_CHUNK.get())
-			.unlockedBy(getHasName(ItemInit.COAL_CHUNK.get()), has(ItemInit.COAL_CHUNK.get()))
-			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ANTHRACITE.get()));
 		
-		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockInit.MIGMATITE.get())
+		// Building blocks
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.ANTHRACITE)
+			.requires(Blocks.STONE)
+			.requires(ItemInit.COAL_CHUNK)
+			.unlockedBy(getHasName(ItemInit.COAL_CHUNK), has(ItemInit.COAL_CHUNK))
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ANTHRACITE));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockInit.MIGMATITE)
 			.pattern("SG")
 			.pattern("GS")
 			.define('S', Blocks.STONE)
 			.define('G', Blocks.GRANITE)
 			.unlockedBy(getHasName(Blocks.GRANITE), has(Blocks.GRANITE))
 			.showNotification(false)
-			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.MIGMATITE.get()));
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.MIGMATITE));
 		
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.COPPER_COIL.get())
+		// Miscellaneous Crafting Items
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.COPPER_COIL)
 			.pattern("NNN")
 			.pattern("NSN")
 			.pattern("NNN")
 			.define('S', Items.STICK)
-			.define('N', ItemInit.COPPER_NUGGET.get())
-			.unlockedBy(getHasName(ItemInit.COPPER_NUGGET.get()), has(ItemInit.COPPER_NUGGET.get()))
+			.define('N', ItemInit.COPPER_NUGGET)
+			.unlockedBy(getHasName(ItemInit.COPPER_NUGGET), has(ItemInit.COPPER_NUGGET))
 			.showNotification(false)
-			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.COPPER_COIL.get()));
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.COPPER_COIL));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.BASIC_CASING)
+			.pattern("RLR")
+			.pattern("IGI")
+			.pattern("RLR")
+			.define('G', Blocks.GLASS)
+			.define('R', Items.REDSTONE)
+			.define('I', Items.IRON_INGOT)
+			.define('L', ItemInit.LEAD_INGOT)
+			.unlockedBy(getHasName(ItemInit.LEAD_INGOT), has(ItemInit.LEAD_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.BASIC_CASING));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.LIGHTWEIGHT_CASING)
+			.pattern("RAR")
+			.pattern("AGA")
+			.pattern("RAR")
+			.define('G', Blocks.GLASS)
+			.define('R', Items.REDSTONE)
+			.define('A', ItemInit.ALUMINUM_INGOT)
+			.unlockedBy(getHasName(ItemInit.ALUMINUM_INGOT), has(ItemInit.ALUMINUM_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.LIGHTWEIGHT_CASING));
+		
+		// Capacitors
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.BASIC_CAPACITOR)
+			.pattern(" P ")
+			.pattern("ARA")
+			.pattern("III")
+			.define('P', Items.PAPER)
+			.define('R', Items.REDSTONE)
+			.define('I', Items.IRON_NUGGET)
+			.define('A', ItemInit.ALUMINUM_INGOT)
+			.unlockedBy(getHasName(ItemInit.ALUMINUM_INGOT), has(ItemInit.ALUMINUM_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.BASIC_CAPACITOR));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.ADVANCED_CAPACITOR)
+			.pattern(" I ")
+			.pattern("BCB")
+			.pattern(" I ")
+			.define('C', ItemInit.COPPER_COIL)
+			.define('B', ItemInit.BASIC_CAPACITOR)
+			.define('I', ItemInit.CONSTANTAN_INGOT)
+			.unlockedBy(getHasName(ItemInit.CONSTANTAN_INGOT), has(ItemInit.CONSTANTAN_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.ADVANCED_CAPACITOR));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.SUPREME_CAPACITOR)
+			.pattern(" I ")
+			.pattern("ACA")
+			.pattern(" I ")
+			.define('C', ItemInit.COPPER_COIL)
+			.define('A', ItemInit.ADVANCED_CAPACITOR)
+			.define('I', ItemInit.PALLADIUM_INGOT)
+			.unlockedBy(getHasName(ItemInit.PALLADIUM_INGOT), has(ItemInit.PALLADIUM_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.SUPREME_CAPACITOR));
+		
+		// Cables
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ENERGY_CABLE, 8)
+			.pattern("ITI")
+			.define('T', Items.REDSTONE)
+			.define('I', ItemInit.LEAD_INGOT)
+			.unlockedBy(getHasName(ItemInit.LEAD_INGOT), has(ItemInit.LEAD_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ENERGY_CABLE));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ITEM_CONDUIT, 8)
+			.pattern("ITI")
+			.define('T', Items.HOPPER)
+			.define('I', ItemInit.ALUMINUM_INGOT)
+			.unlockedBy(getHasName(ItemInit.ALUMINUM_INGOT), has(ItemInit.ALUMINUM_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ITEM_CONDUIT));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.FLUID_PIPE, 8)
+			.pattern("ITI")
+			.define('T', Items.BUCKET)
+			.define('I', Items.IRON_INGOT)
+			.unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.FLUID_PIPE));
+		
+		// Machine
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.TANK)
+			.pattern("RAR")
+			.pattern("AGA")
+			.pattern("RAR")
+			.define('G', Blocks.GLASS)
+			.define('R', Items.REDSTONE)
+			.define('A', Items.IRON_INGOT)
+			.unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.TANK));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.FURNACE_GENERATOR)
+			.pattern("RYR")
+			.pattern("XCX")
+			.pattern("IZI")
+			.define('X', ItemInit.COPPER_COIL)
+			.define('Y', Blocks.FURNACE)
+			.define('Z', ItemInit.BASIC_CAPACITOR)
+			.define('I', ItemInit.ALUMINUM_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.LIGHTWEIGHT_CASING)
+			.unlockedBy(getHasName(BlockInit.LIGHTWEIGHT_CASING), has(BlockInit.LIGHTWEIGHT_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.FURNACE_GENERATOR));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.CHEMICAL_GENERATOR)
+			.pattern("RYR")
+			.pattern("XCX")
+			.pattern("IZI")
+			.define('X', Items.BUCKET)
+			.define('Y', ItemInit.COPPER_COIL)
+			.define('Z', ItemInit.BASIC_CAPACITOR)
+			.define('I', ItemInit.ALUMINUM_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.LIGHTWEIGHT_CASING)
+			.unlockedBy(getHasName(BlockInit.LIGHTWEIGHT_CASING), has(BlockInit.LIGHTWEIGHT_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.CHEMICAL_GENERATOR));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.COMPOSTER_VAT)
+			.pattern("RYR")
+			.pattern("XCX")
+			.pattern("IZI")
+			.define('X', Blocks.COMPOSTER)
+			.define('Y', Items.BUCKET)
+			.define('Z', BlockInit.TANK)
+			.define('I', ItemInit.ALUMINUM_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.LIGHTWEIGHT_CASING)
+			.unlockedBy(getHasName(BlockInit.LIGHTWEIGHT_CASING), has(BlockInit.LIGHTWEIGHT_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.COMPOSTER_VAT));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ATMOSPHERIC_SEPARATOR)
+			.pattern("RPR")
+			.pattern("XCX")
+			.pattern("IZI")
+			.define('X', ItemInit.DIAMOND_DUST)
+			.define('P', ItemInit.SILVER_PLATE)
+			.define('Z', BlockInit.TANK)
+			.define('I', ItemInit.ALUMINUM_ROD)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.LIGHTWEIGHT_CASING)
+			.unlockedBy(getHasName(BlockInit.LIGHTWEIGHT_CASING), has(BlockInit.LIGHTWEIGHT_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ATMOSPHERIC_SEPARATOR));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ELECTRIC_SMELTER)
+			.pattern("RYR")
+			.pattern("XCX")
+			.pattern("IZI")
+			.define('X', ItemInit.COPPER_COIL)
+			.define('Y', Blocks.FURNACE)
+			.define('Z', Blocks.REDSTONE_BLOCK)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ELECTRIC_SMELTER));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.GRINDER)
+			.pattern("RYR")
+			.pattern("XCW")
+			.pattern("IZI")
+			.define('W', BlockInit.LEAD_BLOCK)
+			.define('X', Blocks.IRON_BLOCK)
+			.define('Y', Items.IRON_PICKAXE)
+			.define('Z', ItemInit.COPPER_COIL)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.GRINDER));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.COMPRESSOR)
+			.pattern("RYR")
+			.pattern("XCX")
+			.pattern("IZI")
+			.define('X', Blocks.PISTON)
+			.define('Y', Blocks.IRON_BLOCK)
+			.define('Z', ItemInit.COPPER_COIL)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.COMPRESSOR));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.SAWMILL)
+			.pattern("RYR")
+			.pattern("XCX")
+			.pattern("IZI")
+			.define('X', Items.IRON_AXE)
+			.define('Y', Blocks.IRON_BARS)
+			.define('Z', Blocks.REDSTONE_BLOCK)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.SAWMILL));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.MELTER)
+			.pattern("RYR")
+			.pattern("XCW")
+			.pattern("IZI")
+			.define('W', Blocks.HOPPER)
+			.define('X', BlockInit.TANK)
+			.define('Y', Blocks.FURNACE)
+			.define('Z', ItemInit.COPPER_COIL)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.MELTER));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.SOLIDIFIER)
+			.pattern("RYR")
+			.pattern("XCW")
+			.pattern("IZI")
+			.define('W', BlockInit.TANK)
+			.define('X', Blocks.HOPPER)
+			.define('Y', Blocks.CAULDRON)
+			.define('Z', ItemInit.COPPER_COIL)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.SOLIDIFIER));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.REACTION_CHAMBER)
+			.pattern("RYR")
+			.pattern("XCW")
+			.pattern("IZI")
+			.define('W', Blocks.PISTON)
+			.define('X', Blocks.CAULDRON)
+			.define('Y', Blocks.FURNACE)
+			.define('Z', ItemInit.COPPER_COIL)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.REACTION_CHAMBER));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ELECTROLYZER)
+			.pattern("RYR")
+			.pattern("XCX")
+			.pattern("IZI")
+			.define('X', ItemInit.LEAD_ROD)
+			.define('Y', ItemInit.LEAD_PLATE)
+			.define('Z', ItemInit.COPPER_COIL)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ELECTROLYZER));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ELECTRIC_PUMP)
+			.pattern("RCR")
+			.pattern("IZI")
+			.pattern("I I")
+			.define('Z', Items.BUCKET)
+			.define('I', ItemInit.LEAD_INGOT)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ELECTRIC_PUMP));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.BATTERY)
+			.pattern("RSR")
+			.pattern("SCS")
+			.pattern("RSR")
+			.define('S', ItemInit.COPPER_COIL)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.BATTERY));
+		
 		
 		// Reaction Chamber
 		reactff_f(gen, FluidInit.MOLTEN_LEAD, 1, FluidInit.MOLTEN_BISMUTH, 1, FluidInit.LEAD_BISMUTH_EUTECTIC, 2, 10);

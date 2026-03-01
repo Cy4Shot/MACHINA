@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "machina:lightweight_casing"
+    },
+    "I": {
+      "item": "machina:aluminum_rod"
+    },
+    "P": {
+      "item": "machina:silver_plate"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "X": {
+      "item": "machina:diamond_dust"
+    },
+    "Z": {
+      "item": "machina:tank"
+    }
+  },
+  "pattern": [
+    "RPR",
+    "XCX",
+    "IZI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:atmospheric_separator"
+  },
+  "show_notification": false
+}

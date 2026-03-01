@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "machina:basic_casing"
+    },
+    "I": {
+      "item": "machina:lead_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "W": {
+      "item": "minecraft:piston"
+    },
+    "X": {
+      "item": "minecraft:cauldron"
+    },
+    "Y": {
+      "item": "minecraft:furnace"
+    },
+    "Z": {
+      "item": "machina:copper_coil"
+    }
+  },
+  "pattern": [
+    "RYR",
+    "XCW",
+    "IZI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:reaction_chamber"
+  },
+  "show_notification": false
+}

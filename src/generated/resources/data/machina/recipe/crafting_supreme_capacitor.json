@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "machina:advanced_capacitor"
+    },
+    "C": {
+      "item": "machina:copper_coil"
+    },
+    "I": {
+      "item": "machina:palladium_ingot"
+    }
+  },
+  "pattern": [
+    " I ",
+    "ACA",
+    " I "
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:supreme_capacitor"
+  },
+  "show_notification": false
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "machina:aluminum_ingot"
+    },
+    "T": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "pattern": [
+    "ITI"
+  ],
+  "result": {
+    "count": 8,
+    "id": "machina:item_conduit"
+  },
+  "show_notification": false
+}

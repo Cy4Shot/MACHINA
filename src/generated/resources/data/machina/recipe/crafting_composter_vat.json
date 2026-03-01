@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "machina:lightweight_casing"
+    },
+    "I": {
+      "item": "machina:aluminum_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "X": {
+      "item": "minecraft:composter"
+    },
+    "Y": {
+      "item": "minecraft:bucket"
+    },
+    "Z": {
+      "item": "machina:tank"
+    }
+  },
+  "pattern": [
+    "RYR",
+    "XCX",
+    "IZI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:composter_vat"
+  },
+  "show_notification": false
+}

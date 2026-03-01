@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "machina:basic_capacitor"
+    },
+    "C": {
+      "item": "machina:copper_coil"
+    },
+    "I": {
+      "item": "machina:constantan_ingot"
+    }
+  },
+  "pattern": [
+    " I ",
+    "BCB",
+    " I "
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:advanced_capacitor"
+  },
+  "show_notification": false
+}

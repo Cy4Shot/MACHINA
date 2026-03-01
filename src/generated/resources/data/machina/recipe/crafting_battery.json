@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "machina:basic_casing"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "S": {
+      "item": "machina:copper_coil"
+    }
+  },
+  "pattern": [
+    "RSR",
+    "SCS",
+    "RSR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:battery"
+  },
+  "show_notification": false
+}

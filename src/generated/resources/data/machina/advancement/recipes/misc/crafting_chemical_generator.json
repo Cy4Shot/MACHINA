@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_lightweight_casing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:lightweight_casing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:crafting_chemical_generator"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_lightweight_casing"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:crafting_chemical_generator"
+    ]
+  }
+}

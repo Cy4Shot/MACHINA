@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "pattern": [
+    "ITI"
+  ],
+  "result": {
+    "count": 8,
+    "id": "machina:fluid_pipe"
+  },
+  "show_notification": false
+}

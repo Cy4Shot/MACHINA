@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "machina:lead_ingot"
+    },
+    "T": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "ITI"
+  ],
+  "result": {
+    "count": 8,
+    "id": "machina:energy_cable"
+  },
+  "show_notification": false
+}

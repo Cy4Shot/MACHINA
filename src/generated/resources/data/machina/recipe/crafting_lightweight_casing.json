@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "machina:aluminum_ingot"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "RAR",
+    "AGA",
+    "RAR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:lightweight_casing"
+  },
+  "show_notification": false
+}

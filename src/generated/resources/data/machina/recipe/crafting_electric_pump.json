@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "machina:basic_casing"
+    },
+    "I": {
+      "item": "machina:lead_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "Z": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "pattern": [
+    "RCR",
+    "IZI",
+    "I I"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:electric_pump"
+  },
+  "show_notification": false
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_basic_casing": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:basic_casing"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:crafting_compressor"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_basic_casing"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:crafting_compressor"
+    ]
+  }
+}

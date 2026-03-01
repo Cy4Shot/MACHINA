@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "machina:basic_casing"
+    },
+    "I": {
+      "item": "machina:lead_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "X": {
+      "item": "minecraft:iron_axe"
+    },
+    "Y": {
+      "item": "minecraft:iron_bars"
+    },
+    "Z": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "RYR",
+    "XCX",
+    "IZI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:sawmill"
+  },
+  "show_notification": false
+}

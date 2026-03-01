@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "item": "machina:lead_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "RLR",
+    "IGI",
+    "RLR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:basic_casing"
+  },
+  "show_notification": false
+}

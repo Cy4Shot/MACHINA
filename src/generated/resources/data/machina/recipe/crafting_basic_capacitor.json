@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "machina:aluminum_ingot"
+    },
+    "I": {
+      "item": "minecraft:iron_nugget"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " P ",
+    "ARA",
+    "III"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:basic_capacitor"
+  },
+  "show_notification": false
+}
