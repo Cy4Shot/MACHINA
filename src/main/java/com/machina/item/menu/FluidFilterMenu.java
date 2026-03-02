@@ -41,10 +41,8 @@ public class FluidFilterMenu extends ItemMenu {
 
 	public void toggleMode() {
 		Mode mode = FluidFilterItem.getMode(stack);
-        if (mode != null) {
-            FluidFilterItem.set(stack, null, mode.opposite());
-            this.containerChanged();
-        }
+        FluidFilterItem.set(stack, null, mode.opposite());
+        this.containerChanged();
 	}
 
 	public Fluid getCurrentFilter() {

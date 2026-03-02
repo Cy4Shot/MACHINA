@@ -37,36 +37,32 @@ public class ItemFilterScreen extends MachinaMenuScreen<ItemFilterMenu> implemen
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
-		drawInventory(gui, mx, my);
-		drawMiniBackground(gui);
+        drawInventory(gui, mx, my);
+        drawMiniBackground(gui);
 
-		int i1 = midWidth();
-		int j1 = midHeight();
-		Mode mode = ItemFilterItem.getMode(menu.stack);
-		Item item = ItemFilterItem.getItem(menu.stack);
+        int i1 = midWidth();
+        int j1 = midHeight();
+        Mode mode = ItemFilterItem.getMode(menu.stack);
+        Item item = ItemFilterItem.getItem(menu.stack);
 
-        if (mode != null) {
-            MUI.drawCenteredString(gui, mode.comp()
-                            .setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? MUI.RED : MUI.GREEN).withBold(true))
-                            .append(MUI.uistr("item_filter.for").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
-                    i1 + 117, j1 + 4);
-        }
-		MUI.drawCenteredString(gui, Component.translatable(item.getDescriptionId())
-				.setStyle(Style.EMPTY.withColor(MUI.WHITE).withBold(true)), i1 + 117, j1 + 6 + font.lineHeight);
+        MUI.drawCenteredString(gui, mode.comp()
+                        .setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? MUI.RED : MUI.GREEN).withBold(true))
+                        .append(MUI.uistr("item_filter.for").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
+                i1 + 117, j1 + 4);
+        MUI.drawCenteredString(gui, Component.translatable(item.getDescriptionId())
+                .setStyle(Style.EMPTY.withColor(MUI.WHITE).withBold(true)), i1 + 117, j1 + 6 + font.lineHeight);
 
-		drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.DUST, "",
-				(i, j) -> gui.renderItem(new ItemStack(menu.getCurrentFilter(), 1), i + 1, j + 1));
+        drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.DUST, "",
+                (i, j) -> gui.renderItem(new ItemStack(menu.getCurrentFilter(), 1), i + 1, j + 1));
 
-        if (mode != null) {
-            drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
-                    x -> menu.toggleMode(), mode::comp);
-        }
+        drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
+                x -> menu.toggleMode(), mode::comp);
 
-		MUI.blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
-		MUI.blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);
+        MUI.blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
+        MUI.blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);
 
-		drawOverlay(gui);
-	}
+        drawOverlay(gui);
+    }
 
 	@Override
 	public Collection<FilterSlot> getFilterSlots() {

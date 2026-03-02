@@ -51,9 +51,7 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 			int col = IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1));
 			tooltip.add(Component.translatable(fluid.getFluidType().getDescriptionId())
 					.setStyle(Style.EMPTY.withColor(col)));
-            if (mode != null) {
-                tooltip.add(mode.comp().setStyle(Style.EMPTY.withColor(65278)));
-            }
+            tooltip.add(mode.comp().setStyle(Style.EMPTY.withColor(65278)));
 		} else {
 			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.fluid_filter.empty")
 					.setStyle(Style.EMPTY.withColor(65278)));

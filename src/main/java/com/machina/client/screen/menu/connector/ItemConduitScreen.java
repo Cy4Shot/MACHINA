@@ -29,45 +29,43 @@ public class ItemConduitScreen extends MachinaMenuScreen<ItemConduitMenu> {
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
-		int id = menu.id(0);
-		int i = midWidth();
-		int j = midHeight();
+        int id = menu.id(0);
+        int i = midWidth();
+        int j = midHeight();
 
-		drawInventory(gui, mx, my);
-		drawMiniBackground(gui);
+        drawInventory(gui, mx, my);
+        drawMiniBackground(gui);
 
-		if (menu.getBlockEntity() == null) {
-			return;
-		}
-
-		// Top slot
-		drawNoFacingSlot(gui, id, mx, my, 107, 4, MuiSlot.DUST, "item_conduit.filter");
-		MUI.blitCommon(gui, i + 133, j + 10, 405, 13, 17, 6);
-		MUI.blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
-
-		// Mode Slot
-        Mode mode = ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id));
-
-        if (mode != null) {
-            drawToggle(gui, mx, my, 89, 34,
-                    mode == Mode.BLACKLIST, MuiSlot.BLACKLIST,
-                    MuiSlot.WHITELIST, (val) -> {
-                        ItemStack stack = menu.getBlockEntity().getItem(id);
-                        stack.set(DataComponentsInit.FILTER_MODE, val ? Mode.BLACKLIST : Mode.WHITELIST);
-                        PacketDistributor
-                                .sendToServer(new C2SMenuSetItem(menu.id(0), stack, menu.getBlockEntity().getBlockPos()));
-                    }, mode::comp);
+        if (menu.getBlockEntity() == null) {
+            return;
         }
 
-		// IO Slot
-		ConnectionSide side = menu.getConnection();
-		if (side.isIO()) {
-			drawToggleIO(gui, mx, my, 125, 34, side.isInput() ? Side.INPUT : Side.OUTPUT,
-					() -> menu.getConnection().comp().setStyle(
-							Style.EMPTY.withColor(menu.getConnection() == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
-					() -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.getBlockPos())));
-		}
+        // Top slot
+        drawNoFacingSlot(gui, id, mx, my, 107, 4, MuiSlot.DUST, "item_conduit.filter");
+        MUI.blitCommon(gui, i + 133, j + 10, 405, 13, 17, 6);
+        MUI.blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
 
-		drawOverlay(gui);
-	}
+        // Mode Slot
+        Mode mode = ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id));
+
+        drawToggle(gui, mx, my, 89, 34,
+                mode == Mode.BLACKLIST, MuiSlot.BLACKLIST,
+                MuiSlot.WHITELIST, (val) -> {
+                    ItemStack stack = menu.getBlockEntity().getItem(id);
+                    stack.set(DataComponentsInit.FILTER_MODE, val ? Mode.BLACKLIST : Mode.WHITELIST);
+                    PacketDistributor
+                            .sendToServer(new C2SMenuSetItem(menu.id(0), stack, menu.getBlockEntity().getBlockPos()));
+                }, mode::comp);
+
+        // IO Slot
+        ConnectionSide side = menu.getConnection();
+        if (side.isIO()) {
+            drawToggleIO(gui, mx, my, 125, 34, side.isInput() ? Side.INPUT : Side.OUTPUT,
+                    () -> menu.getConnection().comp().setStyle(
+                            Style.EMPTY.withColor(menu.getConnection() == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
+                    () -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.getBlockPos())));
+        }
+
+        drawOverlay(gui);
+    }
 }

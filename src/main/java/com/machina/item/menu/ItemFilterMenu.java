@@ -31,10 +31,8 @@ public class ItemFilterMenu extends ItemMenu {
 
 	public void toggleMode() {
         Mode mode = ItemFilterItem.getMode(stack);
-        if (mode != null) {
-            ItemFilterItem.set(stack, null, mode.opposite());
-            this.containerChanged();
-        }
+        ItemFilterItem.set(stack, null, mode.opposite());
+        this.containerChanged();
     }
 
 	public Item getCurrentFilter() {

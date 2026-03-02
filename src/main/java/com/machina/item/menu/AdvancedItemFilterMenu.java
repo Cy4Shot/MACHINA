@@ -37,10 +37,8 @@ public class AdvancedItemFilterMenu extends ItemMenu {
 
 	public void toggleMode() {
 		Mode mode = AdvancedItemFilterItem.getMode(stack);
-        if (mode != null) {
-            AdvancedItemFilterItem.set(stack, null, mode.opposite());
-            this.containerChanged();
-        }
+        AdvancedItemFilterItem.set(stack, null, mode.opposite());
+        this.containerChanged();
 	}
 
 	@Override
