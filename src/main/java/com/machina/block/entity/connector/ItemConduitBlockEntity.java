@@ -4,7 +4,6 @@ import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.item.ConduitItemStorage;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -35,5 +34,4 @@ public class ItemConduitBlockEntity extends ConnectorBlockEntity<ItemStack, Cond
 	public int slotsPerSide() {
 		return 1;
 	}
-
 }

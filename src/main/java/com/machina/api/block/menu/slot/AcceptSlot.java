@@ -1,12 +1,11 @@
 package com.machina.api.block.menu.slot;
 
-import java.util.function.Predicate;
-
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Predicate;
 
 public class AcceptSlot extends SlotItemHandler {
 

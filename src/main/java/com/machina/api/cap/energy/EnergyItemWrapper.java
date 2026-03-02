@@ -40,7 +40,8 @@ public class EnergyItemWrapper implements IEnergyStorage {
 
 	@Override
 	public int getEnergyStored() {
-		return this.container.get(DataComponentsInit.ENERGY);
+        Integer energy = this.container.get(DataComponentsInit.ENERGY);
+		return energy == null ? 0 : energy;
 	}
 
 	public void setEnergyStored(int energy) {

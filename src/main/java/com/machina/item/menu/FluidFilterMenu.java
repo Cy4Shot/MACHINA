@@ -1,13 +1,10 @@
 package com.machina.item.menu;
 
-import java.util.Optional;
-
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.item.menu.ItemMenu;
 import com.machina.item.filter.FluidFilterItem;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.MenuTypeInit;
-
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,6 +13,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+
+import java.util.Optional;
 
 public class FluidFilterMenu extends ItemMenu {
 
@@ -42,8 +41,10 @@ public class FluidFilterMenu extends ItemMenu {
 
 	public void toggleMode() {
 		Mode mode = FluidFilterItem.getMode(stack);
-		FluidFilterItem.set(stack, null, mode.opposite());
-		this.containerChanged();
+        if (mode != null) {
+            FluidFilterItem.set(stack, null, mode.opposite());
+            this.containerChanged();
+        }
 	}
 
 	public Fluid getCurrentFilter() {

@@ -26,19 +26,15 @@ public class DirectionalMenuFactory {
 		extraData.writeEnum(d);
 		extraData.readerIndex(0);
 
-		FriendlyByteBuf output = new FriendlyByteBuf(Unpooled.buffer());
-		output.writeVarInt(extraData.readableBytes());
-		output.writeBytes(extraData);
-
-		if (output.readableBytes() > 32600 || output.readableBytes() < 1) {
+		if (extraData.readableBytes() > 32600 || extraData.readableBytes() < 1) {
 			throw new IllegalArgumentException(
-					"Invalid PacketBuffer for directional menu, found " + output.readableBytes() + " bytes");
+					"Invalid PacketBuffer for directional menu, found " + extraData.readableBytes() + " bytes");
 		}
 		var c = cont.createMenu(openContainerId, player.getInventory(), player, pos, d);
 		if (c == null)
 			return;
 		MenuType<?> type = c.getType();
-		PacketDistributor.sendToPlayer(player, new S2COpenDirectionalContainer(type, openContainerId, output));
+		PacketDistributor.sendToPlayer(player, new S2COpenDirectionalContainer(type, openContainerId, extraData));
 
 		player.containerMenu = c;
 		player.initMenu(player.containerMenu);

@@ -1,11 +1,5 @@
 package com.machina.client.screen.menu.connector;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.screen.IFilteredScreen;
@@ -17,7 +11,6 @@ import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
 import com.machina.block.menu.connector.FluidPipeMenu;
 import com.machina.item.filter.FluidFilterItem;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -27,6 +20,11 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements IFilteredScreen {
 
@@ -73,13 +71,17 @@ public class FluidPipeScreen extends MachinaMenuScreen<FluidPipeMenu> implements
 				this::setFluidStack);
 
 		// Mode Slot
-		drawToggle(gui, mx, my, 107, 34, FluidFilterItem.getMode(menu.getBlockEntity().getItem(id)) == Mode.BLACKLIST,
-				MuiSlot.BLACKLIST, MuiSlot.WHITELIST, (val) -> {
-					ItemStack stack = FluidFilterItem.set(menu.getBlockEntity().getItem(id), null,
-							val ? Mode.BLACKLIST : Mode.WHITELIST);
-					PacketDistributor
-							.sendToServer(new C2SMenuSetItem(menu.id(0), stack, menu.getBlockEntity().getBlockPos()));
-				}, () -> FluidFilterItem.getMode(menu.getBlockEntity().getItem(id)).comp());
+        Mode mode = FluidFilterItem.getMode(menu.getBlockEntity().getItem(id));
+
+        if (mode != null) {
+            drawToggle(gui, mx, my, 107, 34, mode == Mode.BLACKLIST,
+                    MuiSlot.BLACKLIST, MuiSlot.WHITELIST, (val) -> {
+                        ItemStack stack = FluidFilterItem.set(menu.getBlockEntity().getItem(id), null,
+                                val ? Mode.BLACKLIST : Mode.WHITELIST);
+                        PacketDistributor
+                                .sendToServer(new C2SMenuSetItem(menu.id(0), stack, menu.getBlockEntity().getBlockPos()));
+                    }, mode::comp);
+        }
 
 		// IO Slot
 		ConnectionSide side = menu.getConnection();

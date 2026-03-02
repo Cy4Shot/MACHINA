@@ -25,7 +25,7 @@ public class ItemConduitMenu extends ConnectorMenu<ItemConduitBlockEntity> {
 
 		invSlots(inv, 0);
 
-		this.addSlot(new AcceptSlot(container, id(0), 108, 5,
+		this.addSlot(new AcceptSlot(container, 0, 108, 5,
 				s -> s.is(ItemInit.ITEM_FILTER.get()) || s.is(ItemInit.ADVANCED_ITEM_FILTER.get())));
 	}
 

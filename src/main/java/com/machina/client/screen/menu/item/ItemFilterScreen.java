@@ -1,10 +1,5 @@
 package com.machina.client.screen.menu.item;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.api.client.screen.IFilteredScreen;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
@@ -12,13 +7,16 @@ import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.item.filter.ItemFilterItem;
 import com.machina.item.menu.ItemFilterMenu;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
+import java.util.List;
 
 public class ItemFilterScreen extends MachinaMenuScreen<ItemFilterMenu> implements IFilteredScreen {
 
@@ -46,18 +44,23 @@ public class ItemFilterScreen extends MachinaMenuScreen<ItemFilterMenu> implemen
 		int j1 = midHeight();
 		Mode mode = ItemFilterItem.getMode(menu.stack);
 		Item item = ItemFilterItem.getItem(menu.stack);
-		MUI.drawCenteredString(gui, mode.comp()
-				.setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? MUI.RED : MUI.GREEN).withBold(true))
-				.append(MUI.uistr("item_filter.for").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
-				i1 + 117, j1 + 4);
+
+        if (mode != null) {
+            MUI.drawCenteredString(gui, mode.comp()
+                            .setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? MUI.RED : MUI.GREEN).withBold(true))
+                            .append(MUI.uistr("item_filter.for").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
+                    i1 + 117, j1 + 4);
+        }
 		MUI.drawCenteredString(gui, Component.translatable(item.getDescriptionId())
 				.setStyle(Style.EMPTY.withColor(MUI.WHITE).withBold(true)), i1 + 117, j1 + 6 + font.lineHeight);
 
 		drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.DUST, "",
 				(i, j) -> gui.renderItem(new ItemStack(menu.getCurrentFilter(), 1), i + 1, j + 1));
 
-		drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
-				x -> menu.toggleMode(), () -> ItemFilterItem.getMode(menu.stack).comp());
+        if (mode != null) {
+            drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
+                    x -> menu.toggleMode(), mode::comp);
+        }
 
 		MUI.blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
 		MUI.blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);

@@ -1,28 +1,15 @@
 package com.machina.api.item;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Consumer;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.api.client.screen.MUI;
 import com.machina.api.rocket.RocketProps;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
-import com.machina.api.rocket.part.impl.ChassisPart;
-import com.machina.api.rocket.part.impl.FuelTankPart;
-import com.machina.api.rocket.part.impl.LifeSupportPart;
-import com.machina.api.rocket.part.impl.ShieldPart;
-import com.machina.api.rocket.part.impl.ThrusterPart;
+import com.machina.api.rocket.part.impl.*;
 import com.machina.api.util.StringUtils;
 import com.machina.client.bewlr.RocketBEWLR;
 import com.machina.registration.init.DataComponentsInit;
 import com.machina.registration.init.RocketPartInit;
 import com.machina.rocket.RocketEntity;
-
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,6 +24,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 public class RocketItem extends Item {
 
@@ -71,7 +65,8 @@ public class RocketItem extends Item {
 	}
 
 	private static RocketProps getProperties(ItemStack stack) {
-		return stack.get(DataComponentsInit.ROCKET_PROPS);
+        RocketProps props = stack.get(DataComponentsInit.ROCKET_PROPS);
+		return props == null ? RocketProps.NULL : props;
 	}
 
 	@Override

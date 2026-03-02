@@ -1,21 +1,19 @@
 package com.machina.api.cap.item;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.machina.api.cap.IConnectorStorage;
 import com.machina.block.entity.connector.ItemConduitBlockEntity;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemStack> {
 
@@ -62,7 +60,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 		return receive(conduit, side, stack, simulate);
 	}
 
-	@Override
+    @Override
 	public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
 		return ItemStack.EMPTY;
 	}

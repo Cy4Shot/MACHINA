@@ -1,19 +1,18 @@
 package com.machina.item.menu;
 
-import java.util.function.Consumer;
-
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.item.menu.ItemMenu;
 import com.machina.item.filter.AdvancedItemFilterItem;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.MenuTypeInit;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.function.Consumer;
 
 public class AdvancedItemFilterMenu extends ItemMenu {
 
@@ -38,8 +37,10 @@ public class AdvancedItemFilterMenu extends ItemMenu {
 
 	public void toggleMode() {
 		Mode mode = AdvancedItemFilterItem.getMode(stack);
-		AdvancedItemFilterItem.set(stack, null, mode.opposite());
-		this.containerChanged();
+        if (mode != null) {
+            AdvancedItemFilterItem.set(stack, null, mode.opposite());
+            this.containerChanged();
+        }
 	}
 
 	@Override
