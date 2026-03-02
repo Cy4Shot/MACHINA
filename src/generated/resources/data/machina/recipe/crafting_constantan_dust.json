@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "machina:copper_dust"
+    },
+    {
+      "item": "machina:nickel_dust"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:constantan_dust"
+  }
+}

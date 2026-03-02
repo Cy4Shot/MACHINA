@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "group": "sulfur",
+  "ingredient": {
+    "item": "machina:sulfur_dust"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:sulfur"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mould_base": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:mould_base"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:crafting_mould_wire"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mould_base"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:crafting_mould_wire"
+    ]
+  }
+}

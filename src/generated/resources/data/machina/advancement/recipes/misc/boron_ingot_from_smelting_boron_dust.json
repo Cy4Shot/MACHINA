@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_boron_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:boron_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:boron_ingot_from_smelting_boron_dust"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_boron_dust"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:boron_ingot_from_smelting_boron_dust"
+    ]
+  }
+}

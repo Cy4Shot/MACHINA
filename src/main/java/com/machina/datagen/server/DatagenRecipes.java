@@ -41,6 +41,19 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 
 		//@formatter:off
 		
+		// Resources (TEMPORARY)
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.CONSTANTAN_DUST)
+			.requires(ItemInit.COPPER_DUST)
+			.requires(ItemInit.NICKEL_DUST)
+			.unlockedBy(getHasName(ItemInit.COPPER_DUST), has(ItemInit.COPPER_DUST))
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.CONSTANTAN_DUST));
+		
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.STEEL_DUST)
+			.requires(ItemInit.IRON_DUST)
+			.requires(ItemInit.COAL_DUST)
+			.unlockedBy(getHasName(ItemInit.IRON_DUST), has(ItemInit.IRON_DUST))
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.STEEL_DUST));
+		
 		// Building blocks
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, BlockInit.ANTHRACITE)
 			.requires(Blocks.STONE)
@@ -358,6 +371,60 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.showNotification(false)
 			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.BATTERY));
 		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ROCKET_PART_BENCH)
+			.pattern("ISI")
+			.pattern("SCS")
+			.pattern("RSR")
+			.define('S', Blocks.CRAFTING_TABLE)
+			.define('I', ItemInit.STEEL_PLATE)
+			.define('R', ItemInit.COPPER_COIL)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ROCKET_PART_BENCH));
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ROCKET_ASSEMBLY_STATION)
+			.pattern("BPB")
+			.pattern("SCS")
+			.pattern("RZR")
+			.define('P', ItemInit.PALLADIUM_PLATE)
+			.define('B', ItemInit.BORON_ROD)
+			.define('S', ItemInit.CONSTANTAN_ROD)
+			.define('R', ItemInit.STEEL_PLATE)
+			.define('Z', ItemInit.COPPER_COIL)
+			.define('C', BlockInit.BASIC_CASING)
+			.unlockedBy(getHasName(BlockInit.BASIC_CASING), has(BlockInit.BASIC_CASING))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ROCKET_ASSEMBLY_STATION));
+		
+		// Moulds
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.MOULD_BASE)
+			.pattern(" I ")
+			.pattern("IBI")
+			.pattern(" I ")
+			.define('B', ItemInit.BORON_DUST)
+			.define('I', ItemInit.STEEL_INGOT)
+			.unlockedBy(getHasName(ItemInit.STEEL_INGOT), has(ItemInit.STEEL_INGOT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.STEEL_INGOT));
+		
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.MOULD_PLATE)
+			.requires(ItemInit.MOULD_BASE)
+			.requires(Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE)
+			.unlockedBy(getHasName(ItemInit.MOULD_BASE), has(ItemInit.MOULD_BASE))
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.MOULD_PLATE));
+		
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.MOULD_ROD)
+			.requires(ItemInit.MOULD_BASE)
+			.requires(Items.STICK)
+			.unlockedBy(getHasName(ItemInit.MOULD_BASE), has(ItemInit.MOULD_BASE))
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.MOULD_ROD));
+		
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ItemInit.MOULD_WIRE)
+			.requires(ItemInit.MOULD_BASE)
+			.requires(Items.REDSTONE)
+			.unlockedBy(getHasName(ItemInit.MOULD_BASE), has(ItemInit.MOULD_BASE))
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.MOULD_WIRE));
 		
 		// Reaction Chamber
 		reactff_f(gen, FluidInit.MOLTEN_LEAD, 1, FluidInit.MOLTEN_BISMUTH, 1, FluidInit.LEAD_BISMUTH_EUTECTIC, 2, 10);
@@ -444,6 +511,7 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 		family.getIngot().ifPresent(ingot -> {
 			family.ore().ifPresent(ore -> ore(gen, List.of(ore), ingot, 0.7f, 200, family.name()));
 			family.raw().ifPresent(raw -> ore(gen, List.of(raw), ingot, 0.7f, 200, family.name()));
+			family.dust().ifPresent(dust -> oreSmelting(gen, List.of(dust), ingot, 0, 200, family.name()));
 		});
 
 		// Crafting block

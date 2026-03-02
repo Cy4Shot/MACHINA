@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "machina:iron_dust"
+    },
+    {
+      "item": "machina:coal_dust"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:steel_dust"
+  }
+}

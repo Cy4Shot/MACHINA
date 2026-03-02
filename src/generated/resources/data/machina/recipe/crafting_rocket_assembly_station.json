@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "machina:boron_rod"
+    },
+    "C": {
+      "item": "machina:basic_casing"
+    },
+    "P": {
+      "item": "machina:palladium_plate"
+    },
+    "R": {
+      "item": "machina:steel_plate"
+    },
+    "S": {
+      "item": "machina:constantan_rod"
+    },
+    "Z": {
+      "item": "machina:copper_coil"
+    }
+  },
+  "pattern": [
+    "BPB",
+    "SCS",
+    "RZR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:rocket_assembly_station"
+  },
+  "show_notification": false
+}

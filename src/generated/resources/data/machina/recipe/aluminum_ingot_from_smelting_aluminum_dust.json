@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "group": "aluminum",
+  "ingredient": {
+    "item": "machina:aluminum_dust"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:aluminum_ingot"
+  }
+}

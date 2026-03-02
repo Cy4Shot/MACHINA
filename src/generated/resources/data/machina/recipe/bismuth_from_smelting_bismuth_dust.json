@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.0,
+  "group": "bismuth",
+  "ingredient": {
+    "item": "machina:bismuth_dust"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:bismuth"
+  }
+}

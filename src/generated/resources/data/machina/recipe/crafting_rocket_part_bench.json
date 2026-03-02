@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "machina:basic_casing"
+    },
+    "I": {
+      "item": "machina:steel_plate"
+    },
+    "R": {
+      "item": "machina:copper_coil"
+    },
+    "S": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "pattern": [
+    "ISI",
+    "SCS",
+    "RSR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:rocket_part_bench"
+  },
+  "show_notification": false
+}
