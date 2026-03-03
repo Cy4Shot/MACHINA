@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBigRock;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBush;
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeEffects;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeGrass;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeLakes;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOre;
@@ -19,7 +18,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, String surface, List<String> top,
+public record PlanetBiomeJsonInfo(String base, String surface, List<String> top,
 		String second, String stair, String slab, String extra, List<PlanetBiomeTreeJsonInfo> trees,
 		List<PlanetBiomeBushJsonInfo> bushes, PlanetBiomeGrassJsonInfo grass, PlanetBiomeLakesJsonInfo lakes,
 		List<PlanetBiomeRockJsonInfo> rocks, List<PlanetBiomeBigRockJsonInfo> big_rocks,
@@ -118,7 +117,7 @@ public record PlanetBiomeJsonInfo(PlanetBiomeEffects effects, String base, Strin
 				.collect(Collectors.toList());
 		List<PlanetBiomeOre> ores = ores().stream().map(PlanetBiomeOreJsonInfo::cast).collect(Collectors.toList());
 
-		return new PlanetBiomeSettings(effects, getBlock(base), ResourceLocation.parse(surface), tops, getBlock(second),
+		return new PlanetBiomeSettings(getBlock(base), ResourceLocation.parse(surface), tops, getBlock(second),
 				getBlock(stair), getBlock(slab), getBlock(extra), trees, bushes, grass, lakes, rocks, big_rocks, ores);
 	}
 }

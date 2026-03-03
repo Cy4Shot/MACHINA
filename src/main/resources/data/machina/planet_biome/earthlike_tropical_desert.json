@@ -1,11 +1,4 @@
 {
-	"effects": {
-		"fog_color": 0,
-		"sky_color": 0,
-		"water_color": 0,
-		"water_fog_color": 0,
-		"grass_color": 6057754
-	},
 	"surface": "machina:medium_patches",
 	"base": "machina:feldspar",
 	"stair": "machina:feldspar_stairs",

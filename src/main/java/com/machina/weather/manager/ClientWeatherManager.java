@@ -1,29 +1,38 @@
 package com.machina.weather.manager;
 
-import com.machina.Machina;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 import com.machina.api.util.PlanetHelper;
+import com.machina.client.weather.WeatherRenderer;
+import com.machina.weather.WeatherEvent;
 import com.machina.weather.system.ClientWeatherSystem;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 
-@EventBusSubscriber(modid = Machina.MOD_ID, value = Dist.CLIENT)
+//@EventBusSubscriber(modid = Machina.MOD_ID, value = Dist.CLIENT)
 public class ClientWeatherManager {
-	public static ClientWeatherSystem WEATHER;
+	private static ClientWeatherSystem WEATHER;
 
-	@SubscribeEvent
-	public static void onLoad(final EntityJoinLevelEvent event) {
-		if (!event.getLevel().isClientSide()) {
-			return;
+	private static Map<WeatherEvent, WeatherRenderer<?>> RENDERERS = new HashMap<>();
+
+	public static ClientWeatherSystem getSystem(ClientLevel level) {
+		if (!PlanetHelper.isPlanetLevel(level.dimension())) {
+			return null;
 		}
-		
-		if (PlanetHelper.isPlanetLevel(event.getLevel().dimension())) {
-			WEATHER = new ClientWeatherSystem((ClientLevel) event.getLevel());
-		} else {
-			WEATHER = null;
+		if (WEATHER == null || !WEATHER.getDimension().equals(level.dimension())) {
+			WEATHER = new ClientWeatherSystem(level);
 		}
+		return WEATHER;
+	}
+
+	public static <T extends WeatherEvent> void registerRenderer(Supplier<T> event,
+			Supplier<WeatherRenderer<T>> renderer) {
+		RENDERERS.put(event.get(), renderer.get());
+	}
+
+	public static <T extends WeatherEvent> WeatherRenderer<?> getRenderer(T event) {
+		return RENDERERS.get(event);
 	}
 }

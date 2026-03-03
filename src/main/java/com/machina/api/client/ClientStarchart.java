@@ -2,7 +2,6 @@ package com.machina.api.client;
 
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.StarchartGenerator;
-import com.machina.api.starchart.name.SystemNameGenerator;
 import com.machina.api.starchart.obj.SolarSystem;
 
 public class ClientStarchart {

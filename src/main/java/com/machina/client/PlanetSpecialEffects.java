@@ -9,6 +9,10 @@ import org.joml.Vector3f;
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.util.PlanetHelper;
+import com.machina.client.weather.WeatherRenderer;
+import com.machina.weather.WeatherEvent;
+import com.machina.weather.manager.ClientWeatherManager;
+import com.machina.weather.system.ClientWeatherSystem;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -63,6 +67,14 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 	@Override
 	public boolean renderSnowAndRain(@NotNull ClientLevel level, int ticks, float partialTick,
 			@NotNull LightTexture lightTexture, double camX, double camY, double camZ) {
+		ClientWeatherSystem weathersystem = ClientWeatherManager.getSystem(level);
+		if (weathersystem != null) {
+			WeatherEvent event = weathersystem.getCurrentEvent();
+			WeatherRenderer<?> renderer = ClientWeatherManager.getRenderer(event);
+			if (renderer != null) {
+				renderer.renderWeather(level, ticks, partialTick, lightTexture, camX, camY, camZ);
+			}
+		}
 		return true;
 	}
 

@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, ResourceLocation surface,
+public record PlanetBiomeSettings(BlockState base, ResourceLocation surface,
 		List<BlockState> top, BlockState second, BlockState stair, BlockState slab, BlockState extra,
 		List<PlanetBiomeTree> trees, List<PlanetBiomeBush> bushes, PlanetBiomeGrass grass, PlanetBiomeLakes lakes,
 		List<PlanetBiomeRock> rocks, List<PlanetBiomeBigRock> big_rocks, List<PlanetBiomeOre> ores) {
@@ -26,8 +26,7 @@ public record PlanetBiomeSettings(PlanetBiomeEffects effects, BlockState base, R
 
 	public static final Codec<PlanetBiomeSettings> CODEC = RecordCodecBuilder
 			.create(instance -> instance
-					.group(PlanetBiomeEffects.CODEC.fieldOf("effects").forGetter(PlanetBiomeSettings::effects),
-							BlockState.CODEC.fieldOf("base").forGetter(PlanetBiomeSettings::base),
+					.group(BlockState.CODEC.fieldOf("base").forGetter(PlanetBiomeSettings::base),
 							ResourceLocation.CODEC.fieldOf("surface").forGetter(PlanetBiomeSettings::surface),
 							Codec.list(BlockState.CODEC).fieldOf("top").forGetter(PlanetBiomeSettings::top),
 							BlockState.CODEC.fieldOf("second").forGetter(PlanetBiomeSettings::second),

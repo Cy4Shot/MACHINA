@@ -49,6 +49,8 @@ import com.machina.client.screen.menu.entity.RocketScreen;
 import com.machina.client.screen.menu.item.AdvancedItemFilterScreen;
 import com.machina.client.screen.menu.item.FluidFilterScreen;
 import com.machina.client.screen.menu.item.ItemFilterScreen;
+import com.machina.client.weather.ClearWeatherRenderer;
+import com.machina.client.weather.RainWeatherRenderer;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.FluidInit;
@@ -56,6 +58,8 @@ import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.KeyBindingInit;
 import com.machina.registration.init.MenuTypeInit;
 import com.machina.registration.init.RocketPartInit;
+import com.machina.registration.init.WeatherEventInit;
+import com.machina.weather.manager.ClientWeatherManager;
 import com.machina.world.PlanetFactory;
 
 import net.minecraft.client.Camera;
@@ -88,21 +92,24 @@ public class ClientModEvents {
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		CinematicHandler.setup();
 		FluidInit.setRenderLayers();
-		
+
 		RocketPartModels.register(RocketPartInit.SIMPLE_CHASSIS.get(), SimpleChassisModel::new);
-        RocketPartModels.register(RocketPartInit.ADVANCED_CHASSIS.get(), AdvancedChassisModel::new);
+		RocketPartModels.register(RocketPartInit.ADVANCED_CHASSIS.get(), AdvancedChassisModel::new);
 
-        RocketPartModels.register(RocketPartInit.SIMPLE_FUEL_TANK.get(), SimpleFuelTankModel::new);
-        RocketPartModels.register(RocketPartInit.PRESSURIZED_FUEL_TANK.get(), PressurizedTankModel::new);
+		RocketPartModels.register(RocketPartInit.SIMPLE_FUEL_TANK.get(), SimpleFuelTankModel::new);
+		RocketPartModels.register(RocketPartInit.PRESSURIZED_FUEL_TANK.get(), PressurizedTankModel::new);
 
-        RocketPartModels.register(RocketPartInit.SIMPLE_LIFE_SUPPORT.get(), SimpleLifeSupportModel::new);
-        RocketPartModels.register(RocketPartInit.REINFORCED_LIFE_SUPPORT.get(), ReinforcedLifeSupportModel::new);
+		RocketPartModels.register(RocketPartInit.SIMPLE_LIFE_SUPPORT.get(), SimpleLifeSupportModel::new);
+		RocketPartModels.register(RocketPartInit.REINFORCED_LIFE_SUPPORT.get(), ReinforcedLifeSupportModel::new);
 
-        RocketPartModels.register(RocketPartInit.SIMPLE_SHIELD.get(), SimpleShieldModel::new);
-        RocketPartModels.register(RocketPartInit.CONE_SHIELD.get(), ConeShieldModel::new);
+		RocketPartModels.register(RocketPartInit.SIMPLE_SHIELD.get(), SimpleShieldModel::new);
+		RocketPartModels.register(RocketPartInit.CONE_SHIELD.get(), ConeShieldModel::new);
 
-        RocketPartModels.register(RocketPartInit.SIMPLE_THRUSTER.get(), SimpleThrusterModel::new);
-        RocketPartModels.register(RocketPartInit.TRI_TALL_THRUSTER.get(), TriTallThrusterModel::new);
+		RocketPartModels.register(RocketPartInit.SIMPLE_THRUSTER.get(), SimpleThrusterModel::new);
+		RocketPartModels.register(RocketPartInit.TRI_TALL_THRUSTER.get(), TriTallThrusterModel::new);
+
+		ClientWeatherManager.registerRenderer(WeatherEventInit.CLEAR, ClearWeatherRenderer::new);
+		ClientWeatherManager.registerRenderer(WeatherEventInit.RAIN, RainWeatherRenderer::new);
 	}
 
 	@SubscribeEvent // on the mod event bus only on the physical client

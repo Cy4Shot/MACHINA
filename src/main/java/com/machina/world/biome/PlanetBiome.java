@@ -54,7 +54,7 @@ public class PlanetBiome extends Biome {
 	public final PlanetSurfaceGetter surface;
 
 	public PlanetBiome(PlanetBiomeSettings s) {
-		this(createClimate(s), createEffects(s), createGeneration(s), s);
+		this(createClimate(), createEffects(), createGeneration(s), s);
 	}
 
 	private PlanetBiome(ClimateSettings climate, BiomeSpecialEffects special, BiomeGenerationSettings genset,
@@ -72,14 +72,18 @@ public class PlanetBiome extends Biome {
 		return settings.base();
 	}
 
-	private static ClimateSettings createClimate(PlanetBiomeSettings s) {
-		boolean rains = false;
-		return new ClimateSettings(rains, 1.0f, TemperatureModifier.NONE, 0f);
+	private static ClimateSettings createClimate() {
+		return new ClimateSettings(false, 1.0f, TemperatureModifier.NONE, 0f); // Overridden elsewhere
 	}
 
-	private static BiomeSpecialEffects createEffects(PlanetBiomeSettings s) {
-		// TODO: Add particles & effects
-		return s.effects().build().backgroundMusic(SoundInit.asMusic(SoundInit.MUSIC)).build();
+	private static BiomeSpecialEffects createEffects() {
+		BiomeSpecialEffects.Builder effects = new BiomeSpecialEffects.Builder();
+		effects.waterColor(4159204);
+		effects.waterFogColor(329011);
+		effects.fogColor(0); // Overridden elsewhere
+		effects.skyColor(0); // Overridden elsewhere
+		effects.backgroundMusic(SoundInit.asMusic(SoundInit.MUSIC));
+		return effects.build();
 	}
 
 	private static BiomeGenerationSettings createGeneration(PlanetBiomeSettings s) {
