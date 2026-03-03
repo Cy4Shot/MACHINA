@@ -10,6 +10,7 @@ import com.machina.api.starchart.burke.AccreteObject;
 import com.machina.api.starchart.burke.BPlanet;
 import com.machina.api.starchart.burke.BStar;
 import com.machina.api.starchart.burke.StarSystem;
+import com.machina.api.starchart.name.SystemNameGenerator;
 import com.machina.api.starchart.obj.Moon;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
@@ -28,8 +29,9 @@ public class StarchartGenerator {
 			FluidInit.SULPHUR_DIOXIDE, FluidInit.SULPHURIC_ACID, FluidInit.CARBON_DISULPHIDE,
 			FluidInit.HYDROGEN_SULPHIDE };
 
-	public static SolarSystem gen(long seed, String name) {
+	public static SolarSystem gen(long seed) {
 		Random rand = new Random(seed);
+		String name = new SystemNameGenerator().gen(rand);
 		AccreteObject.cr.setSeed(seed);
 		StarSystem ss = new StarSystem();
 		Star star = convertStar(name, ss.primary);

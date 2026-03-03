@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.network.s2c.S2CSyncStarchart;
-import com.machina.api.starchart.name.SystemNameGenerator;
 import com.machina.api.starchart.obj.SolarSystem;
 
 import net.minecraft.server.level.ServerLevel;
@@ -20,8 +19,7 @@ public class Starchart {
 	final SolarSystem system;
 
 	public Starchart(long seed) {
-		SystemNameGenerator gen = new SystemNameGenerator();
-		system = StarchartGenerator.gen(seed, gen.gen(new Random(seed)));
+		system = StarchartGenerator.gen(seed);
 	}
 
 	public static SolarSystem system(@NotNull Level l) {

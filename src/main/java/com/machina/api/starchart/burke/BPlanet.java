@@ -292,11 +292,11 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 		}
 		density = density_by_temperature(plan_class);
 		radius = planet_radius(mass, density, plan_class);
-		GH2 = gas_retention(H2, TEMP, mass * MEARTH, radius * 1.0E+5);
-		GH2O = gas_retention(H2O, TEMP, mass * MEARTH, radius * 1.0E+5);
-		GN2 = gas_retention(N2, TEMP, mass * MEARTH, radius * 1.0E+5);
-		GO2 = gas_retention(O2, TEMP, mass * MEARTH, radius * 1.0E+5);
-		GCO2 = gas_retention(CO2, TEMP, mass * MEARTH, radius * 1.0E+5);
+		GH2 = gas_retention(H2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+		GH2O = gas_retention(H2O, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+		GN2 = gas_retention(N2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+		GO2 = gas_retention(O2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+		GCO2 = gas_retention(CO2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
 		// classification scheme needs to be redone
 		while (true) {
 			if (plan_class == 'T') {
@@ -710,8 +710,33 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 				return (temp2);
 			else
 				return (temp2 / 100.0);
+		} else if (velocity_ratio > 0.0) {
+			// Smooth falloff below retention threshold instead of hard cliff to zero.
+			// Scale proportion_const by how close the planet is to the threshold,
+			// raised to a power to make the falloff gradual rather than linear.
+			switch (zone) {
+			case 1:
+				proportion_const = 100000.0;
+				break;
+			case 2:
+				proportion_const = 75000.0;
+				break;
+			case 3:
+				proportion_const = 250.0;
+				break;
+			default:
+				break;
+			}
+			double retention_fraction = Math.pow(velocity_ratio / GAS_RETENTION_THRESHOLD, 4.0);
+			earth_units = mass;
+			temp1 = (proportion_const * retention_fraction * earth_units) / stellar_mass;
+			temp2 = about(temp1, 0.2);
+			if (greenhouse_effect)
+				return (temp2);
+			else
+				return (temp2 / 100.0);
 		} else
-			return (0.0);
+			return 0.0;
 	}
 
 	/**
@@ -1056,6 +1081,12 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 			hydrosphere = INCREDIBLY_LARGE_NUMBER;
 			albedo = about(GAS_GIANT_ALBEDO, 0.1);
 			surf_temp = INCREDIBLY_LARGE_NUMBER;
+
+			GH2 = gas_retention(H2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+			GH2O = gas_retention(H2O, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+			GN2 = gas_retention(N2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+			GO2 = gas_retention(O2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+			GCO2 = gas_retention(CO2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
 		} else {
 			surf_grav = gravity(surf_accel);
 			greenhouse_effect = grnhouse(orbit_zone, a, r_gr);
@@ -1068,6 +1099,12 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 				greenhouse_effect = false;
 			boil_point = (surf_pressure == 0.0) ? 0.0 : boiling_point();
 			iterate_surface_temp();
+
+			GH2 = gas_retention(H2, surf_temp, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+			GH2O = gas_retention(H2O, surf_temp, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+			GN2 = gas_retention(N2, surf_temp, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+			GO2 = gas_retention(O2, surf_temp, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
+			GCO2 = gas_retention(CO2, surf_temp, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
 		}
 	}
 

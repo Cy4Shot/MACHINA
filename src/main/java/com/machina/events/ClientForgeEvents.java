@@ -1,8 +1,8 @@
 package com.machina.events;
 
 import com.machina.Machina;
+import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MachinaMenuScreen;
-import com.machina.api.starchart.StarchartGenerator;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingInit;
 
@@ -25,7 +25,7 @@ public class ClientForgeEvents {
 			return;
 
 		if (KeyBindingInit.STARCHART_KEY.isDown()) {
-			mc.setScreen(new StarchartScreen(StarchartGenerator.gen(10, "Test")));
+			mc.setScreen(new StarchartScreen(ClientStarchart.system));
 		}
 	}
 
