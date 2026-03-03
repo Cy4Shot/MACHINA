@@ -38,33 +38,33 @@ public class FluidFilterScreen extends MachinaMenuScreen<FluidFilterMenu> implem
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
-        drawInventory(gui, mx, my);
-        drawMiniBackground(gui);
+		drawInventory(gui, mx, my);
+		drawMiniBackground(gui);
 
-        int i1 = midWidth();
-        int j1 = midHeight();
-        Mode mode = FluidFilterItem.getMode(menu.stack);
-        Fluid fluid = FluidFilterItem.getFluid(menu.stack);
+		int i1 = midWidth();
+		int j1 = midHeight();
+		Mode mode = FluidFilterItem.getMode(menu.stack);
+		Fluid fluid = FluidFilterItem.getFluid(menu.stack);
 
-        MUI.drawCenteredString(gui, mode.comp()
-                        .setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? 0xFF0000 : 0x00FF00).withBold(true))
-                        .append(MUI.uistr("fluid_filter.for").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
-                i1 + 117, j1 + 4);
+		MUI.drawCenteredString(gui, mode.comp()
+        				.setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? 0xFF0000 : 0x00FF00).withBold(true))
+        				.append(MUI.uistr("fluid_filter.for").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
+        		i1 + 117, j1 + 4);
 
-        MUI.drawCenteredString(gui, Component.translatable(fluid.getFluidType().getDescriptionId()).setStyle(Style.EMPTY
-                        .withColor(IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1))).withBold(true)),
-                i1 + 117, j1 + 6 + font.lineHeight);
+		MUI.drawCenteredString(gui, Component.translatable(fluid.getFluidType().getDescriptionId()).setStyle(Style.EMPTY
+        				.withColor(IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1))).withBold(true)),
+        		i1 + 117, j1 + 6 + font.lineHeight);
 
-        drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.FLUID, "",
-                (i, j) -> MUI.renderFluid(gui, new FluidStack(menu.getCurrentFilter(), 1), i + 1, j + 17, 16, 16, 0));
+		drawGhostSlot(gui, () -> false, mx, my, 89, 34, MuiSlot.FLUID, "",
+				(i, j) -> MUI.renderFluid(gui, new FluidStack(menu.getCurrentFilter(), 1), i + 1, j + 17, 16, 16, 0));
 
-        drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
-                x -> menu.toggleMode(), mode::comp);
+		drawToggle(gui, mx, my, 125, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
+				x -> menu.toggleMode(), mode::comp);
 
-        MUI.blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
-        MUI.blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);
+		MUI.blitCommon(gui, i1 + 151, j1 + 40, 405, 13, 17, 6);
+		MUI.blitCommon(gui, i1 + 64, j1 + 40, 422, 13, 17, 6);
 
-        drawOverlay(gui);
+		drawOverlay(gui);
     }
 
 	@Override

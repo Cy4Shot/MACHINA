@@ -44,41 +44,41 @@ public class AdvancedItemFilterScreen extends MachinaMenuScreen<AdvancedItemFilt
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float pt, int mx, int my) {
-        drawInventory(gui, mx, my);
-        drawBackground(gui);
+		drawInventory(gui, mx, my);
+		drawBackground(gui);
 
-        int i = midWidth();
-        int j = midHeight();
-        Mode mode = AdvancedItemFilterItem.getMode(menu.stack);
-        NonNullList<Item> items = AdvancedItemFilterItem.getItems(menu.stack);
+		int i = midWidth();
+		int j = midHeight();
+		Mode mode = AdvancedItemFilterItem.getMode(menu.stack);
+		NonNullList<Item> items = AdvancedItemFilterItem.getItems(menu.stack);
 
-        // Top Text
-        MUI.drawCenteredString(gui, mode.comp()
-                        .setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? MUI.RED : MUI.GREEN).withBold(true))
-                        .append(MUI.uistr("item_filter.for_colon").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
-                i + 117, j - 60);
+		// Top Text
+		MUI.drawCenteredString(gui, mode.comp()
+						.setStyle(Style.EMPTY.withColor(mode == Mode.BLACKLIST ? MUI.RED : MUI.GREEN).withBold(true))
+						.append(MUI.uistr("item_filter.for_colon").withStyle(Style.EMPTY.withColor(MUI.CYAN).withBold(false))),
+				i + 117, j - 60);
 
-        // Inventory
-        MUI.blitCommon(gui, i + 27, j - 40, 0, 0, 179, 59);
-        if (mx > i + 27 && mx < i + 27 + 179 && my > j - 40 && my < j - 40 + 59) {
+		// Inventory
+		MUI.blitCommon(gui, i + 27, j - 40, 0, 0, 179, 59);
+		if (mx > i + 27 && mx < i + 27 + 179 && my > j - 40 && my < j - 40 + 59) {
             int mx1 = (mx - i - 27);
             int my1 = (my - j + 40);
             if (mx1 % 20 < 18 && my1 % 20 < 18)
-                MUI.blitCommon(gui, mx1 / 20 * 20 + i + 27, my1 / 20 * 20 + j - 40, 368, 2, 19, 19);
-        }
-        for (int r = 0; r < 3; r++) {
+				MUI.blitCommon(gui, mx1 / 20 * 20 + i + 27, my1 / 20 * 20 + j - 40, 368, 2, 19, 19);
+		}
+		for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 9; c++) {
-                gui.renderFakeItem(items.get(r * 9 + c).getDefaultInstance(), i + c * 20 + 28, j + r * 20 - 39);
+				gui.renderFakeItem(items.get(r * 9 + c).getDefaultInstance(), i + c * 20 + 28, j + r * 20 - 39);
             }
-        }
+		}
 
-        // Toggle Blacklist
-        drawToggle(gui, mx, my, 107, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
-                x -> menu.toggleMode(), mode::comp);
-        MUI.blitCommon(gui, i + 133, j + 40, 405, 13, 17, 6);
-        MUI.blitCommon(gui, i + 82, j + 40, 422, 13, 17, 6);
+		// Toggle Blacklist
+		drawToggle(gui, mx, my, 107, 34, mode == Mode.BLACKLIST, MuiSlot.BLACKLIST, MuiSlot.WHITELIST,
+				x -> menu.toggleMode(), mode::comp);
+		MUI.blitCommon(gui, i + 133, j + 40, 405, 13, 17, 6);
+		MUI.blitCommon(gui, i + 82, j + 40, 422, 13, 17, 6);
 
-        drawOverlay(gui);
+		drawOverlay(gui);
     }
 
 	@Override

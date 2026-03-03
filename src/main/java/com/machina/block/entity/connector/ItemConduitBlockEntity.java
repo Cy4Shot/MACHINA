@@ -34,4 +34,5 @@ public class ItemConduitBlockEntity extends ConnectorBlockEntity<ItemStack, Cond
 	public int slotsPerSide() {
 		return 1;
 	}
+
 }

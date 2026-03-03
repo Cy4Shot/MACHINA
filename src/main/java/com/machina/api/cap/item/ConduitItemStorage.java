@@ -60,7 +60,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 		return receive(conduit, side, stack, simulate);
 	}
 
-    @Override
+	@Override
 	public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
 		return ItemStack.EMPTY;
 	}

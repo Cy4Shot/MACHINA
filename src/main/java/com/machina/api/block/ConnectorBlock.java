@@ -314,10 +314,10 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player, BlockPos pos, Direction d) {
 		if (getMenu() != null) {
 			return getMenu().apply(id, inv, ContainerLevelAccess.create(player.level(), pos),
-                    player.level().getCapability(Capabilities.ItemHandler.BLOCK, pos, d), d);
+					player.level().getCapability(Capabilities.ItemHandler.BLOCK, pos, d), d);
 		}
 		return null;
 	}
 
-    public abstract QuintFunction<Integer, Inventory, ContainerLevelAccess, IItemHandler, Direction, AbstractContainerMenu> getMenu();
+	public abstract QuintFunction<Integer, Inventory, ContainerLevelAccess, IItemHandler, Direction, AbstractContainerMenu> getMenu();
 }

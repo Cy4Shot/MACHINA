@@ -34,4 +34,5 @@ public class FluidPipeBlockEntity extends ConnectorBlockEntity<FluidStack, PipeF
 	public int slotsPerSide() {
 		return 1;
 	}
+
 }
