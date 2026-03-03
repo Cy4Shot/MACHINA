@@ -9,6 +9,7 @@ import com.machina.api.starchart.planet_biome.PlanetSurface;
 import com.machina.api.starchart.planet_biome.RockMaker;
 import com.machina.api.starchart.planet_biome.TreeMaker;
 import com.machina.api.util.MachinaRL;
+import com.machina.weather.WeatherEvent;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -26,6 +27,7 @@ public class RegistryInit {
 	public static final Registry<RockMaker> ROCK_REGISTRY = createRegistry(MachinaRL.create("rock"));
 	public static final Registry<PlanetSurface> SURFACE_REGISTRY = createRegistry(MachinaRL.create("surface"));
 	public static final Registry<RocketPart> ROCKET_PART_REGISTRY = createRegistry(MachinaRL.create("rocket_part"));
+	public static final Registry<WeatherEvent> WEATHER_EVENT = createRegistry(MachinaRL.create("weather_event"));
 
 	private static final <T> Registry<T> createRegistry(ResourceLocation RL) {
 		Registry<T> reg = new RegistryBuilder<T>(ResourceKey.createRegistryKey(RL)).sync(true)

@@ -102,5 +102,8 @@
 			]
 		}
 	],
-	"base": "minecraft:stone"
+	"base": "minecraft:stone",
+	"weathers": [
+		"machina:clear"
+	]
 }

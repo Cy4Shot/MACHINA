@@ -23,6 +23,7 @@ import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.TabInit;
+import com.machina.registration.init.WeatherEventInit;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -56,6 +57,7 @@ public class Registration {
 		ChunkGeneratorInit.CHUNK_GENERATORS.register(bus);
 		RecipeInit.RECIPE_TYPES.register(bus);
 		RecipeInit.RECIPE_SERIALIZERS.register(bus);
+		WeatherEventInit.WEATHER_EVENTS.register(bus);
 		
 		OverworldOresInit.init(); // Only used for datagen
 	}

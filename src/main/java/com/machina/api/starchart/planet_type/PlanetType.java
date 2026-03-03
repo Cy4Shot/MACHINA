@@ -3,6 +3,7 @@ package com.machina.api.starchart.planet_type;
 import java.util.List;
 import java.util.function.Function;
 
+import com.machina.weather.WeatherEvent;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -11,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
 
-public record PlanetType(ResourceLocation name, int iconY, Shape shape, List<BiomePlacement> biomes, BlockState base) {
+public record PlanetType(ResourceLocation name, int iconY, Shape shape, List<BiomePlacement> biomes, List<WeatherEvent> weathers, BlockState base) {
 
 	public static final Codec<PlanetType> CODEC = RecordCodecBuilder
 			.create(instance -> instance
@@ -19,6 +20,7 @@ public record PlanetType(ResourceLocation name, int iconY, Shape shape, List<Bio
 							Codec.INT.fieldOf("iconY").forGetter(PlanetType::iconY),
 							Shape.CODEC.fieldOf("shape").forGetter(PlanetType::shape),
 							Codec.list(BiomePlacement.CODEC).fieldOf("biomes").forGetter(PlanetType::biomes),
+							Codec.list(WeatherEvent.CODEC).fieldOf("weathers").forGetter(PlanetType::weathers),
 							BlockState.CODEC.fieldOf("base").forGetter(PlanetType::base))
 					.apply(instance, PlanetType::new));
 

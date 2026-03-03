@@ -1,5 +1,6 @@
 package com.machina.api.util;
 
+import com.machina.api.client.ClientStarchart;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.obj.Planet;
 
@@ -48,6 +49,19 @@ public class PlanetHelper {
 		ResourceKey<Level> dim = level.dimension();
 		if (isPlanetLevel(dim)) {
 			return Starchart.system(level).planets().get(getIdLevel(dim));
+		}
+		return null;
+	}
+
+	public static Planet getPlanetFor(Level level) {
+		ResourceKey<Level> dim = level.dimension();
+		if (isPlanetLevel(dim)) {
+			int id = getIdLevel(dim);
+			if (level.isClientSide()) {
+				return ClientStarchart.system.planets().get(id);
+			} else {
+				return Starchart.system(level).planets().get(id);
+			}
 		}
 		return null;
 	}
