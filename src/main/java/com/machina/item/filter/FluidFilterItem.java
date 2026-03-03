@@ -1,16 +1,10 @@
 package com.machina.item.filter;
 
-import java.util.List;
-import java.util.Objects;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.Machina;
 import com.machina.api.cap.fluid.PipeFluidStorage;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.item.menu.FluidFilterMenu;
 import com.machina.registration.init.DataComponentsInit;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,6 +21,9 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidStorage> {
 
@@ -35,7 +32,8 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 	}
 
 	public static Fluid getFluid(ItemStack stack) {
-		return stack.get(DataComponentsInit.FLUID);
+		Fluid fluid = stack.get(DataComponentsInit.FLUID);
+        return fluid == null ? Fluids.EMPTY : fluid;
 	}
 
 	public static ItemStack set(ItemStack stack, Fluid type, Mode mode) {
@@ -53,7 +51,7 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 			int col = IClientFluidTypeExtensions.of(fluid).getTintColor(new FluidStack(fluid, 1));
 			tooltip.add(Component.translatable(fluid.getFluidType().getDescriptionId())
 					.setStyle(Style.EMPTY.withColor(col)));
-			tooltip.add(mode.comp().setStyle(Style.EMPTY.withColor(65278)));
+            tooltip.add(mode.comp().setStyle(Style.EMPTY.withColor(65278)));
 		} else {
 			tooltip.add(Component.translatable(Machina.MOD_ID + ".tooltip.fluid_filter.empty")
 					.setStyle(Style.EMPTY.withColor(65278)));
@@ -67,7 +65,7 @@ public class FluidFilterItem extends ConnectorFilterItem<FluidStack, PipeFluidSt
 		Mode mode = getMode(stack);
 		Fluid fluid = getFluid(stack);
 
-		if (Objects.requireNonNull(mode) == Mode.BLACKLIST) {
+		if (mode == Mode.BLACKLIST) {
 			return !original.getFluid().equals(fluid);
 		}
 		return original.getFluid().equals(fluid);

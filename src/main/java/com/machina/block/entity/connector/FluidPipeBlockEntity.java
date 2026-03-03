@@ -4,7 +4,6 @@ import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.fluid.PipeFluidStorage;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;

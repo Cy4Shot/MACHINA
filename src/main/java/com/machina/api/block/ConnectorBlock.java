@@ -1,11 +1,5 @@
 package com.machina.api.block;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.block.entity.ConnectorBlockEntity.Connection;
 import com.machina.api.block.menu.DirectionalMenuFactory;
@@ -14,7 +8,6 @@ import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.math.MathUtil;
 import com.machina.api.util.reflect.QuintFunction;
-
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -46,6 +39,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class ConnectorBlock extends Block implements EntityBlock, IClickableBlock, IDirectionalMenuProvider {
 	public static final BooleanProperty TILE = BooleanProperty.create("tile");

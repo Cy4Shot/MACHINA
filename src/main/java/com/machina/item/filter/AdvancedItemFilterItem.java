@@ -1,16 +1,10 @@
 package com.machina.item.filter;
 
-import java.util.List;
-import java.util.Objects;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.Machina;
 import com.machina.api.cap.item.ConduitItemStorage;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.item.menu.AdvancedItemFilterMenu;
 import com.machina.registration.init.DataComponentsInit;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -26,6 +20,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class AdvancedItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemStorage> {
 
@@ -65,7 +62,7 @@ public class AdvancedItemFilterItem extends ConnectorFilterItem<ItemStack, Condu
 		if (original.getItem() == Items.AIR)
 			return false;
 
-		if (Objects.requireNonNull(mode) == Mode.BLACKLIST) {
+		if (mode == Mode.BLACKLIST) {
 			return !items.contains(original.getItem());
 		}
 		return items.contains(original.getItem());

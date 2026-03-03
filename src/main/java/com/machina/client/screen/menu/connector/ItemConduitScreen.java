@@ -37,7 +37,7 @@ public class ItemConduitScreen extends MachinaMenuScreen<ItemConduitMenu> {
 		drawMiniBackground(gui);
 
 		if (menu.getBlockEntity() == null) {
-			return;
+            return;
 		}
 
 		// Top slot
@@ -46,24 +46,26 @@ public class ItemConduitScreen extends MachinaMenuScreen<ItemConduitMenu> {
 		MUI.blitCommon(gui, i + 82, j + 10, 422, 13, 17, 6);
 
 		// Mode Slot
+		Mode mode = ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id));
+
 		drawToggle(gui, mx, my, 89, 34,
-				ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id)) == Mode.BLACKLIST, MuiSlot.BLACKLIST,
+				mode == Mode.BLACKLIST, MuiSlot.BLACKLIST,
 				MuiSlot.WHITELIST, (val) -> {
-					ItemStack stack = menu.getBlockEntity().getItem(id);
-					stack.set(DataComponentsInit.FILTER_MODE, val ? Mode.BLACKLIST : Mode.WHITELIST);
-					PacketDistributor
-							.sendToServer(new C2SMenuSetItem(menu.id(0), stack, menu.getBlockEntity().getBlockPos()));
-				}, () -> ConnectorFilterItem.getMode(menu.getBlockEntity().getItem(id)).comp());
+            		ItemStack stack = menu.getBlockEntity().getItem(id);
+                    stack.set(DataComponentsInit.FILTER_MODE, val ? Mode.BLACKLIST : Mode.WHITELIST);
+                    PacketDistributor
+						.sendToServer(new C2SMenuSetItem(menu.id(0), stack, menu.getBlockEntity().getBlockPos()));
+				}, mode::comp);
 
 		// IO Slot
 		ConnectionSide side = menu.getConnection();
 		if (side.isIO()) {
-			drawToggleIO(gui, mx, my, 125, 34, side.isInput() ? Side.INPUT : Side.OUTPUT,
-					() -> menu.getConnection().comp().setStyle(
-							Style.EMPTY.withColor(menu.getConnection() == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
-					() -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.getBlockPos())));
+            drawToggleIO(gui, mx, my, 125, 34, side.isInput() ? Side.INPUT : Side.OUTPUT,
+                    () -> menu.getConnection().comp().setStyle(
+                            Style.EMPTY.withColor(menu.getConnection() == ConnectionSide.INPUT ? 0x0377fc : 0xfc9003)),
+                    () -> PacketDistributor.sendToServer(new C2SMenuToggleConnector(menu.dir, menu.getBlockPos())));
 		}
 
 		drawOverlay(gui);
-	}
+    }
 }

@@ -110,6 +110,10 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	}
 
 	public IEnergyStorage getEnergyStorage(Direction side) {
+        if (this.energyCap == null) {
+            return null;
+        }
+
 		return this.energyCap.getCap(side);
 	}
 

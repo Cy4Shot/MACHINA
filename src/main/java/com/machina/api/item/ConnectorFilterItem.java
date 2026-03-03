@@ -24,7 +24,8 @@ public abstract class ConnectorFilterItem<U, T extends IConnectorStorage<U>> ext
 	public abstract boolean filter(ItemStack stack, U original);
 
 	public static Mode getMode(ItemStack stack) {
-		return stack.get(DataComponentsInit.FILTER_MODE);
+        Mode mode = stack.get(DataComponentsInit.FILTER_MODE);
+		return mode == null ? Mode.WHITELIST : mode;
 	}
 
 	public enum Mode implements HasId {

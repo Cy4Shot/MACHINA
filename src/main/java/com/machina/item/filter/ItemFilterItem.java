@@ -1,16 +1,10 @@
 package com.machina.item.filter;
 
-import java.util.List;
-import java.util.Objects;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.machina.Machina;
 import com.machina.api.cap.item.ConduitItemStorage;
 import com.machina.api.item.ConnectorFilterItem;
 import com.machina.item.menu.ItemFilterMenu;
 import com.machina.registration.init.DataComponentsInit;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,6 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemStorage> {
 
@@ -33,7 +30,8 @@ public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemSt
 	}
 
 	public static Item getItem(ItemStack stack) {
-		return stack.get(DataComponentsInit.ITEM);
+        Item item = stack.get(DataComponentsInit.ITEM);
+		return item == null ? Items.AIR : item;
 	}
 
 	public static ItemStack set(ItemStack stack, Item type, Mode mode) {
@@ -62,7 +60,7 @@ public class ItemFilterItem extends ConnectorFilterItem<ItemStack, ConduitItemSt
 		Mode mode = getMode(stack);
 		Item item = getItem(stack);
 
-		if (Objects.requireNonNull(mode) == Mode.BLACKLIST) {
+		if (mode == Mode.BLACKLIST) {
 			return !original.getItem().equals(item);
 		}
 		return original.getItem().equals(item);

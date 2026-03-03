@@ -1,19 +1,7 @@
 package com.machina.api.util.reflect;
 
-import java.util.function.Function;
-
-import com.mojang.datafixers.util.Function10;
-import com.mojang.datafixers.util.Function11;
-import com.mojang.datafixers.util.Function12;
-import com.mojang.datafixers.util.Function13;
-import com.mojang.datafixers.util.Function14;
-import com.mojang.datafixers.util.Function15;
-import com.mojang.datafixers.util.Function7;
-import com.mojang.datafixers.util.Function8;
-import com.mojang.datafixers.util.Function9;
-
+import com.mojang.datafixers.util.*;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -25,14 +13,25 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.function.Function;
+
 public class MachinaStreamCodecs {
 
 	public interface HasId {
 		int getId();
 	}
 
-	public static final StreamCodec<ByteBuf, FriendlyByteBuf> FRIENDLY_BYTE_BUF = ByteBufCodecs.BYTE_ARRAY
-			.map(x -> new FriendlyByteBuf(Unpooled.wrappedBuffer(x)), b -> b.readByteArray());
+	public static final StreamCodec<FriendlyByteBuf, FriendlyByteBuf> FRIENDLY_BYTE_BUF = StreamCodec.of(
+            (buf, value) -> {
+                ByteBuf data = value.copy();
+
+                try {
+                    buf.writeBytes(data);
+                } finally {
+                    data.release();
+                }
+            }, buf -> new FriendlyByteBuf(buf.readBytes(buf.readableBytes()))
+    );
 
 	public static final StreamCodec<ByteBuf, Vec3> VEC3 = ByteBufCodecs.VECTOR3F.map(Vec3::new, Vec3::toVector3f);
 

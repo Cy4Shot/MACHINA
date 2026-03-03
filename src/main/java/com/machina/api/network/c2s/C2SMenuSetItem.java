@@ -16,7 +16,7 @@ public record C2SMenuSetItem(int slot, ItemStack stack, BlockPos pos) implements
 
 	@Override
 	public StreamCodec<? super RegistryFriendlyByteBuf, C2SMenuSetItem> streamCodec() {
-		return StreamCodec.composite(ByteBufCodecs.INT, C2SMenuSetItem::slot, ItemStack.STREAM_CODEC,
+		return StreamCodec.composite(ByteBufCodecs.INT, C2SMenuSetItem::slot, ItemStack.OPTIONAL_STREAM_CODEC,
 				C2SMenuSetItem::stack, BlockPos.STREAM_CODEC, C2SMenuSetItem::pos, C2SMenuSetItem::new).cast();
 	}
 
