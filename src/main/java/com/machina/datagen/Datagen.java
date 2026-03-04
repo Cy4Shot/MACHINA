@@ -9,11 +9,12 @@ import com.machina.datagen.client.DatagenBlockStates;
 import com.machina.datagen.client.DatagenItemModels;
 import com.machina.datagen.client.lang.DatagenLangEnUs;
 import com.machina.datagen.server.DatagenBlockTags;
+import com.machina.datagen.server.DatagenDatamaps;
 import com.machina.datagen.server.DatagenFluidTags;
 import com.machina.datagen.server.DatagenItemTags;
+import com.machina.datagen.server.DatagenLootTables;
 import com.machina.datagen.server.DatagenRecipes;
-import com.machina.datagen.server.DatapackProvider;
-import com.machina.datagen.server.loot.BlockLoot;
+import com.machina.datagen.server.DatagenDatapack;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -46,8 +47,9 @@ public class Datagen {
 		gen.addProvider(event.includeServer(), new DatagenItemTags(po, lookup, blocks.contentsGetter(), files));
 		gen.addProvider(event.includeServer(), new DatagenFluidTags(po, lookup, files));
 		gen.addProvider(event.includeServer(), new LootTableProvider(po, Set.of(),
-				List.of(new SubProviderEntry(BlockLoot::new, LootContextParamSets.BLOCK)), lookup));
+				List.of(new SubProviderEntry(DatagenLootTables::new, LootContextParamSets.BLOCK)), lookup));
 		gen.addProvider(event.includeServer(), new DatagenRecipes(po, lookup));
-		gen.addProvider(event.includeServer(), new DatapackProvider(po, lookup));
+		gen.addProvider(event.includeServer(), new DatagenDatamaps(po, lookup));
+		gen.addProvider(event.includeServer(), new DatagenDatapack(po, lookup));
 	}
 }

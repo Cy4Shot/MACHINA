@@ -1,0 +1,166 @@
+{
+  "values": {
+    "machina:argo_berry": {
+      "chance": 1.0
+    },
+    "machina:ava_fruit": {
+      "chance": 1.0
+    },
+    "machina:blue_glowshroom": {
+      "chance": 0.65
+    },
+    "machina:blue_groundlily": {
+      "chance": 0.3
+    },
+    "machina:blue_petals": {
+      "chance": 0.3
+    },
+    "machina:blue_waterlily": {
+      "chance": 0.3
+    },
+    "machina:clover": {
+      "chance": 0.3
+    },
+    "machina:coniferous_grass": {
+      "chance": 0.3
+    },
+    "machina:dragon_peony": {
+      "chance": 0.65
+    },
+    "machina:erbi_pod": {
+      "chance": 1.0
+    },
+    "machina:green_glowshroom": {
+      "chance": 0.65
+    },
+    "machina:green_groundlily": {
+      "chance": 0.3
+    },
+    "machina:green_petals": {
+      "chance": 0.3
+    },
+    "machina:green_waterlily": {
+      "chance": 0.3
+    },
+    "machina:grelp_berry": {
+      "chance": 1.0
+    },
+    "machina:mycelial_grass": {
+      "chance": 0.3
+    },
+    "machina:needlegrass": {
+      "chance": 0.3
+    },
+    "machina:needlethatch": {
+      "chance": 0.3
+    },
+    "machina:orange_glowshroom": {
+      "chance": 0.65
+    },
+    "machina:orange_groundlily": {
+      "chance": 0.3
+    },
+    "machina:orange_petals": {
+      "chance": 0.3
+    },
+    "machina:orange_waterlily": {
+      "chance": 0.3
+    },
+    "machina:orpheum": {
+      "chance": 1.0
+    },
+    "machina:pink_glowshroom": {
+      "chance": 0.65
+    },
+    "machina:pink_groundlily": {
+      "chance": 0.3
+    },
+    "machina:pink_waterlily": {
+      "chance": 0.3
+    },
+    "machina:purple_glowshroom": {
+      "chance": 0.65
+    },
+    "machina:purple_groundlily": {
+      "chance": 0.3
+    },
+    "machina:purple_petals": {
+      "chance": 0.3
+    },
+    "machina:purple_waterlily": {
+      "chance": 0.3
+    },
+    "machina:red_glowshroom": {
+      "chance": 0.65
+    },
+    "machina:red_groundlily": {
+      "chance": 0.3
+    },
+    "machina:red_petals": {
+      "chance": 0.3
+    },
+    "machina:red_waterlily": {
+      "chance": 0.3
+    },
+    "machina:short_coniferous_grass": {
+      "chance": 0.3
+    },
+    "machina:small_fern": {
+      "chance": 0.3
+    },
+    "machina:sparr_ball": {
+      "chance": 1.0
+    },
+    "machina:spindlegrass": {
+      "chance": 0.3
+    },
+    "machina:spindlesprout": {
+      "chance": 0.3
+    },
+    "machina:spruce_cup": {
+      "chance": 0.65
+    },
+    "machina:strapple": {
+      "chance": 1.0
+    },
+    "machina:tama_spore": {
+      "chance": 1.0
+    },
+    "machina:tropical_grass": {
+      "chance": 0.3
+    },
+    "machina:turquoise_glowshroom": {
+      "chance": 0.65
+    },
+    "machina:turquoise_groundlily": {
+      "chance": 0.3
+    },
+    "machina:turquoise_petals": {
+      "chance": 0.3
+    },
+    "machina:turquoise_waterlily": {
+      "chance": 0.3
+    },
+    "machina:twisted_grass": {
+      "chance": 0.3
+    },
+    "machina:windswept_grass": {
+      "chance": 0.3
+    },
+    "machina:y2_nana": {
+      "chance": 1.0
+    },
+    "machina:yellow_glowshroom": {
+      "chance": 0.65
+    },
+    "machina:yellow_groundlily": {
+      "chance": 0.3
+    },
+    "machina:yellow_petals": {
+      "chance": 0.3
+    },
+    "machina:yellow_waterlily": {
+      "chance": 0.3
+    }
+  }
+}

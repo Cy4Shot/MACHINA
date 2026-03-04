@@ -15,14 +15,14 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-public class DatapackProvider extends DatapackBuiltinEntriesProvider {
+public class DatagenDatapack extends DatapackBuiltinEntriesProvider {
 
 	public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
 			.add(Registries.CONFIGURED_FEATURE, MachinaConfiguredFeatures::bootstrap)
 			.add(Registries.PLACED_FEATURE, MachinaPlacedFeatures::bootstrap)
 			.add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, MachinaBiomeModifiers::bootstrap);
 
-	public DatapackProvider(PackOutput po, CompletableFuture<HolderLookup.Provider> lookup) {
+	public DatagenDatapack(PackOutput po, CompletableFuture<HolderLookup.Provider> lookup) {
 		super(po, lookup, BUILDER, Set.of(Machina.MOD_ID));
 	}
 }

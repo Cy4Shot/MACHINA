@@ -1,4 +1,4 @@
-package com.machina.datagen.server.loot;
+package com.machina.datagen.server;
 
 import java.util.Set;
 
@@ -30,12 +30,12 @@ import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableConditio
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-public class BlockLoot extends BlockLootSubProvider {
+public class DatagenLootTables extends BlockLootSubProvider {
 
 	private static final float[] NORMAL_LEAVES_STICK_CHANCES = new float[] { 0.02F, 0.022222223F, 0.025F, 0.033333335F,
 			0.1F };
 
-	public BlockLoot(HolderLookup.Provider lookupProvider) {
+	public DatagenLootTables(HolderLookup.Provider lookupProvider) {
 		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
 	}
 
@@ -115,49 +115,49 @@ public class BlockLoot extends BlockLootSubProvider {
 		pot(BlockInit.POTTED_SPRUCE_CUP.get());
 		dropSelf(BlockInit.DRAGON_PEONY.get());
 		pot(BlockInit.POTTED_DRAGON_PEONY.get());
-		dropAsSilk(BlockInit.SPINDLESPROUT.get());
+		dropAsSilkShears(BlockInit.SPINDLESPROUT.get());
 		pot(BlockInit.POTTED_SPINDLESPROUT.get());
-		dropAsSilk(BlockInit.SMALL_FERN.get());
+		dropAsSilkShears(BlockInit.SMALL_FERN.get());
 		pot(BlockInit.POTTED_SMALL_FERN.get());
-		dropAsSilk(BlockInit.DEAD_SMALL_FERN.get());
+		dropAsSilkShears(BlockInit.DEAD_SMALL_FERN.get());
 		pot(BlockInit.POTTED_DEAD_SMALL_FERN.get());
-		dropAsSilk(BlockInit.NEEDLEGRASS.get());
+		dropAsSilkShears(BlockInit.NEEDLEGRASS.get());
 		pot(BlockInit.POTTED_NEEDLEGRASS.get());
 
-		dropAsSilk(BlockInit.SPINDLEGRASS.get());
-		dropAsSilk(BlockInit.NEEDLETHATCH.get());
+		dropAsSilkShears(BlockInit.SPINDLEGRASS.get());
+		dropAsSilkShears(BlockInit.NEEDLETHATCH.get());
 		dropSelf(BlockInit.ORPHEUM.get());
-		dropAsSilk(BlockInit.CLOVER.get());
-		dropAsSilk(BlockInit.TROPICAL_GRASS.get());
-		dropAsSilk(BlockInit.TWISTED_GRASS.get());
-		dropAsSilk(BlockInit.CONIFEROUS_GRASS.get());
-		dropAsSilk(BlockInit.SHORT_CONIFEROUS_GRASS.get());
-		dropAsSilk(BlockInit.WINDSWEPT_GRASS.get());
-		dropAsSilk(BlockInit.MYCELIAL_GRASS.get());
-		dropAsSilk(BlockInit.PURPLE_PETALS.get());
-		dropAsSilk(BlockInit.RED_PETALS.get());
-		dropAsSilk(BlockInit.ORANGE_PETALS.get());
-		dropAsSilk(BlockInit.YELLOW_PETALS.get());
-		dropAsSilk(BlockInit.GREEN_PETALS.get());
-		dropAsSilk(BlockInit.TURQUOISE_PETALS.get());
-		dropAsSilk(BlockInit.BLUE_PETALS.get());
+		dropAsSilkShears(BlockInit.CLOVER.get());
+		dropAsSilkShears(BlockInit.TROPICAL_GRASS.get());
+		dropAsSilkShears(BlockInit.TWISTED_GRASS.get());
+		dropAsSilkShears(BlockInit.CONIFEROUS_GRASS.get());
+		dropAsSilkShears(BlockInit.SHORT_CONIFEROUS_GRASS.get());
+		dropAsSilkShears(BlockInit.WINDSWEPT_GRASS.get());
+		dropAsSilkShears(BlockInit.MYCELIAL_GRASS.get());
+		petals(BlockInit.PURPLE_PETALS.get());
+		petals(BlockInit.RED_PETALS.get());
+		petals(BlockInit.ORANGE_PETALS.get());
+		petals(BlockInit.YELLOW_PETALS.get());
+		petals(BlockInit.GREEN_PETALS.get());
+		petals(BlockInit.TURQUOISE_PETALS.get());
+		petals(BlockInit.BLUE_PETALS.get());
 
-		dropAsSilk(BlockInit.PURPLE_GROUNDLILY.get());
-		dropAsSilk(BlockInit.PINK_GROUNDLILY.get());
-		dropAsSilk(BlockInit.RED_GROUNDLILY.get());
-		dropAsSilk(BlockInit.ORANGE_GROUNDLILY.get());
-		dropAsSilk(BlockInit.YELLOW_GROUNDLILY.get());
-		dropAsSilk(BlockInit.GREEN_GROUNDLILY.get());
-		dropAsSilk(BlockInit.TURQUOISE_GROUNDLILY.get());
-		dropAsSilk(BlockInit.BLUE_GROUNDLILY.get());
-		dropAsSilk(BlockInit.PURPLE_WATERLILY.get());
-		dropAsSilk(BlockInit.PINK_WATERLILY.get());
-		dropAsSilk(BlockInit.RED_WATERLILY.get());
-		dropAsSilk(BlockInit.ORANGE_WATERLILY.get());
-		dropAsSilk(BlockInit.YELLOW_WATERLILY.get());
-		dropAsSilk(BlockInit.GREEN_WATERLILY.get());
-		dropAsSilk(BlockInit.TURQUOISE_WATERLILY.get());
-		dropAsSilk(BlockInit.BLUE_WATERLILY.get());
+		dropAsSilkShears(BlockInit.PURPLE_GROUNDLILY.get());
+		dropAsSilkShears(BlockInit.PINK_GROUNDLILY.get());
+		dropAsSilkShears(BlockInit.RED_GROUNDLILY.get());
+		dropAsSilkShears(BlockInit.ORANGE_GROUNDLILY.get());
+		dropAsSilkShears(BlockInit.YELLOW_GROUNDLILY.get());
+		dropAsSilkShears(BlockInit.GREEN_GROUNDLILY.get());
+		dropAsSilkShears(BlockInit.TURQUOISE_GROUNDLILY.get());
+		dropAsSilkShears(BlockInit.BLUE_GROUNDLILY.get());
+		dropAsSilkShears(BlockInit.PURPLE_WATERLILY.get());
+		dropAsSilkShears(BlockInit.PINK_WATERLILY.get());
+		dropAsSilkShears(BlockInit.RED_WATERLILY.get());
+		dropAsSilkShears(BlockInit.ORANGE_WATERLILY.get());
+		dropAsSilkShears(BlockInit.YELLOW_WATERLILY.get());
+		dropAsSilkShears(BlockInit.GREEN_WATERLILY.get());
+		dropAsSilkShears(BlockInit.TURQUOISE_WATERLILY.get());
+		dropAsSilkShears(BlockInit.BLUE_WATERLILY.get());
 
 		// Fruit
 		for (Fruit fruit : FruitInit.FRUITS) {
@@ -219,19 +219,15 @@ public class BlockLoot extends BlockLootSubProvider {
 		}
 	}
 
-	public void slab(Block slab) {
+	private void slab(Block slab) {
 		this.add(slab, this::createSlabItemTable);
 	}
 
-	public void pot(FlowerPotBlock pot) {
+	private void pot(FlowerPotBlock pot) {
 		this.add(pot, this::createPotFlowerItemTable);
 	}
 
-	public void dropAsSilk(Block block) {
-		this.dropWhenSilkTouch(block);
-	}
-
-	public void dropAsSilkOr(Block block, ItemLike drop) {
+	private void dropAsSilkOr(Block block, ItemLike drop) {
 		this.add(block,
 				LootTable.lootTable()
 						.withPool(LootPool.lootPool().when(hasSilkTouch()).setRolls(ConstantValue.exactly(1.0F))
@@ -240,29 +236,31 @@ public class BlockLoot extends BlockLootSubProvider {
 								.add(LootItem.lootTableItem(block))));
 	}
 
-	public void dropWithSilk(Block block, ItemLike drop) {
+	private void dropWithSilk(Block block, ItemLike drop) {
 		this.add(block, (result) -> createSingleItemTableWithSilkTouch(result, drop));
 	}
 
-	public void ore(Block block, Item drop) {
+	private void dropAsSilkShears(Block block) {
+		this.add(block, LootTable.lootTable().withPool(LootPool.lootPool().when(HAS_SHEARS.or(hasSilkTouch()))
+				.setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(block))));
+	}
+
+	private void ore(Block block, Item drop) {
 		this.add(block, (result) -> createOreDrop(result, drop));
 	}
 
-	public void dropNone(Block block) {
-		this.add(block, noDrop());
-	}
-
-	public void leaves(Block block) {
-		this.add(block, createCustomLeavesDrops(block));
-	}
-
-	private LootTable.Builder createCustomLeavesDrops(Block block) {
+	private void leaves(Block block) {
 		HolderLookup.RegistryLookup<Enchantment> lookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
-		return createSilkTouchOrShearsDispatchTable(block, this
-				.applyExplosionDecay(block,
-						LootItem.lootTableItem(Items.STICK)
-								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
-				.when(BonusLevelTableCondition.bonusLevelFlatChance(lookup.getOrThrow(Enchantments.FORTUNE),
-						NORMAL_LEAVES_STICK_CHANCES)));
+		this.add(block,
+				createSilkTouchOrShearsDispatchTable(block, this
+						.applyExplosionDecay(block,
+								LootItem.lootTableItem(Items.STICK)
+										.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))
+						.when(BonusLevelTableCondition.bonusLevelFlatChance(lookup.getOrThrow(Enchantments.FORTUNE),
+								NORMAL_LEAVES_STICK_CHANCES))));
+	}
+
+	private void petals(Block petal) {
+		this.add(petal, this.createPetalsDrops(petal));
 	}
 }
