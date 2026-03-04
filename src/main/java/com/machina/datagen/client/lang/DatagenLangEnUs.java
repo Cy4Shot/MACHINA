@@ -859,5 +859,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.starmap.gravity", "Gravity");
 		addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
 		addUI("rocket.starmap.gas_giant", "Gas Giant");
+
+		addMisc("planet_type.earthlike", "Earthlike");
+		addMisc("planet_type.martian", "Martian");
 	}
 }

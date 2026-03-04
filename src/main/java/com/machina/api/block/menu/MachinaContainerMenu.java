@@ -30,6 +30,7 @@ public abstract class MachinaContainerMenu<T extends ContainerBlockEntity> exten
 
 	protected abstract Block getBlock();
 
+	@SuppressWarnings("resource")
 	@OnlyIn(Dist.CLIENT)
 	protected static ContainerLevelAccess client(FriendlyByteBuf buf) {
 		return ContainerLevelAccess.create(Minecraft.getInstance().level, buf.readBlockPos());

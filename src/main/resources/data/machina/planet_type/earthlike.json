@@ -1,6 +1,7 @@
 {
 	"name": "machina:earthlike",
 	"iconY": 0,
+	"color": 1435764,
 	"shape": {
 		"sea_level": 60,
 		"noise_settings": {

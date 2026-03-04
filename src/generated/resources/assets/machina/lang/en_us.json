@@ -756,6 +756,8 @@
   "machina.filter.whitelist": "Whitelist",
   "machina.no": "No",
   "machina.none_fluid": "None",
+  "machina.planet_type.earthlike": "Earthlike",
+  "machina.planet_type.martian": "Martian",
   "machina.recipe.composter_vat": "Composting",
   "machina.recipe.compressor": "Compressing",
   "machina.recipe.electrolyzer": "Electrolyzing",

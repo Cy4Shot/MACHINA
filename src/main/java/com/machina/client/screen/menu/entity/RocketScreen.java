@@ -361,8 +361,8 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 					Component c = Component.literal(": ");
 					MUI.drawString(gui,
 							MUI.uistr("rocket.starmap.planet_type").append(c)
-									.append(Component.literal("Earthlike")
-											.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1))),
+									.append(planet.type().nameComp()
+											.withStyle(Style.EMPTY.withBold(true).withColor(planet.type().color()))),
 							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 32);
 					MUI.drawString(gui,
 							MUI.uistr("rocket.starmap.day_length").append(c)

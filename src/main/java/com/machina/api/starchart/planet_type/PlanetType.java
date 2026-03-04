@@ -8,16 +8,19 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
 
-public record PlanetType(ResourceLocation name, int iconY, Shape shape, List<BiomePlacement> biomes, List<WeatherEvent> weathers, BlockState base) {
+public record PlanetType(ResourceLocation name, int iconY, int color, Shape shape, List<BiomePlacement> biomes, List<WeatherEvent> weathers, BlockState base) {
 
 	public static final Codec<PlanetType> CODEC = RecordCodecBuilder
 			.create(instance -> instance
 					.group(ResourceLocation.CODEC.fieldOf("name").forGetter(PlanetType::name),
 							Codec.INT.fieldOf("iconY").forGetter(PlanetType::iconY),
+							Codec.INT.fieldOf("color").forGetter(PlanetType::color),
 							Shape.CODEC.fieldOf("shape").forGetter(PlanetType::shape),
 							Codec.list(BiomePlacement.CODEC).fieldOf("biomes").forGetter(PlanetType::biomes),
 							Codec.list(WeatherEvent.CODEC).fieldOf("weathers").forGetter(PlanetType::weathers),
@@ -70,5 +73,9 @@ public record PlanetType(ResourceLocation name, int iconY, Shape shape, List<Bio
 				}) : DataResult.success(p_158721_);
 			}
 		}
+	}
+	
+	public MutableComponent nameComp() {
+		return Component.translatable(name.getNamespace() + ".planet_type." + name.getPath());
 	}
 }
