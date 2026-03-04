@@ -5,6 +5,7 @@ import com.machina.api.item.RocketItem;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.obj.SolarSystem;
+import com.machina.registration.init.DataComponentsInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RocketPartInit;
 import com.machina.world.PlanetRegistrationHandler;
@@ -43,22 +44,23 @@ public class CommandManager {
 		}));
 	
 	public static final ArgumentBuilder<CommandSourceStack, ?> DEBUG = Commands.literal("debug")
-			.then(Commands.literal("rocket").executes(ctx -> {
-				CommandSourceStack source = ctx.getSource();
-				ItemStack stack = ItemInit.ROCKET.get().getDefaultInstance();
-				RocketItem.setPart(stack, RocketPartType.CHASSIS, RocketPartInit.ADVANCED_CHASSIS.get());
-				RocketItem.setPart(stack, RocketPartType.FUEL_TANK, RocketPartInit.PRESSURIZED_FUEL_TANK.get());
-				RocketItem.setPart(stack, RocketPartType.LIFE_SUPPORT, RocketPartInit.REINFORCED_LIFE_SUPPORT.get());
-				RocketItem.setPart(stack, RocketPartType.SHIELD, RocketPartInit.SIMPLE_SHIELD.get());
-				RocketItem.setPart(stack, RocketPartType.THRUSTER, RocketPartInit.TRI_TALL_THRUSTER.get());
-				RocketItem.initProperties(stack);
-				if (source.getPlayer().addItem(stack)) {
-					return Command.SINGLE_SUCCESS;
-				}
-				source.sendFailure(Component.literal("Add item failed."));
+		.then(Commands.literal("rocket").executes(ctx -> {
+			CommandSourceStack source = ctx.getSource();
+			ItemStack stack = ItemInit.ROCKET.get().getDefaultInstance();
+			RocketItem.setPart(stack, RocketPartType.CHASSIS, RocketPartInit.ADVANCED_CHASSIS.get());
+			RocketItem.setPart(stack, RocketPartType.FUEL_TANK, RocketPartInit.PRESSURIZED_FUEL_TANK.get());
+			RocketItem.setPart(stack, RocketPartType.LIFE_SUPPORT, RocketPartInit.REINFORCED_LIFE_SUPPORT.get());
+			RocketItem.setPart(stack, RocketPartType.SHIELD, RocketPartInit.SIMPLE_SHIELD.get());
+			RocketItem.setPart(stack, RocketPartType.THRUSTER, RocketPartInit.TRI_TALL_THRUSTER.get());
+			RocketItem.initProperties(stack);
+			stack.set(DataComponentsInit.ROCKET_DEBUG, true);
+			if (source.getPlayer().addItem(stack)) {
 				return Command.SINGLE_SUCCESS;
-			})
-			);
+			}
+			source.sendFailure(Component.literal("Add item failed."));
+			return Command.SINGLE_SUCCESS;
+		})
+	);
 	//@formatter:on
 
 	@SubscribeEvent

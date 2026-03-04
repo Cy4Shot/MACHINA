@@ -222,6 +222,12 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 			}
 		}
 	}
+	
+	public void fullyFill() {
+		RocketProps props = getProps();
+		this.fuelTank.fill(props.fuelStack(), FluidAction.EXECUTE);
+		this.coolTank.fill(props.coolantStack(), FluidAction.EXECUTE);
+	}
 
 	@Override
 	public MachinaEntityTank getTank(int id) {

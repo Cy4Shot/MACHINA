@@ -36,7 +36,8 @@ public class RocketItem extends Item {
 
 	public RocketItem(Properties props) {
 		super(props.stacksTo(1).component(DataComponentsInit.ROCKET_PROPS, RocketProps.NULL)
-				.component(DataComponentsInit.ROCKET_PARTS, Map.of()));
+				.component(DataComponentsInit.ROCKET_PARTS, Map.of())
+				.component(DataComponentsInit.ROCKET_DEBUG, false));
 	}
 
 	public static RocketPart getPart(ItemStack stack, RocketPartType type) {
@@ -65,7 +66,7 @@ public class RocketItem extends Item {
 	}
 
 	private static RocketProps getProperties(ItemStack stack) {
-        RocketProps props = stack.get(DataComponentsInit.ROCKET_PROPS);
+		RocketProps props = stack.get(DataComponentsInit.ROCKET_PROPS);
 		return props == null ? RocketProps.NULL : props;
 	}
 
@@ -77,6 +78,8 @@ public class RocketItem extends Item {
 		if (props == null) {
 			tooltip.add(Component.literal("ERROR: UNINITIALIZED ROCKET")
 					.withStyle(Style.EMPTY.withBold(true).withColor(MUI.RED)));
+		} else if (stack.get(DataComponentsInit.ROCKET_DEBUG)) {
+			tooltip.add(Component.literal("Debug rocket!").withStyle(Style.EMPTY.withBold(true).withColor(MUI.CYAN)));
 		} else {
 			Component c = Component.literal(": ");
 			tooltip.add(MUI.uistr("rocket_assembly_station.mass").append(c)
@@ -142,6 +145,10 @@ public class RocketItem extends Item {
 				rocket.setPos(blockpos.above().getCenter().subtract(0, 0.5D, 0));
 				rocket.setYRot(ctx.getHorizontalDirection().getOpposite().toYRot());
 				ctx.getLevel().addFreshEntity(rocket);
+
+				if (itemstack.get(DataComponentsInit.ROCKET_DEBUG)) {
+					rocket.fullyFill(); // Debug only
+				}
 
 				if (!ctx.getPlayer().getAbilities().instabuild) {
 					itemstack.shrink(1);

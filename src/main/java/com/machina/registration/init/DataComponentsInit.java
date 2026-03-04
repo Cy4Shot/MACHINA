@@ -10,6 +10,7 @@ import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.api.util.reflect.MachinaCodecs;
 import com.machina.api.util.reflect.MachinaStreamCodecs;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -51,4 +52,8 @@ public class DataComponentsInit {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Map<RocketPartType, RocketPart>>> ROCKET_PARTS = DATA_COMPONENTS
 			.registerComponentType("rocket_parts", builder -> builder.persistent(RocketProps.PARTMAP_CODEC)
 					.networkSynchronized(RocketProps.PARTMAP_STREAM_CODEC));
+
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ROCKET_DEBUG = DATA_COMPONENTS
+			.registerComponentType("rocket_prefilled",
+					builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
 }
