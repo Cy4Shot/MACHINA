@@ -17,7 +17,7 @@ public record C2SPartBenchCraft(RocketPart part, BlockPos pos) implements C2SMes
 
 	@Override
 	public StreamCodec<? super RegistryFriendlyByteBuf, C2SPartBenchCraft> streamCodec() {
-		return StreamCodec.composite(ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key()),
+		return StreamCodec.composite(ByteBufCodecs.registry(RegistryInit.ROCKET_PART.key()),
 				C2SPartBenchCraft::part, BlockPos.STREAM_CODEC, C2SPartBenchCraft::pos, C2SPartBenchCraft::new);
 	}
 

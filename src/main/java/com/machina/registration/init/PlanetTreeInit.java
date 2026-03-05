@@ -20,7 +20,7 @@ import com.machina.world.feature.tree.SmallFirTree;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class PlanetTreeInit {
-	public static final DeferredRegister<TreeMaker> TREES = DeferredRegister.create(RegistryInit.TREE_REGISTRY,
+	public static final DeferredRegister<TreeMaker> TREES = DeferredRegister.create(RegistryInit.TREE,
 			Machina.MOD_ID);
 
 	//@formatter:off

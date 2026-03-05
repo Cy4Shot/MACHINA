@@ -11,7 +11,7 @@ import com.machina.world.feature.rock.WispRock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class PlanetRockInit {
-	public static final DeferredRegister<RockMaker> ROCKS = DeferredRegister.create(RegistryInit.ROCK_REGISTRY,
+	public static final DeferredRegister<RockMaker> ROCKS = DeferredRegister.create(RegistryInit.ROCK,
 			Machina.MOD_ID);
 
 	//@formatter:off

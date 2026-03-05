@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class PlanetSurfaceInit {
 	public static final DeferredRegister<PlanetSurface> SURFACES = DeferredRegister
-			.create(RegistryInit.SURFACE_REGISTRY, Machina.MOD_ID);
+			.create(RegistryInit.SURFACE, Machina.MOD_ID);
 
 	private static final Supplier<PlanetSurface> patches(int scale) {
 		return () -> new PlanetSurface() {

@@ -61,7 +61,7 @@ public class PlanetBiome extends Biome {
 			PlanetBiomeSettings s) {
 		super(climate, special, genset, MobSpawnSettings.EMPTY);
 		this.settings = s;
-		this.surface = RegistryInit.SURFACE_REGISTRY.get(s.surface()).create(settings.top());
+		this.surface = RegistryInit.SURFACE.get(s.surface()).create(settings.top());
 	}
 
 	public BlockState getSecondBlock() {

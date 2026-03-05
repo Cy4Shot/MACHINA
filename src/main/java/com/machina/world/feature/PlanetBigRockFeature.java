@@ -22,7 +22,7 @@ public class PlanetBigRockFeature extends Feature<PlanetBigRockFeature.PlanetBig
 				.apply(instance, PlanetBigRockFeatureConfig::new));
 
 		public RockMaker getRock() {
-			return RegistryInit.ROCK_REGISTRY.get(rock.rock());
+			return RegistryInit.ROCK.get(rock.rock());
 		}
 	}
 

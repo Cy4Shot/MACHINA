@@ -106,5 +106,8 @@
 	"base": "minecraft:stone",
 	"weathers": [
 		"machina:clear"
+	],
+	"traits": [
+	
 	]
 }

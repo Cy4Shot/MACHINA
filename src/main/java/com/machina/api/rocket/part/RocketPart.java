@@ -23,9 +23,9 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class RocketPart {
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, RocketPart> STREAM_CODEC = ByteBufCodecs
-			.registry(RegistryInit.ROCKET_PART_REGISTRY.key());
+			.registry(RegistryInit.ROCKET_PART.key());
 
-	public static final Codec<RocketPart> CODEC = MachinaCodecs.registryCodec(RegistryInit.ROCKET_PART_REGISTRY);
+	public static final Codec<RocketPart> CODEC = MachinaCodecs.registryCodec(RegistryInit.ROCKET_PART);
 
 	private final ResourceLocation loc;
 	private final RocketPartType type;
@@ -82,7 +82,7 @@ public class RocketPart {
 			return item;
 		}
 		ResourceLocation itemLoc = RocketPartInit.ITEM_MAP
-				.get(RegistryInit.ROCKET_PART_REGISTRY.getResourceKey(this).get());
+				.get(RegistryInit.ROCKET_PART.getResourceKey(this).get());
 		if (BuiltInRegistries.ITEM.get(itemLoc) instanceof RocketPartItem rocketPartItem) {
 			this.item = rocketPartItem;
 			return rocketPartItem;
@@ -98,6 +98,6 @@ public class RocketPart {
 
 	public static RocketPart fromNBT(CompoundTag tag) {
 		ResourceLocation loc = ResourceLocation.parse(tag.get("name").getAsString());
-		return RegistryInit.ROCKET_PART_REGISTRY.get(loc);
+		return RegistryInit.ROCKET_PART.get(loc);
 	}
 }

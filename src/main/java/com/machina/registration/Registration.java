@@ -18,6 +18,7 @@ import com.machina.registration.init.MenuTypeInit;
 import com.machina.registration.init.OverworldOresInit;
 import com.machina.registration.init.PlanetRockInit;
 import com.machina.registration.init.PlanetSurfaceInit;
+import com.machina.registration.init.PlanetTraitInit;
 import com.machina.registration.init.PlanetTreeInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RocketPartInit;
@@ -36,6 +37,7 @@ public class Registration {
 		registerConfig(cont, ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
 		registerConfig(cont, ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 
+		PlanetTraitInit.TRAITS.register(bus);
 		PlanetTreeInit.TREES.register(bus);
 		PlanetRockInit.ROCKS.register(bus);
 		PlanetSurfaceInit.SURFACES.register(bus);
@@ -58,8 +60,7 @@ public class Registration {
 		RecipeInit.RECIPE_TYPES.register(bus);
 		RecipeInit.RECIPE_SERIALIZERS.register(bus);
 		WeatherEventInit.WEATHER_EVENTS.register(bus);
-		
-		OverworldOresInit.init(); // Only used for datagen
+		OverworldOresInit.register(); // Only used for datagen
 	}
 
 	private static void registerConfig(ModContainer cont, ModConfig.Type type, ModConfigSpec spec) {

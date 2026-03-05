@@ -30,7 +30,7 @@ public class RocketPartInit {
 	public static final Map<ResourceKey<RocketPart>, DeferredHolder<RocketPart, ShieldPart>> SHIELDS = new HashMap<>();
 	public static final Map<ResourceKey<RocketPart>, DeferredHolder<RocketPart, ThrusterPart>> THRUSTERS = new HashMap<>();
 	public static final DeferredRegister<RocketPart> ROCKET_PARTS = DeferredRegister
-			.create(RegistryInit.ROCKET_PART_REGISTRY, Machina.MOD_ID);
+			.create(RegistryInit.ROCKET_PART, Machina.MOD_ID);
 
 	//@formatter:off
 	public static final DeferredHolder<RocketPart, ChassisPart> SIMPLE_CHASSIS = chassis("simple", 1.5f, 0f, 1f, 100, FluidObject.WATER, 1f);

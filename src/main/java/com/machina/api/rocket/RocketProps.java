@@ -52,7 +52,7 @@ public record RocketProps(boolean empty, float mass, Fluid fuelType, int fuelSto
             ByteBufCodecs.FLOAT, RocketProps::coolantEfficiency,
             ByteBufCodecs.VAR_INT, RocketProps::slots,
             ByteBufCodecs.FLOAT, RocketProps::maxPressure,
-            ByteBufCodecs.registry(RegistryInit.ROCKET_PART_REGISTRY.key()).apply(ByteBufCodecs.list(5)), RocketProps::parts,
+            ByteBufCodecs.registry(RegistryInit.ROCKET_PART.key()).apply(ByteBufCodecs.list(5)), RocketProps::parts,
             MachinaStreamCodecs.AABB_CODEC, RocketProps::boundingBox,
             RocketProps::new);
     

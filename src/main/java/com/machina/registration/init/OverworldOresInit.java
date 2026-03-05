@@ -20,7 +20,7 @@ public class OverworldOresInit {
 
 	public static final List<OverworldOre> ORES = new ArrayList<>();
 
-	public static final void init() {
+	public static final void register() {
 		register("aluminum_ore_upper", BlockInit.ALUMINUM_ORE, 14, triangle(80, 64, 192));
 		register("aluminum_ore_middle", BlockInit.ALUMINUM_ORE, 14, triangle(20, -32, 96));
 		register("aluminum_ore_bottom", BlockInit.ALUMINUM_ORE, 14, between(8, -64, 32));
