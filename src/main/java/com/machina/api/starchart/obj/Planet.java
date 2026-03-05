@@ -1,6 +1,7 @@
 package com.machina.api.starchart.obj;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.fluid.ChemicalFluid;
 import com.machina.api.starchart.StarchartConst;
+import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.starchart.planet_type.PlanetType;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.api.util.MachinaRL;
@@ -18,7 +20,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record Planet(String name, ResourceLocation planet_type, int icon_variant, double a, // semi-major axis of the
+public record Planet(String name, ResourceLocation planet_type, Set<PlanetTrait> traits, int icon_variant, double a, // semi-major axis of the
 																							// orbit (in AU)
 		double e, // eccentricity of the orbit
 		double where_in_orbit, // position along orbit (in radians)

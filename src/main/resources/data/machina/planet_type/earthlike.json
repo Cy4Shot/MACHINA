@@ -107,7 +107,14 @@
 	"weathers": [
 		"machina:clear"
 	],
-	"traits": [
-	
-	]
+	"traits": {
+		"minRolls": 0,
+		"maxRolls": 1,
+		"weights": [
+			{
+				"trait": "machina:always_raining",
+				"weight": 1.0
+			}
+		]
+	}
 }

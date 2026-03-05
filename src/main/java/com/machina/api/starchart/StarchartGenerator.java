@@ -1,8 +1,11 @@
 package com.machina.api.starchart;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import com.machina.api.fluid.ChemicalFluid;
 import com.machina.api.fluid.FluidPhase;
@@ -15,10 +18,15 @@ import com.machina.api.starchart.obj.Moon;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
 import com.machina.api.starchart.obj.Star;
+import com.machina.api.starchart.planet_trait.PlanetTrait;
+import com.machina.api.starchart.planet_trait.PlanetTraitConstraint;
+import com.machina.api.starchart.planet_type.PlanetType.PlanetTraitSettings;
+import com.machina.api.starchart.planet_type.PlanetType.PlanetTraitSettingsEntry;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.api.util.math.RomanNumber;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
+import com.machina.registration.init.PlanetTraitInit;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.resources.ResourceLocation;
@@ -96,8 +104,10 @@ public class StarchartGenerator {
 		if (sea != null) {
 			frozen_sea = sea.chem().getPhase(p.surf_temp, p.surf_pressure * 100d).equals(FluidPhase.SOLID);
 		}
+		
+		Set<PlanetTrait> traits = pickTraits(rand, PlanetTypeLoader.INSTANCE.get(type).traits(), PlanetTraitInit.CONSTRAINTS);
 
-		Planet planet = new Planet(name, type, icon_variant, p.a, p.e, p.where_in_orbit, p.mass, p.gas_giant,
+		Planet planet = new Planet(name, type, traits, icon_variant, p.a, p.e, p.where_in_orbit, p.mass, p.gas_giant,
 				p.orbit_zone, p.radius, p.density, p.orb_period, p.day, p.resonant_period, p.axial_tilt, p.esc_velocity,
 				p.surf_accel, p.surf_grav, p.rms_velocity, p.molec_weight, p.volatile_gas_inventory, p.GH2, p.GH2O,
 				p.GN2, p.GO2, p.GCO2, p.surf_pressure, p.greenhouse_effect, p.boil_point, p.albedo, p.surf_temp,
@@ -117,5 +127,55 @@ public class StarchartGenerator {
 				p.stell_mass_ratio, p.age, p.cloud_factor, p.water_factor, p.rock_factor, p.airless_rock_factor,
 				p.ice_factor, p.airless_ice_factor, p.its, p.temp_unstable);
 		return Pair.of(moon, p.next_planet);
+	}
+
+	private static Set<PlanetTrait> pickTraits(Random random, PlanetTraitSettings config, List<PlanetTraitConstraint> constraints) {
+		int numRolls = config.minRolls() + random.nextInt(config.maxRolls() - config.minRolls() + 1);
+		Set<PlanetTrait> selectedTraits = new HashSet<>();
+		List<PlanetTraitSettingsEntry> availableTraits = new ArrayList<>(config.weights());
+
+		while (selectedTraits.size() < numRolls && !availableTraits.isEmpty()) {
+			// Compute total weight
+			double totalWeight = 0.0;
+			for (PlanetTraitSettingsEntry t : availableTraits)
+				totalWeight += t.weight();
+
+			// Pick a weighted random trait
+			double r = random.nextDouble() * totalWeight;
+			double cumulative = 0.0;
+			PlanetTraitSettingsEntry chosen = null;
+			for (PlanetTraitSettingsEntry t : availableTraits) {
+				cumulative += t.weight();
+				if (r <= cumulative) {
+					chosen = t;
+					break;
+				}
+			}
+
+			if (chosen == null)
+				break; // safety check
+
+			selectedTraits.add(chosen.trait());
+
+			// Remove traits that violate constraints
+			Iterator<PlanetTraitSettingsEntry> it = availableTraits.iterator();
+			while (it.hasNext()) {
+				PlanetTraitSettingsEntry t = it.next();
+				Set<PlanetTrait> testSet = new HashSet<>(selectedTraits);
+				testSet.add(t.trait());
+				boolean violates = false;
+				for (PlanetTraitConstraint c : constraints) {
+					if (c.violates(testSet)) {
+						violates = true;
+						break;
+					}
+				}
+				if (violates) {
+					it.remove();
+				}
+			}
+		}
+
+		return selectedTraits;
 	}
 }

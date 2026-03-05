@@ -14,6 +14,7 @@ import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
 import com.machina.api.starchart.obj.Planet;
+import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetHelper;
 import com.machina.api.util.StringUtils;
@@ -384,6 +385,13 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 							MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
 									.append(StringUtils.formatBool(planet.breathable())),
 							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
+
+					int k = 0;
+					for (PlanetTrait trait : planet.traits()) {
+						MUI.drawString(gui, trait.comp().withStyle(Style.EMPTY.withBold(true).withColor(trait.color())),
+								t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 72 + 10 * k);
+						k++;
+					}
 				}
 			});
 		}
