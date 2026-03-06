@@ -7,6 +7,6 @@ import net.minecraft.util.valueproviders.UniformInt;
 
 public class RainWeatherEvent extends WeatherEvent {
 	public RainWeatherEvent(ResourceLocation loc) {
-		super(loc, UniformInt.of(12000, 24000));
+		super(loc, UniformInt.of(12000, 24000), 100);
 	}
 }

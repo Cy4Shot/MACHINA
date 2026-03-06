@@ -15,8 +15,6 @@ public class AtmosphericSeparatorScreen extends MachinaMenuScreen<AtmosphericSep
 
 	public AtmosphericSeparatorScreen(AtmosphericSeparatorMenu menu, Inventory inv, Component title) {
 		super(menu, inv, title);
-
-		System.out.println("akshdkjas");
 	}
 
 	@Override
@@ -29,22 +27,25 @@ public class AtmosphericSeparatorScreen extends MachinaMenuScreen<AtmosphericSep
 		drawEnergyBar(gui, 0, 30, entity.getEnergy() > 0, "atmospheric_separator.no_power");
 
 		// Fluid Bars
-		drawFluidBarVert(gui, 65, -42, 0);
-		drawFluidBarVert(gui, 95, -42, 1);
-		drawFluidBarVert(gui, 124, -42, 2);
-		drawFluidBarVert(gui, 154, -42, 3);
+		drawFluidBarVert(gui, 50, -42, 0);
+		drawFluidBarVert(gui, 80, -42, 1);
+		drawFluidBarVert(gui, 110, -42, 2);
+		drawFluidBarVert(gui, 140, -42, 3);
+		drawFluidBarVert(gui, 170, -42, 4);
 
 		int i = midWidth();
 		int j = midHeight();
-		MUI.blitCommon(gui, i + 71, j + 7, 508, 0, 4, 14);
-		MUI.blitCommon(gui, i + 101, j + 7, 508, 0, 4, 14);
-		MUI.blitCommon(gui, i + 130, j + 7, 508, 0, 4, 14);
-		MUI.blitCommon(gui, i + 160, j + 7, 508, 0, 4, 14);
+		MUI.blitCommon(gui, i + 56, j + 7, 508, 0, 4, 14);
+		MUI.blitCommon(gui, i + 86, j + 7, 508, 0, 4, 14);
+		MUI.blitCommon(gui, i + 116, j + 7, 508, 0, 4, 14);
+		MUI.blitCommon(gui, i + 146, j + 7, 508, 0, 4, 14);
+		MUI.blitCommon(gui, i + 176, j + 7, 508, 0, 4, 14);
 
-		MUI.blitCommon(gui, i + 70, j - 60, 491, 113, 6, 11);
-		MUI.blitCommon(gui, i + 100, j - 60, 491, 113, 6, 11);
-		MUI.blitCommon(gui, i + 129, j - 60, 491, 113, 6, 11);
-		MUI.blitCommon(gui, i + 159, j - 60, 491, 113, 6, 11);
+		MUI.blitCommon(gui, i + 55, j - 60, 491, 113, 6, 11);
+		MUI.blitCommon(gui, i + 85, j - 60, 491, 113, 6, 11);
+		MUI.blitCommon(gui, i + 115, j - 60, 491, 113, 6, 11);
+		MUI.blitCommon(gui, i + 145, j - 60, 491, 113, 6, 11);
+		MUI.blitCommon(gui, i + 175, j - 60, 491, 113, 6, 11);
 
 		// Overlay
 		drawOverlay(gui);

@@ -16,12 +16,14 @@ public abstract class WeatherEvent {
 	public static final StreamCodec<RegistryFriendlyByteBuf, WeatherEvent> STREAM_CODEC = ByteBufCodecs
 			.registry(RegistryInit.WEATHER_EVENT.key());
 
+	private final int intensityTicks;
 	private final IntProvider duration;
 	private final ResourceLocation name;
 
-	public WeatherEvent(ResourceLocation name, IntProvider duration) {
+	public WeatherEvent(ResourceLocation name, IntProvider duration, int intensityTicks) {
 		this.duration = duration;
 		this.name = name;
+		this.intensityTicks = intensityTicks;
 	}
 
 	public int getDuration(RandomSource random) {
@@ -30,5 +32,9 @@ public abstract class WeatherEvent {
 	
 	public ResourceLocation getName() {
 		return name;
+	}
+	
+	public int getIntensityTicks() {
+		return intensityTicks;
 	}
 }
