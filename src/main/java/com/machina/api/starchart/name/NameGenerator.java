@@ -25,10 +25,10 @@ public abstract class NameGenerator {
 		return new NameLengthInfo(mean, standardDeviation);
 	}
 
-	private static int getNameLength(NameLengthInfo nameLengthInfo, int minimumLength) {
+	private static int getNameLength(Random random, NameLengthInfo nameLengthInfo, int minimumLength) {
 		double mean = nameLengthInfo.mean;
 		double standardDeviation = nameLengthInfo.standardDeviation;
-		NormalDistribution normalDistribution = new NormalDistribution(mean, standardDeviation);
+		NormalDistribution normalDistribution = new NormalDistribution(random, mean, standardDeviation);
 		int length = (int) Math.round(normalDistribution.sample());
 		return Math.max(length, minimumLength);
 	}
@@ -102,7 +102,7 @@ public abstract class NameGenerator {
 	}
 
 	private static String generateRandomName(ProbabilityTable probabilityTable, int minimumLength, Random rand) {
-		int nameLength = getNameLength(probabilityTable.nameLengthInfo, minimumLength);
+		int nameLength = getNameLength(rand, probabilityTable.nameLengthInfo, minimumLength);
 		String lowerCaseName = buildName(" ", nameLength, probabilityTable, rand);
 		return Character.toUpperCase(lowerCaseName.charAt(1)) + lowerCaseName.substring(2);
 	}

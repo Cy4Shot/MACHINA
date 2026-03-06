@@ -7,10 +7,10 @@ public class NormalDistribution {
 	private final double standardDeviation;
 	private final Random random;
 
-	public NormalDistribution(double mean, double standardDeviation) {
+	public NormalDistribution(Random random, double mean, double standardDeviation) {
 		this.mean = mean;
 		this.standardDeviation = standardDeviation;
-		this.random = new Random();
+		this.random = random;
 	}
 
 	public double sample() {
