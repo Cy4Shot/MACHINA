@@ -3,7 +3,6 @@ package com.machina.events;
 import com.machina.Machina;
 import com.machina.api.block.IClickableBlock;
 import com.machina.api.recipe.RecipeRefreshManager;
-import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
@@ -22,7 +21,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -38,7 +36,6 @@ import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
@@ -67,14 +64,6 @@ public class CommonForgeEvents {
 	public static void recipesUpdated(final RecipesUpdatedEvent event) {
 		RecipeRefreshManager.INSTANCE.setClientRecipeManager(event.getRecipeManager());
 		RecipeRefreshManager.INSTANCE.refreshClient(Minecraft.getInstance().level.registryAccess());
-	}
-
-	@SubscribeEvent
-	public static void onPlayerLogin(final PlayerLoggedInEvent e) {
-		if (e.getEntity().level().isClientSide())
-			return;
-
-		Starchart.syncClient((ServerPlayer) e.getEntity());
 	}
 
 	@SubscribeEvent

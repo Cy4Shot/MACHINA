@@ -9,8 +9,12 @@ import net.minecraft.network.chat.MutableComponent;
 
 public record PlanetTrait(String name, int color) {
 	public static final Codec<PlanetTrait> CODEC = RegistryInit.TRAIT.byNameCodec();
-	
+
+	public String getDescriptionId() {
+		return Machina.MOD_ID + ".planet_trait." + name;
+	}
+
 	public MutableComponent comp() {
-		return Component.translatable(Machina.MOD_ID + ".planet_trait." + name);
+		return Component.translatable(getDescriptionId());
 	}
 }

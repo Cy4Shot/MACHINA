@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import com.google.gson.internal.UnsafeAllocator;
 import com.machina.Machina;
 import com.machina.api.network.C2SMessage;
+import com.machina.api.network.ConfigMessage;
 import com.machina.api.network.S2CMessage;
 import com.machina.api.network.c2s.C2SAssemblyStationCraft;
 import com.machina.api.network.c2s.C2SFinishCinematic;
@@ -20,15 +21,18 @@ import com.machina.api.network.c2s.C2SRocketLaunchComplete;
 import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.network.c2s.C2SSideConfig;
 import com.machina.api.network.c2s.C2SSpawnParticle;
+import com.machina.api.network.config.C2SAckPayload;
+import com.machina.api.network.config.S2CSyncStarchart;
 import com.machina.api.network.s2c.S2CCinematicLand;
 import com.machina.api.network.s2c.S2CCinematicLaunch;
 import com.machina.api.network.s2c.S2CFluidEntitySync;
 import com.machina.api.network.s2c.S2CFluidSync;
 import com.machina.api.network.s2c.S2COpenDirectionalContainer;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
-import com.machina.api.network.s2c.S2CSyncStarchart;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
+import com.machina.api.network.s2c.S2CWeatherEventChange;
 
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -59,14 +63,17 @@ public class MachinaNetwork {
 		c2s(reg, C2SRocketLaunchComplete.class);
 		c2s(reg, C2SRocketLandComplete.class);
 
+		s2c(reg, S2CWeatherEventChange.class);
 		s2c(reg, S2COpenDirectionalContainer.class);
 		s2c(reg, S2CFluidSync.class);
 		s2c(reg, S2CFluidEntitySync.class);
-		s2c(reg, S2CSyncStarchart.class);
 		s2c(reg, S2CUpdateDimensionList.class);
 		s2c(reg, S2CRocketScreenOpen.class);
 		s2c(reg, S2CCinematicLaunch.class);
 		s2c(reg, S2CCinematicLand.class);
+
+		config2c(reg, S2CSyncStarchart.class);
+		config2s(reg, C2SAckPayload.class);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -91,6 +98,32 @@ public class MachinaNetwork {
 			StreamCodec<? super RegistryFriendlyByteBuf, M> codec = (StreamCodec<? super RegistryFriendlyByteBuf, M>) codecGetter
 					.invoke(createDummyInstance(clazz));
 			reg.playToClient(type, codec, (payload, ctx) -> payload.handle(ctx.player()));
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <M extends ConfigMessage<M>> void config2c(final PayloadRegistrar reg, Class<M> clazz) {
+		try {
+			CustomPacketPayload.Type<M> type = ConfigMessage.getType(clazz);
+			Method codecGetter = clazz.getMethod("streamCodec");
+			StreamCodec<? super FriendlyByteBuf, M> codec = (StreamCodec<? super FriendlyByteBuf, M>) codecGetter
+					.invoke(createDummyInstance(clazz));
+			reg.configurationToClient(type, codec, (payload, ctx) -> payload.handle(ctx));
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <M extends ConfigMessage<M>> void config2s(final PayloadRegistrar reg, Class<M> clazz) {
+		try {
+			CustomPacketPayload.Type<M> type = ConfigMessage.getType(clazz);
+			Method codecGetter = clazz.getMethod("streamCodec");
+			StreamCodec<? super FriendlyByteBuf, M> codec = (StreamCodec<? super FriendlyByteBuf, M>) codecGetter
+					.invoke(createDummyInstance(clazz));
+			reg.configurationToServer(type, codec, (payload, ctx) -> payload.handle(ctx));
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

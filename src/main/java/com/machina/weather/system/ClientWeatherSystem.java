@@ -1,11 +1,12 @@
 package com.machina.weather.system;
 
-import com.machina.registration.init.WeatherEventInit;
 import com.machina.weather.WeatherEvent;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 
 public class ClientWeatherSystem extends WeatherSystem {
+	
+	private WeatherEvent currentWeather;
 
 	public ClientWeatherSystem(ClientLevel level) {
 		super(level);
@@ -13,7 +14,11 @@ public class ClientWeatherSystem extends WeatherSystem {
 
 	@Override
 	public WeatherEvent getCurrentEvent() {
-		return WeatherEventInit.CLEAR.get();
+		return currentWeather;
+	}
+	
+	public void setCurrentEvent(WeatherEvent event) {
+		this.currentWeather = event;
 	}
 
 }

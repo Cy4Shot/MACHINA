@@ -27,7 +27,7 @@ public class ServerWeatherManager {
 	}
 
 	@SubscribeEvent
-	public static void onTick(final LevelTickEvent.Pre event) {
+	public static void onTick(final LevelTickEvent.Post event) {
 		if (event.getLevel().isClientSide()) {
 			return;
 		}

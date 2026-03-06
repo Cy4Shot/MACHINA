@@ -3,6 +3,7 @@ package com.machina.registration;
 import com.machina.Machina;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
+import com.machina.registration.init.ArgumentTypesInit;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.BlockStateProviderInit;
@@ -37,6 +38,7 @@ public class Registration {
 		registerConfig(cont, ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC);
 		registerConfig(cont, ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 
+		ArgumentTypesInit.ARGUMENT_TYPES.register(bus);
 		PlanetTraitInit.TRAITS.register(bus);
 		PlanetTreeInit.TREES.register(bus);
 		PlanetRockInit.ROCKS.register(bus);

@@ -12,6 +12,7 @@ import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
+import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit.Fruit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
@@ -39,13 +40,15 @@ public abstract class DatagenLang extends LanguageProvider {
 	}
 
 	public <T> void add(Supplier<T> key, String name) {
-		T item = key.get();
-		if (item instanceof Block) {
-			add(((Block) item).getDescriptionId(), name);
-		} else if (item instanceof Item) {
-			add(((Item) item).getDescriptionId(), name);
-		} else if (item instanceof EntityType<?>) {
-			add(((EntityType<?>) item).getDescriptionId(), name);
+		T inner = key.get();
+		if (inner instanceof Block block) {
+			add(block.getDescriptionId(), name);
+		} else if (inner instanceof Item item) {
+			add(item.getDescriptionId(), name);
+		} else if (inner instanceof EntityType<?> entity) {
+			add(entity.getDescriptionId(), name);
+		} else if (inner instanceof PlanetTrait trait) {
+			add(trait.getDescriptionId(), name);
 		}
 	}
 

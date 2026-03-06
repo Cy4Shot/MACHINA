@@ -9,6 +9,7 @@ import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.ItemInit;
+import com.machina.registration.init.PlanetTraitInit;
 import com.machina.registration.init.RecipeInit;
 import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.TabInit;
@@ -177,7 +178,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		// Blocks
 		add(BlockInit.BASIC_CASING, "Basic Casing");
 		add(BlockInit.LIGHTWEIGHT_CASING, "Lightweight Casing");
-		
+
 		add(BlockInit.ENERGY_CABLE, "Energy Cable");
 		add(BlockInit.FLUID_PIPE, "Fluid Pipe");
 		add(BlockInit.ITEM_CONDUIT, "Item Conduit");
@@ -859,6 +860,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.starmap.gravity", "Gravity");
 		addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
 		addUI("rocket.starmap.gas_giant", "Gas Giant");
+
+		// Planets
+		add(PlanetTraitInit.ALWAYS_RAINING, "Always Raining");
 
 		addMisc("planet_type.earthlike", "Earthlike");
 		addMisc("planet_type.martian", "Martian");

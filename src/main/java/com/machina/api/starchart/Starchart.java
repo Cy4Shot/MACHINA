@@ -5,13 +5,10 @@ import java.util.Random;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.client.ClientStarchart;
-import com.machina.api.network.s2c.S2CSyncStarchart;
 import com.machina.api.starchart.obj.SolarSystem;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 public class Starchart {
 	private static Starchart INSTANCE = null;
@@ -52,11 +49,6 @@ public class Starchart {
 			}
 		}
 		return INSTANCE;
-	}
-
-	public static void syncClient(ServerPlayer player) {
-		long seed = getSeed(player.serverLevel().getSeed());
-		PacketDistributor.sendToPlayer(player, new S2CSyncStarchart(seed));
 	}
 
 	public static long getSeed(long levelseed) {
