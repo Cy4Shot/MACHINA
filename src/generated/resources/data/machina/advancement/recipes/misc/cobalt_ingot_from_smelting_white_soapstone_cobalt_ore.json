@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:cobalt_ingot_from_smelting_white_soapstone_cobalt_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_white_soapstone_cobalt_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:white_soapstone_cobalt_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_white_soapstone_cobalt_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:cobalt_ingot_from_smelting_white_soapstone_cobalt_ore"
+    ]
+  }
+}

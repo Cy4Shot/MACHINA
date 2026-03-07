@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/shale",
+    "ore": "machina:block/cobalt_ore"
+  }
+}

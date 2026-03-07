@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 2.7,
+  "group": "magnetite",
+  "ingredient": {
+    "item": "machina:raw_magnetite_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:magnetite_block"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/marble",
+    "ore": "machina:block/thorium_ore"
+  }
+}

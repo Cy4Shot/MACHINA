@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 2.7,
+  "group": "osmium",
+  "ingredient": {
+    "item": "machina:raw_osmium_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:osmium_block"
+  }
+}

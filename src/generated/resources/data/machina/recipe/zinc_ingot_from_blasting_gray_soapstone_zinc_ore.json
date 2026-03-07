@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.7,
+  "group": "zinc",
+  "ingredient": {
+    "item": "machina:gray_soapstone_zinc_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:zinc_ingot"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gypsum_nugget": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:gypsum_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:gypsum_ingot_from_gypsum_nugget"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gypsum_nugget"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:gypsum_ingot_from_gypsum_nugget"
+    ]
+  }
+}

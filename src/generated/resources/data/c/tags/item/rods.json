@@ -10,6 +10,18 @@
     "#c:rods/palladium",
     "#c:rods/silver",
     "#c:rods/steel",
-    "#c:rods/constantan"
+    "#c:rods/constantan",
+    "#c:rods/tin",
+    "#c:rods/zinc",
+    "#c:rods/low_grade_titanium",
+    "#c:rods/magnetite",
+    "#c:rods/gypsum",
+    "#c:rods/ilmenite",
+    "#c:rods/platinum",
+    "#c:rods/iridium",
+    "#c:rods/osmium",
+    "#c:rods/cobalt",
+    "#c:rods/uraninite",
+    "#c:rods/thorium"
   ]
 }

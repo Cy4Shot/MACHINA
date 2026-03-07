@@ -53,6 +53,18 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> RAW_BORON = chemical("raw_boron", "B");
 	public static final DeferredItem<ChemicalItem> RAW_PALLADIUM = chemical("raw_palladium", "Pd");
 	public static final DeferredItem<ChemicalItem> RAW_SILVER = chemical("raw_silver", "Ag");
+	public static final DeferredItem<ChemicalItem> RAW_TIN = chemical("raw_tin", "Sn");
+	public static final DeferredItem<ChemicalItem> RAW_ZINC = chemical("raw_zinc", "Zn");
+	public static final DeferredItem<ChemicalItem> RAW_LOW_GRADE_TITANIUM = chemical("raw_low_grade_titanium", "Ti");
+	public static final DeferredItem<ChemicalItem> RAW_MAGNETITE = chemical("raw_magnetite", "Fe3O4");
+	public static final DeferredItem<ChemicalItem> RAW_GYPSUM = chemical("raw_gypsum", "CaSO4");
+	public static final DeferredItem<ChemicalItem> RAW_ILMENITE = chemical("raw_ilmenite", "FeTiO3");
+	public static final DeferredItem<ChemicalItem> RAW_PLATINUM = chemical("raw_platinum", "Pt");
+	public static final DeferredItem<ChemicalItem> RAW_IRIDIUM = chemical("raw_iridium", "Ir");
+	public static final DeferredItem<ChemicalItem> RAW_OSMIUM = chemical("raw_osmium", "Os");
+	public static final DeferredItem<ChemicalItem> RAW_COBALT = chemical("raw_cobalt", "Co");
+	public static final DeferredItem<ChemicalItem> RAW_URANINITE = chemical("raw_uraninite", "UO2");
+	public static final DeferredItem<ChemicalItem> RAW_THORIUM = chemical("raw_thorium", "Th");
 	
 	public static final DeferredItem<ChemicalItem> ALUMINUM_INGOT = chemical("aluminum_ingot", "Al");
 	public static final DeferredItem<ChemicalItem> NICKEL_INGOT = chemical("nickel_ingot", "Ni");
@@ -60,6 +72,18 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> BORON_INGOT = chemical("boron_ingot", "B");
 	public static final DeferredItem<ChemicalItem> PALLADIUM_INGOT = chemical("palladium_ingot", "Pd");
 	public static final DeferredItem<ChemicalItem> SILVER_INGOT = chemical("silver_ingot", "Ag");
+	public static final DeferredItem<ChemicalItem> TIN_INGOT = chemical("tin_ingot", "Sn");
+	public static final DeferredItem<ChemicalItem> ZINC_INGOT = chemical("zinc_ingot", "Zn");
+	public static final DeferredItem<ChemicalItem> LOW_GRADE_TITANIUM_INGOT = chemical("low_grade_titanium_ingot", "Ti");
+	public static final DeferredItem<ChemicalItem> MAGNETITE_INGOT = chemical("magnetite_ingot", "Fe3O4");
+	public static final DeferredItem<ChemicalItem> GYPSUM_INGOT = chemical("gypsum_ingot", "CaSO4");
+	public static final DeferredItem<ChemicalItem> ILMENITE_INGOT = chemical("ilmenite_ingot", "FeTiO3");
+	public static final DeferredItem<ChemicalItem> PLATINUM_INGOT = chemical("platinum_ingot", "Pt");
+	public static final DeferredItem<ChemicalItem> IRIDIUM_INGOT = chemical("iridium_ingot", "Ir");
+	public static final DeferredItem<ChemicalItem> OSMIUM_INGOT = chemical("osmium_ingot", "Os");
+	public static final DeferredItem<ChemicalItem> COBALT_INGOT = chemical("cobalt_ingot", "Co");
+	public static final DeferredItem<ChemicalItem> URANINITE_INGOT = chemical("uraninite_ingot", "UO2");
+	public static final DeferredItem<ChemicalItem> THORIUM_INGOT = chemical("thorium_ingot", "Th");
 	public static final DeferredItem<ChemicalItem> STEEL_INGOT = chemical("steel_ingot", "Fe+C");
 	public static final DeferredItem<ChemicalItem> CONSTANTAN_INGOT = chemical("constantan_ingot", "Cu+Ni");
 	
@@ -71,6 +95,18 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> SILVER_NUGGET = chemical("silver_nugget", "Ag");
 	public static final DeferredItem<ChemicalItem> STEEL_NUGGET = chemical("steel_nugget", "Fe+C");
 	public static final DeferredItem<ChemicalItem> CONSTANTAN_NUGGET = chemical("constantan_nugget", "Cu+Ni");
+	public static final DeferredItem<ChemicalItem> TIN_NUGGET = chemical("tin_nugget", "Sn");
+	public static final DeferredItem<ChemicalItem> ZINC_NUGGET = chemical("zinc_nugget", "Zn");
+	public static final DeferredItem<ChemicalItem> LOW_GRADE_TITANIUM_NUGGET = chemical("low_grade_titanium_nugget", "Ti");
+	public static final DeferredItem<ChemicalItem> MAGNETITE_NUGGET = chemical("magnetite_nugget", "Fe3O4");
+	public static final DeferredItem<ChemicalItem> GYPSUM_NUGGET = chemical("gypsum_nugget", "CaSO4");
+	public static final DeferredItem<ChemicalItem> ILMENITE_NUGGET = chemical("ilmenite_nugget", "FeTiO3");
+	public static final DeferredItem<ChemicalItem> PLATINUM_NUGGET = chemical("platinum_nugget", "Pt");
+	public static final DeferredItem<ChemicalItem> IRIDIUM_NUGGET = chemical("iridium_nugget", "Ir");
+	public static final DeferredItem<ChemicalItem> OSMIUM_NUGGET = chemical("osmium_nugget", "Os");
+	public static final DeferredItem<ChemicalItem> COBALT_NUGGET = chemical("cobalt_nugget", "Co");
+	public static final DeferredItem<ChemicalItem> URANINITE_NUGGET = chemical("uraninite_nugget", "UO2");
+	public static final DeferredItem<ChemicalItem> THORIUM_NUGGET = chemical("thorium_nugget", "Th");
 	
 	public static final DeferredItem<Item> COAL_CHUNK = basic("coal_chunk");
 	public static final DeferredItem<Item> COPPER_NUGGET = basic("copper_nugget");
@@ -79,6 +115,7 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> SULFUR = chemical("sulfur", "SO3");
 	public static final DeferredItem<ChemicalItem> NITER = chemical("niter", "KNO3");
 	public static final DeferredItem<ChemicalItem> BISMUTH = chemical("bismuth", "Bi");
+	public static final DeferredItem<ChemicalItem> PERCHLORATE = chemical("perchlorate", "KClO4");
 	
 	public static final DeferredItem<Item> COPPER_COIL = basic("copper_coil");
 	public static final DeferredItem<Item> TRANSISTOR = basic("transistor");
@@ -107,6 +144,18 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> SULFUR_DUST = chemical("sulfur_dust", "SO3");
 	public static final DeferredItem<ChemicalItem> NITER_DUST = chemical("niter_dust", "KNO3");
 	public static final DeferredItem<ChemicalItem> BISMUTH_DUST = chemical("bismuth_dust", "Bi");
+	public static final DeferredItem<ChemicalItem> TIN_DUST = chemical("tin_dust", "Sn");
+	public static final DeferredItem<ChemicalItem> ZINC_DUST = chemical("zinc_dust", "Zn");
+	public static final DeferredItem<ChemicalItem> LOW_GRADE_TITANIUM_DUST = chemical("low_grade_titanium_dust", "Ti");
+	public static final DeferredItem<ChemicalItem> MAGNETITE_DUST = chemical("magnetite_dust", "Fe3O4");
+	public static final DeferredItem<ChemicalItem> GYPSUM_DUST = chemical("gypsum_dust", "CaSO4");
+	public static final DeferredItem<ChemicalItem> ILMENITE_DUST = chemical("ilmenite_dust", "FeTiO3");
+	public static final DeferredItem<ChemicalItem> PLATINUM_DUST = chemical("platinum_dust", "Pt");
+	public static final DeferredItem<ChemicalItem> IRIDIUM_DUST = chemical("iridium_dust", "Ir");
+	public static final DeferredItem<ChemicalItem> OSMIUM_DUST = chemical("osmium_dust", "Os");
+	public static final DeferredItem<ChemicalItem> COBALT_DUST = chemical("cobalt_dust", "Co");
+	public static final DeferredItem<ChemicalItem> URANINITE_DUST = chemical("uraninite_dust", "UO2");
+	public static final DeferredItem<ChemicalItem> THORIUM_DUST = chemical("thorium_dust", "Th");
 	
 	public static final DeferredItem<ChemicalItem> IRON_PLATE = chemical("iron_plate", "Fe");
 	public static final DeferredItem<ChemicalItem> COPPER_PLATE = chemical("copper_plate", "Cu");
@@ -119,6 +168,18 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> SILVER_PLATE = chemical("silver_plate", "Ag");
 	public static final DeferredItem<ChemicalItem> STEEL_PLATE = chemical("steel_plate", "Fe+C");
 	public static final DeferredItem<ChemicalItem> CONSTANTAN_PLATE = chemical("constantan_plate", "Cu+Ni");
+	public static final DeferredItem<ChemicalItem> TIN_PLATE = chemical("tin_plate", "Sn");
+	public static final DeferredItem<ChemicalItem> ZINC_PLATE = chemical("zinc_plate", "Zn");
+	public static final DeferredItem<ChemicalItem> LOW_GRADE_TITANIUM_PLATE = chemical("low_grade_titanium_plate", "Ti");
+	public static final DeferredItem<ChemicalItem> MAGNETITE_PLATE = chemical("magnetite_plate", "Fe3O4");
+	public static final DeferredItem<ChemicalItem> GYPSUM_PLATE = chemical("gypsum_plate", "CaSO4");
+	public static final DeferredItem<ChemicalItem> ILMENITE_PLATE = chemical("ilmenite_plate", "FeTiO3");
+	public static final DeferredItem<ChemicalItem> PLATINUM_PLATE = chemical("platinum_plate", "Pt");
+	public static final DeferredItem<ChemicalItem> IRIDIUM_PLATE = chemical("iridium_plate", "Ir");
+	public static final DeferredItem<ChemicalItem> OSMIUM_PLATE = chemical("osmium_plate", "Os");
+	public static final DeferredItem<ChemicalItem> COBALT_PLATE = chemical("cobalt_plate", "Co");
+	public static final DeferredItem<ChemicalItem> URANINITE_PLATE = chemical("uraninite_plate", "UO2");
+	public static final DeferredItem<ChemicalItem> THORIUM_PLATE = chemical("thorium_plate", "Th");
 	
 	public static final DeferredItem<ChemicalItem> IRON_ROD = chemical("iron_rod", "Fe");
 	public static final DeferredItem<ChemicalItem> COPPER_ROD = chemical("copper_rod", "Cu");
@@ -131,6 +192,18 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> SILVER_ROD = chemical("silver_rod", "Ag");
 	public static final DeferredItem<ChemicalItem> STEEL_ROD = chemical("steel_rod", "Fe+C");
 	public static final DeferredItem<ChemicalItem> CONSTANTAN_ROD = chemical("constantan_rod", "Cu+Ni");
+	public static final DeferredItem<ChemicalItem> TIN_ROD = chemical("tin_rod", "Sn");
+	public static final DeferredItem<ChemicalItem> ZINC_ROD = chemical("zinc_rod", "Zn");
+	public static final DeferredItem<ChemicalItem> LOW_GRADE_TITANIUM_ROD = chemical("low_grade_titanium_rod", "Ti");
+	public static final DeferredItem<ChemicalItem> MAGNETITE_ROD = chemical("magnetite_rod", "Fe3O4");
+	public static final DeferredItem<ChemicalItem> GYPSUM_ROD = chemical("gypsum_rod", "CaSO4");
+	public static final DeferredItem<ChemicalItem> ILMENITE_ROD = chemical("ilmenite_rod", "FeTiO3");
+	public static final DeferredItem<ChemicalItem> PLATINUM_ROD = chemical("platinum_rod", "Pt");
+	public static final DeferredItem<ChemicalItem> IRIDIUM_ROD = chemical("iridium_rod", "Ir");
+	public static final DeferredItem<ChemicalItem> OSMIUM_ROD = chemical("osmium_rod", "Os");
+	public static final DeferredItem<ChemicalItem> COBALT_ROD = chemical("cobalt_rod", "Co");
+	public static final DeferredItem<ChemicalItem> URANINITE_ROD = chemical("uraninite_rod", "UO2");
+	public static final DeferredItem<ChemicalItem> THORIUM_ROD = chemical("thorium_rod", "Th");
 	
 	public static final DeferredItem<ChemicalItem> IRON_WIRE = chemical("iron_wire", "Fe");
 	public static final DeferredItem<ChemicalItem> COPPER_WIRE = chemical("copper_wire", "Cu");
@@ -143,6 +216,18 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> SILVER_WIRE = chemical("silver_wire", "Ag");
 	public static final DeferredItem<ChemicalItem> STEEL_WIRE = chemical("steel_wire", "Fe+C");
 	public static final DeferredItem<ChemicalItem> CONSTANTAN_WIRE = chemical("constantan_wire", "Cu+Ni");
+	public static final DeferredItem<ChemicalItem> TIN_WIRE = chemical("tin_wire", "Sn");
+	public static final DeferredItem<ChemicalItem> ZINC_WIRE = chemical("zinc_wire", "Zn");
+	public static final DeferredItem<ChemicalItem> LOW_GRADE_TITANIUM_WIRE = chemical("low_grade_titanium_wire", "Ti");
+	public static final DeferredItem<ChemicalItem> MAGNETITE_WIRE = chemical("magnetite_wire", "Fe3O4");
+	public static final DeferredItem<ChemicalItem> GYPSUM_WIRE = chemical("gypsum_wire", "CaSO4");
+	public static final DeferredItem<ChemicalItem> ILMENITE_WIRE = chemical("ilmenite_wire", "FeTiO3");
+	public static final DeferredItem<ChemicalItem> PLATINUM_WIRE = chemical("platinum_wire", "Pt");
+	public static final DeferredItem<ChemicalItem> IRIDIUM_WIRE = chemical("iridium_wire", "Ir");
+	public static final DeferredItem<ChemicalItem> OSMIUM_WIRE = chemical("osmium_wire", "Os");
+	public static final DeferredItem<ChemicalItem> COBALT_WIRE = chemical("cobalt_wire", "Co");
+	public static final DeferredItem<ChemicalItem> URANINITE_WIRE = chemical("uraninite_wire", "UO2");
+	public static final DeferredItem<ChemicalItem> THORIUM_WIRE = chemical("thorium_wire", "Th");
 	
 	public static final DeferredItem<ChemicalItem> SILICON = chemical("silicon", "Si");
 	public static final DeferredItem<ChemicalItem> SILICON_BOLUS = chemical("silicon_bolus", "Si");

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 2.7,
+  "group": "ilmenite",
+  "ingredient": {
+    "item": "machina:raw_ilmenite_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:ilmenite_block"
+  }
+}

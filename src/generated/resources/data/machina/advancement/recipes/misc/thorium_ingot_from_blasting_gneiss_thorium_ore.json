@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gneiss_thorium_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:gneiss_thorium_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:thorium_ingot_from_blasting_gneiss_thorium_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gneiss_thorium_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:thorium_ingot_from_blasting_gneiss_thorium_ore"
+    ]
+  }
+}

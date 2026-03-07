@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "osmium",
+  "ingredient": {
+    "item": "machina:stone_osmium_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:osmium_ingot"
+  }
+}

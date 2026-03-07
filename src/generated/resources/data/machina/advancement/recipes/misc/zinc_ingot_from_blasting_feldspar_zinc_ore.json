@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_feldspar_zinc_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:feldspar_zinc_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:zinc_ingot_from_blasting_feldspar_zinc_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_feldspar_zinc_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:zinc_ingot_from_blasting_feldspar_zinc_ore"
+    ]
+  }
+}

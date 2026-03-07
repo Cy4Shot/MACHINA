@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "machina:block/osmium_block"
+    }
+  }
+}

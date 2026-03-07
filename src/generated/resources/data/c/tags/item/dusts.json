@@ -19,6 +19,18 @@
     "#c:dusts/fluorite",
     "#c:dusts/niter",
     "#c:dusts/sulfur",
-    "#c:dusts/bismuth"
+    "#c:dusts/bismuth",
+    "#c:dusts/tin",
+    "#c:dusts/zinc",
+    "#c:dusts/low_grade_titanium",
+    "#c:dusts/magnetite",
+    "#c:dusts/gypsum",
+    "#c:dusts/ilmenite",
+    "#c:dusts/platinum",
+    "#c:dusts/iridium",
+    "#c:dusts/osmium",
+    "#c:dusts/cobalt",
+    "#c:dusts/uraninite",
+    "#c:dusts/thorium"
   ]
 }

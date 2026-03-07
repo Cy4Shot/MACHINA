@@ -8,6 +8,18 @@
     "#c:raw_materials/lead",
     "#c:raw_materials/boron",
     "#c:raw_materials/palladium",
-    "#c:raw_materials/silver"
+    "#c:raw_materials/silver",
+    "#c:raw_materials/tin",
+    "#c:raw_materials/zinc",
+    "#c:raw_materials/low_grade_titanium",
+    "#c:raw_materials/magnetite",
+    "#c:raw_materials/gypsum",
+    "#c:raw_materials/ilmenite",
+    "#c:raw_materials/platinum",
+    "#c:raw_materials/iridium",
+    "#c:raw_materials/osmium",
+    "#c:raw_materials/cobalt",
+    "#c:raw_materials/uraninite",
+    "#c:raw_materials/thorium"
   ]
 }

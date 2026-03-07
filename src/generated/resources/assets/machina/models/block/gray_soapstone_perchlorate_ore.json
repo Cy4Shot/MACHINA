@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/gray_soapstone",
+    "ore": "machina:block/perchlorate_ore"
+  }
+}

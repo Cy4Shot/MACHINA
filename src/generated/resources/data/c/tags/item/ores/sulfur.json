@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:feldspar_pyrite_ore",
-    "machina:chalk_pyrite_ore",
-    "machina:shale_pyrite_ore",
-    "machina:white_soapstone_pyrite_ore",
     "machina:gray_soapstone_pyrite_ore",
+    "machina:feldspar_pyrite_ore",
     "machina:green_soapstone_pyrite_ore",
-    "machina:marble_pyrite_ore",
+    "machina:chalk_pyrite_ore",
     "machina:limestone_pyrite_ore",
     "machina:gneiss_pyrite_ore",
-    "machina:stone_pyrite_ore"
+    "machina:stone_pyrite_ore",
+    "machina:white_soapstone_pyrite_ore",
+    "machina:shale_pyrite_ore",
+    "machina:marble_pyrite_ore"
   ]
 }

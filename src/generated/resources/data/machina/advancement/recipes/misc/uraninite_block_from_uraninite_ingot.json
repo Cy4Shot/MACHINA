@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:uraninite_block_from_uraninite_ingot"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_uraninite_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:uraninite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_uraninite_ingot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:uraninite_block_from_uraninite_ingot"
+    ]
+  }
+}

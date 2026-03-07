@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 2.7,
+  "group": "thorium",
+  "ingredient": {
+    "item": "machina:raw_thorium_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:thorium_block"
+  }
+}

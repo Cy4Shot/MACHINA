@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 2.7,
+  "group": "zinc",
+  "ingredient": {
+    "item": "machina:raw_zinc_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:zinc_block"
+  }
+}

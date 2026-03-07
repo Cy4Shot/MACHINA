@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gray_soapstone_iridium_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:gray_soapstone_iridium_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:iridium_ingot_from_smelting_gray_soapstone_iridium_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gray_soapstone_iridium_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:iridium_ingot_from_smelting_gray_soapstone_iridium_ore"
+    ]
+  }
+}

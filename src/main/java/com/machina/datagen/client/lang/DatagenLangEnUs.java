@@ -122,10 +122,95 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.CONSTANTAN_ROD, "Constantan Rod");
 		add(ItemInit.CONSTANTAN_WIRE, "Constantan Wire");
 
+		add(ItemInit.TIN_NUGGET, "Tin Nugget");
+		add(ItemInit.TIN_INGOT, "Tin Ingot");
+		add(ItemInit.TIN_DUST, "Tin Dust");
+		add(ItemInit.TIN_PLATE, "Tin Plate");
+		add(ItemInit.TIN_ROD, "Tin Rod");
+		add(ItemInit.TIN_WIRE, "Tin Wire");
+
+		add(ItemInit.ZINC_NUGGET, "Zinc Nugget");
+		add(ItemInit.ZINC_INGOT, "Zinc Ingot");
+		add(ItemInit.ZINC_DUST, "Zinc Dust");
+		add(ItemInit.ZINC_PLATE, "Zinc Plate");
+		add(ItemInit.ZINC_ROD, "Zinc Rod");
+		add(ItemInit.ZINC_WIRE, "Zinc Wire");
+
+		add(ItemInit.LOW_GRADE_TITANIUM_NUGGET, "Low-Grade Titanium Nugget");
+		add(ItemInit.LOW_GRADE_TITANIUM_INGOT, "Low-Grade Titanium Ingot");
+		add(ItemInit.LOW_GRADE_TITANIUM_DUST, "Low-Grade Titanium Dust");
+		add(ItemInit.LOW_GRADE_TITANIUM_PLATE, "Low-Grade Titanium Plate");
+		add(ItemInit.LOW_GRADE_TITANIUM_ROD, "Low-Grade Titanium Rod");
+		add(ItemInit.LOW_GRADE_TITANIUM_WIRE, "Low-Grade Titanium Wire");
+
+		add(ItemInit.MAGNETITE_NUGGET, "Magnetite Nugget");
+		add(ItemInit.MAGNETITE_INGOT, "Magnetite Ingot");
+		add(ItemInit.MAGNETITE_DUST, "Magnetite Dust");
+		add(ItemInit.MAGNETITE_PLATE, "Magnetite Plate");
+		add(ItemInit.MAGNETITE_ROD, "Magnetite Rod");
+		add(ItemInit.MAGNETITE_WIRE, "Magnetite Wire");
+
+		add(ItemInit.GYPSUM_NUGGET, "Gypsum Nugget");
+		add(ItemInit.GYPSUM_INGOT, "Gypsum Ingot");
+		add(ItemInit.GYPSUM_DUST, "Gypsum Dust");
+		add(ItemInit.GYPSUM_PLATE, "Gypsum Plate");
+		add(ItemInit.GYPSUM_ROD, "Gypsum Rod");
+		add(ItemInit.GYPSUM_WIRE, "Gypsum Wire");
+
+		add(ItemInit.ILMENITE_NUGGET, "Ilmenite Nugget");
+		add(ItemInit.ILMENITE_INGOT, "Ilmenite Ingot");
+		add(ItemInit.ILMENITE_DUST, "Ilmenite Dust");
+		add(ItemInit.ILMENITE_PLATE, "Ilmenite Plate");
+		add(ItemInit.ILMENITE_ROD, "Ilmenite Rod");
+		add(ItemInit.ILMENITE_WIRE, "Ilmenite Wire");
+
+		add(ItemInit.PLATINUM_NUGGET, "Platinum Nugget");
+		add(ItemInit.PLATINUM_INGOT, "Platinum Ingot");
+		add(ItemInit.PLATINUM_DUST, "Platinum Dust");
+		add(ItemInit.PLATINUM_PLATE, "Platinum Plate");
+		add(ItemInit.PLATINUM_ROD, "Platinum Rod");
+		add(ItemInit.PLATINUM_WIRE, "Platinum Wire");
+
+		add(ItemInit.IRIDIUM_NUGGET, "Iridium Nugget");
+		add(ItemInit.IRIDIUM_INGOT, "Iridium Ingot");
+		add(ItemInit.IRIDIUM_DUST, "Iridium Dust");
+		add(ItemInit.IRIDIUM_PLATE, "Iridium Plate");
+		add(ItemInit.IRIDIUM_ROD, "Iridium Rod");
+		add(ItemInit.IRIDIUM_WIRE, "Iridium Wire");
+
+		add(ItemInit.OSMIUM_NUGGET, "Osmium Nugget");
+		add(ItemInit.OSMIUM_INGOT, "Osmium Ingot");
+		add(ItemInit.OSMIUM_DUST, "Osmium Dust");
+		add(ItemInit.OSMIUM_PLATE, "Osmium Plate");
+		add(ItemInit.OSMIUM_ROD, "Osmium Rod");
+		add(ItemInit.OSMIUM_WIRE, "Osmium Wire");
+
+		add(ItemInit.COBALT_NUGGET, "Cobalt Nugget");
+		add(ItemInit.COBALT_INGOT, "Cobalt Ingot");
+		add(ItemInit.COBALT_DUST, "Cobalt Dust");
+		add(ItemInit.COBALT_PLATE, "Cobalt Plate");
+		add(ItemInit.COBALT_ROD, "Cobalt Rod");
+		add(ItemInit.COBALT_WIRE, "Cobalt Wire");
+
+		add(ItemInit.URANINITE_NUGGET, "Uraninite Nugget");
+		add(ItemInit.URANINITE_INGOT, "Uraninite Ingot");
+		add(ItemInit.URANINITE_DUST, "Uraninite Dust");
+		add(ItemInit.URANINITE_PLATE, "Uraninite Plate");
+		add(ItemInit.URANINITE_ROD, "Uraninite Rod");
+		add(ItemInit.URANINITE_WIRE, "Uraninite Wire");
+
+		add(ItemInit.THORIUM_NUGGET, "Thorium Nugget");
+		add(ItemInit.THORIUM_INGOT, "Thorium Ingot");
+		add(ItemInit.THORIUM_DUST, "Thorium Dust");
+		add(ItemInit.THORIUM_PLATE, "Thorium Plate");
+		add(ItemInit.THORIUM_ROD, "Thorium Rod");
+		add(ItemInit.THORIUM_WIRE, "Thorium Wire");
+
 		add(ItemInit.FLUORITE, "Fluorite");
 		add(ItemInit.SULFUR, "Sulfur");
 		add(ItemInit.NITER, "Niter");
 		add(ItemInit.BISMUTH, "Bismuth");
+		add(ItemInit.PERCHLORATE, "Perchlorate");
 		add(ItemInit.FLUORITE_DUST, "Fluorite Dust");
 		add(ItemInit.SULFUR_DUST, "Sulfur Dust");
 		add(ItemInit.NITER_DUST, "Niter Dust");
@@ -208,6 +293,18 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.RAW_BORON_BLOCK, "Raw Boron Block");
 		add(BlockInit.RAW_PALLADIUM_BLOCK, "Raw Palladium Block");
 		add(BlockInit.RAW_SILVER_BLOCK, "Raw Silver Block");
+		add(BlockInit.RAW_TIN_BLOCK, "Raw Tin Block");
+		add(BlockInit.RAW_ZINC_BLOCK, "Raw Zinc Block");
+		add(BlockInit.RAW_LOW_GRADE_TITANIUM_BLOCK, "Raw Low-Grade Titanium Block");
+		add(BlockInit.RAW_MAGNETITE_BLOCK, "Raw Magnetite Block");
+		add(BlockInit.RAW_GYPSUM_BLOCK, "Raw Gypsum Block");
+		add(BlockInit.RAW_ILMENITE_BLOCK, "Raw Ilmenite Block");
+		add(BlockInit.RAW_PLATINUM_BLOCK, "Raw Platinum Block");
+		add(BlockInit.RAW_IRIDIUM_BLOCK, "Raw Iridium Block");
+		add(BlockInit.RAW_OSMIUM_BLOCK, "Raw Osmium Block");
+		add(BlockInit.RAW_COBALT_BLOCK, "Raw Cobalt Block");
+		add(BlockInit.RAW_URANINITE_BLOCK, "Raw Uraninite Block");
+		add(BlockInit.RAW_THORIUM_BLOCK, "Raw Thorium Block");
 
 		add(BlockInit.ALUMINUM_BLOCK, "Aluminum Block");
 		add(BlockInit.NICKEL_BLOCK, "Nickel Block");
@@ -217,6 +314,18 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.SILVER_BLOCK, "Silver Block");
 		add(BlockInit.STEEL_BLOCK, "Steel Block");
 		add(BlockInit.CONSTANTAN_BLOCK, "Constantan Block");
+		add(BlockInit.TIN_BLOCK, "Tin Block");
+		add(BlockInit.ZINC_BLOCK, "Zinc Block");
+		add(BlockInit.LOW_GRADE_TITANIUM_BLOCK, "Low-Grade Titanium Block");
+		add(BlockInit.MAGNETITE_BLOCK, "Magnetite Block");
+		add(BlockInit.GYPSUM_BLOCK, "Gypsum Block");
+		add(BlockInit.ILMENITE_BLOCK, "Ilmenite Block");
+		add(BlockInit.PLATINUM_BLOCK, "Platinum Block");
+		add(BlockInit.IRIDIUM_BLOCK, "Iridium Block");
+		add(BlockInit.OSMIUM_BLOCK, "Osmium Block");
+		add(BlockInit.COBALT_BLOCK, "Cobalt Block");
+		add(BlockInit.URANINITE_BLOCK, "Uraninite Block");
+		add(BlockInit.THORIUM_BLOCK, "Thorium Block");
 
 		add(BlockInit.COAL_ORE, "Coal Ore");
 		add(BlockInit.IRON_ORE, "Iron Ore");
@@ -237,6 +346,19 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.SALTPETER_ORE, "Saltpeter Ore");
 		add(BlockInit.PYRITE_ORE, "Pyrite Ore");
 		add(BlockInit.BISMUTH_ORE, "Bismuth Ore");
+		add(BlockInit.TIN_ORE, "Tin Ore");
+		add(BlockInit.ZINC_ORE, "Zinc Ore");
+		add(BlockInit.LOW_GRADE_TITANIUM_ORE, "Low-Grade Titanium Ore");
+		add(BlockInit.MAGNETITE_ORE, "Magnetite Ore");
+		add(BlockInit.GYPSUM_ORE, "Gypsum Ore");
+		add(BlockInit.PERCHLORATE_ORE, "Perchlorate Ore");
+		add(BlockInit.ILMENITE_ORE, "Ilmenite Ore");
+		add(BlockInit.PLATINUM_ORE, "Platinum Ore");
+		add(BlockInit.IRIDIUM_ORE, "Iridium Ore");
+		add(BlockInit.OSMIUM_ORE, "Osmium Ore");
+		add(BlockInit.COBALT_ORE, "Cobalt Ore");
+		add(BlockInit.URANINITE_ORE, "Uraninite Ore");
+		add(BlockInit.THORIUM_ORE, "Thorium Ore");
 
 		add(BlockInit.ANTHRACITE, "Anthracite");
 		add(BlockInit.ANTHRACITE_SLAB, "Anthracite Slab");

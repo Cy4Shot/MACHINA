@@ -73,6 +73,54 @@ public class FamiliesInit {
 				ItemInit.SILVER_NUGGET.get(), ItemInit.SILVER_INGOT.get(), ItemInit.SILVER_DUST.get(),
 				ItemInit.SILVER_PLATE.get(), ItemInit.SILVER_ROD.get(), ItemInit.SILVER_WIRE.get(),
 				ItemInit.RAW_SILVER.get(), BlockInit.RAW_SILVER_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("tin", BlockInit.TIN_ORE, BlockInit.TIN_BLOCK.get(), ItemInit.TIN_NUGGET.get(),
+				ItemInit.TIN_INGOT.get(), ItemInit.TIN_DUST.get(), ItemInit.TIN_PLATE.get(), ItemInit.TIN_ROD.get(),
+				ItemInit.TIN_WIRE.get(), ItemInit.RAW_TIN.get(), BlockInit.RAW_TIN_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("zinc", BlockInit.ZINC_ORE, BlockInit.ZINC_BLOCK.get(), ItemInit.ZINC_NUGGET.get(),
+				ItemInit.ZINC_INGOT.get(), ItemInit.ZINC_DUST.get(), ItemInit.ZINC_PLATE.get(), ItemInit.ZINC_ROD.get(),
+				ItemInit.ZINC_WIRE.get(), ItemInit.RAW_ZINC.get(), BlockInit.RAW_ZINC_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("low_grade_titanium", BlockInit.LOW_GRADE_TITANIUM_ORE,
+				BlockInit.LOW_GRADE_TITANIUM_BLOCK.get(), ItemInit.LOW_GRADE_TITANIUM_NUGGET.get(),
+				ItemInit.LOW_GRADE_TITANIUM_INGOT.get(), ItemInit.LOW_GRADE_TITANIUM_DUST.get(),
+				ItemInit.LOW_GRADE_TITANIUM_PLATE.get(), ItemInit.LOW_GRADE_TITANIUM_ROD.get(),
+				ItemInit.LOW_GRADE_TITANIUM_WIRE.get(), ItemInit.RAW_LOW_GRADE_TITANIUM.get(),
+				BlockInit.RAW_LOW_GRADE_TITANIUM_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("magnetite", BlockInit.MAGNETITE_ORE, BlockInit.MAGNETITE_BLOCK.get(),
+				ItemInit.MAGNETITE_NUGGET.get(), ItemInit.MAGNETITE_INGOT.get(), ItemInit.MAGNETITE_DUST.get(),
+				ItemInit.MAGNETITE_PLATE.get(), ItemInit.MAGNETITE_ROD.get(), ItemInit.MAGNETITE_WIRE.get(),
+				ItemInit.RAW_MAGNETITE.get(), BlockInit.RAW_MAGNETITE_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("gypsum", BlockInit.GYPSUM_ORE, BlockInit.GYPSUM_BLOCK.get(),
+				ItemInit.GYPSUM_NUGGET.get(), ItemInit.GYPSUM_INGOT.get(), ItemInit.GYPSUM_DUST.get(),
+				ItemInit.GYPSUM_PLATE.get(), ItemInit.GYPSUM_ROD.get(), ItemInit.GYPSUM_WIRE.get(),
+				ItemInit.RAW_GYPSUM.get(), BlockInit.RAW_GYPSUM_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("ilmenite", BlockInit.ILMENITE_ORE, BlockInit.ILMENITE_BLOCK.get(),
+				ItemInit.ILMENITE_NUGGET.get(), ItemInit.ILMENITE_INGOT.get(), ItemInit.ILMENITE_DUST.get(),
+				ItemInit.ILMENITE_PLATE.get(), ItemInit.ILMENITE_ROD.get(), ItemInit.ILMENITE_WIRE.get(),
+				ItemInit.RAW_ILMENITE.get(), BlockInit.RAW_ILMENITE_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("platinum", BlockInit.PLATINUM_ORE, BlockInit.PLATINUM_BLOCK.get(),
+				ItemInit.PLATINUM_NUGGET.get(), ItemInit.PLATINUM_INGOT.get(), ItemInit.PLATINUM_DUST.get(),
+				ItemInit.PLATINUM_PLATE.get(), ItemInit.PLATINUM_ROD.get(), ItemInit.PLATINUM_WIRE.get(),
+				ItemInit.RAW_PLATINUM.get(), BlockInit.RAW_PLATINUM_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("iridium", BlockInit.IRIDIUM_ORE, BlockInit.IRIDIUM_BLOCK.get(),
+				ItemInit.IRIDIUM_NUGGET.get(), ItemInit.IRIDIUM_INGOT.get(), ItemInit.IRIDIUM_DUST.get(),
+				ItemInit.IRIDIUM_PLATE.get(), ItemInit.IRIDIUM_ROD.get(), ItemInit.IRIDIUM_WIRE.get(),
+				ItemInit.RAW_IRIDIUM.get(), BlockInit.RAW_IRIDIUM_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("osmium", BlockInit.OSMIUM_ORE, BlockInit.OSMIUM_BLOCK.get(),
+				ItemInit.OSMIUM_NUGGET.get(), ItemInit.OSMIUM_INGOT.get(), ItemInit.OSMIUM_DUST.get(),
+				ItemInit.OSMIUM_PLATE.get(), ItemInit.OSMIUM_ROD.get(), ItemInit.OSMIUM_WIRE.get(),
+				ItemInit.RAW_OSMIUM.get(), BlockInit.RAW_OSMIUM_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("cobalt", BlockInit.COBALT_ORE, BlockInit.COBALT_BLOCK.get(),
+				ItemInit.COBALT_NUGGET.get(), ItemInit.COBALT_INGOT.get(), ItemInit.COBALT_DUST.get(),
+				ItemInit.COBALT_PLATE.get(), ItemInit.COBALT_ROD.get(), ItemInit.COBALT_WIRE.get(),
+				ItemInit.RAW_COBALT.get(), BlockInit.RAW_COBALT_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("uraninite", BlockInit.URANINITE_ORE, BlockInit.URANINITE_BLOCK.get(),
+				ItemInit.URANINITE_NUGGET.get(), ItemInit.URANINITE_INGOT.get(), ItemInit.URANINITE_DUST.get(),
+				ItemInit.URANINITE_PLATE.get(), ItemInit.URANINITE_ROD.get(), ItemInit.URANINITE_WIRE.get(),
+				ItemInit.RAW_URANINITE.get(), BlockInit.RAW_URANINITE_BLOCK.get()));
+		ORES.add(OreFamily.ingotLike("thorium", BlockInit.THORIUM_ORE, BlockInit.THORIUM_BLOCK.get(),
+				ItemInit.THORIUM_NUGGET.get(), ItemInit.THORIUM_INGOT.get(), ItemInit.THORIUM_DUST.get(),
+				ItemInit.THORIUM_PLATE.get(), ItemInit.THORIUM_ROD.get(), ItemInit.THORIUM_WIRE.get(),
+				ItemInit.RAW_THORIUM.get(), BlockInit.RAW_THORIUM_BLOCK.get()));
 		ORES.add(OreFamily.alloyLike("steel", BlockInit.STEEL_BLOCK.get(), ItemInit.STEEL_NUGGET.get(),
 				ItemInit.STEEL_INGOT.get(), ItemInit.STEEL_DUST.get(), ItemInit.STEEL_PLATE.get(),
 				ItemInit.STEEL_ROD.get(), ItemInit.STEEL_WIRE.get()));
@@ -85,6 +133,7 @@ public class FamiliesInit {
 		ORES.add(OreFamily.resLike("sulfur", BlockInit.PYRITE_ORE, ItemInit.SULFUR.get(), ItemInit.SULFUR_DUST.get()));
 		ORES.add(OreFamily.resLike("bismuth", BlockInit.BISMUTH_ORE, ItemInit.BISMUTH.get(),
 				ItemInit.BISMUTH_DUST.get()));
+		ORES.add(OreFamily.oreLike("perchlorate", BlockInit.PERCHLORATE_ORE, ItemInit.PERCHLORATE.get()));
 
 		// Dirts
 		DIRTS.add(new DirtFamily("tropical", BlockInit.TROPICAL_DIRT.get(), BlockInit.TROPICAL_DIRT_STAIRS.get(),
@@ -293,6 +342,12 @@ public class FamiliesInit {
 
 		public static OreFamily dustLike(String name, MachinaOre ore, Block block, Item ingot) {
 			return new OreFamily(name, Optional.of(ore), Optional.of(block), Optional.empty(), Optional.of(ingot),
+					Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),
+					Optional.empty());
+		}
+
+		public static OreFamily oreLike(String name, MachinaOre ore, Item ingot) {
+			return new OreFamily(name, Optional.of(ore), Optional.empty(), Optional.empty(), Optional.of(ingot),
 					Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),
 					Optional.empty());
 		}

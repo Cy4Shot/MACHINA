@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:feldspar_boron_ore",
-    "machina:chalk_boron_ore",
-    "machina:shale_boron_ore",
-    "machina:white_soapstone_boron_ore",
     "machina:gray_soapstone_boron_ore",
+    "machina:feldspar_boron_ore",
     "machina:green_soapstone_boron_ore",
-    "machina:marble_boron_ore",
+    "machina:chalk_boron_ore",
     "machina:limestone_boron_ore",
     "machina:gneiss_boron_ore",
-    "machina:stone_boron_ore"
+    "machina:stone_boron_ore",
+    "machina:white_soapstone_boron_ore",
+    "machina:shale_boron_ore",
+    "machina:marble_boron_ore"
   ]
 }

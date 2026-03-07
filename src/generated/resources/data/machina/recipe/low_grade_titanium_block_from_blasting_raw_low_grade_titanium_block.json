@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 2.7,
+  "group": "low_grade_titanium",
+  "ingredient": {
+    "item": "machina:raw_low_grade_titanium_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:low_grade_titanium_block"
+  }
+}

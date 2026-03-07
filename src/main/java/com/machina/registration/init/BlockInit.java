@@ -120,6 +120,18 @@ public class BlockInit {
 	public static final DeferredBlock<Block> RAW_BORON_BLOCK = block("raw_boron_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_PALLADIUM_BLOCK = block("raw_palladium_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_SILVER_BLOCK = block("raw_silver_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_TIN_BLOCK = block("raw_tin_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_ZINC_BLOCK = block("raw_zinc_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_LOW_GRADE_TITANIUM_BLOCK = block("raw_low_grade_titanium_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_MAGNETITE_BLOCK = block("raw_magnetite_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_GYPSUM_BLOCK = block("raw_gypsum_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_ILMENITE_BLOCK = block("raw_ilmenite_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_PLATINUM_BLOCK = block("raw_platinum_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_IRIDIUM_BLOCK = block("raw_iridium_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_OSMIUM_BLOCK = block("raw_osmium_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_COBALT_BLOCK = block("raw_cobalt_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_URANINITE_BLOCK = block("raw_uraninite_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> RAW_THORIUM_BLOCK = block("raw_thorium_block", Blocks.IRON_BLOCK);
 	
 	public static final DeferredBlock<Block> ALUMINUM_BLOCK = block("aluminum_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> NICKEL_BLOCK = block("nickel_block", Blocks.IRON_BLOCK);
@@ -127,6 +139,18 @@ public class BlockInit {
 	public static final DeferredBlock<Block> BORON_BLOCK = block("boron_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> PALLADIUM_BLOCK = block("palladium_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> SILVER_BLOCK = block("silver_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> TIN_BLOCK = block("tin_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> ZINC_BLOCK = block("zinc_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> LOW_GRADE_TITANIUM_BLOCK = block("low_grade_titanium_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> MAGNETITE_BLOCK = block("magnetite_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> GYPSUM_BLOCK = block("gypsum_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> ILMENITE_BLOCK = block("ilmenite_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> PLATINUM_BLOCK = block("platinum_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> IRIDIUM_BLOCK = block("iridium_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> OSMIUM_BLOCK = block("osmium_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> COBALT_BLOCK = block("cobalt_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> URANINITE_BLOCK = block("uraninite_block", Blocks.IRON_BLOCK);
+	public static final DeferredBlock<Block> THORIUM_BLOCK = block("thorium_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> STEEL_BLOCK = block("steel_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> CONSTANTAN_BLOCK = block("constantan_block", Blocks.IRON_BLOCK);
 
@@ -470,6 +494,9 @@ public class BlockInit {
 	public static final MachinaOre DIAMOND_ORE = ore("diamond_ore", true, Blocks.DIAMOND_ORE);
 	public static final MachinaOre ALUMINUM_ORE = ore("aluminum_ore", false, Blocks.IRON_ORE);
 	public static final MachinaOre NICKEL_ORE = ore("nickel_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre TIN_ORE = ore("tin_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre ZINC_ORE = ore("zinc_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre LOW_GRADE_TITANIUM_ORE = ore("low_grade_titanium_ore", false, Blocks.IRON_ORE);
 	public static final MachinaOre LEAD_ORE = ore("lead_ore", false, Blocks.IRON_ORE);
 	public static final MachinaOre BORON_ORE = ore("boron_ore", false, Blocks.IRON_ORE);
 	public static final MachinaOre PALLADIUM_ORE = ore("palladium_ore", false, Blocks.IRON_ORE);
@@ -478,6 +505,16 @@ public class BlockInit {
 	public static final MachinaOre SALTPETER_ORE = ore("saltpeter_ore", false, Blocks.COAL_ORE);
 	public static final MachinaOre PYRITE_ORE = ore("pyrite_ore", false, Blocks.COAL_ORE);
 	public static final MachinaOre BISMUTH_ORE = ore("bismuth_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre MAGNETITE_ORE = ore("magnetite_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre GYPSUM_ORE = ore("gypsum_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre PERCHLORATE_ORE = ore("perchlorate_ore", false, Blocks.COAL_ORE);
+	public static final MachinaOre ILMENITE_ORE = ore("ilmenite_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre PLATINUM_ORE = ore("platinum_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre IRIDIUM_ORE = ore("iridium_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre OSMIUM_ORE = ore("osmium_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre COBALT_ORE = ore("cobalt_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre URANINITE_ORE = ore("uraninite_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre THORIUM_ORE = ore("thorium_ore", false, Blocks.IRON_ORE);
 	//@formatter:on
 
 	public static record MachinaOre(ResourceLocation name, Supplier<? extends Block> stoneOre,

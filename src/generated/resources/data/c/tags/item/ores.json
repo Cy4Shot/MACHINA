@@ -18,6 +18,19 @@
     "#c:ores/fluorite",
     "#c:ores/niter",
     "#c:ores/sulfur",
-    "#c:ores/bismuth"
+    "#c:ores/bismuth",
+    "#c:ores/tin",
+    "#c:ores/zinc",
+    "#c:ores/low_grade_titanium",
+    "#c:ores/magnetite",
+    "#c:ores/gypsum",
+    "#c:ores/ilmenite",
+    "#c:ores/platinum",
+    "#c:ores/iridium",
+    "#c:ores/osmium",
+    "#c:ores/cobalt",
+    "#c:ores/uraninite",
+    "#c:ores/thorium",
+    "#c:ores/perchlorate"
   ]
 }

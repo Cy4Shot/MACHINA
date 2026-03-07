@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "machina:low_grade_titanium_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "machina:low_grade_titanium_ingot"
+  }
+}

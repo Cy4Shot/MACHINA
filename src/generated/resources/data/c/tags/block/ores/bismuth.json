@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:feldspar_bismuth_ore",
-    "machina:chalk_bismuth_ore",
-    "machina:shale_bismuth_ore",
-    "machina:white_soapstone_bismuth_ore",
     "machina:gray_soapstone_bismuth_ore",
+    "machina:feldspar_bismuth_ore",
     "machina:green_soapstone_bismuth_ore",
-    "machina:marble_bismuth_ore",
+    "machina:chalk_bismuth_ore",
     "machina:limestone_bismuth_ore",
     "machina:gneiss_bismuth_ore",
-    "machina:stone_bismuth_ore"
+    "machina:stone_bismuth_ore",
+    "machina:white_soapstone_bismuth_ore",
+    "machina:shale_bismuth_ore",
+    "machina:marble_bismuth_ore"
   ]
 }

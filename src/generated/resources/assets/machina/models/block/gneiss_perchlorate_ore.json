@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/gneiss",
+    "ore": "machina:block/perchlorate_ore"
+  }
+}

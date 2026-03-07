@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/green_soapstone",
+    "ore": "machina:block/thorium_ore"
+  }
+}

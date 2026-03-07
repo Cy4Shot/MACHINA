@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_raw_low_grade_titanium": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:raw_low_grade_titanium"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:low_grade_titanium_ingot_from_blasting_raw_low_grade_titanium"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_raw_low_grade_titanium"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:low_grade_titanium_ingot_from_blasting_raw_low_grade_titanium"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_low_grade_titanium_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:low_grade_titanium_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:low_grade_titanium_ingot_from_smelting_low_grade_titanium_dust"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_low_grade_titanium_dust"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:low_grade_titanium_ingot_from_smelting_low_grade_titanium_dust"
+    ]
+  }
+}

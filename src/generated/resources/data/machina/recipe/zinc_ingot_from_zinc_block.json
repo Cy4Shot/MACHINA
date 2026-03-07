@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "machina:zinc_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "machina:zinc_ingot"
+  }
+}

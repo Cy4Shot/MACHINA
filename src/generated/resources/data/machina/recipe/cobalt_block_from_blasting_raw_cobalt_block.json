@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 2.7,
+  "group": "cobalt",
+  "ingredient": {
+    "item": "machina:raw_cobalt_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:cobalt_block"
+  }
+}

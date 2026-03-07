@@ -10,6 +10,18 @@
     "#c:plates/palladium",
     "#c:plates/silver",
     "#c:plates/steel",
-    "#c:plates/constantan"
+    "#c:plates/constantan",
+    "#c:plates/tin",
+    "#c:plates/zinc",
+    "#c:plates/low_grade_titanium",
+    "#c:plates/magnetite",
+    "#c:plates/gypsum",
+    "#c:plates/ilmenite",
+    "#c:plates/platinum",
+    "#c:plates/iridium",
+    "#c:plates/osmium",
+    "#c:plates/cobalt",
+    "#c:plates/uraninite",
+    "#c:plates/thorium"
   ]
 }

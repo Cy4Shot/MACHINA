@@ -10,6 +10,18 @@
     "#c:wires/palladium",
     "#c:wires/silver",
     "#c:wires/steel",
-    "#c:wires/constantan"
+    "#c:wires/constantan",
+    "#c:wires/tin",
+    "#c:wires/zinc",
+    "#c:wires/low_grade_titanium",
+    "#c:wires/magnetite",
+    "#c:wires/gypsum",
+    "#c:wires/ilmenite",
+    "#c:wires/platinum",
+    "#c:wires/iridium",
+    "#c:wires/osmium",
+    "#c:wires/cobalt",
+    "#c:wires/uraninite",
+    "#c:wires/thorium"
   ]
 }
