@@ -1,13 +1,13 @@
 {
   "values": [
-    "machina:chalk_copper_ore",
-    "machina:gray_soapstone_copper_ore",
     "machina:feldspar_copper_ore",
-    "machina:green_soapstone_copper_ore",
+    "machina:chalk_copper_ore",
     "machina:shale_copper_ore",
-    "machina:marble_copper_ore",
-    "machina:gneiss_copper_ore",
     "machina:white_soapstone_copper_ore",
-    "machina:limestone_copper_ore"
+    "machina:gray_soapstone_copper_ore",
+    "machina:green_soapstone_copper_ore",
+    "machina:marble_copper_ore",
+    "machina:limestone_copper_ore",
+    "machina:gneiss_copper_ore"
   ]
 }

@@ -1,13 +1,13 @@
 {
   "values": [
-    "machina:chalk_gold_ore",
-    "machina:gray_soapstone_gold_ore",
     "machina:feldspar_gold_ore",
-    "machina:green_soapstone_gold_ore",
+    "machina:chalk_gold_ore",
     "machina:shale_gold_ore",
-    "machina:marble_gold_ore",
-    "machina:gneiss_gold_ore",
     "machina:white_soapstone_gold_ore",
-    "machina:limestone_gold_ore"
+    "machina:gray_soapstone_gold_ore",
+    "machina:green_soapstone_gold_ore",
+    "machina:marble_gold_ore",
+    "machina:limestone_gold_ore",
+    "machina:gneiss_gold_ore"
   ]
 }

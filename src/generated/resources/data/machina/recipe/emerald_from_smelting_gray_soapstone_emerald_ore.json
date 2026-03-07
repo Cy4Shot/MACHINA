@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "emerald",
+  "ingredient": {
+    "item": "machina:gray_soapstone_emerald_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:emerald"
+  }
+}

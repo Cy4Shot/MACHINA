@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.7,
+  "group": "diamond",
+  "ingredient": {
+    "item": "machina:green_soapstone_diamond_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:diamond"
+  }
+}
