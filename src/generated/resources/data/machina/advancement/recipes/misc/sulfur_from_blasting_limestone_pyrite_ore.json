@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_limestone_pyrite_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:limestone_pyrite_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:sulfur_from_blasting_limestone_pyrite_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_limestone_pyrite_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:sulfur_from_blasting_limestone_pyrite_ore"
+    ]
+  }
+}

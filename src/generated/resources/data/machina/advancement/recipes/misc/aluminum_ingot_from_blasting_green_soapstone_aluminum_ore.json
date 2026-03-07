@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_green_soapstone_aluminum_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:green_soapstone_aluminum_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:aluminum_ingot_from_blasting_green_soapstone_aluminum_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_green_soapstone_aluminum_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:aluminum_ingot_from_blasting_green_soapstone_aluminum_ore"
+    ]
+  }
+}

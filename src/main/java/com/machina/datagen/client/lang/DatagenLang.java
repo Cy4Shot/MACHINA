@@ -13,6 +13,7 @@ import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.api.starchart.planet_trait.PlanetTrait;
+import com.machina.registration.init.BlockInit.MachinaOre;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit.Fruit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
@@ -63,6 +64,10 @@ public abstract class DatagenLang extends LanguageProvider {
 
 	protected void add(Fruit fruit, String name) {
 		add(fruit.block(), name);
+	}
+
+	protected void add(MachinaOre ore, String name) {
+		ore.map().values().forEach(v -> add(v, name));
 	}
 
 	@SuppressWarnings("removal")

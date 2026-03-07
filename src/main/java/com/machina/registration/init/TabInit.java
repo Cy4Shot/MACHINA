@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.api.rocket.part.RocketPart;
 import com.machina.registration.init.FamiliesInit.ItemLikeFamily;
+import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit.Fruit;
 
@@ -99,7 +100,7 @@ public class TabInit {
 				family(a, FamiliesInit.DIRTS);
 				add(a, BlockInit.TROPICAL_SAND);
 
-				add(a, BlockInit.ALUMINUM_ORE);
+				ores(a, FamiliesInit.ORES);
 				family(a, FamiliesInit.STONES);
 
 				family(a, FamiliesInit.WOODS);
@@ -198,7 +199,7 @@ public class TabInit {
 			ItemInit.LOGIC_UNIT, a -> {
 				add(a, BlockInit.BASIC_CASING);
 				add(a, BlockInit.LIGHTWEIGHT_CASING);
-				
+
 				add(a, ItemInit.COPPER_COIL);
 				add(a, ItemInit.LOGIC_UNIT);
 				add(a, ItemInit.PROCESSOR);
@@ -233,6 +234,10 @@ public class TabInit {
 
 	public static void family(CreativeModeTab.Output adder, List<? extends ItemLikeFamily> family) {
 		family.forEach(f -> f.tab().forEach(i -> add(adder, i)));
+	}
+
+	public static void ores(CreativeModeTab.Output adder, List<OreFamily> family) {
+		family.forEach(f -> f.oreTab().forEach(i -> add(adder, i)));
 	}
 
 	public static DeferredHolder<CreativeModeTab, CreativeModeTab> create(String name,

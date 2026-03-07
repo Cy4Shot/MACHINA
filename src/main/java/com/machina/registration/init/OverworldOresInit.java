@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.registration.init.BlockInit.MachinaOre;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -63,8 +64,8 @@ public class OverworldOresInit {
 		register("bismuth_ore_bottom", BlockInit.BISMUTH_ORE, 11, between(5, -64, -24));
 	}
 
-	public static void register(String name, Supplier<Block> block, int veinSize, List<PlacementModifier> modifiers) {
-		ORES.add(new OverworldOre(ResourceLocation.fromNamespaceAndPath(Machina.MOD_ID, name), block, veinSize,
+	public static void register(String name, MachinaOre ore, int veinSize, List<PlacementModifier> modifiers) {
+		ORES.add(new OverworldOre(ResourceLocation.fromNamespaceAndPath(Machina.MOD_ID, name), ore.stoneOre(), veinSize,
 				modifiers));
 	}
 
@@ -91,7 +92,7 @@ public class OverworldOresInit {
 				HeightRangePlacement.triangle(VerticalAnchor.absolute(min), VerticalAnchor.absolute(max)));
 	}
 
-	public record OverworldOre(ResourceLocation loc, Supplier<Block> block, int veinSize,
+	public record OverworldOre(ResourceLocation loc, Supplier<? extends Block> block, int veinSize,
 			List<PlacementModifier> modifiers) {
 	}
 }

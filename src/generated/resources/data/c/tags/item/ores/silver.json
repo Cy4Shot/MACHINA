@@ -1,5 +1,14 @@
 {
   "values": [
-    "machina:silver_ore"
+    "machina:chalk_silver_ore",
+    "machina:gray_soapstone_silver_ore",
+    "machina:feldspar_silver_ore",
+    "machina:green_soapstone_silver_ore",
+    "machina:shale_silver_ore",
+    "machina:stone_silver_ore",
+    "machina:marble_silver_ore",
+    "machina:gneiss_silver_ore",
+    "machina:white_soapstone_silver_ore",
+    "machina:limestone_silver_ore"
   ]
 }

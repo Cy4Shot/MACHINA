@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/white_soapstone",
+    "ore": "machina:block/lead_ore"
+  }
+}

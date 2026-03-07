@@ -1,6 +1,7 @@
 package com.machina.datagen.server;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -29,6 +30,7 @@ import net.minecraft.world.level.block.TallFlowerBlock;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class DatagenBlockTags extends BlockTagsProvider {
 	public DatagenBlockTags(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
@@ -93,7 +95,8 @@ public class DatagenBlockTags extends BlockTagsProvider {
 	private void oreFamily(OreFamily family) {
 		family.ore().ifPresent(ore -> {
 			tag(common("ores")).addTag(common("ores/" + family.name()));
-			tag(common("ores/" + family.name())).add(ore);
+			tag(common("ores/" + family.name()))
+					.addAll(ore.map().values().stream().map(DeferredHolder::getKey).collect(Collectors.toList()));
 		});
 		family.block().ifPresent(block -> {
 			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));

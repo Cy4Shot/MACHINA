@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gneiss_saltpeter_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:gneiss_saltpeter_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:niter_from_smelting_gneiss_saltpeter_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gneiss_saltpeter_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:niter_from_smelting_gneiss_saltpeter_ore"
+    ]
+  }
+}

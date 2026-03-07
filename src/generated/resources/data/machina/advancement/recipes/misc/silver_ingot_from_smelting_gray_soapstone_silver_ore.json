@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gray_soapstone_silver_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:gray_soapstone_silver_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:silver_ingot_from_smelting_gray_soapstone_silver_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gray_soapstone_silver_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:silver_ingot_from_smelting_gray_soapstone_silver_ore"
+    ]
+  }
+}

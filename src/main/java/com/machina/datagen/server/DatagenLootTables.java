@@ -175,8 +175,11 @@ public class DatagenLootTables extends BlockLootSubProvider {
 	private void oreFamily(OreFamily family) {
 		family.getBlock().ifPresent(this::dropSelf);
 		family.getRawBlock().ifPresent(this::dropSelf);
-		family.getOre().ifPresent(ore -> family.getRaw().ifPresentOrElse(raw -> ore(ore, raw),
-				() -> family.getIngot().ifPresent(ingot -> ore(ore, ingot))));
+		family.ore().ifPresent(ore -> family.raw().ifPresentOrElse(raw -> {
+			ore.map().values().forEach(o -> ore(o.get(), raw));
+		}, () -> family.ingot().ifPresent(ingot -> {
+			ore.map().values().forEach(o -> ore(o.get(), ingot));
+		})));
 	}
 
 	private void dirtFamily(DirtFamily family) {

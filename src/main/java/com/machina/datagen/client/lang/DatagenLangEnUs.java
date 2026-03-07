@@ -218,6 +218,15 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.STEEL_BLOCK, "Steel Block");
 		add(BlockInit.CONSTANTAN_BLOCK, "Constantan Block");
 
+		add(BlockInit.COAL_ORE, "Coal Ore");
+		add(BlockInit.IRON_ORE, "Iron Ore");
+		add(BlockInit.COPPER_ORE, "Copper Ore");
+		add(BlockInit.GOLD_ORE, "Gold Ore");
+		add(BlockInit.REDSTONE_ORE, "Redstone Ore");
+		add(BlockInit.NETHER_QUARTZ_ORE, "Quartz Ore");
+		add(BlockInit.EMERALD_ORE, "Emerald Ore");
+		add(BlockInit.LAPIS_ORE, "Lapis Ore");
+		add(BlockInit.DIAMOND_ORE, "Diamond Ore");
 		add(BlockInit.ALUMINUM_ORE, "Aluminum Ore");
 		add(BlockInit.NICKEL_ORE, "Nickel Ore");
 		add(BlockInit.LEAD_ORE, "Lead Ore");

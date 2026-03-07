@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "boron",
+  "ingredient": {
+    "item": "machina:gray_soapstone_boron_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:boron_ingot"
+  }
+}

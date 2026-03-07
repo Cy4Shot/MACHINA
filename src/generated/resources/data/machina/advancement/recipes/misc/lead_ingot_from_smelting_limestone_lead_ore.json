@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_limestone_lead_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:limestone_lead_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:lead_ingot_from_smelting_limestone_lead_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_limestone_lead_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:lead_ingot_from_smelting_limestone_lead_ore"
+    ]
+  }
+}

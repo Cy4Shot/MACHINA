@@ -1,5 +1,13 @@
 {
   "values": [
-    "minecraft:emerald_ore"
+    "machina:chalk_emerald_ore",
+    "machina:gray_soapstone_emerald_ore",
+    "machina:feldspar_emerald_ore",
+    "machina:green_soapstone_emerald_ore",
+    "machina:shale_emerald_ore",
+    "machina:marble_emerald_ore",
+    "machina:gneiss_emerald_ore",
+    "machina:white_soapstone_emerald_ore",
+    "machina:limestone_emerald_ore"
   ]
 }

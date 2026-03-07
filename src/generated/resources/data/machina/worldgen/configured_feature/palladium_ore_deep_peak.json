@@ -6,7 +6,7 @@
     "targets": [
       {
         "state": {
-          "Name": "machina:palladium_ore"
+          "Name": "machina:stone_palladium_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
@@ -15,7 +15,7 @@
       },
       {
         "state": {
-          "Name": "machina:palladium_ore"
+          "Name": "machina:stone_palladium_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",

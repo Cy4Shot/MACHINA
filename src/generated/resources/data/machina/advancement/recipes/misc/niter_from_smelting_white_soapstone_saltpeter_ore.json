@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:niter_from_smelting_white_soapstone_saltpeter_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_white_soapstone_saltpeter_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:white_soapstone_saltpeter_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_white_soapstone_saltpeter_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:niter_from_smelting_white_soapstone_saltpeter_ore"
+    ]
+  }
+}

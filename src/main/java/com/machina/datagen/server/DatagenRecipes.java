@@ -508,8 +508,12 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 
 	protected static void oreFamily(RecipeOutput gen, OreFamily family) {
 		// Crafting ingot
+		family.ore().ifPresent(ores -> {
+			family.ingot().ifPresent(ingot -> {
+				ores.map().values().forEach(ore -> ore(gen, List.of(ore), ingot, 0.7f, 200, family.name()));
+			});
+		});
 		family.getIngot().ifPresent(ingot -> {
-			family.ore().ifPresent(ore -> ore(gen, List.of(ore), ingot, 0.7f, 200, family.name()));
 			family.raw().ifPresent(raw -> ore(gen, List.of(raw), ingot, 0.7f, 200, family.name()));
 			family.dust().ifPresent(dust -> oreSmelting(gen, List.of(dust), ingot, 0, 200, family.name()));
 		});

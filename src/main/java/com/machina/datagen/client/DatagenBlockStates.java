@@ -57,7 +57,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 
 		casing(BlockInit.BASIC_CASING);
 		casing(BlockInit.LIGHTWEIGHT_CASING);
-		
+
 		connector(BlockInit.ENERGY_CABLE);
 		connector(BlockInit.FLUID_PIPE);
 		connector(BlockInit.ITEM_CONDUIT);
@@ -399,8 +399,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 
 	private void oreFamily(OreFamily fam) {
 		fam.getBlock().ifPresent(this::cube);
-		fam.getOre().ifPresent(this::cube);
 		fam.getRawBlock().ifPresent(this::cube);
+		fam.ore().ifPresent(ores -> {
+			ores.map().forEach((base, ore) -> ore(base.location(), ore, ores.name()));
+		});
 	}
 
 	private void cubeRandomRotation(DeferredBlock<Block> block) {
@@ -604,6 +606,16 @@ public class DatagenBlockStates extends BlockStateProvider {
 		simpleBlockItem(p, model);
 	}
 
+	private void ore(ResourceLocation base, DeferredBlock<? extends Block> ore, ResourceLocation name) {
+		Block o = ore.get();
+
+		ModelFile model = models().withExistingParent(name(o), MachinaRL.create("block/ore"))
+				.texture("base", blockTexture(base)).texture("ore", blockTexture(name));
+
+		simpleBlock(o, model);
+		simpleBlockItem(o, model);
+	}
+
 	public void machineAllLit(DeferredBlock<? extends LitMachineBlock> machine, boolean lit) {
 		LitMachineBlock b = machine.get();
 		ModelFile unlitm = models().withExistingParent(name(b), MachinaRL.create("block/machine"))
@@ -745,5 +757,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 		ResourceLocation name = key(block);
 		return ResourceLocation.fromNamespaceAndPath(name.getNamespace(),
 				ModelProvider.ITEM_FOLDER + "/" + name.getPath());
+	}
+
+	public ResourceLocation blockTexture(ResourceLocation name) {
+		return ResourceLocation.fromNamespaceAndPath(name.getNamespace(),
+				ModelProvider.BLOCK_FOLDER + "/" + name.getPath());
 	}
 }

@@ -1,11 +1,17 @@
 package com.machina.registration.init;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.api.block.LitOreBlock;
+import com.machina.api.block.OreBlock;
+import com.machina.api.util.MachinaRL;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
@@ -27,8 +33,8 @@ import com.machina.block.machine.ElectricSmelterBlock;
 import com.machina.block.machine.ElectrolyzerBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
 import com.machina.block.machine.GrinderBlock;
-import com.machina.block.machine.MultiblockHousingBlock;
 import com.machina.block.machine.MelterBlock;
+import com.machina.block.machine.MultiblockHousingBlock;
 import com.machina.block.machine.ReactionChamberBlock;
 import com.machina.block.machine.RocketAssemblyStationBlock;
 import com.machina.block.machine.RocketPartBenchBlock;
@@ -38,6 +44,9 @@ import com.machina.block.machine.TankBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -120,17 +129,6 @@ public class BlockInit {
 	public static final DeferredBlock<Block> SILVER_BLOCK = block("silver_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> STEEL_BLOCK = block("steel_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> CONSTANTAN_BLOCK = block("constantan_block", Blocks.IRON_BLOCK);
-	
-	public static final DeferredBlock<Block> ALUMINUM_ORE = block("aluminum_ore", Blocks.IRON_ORE);
-	public static final DeferredBlock<Block> NICKEL_ORE = block("nickel_ore", Blocks.IRON_ORE);
-	public static final DeferredBlock<Block> LEAD_ORE = block("lead_ore", Blocks.IRON_ORE);
-	public static final DeferredBlock<Block> BORON_ORE = block("boron_ore", Blocks.IRON_ORE);
-	public static final DeferredBlock<Block> PALLADIUM_ORE = block("palladium_ore", Blocks.IRON_ORE);
-	public static final DeferredBlock<Block> SILVER_ORE = block("silver_ore", Blocks.IRON_ORE);
-	public static final DeferredBlock<Block> FLUORITE_ORE = block("fluorite_ore", Blocks.COAL_ORE);
-	public static final DeferredBlock<Block> SALTPETER_ORE = block("saltpeter_ore", Blocks.COAL_ORE);
-	public static final DeferredBlock<Block> PYRITE_ORE = block("pyrite_ore", Blocks.COAL_ORE);
-	public static final DeferredBlock<Block> BISMUTH_ORE = block("bismuth_ore", Blocks.IRON_ORE);
 
 	public static final DeferredBlock<Block> ANTHRACITE = block("anthracite", Blocks.ANDESITE);
 	public static final DeferredBlock<SlabBlock> ANTHRACITE_SLAB = slab("anthracite_slab", Blocks.ANDESITE_SLAB);
@@ -458,7 +456,58 @@ public class BlockInit {
 	public static final DeferredBlock<FlowerPotBlock> POTTED_GREEN_GLOWSHROOM = flower_pot("potted_green_glowshroom", GREEN_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_TURQUOISE_GLOWSHROOM = flower_pot("potted_turquoise_glowshroom", TURQUOISE_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_BLUE_GLOWSHROOM = flower_pot("potted_blue_glowshroom", BLUE_GLOWSHROOM, light(7));
+
+	public static final List<DeferredBlock<Block>> ORE_BASES = List.of(FELDSPAR, GRAY_SOAPSTONE, GREEN_SOAPSTONE, WHITE_SOAPSTONE, SHALE, MARBLE, CHALK, LIMESTONE, GNEISS);
+
+	public static final MachinaOre COAL_ORE = ore("coal_ore", true, Blocks.COAL_ORE);
+	public static final MachinaOre IRON_ORE = ore("iron_ore", true, Blocks.IRON_ORE);
+	public static final MachinaOre COPPER_ORE = ore("copper_ore", true, Blocks.COPPER_ORE);
+	public static final MachinaOre GOLD_ORE = ore("gold_ore", true, Blocks.GOLD_ORE);
+	public static final MachinaOre REDSTONE_ORE = ore("redstone_ore", true, Blocks.REDSTONE_ORE, true);
+	public static final MachinaOre NETHER_QUARTZ_ORE = ore("quartz_ore", true, Blocks.NETHER_QUARTZ_ORE);
+	public static final MachinaOre EMERALD_ORE = ore("emerald_ore", true, Blocks.EMERALD_ORE);
+	public static final MachinaOre LAPIS_ORE = ore("lapis_ore", true, Blocks.LAPIS_ORE);
+	public static final MachinaOre DIAMOND_ORE = ore("diamond_ore", true, Blocks.DIAMOND_ORE);
+	public static final MachinaOre ALUMINUM_ORE = ore("aluminum_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre NICKEL_ORE = ore("nickel_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre LEAD_ORE = ore("lead_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre BORON_ORE = ore("boron_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre PALLADIUM_ORE = ore("palladium_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre SILVER_ORE = ore("silver_ore", false, Blocks.IRON_ORE);
+	public static final MachinaOre FLUORITE_ORE = ore("fluorite_ore", false, Blocks.COAL_ORE);
+	public static final MachinaOre SALTPETER_ORE = ore("saltpeter_ore", false, Blocks.COAL_ORE);
+	public static final MachinaOre PYRITE_ORE = ore("pyrite_ore", false, Blocks.COAL_ORE);
+	public static final MachinaOre BISMUTH_ORE = ore("bismuth_ore", false, Blocks.IRON_ORE);
 	//@formatter:on
+
+	public static record MachinaOre(ResourceLocation name, Supplier<? extends Block> stoneOre,
+			Map<ResourceKey<Block>, DeferredBlock<OreBlock>> map) {
+
+	}
+
+	public static MachinaOre ore(String name, boolean vanilla, Block props) {
+		return ore(name, vanilla, props, false);
+	}
+
+	public static MachinaOre ore(String name, boolean vanilla, Block props, boolean lit) {
+		BiFunction<Block, Block.Properties, OreBlock> creator = lit ? LitOreBlock::new : OreBlock::new;
+
+		Map<ResourceKey<Block>, DeferredBlock<OreBlock>> ores = new HashMap<>();
+		Supplier<? extends Block> stoneOre;
+		if (vanilla) {
+			stoneOre = () -> props;
+		} else {
+			DeferredBlock<OreBlock> stone = register("stone_" + name, props, a -> a,
+					p -> creator.apply(Blocks.STONE, p));
+			ores.put(ResourceKey.create(Registries.BLOCK, ResourceLocation.withDefaultNamespace("stone")), stone);
+			stoneOre = stone;
+		}
+		ORE_BASES.forEach(base -> {
+			ores.put(base.getKey(), register(base.getKey().location().getPath() + "_" + name, props, a -> a,
+					p -> creator.apply(base.get(), p)));
+		});
+		return new MachinaOre(MachinaRL.create(name), stoneOre, ores);
+	}
 
 	private static WoodType registerWoodType(String name) {
 		String id = Machina.MOD_ID + ":" + name;
@@ -487,7 +536,7 @@ public class BlockInit {
 	public static DeferredBlock<Block> block(String name, Block prop) {
 		return register(name, prop, a -> a, Block::new);
 	}
-	
+
 	public static DeferredBlock<Block> cutout(String name, Block prop) {
 		return register(name, prop, a -> a.noOcclusion(), Block::new);
 	}

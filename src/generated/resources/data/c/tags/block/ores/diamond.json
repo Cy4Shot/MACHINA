@@ -1,5 +1,13 @@
 {
   "values": [
-    "minecraft:diamond_ore"
+    "machina:chalk_diamond_ore",
+    "machina:gray_soapstone_diamond_ore",
+    "machina:feldspar_diamond_ore",
+    "machina:green_soapstone_diamond_ore",
+    "machina:shale_diamond_ore",
+    "machina:marble_diamond_ore",
+    "machina:gneiss_diamond_ore",
+    "machina:white_soapstone_diamond_ore",
+    "machina:limestone_diamond_ore"
   ]
 }

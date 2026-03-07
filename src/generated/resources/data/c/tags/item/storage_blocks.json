@@ -2,6 +2,7 @@
   "values": [
     "#c:storage_blocks/coal",
     "#c:storage_blocks/lapis",
+    "#c:storage_blocks/redstone",
     "#c:storage_blocks/quartz",
     "#c:storage_blocks/emerald",
     "#c:storage_blocks/diamond",

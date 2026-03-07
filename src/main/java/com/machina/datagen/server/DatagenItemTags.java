@@ -25,6 +25,7 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -122,7 +123,8 @@ public class DatagenItemTags extends ItemTagsProvider {
 	private void oreFamily(OreFamily family) {
 		family.ore().ifPresent(ore -> {
 			tag(common("ores")).addTag(common("ores/" + family.name()));
-			tag(common("ores/" + family.name())).add(ore.asItem());
+			tag(common("ores/" + family.name())).addAll(ore.map().values().stream()
+					.<ResourceKey<Item>>map(x -> ResourceKey.create(Registries.ITEM, x.getKey().location())).toList());
 		});
 		family.block().ifPresent(block -> {
 			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
