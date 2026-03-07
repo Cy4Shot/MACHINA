@@ -702,6 +702,18 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(FluidInit.MOLTEN_STEEL, "Molten Steel");
 		add(FluidInit.MOLTEN_CONSTANTAN, "Molten Constantan");
 		add(FluidInit.MOLTEN_BISMUTH, "Molten Bismuth");
+		add(FluidInit.MOLTEN_TIN, "Molten Tin");
+		add(FluidInit.MOLTEN_ZINC, "Molten Zinc");
+		add(FluidInit.MOLTEN_LOW_GRADE_TITANIUM, "Molten Low-Grade Titanium");
+		add(FluidInit.MOLTEN_MAGNETITE, "Molten Magnetite");
+		add(FluidInit.MOLTEN_GYPSUM, "Molten Gypsum");
+		add(FluidInit.MOLTEN_ILMENITE, "Molten Ilmenite");
+		add(FluidInit.MOLTEN_PLATINUM, "Molten Platinum");
+		add(FluidInit.MOLTEN_IRIDIUM, "Molten Iridium");
+		add(FluidInit.MOLTEN_OSMIUM, "Molten Osmium");
+		add(FluidInit.MOLTEN_COBALT, "Molten Cobalt");
+		add(FluidInit.MOLTEN_URANINITE, "Molten Uraninite");
+		add(FluidInit.MOLTEN_THORIUM, "Molten Thorium");
 
 		add(FluidInit.ACETIC_ACID, "Acetic Acid");
 		add(FluidInit.BRINE, "Brine");

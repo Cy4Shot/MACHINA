@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:white_soapstone_fluorite_ore",
-    "machina:shale_fluorite_ore",
-    "machina:green_soapstone_fluorite_ore",
-    "machina:gneiss_fluorite_ore",
-    "machina:limestone_fluorite_ore",
-    "machina:feldspar_fluorite_ore",
-    "machina:stone_fluorite_ore",
     "machina:chalk_fluorite_ore",
+    "machina:feldspar_fluorite_ore",
+    "machina:gneiss_fluorite_ore",
     "machina:gray_soapstone_fluorite_ore",
-    "machina:marble_fluorite_ore"
+    "machina:green_soapstone_fluorite_ore",
+    "machina:limestone_fluorite_ore",
+    "machina:marble_fluorite_ore",
+    "machina:shale_fluorite_ore",
+    "machina:stone_fluorite_ore",
+    "machina:white_soapstone_fluorite_ore"
   ]
 }

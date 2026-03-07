@@ -1,13 +1,13 @@
 {
   "values": [
-    "machina:white_soapstone_coal_ore",
-    "machina:shale_coal_ore",
-    "machina:green_soapstone_coal_ore",
-    "machina:gneiss_coal_ore",
-    "machina:limestone_coal_ore",
-    "machina:feldspar_coal_ore",
     "machina:chalk_coal_ore",
+    "machina:feldspar_coal_ore",
+    "machina:gneiss_coal_ore",
     "machina:gray_soapstone_coal_ore",
-    "machina:marble_coal_ore"
+    "machina:green_soapstone_coal_ore",
+    "machina:limestone_coal_ore",
+    "machina:marble_coal_ore",
+    "machina:shale_coal_ore",
+    "machina:white_soapstone_coal_ore"
   ]
 }

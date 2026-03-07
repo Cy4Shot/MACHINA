@@ -49,6 +49,18 @@ public class FluidInit {
 	public static final FluidObject MOLTEN_STEEL = create("molten_steel", "Fe+C", 0xFF_2c2c2c);
 	public static final FluidObject MOLTEN_CONSTANTAN = create("molten_constantan", "Cu+Ni", 0xFF_c67600);
 	public static final FluidObject MOLTEN_BISMUTH = create("molten_bismuth", "Bi", 0xFF_597c7a);
+	public static final FluidObject MOLTEN_TIN = create("molten_tin", "Sn", 0xFF_d5d2cd);
+	public static final FluidObject MOLTEN_ZINC = create("molten_zinc", "Zn", 0xFF_bbc3b8);
+	public static final FluidObject MOLTEN_LOW_GRADE_TITANIUM = create("molten_low_grade_titanium", "Ti", 0xFF_948dbe);
+	public static final FluidObject MOLTEN_MAGNETITE = create("molten_magnetite", "Fe3O4", 0xFF_9a8f8f);
+	public static final FluidObject MOLTEN_GYPSUM = create("molten_gypsum", "CaSO4", 0xFF_d7cc95);
+	public static final FluidObject MOLTEN_ILMENITE = create("molten_ilmenite", "FeTiO3", 0xFF_b5936a);
+	public static final FluidObject MOLTEN_PLATINUM = create("molten_platinum", "Pt", 0xFF_9de0fa);
+	public static final FluidObject MOLTEN_IRIDIUM = create("molten_iridium", "Ir", 0xFF_a1a09e);
+	public static final FluidObject MOLTEN_OSMIUM = create("molten_osmium", "Os", 0xFF_8eb0c9);
+	public static final FluidObject MOLTEN_COBALT = create("molten_cobalt", "Co", 0xFF_617aeb);
+	public static final FluidObject MOLTEN_URANINITE = create("molten_uraninite", "UO2", 0xFF_62bb54);
+	public static final FluidObject MOLTEN_THORIUM = create("molten_thorium", "ThO2", 0xFF_d3989c);
 
 	public static final FluidObject OXYGEN = create("oxygen", "O2", 0xFF_ffffff, "Oxygen");
 	public static final FluidObject NITROGEN = create("nitrogen", "N2", 0xFF_b2d4db, "Nitrogen");

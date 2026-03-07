@@ -1,0 +1,5 @@
+{
+  "parent": "neoforge:item/bucket",
+  "fluid": "machina:molten_magnetite",
+  "loader": "neoforge:fluid_container"
+}

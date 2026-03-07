@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-18T17:40:57.8951583	Tags for minecraft:fluid mod id machina
+// 1.21.1	2026-03-07T15:10:43.6362983	Tags for minecraft:fluid mod id machina
 caa16f8f3e3588dcbd36e3b7b44b3e5ccd5d26a5 data/c/tags/fluid/acetaldehyde.json
 c627d0c5f971c2664201ce5d4951ea04ef86b04a data/c/tags/fluid/acetic_acid.json
 fab6818e4ce5691e8d8ad9be72e077537bba0a18 data/c/tags/fluid/ammonia.json
@@ -33,15 +33,27 @@ da73b5f5216a19e8eb68053d0e77ee6d599fe3bf data/c/tags/fluid/methanol.json
 393d0f195b9ecb74dffa601c8981519bbb8518ef data/c/tags/fluid/molten_aluminum.json
 d5f92175632d87ca4e3494473a0c0fcad80ec849 data/c/tags/fluid/molten_bismuth.json
 11c0021850da5f3a20ef0f3218fcfb87a0a2d4c4 data/c/tags/fluid/molten_boron.json
+27ebc20006af510c008c487044136cd53df902fb data/c/tags/fluid/molten_cobalt.json
 9949d8c0a415abce6f024c8aed8377d8c3430485 data/c/tags/fluid/molten_constantan.json
 565350c3b4687228ebb8be0e9bcd8b5adee38bc1 data/c/tags/fluid/molten_copper.json
 8b20a8d5919f14d2284176accdabaceee1fb014b data/c/tags/fluid/molten_gold.json
+a2fbe513fffd289d62415a6c9803d71bb53c10ab data/c/tags/fluid/molten_gypsum.json
+8ebdad4f6325914a89b3f8db9a6bc26f369a9fa3 data/c/tags/fluid/molten_ilmenite.json
+22dd9182a0b6d7479f6cb455b0808345bf65114a data/c/tags/fluid/molten_iridium.json
 2ef7f2f2569856af9964048c584fe84a0c7c3f25 data/c/tags/fluid/molten_iron.json
 7d2af5efac81324d37fcdde4f37dd7b1f5c24ea3 data/c/tags/fluid/molten_lead.json
+9f53f8ec46c93d4171fbb09c31eaa6886650587d data/c/tags/fluid/molten_low_grade_titanium.json
+5625312aea51786f4e1e7e9f311de262cad86526 data/c/tags/fluid/molten_magnetite.json
 1f1f07afe7a09a386fbb8c4814709fa15a3d1f12 data/c/tags/fluid/molten_nickel.json
+03d92925a431e744b956cd9083d126c06f8cc95c data/c/tags/fluid/molten_osmium.json
 0d433c3bf1b58fe848add4fe3e17b0adc6d6cfab data/c/tags/fluid/molten_palladium.json
+6d2a0b63a4a90536baa8678b8c83e778e82ab247 data/c/tags/fluid/molten_platinum.json
 e4c6be97a4a01768ccad8c67e5b7a72d2988a29d data/c/tags/fluid/molten_silver.json
 62177a356bcd08fffbcb55ef946c1c21dd08644b data/c/tags/fluid/molten_steel.json
+c3adc91405fd802ce0464cc7cb0b6156cf1f3905 data/c/tags/fluid/molten_thorium.json
+8800bf4ae7c86b68b2e61fb72b99736510fcac2c data/c/tags/fluid/molten_tin.json
+eeb0eed647a5b9890a7589fe54cea226d2738abd data/c/tags/fluid/molten_uraninite.json
+5dd91f3895512e3ff4c13e4a4fcd6c4491e34df3 data/c/tags/fluid/molten_zinc.json
 ccd787db22b547e1cedffc15ef170d333a5780fa data/c/tags/fluid/nitric_acid.json
 68f61a4d3e7146a5c4b7f4bec97b5472a8fc14f0 data/c/tags/fluid/nitrogen.json
 8ef115a35808b62a70bec6c50aced69295d492a8 data/c/tags/fluid/nitrogen_dioxide.json

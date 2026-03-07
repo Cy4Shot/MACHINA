@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:white_soapstone_gypsum_ore",
-    "machina:shale_gypsum_ore",
-    "machina:green_soapstone_gypsum_ore",
-    "machina:gneiss_gypsum_ore",
-    "machina:limestone_gypsum_ore",
-    "machina:feldspar_gypsum_ore",
-    "machina:stone_gypsum_ore",
     "machina:chalk_gypsum_ore",
+    "machina:feldspar_gypsum_ore",
+    "machina:gneiss_gypsum_ore",
     "machina:gray_soapstone_gypsum_ore",
-    "machina:marble_gypsum_ore"
+    "machina:green_soapstone_gypsum_ore",
+    "machina:limestone_gypsum_ore",
+    "machina:marble_gypsum_ore",
+    "machina:shale_gypsum_ore",
+    "machina:stone_gypsum_ore",
+    "machina:white_soapstone_gypsum_ore"
   ]
 }

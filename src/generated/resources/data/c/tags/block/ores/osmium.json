@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:white_soapstone_osmium_ore",
-    "machina:shale_osmium_ore",
-    "machina:green_soapstone_osmium_ore",
-    "machina:gneiss_osmium_ore",
-    "machina:limestone_osmium_ore",
-    "machina:feldspar_osmium_ore",
-    "machina:stone_osmium_ore",
     "machina:chalk_osmium_ore",
+    "machina:feldspar_osmium_ore",
+    "machina:gneiss_osmium_ore",
     "machina:gray_soapstone_osmium_ore",
-    "machina:marble_osmium_ore"
+    "machina:green_soapstone_osmium_ore",
+    "machina:limestone_osmium_ore",
+    "machina:marble_osmium_ore",
+    "machina:shale_osmium_ore",
+    "machina:stone_osmium_ore",
+    "machina:white_soapstone_osmium_ore"
   ]
 }

@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:white_soapstone_lead_ore",
-    "machina:shale_lead_ore",
-    "machina:green_soapstone_lead_ore",
-    "machina:gneiss_lead_ore",
-    "machina:limestone_lead_ore",
-    "machina:feldspar_lead_ore",
-    "machina:stone_lead_ore",
     "machina:chalk_lead_ore",
+    "machina:feldspar_lead_ore",
+    "machina:gneiss_lead_ore",
     "machina:gray_soapstone_lead_ore",
-    "machina:marble_lead_ore"
+    "machina:green_soapstone_lead_ore",
+    "machina:limestone_lead_ore",
+    "machina:marble_lead_ore",
+    "machina:shale_lead_ore",
+    "machina:stone_lead_ore",
+    "machina:white_soapstone_lead_ore"
   ]
 }

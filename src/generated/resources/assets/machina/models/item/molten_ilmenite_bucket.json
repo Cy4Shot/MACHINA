@@ -1,0 +1,5 @@
+{
+  "parent": "neoforge:item/bucket",
+  "fluid": "machina:molten_ilmenite",
+  "loader": "neoforge:fluid_container"
+}

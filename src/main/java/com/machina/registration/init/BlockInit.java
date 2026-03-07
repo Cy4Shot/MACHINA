@@ -1,9 +1,9 @@
 package com.machina.registration.init;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -519,7 +519,6 @@ public class BlockInit {
 
 	public static record MachinaOre(ResourceLocation name, Supplier<? extends Block> stoneOre,
 			Map<ResourceKey<Block>, DeferredBlock<OreBlock>> map) {
-
 	}
 
 	public static MachinaOre ore(String name, boolean vanilla, Block props) {
@@ -529,7 +528,7 @@ public class BlockInit {
 	public static MachinaOre ore(String name, boolean vanilla, Block props, boolean lit) {
 		BiFunction<Block, Block.Properties, OreBlock> creator = lit ? LitOreBlock::new : OreBlock::new;
 
-		Map<ResourceKey<Block>, DeferredBlock<OreBlock>> ores = new HashMap<>();
+		Map<ResourceKey<Block>, DeferredBlock<OreBlock>> ores = new TreeMap<>();
 		Supplier<? extends Block> stoneOre;
 		if (vanilla) {
 			stoneOre = () -> props;

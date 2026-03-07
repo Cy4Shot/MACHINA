@@ -1,13 +1,13 @@
 {
   "values": [
-    "machina:white_soapstone_iron_ore",
-    "machina:shale_iron_ore",
-    "machina:green_soapstone_iron_ore",
-    "machina:gneiss_iron_ore",
-    "machina:limestone_iron_ore",
-    "machina:feldspar_iron_ore",
     "machina:chalk_iron_ore",
+    "machina:feldspar_iron_ore",
+    "machina:gneiss_iron_ore",
     "machina:gray_soapstone_iron_ore",
-    "machina:marble_iron_ore"
+    "machina:green_soapstone_iron_ore",
+    "machina:limestone_iron_ore",
+    "machina:marble_iron_ore",
+    "machina:shale_iron_ore",
+    "machina:white_soapstone_iron_ore"
   ]
 }

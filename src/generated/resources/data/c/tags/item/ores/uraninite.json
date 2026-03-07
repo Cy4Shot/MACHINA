@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:white_soapstone_uraninite_ore",
-    "machina:shale_uraninite_ore",
-    "machina:green_soapstone_uraninite_ore",
-    "machina:gneiss_uraninite_ore",
-    "machina:limestone_uraninite_ore",
-    "machina:feldspar_uraninite_ore",
-    "machina:stone_uraninite_ore",
     "machina:chalk_uraninite_ore",
+    "machina:feldspar_uraninite_ore",
+    "machina:gneiss_uraninite_ore",
     "machina:gray_soapstone_uraninite_ore",
-    "machina:marble_uraninite_ore"
+    "machina:green_soapstone_uraninite_ore",
+    "machina:limestone_uraninite_ore",
+    "machina:marble_uraninite_ore",
+    "machina:shale_uraninite_ore",
+    "machina:stone_uraninite_ore",
+    "machina:white_soapstone_uraninite_ore"
   ]
 }

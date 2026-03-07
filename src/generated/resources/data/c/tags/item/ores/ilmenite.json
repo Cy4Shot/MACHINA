@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:white_soapstone_ilmenite_ore",
-    "machina:shale_ilmenite_ore",
-    "machina:green_soapstone_ilmenite_ore",
-    "machina:gneiss_ilmenite_ore",
-    "machina:limestone_ilmenite_ore",
-    "machina:feldspar_ilmenite_ore",
-    "machina:stone_ilmenite_ore",
     "machina:chalk_ilmenite_ore",
+    "machina:feldspar_ilmenite_ore",
+    "machina:gneiss_ilmenite_ore",
     "machina:gray_soapstone_ilmenite_ore",
-    "machina:marble_ilmenite_ore"
+    "machina:green_soapstone_ilmenite_ore",
+    "machina:limestone_ilmenite_ore",
+    "machina:marble_ilmenite_ore",
+    "machina:shale_ilmenite_ore",
+    "machina:stone_ilmenite_ore",
+    "machina:white_soapstone_ilmenite_ore"
   ]
 }
