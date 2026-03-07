@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:gray_soapstone_low_grade_titanium_ore",
-    "machina:feldspar_low_grade_titanium_ore",
-    "machina:green_soapstone_low_grade_titanium_ore",
-    "machina:chalk_low_grade_titanium_ore",
-    "machina:limestone_low_grade_titanium_ore",
-    "machina:gneiss_low_grade_titanium_ore",
-    "machina:stone_low_grade_titanium_ore",
     "machina:white_soapstone_low_grade_titanium_ore",
     "machina:shale_low_grade_titanium_ore",
+    "machina:green_soapstone_low_grade_titanium_ore",
+    "machina:gneiss_low_grade_titanium_ore",
+    "machina:limestone_low_grade_titanium_ore",
+    "machina:feldspar_low_grade_titanium_ore",
+    "machina:stone_low_grade_titanium_ore",
+    "machina:chalk_low_grade_titanium_ore",
+    "machina:gray_soapstone_low_grade_titanium_ore",
     "machina:marble_low_grade_titanium_ore"
   ]
 }

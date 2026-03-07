@@ -9,8 +9,6 @@
     "#c:nuggets/boron",
     "#c:nuggets/palladium",
     "#c:nuggets/silver",
-    "#c:nuggets/steel",
-    "#c:nuggets/constantan",
     "#c:nuggets/tin",
     "#c:nuggets/zinc",
     "#c:nuggets/low_grade_titanium",
@@ -22,6 +20,8 @@
     "#c:nuggets/osmium",
     "#c:nuggets/cobalt",
     "#c:nuggets/uraninite",
-    "#c:nuggets/thorium"
+    "#c:nuggets/thorium",
+    "#c:nuggets/steel",
+    "#c:nuggets/constantan"
   ]
 }

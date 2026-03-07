@@ -1,13 +1,13 @@
 {
   "values": [
-    "machina:gray_soapstone_quartz_ore",
-    "machina:feldspar_quartz_ore",
-    "machina:green_soapstone_quartz_ore",
-    "machina:chalk_quartz_ore",
-    "machina:limestone_quartz_ore",
-    "machina:gneiss_quartz_ore",
     "machina:white_soapstone_quartz_ore",
     "machina:shale_quartz_ore",
+    "machina:green_soapstone_quartz_ore",
+    "machina:gneiss_quartz_ore",
+    "machina:limestone_quartz_ore",
+    "machina:feldspar_quartz_ore",
+    "machina:chalk_quartz_ore",
+    "machina:gray_soapstone_quartz_ore",
     "machina:marble_quartz_ore"
   ]
 }

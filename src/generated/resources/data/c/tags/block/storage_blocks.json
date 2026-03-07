@@ -24,8 +24,6 @@
     "#c:storage_blocks/palladium",
     "#c:storage_blocks/silver",
     "#c:storage_blocks/silver",
-    "#c:storage_blocks/steel",
-    "#c:storage_blocks/constantan",
     "#c:storage_blocks/tin",
     "#c:storage_blocks/tin",
     "#c:storage_blocks/zinc",
@@ -49,6 +47,8 @@
     "#c:storage_blocks/uraninite",
     "#c:storage_blocks/uraninite",
     "#c:storage_blocks/thorium",
-    "#c:storage_blocks/thorium"
+    "#c:storage_blocks/thorium",
+    "#c:storage_blocks/steel",
+    "#c:storage_blocks/constantan"
   ]
 }

@@ -9,8 +9,6 @@
     "#c:rods/boron",
     "#c:rods/palladium",
     "#c:rods/silver",
-    "#c:rods/steel",
-    "#c:rods/constantan",
     "#c:rods/tin",
     "#c:rods/zinc",
     "#c:rods/low_grade_titanium",
@@ -22,6 +20,8 @@
     "#c:rods/osmium",
     "#c:rods/cobalt",
     "#c:rods/uraninite",
-    "#c:rods/thorium"
+    "#c:rods/thorium",
+    "#c:rods/steel",
+    "#c:rods/constantan"
   ]
 }

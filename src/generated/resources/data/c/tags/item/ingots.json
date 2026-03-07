@@ -15,12 +15,6 @@
     "#c:ingots/boron",
     "#c:ingots/palladium",
     "#c:ingots/silver",
-    "#c:ingots/steel",
-    "#c:ingots/constantan",
-    "#c:ingots/fluorite",
-    "#c:ingots/niter",
-    "#c:ingots/sulfur",
-    "#c:ingots/bismuth",
     "#c:ingots/tin",
     "#c:ingots/zinc",
     "#c:ingots/low_grade_titanium",
@@ -33,6 +27,12 @@
     "#c:ingots/cobalt",
     "#c:ingots/uraninite",
     "#c:ingots/thorium",
+    "#c:ingots/steel",
+    "#c:ingots/constantan",
+    "#c:ingots/fluorite",
+    "#c:ingots/niter",
+    "#c:ingots/sulfur",
+    "#c:ingots/bismuth",
     "#c:ingots/perchlorate"
   ]
 }

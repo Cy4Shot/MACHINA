@@ -62,6 +62,19 @@ public class OverworldOresInit {
 		register("bismuth_ore_middle", BlockInit.BISMUTH_ORE, 11, triangle(7, -16, 64));
 		register("bismuth_ore_deep", BlockInit.BISMUTH_ORE, 11, triangle(10, -64, 0));
 		register("bismuth_ore_bottom", BlockInit.BISMUTH_ORE, 11, between(5, -64, -24));
+
+		register("tin_ore_upper", BlockInit.TIN_ORE, 12, triangle(20, 64, 192));
+		register("tin_ore_middle", BlockInit.TIN_ORE, 12, between(16, 0, 96));
+		register("tin_ore_deep", BlockInit.TIN_ORE, 12, between(6, -32, 32));
+
+		register("zinc_ore_upper", BlockInit.ZINC_ORE, 11, triangle(18, 80, 192));
+		register("zinc_ore_middle", BlockInit.ZINC_ORE, 11, between(14, 16, 128));
+		register("zinc_ore_deep_trace", BlockInit.ZINC_ORE, 11, between(4, -16, 48));
+
+		register("low_grade_titanium_ore_deep_peak", BlockInit.LOW_GRADE_TITANIUM_ORE, 6, rareOrePlacement(36,
+				HeightRangePlacement.triangle(VerticalAnchor.absolute(-48), VerticalAnchor.absolute(16))));
+		register("low_grade_titanium_ore_bottom", BlockInit.LOW_GRADE_TITANIUM_ORE, 6, rareOrePlacement(48,
+				HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(-24))));
 	}
 
 	public static void register(String name, MachinaOre ore, int veinSize, List<PlacementModifier> modifiers) {

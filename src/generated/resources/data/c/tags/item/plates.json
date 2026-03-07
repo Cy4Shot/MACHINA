@@ -9,8 +9,6 @@
     "#c:plates/boron",
     "#c:plates/palladium",
     "#c:plates/silver",
-    "#c:plates/steel",
-    "#c:plates/constantan",
     "#c:plates/tin",
     "#c:plates/zinc",
     "#c:plates/low_grade_titanium",
@@ -22,6 +20,8 @@
     "#c:plates/osmium",
     "#c:plates/cobalt",
     "#c:plates/uraninite",
-    "#c:plates/thorium"
+    "#c:plates/thorium",
+    "#c:plates/steel",
+    "#c:plates/constantan"
   ]
 }

@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:gray_soapstone_magnetite_ore",
-    "machina:feldspar_magnetite_ore",
-    "machina:green_soapstone_magnetite_ore",
-    "machina:chalk_magnetite_ore",
-    "machina:limestone_magnetite_ore",
-    "machina:gneiss_magnetite_ore",
-    "machina:stone_magnetite_ore",
     "machina:white_soapstone_magnetite_ore",
     "machina:shale_magnetite_ore",
+    "machina:green_soapstone_magnetite_ore",
+    "machina:gneiss_magnetite_ore",
+    "machina:limestone_magnetite_ore",
+    "machina:feldspar_magnetite_ore",
+    "machina:stone_magnetite_ore",
+    "machina:chalk_magnetite_ore",
+    "machina:gray_soapstone_magnetite_ore",
     "machina:marble_magnetite_ore"
   ]
 }

@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:gray_soapstone_zinc_ore",
-    "machina:feldspar_zinc_ore",
-    "machina:green_soapstone_zinc_ore",
-    "machina:chalk_zinc_ore",
-    "machina:limestone_zinc_ore",
-    "machina:gneiss_zinc_ore",
-    "machina:stone_zinc_ore",
     "machina:white_soapstone_zinc_ore",
     "machina:shale_zinc_ore",
+    "machina:green_soapstone_zinc_ore",
+    "machina:gneiss_zinc_ore",
+    "machina:limestone_zinc_ore",
+    "machina:feldspar_zinc_ore",
+    "machina:stone_zinc_ore",
+    "machina:chalk_zinc_ore",
+    "machina:gray_soapstone_zinc_ore",
     "machina:marble_zinc_ore"
   ]
 }

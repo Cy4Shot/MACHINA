@@ -1,0 +1,27 @@
+{
+  "feature": "machina:low_grade_titanium_ore_deep_peak",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 36
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:trapezoid",
+        "max_inclusive": {
+          "absolute": 16
+        },
+        "min_inclusive": {
+          "absolute": -48
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

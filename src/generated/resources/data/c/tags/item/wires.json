@@ -9,8 +9,6 @@
     "#c:wires/boron",
     "#c:wires/palladium",
     "#c:wires/silver",
-    "#c:wires/steel",
-    "#c:wires/constantan",
     "#c:wires/tin",
     "#c:wires/zinc",
     "#c:wires/low_grade_titanium",
@@ -22,6 +20,8 @@
     "#c:wires/osmium",
     "#c:wires/cobalt",
     "#c:wires/uraninite",
-    "#c:wires/thorium"
+    "#c:wires/thorium",
+    "#c:wires/steel",
+    "#c:wires/constantan"
   ]
 }

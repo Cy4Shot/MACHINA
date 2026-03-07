@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "machina:zinc_ore_deep_trace",
+  "step": "underground_ores"
+}

@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:gray_soapstone_platinum_ore",
-    "machina:feldspar_platinum_ore",
-    "machina:green_soapstone_platinum_ore",
-    "machina:chalk_platinum_ore",
-    "machina:limestone_platinum_ore",
-    "machina:gneiss_platinum_ore",
-    "machina:stone_platinum_ore",
     "machina:white_soapstone_platinum_ore",
     "machina:shale_platinum_ore",
+    "machina:green_soapstone_platinum_ore",
+    "machina:gneiss_platinum_ore",
+    "machina:limestone_platinum_ore",
+    "machina:feldspar_platinum_ore",
+    "machina:stone_platinum_ore",
+    "machina:chalk_platinum_ore",
+    "machina:gray_soapstone_platinum_ore",
     "machina:marble_platinum_ore"
   ]
 }

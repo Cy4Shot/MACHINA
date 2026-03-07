@@ -14,12 +14,6 @@
     "#c:dusts/boron",
     "#c:dusts/palladium",
     "#c:dusts/silver",
-    "#c:dusts/steel",
-    "#c:dusts/constantan",
-    "#c:dusts/fluorite",
-    "#c:dusts/niter",
-    "#c:dusts/sulfur",
-    "#c:dusts/bismuth",
     "#c:dusts/tin",
     "#c:dusts/zinc",
     "#c:dusts/low_grade_titanium",
@@ -31,6 +25,12 @@
     "#c:dusts/osmium",
     "#c:dusts/cobalt",
     "#c:dusts/uraninite",
-    "#c:dusts/thorium"
+    "#c:dusts/thorium",
+    "#c:dusts/steel",
+    "#c:dusts/constantan",
+    "#c:dusts/fluorite",
+    "#c:dusts/niter",
+    "#c:dusts/sulfur",
+    "#c:dusts/bismuth"
   ]
 }

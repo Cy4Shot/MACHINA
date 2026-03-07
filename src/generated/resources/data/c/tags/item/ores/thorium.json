@@ -1,14 +1,14 @@
 {
   "values": [
-    "machina:gray_soapstone_thorium_ore",
-    "machina:feldspar_thorium_ore",
-    "machina:green_soapstone_thorium_ore",
-    "machina:chalk_thorium_ore",
-    "machina:limestone_thorium_ore",
-    "machina:gneiss_thorium_ore",
-    "machina:stone_thorium_ore",
     "machina:white_soapstone_thorium_ore",
     "machina:shale_thorium_ore",
+    "machina:green_soapstone_thorium_ore",
+    "machina:gneiss_thorium_ore",
+    "machina:limestone_thorium_ore",
+    "machina:feldspar_thorium_ore",
+    "machina:stone_thorium_ore",
+    "machina:chalk_thorium_ore",
+    "machina:gray_soapstone_thorium_ore",
     "machina:marble_thorium_ore"
   ]
 }

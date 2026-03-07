@@ -15,10 +15,6 @@
     "#c:ores/boron",
     "#c:ores/palladium",
     "#c:ores/silver",
-    "#c:ores/fluorite",
-    "#c:ores/niter",
-    "#c:ores/sulfur",
-    "#c:ores/bismuth",
     "#c:ores/tin",
     "#c:ores/zinc",
     "#c:ores/low_grade_titanium",
@@ -31,6 +27,10 @@
     "#c:ores/cobalt",
     "#c:ores/uraninite",
     "#c:ores/thorium",
+    "#c:ores/fluorite",
+    "#c:ores/niter",
+    "#c:ores/sulfur",
+    "#c:ores/bismuth",
     "#c:ores/perchlorate"
   ]
 }
