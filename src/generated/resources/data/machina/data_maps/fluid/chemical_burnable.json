@@ -1,0 +1,20 @@
+{
+  "values": {
+    "machina:acetaldehyde": 50,
+    "machina:acetic_acid": 40,
+    "machina:ammonia": 80,
+    "machina:benzene": 70,
+    "machina:benzyl_chloride": 30,
+    "machina:benzylamine": 50,
+    "machina:carbon_monoxide": 70,
+    "machina:ethane": 95,
+    "machina:ethanol": 67,
+    "machina:ethylene": 90,
+    "machina:formaldehyde": 60,
+    "machina:hydrogen": 100,
+    "machina:methane": 98,
+    "machina:methanol": 60,
+    "machina:nitromethane": 60,
+    "machina:toluene": 70
+  }
+}
