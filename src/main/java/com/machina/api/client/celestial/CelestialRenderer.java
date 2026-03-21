@@ -22,6 +22,7 @@ import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -84,8 +85,8 @@ public class CelestialRenderer {
 		matrices.pushPose();
 		matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
-		drawSphere(matrices, (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0.005f, () -> {
-			RenderSystem.setShaderTexture(0, getCelestialTexture(info.celestial().texture_bg()));
+		drawSphere(matrices, (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0.005f, true, () -> {
+			RenderSystem.setShaderTexture(0, MachinaRL.create("textures/celestial/star_bg.png"));
 			RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 			RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
 		});
@@ -108,11 +109,11 @@ public class CelestialRenderer {
 		matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
 		if (zoom > UI_OVERLAY_FADE.maxZoom()) {
-			drawSphere(matrices, (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0, () -> {
+			drawSphere(matrices, (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0, false, () -> {
 				Vec3 dir = Vec3.ZERO.subtract(pos).normalize();
 				Vector3f viewDir = new Vector3f(0, 0, -1);
 				rot.transformInverse(viewDir);
-				
+
 				ShaderInstance shader = ShaderHandler.PLANET.instance();
 				shader.apply();
 				shader.safeGetUniform("GameTime").set((float) time);
@@ -217,12 +218,8 @@ public class CelestialRenderer {
 		RenderSystem.disableBlend();
 	}
 
-	private static ResourceLocation getCelestialTexture(String name) {
-		return MachinaRL.create("textures/celestial/" + name + ".png");
-	}
-
 	private static void drawSphere(PoseStack matrices, float radius, int color, float zoom, double time,
-			float deformStrength, Runnable shaderSetup) {
+			float deformStrength, boolean setColor, Runnable shaderSetup) {
 		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
 				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
@@ -236,7 +233,7 @@ public class CelestialRenderer {
 
 		Matrix4f pose = matrices.last().pose();
 		BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES,
-				DefaultVertexFormat.POSITION_TEX);
+				setColor ? DefaultVertexFormat.POSITION_TEX_COLOR : DefaultVertexFormat.POSITION_TEX);
 
 		// LOD
 		int segments;
@@ -267,14 +264,14 @@ public class CelestialRenderer {
 				float v2 = (float) (i + 1) / segments;
 
 				// First triangle
-				addSphereVertex(buffer, pose, radius, theta1, phi1, u1, v1, r, g, b, a, time, deformStrength);
-				addSphereVertex(buffer, pose, radius, theta2, phi1, u1, v2, r, g, b, a, time, deformStrength);
-				addSphereVertex(buffer, pose, radius, theta1, phi2, u2, v1, r, g, b, a, time, deformStrength);
+				addSphereVertex(buffer, pose, radius, theta1, phi1, u1, v1, r, g, b, a, time, deformStrength, setColor);
+				addSphereVertex(buffer, pose, radius, theta2, phi1, u1, v2, r, g, b, a, time, deformStrength, setColor);
+				addSphereVertex(buffer, pose, radius, theta1, phi2, u2, v1, r, g, b, a, time, deformStrength, setColor);
 
 				// Second triangle
-				addSphereVertex(buffer, pose, radius, theta2, phi1, u1, v2, r, g, b, a, time, deformStrength);
-				addSphereVertex(buffer, pose, radius, theta2, phi2, u2, v2, r, g, b, a, time, deformStrength);
-				addSphereVertex(buffer, pose, radius, theta1, phi2, u2, v1, r, g, b, a, time, deformStrength);
+				addSphereVertex(buffer, pose, radius, theta2, phi1, u1, v2, r, g, b, a, time, deformStrength, setColor);
+				addSphereVertex(buffer, pose, radius, theta2, phi2, u2, v2, r, g, b, a, time, deformStrength, setColor);
+				addSphereVertex(buffer, pose, radius, theta1, phi2, u2, v1, r, g, b, a, time, deformStrength, setColor);
 			}
 		}
 
@@ -284,7 +281,7 @@ public class CelestialRenderer {
 	}
 
 	private static void addSphereVertex(BufferBuilder buffer, Matrix4f pose, float radius, float theta, float phi,
-			float u, float v, float r, float g, float b, float a, double time, float deformStrength) {
+			float u, float v, float r, float g, float b, float a, double time, float deformStrength, boolean setColor) {
 		float deform = (float) Math.sin(theta * 3 + phi * 2 + time / 50D) * deformStrength;
 		float dynamicRadius = radius * (1.0f + deform);
 
@@ -292,7 +289,10 @@ public class CelestialRenderer {
 		float y = (float) (dynamicRadius * Math.cos(theta));
 		float z = (float) (dynamicRadius * Math.sin(theta) * Math.sin(phi));
 
-		buffer.addVertex(pose, x, y, z).setUv(u, v);
+		VertexConsumer consumer = buffer.addVertex(pose, x, y, z).setUv(u, v);
+		if (setColor) {
+			consumer.setColor(r, g, b, a);
+		}
 	}
 
 	private static Vector2d asScreenPos(PoseStack stack, CelestialRenderInfo info) {

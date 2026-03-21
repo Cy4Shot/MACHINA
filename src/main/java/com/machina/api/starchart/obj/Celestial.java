@@ -9,10 +9,6 @@ public interface Celestial {
 
 	Orbit orbit();
 
-	String texture_fg();
-
-	String texture_bg();
-
 	double a();
 
 	double e();

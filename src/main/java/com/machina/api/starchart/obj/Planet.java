@@ -72,24 +72,6 @@ public record Planet(String name, ResourceLocation planet_type, Set<PlanetTrait>
 	}
 
 	@Override
-	public String texture_fg() {
-		return "clouds";
-	}
-
-	@Override
-	public String texture_bg() {
-		return "planet_" + switch (plan_class) {
-		case 'M' -> "terrestrial";
-		case 'V' -> "venal";
-		case 'J' -> "jovian";
-		case 'I' -> "ice";
-		case 'R' -> "rocky";
-		case 'G' -> "garden";
-		default -> "rocky";
-		};
-	}
-
-	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
 	}

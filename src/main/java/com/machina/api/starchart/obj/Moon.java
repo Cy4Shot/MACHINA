@@ -61,16 +61,6 @@ public record Moon(String name, double a, // semi-major axis of the orbit (in AU
 	}
 
 	@Override
-	public String texture_fg() {
-		return "moon_fg";
-	}
-
-	@Override
-	public String texture_bg() {
-		return "moon_bg";
-	}
-
-	@Override
 	public Orbit orbit() {
 		return Orbit.from(this);
 	}

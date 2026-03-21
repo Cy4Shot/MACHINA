@@ -46,16 +46,6 @@ public record Star(String name, String stellarClass, double absolute_magnitude, 
 	}
 
 	@Override
-	public String texture_fg() {
-		return "star_fg";
-	}
-
-	@Override
-	public String texture_bg() {
-		return "star_bg";
-	}
-
-	@Override
 	public void drawIcon(GuiGraphics gui, int x, int y, float alpha) {
 	}
 }
