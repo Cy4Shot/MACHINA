@@ -50,7 +50,7 @@ public class StarchartGenerator {
 			int i = 0;
 			while (curr.getSecond() != null) {
 				i++;
-				curr = convertPlanet(name + " " + RomanNumber.toRoman(i), curr.getSecond(), rand);
+				curr = convertPlanet(name + " " + RomanNumber.toRoman(i), curr.getSecond(), rand, i);
 				planets.add(curr.getFirst());
 			}
 		}
@@ -82,7 +82,7 @@ public class StarchartGenerator {
 				sp.r_greenhouse);
 	}
 
-	private static Pair<Planet, BPlanet> convertPlanet(String name, BPlanet p, Random rand) {
+	private static Pair<Planet, BPlanet> convertPlanet(String name, BPlanet p, Random rand, int id) {
 
 		int icon_variant = rand.nextInt(6);
 
@@ -114,7 +114,7 @@ public class StarchartGenerator {
 				p.min_temp, p.max_temp, p.avg_temp, p.hydrosphere, p.cloud_cover, p.ice_cover, p.plan_class,
 				p.r_ecosphere, p.resonance, p.stell_mass_ratio, p.age, p.cloud_factor, p.water_factor, p.rock_factor,
 				p.airless_rock_factor, p.ice_factor, p.airless_ice_factor, p.its, p.temp_unstable, sea, frozen_sea,
-				moons);
+				moons, id);
 		return Pair.of(planet, p.next_planet);
 	}
 

@@ -4,10 +4,14 @@ import java.util.function.Consumer;
 
 import org.joml.Matrix4d;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector2d;
+import org.joml.Vector3f;
 import org.joml.Vector4d;
 import org.lwjgl.opengl.GL11;
 
+import com.machina.api.client.ClientStarchart;
+import com.machina.api.client.shader.ShaderHandler;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.math.MathUtil;
@@ -22,6 +26,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 
@@ -79,7 +84,11 @@ public class CelestialRenderer {
 		matrices.pushPose();
 		matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
-		drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0.005f);
+		drawSphere(matrices, (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0.005f, () -> {
+			RenderSystem.setShaderTexture(0, getCelestialTexture(info.celestial().texture_bg()));
+			RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+			RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+		});
 
 		float flareThreshold = (float) (UI_OVERLAY_FADE.minZoom());
 		float logZoom = (float) Math.log(zoom);
@@ -92,14 +101,27 @@ public class CelestialRenderer {
 	}
 
 	public static void drawPlanet(PoseStack matrices, CelestialRenderInfo info, Planet planet, double time, double rt,
-			float px, float py, float zoom, Consumer<CelestialUIRenderInfo> enqueue) {
+			float px, float py, float zoom, Quaternionf rot, Consumer<CelestialUIRenderInfo> enqueue) {
 		Vec3 pos = info.getOrbitalCoords(time);
 
 		matrices.pushPose();
 		matrices.translate((float) pos.x, (float) pos.y, (float) pos.z);
 
 		if (zoom > UI_OVERLAY_FADE.maxZoom()) {
-			drawSphere(matrices, info.celestial().texture_bg(), (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0);
+			drawSphere(matrices, (float) info.radius(), 0xFFFFFFFF, zoom, rt, 0, () -> {
+				Vec3 dir = Vec3.ZERO.subtract(pos).normalize();
+				Vector3f viewDir = new Vector3f(0, 0, -1);
+				rot.transformInverse(viewDir);
+				
+				ShaderInstance shader = ShaderHandler.PLANET.instance();
+				shader.apply();
+				shader.safeGetUniform("GameTime").set((float) time);
+				shader.safeGetUniform("LightDir").set((float) dir.x, (float) dir.y, (float) dir.z);
+				shader.safeGetUniform("NoiseSeed").set((float) ClientStarchart.system.seed(planet.id()) % 256);
+				shader.safeGetUniform("PlanetType").set(planet.type().shaderId());
+				shader.safeGetUniform("ViewDir").set(viewDir.x, viewDir.y, viewDir.z);
+				RenderSystem.setShader(() -> shader);
+			});
 		}
 		enqueue.accept(
 				CelestialUIRenderInfo.from(info, asScreenPos(matrices, info), pos, UI_OVERLAY_FADE.getAlpha(zoom)));
@@ -199,8 +221,8 @@ public class CelestialRenderer {
 		return MachinaRL.create("textures/celestial/" + name + ".png");
 	}
 
-	private static void drawSphere(PoseStack matrices, String texName, float radius, int color, float zoom, double time,
-			float deformStrength) {
+	private static void drawSphere(PoseStack matrices, float radius, int color, float zoom, double time,
+			float deformStrength, Runnable shaderSetup) {
 		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
 				GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
@@ -208,13 +230,13 @@ public class CelestialRenderer {
 		RenderSystem.enableDepthTest();
 		RenderSystem.depthFunc(GL11.GL_LESS);
 		RenderSystem.depthMask(true);
-		RenderSystem.setShaderTexture(0, getCelestialTexture(texName));
+
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-		RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+		shaderSetup.run();
 
 		Matrix4f pose = matrices.last().pose();
 		BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.TRIANGLES,
-				DefaultVertexFormat.POSITION_TEX_COLOR);
+				DefaultVertexFormat.POSITION_TEX);
 
 		// LOD
 		int segments;
@@ -270,7 +292,7 @@ public class CelestialRenderer {
 		float y = (float) (dynamicRadius * Math.cos(theta));
 		float z = (float) (dynamicRadius * Math.sin(theta) * Math.sin(phi));
 
-		buffer.addVertex(pose, x, y, z).setUv(u, v).setColor(r, g, b, a);
+		buffer.addVertex(pose, x, y, z).setUv(u, v);
 	}
 
 	private static Vector2d asScreenPos(PoseStack stack, CelestialRenderInfo info) {

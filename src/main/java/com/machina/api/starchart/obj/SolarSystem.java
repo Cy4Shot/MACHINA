@@ -38,6 +38,10 @@ public record SolarSystem(long seed, String name, Star star, List<Planet> planet
 		return minAphelion;
 	}
 
+	public long seed(int id) {
+		return seed + id % 10000000000L;
+	}
+
 //	public static final SolarSystem SOLAR_SYSTEM = new SolarSystem(-1L, "Sol", Star.SUN, List.of(Planet.MERCURY,
 //			Planet.VENUS, Planet.EARTH, Planet.MARS, Planet.JUPITER, Planet.SATURN, Planet.URANUS, Planet.NEPTUNE));
 }

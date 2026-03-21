@@ -55,7 +55,7 @@ public record Planet(String name, ResourceLocation planet_type, Set<PlanetTrait>
 		double r_ecosphere, double resonance, double stell_mass_ratio, double age, double cloud_factor,
 		double water_factor, double rock_factor, double airless_rock_factor, double ice_factor,
 		double airless_ice_factor, int its, boolean temp_unstable, ChemicalFluid dominant_liquid,
-		boolean dominant_liquid_frozen, List<Moon> moons) implements Celestial {
+		boolean dominant_liquid_frozen, List<Moon> moons, int id) implements Celestial {
 
 	public Component getName() {
 		return Component.literal(name).withStyle(Style.EMPTY.withBold(true));

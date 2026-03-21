@@ -1,6 +1,6 @@
-#version 120
+#version 330 core
 
-varying vec2 texCoord;
+in vec2 texCoord;
 
 uniform vec2 lightPos;   // 0..1 screen-space position of the light
 uniform float intensity;  // overall flare brightness

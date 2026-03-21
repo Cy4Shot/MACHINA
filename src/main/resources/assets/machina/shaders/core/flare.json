@@ -6,6 +6,7 @@
   },
   "vertex": "machina:flare",
   "fragment": "machina:flare",
+  "attributes": ["Position"],
   "samplers": [ ],
   "uniforms": [
     { "name": "lightPos",  "type": "float", "count": 2, "values": [ 0.5, 0.5 ] },

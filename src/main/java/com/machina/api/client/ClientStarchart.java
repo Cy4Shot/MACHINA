@@ -8,8 +8,10 @@ public class ClientStarchart {
 	public static SolarSystem system;
 
 	public static Starchart STARCHART = null;
+	public static long SEED = 0L;
 
 	public static void sync(long seed) {
 		system = StarchartGenerator.gen(seed);
+		SEED = seed;
 	}
 }

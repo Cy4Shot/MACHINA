@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetTypeJsonInfo(String name, int iconY, int color, Shape shape, List<BiomePlacementJsonInfo> biomes,
+public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId, Shape shape, List<BiomePlacementJsonInfo> biomes,
 		List<String> weathers, PlanetTraitSettingsJsonInfo traits, String base) implements JsonInfo<PlanetType> {
 
 	public record BiomePlacementJsonInfo(String name, List<String> placements) implements JsonInfo<BiomePlacement> {
@@ -60,6 +60,6 @@ public record PlanetTypeJsonInfo(String name, int iconY, int color, Shape shape,
 
 		HolderLookup<Block> block = BlockHelper.blockHolderLookup();
 		BlockState base = BlockHelper.parseState(block, base());
-		return new PlanetType(name, iconY, color, shape(), biomes, weathers, traits.cast(), base);
+		return new PlanetType(name, iconY, color, shaderId, shape(), biomes, weathers, traits.cast(), base);
 	}
 }

@@ -198,7 +198,7 @@ public class StarchartRenderable {
 		for (int i = 0; i < system.planets().size(); i++) {
 			Planet p = system.planets().get(i);
 			CelestialRenderInfo planetInfo = CelestialRenderInfo.from(i, p, gui);
-			CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, rt, posX, posY, zoom, info -> {
+			CelestialRenderer.drawPlanet(matrices, planetInfo, p, t, rt, posX, posY, zoom, rot, info -> {
 				if (tracked != null && info.id() == tracked.id()) {
 					this.tracked = info;
 				}

@@ -60,7 +60,6 @@ public class SidedBakedModel extends BakedModelWrapper<BakedModel> implements ID
 			cachedSideQuads = new BakedQuad[6];
 		}
 		if (cachedSideQuads[sideIndex] == null) {
-			System.out.println(sideConfigRaw[sideIndex]);
 			cachedSideQuads[sideIndex] = new RetexturedBakedQuad(quad, side,
 					getConfigTexture(sideConfigRaw[sideIndex]));
 			SIDE_QUAD_CACHE.put(configHash, cachedSideQuads);

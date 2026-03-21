@@ -18,7 +18,6 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 public class PlanetDensityFunction {
 
-	// TODO: Just AT into NoiseRouterData
 	private static final ResourceKey<DensityFunction> Y = createKey("y");
 	private static final ResourceKey<DensityFunction> SHIFT_X = createKey("shift_x");
 	private static final ResourceKey<DensityFunction> SHIFT_Z = createKey("shift_z");

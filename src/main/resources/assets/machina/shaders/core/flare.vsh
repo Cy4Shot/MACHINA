@@ -1,9 +1,11 @@
-#version 120
+#version 330 core
 
-varying vec2 texCoord;
+layout(location = 0) in vec2 Position;
+
+out vec2 texCoord;
 
 void main() {
-    gl_Position = ftransform();
-    texCoord = gl_Position.xy * 0.5 + 0.5;
+    gl_Position = vec4(Position * 2.0 - 1.0, 0.0, 1.0);
+    texCoord = Position;
     texCoord.y = 1.0 - texCoord.y;
 }
