@@ -5,6 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
 
+import com.google.common.util.concurrent.Runnables;
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.client.screen.MUI.MuiSlot;
@@ -318,7 +319,23 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 			int w = 225;
 			int h = 112;
 			MUI.enableClipping(x, y, w, h);
-			starchart.render(gui, x, y, width / 2 - (x + w / 2), height / 2 - (y + h / 2), w, h);
+			starchart.render(gui, x, y, width / 2 - (x + w / 2), height / 2 - (y + h / 2), w, h, () -> {
+				MUI.drawWithScale(gui, 0.5f, t -> {
+					if (starchart.tracked != null) {
+						Vector2d uiPos = starchart.tracked.screenPos();
+						MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y), t.apply(i + 56f),
+								t.apply(j + 5f) + 114f, 1, MUI.CYAN | 0xA0000000);
+						MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y), t.apply(i + 56f) + 227f,
+								t.apply(j + 5f) + 114f, 1, MUI.CYAN | 0xA0000000);
+						float parts = 67;
+						for (int inc = 1; inc < parts; inc++) {
+							MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y),
+									t.apply(i + 56f) + (227f / parts) * inc, t.apply(j + 5f) + 114f, 2,
+									MUI.CYAN | 0x50000000);
+						}
+					}
+				});
+			}, Runnables.doNothing());
 			MUI.disableClipping();
 
 			MUI.drawWithScale(gui, 0.5f, t -> {
@@ -337,20 +354,9 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
 				if (starchart.tracked != null) {
 					Planet planet = (Planet) starchart.tracked.celestial();
-					Vector2d uiPos = starchart.tracked.screenPos();
 
 					// Draw Tracking Box
 					MUI.blitRocket(gui, t.apply(i + 56f).intValue(), t.apply(j + 5f).intValue(), 253, 26, 227, 114);
-					MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y), t.apply(i + 56f),
-							t.apply(j + 5f) + 114f, 1, MUI.CYAN | 0xA0000000);
-					MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y), t.apply(i + 56f) + 227f,
-							t.apply(j + 5f) + 114f, 1, MUI.CYAN | 0xA0000000);
-					float parts = 67;
-					for (int inc = 1; inc < parts; inc++) {
-						MUI.drawLine(gui, t.apply((float) uiPos.x), t.apply((float) uiPos.y),
-								t.apply(i + 56f) + (227f / parts) * inc, t.apply(j + 5f) + 114f, 2,
-								MUI.CYAN | 0x50000000);
-					}
 
 					// Draw Planet Title
 					MUI.drawCenteredString(gui, planet.getName(), t.apply(i + 56f).intValue() + 112,

@@ -13,6 +13,7 @@ import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.util.concurrent.Runnables;
 import com.machina.api.client.celestial.CelestialRenderInfo;
 import com.machina.api.client.celestial.CelestialRenderer;
 import com.machina.api.client.celestial.CelestialUIRenderInfo;
@@ -55,6 +56,8 @@ public class StarchartRenderable {
 	private Vec3 trackedOrbitalPos;
 	private float targetZoom;
 	private float smoothing = 0.05f;
+	private float smoothedYOff = 0;
+	private float targetYOff = 0;
 
 	private double realTime = 0;
 	private double accumulatedTime = 0;
@@ -97,9 +100,13 @@ public class StarchartRenderable {
 	}
 
 	public void render(@NotNull GuiGraphics gui, int x, int y, int xOff, int yOff, int width, int height) {
-		MUI.drawStars(gui, x, y, width, height);
+		render(gui, x, y, xOff, yOff, width, height, Runnables.doNothing(), Runnables.doNothing());
+	}
 
-		// TODO: Move the entire inner display by this many pixels!
+	public void render(@NotNull GuiGraphics gui, int x, int y, int xOff, int yOff, int width, int height,
+			Runnable infoUnderlay, Runnable infoOverlay) {
+		MUI.drawStars(gui, x, y, width, height);
+		infoUnderlay.run();
 
 		float frameTime = mc.getTimer().getGameTimeDeltaPartialTick(true);
 		if (!this.paused && this.tracked == null) {
@@ -107,10 +114,14 @@ public class StarchartRenderable {
 		}
 		realTime += frameTime;
 		updateCameraTracking();
-		setupAndRenderCelestials(gui, width, height, createRotQuat(rotX, rotY), accumulatedTime, realTime);
+		setupAndRenderCelestials(gui, width, height, xOff, yOff, createRotQuat(rotX, rotY), accumulatedTime, realTime);
+		infoOverlay.run();
 	}
 
 	protected void updateCameraTracking() {
+		targetYOff = (tracked != null) ? -0.07f : 0f;
+		smoothedYOff = Mth.lerp(smoothing, smoothedYOff, targetYOff);
+
 		if (tracked != null && trackedOrbitalPos != null) {
 			float targetPosX = -(float) trackedOrbitalPos.x;
 			float targetPosY = -(float) trackedOrbitalPos.z;
@@ -133,7 +144,8 @@ public class StarchartRenderable {
 		}
 	}
 
-	protected void setupAndRenderCelestials(GuiGraphics gui, int w, int h, Quaternionf rot, double t, double rt) {
+	protected void setupAndRenderCelestials(GuiGraphics gui, int w, int h, int xOff, int yOff, Quaternionf rot,
+			double t, double rt) {
 
 		// Configure Render System
 		RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
@@ -146,10 +158,15 @@ public class StarchartRenderable {
 		GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 
 		Matrix4f oldProj = RenderSystem.getProjectionMatrix();
+		float panelYOff = yOff + smoothedYOff * gui.guiWidth();
 		float halfWidth = 1 / zoom;
-		float halfHeight = halfWidth * ((float) h / w);
-		Matrix4f newProj = new Matrix4f().frustum(-halfWidth, halfWidth, -halfHeight, halfHeight, NEAR_PLANE,
-				FAR_PLANE);
+		float halfHeight = halfWidth * ((float) gui.guiHeight() / gui.guiWidth()); // full screen aspect ratio
+		float shiftX = ((float) xOff / gui.guiWidth()) * 2f * halfWidth;
+		float shiftY = ((float) panelYOff / gui.guiHeight()) * 2f * halfHeight;
+
+		Matrix4f newProj = new Matrix4f().frustum(-halfWidth + shiftX, halfWidth + shiftX, -halfHeight - shiftY,
+				halfHeight - shiftY, // Y is flipped in screen space
+				NEAR_PLANE, FAR_PLANE);
 		RenderSystem.setProjectionMatrix(newProj, RenderSystem.getVertexSorting());
 
 		// Apply to model view matrix
