@@ -111,9 +111,6 @@ public class ItemInit {
 	public static final DeferredItem<Item> COAL_CHUNK = basic("coal_chunk");
 	public static final DeferredItem<Item> COPPER_NUGGET = basic("copper_nugget");
 	
-	public static final DeferredItem<ChemicalItem> FLUORITE = chemical("fluorite", "CaF2");
-	public static final DeferredItem<ChemicalItem> SULFUR = chemical("sulfur", "SO3");
-	public static final DeferredItem<ChemicalItem> NITER = chemical("niter", "KNO3");
 	public static final DeferredItem<ChemicalItem> BISMUTH = chemical("bismuth", "Bi");
 	public static final DeferredItem<ChemicalItem> PERCHLORATE = chemical("perchlorate", "KClO4");
 	

@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
@@ -103,7 +104,11 @@ public class DatagenItemModels extends ItemModelProvider {
 	private void oreFamily(OreFamily fam) {
 		fam.getDust().ifPresent(this::simpleItem);
 		fam.getIngot().ifPresent(this::simpleItem);
-		fam.getNugget().ifPresent(this::simpleItem);
+		fam.getNugget().ifPresent(ingot -> {
+			if (!(ingot instanceof BlockItem)) {
+				this.simpleItem(ingot);
+			}
+		});
 		fam.plate().ifPresent(this::simpleItem);
 		fam.rod().ifPresent(this::simpleItem);
 		fam.wire().ifPresent(this::simpleItem);

@@ -20,7 +20,6 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.BlastingRecipe;
@@ -31,7 +30,6 @@ import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
 
 public abstract class DatagenRecipeProvider extends RecipeProvider implements IConditionBuilder {
 
@@ -179,14 +177,14 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 		//@formatter:on
 	}
 
-	protected static void reactfi_fi(@NotNull RecipeOutput gen, FluidObject i1, int a1, DeferredItem<? extends Item> i2,
-			int a2, FluidObject o1, int b1, DeferredItem<? extends Item> o2, int b2, int energy, int periodicity) {
+	protected static void reactfi_fi(@NotNull RecipeOutput gen, FluidObject i1, int a1, DeferredHolder<? extends ItemLike, ? extends ItemLike>  i2,
+			int a2, FluidObject o1, int b1, DeferredHolder<? extends ItemLike, ? extends ItemLike> o2, int b2, int energy, int periodicity) {
 		//@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
 			.in(new FluidStack(i1.fluid(), a1))
-			.in(i2.get(), a2)
+			.in(i2.get().asItem(), a2)
 			.out(new FluidStack(o1.fluid(), b1))
-			.out(o2.get(), b2)
+			.out(o2.get().asItem(), b2)
 			.energy(energy)
 			.period(periodicity)
 			.save(gen, "reacting_fi_fi_" + o1.name());
@@ -194,12 +192,12 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	}
 
 	protected static void reactff_i(@NotNull RecipeOutput gen, FluidObject i1, int a1, FluidObject i2, int a2,
-			DeferredItem<? extends Item> o, int b, int energy, int periodicity) {
+			DeferredHolder<? extends ItemLike, ? extends ItemLike>  o, int b, int energy, int periodicity) {
 		//@formatter:off
 		MachinaRecipeBuilder.create(RecipeInit.REACTION_CHAMBER)
 			.in(new FluidStack(i1.fluid(), a1))
 			.in(new FluidStack(i2.fluid(), a2))
-			.out(o.get(), b)
+			.out(o.get().asItem(), b)
 			.energy(energy)
 			.period(periodicity)
 			.save(gen, "reacting_ff_i_" + getItemName(o.get()));
@@ -259,14 +257,14 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	}
 
 	protected static void electrolysis_ff_ffi(@NotNull RecipeOutput gen, FluidObject i1, int a1, FluidObject i2, int a2,
-			FluidObject o1, int b1, FluidObject o2, int b2, DeferredItem<? extends Item> o3, int p, int energy) {
+			FluidObject o1, int b1, FluidObject o2, int b2, DeferredHolder<? extends ItemLike, ? extends ItemLike>  o3, int p, int energy) {
 		//@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i1.fluid(), a1))
             .in(new FluidStack(i2.fluid(), a2))
             .out(new FluidStack(o1.fluid(), b1))
             .out(new FluidStack(o2.fluid(), b2))
-            .out(o3.get(), 1)
+            .out(o3.get().asItem(), 1)
             .period(p)
             .energy(energy)
             .save(gen, "electrolysis_ff_ffi_" + getItemName(o3.get()));
@@ -274,11 +272,11 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	}
 
 	protected static void electrolysis_fi_f(@NotNull RecipeOutput gen, FluidObject i, int a,
-			DeferredItem<? extends Item> o1, int a2, FluidObject o2, int b2, int period, int energy) {
+			DeferredHolder<? extends ItemLike, ? extends ItemLike>  o1, int a2, FluidObject o2, int b2, int period, int energy) {
 		//@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i.fluid(), a))
-            .in(o1.get(), a2)
+            .in(o1.get().asItem(), a2)
             .out(new FluidStack(o2.fluid(), b2))
             .period(period)
             .energy(energy)
@@ -287,14 +285,14 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	}
 
 	protected static void electrolysis_fi_fi(@NotNull RecipeOutput gen, FluidObject i, int a,
-			DeferredItem<? extends Item> o1, int a2, FluidObject o2, int b2, DeferredItem<? extends Item> o3, int p,
+			DeferredHolder<? extends ItemLike, ? extends ItemLike>  o1, int a2, FluidObject o2, int b2, DeferredHolder<? extends ItemLike, ? extends ItemLike>  o3, int p,
 			int energy) {
 		//@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i.fluid(), a))
-            .in(o1.get(), a2)
+            .in(o1.get().asItem(), a2)
             .out(new FluidStack(o2.fluid(), b2))
-            .out(o3.get(), 1)
+            .out(o3.get().asItem(), 1)
             .period(p)
             .energy(energy)
             .save(gen, "electrolysis_fi_fi_" + getItemName(o1.get()));
@@ -302,24 +300,25 @@ public abstract class DatagenRecipeProvider extends RecipeProvider implements IC
 	}
 
 	protected static void electrolysis_f_fi(@NotNull RecipeOutput gen, FluidObject i, int a, FluidObject o1, int b1,
-			DeferredItem<? extends Item> o2, int p, int energy) {
+			DeferredHolder<? extends ItemLike, ? extends ItemLike> o2, int p, int energy) {
 		//@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
             .in(new FluidStack(i.fluid(), a))
             .out(new FluidStack(o1.fluid(), b1))
-            .out(o2.get(), 1)
+            .out(o2.get().asItem(), 1)
             .period(p)
             .energy(energy)
             .save(gen, "electrolysis_f_fi_" + getItemName(o2.get()));
         //@formatter:on
 	}
 
-	protected static void electrolysis_i_ff_c(@NotNull RecipeOutput gen, DeferredItem<? extends Item> i, int a,
-			FluidObject o1, int b1, FluidObject o2, int b2, DeferredItem<? extends Item> c, int p, int energy) {
+	protected static void electrolysis_i_ff_c(@NotNull RecipeOutput gen, DeferredHolder<? extends ItemLike, ? extends ItemLike>  i, int a,
+			FluidObject o1, int b1, FluidObject o2, int b2,
+			DeferredHolder<? extends ItemLike, ? extends ItemLike> c, int p, int energy) {
 		//@formatter:off
         MachinaRecipeBuilder.create(RecipeInit.ELECTROLYZER)
-            .in(i.get(), a)
-            .in(c.get(), 1)
+            .in(i.get().asItem(), a)
+            .in(c.get().asItem(), 1)
             .out(new FluidStack(o1.fluid(), b1))
             .out(new FluidStack(o2.fluid(), b2))
             .period(p)

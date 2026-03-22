@@ -22,6 +22,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.DoorBlock;
@@ -403,6 +404,11 @@ public class DatagenBlockStates extends BlockStateProvider {
 		fam.ore().ifPresent(ores -> {
 			ores.map().forEach((base, ore) -> ore(base.location(), ore, ores.name()));
 		});
+		fam.getIngot().ifPresent(item -> {
+			if (item instanceof BlockItem ingotBlock) {
+				this.cross(ingotBlock.getBlock());
+			}
+		});
 	}
 
 	private void cubeRandomRotation(DeferredBlock<Block> block) {
@@ -532,6 +538,11 @@ public class DatagenBlockStates extends BlockStateProvider {
 		ResourceLocation tex = blockTexture(f);
 		simpleBlock(f, models().cross(name(f), tex).renderType("cutout"));
 		simpleFlatItem(f, tex);
+	}
+
+	private void cross(Block b) {
+		simpleBlock(b, models().cross(name(b), blockTexture(b)).renderType("cutout"));
+		simpleFlatItem(b, itemTexture(b));
 	}
 
 	private void fruit(Fruit fruit) {

@@ -127,10 +127,10 @@ public class FamiliesInit {
 		ORES.add(OreFamily.alloyLike("constantan", BlockInit.CONSTANTAN_BLOCK.get(), ItemInit.CONSTANTAN_NUGGET.get(),
 				ItemInit.CONSTANTAN_INGOT.get(), ItemInit.CONSTANTAN_DUST.get(), ItemInit.CONSTANTAN_PLATE.get(),
 				ItemInit.CONSTANTAN_ROD.get(), ItemInit.CONSTANTAN_WIRE.get()));
-		ORES.add(OreFamily.resLike("fluorite", BlockInit.FLUORITE_ORE, ItemInit.FLUORITE.get(),
+		ORES.add(OreFamily.resLike("fluorite", BlockInit.FLUORITE_ORE, BlockInit.FLUORITE.get().asItem(),
 				ItemInit.FLUORITE_DUST.get()));
-		ORES.add(OreFamily.resLike("niter", BlockInit.SALTPETER_ORE, ItemInit.NITER.get(), ItemInit.NITER_DUST.get()));
-		ORES.add(OreFamily.resLike("sulfur", BlockInit.PYRITE_ORE, ItemInit.SULFUR.get(), ItemInit.SULFUR_DUST.get()));
+		ORES.add(OreFamily.resLike("niter", BlockInit.SALTPETER_ORE, BlockInit.NITER.get().asItem(), ItemInit.NITER_DUST.get()));
+		ORES.add(OreFamily.resLike("sulfur", BlockInit.PYRITE_ORE, BlockInit.SULFUR.get().asItem(), ItemInit.SULFUR_DUST.get()));
 		ORES.add(OreFamily.resLike("bismuth", BlockInit.BISMUTH_ORE, ItemInit.BISMUTH.get(),
 				ItemInit.BISMUTH_DUST.get()));
 		ORES.add(OreFamily.oreLike("perchlorate", BlockInit.PERCHLORATE_ORE, ItemInit.PERCHLORATE.get()));

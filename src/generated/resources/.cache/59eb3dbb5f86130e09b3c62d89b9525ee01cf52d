@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-07T14:50:02.8239426	Loot Tables
+// 1.21.1	2026-03-22T10:25:42.987663865	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
 4da7ad8c6aafe797fdd92bc27652554510a0029e data/machina/loot_table/blocks/anthracite_button.json
@@ -165,6 +165,7 @@ c7f11c47cefe2376eb693ed45c406e172970f512 data/machina/loot_table/blocks/feldspar
 6568f51a8081f7ed2e7eed57e47ede89db67b1e3 data/machina/loot_table/blocks/feldspar_wall.json
 be3aadb67949fc1b7857eacd1f2c2a70deeb6e99 data/machina/loot_table/blocks/feldspar_zinc_ore.json
 1ddd8495e22ea8064dc747d34308e794b6d39022 data/machina/loot_table/blocks/fluid_pipe.json
+82ad949f1bc8f0f9ae65a817dc94127875509085 data/machina/loot_table/blocks/fluorite.json
 12c78d36cd2d515a1920254ace48b73b8ab5c456 data/machina/loot_table/blocks/forest_dirt.json
 d347a8d106a84a4abf391b524f5621f695629630 data/machina/loot_table/blocks/forest_dirt_slab.json
 959403e7502e70eebd4eaaa3f0a6a883b7ff7b92 data/machina/loot_table/blocks/forest_dirt_stairs.json
@@ -402,6 +403,7 @@ b23c0ae75bd7837e6aaf04e72c0e57f6520d23d4 data/machina/loot_table/blocks/mycelial
 ab84e89e754e3b4c2a476f2a9968c11307d14b1a data/machina/loot_table/blocks/needlegrass.json
 cd9188b8f57871150e0f1479b7d00f4c83fd6c06 data/machina/loot_table/blocks/needlethatch.json
 681fafbac37fbd79f64ac987d44ae6d61e701749 data/machina/loot_table/blocks/nickel_block.json
+b2804c6b859e509a29fb5de7a50f723e6a2f04ee data/machina/loot_table/blocks/niter.json
 dc2db905a5a6b8b33ce7e589921d218a26c91c6a data/machina/loot_table/blocks/orange_coniferous_leaves.json
 e84fa81e787d4c951cf05fb60c2aea50a00be2a9 data/machina/loot_table/blocks/orange_glowshroom.json
 dd4edc13dbd0a911a7d298370826108a444f9d95 data/machina/loot_table/blocks/orange_groundlily.json
@@ -572,6 +574,7 @@ e771ae2bc152a22e402241173edf488c07dff9c1 data/machina/loot_table/blocks/strapple
 fa7d222ba4e2d16a7c620e531febdec328d6d496 data/machina/loot_table/blocks/stripped_pine_wood.json
 167927c98ee76f23238a3421638ee21ea6a98824 data/machina/loot_table/blocks/stripped_tropical_log.json
 e477499dac40244e5ec75318c2b4e9bee5d7239b data/machina/loot_table/blocks/stripped_tropical_wood.json
+75716006be95b44e32fd922780abc2bb2908f3e0 data/machina/loot_table/blocks/sulfur.json
 4193cc8a718494310bab5dbf06721ea3e2d1f13d data/machina/loot_table/blocks/tama_spore.json
 ed6747bb0878f3db41829596ae509a2fed768f2e data/machina/loot_table/blocks/tank.json
 a1b406d3131d0b9bd8622d1dcd7b9c26155f7ec0 data/machina/loot_table/blocks/tectonite.json

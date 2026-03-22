@@ -15,6 +15,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -180,6 +181,11 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		}, () -> family.ingot().ifPresent(ingot -> {
 			ore.map().values().forEach(o -> ore(o.get(), ingot));
 		})));
+		family.getIngot().ifPresent(ingot -> {
+			if (ingot instanceof BlockItem blockIngot) {
+				this.dropSelf(blockIngot.getBlock());
+			}
+		});
 	}
 
 	private void dirtFamily(DirtFamily family) {

@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.api.block.LitOreBlock;
 import com.machina.api.block.OreBlock;
+import com.machina.api.item.ChemicalBlockItem;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
@@ -153,6 +154,10 @@ public class BlockInit {
 	public static final DeferredBlock<Block> THORIUM_BLOCK = block("thorium_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> STEEL_BLOCK = block("steel_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> CONSTANTAN_BLOCK = block("constantan_block", Blocks.IRON_BLOCK);
+	
+	public static final DeferredBlock<Block> FLUORITE = chemical("fluorite", Blocks.AMETHYST_CLUSTER, "CaF2");
+	public static final DeferredBlock<Block> SULFUR = chemical("sulfur", Blocks.AMETHYST_CLUSTER, "SO3");
+	public static final DeferredBlock<Block> NITER = chemical("niter", Blocks.AMETHYST_CLUSTER, "KNO3");
 
 	public static final DeferredBlock<Block> ANTHRACITE = block("anthracite", Blocks.ANDESITE);
 	public static final DeferredBlock<SlabBlock> ANTHRACITE_SLAB = slab("anthracite_slab", Blocks.ANDESITE_SLAB);
@@ -687,6 +692,11 @@ public class BlockInit {
 
 	public static DeferredBlock<SmallFlowerBlock> groundlily(String name) {
 		return register(name, Blocks.PINK_PETALS, a -> a, SmallFlowerBlock::new);
+	}
+	
+	public static DeferredBlock<Block> chemical(String name, Block props, String chem) {
+		return registerCI(name, props, a -> a, Block::new,
+				ro -> new ChemicalBlockItem(ro.get(), new Item.Properties(), chem));
 	}
 
 	public static DeferredBlock<MachinaWaterlilyBlock> waterlily(String name) {

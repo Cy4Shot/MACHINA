@@ -206,11 +206,12 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.THORIUM_ROD, "Thorium Rod");
 		add(ItemInit.THORIUM_WIRE, "Thorium Wire");
 
-		add(ItemInit.FLUORITE, "Fluorite");
-		add(ItemInit.SULFUR, "Sulfur");
-		add(ItemInit.NITER, "Niter");
+		add(BlockInit.FLUORITE, "Fluorite");
+		add(BlockInit.SULFUR, "Sulfur");
+		add(BlockInit.NITER, "Niter");
 		add(ItemInit.BISMUTH, "Bismuth");
 		add(ItemInit.PERCHLORATE, "Perchlorate");
+
 		add(ItemInit.FLUORITE_DUST, "Fluorite Dust");
 		add(ItemInit.SULFUR_DUST, "Sulfur Dust");
 		add(ItemInit.NITER_DUST, "Niter Dust");
