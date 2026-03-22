@@ -1,0 +1,37 @@
+{
+	"name": "machina:martian",
+	"iconY": 4,
+	"color": 1435764,
+	"shaderId": 1,
+	"shape": {
+		"sea_level": -64,
+		"noise_settings": {
+			"minY": -64,
+			"height": 384,
+			"noiseSizeHorizontal": 2,
+			"noiseSizeVertical": 2
+		}
+	},
+	"biomes": [
+		{
+			"name": "machina:martian_sandy_plains",
+			"placements": [
+				"MIDDLE"
+			]
+		}
+	],
+	"base": "machina:feldspar",
+	"weathers": [
+		"machina:clear"
+	],
+	"traits": {
+		"minRolls": 0,
+		"maxRolls": 1,
+		"weights": [
+			{
+				"trait": "machina:always_raining",
+				"weight": 1.0
+			}
+		]
+	}
+}
