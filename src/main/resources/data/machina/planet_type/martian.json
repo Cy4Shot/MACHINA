@@ -8,13 +8,19 @@
 		"noise_settings": {
 			"minY": -64,
 			"height": 384,
-			"noiseSizeHorizontal": 2,
-			"noiseSizeVertical": 2
+			"noiseSizeHorizontal": 4,
+			"noiseSizeVertical": 1
 		}
 	},
 	"biomes": [
 		{
 			"name": "machina:martian_sandy_plains",
+			"placements": [
+				"MIDDLE"
+			]
+		},
+		{
+			"name": "machina:martian_salt_fields",
 			"placements": [
 				"MIDDLE"
 			]

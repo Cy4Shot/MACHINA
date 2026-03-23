@@ -1,0 +1,185 @@
+{
+	"surface": "machina:medium_exp_dist",
+	"base": "machina:white_soapstone",
+	"stair": "machina:white_soapstone_stairs",
+	"slab": "machina:white_soapstone_slab",
+	"extra": "machina:moonstone",
+	"top": [
+		"machina:moonsand",
+		"machina:moonstone",
+		"machina:white_soapstone",
+		"machina:wispy_soapstone",
+		"machina:moonstone_saltpeter_ore"
+	],
+	"second": "machina:moonstone",
+	"trees": [
+	],
+	"bushes": [
+	],
+	"grass": {
+		"enabled": true,
+		"min": 1,
+		"max": 1,
+		"grasses": [
+			{
+				"block": "machina:moonstone_pebbles",
+				"weight": 5
+			},
+			{
+				"block": "machina:wispy_soapstone_pebbles",
+				"weight": 5
+			},
+			{
+				"block": "machina:niter",
+				"weight": 1
+			}
+		]
+	},
+	"lakes": {
+		"enabled": false,
+		"block": "minecraft:air",
+		"chance": 0,
+		"decorator_chance": 0,
+		"decorators": [
+		]
+	},
+	"rocks": [
+		{
+			"base": "machina:moonstone",
+			"stair": "machina:moonstone_stairs",
+			"slab": "machina:moonstone_slab",
+			"wall": "machina:moonstone_wall",
+			"chance": 0.2,
+			"radius": 1.01,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:white_soapstone_saltpeter_ore",
+			"stair": "machina:white_soapstone_stairs",
+			"slab": "machina:white_soapstone_slab",
+			"wall": "machina:white_soapstone_wall",
+			"chance": 0.1,
+			"radius": 1.01,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:white_soapstone_perchlorate_ore",
+			"stair": "machina:white_soapstone_stairs",
+			"slab": "machina:white_soapstone_slab",
+			"wall": "machina:white_soapstone_wall",
+			"chance": 0.1,
+			"radius": 1.01,
+			"deform": 2.0
+		}
+	],
+	"big_rocks": [
+		{
+			"type": "machina:wisp",
+			"block": "machina:moonstone",
+			"extra": "machina:moonstone_wall",
+			"chance": 0.02,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0.3,
+			"side_extra_chance": 0
+		},
+		{
+			"type": "machina:wisp",
+			"block": "machina:white_soapstone",
+			"extra": "machina:white_soapstone_wall",
+			"chance": 0.02,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0.3,
+			"side_extra_chance": 0
+		}
+	],
+	"ores": [
+		{
+			"block": "machina:green_soapstone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:limestone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:gneiss",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:andesite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 4,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:granite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:diorite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:migmatite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:marble",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:anthracite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:shale",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:chalk",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 10,
+			"min_y": -64,
+			"max_y": 256
+		}
+	]
+}

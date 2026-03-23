@@ -13,6 +13,7 @@ import com.machina.api.block.LitOreBlock;
 import com.machina.api.block.OreBlock;
 import com.machina.api.item.ChemicalBlockItem;
 import com.machina.api.util.MachinaRL;
+import com.machina.block.CrystalBlock;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
@@ -155,9 +156,9 @@ public class BlockInit {
 	public static final DeferredBlock<Block> STEEL_BLOCK = block("steel_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> CONSTANTAN_BLOCK = block("constantan_block", Blocks.IRON_BLOCK);
 	
-	public static final DeferredBlock<Block> FLUORITE = chemical("fluorite", Blocks.AMETHYST_CLUSTER, "CaF2");
-	public static final DeferredBlock<Block> SULFUR = chemical("sulfur", Blocks.AMETHYST_CLUSTER, "SO3");
-	public static final DeferredBlock<Block> NITER = chemical("niter", Blocks.AMETHYST_CLUSTER, "KNO3");
+	public static final DeferredBlock<CrystalBlock> FLUORITE = chemical("fluorite", Blocks.AMETHYST_CLUSTER, "CaF2");
+	public static final DeferredBlock<CrystalBlock> SULFUR = chemical("sulfur", Blocks.AMETHYST_CLUSTER, "SO3");
+	public static final DeferredBlock<CrystalBlock> NITER = chemical("niter", Blocks.AMETHYST_CLUSTER, "KNO3");
 
 	public static final DeferredBlock<Block> ANTHRACITE = block("anthracite", Blocks.ANDESITE);
 	public static final DeferredBlock<SlabBlock> ANTHRACITE_SLAB = slab("anthracite_slab", Blocks.ANDESITE_SLAB);
@@ -711,8 +712,8 @@ public class BlockInit {
 		return register(name, Blocks.PINK_PETALS, a -> a, SmallFlowerBlock::new);
 	}
 	
-	public static DeferredBlock<Block> chemical(String name, Block props, String chem) {
-		return registerCI(name, props, a -> a, Block::new,
+	public static DeferredBlock<CrystalBlock> chemical(String name, Block props, String chem) {
+		return registerCI(name, props, a -> a, CrystalBlock::new,
 				ro -> new ChemicalBlockItem(ro.get(), new Item.Properties(), chem));
 	}
 
