@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:crafting_base_from_wispy_soapstone_pebbles"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wispy_soapstone_pebbles": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:wispy_soapstone_pebbles"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_wispy_soapstone_pebbles"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:crafting_base_from_wispy_soapstone_pebbles"
+    ]
+  }
+}

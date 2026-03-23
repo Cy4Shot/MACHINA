@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "machina:block/moonstone_slab"
+    },
+    "type=double": {
+      "model": "machina:block/moonstone"
+    },
+    "type=top": {
+      "model": "machina:block/moonstone_slab_top"
+    }
+  }
+}

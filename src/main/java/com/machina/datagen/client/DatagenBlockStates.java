@@ -118,6 +118,22 @@ public class DatagenBlockStates extends BlockStateProvider {
 		button(BlockInit.WHITE_SOAPSTONE_BUTTON, BlockInit.WHITE_SOAPSTONE);
 		pressure_plate(BlockInit.WHITE_SOAPSTONE_PRESSURE_PLATE, BlockInit.WHITE_SOAPSTONE);
 		pebble(BlockInit.WHITE_SOAPSTONE_PEBBLES);
+		
+		cube(BlockInit.WISPY_SOAPSTONE);
+		slab(BlockInit.WISPY_SOAPSTONE_SLAB, BlockInit.WISPY_SOAPSTONE);
+		stairs(BlockInit.WISPY_SOAPSTONE_STAIRS, BlockInit.WISPY_SOAPSTONE);
+		wall(BlockInit.WISPY_SOAPSTONE_WALL, BlockInit.WISPY_SOAPSTONE);
+		button(BlockInit.WISPY_SOAPSTONE_BUTTON, BlockInit.WISPY_SOAPSTONE);
+		pressure_plate(BlockInit.WISPY_SOAPSTONE_PRESSURE_PLATE, BlockInit.WISPY_SOAPSTONE);
+		pebble(BlockInit.WISPY_SOAPSTONE_PEBBLES);
+		
+		cube(BlockInit.MOONSTONE);
+		slab(BlockInit.MOONSTONE_SLAB, BlockInit.MOONSTONE);
+		stairs(BlockInit.MOONSTONE_STAIRS, BlockInit.MOONSTONE);
+		wall(BlockInit.MOONSTONE_WALL, BlockInit.MOONSTONE);
+		button(BlockInit.MOONSTONE_BUTTON, BlockInit.MOONSTONE);
+		pressure_plate(BlockInit.MOONSTONE_PRESSURE_PLATE, BlockInit.MOONSTONE);
+		pebble(BlockInit.MOONSTONE_PEBBLES);
 
 		cube(BlockInit.SHALE);
 		slab(BlockInit.SHALE_SLAB, BlockInit.SHALE);
@@ -231,6 +247,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		stairs(BlockInit.SILT_STAIRS, BlockInit.SILT);
 
 		cube(BlockInit.TROPICAL_SAND);
+		cube(BlockInit.MOONSAND);
 
 		cube(BlockInit.TROPICAL_PLANKS);
 		leaves(BlockInit.TROPICAL_LEAVES);

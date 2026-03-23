@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/pebble2",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "pebbles": "machina:block/wispy_soapstone_pebbles"
+  }
+}

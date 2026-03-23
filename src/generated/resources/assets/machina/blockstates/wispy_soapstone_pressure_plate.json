@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "machina:block/wispy_soapstone_pressure_plate"
+    },
+    "powered=true": {
+      "model": "machina:block/wispy_soapstone_pressure_plate_down"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "machina:moonstone"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:moonstone_stairs"
+  }
+}

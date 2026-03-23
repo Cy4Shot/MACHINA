@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:crafting_wispy_soapstone_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wispy_soapstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:wispy_soapstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_wispy_soapstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:crafting_wispy_soapstone_stairs"
+    ]
+  }
+}

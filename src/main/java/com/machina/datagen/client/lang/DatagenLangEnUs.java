@@ -400,6 +400,22 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.WHITE_SOAPSTONE_BUTTON, "White Soapstone Button");
 		add(BlockInit.WHITE_SOAPSTONE_PRESSURE_PLATE, "White Soapstone Pressure Plate");
 		add(BlockInit.WHITE_SOAPSTONE_PEBBLES, "White Soapstone Pebbles");
+		
+		add(BlockInit.WISPY_SOAPSTONE, "Wispy Soapstone");
+		add(BlockInit.WISPY_SOAPSTONE_SLAB, "Wispy Soapstone Slab");
+		add(BlockInit.WISPY_SOAPSTONE_STAIRS, "Wispy Soapstone Stairs");
+		add(BlockInit.WISPY_SOAPSTONE_WALL, "Wispy Soapstone Wall");
+		add(BlockInit.WISPY_SOAPSTONE_BUTTON, "Wispy Soapstone Button");
+		add(BlockInit.WISPY_SOAPSTONE_PRESSURE_PLATE, "Wispy Soapstone Pressure Plate");
+		add(BlockInit.WISPY_SOAPSTONE_PEBBLES, "Wispy Soapstone Pebbles");
+		
+		add(BlockInit.MOONSTONE, "Moonstone");
+		add(BlockInit.MOONSTONE_SLAB, "Moonstone Slab");
+		add(BlockInit.MOONSTONE_STAIRS, "Moonstone Stairs");
+		add(BlockInit.MOONSTONE_WALL, "Moonstone Wall");
+		add(BlockInit.MOONSTONE_BUTTON, "Moonstone Button");
+		add(BlockInit.MOONSTONE_PRESSURE_PLATE, "Moonstone Pressure Plate");
+		add(BlockInit.MOONSTONE_PEBBLES, "Moonstone Pebbles");
 
 		add(BlockInit.SHALE, "Shale");
 		add(BlockInit.SHALE_SLAB, "Shale Slab");
@@ -486,6 +502,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.SILT_SLAB, "Silt Slab");
 
 		add(BlockInit.TROPICAL_SAND, "Tropical Sand");
+		add(BlockInit.MOONSAND, "Moonsand");
 
 		add(BlockInit.TROPICAL_BUTTON, "Tropical Button");
 		add(BlockInit.TROPICAL_DOOR, "Tropical Door");

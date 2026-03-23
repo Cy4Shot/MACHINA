@@ -199,6 +199,22 @@ public class BlockInit {
 	public static final DeferredBlock<ButtonBlock> WHITE_SOAPSTONE_BUTTON = stone_button("white_soapstone_button", Blocks.STONE_BUTTON);
 	public static final DeferredBlock<PebbleBlock> WHITE_SOAPSTONE_PEBBLES = pebbles("white_soapstone_pebbles");
 	
+	public static final DeferredBlock<Block> WISPY_SOAPSTONE = block("wispy_soapstone", Blocks.ANDESITE);
+	public static final DeferredBlock<SlabBlock> WISPY_SOAPSTONE_SLAB = slab("wispy_soapstone_slab", Blocks.ANDESITE_SLAB);
+	public static final DeferredBlock<StairBlock> WISPY_SOAPSTONE_STAIRS = stairs("wispy_soapstone_stairs", WISPY_SOAPSTONE, Blocks.ANDESITE_SLAB);
+	public static final DeferredBlock<WallBlock> WISPY_SOAPSTONE_WALL = wall("wispy_soapstone_wall", Blocks.ANDESITE_WALL);
+	public static final DeferredBlock<PressurePlateBlock> WISPY_SOAPSTONE_PRESSURE_PLATE = stone_pressure_plate("wispy_soapstone_pressure_plate", Blocks.STONE_PRESSURE_PLATE);
+	public static final DeferredBlock<ButtonBlock> WISPY_SOAPSTONE_BUTTON = stone_button("wispy_soapstone_button", Blocks.STONE_BUTTON);
+	public static final DeferredBlock<PebbleBlock> WISPY_SOAPSTONE_PEBBLES = pebbles("wispy_soapstone_pebbles");
+	
+	public static final DeferredBlock<Block> MOONSTONE = block("moonstone", Blocks.ANDESITE);
+	public static final DeferredBlock<SlabBlock> MOONSTONE_SLAB = slab("moonstone_slab", Blocks.ANDESITE_SLAB);
+	public static final DeferredBlock<StairBlock> MOONSTONE_STAIRS = stairs("moonstone_stairs", MOONSTONE, Blocks.ANDESITE_SLAB);
+	public static final DeferredBlock<WallBlock> MOONSTONE_WALL = wall("moonstone_wall", Blocks.ANDESITE_WALL);
+	public static final DeferredBlock<PressurePlateBlock> MOONSTONE_PRESSURE_PLATE = stone_pressure_plate("moonstone_pressure_plate", Blocks.STONE_PRESSURE_PLATE);
+	public static final DeferredBlock<ButtonBlock> MOONSTONE_BUTTON = stone_button("moonstone_button", Blocks.STONE_BUTTON);
+	public static final DeferredBlock<PebbleBlock> MOONSTONE_PEBBLES = pebbles("moonstone_pebbles");
+	
 	public static final DeferredBlock<Block> SHALE = block("shale", Blocks.ANDESITE);
 	public static final DeferredBlock<SlabBlock> SHALE_SLAB = slab("shale_slab", Blocks.ANDESITE_SLAB);
 	public static final DeferredBlock<StairBlock> SHALE_STAIRS = stairs("shale_stairs", SHALE, Blocks.ANDESITE_SLAB);
@@ -290,6 +306,7 @@ public class BlockInit {
 	public static final DeferredBlock<SlabBlock> PEAT_SLAB = slab("peat_slab", Blocks.MUD);
 
     public static final DeferredBlock<FallingBlock> TROPICAL_SAND = falling("tropical_sand", 0xCD9351, Blocks.SAND);
+    public static final DeferredBlock<FallingBlock> MOONSAND = falling("moonsand", 0x97B2B4, Blocks.SAND);
 
 	public static final WoodType TROPICAL = registerWoodType("tropical");
 	public static final WoodType DEAD_TROPICAL = registerWoodType("dead_tropical");
@@ -486,7 +503,7 @@ public class BlockInit {
 	public static final DeferredBlock<FlowerPotBlock> POTTED_TURQUOISE_GLOWSHROOM = flower_pot("potted_turquoise_glowshroom", TURQUOISE_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_BLUE_GLOWSHROOM = flower_pot("potted_blue_glowshroom", BLUE_GLOWSHROOM, light(7));
 
-	public static final List<DeferredBlock<Block>> ORE_BASES = List.of(FELDSPAR, GRAY_SOAPSTONE, GREEN_SOAPSTONE, WHITE_SOAPSTONE, SHALE, MARBLE, CHALK, LIMESTONE, GNEISS);
+	public static final List<DeferredBlock<Block>> ORE_BASES = List.of(FELDSPAR, GRAY_SOAPSTONE, GREEN_SOAPSTONE, WHITE_SOAPSTONE, MOONSTONE, SHALE, MARBLE, CHALK, LIMESTONE, GNEISS);
 
 	public static final MachinaOre COAL_ORE = ore("coal_ore", true, Blocks.COAL_ORE);
 	public static final MachinaOre IRON_ORE = ore("iron_ore", true, Blocks.IRON_ORE);

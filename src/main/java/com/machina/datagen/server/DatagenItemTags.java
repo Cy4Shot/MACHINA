@@ -43,6 +43,7 @@ public class DatagenItemTags extends ItemTagsProvider {
 		super(po, provider, lookup, Machina.MOD_ID, helper);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void addTags(@NotNull Provider pProvider) {
 		capacitor(ItemInit.BASIC_CAPACITOR);
@@ -84,7 +85,7 @@ public class DatagenItemTags extends ItemTagsProvider {
 		tallFlower(BlockInit.NEEDLETHATCH);
 		tallFlower(BlockInit.ORPHEUM);
 
-		sand(BlockInit.TROPICAL_SAND);
+		sand(BlockInit.TROPICAL_SAND, BlockInit.MOONSAND);
 
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);
@@ -108,8 +109,11 @@ public class DatagenItemTags extends ItemTagsProvider {
 		tag(ItemTags.FLOWERS).add(flower.get().asItem());
 	}
 
-	private void sand(DeferredBlock<? extends Block> sand) {
-		tag(ItemTags.SAND).add(sand.get().asItem());
+	@SuppressWarnings("unchecked")
+	private void sand(DeferredBlock<? extends Block>... sands) {
+		for (DeferredBlock<? extends Block> sand : sands) {
+			tag(ItemTags.SAND).add(sand.get().asItem());
+		}
 	}
 
 	private void capacitor(DeferredItem<? extends CapacitorItem> capacitor) {

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "machina:wispy_soapstone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:wispy_soapstone_button"
+  }
+}

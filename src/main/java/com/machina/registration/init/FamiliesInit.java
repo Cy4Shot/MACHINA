@@ -217,6 +217,14 @@ public class FamiliesInit {
 				BlockInit.WHITE_SOAPSTONE_SLAB.get(), BlockInit.WHITE_SOAPSTONE_STAIRS.get(),
 				BlockInit.WHITE_SOAPSTONE_WALL.get(), BlockInit.WHITE_SOAPSTONE_PRESSURE_PLATE.get(),
 				BlockInit.WHITE_SOAPSTONE_BUTTON.get(), BlockInit.WHITE_SOAPSTONE_PEBBLES.get()));
+		STONES.add(new StoneFamily("wispy_soapstone", BlockInit.WISPY_SOAPSTONE.get(),
+				BlockInit.WISPY_SOAPSTONE_SLAB.get(), BlockInit.WISPY_SOAPSTONE_STAIRS.get(),
+				BlockInit.WISPY_SOAPSTONE_WALL.get(), BlockInit.WISPY_SOAPSTONE_PRESSURE_PLATE.get(),
+				BlockInit.WISPY_SOAPSTONE_BUTTON.get(), BlockInit.WISPY_SOAPSTONE_PEBBLES.get()));
+		STONES.add(new StoneFamily("moonstone", BlockInit.MOONSTONE.get(),
+				BlockInit.MOONSTONE_SLAB.get(), BlockInit.MOONSTONE_STAIRS.get(),
+				BlockInit.MOONSTONE_WALL.get(), BlockInit.MOONSTONE_PRESSURE_PLATE.get(),
+				BlockInit.MOONSTONE_BUTTON.get(), BlockInit.MOONSTONE_PEBBLES.get()));
 		STONES.add(new StoneFamily("shale", BlockInit.SHALE.get(), BlockInit.SHALE_SLAB.get(),
 				BlockInit.SHALE_STAIRS.get(), BlockInit.SHALE_WALL.get(), BlockInit.SHALE_PRESSURE_PLATE.get(),
 				BlockInit.SHALE_BUTTON.get(), BlockInit.SHALE_PEBBLES.get()));

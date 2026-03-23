@@ -99,10 +99,9 @@ public class TabInit {
 			BlockInit.TROPICAL_GRASS_BLOCK, a -> {
 				family(a, FamiliesInit.DIRTS);
 				add(a, BlockInit.TROPICAL_SAND);
+				add(a, BlockInit.MOONSAND);
 
-				ores(a, FamiliesInit.ORES);
 				family(a, FamiliesInit.STONES);
-
 				family(a, FamiliesInit.WOODS);
 
 				add(a, BlockInit.BROWN_MUSHROOM_STALK);
@@ -182,6 +181,7 @@ public class TabInit {
 				add(a, BlockInit.BLUE_GLOWSHROOM);
 
 				fruit(a, FruitInit.FRUITS);
+				ores(a, FamiliesInit.ORES);
 			});
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINA_ROCKETRY = create("machina_rocketry",

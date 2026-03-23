@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/moonstone",
+    "ore": "machina:block/pyrite_ore"
+  }
+}
