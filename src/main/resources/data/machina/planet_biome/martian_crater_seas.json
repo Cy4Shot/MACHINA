@@ -1,0 +1,129 @@
+{
+	"surface": "machina:craters_extra",
+	"base": "machina:anthracite",
+	"stair": "machina:anthracite_stairs",
+	"slab": "machina:anthracite_slab",
+	"extra": "machina:moonstone",
+	"top": [
+		"machina:anthracite",
+		"machina:moonstone",
+		"machina:white_soapstone",
+		"machina:wispy_soapstone",
+		"machina:moonstone_saltpeter_ore",
+		"minecraft:diamond_block"
+	],
+	"second": "machina:anthracite",
+	"trees": [
+	],
+	"bushes": [
+	],
+	"grass": {
+		"enabled": false,
+		"min": 0,
+		"max": 0,
+		"grasses": [
+		]
+	},
+	"lakes": {
+		"enabled": false,
+		"block": "minecraft:air",
+		"chance": 0,
+		"decorator_chance": 0,
+		"decorators": [
+		]
+	},
+	"rocks": [
+	],
+	"big_rocks": [
+	],
+	"ores": [
+		{
+			"block": "machina:green_soapstone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:limestone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:gneiss",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:andesite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 4,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:granite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:diorite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:migmatite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:marble",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:anthracite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:shale",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:chalk",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 10,
+			"min_y": -64,
+			"max_y": 256
+		}
+	]
+}
