@@ -100,6 +100,8 @@ public class TabInit {
 				family(a, FamiliesInit.DIRTS);
 				add(a, BlockInit.TROPICAL_SAND);
 				add(a, BlockInit.MOONSAND);
+				add(a, BlockInit.FERROUS_SAND);
+				add(a, BlockInit.ASH);
 
 				family(a, FamiliesInit.STONES);
 				family(a, FamiliesInit.WOODS);

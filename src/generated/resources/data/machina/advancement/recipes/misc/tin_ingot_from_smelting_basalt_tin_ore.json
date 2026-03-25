@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_basalt_tin_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:basalt_tin_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:tin_ingot_from_smelting_basalt_tin_ore"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_basalt_tin_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:tin_ingot_from_smelting_basalt_tin_ore"
+    ]
+  }
+}

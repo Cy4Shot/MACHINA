@@ -13,6 +13,8 @@
     "machina:chalk_button",
     "machina:limestone_button",
     "machina:migmatite_button",
-    "machina:gneiss_button"
+    "machina:gneiss_button",
+    "machina:basalt_button",
+    "machina:basalt_springstone_button"
   ]
 }

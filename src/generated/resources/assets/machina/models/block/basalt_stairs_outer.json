@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "machina:block/basalt",
+    "side": "machina:block/basalt",
+    "top": "machina:block/basalt"
+  }
+}

@@ -1,6 +1,8 @@
 {
   "values": [
     "machina:tropical_sand",
-    "machina:moonsand"
+    "machina:moonsand",
+    "machina:ferrous_sand",
+    "machina:ash"
   ]
 }

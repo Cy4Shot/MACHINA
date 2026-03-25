@@ -1,18 +1,18 @@
 {
 	"surface": "machina:craters_extra",
-	"base": "machina:anthracite",
-	"stair": "machina:anthracite_stairs",
-	"slab": "machina:anthracite_slab",
-	"extra": "machina:moonstone",
+	"base": "machina:basalt",
+	"stair": "machina:basalt_stairs",
+	"slab": "machina:basalt_slab",
+	"extra": "machina:ferrous_sand",
 	"top": [
+		"machina:ferrous_sand",
+		"machina:sulphuric_acid_block",
 		"machina:anthracite",
-		"machina:moonstone",
-		"machina:white_soapstone",
-		"machina:wispy_soapstone",
-		"machina:moonstone_saltpeter_ore",
+		"machina:basalt",
+		"machina:ash",
 		"minecraft:diamond_block"
 	],
-	"second": "machina:anthracite",
+	"second": "machina:ash",
 	"trees": [
 	],
 	"bushes": [

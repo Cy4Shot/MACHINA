@@ -13,6 +13,8 @@
     "machina:chalk_pressure_plate",
     "machina:limestone_pressure_plate",
     "machina:migmatite_pressure_plate",
-    "machina:gneiss_pressure_plate"
+    "machina:gneiss_pressure_plate",
+    "machina:basalt_pressure_plate",
+    "machina:basalt_springstone_pressure_plate"
   ]
 }

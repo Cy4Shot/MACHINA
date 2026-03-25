@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.machina.Machina;
+import com.machina.block.PebbleBlock;
 import com.machina.registration.init.BlockInit.MachinaOre;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,6 +18,18 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SignBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.WallBlock;
 
 public class FamiliesInit {
 
@@ -129,8 +142,10 @@ public class FamiliesInit {
 				ItemInit.CONSTANTAN_ROD.get(), ItemInit.CONSTANTAN_WIRE.get()));
 		ORES.add(OreFamily.resLike("fluorite", BlockInit.FLUORITE_ORE, BlockInit.FLUORITE.get().asItem(),
 				ItemInit.FLUORITE_DUST.get()));
-		ORES.add(OreFamily.resLike("niter", BlockInit.SALTPETER_ORE, BlockInit.NITER.get().asItem(), ItemInit.NITER_DUST.get()));
-		ORES.add(OreFamily.resLike("sulfur", BlockInit.PYRITE_ORE, BlockInit.SULFUR.get().asItem(), ItemInit.SULFUR_DUST.get()));
+		ORES.add(OreFamily.resLike("niter", BlockInit.SALTPETER_ORE, BlockInit.NITER.get().asItem(),
+				ItemInit.NITER_DUST.get()));
+		ORES.add(OreFamily.resLike("sulfur", BlockInit.PYRITE_ORE, BlockInit.SULFUR.get().asItem(),
+				ItemInit.SULFUR_DUST.get()));
 		ORES.add(OreFamily.resLike("bismuth", BlockInit.BISMUTH_ORE, ItemInit.BISMUTH.get(),
 				ItemInit.BISMUTH_DUST.get()));
 		ORES.add(OreFamily.oreLike("perchlorate", BlockInit.PERCHLORATE_ORE, ItemInit.PERCHLORATE.get()));
@@ -145,8 +160,9 @@ public class FamiliesInit {
 		DIRTS.add(new DirtFamily("windswept", BlockInit.WINDSWEPT_DIRT.get(), BlockInit.WINDSWEPT_DIRT_STAIRS.get(),
 				BlockInit.WINDSWEPT_DIRT_SLAB.get(), Optional.of(BlockInit.WINDSWEPT_GRASS_BLOCK.get())));
 		DIRTS.add(new DirtFamily("mycelial", BlockInit.MYCELIAL_DIRT.get(), BlockInit.MYCELIAL_DIRT_STAIRS.get(),
-				BlockInit.MYCELIAL_DIRT_SLAB.get(), Optional.of(BlockInit.MYCELIAL_GRASS_BLOCK.get())));
-		DIRTS.add(new DirtFamily("peat", BlockInit.PEAT.get(), BlockInit.PEAT_STAIRS.get(), BlockInit.PEAT_SLAB.get()));
+				BlockInit.MYCELIAL_DIRT_SLAB.get(), Optional.of(BlockInit.MYCELIAL_GRASS_BLOCK.get()), false));
+		DIRTS.add(new DirtFamily("peat", BlockInit.PEAT.get(), BlockInit.PEAT_STAIRS.get(), BlockInit.PEAT_SLAB.get(),
+				false));
 		DIRTS.add(new DirtFamily("silt", BlockInit.SILT.get(), BlockInit.SILT_STAIRS.get(), BlockInit.SILT_SLAB.get()));
 
 		// Woods
@@ -158,7 +174,7 @@ public class FamiliesInit {
 				BlockInit.TROPICAL_BUTTON.get(), ItemInit.TROPICAL_SIGN.get(), ItemInit.TROPICAL_HANGING_SIGN.get(),
 				BlockInit.TROPICAL_SIGN.get(), BlockInit.TROPICAL_WALL_SIGN.get(),
 				BlockInit.TROPICAL_HANGING_SIGN.get(), BlockInit.TROPICAL_WALL_HANGING_SIGN.get(),
-				new Block[] { BlockInit.TROPICAL_LEAVES.get() }));
+				new LeavesBlock[] { BlockInit.TROPICAL_LEAVES.get() }));
 		WOODS.add(new WoodFamily("dead_tropical", BlockInit.DEAD_TROPICAL_LOG.get(), BlockInit.DEAD_TROPICAL_WOOD.get(),
 				BlockInit.STRIPPED_DEAD_TROPICAL_LOG.get(), BlockInit.STRIPPED_DEAD_TROPICAL_WOOD.get(),
 				BlockInit.DEAD_TROPICAL_PLANKS.get(), BlockInit.DEAD_TROPICAL_STAIRS.get(),
@@ -168,7 +184,8 @@ public class FamiliesInit {
 				BlockInit.DEAD_TROPICAL_BUTTON.get(), ItemInit.DEAD_TROPICAL_SIGN.get(),
 				ItemInit.DEAD_TROPICAL_HANGING_SIGN.get(), BlockInit.DEAD_TROPICAL_SIGN.get(),
 				BlockInit.DEAD_TROPICAL_WALL_SIGN.get(), BlockInit.DEAD_TROPICAL_HANGING_SIGN.get(),
-				BlockInit.DEAD_TROPICAL_WALL_HANGING_SIGN.get(), new Block[] { BlockInit.DEAD_TROPICAL_LEAVES.get() }));
+				BlockInit.DEAD_TROPICAL_WALL_HANGING_SIGN.get(),
+				new LeavesBlock[] { BlockInit.DEAD_TROPICAL_LEAVES.get() }));
 		WOODS.add(new WoodFamily("pine", BlockInit.PINE_LOG.get(), BlockInit.PINE_WOOD.get(),
 				BlockInit.STRIPPED_PINE_LOG.get(), BlockInit.STRIPPED_PINE_WOOD.get(), BlockInit.PINE_PLANKS.get(),
 				BlockInit.PINE_STAIRS.get(), BlockInit.PINE_SLAB.get(), BlockInit.PINE_FENCE.get(),
@@ -176,7 +193,7 @@ public class FamiliesInit {
 				BlockInit.PINE_PRESSURE_PLATE.get(), BlockInit.PINE_BUTTON.get(), ItemInit.PINE_SIGN.get(),
 				ItemInit.PINE_HANGING_SIGN.get(), BlockInit.PINE_SIGN.get(), BlockInit.PINE_WALL_SIGN.get(),
 				BlockInit.PINE_HANGING_SIGN.get(), BlockInit.PINE_WALL_HANGING_SIGN.get(),
-				new Block[] { BlockInit.PINE_LEAVES.get() }));
+				new LeavesBlock[] { BlockInit.PINE_LEAVES.get() }));
 		WOODS.add(new WoodFamily("coniferous", BlockInit.CONIFEROUS_LOG.get(), BlockInit.CONIFEROUS_WOOD.get(),
 				BlockInit.STRIPPED_CONIFEROUS_LOG.get(), BlockInit.STRIPPED_CONIFEROUS_WOOD.get(),
 				BlockInit.CONIFEROUS_PLANKS.get(), BlockInit.CONIFEROUS_STAIRS.get(), BlockInit.CONIFEROUS_SLAB.get(),
@@ -186,7 +203,7 @@ public class FamiliesInit {
 				ItemInit.CONIFEROUS_SIGN.get(), ItemInit.CONIFEROUS_HANGING_SIGN.get(), BlockInit.CONIFEROUS_SIGN.get(),
 				BlockInit.CONIFEROUS_WALL_SIGN.get(), BlockInit.CONIFEROUS_HANGING_SIGN.get(),
 				BlockInit.CONIFEROUS_WALL_HANGING_SIGN.get(),
-				new Block[] { BlockInit.GREEN_CONIFEROUS_LEAVES.get(), BlockInit.YELLOW_CONIFEROUS_LEAVES.get(),
+				new LeavesBlock[] { BlockInit.GREEN_CONIFEROUS_LEAVES.get(), BlockInit.YELLOW_CONIFEROUS_LEAVES.get(),
 						BlockInit.ORANGE_CONIFEROUS_LEAVES.get(), BlockInit.RED_CONIFEROUS_LEAVES.get() }));
 		WOODS.add(new WoodFamily("cycad", BlockInit.CYCAD_LOG.get(), BlockInit.CYCAD_WOOD.get(),
 				BlockInit.STRIPPED_CYCAD_LOG.get(), BlockInit.STRIPPED_CYCAD_WOOD.get(), BlockInit.CYCAD_PLANKS.get(),
@@ -195,7 +212,7 @@ public class FamiliesInit {
 				BlockInit.CYCAD_PRESSURE_PLATE.get(), BlockInit.CYCAD_BUTTON.get(), ItemInit.CYCAD_SIGN.get(),
 				ItemInit.CYCAD_HANGING_SIGN.get(), BlockInit.CYCAD_SIGN.get(), BlockInit.CYCAD_WALL_SIGN.get(),
 				BlockInit.CYCAD_HANGING_SIGN.get(), BlockInit.CYCAD_WALL_HANGING_SIGN.get(),
-				new Block[] { BlockInit.CYCAD_LEAVES.get() }));
+				new LeavesBlock[] { BlockInit.CYCAD_LEAVES.get() }));
 
 		// Stones
 		STONES.add(new StoneFamily("anthracite", BlockInit.ANTHRACITE.get(), BlockInit.ANTHRACITE_SLAB.get(),
@@ -221,10 +238,10 @@ public class FamiliesInit {
 				BlockInit.WISPY_SOAPSTONE_SLAB.get(), BlockInit.WISPY_SOAPSTONE_STAIRS.get(),
 				BlockInit.WISPY_SOAPSTONE_WALL.get(), BlockInit.WISPY_SOAPSTONE_PRESSURE_PLATE.get(),
 				BlockInit.WISPY_SOAPSTONE_BUTTON.get(), BlockInit.WISPY_SOAPSTONE_PEBBLES.get()));
-		STONES.add(new StoneFamily("moonstone", BlockInit.MOONSTONE.get(),
-				BlockInit.MOONSTONE_SLAB.get(), BlockInit.MOONSTONE_STAIRS.get(),
-				BlockInit.MOONSTONE_WALL.get(), BlockInit.MOONSTONE_PRESSURE_PLATE.get(),
-				BlockInit.MOONSTONE_BUTTON.get(), BlockInit.MOONSTONE_PEBBLES.get()));
+		STONES.add(new StoneFamily("moonstone", BlockInit.MOONSTONE.get(), BlockInit.MOONSTONE_SLAB.get(),
+				BlockInit.MOONSTONE_STAIRS.get(), BlockInit.MOONSTONE_WALL.get(),
+				BlockInit.MOONSTONE_PRESSURE_PLATE.get(), BlockInit.MOONSTONE_BUTTON.get(),
+				BlockInit.MOONSTONE_PEBBLES.get()));
 		STONES.add(new StoneFamily("shale", BlockInit.SHALE.get(), BlockInit.SHALE_SLAB.get(),
 				BlockInit.SHALE_STAIRS.get(), BlockInit.SHALE_WALL.get(), BlockInit.SHALE_PRESSURE_PLATE.get(),
 				BlockInit.SHALE_BUTTON.get(), BlockInit.SHALE_PEBBLES.get()));
@@ -249,69 +266,77 @@ public class FamiliesInit {
 		STONES.add(new StoneFamily("gneiss", BlockInit.GNEISS.get(), BlockInit.GNEISS_SLAB.get(),
 				BlockInit.GNEISS_STAIRS.get(), BlockInit.GNEISS_WALL.get(), BlockInit.GNEISS_PRESSURE_PLATE.get(),
 				BlockInit.GNEISS_BUTTON.get(), BlockInit.GNEISS_PEBBLES.get()));
+		STONES.add(new StoneFamily("basalt", BlockInit.BASALT.get(), BlockInit.BASALT_SLAB.get(),
+				BlockInit.BASALT_STAIRS.get(), BlockInit.BASALT_WALL.get(), BlockInit.BASALT_PRESSURE_PLATE.get(),
+				BlockInit.BASALT_BUTTON.get(), BlockInit.BASALT_PEBBLES.get()));
+		STONES.add(new StoneFamily("basalt_springstone", BlockInit.BASALT_SPRINGSTONE.get(),
+				BlockInit.BASALT_SPRINGSTONE_SLAB.get(), BlockInit.BASALT_SPRINGSTONE_STAIRS.get(),
+				BlockInit.BASALT_SPRINGSTONE_WALL.get(), BlockInit.BASALT_SPRINGSTONE_PRESSURE_PLATE.get(),
+				BlockInit.BASALT_SPRINGSTONE_BUTTON.get(), BlockInit.BASALT_SPRINGSTONE_PEBBLES.get()));
 
 		// Woods Vanilla
 		WOODS_VANILLA.add(new WoodFamily("oak", Blocks.OAK_LOG, Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_LOG,
 				Blocks.STRIPPED_OAK_WOOD, Blocks.OAK_PLANKS, Blocks.OAK_STAIRS, Blocks.OAK_SLAB, Blocks.OAK_FENCE,
 				Blocks.OAK_FENCE_GATE, Blocks.OAK_DOOR, Blocks.OAK_TRAPDOOR, Blocks.OAK_PRESSURE_PLATE,
 				Blocks.OAK_BUTTON, Items.OAK_SIGN, Items.OAK_HANGING_SIGN, Blocks.OAK_SIGN, Blocks.OAK_WALL_SIGN,
-				Blocks.OAK_HANGING_SIGN, Blocks.OAK_WALL_HANGING_SIGN, new Block[] { Blocks.OAK_LEAVES }));
+				Blocks.OAK_HANGING_SIGN, Blocks.OAK_WALL_HANGING_SIGN,
+				new LeavesBlock[] { (LeavesBlock) Blocks.OAK_LEAVES }));
 		WOODS_VANILLA.add(new WoodFamily("spruce", Blocks.SPRUCE_LOG, Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_LOG,
 				Blocks.STRIPPED_SPRUCE_WOOD, Blocks.SPRUCE_PLANKS, Blocks.SPRUCE_STAIRS, Blocks.SPRUCE_SLAB,
 				Blocks.SPRUCE_FENCE, Blocks.SPRUCE_FENCE_GATE, Blocks.SPRUCE_DOOR, Blocks.SPRUCE_TRAPDOOR,
 				Blocks.SPRUCE_PRESSURE_PLATE, Blocks.SPRUCE_BUTTON, Items.SPRUCE_SIGN, Items.SPRUCE_HANGING_SIGN,
 				Blocks.SPRUCE_SIGN, Blocks.SPRUCE_WALL_SIGN, Blocks.SPRUCE_HANGING_SIGN,
-				Blocks.SPRUCE_WALL_HANGING_SIGN, new Block[] { Blocks.SPRUCE_LEAVES }));
+				Blocks.SPRUCE_WALL_HANGING_SIGN, new LeavesBlock[] { (LeavesBlock) Blocks.SPRUCE_LEAVES }));
 		WOODS_VANILLA.add(new WoodFamily("birch", Blocks.BIRCH_LOG, Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_LOG,
 				Blocks.STRIPPED_BIRCH_WOOD, Blocks.BIRCH_PLANKS, Blocks.BIRCH_STAIRS, Blocks.BIRCH_SLAB,
 				Blocks.BIRCH_FENCE, Blocks.BIRCH_FENCE_GATE, Blocks.BIRCH_DOOR, Blocks.BIRCH_TRAPDOOR,
 				Blocks.BIRCH_PRESSURE_PLATE, Blocks.BIRCH_BUTTON, Items.BIRCH_SIGN, Items.BIRCH_HANGING_SIGN,
 				Blocks.BIRCH_SIGN, Blocks.BIRCH_WALL_SIGN, Blocks.BIRCH_HANGING_SIGN, Blocks.BIRCH_WALL_HANGING_SIGN,
-				new Block[] { Blocks.BIRCH_LEAVES }));
+				new LeavesBlock[] { (LeavesBlock) Blocks.BIRCH_LEAVES }));
 		WOODS_VANILLA.add(new WoodFamily("jungle", Blocks.JUNGLE_LOG, Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_LOG,
 				Blocks.STRIPPED_JUNGLE_WOOD, Blocks.JUNGLE_PLANKS, Blocks.JUNGLE_STAIRS, Blocks.JUNGLE_SLAB,
 				Blocks.JUNGLE_FENCE, Blocks.JUNGLE_FENCE_GATE, Blocks.JUNGLE_DOOR, Blocks.JUNGLE_TRAPDOOR,
 				Blocks.JUNGLE_PRESSURE_PLATE, Blocks.JUNGLE_BUTTON, Items.JUNGLE_SIGN, Items.JUNGLE_HANGING_SIGN,
 				Blocks.JUNGLE_SIGN, Blocks.JUNGLE_WALL_SIGN, Blocks.JUNGLE_HANGING_SIGN,
-				Blocks.JUNGLE_WALL_HANGING_SIGN, new Block[] { Blocks.JUNGLE_LEAVES }));
+				Blocks.JUNGLE_WALL_HANGING_SIGN, new LeavesBlock[] { (LeavesBlock) Blocks.JUNGLE_LEAVES }));
 		WOODS_VANILLA.add(new WoodFamily("acacia", Blocks.ACACIA_LOG, Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_LOG,
 				Blocks.STRIPPED_ACACIA_WOOD, Blocks.ACACIA_PLANKS, Blocks.ACACIA_STAIRS, Blocks.ACACIA_SLAB,
 				Blocks.ACACIA_FENCE, Blocks.ACACIA_FENCE_GATE, Blocks.ACACIA_DOOR, Blocks.ACACIA_TRAPDOOR,
 				Blocks.ACACIA_PRESSURE_PLATE, Blocks.ACACIA_BUTTON, Items.ACACIA_SIGN, Items.ACACIA_HANGING_SIGN,
 				Blocks.ACACIA_SIGN, Blocks.ACACIA_WALL_SIGN, Blocks.ACACIA_HANGING_SIGN,
-				Blocks.ACACIA_WALL_HANGING_SIGN, new Block[] { Blocks.ACACIA_LEAVES }));
+				Blocks.ACACIA_WALL_HANGING_SIGN, new LeavesBlock[] { (LeavesBlock) Blocks.ACACIA_LEAVES }));
 		WOODS_VANILLA.add(new WoodFamily("dark_oak", Blocks.DARK_OAK_LOG, Blocks.DARK_OAK_WOOD,
 				Blocks.STRIPPED_DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_WOOD, Blocks.DARK_OAK_PLANKS,
 				Blocks.DARK_OAK_STAIRS, Blocks.DARK_OAK_SLAB, Blocks.DARK_OAK_FENCE, Blocks.DARK_OAK_FENCE_GATE,
 				Blocks.DARK_OAK_DOOR, Blocks.DARK_OAK_TRAPDOOR, Blocks.DARK_OAK_PRESSURE_PLATE, Blocks.DARK_OAK_BUTTON,
 				Items.DARK_OAK_SIGN, Items.DARK_OAK_HANGING_SIGN, Blocks.DARK_OAK_SIGN, Blocks.DARK_OAK_WALL_SIGN,
 				Blocks.DARK_OAK_HANGING_SIGN, Blocks.DARK_OAK_WALL_HANGING_SIGN,
-				new Block[] { Blocks.DARK_OAK_LEAVES }));
+				new LeavesBlock[] { (LeavesBlock) Blocks.DARK_OAK_LEAVES }));
 		WOODS_VANILLA.add(new WoodFamily("mangrove", Blocks.MANGROVE_LOG, Blocks.MANGROVE_WOOD,
 				Blocks.STRIPPED_MANGROVE_LOG, Blocks.STRIPPED_MANGROVE_WOOD, Blocks.MANGROVE_PLANKS,
 				Blocks.MANGROVE_STAIRS, Blocks.MANGROVE_SLAB, Blocks.MANGROVE_FENCE, Blocks.MANGROVE_FENCE_GATE,
 				Blocks.MANGROVE_DOOR, Blocks.MANGROVE_TRAPDOOR, Blocks.MANGROVE_PRESSURE_PLATE, Blocks.MANGROVE_BUTTON,
 				Items.MANGROVE_SIGN, Items.MANGROVE_HANGING_SIGN, Blocks.MANGROVE_SIGN, Blocks.MANGROVE_WALL_SIGN,
 				Blocks.MANGROVE_HANGING_SIGN, Blocks.MANGROVE_WALL_HANGING_SIGN,
-				new Block[] { Blocks.MANGROVE_LEAVES }));
+				new LeavesBlock[] { (LeavesBlock) Blocks.MANGROVE_LEAVES }));
 		WOODS_VANILLA.add(new WoodFamily("cherry", Blocks.CHERRY_LOG, Blocks.CHERRY_WOOD, Blocks.STRIPPED_CHERRY_LOG,
 				Blocks.STRIPPED_CHERRY_WOOD, Blocks.CHERRY_PLANKS, Blocks.CHERRY_STAIRS, Blocks.CHERRY_SLAB,
 				Blocks.CHERRY_FENCE, Blocks.CHERRY_FENCE_GATE, Blocks.CHERRY_DOOR, Blocks.CHERRY_TRAPDOOR,
 				Blocks.CHERRY_PRESSURE_PLATE, Blocks.CHERRY_BUTTON, Items.CHERRY_SIGN, Items.CHERRY_HANGING_SIGN,
 				Blocks.CHERRY_SIGN, Blocks.CHERRY_WALL_SIGN, Blocks.CHERRY_HANGING_SIGN,
-				Blocks.CHERRY_WALL_HANGING_SIGN, new Block[] { Blocks.CHERRY_LEAVES }));
+				Blocks.CHERRY_WALL_HANGING_SIGN, new LeavesBlock[] { (LeavesBlock) Blocks.CHERRY_LEAVES }));
 		WOODS_VANILLA.add(new WoodFamily("crimson", Blocks.CRIMSON_STEM, Blocks.CRIMSON_HYPHAE,
 				Blocks.STRIPPED_CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_HYPHAE, Blocks.CRIMSON_PLANKS,
 				Blocks.CRIMSON_STAIRS, Blocks.CRIMSON_SLAB, Blocks.CRIMSON_FENCE, Blocks.CRIMSON_FENCE_GATE,
 				Blocks.CRIMSON_DOOR, Blocks.CRIMSON_TRAPDOOR, Blocks.CRIMSON_PRESSURE_PLATE, Blocks.CRIMSON_BUTTON,
 				Items.CRIMSON_SIGN, Items.CRIMSON_HANGING_SIGN, Blocks.CRIMSON_SIGN, Blocks.CRIMSON_WALL_SIGN,
-				Blocks.CRIMSON_HANGING_SIGN, Blocks.CRIMSON_WALL_HANGING_SIGN, new Block[] {}));
+				Blocks.CRIMSON_HANGING_SIGN, Blocks.CRIMSON_WALL_HANGING_SIGN, new LeavesBlock[] {}));
 		WOODS_VANILLA.add(new WoodFamily("warped", Blocks.WARPED_STEM, Blocks.WARPED_HYPHAE,
 				Blocks.STRIPPED_WARPED_STEM, Blocks.STRIPPED_WARPED_HYPHAE, Blocks.WARPED_PLANKS, Blocks.WARPED_STAIRS,
 				Blocks.WARPED_SLAB, Blocks.WARPED_FENCE, Blocks.WARPED_FENCE_GATE, Blocks.WARPED_DOOR,
 				Blocks.WARPED_TRAPDOOR, Blocks.WARPED_PRESSURE_PLATE, Blocks.WARPED_BUTTON, Items.WARPED_SIGN,
 				Items.WARPED_HANGING_SIGN, Blocks.WARPED_SIGN, Blocks.WARPED_WALL_SIGN, Blocks.WARPED_HANGING_SIGN,
-				Blocks.WARPED_WALL_HANGING_SIGN, new Block[] {}));
+				Blocks.WARPED_WALL_HANGING_SIGN, new LeavesBlock[] {}));
 	}
 
 	public interface ItemLikeFamily {
@@ -416,11 +441,19 @@ public class FamiliesInit {
 		}
 	}
 
-	public record DirtFamily(String name, Block dirt, Block stairs, Block slab, Optional<Block> grass)
-			implements ItemLikeFamily {
+	public record DirtFamily(String name, Block dirt, StairBlock stairs, SlabBlock slab, Optional<Block> grass,
+			boolean randomRotation) implements ItemLikeFamily {
 
-		public DirtFamily(String name, Block dirt, Block stairs, Block slab) {
-			this(name, dirt, stairs, slab, Optional.empty());
+		public DirtFamily(String name, Block dirt, StairBlock stairs, SlabBlock slab, boolean randomRotation) {
+			this(name, dirt, stairs, slab, Optional.empty(), randomRotation);
+		}
+
+		public DirtFamily(String name, Block dirt, StairBlock stairs, SlabBlock slab) {
+			this(name, dirt, stairs, slab, Optional.empty(), true);
+		}
+
+		public DirtFamily(String name, Block dirt, StairBlock stairs, SlabBlock slab, Optional<Block> grass) {
+			this(name, dirt, stairs, slab, grass, true);
 		}
 
 		@Override
@@ -430,10 +463,24 @@ public class FamiliesInit {
 		}
 	}
 
-	public record WoodFamily(String name, Block log, Block wood, Block stripped_log, Block stripped_wood, Block planks,
-			Block stairs, Block slab, Block fence, Block fencegate, Block door, Block trapdoor, Block pressure_plate,
-			Block button, Item sign, Item hangingsign, Block signblock, Block wallsignblock, Block hangingsignblock,
-			Block hangingwallsignblock, Block[] leaves) implements ItemLikeFamily {
+	public record WoodFamily(String name, RotatedPillarBlock log, RotatedPillarBlock wood,
+			RotatedPillarBlock stripped_log, RotatedPillarBlock stripped_wood, Block planks, StairBlock stairs,
+			SlabBlock slab, FenceBlock fence, FenceGateBlock fencegate, DoorBlock door, TrapDoorBlock trapdoor,
+			PressurePlateBlock pressure_plate, ButtonBlock button, Item sign, Item hangingsign, SignBlock signblock,
+			SignBlock wallsignblock, SignBlock hangingsignblock, SignBlock hangingwallsignblock, LeavesBlock[] leaves)
+			implements ItemLikeFamily {
+
+		// Vanilla Constructor
+		public WoodFamily(String name, Block log, Block wood, Block stripped_log, Block stripped_wood, Block planks,
+				Block stairs, Block slab, Block fence, Block fencegate, Block door, Block trapdoor,
+				Block pressure_plate, Block button, Item sign, Item hangingsign, Block signblock, Block wallsignblock,
+				Block hangingsignblock, Block hangingwallsignblock, LeavesBlock[] leaves) {
+			this(name, (RotatedPillarBlock) log, (RotatedPillarBlock) wood, (RotatedPillarBlock) stripped_log,
+					(RotatedPillarBlock) stripped_wood, planks, (StairBlock) stairs, (SlabBlock) slab,
+					(FenceBlock) fence, (FenceGateBlock) fencegate, (DoorBlock) door, (TrapDoorBlock) trapdoor,
+					(PressurePlateBlock) pressure_plate, (ButtonBlock) button, sign, hangingsign, (SignBlock) signblock,
+					(SignBlock) wallsignblock, (SignBlock) hangingsignblock, (SignBlock) hangingwallsignblock, leaves);
+		}
 
 		@Override
 		public List<ItemLike> tab() {
@@ -443,8 +490,8 @@ public class FamiliesInit {
 		}
 	}
 
-	public record StoneFamily(String name, Block base, Block slab, Block stairs, Block wall, Block pressure_plate,
-			Block button, Block pebbles) implements ItemLikeFamily {
+	public record StoneFamily(String name, Block base, SlabBlock slab, StairBlock stairs, WallBlock wall,
+			PressurePlateBlock pressure_plate, ButtonBlock button, PebbleBlock pebbles) implements ItemLikeFamily {
 
 		@Override
 		public List<ItemLike> tab() {

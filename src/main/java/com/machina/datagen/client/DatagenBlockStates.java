@@ -12,7 +12,10 @@ import com.machina.block.PebbleBlock;
 import com.machina.block.SmallFlowerBlock;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FamiliesInit;
+import com.machina.registration.init.FamiliesInit.DirtFamily;
 import com.machina.registration.init.FamiliesInit.OreFamily;
+import com.machina.registration.init.FamiliesInit.StoneFamily;
+import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit;
@@ -79,118 +82,6 @@ public class DatagenBlockStates extends BlockStateProvider {
 		machine(BlockInit.ROCKET_PART_BENCH);
 		machine(BlockInit.ROCKET_ASSEMBLY_STATION);
 
-		cube(BlockInit.ANTHRACITE);
-		slab(BlockInit.ANTHRACITE_SLAB, BlockInit.ANTHRACITE);
-		stairs(BlockInit.ANTHRACITE_STAIRS, BlockInit.ANTHRACITE);
-		wall(BlockInit.ANTHRACITE_WALL, BlockInit.ANTHRACITE);
-		button(BlockInit.ANTHRACITE_BUTTON, BlockInit.ANTHRACITE);
-		pressure_plate(BlockInit.ANTHRACITE_PRESSURE_PLATE, BlockInit.ANTHRACITE);
-		pebble(BlockInit.ANTHRACITE_PEBBLES);
-
-		cube(BlockInit.FELDSPAR);
-		slab(BlockInit.FELDSPAR_SLAB, BlockInit.FELDSPAR);
-		stairs(BlockInit.FELDSPAR_STAIRS, BlockInit.FELDSPAR);
-		wall(BlockInit.FELDSPAR_WALL, BlockInit.FELDSPAR);
-		button(BlockInit.FELDSPAR_BUTTON, BlockInit.FELDSPAR);
-		pressure_plate(BlockInit.FELDSPAR_PRESSURE_PLATE, BlockInit.FELDSPAR);
-		pebble(BlockInit.FELDSPAR_PEBBLES);
-
-		cube(BlockInit.GRAY_SOAPSTONE);
-		slab(BlockInit.GRAY_SOAPSTONE_SLAB, BlockInit.GRAY_SOAPSTONE);
-		stairs(BlockInit.GRAY_SOAPSTONE_STAIRS, BlockInit.GRAY_SOAPSTONE);
-		wall(BlockInit.GRAY_SOAPSTONE_WALL, BlockInit.GRAY_SOAPSTONE);
-		button(BlockInit.GRAY_SOAPSTONE_BUTTON, BlockInit.GRAY_SOAPSTONE);
-		pressure_plate(BlockInit.GRAY_SOAPSTONE_PRESSURE_PLATE, BlockInit.GRAY_SOAPSTONE);
-		pebble(BlockInit.GRAY_SOAPSTONE_PEBBLES);
-
-		cube(BlockInit.GREEN_SOAPSTONE);
-		slab(BlockInit.GREEN_SOAPSTONE_SLAB, BlockInit.GREEN_SOAPSTONE);
-		stairs(BlockInit.GREEN_SOAPSTONE_STAIRS, BlockInit.GREEN_SOAPSTONE);
-		wall(BlockInit.GREEN_SOAPSTONE_WALL, BlockInit.GREEN_SOAPSTONE);
-		button(BlockInit.GREEN_SOAPSTONE_BUTTON, BlockInit.GREEN_SOAPSTONE);
-		pressure_plate(BlockInit.GREEN_SOAPSTONE_PRESSURE_PLATE, BlockInit.GREEN_SOAPSTONE);
-		pebble(BlockInit.GREEN_SOAPSTONE_PEBBLES);
-
-		cube(BlockInit.WHITE_SOAPSTONE);
-		slab(BlockInit.WHITE_SOAPSTONE_SLAB, BlockInit.WHITE_SOAPSTONE);
-		stairs(BlockInit.WHITE_SOAPSTONE_STAIRS, BlockInit.WHITE_SOAPSTONE);
-		wall(BlockInit.WHITE_SOAPSTONE_WALL, BlockInit.WHITE_SOAPSTONE);
-		button(BlockInit.WHITE_SOAPSTONE_BUTTON, BlockInit.WHITE_SOAPSTONE);
-		pressure_plate(BlockInit.WHITE_SOAPSTONE_PRESSURE_PLATE, BlockInit.WHITE_SOAPSTONE);
-		pebble(BlockInit.WHITE_SOAPSTONE_PEBBLES);
-		
-		cube(BlockInit.WISPY_SOAPSTONE);
-		slab(BlockInit.WISPY_SOAPSTONE_SLAB, BlockInit.WISPY_SOAPSTONE);
-		stairs(BlockInit.WISPY_SOAPSTONE_STAIRS, BlockInit.WISPY_SOAPSTONE);
-		wall(BlockInit.WISPY_SOAPSTONE_WALL, BlockInit.WISPY_SOAPSTONE);
-		button(BlockInit.WISPY_SOAPSTONE_BUTTON, BlockInit.WISPY_SOAPSTONE);
-		pressure_plate(BlockInit.WISPY_SOAPSTONE_PRESSURE_PLATE, BlockInit.WISPY_SOAPSTONE);
-		pebble(BlockInit.WISPY_SOAPSTONE_PEBBLES);
-		
-		cube(BlockInit.MOONSTONE);
-		slab(BlockInit.MOONSTONE_SLAB, BlockInit.MOONSTONE);
-		stairs(BlockInit.MOONSTONE_STAIRS, BlockInit.MOONSTONE);
-		wall(BlockInit.MOONSTONE_WALL, BlockInit.MOONSTONE);
-		button(BlockInit.MOONSTONE_BUTTON, BlockInit.MOONSTONE);
-		pressure_plate(BlockInit.MOONSTONE_PRESSURE_PLATE, BlockInit.MOONSTONE);
-		pebble(BlockInit.MOONSTONE_PEBBLES);
-
-		cube(BlockInit.SHALE);
-		slab(BlockInit.SHALE_SLAB, BlockInit.SHALE);
-		stairs(BlockInit.SHALE_STAIRS, BlockInit.SHALE);
-		wall(BlockInit.SHALE_WALL, BlockInit.SHALE);
-		button(BlockInit.SHALE_BUTTON, BlockInit.SHALE);
-		pressure_plate(BlockInit.SHALE_PRESSURE_PLATE, BlockInit.SHALE);
-		pebble(BlockInit.SHALE_PEBBLES);
-
-		cube(BlockInit.TECTONITE);
-		slab(BlockInit.TECTONITE_SLAB, BlockInit.TECTONITE);
-		stairs(BlockInit.TECTONITE_STAIRS, BlockInit.TECTONITE);
-		wall(BlockInit.TECTONITE_WALL, BlockInit.TECTONITE);
-		button(BlockInit.TECTONITE_BUTTON, BlockInit.TECTONITE);
-		pressure_plate(BlockInit.TECTONITE_PRESSURE_PLATE, BlockInit.TECTONITE);
-		pebble(BlockInit.TECTONITE_PEBBLES);
-
-		cube(BlockInit.MARBLE);
-		slab(BlockInit.MARBLE_SLAB, BlockInit.MARBLE);
-		stairs(BlockInit.MARBLE_STAIRS, BlockInit.MARBLE);
-		wall(BlockInit.MARBLE_WALL, BlockInit.MARBLE);
-		button(BlockInit.MARBLE_BUTTON, BlockInit.MARBLE);
-		pressure_plate(BlockInit.MARBLE_PRESSURE_PLATE, BlockInit.MARBLE);
-		pebble(BlockInit.MARBLE_PEBBLES);
-
-		cube(BlockInit.CHALK);
-		slab(BlockInit.CHALK_SLAB, BlockInit.CHALK);
-		stairs(BlockInit.CHALK_STAIRS, BlockInit.CHALK);
-		wall(BlockInit.CHALK_WALL, BlockInit.CHALK);
-		button(BlockInit.CHALK_BUTTON, BlockInit.CHALK);
-		pressure_plate(BlockInit.CHALK_PRESSURE_PLATE, BlockInit.CHALK);
-		pebble(BlockInit.CHALK_PEBBLES);
-
-		cube(BlockInit.LIMESTONE);
-		slab(BlockInit.LIMESTONE_SLAB, BlockInit.LIMESTONE);
-		stairs(BlockInit.LIMESTONE_STAIRS, BlockInit.LIMESTONE);
-		wall(BlockInit.LIMESTONE_WALL, BlockInit.LIMESTONE);
-		button(BlockInit.LIMESTONE_BUTTON, BlockInit.LIMESTONE);
-		pressure_plate(BlockInit.LIMESTONE_PRESSURE_PLATE, BlockInit.LIMESTONE);
-		pebble(BlockInit.LIMESTONE_PEBBLES);
-
-		cube(BlockInit.MIGMATITE);
-		slab(BlockInit.MIGMATITE_SLAB, BlockInit.MIGMATITE);
-		stairs(BlockInit.MIGMATITE_STAIRS, BlockInit.MIGMATITE);
-		wall(BlockInit.MIGMATITE_WALL, BlockInit.MIGMATITE);
-		button(BlockInit.MIGMATITE_BUTTON, BlockInit.MIGMATITE);
-		pressure_plate(BlockInit.MIGMATITE_PRESSURE_PLATE, BlockInit.MIGMATITE);
-		pebble(BlockInit.MIGMATITE_PEBBLES);
-
-		cube(BlockInit.GNEISS);
-		slab(BlockInit.GNEISS_SLAB, BlockInit.GNEISS);
-		stairs(BlockInit.GNEISS_STAIRS, BlockInit.GNEISS);
-		wall(BlockInit.GNEISS_WALL, BlockInit.GNEISS);
-		button(BlockInit.GNEISS_BUTTON, BlockInit.GNEISS);
-		pressure_plate(BlockInit.GNEISS_PRESSURE_PLATE, BlockInit.GNEISS);
-		pebble(BlockInit.GNEISS_PEBBLES);
-
 		cube(BlockInit.BROWN_MUSHROOM_STALK);
 		cube(BlockInit.GREEN_MUSHROOM_STALK);
 		cube(BlockInit.PURPLE_MUSHROOM_STALK);
@@ -212,131 +103,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 		cube(BlockInit.IMBUED_PURPLE_MUSHROOM_CAP);
 		cube(BlockInit.IMBUED_YELLOW_MUSHROOM_CAP);
 
-		cubeBottomTopRandomRotation(BlockInit.TROPICAL_GRASS_BLOCK);
-		cubeBottomTopRandomRotation(BlockInit.FOREST_GRASS_BLOCK);
-		cubeBottomTopRandomRotation(BlockInit.CONIFEROUS_GRASS_BLOCK);
-		cubeBottomTopRandomRotation(BlockInit.WINDSWEPT_GRASS_BLOCK);
-		cubeBottomTopRandomRotation(BlockInit.MYCELIAL_GRASS_BLOCK);
-
-		cubeRandomRotation(BlockInit.TROPICAL_DIRT);
-		slab(BlockInit.TROPICAL_DIRT_SLAB, BlockInit.TROPICAL_DIRT);
-		stairs(BlockInit.TROPICAL_DIRT_STAIRS, BlockInit.TROPICAL_DIRT);
-
-		cubeRandomRotation(BlockInit.FOREST_DIRT);
-		slab(BlockInit.FOREST_DIRT_SLAB, BlockInit.FOREST_DIRT);
-		stairs(BlockInit.FOREST_DIRT_STAIRS, BlockInit.FOREST_DIRT);
-
-		cubeRandomRotation(BlockInit.CONIFEROUS_DIRT);
-		slab(BlockInit.CONIFEROUS_DIRT_SLAB, BlockInit.CONIFEROUS_DIRT);
-		stairs(BlockInit.CONIFEROUS_DIRT_STAIRS, BlockInit.CONIFEROUS_DIRT);
-
-		cubeRandomRotation(BlockInit.WINDSWEPT_DIRT);
-		slab(BlockInit.WINDSWEPT_DIRT_SLAB, BlockInit.WINDSWEPT_DIRT);
-		stairs(BlockInit.WINDSWEPT_DIRT_STAIRS, BlockInit.WINDSWEPT_DIRT);
-
-		cube(BlockInit.MYCELIAL_DIRT);
-		slab(BlockInit.MYCELIAL_DIRT_SLAB, BlockInit.MYCELIAL_DIRT);
-		stairs(BlockInit.MYCELIAL_DIRT_STAIRS, BlockInit.MYCELIAL_DIRT);
-
-		cube(BlockInit.PEAT);
-		slab(BlockInit.PEAT_SLAB, BlockInit.PEAT);
-		stairs(BlockInit.PEAT_STAIRS, BlockInit.PEAT);
-
-		cubeRandomRotation(BlockInit.SILT);
-		slab(BlockInit.SILT_SLAB, BlockInit.SILT);
-		stairs(BlockInit.SILT_STAIRS, BlockInit.SILT);
-
 		cube(BlockInit.TROPICAL_SAND);
 		cube(BlockInit.MOONSAND);
-
-		cube(BlockInit.TROPICAL_PLANKS);
-		leaves(BlockInit.TROPICAL_LEAVES);
-		log(BlockInit.TROPICAL_LOG);
-		log(BlockInit.TROPICAL_WOOD);
-		log(BlockInit.STRIPPED_TROPICAL_LOG);
-		log(BlockInit.STRIPPED_TROPICAL_WOOD);
-		slab(BlockInit.TROPICAL_SLAB, BlockInit.TROPICAL_PLANKS);
-		stairs(BlockInit.TROPICAL_STAIRS, BlockInit.TROPICAL_PLANKS);
-		button(BlockInit.TROPICAL_BUTTON, BlockInit.TROPICAL_PLANKS);
-		pressure_plate(BlockInit.TROPICAL_PRESSURE_PLATE, BlockInit.TROPICAL_PLANKS);
-		fence(BlockInit.TROPICAL_FENCE, BlockInit.TROPICAL_PLANKS);
-		fence_gate(BlockInit.TROPICAL_FENCE_GATE, BlockInit.TROPICAL_PLANKS);
-		sign(BlockInit.TROPICAL_SIGN, BlockInit.TROPICAL_WALL_SIGN, BlockInit.TROPICAL_PLANKS);
-		sign(BlockInit.TROPICAL_HANGING_SIGN, BlockInit.TROPICAL_WALL_HANGING_SIGN, BlockInit.TROPICAL_PLANKS);
-		trapdoor(BlockInit.TROPICAL_TRAPDOOR);
-		door(BlockInit.TROPICAL_DOOR);
-
-		cube(BlockInit.DEAD_TROPICAL_PLANKS);
-		leaves(BlockInit.DEAD_TROPICAL_LEAVES);
-		log(BlockInit.DEAD_TROPICAL_LOG);
-		log(BlockInit.DEAD_TROPICAL_WOOD);
-		log(BlockInit.STRIPPED_DEAD_TROPICAL_LOG);
-		log(BlockInit.STRIPPED_DEAD_TROPICAL_WOOD);
-		slab(BlockInit.DEAD_TROPICAL_SLAB, BlockInit.DEAD_TROPICAL_PLANKS);
-		stairs(BlockInit.DEAD_TROPICAL_STAIRS, BlockInit.DEAD_TROPICAL_PLANKS);
-		button(BlockInit.DEAD_TROPICAL_BUTTON, BlockInit.DEAD_TROPICAL_PLANKS);
-		pressure_plate(BlockInit.DEAD_TROPICAL_PRESSURE_PLATE, BlockInit.DEAD_TROPICAL_PLANKS);
-		fence(BlockInit.DEAD_TROPICAL_FENCE, BlockInit.DEAD_TROPICAL_PLANKS);
-		fence_gate(BlockInit.DEAD_TROPICAL_FENCE_GATE, BlockInit.DEAD_TROPICAL_PLANKS);
-		sign(BlockInit.DEAD_TROPICAL_SIGN, BlockInit.DEAD_TROPICAL_WALL_SIGN, BlockInit.DEAD_TROPICAL_PLANKS);
-		sign(BlockInit.DEAD_TROPICAL_HANGING_SIGN, BlockInit.DEAD_TROPICAL_WALL_HANGING_SIGN,
-				BlockInit.DEAD_TROPICAL_PLANKS);
-		trapdoor(BlockInit.DEAD_TROPICAL_TRAPDOOR);
-		door(BlockInit.DEAD_TROPICAL_DOOR);
-
-		cube(BlockInit.PINE_PLANKS);
-		leaves(BlockInit.PINE_LEAVES);
-		log(BlockInit.PINE_LOG);
-		log(BlockInit.PINE_WOOD);
-		log(BlockInit.STRIPPED_PINE_LOG);
-		log(BlockInit.STRIPPED_PINE_WOOD);
-		slab(BlockInit.PINE_SLAB, BlockInit.PINE_PLANKS);
-		stairs(BlockInit.PINE_STAIRS, BlockInit.PINE_PLANKS);
-		button(BlockInit.PINE_BUTTON, BlockInit.PINE_PLANKS);
-		pressure_plate(BlockInit.PINE_PRESSURE_PLATE, BlockInit.PINE_PLANKS);
-		fence(BlockInit.PINE_FENCE, BlockInit.PINE_PLANKS);
-		fence_gate(BlockInit.PINE_FENCE_GATE, BlockInit.PINE_PLANKS);
-		sign(BlockInit.PINE_SIGN, BlockInit.PINE_WALL_SIGN, BlockInit.PINE_PLANKS);
-		sign(BlockInit.PINE_HANGING_SIGN, BlockInit.PINE_WALL_HANGING_SIGN, BlockInit.PINE_PLANKS);
-		trapdoor(BlockInit.PINE_TRAPDOOR);
-		door(BlockInit.PINE_DOOR);
-
-		cube(BlockInit.CONIFEROUS_PLANKS);
-		leaves(BlockInit.GREEN_CONIFEROUS_LEAVES);
-		leaves(BlockInit.YELLOW_CONIFEROUS_LEAVES);
-		leaves(BlockInit.ORANGE_CONIFEROUS_LEAVES);
-		leaves(BlockInit.RED_CONIFEROUS_LEAVES);
-		log(BlockInit.CONIFEROUS_LOG);
-		log(BlockInit.CONIFEROUS_WOOD);
-		log(BlockInit.STRIPPED_CONIFEROUS_LOG);
-		log(BlockInit.STRIPPED_CONIFEROUS_WOOD);
-		slab(BlockInit.CONIFEROUS_SLAB, BlockInit.CONIFEROUS_PLANKS);
-		stairs(BlockInit.CONIFEROUS_STAIRS, BlockInit.CONIFEROUS_PLANKS);
-		button(BlockInit.CONIFEROUS_BUTTON, BlockInit.CONIFEROUS_PLANKS);
-		pressure_plate(BlockInit.CONIFEROUS_PRESSURE_PLATE, BlockInit.CONIFEROUS_PLANKS);
-		fence(BlockInit.CONIFEROUS_FENCE, BlockInit.CONIFEROUS_PLANKS);
-		fence_gate(BlockInit.CONIFEROUS_FENCE_GATE, BlockInit.CONIFEROUS_PLANKS);
-		sign(BlockInit.CONIFEROUS_SIGN, BlockInit.CONIFEROUS_WALL_SIGN, BlockInit.CONIFEROUS_PLANKS);
-		sign(BlockInit.CONIFEROUS_HANGING_SIGN, BlockInit.CONIFEROUS_WALL_HANGING_SIGN, BlockInit.CONIFEROUS_PLANKS);
-		trapdoor(BlockInit.CONIFEROUS_TRAPDOOR);
-		door(BlockInit.CONIFEROUS_DOOR);
-
-		cube(BlockInit.CYCAD_PLANKS);
-		leaves(BlockInit.CYCAD_LEAVES);
-		log(BlockInit.CYCAD_LOG);
-		log(BlockInit.CYCAD_WOOD);
-		log(BlockInit.STRIPPED_CYCAD_LOG);
-		log(BlockInit.STRIPPED_CYCAD_WOOD);
-		slab(BlockInit.CYCAD_SLAB, BlockInit.CYCAD_PLANKS);
-		stairs(BlockInit.CYCAD_STAIRS, BlockInit.CYCAD_PLANKS);
-		button(BlockInit.CYCAD_BUTTON, BlockInit.CYCAD_PLANKS);
-		pressure_plate(BlockInit.CYCAD_PRESSURE_PLATE, BlockInit.CYCAD_PLANKS);
-		fence(BlockInit.CYCAD_FENCE, BlockInit.CYCAD_PLANKS);
-		fence_gate(BlockInit.CYCAD_FENCE_GATE, BlockInit.CYCAD_PLANKS);
-		sign(BlockInit.CYCAD_SIGN, BlockInit.CYCAD_WALL_SIGN, BlockInit.CYCAD_PLANKS);
-		sign(BlockInit.CYCAD_HANGING_SIGN, BlockInit.CYCAD_WALL_HANGING_SIGN, BlockInit.CYCAD_PLANKS);
-		trapdoor(BlockInit.CYCAD_TRAPDOOR);
-		door(BlockInit.CYCAD_DOOR);
+		cube(BlockInit.FERROUS_SAND);
+		cube(BlockInit.ASH);
 
 		flower(BlockInit.TROPICAL_GRASS);
 		flower(BlockInit.TWISTED_GRASS);
@@ -413,6 +183,9 @@ public class DatagenBlockStates extends BlockStateProvider {
 		FruitInit.FRUITS.forEach(this::fruit);
 		FluidInit.OBJS.forEach(this::fluid);
 		FamiliesInit.ORES.forEach(this::oreFamily);
+		FamiliesInit.STONES.forEach(this::stoneFamily);
+		FamiliesInit.DIRTS.forEach(this::dirtFamily);
+		FamiliesInit.WOODS.forEach(this::woodFamily);
 	}
 
 	private void oreFamily(OreFamily fam) {
@@ -428,16 +201,56 @@ public class DatagenBlockStates extends BlockStateProvider {
 		});
 	}
 
-	private void cubeRandomRotation(DeferredBlock<Block> block) {
-		Block b = block.get();
+	private void stoneFamily(StoneFamily fam) {
+		cube(fam.base());
+		slab(fam.slab(), fam.base());
+		stairs(fam.stairs(), fam.base());
+		wall(fam.wall(), fam.base());
+		button(fam.button(), fam.base());
+		pressure_plate(fam.pressure_plate(), fam.base());
+		pebble(fam.pebbles());
+	}
+
+	private void dirtFamily(DirtFamily fam) {
+		if (fam.randomRotation()) {
+			cubeRandomRotation(fam.dirt());
+		} else {
+			cube(fam.dirt());
+		}
+		slab(fam.slab(), fam.dirt());
+		stairs(fam.stairs(), fam.dirt());
+		fam.grass().ifPresent(this::cubeBottomTopRandomRotation);
+	}
+
+	private void woodFamily(WoodFamily fam) {
+		cube(fam.planks());
+		for (LeavesBlock leaf : fam.leaves()) {
+			leaves(leaf);
+		}
+		log(fam.log());
+		log(fam.wood());
+		log(fam.stripped_log());
+		log(fam.stripped_wood());
+		slab(fam.slab(), fam.planks());
+		stairs(fam.stairs(), fam.planks());
+		button(fam.button(), fam.planks());
+		pressure_plate(fam.pressure_plate(), fam.planks());
+		fence(fam.fence(), fam.planks());
+		fence_gate(fam.fencegate(), fam.planks());
+		sign(fam.signblock(), fam.wallsignblock(), fam.planks());
+		sign(fam.hangingsignblock(), fam.hangingwallsignblock(), fam.planks());
+		trapdoor(fam.trapdoor());
+		door(fam.door());
+	}
+
+	private void cubeRandomRotation(Block b) {
 		ModelFile model = cubeAll(b);
 		simpleBlock(b, randomRotation(model));
 		simpleBlockItem(b, model);
 	}
 
-	private void cubeBottomTopRandomRotation(DeferredBlock<Block> block) {
-		ResourceLocation t = blockTexture(block.get());
-		Block b = block.get();
+	private void cubeBottomTopRandomRotation(Block b) {
+		ResourceLocation t = blockTexture(b);
 		ModelFile model = models().cubeBottomTop(name(b), extend(t, "_side"), extend(t, "_bottom"), extend(t, "_top"));
 		simpleBlock(b, randomRotation(model));
 		simpleBlockItem(b, model);
@@ -461,86 +274,74 @@ public class DatagenBlockStates extends BlockStateProvider {
 		cube(blockDeferredBlock.get());
 	}
 
-	private void leaves(DeferredBlock<LeavesBlock> leaves) {
-		LeavesBlock b = leaves.get();
-		simpleBlockWithItem(b, models().cubeAll(name(b), blockTexture(b)).renderType("translucent"));
+	private void leaves(LeavesBlock leaves) {
+		simpleBlockWithItem(leaves, models().cubeAll(name(leaves), blockTexture(leaves)).renderType("translucent"));
 	}
 
-	private void slab(DeferredBlock<SlabBlock> slab, DeferredBlock<Block> material) {
-		ResourceLocation texture = blockTexture(material.get());
-		SlabBlock b = slab.get();
-		slabBlock(b, texture, texture);
-		simpleBlockItem(b, models().slab(name(b), texture, texture, texture));
+	private void slab(SlabBlock slab, Block material) {
+		ResourceLocation texture = blockTexture(material);
+		slabBlock(slab, texture, texture);
+		simpleBlockItem(slab, models().slab(name(slab), texture, texture, texture));
 	}
 
-	private void log(DeferredBlock<RotatedPillarBlock> log) {
-		ResourceLocation texture = blockTexture(log.get());
-		RotatedPillarBlock b = log.get();
-		logBlock(b);
-		simpleBlockItem(b, models().cubeColumn(name(b), texture, extend(texture, "_top")));
+	private void log(RotatedPillarBlock log) {
+		ResourceLocation texture = blockTexture(log);
+		logBlock(log);
+		simpleBlockItem(log, models().cubeColumn(name(log), texture, extend(texture, "_top")));
 	}
 
-	private void wall(DeferredBlock<WallBlock> wall, DeferredBlock<Block> material) {
-		ResourceLocation texture = blockTexture(material.get());
-		WallBlock b = wall.get();
-		wallBlock(b, texture);
-		simpleBlockItem(b, models().wallInventory(name(b) + "_inventory", texture));
+	private void wall(WallBlock wall, Block material) {
+		ResourceLocation texture = blockTexture(material);
+		wallBlock(wall, texture);
+		simpleBlockItem(wall, models().wallInventory(name(wall) + "_inventory", texture));
 	}
 
-	private void stairs(DeferredBlock<StairBlock> stair, DeferredBlock<Block> material) {
-		ResourceLocation texture = blockTexture(material.get());
-		StairBlock b = stair.get();
-		stairsBlock(b, texture);
-		simpleBlockItem(b, models().stairs(name(b), texture, texture, texture));
+	private void stairs(StairBlock stair, Block material) {
+		ResourceLocation texture = blockTexture(material);
+		stairsBlock(stair, texture);
+		simpleBlockItem(stair, models().stairs(name(stair), texture, texture, texture));
 	}
 
-	private void button(DeferredBlock<ButtonBlock> button, DeferredBlock<Block> material) {
-		ResourceLocation texture = blockTexture(material.get());
-		ButtonBlock b = button.get();
-		buttonBlock(b, texture);
-		simpleBlockItem(b, models().buttonInventory(name(b) + "_inventory", texture));
+	private void button(ButtonBlock button, Block material) {
+		ResourceLocation texture = blockTexture(material);
+		buttonBlock(button, texture);
+		simpleBlockItem(button, models().buttonInventory(name(button) + "_inventory", texture));
 	}
 
-	private void pressure_plate(DeferredBlock<PressurePlateBlock> plate, DeferredBlock<Block> material) {
-		ResourceLocation texture = blockTexture(material.get());
-		PressurePlateBlock b = plate.get();
-		pressurePlateBlock(b, texture);
-		simpleBlockItem(b, models().pressurePlate(name(b), texture));
+	private void pressure_plate(PressurePlateBlock plate, Block material) {
+		ResourceLocation texture = blockTexture(material);
+		pressurePlateBlock(plate, texture);
+		simpleBlockItem(plate, models().pressurePlate(name(plate), texture));
 	}
 
-	private void fence(DeferredBlock<FenceBlock> fence, DeferredBlock<Block> material) {
-		ResourceLocation texture = blockTexture(material.get());
-		FenceBlock b = fence.get();
-		fenceBlock(b, texture);
-		simpleBlockItem(b, models().fenceInventory(name(b) + "_inventory", texture));
+	private void fence(FenceBlock fence, Block material) {
+		ResourceLocation texture = blockTexture(material);
+		fenceBlock(fence, texture);
+		simpleBlockItem(fence, models().fenceInventory(name(fence) + "_inventory", texture));
 	}
 
-	private void fence_gate(DeferredBlock<FenceGateBlock> fence, DeferredBlock<Block> material) {
-		ResourceLocation texture = blockTexture(material.get());
-		FenceGateBlock b = fence.get();
-		fenceGateBlock(b, texture);
-		simpleBlockItem(b, models().fenceGate(name(b), texture));
+	private void fence_gate(FenceGateBlock fence, Block material) {
+		ResourceLocation texture = blockTexture(material);
+		fenceGateBlock(fence, texture);
+		simpleBlockItem(fence, models().fenceGate(name(fence), texture));
 	}
 
-	private void sign(DeferredBlock<? extends SignBlock> sign, DeferredBlock<? extends SignBlock> wall,
-			DeferredBlock<Block> material) {
-		ModelFile mod = models().sign(name(sign.get()), blockTexture(material.get()));
-		simpleBlock(sign.get(), mod);
-		simpleBlock(wall.get(), mod);
+	private void sign(SignBlock sign, SignBlock wall, Block material) {
+		ModelFile mod = models().sign(name(sign), blockTexture(material));
+		simpleBlock(sign, mod);
+		simpleBlock(wall, mod);
 	}
 
-	private void trapdoor(DeferredBlock<TrapDoorBlock> door) {
-		ResourceLocation texture = blockTexture(door.get());
-		TrapDoorBlock b = door.get();
-		trapdoorBlockWithRenderType(b, texture, true, "cutout");
-		simpleBlockItem(b, models().trapdoorBottom(name(b), texture));
+	private void trapdoor(TrapDoorBlock door) {
+		ResourceLocation texture = blockTexture(door);
+		trapdoorBlockWithRenderType(door, texture, true, "cutout");
+		simpleBlockItem(door, models().trapdoorBottom(name(door), texture));
 	}
 
-	private void door(DeferredBlock<DoorBlock> door) {
-		ResourceLocation texture = blockTexture(door.get());
-		DoorBlock b = door.get();
-		doorBlockWithRenderType(b, extend(texture, "_bottom"), extend(texture, "_top"), "cutout");
-		simpleFlatItem(b, itemTexture(b));
+	private void door(DoorBlock door) {
+		ResourceLocation texture = blockTexture(door);
+		doorBlockWithRenderType(door, extend(texture, "_bottom"), extend(texture, "_top"), "cutout");
+		simpleFlatItem(door, itemTexture(door));
 	}
 
 	private void fluid(FluidObject obj) {
@@ -586,9 +387,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 				.texture("plant", blockTexture(p.getPotted())).renderType("cutout"));
 	}
 
-	private void pebble(DeferredBlock<PebbleBlock> pebble) {
-		PebbleBlock p = pebble.get();
-
+	private void pebble(PebbleBlock p) {
 		Function<Integer, ModelFile> getModel = i -> models()
 				.withExistingParent(name(p) + "_" + i, MachinaRL.create("block/pebble" + i))
 				.texture("pebbles", blockTexture(p)).renderType("cutout");

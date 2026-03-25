@@ -86,7 +86,7 @@ public class FluidInit {
 	public static final FluidObject BRINE = create("brine", "NaCl", 0xFF_63d1ea);
 	public static final FluidObject SULPHUR_TRIOXIDE = create("sulphur_trioxide", "SO3", 0xFF_fafafa);
 	public static final FluidObject HYDROCHLORIC_ACID = create("hydrochloric_acid", "HCl", 0xFF_fafbf8);
-	public static final FluidObject SULPHURIC_ACID = create("sulphuric_acid", "H2SO4", 0xFF_fcfff8);
+	public static final FluidObject SULPHURIC_ACID = create("sulphuric_acid", "H2SO4", 0xFF_6b825b);
 	public static final FluidObject BROMINE = create("bromine", "Br2", 0xFF_fc6f37);
 	public static final FluidObject BENZENE = create("benzene", "C6H6", 0xFF_c9cbc6, "Benzene");
 	public static final FluidObject TOLUENE = create("toluene", "C6H5CH3", 0xFF_d7dadb);

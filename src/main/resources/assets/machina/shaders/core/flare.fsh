@@ -6,6 +6,8 @@ uniform vec2 lightPos;   // 0..1 screen-space position of the light
 uniform float intensity;  // overall flare brightness
 uniform float aspect;     // screen width/height ratio
 
+out vec4 fragColor;
+
 float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
 }
@@ -74,5 +76,5 @@ void main() {
     vec3 color = lensflare(uv, lightPosAdjusted);
     color = cc(color, 0.5, 0.1);
     
-    gl_FragColor = vec4(color, 1.0);
+    fragColor = vec4(color, 1.0);
 }

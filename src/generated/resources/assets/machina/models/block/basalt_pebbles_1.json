@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/pebble1",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "pebbles": "machina:block/basalt_pebbles"
+  }
+}

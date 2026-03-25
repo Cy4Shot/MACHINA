@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "blocks",
+  "cookingtime": 100,
+  "experience": 0.7,
+  "group": "niter",
+  "ingredient": {
+    "item": "machina:basalt_saltpeter_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:niter"
+  }
+}

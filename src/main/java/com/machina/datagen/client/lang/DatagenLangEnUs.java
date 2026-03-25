@@ -472,6 +472,22 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.GNEISS_BUTTON, "Gneiss Button");
 		add(BlockInit.GNEISS_PRESSURE_PLATE, "Gneiss Pressure Plate");
 		add(BlockInit.GNEISS_PEBBLES, "Gneiss Pebbles");
+		
+		add(BlockInit.BASALT, "Basalt");
+		add(BlockInit.BASALT_SLAB, "Basalt Slab");
+		add(BlockInit.BASALT_STAIRS, "Basalt Stairs");
+		add(BlockInit.BASALT_WALL, "Basalt Wall");
+		add(BlockInit.BASALT_BUTTON, "Basalt Button");
+		add(BlockInit.BASALT_PRESSURE_PLATE, "Basalt Pressure Plate");
+		add(BlockInit.BASALT_PEBBLES, "Basalt Pebbles");
+		
+		add(BlockInit.BASALT_SPRINGSTONE, "Basalt Springstone");
+		add(BlockInit.BASALT_SPRINGSTONE_SLAB, "Basalt Springstone Slab");
+		add(BlockInit.BASALT_SPRINGSTONE_STAIRS, "Basalt Springstone Stairs");
+		add(BlockInit.BASALT_SPRINGSTONE_WALL, "Basalt Springstone Wall");
+		add(BlockInit.BASALT_SPRINGSTONE_BUTTON, "Basalt Springstone Button");
+		add(BlockInit.BASALT_SPRINGSTONE_PRESSURE_PLATE, "Basalt Springstone Pressure Plate");
+		add(BlockInit.BASALT_SPRINGSTONE_PEBBLES, "Basalt Springstone Pebbles");
 
 		add(BlockInit.TROPICAL_GRASS_BLOCK, "Tropical Grass Block");
 		add(BlockInit.FOREST_GRASS_BLOCK, "Forest Grass Block");
@@ -503,6 +519,8 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		add(BlockInit.TROPICAL_SAND, "Tropical Sand");
 		add(BlockInit.MOONSAND, "Moonsand");
+		add(BlockInit.FERROUS_SAND, "Ferrous Sand");
+		add(BlockInit.ASH, "Ash");
 
 		add(BlockInit.TROPICAL_BUTTON, "Tropical Button");
 		add(BlockInit.TROPICAL_DOOR, "Tropical Door");

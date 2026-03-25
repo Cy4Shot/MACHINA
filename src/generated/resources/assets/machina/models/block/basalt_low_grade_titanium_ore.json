@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/basalt",
+    "ore": "machina:block/low_grade_titanium_ore"
+  }
+}

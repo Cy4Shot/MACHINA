@@ -272,6 +272,22 @@ public class BlockInit {
 	public static final DeferredBlock<ButtonBlock> GNEISS_BUTTON = stone_button("gneiss_button", Blocks.STONE_BUTTON);
 	public static final DeferredBlock<PebbleBlock> GNEISS_PEBBLES = pebbles("gneiss_pebbles");
 	
+	public static final DeferredBlock<Block> BASALT = block("basalt", Blocks.ANDESITE);
+	public static final DeferredBlock<SlabBlock> BASALT_SLAB = slab("basalt_slab", Blocks.ANDESITE_SLAB);
+	public static final DeferredBlock<StairBlock> BASALT_STAIRS = stairs("basalt_stairs", BASALT, Blocks.ANDESITE_SLAB);
+	public static final DeferredBlock<WallBlock> BASALT_WALL = wall("basalt_wall", Blocks.ANDESITE_WALL);
+	public static final DeferredBlock<PressurePlateBlock> BASALT_PRESSURE_PLATE = stone_pressure_plate("basalt_pressure_plate", Blocks.STONE_PRESSURE_PLATE);
+	public static final DeferredBlock<ButtonBlock> BASALT_BUTTON = stone_button("basalt_button", Blocks.STONE_BUTTON);
+	public static final DeferredBlock<PebbleBlock> BASALT_PEBBLES = pebbles("basalt_pebbles");
+	
+	public static final DeferredBlock<Block> BASALT_SPRINGSTONE = block("basalt_springstone", Blocks.ANDESITE);
+	public static final DeferredBlock<SlabBlock> BASALT_SPRINGSTONE_SLAB = slab("basalt_springstone_slab", Blocks.ANDESITE_SLAB);
+	public static final DeferredBlock<StairBlock> BASALT_SPRINGSTONE_STAIRS = stairs("basalt_springstone_stairs", BASALT_SPRINGSTONE, Blocks.ANDESITE_SLAB);
+	public static final DeferredBlock<WallBlock> BASALT_SPRINGSTONE_WALL = wall("basalt_springstone_wall", Blocks.ANDESITE_WALL);
+	public static final DeferredBlock<PressurePlateBlock> BASALT_SPRINGSTONE_PRESSURE_PLATE = stone_pressure_plate("basalt_springstone_pressure_plate", Blocks.STONE_PRESSURE_PLATE);
+	public static final DeferredBlock<ButtonBlock> BASALT_SPRINGSTONE_BUTTON = stone_button("basalt_springstone_button", Blocks.STONE_BUTTON);
+	public static final DeferredBlock<PebbleBlock> BASALT_SPRINGSTONE_PEBBLES = pebbles("basalt_springstone_pebbles");
+	
 	public static final DeferredBlock<Block> TROPICAL_GRASS_BLOCK = block("tropical_grass_block", Blocks.GRASS_BLOCK);
 	public static final DeferredBlock<Block> FOREST_GRASS_BLOCK = block("forest_grass_block", Blocks.GRASS_BLOCK);
 	public static final DeferredBlock<Block> CONIFEROUS_GRASS_BLOCK = block("coniferous_grass_block", Blocks.GRASS_BLOCK);
@@ -308,6 +324,8 @@ public class BlockInit {
 
     public static final DeferredBlock<FallingBlock> TROPICAL_SAND = falling("tropical_sand", 0xCD9351, Blocks.SAND);
     public static final DeferredBlock<FallingBlock> MOONSAND = falling("moonsand", 0x97B2B4, Blocks.SAND);
+    public static final DeferredBlock<FallingBlock> FERROUS_SAND = falling("ferrous_sand", 0xbe4d2e, Blocks.SAND);
+    public static final DeferredBlock<FallingBlock> ASH = falling("ash", 0x36373a, Blocks.SAND);
 
 	public static final WoodType TROPICAL = registerWoodType("tropical");
 	public static final WoodType DEAD_TROPICAL = registerWoodType("dead_tropical");
@@ -504,7 +522,7 @@ public class BlockInit {
 	public static final DeferredBlock<FlowerPotBlock> POTTED_TURQUOISE_GLOWSHROOM = flower_pot("potted_turquoise_glowshroom", TURQUOISE_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_BLUE_GLOWSHROOM = flower_pot("potted_blue_glowshroom", BLUE_GLOWSHROOM, light(7));
 
-	public static final List<DeferredBlock<Block>> ORE_BASES = List.of(FELDSPAR, GRAY_SOAPSTONE, GREEN_SOAPSTONE, WHITE_SOAPSTONE, MOONSTONE, SHALE, MARBLE, CHALK, LIMESTONE, GNEISS);
+	public static final List<DeferredBlock<Block>> ORE_BASES = List.of(FELDSPAR, GRAY_SOAPSTONE, GREEN_SOAPSTONE, WHITE_SOAPSTONE, MOONSTONE, SHALE, MARBLE, CHALK, LIMESTONE, GNEISS, BASALT);
 
 	public static final MachinaOre COAL_ORE = ore("coal_ore", true, Blocks.COAL_ORE);
 	public static final MachinaOre IRON_ORE = ore("iron_ore", true, Blocks.IRON_ORE);
@@ -711,7 +729,7 @@ public class BlockInit {
 	public static DeferredBlock<SmallFlowerBlock> groundlily(String name) {
 		return register(name, Blocks.PINK_PETALS, a -> a, SmallFlowerBlock::new);
 	}
-	
+
 	public static DeferredBlock<CrystalBlock> chemical(String name, Block props, String chem) {
 		return registerCI(name, props, a -> a, CrystalBlock::new,
 				ro -> new ChemicalBlockItem(ro.get(), new Item.Properties(), chem));

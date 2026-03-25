@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "quartz",
+  "ingredient": {
+    "item": "machina:basalt_quartz_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:quartz"
+  }
+}

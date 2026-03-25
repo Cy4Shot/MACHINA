@@ -13,6 +13,8 @@
     "machina:chalk_wall",
     "machina:limestone_wall",
     "machina:migmatite_wall",
-    "machina:gneiss_wall"
+    "machina:gneiss_wall",
+    "machina:basalt_wall",
+    "machina:basalt_springstone_wall"
   ]
 }

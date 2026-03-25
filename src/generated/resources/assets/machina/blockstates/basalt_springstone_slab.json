@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "machina:block/basalt_springstone_slab"
+    },
+    "type=double": {
+      "model": "machina:block/basalt_springstone"
+    },
+    "type=top": {
+      "model": "machina:block/basalt_springstone_slab_top"
+    }
+  }
+}

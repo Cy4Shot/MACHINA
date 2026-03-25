@@ -39,6 +39,8 @@
     "machina:chalk",
     "machina:limestone",
     "machina:migmatite",
-    "machina:gneiss"
+    "machina:gneiss",
+    "machina:basalt",
+    "machina:basalt_springstone"
   ]
 }

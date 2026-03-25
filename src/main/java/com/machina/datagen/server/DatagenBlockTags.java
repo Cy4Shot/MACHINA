@@ -38,7 +38,6 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		super(output, lookupProvider, Machina.MOD_ID, existingFileHelper);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void addTags(@NotNull Provider pProvider) {
 		smallFlower(BlockInit.SPRUCE_CUP, BlockInit.POTTED_SPRUCE_CUP);
@@ -60,7 +59,10 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tallFlower(BlockInit.NEEDLETHATCH);
 		tallFlower(BlockInit.ORPHEUM);
 
-		sand(BlockInit.TROPICAL_SAND, BlockInit.MOONSAND);
+		sand(BlockInit.TROPICAL_SAND);
+		sand(BlockInit.MOONSAND);
+		sand(BlockInit.FERROUS_SAND);
+		sand(BlockInit.ASH);
 
 		tag(BlockTags.FLOWERS).add(BlockInit.CLOVER.get(), BlockInit.PURPLE_GROUNDLILY.get(),
 				BlockInit.PINK_GROUNDLILY.get(), BlockInit.RED_GROUNDLILY.get(), BlockInit.ORANGE_GROUNDLILY.get(),
@@ -89,11 +91,8 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(BlockTags.TALL_FLOWERS).add(flower.get());
 	}
 
-	@SuppressWarnings("unchecked")
-	private void sand(DeferredBlock<? extends Block>... sands) {
-		for (DeferredBlock<? extends Block> sand : sands) {
-			tag(BlockTags.SAND).add(sand.get());
-		}
+	private void sand(DeferredBlock<? extends Block> sand) {
+		tag(BlockTags.SAND).add(sand.get());
 	}
 
 	private void oreFamily(OreFamily family) {
