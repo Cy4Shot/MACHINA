@@ -3,6 +3,7 @@ package com.machina.api.starchart.planet_biome;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.gson.JsonObject;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBigRock;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBush;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeGrass;
@@ -11,18 +12,21 @@ import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOre
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRock;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeTree;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBlockWeight;
+import com.machina.api.starchart.planet_biome.placement.PlacementModifier;
+import com.machina.api.starchart.planet_biome.placement.PlacementModifierType;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.loader.JsonInfo;
+import com.machina.registration.init.RegistryInit;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetBiomeJsonInfo(String base, String surface, List<String> top,
-		String second, String stair, String slab, String extra, List<PlanetBiomeTreeJsonInfo> trees,
-		List<PlanetBiomeBushJsonInfo> bushes, PlanetBiomeGrassJsonInfo grass, PlanetBiomeLakesJsonInfo lakes,
-		List<PlanetBiomeRockJsonInfo> rocks, List<PlanetBiomeBigRockJsonInfo> big_rocks,
-		List<PlanetBiomeOreJsonInfo> ores) implements JsonInfo<PlanetBiomeSettings> {
+public record PlanetBiomeJsonInfo(String base, String surface, List<String> top, String second, String stair,
+		String slab, String extra, List<PlanetBiomeTreeJsonInfo> trees, List<PlanetBiomeBushJsonInfo> bushes,
+		PlanetBiomeGrassJsonInfo grass, PlanetBiomeLakesJsonInfo lakes, List<PlanetBiomeRockJsonInfo> rocks,
+		List<PlanetBiomeBigRockJsonInfo> big_rocks, List<PlanetBiomeOreJsonInfo> ores)
+		implements JsonInfo<PlanetBiomeSettings> {
 
 	public static BlockState getBlock(String block) {
 		return BlockHelper.parseState(BlockHelper.blockHolderLookup(), block);
@@ -70,11 +74,14 @@ public record PlanetBiomeJsonInfo(String base, String surface, List<String> top,
 	}
 
 	public record PlanetBiomeRockJsonInfo(String base, String stair, String slab, String wall, float chance,
-			float radius, float deform) implements JsonInfo<PlanetBiomeRock> {
+			float radius, float deform, List<PlacementModifierJsonInfo> placement_modifiers)
+			implements JsonInfo<PlanetBiomeRock> {
 		@Override
 		public PlanetBiomeRock cast() {
+			List<PlacementModifier> modifiers = placement_modifiers == null ? List.of()
+					: placement_modifiers.stream().map(PlacementModifierJsonInfo::cast).toList();
 			return new PlanetBiomeRock(getBlock(base), getBlock(stair), getBlock(slab), getBlock(wall), chance, radius,
-					deform);
+					deform, modifiers);
 		}
 	}
 
@@ -101,6 +108,17 @@ public record PlanetBiomeJsonInfo(String base, String surface, List<String> top,
 		@Override
 		public PlanetBlockWeight cast() {
 			return new PlanetBlockWeight(getBlock(block), weight);
+		}
+	}
+
+	public record PlacementModifierJsonInfo(String type, JsonObject params) implements JsonInfo<PlacementModifier> {
+		public PlacementModifier cast() {
+			ResourceLocation id = ResourceLocation.parse(type);
+			PlacementModifierType modifierType = RegistryInit.PLACEMENT_MODIFIER.get(id);
+			if (modifierType == null) {
+				throw new IllegalArgumentException("Unknown modifier: " + type);
+			}
+			return modifierType.create(params);
 		}
 	}
 

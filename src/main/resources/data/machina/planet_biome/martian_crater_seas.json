@@ -7,6 +7,7 @@
 	"top": [
 		"machina:ferrous_sand",
 		"machina:sulphuric_acid_block",
+		"machina:basalt_springstone",
 		"machina:anthracite",
 		"machina:basalt",
 		"machina:ash",
@@ -18,10 +19,22 @@
 	"bushes": [
 	],
 	"grass": {
-		"enabled": false,
-		"min": 0,
-		"max": 0,
+		"enabled": true,
+		"min": 1,
+		"max": 1,
 		"grasses": [
+			{
+				"block": "machina:basalt_pebbles",
+				"weight": 5
+			},
+			{
+				"block": "machina:anthracite_pebbles",
+				"weight": 5
+			},
+			{
+				"block": "machina:sulfur",
+				"weight": 1
+			}
 		]
 	},
 	"lakes": {
@@ -33,6 +46,92 @@
 		]
 	},
 	"rocks": [
+		{
+			"base": "machina:feldspar",
+			"stair": "machina:feldspar_stairs",
+			"slab": "machina:feldspar_slab",
+			"wall": "machina:feldspar_wall",
+			"chance": 1,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": "machina:ferrous_sand"
+					}
+				}
+			]
+		},
+		{
+			"base": "machina:basalt",
+			"stair": "machina:basalt_stairs",
+			"slab": "machina:basalt_slab",
+			"wall": "machina:basalt_wall",
+			"chance": 2,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:ferrous_sand"
+					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:basalt_springstone"
+					}
+				}
+			]
+		},
+		{
+			"base": "machina:ash",
+			"stair": "machina:basalt_stairs",
+			"slab": "machina:basalt_slab",
+			"wall": "machina:basalt_wall",
+			"chance": 2,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:ferrous_sand"
+					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:basalt_springstone"
+					}
+				}
+			]
+		},
+		{
+			"base": "machina:anthracite",
+			"stair": "machina:anthracite_stairs",
+			"slab": "machina:anthracite_slab",
+			"wall": "machina:anthracite_wall",
+			"chance": 2,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:ferrous_sand"
+					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:basalt_springstone"
+					}
+				}
+			]
+		}
 	],
 	"big_rocks": [
 	],

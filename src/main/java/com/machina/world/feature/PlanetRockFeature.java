@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRock;
+import com.machina.api.starchart.planet_biome.placement.PlacementModifier;
 import com.machina.api.util.math.MathUtil;
 import com.machina.api.util.math.sdf.SDF;
 import com.machina.api.util.math.sdf.operator.SDFDisplacement;
@@ -51,7 +52,11 @@ public class PlanetRockFeature extends Feature<PlanetRockFeature.PlanetRockFeatu
 		BlockPos pos = ctx.origin();
 
 		int y = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, pos.getX(), pos.getZ());
-		BlockPos place = new BlockPos(pos.getX(), y, pos.getZ());
+		BlockPos.MutableBlockPos placeCandidate = new BlockPos(pos.getX(), y, pos.getZ()).mutable();
+		if (!PlacementModifier.applyAll(config.modifiers(), placeCandidate, rand, level)) {
+			return false;
+		}
+		BlockPos place = placeCandidate.immutable();
 
 		SDF blob = new SDFSphere(1.01f).setBlock(config.base());
 		blob = new SDFDisplacement(blob, rand, 2f);

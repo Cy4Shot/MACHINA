@@ -8,6 +8,7 @@ import com.machina.api.rocket.part.RocketPart;
 import com.machina.api.starchart.planet_biome.PlanetSurface;
 import com.machina.api.starchart.planet_biome.RockMaker;
 import com.machina.api.starchart.planet_biome.TreeMaker;
+import com.machina.api.starchart.planet_biome.placement.PlacementModifierType;
 import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.weather.WeatherEvent;
@@ -27,6 +28,7 @@ public class RegistryInit {
 	public static final Registry<TreeMaker> TREE = createRegistry("tree");
 	public static final Registry<RockMaker> ROCK = createRegistry("rock");
 	public static final Registry<PlanetSurface> SURFACE = createRegistry("surface");
+	public static final Registry<PlacementModifierType> PLACEMENT_MODIFIER = createRegistry("placement_modifier");
 	public static final Registry<RocketPart> ROCKET_PART = createRegistry("rocket_part");
 	public static final Registry<WeatherEvent> WEATHER_EVENT = createRegistry("weather_event");
 

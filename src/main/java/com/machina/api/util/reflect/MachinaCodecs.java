@@ -1,5 +1,7 @@
 package com.machina.api.util.reflect;
 
+import com.machina.api.starchart.planet_biome.placement.PlacementModifier;
+import com.machina.api.starchart.planet_biome.placement.PlacementModifierCodec;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -47,6 +49,8 @@ public class MachinaCodecs {
 
 	public static final Codec<Item> ITEM = registryCodec(BuiltInRegistries.ITEM);
 	public static final Codec<Fluid> FLUID = registryCodec(BuiltInRegistries.FLUID);
+	
+	public static final Codec<PlacementModifier> MODIFIER_CODEC = new PlacementModifierCodec();
 
 	public static final Codec<ItemStack> UNBOUNDED_ITEMSTACK = Codec.lazyInitialized(() -> RecordCodecBuilder.create(
 			builder -> builder.group(ItemStack.ITEM_NON_AIR_CODEC.fieldOf("id").forGetter(ItemStack::getItemHolder),

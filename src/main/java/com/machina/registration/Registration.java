@@ -17,6 +17,7 @@ import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.MaterialRuleInit;
 import com.machina.registration.init.MenuTypeInit;
 import com.machina.registration.init.OverworldOresInit;
+import com.machina.registration.init.PlanetPlacementModifierInit;
 import com.machina.registration.init.PlanetRockInit;
 import com.machina.registration.init.PlanetSurfaceInit;
 import com.machina.registration.init.PlanetTraitInit;
@@ -40,6 +41,7 @@ public class Registration {
 
 		ArgumentTypesInit.ARGUMENT_TYPES.register(bus);
 		PlanetTraitInit.TRAITS.register(bus);
+		PlanetPlacementModifierInit.PLACEMENT_MODIFIERS.register(bus);
 		PlanetTreeInit.TREES.register(bus);
 		PlanetRockInit.ROCKS.register(bus);
 		PlanetSurfaceInit.SURFACES.register(bus);
