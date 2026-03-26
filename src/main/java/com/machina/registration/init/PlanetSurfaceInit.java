@@ -121,7 +121,7 @@ public class PlanetSurfaceInit {
 					double dxp = centerX - px;
 					double dzp = centerZ - pz;
 					double dist = Math.sqrt(dxp * dxp + dzp * dzp);
-					double radius = 0.57;
+					double radius = 0.67; // lol 67
 					if (dist > radius) {
 						return base;
 					}

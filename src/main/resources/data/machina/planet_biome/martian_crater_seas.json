@@ -11,6 +11,7 @@
 		"machina:anthracite",
 		"machina:basalt",
 		"machina:ash",
+		"machina:feldspar",
 		"minecraft:diamond_block"
 	],
 	"second": "machina:ash",
@@ -51,14 +52,17 @@
 			"stair": "machina:feldspar_stairs",
 			"slab": "machina:feldspar_slab",
 			"wall": "machina:feldspar_wall",
-			"chance": 1,
+			"chance": 5,
 			"radius": 1.01,
 			"deform": 2.0,
 			"placement_modifiers": [
 				{
 					"type": "machina:only_place_on",
 					"params": {
-						"block": "machina:ferrous_sand"
+						"block": [
+							"machina:ferrous_sand",
+							"machina:feldspar"
+						]
 					}
 				}
 			]
@@ -83,6 +87,12 @@
 					"params": {
 						"block": "machina:basalt_springstone"
 					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:feldspar"
+					}
 				}
 			]
 		},
@@ -106,6 +116,12 @@
 					"params": {
 						"block": "machina:basalt_springstone"
 					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:feldspar"
+					}
 				}
 			]
 		},
@@ -128,6 +144,12 @@
 					"type": "machina:dont_place_on",
 					"params": {
 						"block": "machina:basalt_springstone"
+					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:feldspar"
 					}
 				}
 			]
