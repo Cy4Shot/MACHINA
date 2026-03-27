@@ -151,21 +151,23 @@ public record PlanetBiomeSettings(BlockState base, ResourceLocation surface, Lis
 						Codec.FLOAT.fieldOf("deform").forGetter(PlanetBiomeRock::deform), MachinaCodecs.MODIFIER_CODEC
 								.listOf().optionalFieldOf("modifiers", List.of()).forGetter(PlanetBiomeRock::modifiers))
 				.apply(instance, PlanetBiomeRock::new));
-
 	}
 
 	public record PlanetBiomeBigRock(ResourceLocation rock, BlockState block, BlockState extra, float chance,
-			float up_extra_chance, float down_extra_chance, float side_extra_chance) {
+			float up_extra_chance, float down_extra_chance, float side_extra_chance,
+			List<PlacementModifier> modifiers) {
 
-		public static final Codec<PlanetBiomeBigRock> CODEC = RecordCodecBuilder.create(instance -> instance
-				.group(ResourceLocation.CODEC.fieldOf("rock").forGetter(PlanetBiomeBigRock::rock),
+		public static final Codec<PlanetBiomeBigRock> CODEC = RecordCodecBuilder.create(
+				instance -> instance.group(ResourceLocation.CODEC.fieldOf("rock").forGetter(PlanetBiomeBigRock::rock),
 						BlockState.CODEC.fieldOf("block").forGetter(PlanetBiomeBigRock::block),
 						BlockState.CODEC.fieldOf("extra").forGetter(PlanetBiomeBigRock::extra),
 						Codec.FLOAT.fieldOf("chance").forGetter(PlanetBiomeBigRock::chance),
 						Codec.FLOAT.fieldOf("up_extra_chance").forGetter(PlanetBiomeBigRock::up_extra_chance),
 						Codec.FLOAT.fieldOf("down_extra_chance").forGetter(PlanetBiomeBigRock::down_extra_chance),
-						Codec.FLOAT.fieldOf("side_extra_chance").forGetter(PlanetBiomeBigRock::side_extra_chance))
-				.apply(instance, PlanetBiomeBigRock::new));
+						Codec.FLOAT.fieldOf("side_extra_chance").forGetter(PlanetBiomeBigRock::side_extra_chance),
+						MachinaCodecs.MODIFIER_CODEC.listOf().optionalFieldOf("modifiers", List.of())
+								.forGetter(PlanetBiomeBigRock::modifiers))
+						.apply(instance, PlanetBiomeBigRock::new));
 	}
 
 	public record PlanetBiomeOre(BlockState block, int size, float exposure_removal_chance, float chance, int min_y,

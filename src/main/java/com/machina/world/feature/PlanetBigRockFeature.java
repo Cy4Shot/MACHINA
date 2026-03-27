@@ -2,6 +2,7 @@ package com.machina.world.feature;
 
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBigRock;
 import com.machina.api.starchart.planet_biome.RockMaker;
+import com.machina.api.starchart.planet_biome.placement.PlacementModifier;
 import com.machina.api.util.math.sdf.SDF;
 import com.machina.registration.init.RegistryInit;
 import com.mojang.serialization.Codec;
@@ -41,14 +42,20 @@ public class PlanetBigRockFeature extends Feature<PlanetBigRockFeature.PlanetBig
 		if (!maker.allowsWaterPlacement() && !level.getFluidState(origin).isEmpty())
 			return false;
 
-		SDF rock = maker.build(cfg, random, level, origin);
+		BlockPos.MutableBlockPos placeCandidate = origin.mutable();
+		if (!PlacementModifier.applyAll(cfg.modifiers(), placeCandidate, random, level)) {
+			return false;
+		}
+		BlockPos place = placeCandidate.immutable();
+
+		SDF rock = maker.build(cfg, random, level, place);
 		if (rock == null)
 			return false;
 
 		rock = rock.setReplaceFunction(s -> true);
 		rock = rock.addPostProcesses(maker.extras(random, cfg));
 
-		rock.fillRecursive(level, origin);
+		rock.fillRecursive(level, place);
 		return true;
 	}
 }

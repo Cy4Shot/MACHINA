@@ -86,13 +86,15 @@ public record PlanetBiomeJsonInfo(String base, String surface, List<String> top,
 	}
 
 	public record PlanetBiomeBigRockJsonInfo(String type, String block, String extra, float chance,
-			float up_extra_chance, float down_extra_chance, float side_extra_chance)
-			implements JsonInfo<PlanetBiomeBigRock> {
+			float up_extra_chance, float down_extra_chance, float side_extra_chance,
+			List<PlacementModifierJsonInfo> placement_modifiers) implements JsonInfo<PlanetBiomeBigRock> {
 
 		@Override
 		public PlanetBiomeBigRock cast() {
+			List<PlacementModifier> modifiers = placement_modifiers == null ? List.of()
+					: placement_modifiers.stream().map(PlacementModifierJsonInfo::cast).toList();
 			return new PlanetBiomeBigRock(ResourceLocation.parse(type), getBlock(block), getBlock(extra), chance,
-					up_extra_chance, down_extra_chance, side_extra_chance);
+					up_extra_chance, down_extra_chance, side_extra_chance, modifiers);
 		}
 	}
 

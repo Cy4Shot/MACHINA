@@ -11,8 +11,7 @@
 		"machina:anthracite",
 		"machina:basalt",
 		"machina:ash",
-		"machina:feldspar",
-		"minecraft:diamond_block"
+		"machina:feldspar"
 	],
 	"second": "machina:ash",
 	"trees": [
@@ -26,14 +25,10 @@
 		"grasses": [
 			{
 				"block": "machina:basalt_pebbles",
-				"weight": 5
+				"weight": 1
 			},
 			{
 				"block": "machina:anthracite_pebbles",
-				"weight": 5
-			},
-			{
-				"block": "machina:sulfur",
 				"weight": 1
 			}
 		]
@@ -153,9 +148,47 @@
 					}
 				}
 			]
+		},
+		{
+			"base": "machina:shale",
+			"stair": "machina:shale_stairs",
+			"slab": "machina:shale_slab",
+			"wall": "machina:shale_wall",
+			"chance": 3,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:ash"
+						]
+					}
+				}
+			]
 		}
 	],
 	"big_rocks": [
+		{
+			"type": "machina:ore_deposit",
+			"block": "machina:basalt_pyrite_ore",
+			"extra": "machina:sulfur",
+			"chance": 3,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:basalt"
+						]
+					}
+				}
+			]
+		}
 	],
 	"ores": [
 		{

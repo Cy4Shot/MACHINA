@@ -82,16 +82,8 @@ public class PlanetSurfaceInit {
 			public PlanetSurfaceGetter create(List<BlockState> blocks) {
 				final int n = blocks.size();
 				final BlockState base = blocks.get(0);
-				final BlockState scatter = blocks.get(n - 1);
-				final int ringCount = Math.max(0, n - 2);
+				final int ringCount = Math.max(0, n - 1);
 				return (x, y, z, noise) -> {
-					// --- RANDOM SCATTER (independent of craters) ---
-					double rand = noise.getValue(x * 9999, y * 9999, z * 9999);
-					if (rand > 1.0 - scatterChance) {
-						return scatter;
-					}
-
-					// --- VORONOI CRATER GENERATION ---
 					double px = x * scale;
 					double pz = z * scale;
 					int cellX = (int) Math.floor(px);
