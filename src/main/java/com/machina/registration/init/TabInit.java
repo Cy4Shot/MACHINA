@@ -103,6 +103,8 @@ public class TabInit {
 				add(a, BlockInit.FERROUS_SAND);
 				add(a, BlockInit.ASH);
 
+				add(a, BlockInit.SULFUR_GEYSER);
+
 				family(a, FamiliesInit.STONES);
 				family(a, FamiliesInit.WOODS);
 

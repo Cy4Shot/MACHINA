@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.block.entity.MachinaHangingSignBlockEntity;
 import com.machina.block.entity.MachinaSignBlockEntity;
+import com.machina.block.entity.SulfurGeyserBlockEntity;
 import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.machina.block.entity.connector.ItemConduitBlockEntity;
@@ -19,8 +20,8 @@ import com.machina.block.entity.machine.ElectricSmelterBlockEntity;
 import com.machina.block.entity.machine.ElectrolyzerBlockEntity;
 import com.machina.block.entity.machine.FurnaceGeneratorBlockEntity;
 import com.machina.block.entity.machine.GrinderBlockEntity;
-import com.machina.block.entity.machine.MultiblockHousingBlockEntity;
 import com.machina.block.entity.machine.MelterBlockEntity;
+import com.machina.block.entity.machine.MultiblockHousingBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.block.entity.machine.RocketAssemblyStationBlockEntity;
 import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
@@ -83,6 +84,9 @@ public class BlockEntityInit {
 			RocketPartBenchBlockEntity::new, BlockInit.ROCKET_PART_BENCH::get);
 	public static final Supplier<BlockEntityType<RocketAssemblyStationBlockEntity>> ROCKET_ASSEMBLY_STATION = register("rocket_assembly_station",
 			RocketAssemblyStationBlockEntity::new, BlockInit.ROCKET_ASSEMBLY_STATION::get);
+
+	public static final Supplier<BlockEntityType<SulfurGeyserBlockEntity>> SULFUR_GEYSER = register("sulfur_geyser",
+			SulfurGeyserBlockEntity::new, BlockInit.SULFUR_GEYSER::get);
 	//@formatter:on
 
 	public static final Supplier<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",

@@ -107,6 +107,8 @@ public class DatagenBlockStates extends BlockStateProvider {
 		cube(BlockInit.MOONSAND);
 		cube(BlockInit.FERROUS_SAND);
 		cube(BlockInit.ASH);
+		
+		unrotatableColumn(BlockInit.SULFUR_GEYSER);
 
 		flower(BlockInit.TROPICAL_GRASS);
 		flower(BlockInit.TWISTED_GRASS);
@@ -487,6 +489,16 @@ public class DatagenBlockStates extends BlockStateProvider {
 		getVariantBuilder(b).forAllStates(state -> ConfiguredModel.builder().modelFile(m)
 				.rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 180) % 360)
 				.build());
+		simpleBlockItem(b, m);
+	}
+
+	public void unrotatableColumn(DeferredBlock<? extends Block> machine) {
+		Block b = machine.get();
+		ModelFile m = models().withExistingParent(name(b), MachinaRL.create("block/unrotatable_column"))
+				.texture("side", extend(blockTexture(b), "_side")).texture("top", extend(blockTexture(b), "_top"))
+				.texture("bottom", extend(blockTexture(b), "_bottom"));
+
+		getVariantBuilder(b).forAllStates(state -> ConfiguredModel.builder().modelFile(m).build());
 		simpleBlockItem(b, m);
 	}
 

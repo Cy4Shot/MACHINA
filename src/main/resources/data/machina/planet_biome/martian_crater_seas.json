@@ -188,6 +188,25 @@
 					}
 				}
 			]
+		},
+		{
+			"type": "machina:ore_deposit",
+			"block": "machina:sulfur_geyser",
+			"extra": "minecraft:air",
+			"chance": 3,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:basalt"
+						]
+					}
+				}
+			]
 		}
 	],
 	"ores": [

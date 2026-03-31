@@ -174,6 +174,8 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.MOONSAND.get());
 		dropSelf(BlockInit.FERROUS_SAND.get());
 		dropSelf(BlockInit.ASH.get());
+
+		dropOther(BlockInit.SULFUR_GEYSER.get(), BlockInit.BASALT);
 	}
 
 	private void oreFamily(OreFamily family) {

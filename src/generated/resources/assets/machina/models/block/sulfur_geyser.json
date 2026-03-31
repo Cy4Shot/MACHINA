@@ -1,0 +1,8 @@
+{
+  "parent": "machina:block/unrotatable_column",
+  "textures": {
+    "bottom": "machina:block/sulfur_geyser_bottom",
+    "side": "machina:block/sulfur_geyser_side",
+    "top": "machina:block/sulfur_geyser_top"
+  }
+}

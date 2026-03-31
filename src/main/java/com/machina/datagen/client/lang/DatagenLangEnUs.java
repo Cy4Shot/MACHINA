@@ -522,6 +522,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.FERROUS_SAND, "Ferrous Sand");
 		add(BlockInit.ASH, "Ash");
 
+		add(BlockInit.SULFUR_GEYSER, "Sulfur Geyser");
+
 		add(BlockInit.TROPICAL_BUTTON, "Tropical Button");
 		add(BlockInit.TROPICAL_DOOR, "Tropical Door");
 		add(BlockInit.TROPICAL_FENCE, "Tropical Fence");
