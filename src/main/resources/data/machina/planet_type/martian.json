@@ -30,6 +30,12 @@
 			"placements": [
 				"MIDDLE"
 			]
+		},
+		{
+			"name": "machina:martian_porous_wastes",
+			"placements": [
+				"MIDDLE"
+			]
 		}
 	],
 	"base": "machina:feldspar",

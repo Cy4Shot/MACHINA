@@ -5,8 +5,8 @@
 	"slab": "machina:feldspar_slab",
 	"extra": "machina:tropical_sand",
 	"top": [
-		"machina:tropical_sand",
-		"machina:feldspar"
+		"machina:feldspar",
+		"machina:tropical_sand"
 	],
 	"second": "machina:feldspar",
 	"trees": [
@@ -69,6 +69,33 @@
 			"chance": 0.1,
 			"up_extra_chance": 0.3,
 			"down_extra_chance": 0.3,
+			"side_extra_chance": 0
+		},
+		{
+			"type": "machina:arch",
+			"block": "machina:feldspar",
+			"extra": "machina:feldspar_wall",
+			"chance": 0.02,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0
+		},
+		{
+			"type": "machina:floating_island",
+			"block": "machina:ferrous_sand",
+			"extra": "minecraft:air",
+			"chance": 0.3,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0
+		},
+		{
+			"type": "machina:floating_island",
+			"block": "machina:migmatite",
+			"extra": "machina:migmatite_pebbles",
+			"chance": 0.02,
+			"up_extra_chance": 0.7,
+			"down_extra_chance": 0,
 			"side_extra_chance": 0
 		}
 	],

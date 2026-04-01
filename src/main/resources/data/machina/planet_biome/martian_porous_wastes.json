@@ -1,0 +1,330 @@
+{
+	"surface": "machina:craters_extra",
+	"base": "machina:green_soapstone",
+	"stair": "machina:green_soapstone_stairs",
+	"slab": "machina:green_soapstone_slab",
+	"extra": "machina:gneiss",
+	"top": [
+		"machina:gneiss",
+		"machina:nitric_acid_block",
+		"machina:chalk",
+		"machina:limestone",
+		"machina:limestone",
+		"machina:tectonite",
+		"machina:green_soapstone"
+	],
+	"second": "machina:limestone",
+	"trees": [
+	],
+	"bushes": [
+	],
+	"grass": {
+		"enabled": true,
+		"min": 1,
+		"max": 1,
+		"grasses": [
+			{
+				"block": "machina:limestone_pebbles",
+				"weight": 1
+			},
+			{
+				"block": "machina:tectonite_pebbles",
+				"weight": 1
+			}
+		]
+	},
+	"lakes": {
+		"enabled": false,
+		"block": "minecraft:air",
+		"chance": 0,
+		"decorator_chance": 0,
+		"decorators": [
+		]
+	},
+	"rocks": [
+		{
+			"base": "machina:green_soapstone",
+			"stair": "machina:green_soapstone_stairs",
+			"slab": "machina:green_soapstone_slab",
+			"wall": "machina:green_soapstone_wall",
+			"chance": 5,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:gneiss",
+							"machina:green_soapstone"
+						]
+					}
+				}
+			]
+		},
+		{
+			"base": "machina:limestone",
+			"stair": "machina:limestone_stairs",
+			"slab": "machina:limestone_slab",
+			"wall": "machina:limestone_wall",
+			"chance": 4,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:gneiss"
+					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:chalk"
+					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:green_soapstone"
+					}
+				}
+			]
+		}
+	],
+	"big_rocks": [
+		{
+			"type": "machina:ore_deposit",
+			"block": "machina:limestone_saltpeter_ore",
+			"extra": "machina:niter",
+			"chance": 3,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:limestone"
+						]
+					}
+				}
+			]
+		},
+		{
+			"type": "machina:ore_deposit",
+			"block": "machina:green_soapstone_fluorite_ore",
+			"extra": "machina:fluorite",
+			"chance": 3,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:green_soapstone"
+						]
+					}
+				}
+			]
+		},
+		{
+			"type": "machina:wisp",
+			"block": "machina:limestone",
+			"extra": "machina:limestone_wall",
+			"chance": 1.1,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0.3,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:limestone"
+						]
+					}
+				}
+			]
+		},
+		{
+			"type": "machina:wisp",
+			"block": "machina:green_soapstone",
+			"extra": "machina:green_soapstone_wall",
+			"chance": 1.1,
+			"up_extra_chance": 0.3,
+			"down_extra_chance": 0.3,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:green_soapstone"
+						]
+					}
+				}
+			]
+		},
+		{
+			"type": "machina:arch",
+			"block": "machina:limestone",
+			"extra": "machina:limestone_wall",
+			"chance": 0.2,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:limestone"
+						]
+					}
+				}
+			]
+		},
+		{
+			"type": "machina:arch",
+			"block": "machina:green_soapstone",
+			"extra": "machina:green_soapstone_wall",
+			"chance": 0.2,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:green_soapstone"
+						]
+					}
+				}
+			]
+		},
+		{
+			"type": "machina:floating_island",
+			"block": "machina:gray_soapstone",
+			"extra": "minecraft:air",
+			"chance": 0.3,
+			"up_extra_chance": 0,
+			"down_extra_chance": 0,
+			"side_extra_chance": 0,
+			"placement_modifiers": [
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:tectonite"
+					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:chalk"
+					}
+				},
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:nitric_acid_block"
+					}
+				}
+			]
+		}
+	],
+	"ores": [
+		{
+			"block": "machina:green_soapstone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:limestone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:gneiss",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 8,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:andesite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 4,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:granite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:diorite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:migmatite",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:marble",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "machina:limestone",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:shale",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:chalk",
+			"size": 32,
+			"exposure_removal_chance": 0,
+			"chance": 10,
+			"min_y": -64,
+			"max_y": 256
+		}
+	]
+}

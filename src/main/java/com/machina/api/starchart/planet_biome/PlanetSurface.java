@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
+@FunctionalInterface
 public interface PlanetSurface {
 
 	@FunctionalInterface
