@@ -2,14 +2,18 @@
   "values": [
     "machina:basalt_lapis_ore",
     "machina:chalk_lapis_ore",
+    "machina:coniferous_dirt_lapis_ore",
     "machina:feldspar_lapis_ore",
+    "machina:forest_dirt_lapis_ore",
     "machina:gneiss_lapis_ore",
     "machina:gray_soapstone_lapis_ore",
     "machina:green_soapstone_lapis_ore",
     "machina:limestone_lapis_ore",
     "machina:marble_lapis_ore",
     "machina:moonstone_lapis_ore",
+    "machina:peat_lapis_ore",
     "machina:shale_lapis_ore",
+    "machina:tropical_dirt_lapis_ore",
     "machina:white_soapstone_lapis_ore"
   ]
 }

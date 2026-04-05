@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_iridium_ore",
     "machina:chalk_iridium_ore",
+    "machina:coniferous_dirt_iridium_ore",
     "machina:feldspar_iridium_ore",
+    "machina:forest_dirt_iridium_ore",
     "machina:gneiss_iridium_ore",
     "machina:gray_soapstone_iridium_ore",
     "machina:green_soapstone_iridium_ore",
     "machina:limestone_iridium_ore",
     "machina:marble_iridium_ore",
     "machina:moonstone_iridium_ore",
+    "machina:peat_iridium_ore",
     "machina:shale_iridium_ore",
     "machina:stone_iridium_ore",
+    "machina:tropical_dirt_iridium_ore",
     "machina:white_soapstone_iridium_ore"
   ]
 }

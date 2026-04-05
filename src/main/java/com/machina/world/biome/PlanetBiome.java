@@ -65,6 +65,10 @@ public class PlanetBiome extends Biome {
 		this.settings = s;
 		this.surface = RegistryInit.SURFACE.get(s.surface()).create(settings.top());
 	}
+	
+	public BlockState getBaseBlock() {
+		return settings.base();
+	}
 
 	public BlockState getSecondBlock() {
 		return settings.second();

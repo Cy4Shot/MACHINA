@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.7,
+  "group": "thorium",
+  "ingredient": {
+    "item": "machina:coniferous_dirt_thorium_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:thorium_ingot"
+  }
+}

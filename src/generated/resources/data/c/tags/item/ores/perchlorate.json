@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_perchlorate_ore",
     "machina:chalk_perchlorate_ore",
+    "machina:coniferous_dirt_perchlorate_ore",
     "machina:feldspar_perchlorate_ore",
+    "machina:forest_dirt_perchlorate_ore",
     "machina:gneiss_perchlorate_ore",
     "machina:gray_soapstone_perchlorate_ore",
     "machina:green_soapstone_perchlorate_ore",
     "machina:limestone_perchlorate_ore",
     "machina:marble_perchlorate_ore",
     "machina:moonstone_perchlorate_ore",
+    "machina:peat_perchlorate_ore",
     "machina:shale_perchlorate_ore",
     "machina:stone_perchlorate_ore",
+    "machina:tropical_dirt_perchlorate_ore",
     "machina:white_soapstone_perchlorate_ore"
   ]
 }

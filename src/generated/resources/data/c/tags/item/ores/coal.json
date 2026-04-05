@@ -2,14 +2,18 @@
   "values": [
     "machina:basalt_coal_ore",
     "machina:chalk_coal_ore",
+    "machina:coniferous_dirt_coal_ore",
     "machina:feldspar_coal_ore",
+    "machina:forest_dirt_coal_ore",
     "machina:gneiss_coal_ore",
     "machina:gray_soapstone_coal_ore",
     "machina:green_soapstone_coal_ore",
     "machina:limestone_coal_ore",
     "machina:marble_coal_ore",
     "machina:moonstone_coal_ore",
+    "machina:peat_coal_ore",
     "machina:shale_coal_ore",
+    "machina:tropical_dirt_coal_ore",
     "machina:white_soapstone_coal_ore"
   ]
 }

@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_low_grade_titanium_ore",
     "machina:chalk_low_grade_titanium_ore",
+    "machina:coniferous_dirt_low_grade_titanium_ore",
     "machina:feldspar_low_grade_titanium_ore",
+    "machina:forest_dirt_low_grade_titanium_ore",
     "machina:gneiss_low_grade_titanium_ore",
     "machina:gray_soapstone_low_grade_titanium_ore",
     "machina:green_soapstone_low_grade_titanium_ore",
     "machina:limestone_low_grade_titanium_ore",
     "machina:marble_low_grade_titanium_ore",
     "machina:moonstone_low_grade_titanium_ore",
+    "machina:peat_low_grade_titanium_ore",
     "machina:shale_low_grade_titanium_ore",
     "machina:stone_low_grade_titanium_ore",
+    "machina:tropical_dirt_low_grade_titanium_ore",
     "machina:white_soapstone_low_grade_titanium_ore"
   ]
 }

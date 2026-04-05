@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/forest_dirt",
+    "ore": "machina:block/uraninite_ore"
+  }
+}

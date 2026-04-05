@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_magnetite_ore",
     "machina:chalk_magnetite_ore",
+    "machina:coniferous_dirt_magnetite_ore",
     "machina:feldspar_magnetite_ore",
+    "machina:forest_dirt_magnetite_ore",
     "machina:gneiss_magnetite_ore",
     "machina:gray_soapstone_magnetite_ore",
     "machina:green_soapstone_magnetite_ore",
     "machina:limestone_magnetite_ore",
     "machina:marble_magnetite_ore",
     "machina:moonstone_magnetite_ore",
+    "machina:peat_magnetite_ore",
     "machina:shale_magnetite_ore",
     "machina:stone_magnetite_ore",
+    "machina:tropical_dirt_magnetite_ore",
     "machina:white_soapstone_magnetite_ore"
   ]
 }

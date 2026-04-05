@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_aluminum_ore",
     "machina:chalk_aluminum_ore",
+    "machina:coniferous_dirt_aluminum_ore",
     "machina:feldspar_aluminum_ore",
+    "machina:forest_dirt_aluminum_ore",
     "machina:gneiss_aluminum_ore",
     "machina:gray_soapstone_aluminum_ore",
     "machina:green_soapstone_aluminum_ore",
     "machina:limestone_aluminum_ore",
     "machina:marble_aluminum_ore",
     "machina:moonstone_aluminum_ore",
+    "machina:peat_aluminum_ore",
     "machina:shale_aluminum_ore",
     "machina:stone_aluminum_ore",
+    "machina:tropical_dirt_aluminum_ore",
     "machina:white_soapstone_aluminum_ore"
   ]
 }

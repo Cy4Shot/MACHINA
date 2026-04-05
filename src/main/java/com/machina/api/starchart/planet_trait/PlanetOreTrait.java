@@ -1,5 +1,6 @@
 package com.machina.api.starchart.planet_trait;
 
+import com.google.common.base.Supplier;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 
 import net.minecraft.world.level.block.Block;
@@ -14,13 +15,13 @@ public class PlanetOreTrait extends PlanetTrait {
 		this.ore = ore;
 	}
 
-	public BlockState getRawOreBlock(BlockState filler) {
-		return ore.rawBlock().map(Block::defaultBlockState).orElse(filler);
+	public BlockState getRawOreBlock(Supplier<BlockState> filler) {
+		return ore.rawBlock().map(Block::defaultBlockState).orElse(filler.get());
 	}
 
-	public BlockState getOreBlock(BlockState filler) {
+	public BlockState getOreBlock(Supplier<BlockState> filler) {
 		return ore.ore().map(oreMap -> {
-			return oreMap.map().get(filler.getBlockHolder().getKey()).get().defaultBlockState();
-		}).orElse(filler);
+			return oreMap.map().get(filler.get().getBlockHolder().getKey()).get().defaultBlockState();
+		}).orElse(filler.get());
 	}
 }

@@ -113,7 +113,7 @@ public class PlanetChunkGenerator extends NoiseBasedChunkGenerator {
 			double d1 = (double) i2 / (double) i1;
 			PlanetNoiseChunk noisechunk = new PlanetNoiseChunk(1, random, j2, k2, noisesettings,
 					DensityFunctions.BeardifierMarker.INSTANCE, this.settings.value(), this.globalFluidPicker.get(),
-					Blender.empty(), this.oreTraits);
+					Blender.empty(), this.oreTraits, this.getBiomeSource());
 			noisechunk.initializeForFirstCellX();
 			noisechunk.advanceCellX(0);
 
@@ -150,6 +150,6 @@ public class PlanetChunkGenerator extends NoiseBasedChunkGenerator {
 			RandomState random) {
 		return PlanetNoiseChunk.forChunk(chunk, random,
 				Beardifier.forStructuresInChunk(structureManager, chunk.getPos()), this.settings.value(),
-				this.globalFluidPicker.get(), blender, this.oreTraits);
+				this.globalFluidPicker.get(), blender, this.oreTraits, this.getBiomeSource());
 	}
 }

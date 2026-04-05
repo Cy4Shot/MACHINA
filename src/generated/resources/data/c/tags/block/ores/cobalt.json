@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_cobalt_ore",
     "machina:chalk_cobalt_ore",
+    "machina:coniferous_dirt_cobalt_ore",
     "machina:feldspar_cobalt_ore",
+    "machina:forest_dirt_cobalt_ore",
     "machina:gneiss_cobalt_ore",
     "machina:gray_soapstone_cobalt_ore",
     "machina:green_soapstone_cobalt_ore",
     "machina:limestone_cobalt_ore",
     "machina:marble_cobalt_ore",
     "machina:moonstone_cobalt_ore",
+    "machina:peat_cobalt_ore",
     "machina:shale_cobalt_ore",
     "machina:stone_cobalt_ore",
+    "machina:tropical_dirt_cobalt_ore",
     "machina:white_soapstone_cobalt_ore"
   ]
 }

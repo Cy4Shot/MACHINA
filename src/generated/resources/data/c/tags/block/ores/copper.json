@@ -2,14 +2,18 @@
   "values": [
     "machina:basalt_copper_ore",
     "machina:chalk_copper_ore",
+    "machina:coniferous_dirt_copper_ore",
     "machina:feldspar_copper_ore",
+    "machina:forest_dirt_copper_ore",
     "machina:gneiss_copper_ore",
     "machina:gray_soapstone_copper_ore",
     "machina:green_soapstone_copper_ore",
     "machina:limestone_copper_ore",
     "machina:marble_copper_ore",
     "machina:moonstone_copper_ore",
+    "machina:peat_copper_ore",
     "machina:shale_copper_ore",
+    "machina:tropical_dirt_copper_ore",
     "machina:white_soapstone_copper_ore"
   ]
 }

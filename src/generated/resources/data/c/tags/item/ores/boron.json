@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_boron_ore",
     "machina:chalk_boron_ore",
+    "machina:coniferous_dirt_boron_ore",
     "machina:feldspar_boron_ore",
+    "machina:forest_dirt_boron_ore",
     "machina:gneiss_boron_ore",
     "machina:gray_soapstone_boron_ore",
     "machina:green_soapstone_boron_ore",
     "machina:limestone_boron_ore",
     "machina:marble_boron_ore",
     "machina:moonstone_boron_ore",
+    "machina:peat_boron_ore",
     "machina:shale_boron_ore",
     "machina:stone_boron_ore",
+    "machina:tropical_dirt_boron_ore",
     "machina:white_soapstone_boron_ore"
   ]
 }

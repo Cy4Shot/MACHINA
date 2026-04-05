@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/tropical_dirt",
+    "ore": "machina:block/boron_ore"
+  }
+}

@@ -525,7 +525,8 @@ public class BlockInit {
 	public static final DeferredBlock<FlowerPotBlock> POTTED_TURQUOISE_GLOWSHROOM = flower_pot("potted_turquoise_glowshroom", TURQUOISE_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_BLUE_GLOWSHROOM = flower_pot("potted_blue_glowshroom", BLUE_GLOWSHROOM, light(7));
 
-	public static final List<DeferredBlock<Block>> ORE_BASES = List.of(FELDSPAR, GRAY_SOAPSTONE, GREEN_SOAPSTONE, WHITE_SOAPSTONE, MOONSTONE, SHALE, MARBLE, CHALK, LIMESTONE, GNEISS, BASALT);
+	public static final List<DeferredBlock<Block>> ORE_BASES = List.of(
+			FELDSPAR, GRAY_SOAPSTONE, GREEN_SOAPSTONE, WHITE_SOAPSTONE, MOONSTONE, SHALE, MARBLE, CHALK, LIMESTONE, GNEISS, BASALT, PEAT, TROPICAL_DIRT, FOREST_DIRT, CONIFEROUS_DIRT);
 
 	public static final MachinaOre COAL_ORE = ore("coal_ore", true, Blocks.COAL_ORE);
 	public static final MachinaOre IRON_ORE = ore("iron_ore", true, Blocks.IRON_ORE);

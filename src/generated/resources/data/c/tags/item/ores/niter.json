@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_saltpeter_ore",
     "machina:chalk_saltpeter_ore",
+    "machina:coniferous_dirt_saltpeter_ore",
     "machina:feldspar_saltpeter_ore",
+    "machina:forest_dirt_saltpeter_ore",
     "machina:gneiss_saltpeter_ore",
     "machina:gray_soapstone_saltpeter_ore",
     "machina:green_soapstone_saltpeter_ore",
     "machina:limestone_saltpeter_ore",
     "machina:marble_saltpeter_ore",
     "machina:moonstone_saltpeter_ore",
+    "machina:peat_saltpeter_ore",
     "machina:shale_saltpeter_ore",
     "machina:stone_saltpeter_ore",
+    "machina:tropical_dirt_saltpeter_ore",
     "machina:white_soapstone_saltpeter_ore"
   ]
 }

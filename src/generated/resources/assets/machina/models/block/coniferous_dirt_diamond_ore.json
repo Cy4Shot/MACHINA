@@ -1,0 +1,7 @@
+{
+  "parent": "machina:block/ore",
+  "textures": {
+    "base": "machina:block/coniferous_dirt",
+    "ore": "machina:block/diamond_ore"
+  }
+}

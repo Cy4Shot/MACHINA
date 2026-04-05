@@ -2,14 +2,18 @@
   "values": [
     "machina:basalt_iron_ore",
     "machina:chalk_iron_ore",
+    "machina:coniferous_dirt_iron_ore",
     "machina:feldspar_iron_ore",
+    "machina:forest_dirt_iron_ore",
     "machina:gneiss_iron_ore",
     "machina:gray_soapstone_iron_ore",
     "machina:green_soapstone_iron_ore",
     "machina:limestone_iron_ore",
     "machina:marble_iron_ore",
     "machina:moonstone_iron_ore",
+    "machina:peat_iron_ore",
     "machina:shale_iron_ore",
+    "machina:tropical_dirt_iron_ore",
     "machina:white_soapstone_iron_ore"
   ]
 }

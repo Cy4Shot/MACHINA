@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.7,
+  "group": "platinum",
+  "ingredient": {
+    "item": "machina:forest_dirt_platinum_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:platinum_ingot"
+  }
+}

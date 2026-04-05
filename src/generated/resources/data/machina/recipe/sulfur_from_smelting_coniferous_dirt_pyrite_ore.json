@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "sulfur",
+  "ingredient": {
+    "item": "machina:coniferous_dirt_pyrite_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:sulfur"
+  }
+}

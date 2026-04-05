@@ -2,15 +2,19 @@
   "values": [
     "machina:basalt_lead_ore",
     "machina:chalk_lead_ore",
+    "machina:coniferous_dirt_lead_ore",
     "machina:feldspar_lead_ore",
+    "machina:forest_dirt_lead_ore",
     "machina:gneiss_lead_ore",
     "machina:gray_soapstone_lead_ore",
     "machina:green_soapstone_lead_ore",
     "machina:limestone_lead_ore",
     "machina:marble_lead_ore",
     "machina:moonstone_lead_ore",
+    "machina:peat_lead_ore",
     "machina:shale_lead_ore",
     "machina:stone_lead_ore",
+    "machina:tropical_dirt_lead_ore",
     "machina:white_soapstone_lead_ore"
   ]
 }

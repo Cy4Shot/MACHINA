@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.7,
+  "group": "thorium",
+  "ingredient": {
+    "item": "machina:peat_thorium_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:thorium_ingot"
+  }
+}

@@ -2,14 +2,18 @@
   "values": [
     "machina:basalt_emerald_ore",
     "machina:chalk_emerald_ore",
+    "machina:coniferous_dirt_emerald_ore",
     "machina:feldspar_emerald_ore",
+    "machina:forest_dirt_emerald_ore",
     "machina:gneiss_emerald_ore",
     "machina:gray_soapstone_emerald_ore",
     "machina:green_soapstone_emerald_ore",
     "machina:limestone_emerald_ore",
     "machina:marble_emerald_ore",
     "machina:moonstone_emerald_ore",
+    "machina:peat_emerald_ore",
     "machina:shale_emerald_ore",
+    "machina:tropical_dirt_emerald_ore",
     "machina:white_soapstone_emerald_ore"
   ]
 }

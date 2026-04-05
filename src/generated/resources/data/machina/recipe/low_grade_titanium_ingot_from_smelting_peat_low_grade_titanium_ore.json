@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.7,
+  "group": "low_grade_titanium",
+  "ingredient": {
+    "item": "machina:peat_low_grade_titanium_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:low_grade_titanium_ingot"
+  }
+}
