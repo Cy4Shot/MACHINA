@@ -35,8 +35,8 @@ import net.minecraft.world.level.levelgen.material.MaterialRuleList;
 
 public class PlanetNoiseChunk extends NoiseChunk {
 
-	private final static int VEIN_MAX_Y = 120;
-	private final static int VEIN_MIN_Y = -60;
+	public final static int VEIN_MAX_Y = 120;
+	public final static int VEIN_MIN_Y = -60;
 	private final static float VEIN_THRESHOLD = 0.23f; // Lower == common
 	private final static float VEIN_SPAWN_CHANCE = 0.8f; // Lower == broken veins
 	private final static float VEIN_MIN_RICHNESS_NOISE = 0.4f;
@@ -45,7 +45,7 @@ public class PlanetNoiseChunk extends NoiseChunk {
 	private final static float VEIN_MAX_RICHNESS = 0.8f;
 	private final static float VEIN_GAP_THRESHOLD = -0.6f; // Lower == smoother
 	private final static float VEIN_RAW_ORE_CHANCE = 0.05f;
-	private final static float VEIN_TEMPERATURE_SCALE = 10f;
+	private final static float VEIN_TEMPERATURE_SCALE = 24f;
 
 	private final NoiseChunk.BlockStateFiller planetBlockStateRule;
 
@@ -70,14 +70,14 @@ public class PlanetNoiseChunk extends NoiseChunk {
 	}
 
 	protected static NoiseChunk.BlockStateFiller createOreVeins(BiomeSource biomeSource, List<PlanetOreTrait> traits,
-			DensityFunction veinToggle, DensityFunction veinRidged, DensityFunction veinGap,
+			DensityFunction veinToggle, DensityFunction veinRidged, DensityFunction veinGap, DensityFunction veinType,
 			PositionalRandomFactory random, Climate.Sampler sampler, BlockState base) {
 
 		return ctx -> {
 			double toggle = veinToggle.compute(ctx);
 			int y = ctx.blockY();
 
-			double typeNoise = veinToggle.compute(new FunctionContext() {
+			double typeNoise = veinType.compute(new FunctionContext() {
 				@Override
 				public int blockX() {
 					return (int) (ctx.blockX() * VEIN_TEMPERATURE_SCALE);
@@ -155,7 +155,7 @@ public class PlanetNoiseChunk extends NoiseChunk {
 				.mapAll(this::wrap);
 		builder.add(p_209217_ -> this.aquifer().computeSubstance(p_209217_, densityfunction.compute(p_209217_)));
 		builder.add(createOreVeins(biomeSource, traits, noiserouter1.veinToggle(), noiserouter1.veinRidged(),
-				noiserouter1.veinGap(), random.oreRandom(), random.sampler(), noiseGeneratorSettings.defaultBlock()));
+				noiserouter1.veinGap(), noiserouter1.temperature(), random.oreRandom(), random.sampler(), noiseGeneratorSettings.defaultBlock()));
 		this.planetBlockStateRule = new MaterialRuleList(builder.build());
 	}
 

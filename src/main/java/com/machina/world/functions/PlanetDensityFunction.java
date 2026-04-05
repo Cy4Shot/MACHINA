@@ -1,19 +1,16 @@
 package com.machina.world.functions;
 
-import java.util.stream.Stream;
-
 import com.machina.api.starchart.obj.Planet;
+import com.machina.world.PlanetNoiseChunk;
 
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunctions;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.Noises;
-import net.minecraft.world.level.levelgen.OreVeinifier;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 public class PlanetDensityFunction {
@@ -56,10 +53,8 @@ public class PlanetDensityFunction {
 				underground(densities, noises, df11));
 		DensityFunction df14 = DensityFunctions.min(postProcess(slide(df13)), getFunction(densities, NOODLE));
 		DensityFunction df15 = getFunction(densities, Y);
-		int i = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224495_) -> p_224495_.minY).min()
-				.orElse(-DimensionType.MIN_Y * 2);
-		int j = Stream.of(OreVeinifier.VeinType.values()).mapToInt((p_224457_) -> p_224457_.maxY).max()
-				.orElse(-DimensionType.MIN_Y * 2);
+		int i = PlanetNoiseChunk.VEIN_MIN_Y;
+		int j = PlanetNoiseChunk.VEIN_MAX_Y;
 		DensityFunction df16 = yLimitedInterpolatable(df15,
 				DensityFunctions.noise(noises.getOrThrow(Noises.ORE_VEININESS), 1.5D, 1.5D), i, j);
 		DensityFunction df17 = yLimitedInterpolatable(df15,
@@ -69,6 +64,11 @@ public class PlanetDensityFunction {
 		DensityFunction df19 = DensityFunctions.add(DensityFunctions.constant(-0.08F),
 				DensityFunctions.max(df17, df18));
 		DensityFunction df20 = DensityFunctions.noise(noises.getOrThrow(Noises.ORE_GAP));
+
+		// Mask surface ores
+		DensityFunction undergroundMask = DensityFunctions.add(df13, DensityFunctions.constant(0.2D)).clamp(0.0D, 1.0D);
+		df16 = DensityFunctions.mul(df16, undergroundMask);
+
 		return new NoiseRouter(df, df1, df2, df3, df6, df7, getFunction(densities, CONTINENTS_LARGE),
 				getFunction(densities, EROSION_LARGE), df9, getFunction(densities, RIDGES),
 				slide(DensityFunctions.add(df10, DensityFunctions.constant(-0.703125D)).clamp(-64.0D, 64.0D)), df14,
