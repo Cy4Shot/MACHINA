@@ -44,7 +44,7 @@ public class PlanetFactory {
 				fluid,
 				PlanetDensityFunction.planet(planet, lookup.lookup(Registries.DENSITY_FUNCTION).get(),
 						lookup.lookup(Registries.NOISE).get()),
-				PlanetSurfaceRule.planet(planet), PlanetBiomeSource.spawnTarget(), sea_level, false, true, false,
+				PlanetSurfaceRule.planet(planet), PlanetBiomeSource.spawnTarget(), sea_level, false, true, true,
 				false);
 
 		return new LevelStem(getDimensionType(server),

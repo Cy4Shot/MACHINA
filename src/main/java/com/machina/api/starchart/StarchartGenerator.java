@@ -1,6 +1,7 @@
 package com.machina.api.starchart;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -104,8 +105,9 @@ public class StarchartGenerator {
 		if (sea != null) {
 			frozen_sea = sea.chem().getPhase(p.surf_temp, p.surf_pressure * 100d).equals(FluidPhase.SOLID);
 		}
-		
-		Set<PlanetTrait> traits = pickTraits(rand, PlanetTypeLoader.INSTANCE.get(type).traits(), PlanetTraitInit.CONSTRAINTS);
+
+		Set<PlanetTrait> traits = new HashSet<>();
+		traits.addAll(pickTraits(rand, PlanetTypeLoader.INSTANCE.get(type).traits(), PlanetTraitInit.CONSTRAINTS));
 		traits.addAll(pickTraits(rand, PlanetTraitInit.getOreConfig(), List.of())); // Ore traits come from static pool
 
 		Planet planet = new Planet(name, type, traits, icon_variant, p.a, p.e, p.where_in_orbit, p.mass, p.gas_giant,
@@ -130,21 +132,21 @@ public class StarchartGenerator {
 		return Pair.of(moon, p.next_planet);
 	}
 
-	private static Set<PlanetTrait> pickTraits(Random random, PlanetTraitSettings config,
+	private static List<PlanetTrait> pickTraits(Random random, PlanetTraitSettings config,
 			List<PlanetTraitConstraint> constraints) {
 		int numRolls = config.minRolls() + random.nextInt(config.maxRolls() - config.minRolls() + 1);
-		Set<PlanetTrait> selectedTraits = new HashSet<>();
+		List<PlanetTrait> selectedTraits = new ArrayList<>();
 		List<PlanetTraitSettingsEntry> availableTraits = new ArrayList<>(config.weights());
+		availableTraits.sort(Comparator.comparing(t -> t.trait().toString()));
 
 		while (selectedTraits.size() < numRolls && !availableTraits.isEmpty()) {
-			// Compute total weight
 			double totalWeight = 0.0;
-			for (PlanetTraitSettingsEntry t : availableTraits)
+			for (PlanetTraitSettingsEntry t : availableTraits) {
 				totalWeight += t.weight();
-
-			// Pick a weighted random trait
+			}
 			double r = random.nextDouble() * totalWeight;
 			double cumulative = 0.0;
+
 			PlanetTraitSettingsEntry chosen = null;
 			for (PlanetTraitSettingsEntry t : availableTraits) {
 				cumulative += t.weight();
@@ -155,23 +157,30 @@ public class StarchartGenerator {
 			}
 
 			if (chosen == null)
-				break; // safety check
+				break;
 
-			selectedTraits.add(chosen.trait());
+			PlanetTrait chosenTrait = chosen.trait();
 
-			// Remove traits that violate constraints
+			if (!selectedTraits.contains(chosenTrait)) {
+				selectedTraits.add(chosenTrait);
+			}
+			availableTraits.remove(chosen);
+
 			Iterator<PlanetTraitSettingsEntry> it = availableTraits.iterator();
 			while (it.hasNext()) {
 				PlanetTraitSettingsEntry t = it.next();
-				Set<PlanetTrait> testSet = new HashSet<>(selectedTraits);
-				testSet.add(t.trait());
+
+				List<PlanetTrait> testList = new ArrayList<>(selectedTraits);
+				testList.add(t.trait());
+
 				boolean violates = false;
 				for (PlanetTraitConstraint c : constraints) {
-					if (c.violates(testSet)) {
+					if (c.violates(new HashSet<>(testList))) {
 						violates = true;
 						break;
 					}
 				}
+
 				if (violates) {
 					it.remove();
 				}
@@ -180,4 +189,5 @@ public class StarchartGenerator {
 
 		return selectedTraits;
 	}
+
 }

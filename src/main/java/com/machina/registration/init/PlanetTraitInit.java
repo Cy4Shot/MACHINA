@@ -69,7 +69,11 @@ public class PlanetTraitInit {
 	}
 
 	private static final Supplier<PlanetOreTrait> ore(String name, int color, MachinaOre ore, int weight) {
-		Supplier<PlanetOreTrait> trait = TRAITS.register(name, () -> new PlanetOreTrait(name, color, ore));
+		Supplier<PlanetOreTrait> trait = TRAITS.register(name, () -> new PlanetOreTrait(name, color, FamiliesInit.ORES
+				.stream().filter(family -> family.ore().map(x -> x.equals(ore)).orElse(false)).findFirst().get())); // Yea
+																													// this
+																													// is
+																													// bad.
 		ORE_POOL.put(trait, weight);
 		return trait;
 
@@ -84,7 +88,7 @@ public class PlanetTraitInit {
 	}
 
 	public static final PlanetTraitSettings getOreConfig() {
-		return new PlanetTraitSettings(0, 32, ORE_POOL.entrySet().stream()
+		return new PlanetTraitSettings(0, 3, ORE_POOL.entrySet().stream()
 				.map(e -> new PlanetTraitSettingsEntry(e.getKey().get(), e.getValue())).collect(Collectors.toList()));
 	}
 }
