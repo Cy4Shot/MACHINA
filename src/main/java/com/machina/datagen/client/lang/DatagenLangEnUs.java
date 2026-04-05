@@ -1043,7 +1043,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.starmap.gas_giant", "Gas Giant");
 
 		// Planets
-		add(PlanetTraitInit.ALWAYS_RAINING, "Always Raining");
+		addTrait(PlanetTraitInit.ALWAYS_RAINING, "Always Raining", "The weather on this planet is always rain.");
 
 		addMisc("planet_type.earthlike", "Earthlike");
 		addMisc("planet_type.martian", "Martian");

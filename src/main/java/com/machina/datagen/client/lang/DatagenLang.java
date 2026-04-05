@@ -48,9 +48,12 @@ public abstract class DatagenLang extends LanguageProvider {
 			add(item.getDescriptionId(), name);
 		} else if (inner instanceof EntityType<?> entity) {
 			add(entity.getDescriptionId(), name);
-		} else if (inner instanceof PlanetTrait trait) {
-			add(trait.getDescriptionId(), name);
 		}
+	}
+	
+	protected void addTrait(Supplier<PlanetTrait> trait, String name, String desc) {
+		add(trait.get().getDescriptionId(), name);
+		add(trait.get().getExplanationId(), desc);
 	}
 
 	protected void addTab(DeferredHolder<CreativeModeTab, CreativeModeTab> tab, String name) {

@@ -1275,6 +1275,7 @@
   "machina.no": "No",
   "machina.none_fluid": "None",
   "machina.planet_trait.always_raining": "Always Raining",
+  "machina.planet_trait.always_raining.explanation": "The weather on this planet is always rain.",
   "machina.planet_type.earthlike": "Earthlike",
   "machina.planet_type.martian": "Martian",
   "machina.recipe.composter_vat": "Composting",

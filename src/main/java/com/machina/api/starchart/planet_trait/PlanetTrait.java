@@ -14,7 +14,15 @@ public record PlanetTrait(String name, int color) {
 		return Machina.MOD_ID + ".planet_trait." + name;
 	}
 
+	public String getExplanationId() {
+		return Machina.MOD_ID + ".planet_trait." + name + ".explanation";
+	}
+
 	public MutableComponent comp() {
 		return Component.translatable(getDescriptionId());
+	}
+
+	public MutableComponent explanationComp() {
+		return Component.translatable(getExplanationId());
 	}
 }

@@ -15,7 +15,6 @@ import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
 import com.machina.api.starchart.obj.Planet;
-import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.PlanetHelper;
 import com.machina.api.util.StringUtils;
@@ -338,68 +337,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 			}, Runnables.doNothing());
 			MUI.disableClipping();
 
-			MUI.drawWithScale(gui, 0.5f, t -> {
-
-				// Draw Help
-				MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 4f).intValue(), 448, 160, 16, 16);
-				MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 14f).intValue(), 464, 160, 16, 16);
-				MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 24f).intValue(), 496, 160, 16, 16);
-
-				MUI.drawString(gui, MUI.uistr("rocket.starmap.pan"), t.apply(i + 14f).intValue(),
-						t.apply(j + 6f).intValue());
-				MUI.drawString(gui, MUI.uistr("rocket.starmap.rotate"), t.apply(i + 14f).intValue(),
-						t.apply(j + 16f).intValue());
-				MUI.drawString(gui, MUI.uistr("rocket.starmap.zoom"), t.apply(i + 14f).intValue(),
-						t.apply(j + 26f).intValue());
-
-				if (starchart.tracked != null) {
-					Planet planet = (Planet) starchart.tracked.celestial();
-
-					// Draw Tracking Box
-					MUI.blitRocket(gui, t.apply(i + 56f).intValue(), t.apply(j + 5f).intValue(), 253, 26, 227, 114);
-
-					// Draw Planet Title
-					MUI.drawCenteredString(gui, planet.getName(), t.apply(i + 56f).intValue() + 112,
-							t.apply(j + 5f).intValue() + 10);
-					MUI.blitCommon(gui, t.apply(i + 56f).intValue() + 55, t.apply(j + 5f).intValue() + 22, 308, 245,
-							115, 6);
-
-					// Draw Planet Info
-					Component c = Component.literal(": ");
-					MUI.drawString(gui,
-							MUI.uistr("rocket.starmap.planet_type").append(c)
-									.append(planet.type().nameComp()
-											.withStyle(Style.EMPTY.withBold(true).withColor(planet.type().color()))),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 32);
-					MUI.drawString(gui,
-							MUI.uistr("rocket.starmap.day_length").append(c)
-									.append(Component.literal(StringUtils.formatHours((float) planet.day()))
-											.withStyle(Style.EMPTY.withBold(true))),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 42);
-					if (planet.gas_giant()) {
-						MUI.drawString(gui,
-								MUI.uistr("rocket.starmap.gas_giant").append(c).append(StringUtils.formatBool(true)),
-								t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
-					} else {
-						MUI.drawString(gui,
-								MUI.uistr("rocket.starmap.gravity").append(c)
-										.append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
-												.withStyle(Style.EMPTY.withBold(true))),
-								t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
-					}
-					MUI.drawString(gui,
-							MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
-									.append(StringUtils.formatBool(planet.breathable())),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
-
-					int k = 0;
-					for (PlanetTrait trait : planet.traits()) {
-						MUI.drawString(gui, trait.comp().withStyle(Style.EMPTY.withBold(true).withColor(trait.color())),
-								t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 72 + 10 * k);
-						k++;
-					}
-				}
-			});
+			starchart.renderInfoBoxes(gui, i, j);
 		}
 
 		@Override
@@ -514,6 +452,14 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 			return true;
 		}
 		return super.mouseScrolled(mX, mY, deltaX, deltaY);
+	}
+	
+	@Override
+	protected void renderTooltip(@NotNull GuiGraphics gui, int mx, int my) {
+		super.renderTooltip(gui, mx, my);
+		if (getSelected().starchartVisible()) {
+			starchart.renderTooltip(gui, mx, my);
+		}
 	}
 
 	@Override

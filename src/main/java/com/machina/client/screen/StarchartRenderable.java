@@ -1,8 +1,12 @@
 package com.machina.client.screen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
@@ -20,6 +24,8 @@ import com.machina.api.client.celestial.CelestialUIRenderInfo;
 import com.machina.api.client.screen.MUI;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.obj.SolarSystem;
+import com.machina.api.starchart.planet_trait.PlanetTrait;
+import com.machina.api.util.StringUtils;
 import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -27,11 +33,16 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.phys.Vec3;
 
 public class StarchartRenderable {
+
+	private record Hoverable(int minX, int minY, int maxX, int maxY, Supplier<List<Component>> text) {
+	}
 
 	private final static Minecraft mc = Minecraft.getInstance();
 	private final static float NEAR_PLANE = 0.005f;
@@ -43,6 +54,7 @@ public class StarchartRenderable {
 	private final float maxZoom;
 
 	private List<Consumer<Integer>> select;
+	private final Map<String, Hoverable> hoverables = new HashMap<>();
 
 	private float rotX = 0;
 	private float rotY = 90;
@@ -97,6 +109,10 @@ public class StarchartRenderable {
 
 	public void addSelectListener(Consumer<Integer> selected) {
 		this.select.add(selected);
+	}
+
+	private void registerHoverable(String key, int minX, int minY, int maxX, int maxY, Supplier<List<Component>> text) {
+		this.hoverables.putIfAbsent(key, new Hoverable(minX, minY, maxX, maxY, text));
 	}
 
 	public void render(@NotNull GuiGraphics gui, int x, int y, int xOff, int yOff, int width, int height) {
@@ -243,6 +259,7 @@ public class StarchartRenderable {
 			}
 
 			if (closest != null) {
+				this.hoverables.clear();
 				this.tracked = closest;
 				this.trackedOrbitalPos = closest.worldPos();
 				this.targetZoom = calculateZoom(closest.celestial().radiusAU());
@@ -274,6 +291,7 @@ public class StarchartRenderable {
 		// Pan - Middle Click or Left Click
 		if (button == GLFW.GLFW_MOUSE_BUTTON_1 || button == GLFW.GLFW_MOUSE_BUTTON_3) {
 			this.tracked = null;
+			this.hoverables.clear();
 
 			Quaternionf rot = createRotQuat(rotX, rotY);
 			Vector3f right = new Vector3f(VecUtil.XP);
@@ -309,6 +327,86 @@ public class StarchartRenderable {
 		this.zoom *= (float) Math.pow(1.1, delta);
 		this.targetZoom = zoom;
 		return false;
+	}
+
+	public void renderTooltip(@NotNull GuiGraphics gui, int mx, int my) {
+		for (Hoverable h : hoverables.values()) {
+			if (mx > h.minX() && mx < h.maxX() && my > h.minY() && my < h.maxY()) {
+				gui.renderTooltip(mc.font, h.text().get(), Optional.empty(), mx, my);
+				break;
+			}
+		}
+	}
+
+	public void renderInfoBoxes(GuiGraphics gui, int i, int j) {
+		MUI.drawWithScale(gui, 0.5f, t -> {
+
+			// Draw Help
+			MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 4f).intValue(), 448, 160, 16, 16);
+			MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 14f).intValue(), 464, 160, 16, 16);
+			MUI.blitCommon(gui, t.apply(i + 4f).intValue(), t.apply(j + 24f).intValue(), 496, 160, 16, 16);
+
+			MUI.drawString(gui, MUI.uistr("rocket.starmap.pan"), t.apply(i + 14f).intValue(),
+					t.apply(j + 6f).intValue());
+			MUI.drawString(gui, MUI.uistr("rocket.starmap.rotate"), t.apply(i + 14f).intValue(),
+					t.apply(j + 16f).intValue());
+			MUI.drawString(gui, MUI.uistr("rocket.starmap.zoom"), t.apply(i + 14f).intValue(),
+					t.apply(j + 26f).intValue());
+
+			if (tracked != null) {
+				Planet planet = (Planet) tracked.celestial();
+
+				// Draw Tracking Box
+				MUI.blitRocket(gui, t.apply(i + 56f).intValue(), t.apply(j + 5f).intValue(), 253, 26, 227, 114);
+
+				// Draw Planet Title
+				MUI.drawCenteredString(gui, planet.getName(), t.apply(i + 56f).intValue() + 112,
+						t.apply(j + 5f).intValue() + 10);
+				MUI.blitCommon(gui, t.apply(i + 56f).intValue() + 55, t.apply(j + 5f).intValue() + 22, 308, 245, 115,
+						6);
+
+				// Draw Planet Info
+				Component c = Component.literal(": ");
+				MUI.drawString(gui,
+						MUI.uistr("rocket.starmap.planet_type").append(c)
+								.append(planet.type().nameComp()
+										.withStyle(Style.EMPTY.withBold(true).withColor(planet.type().color()))),
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 32);
+				MUI.drawString(gui,
+						MUI.uistr("rocket.starmap.day_length").append(c)
+								.append(Component.literal(StringUtils.formatHours((float) planet.day()))
+										.withStyle(Style.EMPTY.withBold(true))),
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 42);
+				if (planet.gas_giant()) {
+					MUI.drawString(gui,
+							MUI.uistr("rocket.starmap.gas_giant").append(c).append(StringUtils.formatBool(true)),
+							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+				} else {
+					MUI.drawString(gui,
+							MUI.uistr("rocket.starmap.gravity").append(c)
+									.append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
+											.withStyle(Style.EMPTY.withBold(true))),
+							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+				}
+				MUI.drawString(gui,
+						MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
+								.append(StringUtils.formatBool(planet.breathable())),
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
+
+				int k = 0;
+				for (PlanetTrait trait : planet.traits()) {
+					int traitX = t.apply(i + 56f).intValue() + 4;
+					int traitY = t.apply(j + 5f).intValue() + 72 + 10 * k;
+					Component traitComp = trait.comp().withStyle(Style.EMPTY.withBold(true).withColor(trait.color()));
+					MUI.drawString(gui, traitComp, traitX, traitY);
+					int rtx = (int) (traitX * 0.5f);
+					int rty = (int) (traitY * 0.5f);
+					registerHoverable("trait_" + k, rtx - 1, rty - 1, rtx + mc.font.width(traitComp) / 2 + 1,
+							rty + mc.font.lineHeight / 2 + 1, () -> List.of(traitComp, trait.explanationComp()));
+					k++;
+				}
+			}
+		});
 	}
 
 }
