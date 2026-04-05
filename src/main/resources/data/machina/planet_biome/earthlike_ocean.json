@@ -1,4 +1,5 @@
 {
+	"home": "machina:earthlike",
 	"surface": "machina:large_patches",
 	"base": "machina:gray_soapstone",
 	"stair": "machina:gray_soapstone_stairs",
@@ -84,96 +85,6 @@
 			"up_extra_chance": 0.3,
 			"down_extra_chance": 0,
 			"side_extra_chance": 0
-		}
-	],
-	"ores": [
-		{
-			"block": "machina:green_soapstone",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 8,
-			"min_y": -64,
-			"max_y": 128
-		},
-		{
-			"block": "machina:limestone",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 8,
-			"min_y": -64,
-			"max_y": 128
-		},
-		{
-			"block": "machina:gneiss",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 8,
-			"min_y": -64,
-			"max_y": 128
-		},
-		{
-			"block": "minecraft:andesite",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 4,
-			"min_y": -64,
-			"max_y": 128
-		},
-		{
-			"block": "minecraft:granite",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 2,
-			"min_y": -64,
-			"max_y": 128
-		},
-		{
-			"block": "minecraft:diorite",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 2,
-			"min_y": -64,
-			"max_y": 128
-		},
-		{
-			"block": "machina:migmatite",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 6,
-			"min_y": -64,
-			"max_y": 128
-		},
-		{
-			"block": "machina:marble",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 6,
-			"min_y": -64,
-			"max_y": 128
-		},
-		{
-			"block": "machina:anthracite",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 2,
-			"min_y": -64,
-			"max_y": 0
-		},
-		{
-			"block": "machina:shale",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 6,
-			"min_y": -64,
-			"max_y": 0
-		},
-		{
-			"block": "machina:chalk",
-			"size": 32,
-			"exposure_removal_chance": 0,
-			"chance": 10,
-			"min_y": -64,
-			"max_y": 256
 		}
 	]
 }

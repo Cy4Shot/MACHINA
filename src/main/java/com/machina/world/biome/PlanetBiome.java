@@ -5,10 +5,12 @@ import java.util.Arrays;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBigRock;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBush;
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOre;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRock;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeTree;
 import com.machina.api.starchart.planet_biome.PlanetSurface.PlanetSurfaceGetter;
+import com.machina.api.starchart.planet_type.PlanetType;
+import com.machina.api.starchart.planet_type.PlanetType.PlanetOre;
+import com.machina.api.starchart.planet_type.PlanetTypeLoader;
 import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.SoundInit;
 import com.machina.world.feature.PlanetBigRockFeature;
@@ -88,14 +90,16 @@ public class PlanetBiome extends Biome {
 
 	private static BiomeGenerationSettings createGeneration(PlanetBiomeSettings s) {
 		BiomeGenerationSettings.PlainBuilder builder = new BiomeGenerationSettings.PlainBuilder();
+		PlanetType type = PlanetTypeLoader.INSTANCE.get(s.home());
 
-		addUndergroundFeatures(builder, s);
+		addUndergroundFeatures(builder, type, s);
 		addVegetationFeatures(builder, s);
 
 		return builder.build();
 	}
 
-	private static void addUndergroundFeatures(BiomeGenerationSettings.PlainBuilder builder, PlanetBiomeSettings s) {
+	private static void addUndergroundFeatures(BiomeGenerationSettings.PlainBuilder builder, PlanetType type,
+			PlanetBiomeSettings s) {
 
 		// Cave Slope
 		for (CaveSurface surf : CaveSurface.values())
@@ -106,7 +110,7 @@ public class PlanetBiome extends Biome {
 					biome());
 
 		// Ores
-		for (PlanetBiomeOre ore : s.ores()) {
+		for (PlanetOre ore : type.ores()) {
 			add(builder, Decoration.UNDERGROUND_ORES, new PlanetOreFeature(),
 					new PlanetOreFeature.PlanetOreFeatureConfig(ore), chance(ore.chance()), spread(),
 					range(ore.min_y(), ore.max_y()), biome());

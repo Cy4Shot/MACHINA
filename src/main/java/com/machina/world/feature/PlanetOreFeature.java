@@ -3,7 +3,7 @@ package com.machina.world.feature;
 import java.util.BitSet;
 import java.util.function.Function;
 
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOre;
+import com.machina.api.starchart.planet_type.PlanetType.PlanetOre;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -23,9 +23,9 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 
 public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureConfig> {
 
-	public record PlanetOreFeatureConfig(PlanetBiomeOre ore) implements FeatureConfiguration {
+	public record PlanetOreFeatureConfig(PlanetOre ore) implements FeatureConfiguration {
 		public static final Codec<PlanetOreFeatureConfig> CODEC = RecordCodecBuilder.create(
-				instance -> instance.group(PlanetBiomeOre.CODEC.fieldOf("ore").forGetter(PlanetOreFeatureConfig::ore))
+				instance -> instance.group(PlanetOre.CODEC.fieldOf("ore").forGetter(PlanetOreFeatureConfig::ore))
 						.apply(instance, PlanetOreFeatureConfig::new));
 	}
 
@@ -37,7 +37,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 		RandomSource randomsource = ctx.random();
 		BlockPos blockpos = ctx.origin();
 		WorldGenLevel worldgenlevel = ctx.level();
-		PlanetBiomeOre cfg = ctx.config().ore();
+		PlanetOre cfg = ctx.config().ore();
 
 		// Prevent surface generation
 		if (worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.getX(), blockpos.getZ()) - 2 <= blockpos
@@ -70,7 +70,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 		return false;
 	}
 
-	protected boolean doPlace(WorldGenLevel p_225172_, RandomSource p_225173_, PlanetBiomeOre cfg, double p_225175_,
+	protected boolean doPlace(WorldGenLevel p_225172_, RandomSource p_225173_, PlanetOre cfg, double p_225175_,
 			double p_225176_, double p_225177_, double p_225178_, double p_225179_, double p_225180_, int p_225181_,
 			int p_225182_, int p_225183_, int p_225184_, int p_225185_) {
 		int i = 0;
@@ -175,7 +175,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 	}
 
 	public static boolean canPlaceOre(BlockState state, Function<BlockPos, BlockState> p_225188_,
-			RandomSource p_225189_, PlanetBiomeOre cfg, BlockPos.MutableBlockPos p_225192_) {
+			RandomSource p_225189_, PlanetOre cfg, BlockPos.MutableBlockPos p_225192_) {
 		if (!state.is(BlockTags.OVERWORLD_CARVER_REPLACEABLES)) {
 			return false;
 		} else if (shouldSkipAirCheck(p_225189_, cfg.exposure_removal_chance())) {

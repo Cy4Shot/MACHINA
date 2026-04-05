@@ -84,7 +84,7 @@ public class PlanetTraitInit {
 	}
 
 	public static final PlanetTraitSettings getOreConfig() {
-		return new PlanetTraitSettings(0, 3, ORE_POOL.entrySet().stream()
+		return new PlanetTraitSettings(0, 32, ORE_POOL.entrySet().stream()
 				.map(e -> new PlanetTraitSettingsEntry(e.getKey().get(), e.getValue())).collect(Collectors.toList()));
 	}
 }

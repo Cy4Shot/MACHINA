@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.starchart.planet_type.PlanetType.BiomePlacement;
+import com.machina.api.starchart.planet_type.PlanetType.PlanetOre;
 import com.machina.api.starchart.planet_type.PlanetType.PlanetTraitSettings;
 import com.machina.api.starchart.planet_type.PlanetType.PlanetTraitSettingsEntry;
 import com.machina.api.starchart.planet_type.PlanetType.Shape;
@@ -19,7 +20,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId, Shape shape, List<BiomePlacementJsonInfo> biomes,
-		List<String> weathers, PlanetTraitSettingsJsonInfo traits, String base) implements JsonInfo<PlanetType> {
+		List<String> weathers, PlanetTraitSettingsJsonInfo traits, String base, List<PlanetOreJsonInfo> ores) implements JsonInfo<PlanetType> {
+	
+	public static BlockState getBlock(String block) {
+		return BlockHelper.parseState(BlockHelper.blockHolderLookup(), block);
+	}
 
 	public record BiomePlacementJsonInfo(String name, List<String> placements) implements JsonInfo<BiomePlacement> {
 
@@ -50,6 +55,14 @@ public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId
 			return new PlanetTraitSettingsEntry(planetTrait, weight);
 		}
 	}
+	
+	public record PlanetOreJsonInfo(String block, int size, float exposure_removal_chance, float chance, int min_y,
+			int max_y) implements JsonInfo<PlanetOre> {
+		@Override
+		public PlanetOre cast() {
+			return new PlanetOre(getBlock(block), size, exposure_removal_chance, chance, min_y, max_y);
+		}
+	}
 
 	@Override
 	public PlanetType cast() {
@@ -57,9 +70,10 @@ public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId
 		List<BiomePlacement> biomes = biomes().stream().map(BiomePlacementJsonInfo::cast).collect(Collectors.toList());
 		List<WeatherEvent> weathers = weathers().stream()
 				.map(x -> RegistryInit.WEATHER_EVENT.get(ResourceLocation.parse(x))).collect(Collectors.toList());
+		List<PlanetOre> ores = ores().stream().map(PlanetOreJsonInfo::cast).collect(Collectors.toList());
 
 		HolderLookup<Block> block = BlockHelper.blockHolderLookup();
 		BlockState base = BlockHelper.parseState(block, base());
-		return new PlanetType(name, iconY, color, shaderId, shape(), biomes, weathers, traits.cast(), base);
+		return new PlanetType(name, iconY, color, shaderId, shape(), biomes, weathers, traits.cast(), base, ores);
 	}
 }
