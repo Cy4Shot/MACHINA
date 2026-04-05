@@ -1044,6 +1044,40 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		// Planets
 		addTrait(PlanetTraitInit.ALWAYS_RAINING, "Always Raining", "The weather on this planet is always rain.");
+		
+		addTrait(PlanetTraitInit.RICH_COAL, "Coal Rich", "This planet is abundant in coal deposits.");
+		addTrait(PlanetTraitInit.RICH_IRON, "Iron Rich", "This planet is abundant in iron deposits.");
+		addTrait(PlanetTraitInit.RICH_COPPER, "Copper Rich", "This planet is abundant in copper deposits.");
+		addTrait(PlanetTraitInit.RICH_GOLD, "Gold Rich", "This planet is abundant in gold deposits.");
+		addTrait(PlanetTraitInit.RICH_REDSTONE, "Redstone Rich", "This planet is abundant in redstone deposits.");
+		addTrait(PlanetTraitInit.RICH_QUARTZ, "Quartz Rich", "This planet is abundant in quartz deposits.");
+		addTrait(PlanetTraitInit.RICH_EMERALD, "Emerald Rich", "This planet is abundant in emerald deposits.");
+		addTrait(PlanetTraitInit.RICH_LAPIS, "Lapis Rich", "This planet is abundant in lapis deposits.");
+		addTrait(PlanetTraitInit.RICH_DIAMOND, "Diamond Rich", "This planet is abundant in diamond deposits.");
+		addTrait(PlanetTraitInit.RICH_ALUMINUM, "Aluminum Rich", "This planet is abundant in aluminum deposits.");
+		addTrait(PlanetTraitInit.RICH_NICKEL, "Nickel Rich", "This planet is abundant in nickel deposits.");
+		addTrait(PlanetTraitInit.RICH_TIN, "Tin Rich", "This planet is abundant in tin deposits.");
+		addTrait(PlanetTraitInit.RICH_ZINC, "Zinc Rich", "This planet is abundant in zinc deposits.");
+		addTrait(PlanetTraitInit.RICH_LOW_GRADE_TITANIUM, "Titanium Rich", "This planet is abundant in titanium deposits.");
+		addTrait(PlanetTraitInit.RICH_LEAD, "Lead Rich", "This planet is abundant in lead deposits.");
+		addTrait(PlanetTraitInit.RICH_BORON, "Boron Rich", "This planet is abundant in boron deposits.");
+		addTrait(PlanetTraitInit.RICH_PALLADIUM, "Palladium Rich", "This planet is abundant in palladium deposits.");
+		addTrait(PlanetTraitInit.RICH_SILVER, "Silver Rich", "This planet is abundant in silver deposits.");
+		addTrait(PlanetTraitInit.RICH_FLUORITE, "Fluorite Rich", "This planet is abundant in fluorite deposits.");
+		addTrait(PlanetTraitInit.RICH_SALTPETER, "Niter Rich", "This planet is abundant in niter deposits.");
+		addTrait(PlanetTraitInit.RICH_PYRITE, "Sulfur Rich", "This planet is abundant in sulfur deposits.");
+		addTrait(PlanetTraitInit.RICH_BISMUTH, "Bismuth Rich", "This planet is abundant in bismuth deposits.");
+		addTrait(PlanetTraitInit.RICH_MAGNETITE, "Magnetite Rich", "This planet is abundant in magnetite deposits.");
+		addTrait(PlanetTraitInit.RICH_GYPSUM, "Gypsum Rich", "This planet is abundant in gypsum deposits.");
+		addTrait(PlanetTraitInit.RICH_PERCHLORATE, "Perchlorate Rich", "This planet is abundant in perchlorate deposits.");
+		addTrait(PlanetTraitInit.RICH_ILMENITE, "Ilmenite Rich", "This planet is abundant in ilmenite deposits.");
+		addTrait(PlanetTraitInit.RICH_PLATINUM, "Platinum Rich", "This planet is abundant in platinum deposits.");
+		addTrait(PlanetTraitInit.RICH_IRIDIUM, "Iridium Rich", "This planet is abundant in iridium deposits.");
+		addTrait(PlanetTraitInit.RICH_OSMIUM, "Osmium Rich", "This planet is abundant in osmium deposits.");
+		addTrait(PlanetTraitInit.RICH_COBALT, "Cobalt Rich", "This planet is abundant in cobalt deposits.");
+		addTrait(PlanetTraitInit.RICH_URANINITE, "Uraninite Rich", "This planet is abundant in uraninite deposits.");
+		addTrait(PlanetTraitInit.RICH_THORIUM, "Thorium Rich", "This planet is abundant in thorium deposits.");
+
 
 		addMisc("planet_type.earthlike", "Earthlike");
 		addMisc("planet_type.martian", "Martian");

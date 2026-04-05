@@ -374,7 +374,8 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 	@Override
 	protected void init() {
 		super.init();
-		menu.rebuildSlotPositions(this.selected);
+		this.menu.rebuildSlotPositions(this.selected);
+		this.starchart.resize();
 	}
 
 	@Override
@@ -432,7 +433,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
 	@Override
 	public boolean mouseClicked(double mX, double mY, int button) {
-		if (inStarchart(mX, mY) && starchart.mouseClicked(mX, mY, button)) {
+		if (inStarchart(mX, mY) && this.starchart.mouseClicked(mX, mY, button)) {
 			return true;
 		}
 		return super.mouseClicked(mX, mY, button);
@@ -440,7 +441,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
 	@Override
 	public boolean mouseDragged(double mX, double mY, int button, double dX, double dY) {
-		if (inStarchart(mX, mY) && starchart.mouseDragged(button, dX, dY, width, height)) {
+		if (inStarchart(mX, mY) && this.starchart.mouseDragged(button, dX, dY, width, height)) {
 			return true;
 		}
 		return super.mouseDragged(mX, mY, button, dX, dY);
@@ -448,7 +449,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
 	@Override
 	public boolean mouseScrolled(double mX, double mY, double deltaX, double deltaY) {
-		if (inStarchart(mX, mY) && starchart.mouseScrolled(deltaY)) {
+		if (inStarchart(mX, mY) && this.starchart.mouseScrolled(deltaY)) {
 			return true;
 		}
 		return super.mouseScrolled(mX, mY, deltaX, deltaY);
@@ -468,7 +469,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 	}
 
 	private RocketTabDisplay getSelected() {
-		return TABS.get(selected);
+		return TABS.get(this.selected);
 	}
 
 	private boolean inStarchart(double mX, double mY) {

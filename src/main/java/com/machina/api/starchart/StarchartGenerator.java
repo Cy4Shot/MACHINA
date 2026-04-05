@@ -106,6 +106,7 @@ public class StarchartGenerator {
 		}
 		
 		Set<PlanetTrait> traits = pickTraits(rand, PlanetTypeLoader.INSTANCE.get(type).traits(), PlanetTraitInit.CONSTRAINTS);
+		traits.addAll(pickTraits(rand, PlanetTraitInit.getOreConfig(), List.of())); // Ore traits come from static pool
 
 		Planet planet = new Planet(name, type, traits, icon_variant, p.a, p.e, p.where_in_orbit, p.mass, p.gas_giant,
 				p.orbit_zone, p.radius, p.density, p.orb_period, p.day, p.resonant_period, p.axial_tilt, p.esc_velocity,
@@ -129,7 +130,8 @@ public class StarchartGenerator {
 		return Pair.of(moon, p.next_planet);
 	}
 
-	private static Set<PlanetTrait> pickTraits(Random random, PlanetTraitSettings config, List<PlanetTraitConstraint> constraints) {
+	private static Set<PlanetTrait> pickTraits(Random random, PlanetTraitSettings config,
+			List<PlanetTraitConstraint> constraints) {
 		int numRolls = config.minRolls() + random.nextInt(config.maxRolls() - config.minRolls() + 1);
 		Set<PlanetTrait> selectedTraits = new HashSet<>();
 		List<PlanetTraitSettingsEntry> availableTraits = new ArrayList<>(config.weights());

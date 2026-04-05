@@ -40,7 +40,6 @@ public class Registration {
 		registerConfig(cont, ModConfig.Type.COMMON, CommonConfig.COMMON_SPEC);
 
 		ArgumentTypesInit.ARGUMENT_TYPES.register(bus);
-		PlanetTraitInit.TRAITS.register(bus);
 		PlanetPlacementModifierInit.PLACEMENT_MODIFIERS.register(bus);
 		PlanetTreeInit.TREES.register(bus);
 		PlanetRockInit.ROCKS.register(bus);
@@ -53,6 +52,7 @@ public class Registration {
 		FluidInit.FLUIDS.register(bus);
 		FluidInit.FLUID_TYPES.register(bus);
 		FruitInit.register();
+		PlanetTraitInit.TRAITS.register(bus);
 		EntityTypeInit.ENTITY_TYPES.register(bus);
 		EntityDataSerializerInit.ENTITY_DATA_SERIALIZERS.register(bus);
 		TabInit.CREATIVE_MODE_TABS.register(bus);

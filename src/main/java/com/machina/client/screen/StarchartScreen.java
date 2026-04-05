@@ -19,9 +19,15 @@ public class StarchartScreen extends Screen {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mX, int mY, float partial) {
-		renderable.render(gui, 0, 0, 0, 0, width, height);
-		renderable.renderInfoBoxes(gui, 0, 0);
-		renderable.renderTooltip(gui, mX, mY);
+		this.renderable.render(gui, 0, 0, 0, 0, width, height);
+		this.renderable.renderInfoBoxes(gui, 0, 0);
+		this.renderable.renderTooltip(gui, mX, mY);
+	}
+	
+	@Override
+	protected void init() {
+		super.init();
+		this.renderable.resize();
 	}
 
 	@Override

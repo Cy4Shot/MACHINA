@@ -7,8 +7,16 @@ import com.mojang.serialization.Codec;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
-public record PlanetTrait(String name, int color) {
+public class PlanetTrait {
 	public static final Codec<PlanetTrait> CODEC = RegistryInit.TRAIT.byNameCodec();
+	
+	private final String name;
+	private final int color;
+	
+	public PlanetTrait(String name, int color) {
+		this.name = name;
+		this.color = color;
+	}
 
 	public String getDescriptionId() {
 		return Machina.MOD_ID + ".planet_trait." + name;
@@ -24,5 +32,9 @@ public record PlanetTrait(String name, int color) {
 
 	public MutableComponent explanationComp() {
 		return Component.translatable(getExplanationId());
+	}
+	
+	public int color() {
+		return this.color;
 	}
 }

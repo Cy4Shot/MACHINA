@@ -51,7 +51,7 @@ public abstract class DatagenLang extends LanguageProvider {
 		}
 	}
 	
-	protected void addTrait(Supplier<PlanetTrait> trait, String name, String desc) {
+	protected void addTrait(Supplier<? extends PlanetTrait> trait, String name, String desc) {
 		add(trait.get().getDescriptionId(), name);
 		add(trait.get().getExplanationId(), desc);
 	}

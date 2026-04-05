@@ -82,6 +82,11 @@ public class StarchartRenderable {
 		this.zoom = maxZoom;
 
 		this.select = new ArrayList<>();
+		this.resize();
+	}
+	
+	public void resize() {
+		this.hoverables.clear();
 	}
 
 	public float calculateZoom(double targetAphelion) {
