@@ -8,15 +8,18 @@ import com.machina.api.util.reflect.MachinaCodecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Direction;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetBiomeSettings(ResourceLocation home, BlockState base, ResourceLocation surface, List<BlockState> top, BlockState second,
-		BlockState stair, BlockState slab, BlockState extra, List<PlanetBiomeTree> trees, List<PlanetBiomeBush> bushes,
-		PlanetBiomeGrass grass, PlanetBiomeLakes lakes, List<PlanetBiomeRock> rocks,
-		List<PlanetBiomeBigRock> big_rocks) {
+public record PlanetBiomeSettings(ResourceLocation home, BlockState base, ResourceLocation surface,
+		List<BlockState> top, BlockState second, BlockState stair, BlockState slab, BlockState extra,
+		List<PlanetBiomeTree> trees, List<PlanetBiomeBush> bushes, PlanetBiomeGrass grass, PlanetBiomeLakes lakes,
+		List<PlanetBiomeRock> rocks, List<PlanetBiomeBigRock> big_rocks, PlanetBiomeClientSettings client_settings) {
 
 	private static WeightedStateProviderProvider.Builder weighted(List<PlanetBlockWeight> gs) {
 		WeightedStateProviderProvider.Builder builder = WeightedStateProviderProvider.builder();
@@ -26,24 +29,24 @@ public record PlanetBiomeSettings(ResourceLocation home, BlockState base, Resour
 		return builder;
 	}
 
-	public static final Codec<PlanetBiomeSettings> CODEC = RecordCodecBuilder
-			.create(instance -> instance
-					.group(ResourceLocation.CODEC.fieldOf("home").forGetter(PlanetBiomeSettings::home),
-							BlockState.CODEC.fieldOf("base").forGetter(PlanetBiomeSettings::base),
-							ResourceLocation.CODEC.fieldOf("surface").forGetter(PlanetBiomeSettings::surface),
-							Codec.list(BlockState.CODEC).fieldOf("top").forGetter(PlanetBiomeSettings::top),
-							BlockState.CODEC.fieldOf("second").forGetter(PlanetBiomeSettings::second),
-							BlockState.CODEC.fieldOf("stair").forGetter(PlanetBiomeSettings::stair),
-							BlockState.CODEC.fieldOf("slab").forGetter(PlanetBiomeSettings::slab),
-							BlockState.CODEC.fieldOf("extra").forGetter(PlanetBiomeSettings::extra),
-							Codec.list(PlanetBiomeTree.CODEC).fieldOf("trees").forGetter(PlanetBiomeSettings::trees),
-							Codec.list(PlanetBiomeBush.CODEC).fieldOf("bushes").forGetter(PlanetBiomeSettings::bushes),
-							PlanetBiomeGrass.CODEC.fieldOf("grass").forGetter(PlanetBiomeSettings::grass),
-							PlanetBiomeLakes.CODEC.fieldOf("lakes").forGetter(PlanetBiomeSettings::lakes),
-							Codec.list(PlanetBiomeRock.CODEC).fieldOf("rocks").forGetter(PlanetBiomeSettings::rocks),
-							Codec.list(PlanetBiomeBigRock.CODEC).fieldOf("big_rocks")
-									.forGetter(PlanetBiomeSettings::big_rocks))
-					.apply(instance, PlanetBiomeSettings::new));
+	public static final Codec<PlanetBiomeSettings> CODEC = RecordCodecBuilder.create(instance -> instance
+			.group(ResourceLocation.CODEC.fieldOf("home").forGetter(PlanetBiomeSettings::home),
+					BlockState.CODEC.fieldOf("base").forGetter(PlanetBiomeSettings::base),
+					ResourceLocation.CODEC.fieldOf("surface").forGetter(PlanetBiomeSettings::surface),
+					Codec.list(BlockState.CODEC).fieldOf("top").forGetter(PlanetBiomeSettings::top),
+					BlockState.CODEC.fieldOf("second").forGetter(PlanetBiomeSettings::second),
+					BlockState.CODEC.fieldOf("stair").forGetter(PlanetBiomeSettings::stair),
+					BlockState.CODEC.fieldOf("slab").forGetter(PlanetBiomeSettings::slab),
+					BlockState.CODEC.fieldOf("extra").forGetter(PlanetBiomeSettings::extra),
+					Codec.list(PlanetBiomeTree.CODEC).fieldOf("trees").forGetter(PlanetBiomeSettings::trees),
+					Codec.list(PlanetBiomeBush.CODEC).fieldOf("bushes").forGetter(PlanetBiomeSettings::bushes),
+					PlanetBiomeGrass.CODEC.fieldOf("grass").forGetter(PlanetBiomeSettings::grass),
+					PlanetBiomeLakes.CODEC.fieldOf("lakes").forGetter(PlanetBiomeSettings::lakes),
+					Codec.list(PlanetBiomeRock.CODEC).fieldOf("rocks").forGetter(PlanetBiomeSettings::rocks),
+					Codec.list(PlanetBiomeBigRock.CODEC).fieldOf("big_rocks").forGetter(PlanetBiomeSettings::big_rocks),
+					PlanetBiomeClientSettings.CODEC.fieldOf("client_settings")
+							.forGetter(PlanetBiomeSettings::client_settings))
+			.apply(instance, PlanetBiomeSettings::new));
 
 	public record PlanetBiomeEffects(int fog_color, int sky_color, int water_color, int water_fog_color,
 			int grass_color) {
@@ -177,4 +180,14 @@ public record PlanetBiomeSettings(ResourceLocation home, BlockState base, Resour
 				.apply(instance, PlanetBlockWeight::new));
 	}
 
+	public record PlanetBiomeClientSettings(int weather_tint) {
+		public static final PlanetBiomeClientSettings DEFAULT = new PlanetBiomeClientSettings(0xFF_FFFFFF);
+
+		public static final Codec<PlanetBiomeClientSettings> CODEC = RecordCodecBuilder.create(instance -> instance
+				.group(Codec.INT.fieldOf("weather_tint").forGetter(PlanetBiomeClientSettings::weather_tint))
+				.apply(instance, PlanetBiomeClientSettings::new));
+
+		public static final StreamCodec<ByteBuf, PlanetBiomeClientSettings> STREAM_CODEC = StreamCodec
+				.composite(ByteBufCodecs.INT, PlanetBiomeClientSettings::weather_tint, PlanetBiomeClientSettings::new);
+	}
 }

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.google.gson.JsonObject;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBigRock;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBush;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeClientSettings;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeGrass;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeLakes;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRock;
@@ -24,8 +25,8 @@ import net.minecraft.world.level.block.state.BlockState;
 public record PlanetBiomeJsonInfo(String home, String base, String surface, List<String> top, String second,
 		String stair, String slab, String extra, List<PlanetBiomeTreeJsonInfo> trees,
 		List<PlanetBiomeBushJsonInfo> bushes, PlanetBiomeGrassJsonInfo grass, PlanetBiomeLakesJsonInfo lakes,
-		List<PlanetBiomeRockJsonInfo> rocks, List<PlanetBiomeBigRockJsonInfo> big_rocks)
-		implements JsonInfo<PlanetBiomeSettings> {
+		List<PlanetBiomeRockJsonInfo> rocks, List<PlanetBiomeBigRockJsonInfo> big_rocks,
+		PlanetBiomeClientSettingsJsonInfo client_settings) implements JsonInfo<PlanetBiomeSettings> {
 
 	public static BlockState getBlock(String block) {
 		return BlockHelper.parseState(BlockHelper.blockHolderLookup(), block);
@@ -115,6 +116,12 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 		}
 	}
 
+	public record PlanetBiomeClientSettingsJsonInfo(int weather_tint) implements JsonInfo<PlanetBiomeClientSettings> {
+		public PlanetBiomeClientSettings cast() {
+			return new PlanetBiomeClientSettings(weather_tint);
+		}
+	}
+
 	@Override
 	public PlanetBiomeSettings cast() {
 		List<BlockState> tops = top.stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
@@ -126,9 +133,10 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 		List<PlanetBiomeRock> rocks = rocks().stream().map(PlanetBiomeRockJsonInfo::cast).collect(Collectors.toList());
 		List<PlanetBiomeBigRock> big_rocks = big_rocks().stream().map(PlanetBiomeBigRockJsonInfo::cast)
 				.collect(Collectors.toList());
-
+		PlanetBiomeClientSettings settings = client_settings() == null ? PlanetBiomeClientSettings.DEFAULT
+				: client_settings().cast();
 		return new PlanetBiomeSettings(ResourceLocation.parse(home), getBlock(base), ResourceLocation.parse(surface),
 				tops, getBlock(second), getBlock(stair), getBlock(slab), getBlock(extra), trees, bushes, grass, lakes,
-				rocks, big_rocks);
+				rocks, big_rocks, settings);
 	}
 }

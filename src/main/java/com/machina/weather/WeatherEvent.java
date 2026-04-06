@@ -43,8 +43,8 @@ public abstract class WeatherEvent {
 		return 0;
 	}
 
-	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ, double vX, double vY,
-			double vZ) {
+	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ, double vX, double vY, double vZ,
+			int tint) {
 
 	}
 }

@@ -103,5 +103,8 @@
 			"down_extra_chance": 0,
 			"side_extra_chance": 0
 		}
-	]
+	],
+	"client_settings": {
+		"weather_tint": 4293113728
+	}
 }

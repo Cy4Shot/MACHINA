@@ -1,6 +1,8 @@
 package com.machina.weather.spawners;
 
 import com.machina.Machina;
+import com.machina.api.client.ClientBiomeSettings;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeClientSettings;
 import com.machina.api.util.PlanetHelper;
 import com.machina.weather.WeatherEvent;
 import com.machina.weather.manager.ClientWeatherManager;
@@ -9,7 +11,9 @@ import com.machina.weather.system.ClientWeatherSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec2;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -45,20 +49,27 @@ public class WeatherAmbientParticles {
 
 	private static void animateTick(ClientLevel level, WeatherEvent weather, int posX, int posY, int posZ, double vX,
 			double vY, double vZ) {
+		ResourceLocation biome = level.getBiome(new BlockPos(posX, posY, posZ)).getKey().location();
+		int tint = ClientBiomeSettings.BIOME_SETTINGS.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT)
+				.weather_tint();
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 		for (int j = 0; j < weather.particleCount(); j++) {
-			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.05);
-			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01);
-			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01);
-			doAnimateTick(level, weather, posX, posY, posZ, 32, blockpos$mutableblockpos, vX, vY, vZ, 0.0);
+			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.05, tint);
+			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01, tint);
+			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01, tint);
+			doAnimateTick(level, weather, posX, posY, posZ, 32, blockpos$mutableblockpos, vX, vY, vZ, 0.0, tint);
+			doAnimateTick(level, weather, posX, posY, posZ, 64, blockpos$mutableblockpos, vX, vY, vZ, 0.0, tint);
 		}
 	}
 
 	private static void doAnimateTick(ClientLevel level, WeatherEvent weather, int posX, int posY, int posZ, int range,
-			BlockPos.MutableBlockPos blockPos, double vX, double vY, double vZ, double var) {
+			BlockPos.MutableBlockPos blockPos, double vX, double vY, double vZ, double var, int tint) {
 		int i = posX + level.random.nextInt(range) - level.random.nextInt(range);
 		int j = posY + level.random.nextInt(range) - level.random.nextInt(range);
 		int k = posZ + level.random.nextInt(range) - level.random.nextInt(range);
+		if (j < level.getHeight(Heightmap.Types.WORLD_SURFACE, i, k)) {
+			return;
+		}
 		double x = vX + level.random.nextDouble() * var - level.random.nextDouble() * var;
 		double y = vY + level.random.nextDouble() * var - level.random.nextDouble() * var;
 		double z = vZ + level.random.nextDouble() * var - level.random.nextDouble() * var;
@@ -67,7 +78,7 @@ public class WeatherAmbientParticles {
 		if (!blockstate.isCollisionShapeFullBlock(level, blockPos)) {
 			weather.spawnParticle(level, (double) blockPos.getX() + level.random.nextDouble(),
 					(double) blockPos.getY() + level.random.nextDouble(),
-					(double) blockPos.getZ() + level.random.nextDouble(), x, y, z);
+					(double) blockPos.getZ() + level.random.nextDouble(), x, y, z, tint);
 		}
 	}
 }

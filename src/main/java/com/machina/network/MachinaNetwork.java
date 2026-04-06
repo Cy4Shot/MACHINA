@@ -22,6 +22,7 @@ import com.machina.api.network.c2s.C2SRocketSetDestination;
 import com.machina.api.network.c2s.C2SSideConfig;
 import com.machina.api.network.c2s.C2SSpawnParticle;
 import com.machina.api.network.config.C2SAckPayload;
+import com.machina.api.network.config.S2CSyncBiomes;
 import com.machina.api.network.config.S2CSyncStarchart;
 import com.machina.api.network.s2c.S2CCinematicLand;
 import com.machina.api.network.s2c.S2CCinematicLaunch;
@@ -75,6 +76,7 @@ public class MachinaNetwork {
 		s2c(reg, S2CCinematicLand.class);
 
 		config2c(reg, S2CSyncStarchart.class);
+		config2c(reg, S2CSyncBiomes.class);
 		config2s(reg, C2SAckPayload.class);
 	}
 

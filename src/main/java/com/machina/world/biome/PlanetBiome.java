@@ -119,8 +119,9 @@ public class PlanetBiome extends Biome {
 		// Ores
 		ResourceKey<Block> base = s.base().getBlockHolder().getKey();
 		for (PlanetOre ore : type.ores()) {
-			BlockState oreState = ore.block() == null ? BlockInit.ORES.get(ore.oreId()).map().get(base)
-					.get().defaultBlockState() : ore.block();
+			BlockState oreState = ore.block() == null
+					? BlockInit.ORES.get(ore.oreId()).map().get(base).get().defaultBlockState()
+					: ore.block();
 			add(builder, Decoration.UNDERGROUND_ORES, new PlanetOreFeature(),
 					new PlanetOreFeature.PlanetOreFeatureConfig(ore, oreState), chance(ore.chance()), spread(),
 					range(ore.min_y(), ore.max_y()), biome());

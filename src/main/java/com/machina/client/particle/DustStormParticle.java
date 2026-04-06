@@ -16,7 +16,7 @@ public class DustStormParticle extends TextureSheetParticle {
 	private final SpriteSet spriteSet;
 
 	protected DustStormParticle(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed,
-			double zSpeed, SpriteSet spriteSet) {
+			double zSpeed, SpriteSet spriteSet, int color) {
 		super(level, x, y, z, 0.0, 0.0, 0.0);
 		this.friction = 0.96F;
 		this.spriteSet = spriteSet;
@@ -27,11 +27,11 @@ public class DustStormParticle extends TextureSheetParticle {
 		this.yd += ySpeed;
 		this.zd += zSpeed;
 		float f1 = 1.0F - (float) (Math.random() * 0.3F);
-		this.rCol = f1;
-		this.gCol = f1;
-		this.bCol = f1;
-		this.alpha = 0.3f;
-		this.quadSize *= 50.875F;
+		this.rCol = f1 * (((color >> 16) & 0xFF) / 255.0F);
+		this.gCol = f1 * (((color >> 8) & 0xFF) / 255.0F);
+		this.bCol = f1 * ((color & 0xFF) / 255.0F);
+		this.alpha = 0.3f * (((color >> 24) & 0xFF) / 255.0F);
+		this.quadSize *= 50F; // Big!
 		int i = (int) (8.0 / (Math.random() * 0.8 + 0.3));
 		this.lifetime = (int) Math.max((float) i * 2.5F, 1.0F);
 		this.hasPhysics = false;
@@ -70,7 +70,7 @@ public class DustStormParticle extends TextureSheetParticle {
 		@Override
 		public Particle createParticle(DustStormParticleOptions type, ClientLevel level, double x, double y, double z,
 				double xSpeed, double ySpeed, double zSpeed) {
-			return new DustStormParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+			return new DustStormParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, type.color());
 		}
 	}
 }
