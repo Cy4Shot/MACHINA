@@ -76,7 +76,7 @@ public class WindCompassScreen extends Screen {
 		float intensity = (float) Math.sqrt(wind.x * wind.x + wind.y * wind.y);
 		if (intensity > 1.0E-4F) {
 			float nx = wind.x / intensity;
-			float ny = -wind.y / intensity;
+			float ny = wind.y / intensity;
 			float arrowLen = Mth.clamp(radius * (0.30F + intensity * 0.45F), radius * 0.25F, radius * 0.9F);
 			float tipX = cx + nx * arrowLen;
 			float tipY = cy + ny * arrowLen;
@@ -96,7 +96,7 @@ public class WindCompassScreen extends Screen {
 						.append(Component.literal("x "))
 						.append(Component.literal(String.format("%.2f", wind.y))
 								.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1)))
-						.append(Component.literal("y")),
+						.append(Component.literal("z")),
 				i + 4, j - 32, MUI.CYAN);
 		MUI.drawString(gui, MUI.uistr("wind_compass.intensity").append(Component.literal(": ")).append(Component
 				.literal(String.format("%.2f", intensity)).withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2))),
@@ -124,7 +124,7 @@ public class WindCompassScreen extends Screen {
 
 	private Vec2 getSmoothedWind() {
 		Vec2 target = getWindVector();
-		float alpha = 0.05F;
+		float alpha = 0.02F;
 		smoothedWind = new Vec2(Mth.lerp(alpha, smoothedWind.x, target.x), Mth.lerp(alpha, smoothedWind.y, target.y));
 		return smoothedWind;
 	}

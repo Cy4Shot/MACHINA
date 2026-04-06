@@ -14,9 +14,12 @@ import net.minecraft.world.phys.Vec2;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ServerWeatherSystem extends WeatherSystem {
-	private static final float WIND_DRAG = 0.992F;
-	private static final float GUST_MIN = 0.001F;
-	private static final float GUST_RANGE = 0.005F;
+	private static final float WIND_RESPONSE = 0.035F;
+	private static final float WIND_TURBULENCE = 0.0008F;
+	private static final float MAX_TARGET_TURN = (float) Math.toRadians(55.0F);
+	private static final float MAX_TARGET_INTENSITY_DELTA = 0.22F;
+	private static final int MIN_TARGET_HOLD_TICKS = 80;
+	private static final int TARGET_HOLD_TICK_VARIANCE = 120;
 	private static final float MIN_WIND_INTENSITY = 0.08F;
 	private static final float MAX_WIND_INTENSITY = 1.20F;
 	private static final int WIND_SYNC_INTERVAL = 10;
@@ -26,8 +29,10 @@ public class ServerWeatherSystem extends WeatherSystem {
 	private WeatherEvent currentWeather;
 	private int weatherTimer;
 	private Vec2 windDirection;
+	private Vec2 windTarget;
 	private Vec2 lastSentWindDirection;
 	private int windSyncTimer;
+	private int windTargetTimer;
 
 	public ServerWeatherSystem(ServerLevel level) {
 		super(level);
@@ -35,15 +40,17 @@ public class ServerWeatherSystem extends WeatherSystem {
 		this.currentWeather = WeatherEventInit.CLEAR.get();
 		this.weatherTimer = currentWeather.getDuration(level.random);
 		this.windDirection = randomWindVector();
+		this.windTarget = this.windDirection;
 		this.lastSentWindDirection = this.windDirection;
 		this.windSyncTimer = 0;
+		this.windTargetTimer = 0;
 	}
 
 	@Override
 	public WeatherEvent getCurrentEvent() {
 		return currentWeather;
 	}
-	
+
 	public int getTicksRemaining() {
 		return weatherTimer;
 	}
@@ -73,13 +80,19 @@ public class ServerWeatherSystem extends WeatherSystem {
 	}
 
 	private void tickWind() {
-		float gustStrength = GUST_MIN + level.random.nextFloat() * GUST_RANGE;
-		float gustAngle = level.random.nextFloat() * ((float) Math.PI * 2.0F);
-		float gustX = (float) Math.cos(gustAngle) * gustStrength;
-		float gustZ = (float) Math.sin(gustAngle) * gustStrength;
+		if (windTargetTimer <= 0) {
+			pickNextWindTarget();
+		} else {
+			windTargetTimer--;
+		}
 
-		float nextX = windDirection.x * WIND_DRAG + gustX;
-		float nextZ = windDirection.y * WIND_DRAG + gustZ;
+		float toTargetX = windTarget.x - windDirection.x;
+		float toTargetZ = windTarget.y - windDirection.y;
+		float turbulenceX = (level.random.nextFloat() - 0.5F) * 2.0F * WIND_TURBULENCE;
+		float turbulenceZ = (level.random.nextFloat() - 0.5F) * 2.0F * WIND_TURBULENCE;
+
+		float nextX = windDirection.x + toTargetX * WIND_RESPONSE + turbulenceX;
+		float nextZ = windDirection.y + toTargetZ * WIND_RESPONSE + turbulenceZ;
 		float intensity = (float) Math.sqrt(nextX * nextX + nextZ * nextZ);
 
 		if (intensity > MAX_WIND_INTENSITY) {
@@ -90,12 +103,42 @@ public class ServerWeatherSystem extends WeatherSystem {
 		}
 
 		if (intensity < MIN_WIND_INTENSITY) {
-			float angle = level.random.nextFloat() * ((float) Math.PI * 2.0F);
-			nextX += (float) Math.cos(angle) * (MIN_WIND_INTENSITY - intensity);
-			nextZ += (float) Math.sin(angle) * (MIN_WIND_INTENSITY - intensity);
+			float fallbackX = windTarget.x;
+			float fallbackZ = windTarget.y;
+			float fallbackLength = (float) Math.sqrt(fallbackX * fallbackX + fallbackZ * fallbackZ);
+			if (fallbackLength < 1.0E-4F) {
+				float angle = level.random.nextFloat() * ((float) Math.PI * 2.0F);
+				nextX = (float) Math.cos(angle) * MIN_WIND_INTENSITY;
+				nextZ = (float) Math.sin(angle) * MIN_WIND_INTENSITY;
+			} else {
+				float scale = MIN_WIND_INTENSITY / fallbackLength;
+				nextX = fallbackX * scale;
+				nextZ = fallbackZ * scale;
+			}
 		}
 
 		windDirection = new Vec2(nextX, nextZ);
+	}
+
+	private void pickNextWindTarget() {
+		float currentIntensity = (float) Math
+				.sqrt(windDirection.x * windDirection.x + windDirection.y * windDirection.y);
+		if (currentIntensity < 1.0E-4F) {
+			windTarget = randomWindVector();
+			windTargetTimer = MIN_TARGET_HOLD_TICKS + level.random.nextInt(TARGET_HOLD_TICK_VARIANCE + 1);
+			return;
+		}
+
+		float currentAngle = (float) Math.atan2(windDirection.y, windDirection.x);
+		float turn = (level.random.nextFloat() * 2.0F - 1.0F) * MAX_TARGET_TURN;
+		float nextAngle = currentAngle + turn;
+		float intensityDelta = (level.random.nextFloat() * 2.0F - 1.0F) * MAX_TARGET_INTENSITY_DELTA;
+		float targetIntensity = Math.max(MIN_WIND_INTENSITY,
+				Math.min(MAX_WIND_INTENSITY, currentIntensity + intensityDelta));
+
+		windTarget = new Vec2((float) Math.cos(nextAngle) * targetIntensity,
+				(float) Math.sin(nextAngle) * targetIntensity);
+		windTargetTimer = MIN_TARGET_HOLD_TICKS + level.random.nextInt(TARGET_HOLD_TICK_VARIANCE + 1);
 	}
 
 	private boolean hasMeaningfulWindDelta() {
@@ -106,15 +149,16 @@ public class ServerWeatherSystem extends WeatherSystem {
 
 	private Vec2 randomWindVector() {
 		float angle = level.random.nextFloat() * ((float) Math.PI * 2.0F);
-		float intensity = MIN_WIND_INTENSITY
-				+ level.random.nextFloat() * (MAX_WIND_INTENSITY - MIN_WIND_INTENSITY);
+		float intensity = MIN_WIND_INTENSITY + level.random.nextFloat() * (MAX_WIND_INTENSITY - MIN_WIND_INTENSITY);
 		return new Vec2((float) Math.cos(angle) * intensity, (float) Math.sin(angle) * intensity);
 	}
 
 	public void setWindDirection(Vec2 windDirection) {
 		this.windDirection = windDirection;
+		this.windTarget = windDirection;
 		this.lastSentWindDirection = windDirection;
 		this.windSyncTimer = 0;
+		this.windTargetTimer = MIN_TARGET_HOLD_TICKS;
 		PacketDistributor.sendToPlayersInDimension((ServerLevel) level, new S2CWindDirectionChange(windDirection));
 	}
 

@@ -24,8 +24,8 @@ public class DustStormWeatherEvent extends WeatherEvent {
 			double vZ) {
 		level.addParticle(ParticleTypes.ASH, posX, posY, posZ, vX, vY, vZ);
 		if (level.random.nextFloat() < 0.1f) {
-			level.addParticle(new DustStormParticleOptions(), posX - vX * 67, posY - vY * 67, posZ - vZ * 67, vX * 10,
-					vY * 10, vZ * 10);
+			level.addParticle(new DustStormParticleOptions(), posX - vX * 6.7, posY - vY * 6.7, posZ - vZ * 6.7, vX,
+					vY, vZ);
 		}
 	}
 }
