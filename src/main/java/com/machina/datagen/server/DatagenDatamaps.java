@@ -60,6 +60,8 @@ public class DatagenDatamaps extends DataMapProvider {
 		compost(compost, provider, BlockInit.SHORT_CONIFEROUS_GRASS, 0.3f);
 		compost(compost, provider, BlockInit.WINDSWEPT_GRASS, 0.3f);
 		compost(compost, provider, BlockInit.MYCELIAL_GRASS, 0.3f);
+		compost(compost, provider, BlockInit.FERROUS_GRASS, 0.3f);
+		compost(compost, provider, BlockInit.MOONGRASS, 0.3f);
 
 		compost(compost, provider, BlockInit.PURPLE_PETALS, 0.3f);
 		compost(compost, provider, BlockInit.RED_PETALS, 0.3f);

@@ -116,6 +116,8 @@ public class DatagenBlockStates extends BlockStateProvider {
 		flower(BlockInit.SHORT_CONIFEROUS_GRASS);
 		flower(BlockInit.WINDSWEPT_GRASS);
 		flower(BlockInit.MYCELIAL_GRASS);
+		flower(BlockInit.FERROUS_GRASS);
+		flower(BlockInit.MOONGRASS);
 
 		flower(BlockInit.SPINDLESPROUT);
 		flower(BlockInit.SMALL_FERN);

@@ -31,15 +31,19 @@
 	"grass": {
 		"enabled": true,
 		"min": 1,
-		"max": 2,
+		"max": 8,
 		"grasses": [
+			{
+				"block": "machina:ferrous_grass",
+				"weight": 20
+			},
 			{
 				"block": "machina:feldspar_pebbles",
 				"weight": 5
 			},
 			{
 				"block": "machina:migmatite_pebbles",
-				"weight": 1
+				"weight": 3
 			}
 		]
 	},

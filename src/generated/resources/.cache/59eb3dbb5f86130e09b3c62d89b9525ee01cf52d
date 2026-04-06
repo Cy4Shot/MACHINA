@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-05T21:36:16.010697	Loot Tables
+// 1.21.1	2026-04-06T14:08:52.0556927	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
 4da7ad8c6aafe797fdd92bc27652554510a0029e data/machina/loot_table/blocks/anthracite_button.json
@@ -243,6 +243,7 @@ aa3b089f9cd1743dd93a2866244c63a8dcda012f data/machina/loot_table/blocks/feldspar
 c7f11c47cefe2376eb693ed45c406e172970f512 data/machina/loot_table/blocks/feldspar_uraninite_ore.json
 6568f51a8081f7ed2e7eed57e47ede89db67b1e3 data/machina/loot_table/blocks/feldspar_wall.json
 be3aadb67949fc1b7857eacd1f2c2a70deeb6e99 data/machina/loot_table/blocks/feldspar_zinc_ore.json
+6a2ea28fd5c7e67300d13fcaa0ba73fa66d9c505 data/machina/loot_table/blocks/ferrous_grass.json
 d21d7d7984b83a0275ad25cc455212e8e9499420 data/machina/loot_table/blocks/ferrous_sand.json
 1ddd8495e22ea8064dc747d34308e794b6d39022 data/machina/loot_table/blocks/fluid_pipe.json
 82ad949f1bc8f0f9ae65a817dc94127875509085 data/machina/loot_table/blocks/fluorite.json
@@ -506,6 +507,7 @@ ad884b112db57a9f15671e3e8980af6f1d47eed6 data/machina/loot_table/blocks/migmatit
 8a98cfbb9783cd8c996a0c82074b0e6f04289b69 data/machina/loot_table/blocks/migmatite_slab.json
 883eeb0e67b7750d00c879a85ed4478b66e5a541 data/machina/loot_table/blocks/migmatite_stairs.json
 d4c47df92287c79e621c54e08990f8a423a733f0 data/machina/loot_table/blocks/migmatite_wall.json
+82d24dd4b3246df032fb250024f35d775a3ea404 data/machina/loot_table/blocks/moongrass.json
 9e22fb33740119a781e76d613e541e906d36f947 data/machina/loot_table/blocks/moonsand.json
 3acd5bea86dabbb4dda144352abc43773065f3a4 data/machina/loot_table/blocks/moonstone.json
 0dfa5864b31af51c60db594eeed7af3e77d330fa data/machina/loot_table/blocks/moonstone_aluminum_ore.json

@@ -639,6 +639,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.SHORT_CONIFEROUS_GRASS, "Short Coniferous Grass");
 		add(BlockInit.WINDSWEPT_GRASS, "Windswept Grass");
 		add(BlockInit.MYCELIAL_GRASS, "Mycelial Grass");
+		add(BlockInit.FERROUS_GRASS, "Ferrous Grass");
+		add(BlockInit.MOONGRASS, "Moongrass");
 
 		add(BlockInit.PURPLE_PETALS, "Purple Petals");
 		add(BlockInit.RED_PETALS, "Red Petals");

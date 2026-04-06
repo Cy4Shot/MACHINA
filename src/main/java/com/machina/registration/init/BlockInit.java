@@ -16,6 +16,7 @@ import com.machina.api.item.ChemicalBlockItem;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.CrystalBlock;
 import com.machina.block.SulfurGeyserBlock;
+import com.machina.block.TallFakeGrassBlock;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
@@ -463,6 +464,8 @@ public class BlockInit {
 	public static final DeferredBlock<BushBlock> SHORT_CONIFEROUS_GRASS = register("short_coniferous_grass", Blocks.SHORT_GRASS, TallGrassBlock::new);
 	public static final DeferredBlock<BushBlock> WINDSWEPT_GRASS = register("windswept_grass", Blocks.SHORT_GRASS, TallGrassBlock::new);
 	public static final DeferredBlock<BushBlock> MYCELIAL_GRASS = register("mycelial_grass", Blocks.SHORT_GRASS, TallGrassBlock::new);
+	public static final DeferredBlock<BushBlock> FERROUS_GRASS = register("ferrous_grass", Blocks.SHORT_GRASS, TallFakeGrassBlock::new);
+	public static final DeferredBlock<BushBlock> MOONGRASS = register("moongrass", Blocks.SHORT_GRASS, TallFakeGrassBlock::new);
 	
 	public static final DeferredBlock<SmallFlowerBlock> CLOVER = register("clover", Blocks.PINK_PETALS, SmallFlowerBlock::new);
 	public static final DeferredBlock<SmallFlowerBlock> SPINDLESPROUT = register("spindlesprout", Blocks.FERN, SmallFlowerBlock::new);

@@ -135,6 +135,8 @@ public class TabInit {
 				add(a, BlockInit.SHORT_CONIFEROUS_GRASS);
 				add(a, BlockInit.WINDSWEPT_GRASS);
 				add(a, BlockInit.MYCELIAL_GRASS);
+				add(a, BlockInit.FERROUS_GRASS);
+				add(a, BlockInit.MOONGRASS);
 
 				add(a, BlockInit.PURPLE_GROUNDLILY);
 				add(a, BlockInit.PINK_GROUNDLILY);

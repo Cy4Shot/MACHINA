@@ -135,6 +135,8 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropAsSilkShears(BlockInit.SHORT_CONIFEROUS_GRASS.get());
 		dropAsSilkShears(BlockInit.WINDSWEPT_GRASS.get());
 		dropAsSilkShears(BlockInit.MYCELIAL_GRASS.get());
+		dropAsSilkShears(BlockInit.FERROUS_GRASS.get());
+		dropAsSilkShears(BlockInit.MOONGRASS.get());
 		petals(BlockInit.PURPLE_PETALS.get());
 		petals(BlockInit.RED_PETALS.get());
 		petals(BlockInit.ORANGE_PETALS.get());
