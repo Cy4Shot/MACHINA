@@ -3,6 +3,7 @@ package com.machina.weather;
 import com.machina.registration.init.RegistryInit;
 import com.mojang.serialization.Codec;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -36,5 +37,13 @@ public abstract class WeatherEvent {
 	
 	public int getIntensityTicks() {
 		return intensityTicks;
+	}
+	
+	public boolean hasParticles() {
+		return false;
+	}
+	
+	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ) {
+		
 	}
 }

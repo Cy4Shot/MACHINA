@@ -40,7 +40,8 @@
 	],
 	"base": "machina:feldspar",
 	"weathers": [
-		"machina:clear"
+		"machina:clear",
+		"machina:dust_storm"
 	],
 	"traits": {
 		"minRolls": 0,
