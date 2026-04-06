@@ -30,20 +30,21 @@ public abstract class WeatherEvent {
 	public int getDuration(RandomSource random) {
 		return this.duration.sample(random);
 	}
-	
+
 	public ResourceLocation getName() {
 		return name;
 	}
-	
+
 	public int getIntensityTicks() {
 		return intensityTicks;
 	}
-	
+
 	public boolean hasParticles() {
 		return false;
 	}
-	
-	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ) {
-		
+
+	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ, double vX, double vY,
+			double vZ) {
+
 	}
 }

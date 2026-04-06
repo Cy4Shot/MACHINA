@@ -7,6 +7,7 @@ import com.machina.api.item.RocketItem;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.obj.SolarSystem;
+import com.machina.api.util.math.VecUtil;
 import com.machina.registration.init.DataComponentsInit;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.RocketPartInit;
@@ -26,6 +27,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec2;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -94,6 +96,20 @@ public class CommandManager {
 			source.sendSuccess(() -> Component.literal("Set weather to " + weather.key().location().toString()), true);
 			return Command.SINGLE_SUCCESS;
 		})));
+	
+	public static final Function<CommandBuildContext, ArgumentBuilder<CommandSourceStack, ?>> WIND = context -> Commands.literal("wind")
+		.then(Commands.literal("get").executes(ctx -> {
+			CommandSourceStack source = ctx.getSource();
+			ServerWeatherSystem sys = ServerWeatherManager.getOrCreate(source.getLevel());
+			if (sys == null) {
+				source.sendFailure(Component.literal("Not currently on a planet!"));
+				return Command.SINGLE_SUCCESS;
+			}
+			Vec2 wind = sys.getWindDirection();
+			double intensity = sys.getWindIntensity();
+			source.sendSuccess(() -> Component.literal("The wind is currently facing " + VecUtil.vec2ToCardinal(wind.x, wind.y) + " with intensity " + intensity + "."), true);
+			return Command.SINGLE_SUCCESS;
+		}));
 	//@formatter:on
 
 	@SubscribeEvent
@@ -105,6 +121,7 @@ public class CommandManager {
 				.then(TP)
 				.then(DEBUG)
 				.then(WEATHER.apply(event.getBuildContext()))
+				.then(WIND.apply(event.getBuildContext()))
 		);
 		//@formatter:on
 	}

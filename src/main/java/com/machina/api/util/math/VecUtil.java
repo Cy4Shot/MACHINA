@@ -112,4 +112,27 @@ public class VecUtil {
 		default -> new BlockElementRotation(origin, Direction.Axis.Z, 0, false);
 		};
 	}
+
+	public static String vec2ToCardinal(double x, double y) {
+		double angleDeg = Math.toDegrees(Math.atan2(x, y));
+		if (angleDeg < 0)
+			angleDeg += 360;
+
+		if (angleDeg >= 337.5 || angleDeg < 22.5)
+			return "N";
+		else if (angleDeg >= 22.5 && angleDeg < 67.5)
+			return "NE";
+		else if (angleDeg >= 67.5 && angleDeg < 112.5)
+			return "E";
+		else if (angleDeg >= 112.5 && angleDeg < 157.5)
+			return "SE";
+		else if (angleDeg >= 157.5 && angleDeg < 202.5)
+			return "S";
+		else if (angleDeg >= 202.5 && angleDeg < 247.5)
+			return "SW";
+		else if (angleDeg >= 247.5 && angleDeg < 292.5)
+			return "W";
+		else
+			return "NW"; // 292.5 - 337.5
+	}
 }

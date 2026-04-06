@@ -19,21 +19,18 @@ public class DustStormWeatherEvent extends WeatherEvent {
 	}
 
 	@Override
-	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ) {
-		// TODO: Add wind direction
-//		level.addParticle(new DustParticleOptions(Vec3.fromRGB24(0xca9d65).toVector3f(), 1.0f), posX, posY, posZ,
-//				0.1, -.5, -.5);
+	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ, double vX, double vY, double vZ) {
 		if (level.random.nextFloat() < 0.01f) {
-			level.addParticle(ParticleTypes.CLOUD, posX, posY, posZ, 0.9, 0, 0.1);
+			level.addParticle(ParticleTypes.CLOUD, posX, posY, posZ, vX, vY, vZ);
 		}
 		if (level.random.nextFloat() < 0.1f) {
-			level.addParticle(ParticleTypes.ASH, posX, posY, posZ, 0.9, 0, 0.1);
+			level.addParticle(ParticleTypes.ASH, posX, posY, posZ, vX, vY, vZ);
 		}
 		if (level.random.nextFloat() < 0.2f) {
-			level.addParticle(ParticleTypes.DUST_PLUME, posX, posY, posZ, 0.9, 0, 0.1);
+			level.addParticle(ParticleTypes.DUST_PLUME, posX, posY, posZ, vX, vY, vZ);
 		}
 		if (level.random.nextFloat() < 0.0001f) {
-			level.addParticle(ParticleTypes.GUST_EMITTER_SMALL, posX, posY, posZ, 0.9, 0, 0.1);
+			level.addParticle(ParticleTypes.GUST_EMITTER_SMALL, posX, posY, posZ, vX, vY, vZ);
 		}
 	}
 }

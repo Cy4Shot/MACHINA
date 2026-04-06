@@ -4,14 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.machina.Machina;
+import com.machina.api.network.s2c.S2CWeatherEventChange;
+import com.machina.api.network.s2c.S2CWindDirectionChange;
 import com.machina.api.util.PlanetHelper;
 import com.machina.weather.system.ServerWeatherSystem;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = Machina.MOD_ID)
 public class ServerWeatherManager {
@@ -44,6 +48,10 @@ public class ServerWeatherManager {
 			return;
 		}
 
-		getOrCreate((ServerLevel) event.getLevel());
+		ServerWeatherSystem weather = getOrCreate((ServerLevel) event.getLevel());
+		if (weather != null && event.getEntity() instanceof ServerPlayer player) {
+			PacketDistributor.sendToPlayer(player, new S2CWeatherEventChange(weather.getCurrentEvent()));
+			PacketDistributor.sendToPlayer(player, new S2CWindDirectionChange(weather.getWindDirection()));
+		}
 	}
 }

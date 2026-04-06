@@ -31,6 +31,7 @@ import com.machina.api.network.s2c.S2COpenDirectionalContainer;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
 import com.machina.api.network.s2c.S2CWeatherEventChange;
+import com.machina.api.network.s2c.S2CWindDirectionChange;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -64,6 +65,7 @@ public class MachinaNetwork {
 		c2s(reg, C2SRocketLandComplete.class);
 
 		s2c(reg, S2CWeatherEventChange.class);
+		s2c(reg, S2CWindDirectionChange.class);
 		s2c(reg, S2COpenDirectionalContainer.class);
 		s2c(reg, S2CFluidSync.class);
 		s2c(reg, S2CFluidEntitySync.class);
