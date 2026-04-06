@@ -245,6 +245,66 @@ public final class MUI {
 		RenderSystem.disableBlend();
 	}
 
+	public static void drawDebugLine(GuiGraphics gui, float x1, float y1, float x2, float y2, int color) {
+		gui.flush();
+
+		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+		RenderSystem.disableDepthTest();
+		RenderSystem.disableCull();
+		RenderSystem.depthMask(false);
+
+		Matrix4f m = gui.pose().last().pose();
+
+		BufferBuilder buf = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINES,
+				DefaultVertexFormat.POSITION_COLOR);
+
+		buf.addVertex(m, x1, y1, 0f).setColor(color);
+		buf.addVertex(m, x2, y2, 0f).setColor(color);
+
+		BufferUploader.drawWithShader(buf.build());
+
+		RenderSystem.depthMask(true);
+		RenderSystem.enableCull();
+		RenderSystem.enableDepthTest();
+		RenderSystem.disableBlend();
+	}
+
+	public static void drawDebugCircle(GuiGraphics gui, int cx, int cy, int radius, int segments, int color) {
+		if (radius <= 0 || segments < 3)
+			return;
+
+		gui.flush();
+
+		RenderSystem.setShader(GameRenderer::getPositionColorShader);
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+		RenderSystem.disableDepthTest();
+		RenderSystem.disableCull();
+
+		Matrix4f m = gui.pose().last().pose();
+		BufferBuilder buf = Tesselator.getInstance().begin(VertexFormat.Mode.DEBUG_LINE_STRIP,
+				DefaultVertexFormat.POSITION_COLOR);
+
+		float step = (float) (Math.PI * 2.0D / segments);
+		for (int i = 0; i <= segments; i++) {
+			float a = i * step;
+
+			float x = cx + (float) Math.cos(a) * radius;
+			float y = cy + (float) Math.sin(a) * radius;
+
+			buf.addVertex(m, x, y, 0f).setColor(color);
+		}
+
+		BufferUploader.drawWithShader(buf.build());
+
+		RenderSystem.lineWidth(1.0F);
+		RenderSystem.enableCull();
+		RenderSystem.enableDepthTest();
+		RenderSystem.disableBlend();
+	}
+
 	public enum MuiSlot {
 		PLUS(475, 0), MINUS(485, 0), RIGHT(495, 0), DOWN(475, 10), UP(485, 10), LEFT(495, 10), ENERGY(499, 23),
 		CROSS(499, 33), COAL(499, 43), DUST(499, 53), WHITELIST(499, 63), BLACKLIST(499, 73), FLUID(499, 83),
@@ -702,8 +762,7 @@ public final class MUI {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void rocketPart(GuiGraphics gui, int x, int y, float scale, float yaw, float pitch,
-			RocketPart part) {
+	public static void rocketPart(GuiGraphics gui, int x, int y, float scale, float yaw, float pitch, RocketPart part) {
 		// PoseStack for GUI overlay
 		Matrix4fStack vs = RenderSystem.getModelViewStack();
 		vs.pushMatrix();

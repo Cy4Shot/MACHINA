@@ -68,6 +68,8 @@ public class DatagenItemModels extends ItemModelProvider {
 		simpleItem(ItemInit.ITEM_FILTER);
 		simpleItem(ItemInit.ADVANCED_ITEM_FILTER);
 		simpleItem(ItemInit.FLUID_FILTER);
+		
+		simpleItem(ItemInit.WIND_COMPASS);
 
 		simpleItem(ItemInit.COAL_CHUNK);
 		simpleItem(ItemInit.AMMONIUM_NITRATE);

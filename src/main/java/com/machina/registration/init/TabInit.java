@@ -205,6 +205,7 @@ public class TabInit {
 			ItemInit.LOGIC_UNIT, a -> {
 				add(a, BlockInit.BASIC_CASING);
 				add(a, BlockInit.LIGHTWEIGHT_CASING);
+				add(a, ItemInit.WIND_COMPASS);
 
 				add(a, ItemInit.COPPER_COIL);
 				add(a, ItemInit.LOGIC_UNIT);

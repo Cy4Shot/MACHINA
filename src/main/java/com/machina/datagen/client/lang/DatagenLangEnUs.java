@@ -229,6 +229,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ITEM_FILTER, "Item Filter");
 		add(ItemInit.ADVANCED_ITEM_FILTER, "Advanced Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
+		
+		add(ItemInit.WIND_COMPASS, "Wind Compass");
 
 		add(ItemInit.COPPER_COIL, "Copper Coil");
 		add(ItemInit.PROCESSOR, "Processor");
@@ -1043,6 +1045,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.starmap.gravity", "Gravity");
 		addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
 		addUI("rocket.starmap.gas_giant", "Gas Giant");
+		
+		addUI("wind_compass", "Wind Compass");
+		addUI("wind_compass.wind", "Wind");
+		addUI("wind_compass.intensity", "Intensity");
 
 		// Planets
 		addTrait(PlanetTraitInit.ALWAYS_RAINING, "Always Raining", "The weather on this planet is always rain.");

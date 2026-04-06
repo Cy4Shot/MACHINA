@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-07T15:10:43.6062917	Item Models: machina
+// 1.21.1	2026-04-06T17:11:48.8196669	Item Models: machina
 4746a09bb453582000f2c239858c6e7e16aa7252 assets/machina/models/item/acetaldehyde_bucket.json
 cd08c996373cfed1c4a774b580062f12abdf0c81 assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -263,6 +263,7 @@ a2eb4bfba8ad507d73533477b3c6288493efff77 assets/machina/models/item/uraninite_nu
 9a2ed882b7a762feb826cb7eb2a844373ebe685a assets/machina/models/item/uraninite_plate.json
 eaa4f464707bd65a7b672e08c1ddb850588997a5 assets/machina/models/item/uraninite_rod.json
 b1156e738bc0d54b799cc852eed9498b41e68b7a assets/machina/models/item/uraninite_wire.json
+feac79d7729f1fa22bbe14c5ea08c1b3533a4127 assets/machina/models/item/wind_compass.json
 4d079388c0c43fd4bc9cbc62e67e23c637c9248f assets/machina/models/item/y2_nana.json
 9ffc8117daf5676568252addcf52cd372acd9bf8 assets/machina/models/item/zinc_dust.json
 ed62a1320b339a493ae84621c8415f2a951aac8b assets/machina/models/item/zinc_ingot.json

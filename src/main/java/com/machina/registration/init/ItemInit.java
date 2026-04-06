@@ -14,6 +14,7 @@ import com.machina.config.CommonConfig;
 import com.machina.item.CapacitorItem;
 import com.machina.item.MouldItem;
 import com.machina.item.MouldItem.Mould;
+import com.machina.item.WindCompassItem;
 import com.machina.item.filter.AdvancedItemFilterItem;
 import com.machina.item.filter.FluidFilterItem;
 import com.machina.item.filter.ItemFilterItem;
@@ -46,6 +47,7 @@ public class ItemInit {
 	public static final DeferredItem<ItemFilterItem> ITEM_FILTER = basic("item_filter", ItemFilterItem::new);
 	public static final DeferredItem<AdvancedItemFilterItem> ADVANCED_ITEM_FILTER = basic("advanced_item_filter", AdvancedItemFilterItem::new);
 	public static final DeferredItem<FluidFilterItem> FLUID_FILTER = basic("fluid_filter", FluidFilterItem::new);
+	public static final DeferredItem<WindCompassItem> WIND_COMPASS = basic("wind_compass", WindCompassItem::new);
 	
 	public static final DeferredItem<ChemicalItem> RAW_ALUMINUM = chemical("raw_aluminum", "Al");
 	public static final DeferredItem<ChemicalItem> RAW_NICKEL = chemical("raw_nickel", "Ni");
