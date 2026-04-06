@@ -19,9 +19,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId, Shape shape, List<BiomePlacementJsonInfo> biomes,
-		List<String> weathers, PlanetTraitSettingsJsonInfo traits, String base, List<PlanetOreJsonInfo> ores) implements JsonInfo<PlanetType> {
-	
+public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId, Shape shape,
+		List<BiomePlacementJsonInfo> biomes, List<String> weathers, PlanetTraitSettingsJsonInfo traits, String base,
+		List<PlanetOreJsonInfo> ores) implements JsonInfo<PlanetType> {
+
 	public static BlockState getBlock(String block) {
 		return BlockHelper.parseState(BlockHelper.blockHolderLookup(), block);
 	}
@@ -55,12 +56,19 @@ public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId
 			return new PlanetTraitSettingsEntry(planetTrait, weight);
 		}
 	}
-	
-	public record PlanetOreJsonInfo(String block, int size, float exposure_removal_chance, float chance, int min_y,
-			int max_y) implements JsonInfo<PlanetOre> {
+
+	public record PlanetOreJsonInfo(String ore, String block, int size, Float exposure_removal_chance, float chance,
+			int min_y, int max_y) implements JsonInfo<PlanetOre> {
+
 		@Override
 		public PlanetOre cast() {
-			return new PlanetOre(getBlock(block), size, exposure_removal_chance, chance, min_y, max_y);
+			float exposure = exposure_removal_chance == null ? 0.0f : exposure_removal_chance;
+
+			if (ore != null) {
+				return PlanetOre.fromOre(ResourceLocation.parse(ore), size, exposure, chance, min_y, max_y);
+			}
+
+			return PlanetOre.fromBlock(getBlock(block), size, exposure, chance, min_y, max_y);
 		}
 	}
 

@@ -11,6 +11,7 @@ import com.machina.api.starchart.planet_biome.PlanetSurface.PlanetSurfaceGetter;
 import com.machina.api.starchart.planet_type.PlanetType;
 import com.machina.api.starchart.planet_type.PlanetType.PlanetOre;
 import com.machina.api.starchart.planet_type.PlanetTypeLoader;
+import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.SoundInit;
 import com.machina.world.feature.PlanetBigRockFeature;
@@ -25,10 +26,12 @@ import com.machina.world.feature.PlanetRockFeature;
 import com.machina.world.feature.PlanetTreeFeature;
 
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
@@ -65,7 +68,7 @@ public class PlanetBiome extends Biome {
 		this.settings = s;
 		this.surface = RegistryInit.SURFACE.get(s.surface()).create(settings.top());
 	}
-	
+
 	public BlockState getBaseBlock() {
 		return settings.base();
 	}
@@ -114,9 +117,12 @@ public class PlanetBiome extends Biome {
 					biome());
 
 		// Ores
+		ResourceKey<Block> base = s.base().getBlockHolder().getKey();
 		for (PlanetOre ore : type.ores()) {
+			BlockState oreState = ore.block() == null ? BlockInit.ORES.get(ore.oreId()).map().get(base)
+					.get().defaultBlockState() : ore.block();
 			add(builder, Decoration.UNDERGROUND_ORES, new PlanetOreFeature(),
-					new PlanetOreFeature.PlanetOreFeatureConfig(ore), chance(ore.chance()), spread(),
+					new PlanetOreFeature.PlanetOreFeatureConfig(ore, oreState), chance(ore.chance()), spread(),
 					range(ore.min_y(), ore.max_y()), biome());
 		}
 	}

@@ -23,10 +23,11 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 
 public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureConfig> {
 
-	public record PlanetOreFeatureConfig(PlanetOre ore) implements FeatureConfiguration {
-		public static final Codec<PlanetOreFeatureConfig> CODEC = RecordCodecBuilder.create(
-				instance -> instance.group(PlanetOre.CODEC.fieldOf("ore").forGetter(PlanetOreFeatureConfig::ore))
-						.apply(instance, PlanetOreFeatureConfig::new));
+	public record PlanetOreFeatureConfig(PlanetOre ore, BlockState oreState) implements FeatureConfiguration {
+		public static final Codec<PlanetOreFeatureConfig> CODEC = RecordCodecBuilder.create(instance -> instance
+				.group(PlanetOre.CODEC.fieldOf("ore").forGetter(PlanetOreFeatureConfig::ore),
+						BlockState.CODEC.fieldOf("oreState").forGetter(PlanetOreFeatureConfig::oreState))
+				.apply(instance, PlanetOreFeatureConfig::new));
 	}
 
 	public PlanetOreFeature() {
@@ -38,6 +39,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 		BlockPos blockpos = ctx.origin();
 		WorldGenLevel worldgenlevel = ctx.level();
 		PlanetOre cfg = ctx.config().ore();
+		BlockState ore = ctx.config().oreState();
 
 		// Prevent surface generation
 		if (worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockpos.getX(), blockpos.getZ()) - 2 <= blockpos
@@ -62,7 +64,8 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 		for (int l1 = k; l1 <= k + j1; ++l1) {
 			for (int i2 = i1; i2 <= i1 + j1; ++i2) {
 				if (l <= worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, l1, i2)) {
-					return this.doPlace(worldgenlevel, randomsource, cfg, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
+					return this.doPlace(worldgenlevel, randomsource, cfg, ore, d0, d1, d2, d3, d4, d5, k, l, i1, j1,
+							k1);
 				}
 			}
 		}
@@ -70,7 +73,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 		return false;
 	}
 
-	protected boolean doPlace(WorldGenLevel p_225172_, RandomSource p_225173_, PlanetOre cfg, double p_225175_,
+	protected boolean doPlace(WorldGenLevel level, RandomSource rand, PlanetOre cfg, BlockState ore, double p_225175_,
 			double p_225176_, double p_225177_, double p_225178_, double p_225179_, double p_225180_, int p_225181_,
 			int p_225182_, int p_225183_, int p_225184_, int p_225185_) {
 		int i = 0;
@@ -84,7 +87,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 			double d0 = Mth.lerp(f, p_225175_, p_225176_);
 			double d1 = Mth.lerp(f, p_225179_, p_225180_);
 			double d2 = Mth.lerp(f, p_225177_, p_225178_);
-			double d3 = p_225173_.nextDouble() * (double) j / 16.0D;
+			double d3 = rand.nextDouble() * (double) j / 16.0D;
 			double d4 = ((double) (Mth.sin((float) Math.PI * f) + 1.0F) * d3 + 1.0D) / 2.0D;
 			adouble[k * 4] = d0;
 			adouble[k * 4 + 1] = d1;
@@ -112,7 +115,7 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 			}
 		}
 
-		try (BulkSectionAccess bulksectionaccess = new BulkSectionAccess(p_225172_)) {
+		try (BulkSectionAccess bulksectionaccess = new BulkSectionAccess(level)) {
 			for (int j4 = 0; j4 < j; ++j4) {
 				double d9 = adouble[j4 * 4 + 3];
 				if (!(d9 < 0.0D)) {
@@ -134,13 +137,13 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 								if (d5 * d5 + d6 * d6 < 1.0D) {
 									for (int k2 = i1; k2 <= l1; ++k2) {
 										double d7 = ((double) k2 + 0.5D - d15) / d9;
-										if (d5 * d5 + d6 * d6 + d7 * d7 < 1.0D && !p_225172_.isOutsideBuildHeight(j2)) {
+										if (d5 * d5 + d6 * d6 + d7 * d7 < 1.0D && !level.isOutsideBuildHeight(j2)) {
 											int l2 = i2 - p_225181_ + (j2 - p_225182_) * p_225184_
 													+ (k2 - p_225183_) * p_225184_ * p_225185_;
 											if (!bitset.get(l2)) {
 												bitset.set(l2);
 												blockpos$mutableblockpos.set(i2, j2, k2);
-												if (p_225172_.ensureCanWrite(blockpos$mutableblockpos)) {
+												if (level.ensureCanWrite(blockpos$mutableblockpos)) {
 													LevelChunkSection levelchunksection = bulksectionaccess
 															.getSection(blockpos$mutableblockpos);
 													if (levelchunksection != null) {
@@ -150,11 +153,9 @@ public class PlanetOreFeature extends Feature<PlanetOreFeature.PlanetOreFeatureC
 														BlockState blockstate = levelchunksection.getBlockState(i3, j3,
 																k3);
 
-														BlockState place = cfg.block();
-
 														if (canPlaceOre(blockstate, bulksectionaccess::getBlockState,
-																p_225173_, cfg, blockpos$mutableblockpos)) {
-															levelchunksection.setBlockState(i3, j3, k3, place, false);
+																rand, cfg, blockpos$mutableblockpos)) {
+															levelchunksection.setBlockState(i3, j3, k3, ore, false);
 															++i;
 															break;
 														}

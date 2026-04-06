@@ -1,6 +1,7 @@
 package com.machina.registration.init;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -87,6 +88,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class BlockInit {
 	public static final List<DeferredBlock<? extends Block>> SIGNS = new ArrayList<>();
 	public static final List<DeferredBlock<? extends Block>> HANGING_SIGNS = new ArrayList<>();
+	public static final Map<ResourceLocation, MachinaOre> ORES = new HashMap<>();
 
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.createBlocks(Machina.MOD_ID);
 
@@ -587,7 +589,10 @@ public class BlockInit {
 			ores.put(base.getKey(), register(base.getKey().location().getPath() + "_" + name, props, a -> a,
 					p -> creator.apply(base.get(), p)));
 		});
-		return new MachinaOre(MachinaRL.create(name), stoneOre, ores);
+		ResourceLocation loc = MachinaRL.create(name);
+		MachinaOre ore = new MachinaOre(loc, stoneOre, ores);
+		ORES.put(loc, ore);
+		return ore;
 	}
 
 	private static WoodType registerWoodType(String name) {
