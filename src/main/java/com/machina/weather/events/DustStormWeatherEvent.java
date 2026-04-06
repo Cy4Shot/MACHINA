@@ -1,5 +1,6 @@
 package com.machina.weather.events;
 
+import com.machina.particle.DustStormParticleType.DustStormParticleOptions;
 import com.machina.weather.WeatherEvent;
 
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -14,23 +15,17 @@ public class DustStormWeatherEvent extends WeatherEvent {
 	}
 
 	@Override
-	public boolean hasParticles() {
-		return true;
+	public int particleCount() {
+		return 67;
 	}
 
 	@Override
-	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ, double vX, double vY, double vZ) {
-		if (level.random.nextFloat() < 0.01f) {
-			level.addParticle(ParticleTypes.CLOUD, posX, posY, posZ, vX, vY, vZ);
-		}
+	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ, double vX, double vY,
+			double vZ) {
+		level.addParticle(ParticleTypes.ASH, posX, posY, posZ, vX, vY, vZ);
 		if (level.random.nextFloat() < 0.1f) {
-			level.addParticle(ParticleTypes.ASH, posX, posY, posZ, vX, vY, vZ);
-		}
-		if (level.random.nextFloat() < 0.2f) {
-			level.addParticle(ParticleTypes.DUST_PLUME, posX, posY, posZ, vX, vY, vZ);
-		}
-		if (level.random.nextFloat() < 0.0001f) {
-			level.addParticle(ParticleTypes.GUST_EMITTER_SMALL, posX, posY, posZ, vX, vY, vZ);
+			level.addParticle(new DustStormParticleOptions(), posX - vX * 67, posY - vY * 67, posZ - vZ * 67, vX * 10,
+					vY * 10, vZ * 10);
 		}
 	}
 }

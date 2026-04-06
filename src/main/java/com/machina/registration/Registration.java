@@ -17,6 +17,7 @@ import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.MaterialRuleInit;
 import com.machina.registration.init.MenuTypeInit;
 import com.machina.registration.init.OverworldOresInit;
+import com.machina.registration.init.ParticleTypeInit;
 import com.machina.registration.init.PlanetPlacementModifierInit;
 import com.machina.registration.init.PlanetRockInit;
 import com.machina.registration.init.PlanetSurfaceInit;
@@ -64,6 +65,7 @@ public class Registration {
 		RecipeInit.RECIPE_TYPES.register(bus);
 		RecipeInit.RECIPE_SERIALIZERS.register(bus);
 		WeatherEventInit.WEATHER_EVENTS.register(bus);
+		ParticleTypeInit.PARTICLE_TYPES.register(bus);
 		OverworldOresInit.register(); // Only used for datagen
 	}
 

@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import com.machina.Machina;
 import com.machina.datagen.client.DatagenBlockStates;
 import com.machina.datagen.client.DatagenItemModels;
+import com.machina.datagen.client.DatagenParticleDescriptions;
 import com.machina.datagen.client.lang.DatagenLangEnUs;
 import com.machina.datagen.server.DatagenBlockTags;
 import com.machina.datagen.server.DatagenDatamaps;
@@ -41,6 +42,7 @@ public class Datagen {
 		gen.addProvider(event.includeClient(), new DatagenLangEnUs(po));
 		gen.addProvider(event.includeClient(), new DatagenItemModels(po, files));
 		gen.addProvider(event.includeClient(), new DatagenBlockStates(po, files));
+		gen.addProvider(event.includeClient(), new DatagenParticleDescriptions(po, files));
 
 		// Server
 		DatagenBlockTags blocks = gen.addProvider(event.includeServer(), new DatagenBlockTags(po, lookup, files));

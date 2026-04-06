@@ -24,6 +24,7 @@ import com.machina.client.model.rocket.part.SimpleLifeSupportModel;
 import com.machina.client.model.rocket.part.SimpleShieldModel;
 import com.machina.client.model.rocket.part.SimpleThrusterModel;
 import com.machina.client.model.rocket.part.TriTallThrusterModel;
+import com.machina.client.particle.DustStormParticle.DustStormParticleProvider;
 import com.machina.client.screen.menu.AtmosphericSeparatorScreen;
 import com.machina.client.screen.menu.BatteryScreen;
 import com.machina.client.screen.menu.ChemicalGeneratorScreen;
@@ -57,6 +58,7 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.KeyBindingInit;
 import com.machina.registration.init.MenuTypeInit;
+import com.machina.registration.init.ParticleTypeInit;
 import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.WeatherEventInit;
 import com.machina.weather.manager.ClientWeatherManager;
@@ -81,6 +83,7 @@ import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -145,6 +148,11 @@ public class ClientModEvents {
 	public static void registerRenderers(RegisterRenderers event) {
 		event.registerBlockEntityRenderer(BlockEntityInit.TANK.get(), TankRenderer::new);
 		event.registerBlockEntityRenderer(BlockEntityInit.ROCKET_PART_BENCH.get(), RocketPartBenchRenderer::new);
+	}
+	
+	@SubscribeEvent
+	public static void registerParticleProviders(final RegisterParticleProvidersEvent event) {
+	    event.registerSpriteSet(ParticleTypeInit.DUST_STORM.get(), DustStormParticleProvider::new);
 	}
 
 	@SubscribeEvent

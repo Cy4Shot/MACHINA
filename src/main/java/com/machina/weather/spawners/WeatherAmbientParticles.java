@@ -35,7 +35,7 @@ public class WeatherAmbientParticles {
 			return;
 
 		WeatherEvent weather = system.getCurrentEvent();
-		if (weather == null || !weather.hasParticles())
+		if (weather == null || weather.particleCount() == 0)
 			return;
 
 		Vec2 wind = system.getWindDirection();
@@ -46,10 +46,10 @@ public class WeatherAmbientParticles {
 	private static void animateTick(ClientLevel level, WeatherEvent weather, int posX, int posY, int posZ, double vX,
 			double vY, double vZ) {
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-		for (int j = 0; j < 667; j++) {
-			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.2);
-			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.1);
-			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.1);
+		for (int j = 0; j < weather.particleCount(); j++) {
+			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.05);
+			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01);
+			doAnimateTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01);
 			doAnimateTick(level, weather, posX, posY, posZ, 32, blockpos$mutableblockpos, vX, vY, vZ, 0.0);
 		}
 	}

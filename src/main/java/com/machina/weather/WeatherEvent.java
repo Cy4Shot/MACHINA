@@ -39,8 +39,8 @@ public abstract class WeatherEvent {
 		return intensityTicks;
 	}
 
-	public boolean hasParticles() {
-		return false;
+	public int particleCount() {
+		return 0;
 	}
 
 	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ, double vX, double vY,

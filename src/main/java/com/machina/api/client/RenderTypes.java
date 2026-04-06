@@ -11,12 +11,15 @@ import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
 import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard.CullStateShard;
 import net.minecraft.client.renderer.RenderStateShard.DepthTestStateShard;
@@ -29,6 +32,8 @@ import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderType.CompositeState;
 import net.minecraft.client.renderer.RenderType.CompositeState.CompositeStateBuilder;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -112,4 +117,23 @@ public class RenderTypes {
 		return RenderType.create(name, format, mode, size, sorting, false,
 				builder.createCompositeState(affectsOutline));
 	}
+
+	public static final ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_DEPTH = new ParticleRenderType() {
+
+		@SuppressWarnings("deprecation")
+		@Override
+		public BufferBuilder begin(Tesselator tess, TextureManager tex) {
+			RenderSystem.depthMask(false);
+			RenderSystem.enableDepthTest();
+			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+			RenderSystem.enableBlend();
+			RenderSystem.defaultBlendFunc();
+			return tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+		}
+
+		@Override
+		public String toString() {
+			return "PARTICLE_SHEET_TRANSLUCENT_DEPTH";
+		}
+	};
 }
