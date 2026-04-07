@@ -45,6 +45,17 @@ public abstract class WeatherEvent {
 
 	public void spawnParticle(ClientLevel level, double posX, double posY, double posZ, double vX, double vY, double vZ,
 			int tint) {
-
+	}
+	
+	public float getFogNear() {
+		return 0f;
+	}
+	
+	public float getFogFar() {
+		return 0f;
+	}
+	
+	public int getFogTint() {
+		return 0xFFFFFF;
 	}
 }

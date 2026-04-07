@@ -237,5 +237,8 @@
 				}
 			]
 		}
-	]
+	],
+	"client_settings": {
+		"weather_tint": 4284346522
+	}
 }

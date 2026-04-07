@@ -9,4 +9,19 @@ public class RainWeatherEvent extends WeatherEvent {
 	public RainWeatherEvent(ResourceLocation loc) {
 		super(loc, UniformInt.of(12000, 24000), 100);
 	}
+
+	@Override
+	public float getFogNear() {
+		return 10f;
+	}
+
+	@Override
+	public float getFogFar() {
+		return 100f;
+	}
+	
+	@Override
+	public int getFogTint() {
+		return 0x68708c;
+	}
 }
