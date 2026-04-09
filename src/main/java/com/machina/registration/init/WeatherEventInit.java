@@ -2,6 +2,7 @@ package com.machina.registration.init;
 
 import com.machina.Machina;
 import com.machina.weather.WeatherEvent;
+import com.machina.weather.events.AuroraWeatherEvent;
 import com.machina.weather.events.ClearWeatherEvent;
 import com.machina.weather.events.DustStormWeatherEvent;
 import com.machina.weather.events.RainWeatherEvent;
@@ -17,5 +18,6 @@ public class WeatherEventInit {
 	public static final DeferredHolder<WeatherEvent, ClearWeatherEvent> CLEAR = WEATHER_EVENTS.register("clear", ClearWeatherEvent::new);
 	public static final DeferredHolder<WeatherEvent, RainWeatherEvent> RAIN = WEATHER_EVENTS.register("rain", RainWeatherEvent::new);
 	public static final DeferredHolder<WeatherEvent, DustStormWeatherEvent> DUST_STORM = WEATHER_EVENTS.register("dust_storm", DustStormWeatherEvent::new);
+	public static final DeferredHolder<WeatherEvent, AuroraWeatherEvent> AURORA = WEATHER_EVENTS.register("aurora", AuroraWeatherEvent::new);
 	//@formatter:on
 }

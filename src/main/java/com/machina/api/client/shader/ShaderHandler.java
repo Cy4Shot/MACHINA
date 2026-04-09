@@ -20,6 +20,7 @@ public class ShaderHandler {
 	public static final MachinaShader ROCKET_PART_BENCH = create("rocket_part_bench");
 	public static final MachinaShader FLARE = create("flare");
 	public static final MachinaShader PLANET = create("planet");
+	public static final MachinaShader AURORA = create("aurora");
 	//@formatter:on
 
 	private static MachinaShader create(String name) {

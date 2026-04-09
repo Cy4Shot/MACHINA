@@ -36,8 +36,8 @@ import com.machina.client.screen.menu.ElectricSmelterScreen;
 import com.machina.client.screen.menu.ElectrolyzerScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
 import com.machina.client.screen.menu.GrinderScreen;
-import com.machina.client.screen.menu.MultiblockHousingScreen;
 import com.machina.client.screen.menu.MelterScreen;
+import com.machina.client.screen.menu.MultiblockHousingScreen;
 import com.machina.client.screen.menu.ReactionChamberScreen;
 import com.machina.client.screen.menu.RocketAssemblyStationScreen;
 import com.machina.client.screen.menu.RocketPartBenchScreen;
@@ -50,6 +50,7 @@ import com.machina.client.screen.menu.entity.RocketScreen;
 import com.machina.client.screen.menu.item.AdvancedItemFilterScreen;
 import com.machina.client.screen.menu.item.FluidFilterScreen;
 import com.machina.client.screen.menu.item.ItemFilterScreen;
+import com.machina.client.weather.AuroraWeatherRenderer;
 import com.machina.client.weather.ClearWeatherRenderer;
 import com.machina.client.weather.RainWeatherRenderer;
 import com.machina.registration.init.BlockEntityInit;
@@ -113,6 +114,7 @@ public class ClientModEvents {
 
 		ClientWeatherManager.registerRenderer(WeatherEventInit.CLEAR, ClearWeatherRenderer::new);
 		ClientWeatherManager.registerRenderer(WeatherEventInit.RAIN, RainWeatherRenderer::new);
+		ClientWeatherManager.registerRenderer(WeatherEventInit.AURORA, AuroraWeatherRenderer::new);
 	}
 
 	@SubscribeEvent // on the mod event bus only on the physical client
