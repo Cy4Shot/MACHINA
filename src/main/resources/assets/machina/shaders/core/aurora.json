@@ -6,6 +6,9 @@
   },
   "vertex": "machina:aurora",
   "fragment": "machina:aurora",
+  "samplers": [
+    { "name": "Sampler0" }
+  ],
   "attributes": [
     "Position"
   ],
