@@ -24,6 +24,7 @@ import com.machina.block.entity.machine.MelterBlockEntity;
 import com.machina.block.entity.machine.MultiblockHousingBlockEntity;
 import com.machina.block.entity.machine.ReactionChamberBlockEntity;
 import com.machina.block.entity.machine.RocketAssemblyStationBlockEntity;
+import com.machina.block.entity.machine.RocketRefuelingStationBlockEntity;
 import com.machina.block.entity.machine.RocketPartBenchBlockEntity;
 import com.machina.block.entity.machine.SawmillBlockEntity;
 import com.machina.block.entity.machine.SolidifierBlockEntity;
@@ -84,6 +85,8 @@ public class BlockEntityInit {
 			RocketPartBenchBlockEntity::new, BlockInit.ROCKET_PART_BENCH::get);
 	public static final Supplier<BlockEntityType<RocketAssemblyStationBlockEntity>> ROCKET_ASSEMBLY_STATION = register("rocket_assembly_station",
 			RocketAssemblyStationBlockEntity::new, BlockInit.ROCKET_ASSEMBLY_STATION::get);
+	public static final Supplier<BlockEntityType<RocketRefuelingStationBlockEntity>> ROCKET_REFUELING_STATION = register("rocket_refueling_station",
+			RocketRefuelingStationBlockEntity::new, BlockInit.ROCKET_REFUELING_STATION::get);
 
 	public static final Supplier<BlockEntityType<SulfurGeyserBlockEntity>> SULFUR_GEYSER = register("sulfur_geyser",
 			SulfurGeyserBlockEntity::new, BlockInit.SULFUR_GEYSER::get);

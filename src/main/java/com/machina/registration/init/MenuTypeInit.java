@@ -18,6 +18,7 @@ import com.machina.block.menu.MultiblockHousingMenu;
 import com.machina.block.menu.MelterMenu;
 import com.machina.block.menu.ReactionChamberMenu;
 import com.machina.block.menu.RocketAssemblyStationMenu;
+import com.machina.block.menu.RocketRefuelingStationMenu;
 import com.machina.block.menu.RocketPartBenchMenu;
 import com.machina.block.menu.SawmillMenu;
 import com.machina.block.menu.SolidifierMenu;
@@ -92,6 +93,8 @@ public class MenuTypeInit {
             register("rocket_part_bench", RocketPartBenchMenu::new);
 	public static final Supplier<MenuType<RocketAssemblyStationMenu>> ROCKET_ASSEMBLY_STATION =
             register("rocket_assembly_station", RocketAssemblyStationMenu::new);
+	public static final Supplier<MenuType<RocketRefuelingStationMenu>> ROCKET_REFUELING_STATION =
+            register("rocket_refueling_station", RocketRefuelingStationMenu::new);
 	//@formatter:on
 
 	private static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(String n,

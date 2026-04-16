@@ -14,14 +14,14 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class MachinaTank extends FluidTank {
+public class MachinaTank<T extends BlockEntity> extends FluidTank {
 
 	protected final Runnable onChanged;
 
-	private final BlockEntity tile;
+	protected final T tile;
 	public final int id;
 
-	public MachinaTank(BlockEntity tile, int capacity, Predicate<FluidStack> validator, int id, Runnable onChanged) {
+	public MachinaTank(T tile, int capacity, Predicate<FluidStack> validator, int id, Runnable onChanged) {
 		super(capacity, validator);
 		this.tile = tile;
 		this.id = id;

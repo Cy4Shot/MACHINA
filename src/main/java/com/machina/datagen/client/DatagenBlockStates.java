@@ -81,6 +81,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		machineLit(BlockInit.ELECTROLYZER, false);
 		machine(BlockInit.ROCKET_PART_BENCH);
 		machine(BlockInit.ROCKET_ASSEMBLY_STATION);
+		machine(BlockInit.ROCKET_REFUELING_STATION);
 
 		cube(BlockInit.BROWN_MUSHROOM_STALK);
 		cube(BlockInit.GREEN_MUSHROOM_STALK);

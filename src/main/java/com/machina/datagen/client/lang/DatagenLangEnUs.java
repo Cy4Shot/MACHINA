@@ -289,6 +289,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.ATMOSPHERIC_SEPARATOR, "Atmospheric Separator");
 		add(BlockInit.ROCKET_PART_BENCH, "Rocket Part Bench");
 		add(BlockInit.ROCKET_ASSEMBLY_STATION, "Rocket Assembly Station");
+		add(BlockInit.ROCKET_REFUELING_STATION, "Rocket Refueling Station");
 
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");
@@ -864,6 +865,15 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("tank.input", "Input Fluid");
 		addUI("tank.output", "Output Fluid");
 		addUI("tank.empty", "Tank Empty");
+
+		addUI("rocket_refueling_station.input", "Input Fluid");
+		addUI("rocket_refueling_station.output", "Output Fluid");
+		addUI("rocket_refueling_station.no_rockets", "No Rockets In Range");
+		addUI("rocket_refueling_station.scan_hint", "Place this station within 5 blocks of a rocket");
+		addUI("rocket_refueling_station.mode_fuel", "Mode: Fuel");
+		addUI("rocket_refueling_station.mode_coolant", "Mode: Coolant");
+		addUI("rocket_refueling_station.switch_to_fuel", "Switch To Fuel");
+		addUI("rocket_refueling_station.switch_to_coolant", "Switch To Coolant");
 
 		addUI("battery.missing", "Insert Capacitor");
 		addUI("battery.input", "Input Energy");

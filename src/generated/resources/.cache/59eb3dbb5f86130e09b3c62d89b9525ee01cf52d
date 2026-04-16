@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-06T14:08:52.0556927	Loot Tables
+// 1.21.1	2026-04-15T20:17:08.7591279	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
 4da7ad8c6aafe797fdd92bc27652554510a0029e data/machina/loot_table/blocks/anthracite_button.json
@@ -670,6 +670,7 @@ c085948ad3fc5172513e74025a1252a7217082cd data/machina/loot_table/blocks/red_peta
 118ff449b7e409e7da73405e62f714341e31e25e data/machina/loot_table/blocks/red_waterlily.json
 2683fff3d6dfa54dac365cbf64cbcd1448d101fb data/machina/loot_table/blocks/rocket_assembly_station.json
 dfea6eeca5d65c9f4fe1affe31946fe25b30b54c data/machina/loot_table/blocks/rocket_part_bench.json
+f1f30eda17831b26527626557b83a0bc9d62a024 data/machina/loot_table/blocks/rocket_refueling_station.json
 12c652f33aa39751224c2ecc226e8ec2275f1d8d data/machina/loot_table/blocks/sawmill.json
 068a89f22c7809ac758ffc2a4b4ec08197f500e6 data/machina/loot_table/blocks/shale.json
 018112d64f28d122737377c9af9146f58fa7a45c data/machina/loot_table/blocks/shale_aluminum_ore.json

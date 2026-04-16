@@ -14,6 +14,7 @@ import com.machina.api.network.c2s.C2SItemMenuSync;
 import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
 import com.machina.api.network.c2s.C2SPartBenchCraft;
+import com.machina.api.network.c2s.C2SRocketRefuelingStationSetTank;
 import com.machina.api.network.c2s.C2SRocketCinematicOffset;
 import com.machina.api.network.c2s.C2SRocketLandComplete;
 import com.machina.api.network.c2s.C2SRocketLaunch;
@@ -29,6 +30,7 @@ import com.machina.api.network.s2c.S2CCinematicLaunch;
 import com.machina.api.network.s2c.S2CFluidEntitySync;
 import com.machina.api.network.s2c.S2CFluidSync;
 import com.machina.api.network.s2c.S2COpenDirectionalContainer;
+import com.machina.api.network.s2c.S2CRocketRefuelingStationSync;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
 import com.machina.api.network.s2c.S2CWeatherEventChange;
@@ -64,6 +66,7 @@ public class MachinaNetwork {
 		c2s(reg, C2SRocketCinematicOffset.class);
 		c2s(reg, C2SRocketLaunchComplete.class);
 		c2s(reg, C2SRocketLandComplete.class);
+		c2s(reg, C2SRocketRefuelingStationSetTank.class);
 
 		s2c(reg, S2CWeatherEventChange.class);
 		s2c(reg, S2CWindDirectionChange.class);
@@ -74,6 +77,7 @@ public class MachinaNetwork {
 		s2c(reg, S2CRocketScreenOpen.class);
 		s2c(reg, S2CCinematicLaunch.class);
 		s2c(reg, S2CCinematicLand.class);
+		s2c(reg, S2CRocketRefuelingStationSync.class);
 
 		config2c(reg, S2CSyncStarchart.class);
 		config2c(reg, S2CSyncBiomes.class);

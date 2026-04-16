@@ -42,6 +42,7 @@ import com.machina.block.machine.MelterBlock;
 import com.machina.block.machine.MultiblockHousingBlock;
 import com.machina.block.machine.ReactionChamberBlock;
 import com.machina.block.machine.RocketAssemblyStationBlock;
+import com.machina.block.machine.RocketRefuelingStationBlock;
 import com.machina.block.machine.RocketPartBenchBlock;
 import com.machina.block.machine.SawmillBlock;
 import com.machina.block.machine.SolidifierBlock;
@@ -119,6 +120,7 @@ public class BlockInit {
 	public static final DeferredBlock<AtmosphericSeparatorBlock> ATMOSPHERIC_SEPARATOR = register("atmospheric_separator", Blocks.IRON_BLOCK, AtmosphericSeparatorBlock::new);
 	public static final DeferredBlock<RocketPartBenchBlock> ROCKET_PART_BENCH = register("rocket_part_bench", Blocks.IRON_BLOCK, RocketPartBenchBlock::new);
 	public static final DeferredBlock<RocketAssemblyStationBlock> ROCKET_ASSEMBLY_STATION = register("rocket_assembly_station", Blocks.IRON_BLOCK, RocketAssemblyStationBlock::new);
+	public static final DeferredBlock<RocketRefuelingStationBlock> ROCKET_REFUELING_STATION = register("rocket_refueling_station", Blocks.IRON_BLOCK, RocketRefuelingStationBlock::new);
 
 	public static final DeferredBlock<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);

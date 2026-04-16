@@ -73,6 +73,7 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.ATMOSPHERIC_SEPARATOR.get());
 		dropSelf(BlockInit.ROCKET_PART_BENCH.get());
 		dropSelf(BlockInit.ROCKET_ASSEMBLY_STATION.get());
+		dropSelf(BlockInit.ROCKET_REFUELING_STATION.get());
 
 		dropSelf(BlockInit.BROWN_MUSHROOM_STALK.get());
 		dropSelf(BlockInit.GREEN_MUSHROOM_STALK.get());

@@ -40,6 +40,7 @@ import com.machina.client.screen.menu.MelterScreen;
 import com.machina.client.screen.menu.MultiblockHousingScreen;
 import com.machina.client.screen.menu.ReactionChamberScreen;
 import com.machina.client.screen.menu.RocketAssemblyStationScreen;
+import com.machina.client.screen.menu.RocketRefuelingStationScreen;
 import com.machina.client.screen.menu.RocketPartBenchScreen;
 import com.machina.client.screen.menu.SawmillScreen;
 import com.machina.client.screen.menu.SolidifierScreen;
@@ -144,6 +145,7 @@ public class ClientModEvents {
 		event.register(MenuTypeInit.ATMOSPHERIC_SEPARATOR.get(), AtmosphericSeparatorScreen::new);
 		event.register(MenuTypeInit.ROCKET_PART_BENCH.get(), RocketPartBenchScreen::new);
 		event.register(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), RocketAssemblyStationScreen::new);
+		event.register(MenuTypeInit.ROCKET_REFUELING_STATION.get(), RocketRefuelingStationScreen::new);
 	}
 
 	@SubscribeEvent

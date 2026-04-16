@@ -46,7 +46,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	protected final NonNullList<Side[]> fluidSides = NonNullList.create();
 
 	private int energy;
-	private final NonNullList<MachinaTank> tanks = NonNullList.create();
+	private final NonNullList<MachinaTank<?>> tanks = NonNullList.create();
 
 	public abstract void createStorages();
 
@@ -61,7 +61,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	}
 
 	public int fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
-		this.tanks.add(new MachinaTank(this, capacity, validator, this.tanks.size(), this::sync));
+		this.tanks.add(new MachinaTank<>(this, capacity, validator, this.tanks.size(), this::sync));
 		this.fluidSides.add(sides.clone());
 		return this.fluidSides.size() - 1;
 	}
@@ -154,7 +154,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 		}
 		tag.put("sides_fluid", fluidSides);
 		ListTag tanks = new ListTag();
-		for (MachinaTank tank : this.tanks) {
+		for (MachinaTank<?> tank : this.tanks) {
 			CompoundTag tankTag = new CompoundTag();
 			tank.writeToNBT(registries, tankTag);
 			tanks.add(tankTag);
@@ -215,11 +215,11 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 		return this.tanks.size();
 	}
 
-	public List<MachinaTank> getAllTanks() {
+	public List<MachinaTank<?>> getAllTanks() {
 		return this.tanks;
 	}
 
-	public MachinaTank getTank(int id) {
+	public MachinaTank<?> getTank(int id) {
 		return this.tanks.get(id);
 	}
 
@@ -243,7 +243,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	}
 
 	public int fill(Direction dir, FluidStack resource, FluidAction action) {
-		for (MachinaTank tank : this.tanks) {
+		for (MachinaTank<?> tank : this.tanks) {
 			if (fluidSides.get(tank.id)[dir.ordinal()].isInput()) {
 				if (tank.fill(resource, FluidAction.SIMULATE) > 0) {
 					return tank.fill(resource, action);
@@ -254,7 +254,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	}
 
 	public FluidStack drain(Direction dir, FluidStack resource, FluidAction action) {
-		for (MachinaTank tank : this.tanks) {
+		for (MachinaTank<?> tank : this.tanks) {
 			if (fluidSides.get(tank.id)[dir.ordinal()].isOutput()) {
 				if (!tank.drain(resource, FluidAction.SIMULATE).isEmpty()) {
 					return tank.drain(resource, action);
@@ -265,7 +265,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	}
 
 	public FluidStack drain(Direction dir, int maxDrain, FluidAction action) {
-		for (MachinaTank tank : this.tanks) {
+		for (MachinaTank<?> tank : this.tanks) {
 			if (fluidSides.get(tank.id)[dir.ordinal()].isOutput()) {
 				if (!tank.drain(maxDrain, FluidAction.SIMULATE).isEmpty()) {
 					return tank.drain(maxDrain, action);

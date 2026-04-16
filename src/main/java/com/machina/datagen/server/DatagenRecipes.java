@@ -175,6 +175,19 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
 			.showNotification(false)
 			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.TANK));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ROCKET_REFUELING_STATION)
+			.pattern("RPR")
+			.pattern("TCT")
+			.pattern("RBR")
+			.define('P', BlockInit.FLUID_PIPE)
+			.define('T', BlockInit.TANK)
+			.define('B', ItemInit.BASIC_CAPACITOR)
+			.define('R', Items.REDSTONE)
+			.define('C', BlockInit.LIGHTWEIGHT_CASING)
+			.unlockedBy(getHasName(BlockInit.TANK), has(BlockInit.TANK))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ROCKET_REFUELING_STATION));
 		
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.FURNACE_GENERATOR)
 			.pattern("RYR")

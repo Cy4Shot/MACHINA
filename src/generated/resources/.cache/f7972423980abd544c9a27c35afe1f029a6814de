@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-06T14:08:52.0636938	Block States: machina
+// 1.21.1	2026-04-16T21:52:43.239764	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -723,6 +723,7 @@ d53544881b48562087cbaf1318415d0a1c31915f assets/machina/blockstates/red_mushroom
 fc09dffff0610d7183339e990c3e62db161b107f assets/machina/blockstates/red_waterlily.json
 b6ea59e60dcb50894ac6ec02930c9cf38e267104 assets/machina/blockstates/rocket_assembly_station.json
 11b4c4434a403d8e4b1581cfa678b72ef8628831 assets/machina/blockstates/rocket_part_bench.json
+cb0d977c21601d6ce441b08dfdcdfefd12671559 assets/machina/blockstates/rocket_refueling_station.json
 b7ff2ddb790deac68a4254bc56a4c041d7508237 assets/machina/blockstates/sawmill.json
 41aad9056d8130629166dc37de6f81a91cc717d4 assets/machina/blockstates/shale.json
 dafde0d8911eceff3a8ce9bfbb249fc1532b7c8e assets/machina/blockstates/shale_aluminum_ore.json
@@ -1938,6 +1939,7 @@ c7a49c9f7a4641e1ce521de68b2d561a0c77b3e1 assets/machina/models/block/red_petals_
 48700d3fbc5eb07cf19d88e5ef69d0a1b8d5402c assets/machina/models/block/red_waterlily.json
 248061eb9f2391325345a9e2bc3bae14f7591f77 assets/machina/models/block/rocket_assembly_station.json
 f624ea72e4f9421df955f48e3a2f7915139c814b assets/machina/models/block/rocket_part_bench.json
+18c308247d48b7692c16c297c52960770c84a035 assets/machina/models/block/rocket_refueling_station.json
 0f8a1aa7671544115192fcffaf9502863ba5675c assets/machina/models/block/sawmill.json
 bcffd7f330ebd17dc123ae15a976bb244ea95e41 assets/machina/models/block/shale.json
 5b38effa67fe19cb7ce5f776ad5f01c68cf42207 assets/machina/models/block/shale_aluminum_ore.json
@@ -2895,6 +2897,7 @@ b5d264785ec64dc83d5e0f34a9c65a5dd1f77524 assets/machina/models/item/red_groundli
 1b3d1b443280ba45c8d4a6e4c1c42816d6fa1ca0 assets/machina/models/item/red_waterlily.json
 2f1591cd9babe324e2d5f30796cfc852e3b7bddb assets/machina/models/item/rocket_assembly_station.json
 36aa56817bd475523faa8f7d7bad7c49f6d42496 assets/machina/models/item/rocket_part_bench.json
+b3429b06c1a9d0ecc98ee94b7d8d3a711dfad878 assets/machina/models/item/rocket_refueling_station.json
 3e0ebc1e83ffe277f074b581ccaa9de48db4763f assets/machina/models/item/sawmill.json
 9f226729af44e8337658465f0506d1e3141f1ac6 assets/machina/models/item/shale.json
 59e2ec04357d41fea016e4ebe35922c768dfe219 assets/machina/models/item/shale_aluminum_ore.json

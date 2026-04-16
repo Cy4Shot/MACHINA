@@ -37,6 +37,7 @@ public class CapabilityRegistrar {
 		machinaBlock(event, BlockEntityInit.FURNACE_GENERATOR);
 		machinaBlock(event, BlockEntityInit.MULTIBLOCK_HOUSING);
 		machinaBlock(event, BlockEntityInit.ROCKET_ASSEMBLY_STATION);
+		machinaBlock(event, BlockEntityInit.ROCKET_REFUELING_STATION);
 		machinaBlock(event, BlockEntityInit.ROCKET_PART_BENCH);
 		machinaBlock(event, BlockEntityInit.TANK);
 		machinaBlock(event, BlockEntityInit.COMPOSTER_VAT);

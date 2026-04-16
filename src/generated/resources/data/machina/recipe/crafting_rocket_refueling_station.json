@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "machina:basic_capacitor"
+    },
+    "C": {
+      "item": "machina:lightweight_casing"
+    },
+    "P": {
+      "item": "machina:fluid_pipe"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "T": {
+      "item": "machina:tank"
+    }
+  },
+  "pattern": [
+    "RPR",
+    "TCT",
+    "RBR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "machina:rocket_refueling_station"
+  },
+  "show_notification": false
+}

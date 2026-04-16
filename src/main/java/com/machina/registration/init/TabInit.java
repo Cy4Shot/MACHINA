@@ -194,6 +194,7 @@ public class TabInit {
 			BlockInit.ROCKET_PART_BENCH, a -> {
 				add(a, BlockInit.ROCKET_PART_BENCH);
 				add(a, BlockInit.ROCKET_ASSEMBLY_STATION);
+				add(a, BlockInit.ROCKET_REFUELING_STATION);
 				add(a, RocketPartInit.THRUSTERS);
 				add(a, RocketPartInit.FUEL_TANKS);
 				add(a, RocketPartInit.CHASSIS);
