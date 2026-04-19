@@ -229,7 +229,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ITEM_FILTER, "Item Filter");
 		add(ItemInit.ADVANCED_ITEM_FILTER, "Advanced Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
-		
+
 		add(ItemInit.WIND_COMPASS, "Wind Compass");
 
 		add(ItemInit.COPPER_COIL, "Copper Coil");
@@ -403,7 +403,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.WHITE_SOAPSTONE_BUTTON, "White Soapstone Button");
 		add(BlockInit.WHITE_SOAPSTONE_PRESSURE_PLATE, "White Soapstone Pressure Plate");
 		add(BlockInit.WHITE_SOAPSTONE_PEBBLES, "White Soapstone Pebbles");
-		
+
 		add(BlockInit.WISPY_SOAPSTONE, "Wispy Soapstone");
 		add(BlockInit.WISPY_SOAPSTONE_SLAB, "Wispy Soapstone Slab");
 		add(BlockInit.WISPY_SOAPSTONE_STAIRS, "Wispy Soapstone Stairs");
@@ -411,7 +411,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.WISPY_SOAPSTONE_BUTTON, "Wispy Soapstone Button");
 		add(BlockInit.WISPY_SOAPSTONE_PRESSURE_PLATE, "Wispy Soapstone Pressure Plate");
 		add(BlockInit.WISPY_SOAPSTONE_PEBBLES, "Wispy Soapstone Pebbles");
-		
+
 		add(BlockInit.MOONSTONE, "Moonstone");
 		add(BlockInit.MOONSTONE_SLAB, "Moonstone Slab");
 		add(BlockInit.MOONSTONE_STAIRS, "Moonstone Stairs");
@@ -475,7 +475,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.GNEISS_BUTTON, "Gneiss Button");
 		add(BlockInit.GNEISS_PRESSURE_PLATE, "Gneiss Pressure Plate");
 		add(BlockInit.GNEISS_PEBBLES, "Gneiss Pebbles");
-		
+
 		add(BlockInit.BASALT, "Basalt");
 		add(BlockInit.BASALT_SLAB, "Basalt Slab");
 		add(BlockInit.BASALT_STAIRS, "Basalt Stairs");
@@ -483,7 +483,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.BASALT_BUTTON, "Basalt Button");
 		add(BlockInit.BASALT_PRESSURE_PLATE, "Basalt Pressure Plate");
 		add(BlockInit.BASALT_PEBBLES, "Basalt Pebbles");
-		
+
 		add(BlockInit.BASALT_SPRINGSTONE, "Basalt Springstone");
 		add(BlockInit.BASALT_SPRINGSTONE_SLAB, "Basalt Springstone Slab");
 		add(BlockInit.BASALT_SPRINGSTONE_STAIRS, "Basalt Springstone Stairs");
@@ -1030,7 +1030,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.fueling.cool_required", "Coolant Required");
 
 		addUI("rocket.tab.storage", "Storage");
-		addUI("rocket.storage.soon", "Coming Soon!");
+		addUI("rocket.storage.soon", "Cargo Storage");
 
 		addUI("rocket.tab.destination", "Destination");
 		addUI("rocket.destination.invalid", "NO DESTINATION SELECTED");
@@ -1055,14 +1055,14 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.starmap.gravity", "Gravity");
 		addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
 		addUI("rocket.starmap.gas_giant", "Gas Giant");
-		
+
 		addUI("wind_compass", "Wind Compass");
 		addUI("wind_compass.wind", "Wind");
 		addUI("wind_compass.intensity", "Intensity");
 
 		// Planets
 		addTrait(PlanetTraitInit.ALWAYS_RAINING, "Always Raining", "The weather on this planet is always rain.");
-		
+
 		addTrait(PlanetTraitInit.RICH_COAL, "Coal Rich", "This planet is abundant in coal deposits.");
 		addTrait(PlanetTraitInit.RICH_IRON, "Iron Rich", "This planet is abundant in iron deposits.");
 		addTrait(PlanetTraitInit.RICH_COPPER, "Copper Rich", "This planet is abundant in copper deposits.");
@@ -1076,7 +1076,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		addTrait(PlanetTraitInit.RICH_NICKEL, "Nickel Rich", "This planet is abundant in nickel deposits.");
 		addTrait(PlanetTraitInit.RICH_TIN, "Tin Rich", "This planet is abundant in tin deposits.");
 		addTrait(PlanetTraitInit.RICH_ZINC, "Zinc Rich", "This planet is abundant in zinc deposits.");
-		addTrait(PlanetTraitInit.RICH_LOW_GRADE_TITANIUM, "Titanium Rich", "This planet is abundant in titanium deposits.");
+		addTrait(PlanetTraitInit.RICH_LOW_GRADE_TITANIUM, "Titanium Rich",
+				"This planet is abundant in titanium deposits.");
 		addTrait(PlanetTraitInit.RICH_LEAD, "Lead Rich", "This planet is abundant in lead deposits.");
 		addTrait(PlanetTraitInit.RICH_BORON, "Boron Rich", "This planet is abundant in boron deposits.");
 		addTrait(PlanetTraitInit.RICH_PALLADIUM, "Palladium Rich", "This planet is abundant in palladium deposits.");
@@ -1087,7 +1088,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		addTrait(PlanetTraitInit.RICH_BISMUTH, "Bismuth Rich", "This planet is abundant in bismuth deposits.");
 		addTrait(PlanetTraitInit.RICH_MAGNETITE, "Magnetite Rich", "This planet is abundant in magnetite deposits.");
 		addTrait(PlanetTraitInit.RICH_GYPSUM, "Gypsum Rich", "This planet is abundant in gypsum deposits.");
-		addTrait(PlanetTraitInit.RICH_PERCHLORATE, "Perchlorate Rich", "This planet is abundant in perchlorate deposits.");
+		addTrait(PlanetTraitInit.RICH_PERCHLORATE, "Perchlorate Rich",
+				"This planet is abundant in perchlorate deposits.");
 		addTrait(PlanetTraitInit.RICH_ILMENITE, "Ilmenite Rich", "This planet is abundant in ilmenite deposits.");
 		addTrait(PlanetTraitInit.RICH_PLATINUM, "Platinum Rich", "This planet is abundant in platinum deposits.");
 		addTrait(PlanetTraitInit.RICH_IRIDIUM, "Iridium Rich", "This planet is abundant in iridium deposits.");
@@ -1095,7 +1097,6 @@ public class DatagenLangEnUs extends DatagenLang {
 		addTrait(PlanetTraitInit.RICH_COBALT, "Cobalt Rich", "This planet is abundant in cobalt deposits.");
 		addTrait(PlanetTraitInit.RICH_URANINITE, "Uraninite Rich", "This planet is abundant in uraninite deposits.");
 		addTrait(PlanetTraitInit.RICH_THORIUM, "Thorium Rich", "This planet is abundant in thorium deposits.");
-
 
 		addMisc("planet_type.earthlike", "Earthlike");
 		addMisc("planet_type.martian", "Martian");

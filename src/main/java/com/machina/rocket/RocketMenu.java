@@ -20,6 +20,14 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class RocketMenu extends MachinaAnyMenu {
 
+	private static final int FUEL_SLOT = 0;
+	private static final int COOL_SLOT = 1;
+	private static final int STORAGE_START = 2;
+	private static final int STORAGE_COLUMNS = 9;
+	private static final int STORAGE_SLOT_SPACING = 20;
+	private static final int STORAGE_SLOT_X = 31;
+	private static final int STORAGE_SLOT_Y = -18;
+
 	public RocketEntity entity;
 
 	public RocketMenu(int id, Inventory inv) {
@@ -34,10 +42,14 @@ public class RocketMenu extends MachinaAnyMenu {
 		if (entity != null) {
 			RocketProps props = entity.getProps();
 
-			this.addSlot(
-					new AcceptSlot(container, 0, 0, 0, s -> ItemStackUtil.hasFluid(s, props.fuelStack().getFluid())));
-			this.addSlot(new AcceptSlot(container, 1, 0, 0,
+			this.addSlot(new AcceptSlot(container, FUEL_SLOT, 0, 0,
+					s -> ItemStackUtil.hasFluid(s, props.fuelStack().getFluid())));
+			this.addSlot(new AcceptSlot(container, COOL_SLOT, 0, 0,
 					s -> ItemStackUtil.hasFluid(s, props.coolantStack().getFluid())));
+
+			for (int i = 0; i < props.slots(); i++) {
+				this.addSlot(new AcceptSlot(container, STORAGE_START + i, 0, 0, s -> true));
+			}
 		}
 
 		this.invSlots(playerInv, 0);
@@ -48,19 +60,42 @@ public class RocketMenu extends MachinaAnyMenu {
 		if (entity == null)
 			return;
 
-		Slot fuelSlot = this.getSlot(0);
-		Slot clntSlot = this.getSlot(1);
+		RocketProps props = entity.getProps();
+		Slot fuelSlot = this.getSlot(FUEL_SLOT);
+		Slot clntSlot = this.getSlot(COOL_SLOT);
 
 		if (tab == 1) {
 			fuelSlot.x = 177;
 			fuelSlot.y = 36;
 			clntSlot.x = 199;
 			clntSlot.y = 36;
+			for (int i = 0; i < props.slots(); i++) {
+				Slot storageSlot = this.getSlot(STORAGE_START + i);
+				storageSlot.x = -1000;
+				storageSlot.y = -1000;
+			}
+		} else if (tab == 2) {
+			fuelSlot.x = -1000;
+			fuelSlot.y = -1000;
+			clntSlot.x = -1000;
+			clntSlot.y = -1000;
+
+			for (int i = 0; i < props.slots(); i++) {
+				Slot storageSlot = this.getSlot(STORAGE_START + i);
+				storageSlot.x = STORAGE_SLOT_X + (i % STORAGE_COLUMNS) * STORAGE_SLOT_SPACING;
+				storageSlot.y = STORAGE_SLOT_Y + (i / STORAGE_COLUMNS) * STORAGE_SLOT_SPACING;
+			}
 		} else {
 			fuelSlot.x = -1000;
 			fuelSlot.y = -1000;
 			clntSlot.x = -1000;
 			clntSlot.y = -1000;
+
+			for (int i = 0; i < props.slots(); i++) {
+				Slot storageSlot = this.getSlot(STORAGE_START + i);
+				storageSlot.x = -1000;
+				storageSlot.y = -1000;
+			}
 		}
 	}
 

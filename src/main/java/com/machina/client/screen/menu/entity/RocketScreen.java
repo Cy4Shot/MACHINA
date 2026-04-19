@@ -184,7 +184,24 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 	private final RocketTabDisplay STORAGE = new RocketTabDisplay() {
 		@Override
 		public void render(@NotNull GuiGraphics gui, RocketEntity entity, int mx, int my, int i, int j) {
-			MUI.drawCenteredString(gui, MUI.uistr("rocket.storage.soon"), i + 112, j + 46);
+			RocketProps props = entity.getProps();
+			Component c = Component.literal(": ");
+			MUI.drawCenteredString(gui, MUI.uistr("rocket.info.storage").append(c).append(Component
+					.literal(String.valueOf(props.slots())).withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
+					i + 112, j + 14);
+
+			if (props.slots() <= 0) {
+				MUI.drawCenteredString(gui,
+						MUI.uistr("rocket.storage.soon").withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1)),
+						i + 112, j + 12);
+				return;
+			}
+
+			for (int idx = 0; idx < props.slots(); idx++) {
+				int row = idx / 9;
+				int col = idx % 9;
+				MUI.drawSlot(gui, i + 26 + col * 20, j + 28 + row * 20, mx, my, false, false);
+			}
 		}
 
 		@Override
@@ -454,7 +471,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 		}
 		return super.mouseScrolled(mX, mY, deltaX, deltaY);
 	}
-	
+
 	@Override
 	protected void renderTooltip(@NotNull GuiGraphics gui, int mx, int my) {
 		super.renderTooltip(gui, mx, my);

@@ -222,7 +222,7 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 			}
 		}
 	}
-	
+
 	public void fullyFill() {
 		RocketProps props = getProps();
 		this.fuelTank.fill(props.fuelStack(), FluidAction.EXECUTE);
@@ -276,7 +276,8 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 				CompoundTag compoundtag = listtag.getCompound(i);
 				int slot = compoundtag.getByte(TAG_SLOT) & 255;
 				if (slot >= 0 && slot < this.inventory.getContainerSize()) {
-					this.inventory.setItem(slot, ItemStack.parse(this.registryAccess(), compoundtag).get());
+					this.inventory.setItem(slot,
+							ItemStack.parse(this.registryAccess(), compoundtag).orElse(ItemStack.EMPTY));
 				}
 			}
 		}
@@ -504,6 +505,30 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 	public void completeLand(ServerPlayer player) {
 		this.entityData.set(STAGE, RocketStage.NONE);
 		setDestination(Level.OVERWORLD);
+	}
+
+	@Override
+	public void restoreFrom(@NotNull Entity entity) {
+		super.restoreFrom(entity);
+
+		if (!(entity instanceof RocketEntity oldRocket)) {
+			return;
+		}
+
+		RocketProps props = this.getProps();
+		if (props == null) {
+			return;
+		}
+
+		this.createInventory(props);
+		SimpleContainer oldInventory = oldRocket.getOrCreateInventory();
+		int maxSlots = Math.min(this.inventory.getContainerSize(), oldInventory.getContainerSize());
+		for (int slot = 0; slot < maxSlots; ++slot) {
+			ItemStack stack = oldInventory.getItem(slot);
+			if (!stack.isEmpty()) {
+				this.inventory.setItem(slot, stack.copy());
+			}
+		}
 	}
 
 	@Override
