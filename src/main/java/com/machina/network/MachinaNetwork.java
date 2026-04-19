@@ -34,6 +34,7 @@ import com.machina.api.network.s2c.S2CRocketRefuelingStationSync;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
 import com.machina.api.network.s2c.S2CWeatherEventChange;
+import com.machina.api.network.s2c.S2CWeatherIntensityChange;
 import com.machina.api.network.s2c.S2CWindDirectionChange;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -69,6 +70,7 @@ public class MachinaNetwork {
 		c2s(reg, C2SRocketRefuelingStationSetTank.class);
 
 		s2c(reg, S2CWeatherEventChange.class);
+		s2c(reg, S2CWeatherIntensityChange.class);
 		s2c(reg, S2CWindDirectionChange.class);
 		s2c(reg, S2COpenDirectionalContainer.class);
 		s2c(reg, S2CFluidSync.class);

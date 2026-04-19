@@ -75,7 +75,8 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 			WeatherEvent event = weathersystem.getCurrentEvent();
 			WeatherRenderer<?> renderer = ClientWeatherManager.getRenderer(event);
 			if (renderer != null) {
-				renderer.renderWeather(level, ticks, partialTick, lightTexture, camX, camY, camZ);
+				renderer.renderWeather(level, weathersystem.getWeatherIntensity(), ticks, partialTick, lightTexture,
+						camX, camY, camZ);
 			}
 		}
 		return true;
@@ -159,7 +160,12 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE,
 				GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		posestack.pushPose();
-		float f11 = 1.0F - 0f;// level.getRainLevel(partialTick);
+		float weatherIntensity = 0.0F;
+		ClientWeatherSystem weatherSystem = ClientWeatherManager.getSystem(level);
+		if (weatherSystem != null) {
+			weatherIntensity = weatherSystem.getWeatherIntensity();
+		}
+		float f11 = 1.0F - weatherIntensity;
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
 		posestack.mulPose(Axis.YP.rotationDegrees(-90.0F));
 		posestack.mulPose(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));

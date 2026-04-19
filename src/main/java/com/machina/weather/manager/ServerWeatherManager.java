@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.machina.Machina;
 import com.machina.api.network.s2c.S2CWeatherEventChange;
+import com.machina.api.network.s2c.S2CWeatherIntensityChange;
 import com.machina.api.network.s2c.S2CWindDirectionChange;
 import com.machina.api.util.PlanetHelper;
 import com.machina.weather.system.ServerWeatherSystem;
@@ -51,6 +52,7 @@ public class ServerWeatherManager {
 		ServerWeatherSystem weather = getOrCreate((ServerLevel) event.getLevel());
 		if (weather != null && event.getEntity() instanceof ServerPlayer player) {
 			PacketDistributor.sendToPlayer(player, new S2CWeatherEventChange(weather.getCurrentEvent()));
+			PacketDistributor.sendToPlayer(player, new S2CWeatherIntensityChange(weather.getWeatherIntensity()));
 			PacketDistributor.sendToPlayer(player, new S2CWindDirectionChange(weather.getWindDirection()));
 		}
 	}

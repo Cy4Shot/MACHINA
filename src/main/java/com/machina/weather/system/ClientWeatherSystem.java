@@ -19,6 +19,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer.FogMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec2;
@@ -34,10 +35,12 @@ public class ClientWeatherSystem extends WeatherSystem {
 
 	private WeatherEvent currentWeather;
 	private Vec2 windDirection;
+	private float weatherIntensity;
 
 	public ClientWeatherSystem(ClientLevel level) {
 		super(level);
 		this.windDirection = new Vec2(0.0F, 0.0F);
+		this.weatherIntensity = 1.0F;
 	}
 
 	@Override
@@ -47,6 +50,14 @@ public class ClientWeatherSystem extends WeatherSystem {
 
 	public void setCurrentEvent(WeatherEvent event) {
 		this.currentWeather = event;
+	}
+
+	public float getWeatherIntensity() {
+		return weatherIntensity;
+	}
+
+	public void setWeatherIntensity(float weatherIntensity) {
+		this.weatherIntensity = Mth.clamp(weatherIntensity, 0.0F, 1.0F);
 	}
 
 	@Override
@@ -74,14 +85,15 @@ public class ClientWeatherSystem extends WeatherSystem {
 			return;
 
 		WeatherEvent weather = system.getCurrentEvent();
-		if (weather == null || weather.getFogFar() == 0f)
+		float weatherIntensity = system.getWeatherIntensity();
+		if (weather == null || weather.getFogFar() == 0f || weatherIntensity <= 0.0F)
 			return;
 
 		// 1. Apply biome tint
 		ResourceLocation biome = level.getBiome(mc.player.blockPosition()).getKey().location();
 		RGBA tint = ColorUtil.ofRGBA(ClientBiomeSettings.BIOME_SETTINGS
 				.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT).weather_tint());
-		
+
 		// 2. Apply weather tint
 		tint = tint.mul(ColorUtil.ofRGBA(weather.getFogTint()));
 
@@ -92,8 +104,8 @@ public class ClientWeatherSystem extends WeatherSystem {
 			tint = tint.mul(skyColor);
 		}
 
-		float near = weather.getFogNear();
-		float far = weather.getFogFar();
+		float near = Mth.lerp(weatherIntensity, 0.0F, weather.getFogNear());
+		float far = Mth.lerp(weatherIntensity, 1024.0F, weather.getFogFar());
 		if (event.getMode() == FogMode.FOG_SKY) {
 			RenderSystem.setShaderFogStart(0.0F);
 			RenderSystem.setShaderFogEnd(far * 0.8F);
@@ -121,21 +133,22 @@ public class ClientWeatherSystem extends WeatherSystem {
 			return;
 
 		WeatherEvent weather = system.getCurrentEvent();
-		if (weather == null || weather.particleCount() == 0)
+		if (weather == null || weather.particleCount() == 0 || system.getWeatherIntensity() <= 0.0F)
 			return;
 
 		Vec2 wind = system.getWindDirection();
-		animateParticleTick(level, weather, mc.player.getBlockX(), mc.player.getBlockY(), mc.player.getBlockZ(), wind.x,
-				0, wind.y);
+		animateParticleTick(level, weather, system.getWeatherIntensity(), mc.player.getBlockX(), mc.player.getBlockY(),
+				mc.player.getBlockZ(), wind.x, 0, wind.y);
 	}
 
-	private static void animateParticleTick(ClientLevel level, WeatherEvent weather, int posX, int posY, int posZ,
-			double vX, double vY, double vZ) {
+	private static void animateParticleTick(ClientLevel level, WeatherEvent weather, float intensity, int posX,
+			int posY, int posZ, double vX, double vY, double vZ) {
 		ResourceLocation biome = level.getBiome(new BlockPos(posX, posY, posZ)).getKey().location();
 		int tint = ClientBiomeSettings.BIOME_SETTINGS.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT)
 				.weather_tint();
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-		for (int j = 0; j < weather.particleCount(); j++) {
+		int count = Math.max(0, Math.round(weather.particleCount() * intensity));
+		for (int j = 0; j < count; j++) {
 			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.05,
 					tint);
 			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01,

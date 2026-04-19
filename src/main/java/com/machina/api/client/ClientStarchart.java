@@ -18,10 +18,10 @@ public class ClientStarchart {
 		system = StarchartGenerator.gen(seed);
 		SEED = seed;
 	}
-	
+
 	public static Planet getPlanet(ClientLevel level) {
-		int id = PlanetHelper.getIdLevel(level.dimension());
-		if (system == null) {
+		int id = PlanetHelper.getIdLevelOr(level.dimension(), -1);
+		if (system == null || id == -1) {
 			return null;
 		}
 		return system.planets().get(id);

@@ -3,8 +3,10 @@ package com.machina.weather.system;
 import java.util.List;
 
 import com.machina.api.network.s2c.S2CWeatherEventChange;
+import com.machina.api.network.s2c.S2CWeatherIntensityChange;
 import com.machina.api.network.s2c.S2CWindDirectionChange;
 import com.machina.api.util.PlanetHelper;
+import com.machina.config.CommonConfig;
 import com.machina.registration.init.WeatherEventInit;
 import com.machina.weather.WeatherEvent;
 
@@ -23,11 +25,17 @@ public class ServerWeatherSystem extends WeatherSystem {
 	private static final float MIN_WIND_INTENSITY = 0.08F;
 	private static final float MAX_WIND_INTENSITY = 1.20F;
 	private static final int WIND_SYNC_INTERVAL = 10;
+	private static final int WEATHER_INTENSITY_SYNC_INTERVAL = 5;
 
 	private final List<WeatherEvent> allowedEvents;
 
 	private WeatherEvent currentWeather;
 	private int weatherTimer;
+	private int weatherDuration;
+	private int weatherAgeTicks;
+	private float weatherIntensity;
+	private float lastSentWeatherIntensity;
+	private int weatherIntensitySyncTimer;
 	private Vec2 windDirection;
 	private Vec2 windTarget;
 	private Vec2 lastSentWindDirection;
@@ -38,7 +46,12 @@ public class ServerWeatherSystem extends WeatherSystem {
 		super(level);
 		this.allowedEvents = PlanetHelper.getPlanetFor(level).type().weathers();
 		this.currentWeather = WeatherEventInit.CLEAR.get();
-		this.weatherTimer = currentWeather.getDuration(level.random);
+		this.weatherDuration = currentWeather.getDuration(level.random);
+		this.weatherTimer = this.weatherDuration;
+		this.weatherAgeTicks = this.weatherDuration;
+		this.weatherIntensity = 1.0F;
+		this.lastSentWeatherIntensity = this.weatherIntensity;
+		this.weatherIntensitySyncTimer = 0;
 		this.windDirection = randomWindVector();
 		this.windTarget = this.windDirection;
 		this.lastSentWindDirection = this.windDirection;
@@ -55,6 +68,10 @@ public class ServerWeatherSystem extends WeatherSystem {
 		return weatherTimer;
 	}
 
+	public float getWeatherIntensity() {
+		return weatherIntensity;
+	}
+
 	@Override
 	public Vec2 getWindDirection() {
 		return windDirection;
@@ -63,6 +80,7 @@ public class ServerWeatherSystem extends WeatherSystem {
 	@Override
 	public void tick() {
 		super.tick();
+		weatherIntensitySyncTimer++;
 		tickWind();
 		windSyncTimer++;
 		if (windSyncTimer >= WIND_SYNC_INTERVAL && hasMeaningfulWindDelta()) {
@@ -71,12 +89,48 @@ public class ServerWeatherSystem extends WeatherSystem {
 			PacketDistributor.sendToPlayersInDimension((ServerLevel) level, new S2CWindDirectionChange(windDirection));
 		}
 
+		weatherAgeTicks++;
 		if (level.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
 			weatherTimer--;
 			if (weatherTimer <= 0) {
 				pickWeather(allowedEvents.get(level.random.nextInt(allowedEvents.size())));
 			}
 		}
+
+		weatherIntensity = computeWeatherIntensity();
+		if (shouldSyncWeatherIntensity()) {
+			syncWeatherIntensity();
+		}
+	}
+
+	private float computeWeatherIntensity() {
+		int fadeTicks = CommonConfig.weatherFadeTicks.get();
+		if (fadeTicks <= 0 || weatherDuration <= 0) {
+			return 1.0F;
+		}
+
+		int elapsed = Math.max(weatherAgeTicks, 0);
+		float fadeIn = elapsed >= fadeTicks ? 1.0F : elapsed / (float) fadeTicks;
+		float fadeOut = 1.0F;
+		if (level.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
+			fadeOut = weatherTimer >= fadeTicks ? 1.0F : Math.max(weatherTimer, 0) / (float) fadeTicks;
+		}
+		return Math.min(fadeIn, fadeOut);
+	}
+
+	private boolean shouldSyncWeatherIntensity() {
+		float delta = Math.abs(weatherIntensity - lastSentWeatherIntensity);
+		if (weatherIntensitySyncTimer >= WEATHER_INTENSITY_SYNC_INTERVAL && delta >= 0.002F) {
+			return true;
+		}
+		return delta >= 0.01F;
+	}
+
+	private void syncWeatherIntensity() {
+		weatherIntensitySyncTimer = 0;
+		lastSentWeatherIntensity = weatherIntensity;
+		PacketDistributor.sendToPlayersInDimension((ServerLevel) level,
+				new S2CWeatherIntensityChange(weatherIntensity));
 	}
 
 	private void tickWind() {
@@ -176,7 +230,14 @@ public class ServerWeatherSystem extends WeatherSystem {
 
 	public void pickWeather(WeatherEvent event) {
 		currentWeather = event;
-		weatherTimer = currentWeather.getDuration(level.random);
+		weatherDuration = currentWeather.getDuration(level.random);
+		weatherTimer = weatherDuration;
+		weatherAgeTicks = 0;
+		weatherIntensity = computeWeatherIntensity();
+		weatherIntensitySyncTimer = 0;
+		lastSentWeatherIntensity = weatherIntensity;
 		PacketDistributor.sendToPlayersInDimension((ServerLevel) level, new S2CWeatherEventChange(currentWeather));
+		PacketDistributor.sendToPlayersInDimension((ServerLevel) level,
+				new S2CWeatherIntensityChange(weatherIntensity));
 	}
 }

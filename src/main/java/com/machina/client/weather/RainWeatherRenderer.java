@@ -43,8 +43,11 @@ public class RainWeatherRenderer implements WeatherRenderer<RainWeatherEvent> {
 	}
 
 	@Override
-	public void renderWeather(ClientLevel level, int ticks, float partialTick, LightTexture lightTexture, double camX,
-			double camY, double camZ) {
+	public void renderWeather(ClientLevel level, float intensity, int ticks, float partialTick,
+			LightTexture lightTexture, double camX, double camY, double camZ) {
+		if (intensity <= 0.0F) {
+			return;
+		}
 		lightTexture.turnOnLightLayer();
 		int i = Mth.floor(camX);
 		int j = Mth.floor(camY);
@@ -110,7 +113,7 @@ public class RainWeatherRenderer implements WeatherRenderer<RainWeatherEvent> {
 					double d2 = (double) k1 + 0.5 - camX;
 					double d3 = (double) j1 + 0.5 - camZ;
 					float f6 = (float) Math.sqrt(d2 * d2 + d3 * d3) / (float) l;
-					float f7 = ((1.0F - f6 * f6) * 0.5F + 0.5F) * 0.5f;
+					float f7 = ((1.0F - f6 * f6) * 0.5F + 0.5F) * 0.5f * intensity;
 					blockpos$mutableblockpos.set(k1, l2, j1);
 					int k3 = LevelRenderer.getLightColor(level, blockpos$mutableblockpos);
 					bufferbuilder

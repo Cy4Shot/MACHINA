@@ -40,8 +40,8 @@ import com.machina.client.screen.menu.MelterScreen;
 import com.machina.client.screen.menu.MultiblockHousingScreen;
 import com.machina.client.screen.menu.ReactionChamberScreen;
 import com.machina.client.screen.menu.RocketAssemblyStationScreen;
-import com.machina.client.screen.menu.RocketRefuelingStationScreen;
 import com.machina.client.screen.menu.RocketPartBenchScreen;
+import com.machina.client.screen.menu.RocketRefuelingStationScreen;
 import com.machina.client.screen.menu.SawmillScreen;
 import com.machina.client.screen.menu.SolidifierScreen;
 import com.machina.client.screen.menu.TankScreen;
@@ -52,7 +52,6 @@ import com.machina.client.screen.menu.item.AdvancedItemFilterScreen;
 import com.machina.client.screen.menu.item.FluidFilterScreen;
 import com.machina.client.screen.menu.item.ItemFilterScreen;
 import com.machina.client.weather.AuroraWeatherRenderer;
-import com.machina.client.weather.ClearWeatherRenderer;
 import com.machina.client.weather.RainWeatherRenderer;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.EntityTypeInit;
@@ -113,7 +112,6 @@ public class ClientModEvents {
 		RocketPartModels.register(RocketPartInit.SIMPLE_THRUSTER.get(), SimpleThrusterModel::new);
 		RocketPartModels.register(RocketPartInit.TRI_TALL_THRUSTER.get(), TriTallThrusterModel::new);
 
-		ClientWeatherManager.registerRenderer(WeatherEventInit.CLEAR, ClearWeatherRenderer::new);
 		ClientWeatherManager.registerRenderer(WeatherEventInit.RAIN, RainWeatherRenderer::new);
 		ClientWeatherManager.registerRenderer(WeatherEventInit.AURORA, AuroraWeatherRenderer::new);
 	}
