@@ -10,6 +10,7 @@ import com.machina.config.CommonConfig;
 import com.machina.registration.init.WeatherEventInit;
 import com.machina.weather.WeatherEvent;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.phys.Vec2;
@@ -42,6 +43,11 @@ public class ServerWeatherSystem extends WeatherSystem {
 	private int windSyncTimer;
 	private int windTargetTimer;
 
+	public static record PersistenceState(ResourceLocation weatherEvent, int weatherTimer, int weatherDuration,
+			int weatherAgeTicks, float weatherIntensity, float windX, float windZ, float windTargetX,
+			float windTargetZ) {
+	}
+
 	public ServerWeatherSystem(ServerLevel level) {
 		super(level);
 		this.allowedEvents = PlanetHelper.getPlanetFor(level).type().weathers();
@@ -66,6 +72,28 @@ public class ServerWeatherSystem extends WeatherSystem {
 
 	public int getTicksRemaining() {
 		return weatherTimer;
+	}
+
+	public PersistenceState createPersistenceState() {
+		return new PersistenceState(currentWeather.getName(), weatherTimer, weatherDuration, weatherAgeTicks,
+				weatherIntensity, windDirection.x, windDirection.y, windTarget.x, windTarget.y);
+	}
+
+	public void applyPersistenceState(PersistenceState state) {
+		WeatherEvent resolved = resolveWeatherEvent(state.weatherEvent());
+		this.currentWeather = resolved;
+		this.weatherDuration = Math.max(state.weatherDuration(), 1);
+		this.weatherTimer = Math.max(0, Math.min(state.weatherTimer(), this.weatherDuration));
+		this.weatherAgeTicks = Math.max(state.weatherAgeTicks(), 0);
+		this.weatherIntensity = Math.max(0.0F, Math.min(1.0F, state.weatherIntensity()));
+		this.lastSentWeatherIntensity = this.weatherIntensity;
+		this.weatherIntensitySyncTimer = 0;
+
+		this.windDirection = normalizeLoadedWind(state.windX(), state.windZ());
+		this.windTarget = normalizeLoadedWind(state.windTargetX(), state.windTargetZ());
+		this.lastSentWindDirection = this.windDirection;
+		this.windSyncTimer = 0;
+		this.windTargetTimer = MIN_TARGET_HOLD_TICKS;
 	}
 
 	public float getWeatherIntensity() {
@@ -205,6 +233,36 @@ public class ServerWeatherSystem extends WeatherSystem {
 		float angle = level.random.nextFloat() * ((float) Math.PI * 2.0F);
 		float intensity = MIN_WIND_INTENSITY + level.random.nextFloat() * (MAX_WIND_INTENSITY - MIN_WIND_INTENSITY);
 		return new Vec2((float) Math.cos(angle) * intensity, (float) Math.sin(angle) * intensity);
+	}
+
+	private Vec2 normalizeLoadedWind(float x, float z) {
+		float length = (float) Math.sqrt(x * x + z * z);
+		if (length < 1.0E-4F) {
+			return randomWindVector();
+		}
+		if (length < MIN_WIND_INTENSITY) {
+			float scale = MIN_WIND_INTENSITY / length;
+			return new Vec2(x * scale, z * scale);
+		}
+		if (length > MAX_WIND_INTENSITY) {
+			float scale = MAX_WIND_INTENSITY / length;
+			return new Vec2(x * scale, z * scale);
+		}
+		return new Vec2(x, z);
+	}
+
+	private WeatherEvent resolveWeatherEvent(ResourceLocation id) {
+		if (id != null) {
+			for (WeatherEvent event : allowedEvents) {
+				if (event.getName().equals(id)) {
+					return event;
+				}
+			}
+			if (WeatherEventInit.CLEAR.get().getName().equals(id)) {
+				return WeatherEventInit.CLEAR.get();
+			}
+		}
+		return WeatherEventInit.CLEAR.get();
 	}
 
 	public void setWindDirection(Vec2 windDirection) {

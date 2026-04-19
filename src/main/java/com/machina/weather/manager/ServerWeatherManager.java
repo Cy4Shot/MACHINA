@@ -9,6 +9,7 @@ import com.machina.api.network.s2c.S2CWeatherIntensityChange;
 import com.machina.api.network.s2c.S2CWindDirectionChange;
 import com.machina.api.util.PlanetHelper;
 import com.machina.weather.system.ServerWeatherSystem;
+import com.machina.world.data.WeatherStateData;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,7 +27,14 @@ public class ServerWeatherManager {
 	public static ServerWeatherSystem getOrCreate(ServerLevel level) {
 		int id = PlanetHelper.getIdLevelOr(level.dimension(), -1);
 		if (id != -1) {
-			return WEATHERS.computeIfAbsent(id, (x) -> new ServerWeatherSystem(level));
+			return WEATHERS.computeIfAbsent(id, (x) -> {
+				ServerWeatherSystem weather = new ServerWeatherSystem(level);
+				WeatherStateData data = WeatherStateData.get(level);
+				if (data.hasState()) {
+					weather.applyPersistenceState(data.toState());
+				}
+				return weather;
+			});
 		}
 		return null;
 	}
@@ -40,6 +48,7 @@ public class ServerWeatherManager {
 		ServerWeatherSystem weather = getOrCreate((ServerLevel) event.getLevel());
 		if (weather != null) {
 			weather.tick();
+			WeatherStateData.get((ServerLevel) event.getLevel()).fromState(weather.createPersistenceState());
 		}
 	}
 
