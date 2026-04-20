@@ -90,7 +90,8 @@ public class AuroraWeatherRenderer implements WeatherRenderer<AuroraWeatherEvent
 	@Override
 	public void renderWeather(ClientLevel level, float intensity, int ticks, float partialTick,
 			LightTexture lightTexture, double camX, double camY, double camZ) {
-		if (intensity <= 0.0F) {
+		float finalIntensity = intensity * level.getStarBrightness(partialTick);
+		if (finalIntensity <= 0.0F) {
 			return;
 		}
 		RenderSystem.disableCull();
@@ -105,14 +106,14 @@ public class AuroraWeatherRenderer implements WeatherRenderer<AuroraWeatherEvent
 			gameTimeUniform.set(ticks + partialTick);
 		}
 		if (auroraStrengthUniform != null) {
-			auroraStrengthUniform.set(DEFAULT_AURORA_STRENGTH * intensity);
+			auroraStrengthUniform.set(DEFAULT_AURORA_STRENGTH * finalIntensity);
 		}
 		if (cameraXZUniform != null) {
 			cameraXZUniform.set((float) camX, (float) camZ);
 		}
 		RenderSystem.setShader(() -> shader);
 		RenderSystem.setShaderTexture(0, AURORA_NOISE_TEX);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, intensity);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, finalIntensity);
 
 		Tesselator tesselator = Tesselator.getInstance();
 		BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
