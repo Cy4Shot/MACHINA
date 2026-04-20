@@ -5,6 +5,9 @@ import java.util.List;
 import com.machina.api.network.s2c.S2CWeatherEventChange;
 import com.machina.api.network.s2c.S2CWeatherIntensityChange;
 import com.machina.api.network.s2c.S2CWindDirectionChange;
+import com.machina.api.starchart.obj.Planet;
+import com.machina.api.starchart.planet_trait.PlanetTrait;
+import com.machina.api.starchart.planet_trait.PlanetWeatherTrait;
 import com.machina.api.util.PlanetHelper;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.WeatherEventInit;
@@ -29,6 +32,7 @@ public class ServerWeatherSystem extends WeatherSystem {
 	private static final int WEATHER_INTENSITY_SYNC_INTERVAL = 5;
 
 	private final List<WeatherEvent> allowedEvents;
+	private final WeatherEvent forcedWeather;
 
 	private WeatherEvent currentWeather;
 	private int weatherTimer;
@@ -50,8 +54,10 @@ public class ServerWeatherSystem extends WeatherSystem {
 
 	public ServerWeatherSystem(ServerLevel level) {
 		super(level);
-		this.allowedEvents = PlanetHelper.getPlanetFor(level).type().weathers();
-		this.currentWeather = WeatherEventInit.CLEAR.get();
+		Planet planet = PlanetHelper.getPlanetFor(level);
+		this.allowedEvents = planet.type().weathers();
+		this.forcedWeather = resolveForcedWeather(planet);
+		this.currentWeather = forcedWeather != null ? forcedWeather : WeatherEventInit.CLEAR.get();
 		this.weatherDuration = currentWeather.getDuration(level.random);
 		this.weatherTimer = this.weatherDuration;
 		this.weatherAgeTicks = this.weatherDuration;
@@ -121,7 +127,7 @@ public class ServerWeatherSystem extends WeatherSystem {
 		if (level.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
 			weatherTimer--;
 			if (weatherTimer <= 0) {
-				pickWeather(allowedEvents.get(level.random.nextInt(allowedEvents.size())));
+				pickWeather(getNextWeatherEvent());
 			}
 		}
 
@@ -252,6 +258,9 @@ public class ServerWeatherSystem extends WeatherSystem {
 	}
 
 	private WeatherEvent resolveWeatherEvent(ResourceLocation id) {
+		if (forcedWeather != null) {
+			return forcedWeather;
+		}
 		if (id != null) {
 			for (WeatherEvent event : allowedEvents) {
 				if (event.getName().equals(id)) {
@@ -287,6 +296,9 @@ public class ServerWeatherSystem extends WeatherSystem {
 	}
 
 	public void pickWeather(WeatherEvent event) {
+		if (forcedWeather != null) {
+			event = forcedWeather;
+		}
 		currentWeather = event;
 		weatherDuration = currentWeather.getDuration(level.random);
 		weatherTimer = weatherDuration;
@@ -297,5 +309,24 @@ public class ServerWeatherSystem extends WeatherSystem {
 		PacketDistributor.sendToPlayersInDimension((ServerLevel) level, new S2CWeatherEventChange(currentWeather));
 		PacketDistributor.sendToPlayersInDimension((ServerLevel) level,
 				new S2CWeatherIntensityChange(weatherIntensity));
+	}
+
+	private WeatherEvent getNextWeatherEvent() {
+		if (forcedWeather != null) {
+			return forcedWeather;
+		}
+		if (allowedEvents.isEmpty()) {
+			return WeatherEventInit.CLEAR.get();
+		}
+		return allowedEvents.get(level.random.nextInt(allowedEvents.size()));
+	}
+
+	private WeatherEvent resolveForcedWeather(Planet planet) {
+		for (PlanetTrait trait : planet.traits()) {
+			if (trait instanceof PlanetWeatherTrait weather) {
+				return weather.weather();
+			}
+		}
+		return null;
 	}
 }

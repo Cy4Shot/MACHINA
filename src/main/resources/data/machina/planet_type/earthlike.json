@@ -119,6 +119,10 @@
 		"maxRolls": 1,
 		"weights": [
 			{
+				"trait": "machina:always_aurora",
+				"weight": 1.0
+			},
+			{
 				"trait": "machina:always_raining",
 				"weight": 1.0
 			}

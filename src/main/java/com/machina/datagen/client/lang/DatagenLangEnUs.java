@@ -1061,7 +1061,12 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("wind_compass.intensity", "Intensity");
 
 		// Planets
-		addTrait(PlanetTraitInit.ALWAYS_RAINING, "Always Raining", "The weather on this planet is always rain.");
+		addTrait(PlanetTraitInit.ALWAYS_AURORA, "Permanent Aurora",
+				"This planet has an aurora permanently in the night sky.");
+		addTrait(PlanetTraitInit.ALWAYS_RAINING, "Permanent Rain",
+				"There is permanent rainfall on this planet's surface.");
+		addTrait(PlanetTraitInit.ALWAYS_DUST_STORM, "Permanent Dust Storm",
+				"The is a permanent dust storm on this planet's surface.");
 
 		addTrait(PlanetTraitInit.RICH_COAL, "Coal Rich", "This planet is abundant in coal deposits.");
 		addTrait(PlanetTraitInit.RICH_IRON, "Iron Rich", "This planet is abundant in iron deposits.");

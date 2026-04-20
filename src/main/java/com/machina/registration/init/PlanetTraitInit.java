@@ -12,10 +12,13 @@ import com.machina.Machina;
 import com.machina.api.starchart.planet_trait.PlanetOreTrait;
 import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.starchart.planet_trait.PlanetTraitConstraint;
+import com.machina.api.starchart.planet_trait.PlanetWeatherTrait;
 import com.machina.api.starchart.planet_type.PlanetType.PlanetTraitSettings;
 import com.machina.api.starchart.planet_type.PlanetType.PlanetTraitSettingsEntry;
 import com.machina.registration.init.BlockInit.MachinaOre;
+import com.machina.weather.WeatherEvent;
 
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class PlanetTraitInit {
@@ -25,7 +28,9 @@ public class PlanetTraitInit {
 	public static final Map<Supplier<PlanetOreTrait>, Integer> ORE_POOL = new HashMap<>();
 
 	//@formatter:off
-	public static final Supplier<PlanetTrait> ALWAYS_RAINING = create("always_raining", 0x1c4ed6);
+	public static final Supplier<PlanetWeatherTrait> ALWAYS_AURORA = weather("always_aurora", 0x57ff8f, WeatherEventInit.AURORA);
+	public static final Supplier<PlanetWeatherTrait> ALWAYS_RAINING = weather("always_raining", 0x1c4ed6, WeatherEventInit.RAIN);
+	public static final Supplier<PlanetWeatherTrait> ALWAYS_DUST_STORM = weather("always_dust_storm", 0xc2a168, WeatherEventInit.DUST_STORM);
 
 	public static final Supplier<PlanetOreTrait> RICH_COAL = ore("rich_coal", 0x2b2b2b, BlockInit.COAL_ORE, 2);
 	public static final Supplier<PlanetOreTrait> RICH_IRON = ore("rich_iron", 0xd8af93, BlockInit.IRON_ORE, 2);
@@ -61,26 +66,24 @@ public class PlanetTraitInit {
 	public static final Supplier<PlanetOreTrait> RICH_THORIUM = ore("rich_thorium", 0x708238, BlockInit.THORIUM_ORE, 1);
 
 	@SuppressWarnings("unchecked")
-	PlanetTraitConstraint WEATHER_CONSTRAINT = constrain(ALWAYS_RAINING);
+	PlanetTraitConstraint WEATHER_CONSTRAINT = constrain(ALWAYS_AURORA, ALWAYS_RAINING, ALWAYS_DUST_STORM);
 	//@formatter:on
 
-	private static final Supplier<PlanetTrait> create(String name, int color) {
-		return TRAITS.register(name, () -> new PlanetTrait(name, color));
+	@SuppressWarnings("unchecked")
+	private static final Supplier<PlanetWeatherTrait> weather(String name, int color,
+			DeferredHolder<WeatherEvent, ? extends WeatherEvent> weather) {
+		return TRAITS.register(name, () -> new PlanetWeatherTrait(name, color, (Supplier<WeatherEvent>) weather));
 	}
 
 	private static final Supplier<PlanetOreTrait> ore(String name, int color, MachinaOre ore, int weight) {
 		Supplier<PlanetOreTrait> trait = TRAITS.register(name, () -> new PlanetOreTrait(name, color, FamiliesInit.ORES
-				.stream().filter(family -> family.ore().map(x -> x.equals(ore)).orElse(false)).findFirst().get())); // Yea
-																													// this
-																													// is
-																													// bad.
+				.stream().filter(family -> family.ore().map(x -> x.equals(ore)).orElse(false)).findFirst().get())); // Bad!
 		ORE_POOL.put(trait, weight);
 		return trait;
-
 	}
 
 	@SuppressWarnings("unchecked")
-	private static final PlanetTraitConstraint constrain(Supplier<PlanetTrait>... traits) {
+	private static final PlanetTraitConstraint constrain(Supplier<? extends PlanetTrait>... traits) {
 		PlanetTraitConstraint constraint = new PlanetTraitConstraint(
 				Stream.of(traits).map(Supplier::get).collect(Collectors.toSet()));
 		CONSTRAINTS.add(constraint);
