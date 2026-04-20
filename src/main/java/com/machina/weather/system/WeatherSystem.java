@@ -33,6 +33,18 @@ public abstract class WeatherSystem {
 		Vec2 wind = getWindDirection();
 		return (float) Math.sqrt(wind.x * wind.x + wind.y * wind.y);
 	}
+
+	public float getTemperature() {
+		return 0.0F;
+	}
+
+	public float getRoughMinTemperature() {
+		return getTemperature();
+	}
+
+	public float getRoughMaxTemperature() {
+		return getTemperature();
+	}
 	
 	public ResourceKey<Level> getDimension() {
 		return this.level.dimension();

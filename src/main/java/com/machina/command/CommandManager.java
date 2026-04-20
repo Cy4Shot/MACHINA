@@ -110,6 +110,19 @@ public class CommandManager {
 			source.sendSuccess(() -> Component.literal("The wind is currently facing " + VecUtil.vec2ToCardinal(wind.x, wind.y) + " with intensity " + intensity + "."), true);
 			return Command.SINGLE_SUCCESS;
 		}));
+
+	public static final Function<CommandBuildContext, ArgumentBuilder<CommandSourceStack, ?>> TEMP = context -> Commands.literal("temp")
+		.then(Commands.literal("get").executes(ctx -> {
+			CommandSourceStack source = ctx.getSource();
+			ServerWeatherSystem sys = ServerWeatherManager.getOrCreate(source.getLevel());
+			if (sys == null) {
+				source.sendFailure(Component.literal("Not currently on a planet!"));
+				return Command.SINGLE_SUCCESS;
+			}
+			float temperature = sys.getTemperature();
+			source.sendSuccess(() -> Component.literal("Current temperature is " + String.format("%.1f", temperature) + "K."), true);
+			return Command.SINGLE_SUCCESS;
+		}));
 	//@formatter:on
 
 	@SubscribeEvent
@@ -122,6 +135,7 @@ public class CommandManager {
 				.then(DEBUG)
 				.then(WEATHER.apply(event.getBuildContext()))
 				.then(WIND.apply(event.getBuildContext()))
+				.then(TEMP.apply(event.getBuildContext()))
 		);
 		//@formatter:on
 	}

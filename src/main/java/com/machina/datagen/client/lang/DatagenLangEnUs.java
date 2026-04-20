@@ -1052,6 +1052,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.starmap.zoom", "Zoom");
 		addUI("rocket.starmap.planet_type", "Planet Type");
 		addUI("rocket.starmap.day_length", "Day Length");
+		addUI("rocket.starmap.temperature", "Temperature");
 		addUI("rocket.starmap.gravity", "Gravity");
 		addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
 		addUI("rocket.starmap.gas_giant", "Gas Giant");

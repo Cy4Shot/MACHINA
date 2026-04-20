@@ -27,7 +27,7 @@ public class AuroraWeatherRenderer implements WeatherRenderer<AuroraWeatherEvent
 	private static final float[] AURORA_DOME_VERTICES = buildDomeVertices();
 	private static final ResourceLocation AURORA_NOISE_TEX = ResourceLocation.fromNamespaceAndPath(Machina.MOD_ID,
 			"textures/environment/aurora_noise.png");
-	private static final float DEFAULT_AURORA_STRENGTH = 10.0F;
+	private static final float DEFAULT_AURORA_STRENGTH = 20.0F;
 
 	private ShaderInstance cachedShader;
 	private AbstractUniform gameTimeUniform;

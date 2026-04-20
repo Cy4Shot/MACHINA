@@ -27,6 +27,8 @@ import com.machina.api.starchart.obj.SolarSystem;
 import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.util.StringUtils;
 import com.machina.api.util.math.VecUtil;
+import com.machina.weather.system.ServerWeatherSystem;
+import com.machina.weather.system.ServerWeatherSystem.RoughTemperatureRange;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -84,7 +86,7 @@ public class StarchartRenderable {
 		this.select = new ArrayList<>();
 		this.resize();
 	}
-	
+
 	public void resize() {
 		this.hoverables.clear();
 	}
@@ -360,6 +362,12 @@ public class StarchartRenderable {
 
 			if (tracked != null) {
 				Planet planet = (Planet) tracked.celestial();
+				RoughTemperatureRange temperatureRange = ServerWeatherSystem.calculateRoughTemperatureRange(planet);
+				Component temperatureText = Component.literal(StringUtils.formatTemp(temperatureRange.min()))
+						.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2))
+						.append(Component.literal(" - ").withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1)))
+						.append(Component.literal(StringUtils.formatTemp(temperatureRange.max()))
+								.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2)));
 
 				// Draw Tracking Box
 				MUI.blitRocket(gui, t.apply(i + 56f).intValue(), t.apply(j + 5f).intValue(), 253, 26, 227, 114);
@@ -382,26 +390,30 @@ public class StarchartRenderable {
 								.append(Component.literal(StringUtils.formatHours((float) planet.day()))
 										.withStyle(Style.EMPTY.withBold(true))),
 						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 42);
+				MUI.drawString(gui,
+						MUI.uistr("rocket.starmap.temperature").append(c)
+								.append(temperatureText),
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
 				if (planet.gas_giant()) {
 					MUI.drawString(gui,
 							MUI.uistr("rocket.starmap.gas_giant").append(c).append(StringUtils.formatBool(true)),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
 				} else {
 					MUI.drawString(gui,
 							MUI.uistr("rocket.starmap.gravity").append(c)
 									.append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
 											.withStyle(Style.EMPTY.withBold(true))),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
 				}
 				MUI.drawString(gui,
 						MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
 								.append(StringUtils.formatBool(planet.breathable())),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 72);
 
 				int k = 0;
 				for (PlanetTrait trait : planet.traits()) {
 					int traitX = t.apply(i + 56f).intValue() + 4;
-					int traitY = t.apply(j + 5f).intValue() + 72 + 10 * k;
+					int traitY = t.apply(j + 5f).intValue() + 82 + 10 * k;
 					Component traitComp = trait.comp().withStyle(Style.EMPTY.withBold(true).withColor(trait.color()));
 					MUI.drawString(gui, traitComp, traitX, traitY);
 					int rtx = (int) (traitX * 0.5f);

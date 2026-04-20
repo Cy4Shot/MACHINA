@@ -1076,6 +1076,7 @@
   "gui.machina.rocket.starmap.pan": "Pan",
   "gui.machina.rocket.starmap.planet_type": "Planet Type",
   "gui.machina.rocket.starmap.rotate": "Rotate",
+  "gui.machina.rocket.starmap.temperature": "Temperature",
   "gui.machina.rocket.starmap.zoom": "Zoom",
   "gui.machina.rocket.storage.soon": "Cargo Storage",
   "gui.machina.rocket.tab.destination": "Destination",

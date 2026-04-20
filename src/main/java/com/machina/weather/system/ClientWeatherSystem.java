@@ -36,11 +36,17 @@ public class ClientWeatherSystem extends WeatherSystem {
 	private WeatherEvent currentWeather;
 	private Vec2 windDirection;
 	private float weatherIntensity;
+	private float temperature;
+	private float roughMinTemperature;
+	private float roughMaxTemperature;
 
 	public ClientWeatherSystem(ClientLevel level) {
 		super(level);
 		this.windDirection = new Vec2(0.0F, 0.0F);
 		this.weatherIntensity = 1.0F;
+		this.temperature = 273.0F;
+		this.roughMinTemperature = 263.0F;
+		this.roughMaxTemperature = 283.0F;
 	}
 
 	@Override
@@ -67,6 +73,32 @@ public class ClientWeatherSystem extends WeatherSystem {
 
 	public void setWindDirection(Vec2 windDirection) {
 		this.windDirection = windDirection;
+	}
+
+	@Override
+	public float getTemperature() {
+		return temperature;
+	}
+
+	@Override
+	public float getRoughMinTemperature() {
+		return roughMinTemperature;
+	}
+
+	@Override
+	public float getRoughMaxTemperature() {
+		return roughMaxTemperature;
+	}
+
+	public void setTemperatureData(float temperature, float roughMinTemperature, float roughMaxTemperature) {
+		float min = Math.min(roughMinTemperature, roughMaxTemperature);
+		float max = Math.max(roughMinTemperature, roughMaxTemperature);
+		if (!Float.isFinite(min) || !Float.isFinite(max) || max <= min) {
+			return;
+		}
+		this.roughMinTemperature = min;
+		this.roughMaxTemperature = max;
+		this.temperature = Mth.clamp(temperature, min, max);
 	}
 
 	@SubscribeEvent

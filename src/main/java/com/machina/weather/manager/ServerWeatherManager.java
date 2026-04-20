@@ -6,6 +6,7 @@ import java.util.Map;
 import com.machina.Machina;
 import com.machina.api.network.s2c.S2CWeatherEventChange;
 import com.machina.api.network.s2c.S2CWeatherIntensityChange;
+import com.machina.api.network.s2c.S2CTemperatureChange;
 import com.machina.api.network.s2c.S2CWindDirectionChange;
 import com.machina.api.util.PlanetHelper;
 import com.machina.weather.system.ServerWeatherSystem;
@@ -39,6 +40,21 @@ public class ServerWeatherManager {
 		return null;
 	}
 
+	public static float getTemperature(ServerLevel level) {
+		ServerWeatherSystem weather = getOrCreate(level);
+		return weather == null ? 0.0F : weather.getTemperature();
+	}
+
+	public static float getRoughMinTemperature(ServerLevel level) {
+		ServerWeatherSystem weather = getOrCreate(level);
+		return weather == null ? 0.0F : weather.getRoughMinTemperature();
+	}
+
+	public static float getRoughMaxTemperature(ServerLevel level) {
+		ServerWeatherSystem weather = getOrCreate(level);
+		return weather == null ? 0.0F : weather.getRoughMaxTemperature();
+	}
+
 	@SubscribeEvent
 	public static void onTick(final LevelTickEvent.Post event) {
 		if (event.getLevel().isClientSide()) {
@@ -63,6 +79,9 @@ public class ServerWeatherManager {
 			PacketDistributor.sendToPlayer(player, new S2CWeatherEventChange(weather.getCurrentEvent()));
 			PacketDistributor.sendToPlayer(player, new S2CWeatherIntensityChange(weather.getWeatherIntensity()));
 			PacketDistributor.sendToPlayer(player, new S2CWindDirectionChange(weather.getWindDirection()));
+			PacketDistributor.sendToPlayer(player,
+					new S2CTemperatureChange(weather.getTemperature(), weather.getRoughMinTemperature(),
+							weather.getRoughMaxTemperature()));
 		}
 	}
 }
