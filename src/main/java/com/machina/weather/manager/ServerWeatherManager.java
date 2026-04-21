@@ -76,7 +76,9 @@ public class ServerWeatherManager {
 
 		ServerWeatherSystem weather = getOrCreate((ServerLevel) event.getLevel());
 		if (weather != null && event.getEntity() instanceof ServerPlayer player) {
-			PacketDistributor.sendToPlayer(player, new S2CWeatherEventChange(weather.getCurrentEvent()));
+			PacketDistributor.sendToPlayer(player,
+					new S2CWeatherEventChange(weather.getCurrentEvent(), weather.getWeatherDurationTicks(),
+							weather.getTicksRemaining(), weather.getWeatherAgeTicks()));
 			PacketDistributor.sendToPlayer(player, new S2CWeatherIntensityChange(weather.getWeatherIntensity()));
 			PacketDistributor.sendToPlayer(player, new S2CWindDirectionChange(weather.getWindDirection()));
 			PacketDistributor.sendToPlayer(player,

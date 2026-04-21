@@ -150,6 +150,14 @@ public class ServerWeatherSystem extends WeatherSystem {
 		return weatherTimer;
 	}
 
+	public int getWeatherDurationTicks() {
+		return weatherDuration;
+	}
+
+	public int getWeatherAgeTicks() {
+		return weatherAgeTicks;
+	}
+
 	public PersistenceState createPersistenceState() {
 		return new PersistenceState(currentWeather.getName(), weatherTimer, weatherDuration, weatherAgeTicks,
 				weatherIntensity, windDirection.x, windDirection.y, windTarget.x, windTarget.y);
@@ -502,7 +510,8 @@ public class ServerWeatherSystem extends WeatherSystem {
 		weatherIntensity = computeWeatherIntensity();
 		weatherIntensitySyncTimer = 0;
 		lastSentWeatherIntensity = weatherIntensity;
-		PacketDistributor.sendToPlayersInDimension((ServerLevel) level, new S2CWeatherEventChange(currentWeather));
+		PacketDistributor.sendToPlayersInDimension((ServerLevel) level,
+				new S2CWeatherEventChange(currentWeather, weatherDuration, weatherTimer, weatherAgeTicks));
 		PacketDistributor.sendToPlayersInDimension((ServerLevel) level,
 				new S2CWeatherIntensityChange(weatherIntensity));
 		syncTemperature();

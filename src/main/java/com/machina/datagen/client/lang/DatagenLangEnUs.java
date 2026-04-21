@@ -230,7 +230,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.ADVANCED_ITEM_FILTER, "Advanced Item Filter");
 		add(ItemInit.FLUID_FILTER, "Fluid Filter");
 
-		add(ItemInit.WIND_COMPASS, "Wind Compass");
+		add(ItemInit.METEO_PROBE, "Meteo Probe");
 
 		add(ItemInit.COPPER_COIL, "Copper Coil");
 		add(ItemInit.PROCESSOR, "Processor");
@@ -1057,9 +1057,49 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
 		addUI("rocket.starmap.gas_giant", "Gas Giant");
 
-		addUI("wind_compass", "Wind Compass");
-		addUI("wind_compass.wind", "Wind");
-		addUI("wind_compass.intensity", "Intensity");
+		addUI("meteo_probe", "Meteo Probe");
+		addUI("meteo_probe.no_data", "No planetary weather data available.");
+		addUI("meteo_probe.tab.summary", "Summary");
+		addUI("meteo_probe.tab.time", "Time");
+		addUI("meteo_probe.tab.wind", "Wind");
+		addUI("meteo_probe.tab.temperature", "Temp");
+
+		addUI("meteo_probe.summary.time", "Time");
+		addUI("meteo_probe.summary.daynight", "Day/Night");
+		addUI("meteo_probe.summary.season", "Season");
+		addUI("meteo_probe.summary.wind", "Wind");
+		addUI("meteo_probe.summary.temperature", "Temperature");
+		addUI("meteo_probe.summary.today_range", "Today Range");
+		addUI("meteo_probe.summary.year_range", "Year Range");
+
+		addUI("meteo_probe.time.clock", "Clock");
+		addUI("meteo_probe.time.phase", "Phase");
+		addUI("meteo_probe.time.day", "Day");
+		addUI("meteo_probe.time.night", "Night");
+		addUI("meteo_probe.time.cycle", "Day/Night Cycle");
+		addUI("meteo_probe.time.noon", "Noon");
+		addUI("meteo_probe.time.sunset", "Sunset");
+		addUI("meteo_probe.time.midnight", "Midnight");
+		addUI("meteo_probe.time.season", "Season");
+
+		addUI("meteo_probe.wind", "Wind");
+		addUI("meteo_probe.wind.direction", "Direction");
+		addUI("meteo_probe.wind.intensity", "Intensity");
+
+		addUI("meteo_probe.weather.current", "Current");
+
+		addUI("meteo_probe.weather.unknown.name", "Unknown");
+
+		add("weather_event.machina.clear", "Clear");
+		add("weather_event.machina.rain", "Rain");
+		add("weather_event.machina.dust_storm", "Dust Storm");
+		add("weather_event.machina.aurora", "Aurora");
+
+		addUI("meteo_probe.temp.current", "Current");
+		addUI("meteo_probe.temp.day_range", "Day Range");
+		addUI("meteo_probe.temp.year_range", "Year Range");
+		addUI("meteo_probe.temp.today", "Current Day");
+		addUI("meteo_probe.temp.year", "Full Year");
 
 		// Planets
 		addTrait(PlanetTraitInit.ALWAYS_AURORA, "Permanent Aurora",
@@ -1106,5 +1146,15 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		addMisc("planet_type.earthlike", "Earthlike");
 		addMisc("planet_type.martian", "Martian");
+
+		add("season.earthlike.spring", "Spring");
+		add("season.earthlike.summer", "Summer");
+		add("season.earthlike.autumn", "Autumn");
+		add("season.earthlike.winter", "Winter");
+
+		add("season.martian.spring", "Thaw");
+		add("season.martian.summer", "Scorch");
+		add("season.martian.autumn", "Haze");
+		add("season.martian.winter", "Ash");
 	}
 }

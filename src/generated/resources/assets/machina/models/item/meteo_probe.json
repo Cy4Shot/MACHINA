@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "machina:item/wind_compass"
+    "layer0": "machina:item/meteo_probe"
   }
 }

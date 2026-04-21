@@ -8,6 +8,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.Util;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 
@@ -33,6 +34,10 @@ public abstract class WeatherEvent {
 
 	public ResourceLocation getName() {
 		return name;
+	}
+
+	public String getDescriptionId() {
+		return Util.makeDescriptionId("weather_event", name);
 	}
 
 	public int getIntensityTicks() {

@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-06T17:11:48.8196669	Item Models: machina
+// 1.21.1	2026-04-20T19:59:37.293157	Item Models: machina
 4746a09bb453582000f2c239858c6e7e16aa7252 assets/machina/models/item/acetaldehyde_bucket.json
 cd08c996373cfed1c4a774b580062f12abdf0c81 assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -127,6 +127,7 @@ afd8cc3a2517b9b41e155d8b5e16c89e110abdcc assets/machina/models/item/magnetite_in
 e2064fc5d268faf5c3410ec11920a2626dfdb141 assets/machina/models/item/magnetite_plate.json
 ba81c744227d83f9ee8f338715833624b28786e8 assets/machina/models/item/magnetite_rod.json
 2781d9ea4435c187eca9af74e8825f3b0818bbf0 assets/machina/models/item/magnetite_wire.json
+f9aaac9e81d38f29094edcdd34a1075fd426df2c assets/machina/models/item/meteo_probe.json
 1051dc51ce3f213c9a2af5fcf98d955f7029f2cc assets/machina/models/item/methane_bucket.json
 a444612ac45b3a3a38bd95d969772b2d2c54178d assets/machina/models/item/methanol_bucket.json
 06d179fd3b7458a2b875818ea27e8f7bf913871f assets/machina/models/item/molten_aluminum_bucket.json
@@ -263,7 +264,6 @@ a2eb4bfba8ad507d73533477b3c6288493efff77 assets/machina/models/item/uraninite_nu
 9a2ed882b7a762feb826cb7eb2a844373ebe685a assets/machina/models/item/uraninite_plate.json
 eaa4f464707bd65a7b672e08c1ddb850588997a5 assets/machina/models/item/uraninite_rod.json
 b1156e738bc0d54b799cc852eed9498b41e68b7a assets/machina/models/item/uraninite_wire.json
-feac79d7729f1fa22bbe14c5ea08c1b3533a4127 assets/machina/models/item/wind_compass.json
 4d079388c0c43fd4bc9cbc62e67e23c637c9248f assets/machina/models/item/y2_nana.json
 9ffc8117daf5676568252addcf52cd372acd9bf8 assets/machina/models/item/zinc_dust.json
 ed62a1320b339a493ae84621c8415f2a951aac8b assets/machina/models/item/zinc_ingot.json

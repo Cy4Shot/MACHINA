@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.FogRenderer.FogMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec2;
@@ -36,6 +37,10 @@ public class ClientWeatherSystem extends WeatherSystem {
 	private WeatherEvent currentWeather;
 	private Vec2 windDirection;
 	private float weatherIntensity;
+	private int weatherDurationTicks;
+	private int weatherRemainingTicks;
+	private int weatherAgeTicks;
+	private long weatherTimelineGameTime;
 	private float temperature;
 	private float roughMinTemperature;
 	private float roughMaxTemperature;
@@ -44,6 +49,10 @@ public class ClientWeatherSystem extends WeatherSystem {
 		super(level);
 		this.windDirection = new Vec2(0.0F, 0.0F);
 		this.weatherIntensity = 1.0F;
+		this.weatherDurationTicks = 0;
+		this.weatherRemainingTicks = 0;
+		this.weatherAgeTicks = 0;
+		this.weatherTimelineGameTime = level.getGameTime();
 		this.temperature = 273.0F;
 		this.roughMinTemperature = 263.0F;
 		this.roughMaxTemperature = 283.0F;
@@ -56,6 +65,44 @@ public class ClientWeatherSystem extends WeatherSystem {
 
 	public void setCurrentEvent(WeatherEvent event) {
 		this.currentWeather = event;
+	}
+
+	public int getWeatherDurationTicks() {
+		return weatherDurationTicks;
+	}
+
+	public int getWeatherRemainingTicks() {
+		return weatherRemainingTicks;
+	}
+
+	public int getWeatherAgeTicks() {
+		return weatherAgeTicks;
+	}
+
+	public void setWeatherTimeline(int durationTicks, int remainingTicks, int ageTicks) {
+		this.weatherDurationTicks = Math.max(0, durationTicks);
+		this.weatherRemainingTicks = Math.max(0, remainingTicks);
+		this.weatherAgeTicks = Math.max(0, ageTicks);
+		this.weatherTimelineGameTime = level.getGameTime();
+	}
+
+	public void tickWeatherTimeline() {
+		if (currentWeather == null) {
+			return;
+		}
+		long currentGameTime = level.getGameTime();
+		int elapsedTicks = (int) Math.max(0L, currentGameTime - weatherTimelineGameTime);
+		if (elapsedTicks <= 0) {
+			return;
+		}
+		weatherTimelineGameTime = currentGameTime;
+
+		if (weatherDurationTicks > 0) {
+			weatherAgeTicks += elapsedTicks;
+		}
+		if (weatherRemainingTicks > 0 && level.getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
+			weatherRemainingTicks = Math.max(0, weatherRemainingTicks - elapsedTicks);
+		}
 	}
 
 	public float getWeatherIntensity() {
@@ -163,6 +210,8 @@ public class ClientWeatherSystem extends WeatherSystem {
 		ClientWeatherSystem system = ClientWeatherManager.getSystem(level);
 		if (system == null)
 			return;
+
+		system.tickWeatherTimeline();
 
 		WeatherEvent weather = system.getCurrentEvent();
 		if (weather == null || weather.particleCount() == 0 || system.getWeatherIntensity() <= 0.0F)

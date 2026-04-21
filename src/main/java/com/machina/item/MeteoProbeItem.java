@@ -2,6 +2,8 @@ package com.machina.item;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.machina.client.screen.MeteoProbeScreen;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -9,9 +11,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class WindCompassItem extends Item {
+public class MeteoProbeItem extends Item {
 
-	public WindCompassItem(Properties props) {
+	public MeteoProbeItem(Properties props) {
 		super(props.stacksTo(1));
 	}
 
@@ -20,16 +22,8 @@ public class WindCompassItem extends Item {
 			@NotNull InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (level.isClientSide()) {
-			openClientScreen();
+			MeteoProbeScreen.open();
 		}
 		return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
-	}
-
-	private void openClientScreen() {
-		try {
-			Class<?> screenClass = Class.forName("com.machina.client.screen.WindCompassScreen");
-			screenClass.getMethod("open").invoke(null);
-		} catch (ReflectiveOperationException ignored) {
-		}
 	}
 }

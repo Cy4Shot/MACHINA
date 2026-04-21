@@ -159,7 +159,40 @@ public class StringUtils {
 	}
 
 	public static String formatTicks(float ticks) {
-		return formatNumberWithUnit(ticks / 20f) + "s";
+		return formatTicks(ticks, 20.0F);
+	}
+
+	public static String formatTicks(float ticks, float ticksPerSecond) {
+		float safeTicksPerSecond = Float.isFinite(ticksPerSecond) && ticksPerSecond > 0.0F ? ticksPerSecond : 20.0F;
+		double seconds = ticks / safeTicksPerSecond;
+		double absSeconds = Math.abs(seconds);
+
+		if (absSeconds < 60.0D) {
+			return formatDurationUnit(seconds, "second", "seconds");
+		}
+
+		double minutes = seconds / 60.0D;
+		double absMinutes = Math.abs(minutes);
+		if (absMinutes < 60.0D) {
+			return formatDurationUnit(minutes, "minute", "minutes");
+		}
+
+		double hours = minutes / 60.0D;
+		double absHours = Math.abs(hours);
+		if (absHours < 24.0D) {
+			return formatDurationUnit(hours, "hour", "hours");
+		}
+
+		double days = hours / 24.0D;
+		return formatDurationUnit(days, "day", "days");
+	}
+
+	private static String formatDurationUnit(double value, String singular, String plural) {
+		double rounded = Math.round(value * 10.0D) / 10.0D;
+		String number = Math.abs(rounded - Math.rint(rounded)) < 1.0E-9D ? String.format("%.0f", rounded)
+				: String.format("%.1f", rounded);
+		String unit = Math.abs(Math.abs(rounded) - 1.0D) < 1.0E-9D ? singular : plural;
+		return number + " " + unit;
 	}
 
 	public static Component formatBool(boolean bool) {
