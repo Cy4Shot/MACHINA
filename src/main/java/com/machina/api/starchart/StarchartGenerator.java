@@ -35,7 +35,7 @@ import net.minecraft.resources.ResourceLocation;
 public class StarchartGenerator {
 
 	public static final FluidObject[] OCEANIC = new FluidObject[] { FluidInit.AMMONIA, FluidInit.METHANE,
-			FluidInit.SULPHUR_DIOXIDE, FluidInit.SULPHURIC_ACID, FluidInit.CARBON_DISULPHIDE,
+			FluidInit.SULPHUR_DIOXIDE, FluidInit.SULPHURIC_ACID, FluidInit.CARBON_DIOXIDE,
 			FluidInit.HYDROGEN_SULPHIDE };
 
 	public static SolarSystem gen(long seed) {

@@ -36,7 +36,7 @@ public class PlanetFactory {
 		BlockState fluid = planet.getDominantLiquidBodyBlock();
 		int sea_level = type.shape().sea_level();
 		if (fluid == null) {
-			fluid = Blocks.WATER.defaultBlockState();
+			fluid = Blocks.AIR.defaultBlockState();
 			sea_level = -1;
 		}
 
@@ -44,8 +44,7 @@ public class PlanetFactory {
 				fluid,
 				PlanetDensityFunction.planet(planet, lookup.lookup(Registries.DENSITY_FUNCTION).get(),
 						lookup.lookup(Registries.NOISE).get()),
-				PlanetSurfaceRule.planet(planet), PlanetBiomeSource.spawnTarget(), sea_level, false, true, true,
-				false);
+				PlanetSurfaceRule.planet(planet), PlanetBiomeSource.spawnTarget(), sea_level, false, true, true, false);
 
 		return new LevelStem(getDimensionType(server),
 				new PlanetChunkGenerator(bs, Holder.direct(settings), key, seed));

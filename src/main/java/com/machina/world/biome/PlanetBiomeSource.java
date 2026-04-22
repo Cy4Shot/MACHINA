@@ -110,10 +110,8 @@ public class PlanetBiomeSource {
 	}
 
 	private void addOceanBiomes() {
-		if (planet.hasGenLiquid()) {
-			forall(DEEP_OCEAN, (ocean, v) -> addOceanBiome(deepOceanCont, ocean, v));
-			forall(OCEAN, (ocean, v) -> addOceanBiome(oceanCont, ocean, v));
-		}
+		forall(DEEP_OCEAN, (ocean, v) -> addOceanBiome(deepOceanCont, ocean, v));
+		forall(OCEAN, (ocean, v) -> addOceanBiome(oceanCont, ocean, v));
 	}
 
 	private void addUndergroundBiomes() {

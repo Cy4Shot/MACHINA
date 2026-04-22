@@ -1076,11 +1076,11 @@ public class BPlanet extends Blackbody implements PhysicalConstants {
 			surf_grav = INCREDIBLY_LARGE_NUMBER;
 			greenhouse_effect = false;
 			volatile_gas_inventory = INCREDIBLY_LARGE_NUMBER;
-			surf_pressure = INCREDIBLY_LARGE_NUMBER;
 			boil_point = INCREDIBLY_LARGE_NUMBER;
 			hydrosphere = INCREDIBLY_LARGE_NUMBER;
 			albedo = about(GAS_GIANT_ALBEDO, 0.1);
-			surf_temp = INCREDIBLY_LARGE_NUMBER;
+			surf_pressure = 1000.0;
+			surf_temp = eff_temp(r_ecosphere);
 
 			GH2 = gas_retention(H2, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);
 			GH2O = gas_retention(H2O, TEMP, mass * EARTH_MASS_IN_GRAMS, radius * CM_PER_KM);

@@ -40,6 +40,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class StarchartRenderable {
 
@@ -380,40 +381,45 @@ public class StarchartRenderable {
 
 				// Draw Planet Info
 				Component c = Component.literal(": ");
+				int lines = 3;
 				MUI.drawString(gui,
 						MUI.uistr("rocket.starmap.planet_type").append(c)
 								.append(planet.type().nameComp()
 										.withStyle(Style.EMPTY.withBold(true).withColor(planet.type().color()))),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 32);
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
 				MUI.drawString(gui,
 						MUI.uistr("rocket.starmap.day_length").append(c)
 								.append(Component.literal(StringUtils.formatHours((float) planet.day()))
 										.withStyle(Style.EMPTY.withBold(true))),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 42);
-				MUI.drawString(gui,
-						MUI.uistr("rocket.starmap.temperature").append(c)
-								.append(temperatureText),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 52);
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
+				MUI.drawString(gui, MUI.uistr("rocket.starmap.temperature").append(c).append(temperatureText),
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
 				if (planet.gas_giant()) {
 					MUI.drawString(gui,
 							MUI.uistr("rocket.starmap.gas_giant").append(c).append(StringUtils.formatBool(true)),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
+							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
 				} else {
 					MUI.drawString(gui,
 							MUI.uistr("rocket.starmap.gravity").append(c)
 									.append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
 											.withStyle(Style.EMPTY.withBold(true))),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 62);
+							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
 				}
 				MUI.drawString(gui,
 						MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
 								.append(StringUtils.formatBool(planet.breathable())),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + 72);
+						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
+				if (planet.hasGenLiquid()) {
+					MUI.drawString(gui,
+							MUI.uistr("rocket.starmap.surface_fluid").append(c).append(
+									StringUtils.fluid(new FluidStack(planet.dominant_liquid().fluid(), 1), true)),
+							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
+				}
 
 				int k = 0;
 				for (PlanetTrait trait : planet.traits()) {
 					int traitX = t.apply(i + 56f).intValue() + 4;
-					int traitY = t.apply(j + 5f).intValue() + 82 + 10 * k;
+					int traitY = t.apply(j + 5f).intValue() + ((lines + k) * 10) + 2;
 					Component traitComp = trait.comp().withStyle(Style.EMPTY.withBold(true).withColor(trait.color()));
 					MUI.drawString(gui, traitComp, traitX, traitY);
 					int rtx = (int) (traitX * 0.5f);

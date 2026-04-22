@@ -1056,6 +1056,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.starmap.gravity", "Gravity");
 		addUI("rocket.starmap.breathable_atmosphere", "Breathable Atmosphere");
 		addUI("rocket.starmap.gas_giant", "Gas Giant");
+		addUI("rocket.starmap.surface_fluid", "Surface Fluid");
 
 		addUI("meteo_probe", "Meteo Probe");
 		addUI("meteo_probe.no_data", "No planetary weather data available.");
