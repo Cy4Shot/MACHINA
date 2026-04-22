@@ -36,6 +36,8 @@ public class ServerWeatherSystem extends WeatherSystem {
 	private static final float DAY_NIGHT_NOON_OFFSET = 0.25F;
 	private static final float MAX_VALID_TEMPERATURE = 2500.0F;
 	private static final float MIN_ROUGH_TEMPERATURE_SPREAD = 1.0F;
+	private static final float TEMPERATURE_SWING_MULT_DAILY = 2f;
+	private static final float TEMPERATURE_SWING_MULT_SEASONAL = 6.7f;
 	private static final double MC_DAY_TICKS = 24000.0D;
 	private static final double MIN_SIM_DAY_TICKS = 6000.0D;
 	private static final double MAX_SIM_DAY_TICKS = 240000.0D;
@@ -377,7 +379,8 @@ public class ServerWeatherSystem extends WeatherSystem {
 	private float computeTemperature() {
 		float daySignal = computeDayNightSignal();
 		float seasonalSignal = computeSeasonalSignal();
-		float current = referenceTemperature + daySignal * dayNightTemperatureSwing + seasonalSignal * seasonalTemperatureSwing;
+		float current = referenceTemperature + daySignal * dayNightTemperatureSwing
+				+ seasonalSignal * seasonalTemperatureSwing;
 		return Mth.clamp(current, roughMinTemperature, roughMaxTemperature);
 	}
 
@@ -415,7 +418,7 @@ public class ServerWeatherSystem extends WeatherSystem {
 	}
 
 	private static float resolveReferenceTemperature(Planet planet) {
-		if (!planet.gas_giant() && isUsableTemperature(planet.surf_temp())) {
+		if (isUsableTemperature(planet.surf_temp())) {
 			return (float) planet.surf_temp();
 		}
 		if (isUsableTemperature(planet.avg_temp())) {
@@ -425,26 +428,13 @@ public class ServerWeatherSystem extends WeatherSystem {
 				&& planet.max_temp() > planet.min_temp()) {
 			return (float) ((planet.min_temp() + planet.max_temp()) * 0.5D);
 		}
-		if (planet.gas_giant()) {
-			return estimateGasGiantAtmosphereTemperature(planet);
-		}
 		return Mth.clamp((float) planet.surf_temp(), 120.0F, 700.0F);
-	}
-
-	private static float estimateGasGiantAtmosphereTemperature(Planet planet) {
-		float albedo = 0.5F;
-		if (Double.isFinite(planet.albedo())) {
-			albedo = Mth.clamp((float) planet.albedo(), 0.02F, 0.95F);
-		}
-		float orbitDistanceAu = Math.max((float) planet.a(), 0.05F);
-		float equilibrium = (float) (278.0D * Math.pow(1.0D - albedo, 0.25D) / Math.sqrt(orbitDistanceAu));
-		float internalHeat = (float) Math.min(35.0D, Math.sqrt(Math.max(planet.mass(), 0.0D)) * 3.0D);
-		return Mth.clamp(equilibrium + internalHeat, 40.0F, 900.0F);
 	}
 
 	private static float computeDayNightSwing(float baseTemperature, Planet planet) {
 		float pct = planet.gas_giant() ? 0.015F : 0.03F;
-		return Mth.clamp(baseTemperature * pct, 1.0F, planet.gas_giant() ? 12.0F : 24.0F);
+		return Mth.clamp(baseTemperature * pct, 1.0F, planet.gas_giant() ? 12.0F : 24.0F)
+				* TEMPERATURE_SWING_MULT_DAILY;
 	}
 
 	private static float computeSeasonalSwing(float baseTemperature, Planet planet) {
@@ -454,7 +444,8 @@ public class ServerWeatherSystem extends WeatherSystem {
 		if (planet.gas_giant()) {
 			pct *= 0.75F;
 		}
-		return Mth.clamp(baseTemperature * pct, 1.5F, planet.gas_giant() ? 20.0F : 38.0F);
+		return Mth.clamp(baseTemperature * pct, 1.5F, planet.gas_giant() ? 20.0F : 38.0F)
+				* TEMPERATURE_SWING_MULT_SEASONAL;
 	}
 
 	private static boolean isUsableTemperature(double value) {
