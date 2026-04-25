@@ -47,6 +47,9 @@ public class StarchartRenderable {
 	private record Hoverable(int minX, int minY, int maxX, int maxY, Supplier<List<Component>> text) {
 	}
 
+	private record ScissorState(boolean enabled, int x, int y, int w, int h) {
+	}
+
 	private final static Minecraft mc = Minecraft.getInstance();
 	private final static float NEAR_PLANE = 0.005f;
 	private final static float FAR_PLANE = 500000000f;
@@ -73,6 +76,12 @@ public class StarchartRenderable {
 	private float smoothing = 0.05f;
 	private float smoothedYOff = 0;
 	private float targetYOff = 0;
+	private float infoScrollDist = 0;
+	private float infoMaxScroll = 0;
+	private int infoScrollX = Integer.MIN_VALUE;
+	private int infoScrollY = Integer.MIN_VALUE;
+	private int infoScrollW = 0;
+	private int infoScrollH = 0;
 
 	private double realTime = 0;
 	private double accumulatedTime = 0;
@@ -90,6 +99,12 @@ public class StarchartRenderable {
 
 	public void resize() {
 		this.hoverables.clear();
+		this.infoScrollDist = 0;
+		this.infoMaxScroll = 0;
+		this.infoScrollX = Integer.MIN_VALUE;
+		this.infoScrollY = Integer.MIN_VALUE;
+		this.infoScrollW = 0;
+		this.infoScrollH = 0;
 	}
 
 	public float calculateZoom(double targetAphelion) {
@@ -268,6 +283,8 @@ public class StarchartRenderable {
 
 			if (closest != null) {
 				this.hoverables.clear();
+				this.infoScrollDist = 0;
+				this.infoMaxScroll = 0;
 				this.tracked = closest;
 				this.trackedOrbitalPos = closest.worldPos();
 				this.targetZoom = calculateZoom(closest.celestial().radiusAU());
@@ -300,6 +317,8 @@ public class StarchartRenderable {
 		if (button == GLFW.GLFW_MOUSE_BUTTON_1 || button == GLFW.GLFW_MOUSE_BUTTON_3) {
 			this.tracked = null;
 			this.hoverables.clear();
+			this.infoScrollDist = 0;
+			this.infoMaxScroll = 0;
 
 			Quaternionf rot = createRotQuat(rotX, rotY);
 			Vector3f right = new Vector3f(VecUtil.XP);
@@ -331,10 +350,83 @@ public class StarchartRenderable {
 		return false;
 	}
 
-	public boolean mouseScrolled(double delta) {
+	public boolean mouseScrolled(double mX, double mY, double delta) {
+		if (tracked != null && infoMaxScroll > 0 && inInfoScrollBounds(mX, mY)) {
+			this.infoScrollDist -= (float) (delta * 10);
+			if (this.infoScrollDist < 0.0F) {
+				this.infoScrollDist = 0.0F;
+			}
+			if (this.infoScrollDist > infoMaxScroll) {
+				this.infoScrollDist = infoMaxScroll;
+			}
+			return true;
+		}
+
 		this.zoom *= (float) Math.pow(1.1, delta);
 		this.targetZoom = zoom;
 		return false;
+	}
+
+	public boolean mouseScrolled(double delta) {
+		return mouseScrolled(Double.NaN, Double.NaN, delta);
+	}
+
+	private boolean inInfoScrollBounds(double mX, double mY) {
+		if (!Double.isFinite(mX) || !Double.isFinite(mY) || infoScrollW <= 0 || infoScrollH <= 0) {
+			return false;
+		}
+		return mX > infoScrollX && mX < infoScrollX + infoScrollW && mY > infoScrollY && mY < infoScrollY + infoScrollH;
+	}
+
+	private ScissorState pushClipRect(int x, int y, int w, int h) {
+		boolean hadScissor = GL11.glIsEnabled(GL11.GL_SCISSOR_TEST);
+		int oldX = 0;
+		int oldY = 0;
+		int oldW = 0;
+		int oldH = 0;
+
+		if (hadScissor) {
+			int[] old = new int[4];
+			GL11.glGetIntegerv(GL11.GL_SCISSOR_BOX, old);
+			oldX = old[0];
+			oldY = old[1];
+			oldW = old[2];
+			oldH = old[3];
+		}
+
+		double scale = mc.getWindow().getGuiScale();
+		int windowHeight = mc.getWindow().getHeight();
+
+		int clipX = (int) Math.floor(x * scale);
+		int clipY = (int) Math.floor(windowHeight - (y + h) * scale);
+		int clipW = (int) Math.ceil(w * scale);
+		int clipH = (int) Math.ceil(h * scale);
+
+		if (hadScissor) {
+			int x1 = Math.max(clipX, oldX);
+			int y1 = Math.max(clipY, oldY);
+			int x2 = Math.min(clipX + clipW, oldX + oldW);
+			int y2 = Math.min(clipY + clipH, oldY + oldH);
+			clipX = x1;
+			clipY = y1;
+			clipW = Math.max(0, x2 - x1);
+			clipH = Math.max(0, y2 - y1);
+		}
+
+		RenderSystem.enableScissor(clipX, clipY, clipW, clipH);
+		return new ScissorState(hadScissor, oldX, oldY, oldW, oldH);
+	}
+
+	private void popClipRect(ScissorState state) {
+		if (state.enabled()) {
+			RenderSystem.enableScissor(state.x(), state.y(), state.w(), state.h());
+		} else {
+			RenderSystem.disableScissor();
+		}
+	}
+
+	private void drawScrollIndicator(GuiGraphics gui, int x, int y, boolean up) {
+		MUI.blitCommon(gui, x, y, 480, up ? 80 : 83, 5, 3);
 	}
 
 	public void renderTooltip(@NotNull GuiGraphics gui, int mx, int my) {
@@ -347,6 +439,13 @@ public class StarchartRenderable {
 	}
 
 	public void renderInfoBoxes(GuiGraphics gui, int i, int j) {
+		this.hoverables.clear();
+		this.infoScrollX = Integer.MIN_VALUE;
+		this.infoScrollY = Integer.MIN_VALUE;
+		this.infoScrollW = 0;
+		this.infoScrollH = 0;
+		this.infoMaxScroll = 0;
+
 		MUI.drawWithScale(gui, 0.5f, t -> {
 
 			// Draw Help
@@ -370,66 +469,112 @@ public class StarchartRenderable {
 						.append(Component.literal(StringUtils.formatTemp(temperatureRange.max()))
 								.withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_2)));
 
+				final int boxX = t.apply(i + 56f).intValue();
+				final int boxY = t.apply(j + 5f).intValue();
+				final int boxW = 227;
+				final int boxH = 114;
+				final int bodyX = boxX + 4;
+				final int bodyY = boxY + 32;
+				final int bodyW = boxW - 8;
+				final int bodyH = boxH - 36;
+				final int baseRows = 5 + (planet.hasGenLiquid() ? 1 : 0);
+
+				this.infoMaxScroll = Math.max(0f, (baseRows + planet.traits().size()) * 10f - bodyH);
+				if (this.infoScrollDist > infoMaxScroll) {
+					this.infoScrollDist = infoMaxScroll;
+				}
+
+				this.infoScrollX = (int) (bodyX * 0.5f);
+				this.infoScrollY = (int) (bodyY * 0.5f);
+				this.infoScrollW = (int) Math.ceil(bodyW * 0.5f);
+				this.infoScrollH = (int) Math.ceil(bodyH * 0.5f);
+
+				int scrollOffset = Mth.floor(this.infoScrollDist);
+
 				// Draw Tracking Box
-				MUI.blitRocket(gui, t.apply(i + 56f).intValue(), t.apply(j + 5f).intValue(), 253, 26, 227, 114);
+				MUI.blitRocket(gui, boxX, boxY, 253, 26, boxW, boxH);
 
 				// Draw Planet Title
-				MUI.drawCenteredString(gui, planet.getName(), t.apply(i + 56f).intValue() + 112,
-						t.apply(j + 5f).intValue() + 10);
-				MUI.blitCommon(gui, t.apply(i + 56f).intValue() + 55, t.apply(j + 5f).intValue() + 22, 308, 245, 115,
-						6);
+				MUI.drawCenteredString(gui, planet.getName(), boxX + 112, boxY + 10);
+				MUI.blitCommon(gui, boxX + 55, boxY + 22, 308, 245, 115, 6);
 
 				// Draw Planet Info
 				Component c = Component.literal(": ");
-				int lines = 3;
-				MUI.drawString(gui,
-						MUI.uistr("rocket.starmap.planet_type").append(c)
-								.append(planet.type().nameComp()
-										.withStyle(Style.EMPTY.withBold(true).withColor(planet.type().color()))),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
-				MUI.drawString(gui,
-						MUI.uistr("rocket.starmap.day_length").append(c)
-								.append(Component.literal(StringUtils.formatHours((float) planet.day()))
-										.withStyle(Style.EMPTY.withBold(true))),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
-				MUI.drawString(gui, MUI.uistr("rocket.starmap.temperature").append(c).append(temperatureText),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
-				if (planet.gas_giant()) {
+				ScissorState clip = pushClipRect(infoScrollX, infoScrollY, infoScrollW, infoScrollH);
+				try {
+					int lines = 3;
+					int rowY = boxY + (lines++ * 10) + 2 - scrollOffset;
 					MUI.drawString(gui,
-							MUI.uistr("rocket.starmap.gas_giant").append(c).append(StringUtils.formatBool(true)),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
-				} else {
+							MUI.uistr("rocket.starmap.planet_type").append(c)
+									.append(planet.type().nameComp()
+											.withStyle(Style.EMPTY.withBold(true).withColor(planet.type().color()))),
+							bodyX, rowY);
+
+					rowY = boxY + (lines++ * 10) + 2 - scrollOffset;
 					MUI.drawString(gui,
-							MUI.uistr("rocket.starmap.gravity").append(c)
-									.append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
+							MUI.uistr("rocket.starmap.day_length").append(c)
+									.append(Component.literal(StringUtils.formatHours((float) planet.day()))
 											.withStyle(Style.EMPTY.withBold(true))),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
-				}
-				MUI.drawString(gui,
-						MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
-								.append(StringUtils.formatBool(planet.breathable())),
-						t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
-				if (planet.hasGenLiquid()) {
-					MUI.drawString(gui,
-							MUI.uistr("rocket.starmap.surface_fluid").append(c).append(
-									StringUtils.fluid(new FluidStack(planet.dominant_liquid().fluid(), 1), true)),
-							t.apply(i + 56f).intValue() + 4, t.apply(j + 5f).intValue() + (lines++ * 10) + 2);
+							bodyX, rowY);
+
+					rowY = boxY + (lines++ * 10) + 2 - scrollOffset;
+					MUI.drawString(gui, MUI.uistr("rocket.starmap.temperature").append(c).append(temperatureText),
+							bodyX, rowY);
+
+					rowY = boxY + (lines++ * 10) + 2 - scrollOffset;
+					if (planet.gas_giant()) {
+						MUI.drawString(gui,
+								MUI.uistr("rocket.starmap.gas_giant").append(c).append(StringUtils.formatBool(true)),
+								bodyX, rowY);
+					} else {
+						MUI.drawString(gui,
+								MUI.uistr("rocket.starmap.gravity").append(c)
+										.append(Component.literal(StringUtils.formatGravity((float) planet.surf_grav()))
+												.withStyle(Style.EMPTY.withBold(true))),
+								bodyX, rowY);
+					}
+
+					rowY = boxY + (lines++ * 10) + 2 - scrollOffset;
+					MUI.drawString(gui, MUI.uistr("rocket.starmap.breathable_atmosphere").append(c)
+							.append(StringUtils.formatBool(planet.breathable())), bodyX, rowY);
+
+					if (planet.hasGenLiquid()) {
+						rowY = boxY + (lines++ * 10) + 2 - scrollOffset;
+						MUI.drawString(gui,
+								MUI.uistr("rocket.starmap.surface_fluid").append(c).append(
+										StringUtils.fluid(new FluidStack(planet.dominant_liquid().fluid(), 1), true)),
+								bodyX, rowY);
+					}
+
+					int k = 0;
+					for (PlanetTrait trait : planet.traits()) {
+						int traitX = bodyX;
+						int traitY = boxY + ((lines + k) * 10) + 2 - scrollOffset;
+						Component traitComp = trait.comp()
+								.withStyle(Style.EMPTY.withBold(true).withColor(trait.color()));
+						MUI.drawString(gui, traitComp, traitX, traitY);
+
+						if (traitY + mc.font.lineHeight >= bodyY && traitY <= bodyY + bodyH) {
+							int rtx = (int) (traitX * 0.5f);
+							int rty = (int) (traitY * 0.5f);
+							registerHoverable("trait_" + k, rtx - 1, rty - 1, rtx + mc.font.width(traitComp) / 2 + 1,
+									rty + mc.font.lineHeight / 2 + 1,
+									() -> List.of(traitComp, trait.explanationComp()));
+						}
+						k++;
+					}
+				} finally {
+					popClipRect(clip);
 				}
 
-				int k = 0;
-				for (PlanetTrait trait : planet.traits()) {
-					int traitX = t.apply(i + 56f).intValue() + 4;
-					int traitY = t.apply(j + 5f).intValue() + ((lines + k) * 10) + 2;
-					Component traitComp = trait.comp().withStyle(Style.EMPTY.withBold(true).withColor(trait.color()));
-					MUI.drawString(gui, traitComp, traitX, traitY);
-					int rtx = (int) (traitX * 0.5f);
-					int rty = (int) (traitY * 0.5f);
-					registerHoverable("trait_" + k, rtx - 1, rty - 1, rtx + mc.font.width(traitComp) / 2 + 1,
-							rty + mc.font.lineHeight / 2 + 1, () -> List.of(traitComp, trait.explanationComp()));
-					k++;
+				int indicatorX = bodyX + bodyW - 7;
+				if (this.infoScrollDist > 0.01f) {
+					drawScrollIndicator(gui, indicatorX, bodyY + 2, true);
+				}
+				if (this.infoScrollDist < this.infoMaxScroll - 0.01f) {
+					drawScrollIndicator(gui, indicatorX, bodyY + bodyH - 5, false);
 				}
 			}
 		});
 	}
-
 }

@@ -466,7 +466,7 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 
 	@Override
 	public boolean mouseScrolled(double mX, double mY, double deltaX, double deltaY) {
-		if (inStarchart(mX, mY) && this.starchart.mouseScrolled(deltaY)) {
+		if (inStarchart(mX, mY) && this.starchart.mouseScrolled(mX, mY, deltaY)) {
 			return true;
 		}
 		return super.mouseScrolled(mX, mY, deltaX, deltaY);

@@ -48,7 +48,7 @@ public class StarchartScreen extends Screen {
 
 	@Override
 	public boolean mouseScrolled(double mX, double mY, double deltaX, double deltaY) {
-		if (renderable.mouseScrolled(deltaY)) {
+		if (renderable.mouseScrolled(mX, mY, deltaY)) {
 			return true;
 		}
 		return super.mouseScrolled(mX, mY, deltaX, deltaY);
