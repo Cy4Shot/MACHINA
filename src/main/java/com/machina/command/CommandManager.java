@@ -56,11 +56,11 @@ public class CommandManager {
 		.then(Commands.literal("rocket").executes(ctx -> {
 			CommandSourceStack source = ctx.getSource();
 			ItemStack stack = ItemInit.ROCKET.get().getDefaultInstance();
-			RocketItem.setPart(stack, RocketPartType.CHASSIS, RocketPartInit.ADVANCED_CHASSIS.get());
-			RocketItem.setPart(stack, RocketPartType.FUEL_TANK, RocketPartInit.PRESSURIZED_FUEL_TANK.get());
-			RocketItem.setPart(stack, RocketPartType.LIFE_SUPPORT, RocketPartInit.REINFORCED_LIFE_SUPPORT.get());
+			RocketItem.setPart(stack, RocketPartType.CHASSIS, RocketPartInit.SIMPLE_CHASSIS.get());
+			RocketItem.setPart(stack, RocketPartType.FUEL_TANK, RocketPartInit.SIMPLE_FUEL_TANK.get());
+			RocketItem.setPart(stack, RocketPartType.LIFE_SUPPORT, RocketPartInit.SIMPLE_LIFE_SUPPORT.get());
 			RocketItem.setPart(stack, RocketPartType.SHIELD, RocketPartInit.SIMPLE_SHIELD.get());
-			RocketItem.setPart(stack, RocketPartType.THRUSTER, RocketPartInit.TRI_TALL_THRUSTER.get());
+			RocketItem.setPart(stack, RocketPartType.THRUSTER, RocketPartInit.SIMPLE_THRUSTER.get());
 			RocketItem.initProperties(stack);
 			stack.set(DataComponentsInit.ROCKET_DEBUG, true);
 			if (source.getPlayer().addItem(stack)) {

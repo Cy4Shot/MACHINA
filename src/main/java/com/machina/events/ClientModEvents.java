@@ -15,13 +15,13 @@ import com.machina.client.ber.TankRenderer;
 import com.machina.client.entity.RocketRenderer;
 import com.machina.client.model.rocket.RocketPartModels;
 import com.machina.client.model.rocket.part.AdvancedChassisModel;
-import com.machina.client.model.rocket.part.ConeShieldModel;
+import com.machina.client.model.rocket.part.SimpleShieldModel;
 import com.machina.client.model.rocket.part.PressurizedTankModel;
 import com.machina.client.model.rocket.part.ReinforcedLifeSupportModel;
 import com.machina.client.model.rocket.part.SimpleChassisModel;
 import com.machina.client.model.rocket.part.SimpleFuelTankModel;
 import com.machina.client.model.rocket.part.SimpleLifeSupportModel;
-import com.machina.client.model.rocket.part.SimpleShieldModel;
+import com.machina.client.model.rocket.part.BreakerShieldModel;
 import com.machina.client.model.rocket.part.SimpleThrusterModel;
 import com.machina.client.model.rocket.part.TriTallThrusterModel;
 import com.machina.client.particle.DustStormParticle.DustStormParticleProvider;
@@ -107,7 +107,7 @@ public class ClientModEvents {
 		RocketPartModels.register(RocketPartInit.REINFORCED_LIFE_SUPPORT.get(), ReinforcedLifeSupportModel::new);
 
 		RocketPartModels.register(RocketPartInit.SIMPLE_SHIELD.get(), SimpleShieldModel::new);
-		RocketPartModels.register(RocketPartInit.CONE_SHIELD.get(), ConeShieldModel::new);
+		RocketPartModels.register(RocketPartInit.BREAKER_SHIELD.get(), BreakerShieldModel::new);
 
 		RocketPartModels.register(RocketPartInit.SIMPLE_THRUSTER.get(), SimpleThrusterModel::new);
 		RocketPartModels.register(RocketPartInit.TRI_TALL_THRUSTER.get(), TriTallThrusterModel::new);

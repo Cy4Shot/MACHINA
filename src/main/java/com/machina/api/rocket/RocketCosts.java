@@ -72,7 +72,7 @@ public record RocketCosts(boolean possible, float distance, int fuelRequired, in
 
 		if (entry) {
 			double rho;
-			if (planet.gas_giant()) {
+			if (planet != null && planet.gas_giant()) {
 				rho = 0.16; // kg/m³, Jupiter-like 1-bar level, tune per planet
 			} else {
 				rho = 1.2; // Earth sea-level

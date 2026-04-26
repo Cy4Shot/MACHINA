@@ -495,13 +495,13 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 				new ItemStack(ItemInit.IRON_ROD.get(), 48),
 				new ItemStack(BlockInit.TANK.get(), 1));
 		
-		rocket_part(gen, RocketPartInit.SIMPLE_SHIELD, 100_000,
-				new ItemStack(ItemInit.IRON_PLATE.get(), 12),
-				new ItemStack(ItemInit.NICKEL_ROD.get(), 2),
-				new ItemStack(ItemInit.COPPER_COIL.get(), 8));
-		rocket_part(gen, RocketPartInit.CONE_SHIELD, 150_000,
+		rocket_part(gen, RocketPartInit.SIMPLE_SHIELD, 150_000,
 				new ItemStack(ItemInit.IRON_PLATE.get(), 68),
 				new ItemStack(ItemInit.NICKEL_ROD.get(), 4),
+				new ItemStack(ItemInit.COPPER_COIL.get(), 8));
+		rocket_part(gen, RocketPartInit.BREAKER_SHIELD, 100_000,
+				new ItemStack(ItemInit.IRON_PLATE.get(), 12),
+				new ItemStack(ItemInit.NICKEL_ROD.get(), 2),
 				new ItemStack(ItemInit.COPPER_COIL.get(), 8));
 		
 		rocket_part(gen, RocketPartInit.SIMPLE_THRUSTER, 100_000,

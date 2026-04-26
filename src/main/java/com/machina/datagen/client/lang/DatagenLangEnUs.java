@@ -803,7 +803,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addPart(RocketPartInit.REINFORCED_LIFE_SUPPORT, "Reinforced Life Support");
 
 		addPart(RocketPartInit.SIMPLE_SHIELD, "Simple Shield");
-		addPart(RocketPartInit.CONE_SHIELD, "Cone Shield");
+		addPart(RocketPartInit.BREAKER_SHIELD, "Breaker Shield");
 
 		addPart(RocketPartInit.SIMPLE_THRUSTER, "Simple Thruster");
 		addPart(RocketPartInit.TRI_TALL_THRUSTER, "Tri Tall Thruster");

@@ -20,43 +20,19 @@ public class SimpleLifeSupportModel extends RocketPartModel {
 		this.LifeSupport = root.getChild("LifeSupport");
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition LifeSupport = partdefinition.addOrReplaceChild("LifeSupport",
-				CubeListBuilder.create().texOffs(0, 52)
-						.addBox(-16.0F, 0.0F, -16.0F, 32.0F, 4.0F, 32.0F, new CubeDeformation(0.0F)).texOffs(0, 0)
-						.addBox(-24.0F, 44.0F, -24.0F, 48.0F, 4.0F, 48.0F, new CubeDeformation(0.0F)).texOffs(0, 88)
-						.addBox(12.0F, 4.0F, -12.0F, 4.0F, 40.0F, 24.0F, new CubeDeformation(0.0F)).texOffs(56, 88)
-						.addBox(-16.0F, 4.0F, -12.0F, 4.0F, 40.0F, 24.0F, new CubeDeformation(0.0F)).texOffs(112, 88)
-						.addBox(-16.0F, 4.0F, -16.0F, 32.0F, 40.0F, 4.0F, new CubeDeformation(0.0F)).texOffs(112, 132)
-						.addBox(-16.0F, 4.0F, 12.0F, 32.0F, 40.0F, 4.0F, new CubeDeformation(0.0F)),
-				PartPose.ZERO);
-
-		PartDefinition Corners = LifeSupport.addOrReplaceChild("Corners", CubeListBuilder.create(), PartPose.ZERO);
-
-		PartDefinition Corner_r1 = Corners.addOrReplaceChild("Corner_r1",
-				CubeListBuilder.create().texOffs(48, 152).addBox(-3.0F, -34.0F, -44.0F, 4.0F, 44.0F, 4.0F,
-						new CubeDeformation(0.0F)),
-				PartPose.offsetAndRotation(-20.0F, 44.0F, 22.0F, -0.1745F, 0.0F, 0.1745F));
-
-		PartDefinition Corner_r2 = Corners.addOrReplaceChild("Corner_r2",
-				CubeListBuilder.create().texOffs(32, 152).addBox(-3.0F, -43.0F, -3.0F, 4.0F, 44.0F, 4.0F,
-						new CubeDeformation(0.0F)),
-				PartPose.offsetAndRotation(-20.0F, 44.0F, 22.0F, 0.1745F, 0.0F, 0.1745F));
-
-		PartDefinition Corner_r3 = Corners.addOrReplaceChild("Corner_r3",
-				CubeListBuilder.create().texOffs(16, 152).addBox(-3.0F, -34.0F, -44.0F, 4.0F, 44.0F, 4.0F,
-						new CubeDeformation(0.0F)),
-				PartPose.offsetAndRotation(22.0F, 44.0F, 22.0F, -0.1745F, 0.0F, -0.1745F));
-
-		PartDefinition Corner_r4 = Corners.addOrReplaceChild("Corner_r4",
-				CubeListBuilder.create().texOffs(0, 152).addBox(-3.0F, -43.0F, -3.0F, 4.0F, 44.0F, 4.0F,
-						new CubeDeformation(0.0F)),
-				PartPose.offsetAndRotation(22.0F, 44.0F, 22.0F, 0.1745F, 0.0F, -0.1745F));
+		partdefinition.addOrReplaceChild("LifeSupport",
+				CubeListBuilder.create().texOffs(8, 108)
+						.addBox(-8.0F, -68.0F, -8.0F, 2.0F, 32.0F, 2.0F, new CubeDeformation(0.0F)).texOffs(0, 108)
+						.addBox(-8.0F, -68.0F, 6.0F, 2.0F, 32.0F, 2.0F, new CubeDeformation(0.0F)).texOffs(100, 104)
+						.addBox(6.0F, -68.0F, 6.0F, 2.0F, 32.0F, 2.0F, new CubeDeformation(0.0F)).texOffs(0, 64)
+						.addBox(-6.0F, -68.0F, -6.0F, 12.0F, 32.0F, 12.0F, new CubeDeformation(0.0F)).texOffs(92, 104)
+						.addBox(6.0F, -68.0F, -8.0F, 2.0F, 32.0F, 2.0F, new CubeDeformation(0.0F)),
+				PartPose.offset(0.0F, 68.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
@@ -68,6 +44,6 @@ public class SimpleLifeSupportModel extends RocketPartModel {
 
 	@Override
 	protected ResourceLocation getTextureLocation() {
-		return MachinaRL.create("textures/rocket/simple_life_support.png");
+		return MachinaRL.create("textures/rocket/simple_rocket.png");
 	}
 }

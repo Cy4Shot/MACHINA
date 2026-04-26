@@ -12,12 +12,12 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.resources.ResourceLocation;
 
-public class SimpleChassisModel extends RocketPartModel {
-	private final ModelPart Core;
+public class BreakerShieldModel extends RocketPartModel {
+	private final ModelPart shield;
 
-	public SimpleChassisModel() {
+	public BreakerShieldModel() {
 		ModelPart root = this.createBodyLayer().bakeRoot();
-		this.Core = root.getChild("Core");
+		this.shield = root.getChild("shield");
 	}
 
 	@Override
@@ -25,19 +25,19 @@ public class SimpleChassisModel extends RocketPartModel {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		partdefinition.addOrReplaceChild("Core", CubeListBuilder.create().texOffs(0, 32).addBox(-15.0F, -16.0F, -1.0F,
-				16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(7.0F, 16.0F, -7.0F));
+		partdefinition.addOrReplaceChild("shield", CubeListBuilder.create().texOffs(64, 64).addBox(-6.0F, 0.0F, -6.0F,
+				12.0F, 11.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.ZERO);
 
-		return LayerDefinition.create(meshdefinition, 256, 256);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 	@Override
 	public ModelPart main() {
-		return this.Core;
+		return this.shield;
 	}
 
 	@Override
 	protected ResourceLocation getTextureLocation() {
-		return MachinaRL.create("textures/rocket/simple_rocket.png");
+		return MachinaRL.create("textures/rocket/tri_rocket.png");
 	}
 }

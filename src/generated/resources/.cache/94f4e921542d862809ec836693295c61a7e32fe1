@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-20T19:59:37.293157	Item Models: machina
+// 1.21.1	2026-04-26T20:12:46.0115167	Item Models: machina
 4746a09bb453582000f2c239858c6e7e16aa7252 assets/machina/models/item/acetaldehyde_bucket.json
 cd08c996373cfed1c4a774b580062f12abdf0c81 assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -213,13 +213,13 @@ da3acf476fa14c91ef0cf10810e6d76e034a542d assets/machina/models/item/raw_iridium.
 bb7c7e102252b0c59f3bd3e487c687717e6d20e8 assets/machina/models/item/raw_zinc.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_advanced_chassis.json
+49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_breaker_shield.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_cone_shield.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_pressurized_fuel_tank.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_reinforced_life_support.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_chassis.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_fuel_tank.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_life_support.json
-49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_shield.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_simple_thruster.json
 49e2a6762e4e2c5fc2d55c2239656b2a1d1b9561 assets/machina/models/item/rocket_part_tri_tall_thruster.json
 6476d22880d8343451f1917ad8fe766e2cfa16c2 assets/machina/models/item/silver_dust.json

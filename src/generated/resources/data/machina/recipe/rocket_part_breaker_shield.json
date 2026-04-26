@@ -20,7 +20,7 @@
   "output_items": [
     {
       "count": 1,
-      "id": "machina:rocket_part_simple_shield"
+      "id": "machina:rocket_part_breaker_shield"
     }
   ],
   "periodic_consumption": 1,

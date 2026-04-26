@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "machina:rocket_part_simple_shield"
+        "recipe": "machina:rocket_part_breaker_shield"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "machina:rocket_part_simple_shield"
+      "machina:rocket_part_breaker_shield"
     ]
   }
 }
