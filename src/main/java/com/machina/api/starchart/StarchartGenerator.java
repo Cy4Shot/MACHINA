@@ -137,7 +137,7 @@ public class StarchartGenerator {
 		int numRolls = config.minRolls() + random.nextInt(config.maxRolls() - config.minRolls() + 1);
 		List<PlanetTrait> selectedTraits = new ArrayList<>();
 		List<PlanetTraitSettingsEntry> availableTraits = new ArrayList<>(config.weights());
-		availableTraits.sort(Comparator.comparing(t -> t.trait().toString()));
+		availableTraits.sort(Comparator.comparing(t -> t.trait().getDescriptionId()));
 
 		while (selectedTraits.size() < numRolls && !availableTraits.isEmpty()) {
 			double totalWeight = 0.0;

@@ -1,5 +1,7 @@
 package com.machina.api.starchart.planet_type;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -18,6 +20,7 @@ public class PlanetTypeLoader extends JsonLoader<PlanetType> {
 	public ResourceLocation pickRandom(Random random) {
 		Set<ResourceLocation> set = getAllLoc();
 		ResourceLocation[] all = set.toArray(new ResourceLocation[0]);
+		Arrays.sort(all, Comparator.comparing(ResourceLocation::toString));
 		return all[random.nextInt(all.length)];
 	}
 }

@@ -6,8 +6,6 @@ import com.machina.api.client.ClientStarchart;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeClientSettings;
 import com.machina.api.util.PlanetHelper;
-import com.machina.api.util.math.ColorUtil;
-import com.machina.api.util.math.ColorUtil.RGBA;
 import com.machina.client.PlanetSpecialEffects;
 import com.machina.weather.WeatherEvent;
 import com.machina.weather.manager.ClientWeatherManager;
@@ -168,19 +166,11 @@ public class ClientWeatherSystem extends WeatherSystem {
 		if (weather == null || weather.getFogFar() == 0f || weatherIntensity <= 0.0F)
 			return;
 
-		// 1. Apply biome tint
-		ResourceLocation biome = level.getBiome(mc.player.blockPosition()).getKey().location();
-		RGBA tint = ColorUtil.ofRGBA(ClientBiomeSettings.BIOME_SETTINGS
-				.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT).weather_tint());
-
-		// 2. Apply weather tint
-		tint = tint.mul(ColorUtil.ofRGBA(weather.getFogTint()));
-
-		// 3. Apply sky tint
-		Vec3 skyColor = PlanetSpecialEffects.getSkyColor(planet, mc.cameraEntity.position(),
-				level.getTimeOfDay((float) event.getPartialTick()));
-		if (skyColor != null) {
-			tint = tint.mul(skyColor);
+		float partialTick = (float) event.getPartialTick();
+		Vec3 skyColor = PlanetSpecialEffects.getCachedSkyColor(level, planet, partialTick);
+		Vec3 fogColor = PlanetSpecialEffects.getCachedWeatherFogColor(level, weather, partialTick, skyColor);
+		if (fogColor == null) {
+			fogColor = Vec3.ZERO;
 		}
 
 		float near = Mth.lerp(weatherIntensity, 0.0F, weather.getFogNear());
@@ -192,7 +182,7 @@ public class ClientWeatherSystem extends WeatherSystem {
 			RenderSystem.setShaderFogStart(near);
 			RenderSystem.setShaderFogEnd(far);
 		}
-		tint.setRenderSystemFogColor();
+		RenderSystem.setShaderFogColor((float) fogColor.x, (float) fogColor.y, (float) fogColor.z);
 		RenderSystem.setShaderFogShape(FogShape.SPHERE);
 	}
 
