@@ -24,7 +24,7 @@ public class CameraPath {
 	public void tick(Player renderView, int tick, float partial) {
 		int elapsed = 0;
 		for (Map.Entry<SinglePath, Integer> path : paths.entrySet()) {
-			if (elapsed + path.getValue() >= tick + partial) {
+			if (elapsed + path.getValue() > tick + partial) {
 				float per = (tick + partial - elapsed) / (float) path.getValue();
 				path.getKey().interpolate(renderView, per, partial, origin);
 				return;
@@ -34,8 +34,7 @@ public class CameraPath {
 		}
 	}
 
-	public void renderTick(Player renderView, int tick, float partial) {
-		this.tick(renderView, tick, partial);
+	public void applyEffects(int tick) {
 		int elapsed = 0;
 		for (Map.Entry<SinglePath, Integer> path : paths.entrySet()) {
 			if (elapsed + path.getValue() >= tick) {
@@ -46,6 +45,10 @@ public class CameraPath {
 				elapsed += path.getValue();
 			}
 		}
+	}
+
+	public void renderTick(Player renderView, int tick, float partial) {
+		this.tick(renderView, tick, partial);
 	}
 
 	public int duration() {

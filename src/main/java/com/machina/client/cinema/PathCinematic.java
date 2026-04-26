@@ -27,7 +27,7 @@ public class PathCinematic extends Cinematic {
 	public void onClientTick(int tick, float par) {
 		if (!this.active)
 			return;
-		path.tick(this.player, tick, par);
+		path.applyEffects(tick);
 	}
 
 	@Override

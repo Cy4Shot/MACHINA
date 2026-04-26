@@ -6,6 +6,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import com.machina.api.client.cinema.entity.CinematicClientEntity;
+import com.machina.api.client.cinema.effect.renderer.CinematicTextOverlay;
+import com.machina.api.client.cinema.effect.renderer.CinematicTextureOverlay;
 import com.machina.api.util.math.VecUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
@@ -114,6 +116,8 @@ public class CinematicHandler {
 
 		NeoForge.EVENT_BUS.addListener((RenderGuiEvent.Pre e) -> {
 			if (INSTANCE.isActive() && !mc.isPaused()) {
+				CinematicTextureOverlay.renderOverlay();
+				CinematicTextOverlay.renderOverlay(e.getGuiGraphics());
 				e.setCanceled(true);
 			}
 		});
