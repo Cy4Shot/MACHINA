@@ -1030,7 +1030,6 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket.fueling.cool_required", "Coolant Required");
 
 		addUI("rocket.tab.storage", "Storage");
-		addUI("rocket.storage.soon", "Cargo Storage");
 
 		addUI("rocket.tab.destination", "Destination");
 		addUI("rocket.destination.invalid", "NO DESTINATION SELECTED");

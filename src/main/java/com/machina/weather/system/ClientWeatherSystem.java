@@ -217,19 +217,14 @@ public class ClientWeatherSystem extends WeatherSystem {
 		ResourceLocation biome = level.getBiome(new BlockPos(posX, posY, posZ)).getKey().location();
 		int tint = ClientBiomeSettings.BIOME_SETTINGS.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT)
 				.weather_tint();
-		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		BlockPos.MutableBlockPos mutpos = new BlockPos.MutableBlockPos();
 		int count = Math.max(0, Math.round(weather.particleCount() * intensity));
 		for (int j = 0; j < count; j++) {
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.05,
-					tint);
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01,
-					tint);
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01,
-					tint);
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 32, blockpos$mutableblockpos, vX, vY, vZ, 0.0,
-					tint);
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 64, blockpos$mutableblockpos, vX, vY, vZ, 0.0,
-					tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, mutpos, vX, vY, vZ, 0.05, tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, mutpos, vX, vY, vZ, 0.01, tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, mutpos, vX, vY, vZ, 0.01, tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 32, mutpos, vX, vY, vZ, 0.0, tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 64, mutpos, vX, vY, vZ, 0.0, tint);
 		}
 	}
 

@@ -39,7 +39,7 @@ public class RocketPartInit {
 	public static final DeferredHolder<RocketPart, FuelTankPart> SIMPLE_FUEL_TANK = fuel_tank("simple", 1f, 0f, 0.9f, 400, 16_000, 36_000);
 	public static final DeferredHolder<RocketPart, FuelTankPart> PRESSURIZED_FUEL_TANK = fuel_tank("pressurized", 1f, 0f, 1f, 600, 100_000, 100_000);
 
-	public static final DeferredHolder<RocketPart, LifeSupportPart> SIMPLE_LIFE_SUPPORT = life_support("simple", 2f, 0f, 1f, 100, 0);
+	public static final DeferredHolder<RocketPart, LifeSupportPart> SIMPLE_LIFE_SUPPORT = life_support("simple", 2f, 0f, 1f, 100, 9);
 	public static final DeferredHolder<RocketPart, LifeSupportPart> REINFORCED_LIFE_SUPPORT = life_support("reinforced", 2f, 0f, 1f, 200, 27);
 
 	public static final DeferredHolder<RocketPart, ShieldPart> SIMPLE_SHIELD = shield("cone", 0.75f, 0f, 0.9f, 30, 32_000_000);

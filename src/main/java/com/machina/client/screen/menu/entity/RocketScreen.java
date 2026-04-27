@@ -190,13 +190,6 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 					.literal(String.valueOf(props.slots())).withStyle(Style.EMPTY.withBold(true).withColor(MUI.WHITE))),
 					i + 112, j + 14);
 
-			if (props.slots() <= 0) {
-				MUI.drawCenteredString(gui,
-						MUI.uistr("rocket.storage.soon").withStyle(Style.EMPTY.withBold(true).withColor(MUI.ACC_1)),
-						i + 112, j + 12);
-				return;
-			}
-
 			for (int idx = 0; idx < props.slots(); idx++) {
 				int row = idx / 9;
 				int col = idx % 9;
