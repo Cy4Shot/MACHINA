@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-05T21:36:16.0367033	Tags for minecraft:block mod id machina
+// 1.21.1	2026-04-30T20:42:03.8244312	Tags for minecraft:block mod id machina
 cfa55b4a585a33cf6c1b6083f7bdc69d262fe032 data/c/tags/block/buttons.json
 eaa914dd57257b2be31c39b5afcebf6df64e2b0e data/c/tags/block/buttons/acacia.json
 5085dd7e2458679d2151f7254d3c0b9084327e06 data/c/tags/block/buttons/birch.json
@@ -368,6 +368,10 @@ f8f466ca65e65585730cfd2148804d5c7bd7f363 data/minecraft/tags/block/flowers.json
 eef61f837574a4ea72c85476d3532ca48f2ee8bf data/minecraft/tags/block/flower_pots.json
 7c2ff79bf2560e5113ef723f273a2329b4c47b11 data/minecraft/tags/block/leaves.json
 c75145b8820239ba5fb4cb234ffe47c44621aa8e data/minecraft/tags/block/logs.json
+85d4bfabb2b3520ad485a7e89fa06e50cdb47a1f data/minecraft/tags/block/mineable/axe.json
+0bdcdb54139eda50bedbbebda275b62117bab2cc data/minecraft/tags/block/mineable/hoe.json
+aadb829526765b211eb2d5823585633316fe0579 data/minecraft/tags/block/mineable/pickaxe.json
+d5ae5c3dc2ceae6ac5c25f22f75daa3f043b6d07 data/minecraft/tags/block/mineable/shovel.json
 6ac3bd738a4a0a93b74aa416ea7039fb121fc56b data/minecraft/tags/block/overworld_carver_replaceables.json
 13d63356d22c85d569e80af14281d00dec2d8dce data/minecraft/tags/block/planks.json
 37c4c8b363f3f69cc117bbfff4f9e7a78859da7d data/minecraft/tags/block/pressure_plates.json

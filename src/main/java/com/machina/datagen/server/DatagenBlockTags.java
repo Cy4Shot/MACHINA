@@ -40,6 +40,18 @@ public class DatagenBlockTags extends BlockTagsProvider {
 
 	@Override
 	protected void addTags(@NotNull Provider pProvider) {
+
+		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BlockInit.BASIC_CASING.get(), BlockInit.LIGHTWEIGHT_CASING.get(),
+				BlockInit.ITEM_CONDUIT.get(), BlockInit.ENERGY_CABLE.get(), BlockInit.FLUID_PIPE.get(),
+				BlockInit.BATTERY.get(), BlockInit.TANK.get(), BlockInit.CREATIVE_BATTERY.get(),
+				BlockInit.MULTIBLOCK_HOUSING.get(), BlockInit.FURNACE_GENERATOR.get(),
+				BlockInit.CHEMICAL_GENERATOR.get(), BlockInit.ELECTRIC_SMELTER.get(), BlockInit.GRINDER.get(),
+				BlockInit.COMPRESSOR.get(), BlockInit.MELTER.get(), BlockInit.SOLIDIFIER.get(),
+				BlockInit.REACTION_CHAMBER.get(), BlockInit.COMPOSTER_VAT.get(), BlockInit.SAWMILL.get(),
+				BlockInit.ELECTROLYZER.get(), BlockInit.ELECTRIC_PUMP.get(), BlockInit.ATMOSPHERIC_SEPARATOR.get(),
+				BlockInit.ROCKET_PART_BENCH.get(), BlockInit.ROCKET_ASSEMBLY_STATION.get(),
+				BlockInit.ROCKET_REFUELING_STATION.get());
+
 		smallFlower(BlockInit.SPRUCE_CUP, BlockInit.POTTED_SPRUCE_CUP);
 		smallFlower(BlockInit.PURPLE_GLOWSHROOM, BlockInit.POTTED_PURPLE_GLOWSHROOM);
 		smallFlower(BlockInit.PINK_GLOWSHROOM, BlockInit.POTTED_PINK_GLOWSHROOM);
@@ -70,6 +82,12 @@ public class DatagenBlockTags extends BlockTagsProvider {
 				BlockInit.TURQUOISE_GROUNDLILY.get(), BlockInit.BLUE_GROUNDLILY.get(), BlockInit.PURPLE_PETALS.get(),
 				BlockInit.RED_PETALS.get(), BlockInit.ORANGE_PETALS.get(), BlockInit.YELLOW_PETALS.get(),
 				BlockInit.GREEN_PETALS.get(), BlockInit.TURQUOISE_PETALS.get(), BlockInit.BLUE_PETALS.get());
+		tag(BlockTags.MINEABLE_WITH_HOE).add(BlockInit.CLOVER.get(), BlockInit.PURPLE_GROUNDLILY.get(),
+				BlockInit.PINK_GROUNDLILY.get(), BlockInit.RED_GROUNDLILY.get(), BlockInit.ORANGE_GROUNDLILY.get(),
+				BlockInit.YELLOW_GROUNDLILY.get(), BlockInit.GREEN_GROUNDLILY.get(),
+				BlockInit.TURQUOISE_GROUNDLILY.get(), BlockInit.BLUE_GROUNDLILY.get(), BlockInit.PURPLE_PETALS.get(),
+				BlockInit.RED_PETALS.get(), BlockInit.ORANGE_PETALS.get(), BlockInit.YELLOW_PETALS.get(),
+				BlockInit.GREEN_PETALS.get(), BlockInit.TURQUOISE_PETALS.get(), BlockInit.BLUE_PETALS.get());
 
 		tag(BlockTagInit.PLANET_CARVABLE).add(Blocks.STONE, Blocks.GRAVEL, Blocks.WATER);
 
@@ -84,15 +102,18 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(BlockTags.FLOWERS).add(flower.get());
 		tag(BlockTags.SMALL_FLOWERS).add(flower.get());
 		tag(BlockTags.FLOWER_POTS).add(potted.get());
+		tag(BlockTags.MINEABLE_WITH_HOE).add(flower.get());
 	}
 
 	private void tallFlower(DeferredBlock<TallFlowerBlock> flower) {
 		tag(BlockTags.FLOWERS).add(flower.get());
 		tag(BlockTags.TALL_FLOWERS).add(flower.get());
+		tag(BlockTags.MINEABLE_WITH_HOE).add(flower.get());
 	}
 
 	private void sand(DeferredBlock<? extends Block> sand) {
 		tag(BlockTags.SAND).add(sand.get());
+		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(sand.get());
 	}
 
 	private void oreFamily(OreFamily family) {
@@ -100,14 +121,18 @@ public class DatagenBlockTags extends BlockTagsProvider {
 			tag(common("ores")).addTag(common("ores/" + family.name()));
 			tag(common("ores/" + family.name()))
 					.addAll(ore.map().values().stream().map(DeferredHolder::getKey).collect(Collectors.toList()));
+			tag(BlockTags.MINEABLE_WITH_PICKAXE)
+					.addAll(ore.map().values().stream().map(DeferredHolder::getKey).collect(Collectors.toList()));
 		});
 		family.block().ifPresent(block -> {
 			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
 			tag(common("storage_blocks/" + family.name())).add(block);
+			tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
 		});
 		family.rawBlock().ifPresent(block -> {
 			tag(common("storage_blocks")).addTag(common("storage_blocks/" + family.name()));
 			tag(common("storage_blocks/raw_" + family.name())).add(block);
+			tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
 		});
 	}
 
@@ -117,11 +142,13 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(BlockTags.SLABS).add(family.slab());
 		tag(BlockTags.STAIRS).add(family.stairs());
 		tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES).add(family.dirt(), family.slab(), family.stairs());
+		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(family.dirt(), family.slab(), family.stairs());
 
 		if (family.grass().isPresent()) {
 			tag(BlockTags.DIRT).add(family.grass().get());
 			tag(BlockTagInit.PLANET_CARVABLE).add(family.grass().get());
 			tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES).add(family.grass().get());
+			tag(BlockTags.MINEABLE_WITH_SHOVEL).add(family.grass().get());
 		}
 	}
 
@@ -137,6 +164,7 @@ public class DatagenBlockTags extends BlockTagsProvider {
 
 		tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES).add(family.base());
 		tag(BlockTagInit.PLANET_CARVABLE).add(family.base());
+		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(family.base(), family.slab(), family.stairs(), family.wall());
 	}
 
 	private void woodFamily(WoodFamily family) {
@@ -202,6 +230,12 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(common("logs")).addTag(common("logs/" + family.name()));
 		tag(common("planks")).addTag(common("planks/" + family.name()));
 		tag(common("leaves")).addTag(common("leaves/" + family.name()));
+
+		tag(BlockTags.MINEABLE_WITH_AXE).add(family.log(), family.wood(), family.stripped_log(), family.stripped_wood(),
+				family.planks(), family.stairs(), family.slab(), family.fence(), family.fencegate(), family.door(),
+				family.trapdoor(), family.pressure_plate(), family.button(), family.signblock(), family.wallsignblock(),
+				family.hangingsignblock(), family.hangingwallsignblock());
+		tag(BlockTags.MINEABLE_WITH_HOE).add(family.leaves());
 	}
 
 	private static TagKey<Block> common(String name) {
