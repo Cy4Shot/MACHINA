@@ -6,6 +6,8 @@ import com.machina.api.client.ClientStarchart;
 import com.machina.api.starchart.obj.Planet;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeClientSettings;
 import com.machina.api.util.PlanetHelper;
+import com.machina.api.util.math.ColorUtil;
+import com.machina.api.util.math.ColorUtil.RGBA;
 import com.machina.client.PlanetSpecialEffects;
 import com.machina.weather.WeatherEvent;
 import com.machina.weather.manager.ClientWeatherManager;
@@ -166,11 +168,20 @@ public class ClientWeatherSystem extends WeatherSystem {
 		if (weather == null || weather.getFogFar() == 0f || weatherIntensity <= 0.0F)
 			return;
 
-		float partialTick = (float) event.getPartialTick();
-		Vec3 skyColor = PlanetSpecialEffects.getCachedSkyColor(level, planet, partialTick);
-		Vec3 fogColor = PlanetSpecialEffects.getCachedWeatherFogColor(level, weather, partialTick, skyColor);
-		if (fogColor == null) {
-			fogColor = Vec3.ZERO;
+		// 1. Apply biome tint
+		ResourceLocation biome = level.getBiome(mc.player.blockPosition()).getKey().location();
+		RGBA tint = ColorUtil.ofRGBA(ClientBiomeSettings.BIOME_SETTINGS
+				.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT).weather_tint());
+
+		// 2. Apply weather tint
+		tint = tint.mul(ColorUtil.ofRGBA(weather.getFogTint()));
+
+		// 3. Apply sky tint
+		Vec3 skyColor = PlanetSpecialEffects.getSkyColor(planet, mc.cameraEntity.position(),
+				level.getTimeOfDay((float) event.getPartialTick()));
+		if (skyColor != null) {
+			Vec3 adjustedSky = new Vec3(1, 1, 1).lerp(skyColor, 0.8D);
+			tint = tint.mul(adjustedSky);
 		}
 
 		float near = Mth.lerp(weatherIntensity, 0.0F, weather.getFogNear());
@@ -182,7 +193,7 @@ public class ClientWeatherSystem extends WeatherSystem {
 			RenderSystem.setShaderFogStart(near);
 			RenderSystem.setShaderFogEnd(far);
 		}
-		RenderSystem.setShaderFogColor((float) fogColor.x, (float) fogColor.y, (float) fogColor.z);
+		tint.setRenderSystemFogColor();
 		RenderSystem.setShaderFogShape(FogShape.SPHERE);
 	}
 
@@ -217,14 +228,19 @@ public class ClientWeatherSystem extends WeatherSystem {
 		ResourceLocation biome = level.getBiome(new BlockPos(posX, posY, posZ)).getKey().location();
 		int tint = ClientBiomeSettings.BIOME_SETTINGS.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT)
 				.weather_tint();
-		BlockPos.MutableBlockPos mutpos = new BlockPos.MutableBlockPos();
+		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 		int count = Math.max(0, Math.round(weather.particleCount() * intensity));
 		for (int j = 0; j < count; j++) {
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, mutpos, vX, vY, vZ, 0.05, tint);
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, mutpos, vX, vY, vZ, 0.01, tint);
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, mutpos, vX, vY, vZ, 0.01, tint);
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 32, mutpos, vX, vY, vZ, 0.0, tint);
-			doAnimateParticleTick(level, weather, posX, posY, posZ, 64, mutpos, vX, vY, vZ, 0.0, tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.05,
+					tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01,
+					tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 16, blockpos$mutableblockpos, vX, vY, vZ, 0.01,
+					tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 32, blockpos$mutableblockpos, vX, vY, vZ, 0.0,
+					tint);
+			doAnimateParticleTick(level, weather, posX, posY, posZ, 64, blockpos$mutableblockpos, vX, vY, vZ, 0.0,
+					tint);
 		}
 	}
 
