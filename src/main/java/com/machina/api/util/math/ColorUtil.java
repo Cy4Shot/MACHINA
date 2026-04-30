@@ -47,6 +47,10 @@ public class ColorUtil {
 		public Vec3 vec3() {
 			return new Vec3(r / 255f, g / 255f, b / 255f);
 		}
+
+		public int toInt() {
+			return (a & 0xFF) << 24 | (r & 0xFF) << 16 | (g & 0xFF) << 8 | (b & 0xFF);
+		}
 	}
 
 	public static RGBA ofRGB(int hex) {

@@ -1,7 +1,5 @@
 package com.machina.client;
 
-import java.util.Objects;
-
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
@@ -54,12 +52,6 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 			.withDefaultNamespace("textures/environment/sun.png");
 
 	private static final Minecraft mc = Minecraft.getInstance();
-	private static int cachedSkyColorKey = Integer.MIN_VALUE;
-	@Nullable
-	private static Vec3 cachedSkyColor;
-	private static int cachedFogColorKey = Integer.MIN_VALUE;
-	@Nullable
-	private static Vec3 cachedFogColor;
 
 	public PlanetSpecialEffects() {
 		super(192, true, SkyType.NORMAL, false, false);
@@ -107,7 +99,8 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 
 		// Calculate sky & fog color
 		boolean hasAtmosphere = true;
-		Vec3 skyColor = getCachedSkyColor(level, planet, partialTick);
+		Vec3 cameraPos = mc.gameRenderer.getMainCamera().getPosition();
+		Vec3 skyColor = getSkyColor(planet, cameraPos, level.getTimeOfDay(partialTick));
 		setupFogColor(camera, partialTick, level, skyColor, mc.options.getEffectiveRenderDistance());
 		if (skyColor == null) {
 			hasAtmosphere = false;
@@ -203,7 +196,7 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 		BufferUploader.drawWithShader(bufferbuilder1.buildOrThrow());
 
 		// Stars
-		float f10 = hasAtmosphere ? level.getStarBrightness(partialTick) * f11 : 1f;
+		float f10 = hasAtmosphere ? level.getStarBrightness(partialTick) : 1f;
 		if (f10 > 0.0F) {
 			RenderSystem.setShaderColor(f10, f10, f10, f10);
 			FogRenderer.setupNoFog();
@@ -219,38 +212,7 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 		return true; // Prevent vanilla
 	}
 
-	public static @Nullable Vec3 getCachedSkyColor(ClientLevel level, Planet planet, float partialTick) {
-		int key = Objects.hash(level.dimension(), level.getGameTime(), Float.floatToIntBits(partialTick), planet.name());
-		if (cachedSkyColorKey != key) {
-			cachedSkyColor = getSkyColor(planet, level.getTimeOfDay(partialTick));
-			cachedSkyColorKey = key;
-		}
-		return cachedSkyColor;
-	}
-
-	public static @Nullable Vec3 getCachedWeatherFogColor(ClientLevel level, @Nullable WeatherEvent event,
-			float partialTick, @Nullable Vec3 skyColor) {
-		if (event == null || event.getFogFar() <= 0.0F || mc.player == null) {
-			return skyColor;
-		}
-
-		ResourceLocation biome = level.getBiome(mc.player.blockPosition()).getKey().location();
-		int skyHash = skyColor == null ? 0 : skyColor.hashCode();
-		int key = Objects.hash(level.dimension(), level.getGameTime(), Float.floatToIntBits(partialTick), biome,
-				event.getName(), event.getFogTint(), skyHash);
-
-		if (cachedFogColorKey != key) {
-			RGBA tint = ColorUtil.ofRGBA(ClientBiomeSettings.BIOME_SETTINGS
-					.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT).weather_tint());
-			tint = tint.mul(ColorUtil.ofRGBA(event.getFogTint()));
-			cachedFogColor = skyColor == null ? tint.vec3() : skyColor.multiply(tint.vec3());
-			cachedFogColorKey = key;
-		}
-
-		return cachedFogColor;
-	}
-
-	public static Vec3 getSkyColor(Planet planet, float timeOfDay) {
+	public static @Nullable Vec3 getSkyColor(Planet planet, Vec3 cameraPos, float timeOfDay) {
 		float cloudFactor = (float) planet.cloud_cover(); // 0 = clear, 1 = full clouds
 		float tempFactor = (float) (planet.surf_temp() - 200) / 400f; // normalize temp roughly 200K–600K
 		tempFactor = Mth.clamp(tempFactor, 0f, 1f);
@@ -319,12 +281,27 @@ public class PlanetSpecialEffects extends DimensionSpecialEffects {
 
 	public void setupFogColor(Camera camera, float partialTicks, ClientLevel level, @Nullable Vec3 skyColor,
 			int renderDistanceChunks) {
-		ClientWeatherSystem weathersystem = ClientWeatherManager.getSystem(level);
-		WeatherEvent weather = weathersystem == null ? null : weathersystem.getCurrentEvent();
-		skyColor = getCachedWeatherFogColor(level, weather, partialTicks, skyColor);
-
-		if (skyColor == null) {
+		if (skyColor == null)
 			skyColor = Vec3.ZERO;
+
+		ClientWeatherSystem weathersystem = ClientWeatherManager.getSystem(level);
+		if (weathersystem != null) {
+			WeatherEvent event = weathersystem.getCurrentEvent();
+			if (event != null && event.getFogFar() > 0) {
+				ResourceLocation biome = level.getBiome(mc.player.blockPosition()).getKey().location();
+				RGBA tint = ColorUtil.ofRGBA(ClientBiomeSettings.BIOME_SETTINGS
+						.getOrDefault(biome, PlanetBiomeClientSettings.DEFAULT).weather_tint());
+
+				// 2. Apply weather tint
+				tint = tint.mul(ColorUtil.ofRGBA(event.getFogTint()));
+
+				// 3. Apply sky tint
+				if (skyColor == Vec3.ZERO) {
+					skyColor = tint.vec3();
+				} else {
+					skyColor = skyColor.multiply(tint.vec3());
+				}
+			}
 		}
 
 		float f4 = 0.25F + 0.75F * (float) renderDistanceChunks / 32.0F;
