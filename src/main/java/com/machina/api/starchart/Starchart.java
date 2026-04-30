@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 
 public class Starchart {
 	private static Starchart INSTANCE = null;
+	private static long INSTANCE_SEED = Long.MIN_VALUE;
 
 	final SolarSystem system;
 
@@ -29,8 +30,9 @@ public class Starchart {
 	}
 
 	private static Starchart get(long seed) {
-		if (INSTANCE == null) {
+		if (INSTANCE == null || INSTANCE_SEED != seed) {
 			INSTANCE = generate(seed);
+			INSTANCE_SEED = seed;
 		}
 		return INSTANCE;
 	}
