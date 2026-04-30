@@ -20,8 +20,11 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 
-public record Planet(String name, ResourceLocation planet_type, Set<PlanetTrait> traits, int icon_variant, double a, // semi-major axis of the
-																							// orbit (in AU)
+public record Planet(String name, ResourceLocation planet_type, Set<PlanetTrait> traits, int icon_variant, double a, // semi-major
+																														// axis
+																														// of
+																														// the
+		// orbit (in AU)
 		double e, // eccentricity of the orbit
 		double where_in_orbit, // position along orbit (in radians)
 		double mass, // mass (in Earth masses)
@@ -90,8 +93,13 @@ public record Planet(String name, ResourceLocation planet_type, Set<PlanetTrait>
 
 	// Extra Props
 
+	public ChemicalFluid getDominantLiquid() {
+		ChemicalFluid liquid = type().dominant_liquid();
+		return liquid == null ? this.dominant_liquid : liquid;
+	}
+
 	public boolean hasGenLiquid() {
-		return dominant_liquid != null;
+		return getDominantLiquid() != null;
 	}
 
 	public boolean isFluidFrozen() {
@@ -99,7 +107,8 @@ public record Planet(String name, ResourceLocation planet_type, Set<PlanetTrait>
 	}
 
 	public BlockState getDominantLiquidBodyBlock() {
-		return dominant_liquid == null ? null : dominant_liquid.fluid().defaultFluidState().createLegacyBlock();
+		ChemicalFluid dominant = getDominantLiquid();
+		return dominant == null ? null : dominant.fluid().defaultFluidState().createLegacyBlock();
 	}
 
 	public boolean doesRain() {

@@ -77,6 +77,15 @@ vec3 lavaColor(float h) {
     return c;
 }
 
+vec3 hightechWastesColor(float h) {
+    vec3 c = vec3(0.04, 0.04, 0.05);
+    c = mix(c, vec3(0.25, 0.25, 0.27), smoothstep(0.30, 0.45, h));
+    c = mix(c, vec3(0.35, 0.35, 0.38), smoothstep(0.45, 0.55, h));
+    c = mix(c, vec3(0.35, 0.50, 0.15), smoothstep(0.55, 0.62, h));
+    c = mix(c, vec3(0.45, 0.35, 0.20), smoothstep(0.62, 0.70, h));
+    return c;
+}
+
 void main() {
     float phi_n   = surfaceUV.x * 2.0 * PI;
     float theta_n = surfaceUV.y * PI;
@@ -128,7 +137,8 @@ void main() {
     if      (PlanetType == 0) baseColor = terranColor(terrain);
     else if (PlanetType == 1) baseColor = gasColor(terrain);
     else if (PlanetType == 2) baseColor = iceColor(terrain);
-    else                      baseColor = lavaColor(terrain);
+    else if (PlanetType == 3) baseColor = lavaColor(terrain);
+    else                      baseColor = hightechWastesColor(terrain);
 
     if (PlanetType == 0 || PlanetType == 2) {
         float cloud = fbm4_3(cloudPos);

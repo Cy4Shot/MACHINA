@@ -7,7 +7,10 @@ import javax.annotation.Nullable;
 
 import com.machina.Machina;
 import com.machina.api.block.entity.MachinaBlockEntity;
+import com.machina.api.fluid.ChemicalFluid;
 import com.machina.api.util.math.MathUtil;
+import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.commands.arguments.blocks.BlockStateParser;
@@ -71,6 +74,14 @@ public class BlockHelper {
 		} catch (CommandSyntaxException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static ChemicalFluid parseChemicalFluid(String chem) {
+		FluidObject fob = FluidInit.OBJS.stream().filter(obj -> obj.name().equals(chem)).findFirst().orElse(null);
+		if (fob == null) {
+			return null;
+		}
+		return new ChemicalFluid(fob.chem(), fob.fluid());
 	}
 
 	public static boolean hasEnergy(Level level, BlockPos pos, @Nullable Direction side) {

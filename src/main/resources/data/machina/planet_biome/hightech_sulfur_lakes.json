@@ -1,0 +1,122 @@
+{
+	"home": "machina:hightech_wastes",
+	"surface": "machina:craters_extra",
+	"base": "machina:basalt",
+	"stair": "machina:basalt_stairs",
+	"slab": "machina:basalt_slab",
+	"extra": "machina:ash",
+	"top": [
+		"machina:ash",
+		"machina:sulphuric_acid_block",
+		"machina:basalt_springstone",
+		"machina:anthracite",
+		"machina:basalt",
+		"machina:ash",
+		"machina:shale"
+	],
+	"second": "machina:ash",
+	"trees": [
+	],
+	"bushes": [
+	],
+	"grass": {
+		"enabled": true,
+		"min": 1,
+		"max": 1,
+		"grasses": [
+			{
+				"block": "machina:basalt_pebbles",
+				"weight": 1
+			},
+			{
+				"block": "machina:anthracite_pebbles",
+				"weight": 1
+			}
+		]
+	},
+	"lakes": {
+		"enabled": true,
+		"block": "machina:basalt",
+		"chance": 1,
+		"decorator_chance": 0,
+		"decorators": [
+		]
+	},
+	"rocks": [
+		{
+			"base": "machina:basalt",
+			"stair": "machina:basalt_stairs",
+			"slab": "machina:basalt_slab",
+			"wall": "machina:basalt_wall",
+			"chance": 2,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:basalt_springstone"
+					}
+				}
+			]
+		},
+		{
+			"base": "machina:ash",
+			"stair": "machina:basalt_stairs",
+			"slab": "machina:basalt_slab",
+			"wall": "machina:basalt_wall",
+			"chance": 2,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:basalt_springstone"
+					}
+				}
+			]
+		},
+		{
+			"base": "machina:anthracite",
+			"stair": "machina:anthracite_stairs",
+			"slab": "machina:anthracite_slab",
+			"wall": "machina:anthracite_wall",
+			"chance": 2,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:dont_place_on",
+					"params": {
+						"block": "machina:basalt_springstone"
+					}
+				}
+			]
+		},
+		{
+			"base": "machina:shale",
+			"stair": "machina:shale_stairs",
+			"slab": "machina:shale_slab",
+			"wall": "machina:shale_wall",
+			"chance": 3,
+			"radius": 1.01,
+			"deform": 2.0,
+			"placement_modifiers": [
+				{
+					"type": "machina:only_place_on",
+					"params": {
+						"block": [
+							"machina:ash"
+						]
+					}
+				}
+			]
+		}
+	],
+	"big_rocks": [
+	],
+	"client_settings": {
+		"weather_tint": 4286775214
+	}
+}

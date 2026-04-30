@@ -1,0 +1,222 @@
+{
+	"name": "machina:hightech_wastes",
+	"iconY": 1,
+	"color": 9758741,
+	"shaderId": 4,
+	"dominant_liquid": "sulphuric_acid",
+	"shape": {
+		"sea_level": -64,
+		"noise_settings": {
+			"minY": -64,
+			"height": 384,
+			"noiseSizeHorizontal": 4,
+			"noiseSizeVertical": 1
+		}
+	},
+	"biomes": [
+		{
+			"name": "machina:hightech_sulfur_lakes",
+			"placements": [
+				"MIDDLE"
+			]
+		}
+	],
+	"base": "machina:basalt",
+	"weathers": [
+		"machina:clear",
+		"machina:rain",
+		"machina:dust_storm"
+	],
+	"traits": {
+		"minRolls": 0,
+		"maxRolls": 1,
+		"weights": [
+			{
+				"trait": "machina:always_raining",
+				"weight": 1.0
+			},
+			{
+				"trait": "machina:always_dust_storm",
+				"weight": 1.0
+			}
+		]
+	},
+	"ores": [
+		{
+			"block": "minecraft:andesite",
+			"size": 40,
+			"chance": 12,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"block": "minecraft:granite",
+			"size": 30,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 64
+		},
+		{
+			"block": "minecraft:diorite",
+			"size": 30,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 64
+		},
+		{
+			"block": "machina:gneiss",
+			"size": 24,
+			"chance": 3,
+			"min_y": -64,
+			"max_y": 0
+		},
+		{
+			"block": "machina:migmatite",
+			"size": 20,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": -16
+		},
+		{
+			"block": "machina:shale",
+			"size": 18,
+			"chance": 3,
+			"min_y": -32,
+			"max_y": 32
+		},
+		{
+			"ore": "machina:coal_ore",
+			"size": 14,
+			"chance": 18,
+			"min_y": 0,
+			"max_y": 128
+		},
+		{
+			"ore": "machina:iron_ore",
+			"size": 9,
+			"chance": 18,
+			"min_y": -64,
+			"max_y": 128
+		},
+		{
+			"ore": "machina:copper_ore",
+			"size": 7,
+			"chance": 10,
+			"min_y": -32,
+			"max_y": 96
+		},
+		{
+			"ore": "machina:nickel_ore",
+			"size": 5,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 32
+		},
+		{
+			"ore": "machina:cobalt_ore",
+			"size": 5,
+			"chance": 6,
+			"min_y": -64,
+			"max_y": 32
+		},
+		{
+			"ore": "machina:aluminum_ore",
+			"size": 6,
+			"chance": 8,
+			"min_y": 0,
+			"max_y": 96
+		},
+		{
+			"ore": "machina:low_grade_titanium_ore",
+			"size": 4,
+			"chance": 5,
+			"min_y": -64,
+			"max_y": 0,
+			"exposure_removal_chance": 0.5
+		},
+		{
+			"ore": "machina:lead_ore",
+			"size": 4,
+			"chance": 4,
+			"min_y": -64,
+			"max_y": 32
+		},
+		{
+			"ore": "machina:zinc_ore",
+			"size": 4,
+			"chance": 4,
+			"min_y": -32,
+			"max_y": 64
+		},
+		{
+			"ore": "machina:gold_ore",
+			"size": 3,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0,
+			"exposure_removal_chance": 0.6
+		},
+		{
+			"ore": "machina:silver_ore",
+			"size": 3,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0,
+			"exposure_removal_chance": 0.6
+		},
+		{
+			"ore": "machina:platinum_ore",
+			"size": 2,
+			"chance": 1,
+			"min_y": -64,
+			"max_y": -32,
+			"exposure_removal_chance": 0.8
+		},
+		{
+			"ore": "machina:iridium_ore",
+			"size": 2,
+			"chance": 1,
+			"min_y": -64,
+			"max_y": -32,
+			"exposure_removal_chance": 0.9
+		},
+		{
+			"ore": "machina:osmium_ore",
+			"size": 2,
+			"chance": 1,
+			"min_y": -64,
+			"max_y": -32,
+			"exposure_removal_chance": 0.9
+		},
+		{
+			"ore": "machina:uraninite_ore",
+			"size": 3,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0,
+			"exposure_removal_chance": 0.7
+		},
+		{
+			"ore": "machina:thorium_ore",
+			"size": 3,
+			"chance": 2,
+			"min_y": -64,
+			"max_y": 0,
+			"exposure_removal_chance": 0.7
+		},
+		{
+			"ore": "machina:perchlorate_ore",
+			"size": 6,
+			"chance": 10,
+			"min_y": -16,
+			"max_y": 64
+		},
+		{
+			"ore": "machina:gypsum_ore",
+			"size": 7,
+			"chance": 10,
+			"min_y": -16,
+			"max_y": 64
+		}
+	]
+}

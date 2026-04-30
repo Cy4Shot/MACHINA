@@ -1146,6 +1146,7 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		addMisc("planet_type.earthlike", "Earthlike");
 		addMisc("planet_type.martian", "Martian");
+		addMisc("planet_type.hightech_wastes", "Hightech Wastes");
 
 		add("season.earthlike.spring", "Spring");
 		add("season.earthlike.summer", "Summer");
@@ -1156,5 +1157,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		add("season.martian.summer", "Scorch");
 		add("season.martian.autumn", "Haze");
 		add("season.martian.winter", "Ash");
+
+		add("season.hightech_wastes.spring", "Bloom");
+		add("season.hightech_wastes.summer", "Burn");
+		add("season.hightech_wastes.autumn", "Fallout");
+		add("season.hightech_wastes.winter", "Decay");
 	}
 }

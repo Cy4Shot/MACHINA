@@ -3,6 +3,7 @@ package com.machina.api.starchart.planet_type;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.machina.api.fluid.ChemicalFluid;
 import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.starchart.planet_type.PlanetType.BiomePlacement;
 import com.machina.api.starchart.planet_type.PlanetType.PlanetOre;
@@ -21,7 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId, Shape shape,
 		List<BiomePlacementJsonInfo> biomes, List<String> weathers, PlanetTraitSettingsJsonInfo traits, String base,
-		List<PlanetOreJsonInfo> ores) implements JsonInfo<PlanetType> {
+		List<PlanetOreJsonInfo> ores, String dominant_liquid) implements JsonInfo<PlanetType> {
 
 	public static BlockState getBlock(String block) {
 		return BlockHelper.parseState(BlockHelper.blockHolderLookup(), block);
@@ -82,6 +83,9 @@ public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId
 
 		HolderLookup<Block> block = BlockHelper.blockHolderLookup();
 		BlockState base = BlockHelper.parseState(block, base());
-		return new PlanetType(name, iconY, color, shaderId, shape(), biomes, weathers, traits.cast(), base, ores);
+		ChemicalFluid dominant_liquid = dominant_liquid() == null ? null
+				: BlockHelper.parseChemicalFluid(dominant_liquid());
+		return new PlanetType(name, iconY, color, shaderId, shape(), biomes, weathers, traits.cast(), base, ores,
+				dominant_liquid);
 	}
 }

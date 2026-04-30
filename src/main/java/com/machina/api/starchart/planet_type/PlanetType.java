@@ -3,6 +3,7 @@ package com.machina.api.starchart.planet_type;
 import java.util.List;
 import java.util.Optional;
 
+import com.machina.api.fluid.ChemicalFluid;
 import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.weather.WeatherEvent;
 import com.mojang.serialization.Codec;
@@ -15,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public record PlanetType(ResourceLocation name, int iconY, int color, int shaderId, Shape shape,
 		List<BiomePlacement> biomes, List<WeatherEvent> weathers, PlanetTraitSettings traits, BlockState base,
-		List<PlanetOre> ores) {
+		List<PlanetOre> ores, ChemicalFluid dominant_liquid) {
 
 	public record Shape(int sea_level, NoiseSettings noise_settings) {
 		public net.minecraft.world.level.levelgen.NoiseSettings getNoiseSettings() {
