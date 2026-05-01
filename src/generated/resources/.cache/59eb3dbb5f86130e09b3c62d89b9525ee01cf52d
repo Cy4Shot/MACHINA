@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-15T20:17:08.7591279	Loot Tables
+// 1.21.1	2026-05-01T20:19:55.8983559	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
 4da7ad8c6aafe797fdd92bc27652554510a0029e data/machina/loot_table/blocks/anthracite_button.json
@@ -621,6 +621,7 @@ d827ff67270e1f51702d4173d5c25c3f813fcc1c data/machina/loot_table/blocks/pink_glo
 4c336f15c525abc59510db1642b1adc9bb6f5804 data/machina/loot_table/blocks/pink_groundlily.json
 ba29efde24d977b5a8af4671b2b5fd5f3b168ef9 data/machina/loot_table/blocks/pink_waterlily.json
 c6863111b65b41676b8917e0274bf6abe47820ed data/machina/loot_table/blocks/platinum_block.json
+2ba95d0af3671154a1ae18131b3496f3f34ec1b4 data/machina/loot_table/blocks/polluted_sand.json
 e5833acba9753eff156ff71ec27705483246d0f7 data/machina/loot_table/blocks/potted_blue_glowshroom.json
 f16146280da922e2b4326694b03c264dc278088d data/machina/loot_table/blocks/potted_dead_small_fern.json
 05994a1248bfbaab320f8a474a74a84816cf935d data/machina/loot_table/blocks/potted_dragon_peony.json
@@ -774,6 +775,7 @@ a44f1a367556672d7a60b40e7e7486875430b331 data/machina/loot_table/blocks/tectonit
 6855c2c2314da2797826d66168c4f500f1a16629 data/machina/loot_table/blocks/tectonite_wall.json
 391bda26bbf189748f92642f0be4559eca0e3869 data/machina/loot_table/blocks/thorium_block.json
 5bac39e5da881a24616f3857f7fef7b376d1e3a7 data/machina/loot_table/blocks/tin_block.json
+0429909f5b2ca6ace37d1e697ba02adb21904834 data/machina/loot_table/blocks/toxic_sand.json
 7fc090c9dd2a7a86a238820e321606cde7db50d9 data/machina/loot_table/blocks/tropical_button.json
 782ced6a093b5e9dd804a7a1c4d1be37f08eff4d data/machina/loot_table/blocks/tropical_dirt.json
 dc6aad35075ea5f585f55ac746fb2a7899705751 data/machina/loot_table/blocks/tropical_dirt_aluminum_ore.json

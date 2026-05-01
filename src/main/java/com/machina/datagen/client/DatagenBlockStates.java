@@ -108,6 +108,8 @@ public class DatagenBlockStates extends BlockStateProvider {
 		cube(BlockInit.MOONSAND);
 		cube(BlockInit.FERROUS_SAND);
 		cube(BlockInit.ASH);
+		cube(BlockInit.POLLUTED_SAND);
+		cube(BlockInit.TOXIC_SAND);
 		
 		unrotatableColumn(BlockInit.SULFUR_GEYSER);
 

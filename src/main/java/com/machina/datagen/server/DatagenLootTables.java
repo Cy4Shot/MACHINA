@@ -177,6 +177,8 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.MOONSAND.get());
 		dropSelf(BlockInit.FERROUS_SAND.get());
 		dropSelf(BlockInit.ASH.get());
+		dropSelf(BlockInit.POLLUTED_SAND.get());
+		dropSelf(BlockInit.TOXIC_SAND.get());
 
 		dropOther(BlockInit.SULFUR_GEYSER.get(), BlockInit.BASALT);
 	}

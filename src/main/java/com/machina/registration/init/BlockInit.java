@@ -334,6 +334,8 @@ public class BlockInit {
     public static final DeferredBlock<FallingBlock> MOONSAND = falling("moonsand", 0x97B2B4, Blocks.SAND);
     public static final DeferredBlock<FallingBlock> FERROUS_SAND = falling("ferrous_sand", 0xbe4d2e, Blocks.SAND);
     public static final DeferredBlock<FallingBlock> ASH = falling("ash", 0x36373a, Blocks.SAND);
+    public static final DeferredBlock<FallingBlock> POLLUTED_SAND = falling("polluted_sand", 0x4a4523, Blocks.SAND);
+    public static final DeferredBlock<FallingBlock> TOXIC_SAND = falling("toxic_sand", 0x397a38, Blocks.SAND);
 
 	public static final WoodType TROPICAL = registerWoodType("tropical");
 	public static final WoodType DEAD_TROPICAL = registerWoodType("dead_tropical");

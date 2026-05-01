@@ -102,6 +102,8 @@ public class TabInit {
 				add(a, BlockInit.MOONSAND);
 				add(a, BlockInit.FERROUS_SAND);
 				add(a, BlockInit.ASH);
+				add(a, BlockInit.POLLUTED_SAND);
+				add(a, BlockInit.TOXIC_SAND);
 
 				add(a, BlockInit.SULFUR_GEYSER);
 

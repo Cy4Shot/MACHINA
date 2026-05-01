@@ -75,6 +75,8 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		sand(BlockInit.MOONSAND);
 		sand(BlockInit.FERROUS_SAND);
 		sand(BlockInit.ASH);
+		sand(BlockInit.POLLUTED_SAND);
+		sand(BlockInit.TOXIC_SAND);
 
 		tag(BlockTags.FLOWERS).add(BlockInit.CLOVER.get(), BlockInit.PURPLE_GROUNDLILY.get(),
 				BlockInit.PINK_GROUNDLILY.get(), BlockInit.RED_GROUNDLILY.get(), BlockInit.ORANGE_GROUNDLILY.get(),

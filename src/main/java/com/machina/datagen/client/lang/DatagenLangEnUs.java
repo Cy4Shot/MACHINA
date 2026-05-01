@@ -524,6 +524,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.MOONSAND, "Moonsand");
 		add(BlockInit.FERROUS_SAND, "Ferrous Sand");
 		add(BlockInit.ASH, "Ash");
+		add(BlockInit.POLLUTED_SAND, "Polluted Sand");
+		add(BlockInit.TOXIC_SAND, "Toxic Sand");
 
 		add(BlockInit.SULFUR_GEYSER, "Sulfur Geyser");
 

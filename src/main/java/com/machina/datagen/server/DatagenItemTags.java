@@ -88,6 +88,8 @@ public class DatagenItemTags extends ItemTagsProvider {
 		sand(BlockInit.MOONSAND);
 		sand(BlockInit.FERROUS_SAND);
 		sand(BlockInit.ASH);
+		sand(BlockInit.POLLUTED_SAND);
+		sand(BlockInit.TOXIC_SAND);
 
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);
