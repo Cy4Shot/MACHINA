@@ -35,8 +35,11 @@ public class BlockHelper {
 	public static <T extends BlockEntity> boolean doWithTe(BlockGetter world, BlockPos pos, Class<T> clazz,
 			Consumer<T> todo) {
 		BlockEntity e = world.getBlockEntity(pos);
-		if (e == null || !(clazz.isAssignableFrom(e.getClass()))) {
-			Machina.LOGGER.error("BE at {} is null.", pos.toShortString());
+		if (e == null) {
+			return false;
+		}
+		if (!(clazz.isAssignableFrom(e.getClass()))) {
+			Machina.LOGGER.error("BE at {} is unexpected!", pos.toShortString());
 			new Throwable().printStackTrace(System.err);
 			return false;
 		}
@@ -49,8 +52,11 @@ public class BlockHelper {
 	public static <T extends BlockEntity, R> R getFromTe(BlockGetter world, BlockPos pos, Class<T> clazz,
 			Function<T, R> todo) {
 		BlockEntity e = world.getBlockEntity(pos);
-		if (e == null || !(clazz.isAssignableFrom(e.getClass()))) {
-			Machina.LOGGER.error("BE at {} is null.", pos.toShortString());
+		if (e == null) {
+			return null;
+		}
+		if (!(clazz.isAssignableFrom(e.getClass()))) {
+			Machina.LOGGER.error("BE at {} is unexpected!", pos.toShortString());
 			new Throwable().printStackTrace(System.err);
 			return null;
 		}

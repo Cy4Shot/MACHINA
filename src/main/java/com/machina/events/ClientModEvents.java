@@ -15,13 +15,13 @@ import com.machina.client.ber.TankRenderer;
 import com.machina.client.entity.RocketRenderer;
 import com.machina.client.model.rocket.RocketPartModels;
 import com.machina.client.model.rocket.part.AdvancedChassisModel;
-import com.machina.client.model.rocket.part.SimpleShieldModel;
+import com.machina.client.model.rocket.part.BreakerShieldModel;
 import com.machina.client.model.rocket.part.PressurizedTankModel;
 import com.machina.client.model.rocket.part.ReinforcedLifeSupportModel;
 import com.machina.client.model.rocket.part.SimpleChassisModel;
 import com.machina.client.model.rocket.part.SimpleFuelTankModel;
 import com.machina.client.model.rocket.part.SimpleLifeSupportModel;
-import com.machina.client.model.rocket.part.BreakerShieldModel;
+import com.machina.client.model.rocket.part.SimpleShieldModel;
 import com.machina.client.model.rocket.part.SimpleThrusterModel;
 import com.machina.client.model.rocket.part.TriTallThrusterModel;
 import com.machina.client.particle.DustStormParticle.DustStormParticleProvider;
@@ -35,9 +35,9 @@ import com.machina.client.screen.menu.ElectricPumpScreen;
 import com.machina.client.screen.menu.ElectricSmelterScreen;
 import com.machina.client.screen.menu.ElectrolyzerScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
+import com.machina.client.screen.menu.GeothermalGeneratorScreen;
 import com.machina.client.screen.menu.GrinderScreen;
 import com.machina.client.screen.menu.MelterScreen;
-import com.machina.client.screen.menu.MultiblockHousingScreen;
 import com.machina.client.screen.menu.ReactionChamberScreen;
 import com.machina.client.screen.menu.RocketAssemblyStationScreen;
 import com.machina.client.screen.menu.RocketPartBenchScreen;
@@ -127,7 +127,6 @@ public class ClientModEvents {
 		event.register(MenuTypeInit.BATTERY.get(), BatteryScreen::new);
 		event.register(MenuTypeInit.TANK.get(), TankScreen::new);
 		event.register(MenuTypeInit.CREATIVE_BATTERY.get(), CreativeBatteryScreen::new);
-		event.register(MenuTypeInit.MULTIBLOCK_HOUSING.get(), MultiblockHousingScreen::new);
 		event.register(MenuTypeInit.FURNACE_GENERATOR.get(), FurnaceGeneratorScreen::new);
 		event.register(MenuTypeInit.CHEMICAL_GENERATOR.get(), ChemicalGeneratorScreen::new);
 		event.register(MenuTypeInit.ELECTRIC_SMELTER.get(), ElectricSmelterScreen::new);
@@ -144,6 +143,7 @@ public class ClientModEvents {
 		event.register(MenuTypeInit.ROCKET_PART_BENCH.get(), RocketPartBenchScreen::new);
 		event.register(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), RocketAssemblyStationScreen::new);
 		event.register(MenuTypeInit.ROCKET_REFUELING_STATION.get(), RocketRefuelingStationScreen::new);
+		event.register(MenuTypeInit.GEOTHERMAL_GENERATOR.get(), GeothermalGeneratorScreen::new);
 	}
 
 	@SubscribeEvent

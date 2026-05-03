@@ -24,21 +24,28 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class Multiblock {
 	public Vec3i size;
+	public BlockState controller;
 	public Vec3i controller_pos;
 	public Map<String, BlockState> map;
-	public Map<String, BlockState> renderMap;
 	public Collection<BlockState> allowed;
 	public Set<Block> allowedBlock;
 	public String[][][] structure;
 
 	public static class MultiblockJsonInfo implements JsonInfo<Multiblock> {
 		public List<Integer> size;
+		public String controller;
 		public Map<String, String> blocks;
 		public List<List<String>> structure;
 
 		public Multiblock cast() {
 			Multiblock mb = new Multiblock();
 			mb.size = new Vec3i(size.get(0), size.get(1), size.get(2));
+			try {
+				mb.controller = parse(controller);
+			} catch (CommandSyntaxException e) {
+				e.printStackTrace();
+				mb.controller = null;
+			}
 			mb.map = blocks.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> {
 				try {
 					return parse(s.getValue());
@@ -48,12 +55,16 @@ public class Multiblock {
 				}
 			}));
 
-			// TODO: Does rendermap need to exist?
-			mb.renderMap = mb.map;
-
-			mb.structure = structure.stream()
-					.map(l1 -> l1.stream().map(l2 -> l2.split("(?!^)")).toArray(String[][]::new))
-					.toArray(String[][][]::new);
+			mb.structure = new String[mb.size.getX()][mb.size.getY()][mb.size.getZ()];
+			for (int y = 0; y < mb.size.getY(); y++) {
+				for (int z = 0; z < mb.size.getZ(); z++) {
+					String row = structure.get(y).get(z);
+					String[] chars = row.split("(?!^)");
+					for (int x = 0; x < mb.size.getX(); x++) {
+						mb.structure[x][mb.size.getY() - 1 - y][z] = chars[x];
+					}
+				}
+			}
 
 			mb.controller_pos = null;
 			for (int x = 0; x < mb.size.getX(); x++) {
@@ -74,6 +85,9 @@ public class Multiblock {
 			mb.allowed = mb.map.values();
 			mb.allowedBlock = mb.allowed.stream().map(BlockBehaviour.BlockStateBase::getBlock)
 					.collect(Collectors.toSet());
+			if (mb.controller != null) {
+				mb.allowedBlock.add(mb.controller.getBlock());
+			}
 			return mb;
 		}
 	}
@@ -87,7 +101,10 @@ public class Multiblock {
 
 	public BlockState getRenderAtPos(Vec3i pos) {
 		try {
-			BlockState bs = renderMap.get(structure[pos.getX()][pos.getY()][pos.getZ()]);
+			if (controller_pos != null && controller_pos.equals(pos)) {
+				return controller;
+			}
+			BlockState bs = map.get(structure[pos.getX()][pos.getY()][pos.getZ()]);
 			return bs == null ? Blocks.AIR.defaultBlockState() : bs;
 		} catch (IndexOutOfBoundsException e) {
 			return Blocks.AIR.defaultBlockState();

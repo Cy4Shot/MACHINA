@@ -53,7 +53,6 @@ public class DatagenLootTables extends BlockLootSubProvider {
 
 		dropSelf(BlockInit.BASIC_CASING.get());
 		dropSelf(BlockInit.LIGHTWEIGHT_CASING.get());
-		dropSelf(BlockInit.MULTIBLOCK_HOUSING.get());
 
 		dropSelf(BlockInit.BATTERY.get());
 		dropSelf(BlockInit.TANK.get());
@@ -74,6 +73,9 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.ROCKET_PART_BENCH.get());
 		dropSelf(BlockInit.ROCKET_ASSEMBLY_STATION.get());
 		dropSelf(BlockInit.ROCKET_REFUELING_STATION.get());
+		dropSelf(BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER.get());
+		dropSelf(BlockInit.GEOTHERMAL_GENERATOR_CASING.get());
+		dropSelf(BlockInit.GEOTHERMAL_SUPPORT_ROD.get());
 
 		dropSelf(BlockInit.BROWN_MUSHROOM_STALK.get());
 		dropSelf(BlockInit.GREEN_MUSHROOM_STALK.get());

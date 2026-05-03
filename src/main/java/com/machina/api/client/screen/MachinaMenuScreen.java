@@ -13,7 +13,6 @@ import javax.annotation.Nullable;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
-import org.lwjgl.glfw.GLFW;
 
 import com.machina.api.block.entity.ContainerBlockEntity;
 import com.machina.api.block.entity.MachinaBlockEntity;
@@ -23,7 +22,6 @@ import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.screen.MUI.MuiSlot;
 import com.machina.api.util.StringUtils;
-import com.machina.api.util.math.MathUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -57,7 +55,6 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 
 	protected long aliveTicks = 0;
 	protected Float lsx, lsy, usx, usy = null;
-	protected float rotX, rotY;
 
 	private final Map<String, ClickArea> clickareas = new HashMap<>();
 	private final Map<String, Clickable> clickables = new HashMap<>();
@@ -765,19 +762,6 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	public int getElapsedState(String key) {
 		Stateable s = this.stateables.get(key);
 		return s == null ? 0 : (int) (this.aliveTicks - s.lastClick());
-	}
-
-	@Override
-	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-
-		// Rotate - Right Click
-		if (pButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
-			this.rotX -= (float) pDragY / (float) height * 80f;
-			this.rotY -= (float) pDragX / (float) width * 180f;
-			this.rotX = MathUtil.clamp(this.rotX, 0f, 60f);
-		}
-
-		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
 
 	@Override

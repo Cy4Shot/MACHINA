@@ -26,6 +26,8 @@ public class CommonConfig {
 	public static ModConfigSpec.IntValue furnaceGeneratorTransferRate;
 	public static ModConfigSpec.IntValue chemicalGeneratorCapacity;
 	public static ModConfigSpec.IntValue chemicalGeneratorTransferRate;
+	public static ModConfigSpec.IntValue geothermalGeneratorCapacity;
+	public static ModConfigSpec.IntValue geothermalGeneratorTransferRate;
 	public static ModConfigSpec.IntValue weatherFadeTicks;
 
 	private static void setupConfig(ModConfigSpec.Builder builder) {
@@ -74,6 +76,12 @@ public class CommonConfig {
 		builder.comment("ChemicalGenerator settings");
 		chemicalGeneratorCapacity = builder.defineInRange("chemical_generator_capacity", 10_000, 1, 999_999_999);
 		chemicalGeneratorTransferRate = builder.defineInRange("chemical_generator_transfer_rate", 1_000, 1, 999_999);
+		builder.pop();
+
+		builder.push("geothermal_generator");
+		builder.comment("Geothermal Generator settings");
+		geothermalGeneratorCapacity = builder.defineInRange("geothermal_generator_capacity", 100_000, 1, 999_999_999);
+		geothermalGeneratorTransferRate = builder.defineInRange("geothermal_generator_transfer_rate", 6_700, 1, 999_999);
 		builder.pop();
 
 		builder.push("weather");

@@ -11,6 +11,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -24,6 +25,8 @@ public class DataMapsInit {
 
 	public static final DataMapType<Fluid, Integer> CHEMICAL_BURNABLE = register("chemical_burnable", Registries.FLUID,
 			ExtraCodecs.POSITIVE_INT);
+	public static final DataMapType<Block, Integer> GEOTHERMAL_ENERGY_SOURCE = register("geothermal_energy_source",
+			Registries.BLOCK, ExtraCodecs.POSITIVE_INT);
 
 	private static final <T, R> DataMapType<R, T> register(String name, ResourceKey<Registry<R>> registry,
 			Codec<T> codec) {
@@ -32,9 +35,9 @@ public class DataMapsInit {
 		TYPES.add(type);
 		return type;
 	}
-	
+
 	@SubscribeEvent
 	public static void registerDataMapTypes(RegisterDataMapTypesEvent event) {
-	    TYPES.forEach(event::register);
+		TYPES.forEach(event::register);
 	}
 }

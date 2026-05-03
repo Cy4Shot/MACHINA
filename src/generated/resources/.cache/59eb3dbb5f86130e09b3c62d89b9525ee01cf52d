@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-01T20:19:55.8983559	Loot Tables
+// 1.21.1	2026-05-03T16:40:17.6892588	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
 4da7ad8c6aafe797fdd92bc27652554510a0029e data/machina/loot_table/blocks/anthracite_button.json
@@ -284,6 +284,9 @@ dfbc5ceca8891dc43a31c3bb37193b5944d20edf data/machina/loot_table/blocks/forest_d
 061766741e1b1056ee79f2eada55ca835c918905 data/machina/loot_table/blocks/forest_dirt_zinc_ore.json
 b982ec02cc488dc2f4a42a3f76f7f4ad7e5f370b data/machina/loot_table/blocks/forest_grass_block.json
 612d71bf33088fb93e8d45d4b65f4b9e8102c29d data/machina/loot_table/blocks/furnace_generator.json
+90beca89b3c9989dfebb784d9f888064936206b2 data/machina/loot_table/blocks/geothermal_generator_casing.json
+9fda5dee438fc47fc33325b66144313baf01985a data/machina/loot_table/blocks/geothermal_generator_controller.json
+d09fd978ee09ea21805621ccee58352ada9cc5ec data/machina/loot_table/blocks/geothermal_support_rod.json
 bc06d43f87571eb91c5695e1311f3fc5f03f8680 data/machina/loot_table/blocks/gneiss.json
 199ed897b24d242641f20abaf2bfcc1fe4552585 data/machina/loot_table/blocks/gneiss_aluminum_ore.json
 bd98945d31e3689204f7dad9e363c4b766f36242 data/machina/loot_table/blocks/gneiss_bismuth_ore.json
@@ -548,7 +551,6 @@ da8c6b9ad1c465aea04fb2894664c3d9e4d07c2c data/machina/loot_table/blocks/moonston
 3ca9d236dc8b6d24de383e8c26df91084c69cf9a data/machina/loot_table/blocks/moonstone_uraninite_ore.json
 a61613eda121a3bdc5f1330ef919f35fdca71468 data/machina/loot_table/blocks/moonstone_wall.json
 fc3e3e3cd652a8f387157fc64043e1af4d3cc510 data/machina/loot_table/blocks/moonstone_zinc_ore.json
-95c4b78df5a5e73ad6f579d2cfde70a5a96717e2 data/machina/loot_table/blocks/multiblock_housing.json
 d8aba5cbc8715e7e683f1bf8f03135dd5b4bda7a data/machina/loot_table/blocks/mycelial_dirt.json
 a03cbc06e952be2b4f6e5e1ffd52d11034603fe0 data/machina/loot_table/blocks/mycelial_dirt_slab.json
 04286f63d80b7e489771010728d29f5e2e366d11 data/machina/loot_table/blocks/mycelial_dirt_stairs.json

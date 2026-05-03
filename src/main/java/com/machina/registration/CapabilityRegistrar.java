@@ -5,7 +5,6 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.energy.EnergyItemWrapper;
-import com.machina.api.cap.fluid.SidedFluidWrapper;
 import com.machina.api.item.EnergyItem;
 import com.machina.api.item.MachinaBucket;
 import com.machina.registration.init.BlockEntityInit;
@@ -20,7 +19,6 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
-import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 @EventBusSubscriber(modid = Machina.MOD_ID)
 public class CapabilityRegistrar {
@@ -35,7 +33,6 @@ public class CapabilityRegistrar {
 		machinaBlock(event, BlockEntityInit.ELECTRIC_PUMP);
 		machinaBlock(event, BlockEntityInit.ELECTRIC_SMELTER);
 		machinaBlock(event, BlockEntityInit.FURNACE_GENERATOR);
-		machinaBlock(event, BlockEntityInit.MULTIBLOCK_HOUSING);
 		machinaBlock(event, BlockEntityInit.ROCKET_ASSEMBLY_STATION);
 		machinaBlock(event, BlockEntityInit.ROCKET_REFUELING_STATION);
 		machinaBlock(event, BlockEntityInit.ROCKET_PART_BENCH);
@@ -48,6 +45,7 @@ public class CapabilityRegistrar {
 		machinaBlock(event, BlockEntityInit.REACTION_CHAMBER);
 		machinaBlock(event, BlockEntityInit.SAWMILL);
 		machinaBlock(event, BlockEntityInit.SOLIDIFIER);
+		machinaBlock(event, BlockEntityInit.GEOTHERMAL_GENERATOR_CONTROLLER);
 
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntityInit.ENERGY_CABLE.get(),
 				(be, side) -> be.createStorage(side));
@@ -74,11 +72,11 @@ public class CapabilityRegistrar {
 	public static <T extends MachinaBlockEntity> void machinaBlock(RegisterCapabilitiesEvent event,
 			Supplier<BlockEntityType<T>> type) {
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type.get(),
-				(be, side) -> new SidedInvWrapper(be, side));
+				(be, side) -> be.getInvCap(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type.get(),
 				(be, side) -> be.getEnergyStorage(side));
 		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type.get(),
-				(be, side) -> new SidedFluidWrapper(be, side));
+				(be, side) -> be.getFluidCap(side));
 	}
 
 	private static final void energyItem(final RegisterCapabilitiesEvent event, ItemLike like) {

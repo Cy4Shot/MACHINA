@@ -1,0 +1,24 @@
+{
+	"size": [
+		3,
+		2,
+		3
+	],
+	"controller": "machina:geothermal_generator_controller",
+	"blocks": {
+		"C": "machina:geothermal_generator_casing",
+		"R": "machina:geothermal_support_rod"
+	},
+	"structure": [
+		[
+			" C ",
+			"C!C",
+			" C "
+		],
+		[
+			" R ",
+			"R R",
+			" R "
+		]
+	]
+}

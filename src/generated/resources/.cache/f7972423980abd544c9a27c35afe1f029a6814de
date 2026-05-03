@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-01T20:19:55.9033566	Block States: machina
+// 1.21.1	2026-05-03T21:38:24.7627362	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -298,6 +298,8 @@ f8f71ca805b7e4b3e244b6caddff03caac61a2fd assets/machina/blockstates/forest_dirt_
 ec95ecbc913f299f74480927a9a74a741512027c assets/machina/blockstates/forest_grass_block.json
 a452f401b049041d40a742a93471b8269f83de9b assets/machina/blockstates/formaldehyde_block.json
 db569ea45cb58a565177f5fbb41194e787ddc855 assets/machina/blockstates/furnace_generator.json
+55a410e195b82d817cc69ccc6adbb5967017e1c1 assets/machina/blockstates/geothermal_generator_casing.json
+53157e734840ad193172154dd33af8185356ced8 assets/machina/blockstates/geothermal_generator_controller.json
 071db841983836c4371f0026b06473a4721a22cd assets/machina/blockstates/glyoxal_block.json
 227a7911fcfc78e1202c010aae6edfd5db7e97aa assets/machina/blockstates/gneiss.json
 b0035253e8c42f4f5a37bc45847ba552ab713fab assets/machina/blockstates/gneiss_aluminum_ore.json
@@ -1390,6 +1392,8 @@ e568e0f3225788a5b896fa49aea179851d396d6c assets/machina/models/block/forest_dirt
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/formaldehyde_block.json
 35c25ae5bd61bcbb7f1826e058fb220f28574979 assets/machina/models/block/furnace_generator.json
 8865a02a3e313fb2c53e84406e7589734d795fa9 assets/machina/models/block/furnace_generator_lit.json
+bf01fbcbdb878c885862e9c179509361e4fb7345 assets/machina/models/block/geothermal_generator_casing.json
+6b7d2f4053f928d607dea58d491e1f5658527aa2 assets/machina/models/block/geothermal_generator_controller.json
 c386fc7575d856e6168441973b81d312463e3e9e assets/machina/models/block/glyoxal_block.json
 928a8a291a0aa5fae4f2b4ad888b075950bbd05f assets/machina/models/block/gneiss.json
 e0385176b2980d362a05f708c6514fdd11ef8d59 assets/machina/models/block/gneiss_aluminum_ore.json
@@ -2535,6 +2539,8 @@ fcd66d0794b910a860e83d92387e36af8271cd53 assets/machina/models/item/forest_dirt_
 9f2c2294d4888234d32d15700608aeaaee0d4058 assets/machina/models/item/forest_dirt_zinc_ore.json
 2f37d8bf695cf96e7f659f4dde291981c233b868 assets/machina/models/item/forest_grass_block.json
 2d21a69272dcd9d93dcff80f9586ae67f5bc59ac assets/machina/models/item/furnace_generator.json
+c81e8bbb4e9598b8cdceb8ea75942069929b3c7b assets/machina/models/item/geothermal_generator_casing.json
+b96aa632de76d95baac2ed10b864e6c0fc641ef2 assets/machina/models/item/geothermal_generator_controller.json
 d355bc9236e76389aa7569da1cdf45d4c8589ec7 assets/machina/models/item/gneiss.json
 5f5455c6319910c1e969ee2e335f71b57eebaf82 assets/machina/models/item/gneiss_aluminum_ore.json
 a6b938d0fe967c1c4682886a55973c82058485e0 assets/machina/models/item/gneiss_bismuth_ore.json

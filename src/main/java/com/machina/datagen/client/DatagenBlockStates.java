@@ -2,6 +2,7 @@ package com.machina.datagen.client;
 
 import java.util.function.Function;
 
+import com.google.common.base.Preconditions;
 import com.machina.Machina;
 import com.machina.api.block.ConnectorBlock;
 import com.machina.api.block.LitMachineBlock;
@@ -10,6 +11,7 @@ import com.machina.api.util.MachinaRL;
 import com.machina.block.MachinaWaterlilyBlock;
 import com.machina.block.PebbleBlock;
 import com.machina.block.SmallFlowerBlock;
+import com.machina.datagen.client.builder.CTMBlockStateBuilder;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.DirtFamily;
@@ -20,11 +22,13 @@ import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.FruitInit.Fruit;
+import com.machina.registration.init.TagInit.BlockTagInit;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ButtonBlock;
@@ -46,6 +50,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.IGeneratedBlockState;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -83,6 +88,9 @@ public class DatagenBlockStates extends BlockStateProvider {
 		machine(BlockInit.ROCKET_ASSEMBLY_STATION);
 		machine(BlockInit.ROCKET_REFUELING_STATION);
 
+		ctm(BlockInit.GEOTHERMAL_GENERATOR_CASING, BlockTagInit.GEOTHERMAL_GENERATOR_CTM);
+		ctm(BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER, BlockTagInit.GEOTHERMAL_GENERATOR_CTM);
+
 		cube(BlockInit.BROWN_MUSHROOM_STALK);
 		cube(BlockInit.GREEN_MUSHROOM_STALK);
 		cube(BlockInit.PURPLE_MUSHROOM_STALK);
@@ -110,7 +118,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		cube(BlockInit.ASH);
 		cube(BlockInit.POLLUTED_SAND);
 		cube(BlockInit.TOXIC_SAND);
-		
+
 		unrotatableColumn(BlockInit.SULFUR_GEYSER);
 
 		flower(BlockInit.TROPICAL_GRASS);
@@ -279,6 +287,24 @@ public class DatagenBlockStates extends BlockStateProvider {
 
 	private void cube(DeferredBlock<? extends Block> blockDeferredBlock) {
 		cube(blockDeferredBlock.get());
+	}
+
+	private void ctm(DeferredBlock<? extends Block> block, TagKey<Block> ctmTag) {
+		Block b = block.get();
+		ModelFile cube = cubeAll(b);
+		//@formatter:off
+		CTMBlockStateBuilder builder = getCTMBuilder(b, cube)
+			.setLoader(CTMBlockStateBuilder.CTM_LOADER)
+			.addCTMTexture("particle", blockTexture(b))
+			.addCTMTexture("center", ctmTexture(b, "c"))
+			.addCTMTexture("empty", ctmTexture(b, "e"))
+			.addCTMTexture("horizontal", ctmTexture(b, "h"))
+			.addCTMTexture("vertical", ctmTexture(b, "v"));
+		//@formatter:on
+		if (ctmTag != null) {
+			builder.setCTMTag(ctmTag);
+		}
+		simpleBlockItem(b, cubeAll(b));
 	}
 
 	private void leaves(LeavesBlock leaves) {
@@ -606,5 +632,23 @@ public class DatagenBlockStates extends BlockStateProvider {
 	public ResourceLocation blockTexture(ResourceLocation name) {
 		return ResourceLocation.fromNamespaceAndPath(name.getNamespace(),
 				ModelProvider.BLOCK_FOLDER + "/" + name.getPath());
+	}
+
+	public ResourceLocation ctmTexture(Block block, String key) {
+		ResourceLocation name = key(block);
+		return ResourceLocation.fromNamespaceAndPath(name.getNamespace(),
+				ModelProvider.BLOCK_FOLDER + "/ctm/" + name.getPath() + "/" + key);
+	}
+
+	public CTMBlockStateBuilder getCTMBuilder(Block b, ModelFile model) {
+		if (registeredBlocks.containsKey(b)) {
+			IGeneratedBlockState old = registeredBlocks.get(b);
+			Preconditions.checkState(old instanceof CTMBlockStateBuilder);
+			return (CTMBlockStateBuilder) old;
+		} else {
+			CTMBlockStateBuilder ret = new CTMBlockStateBuilder(new ConfiguredModel(model));
+			registeredBlocks.put(b, ret);
+			return ret;
+		}
 	}
 }

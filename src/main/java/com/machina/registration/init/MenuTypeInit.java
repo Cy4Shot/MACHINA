@@ -13,13 +13,13 @@ import com.machina.block.menu.ElectricPumpMenu;
 import com.machina.block.menu.ElectricSmelterMenu;
 import com.machina.block.menu.ElectrolyzerMenu;
 import com.machina.block.menu.FurnaceGeneratorMenu;
+import com.machina.block.menu.GeothermalGeneratorMenu;
 import com.machina.block.menu.GrinderMenu;
-import com.machina.block.menu.MultiblockHousingMenu;
 import com.machina.block.menu.MelterMenu;
 import com.machina.block.menu.ReactionChamberMenu;
 import com.machina.block.menu.RocketAssemblyStationMenu;
-import com.machina.block.menu.RocketRefuelingStationMenu;
 import com.machina.block.menu.RocketPartBenchMenu;
+import com.machina.block.menu.RocketRefuelingStationMenu;
 import com.machina.block.menu.SawmillMenu;
 import com.machina.block.menu.SolidifierMenu;
 import com.machina.block.menu.TankMenu;
@@ -61,8 +61,6 @@ public class MenuTypeInit {
 			register("tank", TankMenu::new);
 	public static final Supplier<MenuType<CreativeBatteryMenu>> CREATIVE_BATTERY =
 			register("creative_battery", CreativeBatteryMenu::new);
-	public static final Supplier<MenuType<MultiblockHousingMenu>> MULTIBLOCK_HOUSING =
-			register("multiblock_housing", MultiblockHousingMenu::new);
 	public static final Supplier<MenuType<FurnaceGeneratorMenu>> FURNACE_GENERATOR =
 			register("furnace_generator", FurnaceGeneratorMenu::new);
 	public static final Supplier<MenuType<ChemicalGeneratorMenu>> CHEMICAL_GENERATOR =
@@ -95,6 +93,8 @@ public class MenuTypeInit {
             register("rocket_assembly_station", RocketAssemblyStationMenu::new);
 	public static final Supplier<MenuType<RocketRefuelingStationMenu>> ROCKET_REFUELING_STATION =
             register("rocket_refueling_station", RocketRefuelingStationMenu::new);
+	public static final Supplier<MenuType<GeothermalGeneratorMenu>> GEOTHERMAL_GENERATOR =
+            register("geothermal_generator", GeothermalGeneratorMenu::new);
 	//@formatter:on
 
 	private static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(String n,

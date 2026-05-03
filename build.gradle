@@ -14,10 +14,6 @@ group = mod_group_id
 
 repositories {
     maven {
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
-    maven {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
@@ -39,6 +35,7 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven { url = "https://maven.teamresourceful.com/repository/maven-public/" }
 }
 
 base {
@@ -113,6 +110,7 @@ dependencies {
 
     // Required Dependencies
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    runtimeOnly "earth.terrarium.athena:athena-neoforge-${minecraft_major_version}:${athena_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

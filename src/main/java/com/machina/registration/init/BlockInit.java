@@ -15,8 +15,6 @@ import com.machina.api.block.OreBlock;
 import com.machina.api.item.ChemicalBlockItem;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.CrystalBlock;
-import com.machina.block.SulfurGeyserBlock;
-import com.machina.block.TallFakeGrassBlock;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
@@ -24,6 +22,8 @@ import com.machina.block.MachinaWallSignBlock;
 import com.machina.block.MachinaWaterlilyBlock;
 import com.machina.block.PebbleBlock;
 import com.machina.block.SmallFlowerBlock;
+import com.machina.block.SulfurGeyserBlock;
+import com.machina.block.TallFakeGrassBlock;
 import com.machina.block.connector.EnergyCableBlock;
 import com.machina.block.connector.FluidPipeBlock;
 import com.machina.block.connector.ItemConduitBlock;
@@ -39,14 +39,16 @@ import com.machina.block.machine.ElectrolyzerBlock;
 import com.machina.block.machine.FurnaceGeneratorBlock;
 import com.machina.block.machine.GrinderBlock;
 import com.machina.block.machine.MelterBlock;
-import com.machina.block.machine.MultiblockHousingBlock;
 import com.machina.block.machine.ReactionChamberBlock;
 import com.machina.block.machine.RocketAssemblyStationBlock;
-import com.machina.block.machine.RocketRefuelingStationBlock;
 import com.machina.block.machine.RocketPartBenchBlock;
+import com.machina.block.machine.RocketRefuelingStationBlock;
 import com.machina.block.machine.SawmillBlock;
 import com.machina.block.machine.SolidifierBlock;
 import com.machina.block.machine.TankBlock;
+import com.machina.block.machine.geothermal_generator.GeothermalGeneratorCasingBlock;
+import com.machina.block.machine.geothermal_generator.GeothermalGeneratorControllerBlock;
+import com.machina.block.machine.geothermal_generator.GeothermalSupportRodBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -104,7 +106,6 @@ public class BlockInit {
 	public static final DeferredBlock<BatteryBlock> BATTERY = register("battery", Blocks.IRON_BLOCK, BatteryBlock::new);
 	public static final DeferredBlock<TankBlock> TANK = register("tank", Blocks.IRON_BLOCK, TankBlock::new);
 	public static final DeferredBlock<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery", Blocks.IRON_BLOCK, CreativeBatteryBlock::new);
-	public static final DeferredBlock<MultiblockHousingBlock> MULTIBLOCK_HOUSING = register("multiblock_housing", Blocks.IRON_BLOCK, MultiblockHousingBlock::new);
 	public static final DeferredBlock<FurnaceGeneratorBlock> FURNACE_GENERATOR = register("furnace_generator", Blocks.IRON_BLOCK, FurnaceGeneratorBlock::new);
 	public static final DeferredBlock<ChemicalGeneratorBlock> CHEMICAL_GENERATOR = register("chemical_generator", Blocks.IRON_BLOCK, ChemicalGeneratorBlock::new);
 	public static final DeferredBlock<ElectricSmelterBlock> ELECTRIC_SMELTER = register("electric_smelter", Blocks.IRON_BLOCK, ElectricSmelterBlock::new);
@@ -121,6 +122,11 @@ public class BlockInit {
 	public static final DeferredBlock<RocketPartBenchBlock> ROCKET_PART_BENCH = register("rocket_part_bench", Blocks.IRON_BLOCK, RocketPartBenchBlock::new);
 	public static final DeferredBlock<RocketAssemblyStationBlock> ROCKET_ASSEMBLY_STATION = register("rocket_assembly_station", Blocks.IRON_BLOCK, RocketAssemblyStationBlock::new);
 	public static final DeferredBlock<RocketRefuelingStationBlock> ROCKET_REFUELING_STATION = register("rocket_refueling_station", Blocks.IRON_BLOCK, RocketRefuelingStationBlock::new);
+	
+	// Geothermal Generator
+	public static final DeferredBlock<GeothermalGeneratorControllerBlock> GEOTHERMAL_GENERATOR_CONTROLLER = register("geothermal_generator_controller", Blocks.IRON_BLOCK, GeothermalGeneratorControllerBlock::new);
+	public static final DeferredBlock<GeothermalGeneratorCasingBlock> GEOTHERMAL_GENERATOR_CASING = register("geothermal_generator_casing", Blocks.IRON_BLOCK, GeothermalGeneratorCasingBlock::new);
+	public static final DeferredBlock<GeothermalSupportRodBlock> GEOTHERMAL_SUPPORT_ROD = register("geothermal_support_rod", Blocks.IRON_BARS, GeothermalSupportRodBlock::new);
 
 	public static final DeferredBlock<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);

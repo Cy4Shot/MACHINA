@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "machina:multiblock_housing"
+          "name": "machina:geothermal_generator_casing"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "machina:blocks/multiblock_housing"
+  "random_sequence": "machina:blocks/geothermal_generator_casing"
 }

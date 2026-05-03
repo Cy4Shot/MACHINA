@@ -44,13 +44,13 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BlockInit.BASIC_CASING.get(), BlockInit.LIGHTWEIGHT_CASING.get(),
 				BlockInit.ITEM_CONDUIT.get(), BlockInit.ENERGY_CABLE.get(), BlockInit.FLUID_PIPE.get(),
 				BlockInit.BATTERY.get(), BlockInit.TANK.get(), BlockInit.CREATIVE_BATTERY.get(),
-				BlockInit.MULTIBLOCK_HOUSING.get(), BlockInit.FURNACE_GENERATOR.get(),
-				BlockInit.CHEMICAL_GENERATOR.get(), BlockInit.ELECTRIC_SMELTER.get(), BlockInit.GRINDER.get(),
-				BlockInit.COMPRESSOR.get(), BlockInit.MELTER.get(), BlockInit.SOLIDIFIER.get(),
+				BlockInit.FURNACE_GENERATOR.get(), BlockInit.CHEMICAL_GENERATOR.get(), BlockInit.ELECTRIC_SMELTER.get(),
+				BlockInit.GRINDER.get(), BlockInit.COMPRESSOR.get(), BlockInit.MELTER.get(), BlockInit.SOLIDIFIER.get(),
 				BlockInit.REACTION_CHAMBER.get(), BlockInit.COMPOSTER_VAT.get(), BlockInit.SAWMILL.get(),
 				BlockInit.ELECTROLYZER.get(), BlockInit.ELECTRIC_PUMP.get(), BlockInit.ATMOSPHERIC_SEPARATOR.get(),
 				BlockInit.ROCKET_PART_BENCH.get(), BlockInit.ROCKET_ASSEMBLY_STATION.get(),
-				BlockInit.ROCKET_REFUELING_STATION.get());
+				BlockInit.ROCKET_REFUELING_STATION.get(), BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER.get(),
+				BlockInit.GEOTHERMAL_GENERATOR_CASING.get(), BlockInit.GEOTHERMAL_SUPPORT_ROD.get());
 
 		smallFlower(BlockInit.SPRUCE_CUP, BlockInit.POTTED_SPRUCE_CUP);
 		smallFlower(BlockInit.PURPLE_GLOWSHROOM, BlockInit.POTTED_PURPLE_GLOWSHROOM);
@@ -92,6 +92,9 @@ public class DatagenBlockTags extends BlockTagsProvider {
 				BlockInit.GREEN_PETALS.get(), BlockInit.TURQUOISE_PETALS.get(), BlockInit.BLUE_PETALS.get());
 
 		tag(BlockTagInit.PLANET_CARVABLE).add(Blocks.STONE, Blocks.GRAVEL, Blocks.WATER);
+
+		tag(BlockTagInit.GEOTHERMAL_GENERATOR_CTM).add(BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER.get(),
+				BlockInit.GEOTHERMAL_GENERATOR_CASING.get());
 
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);

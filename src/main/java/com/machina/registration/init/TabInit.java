@@ -39,7 +39,6 @@ public class TabInit {
 
 				add(a, BlockInit.BATTERY);
 				add(a, BlockInit.TANK);
-				add(a, BlockInit.MULTIBLOCK_HOUSING);
 				add(a, BlockInit.FURNACE_GENERATOR);
 				add(a, BlockInit.CHEMICAL_GENERATOR);
 				add(a, BlockInit.ELECTRIC_SMELTER);
@@ -53,6 +52,10 @@ public class TabInit {
 				add(a, BlockInit.ELECTROLYZER);
 				add(a, BlockInit.ELECTRIC_PUMP);
 				add(a, BlockInit.ATMOSPHERIC_SEPARATOR);
+
+				add(a, BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER);
+				add(a, BlockInit.GEOTHERMAL_GENERATOR_CASING);
+				add(a, BlockInit.GEOTHERMAL_SUPPORT_ROD);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
 

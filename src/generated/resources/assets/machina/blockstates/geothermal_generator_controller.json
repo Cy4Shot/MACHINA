@@ -1,0 +1,19 @@
+{
+  "athena:loader": "athena:ctm",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:geothermal_generator_ctm"
+  },
+  "ctm_textures": {
+    "center": "machina:block/ctm/geothermal_generator_controller/c",
+    "empty": "machina:block/ctm/geothermal_generator_controller/e",
+    "horizontal": "machina:block/ctm/geothermal_generator_controller/h",
+    "particle": "machina:block/geothermal_generator_controller",
+    "vertical": "machina:block/ctm/geothermal_generator_controller/v"
+  },
+  "variants": {
+    "": {
+      "model": "machina:block/geothermal_generator_controller"
+    }
+  }
+}

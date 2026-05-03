@@ -6,6 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 
 public class MultiblockInit {
 
-	public static final ResourceLocation HABER = MachinaRL.create("haber");
+	public static final ResourceLocation GEOTHERMAL_GENERATOR = MachinaRL.create("geothermal_generator");
 
 }

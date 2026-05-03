@@ -1,10 +1,9 @@
-package com.machina.block.machine;
+package com.machina.block.machine.geothermal_generator;
 
-import com.machina.api.block.MachineBlock;
+import com.machina.api.block.MultiblockBlock;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.util.reflect.QuadFunction;
-import com.machina.block.entity.machine.MultiblockHousingBlockEntity;
-import com.machina.block.menu.MultiblockHousingMenu;
+import com.machina.block.entity.machine.geothermal_generator.GeothermalGeneratorPartBlockEntity;
 import com.machina.registration.init.BlockEntityInit;
 import com.mojang.serialization.MapCodec;
 
@@ -15,29 +14,35 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.items.IItemHandler;
 
-public class MultiblockHousingBlock extends MachineBlock {
+public class GeothermalSupportRodBlock extends MultiblockBlock {
 
-	public MultiblockHousingBlock(Properties props) {
+	public GeothermalSupportRodBlock(Properties props) {
 		super(props);
 	}
 
 	@Override
-	public BlockEntityType<?> getBlockEntityType() {
-		return BlockEntityInit.MULTIBLOCK_HOUSING.get();
+	public boolean isMaster() {
+		return false;
 	}
 
 	@Override
 	public Class<? extends MachinaBlockEntity> getBlockEntityClass() {
-		return MultiblockHousingBlockEntity.class;
+		return GeothermalGeneratorPartBlockEntity.class;
 	}
 
 	@Override
-	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-		return simpleCodec(MultiblockHousingBlock::new);
+	public BlockEntityType<?> getBlockEntityType() {
+		return BlockEntityInit.GEOTHERMAL_GENERATOR_PART.get();
 	}
 
 	@Override
 	protected QuadFunction<Integer, Inventory, ContainerLevelAccess, IItemHandler, AbstractContainerMenu> createMenu() {
-		return MultiblockHousingMenu::new;
+		return null;
 	}
+
+	@Override
+	protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+		return simpleCodec(GeothermalSupportRodBlock::new);
+	}
+
 }

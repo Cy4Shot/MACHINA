@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.cap.energy.MachinaEnergyStorage;
 import com.machina.api.cap.fluid.MachinaTank;
+import com.machina.api.cap.fluid.SidedFluidWrapper;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.MultiSidedStorage;
 import com.machina.api.cap.sided.Side;
@@ -31,6 +32,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 /**
  * Abstract class to allow Machina BlockEntities to store items, fluids and
@@ -110,9 +112,9 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	}
 
 	public IEnergyStorage getEnergyStorage(Direction side) {
-        if (this.energyCap == null) {
-            return null;
-        }
+		if (this.energyCap == null) {
+			return null;
+		}
 
 		return this.energyCap.getCap(side);
 	}
@@ -424,4 +426,25 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 		}
 	}
 
+	public boolean isCapabilitiesActive() {
+		return true;
+	}
+
+	public SidedInvWrapper getInvCap(Direction side) {
+		if (!isCapabilitiesActive())
+			return null;
+		return new SidedInvWrapper(this, side);
+	}
+
+	public IEnergyStorage getEnergyCap(Direction side) {
+		if (!isCapabilitiesActive())
+			return null;
+		return this.getEnergyStorage(side);
+	}
+
+	public SidedFluidWrapper getFluidCap(Direction side) {
+		if (!isCapabilitiesActive())
+			return null;
+		return new SidedFluidWrapper(this, side);
+	}
 }

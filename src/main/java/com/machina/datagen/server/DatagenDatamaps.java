@@ -20,6 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.data.DataMapProvider;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.datamaps.builtin.Compostable;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
@@ -110,11 +111,18 @@ public class DatagenDatamaps extends DataMapProvider {
 		chemburn(chemburn, FluidInit.BENZYLAMINE, 50);
 		chemburn(chemburn, FluidInit.ACETIC_ACID, 40);
 		chemburn(chemburn, FluidInit.BENZYL_CHLORIDE, 30);
+
+		DataMapProvider.Builder<Integer, Block> geotherm = builder(DataMapsInit.GEOTHERMAL_ENERGY_SOURCE);
+		geotherm(geotherm, BlockInit.SULFUR_GEYSER, 100);
 	}
 
 	@SuppressWarnings("deprecation")
 	private void chemburn(DataMapProvider.Builder<Integer, Fluid> builder, FluidObject fluid, int burnRate) {
 		builder.add(fluid.fluid().builtInRegistryHolder(), burnRate, false);
+	}
+
+	private void geotherm(DataMapProvider.Builder<Integer, Block> builder, DeferredBlock<?> block, int genRate) {
+		builder.add(block, genRate, false);
 	}
 
 	private void compost(DataMapProvider.Builder<Compostable, Item> builder, DeferredHolder<Item, ?> item,
