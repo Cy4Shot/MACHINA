@@ -61,6 +61,7 @@ public class TabInit {
 				add(a, BlockInit.FISSION_REACTOR_CASING);
 				add(a, BlockInit.FISSION_REACTOR_GLASS);
 				add(a, BlockInit.FISSION_FUEL_ROD);
+				add(a, BlockInit.FISSION_FUEL_ROD_ASSEMBLY);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
 

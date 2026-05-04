@@ -3,6 +3,7 @@ package com.machina.api.client.model.ctm;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -13,6 +14,7 @@ import earth.terrarium.athena.api.client.models.AthenaBlockModel;
 import earth.terrarium.athena.api.client.models.AthenaModelFactory;
 import earth.terrarium.athena.api.client.models.AthenaQuad;
 import earth.terrarium.athena.api.client.utils.AppearanceAndTintGetter;
+import earth.terrarium.athena.api.client.utils.CtmState.ConnectionCheck;
 import earth.terrarium.athena.api.client.utils.CtmUtils;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -57,9 +59,11 @@ public class LayeredRodBlockModel implements AthenaBlockModel {
 	//@formatter:on
 
 	private final Int2ObjectMap<Material> materials;
+	private final BiPredicate<BlockState, BlockState> connectTo;
 
-	public LayeredRodBlockModel(Int2ObjectMap<Material> materials) {
+	public LayeredRodBlockModel(Int2ObjectMap<Material> materials, BiPredicate<BlockState, BlockState> connectTo) {
 		this.materials = materials;
+		this.connectTo = connectTo;
 	}
 
 	@Override
@@ -73,21 +77,25 @@ public class LayeredRodBlockModel implements AthenaBlockModel {
 			return List.of();
 		}
 
-		if (direction.getAxis().isVertical()) {
-			return CAP;
-		}
-
 		BlockPos posAbove = pos.above();
 		BlockPos posBelow = pos.below();
 		BlockState appearanceAbove = level.getAppearance(state, pos, direction, level.getBlockState(posAbove),
 				posAbove);
 		BlockState appearanceBelow = level.getAppearance(state, pos, direction, level.getBlockState(posBelow),
 				posBelow);
-		final boolean min = !appearanceAbove.isAir()
-				&& level.getAppearance(posAbove, direction, state, pos).is(appearanceAbove.getBlock());
-		final boolean max = !appearanceBelow.isAir()
-				&& level.getAppearance(posBelow, direction, state, pos).is(appearanceBelow.getBlock());
+		final boolean min = !appearanceAbove.isAir() && ConnectionCheck
+				.test(CtmUtils.check(level, state, pos, direction, connectTo), level, state, pos, posAbove, direction);
+		final boolean max = !appearanceBelow.isAir() && ConnectionCheck
+				.test(CtmUtils.check(level, state, pos, direction, connectTo), level, state, pos, posBelow, direction);
 
+		if (direction.equals(Direction.UP) && min) {
+			return List.of();
+		} else if (direction.equals(Direction.DOWN) && max) {
+			return List.of();
+		} else if (direction.getAxis().isVertical()) {
+			return CAP;
+		}
+		
 		if (min && max) {
 			return CENTER;
 		} else if (min) {
@@ -121,7 +129,8 @@ public class LayeredRodBlockModel implements AthenaBlockModel {
 		@Override
 		public Supplier<AthenaBlockModel> create(JsonObject json) {
 			final var materials = parseMaterials(GsonHelper.getAsJsonObject(json, "ctm_textures"));
-			return () -> new LayeredRodBlockModel(materials);
+			BiPredicate<BlockState, BlockState> conditions = CtmUtils.parseCondition(json);
+			return () -> new LayeredRodBlockModel(materials, conditions);
 		}
 
 		private static Int2ObjectMap<Material> parseMaterials(JsonObject json) {

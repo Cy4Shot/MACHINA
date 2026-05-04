@@ -1,0 +1,20 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "machina:block/fission_fuel_rod_assembly",
+			"y": 0
+		},
+		"facing=south": {
+			"model": "machina:block/fission_fuel_rod_assembly",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "machina:block/fission_fuel_rod_assembly",
+			"y": 90
+		},
+		"facing=west": {
+			"model": "machina:block/fission_fuel_rod_assembly",
+			"y": 270
+		}
+	}
+}

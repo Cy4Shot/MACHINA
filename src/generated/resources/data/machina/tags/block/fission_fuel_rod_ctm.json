@@ -1,5 +1,6 @@
 {
   "values": [
-    "machina:fission_fuel_rod"
+    "machina:fission_fuel_rod",
+    "machina:fission_fuel_rod_assembly"
   ]
 }

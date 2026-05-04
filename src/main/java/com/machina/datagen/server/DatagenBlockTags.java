@@ -52,7 +52,8 @@ public class DatagenBlockTags extends BlockTagsProvider {
 				BlockInit.ROCKET_REFUELING_STATION.get(), BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER.get(),
 				BlockInit.GEOTHERMAL_GENERATOR_CASING.get(), BlockInit.GEOTHERMAL_SUPPORT_ROD.get(),
 				BlockInit.FISSION_REACTOR_CONTROLLER.get(), BlockInit.FISSION_REACTOR_CASING.get(),
-				BlockInit.FISSION_REACTOR_GLASS.get(), BlockInit.FISSION_FUEL_ROD.get());
+				BlockInit.FISSION_REACTOR_GLASS.get(), BlockInit.FISSION_FUEL_ROD.get(),
+				BlockInit.FISSION_FUEL_ROD_ASSEMBLY.get());
 
 		smallFlower(BlockInit.SPRUCE_CUP, BlockInit.POTTED_SPRUCE_CUP);
 		smallFlower(BlockInit.PURPLE_GLOWSHROOM, BlockInit.POTTED_PURPLE_GLOWSHROOM);
@@ -101,7 +102,8 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(BlockTagInit.FISSION_REACTOR_CTM).add(BlockInit.FISSION_REACTOR_CONTROLLER.get(),
 				BlockInit.FISSION_REACTOR_CASING.get());
 		tag(BlockTagInit.FISSION_REACTOR_GLASS_CTM).add(BlockInit.FISSION_REACTOR_GLASS.get());
-		tag(BlockTagInit.FISSION_FUEL_ROD_CTM).add(BlockInit.FISSION_FUEL_ROD.get());
+		tag(BlockTagInit.FISSION_FUEL_ROD_CTM).add(BlockInit.FISSION_FUEL_ROD.get(),
+				BlockInit.FISSION_FUEL_ROD_ASSEMBLY.get());
 
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);

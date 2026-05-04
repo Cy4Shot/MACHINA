@@ -46,6 +46,7 @@ import com.machina.block.machine.RocketRefuelingStationBlock;
 import com.machina.block.machine.SawmillBlock;
 import com.machina.block.machine.SolidifierBlock;
 import com.machina.block.machine.TankBlock;
+import com.machina.block.machine.fission_reactor.FissionFuelRodAssemblyBlock;
 import com.machina.block.machine.fission_reactor.FissionFuelRodBlock;
 import com.machina.block.machine.fission_reactor.FissionReactorCasingBlock;
 import com.machina.block.machine.fission_reactor.FissionReactorControllerBlock;
@@ -137,6 +138,7 @@ public class BlockInit {
 	public static final DeferredBlock<FissionReactorCasingBlock> FISSION_REACTOR_CASING = register("fission_reactor_casing", Blocks.IRON_BLOCK, FissionReactorCasingBlock::new);
 	public static final DeferredBlock<FissionReactorGlassBlock> FISSION_REACTOR_GLASS = register("fission_reactor_glass", Blocks.GLASS, FissionReactorGlassBlock::new);
 	public static final DeferredBlock<FissionFuelRodBlock> FISSION_FUEL_ROD = register("fission_fuel_rod", Blocks.IRON_BLOCK, FissionFuelRodBlock::new);
+	public static final DeferredBlock<FissionFuelRodAssemblyBlock> FISSION_FUEL_ROD_ASSEMBLY = register("fission_fuel_rod_assembly", Blocks.IRON_BLOCK, FissionFuelRodAssemblyBlock::new);
 
 	public static final DeferredBlock<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);

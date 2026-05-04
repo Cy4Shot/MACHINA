@@ -100,7 +100,7 @@ public class BlockEntityInit {
 	public static final Supplier<BlockEntityType<FissionReactorControllerBlockEntity>> FISSION_REACTOR_CONTROLLER
 		= register("fission_reactor_controller", FissionReactorControllerBlockEntity::new, BlockInit.FISSION_REACTOR_CONTROLLER::get);
 	public static final Supplier<BlockEntityType<FissionReactorPartBlockEntity>> FISSION_REACTOR_PART
-		= register("fission_reactor_part", FissionReactorPartBlockEntity::new, BlockInit.FISSION_REACTOR_CASING::get, BlockInit.FISSION_REACTOR_GLASS::get, BlockInit.FISSION_FUEL_ROD::get);
+		= register("fission_reactor_part", FissionReactorPartBlockEntity::new, BlockInit.FISSION_REACTOR_CASING::get, BlockInit.FISSION_REACTOR_GLASS::get, BlockInit.FISSION_FUEL_ROD::get, BlockInit.FISSION_FUEL_ROD_ASSEMBLY::get);
 
 	// Worldgen
 	public static final Supplier<BlockEntityType<SulfurGeyserBlockEntity>> SULFUR_GEYSER = register("sulfur_geyser",

@@ -198,6 +198,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		item(BlockInit.ATMOSPHERIC_SEPARATOR);
 		item(BlockInit.ELECTRIC_PUMP);
 		item(BlockInit.TANK);
+		item(BlockInit.FISSION_FUEL_ROD_ASSEMBLY);
 
 		// Dynamic
 		FruitInit.FRUITS.forEach(this::fruit);

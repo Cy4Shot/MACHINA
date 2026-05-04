@@ -298,6 +298,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.FISSION_REACTOR_CASING, "Fission Reactor Casing");
 		add(BlockInit.FISSION_REACTOR_GLASS, "Fission Reactor Glass");
 		add(BlockInit.FISSION_FUEL_ROD, "Fission Fuel Rod");
+		add(BlockInit.FISSION_FUEL_ROD_ASSEMBLY, "Fission Fuel Rod Assembly");
 
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");
