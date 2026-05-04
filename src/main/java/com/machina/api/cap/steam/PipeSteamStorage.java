@@ -37,16 +37,6 @@ public class PipeSteamStorage implements ISteamHandler, IConnectorStorage<Intege
 	}
 
 	@Override
-	public int getSteamStored() {
-		return 0;
-	}
-
-	@Override
-	public int getMaxSteamStored() {
-		return Integer.MAX_VALUE;
-	}
-
-	@Override
 	public boolean canExtract() {
 		return false;
 	}
@@ -70,7 +60,7 @@ public class PipeSteamStorage implements ISteamHandler, IConnectorStorage<Intege
 		if (be.pushRecursion())
 			return 0;
 		int actuallyTransferred = 0;
-		int energyToTransfer = maxReceive;
+		int steamToTransfer = maxReceive;
 		int p = be.getRoundRobinIndex(side) % connections.size();
 		List<Pair<ISteamHandler, Integer>> destinations = new ArrayList<>(connections.size());
 		for (int i = 0; i < connections.size(); i++) {
@@ -89,16 +79,16 @@ public class PipeSteamStorage implements ISteamHandler, IConnectorStorage<Intege
 		}
 
 		for (Pair<ISteamHandler, Integer> destination : destinations) {
-			int maxTransfer = Math.min(Math.max(maxReceive / destinations.size(), 1), energyToTransfer);
+			int maxTransfer = Math.min(Math.max(maxReceive / destinations.size(), 1), steamToTransfer);
 			int extracted = destination.getFirst().receiveSteam(Math.min(maxTransfer, maxReceive), simulate);
 			if (extracted > 0) {
-				energyToTransfer -= extracted;
+				steamToTransfer -= extracted;
 				actuallyTransferred += extracted;
 			}
 
 			p = destination.getSecond() + 1;
 
-			if (energyToTransfer <= 0)
+			if (steamToTransfer <= 0)
 				break;
 		}
 

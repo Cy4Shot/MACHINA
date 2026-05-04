@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-04T20:37:12.4564302	Block States: machina
+// 1.21.1	2026-05-04T21:03:59.2630906	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -261,6 +261,7 @@ b7c71ebd5fdcdd3bca0f7c9b08f4fccf0e2abd9c assets/machina/blockstates/feldspar_tho
 4491a9aa8bc93e631a4677212ddfccd947b2ed2b assets/machina/blockstates/ferrous_sand.json
 cbdbf9e5fa562379ac72ebd8bd74c87aaa49fc9c assets/machina/blockstates/fission_fuel_rod.json
 4ff0dcd7047dd401fa00ffd2b85deaec9aff98a1 assets/machina/blockstates/fission_reactor_casing.json
+2ca7e04262657c5df75d7b9397e52a87f9c668a6 assets/machina/blockstates/fission_reactor_controller.json
 a5a6334101e219341a74a55c4af5d3124eef76eb assets/machina/blockstates/fission_reactor_energy_port.json
 485545cd6e4a00dc1de2630caa25b7d3726f14d9 assets/machina/blockstates/fission_reactor_glass.json
 80f070877dca7916ad7ce882045fd503624b43c4 assets/machina/blockstates/fission_reactor_item_port.json
@@ -1357,6 +1358,7 @@ a1db786b8e60d3aa4d13ef33e057e7e74b7040c1 assets/machina/models/block/feldspar_zi
 4f134f3d5c70151c96f101b8b7f5ddb236af6734 assets/machina/models/block/ferrous_sand.json
 716c6868ad08b597b9cb4ebe68d34d7c7330365c assets/machina/models/block/fission_fuel_rod.json
 c0221b6e2bd5d018081fbe67915c1984e8a0fb07 assets/machina/models/block/fission_reactor_casing.json
+b5193dd8ccbac8a5e961fa72cc2b6962d34bed24 assets/machina/models/block/fission_reactor_controller.json
 856817d7868c2bc88ebbe2ba64b41afb5676ee78 assets/machina/models/block/fission_reactor_energy_port.json
 a315204d4ba81fddd9eac66cbf2794f00b6f2bb6 assets/machina/models/block/fission_reactor_glass.json
 b85d1b086b4f4e1586ff0e7322010feff31b4cf8 assets/machina/models/block/fission_reactor_item_port.json
@@ -2518,6 +2520,7 @@ c265a04e1bf36ae114ba53e284da9f1fb29fa3ab assets/machina/models/item/feldspar_wal
 613c58e98a3354e416c73790b93acf0f228800bf assets/machina/models/item/fission_fuel_rod.json
 50d84ea43c7a585b17b303fcadf1890b5e696581 assets/machina/models/item/fission_fuel_rod_assembly.json
 d61d16e82b12584c32b7789b495ee050d922dcf4 assets/machina/models/item/fission_reactor_casing.json
+328d4b57aa3f2df21ef7d798da5f0f29a161703c assets/machina/models/item/fission_reactor_controller.json
 77e7cecd08eb7d07996228dd6a8422e1f3fedab9 assets/machina/models/item/fission_reactor_energy_port.json
 cd1b6d29d1b4533c8065789b5b8eb53f873bdecd assets/machina/models/item/fission_reactor_glass.json
 1dcb469e0cb0412f8ab30aa681559baa32eb745b assets/machina/models/item/fission_reactor_item_port.json

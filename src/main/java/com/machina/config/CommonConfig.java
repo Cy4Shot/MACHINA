@@ -17,7 +17,6 @@ public class CommonConfig {
 
 	public static ModConfigSpec.IntValue cableTransferRate;
 	public static ModConfigSpec.IntValue pipeTransferRate;
-	public static ModConfigSpec.IntValue steamPipeTransferRate;
 	public static ModConfigSpec.IntValue conduitTransferRate;
 	public static ModConfigSpec.IntValue batteryTransferRate;
 	public static ModConfigSpec.IntValue batteryChargeRate;
@@ -52,11 +51,6 @@ public class CommonConfig {
 		builder.push("pipe");
 		builder.comment("FluidPipe settings");
 		pipeTransferRate = builder.defineInRange("pipe_transfer_rate", 100, 1, 999_999);
-		builder.pop();
-		
-		builder.push("steam_pipe");
-		builder.comment("SteamPipe settings");
-		steamPipeTransferRate = builder.defineInRange("steam_pipe_transfer_rate", 1000, 1, 999_999);
 		builder.pop();
 
 		builder.push("conduit");

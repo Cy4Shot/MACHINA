@@ -1,24 +1,62 @@
 {
 	"size": [
-		3,
-		2,
-		3
+		7,
+		5,
+		7
 	],
 	"controller": "machina:fission_reactor_controller",
 	"blocks": {
 		"C": "machina:fission_reactor_casing",
+		"G": "machina:fission_reactor_glass",
+		"R": "machina:fission_fuel_rod",
+		"A": "machina:fission_fuel_rod_assembly",
 		"?": "machina:fission_reactor_casing"
 	},
 	"structure": [
 		[
-			"C?C",
-			"?C?",
-			"CCC"
+			"CCCCCCC",
+			"CCCCCCC",
+			"CCACACC",
+			"CCCACCC",
+			"CCACACC",
+			"CCCCCCC",
+			"CCCCCCC"
 		],
 		[
-			"C!C",
-			"?C?",
-			"C?C"
+			"CCCCCCC",
+			"C     C",
+			"C R R C",
+			"C  R  C",
+			"C R R C",
+			"C     C",
+			"CCCCCCC"
+		],
+		[
+			"CCGGGCC",
+			"C     C",
+			"G R R G",
+			"G  R  G",
+			"G R R G",
+			"C     C",
+			"CCGGGCC"
+		],
+		[
+			"CCCCCCC",
+			"C     C",
+			"C R R C",
+			"C  R  C",
+			"C R R C",
+			"C     C",
+			"CCC!CCC"
+		],
+		[
+			"CCCCCCC",
+			"CCCCCCC",
+			"CCCCCCC",
+			"CCCCCCC",
+			"CCCCCCC",
+			"CCCCCCC",
+			"CCCCCCC"
 		]
 	]
 }

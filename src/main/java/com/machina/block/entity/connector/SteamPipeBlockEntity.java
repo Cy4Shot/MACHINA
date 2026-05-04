@@ -2,7 +2,6 @@ package com.machina.block.entity.connector;
 
 import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.steam.PipeSteamStorage;
-import com.machina.config.CommonConfig;
 import com.machina.registration.init.BlockEntityInit;
 
 import net.minecraft.core.BlockPos;
@@ -22,7 +21,7 @@ public class SteamPipeBlockEntity extends ConnectorBlockEntity<Integer, PipeStea
 
 	@Override
 	public int getRate() {
-		return CommonConfig.steamPipeTransferRate.get();
+		return Integer.MAX_VALUE;
 	}
 
 	@Override

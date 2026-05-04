@@ -124,7 +124,7 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 		Set<BlockPos> poss = new HashSet<>();
 		int controllerCount = 0;
 		BlockPos controllerPos = null;
-		
+
 		for (int x = 0; x < size.getX(); x++) {
 			for (int y = 0; y < size.getY(); y++) {
 				for (int z = 0; z < size.getZ(); z++) {
@@ -144,13 +144,11 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 					default: // South
 						key = mb.structure[x][y][z];
 					}
-					
+
 					// Check if this is a controller slot position (? or !)
 					if (key.equals("?") || key.equals("!")) {
 						if (state.getBlock().equals(mb.controller.getBlock())) {
-							// Found a controller at a valid slot
 							if (controllerCount > 0) {
-								// Multiple controllers found
 								return ValidateResult.REJECT;
 							}
 							controllerCount++;
@@ -166,7 +164,7 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 						}
 						continue;
 					}
-					
+
 					// Regular block validation
 					BlockState expected = mb.map.get(key);
 					if (!key.equals(" ") && (expected == null || !expected.getBlock().equals(state.getBlock()))) {
@@ -177,17 +175,17 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 				}
 			}
 		}
-		
+
 		// Must have exactly one controller
 		if (controllerCount != 1) {
 			return ValidateResult.REJECT;
 		}
-		
+
 		// Controller must be at the master block entity position
 		if (!controllerPos.equals(worldPosition)) {
 			return ValidateResult.REJECT;
 		}
-		
+
 		return ValidateResult.accept(poss);
 	}
 

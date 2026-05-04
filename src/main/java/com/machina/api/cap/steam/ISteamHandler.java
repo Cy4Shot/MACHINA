@@ -21,16 +21,6 @@ public interface ISteamHandler {
     int extractSteam(int toExtract, boolean simulate);
 
     /**
-     * Returns the amount of energy currently stored.
-     */
-    int getSteamStored();
-
-    /**
-     * Returns the maximum amount of energy that can be stored.
-     */
-    int getMaxSteamStored();
-
-    /**
      * Returns if this storage can have energy extracted.
      * If this is false, then any calls to extractSteam will return 0.
      */
