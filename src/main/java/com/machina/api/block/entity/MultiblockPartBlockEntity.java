@@ -46,11 +46,11 @@ public abstract class MultiblockPartBlockEntity extends MachinaBlockEntity {
 
 	public abstract ResourceLocation getMultiblock();
 
-	public abstract boolean isPort();
+	public abstract boolean isPort(MachinaCap cap);
 
 	@Override
-	public boolean isCapabilitiesActive() {
-		return this.master != null && isPort();
+	public boolean isCapabilitiesActive(MachinaCap cap) {
+		return this.master != null && isPort(cap);
 	}
 
 	@Override

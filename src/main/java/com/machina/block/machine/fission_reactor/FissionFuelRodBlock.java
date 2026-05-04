@@ -17,7 +17,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 public class FissionFuelRodBlock extends MultiblockBlock {
 
 	public FissionFuelRodBlock(Properties props) {
-		super(props);
+		super(props.noOcclusion());
 	}
 
 	@Override

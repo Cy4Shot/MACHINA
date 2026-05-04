@@ -53,7 +53,9 @@ public class DatagenBlockTags extends BlockTagsProvider {
 				BlockInit.GEOTHERMAL_GENERATOR_CASING.get(), BlockInit.GEOTHERMAL_SUPPORT_ROD.get(),
 				BlockInit.FISSION_REACTOR_CONTROLLER.get(), BlockInit.FISSION_REACTOR_CASING.get(),
 				BlockInit.FISSION_REACTOR_GLASS.get(), BlockInit.FISSION_FUEL_ROD.get(),
-				BlockInit.FISSION_FUEL_ROD_ASSEMBLY.get());
+				BlockInit.FISSION_FUEL_ROD_ASSEMBLY.get(), BlockInit.FISSION_REACTOR_ITEM_PORT.get(),
+				BlockInit.FISSION_REACTOR_WATER_PORT.get(), BlockInit.FISSION_REACTOR_STEAM_PORT.get(),
+				BlockInit.FISSION_REACTOR_ENERGY_PORT.get());
 
 		smallFlower(BlockInit.SPRUCE_CUP, BlockInit.POTTED_SPRUCE_CUP);
 		smallFlower(BlockInit.PURPLE_GLOWSHROOM, BlockInit.POTTED_PURPLE_GLOWSHROOM);
@@ -100,7 +102,9 @@ public class DatagenBlockTags extends BlockTagsProvider {
 				BlockInit.GEOTHERMAL_GENERATOR_CASING.get());
 
 		tag(BlockTagInit.FISSION_REACTOR_CTM).add(BlockInit.FISSION_REACTOR_CONTROLLER.get(),
-				BlockInit.FISSION_REACTOR_CASING.get());
+				BlockInit.FISSION_REACTOR_CASING.get(), BlockInit.FISSION_REACTOR_ITEM_PORT.get(),
+				BlockInit.FISSION_REACTOR_WATER_PORT.get(), BlockInit.FISSION_REACTOR_STEAM_PORT.get(),
+				BlockInit.FISSION_REACTOR_ENERGY_PORT.get());
 		tag(BlockTagInit.FISSION_REACTOR_GLASS_CTM).add(BlockInit.FISSION_REACTOR_GLASS.get());
 		tag(BlockTagInit.FISSION_FUEL_ROD_CTM).add(BlockInit.FISSION_FUEL_ROD.get(),
 				BlockInit.FISSION_FUEL_ROD_ASSEMBLY.get());

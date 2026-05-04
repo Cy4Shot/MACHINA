@@ -50,7 +50,11 @@ import com.machina.block.machine.fission_reactor.FissionFuelRodAssemblyBlock;
 import com.machina.block.machine.fission_reactor.FissionFuelRodBlock;
 import com.machina.block.machine.fission_reactor.FissionReactorCasingBlock;
 import com.machina.block.machine.fission_reactor.FissionReactorControllerBlock;
+import com.machina.block.machine.fission_reactor.FissionReactorEnergyPortBlock;
 import com.machina.block.machine.fission_reactor.FissionReactorGlassBlock;
+import com.machina.block.machine.fission_reactor.FissionReactorItemPortBlock;
+import com.machina.block.machine.fission_reactor.FissionReactorSteamPortBlock;
+import com.machina.block.machine.fission_reactor.FissionReactorWaterPortBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalGeneratorCasingBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalGeneratorControllerBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalSupportRodBlock;
@@ -139,6 +143,10 @@ public class BlockInit {
 	public static final DeferredBlock<FissionReactorGlassBlock> FISSION_REACTOR_GLASS = register("fission_reactor_glass", Blocks.GLASS, FissionReactorGlassBlock::new);
 	public static final DeferredBlock<FissionFuelRodBlock> FISSION_FUEL_ROD = register("fission_fuel_rod", Blocks.IRON_BLOCK, FissionFuelRodBlock::new);
 	public static final DeferredBlock<FissionFuelRodAssemblyBlock> FISSION_FUEL_ROD_ASSEMBLY = register("fission_fuel_rod_assembly", Blocks.IRON_BLOCK, FissionFuelRodAssemblyBlock::new);
+	public static final DeferredBlock<FissionReactorEnergyPortBlock> FISSION_REACTOR_ENERGY_PORT = register("fission_reactor_energy_port", Blocks.IRON_BLOCK, FissionReactorEnergyPortBlock::new);
+	public static final DeferredBlock<FissionReactorItemPortBlock> FISSION_REACTOR_ITEM_PORT = register("fission_reactor_item_port", Blocks.IRON_BLOCK, FissionReactorItemPortBlock::new);
+	public static final DeferredBlock<FissionReactorWaterPortBlock> FISSION_REACTOR_WATER_PORT = register("fission_reactor_water_port", Blocks.IRON_BLOCK, FissionReactorWaterPortBlock::new);
+	public static final DeferredBlock<FissionReactorSteamPortBlock> FISSION_REACTOR_STEAM_PORT = register("fission_reactor_steam_port", Blocks.IRON_BLOCK, FissionReactorSteamPortBlock::new);
 
 	public static final DeferredBlock<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);

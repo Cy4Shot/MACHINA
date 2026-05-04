@@ -235,7 +235,7 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 	}
 
 	@Override
-	public boolean isCapabilitiesActive() {
+	public boolean isCapabilitiesActive(MachinaCap cap) {
 		return this.formed;
 	}
 }

@@ -20,7 +20,7 @@ public class GeothermalGeneratorPartBlockEntity extends MultiblockPartBlockEntit
 	}
 
 	@Override
-	public boolean isPort() {
+	public boolean isPort(MachinaCap cap) {
 		return false;
 	}
 

@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-04T12:39:35.4269522	Loot Tables
+// 1.21.1	2026-05-04T20:12:47.370367	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
 4da7ad8c6aafe797fdd92bc27652554510a0029e data/machina/loot_table/blocks/anthracite_button.json
@@ -249,7 +249,11 @@ d21d7d7984b83a0275ad25cc455212e8e9499420 data/machina/loot_table/blocks/ferrous_
 d7a940f9637152ed0a774a3c49c4ca8a5f3a3817 data/machina/loot_table/blocks/fission_fuel_rod_assembly.json
 a5b5c503bcb5a0a0af2422a049d4f0320ea7a2e3 data/machina/loot_table/blocks/fission_reactor_casing.json
 44d21a587efe0848826524c846941cdbb0f24a2f data/machina/loot_table/blocks/fission_reactor_controller.json
+605752f9f91a9cf5e1aeed4c6d31598f443cfb9a data/machina/loot_table/blocks/fission_reactor_energy_port.json
 19d0d54b247205de02a26aa77740ec068beb62dc data/machina/loot_table/blocks/fission_reactor_glass.json
+c5c1d08e956e73608373b12916d333db55ed1cd6 data/machina/loot_table/blocks/fission_reactor_item_port.json
+6a16d5922104c9afed22dc71d8494b37ed59a877 data/machina/loot_table/blocks/fission_reactor_steam_port.json
+a300b93479a11f5f067175b2c82bdc86d5ff9a98 data/machina/loot_table/blocks/fission_reactor_water_port.json
 1ddd8495e22ea8064dc747d34308e794b6d39022 data/machina/loot_table/blocks/fluid_pipe.json
 82ad949f1bc8f0f9ae65a817dc94127875509085 data/machina/loot_table/blocks/fluorite.json
 12c78d36cd2d515a1920254ace48b73b8ab5c456 data/machina/loot_table/blocks/forest_dirt.json

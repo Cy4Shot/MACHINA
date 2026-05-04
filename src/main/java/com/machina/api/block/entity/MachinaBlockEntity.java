@@ -426,24 +426,28 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 		}
 	}
 
-	public boolean isCapabilitiesActive() {
+	public enum MachinaCap {
+		ENERGY, FLUID, ITEM
+	}
+
+	public boolean isCapabilitiesActive(MachinaCap cap) {
 		return true;
 	}
 
 	public SidedInvWrapper getInvCap(Direction side) {
-		if (!isCapabilitiesActive())
+		if (!isCapabilitiesActive(MachinaCap.ITEM))
 			return null;
 		return new SidedInvWrapper(this, side);
 	}
 
 	public IEnergyStorage getEnergyCap(Direction side) {
-		if (!isCapabilitiesActive())
+		if (!isCapabilitiesActive(MachinaCap.ENERGY))
 			return null;
 		return this.getEnergyStorage(side);
 	}
 
 	public SidedFluidWrapper getFluidCap(Direction side) {
-		if (!isCapabilitiesActive())
+		if (!isCapabilitiesActive(MachinaCap.FLUID))
 			return null;
 		return new SidedFluidWrapper(this, side);
 	}

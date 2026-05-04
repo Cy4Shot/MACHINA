@@ -81,6 +81,10 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.FISSION_REACTOR_GLASS.get());
 		dropSelf(BlockInit.FISSION_FUEL_ROD.get());
 		dropSelf(BlockInit.FISSION_FUEL_ROD_ASSEMBLY.get());
+		dropSelf(BlockInit.FISSION_REACTOR_ENERGY_PORT.get());
+		dropSelf(BlockInit.FISSION_REACTOR_ITEM_PORT.get());
+		dropSelf(BlockInit.FISSION_REACTOR_WATER_PORT.get());
+		dropSelf(BlockInit.FISSION_REACTOR_STEAM_PORT.get());
 
 		dropSelf(BlockInit.BROWN_MUSHROOM_STALK.get());
 		dropSelf(BlockInit.GREEN_MUSHROOM_STALK.get());
