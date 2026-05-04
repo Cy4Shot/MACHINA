@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-03T21:39:22.7531739	Tags for minecraft:block mod id machina
+// 1.21.1	2026-05-04T11:33:54.0252884	Tags for minecraft:block mod id machina
 cfa55b4a585a33cf6c1b6083f7bdc69d262fe032 data/c/tags/block/buttons.json
 eaa914dd57257b2be31c39b5afcebf6df64e2b0e data/c/tags/block/buttons/acacia.json
 5085dd7e2458679d2151f7254d3c0b9084327e06 data/c/tags/block/buttons/birch.json
@@ -355,6 +355,9 @@ d505faeb4af7491de7a1ad6e3aef4768f0dde152 data/c/tags/block/wooden_trapdoors/pine
 91b2390cb5cfdb07c0451db3a1c9e2626b772455 data/c/tags/block/wooden_trapdoors/spruce.json
 cd65dbab468093b89567f6171dedf632799ce846 data/c/tags/block/wooden_trapdoors/tropical.json
 95a11bcb0fe1da053e3a088fae8f2864fbe0bdaa data/c/tags/block/wooden_trapdoors/warped.json
+4e5327ad58d8cd7b02708a842b4561ea1622cb5d data/machina/tags/block/fission_fuel_rod_ctm.json
+dcc9639e13f1f4a510ad851dd94259fe51691584 data/machina/tags/block/fission_reactor_ctm.json
+7c13347529680c2ffb754b7a1befe3398884b6c8 data/machina/tags/block/fission_reactor_glass_ctm.json
 34ddf1e6b7e7f6f128ea38fd60586d37ace2bf8d data/machina/tags/block/geothermal_generator_ctm.json
 b63fd2f5c2b417ec13d7205a71c4971872ca4a37 data/machina/tags/block/planet_carvable.json
 bc165a83fc99c46491057fc684e43b9c8bfe2ba1 data/minecraft/tags/block/all_hanging_signs.json
@@ -371,7 +374,7 @@ eef61f837574a4ea72c85476d3532ca48f2ee8bf data/minecraft/tags/block/flower_pots.j
 c75145b8820239ba5fb4cb234ffe47c44621aa8e data/minecraft/tags/block/logs.json
 85d4bfabb2b3520ad485a7e89fa06e50cdb47a1f data/minecraft/tags/block/mineable/axe.json
 0bdcdb54139eda50bedbbebda275b62117bab2cc data/minecraft/tags/block/mineable/hoe.json
-991c3df2ed2ac9fc722a8d4323186ce726c4cdfa data/minecraft/tags/block/mineable/pickaxe.json
+3f4b3d476aa7647f2b2463126c97a2e5ca43e8c4 data/minecraft/tags/block/mineable/pickaxe.json
 94fd528ebaafabd9e548a40727d08f4dd471e10f data/minecraft/tags/block/mineable/shovel.json
 6ac3bd738a4a0a93b74aa416ea7039fb121fc56b data/minecraft/tags/block/overworld_carver_replaceables.json
 13d63356d22c85d569e80af14281d00dec2d8dce data/minecraft/tags/block/planks.json

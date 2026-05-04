@@ -57,6 +57,11 @@ public class TabInit {
 				add(a, BlockInit.GEOTHERMAL_GENERATOR_CASING);
 				add(a, BlockInit.GEOTHERMAL_SUPPORT_ROD);
 
+				add(a, BlockInit.FISSION_REACTOR_CONTROLLER);
+				add(a, BlockInit.FISSION_REACTOR_CASING);
+				add(a, BlockInit.FISSION_REACTOR_GLASS);
+				add(a, BlockInit.FISSION_FUEL_ROD);
+
 				add(a, BlockInit.CREATIVE_BATTERY);
 
 				add(a, ItemInit.BASIC_CAPACITOR);

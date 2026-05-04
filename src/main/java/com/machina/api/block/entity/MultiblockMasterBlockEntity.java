@@ -122,6 +122,9 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 
 	private ValidateResult validateDirection(BlockPos corner, Vec3i size, Direction rotation) {
 		Set<BlockPos> poss = new HashSet<>();
+		int controllerCount = 0;
+		BlockPos controllerPos = null;
+		
 		for (int x = 0; x < size.getX(); x++) {
 			for (int y = 0; y < size.getY(); y++) {
 				for (int z = 0; z < size.getZ(); z++) {
@@ -141,12 +144,30 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 					default: // South
 						key = mb.structure[x][y][z];
 					}
-					if (key.equals("!")) {
-						if (!pos.equals(worldPosition) || !state.getBlock().equals(mb.controller.getBlock())) {
-							return ValidateResult.REJECT;
+					
+					// Check if this is a controller slot position (? or !)
+					if (key.equals("?") || key.equals("!")) {
+						if (state.getBlock().equals(mb.controller.getBlock())) {
+							// Found a controller at a valid slot
+							if (controllerCount > 0) {
+								// Multiple controllers found
+								return ValidateResult.REJECT;
+							}
+							controllerCount++;
+							controllerPos = pos;
+							poss.add(pos);
+						} else {
+							// Check if it's the allowed block for controller slots
+							BlockState expected = mb.map.get(key);
+							if (expected == null || !expected.getBlock().equals(state.getBlock())) {
+								return ValidateResult.REJECT;
+							}
+							poss.add(pos);
 						}
 						continue;
 					}
+					
+					// Regular block validation
 					BlockState expected = mb.map.get(key);
 					if (!key.equals(" ") && (expected == null || !expected.getBlock().equals(state.getBlock()))) {
 						return ValidateResult.REJECT;
@@ -156,6 +177,17 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 				}
 			}
 		}
+		
+		// Must have exactly one controller
+		if (controllerCount != 1) {
+			return ValidateResult.REJECT;
+		}
+		
+		// Controller must be at the master block entity position
+		if (!controllerPos.equals(worldPosition)) {
+			return ValidateResult.REJECT;
+		}
+		
 		return ValidateResult.accept(poss);
 	}
 

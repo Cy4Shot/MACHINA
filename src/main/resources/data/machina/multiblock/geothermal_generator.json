@@ -6,6 +6,7 @@
 	],
 	"controller": "machina:geothermal_generator_controller",
 	"blocks": {
+		"?": "machina:geothermal_generator_casing",
 		"C": "machina:geothermal_generator_casing",
 		"R": "machina:geothermal_support_rod"
 	},

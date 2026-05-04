@@ -1,0 +1,24 @@
+{
+	"size": [
+		3,
+		2,
+		3
+	],
+	"controller": "machina:fission_reactor_controller",
+	"blocks": {
+		"C": "machina:fission_reactor_casing",
+		"?": "machina:fission_reactor_casing"
+	},
+	"structure": [
+		[
+			"C?C",
+			"?C?",
+			"CCC"
+		],
+		[
+			"C!C",
+			"?C?",
+			"C?C"
+		]
+	]
+}

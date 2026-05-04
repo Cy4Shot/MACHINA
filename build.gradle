@@ -110,7 +110,7 @@ dependencies {
 
     // Required Dependencies
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
-    runtimeOnly "earth.terrarium.athena:athena-neoforge-${minecraft_major_version}:${athena_version}"
+    implementation "earth.terrarium.athena:athena-neoforge-${minecraft_major_version}:${athena_version}"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

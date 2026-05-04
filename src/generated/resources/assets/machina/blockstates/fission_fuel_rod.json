@@ -1,0 +1,23 @@
+{
+  "athena:loader": "machina:layered_rod",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:fission_fuel_rod_ctm"
+  },
+  "ctm_textures": {
+    "bottom": "machina:block/ctm/fission_fuel_rod/b",
+    "center": "machina:block/ctm/fission_fuel_rod/c",
+    "inner_bottom": "machina:block/ctm/fission_fuel_rod/ib",
+    "inner_center": "machina:block/ctm/fission_fuel_rod/ic",
+    "inner_self": "machina:block/ctm/fission_fuel_rod/is",
+    "inner_top": "machina:block/ctm/fission_fuel_rod/it",
+    "particle": "machina:block/fission_fuel_rod",
+    "self": "machina:block/ctm/fission_fuel_rod/s",
+    "top": "machina:block/ctm/fission_fuel_rod/t"
+  },
+  "variants": {
+    "": {
+      "model": "machina:block/fission_fuel_rod"
+    }
+  }
+}

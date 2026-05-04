@@ -1,6 +1,7 @@
 package com.machina.registration;
 
 import com.machina.Machina;
+import com.machina.api.client.model.ctm.CustomCTMRegistrar;
 import com.machina.config.ClientConfig;
 import com.machina.config.CommonConfig;
 import com.machina.registration.init.ArgumentTypesInit;
@@ -67,6 +68,7 @@ public class Registration {
 		WeatherEventInit.WEATHER_EVENTS.register(bus);
 		ParticleTypeInit.PARTICLE_TYPES.register(bus);
 		OverworldOresInit.register(); // Only used for datagen
+		CustomCTMRegistrar.register();
 	}
 
 	private static void registerConfig(ModContainer cont, ModConfig.Type type, ModConfigSpec spec) {

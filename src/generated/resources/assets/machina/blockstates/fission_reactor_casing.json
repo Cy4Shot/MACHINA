@@ -1,0 +1,19 @@
+{
+  "athena:loader": "athena:ctm",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:fission_reactor_ctm"
+  },
+  "ctm_textures": {
+    "center": "machina:block/ctm/fission_reactor_casing/c",
+    "empty": "machina:block/ctm/fission_reactor_casing/e",
+    "horizontal": "machina:block/ctm/fission_reactor_casing/h",
+    "particle": "machina:block/fission_reactor_casing",
+    "vertical": "machina:block/ctm/fission_reactor_casing/v"
+  },
+  "variants": {
+    "": {
+      "model": "machina:block/fission_reactor_casing"
+    }
+  }
+}

@@ -1,7 +1,6 @@
 package com.machina.api.multiblock;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,7 +8,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Joiner;
-import com.machina.Machina;
 import com.machina.api.util.loader.JsonInfo;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -25,9 +23,8 @@ import net.minecraft.world.level.block.state.BlockState;
 public class Multiblock {
 	public Vec3i size;
 	public BlockState controller;
-	public Vec3i controller_pos;
+	public Vec3i controller_render_pos;
 	public Map<String, BlockState> map;
-	public Collection<BlockState> allowed;
 	public Set<Block> allowedBlock;
 	public String[][][] structure;
 
@@ -43,15 +40,14 @@ public class Multiblock {
 			try {
 				mb.controller = parse(controller);
 			} catch (CommandSyntaxException e) {
-				e.printStackTrace();
-				mb.controller = null;
+				throw new IllegalArgumentException("No controller found in structure (" + controller + ")", e);
 			}
 			mb.map = blocks.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> {
 				try {
 					return parse(s.getValue());
 				} catch (CommandSyntaxException e) {
-					Machina.LOGGER.error(e.getMessage());
-					return Blocks.AIR.defaultBlockState();
+					throw new IllegalArgumentException(
+							"Invalid block state for key " + s.getKey() + ": " + s.getValue(), e);
 				}
 			}));
 
@@ -66,28 +62,23 @@ public class Multiblock {
 				}
 			}
 
-			mb.controller_pos = null;
+			mb.controller_render_pos = null;
 			for (int x = 0; x < mb.size.getX(); x++) {
 				for (int y = 0; y < mb.size.getY(); y++) {
 					for (int z = 0; z < mb.size.getZ(); z++) {
 						if (mb.structure[x][y][z].equals("!")) {
-							mb.controller_pos = new Vec3i(x, y, z);
-							break;
+							mb.controller_render_pos = new Vec3i(x, y, z);
 						}
 					}
 				}
 			}
-
-			if (mb.controller_pos == null) {
-				throw new IllegalArgumentException("No controller found in structure");
+			if (mb.controller_render_pos == null) {
+				throw new IllegalArgumentException("No controller render position found in structure (marked with !)");
 			}
 
-			mb.allowed = mb.map.values();
-			mb.allowedBlock = mb.allowed.stream().map(BlockBehaviour.BlockStateBase::getBlock)
+			mb.allowedBlock = mb.map.values().stream().map(BlockBehaviour.BlockStateBase::getBlock)
 					.collect(Collectors.toSet());
-			if (mb.controller != null) {
-				mb.allowedBlock.add(mb.controller.getBlock());
-			}
+			mb.allowedBlock.add(mb.controller.getBlock());
 			return mb;
 		}
 	}
@@ -101,10 +92,11 @@ public class Multiblock {
 
 	public BlockState getRenderAtPos(Vec3i pos) {
 		try {
-			if (controller_pos != null && controller_pos.equals(pos)) {
+			if (controller_render_pos != null && controller_render_pos.equals(pos)) {
 				return controller;
 			}
-			BlockState bs = map.get(structure[pos.getX()][pos.getY()][pos.getZ()]);
+			String key = structure[pos.getX()][pos.getY()][pos.getZ()];
+			BlockState bs = map.get(key);
 			return bs == null ? Blocks.AIR.defaultBlockState() : bs;
 		} catch (IndexOutOfBoundsException e) {
 			return Blocks.AIR.defaultBlockState();

@@ -46,6 +46,10 @@ import com.machina.block.machine.RocketRefuelingStationBlock;
 import com.machina.block.machine.SawmillBlock;
 import com.machina.block.machine.SolidifierBlock;
 import com.machina.block.machine.TankBlock;
+import com.machina.block.machine.fission_reactor.FissionFuelRodBlock;
+import com.machina.block.machine.fission_reactor.FissionReactorCasingBlock;
+import com.machina.block.machine.fission_reactor.FissionReactorControllerBlock;
+import com.machina.block.machine.fission_reactor.FissionReactorGlassBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalGeneratorCasingBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalGeneratorControllerBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalSupportRodBlock;
@@ -127,6 +131,12 @@ public class BlockInit {
 	public static final DeferredBlock<GeothermalGeneratorControllerBlock> GEOTHERMAL_GENERATOR_CONTROLLER = register("geothermal_generator_controller", Blocks.IRON_BLOCK, GeothermalGeneratorControllerBlock::new);
 	public static final DeferredBlock<GeothermalGeneratorCasingBlock> GEOTHERMAL_GENERATOR_CASING = register("geothermal_generator_casing", Blocks.IRON_BLOCK, GeothermalGeneratorCasingBlock::new);
 	public static final DeferredBlock<GeothermalSupportRodBlock> GEOTHERMAL_SUPPORT_ROD = register("geothermal_support_rod", Blocks.IRON_BARS, GeothermalSupportRodBlock::new);
+
+	// Fission Reactor
+	public static final DeferredBlock<FissionReactorControllerBlock> FISSION_REACTOR_CONTROLLER = register("fission_reactor_controller", Blocks.IRON_BLOCK, FissionReactorControllerBlock::new);
+	public static final DeferredBlock<FissionReactorCasingBlock> FISSION_REACTOR_CASING = register("fission_reactor_casing", Blocks.IRON_BLOCK, FissionReactorCasingBlock::new);
+	public static final DeferredBlock<FissionReactorGlassBlock> FISSION_REACTOR_GLASS = register("fission_reactor_glass", Blocks.GLASS, FissionReactorGlassBlock::new);
+	public static final DeferredBlock<FissionFuelRodBlock> FISSION_FUEL_ROD = register("fission_fuel_rod", Blocks.IRON_BLOCK, FissionFuelRodBlock::new);
 
 	public static final DeferredBlock<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);

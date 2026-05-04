@@ -54,6 +54,7 @@ import com.machina.client.screen.menu.item.ItemFilterScreen;
 import com.machina.client.weather.AuroraWeatherRenderer;
 import com.machina.client.weather.RainWeatherRenderer;
 import com.machina.registration.init.BlockEntityInit;
+import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -70,6 +71,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -92,10 +95,15 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 @EventBusSubscriber(modid = Machina.MOD_ID, value = Dist.CLIENT)
 public class ClientModEvents {
 
+	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		CinematicHandler.setup();
 		FluidInit.setRenderLayers();
+
+		// CTM blocks must use deprecated method to set render layer
+		ItemBlockRenderTypes.setRenderLayer(BlockInit.FISSION_REACTOR_GLASS.get(), RenderType.TRANSLUCENT);
+		ItemBlockRenderTypes.setRenderLayer(BlockInit.FISSION_FUEL_ROD.get(), RenderType.CUTOUT);
 
 		RocketPartModels.register(RocketPartInit.SIMPLE_CHASSIS.get(), SimpleChassisModel::new);
 		RocketPartModels.register(RocketPartInit.ADVANCED_CHASSIS.get(), AdvancedChassisModel::new);
@@ -151,10 +159,10 @@ public class ClientModEvents {
 		event.registerBlockEntityRenderer(BlockEntityInit.TANK.get(), TankRenderer::new);
 		event.registerBlockEntityRenderer(BlockEntityInit.ROCKET_PART_BENCH.get(), RocketPartBenchRenderer::new);
 	}
-	
+
 	@SubscribeEvent
 	public static void registerParticleProviders(final RegisterParticleProvidersEvent event) {
-	    event.registerSpriteSet(ParticleTypeInit.DUST_STORM.get(), DustStormParticleProvider::new);
+		event.registerSpriteSet(ParticleTypeInit.DUST_STORM.get(), DustStormParticleProvider::new);
 	}
 
 	@SubscribeEvent

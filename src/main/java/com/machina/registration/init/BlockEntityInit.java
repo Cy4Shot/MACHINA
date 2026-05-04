@@ -29,6 +29,8 @@ import com.machina.block.entity.machine.RocketRefuelingStationBlockEntity;
 import com.machina.block.entity.machine.SawmillBlockEntity;
 import com.machina.block.entity.machine.SolidifierBlockEntity;
 import com.machina.block.entity.machine.TankBlockEntity;
+import com.machina.block.entity.machine.fission_reactor.FissionReactorControllerBlockEntity;
+import com.machina.block.entity.machine.fission_reactor.FissionReactorPartBlockEntity;
 import com.machina.block.entity.machine.geothermal_generator.GeothermalGeneratorControllerBlockEntity;
 import com.machina.block.entity.machine.geothermal_generator.GeothermalGeneratorPartBlockEntity;
 
@@ -93,6 +95,12 @@ public class BlockEntityInit {
 		= register("geothermal_generator_controller", GeothermalGeneratorControllerBlockEntity::new, BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER::get);
 	public static final Supplier<BlockEntityType<GeothermalGeneratorPartBlockEntity>> GEOTHERMAL_GENERATOR_PART
 		= register("geothermal_generator_part", GeothermalGeneratorPartBlockEntity::new, BlockInit.GEOTHERMAL_GENERATOR_CASING::get, BlockInit.GEOTHERMAL_SUPPORT_ROD::get);
+	
+	// Fission reactor
+	public static final Supplier<BlockEntityType<FissionReactorControllerBlockEntity>> FISSION_REACTOR_CONTROLLER
+		= register("fission_reactor_controller", FissionReactorControllerBlockEntity::new, BlockInit.FISSION_REACTOR_CONTROLLER::get);
+	public static final Supplier<BlockEntityType<FissionReactorPartBlockEntity>> FISSION_REACTOR_PART
+		= register("fission_reactor_part", FissionReactorPartBlockEntity::new, BlockInit.FISSION_REACTOR_CASING::get, BlockInit.FISSION_REACTOR_GLASS::get, BlockInit.FISSION_FUEL_ROD::get);
 
 	// Worldgen
 	public static final Supplier<BlockEntityType<SulfurGeyserBlockEntity>> SULFUR_GEYSER = register("sulfur_geyser",

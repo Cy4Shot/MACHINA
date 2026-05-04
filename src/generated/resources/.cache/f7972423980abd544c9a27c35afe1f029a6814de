@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-03T21:38:24.7627362	Block States: machina
+// 1.21.1	2026-05-04T11:51:57.7251885	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -259,6 +259,9 @@ b7c71ebd5fdcdd3bca0f7c9b08f4fccf0e2abd9c assets/machina/blockstates/feldspar_tho
 138a0ea72b8ad4521938553c502ab9eda985bf25 assets/machina/blockstates/feldspar_zinc_ore.json
 7e25d72a87fe5d90086e3118011efd52fc553fb9 assets/machina/blockstates/ferrous_grass.json
 4491a9aa8bc93e631a4677212ddfccd947b2ed2b assets/machina/blockstates/ferrous_sand.json
+cbdbf9e5fa562379ac72ebd8bd74c87aaa49fc9c assets/machina/blockstates/fission_fuel_rod.json
+4ff0dcd7047dd401fa00ffd2b85deaec9aff98a1 assets/machina/blockstates/fission_reactor_casing.json
+485545cd6e4a00dc1de2630caa25b7d3726f14d9 assets/machina/blockstates/fission_reactor_glass.json
 f7d458a0290cbc92a979fdac88e5480b6331976a assets/machina/blockstates/fluorite.json
 e949a584927782bb1f9919c390bc2f1dc59f6dfd assets/machina/blockstates/forest_dirt.json
 bc363e9f02deeef715060d509c15b93e5f15b287 assets/machina/blockstates/forest_dirt_aluminum_ore.json
@@ -1348,6 +1351,9 @@ eeeeafe8b3be7ba0f53d125f9866cb5294924935 assets/machina/models/block/feldspar_wa
 a1db786b8e60d3aa4d13ef33e057e7e74b7040c1 assets/machina/models/block/feldspar_zinc_ore.json
 9fa223cfae698c7cdd13eac1dab9553106abd672 assets/machina/models/block/ferrous_grass.json
 4f134f3d5c70151c96f101b8b7f5ddb236af6734 assets/machina/models/block/ferrous_sand.json
+716c6868ad08b597b9cb4ebe68d34d7c7330365c assets/machina/models/block/fission_fuel_rod.json
+c0221b6e2bd5d018081fbe67915c1984e8a0fb07 assets/machina/models/block/fission_reactor_casing.json
+a315204d4ba81fddd9eac66cbf2794f00b6f2bb6 assets/machina/models/block/fission_reactor_glass.json
 b3df4609617bcca8b0418c7eaa482035b6330f8d assets/machina/models/block/fluid_pipe.json
 184a6d7f7da17b8d50d5fcf10270d2da580aa9c3 assets/machina/models/block/fluorite.json
 36f383bf2ad80b7ea23f701c57b86e912493add3 assets/machina/models/block/forest_dirt.json
@@ -2500,6 +2506,9 @@ c265a04e1bf36ae114ba53e284da9f1fb29fa3ab assets/machina/models/item/feldspar_wal
 6ab07c1650d0184614533508105bcd48dc9d2843 assets/machina/models/item/feldspar_zinc_ore.json
 4d27d9925da87ac5077ec9166bd1486acf54d0f9 assets/machina/models/item/ferrous_grass.json
 23b10c3466714dd1fa5a27ed57775af1f7fb8c53 assets/machina/models/item/ferrous_sand.json
+613c58e98a3354e416c73790b93acf0f228800bf assets/machina/models/item/fission_fuel_rod.json
+d61d16e82b12584c32b7789b495ee050d922dcf4 assets/machina/models/item/fission_reactor_casing.json
+cd1b6d29d1b4533c8065789b5b8eb53f873bdecd assets/machina/models/item/fission_reactor_glass.json
 bfc0a68fd9e1c74d5e2225d7053f867d43f5d05c assets/machina/models/item/fluid_pipe.json
 bad2c46304adaa90c26d590638fedba0b0508154 assets/machina/models/item/fluorite.json
 08b748644f2d1cfe847a004aebe4e7866f7a2415 assets/machina/models/item/forest_dirt.json

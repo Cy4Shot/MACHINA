@@ -289,10 +289,15 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.ROCKET_PART_BENCH, "Rocket Part Bench");
 		add(BlockInit.ROCKET_ASSEMBLY_STATION, "Rocket Assembly Station");
 		add(BlockInit.ROCKET_REFUELING_STATION, "Rocket Refueling Station");
-		
+
 		add(BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER, "Geothermal Generator Controller");
 		add(BlockInit.GEOTHERMAL_GENERATOR_CASING, "Geothermal Generator Casing");
 		add(BlockInit.GEOTHERMAL_SUPPORT_ROD, "Geothermal Support Rod");
+
+		add(BlockInit.FISSION_REACTOR_CONTROLLER, "Fission Reactor Controller");
+		add(BlockInit.FISSION_REACTOR_CASING, "Fission Reactor Casing");
+		add(BlockInit.FISSION_REACTOR_GLASS, "Fission Reactor Glass");
+		add(BlockInit.FISSION_FUEL_ROD, "Fission Fuel Rod");
 
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");
@@ -1011,7 +1016,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("rocket_assembly_station.life_support", "Life Support");
 		addUI("rocket_assembly_station.shield", "Shields");
 		addUI("rocket_assembly_station.thruster", "Thrusters");
-		
+
 		addUI("geothermal_generator.progress", "Harvesting Geothermal Activity");
 		addUI("geothermal_generator.no_space", "No Output Space");
 		addUI("geothermal_generator.no_input", "Missing Geothermal Activity");

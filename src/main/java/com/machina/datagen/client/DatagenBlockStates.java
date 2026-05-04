@@ -7,6 +7,7 @@ import com.machina.Machina;
 import com.machina.api.block.ConnectorBlock;
 import com.machina.api.block.LitMachineBlock;
 import com.machina.api.block.MachineBlock;
+import com.machina.api.client.model.ctm.LayeredRodBlockModel;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.MachinaWaterlilyBlock;
 import com.machina.block.PebbleBlock;
@@ -90,6 +91,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 
 		ctm(BlockInit.GEOTHERMAL_GENERATOR_CASING, BlockTagInit.GEOTHERMAL_GENERATOR_CTM);
 		ctm(BlockInit.GEOTHERMAL_GENERATOR_CONTROLLER, BlockTagInit.GEOTHERMAL_GENERATOR_CTM);
+
+		ctm(BlockInit.FISSION_REACTOR_CASING, BlockTagInit.FISSION_REACTOR_CTM);
+		ctm(BlockInit.FISSION_REACTOR_GLASS, BlockTagInit.FISSION_REACTOR_GLASS_CTM);
+		ctmLayeredRod(BlockInit.FISSION_FUEL_ROD, BlockTagInit.FISSION_FUEL_ROD_CTM);
 
 		cube(BlockInit.BROWN_MUSHROOM_STALK);
 		cube(BlockInit.GREEN_MUSHROOM_STALK);
@@ -304,7 +309,29 @@ public class DatagenBlockStates extends BlockStateProvider {
 		if (ctmTag != null) {
 			builder.setCTMTag(ctmTag);
 		}
-		simpleBlockItem(b, cubeAll(b));
+		simpleBlockItem(b, cube);
+	}
+
+	private void ctmLayeredRod(DeferredBlock<? extends Block> block, TagKey<Block> ctmTag) {
+		Block b = block.get();
+		ModelFile rod = cubeAll(b);
+		//@formatter:off
+		CTMBlockStateBuilder builder = getCTMBuilder(b, rod)
+			.setLoader(LayeredRodBlockModel.RL)
+			.addCTMTexture("particle", blockTexture(b))
+			.addCTMTexture("top", ctmTexture(b, "t"))
+			.addCTMTexture("center", ctmTexture(b, "c"))
+			.addCTMTexture("bottom", ctmTexture(b, "b"))
+			.addCTMTexture("self", ctmTexture(b, "s"))
+			.addCTMTexture("inner_top", ctmTexture(b, "it"))
+			.addCTMTexture("inner_center", ctmTexture(b, "ic"))
+			.addCTMTexture("inner_bottom", ctmTexture(b, "ib"))
+			.addCTMTexture("inner_self", ctmTexture(b, "is"));
+		//@formatter:on
+		if (ctmTag != null) {
+			builder.setCTMTag(ctmTag);
+		}
+		simpleBlockItem(b, rod);
 	}
 
 	private void leaves(LeavesBlock leaves) {
