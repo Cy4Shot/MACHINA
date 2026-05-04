@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-04T20:12:47.370367	Loot Tables
+// 1.21.1	2026-05-04T20:37:12.4484289	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
 4da7ad8c6aafe797fdd92bc27652554510a0029e data/machina/loot_table/blocks/anthracite_button.json
@@ -738,6 +738,7 @@ d68ca3959b8b1c29acfd84f304b05b437b634a82 data/machina/loot_table/blocks/speckled
 5e86c6371cec4fe34d1d3c8677c94268cef70a25 data/machina/loot_table/blocks/spindlegrass.json
 26dd01995459156cca75b596825812f62cdb80f2 data/machina/loot_table/blocks/spindlesprout.json
 e0197a12fac9915ef6cf16917896158ad6d404fb data/machina/loot_table/blocks/spruce_cup.json
+87312745a0fe57a727f4ebe6d938f5ed88f86e5a data/machina/loot_table/blocks/steam_pipe.json
 1020ae0efcf63db586a40d026d0840bd9f030307 data/machina/loot_table/blocks/steel_block.json
 542f1fe5565cbb53825f9e1b049760a4cd38ac35 data/machina/loot_table/blocks/stone_aluminum_ore.json
 f66194409f1555f871eb1467bd0234ecadb74819 data/machina/loot_table/blocks/stone_bismuth_ore.json

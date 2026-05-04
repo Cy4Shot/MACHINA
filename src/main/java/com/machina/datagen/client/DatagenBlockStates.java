@@ -71,6 +71,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		connector(BlockInit.ENERGY_CABLE);
 		connector(BlockInit.FLUID_PIPE);
 		connector(BlockInit.ITEM_CONDUIT);
+		connector(BlockInit.STEAM_PIPE);
 
 		machine(BlockInit.CREATIVE_BATTERY);
 		machineAllLit(BlockInit.BATTERY, true);

@@ -27,6 +27,7 @@ import com.machina.block.TallFakeGrassBlock;
 import com.machina.block.connector.EnergyCableBlock;
 import com.machina.block.connector.FluidPipeBlock;
 import com.machina.block.connector.ItemConduitBlock;
+import com.machina.block.connector.SteamPipeBlock;
 import com.machina.block.machine.AtmosphericSeparatorBlock;
 import com.machina.block.machine.BatteryBlock;
 import com.machina.block.machine.ChemicalGeneratorBlock;
@@ -112,6 +113,7 @@ public class BlockInit {
 	public static final DeferredBlock<ItemConduitBlock> ITEM_CONDUIT = register("item_conduit", ItemConduitBlock::new);
 	public static final DeferredBlock<EnergyCableBlock> ENERGY_CABLE = register("energy_cable", EnergyCableBlock::new);
 	public static final DeferredBlock<FluidPipeBlock> FLUID_PIPE = register("fluid_pipe", FluidPipeBlock::new);
+	public static final DeferredBlock<SteamPipeBlock> STEAM_PIPE = register("steam_pipe", SteamPipeBlock::new);
 	public static final DeferredBlock<BatteryBlock> BATTERY = register("battery", Blocks.IRON_BLOCK, BatteryBlock::new);
 	public static final DeferredBlock<TankBlock> TANK = register("tank", Blocks.IRON_BLOCK, TankBlock::new);
 	public static final DeferredBlock<CreativeBatteryBlock> CREATIVE_BATTERY = register("creative_battery", Blocks.IRON_BLOCK, CreativeBatteryBlock::new);

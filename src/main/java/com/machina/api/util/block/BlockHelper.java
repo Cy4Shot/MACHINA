@@ -9,6 +9,7 @@ import com.machina.Machina;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.fluid.ChemicalFluid;
 import com.machina.api.util.math.MathUtil;
+import com.machina.registration.CapabilityRegistrar;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -100,6 +101,10 @@ public class BlockHelper {
 
 	public static boolean hasItem(Level level, BlockPos pos, @Nullable Direction side) {
 		return level.getCapability(Capabilities.ItemHandler.BLOCK, pos, side) != null;
+	}
+	
+	public static boolean hasSteam(Level level, BlockPos pos) {
+		return level.getCapability(CapabilityRegistrar.Block.STEAM, pos) != null;
 	}
 
 	// McJty

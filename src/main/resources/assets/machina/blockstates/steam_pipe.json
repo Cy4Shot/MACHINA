@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"": {
+			"model": "machina:block/steam_pipe_block"
+		}
+	}
+}

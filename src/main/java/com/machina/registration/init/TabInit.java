@@ -32,6 +32,7 @@ public class TabInit {
 				add(a, BlockInit.ENERGY_CABLE);
 				add(a, BlockInit.FLUID_PIPE);
 				add(a, BlockInit.ITEM_CONDUIT);
+				add(a, BlockInit.STEAM_PIPE);
 
 				add(a, ItemInit.FLUID_FILTER);
 				add(a, ItemInit.ITEM_FILTER);

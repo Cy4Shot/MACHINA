@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-04T20:12:47.3803694	Block States: machina
+// 1.21.1	2026-05-04T20:37:12.4564302	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -2032,6 +2032,7 @@ eecc9a2c6376cc48bcfabd2574e0681bf904b90d assets/machina/models/block/speckled_re
 62410fb000d294e77b3ce64b00349fa10cd562d0 assets/machina/models/block/spindlegrass_top.json
 1b0b77827c0a6acbb88f31f754e91371a7f42d61 assets/machina/models/block/spindlesprout.json
 62c069e8da23f1086283d4ab0779d0c14ca8369b assets/machina/models/block/spruce_cup.json
+c6376e8534aa374c50e6e4af7971b15e7eae1717 assets/machina/models/block/steam_pipe.json
 fc2cccd5c2660d4c66380951e0f5e3187e775560 assets/machina/models/block/steel_block.json
 46849a0d20bab3a06adf2def0f435408f38f7f8f assets/machina/models/block/stone_aluminum_ore.json
 6100da89856a30a25ae6eb5b9927a6aa7f2bad89 assets/machina/models/block/stone_bismuth_ore.json
@@ -2985,6 +2986,7 @@ cfa94b15c421588aa14e025318fec253f6fbb496 assets/machina/models/item/silt_stairs.
 d894af4a24d1bbc4e003a4931ed79d6b39c29bac assets/machina/models/item/spindlegrass.json
 433afc88b3b588916bdb56d098bfeb034693ae92 assets/machina/models/item/spindlesprout.json
 b264e838f01c9cbd187074eeb3f634b4d412c851 assets/machina/models/item/spruce_cup.json
+8eca69dc25c04cfa703ccf6f5fc62da032201886 assets/machina/models/item/steam_pipe.json
 71168f4beb4a7ae0e55dba46618ce2b1db58aa1a assets/machina/models/item/steel_block.json
 2f8423f6d54718271518935767feba838c2a6b61 assets/machina/models/item/stone_aluminum_ore.json
 79d7c4d595e3c0ea27a8581d155b0375bc461feb assets/machina/models/item/stone_bismuth_ore.json

@@ -5,8 +5,11 @@ import java.util.function.Supplier;
 import com.machina.Machina;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.cap.energy.EnergyItemWrapper;
+import com.machina.api.cap.steam.ISteamHandler;
+import com.machina.api.cap.steam.SteamBlockEntity;
 import com.machina.api.item.EnergyItem;
 import com.machina.api.item.MachinaBucket;
+import com.machina.api.util.MachinaRL;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.ItemInit;
@@ -15,6 +18,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
@@ -22,6 +26,11 @@ import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 @EventBusSubscriber(modid = Machina.MOD_ID)
 public class CapabilityRegistrar {
+
+	public static class Block {
+		public static final BlockCapability<ISteamHandler, Void> STEAM = BlockCapability
+				.createVoid(MachinaRL.create("steam_handler"), ISteamHandler.class);
+	}
 
 	@SubscribeEvent
 	public static void addReloadListeners(RegisterCapabilitiesEvent event) {
@@ -71,12 +80,15 @@ public class CapabilityRegistrar {
 
 	public static <T extends MachinaBlockEntity> void machinaBlock(RegisterCapabilitiesEvent event,
 			Supplier<BlockEntityType<T>> type) {
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type.get(),
-				(be, side) -> be.getInvCap(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type.get(), (be, side) -> be.getInvCap(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type.get(),
 				(be, side) -> be.getEnergyStorage(side));
-		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type.get(),
-				(be, side) -> be.getFluidCap(side));
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type.get(), (be, side) -> be.getFluidCap(side));
+	}
+
+	public static <T extends MachinaBlockEntity & SteamBlockEntity> void steamBlock(RegisterCapabilitiesEvent event,
+			Supplier<BlockEntityType<T>> type) {
+		event.registerBlockEntity(Block.STEAM, type.get(), (be, side) -> be.getSteamCap());
 	}
 
 	private static final void energyItem(final RegisterCapabilitiesEvent event, ItemLike like) {

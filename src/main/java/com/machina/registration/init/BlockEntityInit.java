@@ -10,6 +10,7 @@ import com.machina.block.entity.SulfurGeyserBlockEntity;
 import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.machina.block.entity.connector.ItemConduitBlockEntity;
+import com.machina.block.entity.connector.SteamPipeBlockEntity;
 import com.machina.block.entity.machine.AtmosphericSeparatorBlockEntity;
 import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.entity.machine.ChemicalGeneratorBlockEntity;
@@ -55,6 +56,8 @@ public class BlockEntityInit {
 		= register("energy_cable", EnergyCableBlockEntity::new, BlockInit.ENERGY_CABLE::get);
 	public static final Supplier<BlockEntityType<FluidPipeBlockEntity>> FLUID_PIPE
 		= register("fluid_pipe",FluidPipeBlockEntity::new, BlockInit.FLUID_PIPE::get);
+	public static final Supplier<BlockEntityType<SteamPipeBlockEntity>> STEAM_PIPE
+		= register("steam_pipe", SteamPipeBlockEntity::new, BlockInit.STEAM_PIPE::get);
 	public static final Supplier<BlockEntityType<BatteryBlockEntity>> BATTERY
 		= register("battery",BatteryBlockEntity::new, BlockInit.BATTERY::get);
 	public static final Supplier<BlockEntityType<TankBlockEntity>> TANK
