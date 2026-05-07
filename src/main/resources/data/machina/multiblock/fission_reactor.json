@@ -6,48 +6,80 @@
 	],
 	"controller": "machina:fission_reactor_controller",
 	"blocks": {
-		"C": "machina:fission_reactor_casing",
-		"G": "machina:fission_reactor_glass",
-		"R": "machina:fission_fuel_rod",
-		"A": "machina:fission_fuel_rod_assembly",
-		"?": "machina:fission_reactor_casing"
+		"C": [
+			"machina:fission_reactor_casing",
+			"machina:fission_reactor_energy_port",
+			"machina:fission_reactor_item_port",
+			"machina:fission_reactor_water_port",
+			"machina:fission_reactor_steam_port"
+		],
+		"G": [
+			"machina:fission_reactor_casing",
+			"machina:fission_reactor_glass",
+			"machina:fission_reactor_energy_port",
+			"machina:fission_reactor_item_port",
+			"machina:fission_reactor_water_port",
+			"machina:fission_reactor_steam_port"
+		],
+		"g": [
+			"machina:fission_reactor_glass",
+			"machina:fission_reactor_casing",
+			"machina:fission_reactor_energy_port",
+			"machina:fission_reactor_item_port",
+			"machina:fission_reactor_water_port",
+			"machina:fission_reactor_steam_port"
+		],
+		"R": [
+			"machina:fission_fuel_rod"
+		],
+		"A": [
+			"machina:fission_fuel_rod_assembly"
+		],
+		"?": [
+			"machina:fission_reactor_casing",
+			"machina:fission_reactor_glass",
+			"machina:fission_reactor_energy_port",
+			"machina:fission_reactor_item_port",
+			"machina:fission_reactor_water_port",
+			"machina:fission_reactor_steam_port"
+		]
 	},
 	"structure": [
 		[
 			"CCCCCCC",
-			"CCCCCCC",
-			"CCACACC",
-			"CCCACCC",
-			"CCACACC",
-			"CCCCCCC",
+			"CGGGGGC",
+			"CGAGAGC",
+			"CGGAGGC",
+			"CGAGAGC",
+			"CGGGGGC",
 			"CCCCCCC"
 		],
 		[
-			"CCCCCCC",
-			"C     C",
-			"C R R C",
-			"C  R  C",
-			"C R R C",
-			"C     C",
-			"CCCCCCC"
-		],
-		[
-			"CCGGGCC",
-			"C     C",
+			"CGGGGGC",
+			"G     G",
 			"G R R G",
 			"G  R  G",
 			"G R R G",
-			"C     C",
-			"CCGGGCC"
+			"G     G",
+			"CgggggC"
 		],
 		[
-			"CCCCCCC",
-			"C     C",
-			"C R R C",
-			"C  R  C",
-			"C R R C",
-			"C     C",
-			"CCC!CCC"
+			"CGgggGC",
+			"G     G",
+			"g R R g",
+			"g  R  g",
+			"g R R g",
+			"G     G",
+			"CgggggC"
+		],
+		[
+			"CGGGGGC",
+			"G     G",
+			"G R R G",
+			"G  R  G",
+			"G R R G",
+			"G     G",
+			"Cgg!ggC"
 		],
 		[
 			"CCCCCCC",

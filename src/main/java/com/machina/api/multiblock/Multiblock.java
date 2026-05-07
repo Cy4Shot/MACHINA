@@ -24,14 +24,14 @@ public class Multiblock {
 	public Vec3i size;
 	public BlockState controller;
 	public Vec3i controller_render_pos;
-	public Map<String, BlockState> map;
+	public Map<String, List<BlockState>> map;
 	public Set<Block> allowedBlock;
 	public String[][][] structure;
 
 	public static class MultiblockJsonInfo implements JsonInfo<Multiblock> {
 		public List<Integer> size;
 		public String controller;
-		public Map<String, String> blocks;
+		public Map<String, List<String>> blocks;
 		public List<List<String>> structure;
 
 		public Multiblock cast() {
@@ -42,14 +42,13 @@ public class Multiblock {
 			} catch (CommandSyntaxException e) {
 				throw new IllegalArgumentException("No controller found in structure (" + controller + ")", e);
 			}
-			mb.map = blocks.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> {
+			mb.map = blocks.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> s.getValue().stream().map(v -> {
 				try {
-					return parse(s.getValue());
+					return parse(v);
 				} catch (CommandSyntaxException e) {
-					throw new IllegalArgumentException(
-							"Invalid block state for key " + s.getKey() + ": " + s.getValue(), e);
+					throw new IllegalArgumentException("Invalid block state for key " + s.getKey() + ": " + v, e);
 				}
-			}));
+			}).collect(Collectors.toList())));
 
 			mb.structure = new String[mb.size.getX()][mb.size.getY()][mb.size.getZ()];
 			for (int y = 0; y < mb.size.getY(); y++) {
@@ -76,7 +75,7 @@ public class Multiblock {
 				throw new IllegalArgumentException("No controller render position found in structure (marked with !)");
 			}
 
-			mb.allowedBlock = mb.map.values().stream().map(BlockBehaviour.BlockStateBase::getBlock)
+			mb.allowedBlock = mb.map.values().stream().flatMap(List::stream).map(BlockBehaviour.BlockStateBase::getBlock)
 					.collect(Collectors.toSet());
 			mb.allowedBlock.add(mb.controller.getBlock());
 			return mb;
@@ -96,18 +95,26 @@ public class Multiblock {
 				return controller;
 			}
 			String key = structure[pos.getX()][pos.getY()][pos.getZ()];
-			BlockState bs = map.get(key);
-			return bs == null ? Blocks.AIR.defaultBlockState() : bs;
+			List<BlockState> bs = map.get(key);
+			return bs == null || bs.isEmpty() ? Blocks.AIR.defaultBlockState() : bs.get(0);
 		} catch (IndexOutOfBoundsException e) {
 			return Blocks.AIR.defaultBlockState();
 		}
 	}
 
+	public boolean matches(String key, BlockState state) {
+		List<BlockState> expected = map.get(key);
+		if (expected == null || expected.isEmpty()) {
+			return false;
+		}
+		return expected.stream().anyMatch(bs -> bs.getBlock().equals(state.getBlock()));
+	}
+
 	@Override
 	public String toString() {
 		return "Multiblock {" + "\n\t size = " + size.toString() + "\n\t map = "
-				+ Joiner.on(",").withKeyValueSeparator("=").join(
-						map.entrySet().stream().collect(Collectors.toMap(Entry::getKey, s -> s.getValue().toString())))
+				+ Joiner.on(",").withKeyValueSeparator("=").join(map.entrySet().stream().collect(Collectors
+						.toMap(Entry::getKey, s -> s.getValue().stream().map(BlockState::toString).collect(Collectors.toList()))))
 				+ "\n\t structure = " + Arrays.deepToString(structure) + '}';
 	}
 }

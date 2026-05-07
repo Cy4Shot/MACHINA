@@ -156,8 +156,7 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 							poss.add(pos);
 						} else {
 							// Check if it's the allowed block for controller slots
-							BlockState expected = mb.map.get(key);
-							if (expected == null || !expected.getBlock().equals(state.getBlock())) {
+							if (!mb.matches(key, state)) {
 								return ValidateResult.REJECT;
 							}
 							poss.add(pos);
@@ -166,8 +165,7 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 					}
 
 					// Regular block validation
-					BlockState expected = mb.map.get(key);
-					if (!key.equals(" ") && (expected == null || !expected.getBlock().equals(state.getBlock()))) {
+					if (!key.equals(" ") && !mb.matches(key, state)) {
 						return ValidateResult.REJECT;
 					}
 					if (!key.equals(" "))

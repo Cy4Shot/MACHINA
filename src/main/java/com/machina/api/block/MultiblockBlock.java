@@ -149,18 +149,17 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 	@Override
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
 			Player player, InteractionHand hand, BlockHitResult hit) {
-		if (!player.isShiftKeyDown()) {
-			if (isFormed(level, pos)) {
-				return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-			} else {
-				if (!level.isClientSide()) {
-					return ItemInteractionResult.CONSUME;
-				}
-				ResourceLocation mb = getMultiblock(level, pos);
-				if (mb != null) {
-					Minecraft.getInstance().setScreen(new MultiblockHousingScreen(mb, getName()));
-					return ItemInteractionResult.CONSUME;
-				}
+		if (isFormed(level, pos)) {
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		}
+		if (player.isShiftKeyDown()) {
+			if (!level.isClientSide()) {
+				return ItemInteractionResult.CONSUME;
+			}
+			ResourceLocation mb = getMultiblock(level, pos);
+			if (mb != null) {
+				Minecraft.getInstance().setScreen(new MultiblockHousingScreen(mb, getName()));
+				return ItemInteractionResult.CONSUME;
 			}
 		}
 

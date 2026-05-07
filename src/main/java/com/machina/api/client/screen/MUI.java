@@ -1,6 +1,7 @@
 package com.machina.api.client.screen;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Function;
@@ -41,6 +43,7 @@ import com.mojang.math.Axis;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
@@ -78,6 +81,29 @@ public final class MUI {
 	public static final int ACC_2 = 0xE600FF;
 
 	private static final Minecraft mc = Minecraft.getInstance();
+
+	private static final Object2ObjectLinkedOpenHashMap<ResourceLocation, TransparencyCache> TRANSPARENCY_CACHE = new Object2ObjectLinkedOpenHashMap<>();
+
+	private static class TransparencyCache {
+		public final Vec3i size;
+		public final CachedBlockPos[] opaque;
+		public final CachedBlockPos[] translucent;
+
+		public TransparencyCache(Vec3i size, CachedBlockPos[] opaque, CachedBlockPos[] translucent) {
+			this.size = size;
+			this.opaque = opaque;
+			this.translucent = translucent;
+		}
+	}
+
+	private static class CachedBlockPos {
+		public final BlockPos pos;
+		public float depth;
+
+		public CachedBlockPos(BlockPos pos) {
+			this.pos = pos;
+		}
+	}
 
 	private static final ResourceLocation JEI_UI = MachinaRL.create("textures/gui/jei_ui.png");
 	private static final ResourceLocation COMMON_UI = MachinaRL.create("textures/gui/common_ui.png");
@@ -434,15 +460,53 @@ public final class MUI {
 		rotMat.rotate(VecUtil.rotationDegrees(VecUtil.YP, rotY - 45F));
 		gui.pose().translate(offX, 0, offZ);
 
-		renderElements(gui.pose(), mb, size, pt, pos -> false, rotX < 30F);
+		TransparencyCache cache = getTransparencyCache(mbloc, mb, size);
+		renderElements(gui.pose(), mb, cache, rotMat, rotX < 30F);
 
 		gui.pose().popPose();
 	}
 
+	private static TransparencyCache getTransparencyCache(ResourceLocation mbloc, ClientMultiblock mb, Vec3i size) {
+		TransparencyCache cache = TRANSPARENCY_CACHE.get(mbloc);
+		if (cache != null && cache.size.equals(size)) {
+			return cache;
+		}
+
+		CachedBlockPos[] opaque = new CachedBlockPos[size.getX() * size.getY() * size.getZ()];
+		CachedBlockPos[] translucent = new CachedBlockPos[opaque.length];
+		int opaqueCount = 0;
+		int translucentCount = 0;
+
+		for (int y = 0; y < size.getY(); y++) {
+			for (int x = 0; x < size.getX(); x++) {
+				for (int z = 0; z < size.getZ(); z++) {
+					BlockPos pos = new BlockPos(x, y, z);
+					CachedBlockPos cachedPos = new CachedBlockPos(pos);
+					if (isTranslucent(mb.getBlockState(pos))) {
+						translucent[translucentCount++] = cachedPos;
+					} else {
+						opaque[opaqueCount++] = cachedPos;
+					}
+				}
+			}
+		}
+
+		opaque = Arrays.copyOf(opaque, opaqueCount);
+		translucent = Arrays.copyOf(translucent, translucentCount);
+		cache = new TransparencyCache(size, opaque, translucent);
+		TRANSPARENCY_CACHE.put(mbloc, cache);
+		return cache;
+	}
+
+	private static boolean isTranslucent(BlockState state) {
+		return ItemBlockRenderTypes.getRenderLayers(state).asList().stream()
+				.anyMatch(layer -> layer == RenderType.translucent() || layer == RenderType.TRANSLUCENT);
+	}
+
 	private static BufferSource mbBuffers = null;
 
-	private static void renderElements(PoseStack ms, ClientMultiblock mb, Vec3i dest, float par,
-			Predicate<BlockPos> transparency, boolean flip) {
+	private static void renderElements(PoseStack ms, ClientMultiblock mb, TransparencyCache cache, Matrix4f rotMat,
+			boolean flip) {
 		if (mbBuffers == null) {
 			mbBuffers = initBuffers(mc.renderBuffers().bufferSource());
 		}
@@ -453,7 +517,7 @@ public final class MUI {
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		ms.translate(0, 0, -1);
 
-		doWorldRenderPass(ms, mbBuffers, buffers, mb, dest, transparency, flip);
+		doWorldRenderPass(ms, mbBuffers, buffers, mb, cache, rotMat, flip);
 		mbBuffers.endBatch();
 		buffers.endBatch();
 
@@ -461,35 +525,52 @@ public final class MUI {
 	}
 
 	private static void doWorldRenderPass(PoseStack ms, @Nonnull BufferSource tpBuffers,
-			@Nonnull BufferSource nmBuffers, ClientMultiblock mb, Vec3i dest, Predicate<BlockPos> transparency,
+			@Nonnull BufferSource nmBuffers, ClientMultiblock mb, TransparencyCache cache, Matrix4f rotMat,
 			boolean flip) {
-		boolean last = false;
-		for (int y = 0; y < dest.getY(); y++) {
-			for (int x = 0; x < dest.getX(); x++) {
-				for (int z = 0; z < dest.getZ(); z++) {
-					BlockPos pos = new BlockPos(x, flip ? y : dest.getY() - y - 1, z);
-					boolean tp = !transparency.test(pos);
-					if (last != tp) {
-						(last ? nmBuffers : tpBuffers).endBatch();
-					}
-					mb = mb.restrict(has -> tp != transparency.test(has));
-					BlockState bs = mb.getBlockState(pos);
+		for (CachedBlockPos cachedPos : cache.opaque) {
+			BlockPos pos = flip ? new BlockPos(cachedPos.pos.getX(), cache.size.getY() - 1 - cachedPos.pos.getY(), cachedPos.pos.getZ())
+					: cachedPos.pos;
+			BlockState bs = mb.getBlockState(pos);
 
-					ms.pushPose();
-					ms.translate(pos.getX(), pos.getY(), pos.getZ());
-					for (RenderType layer : RenderType.chunkBufferLayers()) {
-						VertexConsumer buffer = (tp ? nmBuffers : tpBuffers).getBuffer(layer);
-						Vec3 vector3d = bs.getOffset(mb, pos);
-						ms.translate(vector3d.x, vector3d.y, vector3d.z);
-						BakedModel model = mc.getBlockRenderer().getBlockModel(bs);
-						ModelData modelData = model.getModelData(mb, pos, bs, ModelData.EMPTY);
-						mc.getBlockRenderer().getModelRenderer().renderModel(ms.last(), buffer, bs, model, pos.getX(),
-								pos.getY(), pos.getZ(), 255, OverlayTexture.NO_OVERLAY, modelData, layer);
-					}
-					ms.popPose();
-					last = tp;
-				}
+			ms.pushPose();
+			ms.translate(pos.getX(), pos.getY(), pos.getZ());
+			for (RenderType layer : RenderType.chunkBufferLayers()) {
+				VertexConsumer buffer = nmBuffers.getBuffer(layer);
+				Vec3 vector3d = bs.getOffset(mb, pos);
+				ms.translate(vector3d.x, vector3d.y, vector3d.z);
+				BakedModel model = mc.getBlockRenderer().getBlockModel(bs);
+				ModelData modelData = model.getModelData(mb, pos, bs, ModelData.EMPTY);
+				mc.getBlockRenderer().getModelRenderer().renderModel(ms.last(), buffer, bs, model, pos.getX(),
+						pos.getY(), pos.getZ(), 255, OverlayTexture.NO_OVERLAY, modelData, layer);
 			}
+			ms.popPose();
+		}
+
+		Vector3f temp = new Vector3f();
+		for (CachedBlockPos cachedPos : cache.translucent) {
+			temp.set(cachedPos.pos.getX(), cachedPos.pos.getY(), cachedPos.pos.getZ());
+			rotMat.transformPosition(temp);
+			cachedPos.depth = temp.z;
+		}
+		Arrays.sort(cache.translucent, Comparator.comparingDouble((CachedBlockPos p) -> p.depth).reversed());
+
+		for (CachedBlockPos cachedPos : cache.translucent) {
+			BlockPos pos = flip ? new BlockPos(cachedPos.pos.getX(), cache.size.getY() - 1 - cachedPos.pos.getY(), cachedPos.pos.getZ())
+					: cachedPos.pos;
+			BlockState bs = mb.getBlockState(pos);
+
+			ms.pushPose();
+			ms.translate(pos.getX(), pos.getY(), pos.getZ());
+			for (RenderType layer : RenderType.chunkBufferLayers()) {
+				VertexConsumer buffer = tpBuffers.getBuffer(layer);
+				Vec3 vector3d = bs.getOffset(mb, pos);
+				ms.translate(vector3d.x, vector3d.y, vector3d.z);
+				BakedModel model = mc.getBlockRenderer().getBlockModel(bs);
+				ModelData modelData = model.getModelData(mb, pos, bs, ModelData.EMPTY);
+				mc.getBlockRenderer().getModelRenderer().renderModel(ms.last(), buffer, bs, model, pos.getX(),
+						pos.getY(), pos.getZ(), 255, OverlayTexture.NO_OVERLAY, modelData, layer);
+			}
+			ms.popPose();
 		}
 	}
 
@@ -522,22 +603,20 @@ public final class MUI {
 
 		private MultiblockRenderType(RenderType original, float alpha) {
 			super(String.format("%s_%s_multiblock", original.toString(), Machina.MOD_ID), original.format(),
-					original.mode(), original.bufferSize(), original.affectsCrumbling(), true, () -> {
-						original.setupRenderState();
-
-						RenderSystem.disableDepthTest();
-						RenderSystem.enableBlend();
-						RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA,
-								GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
-						RenderSystem.setShaderColor(1, 1, 1, alpha);
-					}, () -> {
-						RenderSystem.setShaderColor(1, 1, 1, 1);
-						RenderSystem.defaultBlendFunc();
-						RenderSystem.disableBlend();
-						RenderSystem.enableDepthTest();
-
-						original.clearRenderState();
-					});
+				original.mode(), original.bufferSize(), original.affectsCrumbling(), true, () -> {
+					original.setupRenderState();
+					RenderSystem.enableBlend();
+					RenderSystem.defaultBlendFunc();
+					RenderSystem.setShaderColor(1, 1, 1, alpha);
+					// For translucent pass we want depth testing but no depth writes
+					RenderSystem.depthMask(false);
+				}, () -> {
+					RenderSystem.setShaderColor(1, 1, 1, 1);
+					RenderSystem.defaultBlendFunc();
+					RenderSystem.disableBlend();
+					RenderSystem.depthMask(true);
+					original.clearRenderState();
+				});
 		}
 
 		@Override
