@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.multiblock.Multiblock;
@@ -41,14 +43,16 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 
 	public abstract ResourceLocation getMultiblock();
 
-	public void update() {
-		deform();
+	public void update(@Nullable BlockPos changed) {
+		deform(changed);
 
 		ValidateResult res = valid();
 		this.formed = res.valid;
 		if (res.valid) {
 			this.parts = res.pos;
 			for (BlockPos pos : parts) {
+				if (pos.equals(this.worldPosition))
+					continue;
 				BlockHelper.doWithTe(level, pos, MultiblockPartBlockEntity.class, te -> {
 					te.form(worldPosition);
 				});
@@ -61,10 +65,12 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 		this.setChanged();
 	}
 
-	public void deform() {
+	public void deform(@Nullable BlockPos deleted) {
 		for (BlockPos pos : parts) {
+			if (pos.equals(this.worldPosition))
+				continue;
 			BlockHelper.doWithTe(level, pos, MultiblockPartBlockEntity.class, te -> {
-				te.deform();
+				te.deform(!pos.equals(deleted));
 			});
 		}
 	}

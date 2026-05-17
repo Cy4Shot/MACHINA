@@ -86,16 +86,14 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moving) {
-		if (!state.getBlock().equals(newState.getBlock())) {
-			if (isMaster()) {
-				BlockHelper.doWithTe(level, pos, MultiblockMasterBlockEntity.class, te -> {
-					te.deform();
-				});
-			} else {
-				BlockHelper.doWithTe(level, pos, MultiblockPartBlockEntity.class, te -> {
-					te.update();
-				});
-			}
+		if (isMaster()) {
+			BlockHelper.doWithTe(level, pos, MultiblockMasterBlockEntity.class, te -> {
+				te.deform(pos);
+			});
+		} else if (!newState.getBlock().equals(state.getBlock())){
+			BlockHelper.doWithTe(level, pos, MultiblockPartBlockEntity.class, te -> {
+				te.update(pos);
+			});
 		}
 
 		super.onRemove(state, level, pos, newState, moving);
@@ -144,9 +142,9 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 
 	private void refreshMultiblock(Level level, BlockPos pos) {
 		if (isMaster()) {
-			BlockHelper.doWithTe(level, pos, MultiblockMasterBlockEntity.class, te -> te.update());
+			BlockHelper.doWithTe(level, pos, MultiblockMasterBlockEntity.class, te -> te.update(pos));
 		} else {
-			BlockHelper.doWithTe(level, pos, MultiblockPartBlockEntity.class, te -> te.attemptAssimilate());
+			BlockHelper.doWithTe(level, pos, MultiblockPartBlockEntity.class, te -> te.attemptAssimilate(pos));
 		}
 	}
 

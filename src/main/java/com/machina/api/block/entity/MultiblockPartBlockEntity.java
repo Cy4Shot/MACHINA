@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -79,7 +81,7 @@ public abstract class MultiblockPartBlockEntity extends MachinaBlockEntity {
 		}
 	}
 
-	public void deform() {
+	public void deform(boolean deleted) {
 		this.formed = false;
 		this.master = null;
 		this.setChanged();
@@ -89,17 +91,17 @@ public abstract class MultiblockPartBlockEntity extends MachinaBlockEntity {
 		}
 	}
 
-	public void update() {
+	public void update(@Nullable BlockPos changed) {
 		if (this.master != null) {
 			BlockHelper.doWithTe(level, master, MultiblockMasterBlockEntity.class, te -> {
-				te.update();
+				te.update(changed);
 			});
 		}
 	}
 
-	public void attemptAssimilate() {
+	public void attemptAssimilate(@Nullable BlockPos changed) {
 		this.master = findMaster();
-		update();
+		update(changed);
 	}
 
 	@Override

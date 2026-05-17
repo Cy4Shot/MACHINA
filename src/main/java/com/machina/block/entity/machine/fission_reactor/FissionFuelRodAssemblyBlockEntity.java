@@ -88,9 +88,11 @@ public class FissionFuelRodAssemblyBlockEntity extends MultiblockPartBlockEntity
 	}
 
 	@Override
-	public void deform() {
-		setLit(false);
-		super.deform();
+	public void deform(boolean deleted) {
+		if (deleted) {
+			setLit(false);
+		}
+		super.deform(deleted);
 	}
 
 	public void setLit(boolean lit) {
