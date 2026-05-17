@@ -66,12 +66,13 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 	}
 
 	@Override
-	public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
-		super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
-		if (pLevel.isClientSide() || pOldState.isAir() || pLevel.getBlockEntity(pPos) == null) {
+	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moving) {
+		super.onPlace(state, level, pos, oldState, moving);
+		if (level.isClientSide() || oldState.isAir() || level.getBlockEntity(pos) == null
+				|| state.getBlock().equals(oldState.getBlock())) {
 			return;
 		}
-		refreshMultiblock(pLevel, pPos);
+		refreshMultiblock(level, pos);
 	}
 
 	@Override
@@ -84,17 +85,20 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 	}
 
 	@Override
-	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-		if (isMaster()) {
-			BlockHelper.doWithTe(pLevel, pPos, MultiblockMasterBlockEntity.class, te -> {
-				te.deform();
-			});
-		} else {
-			BlockHelper.doWithTe(pLevel, pPos, MultiblockPartBlockEntity.class, te -> {
-				te.update();
-			});
+	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moving) {
+		if (!state.getBlock().equals(newState.getBlock())) {
+			if (isMaster()) {
+				BlockHelper.doWithTe(level, pos, MultiblockMasterBlockEntity.class, te -> {
+					te.deform();
+				});
+			} else {
+				BlockHelper.doWithTe(level, pos, MultiblockPartBlockEntity.class, te -> {
+					te.update();
+				});
+			}
 		}
-		super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+
+		super.onRemove(state, level, pos, newState, moving);
 	}
 
 	@Override
@@ -146,11 +150,16 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 		}
 	}
 
+	protected ItemInteractionResult formedInteraction(Level level, BlockPos pos, Player player, InteractionHand hand,
+			ItemStack stack) {
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+	}
+
 	@Override
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
 			Player player, InteractionHand hand, BlockHitResult hit) {
 		if (isFormed(level, pos)) {
-			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+			return formedInteraction(level, pos, player, hand, stack);
 		}
 		if (player.isShiftKeyDown()) {
 			if (!level.isClientSide()) {

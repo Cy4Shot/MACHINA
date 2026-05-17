@@ -11,6 +11,10 @@
     "inner_center": "machina:block/ctm/fission_fuel_rod/ic",
     "inner_self": "machina:block/ctm/fission_fuel_rod/is",
     "inner_top": "machina:block/ctm/fission_fuel_rod/it",
+    "lit_inner_bottom": "machina:block/ctm/fission_fuel_rod/lib",
+    "lit_inner_center": "machina:block/ctm/fission_fuel_rod/lic",
+    "lit_inner_self": "machina:block/ctm/fission_fuel_rod/lis",
+    "lit_inner_top": "machina:block/ctm/fission_fuel_rod/lit",
     "particle": "machina:block/fission_fuel_rod",
     "self": "machina:block/ctm/fission_fuel_rod/s",
     "top": "machina:block/ctm/fission_fuel_rod/t"

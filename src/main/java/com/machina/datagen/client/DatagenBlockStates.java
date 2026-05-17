@@ -333,7 +333,11 @@ public class DatagenBlockStates extends BlockStateProvider {
 			.addCTMTexture("inner_top", ctmTexture(b, "it"))
 			.addCTMTexture("inner_center", ctmTexture(b, "ic"))
 			.addCTMTexture("inner_bottom", ctmTexture(b, "ib"))
-			.addCTMTexture("inner_self", ctmTexture(b, "is"));
+			.addCTMTexture("inner_self", ctmTexture(b, "is"))
+			.addCTMTexture("lit_inner_top", ctmTexture(b, "lit"))
+			.addCTMTexture("lit_inner_center", ctmTexture(b, "lic"))
+			.addCTMTexture("lit_inner_bottom", ctmTexture(b, "lib"))
+			.addCTMTexture("lit_inner_self", ctmTexture(b, "lis"));
 		//@formatter:on
 		if (ctmTag != null) {
 			builder.setCTMTag(ctmTag);

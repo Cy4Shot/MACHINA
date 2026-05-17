@@ -1,19 +1,35 @@
 {
 	"variants": {
-		"facing=north": {
+		"facing=north,lit=false": {
 			"model": "machina:block/fission_fuel_rod_assembly",
 			"y": 0
 		},
-		"facing=south": {
+		"facing=south,lit=false": {
 			"model": "machina:block/fission_fuel_rod_assembly",
 			"y": 180
 		},
-		"facing=east": {
+		"facing=east,lit=false": {
 			"model": "machina:block/fission_fuel_rod_assembly",
 			"y": 90
 		},
-		"facing=west": {
+		"facing=west,lit=false": {
 			"model": "machina:block/fission_fuel_rod_assembly",
+			"y": 270
+		},
+		"facing=north,lit=true": {
+			"model": "machina:block/fission_fuel_rod_assembly_lit",
+			"y": 0
+		},
+		"facing=south,lit=true": {
+			"model": "machina:block/fission_fuel_rod_assembly_lit",
+			"y": 180
+		},
+		"facing=east,lit=true": {
+			"model": "machina:block/fission_fuel_rod_assembly_lit",
+			"y": 90
+		},
+		"facing=west,lit=true": {
+			"model": "machina:block/fission_fuel_rod_assembly_lit",
 			"y": 270
 		}
 	}

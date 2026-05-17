@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.SequencedMap;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -498,6 +497,7 @@ public final class MUI {
 		return cache;
 	}
 
+	@SuppressWarnings("deprecation")
 	private static boolean isTranslucent(BlockState state) {
 		return ItemBlockRenderTypes.getRenderLayers(state).asList().stream()
 				.anyMatch(layer -> layer == RenderType.translucent() || layer == RenderType.TRANSLUCENT);

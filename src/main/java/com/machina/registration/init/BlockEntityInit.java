@@ -30,6 +30,8 @@ import com.machina.block.entity.machine.RocketRefuelingStationBlockEntity;
 import com.machina.block.entity.machine.SawmillBlockEntity;
 import com.machina.block.entity.machine.SolidifierBlockEntity;
 import com.machina.block.entity.machine.TankBlockEntity;
+import com.machina.block.entity.machine.fission_reactor.FissionFuelRodAssemblyBlockEntity;
+import com.machina.block.entity.machine.fission_reactor.FissionFuelRodBlockEntity;
 import com.machina.block.entity.machine.fission_reactor.FissionReactorControllerBlockEntity;
 import com.machina.block.entity.machine.fission_reactor.FissionReactorEnergyPortBlockEntity;
 import com.machina.block.entity.machine.fission_reactor.FissionReactorItemPortBlockEntity;
@@ -107,7 +109,7 @@ public class BlockEntityInit {
 	public static final Supplier<BlockEntityType<FissionReactorControllerBlockEntity>> FISSION_REACTOR_CONTROLLER
 		= register("fission_reactor_controller", FissionReactorControllerBlockEntity::new, BlockInit.FISSION_REACTOR_CONTROLLER::get);
 	public static final Supplier<BlockEntityType<FissionReactorPartBlockEntity>> FISSION_REACTOR_PART
-		= register("fission_reactor_part", FissionReactorPartBlockEntity::new, BlockInit.FISSION_REACTOR_CASING::get, BlockInit.FISSION_REACTOR_GLASS::get, BlockInit.FISSION_FUEL_ROD::get, BlockInit.FISSION_FUEL_ROD_ASSEMBLY::get);
+		= register("fission_reactor_part", FissionReactorPartBlockEntity::new, BlockInit.FISSION_REACTOR_CASING::get, BlockInit.FISSION_REACTOR_GLASS::get);
 	public static final Supplier<BlockEntityType<FissionReactorEnergyPortBlockEntity>> FISSION_REACTOR_ENERGY_PORT
 		= register("fission_reactor_energy_port", FissionReactorEnergyPortBlockEntity::new, BlockInit.FISSION_REACTOR_ENERGY_PORT::get);
 	public static final Supplier<BlockEntityType<FissionReactorItemPortBlockEntity>> FISSION_REACTOR_ITEM_PORT
@@ -116,6 +118,10 @@ public class BlockEntityInit {
 		= register("fission_reactor_water_port", FissionReactorWaterPortBlockEntity::new, BlockInit.FISSION_REACTOR_WATER_PORT::get);
 	public static final Supplier<BlockEntityType<FissionReactorSteamPortBlockEntity>> FISSION_REACTOR_STEAM_PORT
 		= register("fission_reactor_steam_port", FissionReactorSteamPortBlockEntity::new, BlockInit.FISSION_REACTOR_STEAM_PORT::get);
+	public static final Supplier<BlockEntityType<FissionFuelRodBlockEntity>> FISSION_FUEL_ROD
+		= register("fission_fuel_rod", FissionFuelRodBlockEntity::new, BlockInit.FISSION_FUEL_ROD::get);
+	public static final Supplier<BlockEntityType<FissionFuelRodAssemblyBlockEntity>> FISSION_FUEL_ROD_ASSEMBLY
+		= register("fission_fuel_rod_assembly", FissionFuelRodAssemblyBlockEntity::new, BlockInit.FISSION_FUEL_ROD_ASSEMBLY::get);
 	
 	// Worldgen
 	public static final Supplier<BlockEntityType<SulfurGeyserBlockEntity>> SULFUR_GEYSER = register("sulfur_geyser",

@@ -10,6 +10,7 @@ import com.machina.api.client.shader.ShaderHandler;
 import com.machina.api.util.MachinaRL;
 import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
+import com.machina.client.ber.FissionFuelRodAssemblyRenderer;
 import com.machina.client.ber.RocketPartBenchRenderer;
 import com.machina.client.ber.TankRenderer;
 import com.machina.client.entity.RocketRenderer;
@@ -158,6 +159,7 @@ public class ClientModEvents {
 	public static void registerRenderers(RegisterRenderers event) {
 		event.registerBlockEntityRenderer(BlockEntityInit.TANK.get(), TankRenderer::new);
 		event.registerBlockEntityRenderer(BlockEntityInit.ROCKET_PART_BENCH.get(), RocketPartBenchRenderer::new);
+		event.registerBlockEntityRenderer(BlockEntityInit.FISSION_FUEL_ROD_ASSEMBLY.get(), FissionFuelRodAssemblyRenderer::new);
 	}
 
 	@SubscribeEvent

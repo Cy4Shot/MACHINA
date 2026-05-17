@@ -26,6 +26,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class LayeredRodBlockModel implements AthenaBlockModel {
 
@@ -37,22 +38,22 @@ public class LayeredRodBlockModel implements AthenaBlockModel {
 	private static final float ID = 6f / 16f;
 
 	//@formatter:off
-	private static final List<AthenaQuad> CENTER = List.of(
+	private static final Function<Boolean, List<AthenaQuad>> CENTER = lit -> List.of(
 			new AthenaQuad(2, 0f, 1f, 1f, 0f, Rotation.NONE, 0f, false),
 			new AthenaQuad(2, 1f, 0f, 1f, 0f, Rotation.NONE, 0f, false),
-			new AthenaQuad(7, IL, IR, 1f, 0f, Rotation.NONE, ID, false));
-	private static final List<AthenaQuad> TOP = List.of(
+			new AthenaQuad(lit ? 11 : 7, IL, IR, 1f, 0f, Rotation.NONE, ID, false));
+	private static final Function<Boolean, List<AthenaQuad>> TOP = lit -> List.of(
 			new AthenaQuad(1, 0f, 1f, 1f, 0f, Rotation.NONE, 0f, false),
 			new AthenaQuad(1, 1f, 0f, 1f, 0f, Rotation.NONE, 0f, false),
-			new AthenaQuad(6, IL, IR, 1f, 0f, Rotation.NONE, ID, false));
-	private static final List<AthenaQuad> BOTTOM = List.of(
+			new AthenaQuad(lit ? 10 : 6, IL, IR, 1f, 0f, Rotation.NONE, ID, false));
+	private static final Function<Boolean, List<AthenaQuad>> BOTTOM = lit -> List.of(
 			new AthenaQuad(3, 0f, 1f, 1f, 0f, Rotation.NONE, 0f, false),
 			new AthenaQuad(3, 1f, 0f, 1f, 0f, Rotation.NONE, 0f, false),
-			new AthenaQuad(8, IL, IR, 1f, 0f, Rotation.NONE, ID, false));
-	private static final List<AthenaQuad> SELF = List.of(
+			new AthenaQuad(lit ? 12 : 8, IL, IR, 1f, 0f, Rotation.NONE, ID, false));
+	private static final Function<Boolean, List<AthenaQuad>> SELF = lit -> List.of(
 			new AthenaQuad(4, 0f, 1f, 1f, 0f, Rotation.NONE, 0f, false),
 			new AthenaQuad(4, 1f, 0f, 1f, 0f, Rotation.NONE, 0f, false),
-			new AthenaQuad(9, IL, IR, 1f, 0f, Rotation.NONE, ID, false));
+			new AthenaQuad(lit ? 13 : 9, IL, IR, 1f, 0f, Rotation.NONE, ID, false));
 	private static final List<AthenaQuad> CAP = List.of(
 			new AthenaQuad(0, 0f, 1f, 1f, 0f, Rotation.NONE, 0f, false),
 			new AthenaQuad(0, 1f, 0f, 1f, 0f, Rotation.NONE, 0f, false));
@@ -95,22 +96,23 @@ public class LayeredRodBlockModel implements AthenaBlockModel {
 		} else if (direction.getAxis().isVertical()) {
 			return CAP;
 		}
-		
+
+		boolean lit = state.getValue(BlockStateProperties.LIT);
 		if (min && max) {
-			return CENTER;
+			return CENTER.apply(lit);
 		} else if (min) {
-			return BOTTOM;
+			return BOTTOM.apply(lit);
 		} else if (max) {
-			return TOP;
+			return TOP.apply(lit);
 		}
-		return SELF;
+		return SELF.apply(lit);
 	}
 
 	@Override
 	public Map<Direction, List<AthenaQuad>> getDefaultQuads(Direction direction) {
 		Map<Direction, List<AthenaQuad>> quads = new HashMap<>(Direction.values().length);
 		for (Direction dir : Direction.values()) {
-			quads.put(dir, SELF);
+			quads.put(dir, SELF.apply(false));
 		}
 		return quads;
 	}
@@ -146,6 +148,11 @@ public class LayeredRodBlockModel implements AthenaBlockModel {
 			materials.put(7, CtmUtils.blockMat(GsonHelper.getAsString(json, "inner_center")));
 			materials.put(8, CtmUtils.blockMat(GsonHelper.getAsString(json, "inner_bottom")));
 			materials.put(9, CtmUtils.blockMat(GsonHelper.getAsString(json, "inner_self")));
+
+			materials.put(10, CtmUtils.blockMat(GsonHelper.getAsString(json, "lit_inner_top")));
+			materials.put(11, CtmUtils.blockMat(GsonHelper.getAsString(json, "lit_inner_center")));
+			materials.put(12, CtmUtils.blockMat(GsonHelper.getAsString(json, "lit_inner_bottom")));
+			materials.put(13, CtmUtils.blockMat(GsonHelper.getAsString(json, "lit_inner_self")));
 
 			return materials;
 		}
