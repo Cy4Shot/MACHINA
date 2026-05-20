@@ -25,6 +25,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -57,16 +59,25 @@ public abstract class MultiblockPartBlockEntity extends MachinaBlockEntity {
 
 	@Override
 	public SidedInvWrapper getInvCap(Direction side) {
+		if (!this.isCapabilitiesActive(MachinaCap.ITEM)) {
+			return null;
+		}
 		return BlockHelper.getFromTe(level, master, MultiblockMasterBlockEntity.class, be -> be.getInvCap(side));
 	}
 
 	@Override
 	public IEnergyStorage getEnergyCap(Direction side) {
+		if (!this.isCapabilitiesActive(MachinaCap.ENERGY)) {
+			return null;
+		}
 		return BlockHelper.getFromTe(level, master, MultiblockMasterBlockEntity.class, be -> be.getEnergyCap(side));
 	}
 
 	@Override
 	public SidedFluidWrapper getFluidCap(Direction side) {
+		if (!this.isCapabilitiesActive(MachinaCap.FLUID)) {
+			return null;
+		}
 		return BlockHelper.getFromTe(level, master, MultiblockMasterBlockEntity.class, be -> be.getFluidCap(side));
 	}
 
@@ -152,7 +163,7 @@ public abstract class MultiblockPartBlockEntity extends MachinaBlockEntity {
 		}
 		return null;
 	}
-	
+
 	public BlockPos getMaster() {
 		return this.master;
 	}

@@ -55,6 +55,11 @@ public class CapabilityRegistrar {
 		machinaBlock(event, BlockEntityInit.SAWMILL);
 		machinaBlock(event, BlockEntityInit.SOLIDIFIER);
 		machinaBlock(event, BlockEntityInit.GEOTHERMAL_GENERATOR_CONTROLLER);
+		machinaBlock(event, BlockEntityInit.FISSION_REACTOR_CONTROLLER);
+		machinaBlock(event, BlockEntityInit.FISSION_REACTOR_ENERGY_PORT);
+		machinaBlock(event, BlockEntityInit.FISSION_REACTOR_ITEM_PORT);
+		machinaBlock(event, BlockEntityInit.FISSION_REACTOR_WATER_PORT);
+		machinaBlock(event, BlockEntityInit.FISSION_REACTOR_STEAM_PORT);
 
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntityInit.ENERGY_CABLE.get(),
 				(be, side) -> be.createStorage(side));

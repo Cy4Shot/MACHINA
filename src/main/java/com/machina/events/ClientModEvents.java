@@ -35,6 +35,7 @@ import com.machina.client.screen.menu.CreativeBatteryScreen;
 import com.machina.client.screen.menu.ElectricPumpScreen;
 import com.machina.client.screen.menu.ElectricSmelterScreen;
 import com.machina.client.screen.menu.ElectrolyzerScreen;
+import com.machina.client.screen.menu.FissionReactorScreen;
 import com.machina.client.screen.menu.FurnaceGeneratorScreen;
 import com.machina.client.screen.menu.GeothermalGeneratorScreen;
 import com.machina.client.screen.menu.GrinderScreen;
@@ -153,6 +154,7 @@ public class ClientModEvents {
 		event.register(MenuTypeInit.ROCKET_ASSEMBLY_STATION.get(), RocketAssemblyStationScreen::new);
 		event.register(MenuTypeInit.ROCKET_REFUELING_STATION.get(), RocketRefuelingStationScreen::new);
 		event.register(MenuTypeInit.GEOTHERMAL_GENERATOR.get(), GeothermalGeneratorScreen::new);
+		event.register(MenuTypeInit.FISSION_REACTOR.get(), FissionReactorScreen::new);
 	}
 
 	@SubscribeEvent

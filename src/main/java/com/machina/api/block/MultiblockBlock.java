@@ -90,7 +90,7 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 			BlockHelper.doWithTe(level, pos, MultiblockMasterBlockEntity.class, te -> {
 				te.deform(pos);
 			});
-		} else if (!newState.getBlock().equals(state.getBlock())){
+		} else if (!newState.getBlock().equals(state.getBlock())) {
 			BlockHelper.doWithTe(level, pos, MultiblockPartBlockEntity.class, te -> {
 				te.update(pos);
 			});
@@ -117,6 +117,9 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 	@Override
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
 			BlockHitResult hitResult) {
+		if (player.isShiftKeyDown()) {
+			return InteractionResult.PASS;
+		}
 		if (isFormed(level, pos)) {
 			if (level.isClientSide) {
 				return InteractionResult.SUCCESS;

@@ -2,12 +2,14 @@ package com.machina.datagen.server;
 
 import java.util.concurrent.CompletableFuture;
 
+import com.machina.block.entity.machine.fission_reactor.FissionReactorControllerBlockEntity.FissionFuel;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.DataMapsInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.FruitInit.Fruit;
+import com.machina.registration.init.ItemInit;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -17,11 +19,14 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.datamaps.builtin.Compostable;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 
@@ -114,6 +119,10 @@ public class DatagenDatamaps extends DataMapProvider {
 
 		DataMapProvider.Builder<Integer, Block> geotherm = builder(DataMapsInit.GEOTHERMAL_ENERGY_SOURCE);
 		geotherm(geotherm, BlockInit.SULFUR_GEYSER, 100);
+
+		DataMapProvider.Builder<FissionFuel, Item> fission = builder(DataMapsInit.FISSION_FUEL);
+		fission(fission, ItemInit.URANINITE_INGOT, 10 * 60 * 20, 1_500, ItemInit.COAL_DUST);
+		fission(fission, ItemInit.THORIUM_INGOT, 15 * 60 * 20, 2_000, ItemInit.COAL_DUST);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -123,6 +132,11 @@ public class DatagenDatamaps extends DataMapProvider {
 
 	private void geotherm(DataMapProvider.Builder<Integer, Block> builder, DeferredBlock<?> block, int genRate) {
 		builder.add(block, genRate, false);
+	}
+
+	private void fission(DataMapProvider.Builder<FissionFuel, Item> builder, DeferredItem<?> item, int burnTime,
+			int steamPerTick, ItemLike waste) {
+		builder.add(item, new FissionFuel(burnTime, steamPerTick, new ItemStack(waste)), false);
 	}
 
 	private void compost(DataMapProvider.Builder<Compostable, Item> builder, DeferredHolder<Item, ?> item,

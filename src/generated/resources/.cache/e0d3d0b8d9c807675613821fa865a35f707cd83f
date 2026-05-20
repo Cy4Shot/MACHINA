@@ -1,4 +1,5 @@
-// 1.21.1	2026-05-03T16:40:17.6882591	Data Maps
+// 1.21.1	2026-05-17T17:28:53.920007885	Data Maps
 497737c8676fd563d7b5c592681108beb078c6fd data/machina/data_maps/block/geothermal_energy_source.json
 a0af97d5293d91ba4978c895ee42231b023bbdb5 data/machina/data_maps/fluid/chemical_burnable.json
+f7ed1aac3088263ae1f95398d9fa4cafde83ae4c data/machina/data_maps/item/fission_fuel.json
 22860e5662cf6ccafbacc478df596539de463ff3 data/neoforge/data_maps/item/compostables.json

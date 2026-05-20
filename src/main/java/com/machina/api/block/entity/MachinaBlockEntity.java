@@ -357,7 +357,6 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	@Override
 	public void clearContent() {
 		super.clearRemoved();
-		this.itemSides.clear();
 	}
 
 	@Override

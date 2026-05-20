@@ -4,6 +4,7 @@ import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.entity.machine.fission_reactor.FissionFuelRodAssemblyBlockEntity;
+import com.machina.block.menu.FissionReactorMenu;
 import com.machina.registration.init.BlockEntityInit;
 import com.mojang.serialization.MapCodec;
 
@@ -45,7 +46,7 @@ public class FissionFuelRodAssemblyBlock extends FissionFuelRodBlock {
 
 	@Override
 	protected QuadFunction<Integer, Inventory, ContainerLevelAccess, IItemHandler, AbstractContainerMenu> createMenu() {
-		return null;
+		return FissionReactorMenu::new;
 	}
 
 	@Override

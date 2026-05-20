@@ -101,7 +101,11 @@ public abstract class ContainerBlockEntity extends BaseBlockEntity implements Wo
 
 	@Override
 	public int @NotNull [] getSlotsForFace(@NotNull Direction dir) {
-		return new int[getContainerSize()];
+		int[] slots = new int[getContainerSize()];
+		for (int i = 0; i < slots.length; i++) {
+			slots[i] = i;
+		}
+		return slots;
 	}
 
 	@Override

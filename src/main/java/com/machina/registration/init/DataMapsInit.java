@@ -5,12 +5,14 @@ import java.util.List;
 
 import com.machina.Machina;
 import com.machina.api.util.MachinaRL;
+import com.machina.block.entity.machine.fission_reactor.FissionReactorControllerBlockEntity.FissionFuel;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,6 +29,8 @@ public class DataMapsInit {
 			ExtraCodecs.POSITIVE_INT);
 	public static final DataMapType<Block, Integer> GEOTHERMAL_ENERGY_SOURCE = register("geothermal_energy_source",
 			Registries.BLOCK, ExtraCodecs.POSITIVE_INT);
+	public static final DataMapType<Item, FissionFuel> FISSION_FUEL = register("fission_fuel", Registries.ITEM,
+			FissionFuel.CODEC);
 
 	private static final <T, R> DataMapType<R, T> register(String name, ResourceKey<Registry<R>> registry,
 			Codec<T> codec) {

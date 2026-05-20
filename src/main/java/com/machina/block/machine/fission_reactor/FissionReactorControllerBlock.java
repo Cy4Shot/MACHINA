@@ -4,6 +4,7 @@ import com.machina.api.block.MultiblockBlock;
 import com.machina.api.block.entity.MachinaBlockEntity;
 import com.machina.api.util.reflect.QuadFunction;
 import com.machina.block.entity.machine.fission_reactor.FissionReactorControllerBlockEntity;
+import com.machina.block.menu.FissionReactorMenu;
 import com.machina.registration.init.BlockEntityInit;
 import com.mojang.serialization.MapCodec;
 
@@ -37,8 +38,7 @@ public class FissionReactorControllerBlock extends MultiblockBlock {
 
 	@Override
 	protected QuadFunction<Integer, Inventory, ContainerLevelAccess, IItemHandler, AbstractContainerMenu> createMenu() {
-//		return GeothermalGeneratorMenu::new;
-		return null;
+		return FissionReactorMenu::new;
 	}
 
 	@Override

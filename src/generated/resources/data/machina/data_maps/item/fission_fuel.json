@@ -1,0 +1,20 @@
+{
+  "values": {
+    "machina:thorium_ingot": {
+      "burnTime": 18000,
+      "steamPerTick": 2000,
+      "wasteProduct": {
+        "count": 1,
+        "id": "machina:coal_dust"
+      }
+    },
+    "machina:uraninite_ingot": {
+      "burnTime": 12000,
+      "steamPerTick": 1500,
+      "wasteProduct": {
+        "count": 1,
+        "id": "machina:coal_dust"
+      }
+    }
+  }
+}
