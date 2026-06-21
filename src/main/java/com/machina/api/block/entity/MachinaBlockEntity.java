@@ -15,6 +15,8 @@ import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.MultiSidedStorage;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.cap.sided.SidedStorage;
+import com.machina.api.client.screen.ProgressBar;
+import com.machina.api.util.StringUtils;
 import com.machina.api.util.block.BlockProperties;
 import com.machina.block.machine.BatteryBlock;
 
@@ -25,10 +27,14 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
@@ -449,5 +455,12 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 		if (!isCapabilitiesActive(MachinaCap.FLUID))
 			return null;
 		return new SidedFluidWrapper(this, side);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public ProgressBar<Integer> getFluidBar(int tank) {
+		return new ProgressBar<>(() -> this.getFluidMB(tank), () -> this.getTankCapacity(tank),
+				StringUtils::formatFluid, () -> StringUtils.fluid(this.getFluid(tank), true)
+						.append(Component.literal(": ").withStyle(Style.EMPTY)));
 	}
 }

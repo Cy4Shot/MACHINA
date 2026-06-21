@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class FissionFuelRodAssemblyBlockEntity extends MultiblockPartBlockEntity {
 
-	public final static int MAX_INSERT = 5;
+	public final static int MAX_INSERT = 4;
 
 	private static final String INSERT_KEY = "insertStage";
 

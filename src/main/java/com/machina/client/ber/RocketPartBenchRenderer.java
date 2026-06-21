@@ -20,6 +20,7 @@ public class RocketPartBenchRenderer implements BlockEntityRenderer<RocketPartBe
 
 	public RocketPartBenchRenderer(BlockEntityRendererProvider.Context ctx) {
 	}
+	
 
 	@Override
 	public void render(RocketPartBenchBlockEntity be, float partial, @NotNull PoseStack pose,

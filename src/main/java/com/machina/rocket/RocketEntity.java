@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.cap.fluid.FluidHandlerEntity;
 import com.machina.api.cap.fluid.MachinaEntityTank;
+import com.machina.api.client.screen.ProgressBar;
 import com.machina.api.item.RocketItem;
 import com.machina.api.network.s2c.S2CCinematicLand;
 import com.machina.api.network.s2c.S2CCinematicLaunch;
@@ -14,6 +15,7 @@ import com.machina.api.rocket.RocketCosts;
 import com.machina.api.rocket.RocketProps;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.util.PlanetHelper;
+import com.machina.api.util.StringUtils;
 import com.machina.api.util.reflect.MachinaStreamCodecs;
 import com.machina.api.util.reflect.MachinaStreamCodecs.HasId;
 import com.machina.client.model.rocket.RocketModel;
@@ -28,6 +30,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
@@ -605,5 +609,12 @@ public class RocketEntity extends Entity implements ContainerListener, HasCustom
 	public void clearItemStacks() {
 		this.clearContent();
 		this.setChanged();
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public ProgressBar<Integer> getFluidBar(int tank) {
+		return new ProgressBar<>(() -> this.getFluidMB(tank), () -> this.getTankCapacity(tank),
+				StringUtils::formatFluid, () -> StringUtils.fluid(this.getFluid(tank), true)
+						.append(Component.literal(": ").withStyle(Style.EMPTY)));
 	}
 }

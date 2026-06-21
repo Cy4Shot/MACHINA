@@ -431,14 +431,10 @@ public class RocketScreen extends MachinaMenuScreen<RocketMenu> {
 	@Override
 	protected void drawFluidBarVert(GuiGraphics gui, int x, int y, int tank) {
 		RocketEntity rocket = this.menu.entity;
-		drawBarVert(gui, x, y, StringUtils::formatFluid,
-				() -> StringUtils.fluid(rocket.getFluid(tank), true)
-						.append(Component.literal(": ").withStyle(Style.EMPTY)),
-				() -> rocket.getFluidMB(tank), () -> rocket.getTankCapacity(tank), () -> rocket.getFluidF(tank),
-				(i, j, p) -> {
-					float prop = rocket.getFluidF(tank);
-					MUI.renderFluid(gui, rocket.getFluid(tank), i + 1, j + 41, 14, (int) (40 * prop), 0);
-				});
+		drawBarVert(gui, x, y, rocket.getFluidBar(tank), (i, j, p) -> {
+			float prop = rocket.getFluidF(tank);
+			MUI.renderFluid(gui, rocket.getFluid(tank), i + 1, j + 41, 14, (int) (40 * prop), 0);
+		});
 	}
 
 	@Override

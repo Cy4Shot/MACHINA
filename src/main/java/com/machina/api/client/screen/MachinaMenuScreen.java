@@ -21,7 +21,6 @@ import com.machina.api.block.menu.MachinaMachineMenu;
 import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.client.screen.MUI.MuiSlot;
-import com.machina.api.util.StringUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -38,8 +37,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
@@ -364,91 +361,66 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 	}
 
 	private <N extends Number> void drawBar(GuiGraphics gui, int x, int y, boolean active, String missing,
-			Function<N, String> formatter, Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max,
-			Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
+			ProgressBar<N> progress, TriConsumer<Integer, Integer, Float> drawer) {
 		int i = midWidth() + x + 117 - 66;
 		int j = midHeight() + y - 9;
 		registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 136, j + 18,
-				() -> active || missing.equals("none")
-						? name.get()
-								.append(Component
-										.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
-												+ " (" + StringUtils.formatPercent(f.get()) + ")")
-										.withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE)))
-						: MUI.uistr(missing));
-		MUI.drawBar(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
+				() -> active || missing.equals("none") ? progress.getFormatted() : MUI.uistr(missing));
+		MUI.drawBar(gui, i, j, progress.getFraction(), active, progress.getFormattedValue(), missing, drawer);
 	}
 
 	private <N extends Number> void drawBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing,
-			Function<N, String> formatter, Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max,
-			Supplier<Float> f, TriConsumer<Integer, Integer, Float> drawer) {
+			ProgressBar<N> progress, TriConsumer<Integer, Integer, Float> drawer) {
 		int i = midWidth() + x + 117 - 20;
 		int j = midHeight() + y - 9;
 		registerHoverable("bar_" + x + "_" + y, i + 1, j + 1, i + 43, j + 18,
-				() -> active || missing.equals("none")
-						? name.get()
-								.append(Component
-										.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get())
-												+ " (" + StringUtils.formatPercent(f.get()) + ")")
-										.withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE)))
-						: MUI.uistr(missing));
-		MUI.drawBarSmall(gui, i, j, f.get(), active, formatter.apply(value.get()), missing, drawer);
+				() -> active || missing.equals("none") ? progress.getFormatted() : MUI.uistr(missing));
+		MUI.drawBarSmall(gui, i, j, progress.getFraction(), active, progress.getFormattedValue(), missing, drawer);
 	}
 
-	protected <N extends Number> void drawBarVert(GuiGraphics gui, int x, int y, Function<N, String> formatter,
-			Supplier<MutableComponent> name, Supplier<N> value, Supplier<N> max, Supplier<Float> f,
+	protected <N extends Number> void drawBarVert(GuiGraphics gui, int x, int y, ProgressBar<N> progress,
 			TriConsumer<Integer, Integer, Float> drawer) {
 		int i = midWidth() + x;
 		int j = midHeight() + y;
-		registerHoverable("bar_" + x + "_" + y, i, j, i + 15, j + 41,
-				() -> name.get()
-						.append(Component
-								.literal(formatter.apply(value.get()) + " / " + formatter.apply(max.get()) + " ("
-										+ StringUtils.formatPercent(f.get()) + ")")
-								.withStyle(Style.EMPTY.withBold(false).withColor(MUI.WHITE))));
-		MUI.drawBarVert(gui, i, j, f.get(), drawer);
+		registerHoverable("bar_" + x + "_" + y, i, j, i + 15, j + 41, () -> progress.getFormatted());
+		MUI.drawBarVert(gui, i, j, progress.getFraction(), drawer);
 	}
 
 	protected void drawEnergyBar(GuiGraphics gui, int x, int y, boolean active, String missing) {
 		if (this.menu instanceof MachinaMachineMenu<?> mmm) {
-			drawBar(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mmm::getEnergy,
-					mmm::getMaxEnergy, mmm::getEnergyF,
+			drawBar(gui, x, y, active, missing, mmm.getEnergyBar(),
 					(i, j, p) -> MUI.blitCommon(gui, i + 1, j + 3, 366, 39, (int) (131 * p), 14));
 		}
 	}
 
 	protected void drawEnergyBarSmall(GuiGraphics gui, int x, int y, boolean active, String missing) {
 		if (this.menu instanceof MachinaMachineMenu<?> mmm) {
-			drawBarSmall(gui, x, y, active, missing, StringUtils::formatPower, Component::empty, mmm::getEnergy,
-					mmm::getMaxEnergy, mmm::getEnergyF,
+			drawBarSmall(gui, x, y, active, missing, mmm.getEnergyBar(),
 					(i, j, p) -> MUI.blitCommon(gui, i + 1, j + 1, 366, 39, (int) (41 * p), 14));
 		}
 	}
 
 	protected void drawFluidBar(GuiGraphics gui, int x, int y, int tank) {
 		if (entity instanceof MachinaBlockEntity mbe) {
-			drawBar(gui, x, y, true, "", StringUtils::formatFluid,
-					() -> StringUtils.fluid(mbe.getFluid(tank), true)
-							.append(Component.literal(": ").withStyle(Style.EMPTY)),
-					() -> mbe.getFluidMB(tank), () -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank),
-					(i, j, p) -> {
-						float prop = mbe.getFluidF(tank);
-						MUI.renderFluid(gui, mbe.getFluid(tank), i + 1, j + 17, (int) (131 * prop), 14, 0);
-					});
+			drawBar(gui, x, y, true, "", mbe.getFluidBar(tank), (i, j, p) -> {
+				float prop = mbe.getFluidF(tank);
+				MUI.renderFluid(gui, mbe.getFluid(tank), i + 1, j + 17, (int) (131 * prop), 14, 0);
+			});
 		}
 	}
 
 	protected void drawFluidBarVert(GuiGraphics gui, int x, int y, int tank) {
 		if (entity instanceof MachinaBlockEntity mbe) {
-			drawBarVert(gui, x, y, StringUtils::formatFluid,
-					() -> StringUtils.fluid(mbe.getFluid(tank), true)
-							.append(Component.literal(": ").withStyle(Style.EMPTY)),
-					() -> mbe.getFluidMB(tank), () -> mbe.getTankCapacity(tank), () -> mbe.getFluidF(tank),
-					(i, j, p) -> {
-						float prop = mbe.getFluidF(tank);
-						MUI.renderFluid(gui, mbe.getFluid(tank), i + 1, j + 41, 14, (int) (40 * prop), 0);
-					});
+			drawBarVert(gui, x, y, mbe.getFluidBar(tank), (i, j, p) -> {
+				float prop = mbe.getFluidF(tank);
+				MUI.renderFluid(gui, mbe.getFluid(tank), i + 1, j + 41, 14, (int) (40 * prop), 0);
+			});
 		}
+	}
+
+	protected void drawRGBar(GuiGraphics gui, int x, int y, ProgressBar<Float> bar) {
+		drawBar(gui, x, y, true, "none", bar,
+				(i, j, p) -> MUI.blitCommon(gui, i + 1, j + 3, 366, 53, (int) (131 * p), 14));
 	}
 
 	private void drawFace(GuiGraphics gui, int x, int y, Direction dir, @Nullable ISideAdapter storage) {

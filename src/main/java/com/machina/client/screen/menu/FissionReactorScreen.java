@@ -25,6 +25,7 @@ public class FissionReactorScreen extends MachinaMenuScreen<FissionReactorMenu> 
 		drawInventory(gui, mx, my);
 		drawBackground(gui);
 		drawEnergyBar(gui, 0, 0, true, "");
+		drawRGBar(gui, 0, 30, this.menu.getReactivityProgress());
 
 		int i = midWidth();
 		int j = midHeight();

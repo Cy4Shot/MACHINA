@@ -4,6 +4,7 @@ import com.machina.api.block.MachineBlock;
 import com.machina.api.block.menu.MachinaMachineMenu;
 import com.machina.api.block.menu.slot.AcceptSlot;
 import com.machina.api.block.menu.slot.ResultSlot;
+import com.machina.api.client.screen.ProgressBar;
 import com.machina.block.entity.machine.fission_reactor.FissionReactorControllerBlockEntity;
 import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.DataMapsInit;
@@ -34,5 +35,17 @@ public class FissionReactorMenu extends MachinaMachineMenu<FissionReactorControl
 	@Override
 	protected MachineBlock getBlock() {
 		return BlockInit.FISSION_REACTOR_CONTROLLER.get();
+	}
+	
+	public float getReactivity() {
+		return 1.0f;
+	}
+	
+	public float getMaxReactivity() {
+		return 1.006f;
+	}
+	
+	public ProgressBar<Float> getReactivityProgress() {
+		return new ProgressBar<>(this::getReactivity, this::getMaxReactivity, String::valueOf);
 	}
 }
