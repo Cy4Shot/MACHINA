@@ -15,6 +15,7 @@ import com.machina.api.cap.sided.ISideAdapter;
 import com.machina.api.cap.sided.MultiSidedStorage;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.cap.sided.SidedStorage;
+import com.machina.api.cap.steam.MachinaSteamStorage;
 import com.machina.api.client.screen.ProgressBar;
 import com.machina.api.util.StringUtils;
 import com.machina.api.util.block.BlockProperties;
@@ -50,10 +51,13 @@ import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 
 	protected MultiSidedStorage<MachinaEnergyStorage> energyCap;
+	protected MultiSidedStorage<MachinaSteamStorage> steamCap;
 	protected NonNullList<Side[]> itemSides = NonNullList.create();
 	protected final NonNullList<Side[]> fluidSides = NonNullList.create();
 
 	private int energy;
+	private int steam;
+	private int maxSteam;
 	private final NonNullList<MachinaTank<?>> tanks = NonNullList.create();
 
 	public abstract void createStorages();
@@ -66,6 +70,11 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 
 	public void energyStorage(Side[] sides) {
 		this.energyCap = new MultiSidedStorage<>("cap_energy", this, MachinaEnergyStorage::new, sides.clone());
+	}
+
+	public void steamStorage(int capacity, Side[] sides) {
+		this.maxSteam = capacity;
+		this.steamCap = new MultiSidedStorage<>("cap_steam", this, MachinaSteamStorage::new, sides.clone());
 	}
 
 	public int fluidStorage(int capacity, Predicate<FluidStack> validator, Side[] sides) {
@@ -82,6 +91,8 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	public void forEachStorage(Consumer<SidedStorage> consumer) {
 		if (this.energyCap != null)
 			consumer.accept(energyCap);
+		if (this.steamCap != null)
+			consumer.accept(steamCap);
 	}
 
 	public Supplier<ISideAdapter> getEnergyAdapter() {
@@ -125,11 +136,21 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 		return this.energyCap.getCap(side);
 	}
 
+	public MachinaSteamStorage getSteamStorage(Direction side) {
+		if (this.steamCap == null) {
+			return null;
+		}
+
+		return this.steamCap.getCap(side);
+	}
+
 	@Override
 	public void loadAdditional(@NotNull CompoundTag tag, Provider registries) {
 		super.loadAdditional(tag, registries);
 		forEachStorage(s -> s.loadAdditional(tag));
 		this.energy = tag.getInt("energy");
+		this.steam = tag.getInt("steam");
+		this.maxSteam = tag.getInt("maxSteam");
 		this.itemSides = NonNullList.create();
 		ListTag sides = tag.getList("sides_item", Tag.TAG_COMPOUND);
 		for (int i = 0; i < sides.size(); i++) {
@@ -151,6 +172,8 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	protected void saveAdditional(@NotNull CompoundTag tag, Provider registries) {
 		forEachStorage(s -> s.saveAdditional(tag));
 		tag.putInt("energy", energy);
+		tag.putInt("steam", steam);
+		tag.putInt("maxSteam", maxSteam);
 		ListTag sides = new ListTag();
 		for (Side[] itemSide : this.itemSides) {
 			sides.add(Side.serialize(itemSide));
@@ -355,6 +378,89 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 		return prev - next;
 	}
 
+	// Steam Storage Methods
+	public int getSteam() {
+		return steam;
+	}
+
+	protected void setSteam(int n) {
+		this.steam = n;
+	}
+
+	public int getMaxSteam() {
+		return maxSteam;
+	}
+
+	public float getSteamF() {
+		if (this.getMaxSteam() == 0) {
+			return 0;
+		}
+		return (float) this.getSteam() / (float) this.getMaxSteam();
+	}
+
+	public int receiveSteam(Direction from, int maxReceive, boolean simulate) {
+		if (steamCap == null || !steamCap.isInput(from)) {
+			return 0;
+		}
+		return receiveSteam(maxReceive, simulate);
+	}
+
+	protected int receiveSteam(int maxReceive, boolean simulate) {
+		int old = getSteam();
+		int received = Math.min(getMaxSteam() - old, maxReceive);
+		if (received > 0) {
+			if (!simulate) {
+				setSteam(old + received);
+				this.setChanged();
+			}
+		}
+		return received;
+	}
+
+	public int extractSteam(Direction from, int maxExtract, boolean simulate) {
+		if (steamCap == null || !steamCap.isOutput(from)) {
+			return 0;
+		}
+		return extractSteam(maxExtract, simulate);
+	}
+
+	protected int extractSteam(int maxExtract, boolean simulate) {
+		int old = getSteam();
+		int extracted = Math.min(old, maxExtract);
+		if (extracted > 0) {
+			if (!simulate) {
+				setSteam(old - extracted);
+				this.setChanged();
+			}
+		}
+		return extracted;
+	}
+
+	public boolean canReceiveSteam(Direction side) {
+		return steamCap != null && steamCap.isInput(side);
+	}
+
+	public boolean canExtractSteam(Direction side) {
+		return steamCap != null && steamCap.isOutput(side);
+	}
+
+	public boolean isSteamFull() {
+		return getSteam() >= getMaxSteam();
+	}
+
+	public int consumeSteam(int amount) {
+		int prev = getSteam();
+		this.setSteam(prev - amount);
+		int next = getSteam();
+		if (next < 0) {
+			setSteam(0);
+		} else if (next > getMaxSteam()) {
+			setSteam(getMaxSteam());
+		}
+		this.setChanged();
+		return prev - getSteam();
+	}
+
 	@Override
 	public boolean hasItemIO() {
 		return true;
@@ -432,7 +538,7 @@ public abstract class MachinaBlockEntity extends ContainerBlockEntity {
 	}
 
 	public enum MachinaCap {
-		ENERGY, FLUID, ITEM
+		ENERGY, FLUID, ITEM, STEAM
 	}
 
 	public boolean isCapabilitiesActive(MachinaCap cap) {

@@ -121,8 +121,8 @@ public class DatagenDatamaps extends DataMapProvider {
 		geotherm(geotherm, BlockInit.SULFUR_GEYSER, 100);
 
 		DataMapProvider.Builder<FissionFuel, Item> fission = builder(DataMapsInit.FISSION_FUEL);
-		fission(fission, ItemInit.URANINITE_INGOT, 10 * 60 * 20, 1_500, ItemInit.COAL_DUST);
-		fission(fission, ItemInit.THORIUM_INGOT, 15 * 60 * 20, 2_000, ItemInit.COAL_DUST);
+		// Uranium: burns 10 minutes, produces 1500 mB/t base steam
+		fission(fission, ItemInit.URANINITE_INGOT, 10 * 60 * 20, 1500, ItemInit.COAL_DUST);
 	}
 
 	@SuppressWarnings("deprecation")

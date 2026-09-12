@@ -46,6 +46,10 @@ public class ProgressBar<N extends Number> {
 		this.name = name;
 	}
 
+	public ProgressBar(Supplier<N> value, Supplier<N> max, Supplier<N> min, BindableFunction<N, String> formatter) {
+		this(value, max, min, formatter, Component::empty);
+	}
+
 	@SuppressWarnings("unchecked")
 	public ProgressBar(Supplier<N> value, Supplier<N> max, BindableFunction<N, String> formatter) {
 		this(value, max, () -> (N) Float.valueOf(0f), formatter, Component::empty);

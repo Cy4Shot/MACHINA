@@ -33,7 +33,7 @@ public class SteamPipeBlock extends ConnectorBlock {
 
 	@Override
 	public boolean canConnect(Level level, BlockPos pos, Direction dir) {
-		return BlockHelper.hasSteam(level, pos);
+		return BlockHelper.hasSteam(level, pos, dir);
 	}
 
 	@Override

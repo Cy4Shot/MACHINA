@@ -14,6 +14,7 @@ import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.ItemInit;
 
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -28,8 +29,8 @@ import net.neoforged.neoforge.items.wrapper.InvWrapper;
 public class CapabilityRegistrar {
 
 	public static class Block {
-		public static final BlockCapability<ISteamHandler, Void> STEAM = BlockCapability
-				.createVoid(MachinaRL.create("steam_handler"), ISteamHandler.class);
+		public static final BlockCapability<ISteamHandler, Direction> STEAM = BlockCapability
+				.create(MachinaRL.create("steam_handler"), ISteamHandler.class, Direction.class);
 	}
 
 	@SubscribeEvent
@@ -67,6 +68,12 @@ public class CapabilityRegistrar {
 				(be, side) -> be.createStorage(side));
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityInit.ITEM_CONDUIT.get(),
 				(be, side) -> be.createStorage(side));
+		event.registerBlockEntity(Block.STEAM, BlockEntityInit.STEAM_PIPE.get(),
+				(be, side) -> be.createStorage(side));
+
+		// Steam Capability for reactor blocks
+		steamBlock(event, BlockEntityInit.FISSION_REACTOR_STEAM_PORT);
+		steamBlock(event, BlockEntityInit.FISSION_REACTOR_CONTROLLER);
 
 		// Item
 		ItemInit.ITEMS.getEntries().forEach(holder -> {
@@ -93,7 +100,7 @@ public class CapabilityRegistrar {
 
 	public static <T extends MachinaBlockEntity & SteamBlockEntity> void steamBlock(RegisterCapabilitiesEvent event,
 			Supplier<BlockEntityType<T>> type) {
-		event.registerBlockEntity(Block.STEAM, type.get(), (be, side) -> be.getSteamCap());
+		event.registerBlockEntity(Block.STEAM, type.get(), (be, side) -> be.getSteamStorage(side));
 	}
 
 	private static final void energyItem(final RegisterCapabilitiesEvent event, ItemLike like) {

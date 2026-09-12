@@ -103,8 +103,8 @@ public class BlockHelper {
 		return level.getCapability(Capabilities.ItemHandler.BLOCK, pos, side) != null;
 	}
 	
-	public static boolean hasSteam(Level level, BlockPos pos) {
-		return level.getCapability(CapabilityRegistrar.Block.STEAM, pos) != null;
+	public static boolean hasSteam(Level level, BlockPos pos, @Nullable Direction side) {
+		return level.getCapability(CapabilityRegistrar.Block.STEAM, pos, side) != null;
 	}
 
 	// McJty
@@ -129,6 +129,33 @@ public class BlockHelper {
 				storage.consumeEnergy(received);
 				storedPower -= received;
 				if (storedPower <= 0) {
+					break;
+				}
+			}
+		}
+	}
+
+	public static int receiveSteam(Level level, BlockPos pos, Direction from, int maxReceive) {
+		var store = level.getCapability(CapabilityRegistrar.Block.STEAM, pos, from);
+		if (store != null) {
+			return store.receiveSteam(maxReceive, false);
+		}
+		return 0;
+	}
+
+	public static void sendSteam(Level world, BlockPos pos, int storedSteam, int sendPerTick,
+			MachinaBlockEntity storage) {
+		for (Direction facing : Direction.values()) {
+			if (!storage.canExtractSteam(facing))
+				continue;
+			BlockPos p = pos.relative(facing);
+			Direction opposite = facing.getOpposite();
+			if (hasSteam(world, p, opposite)) {
+				int steamToGive = Math.min(sendPerTick, storedSteam);
+				int received = receiveSteam(world, p, opposite, steamToGive);
+				storage.consumeSteam(received);
+				storedSteam -= received;
+				if (storedSteam <= 0) {
 					break;
 				}
 			}

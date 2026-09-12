@@ -3,6 +3,7 @@ package com.machina.block.entity.machine.fission_reactor;
 import org.jetbrains.annotations.NotNull;
 
 import com.machina.api.block.entity.MultiblockPartBlockEntity;
+import com.machina.api.util.block.BlockHelper;
 import com.machina.block.machine.fission_reactor.FissionFuelRodAssemblyBlock;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.MultiblockInit;
@@ -68,6 +69,7 @@ public class FissionFuelRodAssemblyBlockEntity extends MultiblockPartBlockEntity
 			return false;
 		}
 		this.sync();
+		notifyController();
 		return true;
 	}
 
@@ -78,7 +80,15 @@ public class FissionFuelRodAssemblyBlockEntity extends MultiblockPartBlockEntity
 			return false;
 		}
 		this.sync();
+		notifyController();
 		return true;
+	}
+
+	private void notifyController() {
+		if (getMaster() != null && level != null) {
+			BlockHelper.doWithTe(level, getMaster(), FissionReactorControllerBlockEntity.class,
+					FissionReactorControllerBlockEntity::onReactivityChanged);
+		}
 	}
 	
 	@Override

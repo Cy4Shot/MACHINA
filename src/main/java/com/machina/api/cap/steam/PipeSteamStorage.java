@@ -68,7 +68,9 @@ public class PipeSteamStorage implements ISteamHandler, IConnectorStorage<Intege
 
 			SteamPipeBlockEntity.Connection connection = connections.get(index);
 			if (connection.getSide(be.getLevel()).isInput()) {
-				ISteamHandler destination = getSteamStorage(be, connection.pos().relative(connection.direction()));
+				BlockPos destPos = connection.pos().relative(connection.direction());
+				Direction destDir = connection.direction().getOpposite();
+				ISteamHandler destination = getSteamStorage(be, destPos, destDir);
 
 				if (destination != null) {
 					boolean canRecieve = destination.canReceive();
@@ -99,8 +101,8 @@ public class PipeSteamStorage implements ISteamHandler, IConnectorStorage<Intege
 	}
 
 	@Nullable
-	private ISteamHandler getSteamStorage(SteamPipeBlockEntity be, BlockPos pos) {
-		return be.getLevel().getCapability(CapabilityRegistrar.Block.STEAM, pos);
+	private ISteamHandler getSteamStorage(SteamPipeBlockEntity be, BlockPos pos, Direction dir) {
+		return be.getLevel().getCapability(CapabilityRegistrar.Block.STEAM, pos, dir);
 	}
 
 	@Override
