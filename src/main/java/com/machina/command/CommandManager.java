@@ -92,7 +92,7 @@ public class CommandManager {
 				source.sendFailure(Component.literal("Not currently on a planet!"));
 				return Command.SINGLE_SUCCESS;
 			}
-			sys.pickWeather(weather.value());
+			sys.pickWeather(weather.value(), true);
 			source.sendSuccess(() -> Component.literal("Set weather to " + weather.key().location().toString()), true);
 			return Command.SINGLE_SUCCESS;
 		})));

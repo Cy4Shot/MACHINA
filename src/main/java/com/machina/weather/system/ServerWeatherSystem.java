@@ -491,7 +491,11 @@ public class ServerWeatherSystem extends WeatherSystem {
 	}
 
 	public void pickWeather(WeatherEvent event) {
-		if (forcedWeather != null) {
+		pickWeather(event, false);
+	}
+
+	public void pickWeather(WeatherEvent event, boolean override) {
+		if (forcedWeather != null && !override) {
 			event = forcedWeather;
 		}
 		currentWeather = event;
