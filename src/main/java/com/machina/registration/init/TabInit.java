@@ -229,6 +229,8 @@ public class TabInit {
 				add(a, ItemInit.PROCESSOR);
 				add(a, ItemInit.PROCESSOR_CORE);
 				add(a, ItemInit.TRANSISTOR);
+				
+				add(a, BlockInit.HIGHTECH_TURRET);
 			});
 
 	public static void add(CreativeModeTab.Output adder, ItemLike item) {

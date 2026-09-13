@@ -193,6 +193,8 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.TOXIC_SAND.get());
 
 		dropOther(BlockInit.SULFUR_GEYSER.get(), BlockInit.BASALT);
+		
+		dropNothing(BlockInit.HIGHTECH_TURRET.get());
 	}
 
 	private void oreFamily(OreFamily family) {
@@ -293,5 +295,9 @@ public class DatagenLootTables extends BlockLootSubProvider {
 
 	private void petals(Block petal) {
 		this.add(petal, this.createPetalsDrops(petal));
+	}
+	
+	private void dropNothing(Block block) {
+		this.add(block, LootTable.lootTable());
 	}
 }

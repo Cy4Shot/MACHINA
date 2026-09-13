@@ -21,6 +21,12 @@
 			]
 		},
 		{
+			"name": "machina:hightech_ruins",
+			"placements": [
+				"MIDDLE"
+			]
+		},
+		{
 			"name": "machina:hightech_toxic_river",
 			"placements": [
 				"RIVER"

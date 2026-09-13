@@ -137,6 +137,19 @@ public class PlanetBiome extends Biome {
 					chance(s.lakes().chance()), spread(), onSurface(), biome());
 		}
 
+		// City grid generation — runs every chunk, chunk type determined internally
+		if (s.city_grid().enabled()) {
+			var cg = s.city_grid();
+			add(builder, Decoration.SURFACE_STRUCTURES, new com.machina.world.feature.RuinedCityFeature(),
+					new com.machina.world.feature.RuinedCityFeature.Config(cg.ruins(),
+							cg.road_blocks(), cg.gradient_blocks(), cg.accent_blocks(),
+							cg.accent_chance(),
+							cg.road_smooth(), cg.slope_check(), cg.headroom(),
+							cg.bridge_threshold(), cg.tunnel_threshold(), cg.max_height_diff(),
+							cg.road_width(), cg.block_size()),
+					count(1), spread(), onFloor(), biome());
+		}
+
 		for (PlanetBiomeBigRock rock : s.big_rocks()) {
 			add(builder, Decoration.SURFACE_STRUCTURES, new PlanetBigRockFeature(),
 					new PlanetBigRockFeature.PlanetBigRockFeatureConfig(rock), chance(rock.chance()), spread(),

@@ -132,6 +132,8 @@ public class DatagenBlockStates extends BlockStateProvider {
 
 		unrotatableColumn(BlockInit.SULFUR_GEYSER);
 
+		geo(BlockInit.HIGHTECH_TURRET, "hightech_turret_0");
+
 		flower(BlockInit.TROPICAL_GRASS);
 		flower(BlockInit.TWISTED_GRASS);
 		flower(BlockInit.CONIFEROUS_GRASS);
@@ -343,6 +345,12 @@ public class DatagenBlockStates extends BlockStateProvider {
 			builder.setCTMTag(ctmTag);
 		}
 		simpleBlockItem(b, rod);
+	}
+
+	private void geo(DeferredBlock<? extends Block> block, String textureName) {
+		ModelFile particle = models().getBuilder(name(block.get())).texture("particle",
+				MachinaRL.create(ModelProvider.BLOCK_FOLDER + "/" + textureName));
+		simpleBlock(block.get(), particle);
 	}
 
 	private void leaves(LeavesBlock leaves) {

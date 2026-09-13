@@ -15,6 +15,7 @@ import com.machina.api.block.OreBlock;
 import com.machina.api.item.ChemicalBlockItem;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.CrystalBlock;
+import com.machina.block.HightechTurretBlock;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
@@ -149,6 +150,9 @@ public class BlockInit {
 	public static final DeferredBlock<FissionReactorItemPortBlock> FISSION_REACTOR_ITEM_PORT = register("fission_reactor_item_port", Blocks.IRON_BLOCK, FissionReactorItemPortBlock::new);
 	public static final DeferredBlock<FissionReactorWaterPortBlock> FISSION_REACTOR_WATER_PORT = register("fission_reactor_water_port", Blocks.IRON_BLOCK, FissionReactorWaterPortBlock::new);
 	public static final DeferredBlock<FissionReactorSteamPortBlock> FISSION_REACTOR_STEAM_PORT = register("fission_reactor_steam_port", Blocks.IRON_BLOCK, FissionReactorSteamPortBlock::new);
+
+	// Misc
+	public static final DeferredBlock<HightechTurretBlock> HIGHTECH_TURRET = register("hightech_turret", Blocks.IRON_BLOCK, HightechTurretBlock::new);
 
 	public static final DeferredBlock<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);

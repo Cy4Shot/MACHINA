@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 
 import com.machina.Machina;
+import com.machina.block.entity.HightechTurretBlockEntity;
 import com.machina.block.entity.MachinaHangingSignBlockEntity;
 import com.machina.block.entity.MachinaSignBlockEntity;
 import com.machina.block.entity.SulfurGeyserBlockEntity;
@@ -123,9 +124,11 @@ public class BlockEntityInit {
 	public static final Supplier<BlockEntityType<FissionFuelRodAssemblyBlockEntity>> FISSION_FUEL_ROD_ASSEMBLY
 		= register("fission_fuel_rod_assembly", FissionFuelRodAssemblyBlockEntity::new, BlockInit.FISSION_FUEL_ROD_ASSEMBLY::get);
 	
-	// Worldgen
+	// Misc
 	public static final Supplier<BlockEntityType<SulfurGeyserBlockEntity>> SULFUR_GEYSER = register("sulfur_geyser",
 			SulfurGeyserBlockEntity::new, BlockInit.SULFUR_GEYSER::get);
+	public static final Supplier<BlockEntityType<HightechTurretBlockEntity>> HIGHTECH_TURRET = register("hightech_turret",
+			HightechTurretBlockEntity::new, BlockInit.HIGHTECH_TURRET::get);
 
 	// Sign
 	public static final Supplier<BlockEntityType<MachinaSignBlockEntity>> SIGN = registerMany("sign",

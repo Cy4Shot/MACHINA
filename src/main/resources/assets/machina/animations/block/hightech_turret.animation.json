@@ -1,0 +1,21 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"fire": {
+			"animation_length": 1.375,
+			"bones": {
+				"Gun Barrel": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"1.0": {
+							"vector": [0, 0, 720],
+							"easing": "easeOutQuint"
+						}
+					}
+				}
+			}
+		}
+	}
+}

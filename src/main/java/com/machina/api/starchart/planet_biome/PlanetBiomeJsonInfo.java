@@ -10,10 +10,14 @@ import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCli
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeGrass;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeLakes;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRock;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRuin;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeTree;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityGrid;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBlocks;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBlockWeight;
 import com.machina.api.starchart.planet_biome.placement.PlacementModifier;
 import com.machina.api.starchart.planet_biome.placement.PlacementModifierType;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetHightechRuinShape;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.api.util.loader.JsonInfo;
 import com.machina.registration.init.RegistryInit;
@@ -26,7 +30,8 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 		String stair, String slab, String extra, List<PlanetBiomeTreeJsonInfo> trees,
 		List<PlanetBiomeBushJsonInfo> bushes, PlanetBiomeGrassJsonInfo grass, PlanetBiomeLakesJsonInfo lakes,
 		List<PlanetBiomeRockJsonInfo> rocks, List<PlanetBiomeBigRockJsonInfo> big_rocks,
-		PlanetBiomeClientSettingsJsonInfo client_settings) implements JsonInfo<PlanetBiomeSettings> {
+		PlanetBiomeCityGridJsonInfo city_grid, PlanetBiomeClientSettingsJsonInfo client_settings)
+		implements JsonInfo<PlanetBiomeSettings> {
 
 	public static BlockState getBlock(String block) {
 		return BlockHelper.parseState(BlockHelper.blockHolderLookup(), block);
@@ -116,6 +121,35 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 		}
 	}
 
+	public record PlanetBiomeRuinJsonInfo(String shape, int min_size, int max_size, int min_height, int max_height,
+			float chance, float min_weathering, float max_weathering)
+			implements JsonInfo<PlanetBiomeRuin> {
+		public PlanetBiomeRuin cast() {
+			return new PlanetBiomeRuin(PlanetHightechRuinShape.valueOf(this.shape), min_size, max_size, min_height,
+					max_height, chance, min_weathering, max_weathering);
+		}
+	}
+
+	public record PlanetBiomeCityGridJsonInfo(boolean enabled, int road_width, int block_size,
+			List<String> road_blocks, List<String> gradient_blocks, List<String> accent_blocks,
+			float accent_chance, int road_smooth, int slope_check, int headroom,
+			int bridge_threshold, int tunnel_threshold, int max_height_diff,
+			List<PlanetBiomeRuinJsonInfo> ruins) implements JsonInfo<PlanetBiomeCityGrid> {
+		public PlanetBiomeCityGrid cast() {
+			List<BlockState> roadBlocks = road_blocks().stream().map(PlanetBiomeJsonInfo::getBlock)
+					.collect(Collectors.toList());
+			List<BlockState> gradientBlocks = gradient_blocks().stream().map(PlanetBiomeJsonInfo::getBlock)
+					.collect(Collectors.toList());
+			List<BlockState> accentBlocks = accent_blocks().stream().map(PlanetBiomeJsonInfo::getBlock)
+					.collect(Collectors.toList());
+			List<PlanetBiomeRuin> ruinsList = ruins().stream().map(PlanetBiomeRuinJsonInfo::cast)
+					.collect(Collectors.toList());
+			return new PlanetBiomeCityGrid(enabled, road_width, block_size, roadBlocks,
+					gradientBlocks, accentBlocks, accent_chance, road_smooth, slope_check,
+					headroom, bridge_threshold, tunnel_threshold, max_height_diff, ruinsList);
+		}
+	}
+
 	public record PlanetBiomeClientSettingsJsonInfo(int weather_tint) implements JsonInfo<PlanetBiomeClientSettings> {
 		public PlanetBiomeClientSettings cast() {
 			return new PlanetBiomeClientSettings(weather_tint);
@@ -125,6 +159,8 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 	@Override
 	public PlanetBiomeSettings cast() {
 		List<BlockState> tops = top.stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
+		PlanetBiomeBlocks blocks = new PlanetBiomeBlocks(getBlock(base), tops, getBlock(second), getBlock(stair),
+				getBlock(slab), getBlock(extra));
 		List<PlanetBiomeTree> trees = trees().stream().map(PlanetBiomeTreeJsonInfo::cast).collect(Collectors.toList());
 		List<PlanetBiomeBush> bushes = bushes().stream().map(PlanetBiomeBushJsonInfo::cast)
 				.collect(Collectors.toList());
@@ -133,10 +169,10 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 		List<PlanetBiomeRock> rocks = rocks().stream().map(PlanetBiomeRockJsonInfo::cast).collect(Collectors.toList());
 		List<PlanetBiomeBigRock> big_rocks = big_rocks().stream().map(PlanetBiomeBigRockJsonInfo::cast)
 				.collect(Collectors.toList());
+		PlanetBiomeCityGrid cityGrid = city_grid() == null ? PlanetBiomeCityGrid.DISABLED : city_grid().cast();
 		PlanetBiomeClientSettings settings = client_settings() == null ? PlanetBiomeClientSettings.DEFAULT
 				: client_settings().cast();
-		return new PlanetBiomeSettings(ResourceLocation.parse(home), getBlock(base), ResourceLocation.parse(surface),
-				tops, getBlock(second), getBlock(stair), getBlock(slab), getBlock(extra), trees, bushes, grass, lakes,
-				rocks, big_rocks, settings);
+		return new PlanetBiomeSettings(ResourceLocation.parse(home), blocks, ResourceLocation.parse(surface), trees,
+				bushes, grass, lakes, rocks, big_rocks, cityGrid, settings);
 	}
 }

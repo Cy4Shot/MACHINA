@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-04T20:37:12.4484289	Loot Tables
+// 1.21.1	2026-09-13T19:36:15.6421015	Loot Tables
 73578e7fc7c0bfb69187e036f71d8d0c81e9a8f9 data/machina/loot_table/blocks/aluminum_block.json
 790bde11fc9f85dd477d5dd677355bac5332a786 data/machina/loot_table/blocks/anthracite.json
 4da7ad8c6aafe797fdd92bc27652554510a0029e data/machina/loot_table/blocks/anthracite_button.json
@@ -422,6 +422,7 @@ f32e9e9f8304c1c37c61469d8570305a87107a0a data/machina/loot_table/blocks/green_so
 dc3456301108375c319c05aabe4fc1958871fc8e data/machina/loot_table/blocks/grelp_berry.json
 97923cbb58f2332f4d61df4fea2e4f2cb6d7c610 data/machina/loot_table/blocks/grinder.json
 1bc8db15e3899a61220eaeafbbc8500879b35b60 data/machina/loot_table/blocks/gypsum_block.json
+00af94c6530430d5ef3c86248000fb0ba6207a5e data/machina/loot_table/blocks/hightech_turret.json
 7f11229942ea52a7888b69e8d0fcdc4d6f88fc76 data/machina/loot_table/blocks/ilmenite_block.json
 116f9ef3bc66a3f73fbe48a3002a62d47f190bf9 data/machina/loot_table/blocks/imbued_brown_mushroom_cap.json
 9adea38701709a86be8ed41ddc10715b8867c259 data/machina/loot_table/blocks/imbued_purple_mushroom_cap.json
