@@ -10,6 +10,7 @@ import com.machina.api.network.ConfigMessage;
 import com.machina.api.network.S2CMessage;
 import com.machina.api.network.c2s.C2SAssemblyStationCraft;
 import com.machina.api.network.c2s.C2SFinishCinematic;
+import com.machina.api.network.c2s.C2SFissionReactorControl;
 import com.machina.api.network.c2s.C2SItemMenuSync;
 import com.machina.api.network.c2s.C2SMenuSetItem;
 import com.machina.api.network.c2s.C2SMenuToggleConnector;
@@ -69,6 +70,7 @@ public class MachinaNetwork {
 		c2s(reg, C2SRocketLaunchComplete.class);
 		c2s(reg, C2SRocketLandComplete.class);
 		c2s(reg, C2SRocketRefuelingStationSetTank.class);
+		c2s(reg, C2SFissionReactorControl.class);
 
 		s2c(reg, S2CWeatherEventChange.class);
 		s2c(reg, S2CWeatherIntensityChange.class);

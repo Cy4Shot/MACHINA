@@ -243,7 +243,10 @@ public class ItemInit {
 	public static final DeferredItem<ChemicalItem> PALLADIUM_ON_CARBON = chemical("palladium_on_carbon", "Pd/C");
 	public static final DeferredItem<ChemicalItem> HEXAMINE = chemical("hexamine", "(CH2)6N4");
 	public static final DeferredItem<ChemicalItem> NITRONIUM_TETRAFLUOROBORATE = chemical("nitronium_tetrafluoroborate", "NO2BF4");
-	
+
+	public static final DeferredItem<Item> SPENT_URANIUM_FUEL = basic("spent_uranium_fuel");
+	public static final DeferredItem<Item> SPENT_THORIUM_FUEL = basic("spent_thorium_fuel");
+
 	public static final DeferredItem<SignItem> TROPICAL_SIGN = sign("tropical_sign", BlockInit.TROPICAL_SIGN, BlockInit.TROPICAL_WALL_SIGN);
 	public static final DeferredItem<HangingSignItem> TROPICAL_HANGING_SIGN = hanging_sign("tropical_hanging_sign", BlockInit.TROPICAL_HANGING_SIGN, BlockInit.TROPICAL_WALL_HANGING_SIGN);
 	public static final DeferredItem<SignItem> DEAD_TROPICAL_SIGN = sign("dead_tropical_sign", BlockInit.DEAD_TROPICAL_SIGN, BlockInit.DEAD_TROPICAL_WALL_SIGN);

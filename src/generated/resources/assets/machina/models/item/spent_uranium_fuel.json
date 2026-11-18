@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "machina:item/spent_uranium_fuel"
+  }
+}

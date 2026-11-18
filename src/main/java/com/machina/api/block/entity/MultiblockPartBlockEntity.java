@@ -84,6 +84,7 @@ public abstract class MultiblockPartBlockEntity extends MachinaBlockEntity {
 		this.master = master;
 		this.setChanged();
 		if (!level.isClientSide()) {
+			level.invalidateCapabilities(worldPosition);
 			((ServerLevel) level).sendParticles(new DustParticleOptions(new Vector3f(0, 1, 1), 1),
 					worldPosition.getX() + 0.5f, worldPosition.getY() + 0.5f, worldPosition.getZ() + 0.5f, 20, 0.5f,
 					0.5f, 0.5f, 0);
@@ -95,6 +96,7 @@ public abstract class MultiblockPartBlockEntity extends MachinaBlockEntity {
 		this.master = null;
 		this.setChanged();
 		if (!level.isClientSide()) {
+			level.invalidateCapabilities(worldPosition);
 			((ServerLevel) level).sendParticles(ParticleTypes.SMOKE, worldPosition.getX() + 0.5f,
 					worldPosition.getY() + 0.5f, worldPosition.getZ() + 0.5f, 20, 0.5f, 0.5f, 0.5f, 0);
 		}

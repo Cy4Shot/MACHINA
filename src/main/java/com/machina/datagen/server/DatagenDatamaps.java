@@ -121,8 +121,12 @@ public class DatagenDatamaps extends DataMapProvider {
 		geotherm(geotherm, BlockInit.SULFUR_GEYSER, 100);
 
 		DataMapProvider.Builder<FissionFuel, Item> fission = builder(DataMapsInit.FISSION_FUEL);
-		// Uranium: burns 10 minutes, produces 1500 mB/t base steam
-		fission(fission, ItemInit.URANINITE_INGOT, 10 * 60 * 20, 1500, ItemInit.COAL_DUST);
+		// Uranium: burns 10 minutes, 1500 mB/t steam, optimal reactivity 1.000, ±0.003, 100k RF startup
+		fission(fission, ItemInit.URANINITE_INGOT, 10 * 60 * 20, 1500, ItemInit.SPENT_URANIUM_FUEL,
+				1.0f, 0.003f, 100000);
+		// Thorium: burns 15 minutes, 1000 mB/t steam, optimal reactivity 0.998, ±0.002 (harder to control), 150k RF startup
+		fission(fission, ItemInit.THORIUM_INGOT, 15 * 60 * 20, 1000, ItemInit.SPENT_THORIUM_FUEL,
+				0.998f, 0.002f, 150000);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -135,8 +139,9 @@ public class DatagenDatamaps extends DataMapProvider {
 	}
 
 	private void fission(DataMapProvider.Builder<FissionFuel, Item> builder, DeferredItem<?> item, int burnTime,
-			int steamPerTick, ItemLike waste) {
-		builder.add(item, new FissionFuel(burnTime, steamPerTick, new ItemStack(waste)), false);
+			int steamPerTick, ItemLike waste, float optimalReactivity, float reactivityTolerance, int startupEnergy) {
+		builder.add(item, new FissionFuel(burnTime, steamPerTick, new ItemStack(waste),
+				optimalReactivity, reactivityTolerance, startupEnergy), false);
 	}
 
 	private void compost(DataMapProvider.Builder<Compostable, Item> builder, DeferredHolder<Item, ?> item,

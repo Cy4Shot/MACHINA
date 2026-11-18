@@ -647,7 +647,10 @@ public abstract class MachinaMenuScreen<T extends MachinaAnyMenu> extends Abstra
 		for (Hoverable h : hoverables.values()) {
 			if (h.active().get()) {
 				if (mx > h.minX() && mx < h.maxX() && my > h.minY() && my < h.maxY()) {
-					gui.renderTooltip(font, h.text().get(), mx, my);
+					Component text = h.text().get();
+					if (text != null && !text.getString().isEmpty()) {
+						gui.renderTooltip(font, text, mx, my);
+					}
 					break;
 				}
 			}

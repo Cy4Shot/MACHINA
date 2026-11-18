@@ -254,6 +254,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.PROCESSOR_CORE, "Processor Core");
 		add(ItemInit.COAL_CHUNK, "Coal Chunk");
 
+		add(ItemInit.SPENT_URANIUM_FUEL, "Spent Uranium Fuel");
+		add(ItemInit.SPENT_THORIUM_FUEL, "Spent Thorium Fuel");
+
 		add(FruitInit.TAMA_SPORE, "Tama Spore");
 		add(FruitInit.STRAPPLE, "Strapple");
 		add(FruitInit.ARGO_BERRY, "Argo Berry");
@@ -1027,6 +1030,39 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("geothermal_generator.no_space", "No Output Space");
 		addUI("geothermal_generator.no_input", "Missing Geothermal Activity");
 		addUI("geothermal_generator.generating", "Generating");
+
+		addUI("fission.fuel_input", "Insert Nuclear Fuel");
+		addUI("fission.waste_output", "Spent Fuel Output");
+		addUI("fission.no_power", "No Power");
+		addUI("fission.not_formed", "Multiblock Not Formed");
+		addUI("fission.build_structure", "Build the reactor structure");
+		addUI("fission.reactivity", "Reactivity");
+		addUI("fission.reactivity_tooltip", "Current: %s | Optimal: %s +/- %s");
+		addUI("fission.status.idle", "IDLE");
+		addUI("fission.status.starting", "STARTING...");
+		addUI("fission.status.starting_fuel", "STARTING (%s)");
+		addUI("fission.status.running", "RUNNING");
+		addUI("fission.status.active_fuel", "ACTIVE (%s)");
+		addUI("fission.status.scrammed", "SCRAMMED");
+		addUI("fission.status.meltdown", "!! MELTDOWN !!");
+		addUI("fission.status.warning", "!! WARNING !!");
+		addUI("fission.status.unknown", "UNKNOWN");
+		addUI("fission.fuel_burn", "Fuel Burn");
+		addUI("fission.fuel_burn_tooltip", "Fuel Burn: %s");
+		addUI("fission.steam_output", "Steam Output");
+		addUI("fission.steam_tooltip", "Steam: %d/%d mB/t");
+		addUI("fission.start_tooltip", "Start Reactor (Requires: %s)");
+		addUI("fission.already_active", "Reactor already active");
+		addUI("fission.need_power", "Need %s to start (Have: %s)");
+		addUI("fission.insert_fuel", "Insert fuel to start");
+		addUI("fission.scram_tooltip", "Emergency SCRAM - Shutdown immediately");
+		addUI("fission.not_running", "Reactor not running");
+		addUI("fission.startup", "Startup");
+		addUI("fission.startup_tooltip", "Startup Progress: %s");
+		addUI("fission.meltdown_label", "MELTDOWN");
+		addUI("fission.meltdown_timer_rods", "%ds - Insert rods!");
+		addUI("fission.meltdown_timer_water", "%ds - Add water!");
+		addUI("fission.meltdown_tooltip", "MELTDOWN IN %d SECONDS!");
 
 		addUI("rocket.tab.info", "Info");
 		addUI("rocket.info.mass", "Mass");

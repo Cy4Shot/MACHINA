@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import com.machina.Machina;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
+import com.machina.registration.init.TagInit.FluidTagInit;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
@@ -29,6 +30,10 @@ public class DatagenFluidTags extends FluidTagsProvider {
 	@Override
 	protected void addTags(@NotNull Provider pProvider) {
 		FluidInit.OBJS.forEach(this::fluidObj);
+
+		// Reactor coolants - add fluids that can be used as fission reactor coolant
+		tag(FluidTagInit.REACTOR_COOLANT)
+				.add(FluidInit.LEAD_BISMUTH_EUTECTIC.fluid(), FluidInit.LEAD_BISMUTH_EUTECTIC.flowing());
 	}
 
 	private void fluidObj(FluidObject obj) {

@@ -16,7 +16,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -24,30 +26,58 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEntity implements SteamBlockEntity {
 
-	public record FissionFuel(int burnTime, int steamPerTick, ItemStack wasteProduct) {
+	public record FissionFuel(int burnTime, int steamPerTick, ItemStack wasteProduct, float optimalReactivity,
+			float reactivityTolerance, int startupEnergy) {
 		public static final Codec<FissionFuel> CODEC = RecordCodecBuilder.create(instance -> instance
 				.group(Codec.INT.fieldOf("burnTime").forGetter(FissionFuel::burnTime),
 						Codec.INT.fieldOf("steamPerTick").forGetter(FissionFuel::steamPerTick),
-						ItemStack.CODEC.fieldOf("wasteProduct").forGetter(FissionFuel::wasteProduct))
+						ItemStack.CODEC.fieldOf("wasteProduct").forGetter(FissionFuel::wasteProduct),
+						Codec.FLOAT.optionalFieldOf("optimalReactivity", 1.0f).forGetter(FissionFuel::optimalReactivity),
+						Codec.FLOAT.optionalFieldOf("reactivityTolerance", 0.003f).forGetter(FissionFuel::reactivityTolerance),
+						Codec.INT.optionalFieldOf("startupEnergy", 100000).forGetter(FissionFuel::startupEnergy))
 				.apply(instance, FissionFuel::new));
+
+		public float getMinReactivity() {
+			return optimalReactivity - reactivityTolerance;
+		}
+
+		public float getMaxReactivity() {
+			return optimalReactivity + reactivityTolerance;
+		}
 	}
 
-	private static final int STEAM_PER_WATER = 50; // 1 mB water produces 50 mB/t steam
-	private static final float STEAM_RAMP_UP_FACTOR = 0.05f; // Exponential ramp up rate (5% of remaining per tick)
-	private static final float STEAM_RAMP_DOWN_FACTOR = 0.03f; // Exponential ramp down rate (3% of current per tick)
-	private static final int BASE_STEAM_RATE = 1000; // Base steam production rate before multipliers
-	private static final float MIN_REACTIVITY = 0.994f; // Below this, reactor is subcritical
-	private static final float MAX_REACTIVITY = 1.006f; // Above this, reactor goes critical
+	public enum ReactorState {
+		IDLE, STARTING, RUNNING, SCRAMMED, MELTDOWN_WARNING
+	}
+
+	public enum MeltdownCause {
+		NONE, REACTIVITY_HIGH, NO_WATER
+	}
+
+	private static final int STEAM_PER_WATER = 50;
+	private static final float STEAM_RAMP_UP_FACTOR = 0.05f;
+	private static final float STEAM_RAMP_DOWN_FACTOR = 0.03f;
+	private static final float MIN_REACTIVITY = 0.994f;
+	private static final float MAX_REACTIVITY = 1.006f;
 	private static final int INPUT_SLOT = 0;
 	private static final int OUTPUT_SLOT = 1;
 	private static final int WATER_TANK = 0;
+	private static final int STARTUP_TICKS = 100;
+	private static final int MELTDOWN_COUNTDOWN = 200;
 
 	private ItemStack activeFuel = ItemStack.EMPTY;
 	private int burnTimeRemaining = 0;
-	private int baseSteamRate = 0; // Base steam rate from fuel (before reactivity)
-	private int maxSteamRate = 0; // Target steam rate (after reactivity modifier)
-	private int currentSteamRate = 0; // Actual current steam rate (ramps up/down)
-	private float reactivity = 1.0f; // Current reactivity level
+	private int totalBurnTime = 0;
+	private int baseSteamRate = 0;
+	private int maxSteamRate = 0;
+	private int currentSteamRate = 0;
+	private float reactivity = 1.0f;
+	private ReactorState state = ReactorState.IDLE;
+	private int startupProgress = 0;
+	private int meltdownTimer = 0;
+	private MeltdownCause meltdownCause = MeltdownCause.NONE;
+	private float fuelOptimalReactivity = 1.0f;
+	private float fuelReactivityTolerance = 0.003f;
 
 	public FissionReactorControllerBlockEntity(BlockPos pos, BlockState state) {
 		super(BlockEntityInit.FISSION_REACTOR_CONTROLLER.get(), pos, state);
@@ -62,12 +92,29 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 	public void createStorages() {
 		itemStorage(Side.INPUTS);
 		itemStorage(Side.OUTPUTS);
-		fluidStorage(100_000, stack -> stack.getFluid().equals(Fluids.WATER), Side.INPUTS); // TODO: config
+		fluidStorage(100_000, stack -> stack.getFluid().equals(Fluids.WATER), Side.INPUTS);
+		energyStorage(Side.INPUTS);
+		steamStorage(100_000, Side.OUTPUTS);
+	}
+
+	@Override
+	public int getMaxSteam() {
+		return 100_000;
+	}
+
+	@Override
+	protected int extractSteam(int maxExtract, boolean simulate) {
+		return Math.min(maxExtract, currentSteamRate);
+	}
+
+	@Override
+	protected int receiveSteam(int maxReceive, boolean simulate) {
+		return 0;
 	}
 
 	@Override
 	public int getMaxEnergy() {
-		return 0; // Reactor doesn't store energy
+		return 1_000_000;
 	}
 
 	@Override
@@ -78,7 +125,6 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 	@Override
 	public void update(@javax.annotation.Nullable BlockPos changed) {
 		super.update(changed);
-		// When multiblock forms, calculate initial reactivity
 		if (this.formed) {
 			calculateReactivity();
 		}
@@ -90,10 +136,16 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 			tag.put("activeFuel", activeFuel.save(registries));
 		}
 		tag.putInt("burnTimeRemaining", burnTimeRemaining);
+		tag.putInt("totalBurnTime", totalBurnTime);
 		tag.putInt("baseSteamRate", baseSteamRate);
 		tag.putInt("maxSteamRate", maxSteamRate);
 		tag.putInt("currentSteamRate", currentSteamRate);
 		tag.putFloat("reactivity", reactivity);
+		tag.putString("state", state.name());
+		tag.putInt("startupProgress", startupProgress);
+		tag.putInt("meltdownTimer", meltdownTimer);
+		tag.putFloat("fuelOptimalReactivity", fuelOptimalReactivity);
+		tag.putFloat("fuelReactivityTolerance", fuelReactivityTolerance);
 		super.saveAdditional(tag, registries);
 	}
 
@@ -105,67 +157,212 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 			activeFuel = ItemStack.EMPTY;
 		}
 		burnTimeRemaining = tag.getInt("burnTimeRemaining");
+		totalBurnTime = tag.getInt("totalBurnTime");
 		baseSteamRate = tag.getInt("baseSteamRate");
 		maxSteamRate = tag.getInt("maxSteamRate");
 		currentSteamRate = tag.getInt("currentSteamRate");
 		reactivity = tag.getFloat("reactivity");
+		if (tag.contains("state")) {
+			try {
+				state = ReactorState.valueOf(tag.getString("state"));
+			} catch (IllegalArgumentException e) {
+				state = ReactorState.IDLE;
+			}
+		}
+		startupProgress = tag.getInt("startupProgress");
+		meltdownTimer = tag.getInt("meltdownTimer");
+		fuelOptimalReactivity = tag.contains("fuelOptimalReactivity") ? tag.getFloat("fuelOptimalReactivity") : 1.0f;
+		fuelReactivityTolerance = tag.contains("fuelReactivityTolerance") ? tag.getFloat("fuelReactivityTolerance") : 0.003f;
 		super.loadAdditional(tag, registries);
 	}
 
 	@Override
 	public void tick() {
-		if (this.level != null && this.level.isClientSide())
+		if (this.level == null || this.level.isClientSide())
 			return;
 
 		if (!this.formed) {
-			reactivity = 1.0f;
+			if (state == ReactorState.RUNNING || state == ReactorState.MELTDOWN_WARNING) {
+				triggerMeltdown();
+			}
+			resetReactor();
 			return;
 		}
 
-		// Update reactivity based on moderator rod insertion
 		calculateReactivity();
 
-		// Handle fuel burning
-		if (burnTimeRemaining > 0) {
-			// Check if we have enough water for current rate
-			// 1 mB water produces STEAM_PER_WATER mB/t of steam
-			int waterNeeded = Math.max(1, maxSteamRate / STEAM_PER_WATER);
-			FluidStack water = getTank(WATER_TANK).getFluid();
-
-			if (water.getAmount() >= waterNeeded) {
-				// Consume water
-				drain(WATER_TANK, waterNeeded, FluidAction.EXECUTE);
-
-				// Ramp up steam rate exponentially
-				if (currentSteamRate < maxSteamRate) {
-					int remaining = maxSteamRate - currentSteamRate;
-					int increase = Math.max(1, (int) (remaining * STEAM_RAMP_UP_FACTOR));
-					currentSteamRate = Math.min(maxSteamRate, currentSteamRate + increase);
-				}
-
-				burnTimeRemaining--;
-
-				if (burnTimeRemaining <= 0) {
-					// Fuel depleted, output waste product
-					outputWaste();
-					activeFuel = ItemStack.EMPTY;
-					maxSteamRate = 0;
-				}
-
-				this.setChanged();
-			} else {
-				// Not enough water, ramp down
-				rampDownSteam();
-			}
-		} else {
-			// No fuel burning, try to load new fuel or ramp down
-			if (currentSteamRate > 0) {
-				rampDownSteam();
-			}
-			loadFuel();
+		switch (state) {
+		case IDLE:
+			handleIdleState();
+			break;
+		case STARTING:
+			handleStartingState();
+			break;
+		case RUNNING:
+			handleRunningState();
+			break;
+		case SCRAMMED:
+			handleScrammedState();
+			break;
+		case MELTDOWN_WARNING:
+			handleMeltdownWarningState();
+			break;
 		}
 
 		super.tick();
+	}
+
+	private void handleIdleState() {
+		if (currentSteamRate > 0) {
+			rampDownSteam();
+		}
+	}
+
+	private void handleStartingState() {
+		if (activeFuel.isEmpty()) {
+			state = ReactorState.IDLE;
+			startupProgress = 0;
+			this.setChanged();
+			return;
+		}
+		startupProgress++;
+		if (startupProgress >= STARTUP_TICKS) {
+			state = ReactorState.RUNNING;
+			startupProgress = 0;
+			this.setChanged();
+		}
+	}
+
+	private void handleRunningState() {
+		if (activeFuel.isEmpty() || burnTimeRemaining <= 0) {
+			if (!tryLoadFuel()) {
+				state = ReactorState.IDLE;
+				rampDownSteam();
+				this.setChanged();
+				return;
+			}
+		}
+
+		boolean hasWater = checkAndConsumeWater();
+		boolean reactivityOk = isReactivityInRange();
+
+		if (!reactivityOk && reactivity > getMaxAllowedReactivity()) {
+			state = ReactorState.MELTDOWN_WARNING;
+			meltdownCause = MeltdownCause.REACTIVITY_HIGH;
+			meltdownTimer = MELTDOWN_COUNTDOWN;
+			this.setChanged();
+			return;
+		}
+
+		if (!hasWater) {
+			state = ReactorState.MELTDOWN_WARNING;
+			meltdownCause = MeltdownCause.NO_WATER;
+			meltdownTimer = MELTDOWN_COUNTDOWN;
+			this.setChanged();
+			return;
+		}
+
+		if (!reactivityOk && reactivity < getMinAllowedReactivity()) {
+			burnTimeRemaining = Math.max(0, burnTimeRemaining - 10);
+		}
+
+		if (reactivityOk) {
+			if (currentSteamRate < maxSteamRate) {
+				int remaining = maxSteamRate - currentSteamRate;
+				int increase = Math.max(1, (int) (remaining * STEAM_RAMP_UP_FACTOR));
+				currentSteamRate = Math.min(maxSteamRate, currentSteamRate + increase);
+			}
+		} else {
+			rampDownSteam();
+		}
+
+		burnTimeRemaining--;
+		if (burnTimeRemaining <= 0) {
+			outputWaste();
+			activeFuel = ItemStack.EMPTY;
+		}
+
+		this.setChanged();
+	}
+
+	private void handleScrammedState() {
+		rampDownSteam();
+		if (currentSteamRate <= 0) {
+			state = ReactorState.IDLE;
+			this.setChanged();
+		}
+	}
+
+	private void handleMeltdownWarningState() {
+		boolean reactivityOk = isReactivityInRange();
+		boolean hasWater = hasEnoughWater();
+
+		if (reactivityOk && hasWater) {
+			state = ReactorState.RUNNING;
+			meltdownTimer = 0;
+			meltdownCause = MeltdownCause.NONE;
+			this.setChanged();
+			return;
+		}
+
+		meltdownTimer--;
+		if (meltdownTimer <= 0) {
+			triggerMeltdown();
+		} else {
+			this.setChanged();
+		}
+	}
+
+	private boolean hasEnoughWater() {
+		int waterNeeded = Math.max(1, maxSteamRate / STEAM_PER_WATER);
+		FluidStack water = getTank(WATER_TANK).getFluid();
+		return water.getAmount() >= waterNeeded;
+	}
+
+	private void triggerMeltdown() {
+		if (level instanceof ServerLevel serverLevel) {
+			BlockPos center = worldPosition;
+			serverLevel.explode(null, center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5,
+					8.0f, true, ExplosionInteraction.BLOCK);
+		}
+		resetReactor();
+	}
+
+	private void resetReactor() {
+		state = ReactorState.IDLE;
+		startupProgress = 0;
+		meltdownTimer = 0;
+		meltdownCause = MeltdownCause.NONE;
+		currentSteamRate = 0;
+		maxSteamRate = 0;
+		baseSteamRate = 0;
+		burnTimeRemaining = 0;
+		totalBurnTime = 0;
+		activeFuel = ItemStack.EMPTY;
+		reactivity = 1.0f;
+		this.setChanged();
+	}
+
+	private boolean checkAndConsumeWater() {
+		int waterNeeded = Math.max(1, maxSteamRate / STEAM_PER_WATER);
+		FluidStack water = getTank(WATER_TANK).getFluid();
+		if (water.getAmount() >= waterNeeded) {
+			drain(WATER_TANK, waterNeeded, FluidAction.EXECUTE);
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isReactivityInRange() {
+		return reactivity >= getMinAllowedReactivity() && reactivity <= getMaxAllowedReactivity();
+	}
+
+	private float getMinAllowedReactivity() {
+		return fuelOptimalReactivity - fuelReactivityTolerance;
+	}
+
+	private float getMaxAllowedReactivity() {
+		return fuelOptimalReactivity + fuelReactivityTolerance;
 	}
 
 	private void rampDownSteam() {
@@ -176,30 +373,34 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 		}
 	}
 
-	private void loadFuel() {
+	private boolean tryLoadFuel() {
 		ItemStack inputStack = getItem(INPUT_SLOT);
 		if (inputStack.isEmpty()) {
-			return;
+			return false;
 		}
 
 		FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
 		if (fuelData == null) {
-			return;
+			return false;
 		}
 
-		// Consume one fuel item
+		if (!activeFuel.isEmpty() && !ItemStack.isSameItem(activeFuel, inputStack)) {
+			return false;
+		}
+
 		activeFuel = inputStack.copy();
 		activeFuel.setCount(1);
 		inputStack.shrink(1);
 
-		// Set burn parameters
 		burnTimeRemaining = fuelData.burnTime();
+		totalBurnTime = fuelData.burnTime();
 		baseSteamRate = fuelData.steamPerTick();
-		// maxSteamRate will be calculated based on reactivity
+		fuelOptimalReactivity = fuelData.optimalReactivity();
+		fuelReactivityTolerance = fuelData.reactivityTolerance();
 		updateMaxSteamRate();
-		// currentSteamRate stays as-is to allow smooth ramping
 
 		this.setChanged();
+		return true;
 	}
 
 	private void outputWaste() {
@@ -226,14 +427,60 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 
 	@Override
 	public boolean isLit() {
-		return currentSteamRate > 0;
+		return state == ReactorState.RUNNING || state == ReactorState.MELTDOWN_WARNING;
 	}
 
 	@Override
 	public ISteamHandler getSteamCap() {
-		// Steam is a rate, not stored - this interface may be repurposed later for
-		// turbines
 		return null;
+	}
+
+	public boolean canStart() {
+		if (state != ReactorState.IDLE) return false;
+		if (!formed) return false;
+
+		ItemStack inputStack = getItem(INPUT_SLOT);
+		if (inputStack.isEmpty()) return false;
+
+		FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
+		if (fuelData == null) return false;
+
+		if (getEnergy() < fuelData.startupEnergy()) return false;
+
+		return true;
+	}
+
+	public void startReactor() {
+		if (!canStart()) return;
+
+		ItemStack inputStack = getItem(INPUT_SLOT);
+		FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
+		if (fuelData == null) return;
+
+		consumeEnergy(fuelData.startupEnergy());
+		state = ReactorState.STARTING;
+		startupProgress = 0;
+
+		activeFuel = inputStack.copy();
+		activeFuel.setCount(1);
+		inputStack.shrink(1);
+
+		burnTimeRemaining = fuelData.burnTime();
+		totalBurnTime = fuelData.burnTime();
+		baseSteamRate = fuelData.steamPerTick();
+		fuelOptimalReactivity = fuelData.optimalReactivity();
+		fuelReactivityTolerance = fuelData.reactivityTolerance();
+		updateMaxSteamRate();
+
+		this.setChanged();
+	}
+
+	public void scram() {
+		if (state == ReactorState.RUNNING || state == ReactorState.STARTING || state == ReactorState.MELTDOWN_WARNING) {
+			state = ReactorState.SCRAMMED;
+			meltdownTimer = 0;
+			this.setChanged();
+		}
 	}
 
 	public int getBurnTimeRemaining() {
@@ -241,19 +488,14 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 	}
 
 	public int getTotalBurnTime() {
-		if (activeFuel.isEmpty()) {
-			return 0;
-		}
-		FissionFuel fuelData = activeFuel.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
-		return fuelData != null ? fuelData.burnTime() : 0;
+		return totalBurnTime;
 	}
 
 	public float getBurnProgress() {
-		int total = getTotalBurnTime();
-		if (total == 0) {
+		if (totalBurnTime == 0) {
 			return 0;
 		}
-		return 1.0f - ((float) burnTimeRemaining / (float) total);
+		return 1.0f - ((float) burnTimeRemaining / (float) totalBurnTime);
 	}
 
 	public int getCurrentSteamRate() {
@@ -275,6 +517,67 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 		return reactivity;
 	}
 
+	public ReactorState getReactorState() {
+		return state;
+	}
+
+	public int getStartupProgress() {
+		return startupProgress;
+	}
+
+	public int getStartupTotal() {
+		return STARTUP_TICKS;
+	}
+
+	public int getMeltdownTimer() {
+		return meltdownTimer;
+	}
+
+	public int getMeltdownTotal() {
+		return MELTDOWN_COUNTDOWN;
+	}
+
+	public MeltdownCause getMeltdownCause() {
+		return meltdownCause;
+	}
+
+	public float getFuelOptimalReactivity() {
+		if (state == ReactorState.IDLE || state == ReactorState.SCRAMMED) {
+			ItemStack inputStack = getItem(INPUT_SLOT);
+			if (!inputStack.isEmpty()) {
+				FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
+				if (fuelData != null) {
+					return fuelData.optimalReactivity();
+				}
+			}
+		}
+		return fuelOptimalReactivity;
+	}
+
+	public float getFuelReactivityTolerance() {
+		if (state == ReactorState.IDLE || state == ReactorState.SCRAMMED) {
+			ItemStack inputStack = getItem(INPUT_SLOT);
+			if (!inputStack.isEmpty()) {
+				FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
+				if (fuelData != null) {
+					return fuelData.reactivityTolerance();
+				}
+			}
+		}
+		return fuelReactivityTolerance;
+	}
+
+	public ItemStack getActiveFuel() {
+		return activeFuel;
+	}
+
+	public int getStartupEnergyRequired() {
+		ItemStack inputStack = getItem(INPUT_SLOT);
+		if (inputStack.isEmpty()) return 0;
+		FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
+		return fuelData != null ? fuelData.startupEnergy() : 0;
+	}
+
 	private void calculateReactivity() {
 		if (!formed || parts.isEmpty()) {
 			reactivity = 1.0f;
@@ -282,7 +585,6 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 			return;
 		}
 
-		// Count fuel rod assemblies and their insertion levels
 		int totalAssemblies = 0;
 		int totalInsertion = 0;
 
@@ -299,16 +601,8 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 			return;
 		}
 
-		// Calculate average insertion (0 to 4)
 		float avgInsertion = (float) totalInsertion / totalAssemblies;
-
-		// Map insertion to reactivity
-		// 0 insertion (rods out) = 1.006 (supercritical)
-		// 2 insertion (middle) = 1.000 (critical)
-		// 4 insertion (rods in) = 0.994 (subcritical)
 		reactivity = MAX_REACTIVITY - (avgInsertion / 4.0f) * (MAX_REACTIVITY - MIN_REACTIVITY);
-
-		// Update max steam rate based on new reactivity
 		updateMaxSteamRate();
 	}
 
@@ -318,23 +612,13 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 			return;
 		}
 
-		// Reactivity affects steam production
-		// Below MIN_REACTIVITY (subcritical): no production
-		// Between MIN and MAX: full production (within stable range)
-		// Above MAX_REACTIVITY (supercritical): reactor shuts down
-
 		if (reactivity < MIN_REACTIVITY || reactivity > MAX_REACTIVITY) {
-			// Subcritical or supercritical - no production
 			maxSteamRate = 0;
 		} else {
-			// Within stable range - full production
 			maxSteamRate = baseSteamRate;
 		}
 	}
 
-	/**
-	 * Called by fuel rod assemblies when their insertion stage changes
-	 */
 	public void onReactivityChanged() {
 		calculateReactivity();
 		this.setChanged();

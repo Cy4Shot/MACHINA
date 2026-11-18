@@ -16,9 +16,6 @@ import software.bernie.geckolib.renderer.GeoBlockRenderer;
 
 public class HightechTurretRenderer extends GeoBlockRenderer<HightechTurretBlockEntity> {
 
-	private float rx = 0;
-	private float ry = 0;
-
 	public HightechTurretRenderer(BlockEntityRendererProvider.Context ctx) {
 		super(BlockEntityInit.HIGHTECH_TURRET.get());
 	}
@@ -31,14 +28,14 @@ public class HightechTurretRenderer extends GeoBlockRenderer<HightechTurretBlock
 			float targetRx = animatable.getTargetRotX();
 			float targetRy = animatable.getTargetRotY();
 
-			float newRx = rx + (targetRx - rx) * 0.001f;
-			float newRy = ry + (targetRy - ry) * 0.001f;
+			float lerpFactor = 0.05f;
+			animatable.clientRotX += (targetRx - animatable.clientRotX) * lerpFactor;
 
-			bone.setRotX(newRx);
-			bone.setRotY(newRy);
+			float dy = (float) Math.IEEEremainder(targetRy - animatable.clientRotY, 2 * Math.PI);
+			animatable.clientRotY += dy * lerpFactor;
 
-			this.rx = newRx;
-			this.ry = newRy;
+			bone.setRotX(animatable.clientRotX);
+			bone.setRotY(animatable.clientRotY);
 		});
 		super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight,
 				packedOverlay, colour);
@@ -47,7 +44,7 @@ public class HightechTurretRenderer extends GeoBlockRenderer<HightechTurretBlock
 	@Override
 	public ResourceLocation getTextureLocation(HightechTurretBlockEntity animatable) {
 		return MachinaRL
-				.create("textures/block/hightech_turret_" + String.valueOf(animatable.getChargeState()) + ".png");
+				.create("textures/block/hightech_turret_" + String.valueOf(animatable.getAlertLevel()) + ".png");
 	}
 
 }

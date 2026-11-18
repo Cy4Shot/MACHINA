@@ -94,7 +94,7 @@ public class CapabilityRegistrar {
 			Supplier<BlockEntityType<T>> type) {
 		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type.get(), (be, side) -> be.getInvCap(side));
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type.get(),
-				(be, side) -> be.getEnergyStorage(side));
+				(be, side) -> be.getEnergyCap(side));
 		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type.get(), (be, side) -> be.getFluidCap(side));
 	}
 

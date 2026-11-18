@@ -104,6 +104,9 @@ public class TabInit {
 				add(a, ItemInit.SODIUM_CARBONATE);
 				add(a, ItemInit.SODIUM_HYDROXIDE);
 
+				add(a, ItemInit.SPENT_URANIUM_FUEL);
+				add(a, ItemInit.SPENT_THORIUM_FUEL);
+
 				for (FluidObject e : FluidInit.OBJS) {
 					add(a, e.bucket());
 				}

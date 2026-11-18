@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-26T20:12:46.0115167	Item Models: machina
+// 1.21.1	2026-11-18T19:07:37.8400652	Item Models: machina
 4746a09bb453582000f2c239858c6e7e16aa7252 assets/machina/models/item/acetaldehyde_bucket.json
 cd08c996373cfed1c4a774b580062f12abdf0c81 assets/machina/models/item/acetic_acid_bucket.json
 3240e39cb383c5c9dfb458b08855ab5a60ae5980 assets/machina/models/item/advanced_capacitor.json
@@ -229,6 +229,8 @@ d13e371598b1af49634275cf4452f087c437cc95 assets/machina/models/item/silver_ingot
 89455f9e5bc484f989acc469ca09bd69795c59bc assets/machina/models/item/silver_rod.json
 69b3022360e581c4fd2339f40c6c3650ab36fe55 assets/machina/models/item/silver_wire.json
 c708803c8edd2edd7c47aed6b6e66658a6d6a21f assets/machina/models/item/sparr_ball.json
+dd4c6fa77ded0e1971ad7c009890f9e8f1399783 assets/machina/models/item/spent_thorium_fuel.json
+99778f9a96f1f7efaf127cc12a4bbfab0eff6515 assets/machina/models/item/spent_uranium_fuel.json
 4d3012344009196dac4b5a50963daea8756a4258 assets/machina/models/item/steel_dust.json
 cfce1d4bd78b817c7f7c78d2cc8b943193bf158f assets/machina/models/item/steel_ingot.json
 256052f12175ab7cf309f899392e634297ca8ac7 assets/machina/models/item/steel_nugget.json
