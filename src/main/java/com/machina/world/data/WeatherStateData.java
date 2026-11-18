@@ -1,6 +1,7 @@
 package com.machina.world.data;
 
 import com.machina.Machina;
+import com.machina.api.util.PlanetHelper;
 import com.machina.weather.system.ServerWeatherSystem;
 
 import net.minecraft.core.HolderLookup.Provider;
@@ -27,7 +28,7 @@ public class WeatherStateData extends SavedData {
 	private float windTargetZ = 0.0F;
 	private boolean hasState = false;
 
-	WeatherStateData() {
+	public WeatherStateData() {
 		super();
 	}
 
@@ -36,7 +37,8 @@ public class WeatherStateData extends SavedData {
 	}
 
 	public static WeatherStateData get(ServerLevel level) {
-		return level.getDataStorage().computeIfAbsent(FACTORY, ID);
+		int planetId = PlanetHelper.getIdLevelOr(level.dimension(), 0);
+		return level.getServer().overworld().getDataStorage().computeIfAbsent(FACTORY, ID + "_" + planetId);
 	}
 
 	private void load(CompoundTag tag) {

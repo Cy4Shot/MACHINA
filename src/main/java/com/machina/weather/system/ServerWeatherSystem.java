@@ -11,6 +11,7 @@ import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.starchart.planet_trait.PlanetWeatherTrait;
 import com.machina.api.util.PlanetHelper;
 import com.machina.config.CommonConfig;
+import com.machina.registration.init.RegistryInit;
 import com.machina.registration.init.WeatherEventInit;
 import com.machina.weather.WeatherEvent;
 
@@ -453,20 +454,19 @@ public class ServerWeatherSystem extends WeatherSystem {
 	}
 
 	private WeatherEvent resolveWeatherEvent(ResourceLocation id) {
-		if (forcedWeather != null) {
-			return forcedWeather;
-		}
 		if (id != null) {
 			for (WeatherEvent event : allowedEvents) {
 				if (event.getName().equals(id)) {
 					return event;
 				}
 			}
-			if (WeatherEventInit.CLEAR.get().getName().equals(id)) {
-				return WeatherEventInit.CLEAR.get();
+			for (WeatherEvent event : RegistryInit.WEATHER_EVENT.stream().toList()) {
+				if (event.getName().equals(id)) {
+					return event;
+				}
 			}
 		}
-		return WeatherEventInit.CLEAR.get();
+		return forcedWeather != null ? forcedWeather : WeatherEventInit.CLEAR.get();
 	}
 
 	public void setWindDirection(Vec2 windDirection) {
