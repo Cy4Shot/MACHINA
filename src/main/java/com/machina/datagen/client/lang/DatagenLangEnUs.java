@@ -270,9 +270,15 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.BASIC_CASING, "Basic Casing");
 		add(BlockInit.LIGHTWEIGHT_CASING, "Lightweight Casing");
 
-		add(BlockInit.ENERGY_CABLE, "Energy Cable");
-		add(BlockInit.FLUID_PIPE, "Fluid Pipe");
-		add(BlockInit.ITEM_CONDUIT, "Item Conduit");
+		add(BlockInit.BASIC_ENERGY_CABLE, "Basic Energy Cable");
+		add(BlockInit.ADVANCED_ENERGY_CABLE, "Advanced Energy Cable");
+		add(BlockInit.SUPREME_ENERGY_CABLE, "Supreme Energy Cable");
+		add(BlockInit.BASIC_FLUID_PIPE, "Basic Fluid Pipe");
+		add(BlockInit.ADVANCED_FLUID_PIPE, "Advanced Fluid Pipe");
+		add(BlockInit.SUPREME_FLUID_PIPE, "Supreme Fluid Pipe");
+		add(BlockInit.BASIC_ITEM_CONDUIT, "Basic Item Conduit");
+		add(BlockInit.ADVANCED_ITEM_CONDUIT, "Advanced Item Conduit");
+		add(BlockInit.SUPREME_ITEM_CONDUIT, "Supreme Item Conduit");
 		add(BlockInit.STEAM_PIPE, "Steam Pipe");
 		add(BlockInit.BATTERY, "Battery");
 		add(BlockInit.TANK, "Tank");

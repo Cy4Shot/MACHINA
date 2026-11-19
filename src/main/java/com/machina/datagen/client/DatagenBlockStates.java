@@ -68,9 +68,15 @@ public class DatagenBlockStates extends BlockStateProvider {
 		casing(BlockInit.BASIC_CASING);
 		casing(BlockInit.LIGHTWEIGHT_CASING);
 
-		connector(BlockInit.ENERGY_CABLE);
-		connector(BlockInit.FLUID_PIPE);
-		connector(BlockInit.ITEM_CONDUIT);
+		connector(BlockInit.BASIC_ENERGY_CABLE, "basic_energy_cable");
+		connector(BlockInit.ADVANCED_ENERGY_CABLE, "advanced_energy_cable");
+		connector(BlockInit.SUPREME_ENERGY_CABLE, "supreme_energy_cable");
+		connector(BlockInit.BASIC_FLUID_PIPE, "basic_fluid_pipe");
+		connector(BlockInit.ADVANCED_FLUID_PIPE, "advanced_fluid_pipe");
+		connector(BlockInit.SUPREME_FLUID_PIPE, "supreme_fluid_pipe");
+		connector(BlockInit.BASIC_ITEM_CONDUIT, "basic_item_conduit");
+		connector(BlockInit.ADVANCED_ITEM_CONDUIT, "advanced_item_conduit");
+		connector(BlockInit.SUPREME_ITEM_CONDUIT, "supreme_item_conduit");
 		connector(BlockInit.STEAM_PIPE);
 
 		machine(BlockInit.CREATIVE_BATTERY);
@@ -647,8 +653,12 @@ public class DatagenBlockStates extends BlockStateProvider {
 	}
 
 	private void connector(DeferredBlock<? extends ConnectorBlock> connector) {
+		connector(connector, null);
+	}
+
+	private void connector(DeferredBlock<? extends ConnectorBlock> connector, String textureOverride) {
 		ConnectorBlock p = connector.get();
-		ResourceLocation b = blockTexture(p);
+		ResourceLocation b = textureOverride != null ? modLoc("block/" + textureOverride) : blockTexture(p);
 
 		ModelFile main = models().withExistingParent(name(p), MachinaRL.create("block/connector/base"))
 				.texture("connector", b).renderType("cutout");

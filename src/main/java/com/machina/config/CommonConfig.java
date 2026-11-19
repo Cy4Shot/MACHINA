@@ -15,9 +15,15 @@ public class CommonConfig {
 	public static ModConfigSpec.IntValue advancedCapacitorSize;
 	public static ModConfigSpec.IntValue supremeCapacitorSize;
 
-	public static ModConfigSpec.IntValue cableTransferRate;
-	public static ModConfigSpec.IntValue pipeTransferRate;
-	public static ModConfigSpec.IntValue conduitTransferRate;
+	public static ModConfigSpec.IntValue basicCableTransferRate;
+	public static ModConfigSpec.IntValue advancedCableTransferRate;
+	public static ModConfigSpec.IntValue supremeCableTransferRate;
+	public static ModConfigSpec.IntValue basicPipeTransferRate;
+	public static ModConfigSpec.IntValue advancedPipeTransferRate;
+	public static ModConfigSpec.IntValue supremePipeTransferRate;
+	public static ModConfigSpec.IntValue basicConduitTransferRate;
+	public static ModConfigSpec.IntValue advancedConduitTransferRate;
+	public static ModConfigSpec.IntValue supremeConduitTransferRate;
 	public static ModConfigSpec.IntValue batteryTransferRate;
 	public static ModConfigSpec.IntValue batteryChargeRate;
 	public static ModConfigSpec.IntValue batteryDischargeRate;
@@ -45,17 +51,23 @@ public class CommonConfig {
 
 		builder.push("cable");
 		builder.comment("EnergyCable settings");
-		cableTransferRate = builder.defineInRange("cable_transfer_rate", 5_000, 1, 999_999);
+		basicCableTransferRate = builder.defineInRange("basic_cable_transfer_rate", 5_000, 1, 999_999_999);
+		advancedCableTransferRate = builder.defineInRange("advanced_cable_transfer_rate", 25_000, 1, 999_999_999);
+		supremeCableTransferRate = builder.defineInRange("supreme_cable_transfer_rate", 100_000, 1, 999_999_999);
 		builder.pop();
 
 		builder.push("pipe");
 		builder.comment("FluidPipe settings");
-		pipeTransferRate = builder.defineInRange("pipe_transfer_rate", 100, 1, 999_999);
+		basicPipeTransferRate = builder.defineInRange("basic_pipe_transfer_rate", 100, 1, 999_999);
+		advancedPipeTransferRate = builder.defineInRange("advanced_pipe_transfer_rate", 500, 1, 999_999);
+		supremePipeTransferRate = builder.defineInRange("supreme_pipe_transfer_rate", 2_000, 1, 999_999);
 		builder.pop();
 
 		builder.push("conduit");
 		builder.comment("ItemConduit settings");
-		conduitTransferRate = builder.defineInRange("conduit_transfer_rate", 1, 1, 64);
+		basicConduitTransferRate = builder.defineInRange("basic_conduit_transfer_rate", 1, 1, 64);
+		advancedConduitTransferRate = builder.defineInRange("advanced_conduit_transfer_rate", 4, 1, 64);
+		supremeConduitTransferRate = builder.defineInRange("supreme_conduit_transfer_rate", 16, 1, 64);
 		builder.pop();
 
 		builder.push("battery");

@@ -1,0 +1,8 @@
+{
+  "values": [
+    "machina:steam_turbine_controller",
+    "machina:steam_turbine_casing",
+    "machina:steam_turbine_energy_port",
+    "machina:steam_turbine_steam_port"
+  ]
+}

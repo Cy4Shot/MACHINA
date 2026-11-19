@@ -9,7 +9,7 @@
       "item": "machina:lightweight_casing"
     },
     "P": {
-      "item": "machina:fluid_pipe"
+      "item": "machina:basic_fluid_pipe"
     },
     "R": {
       "item": "minecraft:redstone"

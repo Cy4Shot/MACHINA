@@ -1,7 +1,7 @@
 package com.machina.api.cap.item;
 
+import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.IConnectorStorage;
-import com.machina.block.entity.connector.ItemConduitBlockEntity;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,11 +17,11 @@ import java.util.Objects;
 
 public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemStack> {
 
-	protected final ItemConduitBlockEntity conduit;
+	protected final ConnectorBlockEntity<ItemStack, ConduitItemStorage> conduit;
 	protected final Direction side;
 	protected long lastReceived;
 
-	public ConduitItemStorage(ItemConduitBlockEntity c, Direction side) {
+	public ConduitItemStorage(ConnectorBlockEntity<ItemStack, ConduitItemStorage> c, Direction side) {
 		this.conduit = c;
 		this.side = side;
 	}
@@ -65,7 +65,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 		return ItemStack.EMPTY;
 	}
 
-	public void pullItem(ItemConduitBlockEntity be, Direction side) {
+	public void pullItem(ConnectorBlockEntity<ItemStack, ConduitItemStorage> be, Direction side) {
 		if (!be.getConnection(side).isOutput()) {
 			return;
 		}
@@ -77,7 +77,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 		insertEqually(be, side, be.getSortedConnections(), handler);
 	}
 
-	public @NotNull ItemStack receive(ItemConduitBlockEntity be, Direction side, ItemStack stack, boolean simulate) {
+	public @NotNull ItemStack receive(ConnectorBlockEntity<ItemStack, ConduitItemStorage> be, Direction side, ItemStack stack, boolean simulate) {
 		if (!be.getConnection(side).isOutput()) {
 			return ItemStack.EMPTY;
 		}
@@ -85,8 +85,8 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 				new ItemStack(stack.getItem(), Math.min(be.getRate(), stack.getCount())), simulate);
 	}
 
-	protected void insertEqually(ItemConduitBlockEntity be, Direction side,
-			List<ItemConduitBlockEntity.Connection> connections, IItemHandler handler) {
+	protected void insertEqually(ConnectorBlockEntity<ItemStack, ConduitItemStorage> be, Direction side,
+			List<ConnectorBlockEntity.Connection> connections, IItemHandler handler) {
 		if (connections.isEmpty())
 			return;
 
@@ -102,7 +102,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 		for (int i = 0; i < connections.size(); i++) {
 			int index = (i + p) % connections.size();
 
-			ItemConduitBlockEntity.Connection connection = connections.get(index);
+			ConnectorBlockEntity.Connection connection = connections.get(index);
 			if (connection.getSide(be.getLevel()).isInput()) {
 				IItemHandler destination = getItemHandler(be, connection.pos().relative(connection.direction()),
 						connection.direction().getOpposite());
@@ -133,8 +133,8 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 		be.setRoundRobinIndex(side, p);
 	}
 
-	protected @NotNull ItemStack receiveEqually(ItemConduitBlockEntity be, Direction side,
-			List<ItemConduitBlockEntity.Connection> connections, ItemStack maxReceive, boolean simulate) {
+	protected @NotNull ItemStack receiveEqually(ConnectorBlockEntity<ItemStack, ConduitItemStorage> be, Direction side,
+			List<ConnectorBlockEntity.Connection> connections, ItemStack maxReceive, boolean simulate) {
 		if (connections.isEmpty() || maxReceive.getCount() <= 0 || !be.filter(side, maxReceive))
 			return ItemStack.EMPTY;
 		if (be.pushRecursion())
@@ -146,7 +146,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 		for (int i = 0; i < connections.size(); i++) {
 			int index = (i + p) % connections.size();
 
-			ItemConduitBlockEntity.Connection connection = connections.get(index);
+			ConnectorBlockEntity.Connection connection = connections.get(index);
 			if (connection.getSide(be.getLevel()).isInput()) {
 				IItemHandler destination = getItemHandler(be, connection.pos().relative(connection.direction()),
 						connection.direction().getOpposite());
@@ -181,7 +181,7 @@ public class ConduitItemStorage implements IItemHandler, IConnectorStorage<ItemS
 	}
 
 	@Nullable
-	private IItemHandler getItemHandler(ItemConduitBlockEntity be, BlockPos pos, Direction direction) {
+	private IItemHandler getItemHandler(ConnectorBlockEntity<ItemStack, ConduitItemStorage> be, BlockPos pos, Direction direction) {
 		return be.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, pos, direction);
 	}
 

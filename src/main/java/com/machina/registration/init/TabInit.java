@@ -29,9 +29,15 @@ public class TabInit {
 
 	public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINA_MACHINERY = create("machina_machinery",
 			BlockInit.FURNACE_GENERATOR, a -> {
-				add(a, BlockInit.ENERGY_CABLE);
-				add(a, BlockInit.FLUID_PIPE);
-				add(a, BlockInit.ITEM_CONDUIT);
+				add(a, BlockInit.BASIC_ENERGY_CABLE);
+				add(a, BlockInit.ADVANCED_ENERGY_CABLE);
+				add(a, BlockInit.SUPREME_ENERGY_CABLE);
+				add(a, BlockInit.BASIC_FLUID_PIPE);
+				add(a, BlockInit.ADVANCED_FLUID_PIPE);
+				add(a, BlockInit.SUPREME_FLUID_PIPE);
+				add(a, BlockInit.BASIC_ITEM_CONDUIT);
+				add(a, BlockInit.ADVANCED_ITEM_CONDUIT);
+				add(a, BlockInit.SUPREME_ITEM_CONDUIT);
 				add(a, BlockInit.STEAM_PIPE);
 
 				add(a, ItemInit.FLUID_FILTER);

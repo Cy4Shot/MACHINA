@@ -64,11 +64,23 @@ public class CapabilityRegistrar {
 		machinaBlock(event, BlockEntityInit.STEAM_TURBINE_CONTROLLER);
 		machinaBlock(event, BlockEntityInit.STEAM_TURBINE_ENERGY_PORT);
 
-		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntityInit.ENERGY_CABLE.get(),
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntityInit.BASIC_ENERGY_CABLE.get(),
 				(be, side) -> be.createStorage(side));
-		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityInit.FLUID_PIPE.get(),
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntityInit.ADVANCED_ENERGY_CABLE.get(),
 				(be, side) -> be.createStorage(side));
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityInit.ITEM_CONDUIT.get(),
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntityInit.SUPREME_ENERGY_CABLE.get(),
+				(be, side) -> be.createStorage(side));
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityInit.BASIC_FLUID_PIPE.get(),
+				(be, side) -> be.createStorage(side));
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityInit.ADVANCED_FLUID_PIPE.get(),
+				(be, side) -> be.createStorage(side));
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BlockEntityInit.SUPREME_FLUID_PIPE.get(),
+				(be, side) -> be.createStorage(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityInit.BASIC_ITEM_CONDUIT.get(),
+				(be, side) -> be.createStorage(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityInit.ADVANCED_ITEM_CONDUIT.get(),
+				(be, side) -> be.createStorage(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BlockEntityInit.SUPREME_ITEM_CONDUIT.get(),
 				(be, side) -> be.createStorage(side));
 		event.registerBlockEntity(Block.STEAM, BlockEntityInit.STEAM_PIPE.get(),
 				(be, side) -> be.createStorage(side));

@@ -6,8 +6,8 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.IConnectorStorage;
-import com.machina.block.entity.connector.EnergyCableBlockEntity;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
@@ -17,11 +17,11 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 
 public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage<Integer> {
 
-	protected final EnergyCableBlockEntity cable;
+	protected final ConnectorBlockEntity<Integer, CableEnergyStorage> cable;
 	protected final Direction side;
 	protected long lastReceived;
 
-	public CableEnergyStorage(EnergyCableBlockEntity c, Direction side) {
+	public CableEnergyStorage(ConnectorBlockEntity<Integer, CableEnergyStorage> c, Direction side) {
 		this.cable = c;
 		this.side = side;
 	}
@@ -57,15 +57,15 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage<Int
 		return true;
 	}
 
-	public int receive(EnergyCableBlockEntity be, Direction side, int amount, boolean simulate) {
+	public int receive(ConnectorBlockEntity<Integer, CableEnergyStorage> be, Direction side, int amount, boolean simulate) {
 		if (!cable.getConnection(side).isOutput()) {
 			return 0;
 		}
 		return receiveEqually(be, side, be.getSortedConnections(), Math.min(be.getRate(), amount), simulate);
 	}
 
-	protected int receiveEqually(EnergyCableBlockEntity be, Direction side,
-			List<EnergyCableBlockEntity.Connection> connections, int maxReceive, boolean simulate) {
+	protected int receiveEqually(ConnectorBlockEntity<Integer, CableEnergyStorage> be, Direction side,
+			List<ConnectorBlockEntity.Connection> connections, int maxReceive, boolean simulate) {
 		if (connections.isEmpty() || maxReceive <= 0)
 			return 0;
 		if (be.pushRecursion())
@@ -77,7 +77,7 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage<Int
 		for (int i = 0; i < connections.size(); i++) {
 			int index = (i + p) % connections.size();
 
-			EnergyCableBlockEntity.Connection connection = connections.get(index);
+			ConnectorBlockEntity.Connection connection = connections.get(index);
 			if (connection.getSide(be.getLevel()).isInput()) {
 				IEnergyStorage destination = getEnergyStorage(be, connection.pos().relative(connection.direction()),
 						connection.direction().getOpposite());
@@ -111,7 +111,7 @@ public class CableEnergyStorage implements IEnergyStorage, IConnectorStorage<Int
 	}
 
 	@Nullable
-	private IEnergyStorage getEnergyStorage(EnergyCableBlockEntity be, BlockPos pos, Direction direction) {
+	private IEnergyStorage getEnergyStorage(ConnectorBlockEntity<Integer, CableEnergyStorage> be, BlockPos pos, Direction direction) {
 		return be.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, pos, direction);
 	}
 

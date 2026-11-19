@@ -139,30 +139,80 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.showNotification(false)
 			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(ItemInit.SUPREME_CAPACITOR));
 		
-		// Cables
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ENERGY_CABLE, 8)
+		// Basic Cables
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.BASIC_ENERGY_CABLE, 8)
 			.pattern("ITI")
 			.define('T', Items.REDSTONE)
 			.define('I', ItemInit.LEAD_INGOT)
 			.unlockedBy(getHasName(ItemInit.LEAD_INGOT), has(ItemInit.LEAD_INGOT))
 			.showNotification(false)
-			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ENERGY_CABLE));
-		
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ITEM_CONDUIT, 8)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.BASIC_ENERGY_CABLE));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.BASIC_ITEM_CONDUIT, 8)
 			.pattern("ITI")
 			.define('T', Items.HOPPER)
 			.define('I', ItemInit.ALUMINUM_INGOT)
 			.unlockedBy(getHasName(ItemInit.ALUMINUM_INGOT), has(ItemInit.ALUMINUM_INGOT))
 			.showNotification(false)
-			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ITEM_CONDUIT));
-		
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.FLUID_PIPE, 8)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.BASIC_ITEM_CONDUIT));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.BASIC_FLUID_PIPE, 8)
 			.pattern("ITI")
 			.define('T', Items.BUCKET)
 			.define('I', Items.IRON_INGOT)
 			.unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
 			.showNotification(false)
-			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.FLUID_PIPE));
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.BASIC_FLUID_PIPE));
+
+		// Advanced Cables
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ADVANCED_ENERGY_CABLE, 8)
+			.pattern("ITI")
+			.define('T', BlockInit.BASIC_ENERGY_CABLE)
+			.define('I', Items.GOLD_INGOT)
+			.unlockedBy(getHasName(BlockInit.BASIC_ENERGY_CABLE), has(BlockInit.BASIC_ENERGY_CABLE))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ADVANCED_ENERGY_CABLE));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ADVANCED_ITEM_CONDUIT, 8)
+			.pattern("ITI")
+			.define('T', BlockInit.BASIC_ITEM_CONDUIT)
+			.define('I', Items.GOLD_INGOT)
+			.unlockedBy(getHasName(BlockInit.BASIC_ITEM_CONDUIT), has(BlockInit.BASIC_ITEM_CONDUIT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ADVANCED_ITEM_CONDUIT));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.ADVANCED_FLUID_PIPE, 8)
+			.pattern("ITI")
+			.define('T', BlockInit.BASIC_FLUID_PIPE)
+			.define('I', Items.GOLD_INGOT)
+			.unlockedBy(getHasName(BlockInit.BASIC_FLUID_PIPE), has(BlockInit.BASIC_FLUID_PIPE))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.ADVANCED_FLUID_PIPE));
+
+		// Supreme Cables
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.SUPREME_ENERGY_CABLE, 8)
+			.pattern("ITI")
+			.define('T', BlockInit.ADVANCED_ENERGY_CABLE)
+			.define('I', Items.DIAMOND)
+			.unlockedBy(getHasName(BlockInit.ADVANCED_ENERGY_CABLE), has(BlockInit.ADVANCED_ENERGY_CABLE))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.SUPREME_ENERGY_CABLE));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.SUPREME_ITEM_CONDUIT, 8)
+			.pattern("ITI")
+			.define('T', BlockInit.ADVANCED_ITEM_CONDUIT)
+			.define('I', Items.DIAMOND)
+			.unlockedBy(getHasName(BlockInit.ADVANCED_ITEM_CONDUIT), has(BlockInit.ADVANCED_ITEM_CONDUIT))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.SUPREME_ITEM_CONDUIT));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.SUPREME_FLUID_PIPE, 8)
+			.pattern("ITI")
+			.define('T', BlockInit.ADVANCED_FLUID_PIPE)
+			.define('I', Items.DIAMOND)
+			.unlockedBy(getHasName(BlockInit.ADVANCED_FLUID_PIPE), has(BlockInit.ADVANCED_FLUID_PIPE))
+			.showNotification(false)
+			.save(gen, Machina.MOD_ID + ":crafting_" + getItemName(BlockInit.SUPREME_FLUID_PIPE));
 		
 		// Machine
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.TANK)
@@ -180,7 +230,7 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 			.pattern("RPR")
 			.pattern("TCT")
 			.pattern("RBR")
-			.define('P', BlockInit.FLUID_PIPE)
+			.define('P', BlockInit.BASIC_FLUID_PIPE)
 			.define('T', BlockInit.TANK)
 			.define('B', ItemInit.BASIC_CAPACITOR)
 			.define('R', Items.REDSTONE)

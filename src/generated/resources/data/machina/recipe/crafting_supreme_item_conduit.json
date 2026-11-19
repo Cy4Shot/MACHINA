@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:diamond"
+    },
+    "T": {
+      "item": "machina:advanced_item_conduit"
+    }
+  },
+  "pattern": [
+    "ITI"
+  ],
+  "result": {
+    "count": 8,
+    "id": "machina:supreme_item_conduit"
+  },
+  "show_notification": false
+}

@@ -7,8 +7,8 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.machina.api.block.entity.ConnectorBlockEntity;
 import com.machina.api.cap.IConnectorStorage;
-import com.machina.block.entity.connector.FluidPipeBlockEntity;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
@@ -19,11 +19,11 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidStack> {
 
-	protected final FluidPipeBlockEntity pipe;
+	protected final ConnectorBlockEntity<FluidStack, PipeFluidStorage> pipe;
 	protected final Direction side;
 	protected long lastReceived;
 
-	public PipeFluidStorage(FluidPipeBlockEntity p, Direction side) {
+	public PipeFluidStorage(ConnectorBlockEntity<FluidStack, PipeFluidStorage> p, Direction side) {
 		this.pipe = p;
 		this.side = side;
 	}
@@ -70,7 +70,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 		return FluidStack.EMPTY;
 	}
 
-	public void pullFluid(FluidPipeBlockEntity be, Direction side) {
+	public void pullFluid(ConnectorBlockEntity<FluidStack, PipeFluidStorage> be, Direction side) {
 		if (!be.getConnection(side).isOutput()) {
 			return;
 		}
@@ -81,7 +81,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 		insertEqually(be, side, be.getSortedConnections(), handler);
 	}
 
-	public int receive(FluidPipeBlockEntity be, Direction side, FluidStack stack, boolean simulate) {
+	public int receive(ConnectorBlockEntity<FluidStack, PipeFluidStorage> be, Direction side, FluidStack stack, boolean simulate) {
 		if (!be.getConnection(side).isOutput()) {
 			return 0;
 		}
@@ -89,8 +89,8 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 				new FluidStack(stack.getFluid(), Math.min(be.getRate(), stack.getAmount())), simulate);
 	}
 
-	protected void insertEqually(FluidPipeBlockEntity be, Direction side,
-			List<FluidPipeBlockEntity.Connection> connections, IFluidHandler handler) {
+	protected void insertEqually(ConnectorBlockEntity<FluidStack, PipeFluidStorage> be, Direction side,
+			List<ConnectorBlockEntity.Connection> connections, IFluidHandler handler) {
 		if (connections.isEmpty())
 			return;
 
@@ -106,7 +106,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 		for (int i = 0; i < connections.size(); i++) {
 			int index = (i + p) % connections.size();
 
-			FluidPipeBlockEntity.Connection connection = connections.get(index);
+			ConnectorBlockEntity.Connection connection = connections.get(index);
 			if (connection.getSide(be.getLevel()).isInput()) {
 				IFluidHandler destination = getFluidHandler(be, connection.pos().relative(connection.direction()),
 						connection.direction().getOpposite());
@@ -137,8 +137,8 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 		be.setRoundRobinIndex(side, p);
 	}
 
-	protected int receiveEqually(FluidPipeBlockEntity be, Direction side,
-			List<FluidPipeBlockEntity.Connection> connections, FluidStack maxReceive, boolean simulate) {
+	protected int receiveEqually(ConnectorBlockEntity<FluidStack, PipeFluidStorage> be, Direction side,
+			List<ConnectorBlockEntity.Connection> connections, FluidStack maxReceive, boolean simulate) {
 		if (connections.isEmpty() || maxReceive.getAmount() <= 0 || !be.filter(side, maxReceive))
 			return 0;
 		if (be.pushRecursion())
@@ -150,7 +150,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 		for (int i = 0; i < connections.size(); i++) {
 			int index = (i + p) % connections.size();
 
-			FluidPipeBlockEntity.Connection connection = connections.get(index);
+			ConnectorBlockEntity.Connection connection = connections.get(index);
 			if (connection.getSide(be.getLevel()).isInput()) {
 				IFluidHandler destination = getFluidHandler(be, connection.pos().relative(connection.direction()),
 						connection.direction().getOpposite());
@@ -186,7 +186,7 @@ public class PipeFluidStorage implements IFluidHandler, IConnectorStorage<FluidS
 	}
 
 	@Nullable
-	private IFluidHandler getFluidHandler(FluidPipeBlockEntity be, BlockPos pos, Direction direction) {
+	private IFluidHandler getFluidHandler(ConnectorBlockEntity<FluidStack, PipeFluidStorage> be, BlockPos pos, Direction direction) {
 		return be.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, pos, direction);
 	}
 

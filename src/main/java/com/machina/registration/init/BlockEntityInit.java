@@ -8,10 +8,16 @@ import com.machina.block.entity.HightechTurretBlockEntity;
 import com.machina.block.entity.MachinaHangingSignBlockEntity;
 import com.machina.block.entity.MachinaSignBlockEntity;
 import com.machina.block.entity.SulfurGeyserBlockEntity;
-import com.machina.block.entity.connector.EnergyCableBlockEntity;
-import com.machina.block.entity.connector.FluidPipeBlockEntity;
-import com.machina.block.entity.connector.ItemConduitBlockEntity;
+import com.machina.block.entity.connector.AdvancedEnergyCableBlockEntity;
+import com.machina.block.entity.connector.AdvancedFluidPipeBlockEntity;
+import com.machina.block.entity.connector.AdvancedItemConduitBlockEntity;
+import com.machina.block.entity.connector.BasicEnergyCableBlockEntity;
+import com.machina.block.entity.connector.BasicFluidPipeBlockEntity;
+import com.machina.block.entity.connector.BasicItemConduitBlockEntity;
 import com.machina.block.entity.connector.SteamPipeBlockEntity;
+import com.machina.block.entity.connector.SupremeEnergyCableBlockEntity;
+import com.machina.block.entity.connector.SupremeFluidPipeBlockEntity;
+import com.machina.block.entity.connector.SupremeItemConduitBlockEntity;
 import com.machina.block.entity.machine.AtmosphericSeparatorBlockEntity;
 import com.machina.block.entity.machine.BatteryBlockEntity;
 import com.machina.block.entity.machine.ChemicalGeneratorBlockEntity;
@@ -57,12 +63,24 @@ public class BlockEntityInit {
 			.create(Registries.BLOCK_ENTITY_TYPE, Machina.MOD_ID);
 
 	//@formatter:off
-	public static final Supplier<BlockEntityType<ItemConduitBlockEntity>> ITEM_CONDUIT
-		= register("item_conduit", ItemConduitBlockEntity::new, BlockInit.ITEM_CONDUIT::get);
-	public static final Supplier<BlockEntityType<EnergyCableBlockEntity>> ENERGY_CABLE
-		= register("energy_cable", EnergyCableBlockEntity::new, BlockInit.ENERGY_CABLE::get);
-	public static final Supplier<BlockEntityType<FluidPipeBlockEntity>> FLUID_PIPE
-		= register("fluid_pipe",FluidPipeBlockEntity::new, BlockInit.FLUID_PIPE::get);
+	public static final Supplier<BlockEntityType<BasicItemConduitBlockEntity>> BASIC_ITEM_CONDUIT
+		= register("basic_item_conduit", BasicItemConduitBlockEntity::new, BlockInit.BASIC_ITEM_CONDUIT::get);
+	public static final Supplier<BlockEntityType<AdvancedItemConduitBlockEntity>> ADVANCED_ITEM_CONDUIT
+		= register("advanced_item_conduit", AdvancedItemConduitBlockEntity::new, BlockInit.ADVANCED_ITEM_CONDUIT::get);
+	public static final Supplier<BlockEntityType<SupremeItemConduitBlockEntity>> SUPREME_ITEM_CONDUIT
+		= register("supreme_item_conduit", SupremeItemConduitBlockEntity::new, BlockInit.SUPREME_ITEM_CONDUIT::get);
+	public static final Supplier<BlockEntityType<BasicEnergyCableBlockEntity>> BASIC_ENERGY_CABLE
+		= register("basic_energy_cable", BasicEnergyCableBlockEntity::new, BlockInit.BASIC_ENERGY_CABLE::get);
+	public static final Supplier<BlockEntityType<AdvancedEnergyCableBlockEntity>> ADVANCED_ENERGY_CABLE
+		= register("advanced_energy_cable", AdvancedEnergyCableBlockEntity::new, BlockInit.ADVANCED_ENERGY_CABLE::get);
+	public static final Supplier<BlockEntityType<SupremeEnergyCableBlockEntity>> SUPREME_ENERGY_CABLE
+		= register("supreme_energy_cable", SupremeEnergyCableBlockEntity::new, BlockInit.SUPREME_ENERGY_CABLE::get);
+	public static final Supplier<BlockEntityType<BasicFluidPipeBlockEntity>> BASIC_FLUID_PIPE
+		= register("basic_fluid_pipe", BasicFluidPipeBlockEntity::new, BlockInit.BASIC_FLUID_PIPE::get);
+	public static final Supplier<BlockEntityType<AdvancedFluidPipeBlockEntity>> ADVANCED_FLUID_PIPE
+		= register("advanced_fluid_pipe", AdvancedFluidPipeBlockEntity::new, BlockInit.ADVANCED_FLUID_PIPE::get);
+	public static final Supplier<BlockEntityType<SupremeFluidPipeBlockEntity>> SUPREME_FLUID_PIPE
+		= register("supreme_fluid_pipe", SupremeFluidPipeBlockEntity::new, BlockInit.SUPREME_FLUID_PIPE::get);
 	public static final Supplier<BlockEntityType<SteamPipeBlockEntity>> STEAM_PIPE
 		= register("steam_pipe", SteamPipeBlockEntity::new, BlockInit.STEAM_PIPE::get);
 	public static final Supplier<BlockEntityType<BatteryBlockEntity>> BATTERY

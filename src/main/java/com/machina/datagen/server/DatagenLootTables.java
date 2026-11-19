@@ -47,9 +47,15 @@ public class DatagenLootTables extends BlockLootSubProvider {
 
 	@Override
 	protected void generate() {
-		dropSelf(BlockInit.ENERGY_CABLE.get());
-		dropSelf(BlockInit.FLUID_PIPE.get());
-		dropSelf(BlockInit.ITEM_CONDUIT.get());
+		dropSelf(BlockInit.BASIC_ENERGY_CABLE.get());
+		dropSelf(BlockInit.ADVANCED_ENERGY_CABLE.get());
+		dropSelf(BlockInit.SUPREME_ENERGY_CABLE.get());
+		dropSelf(BlockInit.BASIC_FLUID_PIPE.get());
+		dropSelf(BlockInit.ADVANCED_FLUID_PIPE.get());
+		dropSelf(BlockInit.SUPREME_FLUID_PIPE.get());
+		dropSelf(BlockInit.BASIC_ITEM_CONDUIT.get());
+		dropSelf(BlockInit.ADVANCED_ITEM_CONDUIT.get());
+		dropSelf(BlockInit.SUPREME_ITEM_CONDUIT.get());
 		dropSelf(BlockInit.STEAM_PIPE.get());
 
 		dropSelf(BlockInit.BASIC_CASING.get());

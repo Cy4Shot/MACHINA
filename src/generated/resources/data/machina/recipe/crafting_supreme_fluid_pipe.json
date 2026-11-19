@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:diamond"
+    },
+    "T": {
+      "item": "machina:advanced_fluid_pipe"
+    }
+  },
+  "pattern": [
+    "ITI"
+  ],
+  "result": {
+    "count": 8,
+    "id": "machina:supreme_fluid_pipe"
+  },
+  "show_notification": false
+}

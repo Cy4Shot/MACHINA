@@ -1,0 +1,19 @@
+{
+  "athena:loader": "athena:ctm",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:steam_turbine_ctm"
+  },
+  "ctm_textures": {
+    "center": "machina:block/ctm/steam_turbine_controller/c",
+    "empty": "machina:block/ctm/steam_turbine_controller/e",
+    "horizontal": "machina:block/ctm/steam_turbine_controller/h",
+    "particle": "machina:block/steam_turbine_controller",
+    "vertical": "machina:block/ctm/steam_turbine_controller/v"
+  },
+  "variants": {
+    "": {
+      "model": "machina:block/steam_turbine_controller"
+    }
+  }
+}

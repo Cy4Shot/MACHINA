@@ -42,7 +42,9 @@ public class DatagenBlockTags extends BlockTagsProvider {
 	protected void addTags(@NotNull Provider pProvider) {
 
 		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(BlockInit.BASIC_CASING.get(), BlockInit.LIGHTWEIGHT_CASING.get(),
-				BlockInit.ITEM_CONDUIT.get(), BlockInit.ENERGY_CABLE.get(), BlockInit.FLUID_PIPE.get(),
+				BlockInit.BASIC_ITEM_CONDUIT.get(), BlockInit.ADVANCED_ITEM_CONDUIT.get(), BlockInit.SUPREME_ITEM_CONDUIT.get(),
+				BlockInit.BASIC_ENERGY_CABLE.get(), BlockInit.ADVANCED_ENERGY_CABLE.get(), BlockInit.SUPREME_ENERGY_CABLE.get(),
+				BlockInit.BASIC_FLUID_PIPE.get(), BlockInit.ADVANCED_FLUID_PIPE.get(), BlockInit.SUPREME_FLUID_PIPE.get(),
 				BlockInit.BATTERY.get(), BlockInit.TANK.get(), BlockInit.CREATIVE_BATTERY.get(),
 				BlockInit.FURNACE_GENERATOR.get(), BlockInit.CHEMICAL_GENERATOR.get(), BlockInit.ELECTRIC_SMELTER.get(),
 				BlockInit.GRINDER.get(), BlockInit.COMPRESSOR.get(), BlockInit.MELTER.get(), BlockInit.SOLIDIFIER.get(),
