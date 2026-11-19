@@ -1,0 +1,19 @@
+{
+  "athena:loader": "athena:ctm",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:steam_turbine_glass_ctm"
+  },
+  "ctm_textures": {
+    "center": "machina:block/ctm/steam_turbine_glass/c",
+    "empty": "machina:block/ctm/steam_turbine_glass/e",
+    "horizontal": "machina:block/ctm/steam_turbine_glass/h",
+    "particle": "machina:block/steam_turbine_glass",
+    "vertical": "machina:block/ctm/steam_turbine_glass/v"
+  },
+  "variants": {
+    "": {
+      "model": "machina:block/steam_turbine_glass"
+    }
+  }
+}

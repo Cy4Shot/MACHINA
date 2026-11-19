@@ -1,8 +1,8 @@
 {
 	"size": [
-		3,
-		3,
-		3
+		5,
+		7,
+		5
 	],
 	"controller": "machina:steam_turbine_controller",
 	"blocks": {
@@ -10,6 +10,18 @@
 			"machina:steam_turbine_casing",
 			"machina:steam_turbine_energy_port",
 			"machina:steam_turbine_steam_port"
+		],
+		"g": [
+			"machina:steam_turbine_glass",
+			"machina:steam_turbine_casing",
+			"machina:steam_turbine_energy_port",
+			"machina:steam_turbine_steam_port"
+		],
+		"B": [
+			"machina:steam_turbine_blade"
+		],
+		"A": [
+			"machina:steam_turbine_blade_assembly"
 		],
 		"?": [
 			"machina:steam_turbine_casing",
@@ -19,19 +31,53 @@
 	},
 	"structure": [
 		[
-			"CCC",
-			"CCC",
-			"CCC"
+			"CCCCC",
+			"CgggC",
+			"CgAgC",
+			"CgggC",
+			"CCCCC"
 		],
 		[
-			"CCC",
-			"C C",
-			"CCC"
+			"CgggC",
+			"g   g",
+			"g B g",
+			"g   g",
+			"CgggC"
 		],
 		[
-			"CCC",
-			"C!C",
-			"CCC"
+			"CgggC",
+			"g   g",
+			"g B g",
+			"g   g",
+			"CgggC"
+		],
+		[
+			"CgggC",
+			"g   g",
+			"g B g",
+			"g   g",
+			"CgggC"
+		],
+		[
+			"CgggC",
+			"g   g",
+			"g B g",
+			"g   g",
+			"Cg!gC"
+		],
+		[
+			"CgggC",
+			"g   g",
+			"g B g",
+			"g   g",
+			"CgggC"
+		],
+		[
+			"CCCCC",
+			"CCCCC",
+			"CCACC",
+			"CCCCC",
+			"CCCCC"
 		]
 	]
 }

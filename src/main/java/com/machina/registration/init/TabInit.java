@@ -78,6 +78,9 @@ public class TabInit {
 				add(a, BlockInit.STEAM_TURBINE_CASING);
 				add(a, BlockInit.STEAM_TURBINE_ENERGY_PORT);
 				add(a, BlockInit.STEAM_TURBINE_STEAM_PORT);
+				add(a, BlockInit.STEAM_TURBINE_GLASS);
+				add(a, BlockInit.STEAM_TURBINE_BLADE);
+				add(a, BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY);
 
 				add(a, BlockInit.CREATIVE_BATTERY);
 

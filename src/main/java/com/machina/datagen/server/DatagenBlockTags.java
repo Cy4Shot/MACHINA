@@ -57,7 +57,10 @@ public class DatagenBlockTags extends BlockTagsProvider {
 				BlockInit.FISSION_REACTOR_GLASS.get(), BlockInit.FISSION_FUEL_ROD.get(),
 				BlockInit.FISSION_FUEL_ROD_ASSEMBLY.get(), BlockInit.FISSION_REACTOR_ITEM_PORT.get(),
 				BlockInit.FISSION_REACTOR_WATER_PORT.get(), BlockInit.FISSION_REACTOR_STEAM_PORT.get(),
-				BlockInit.FISSION_REACTOR_ENERGY_PORT.get());
+				BlockInit.FISSION_REACTOR_ENERGY_PORT.get(), BlockInit.STEAM_TURBINE_CONTROLLER.get(),
+				BlockInit.STEAM_TURBINE_CASING.get(), BlockInit.STEAM_TURBINE_ENERGY_PORT.get(),
+				BlockInit.STEAM_TURBINE_STEAM_PORT.get(), BlockInit.STEAM_TURBINE_GLASS.get(),
+				BlockInit.STEAM_TURBINE_BLADE.get(), BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY.get());
 
 		smallFlower(BlockInit.SPRUCE_CUP, BlockInit.POTTED_SPRUCE_CUP);
 		smallFlower(BlockInit.PURPLE_GLOWSHROOM, BlockInit.POTTED_PURPLE_GLOWSHROOM);
@@ -114,6 +117,7 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		tag(BlockTagInit.STEAM_TURBINE_CTM).add(BlockInit.STEAM_TURBINE_CONTROLLER.get(),
 				BlockInit.STEAM_TURBINE_CASING.get(), BlockInit.STEAM_TURBINE_ENERGY_PORT.get(),
 				BlockInit.STEAM_TURBINE_STEAM_PORT.get());
+		tag(BlockTagInit.STEAM_TURBINE_GLASS_CTM).add(BlockInit.STEAM_TURBINE_GLASS.get());
 
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);

@@ -112,6 +112,9 @@ public class DatagenBlockStates extends BlockStateProvider {
 		ctm(BlockInit.STEAM_TURBINE_CASING, BlockTagInit.STEAM_TURBINE_CTM);
 		ctm(BlockInit.STEAM_TURBINE_ENERGY_PORT, BlockTagInit.STEAM_TURBINE_CTM);
 		ctm(BlockInit.STEAM_TURBINE_STEAM_PORT, BlockTagInit.STEAM_TURBINE_CTM);
+		ctm(BlockInit.STEAM_TURBINE_GLASS, BlockTagInit.STEAM_TURBINE_GLASS_CTM);
+		invisible(BlockInit.STEAM_TURBINE_BLADE);
+		cube(BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY);
 
 		cube(BlockInit.BROWN_MUSHROOM_STALK);
 		cube(BlockInit.GREEN_MUSHROOM_STALK);
@@ -710,5 +713,13 @@ public class DatagenBlockStates extends BlockStateProvider {
 			registeredBlocks.put(b, ret);
 			return ret;
 		}
+	}
+
+	private void invisible(DeferredBlock<? extends Block> block) {
+		Block b = block.get();
+		// Invisible model but with particle texture for breaking effects
+		simpleBlock(b, models().getBuilder(name(b)).texture("particle", itemTexture(b)));
+		// Item uses flat texture
+		simpleFlatItem(b, itemTexture(b));
 	}
 }

@@ -50,6 +50,9 @@ import com.machina.block.entity.machine.geothermal_generator.GeothermalGenerator
 import com.machina.block.entity.machine.steam_turbine.SteamTurbineControllerBlockEntity;
 import com.machina.block.entity.machine.steam_turbine.SteamTurbineEnergyPortBlockEntity;
 import com.machina.block.entity.machine.steam_turbine.SteamTurbinePartBlockEntity;
+import com.machina.block.entity.machine.steam_turbine.SteamTurbineBladeAssemblyBlockEntity;
+import com.machina.block.entity.machine.steam_turbine.SteamTurbineBladeBlockEntity;
+import com.machina.block.entity.machine.steam_turbine.SteamTurbineGlassBlockEntity;
 import com.machina.block.entity.machine.steam_turbine.SteamTurbineSteamPortBlockEntity;
 
 import net.minecraft.core.registries.Registries;
@@ -151,6 +154,12 @@ public class BlockEntityInit {
 		= register("steam_turbine_energy_port", SteamTurbineEnergyPortBlockEntity::new, BlockInit.STEAM_TURBINE_ENERGY_PORT::get);
 	public static final Supplier<BlockEntityType<SteamTurbineSteamPortBlockEntity>> STEAM_TURBINE_STEAM_PORT
 		= register("steam_turbine_steam_port", SteamTurbineSteamPortBlockEntity::new, BlockInit.STEAM_TURBINE_STEAM_PORT::get);
+	public static final Supplier<BlockEntityType<SteamTurbineGlassBlockEntity>> STEAM_TURBINE_GLASS
+		= register("steam_turbine_glass", SteamTurbineGlassBlockEntity::new, BlockInit.STEAM_TURBINE_GLASS::get);
+	public static final Supplier<BlockEntityType<SteamTurbineBladeBlockEntity>> STEAM_TURBINE_BLADE
+		= register("steam_turbine_blade", SteamTurbineBladeBlockEntity::new, BlockInit.STEAM_TURBINE_BLADE::get);
+	public static final Supplier<BlockEntityType<SteamTurbineBladeAssemblyBlockEntity>> STEAM_TURBINE_BLADE_ASSEMBLY
+		= register("steam_turbine_blade_assembly", SteamTurbineBladeAssemblyBlockEntity::new, BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY::get);
 	public static final Supplier<BlockEntityType<FissionFuelRodBlockEntity>> FISSION_FUEL_ROD
 		= register("fission_fuel_rod", FissionFuelRodBlockEntity::new, BlockInit.FISSION_FUEL_ROD::get);
 	public static final Supplier<BlockEntityType<FissionFuelRodAssemblyBlockEntity>> FISSION_FUEL_ROD_ASSEMBLY

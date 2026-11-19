@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-19T13:12:07.1806287	Tags for minecraft:block mod id machina
+// 1.21.1	2026-11-19T14:50:45.4371696	Tags for minecraft:block mod id machina
 cfa55b4a585a33cf6c1b6083f7bdc69d262fe032 data/c/tags/block/buttons.json
 eaa914dd57257b2be31c39b5afcebf6df64e2b0e data/c/tags/block/buttons/acacia.json
 5085dd7e2458679d2151f7254d3c0b9084327e06 data/c/tags/block/buttons/birch.json
@@ -361,6 +361,7 @@ b15773c2d09402e1da730bbaff7439d2106e1e11 data/machina/tags/block/fission_fuel_ro
 34ddf1e6b7e7f6f128ea38fd60586d37ace2bf8d data/machina/tags/block/geothermal_generator_ctm.json
 b63fd2f5c2b417ec13d7205a71c4971872ca4a37 data/machina/tags/block/planet_carvable.json
 67c7d4d78d40f51a2bb5f2ae5c6cc209471be57b data/machina/tags/block/steam_turbine_ctm.json
+df9a6db03136462bc6337022e4b87565ec9616e3 data/machina/tags/block/steam_turbine_glass_ctm.json
 bc165a83fc99c46491057fc684e43b9c8bfe2ba1 data/minecraft/tags/block/all_hanging_signs.json
 7c44ea88f327b4a2f349864841d9969230973907 data/minecraft/tags/block/all_signs.json
 a36c9095d6197703b3c4c15c98f8854ca11e74ff data/minecraft/tags/block/buttons.json
@@ -375,7 +376,7 @@ eef61f837574a4ea72c85476d3532ca48f2ee8bf data/minecraft/tags/block/flower_pots.j
 c75145b8820239ba5fb4cb234ffe47c44621aa8e data/minecraft/tags/block/logs.json
 85d4bfabb2b3520ad485a7e89fa06e50cdb47a1f data/minecraft/tags/block/mineable/axe.json
 0bdcdb54139eda50bedbbebda275b62117bab2cc data/minecraft/tags/block/mineable/hoe.json
-50d40fcc288ca9edf7fe4585b50bb62bc9c73326 data/minecraft/tags/block/mineable/pickaxe.json
+87738d85c98f587b558ee7ef7df9c833ecadc0a9 data/minecraft/tags/block/mineable/pickaxe.json
 94fd528ebaafabd9e548a40727d08f4dd471e10f data/minecraft/tags/block/mineable/shovel.json
 6ac3bd738a4a0a93b74aa416ea7039fb121fc56b data/minecraft/tags/block/overworld_carver_replaceables.json
 13d63356d22c85d569e80af14281d00dec2d8dce data/minecraft/tags/block/planks.json

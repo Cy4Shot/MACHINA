@@ -11,6 +11,7 @@ import com.machina.api.util.MachinaRL;
 import com.machina.api.util.reflect.ClassHelper;
 import com.machina.client.PlanetSpecialEffects;
 import com.machina.client.ber.FissionFuelRodAssemblyRenderer;
+import com.machina.client.ber.SteamTurbineBladeRenderer;
 import com.machina.client.ber.HightechTurretRenderer;
 import com.machina.client.ber.RocketPartBenchRenderer;
 import com.machina.client.ber.TankRenderer;
@@ -108,6 +109,7 @@ public class ClientModEvents {
 		// CTM blocks must use deprecated method to set render layer
 		ItemBlockRenderTypes.setRenderLayer(BlockInit.FISSION_REACTOR_GLASS.get(), RenderType.TRANSLUCENT);
 		ItemBlockRenderTypes.setRenderLayer(BlockInit.FISSION_FUEL_ROD.get(), RenderType.CUTOUT);
+		ItemBlockRenderTypes.setRenderLayer(BlockInit.STEAM_TURBINE_GLASS.get(), RenderType.TRANSLUCENT);
 
 		RocketPartModels.register(RocketPartInit.SIMPLE_CHASSIS.get(), SimpleChassisModel::new);
 		RocketPartModels.register(RocketPartInit.ADVANCED_CHASSIS.get(), AdvancedChassisModel::new);
@@ -166,6 +168,8 @@ public class ClientModEvents {
 		event.registerBlockEntityRenderer(BlockEntityInit.ROCKET_PART_BENCH.get(), RocketPartBenchRenderer::new);
 		event.registerBlockEntityRenderer(BlockEntityInit.FISSION_FUEL_ROD_ASSEMBLY.get(),
 				FissionFuelRodAssemblyRenderer::new);
+		event.registerBlockEntityRenderer(BlockEntityInit.STEAM_TURBINE_BLADE.get(),
+				SteamTurbineBladeRenderer::new);
 		event.registerBlockEntityRenderer(BlockEntityInit.HIGHTECH_TURRET.get(), HightechTurretRenderer::new);
 	}
 

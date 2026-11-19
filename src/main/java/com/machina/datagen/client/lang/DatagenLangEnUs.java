@@ -318,6 +318,9 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.STEAM_TURBINE_CASING, "Steam Turbine Casing");
 		add(BlockInit.STEAM_TURBINE_ENERGY_PORT, "Steam Turbine Energy Port");
 		add(BlockInit.STEAM_TURBINE_STEAM_PORT, "Steam Turbine Steam Port");
+		add(BlockInit.STEAM_TURBINE_GLASS, "Steam Turbine Glass");
+		add(BlockInit.STEAM_TURBINE_BLADE, "Steam Turbine Blade");
+		add(BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY, "Steam Turbine Blade Assembly");
 
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");

@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-19T13:12:07.1546295	Loot Tables
+// 1.21.1	2026-11-19T14:50:45.4256533	Loot Tables
 9c69a81d87f9d2efa09100515a3bd0e62742e303 data/machina/loot_table/blocks/advanced_energy_cable.json
 d41415b3bf5044ae5d4ae9dafa59d10fd34abf7a data/machina/loot_table/blocks/advanced_fluid_pipe.json
 4dbdee8b229405b9eb5535c30170a5bd30750bbb data/machina/loot_table/blocks/advanced_item_conduit.json
@@ -743,9 +743,12 @@ d68ca3959b8b1c29acfd84f304b05b437b634a82 data/machina/loot_table/blocks/speckled
 26dd01995459156cca75b596825812f62cdb80f2 data/machina/loot_table/blocks/spindlesprout.json
 e0197a12fac9915ef6cf16917896158ad6d404fb data/machina/loot_table/blocks/spruce_cup.json
 87312745a0fe57a727f4ebe6d938f5ed88f86e5a data/machina/loot_table/blocks/steam_pipe.json
+cba30d60350780e7b0082a768891c321625c3925 data/machina/loot_table/blocks/steam_turbine_blade.json
+78e5c1362b7ef238dc45d6943c16d8a90a73ba89 data/machina/loot_table/blocks/steam_turbine_blade_assembly.json
 e2c0d4c8483a4b7f0c9674d410096c04a216178f data/machina/loot_table/blocks/steam_turbine_casing.json
 7b7e5102eb1dd38c41840c5d366b10d42943eac2 data/machina/loot_table/blocks/steam_turbine_controller.json
 be51c8cf2a977de06804b94bb1418871cad97de8 data/machina/loot_table/blocks/steam_turbine_energy_port.json
+dbf7b0a5f0c38ee9f278faab67cf4acfe45e862b data/machina/loot_table/blocks/steam_turbine_glass.json
 5978103eb5fb898feee7ea02708f84fb3aea37e8 data/machina/loot_table/blocks/steam_turbine_steam_port.json
 1020ae0efcf63db586a40d026d0840bd9f030307 data/machina/loot_table/blocks/steel_block.json
 542f1fe5565cbb53825f9e1b049760a4cd38ac35 data/machina/loot_table/blocks/stone_aluminum_ore.json
