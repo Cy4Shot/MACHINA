@@ -60,6 +60,10 @@ import com.machina.block.machine.fission_reactor.FissionReactorWaterPortBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalGeneratorCasingBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalGeneratorControllerBlock;
 import com.machina.block.machine.geothermal_generator.GeothermalSupportRodBlock;
+import com.machina.block.machine.steam_turbine.SteamTurbineCasingBlock;
+import com.machina.block.machine.steam_turbine.SteamTurbineControllerBlock;
+import com.machina.block.machine.steam_turbine.SteamTurbineEnergyPortBlock;
+import com.machina.block.machine.steam_turbine.SteamTurbineSteamPortBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -150,6 +154,12 @@ public class BlockInit {
 	public static final DeferredBlock<FissionReactorItemPortBlock> FISSION_REACTOR_ITEM_PORT = register("fission_reactor_item_port", Blocks.IRON_BLOCK, FissionReactorItemPortBlock::new);
 	public static final DeferredBlock<FissionReactorWaterPortBlock> FISSION_REACTOR_WATER_PORT = register("fission_reactor_water_port", Blocks.IRON_BLOCK, FissionReactorWaterPortBlock::new);
 	public static final DeferredBlock<FissionReactorSteamPortBlock> FISSION_REACTOR_STEAM_PORT = register("fission_reactor_steam_port", Blocks.IRON_BLOCK, FissionReactorSteamPortBlock::new);
+
+	// Steam Turbine
+	public static final DeferredBlock<SteamTurbineControllerBlock> STEAM_TURBINE_CONTROLLER = register("steam_turbine_controller", Blocks.IRON_BLOCK, SteamTurbineControllerBlock::new);
+	public static final DeferredBlock<SteamTurbineCasingBlock> STEAM_TURBINE_CASING = register("steam_turbine_casing", Blocks.IRON_BLOCK, SteamTurbineCasingBlock::new);
+	public static final DeferredBlock<SteamTurbineEnergyPortBlock> STEAM_TURBINE_ENERGY_PORT = register("steam_turbine_energy_port", Blocks.IRON_BLOCK, SteamTurbineEnergyPortBlock::new);
+	public static final DeferredBlock<SteamTurbineSteamPortBlock> STEAM_TURBINE_STEAM_PORT = register("steam_turbine_steam_port", Blocks.IRON_BLOCK, SteamTurbineSteamPortBlock::new);
 
 	// Misc
 	public static final DeferredBlock<HightechTurretBlock> HIGHTECH_TURRET = register("hightech_turret", Blocks.IRON_BLOCK, HightechTurretBlock::new);

@@ -87,6 +87,11 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.FISSION_REACTOR_WATER_PORT.get());
 		dropSelf(BlockInit.FISSION_REACTOR_STEAM_PORT.get());
 
+		dropSelf(BlockInit.STEAM_TURBINE_CONTROLLER.get());
+		dropSelf(BlockInit.STEAM_TURBINE_CASING.get());
+		dropSelf(BlockInit.STEAM_TURBINE_ENERGY_PORT.get());
+		dropSelf(BlockInit.STEAM_TURBINE_STEAM_PORT.get());
+
 		dropSelf(BlockInit.BROWN_MUSHROOM_STALK.get());
 		dropSelf(BlockInit.GREEN_MUSHROOM_STALK.get());
 		dropSelf(BlockInit.PURPLE_MUSHROOM_STALK.get());

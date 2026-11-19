@@ -102,6 +102,11 @@ public class DatagenBlockStates extends BlockStateProvider {
 		ctm(BlockInit.FISSION_REACTOR_GLASS, BlockTagInit.FISSION_REACTOR_GLASS_CTM);
 		ctmLayeredRod(BlockInit.FISSION_FUEL_ROD, BlockTagInit.FISSION_FUEL_ROD_CTM);
 
+		ctm(BlockInit.STEAM_TURBINE_CONTROLLER, BlockTagInit.STEAM_TURBINE_CTM);
+		ctm(BlockInit.STEAM_TURBINE_CASING, BlockTagInit.STEAM_TURBINE_CTM);
+		ctm(BlockInit.STEAM_TURBINE_ENERGY_PORT, BlockTagInit.STEAM_TURBINE_CTM);
+		ctm(BlockInit.STEAM_TURBINE_STEAM_PORT, BlockTagInit.STEAM_TURBINE_CTM);
+
 		cube(BlockInit.BROWN_MUSHROOM_STALK);
 		cube(BlockInit.GREEN_MUSHROOM_STALK);
 		cube(BlockInit.PURPLE_MUSHROOM_STALK);

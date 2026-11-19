@@ -47,6 +47,7 @@ import com.machina.client.screen.menu.RocketPartBenchScreen;
 import com.machina.client.screen.menu.RocketRefuelingStationScreen;
 import com.machina.client.screen.menu.SawmillScreen;
 import com.machina.client.screen.menu.SolidifierScreen;
+import com.machina.client.screen.menu.SteamTurbineScreen;
 import com.machina.client.screen.menu.TankScreen;
 import com.machina.client.screen.menu.connector.FluidPipeScreen;
 import com.machina.client.screen.menu.connector.ItemConduitScreen;
@@ -156,6 +157,7 @@ public class ClientModEvents {
 		event.register(MenuTypeInit.ROCKET_REFUELING_STATION.get(), RocketRefuelingStationScreen::new);
 		event.register(MenuTypeInit.GEOTHERMAL_GENERATOR.get(), GeothermalGeneratorScreen::new);
 		event.register(MenuTypeInit.FISSION_REACTOR.get(), FissionReactorScreen::new);
+		event.register(MenuTypeInit.STEAM_TURBINE.get(), SteamTurbineScreen::new);
 	}
 
 	@SubscribeEvent

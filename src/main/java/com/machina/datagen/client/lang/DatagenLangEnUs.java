@@ -308,6 +308,11 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.FISSION_REACTOR_STEAM_PORT, "Fission Reactor Steam Port");
 		add(BlockInit.FISSION_REACTOR_ITEM_PORT, "Fission Reactor Item Port");
 
+		add(BlockInit.STEAM_TURBINE_CONTROLLER, "Steam Turbine Controller");
+		add(BlockInit.STEAM_TURBINE_CASING, "Steam Turbine Casing");
+		add(BlockInit.STEAM_TURBINE_ENERGY_PORT, "Steam Turbine Energy Port");
+		add(BlockInit.STEAM_TURBINE_STEAM_PORT, "Steam Turbine Steam Port");
+
 		add(BlockInit.RAW_ALUMINUM_BLOCK, "Raw Aluminum Block");
 		add(BlockInit.RAW_NICKEL_BLOCK, "Raw Nickel Block");
 		add(BlockInit.RAW_LEAD_BLOCK, "Raw Lead Block");
@@ -1063,6 +1068,19 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("fission.meltdown_timer_rods", "%ds - Insert rods!");
 		addUI("fission.meltdown_timer_water", "%ds - Add water!");
 		addUI("fission.meltdown_tooltip", "MELTDOWN IN %d SECONDS!");
+
+		// Steam Turbine
+		addUI("turbine.not_formed", "Turbine Not Formed");
+		addUI("turbine.build_structure", "Build the 3x3x3 structure");
+		addUI("turbine.status.idle", "IDLE");
+		addUI("turbine.status.starting", "SPINNING UP...");
+		addUI("turbine.status.running", "RUNNING");
+		addUI("turbine.steam_input", "Steam Input");
+		addUI("turbine.steam_rate_tooltip", "Steam Rate: %d mB/t");
+		addUI("turbine.energy_stored", "Energy Stored");
+		addUI("turbine.energy_tooltip", "Energy: %s / %s");
+		addUI("turbine.efficiency", "Efficiency");
+		addUI("turbine.efficiency_tooltip", "Current Efficiency: %s");
 
 		addUI("rocket.tab.info", "Info");
 		addUI("rocket.info.mass", "Mass");

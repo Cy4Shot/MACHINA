@@ -12,7 +12,10 @@ import com.machina.registration.init.MultiblockInit;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import com.machina.registration.CapabilityRegistrar;
+
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -209,7 +212,35 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 			break;
 		}
 
+		if (currentSteamRate > 0) {
+			pushSteamThroughPorts();
+		}
+
 		super.tick();
+	}
+
+	private void pushSteamThroughPorts() {
+		int steamToOutput = currentSteamRate;
+
+		for (BlockPos partPos : parts) {
+			if (level.getBlockEntity(partPos) instanceof FissionReactorSteamPortBlockEntity) {
+				for (Direction dir : Direction.values()) {
+					BlockPos adjacent = partPos.relative(dir);
+
+					if (parts.contains(adjacent) || adjacent.equals(worldPosition)) {
+						continue;
+					}
+
+					ISteamHandler handler = level.getCapability(CapabilityRegistrar.Block.STEAM, adjacent, dir.getOpposite());
+					if (handler != null && handler.canReceive()) {
+						int sent = handler.receiveSteam(steamToOutput, false);
+						if (sent > 0) {
+							return;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private void handleIdleState() {

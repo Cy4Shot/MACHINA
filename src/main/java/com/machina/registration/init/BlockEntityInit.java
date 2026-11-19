@@ -41,6 +41,10 @@ import com.machina.block.entity.machine.fission_reactor.FissionReactorSteamPortB
 import com.machina.block.entity.machine.fission_reactor.FissionReactorWaterPortBlockEntity;
 import com.machina.block.entity.machine.geothermal_generator.GeothermalGeneratorControllerBlockEntity;
 import com.machina.block.entity.machine.geothermal_generator.GeothermalGeneratorPartBlockEntity;
+import com.machina.block.entity.machine.steam_turbine.SteamTurbineControllerBlockEntity;
+import com.machina.block.entity.machine.steam_turbine.SteamTurbineEnergyPortBlockEntity;
+import com.machina.block.entity.machine.steam_turbine.SteamTurbinePartBlockEntity;
+import com.machina.block.entity.machine.steam_turbine.SteamTurbineSteamPortBlockEntity;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -119,6 +123,16 @@ public class BlockEntityInit {
 		= register("fission_reactor_water_port", FissionReactorWaterPortBlockEntity::new, BlockInit.FISSION_REACTOR_WATER_PORT::get);
 	public static final Supplier<BlockEntityType<FissionReactorSteamPortBlockEntity>> FISSION_REACTOR_STEAM_PORT
 		= register("fission_reactor_steam_port", FissionReactorSteamPortBlockEntity::new, BlockInit.FISSION_REACTOR_STEAM_PORT::get);
+
+	// Steam Turbine
+	public static final Supplier<BlockEntityType<SteamTurbineControllerBlockEntity>> STEAM_TURBINE_CONTROLLER
+		= register("steam_turbine_controller", SteamTurbineControllerBlockEntity::new, BlockInit.STEAM_TURBINE_CONTROLLER::get);
+	public static final Supplier<BlockEntityType<SteamTurbinePartBlockEntity>> STEAM_TURBINE_PART
+		= register("steam_turbine_part", SteamTurbinePartBlockEntity::new, BlockInit.STEAM_TURBINE_CASING::get);
+	public static final Supplier<BlockEntityType<SteamTurbineEnergyPortBlockEntity>> STEAM_TURBINE_ENERGY_PORT
+		= register("steam_turbine_energy_port", SteamTurbineEnergyPortBlockEntity::new, BlockInit.STEAM_TURBINE_ENERGY_PORT::get);
+	public static final Supplier<BlockEntityType<SteamTurbineSteamPortBlockEntity>> STEAM_TURBINE_STEAM_PORT
+		= register("steam_turbine_steam_port", SteamTurbineSteamPortBlockEntity::new, BlockInit.STEAM_TURBINE_STEAM_PORT::get);
 	public static final Supplier<BlockEntityType<FissionFuelRodBlockEntity>> FISSION_FUEL_ROD
 		= register("fission_fuel_rod", FissionFuelRodBlockEntity::new, BlockInit.FISSION_FUEL_ROD::get);
 	public static final Supplier<BlockEntityType<FissionFuelRodAssemblyBlockEntity>> FISSION_FUEL_ROD_ASSEMBLY

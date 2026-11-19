@@ -1,0 +1,37 @@
+{
+	"size": [
+		3,
+		3,
+		3
+	],
+	"controller": "machina:steam_turbine_controller",
+	"blocks": {
+		"C": [
+			"machina:steam_turbine_casing",
+			"machina:steam_turbine_energy_port",
+			"machina:steam_turbine_steam_port"
+		],
+		"?": [
+			"machina:steam_turbine_casing",
+			"machina:steam_turbine_energy_port",
+			"machina:steam_turbine_steam_port"
+		]
+	},
+	"structure": [
+		[
+			"CCC",
+			"CCC",
+			"CCC"
+		],
+		[
+			"CCC",
+			"C C",
+			"CCC"
+		],
+		[
+			"CCC",
+			"C!C",
+			"CCC"
+		]
+	]
+}

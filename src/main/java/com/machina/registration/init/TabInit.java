@@ -68,6 +68,11 @@ public class TabInit {
 				add(a, BlockInit.FISSION_REACTOR_WATER_PORT);
 				add(a, BlockInit.FISSION_REACTOR_STEAM_PORT);
 
+				add(a, BlockInit.STEAM_TURBINE_CONTROLLER);
+				add(a, BlockInit.STEAM_TURBINE_CASING);
+				add(a, BlockInit.STEAM_TURBINE_ENERGY_PORT);
+				add(a, BlockInit.STEAM_TURBINE_STEAM_PORT);
+
 				add(a, BlockInit.CREATIVE_BATTERY);
 
 				add(a, ItemInit.BASIC_CAPACITOR);

@@ -23,6 +23,7 @@ import com.machina.block.menu.RocketPartBenchMenu;
 import com.machina.block.menu.RocketRefuelingStationMenu;
 import com.machina.block.menu.SawmillMenu;
 import com.machina.block.menu.SolidifierMenu;
+import com.machina.block.menu.SteamTurbineMenu;
 import com.machina.block.menu.TankMenu;
 import com.machina.block.menu.connector.FluidPipeMenu;
 import com.machina.block.menu.connector.ItemConduitMenu;
@@ -98,6 +99,8 @@ public class MenuTypeInit {
             register("geothermal_generator", GeothermalGeneratorMenu::new);
 	public static final Supplier<MenuType<FissionReactorMenu>> FISSION_REACTOR =
             register("fission_reactor", FissionReactorMenu::new);
+	public static final Supplier<MenuType<SteamTurbineMenu>> STEAM_TURBINE =
+            register("steam_turbine", SteamTurbineMenu::new);
 	//@formatter:on
 
 	private static <T extends AbstractContainerMenu> Supplier<MenuType<T>> register(String n,

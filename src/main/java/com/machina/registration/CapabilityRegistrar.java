@@ -61,6 +61,8 @@ public class CapabilityRegistrar {
 		machinaBlock(event, BlockEntityInit.FISSION_REACTOR_ITEM_PORT);
 		machinaBlock(event, BlockEntityInit.FISSION_REACTOR_WATER_PORT);
 		machinaBlock(event, BlockEntityInit.FISSION_REACTOR_STEAM_PORT);
+		machinaBlock(event, BlockEntityInit.STEAM_TURBINE_CONTROLLER);
+		machinaBlock(event, BlockEntityInit.STEAM_TURBINE_ENERGY_PORT);
 
 		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, BlockEntityInit.ENERGY_CABLE.get(),
 				(be, side) -> be.createStorage(side));
@@ -74,6 +76,10 @@ public class CapabilityRegistrar {
 		// Steam Capability for reactor blocks
 		steamBlock(event, BlockEntityInit.FISSION_REACTOR_STEAM_PORT);
 		steamBlock(event, BlockEntityInit.FISSION_REACTOR_CONTROLLER);
+
+		// Steam Turbine - needs capability for pipe connection, but turbine pulls steam
+		event.registerBlockEntity(Block.STEAM, BlockEntityInit.STEAM_TURBINE_STEAM_PORT.get(),
+				(be, side) -> be.getSteamHandler());
 
 		// Item
 		ItemInit.ITEMS.getEntries().forEach(holder -> {
