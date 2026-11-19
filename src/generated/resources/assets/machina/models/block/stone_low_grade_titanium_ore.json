@@ -1,7 +1,1 @@
-{
-  "parent": "machina:block/ore",
-  "textures": {
-    "base": "minecraft:block/stone",
-    "ore": "machina:block/low_grade_titanium_ore"
-  }
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"machina:block/ore/stone_low_grade_titanium_ore"}}

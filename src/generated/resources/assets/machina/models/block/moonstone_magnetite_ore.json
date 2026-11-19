@@ -1,7 +1,1 @@
-{
-  "parent": "machina:block/ore",
-  "textures": {
-    "base": "machina:block/moonstone",
-    "ore": "machina:block/magnetite_ore"
-  }
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"machina:block/ore/moonstone_magnetite_ore"}}

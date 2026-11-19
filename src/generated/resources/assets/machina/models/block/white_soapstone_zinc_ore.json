@@ -1,7 +1,1 @@
-{
-  "parent": "machina:block/ore",
-  "textures": {
-    "base": "machina:block/white_soapstone",
-    "ore": "machina:block/zinc_ore"
-  }
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"machina:block/ore/white_soapstone_zinc_ore"}}

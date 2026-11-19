@@ -5,10 +5,13 @@ import java.util.List;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRuin;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WallSide;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 /**
@@ -52,6 +55,7 @@ public class CityGen {
 			int roadSmooth, int slopeCheck, int headroom,
 			int bridgeThreshold, int tunnelThreshold, int maxHeightDiff) {
 
+		setChunkBounds(chunkX, chunkZ);
 		ROAD_CFG.get()[0] = roadSmooth;
 		ROAD_CFG.get()[1] = slopeCheck;
 		ROAD_CFG.get()[2] = headroom;
@@ -114,6 +118,11 @@ public class CityGen {
 
 					placeRoadColumn(level, wx, wz, roadY,
 							isEdge, isPillarPos, roadBlocks, random);
+
+					// Street furniture at edges
+					if (isEdge && isPillarPos) {
+						placeStreetFurniture(level, wx, wz, roadY, random, inZ ? Direction.NORTH : Direction.EAST);
+					}
 				}
 			}
 		} else if (hasZRoad) {
@@ -128,6 +137,11 @@ public class CityGen {
 					boolean isEdge = (lx == roadStart || lx == roadEnd - 1);
 					placeRoadColumn(level, wx, wz, roadY,
 							isEdge, (lz % 4 == 0), roadBlocks, random);
+
+					// Street furniture at edges
+					if (isEdge && (lz % 8 == 0)) {
+						placeStreetFurniture(level, wx, wz, roadY, random, Direction.NORTH);
+					}
 				}
 			}
 		} else {
@@ -142,8 +156,115 @@ public class CityGen {
 					boolean isEdge = (lz == roadStart || lz == roadEnd - 1);
 					placeRoadColumn(level, wx, wz, roadY,
 							isEdge, (lx % 4 == 0), roadBlocks, random);
+
+					// Street furniture at edges
+					if (isEdge && (lx % 8 == 0)) {
+						placeStreetFurniture(level, wx, wz, roadY, random, Direction.EAST);
+					}
 				}
 			}
+		}
+	}
+
+	private static void placeStreetFurniture(WorldGenLevel level, int x, int z, int roadY,
+			RandomSource random, Direction roadDir) {
+		float choice = random.nextFloat();
+
+		// Offset perpendicular to road direction
+		int offX = roadDir == Direction.NORTH ? (random.nextBoolean() ? -1 : 1) : 0;
+		int offZ = roadDir == Direction.EAST ? (random.nextBoolean() ? -1 : 1) : 0;
+		int fx = x + offX;
+		int fz = z + offZ;
+
+		if (choice < 0.35f) {
+			// Street light (lamp post)
+			placeStreetLight(level, fx, roadY + 1, fz, random);
+		} else if (choice < 0.55f) {
+			// Debris pile
+			placeDebris(level, fx, roadY + 1, fz, random);
+		} else if (choice < 0.70f) {
+			// Barrier
+			placeBarrier(level, fx, roadY + 1, fz, roadDir, random);
+		}
+	}
+
+	private static final BlockState ANTHRACITE_WALL = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+			.get(net.minecraft.resources.ResourceLocation.parse("machina:anthracite_wall")).defaultBlockState();
+	private static final BlockState ANTHRACITE = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+			.get(net.minecraft.resources.ResourceLocation.parse("machina:anthracite")).defaultBlockState();
+	private static final BlockState ANTHRACITE_SLAB = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+			.get(net.minecraft.resources.ResourceLocation.parse("machina:anthracite_slab")).defaultBlockState();
+	private static final BlockState BASALT = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+			.get(net.minecraft.resources.ResourceLocation.parse("machina:basalt")).defaultBlockState();
+	private static final BlockState BASALT_SLAB = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+			.get(net.minecraft.resources.ResourceLocation.parse("machina:basalt_slab")).defaultBlockState();
+
+	private static void placeStreetLight(WorldGenLevel level, int x, int y, int z, RandomSource random) {
+		if (!inBounds(x, z)) return;
+
+		int height = 3 + random.nextInt(4);
+		boolean damaged = random.nextFloat() < 0.4f;
+		int actualHeight = damaged ? 1 + random.nextInt(height) : height;
+
+		// Anthracite wall base
+		BlockPos basePos = new BlockPos(x, y, z);
+		level.setBlock(basePos, ANTHRACITE_WALL, 2);
+
+		// Iron bar post
+		for (int dy = 1; dy < actualHeight; dy++) {
+			BlockPos pos = new BlockPos(x, y + dy, z);
+			level.setBlock(pos, Blocks.IRON_BARS.defaultBlockState(), 2);
+		}
+	}
+
+	private static void placeDebris(WorldGenLevel level, int x, int y, int z, RandomSource random) {
+		int count = 1 + random.nextInt(4);
+		for (int i = 0; i < count; i++) {
+			int dx = random.nextInt(3) - 1;
+			int dz = random.nextInt(3) - 1;
+			int wx = x + dx;
+			int wz = z + dz;
+			if (!inBounds(wx, wz)) continue;
+
+			BlockPos pos = new BlockPos(wx, y, wz);
+
+			float choice = random.nextFloat();
+			BlockState block;
+			if (choice < 0.3f) {
+				block = ANTHRACITE;
+			} else if (choice < 0.5f) {
+				block = BASALT;
+			} else if (choice < 0.7f) {
+				block = ANTHRACITE_SLAB;
+			} else {
+				block = BASALT_SLAB;
+			}
+			level.setBlock(pos, block, 2);
+		}
+	}
+
+	private static void placeBarrier(WorldGenLevel level, int x, int y, int z,
+			Direction facing, RandomSource random) {
+		int length = 2 + random.nextInt(3);
+		int dx = facing == Direction.NORTH || facing == Direction.SOUTH ? 0 : 1;
+		int dz = facing == Direction.EAST || facing == Direction.WEST ? 0 : 1;
+
+		for (int i = 0; i < length; i++) {
+			if (random.nextFloat() < 0.2f) continue;
+			int wx = x + dx * i;
+			int wz = z + dz * i;
+			if (!inBounds(wx, wz)) continue;
+
+			BlockPos pos = new BlockPos(wx, y, wz);
+
+			// Use anthracite wall blocks for barriers
+			BlockState wall = ANTHRACITE_WALL;
+			// Connect walls
+			if (i > 0) wall = wall.setValue(WallBlock.WEST_WALL, dx != 0 ? WallSide.LOW : WallSide.NONE)
+								  .setValue(WallBlock.NORTH_WALL, dz != 0 ? WallSide.LOW : WallSide.NONE);
+			if (i < length - 1) wall = wall.setValue(WallBlock.EAST_WALL, dx != 0 ? WallSide.LOW : WallSide.NONE)
+										   .setValue(WallBlock.SOUTH_WALL, dz != 0 ? WallSide.LOW : WallSide.NONE);
+			level.setBlock(pos, wall, 2);
 		}
 	}
 
@@ -192,6 +313,8 @@ public class CityGen {
 	private static void placeRoadColumn(WorldGenLevel level, int x, int z, int roadY,
 			boolean isEdge, boolean isPillarPos,
 			List<BlockState> roadBlocks, RandomSource random) {
+
+		if (!inBounds(x, z)) return;
 
 		int[] cfg = ROAD_CFG.get();
 		int headroom = cfg[2];
@@ -279,7 +402,9 @@ public class CityGen {
 	// BUILDING GENERATION
 	// ================================================================
 
-	private static final ThreadLocal<int[]> BUILDING_BOUNDS = ThreadLocal.withInitial(() -> new int[4]);
+
+	private static final int BUILDING_CELL_SIZE = 16;
+	private static final int MAX_BUILDING_SIZE = 32;
 
 	public static void generateBuildings(WorldGenLevel level, int chunkX, int chunkZ,
 			List<PlanetBiomeRuin> ruins, List<BlockState> gradientBlocks, List<BlockState> accentBlocks,
@@ -288,6 +413,7 @@ public class CityGen {
 			int roadSpacing, int roadWidth) {
 
 		if (ruins.isEmpty() || gradientBlocks.isEmpty()) return;
+		setChunkBounds(chunkX, chunkZ);
 		GRADIENT_BLOCKS.set(gradientBlocks);
 		ACCENT_BLOCKS.set(accentBlocks);
 		ACCENT_CHANCE.set(accentChance);
@@ -295,41 +421,66 @@ public class CityGen {
 		int baseX = chunkX << 4;
 		int baseZ = chunkZ << 4;
 
-		int[] bounds = BUILDING_BOUNDS.get();
-		bounds[0] = baseX;      // minX
-		bounds[1] = baseX + 15; // maxX
-		bounds[2] = baseZ;      // minZ
-		bounds[3] = baseZ + 15; // maxZ
+		// Find all building cells that could affect this chunk
+		int cellMinX = Math.floorDiv(baseX - MAX_BUILDING_SIZE, BUILDING_CELL_SIZE);
+		int cellMaxX = Math.floorDiv(baseX + 15 + MAX_BUILDING_SIZE, BUILDING_CELL_SIZE);
+		int cellMinZ = Math.floorDiv(baseZ - MAX_BUILDING_SIZE, BUILDING_CELL_SIZE);
+		int cellMaxZ = Math.floorDiv(baseZ + 15 + MAX_BUILDING_SIZE, BUILDING_CELL_SIZE);
 
-		if (isZRoadChunk(chunkX - 1, roadSpacing)) bounds[0] = baseX + 2;
-		if (isZRoadChunk(chunkX + 1, roadSpacing)) bounds[1] = baseX + 13;
-		if (isXRoadChunk(chunkZ - 1, roadSpacing)) bounds[2] = baseZ + 2;
-		if (isXRoadChunk(chunkZ + 1, roadSpacing)) bounds[3] = baseZ + 13;
+		for (int cellX = cellMinX; cellX <= cellMaxX; cellX++) {
+			for (int cellZ = cellMinZ; cellZ <= cellMaxZ; cellZ++) {
+				generateBuildingsInCell(level, cellX, cellZ, worldSeed, ruins, roadSpacing);
+			}
+		}
+	}
 
-		int count = 2 + random.nextInt(3);
+	private static void generateBuildingsInCell(WorldGenLevel level, int cellX, int cellZ,
+			long worldSeed, List<PlanetBiomeRuin> ruins, int roadSpacing) {
+
+		// Deterministic seed for this cell
+		long cellSeed = worldSeed ^ ((long)cellX * 341873128712L + (long)cellZ * 132897987541L);
+		RandomSource cellRandom = RandomSource.create(cellSeed);
+
+		int cellBaseX = cellX * BUILDING_CELL_SIZE;
+		int cellBaseZ = cellZ * BUILDING_CELL_SIZE;
+
+		// Skip if this cell is on a road
+		int cellChunkX = Math.floorDiv(cellBaseX + BUILDING_CELL_SIZE / 2, 16);
+		int cellChunkZ = Math.floorDiv(cellBaseZ + BUILDING_CELL_SIZE / 2, 16);
+		if (isZRoadChunk(cellChunkX, roadSpacing) || isXRoadChunk(cellChunkZ, roadSpacing)) {
+			return;
+		}
+
+		// Number of buildings in this cell (2-5)
+		int count = 2 + cellRandom.nextInt(4);
 
 		for (int i = 0; i < count; i++) {
-			int rangeX = bounds[1] - bounds[0] - 1;
-			int rangeZ = bounds[3] - bounds[2] - 1;
-			if (rangeX < 3 || rangeZ < 3) continue;
+			// Deterministic position within cell
+			int localX = 2 + cellRandom.nextInt(BUILDING_CELL_SIZE - 4);
+			int localZ = 2 + cellRandom.nextInt(BUILDING_CELL_SIZE - 4);
+			int wx = cellBaseX + localX;
+			int wz = cellBaseZ + localZ;
 
-			int wx = bounds[0] + 1 + random.nextInt(rangeX);
-			int wz = bounds[2] + 1 + random.nextInt(rangeZ);
+			// Pick ruin type deterministically (before heightmap query to maintain RNG sequence)
+			PlanetBiomeRuin ruin = ruins.get(cellRandom.nextInt(ruins.size()));
+			if (cellRandom.nextFloat() > ruin.chance()) continue;
+
+			// Skip if building origin is too far from current chunk to affect it
+			int[] cb = CHUNK_BOUNDS.get();
+			int distX = Math.max(0, Math.max(cb[0] - wx, wx - cb[1]));
+			int distZ = Math.max(0, Math.max(cb[2] - wz, wz - cb[3]));
+			if (distX > MAX_BUILDING_SIZE || distZ > MAX_BUILDING_SIZE) continue;
+
 			int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, wx, wz);
-
 			BlockPos origin = new BlockPos(wx, surfaceY, wz);
-
-			// Pick ruin type
-			PlanetBiomeRuin ruin = ruins.get(random.nextInt(ruins.size()));
-			if (random.nextFloat() > ruin.chance()) continue;
 
 			// Generate sub-variant based on shape
 			switch (ruin.shape()) {
-				case TUBE -> generateTubeVariant(level, origin, ruin, random);
-				case PILLAR -> generatePillarVariant(level, origin, ruin, random);
-				case WALL -> generateWallVariant(level, origin, ruin, random);
-				case FOUNDATION -> generateFoundationVariant(level, origin, ruin, random);
-				case RUBBLE -> generateRubbleVariant(level, origin, ruin, random);
+				case TUBE -> generateTubeVariant(level, origin, ruin, cellRandom);
+				case PILLAR -> generatePillarVariant(level, origin, ruin, cellRandom);
+				case WALL -> generateWallVariant(level, origin, ruin, cellRandom);
+				case FOUNDATION -> generateFoundationVariant(level, origin, ruin, cellRandom);
+				case RUBBLE -> generateRubbleVariant(level, origin, ruin, cellRandom);
 			}
 		}
 	}
@@ -339,11 +490,12 @@ public class CityGen {
 	private static void generateTubeVariant(WorldGenLevel level, BlockPos origin,
 			PlanetBiomeRuin c, RandomSource r) {
 		float v = r.nextFloat();
-		if (v < 0.2f) generateSkyscraper(level, origin, c, r);
-		else if (v < 0.35f) generateCylinder(level, origin, c, r);
-		else if (v < 0.55f) generateOfficeBlock(level, origin, c, r);
-		else if (v < 0.7f) generateSteppedTower(level, origin, c, r);
-		else if (v < 0.85f) generateUBuilding(level, origin, c, r);
+		// Favor full 4-wall buildings (skyscraper, cylinder, office block, stepped tower)
+		if (v < 0.30f) generateSkyscraper(level, origin, c, r);
+		else if (v < 0.45f) generateCylinder(level, origin, c, r);
+		else if (v < 0.65f) generateOfficeBlock(level, origin, c, r);
+		else if (v < 0.85f) generateSteppedTower(level, origin, c, r);
+		else if (v < 0.93f) generateUBuilding(level, origin, c, r);
 		else generatePlusBuilding(level, origin, c, r);
 	}
 
@@ -355,6 +507,10 @@ public class CityGen {
 		setBuildingHeight(h);
 		int floorH = 4 + r.nextInt(2);
 
+		// Pick a door position
+		int doorSide = r.nextInt(4);
+		int doorPos = 2 + r.nextInt(Math.max(1, Math.min(w, d) - 4));
+
 		for (int x = 0; x < w; x++) {
 			for (int z = 0; z < d; z++) {
 				boolean wall = x == 0 || x == w - 1 || z == 0 || z == d - 1;
@@ -362,15 +518,55 @@ public class CityGen {
 
 				int colH = columnHeight(h, c, r);
 
+				// Check if this is a door position
+				boolean isDoor = false;
+				if (wall && !corner) {
+					if ((doorSide == 0 && z == 0 && Math.abs(x - doorPos) <= 1) ||
+						(doorSide == 1 && x == w - 1 && Math.abs(z - doorPos) <= 1) ||
+						(doorSide == 2 && z == d - 1 && Math.abs(x - doorPos) <= 1) ||
+						(doorSide == 3 && x == 0 && Math.abs(z - doorPos) <= 1)) {
+						isDoor = true;
+					}
+				}
+
 				for (int y = 0; y < colH; y++) {
 					if (isDamaged(y, colH, c, r)) continue;
+
+					// Door opening (first 3 blocks high)
+					if (isDoor && y > 0 && y < 4) {
+						continue;
+					}
+
 					if (!wall) {
 						if (y % floorH == 0) placeBlock(level, origin, x, y, z, c, r);
 						continue;
 					}
+
 					boolean isWindowLevel = y % floorH > 0 && y % floorH < floorH - 1;
-					if (isWindowLevel && !corner && (float) y / colH > 0.5f && r.nextFloat() < 0.2f) continue;
-					placeBlock(level, origin, x, y, z, c, r);
+					boolean isWindow = false;
+
+					// Windows: regular pattern on walls, not at corners
+					if (isWindowLevel && !corner && y > 4) {
+						int windowSpacing = 3 + r.nextInt(2);
+						boolean onWindowCol = (x % windowSpacing == 1) || (z % windowSpacing == 1);
+						if (onWindowCol && r.nextFloat() < 0.7f) {
+							isWindow = true;
+						}
+					}
+
+					// Damaged windows higher up
+					if (isWindowLevel && !corner && (float) y / colH > 0.6f && r.nextFloat() < 0.25f) {
+						continue;
+					}
+
+					if (isWindow) {
+						// Place glass or leave empty for broken windows
+						if (r.nextFloat() < 0.6f) {
+							placeWindowBlock(level, origin, x, y, z);
+						}
+					} else {
+						placeBlock(level, origin, x, y, z, c, r);
+					}
 				}
 
 				extendToGround(level, origin.offset(x, 0, z), c, r);
@@ -380,12 +576,23 @@ public class CityGen {
 		scatterRubble(level, origin, Math.max(w, d) + 4, c, r);
 	}
 
+	private static void placeWindowBlock(WorldGenLevel level, BlockPos origin, int ox, int oy, int oz) {
+		int wx = origin.getX() + ox;
+		int wz = origin.getZ() + oz;
+		if (!inBounds(wx, wz)) return;
+		int wy = origin.getY() + oy;
+		BlockPos.MutableBlockPos pos = MUTABLE_POS.get();
+		pos.set(wx, wy, wz);
+		level.setBlock(pos, Blocks.TINTED_GLASS.defaultBlockState(), 2);
+	}
+
 	private static void generateCylinder(WorldGenLevel level, BlockPos origin,
 			PlanetBiomeRuin c, RandomSource r) {
 		int radius = randRange(c.min_size() / 2, c.max_size() / 2, r);
-		if (radius < 3) radius = 3;
-		int h = randRange(c.min_height(), c.max_height(), r);
+		if (radius < 5) radius = 5;
+		int h = randRange((int)(c.min_height() * 1.1f), (int)(c.max_height() * 1.2f), r);
 		setBuildingHeight(h);
+		int floorH = 4 + r.nextInt(2);
 
 		for (int x = -radius; x <= radius; x++) {
 			for (int z = -radius; z <= radius; z++) {
@@ -397,6 +604,23 @@ public class CityGen {
 
 				for (int y = 0; y < colH; y++) {
 					if (isDamaged(y, colH, c, r)) continue;
+
+					// Windows in cylindrical pattern
+					boolean isWindowLevel = y % floorH > 0 && y % floorH < floorH - 1;
+					double angle = Math.atan2(z, x);
+					int windowSlot = (int)((angle + Math.PI) / (Math.PI / 6));
+					if (isWindowLevel && y > 4 && windowSlot % 2 == 0 && r.nextFloat() < 0.4f) {
+						if (r.nextFloat() < 0.5f) {
+							int wx = origin.getX() + x;
+							int wy = origin.getY() + y;
+							int wz = origin.getZ() + z;
+							if (inBounds(wx, wz)) {
+								level.setBlock(new BlockPos(wx, wy, wz), Blocks.TINTED_GLASS.defaultBlockState(), 2);
+							}
+						}
+						continue;
+					}
+
 					placeBlock(level, origin, x, y, z, c, r);
 				}
 
@@ -410,24 +634,48 @@ public class CityGen {
 	private static void generateOfficeBlock(WorldGenLevel level, BlockPos origin,
 			PlanetBiomeRuin c, RandomSource r) {
 		int w = randRange(c.min_size(), c.max_size(), r);
-		int d = randRange((int)(c.min_size() * 0.6f), c.max_size(), r);
+		int d = randRange((int)(c.min_size() * 0.8f), c.max_size(), r);
 		int h = randRange(c.min_height(), (c.min_height() + c.max_height()) / 2, r);
 		setBuildingHeight(h);
 		int floorH = 3 + r.nextInt(2);
 
+		// Door on front wall
+		int doorPos = w / 2;
+		boolean hasDoor = r.nextFloat() < 0.8f;
+
 		for (int x = 0; x < w; x++) {
 			for (int z = 0; z < d; z++) {
 				boolean wall = x == 0 || x == w - 1 || z == 0 || z == d - 1;
+				boolean corner = (x == 0 || x == w - 1) && (z == 0 || z == d - 1);
 
 				int colH = columnHeight(h, c, r);
 
+				// Door check
+				boolean isDoor = hasDoor && z == 0 && Math.abs(x - doorPos) <= 1;
+
 				for (int y = 0; y < colH; y++) {
 					if (isDamaged(y, colH, c, r)) continue;
+
+					// Door opening
+					if (isDoor && y > 0 && y < 3) continue;
+
 					if (!wall) {
 						if (y % floorH == 0) placeBlock(level, origin, x, y, z, c, r);
 						continue;
 					}
-					if (y % floorH > 0 && y % floorH < floorH - 1 && (float) y / colH > 0.5f && r.nextFloat() < 0.2f) continue;
+
+					// Windows
+					boolean isWindowLevel = y % floorH > 0 && y % floorH < floorH - 1;
+					if (isWindowLevel && !corner && y > 3) {
+						if ((x % 3 == 1 || z % 3 == 1) && r.nextFloat() < 0.65f) {
+							if (r.nextFloat() < 0.5f) {
+								placeWindowBlock(level, origin, x, y, z);
+							}
+							continue;
+						}
+					}
+
+					if (isWindowLevel && !corner && (float) y / colH > 0.5f && r.nextFloat() < 0.2f) continue;
 					placeBlock(level, origin, x, y, z, c, r);
 				}
 
@@ -442,7 +690,7 @@ public class CityGen {
 			PlanetBiomeRuin c, RandomSource r) {
 		int baseW = randRange(c.min_size(), c.max_size(), r);
 		int baseD = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randRange((int)(c.min_height() * 1.2f), (int)(c.max_height() * 1.3f), r);
 		setBuildingHeight(h);
 		int tiers = 2 + r.nextInt(3);
 		int tierH = h / tiers;
@@ -460,6 +708,7 @@ public class CityGen {
 			for (int x = 0; x < tw; x++) {
 				for (int z = 0; z < td; z++) {
 					boolean wall = x == 0 || x == tw - 1 || z == 0 || z == td - 1;
+					boolean corner = (x == 0 || x == tw - 1) && (z == 0 || z == td - 1);
 
 					int colH = columnHeight(yEnd - yStart, c, r);
 
@@ -470,11 +719,33 @@ public class CityGen {
 							if (globalY % floorH == 0) placeBlock(level, origin, x + inset, globalY, z + inset, c, r);
 							continue;
 						}
+
+						// Windows on upper tiers
+						boolean isWindowLevel = globalY % floorH > 0 && globalY % floorH < floorH - 1;
+						if (isWindowLevel && !corner && (x % 3 == 1 || z % 3 == 1) && r.nextFloat() < 0.5f) {
+							if (r.nextFloat() < 0.4f) {
+								placeWindowBlock(level, origin, x + inset, globalY, z + inset);
+							}
+							continue;
+						}
+
 						placeBlock(level, origin, x + inset, globalY, z + inset, c, r);
 					}
 
 					if (tier == 0)
 						extendToGround(level, origin.offset(x + inset, 0, z + inset), c, r);
+				}
+			}
+
+			// Tier ledge - prevents floating appearance
+			if (tier > 0) {
+				for (int x = 0; x < tw; x++) {
+					for (int z = 0; z < td; z++) {
+						boolean edge = x == 0 || x == tw - 1 || z == 0 || z == td - 1;
+						if (edge) {
+							placeBlock(level, origin, x + inset, yStart - 1, z + inset, c, r);
+						}
+					}
 				}
 			}
 		}
@@ -505,6 +776,7 @@ public class CityGen {
 
 				boolean wall = x == 0 || x == w - 1 || z == 0 || z == d - 1
 						|| (openOnZ ? (x == gapStart || x == gapEnd) : (z == gapStart || z == gapEnd));
+				boolean corner = (x == 0 || x == w - 1) && (z == 0 || z == d - 1);
 
 				int colH = columnHeight(h, c, r);
 
@@ -514,6 +786,16 @@ public class CityGen {
 						if (y % floorH == 0) placeBlock(level, origin, x, y, z, c, r);
 						continue;
 					}
+
+					// Windows
+					boolean isWindowLevel = y % floorH > 0 && y % floorH < floorH - 1;
+					if (isWindowLevel && !corner && y > 3 && (x % 3 == 1 || z % 3 == 1) && r.nextFloat() < 0.55f) {
+						if (r.nextFloat() < 0.45f) {
+							placeWindowBlock(level, origin, x, y, z);
+						}
+						continue;
+					}
+
 					placeBlock(level, origin, x, y, z, c, r);
 				}
 
@@ -606,19 +888,40 @@ public class CityGen {
 		int sizeZ = randRange(c.min_size(), c.max_size(), r);
 		int h = randRange(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
+		int floorH = 5 + r.nextInt(2);
 
 		for (int x = 0; x < sizeX; x++) {
 			for (int z = 0; z < sizeZ; z++) {
+				boolean wall = x == 0 || x == sizeX - 1 || z == 0 || z == sizeZ - 1;
+				boolean corner = (x == 0 || x == sizeX - 1) && (z == 0 || z == sizeZ - 1);
 				int colH = columnHeight(h, c, r);
 
 				for (int y = 0; y < colH; y++) {
 					if (isDamaged(y, colH, c, r)) continue;
+
+					if (!wall) {
+						// Interior floors
+						if (y % floorH == 0) placeBlock(level, origin, x, y, z, c, r);
+						continue;
+					}
+
+					// Narrow windows
+					boolean isWindowLevel = y % floorH > 1 && y % floorH < floorH - 1;
+					if (isWindowLevel && !corner && y > 4 && (x + z) % 4 == 1 && r.nextFloat() < 0.5f) {
+						if (r.nextFloat() < 0.4f) {
+							placeWindowBlock(level, origin, x, y, z);
+						}
+						continue;
+					}
+
 					placeBlock(level, origin, x, y, z, c, r);
 				}
 
 				extendToGround(level, origin.offset(x, 0, z), c, r);
 			}
 		}
+
+		scatterRubble(level, origin, Math.max(sizeX, sizeZ) + 2, c, r);
 	}
 
 	private static void generateAntenna(WorldGenLevel level, BlockPos origin,
@@ -683,11 +986,12 @@ public class CityGen {
 	private static void generateWallVariant(WorldGenLevel level, BlockPos origin,
 			PlanetBiomeRuin c, RandomSource r) {
 		float v = r.nextFloat();
-		if (v < 0.2f) generateWall(level, origin, c, r);
-		else if (v < 0.4f) generateLShape(level, origin, c, r);
-		else if (v < 0.55f) generateCollapsedBuilding(level, origin, c, r);
-		else if (v < 0.7f) generateTShape(level, origin, c, r);
-		else if (v < 0.85f) generateBunker(level, origin, c, r);
+		// Favor enclosed structures (bunker, perimeter wall, collapsed building) over partial walls
+		if (v < 0.10f) generateWall(level, origin, c, r);
+		else if (v < 0.20f) generateLShape(level, origin, c, r);
+		else if (v < 0.45f) generateCollapsedBuilding(level, origin, c, r);
+		else if (v < 0.55f) generateTShape(level, origin, c, r);
+		else if (v < 0.80f) generateBunker(level, origin, c, r);
 		else generatePerimeterWall(level, origin, c, r);
 	}
 
@@ -748,12 +1052,16 @@ public class CityGen {
 			PlanetBiomeRuin c, RandomSource r) {
 		int w = randRange(c.min_size(), c.max_size(), r);
 		int d = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randRange((int)(c.min_height() * 1.1f), (int)(c.max_height() * 1.2f), r);
 		setBuildingHeight(h);
 
 		int survivingWall = r.nextInt(4);
-		boolean hasTwoWalls = r.nextFloat() < 0.4f;
+		// More likely to have multiple walls surviving
+		boolean hasTwoWalls = r.nextFloat() < 0.7f;
+		boolean hasThreeWalls = hasTwoWalls && r.nextFloat() < 0.4f;
 		int secondWall = (survivingWall + 1 + r.nextInt(3)) % 4;
+		int thirdWall = hasThreeWalls ? (secondWall + 1 + r.nextInt(2)) % 4 : -1;
+		if (thirdWall == survivingWall) thirdWall = (thirdWall + 1) % 4;
 
 		for (int x = 0; x < w; x++) {
 			for (int z = 0; z < d; z++) {
@@ -767,19 +1075,39 @@ public class CityGen {
 						(secondWall == 2 && z == d - 1) ||
 						(secondWall == 3 && x == 0);
 				}
+				if (hasThreeWalls && thirdWall >= 0) {
+					onSurviving |= (thirdWall == 0 && z == 0) ||
+						(thirdWall == 1 && x == w - 1) ||
+						(thirdWall == 2 && z == d - 1) ||
+						(thirdWall == 3 && x == 0);
+				}
 
 				if (onSurviving) {
 					int colH = columnHeight(h, c, r);
+					// Make surviving walls decay more towards edges
+					float distFromCorner = Math.min(x, Math.min(z, Math.min(w - 1 - x, d - 1 - z)));
+					float heightMult = 0.5f + 0.5f * Math.min(1f, distFromCorner / 5f);
+					colH = (int)(colH * heightMult);
+
 					for (int y = 0; y < colH; y++) {
 						if (isDamaged(y, colH, c, r)) continue;
+
+						// Windows in surviving walls
+						boolean isWindowLevel = y % 4 > 0 && y % 4 < 3;
+						if (isWindowLevel && y > 3 && (x % 3 == 1 || z % 3 == 1) && r.nextFloat() < 0.3f) {
+							continue;
+						}
 						placeBlock(level, origin, x, y, z, c, r);
 					}
 					extendToGround(level, origin.offset(x, 0, z), c, r);
 				} else {
-					int rubbleH = 1 + r.nextInt(4);
-					for (int y = 0; y < rubbleH; y++) {
-						placeBlock(level, origin, x, y, z, c, r);
-					}
+					// Rubble floor with gradient height - snap to actual surface
+					float distFromCenter = (float)Math.sqrt(Math.pow(x - w/2.0, 2) + Math.pow(z - d/2.0, 2));
+					float maxDist = (float)Math.sqrt(w*w + d*d) / 2f;
+					int rubbleH = 1 + (int)(5 * (1 - distFromCenter / maxDist)) + r.nextInt(3);
+
+					// Place rubble at actual surface level
+					placeRubbleAtSurface(level, origin.getX() + x, origin.getZ() + z, rubbleH, c, r);
 				}
 			}
 		}
@@ -820,15 +1148,25 @@ public class CityGen {
 			PlanetBiomeRuin c, RandomSource r) {
 		int w = randRange(c.min_size(), c.max_size(), r);
 		int d = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(Math.min(c.min_height(), 8), Math.min(c.max_height(), 16), r);
+		int h = randRange(Math.min(c.min_height(), 10), Math.min(c.max_height(), 20), r);
 		setBuildingHeight(h);
 		int wallThick = 2;
+
+		// Door position
+		int doorPos = w / 2;
+		boolean hasDoor = r.nextFloat() < 0.7f;
 
 		for (int x = 0; x < w; x++) {
 			for (int z = 0; z < d; z++) {
 				boolean isWall = x < wallThick || x >= w - wallThick || z < wallThick || z >= d - wallThick;
 
+				// Check for door
+				boolean isDoor = hasDoor && z < wallThick && Math.abs(x - doorPos) <= 1;
+
 				for (int y = 0; y < h; y++) {
+					// Door opening
+					if (isDoor && y > 0 && y < 3) continue;
+
 					if (isWall) {
 						placeBlock(level, origin, x, y, z, c, r);
 					} else if (y == h - 1) {
@@ -837,6 +1175,23 @@ public class CityGen {
 				}
 
 				extendToGround(level, origin.offset(x, 0, z), c, r);
+			}
+		}
+
+		// Add some roof damage
+		for (int i = 0; i < 3 + r.nextInt(5); i++) {
+			int hx = wallThick + r.nextInt(Math.max(1, w - wallThick * 2));
+			int hz = wallThick + r.nextInt(Math.max(1, d - wallThick * 2));
+			int radius = 1 + r.nextInt(2);
+			for (int dx = -radius; dx <= radius; dx++) {
+				for (int dz = -radius; dz <= radius; dz++) {
+					if (dx * dx + dz * dz <= radius * radius) {
+						BlockPos holePos = origin.offset(hx + dx, h - 1, hz + dz);
+						if (inBounds(holePos.getX(), holePos.getZ())) {
+							level.setBlock(holePos, Blocks.AIR.defaultBlockState(), 2);
+						}
+					}
+				}
 			}
 		}
 
@@ -931,15 +1286,32 @@ public class CityGen {
 						if (floor == 0) extendToGround(level, origin.offset(x, 0, z), c, r);
 					}
 
-					placeBlock(level, origin, x, yBase + levelH - 1, z, c, r);
+					// Floor with some holes for damage
+					if (r.nextFloat() > 0.05f) {
+						placeBlock(level, origin, x, yBase + levelH - 1, z, c, r);
+					}
 
 					if (isEdge) {
 						int wallH = (floor == levels - 1) ? 1 : levelH;
 						for (int y = 0; y < wallH; y++) {
+							// Gaps in walls (openings)
+							if (y > 0 && y < wallH - 1 && r.nextFloat() < 0.15f) continue;
 							placeBlock(level, origin, x, yBase + y, z, c, r);
 						}
+						if (floor == 0) extendToGround(level, origin.offset(x, 0, z), c, r);
 					}
 				}
+			}
+		}
+
+		// Add some debris in parking structure
+		if (levels > 0 && r.nextFloat() < 0.5f) {
+			int debrisCount = 2 + r.nextInt(4);
+			for (int v = 0; v < debrisCount; v++) {
+				int vx = 2 + r.nextInt(Math.max(1, sizeX - 4));
+				int vz = 2 + r.nextInt(Math.max(1, sizeZ - 4));
+				int vFloor = r.nextInt(levels);
+				placeDebris(level, origin.getX() + vx, origin.getY() + vFloor * levelH, origin.getZ() + vz, r);
 			}
 		}
 	}
@@ -1032,10 +1404,8 @@ public class CityGen {
 				int h = (int) (maxH * Math.max(0, 1.0 - distFromCenter / maxDist));
 				h = Math.max(1, h + r.nextInt(3) - 1);
 
-				for (int y = 0; y < h; y++) {
-					if (r.nextFloat() < 0.1f) continue;
-					placeBlock(level, origin, x, y, z, c, r);
-				}
+				// Place rubble at actual surface level
+				placeRubbleAtSurface(level, origin.getX() + x, origin.getZ() + z, h, c, r);
 			}
 		}
 	}
@@ -1050,9 +1420,8 @@ public class CityGen {
 			for (int z = 0; z < sizeZ; z++) {
 				if (r.nextFloat() < 0.55f) continue;
 				int h = 1 + r.nextInt(3);
-				for (int y = 0; y < h; y++) {
-					placeBlock(level, origin, x, y, z, c, r);
-				}
+				// Place debris at actual surface level
+				placeRubbleAtSurface(level, origin.getX() + x, origin.getZ() + z, h, c, r);
 			}
 		}
 	}
@@ -1091,15 +1460,22 @@ public class CityGen {
 	private static void generateCollapsedWarehouse(WorldGenLevel level, BlockPos origin,
 			PlanetBiomeRuin c, RandomSource r) {
 		int w = randRange(c.min_size(), c.max_size(), r);
-		int d = randRange((int)(c.min_size() * 1.5f), (int)(c.max_size() * 1.5f), r);
-		int h = 6 + r.nextInt(8);
+		int d = randRange((int)(c.min_size() * 1.3f), (int)(c.max_size() * 1.3f), r);
+		int h = 8 + r.nextInt(10);
 		setBuildingHeight(h);
 		int colSpacing = 4 + r.nextInt(3);
+
+		// Large door on one side
+		int doorPos = w / 2;
+		boolean hasDoor = r.nextFloat() < 0.8f;
 
 		for (int x = 0; x < w; x++) {
 			for (int z = 0; z < d; z++) {
 				boolean isWall = x == 0 || x == w - 1 || z == 0 || z == d - 1;
 				boolean isColumn = (x % colSpacing == 0) && (z % colSpacing == 0);
+
+				// Large loading door
+				boolean isDoor = hasDoor && z == 0 && Math.abs(x - doorPos) <= 2;
 
 				if (isColumn) {
 					int colH = columnHeight(h, c, r);
@@ -1111,14 +1487,26 @@ public class CityGen {
 					int wallH = columnHeight(h, c, r);
 					for (int y = 0; y < wallH; y++) {
 						if (isDamaged(y, wallH, c, r)) continue;
+						// Large door opening
+						if (isDoor && y > 0 && y < 5) continue;
 						placeBlock(level, origin, x, y, z, c, r);
 					}
 					extendToGround(level, origin.offset(x, 0, z), c, r);
-				} else if (r.nextFloat() < 0.5f) {
-					placeBlock(level, origin, x, h - 1, z, c, r);
+				} else {
+					// Partial roof with collapse pattern
+					float collapseChance = 0.3f + 0.4f * ((float)z / d);
+					if (r.nextFloat() > collapseChance) {
+						placeBlock(level, origin, x, h - 1, z, c, r);
+					} else if (r.nextFloat() < 0.3f) {
+						// Fallen roof debris - snap to ground
+						int debrisH = 1 + r.nextInt(2);
+						placeRubbleAtSurface(level, origin.getX() + x, origin.getZ() + z, debrisH, c, r);
+					}
 				}
 			}
 		}
+
+		scatterRubble(level, origin.offset(w/2, 0, d + 2), w/2 + 3, c, r);
 	}
 
 	private static void generateRubbleField(WorldGenLevel level, BlockPos origin,
@@ -1143,9 +1531,8 @@ public class CityGen {
 					int h = (int)(maxH * (1.0 - dist / clumpR));
 					h = Math.max(1, h);
 
-					for (int y = 0; y < h; y++) {
-						placeBlock(level, origin, x, y, z, c, r);
-					}
+					// Place rubble at actual surface level
+					placeRubbleAtSurface(level, origin.getX() + x, origin.getZ() + z, h, c, r);
 				}
 			}
 		}
@@ -1179,8 +1566,10 @@ public class CityGen {
 
 			for (int t = 0; t < decay; t++) {
 				if (r.nextFloat() < 0.15f) continue;
-				placeBlock(level, origin, w / 2 + fx + (fallX ? 0 : t - decay / 2),
-						standingH, w / 2 + fz + (fallX ? t - decay / 2 : 0), c, r);
+				int bx = origin.getX() + w / 2 + fx + (fallX ? 0 : t - decay / 2);
+				int bz = origin.getZ() + w / 2 + fz + (fallX ? t - decay / 2 : 0);
+				// Place fallen debris at ground level
+				placeRubbleAtSurface(level, bx, bz, 1 + r.nextInt(2), c, r);
 			}
 		}
 
@@ -1194,9 +1583,20 @@ public class CityGen {
 	// UTILITIES
 	// ================================================================
 
+	private static final ThreadLocal<int[]> CHUNK_BOUNDS = ThreadLocal.withInitial(() -> new int[4]);
+
+	private static void setChunkBounds(int chunkX, int chunkZ) {
+		int[] cb = CHUNK_BOUNDS.get();
+		cb[0] = chunkX << 4;
+		cb[1] = (chunkX << 4) + 15;
+		cb[2] = chunkZ << 4;
+		cb[3] = (chunkZ << 4) + 15;
+	}
+
 	private static boolean inBounds(int wx, int wz) {
-		int[] b = BUILDING_BOUNDS.get();
-		return wx >= b[0] && wx <= b[1] && wz >= b[2] && wz <= b[3];
+		// Use strict chunk bounds to prevent placing blocks in other chunks
+		int[] cb = CHUNK_BOUNDS.get();
+		return wx >= cb[0] && wx <= cb[1] && wz >= cb[2] && wz <= cb[3];
 	}
 
 	private static final ThreadLocal<BlockPos.MutableBlockPos> MUTABLE_POS =
@@ -1269,15 +1669,37 @@ public class CityGen {
 
 		BlockPos.MutableBlockPos pos = startPos.mutable().move(0, -1, 0);
 
-		for (int i = 0; i < 32 && pos.getY() > level.getMinBuildHeight() && !level.getBlockState(pos).isSolid(); i++) {
+		// Extended range to handle more terrain variation
+		for (int i = 0; i < 64 && pos.getY() > level.getMinBuildHeight(); i++) {
+			BlockState current = level.getBlockState(pos);
+			if (current.isSolid() && !current.isAir()) {
+				break;
+			}
 			level.setBlock(pos, gradient.get(0), 2);
 			pos.move(0, -1, 0);
 		}
 	}
 
+	private static void ensureFoundation(WorldGenLevel level, BlockPos origin,
+			int sizeX, int sizeZ, PlanetBiomeRuin c, RandomSource r) {
+		List<BlockState> gradient = GRADIENT_BLOCKS.get();
+		if (gradient.isEmpty()) return;
+
+		for (int x = -1; x <= sizeX; x++) {
+			for (int z = -1; z <= sizeZ; z++) {
+				int wx = origin.getX() + x;
+				int wz = origin.getZ() + z;
+				if (!inBounds(wx, wz)) continue;
+
+				BlockPos basePos = new BlockPos(wx, origin.getY() - 1, wz);
+				extendToGround(level, basePos.above(), c, r);
+			}
+		}
+	}
+
 	private static void scatterRubble(WorldGenLevel level, BlockPos origin, int radius,
 			PlanetBiomeRuin c, RandomSource r) {
-		radius = Math.min(radius, 8);
+		radius = Math.min(radius, 6);
 		int count = 4 + r.nextInt(8);
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 		List<BlockState> gradient = GRADIENT_BLOCKS.get();
@@ -1298,6 +1720,22 @@ public class CityGen {
 				pos.set(wx, surfaceY + y, wz);
 				level.setBlock(pos, gradient.get(r.nextInt(Math.min(2, gradient.size()))), 2);
 			}
+		}
+	}
+
+	private static void placeRubbleAtSurface(WorldGenLevel level, int wx, int wz, int height,
+			PlanetBiomeRuin c, RandomSource r) {
+		if (!inBounds(wx, wz)) return;
+		List<BlockState> gradient = GRADIENT_BLOCKS.get();
+		if (gradient.isEmpty()) return;
+
+		int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, wx, wz);
+		BlockPos.MutableBlockPos pos = MUTABLE_POS.get();
+
+		for (int y = 0; y < height; y++) {
+			if (r.nextFloat() < 0.1f) continue;
+			pos.set(wx, surfaceY + y, wz);
+			level.setBlock(pos, getGradientBlock(wx, surfaceY + y, wz, y), 2);
 		}
 	}
 

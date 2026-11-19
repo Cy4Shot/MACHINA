@@ -1,7 +1,1 @@
-{
-  "parent": "machina:block/ore",
-  "textures": {
-    "base": "machina:block/tropical_dirt",
-    "ore": "machina:block/osmium_ore"
-  }
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"machina:block/ore/tropical_dirt_osmium_ore"}}

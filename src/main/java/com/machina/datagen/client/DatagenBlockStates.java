@@ -514,12 +514,11 @@ public class DatagenBlockStates extends BlockStateProvider {
 
 	private void ore(ResourceLocation base, DeferredBlock<? extends Block> ore, ResourceLocation name) {
 		Block o = ore.get();
+		String blockName = name(o);
 
-		ModelFile model = models().withExistingParent(name(o), MachinaRL.create("block/ore"))
-				.texture("base", blockTexture(base)).texture("ore", blockTexture(name));
-
+		ModelFile model = new ModelFile.UncheckedModelFile(MachinaRL.create("block/" + blockName));
 		simpleBlock(o, model);
-		simpleBlockItem(o, model);
+		itemModels().getBuilder(blockName).parent(model);
 	}
 
 	public void machineAllLit(DeferredBlock<? extends LitMachineBlock> machine, boolean lit) {

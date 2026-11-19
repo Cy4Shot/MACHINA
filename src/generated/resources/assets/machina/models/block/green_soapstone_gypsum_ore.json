@@ -1,7 +1,1 @@
-{
-  "parent": "machina:block/ore",
-  "textures": {
-    "base": "machina:block/green_soapstone",
-    "ore": "machina:block/gypsum_ore"
-  }
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"machina:block/ore/green_soapstone_gypsum_ore"}}

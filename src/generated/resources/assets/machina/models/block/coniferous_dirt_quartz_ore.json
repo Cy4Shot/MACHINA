@@ -1,7 +1,1 @@
-{
-  "parent": "machina:block/ore",
-  "textures": {
-    "base": "machina:block/coniferous_dirt",
-    "ore": "machina:block/quartz_ore"
-  }
-}
+{"parent":"minecraft:block/cube_all","textures":{"all":"machina:block/ore/coniferous_dirt_quartz_ore"}}

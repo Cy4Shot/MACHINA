@@ -1,11 +1,13 @@
 {
 	"home": "machina:hightech_wastes",
-	"surface": "machina:medium_patches",
+	"surface": "machina:city_paths",
 	"base": "machina:basalt",
 	"stair": "machina:basalt_stairs",
 	"slab": "machina:basalt_slab",
 	"extra": "machina:ash",
 	"top": [
+		"machina:anthracite",
+		"machina:basalt",
 		"machina:ash",
 		"machina:shale"
 	],
@@ -44,13 +46,16 @@
 	"city_grid": {
 		"enabled": true,
 		"road_width": 10,
-		"block_size": 80,
+		"block_size": 64,
 		"road_blocks": [
-			"machina:anthracite"
+			"machina:anthracite",
+			"machina:anthracite",
+			"machina:basalt"
 		],
 		"gradient_blocks": [
 			"minecraft:black_concrete",
 			"minecraft:black_concrete_powder",
+			"minecraft:gray_concrete",
 			"machina:anthracite",
 			"machina:basalt",
 			"machina:ash",
@@ -62,9 +67,10 @@
 			"machina:basalt_springstone",
 			"machina:raw_boron_block",
 			"machina:basalt_uraninite_ore",
-			"machina:fission_reactor_glass"
+			"machina:fission_reactor_glass",
+			"minecraft:iron_bars"
 		],
-		"accent_chance": 0.01,
+		"accent_chance": 0.015,
 		"road_smooth": 8,
 		"slope_check": 4,
 		"headroom": 4,
@@ -74,53 +80,63 @@
 		"ruins": [
 			{
 				"shape": "TUBE",
-				"min_size": 20,
-				"max_size": 50,
-				"min_height": 20,
-				"max_height": 65,
-				"chance": 0.85,
-				"min_weathering": 0.01,
-				"max_weathering": 0.15
-			},
-			{
-				"shape": "PILLAR",
-				"min_size": 6,
-				"max_size": 18,
+				"min_size": 12,
+				"max_size": 24,
 				"min_height": 25,
-				"max_height": 75,
-				"chance": 0.75,
+				"max_height": 80,
+				"chance": 0.9,
 				"min_weathering": 0.01,
 				"max_weathering": 0.12
 			},
 			{
-				"shape": "RUBBLE",
+				"shape": "TUBE",
 				"min_size": 16,
-				"max_size": 40,
-				"min_height": 2,
-				"max_height": 10,
-				"chance": 0.65,
+				"max_size": 28,
+				"min_height": 35,
+				"max_height": 95,
+				"chance": 0.7,
+				"min_weathering": 0.02,
+				"max_weathering": 0.18
+			},
+			{
+				"shape": "PILLAR",
+				"min_size": 6,
+				"max_size": 14,
+				"min_height": 30,
+				"max_height": 90,
+				"chance": 0.8,
+				"min_weathering": 0.01,
+				"max_weathering": 0.1
+			},
+			{
+				"shape": "RUBBLE",
+				"min_size": 10,
+				"max_size": 20,
+				"min_height": 3,
+				"max_height": 14,
+				"chance": 0.7,
 				"min_weathering": 0.05,
-				"max_weathering": 0.3
+				"max_weathering": 0.25
 			},
 			{
 				"shape": "FOUNDATION",
-				"min_size": 24,
-				"max_size": 55,
+				"min_size": 14,
+				"max_size": 26,
 				"min_height": 1,
-				"max_height": 3,
-				"chance": 0.7,
-				"min_weathering": 0.08,
-				"max_weathering": 0.2
+				"max_height": 4,
+				"chance": 0.75,
+				"min_weathering": 0.06,
+				"max_weathering": 0.18
 			},
 			{
 				"shape": "WALL",
-				"min_size": 20,
-				"max_size": 50,
-				"min_height": 12,
-				"max_height": 40,
-				"chance": 0.7,
+				"min_size": 12,
+				"max_size": 24,
+				"min_height": 15,
+				"max_height": 50,
+				"chance": 0.75,
 				"min_weathering": 0.01,
-				"max_weathering": 0.15
+				"max_weathering": 0.12
 			}
 		]
 	},
