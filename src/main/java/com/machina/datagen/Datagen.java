@@ -12,12 +12,13 @@ import com.machina.datagen.client.DatagenOreTextures;
 import com.machina.datagen.client.DatagenParticleDescriptions;
 import com.machina.datagen.client.lang.DatagenLangEnUs;
 import com.machina.datagen.server.DatagenBlockTags;
+import com.machina.datagen.server.DatagenDamageTypeTags;
 import com.machina.datagen.server.DatagenDatamaps;
+import com.machina.datagen.server.DatagenDatapack;
 import com.machina.datagen.server.DatagenFluidTags;
 import com.machina.datagen.server.DatagenItemTags;
 import com.machina.datagen.server.DatagenLootTables;
 import com.machina.datagen.server.DatagenRecipes;
-import com.machina.datagen.server.DatagenDatapack;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -56,6 +57,8 @@ public class Datagen {
 				List.of(new SubProviderEntry(DatagenLootTables::new, LootContextParamSets.BLOCK)), lookup));
 		gen.addProvider(event.includeServer(), new DatagenRecipes(po, lookup));
 		gen.addProvider(event.includeServer(), new DatagenDatamaps(po, lookup));
-		gen.addProvider(event.includeServer(), new DatagenDatapack(po, lookup));
+		DatagenDatapack datapack = gen.addProvider(event.includeServer(), new DatagenDatapack(po, lookup));
+		gen.addProvider(event.includeServer(),
+				new DatagenDamageTypeTags(po, datapack.getRegistryProvider(), files));
 	}
 }

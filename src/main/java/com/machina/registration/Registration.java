@@ -10,6 +10,7 @@ import com.machina.registration.init.BlockInit;
 import com.machina.registration.init.BlockStateProviderInit;
 import com.machina.registration.init.ChunkGeneratorInit;
 import com.machina.registration.init.DataComponentsInit;
+import com.machina.registration.init.EffectInit;
 import com.machina.registration.init.EntityDataSerializerInit;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.FluidInit;
@@ -67,6 +68,7 @@ public class Registration {
 		RecipeInit.RECIPE_SERIALIZERS.register(bus);
 		WeatherEventInit.WEATHER_EVENTS.register(bus);
 		ParticleTypeInit.PARTICLE_TYPES.register(bus);
+		EffectInit.EFFECTS.register(bus);
 		OverworldOresInit.register(); // Only used for datagen
 		CustomCTMRegistrar.register();
 	}

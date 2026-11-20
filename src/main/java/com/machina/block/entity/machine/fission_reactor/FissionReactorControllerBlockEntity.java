@@ -6,21 +6,23 @@ import com.machina.api.block.entity.MultiblockMasterBlockEntity;
 import com.machina.api.cap.sided.Side;
 import com.machina.api.cap.steam.ISteamHandler;
 import com.machina.api.cap.steam.SteamBlockEntity;
+import com.machina.registration.CapabilityRegistrar;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.DataMapsInit;
 import com.machina.registration.init.MultiblockInit;
+import com.machina.world.data.RadiationData;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import com.machina.registration.CapabilityRegistrar;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
@@ -31,13 +33,14 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 
 	public record FissionFuel(int burnTime, int steamPerTick, ItemStack wasteProduct, float optimalReactivity,
 			float reactivityTolerance, int startupEnergy) {
-		public static final Codec<FissionFuel> CODEC = RecordCodecBuilder.create(instance -> instance
-				.group(Codec.INT.fieldOf("burnTime").forGetter(FissionFuel::burnTime),
-						Codec.INT.fieldOf("steamPerTick").forGetter(FissionFuel::steamPerTick),
-						ItemStack.CODEC.fieldOf("wasteProduct").forGetter(FissionFuel::wasteProduct),
-						Codec.FLOAT.optionalFieldOf("optimalReactivity", 1.0f).forGetter(FissionFuel::optimalReactivity),
-						Codec.FLOAT.optionalFieldOf("reactivityTolerance", 0.003f).forGetter(FissionFuel::reactivityTolerance),
-						Codec.INT.optionalFieldOf("startupEnergy", 100000).forGetter(FissionFuel::startupEnergy))
+
+		public static final Codec<FissionFuel> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+				Codec.INT.fieldOf("burnTime").forGetter(FissionFuel::burnTime),
+				Codec.INT.fieldOf("steamPerTick").forGetter(FissionFuel::steamPerTick),
+				ItemStack.CODEC.fieldOf("wasteProduct").forGetter(FissionFuel::wasteProduct),
+				Codec.FLOAT.optionalFieldOf("optimalReactivity", 1.0f).forGetter(FissionFuel::optimalReactivity),
+				Codec.FLOAT.optionalFieldOf("reactivityTolerance", 0.003f).forGetter(FissionFuel::reactivityTolerance),
+				Codec.INT.optionalFieldOf("startupEnergy", 100000).forGetter(FissionFuel::startupEnergy))
 				.apply(instance, FissionFuel::new));
 
 		public float getMinReactivity() {
@@ -175,7 +178,8 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 		startupProgress = tag.getInt("startupProgress");
 		meltdownTimer = tag.getInt("meltdownTimer");
 		fuelOptimalReactivity = tag.contains("fuelOptimalReactivity") ? tag.getFloat("fuelOptimalReactivity") : 1.0f;
-		fuelReactivityTolerance = tag.contains("fuelReactivityTolerance") ? tag.getFloat("fuelReactivityTolerance") : 0.003f;
+		fuelReactivityTolerance = tag.contains("fuelReactivityTolerance") ? tag.getFloat("fuelReactivityTolerance")
+				: 0.003f;
 		super.loadAdditional(tag, registries);
 	}
 
@@ -217,7 +221,8 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 		}
 
 		// Spawn particles when running
-		if (level instanceof ServerLevel serverLevel && (state == ReactorState.RUNNING || state == ReactorState.MELTDOWN_WARNING)) {
+		if (level instanceof ServerLevel serverLevel
+				&& (state == ReactorState.RUNNING || state == ReactorState.MELTDOWN_WARNING)) {
 			spawnParticles(serverLevel);
 		}
 
@@ -237,21 +242,16 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 
 					if (state == ReactorState.MELTDOWN_WARNING) {
 						// Intense flames and smoke during meltdown warning
-						level.sendParticles(net.minecraft.core.particles.ParticleTypes.FLAME,
-								px, py, pz, 1, 0.05, 0.1, 0.05, 0.03);
-						level.sendParticles(net.minecraft.core.particles.ParticleTypes.LARGE_SMOKE,
-								px, py + 0.5, pz, 1, 0.1, 0.15, 0.1, 0.01);
+						level.sendParticles(ParticleTypes.FLAME, px, py, pz, 1, 0.05, 0.1, 0.05, 0.03);
+						level.sendParticles(ParticleTypes.LARGE_SMOKE, px, py + 0.5, pz, 1, 0.1, 0.15, 0.1, 0.01);
 						if (level.random.nextFloat() < 0.2f) {
-							level.sendParticles(net.minecraft.core.particles.ParticleTypes.LAVA,
-									px, py, pz, 1, 0, 0, 0, 0);
+							level.sendParticles(ParticleTypes.LAVA, px, py, pz, 1, 0, 0, 0, 0);
 						}
 					} else {
 						// Normal running - steam and heat shimmer
-						level.sendParticles(net.minecraft.core.particles.ParticleTypes.SMOKE,
-								px, py, pz, 1, 0.02, 0.05, 0.02, 0.005);
+						level.sendParticles(ParticleTypes.SMOKE, px, py, pz, 1, 0.02, 0.05, 0.02, 0.005);
 						if (level.random.nextFloat() < 0.15f) {
-							level.sendParticles(net.minecraft.core.particles.ParticleTypes.CLOUD,
-									px, py + 0.3, pz, 1, 0.05, 0.02, 0.05, 0.01);
+							level.sendParticles(ParticleTypes.CLOUD, px, py + 0.3, pz, 1, 0.05, 0.02, 0.05, 0.01);
 						}
 					}
 				}
@@ -261,7 +261,8 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 		// Also spawn ambient particles in the reactor interior
 		if (level.random.nextFloat() < 0.5f) {
 			for (BlockPos partPos : parts) {
-				if (level.getBlockState(partPos).isAir() || level.getBlockEntity(partPos) instanceof FissionFuelRodBlockEntity) {
+				if (level.getBlockState(partPos).isAir()
+						|| level.getBlockEntity(partPos) instanceof FissionFuelRodBlockEntity) {
 					continue;
 				}
 				// Skip - we only want interior air blocks, which aren't in parts
@@ -281,7 +282,8 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 						continue;
 					}
 
-					ISteamHandler handler = level.getCapability(CapabilityRegistrar.Block.STEAM, adjacent, dir.getOpposite());
+					ISteamHandler handler = level.getCapability(CapabilityRegistrar.Block.STEAM, adjacent,
+							dir.getOpposite());
 					if (handler != null && handler.canReceive()) {
 						int sent = handler.receiveSteam(steamToOutput, false);
 						if (sent > 0) {
@@ -403,10 +405,41 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 	private void triggerMeltdown() {
 		if (level instanceof ServerLevel serverLevel) {
 			BlockPos center = worldPosition;
-			serverLevel.explode(null, center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5,
-					8.0f, true, ExplosionInteraction.BLOCK);
+			serverLevel.explode(null, center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5, 8.0f, true,
+					ExplosionInteraction.BLOCK);
+			irradiateArea(serverLevel, center);
 		}
 		resetReactor();
+	}
+
+	private void irradiateArea(ServerLevel level, BlockPos center) {
+		RadiationData radiationData = RadiationData.get(level);
+		long gameTime = level.getGameTime();
+		ChunkPos centerChunk = new ChunkPos(center);
+
+		long fourHours = 4L * 60 * 60 * 20;
+		long twoHours = 2L * 60 * 60 * 20;
+		long oneHour = 1L * 60 * 60 * 20;
+
+		for (int dx = -10; dx <= 10; dx++) {
+			for (int dz = -10; dz <= 10; dz++) {
+				int distance = Math.max(Math.abs(dx), Math.abs(dz));
+				ChunkPos chunk = new ChunkPos(centerChunk.x + dx, centerChunk.z + dz);
+
+				long duration;
+				if (distance <= 3) {
+					duration = fourHours;
+				} else if (distance <= 5) {
+					duration = twoHours;
+				} else if (distance <= 10) {
+					duration = oneHour;
+				} else {
+					continue;
+				}
+
+				radiationData.setChunkIrradiated(chunk, duration, gameTime);
+			}
+		}
 	}
 
 	private void resetReactor() {
@@ -517,26 +550,33 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 	}
 
 	public boolean canStart() {
-		if (state != ReactorState.IDLE) return false;
-		if (!formed) return false;
+		if (state != ReactorState.IDLE)
+			return false;
+		if (!formed)
+			return false;
 
 		ItemStack inputStack = getItem(INPUT_SLOT);
-		if (inputStack.isEmpty()) return false;
+		if (inputStack.isEmpty())
+			return false;
 
 		FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
-		if (fuelData == null) return false;
+		if (fuelData == null)
+			return false;
 
-		if (getEnergy() < fuelData.startupEnergy()) return false;
+		if (getEnergy() < fuelData.startupEnergy())
+			return false;
 
 		return true;
 	}
 
 	public void startReactor() {
-		if (!canStart()) return;
+		if (!canStart())
+			return;
 
 		ItemStack inputStack = getItem(INPUT_SLOT);
 		FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
-		if (fuelData == null) return;
+		if (fuelData == null)
+			return;
 
 		consumeEnergy(fuelData.startupEnergy());
 		state = ReactorState.STARTING;
@@ -654,7 +694,8 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 
 	public int getStartupEnergyRequired() {
 		ItemStack inputStack = getItem(INPUT_SLOT);
-		if (inputStack.isEmpty()) return 0;
+		if (inputStack.isEmpty())
+			return 0;
 		FissionFuel fuelData = inputStack.getItemHolder().getData(DataMapsInit.FISSION_FUEL);
 		return fuelData != null ? fuelData.startupEnergy() : 0;
 	}

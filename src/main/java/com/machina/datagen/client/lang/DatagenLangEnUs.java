@@ -5,6 +5,7 @@ import com.machina.api.cap.sided.ConnectionSide;
 import com.machina.api.item.ConnectorFilterItem.Mode;
 import com.machina.api.rocket.part.RocketPartType;
 import com.machina.registration.init.BlockInit;
+import com.machina.registration.init.EffectInit;
 import com.machina.registration.init.EntityTypeInit;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FruitInit;
@@ -843,6 +844,13 @@ public class DatagenLangEnUs extends DatagenLang {
 
 		// Entities
 		add(EntityTypeInit.ROCKET, "Rocket");
+
+		// Effects
+		addEffect(EffectInit.RADIATION, "Radiation");
+
+		// Death Messages
+		add("death.attack.radiation", "%1$s died of radiation poisoning");
+		add("death.attack.radiation.player", "%1$s died of radiation poisoning whilst fighting %2$s");
 
 		// Misc
 		add(Mode.WHITELIST, "Whitelist");

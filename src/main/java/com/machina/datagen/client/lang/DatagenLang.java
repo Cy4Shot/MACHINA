@@ -19,6 +19,7 @@ import com.machina.registration.init.FruitInit.Fruit;
 import com.machina.registration.init.RecipeInit.RecipeRegistryObject;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -58,6 +59,10 @@ public abstract class DatagenLang extends LanguageProvider {
 
 	protected void addTab(DeferredHolder<CreativeModeTab, CreativeModeTab> tab, String name) {
 		add(modid + ".creativemodetab." + tab.getId().getPath(), name);
+	}
+
+	protected void addEffect(DeferredHolder<MobEffect, ? extends MobEffect> effect, String name) {
+		add("effect." + modid + "." + effect.getId().getPath(), name);
 	}
 
 	protected void addPart(DeferredHolder<RocketPart, ? extends RocketPart> part, String name) {

@@ -4,12 +4,14 @@ import com.machina.Machina;
 import com.machina.api.block.IClickableBlock;
 import com.machina.api.recipe.RecipeRefreshManager;
 import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
+import com.machina.registration.init.EffectInit;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.JsonLoaderInit;
 import com.machina.world.biome.PlanetBiome;
 import com.machina.world.data.PlanetDimensionData;
+import com.machina.world.data.RadiationData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -21,6 +23,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -41,6 +46,9 @@ import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 @EventBusSubscriber(modid = Machina.MOD_ID)
 public class CommonForgeEvents {
@@ -140,6 +148,60 @@ public class CommonForgeEvents {
 
 		if (block instanceof IClickableBlock) {
 			event.setUseBlock(TriState.TRUE);
+		}
+	}
+
+	private static final long TICKS_PER_HOUR = 60L * 60 * 20;
+
+	@SubscribeEvent
+	public static void onPlayerTick(PlayerTickEvent.Post event) {
+		if (!(event.getEntity() instanceof ServerPlayer player)) {
+			return;
+		}
+
+		ServerLevel level = (ServerLevel) player.level();
+		RadiationData radiationData = RadiationData.get(level);
+		ChunkPos chunkPos = new ChunkPos(player.blockPosition());
+
+		if (radiationData.isChunkIrradiated(chunkPos)) {
+			long remainingTicks = radiationData.getRemainingTicks(chunkPos, level.getGameTime());
+			int amplifier;
+			if (remainingTicks == RadiationData.PERMANENT) {
+				amplifier = 4;
+			} else {
+				int hoursRemaining = (int) Math.ceil((double) remainingTicks / TICKS_PER_HOUR);
+				amplifier = Math.max(0, hoursRemaining - 1);
+			}
+
+			MobEffectInstance current = player.getEffect(EffectInit.RADIATION);
+			if (current == null || current.getDuration() < 30 || current.getAmplifier() != amplifier) {
+				player.addEffect(new MobEffectInstance(EffectInit.RADIATION, 40, amplifier, false, true, true));
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onLevelTick(LevelTickEvent.Post event) {
+		if (!(event.getLevel() instanceof ServerLevel level)) {
+			return;
+		}
+		if (level.getGameTime() % 20 != 0) {
+			return;
+		}
+		RadiationData.get(level).tick(level.getGameTime());
+	}
+
+	@SubscribeEvent
+	public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+		if (event.getEntity() instanceof ServerPlayer player) {
+			RadiationData.get((ServerLevel) player.level()).syncToPlayer(player);
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+		if (event.getEntity() instanceof ServerPlayer player) {
+			RadiationData.get((ServerLevel) player.level()).syncToPlayer(player);
 		}
 	}
 }

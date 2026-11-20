@@ -15,9 +15,13 @@ import com.machina.weather.WeatherEvent;
 import com.machina.weather.manager.ServerWeatherManager;
 import com.machina.weather.system.ServerWeatherSystem;
 import com.machina.world.PlanetRegistrationHandler;
+import com.machina.world.data.RadiationData;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
+
+import net.minecraft.world.level.ChunkPos;
 
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -123,6 +127,113 @@ public class CommandManager {
 			source.sendSuccess(() -> Component.literal("Current temperature is " + String.format("%.1f", temperature) + "K."), true);
 			return Command.SINGLE_SUCCESS;
 		}));
+
+	public static final ArgumentBuilder<CommandSourceStack, ?> RADIATION = Commands.literal("radiation")
+		.then(Commands.literal("set")
+			.then(Commands.argument("duration", LongArgumentType.longArg(-1))
+				.executes(ctx -> {
+					CommandSourceStack source = ctx.getSource();
+					ServerLevel level = source.getLevel();
+					long duration = LongArgumentType.getLong(ctx, "duration");
+					ChunkPos chunkPos = new ChunkPos(source.getPlayer().blockPosition());
+					RadiationData data = RadiationData.get(level);
+					if (duration == RadiationData.PERMANENT) {
+						data.setChunkIrradiatedPermanent(chunkPos);
+						source.sendSuccess(() -> Component.literal("Set permanent radiation at chunk [" + chunkPos.x + ", " + chunkPos.z + "]"), true);
+					} else {
+						data.setChunkIrradiated(chunkPos, duration, level.getGameTime());
+						source.sendSuccess(() -> Component.literal("Set radiation at chunk [" + chunkPos.x + ", " + chunkPos.z + "] for " + duration + " ticks"), true);
+					}
+					return Command.SINGLE_SUCCESS;
+				})
+				.then(Commands.argument("chunkX", IntegerArgumentType.integer())
+					.then(Commands.argument("chunkZ", IntegerArgumentType.integer())
+						.executes(ctx -> {
+							CommandSourceStack source = ctx.getSource();
+							ServerLevel level = source.getLevel();
+							long duration = LongArgumentType.getLong(ctx, "duration");
+							int chunkX = IntegerArgumentType.getInteger(ctx, "chunkX");
+							int chunkZ = IntegerArgumentType.getInteger(ctx, "chunkZ");
+							ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
+							RadiationData data = RadiationData.get(level);
+							if (duration == RadiationData.PERMANENT) {
+								data.setChunkIrradiatedPermanent(chunkPos);
+								source.sendSuccess(() -> Component.literal("Set permanent radiation at chunk [" + chunkX + ", " + chunkZ + "]"), true);
+							} else {
+								data.setChunkIrradiated(chunkPos, duration, level.getGameTime());
+								source.sendSuccess(() -> Component.literal("Set radiation at chunk [" + chunkX + ", " + chunkZ + "] for " + duration + " ticks"), true);
+							}
+							return Command.SINGLE_SUCCESS;
+						})))))
+		.then(Commands.literal("clear")
+			.executes(ctx -> {
+				CommandSourceStack source = ctx.getSource();
+				ServerLevel level = source.getLevel();
+				ChunkPos chunkPos = new ChunkPos(source.getPlayer().blockPosition());
+				RadiationData.get(level).clearChunkRadiation(chunkPos);
+				source.sendSuccess(() -> Component.literal("Cleared radiation at chunk [" + chunkPos.x + ", " + chunkPos.z + "]"), true);
+				return Command.SINGLE_SUCCESS;
+			})
+			.then(Commands.argument("chunkX", IntegerArgumentType.integer())
+				.then(Commands.argument("chunkZ", IntegerArgumentType.integer())
+					.executes(ctx -> {
+						CommandSourceStack source = ctx.getSource();
+						ServerLevel level = source.getLevel();
+						int chunkX = IntegerArgumentType.getInteger(ctx, "chunkX");
+						int chunkZ = IntegerArgumentType.getInteger(ctx, "chunkZ");
+						RadiationData.get(level).clearChunkRadiation(chunkX, chunkZ);
+						source.sendSuccess(() -> Component.literal("Cleared radiation at chunk [" + chunkX + ", " + chunkZ + "]"), true);
+						return Command.SINGLE_SUCCESS;
+					}))))
+		.then(Commands.literal("check")
+			.executes(ctx -> {
+				CommandSourceStack source = ctx.getSource();
+				ServerLevel level = source.getLevel();
+				ChunkPos chunkPos = new ChunkPos(source.getPlayer().blockPosition());
+				RadiationData data = RadiationData.get(level);
+				if (data.isChunkIrradiated(chunkPos)) {
+					long remaining = data.getRemainingTicks(chunkPos, level.getGameTime());
+					if (remaining == RadiationData.PERMANENT) {
+						source.sendSuccess(() -> Component.literal("Chunk [" + chunkPos.x + ", " + chunkPos.z + "] has permanent radiation"), true);
+					} else {
+						source.sendSuccess(() -> Component.literal("Chunk [" + chunkPos.x + ", " + chunkPos.z + "] has radiation for " + remaining + " more ticks"), true);
+					}
+				} else {
+					source.sendSuccess(() -> Component.literal("Chunk [" + chunkPos.x + ", " + chunkPos.z + "] is not irradiated"), true);
+				}
+				return Command.SINGLE_SUCCESS;
+			})
+			.then(Commands.argument("chunkX", IntegerArgumentType.integer())
+				.then(Commands.argument("chunkZ", IntegerArgumentType.integer())
+					.executes(ctx -> {
+						CommandSourceStack source = ctx.getSource();
+						ServerLevel level = source.getLevel();
+						int chunkX = IntegerArgumentType.getInteger(ctx, "chunkX");
+						int chunkZ = IntegerArgumentType.getInteger(ctx, "chunkZ");
+						ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
+						RadiationData data = RadiationData.get(level);
+						if (data.isChunkIrradiated(chunkPos)) {
+							long remaining = data.getRemainingTicks(chunkPos, level.getGameTime());
+							if (remaining == RadiationData.PERMANENT) {
+								source.sendSuccess(() -> Component.literal("Chunk [" + chunkX + ", " + chunkZ + "] has permanent radiation"), true);
+							} else {
+								source.sendSuccess(() -> Component.literal("Chunk [" + chunkX + ", " + chunkZ + "] has radiation for " + remaining + " more ticks"), true);
+							}
+						} else {
+							source.sendSuccess(() -> Component.literal("Chunk [" + chunkX + ", " + chunkZ + "] is not irradiated"), true);
+						}
+						return Command.SINGLE_SUCCESS;
+					}))))
+		.then(Commands.literal("clearall")
+			.executes(ctx -> {
+				CommandSourceStack source = ctx.getSource();
+				ServerLevel level = source.getLevel();
+				RadiationData data = RadiationData.get(level);
+				int count = data.getIrradiatedChunks().size();
+				data.clearAll();
+				source.sendSuccess(() -> Component.literal("Cleared radiation from " + count + " chunks"), true);
+				return Command.SINGLE_SUCCESS;
+			}));
 	//@formatter:on
 
 	@SubscribeEvent
@@ -136,6 +247,7 @@ public class CommandManager {
 				.then(WEATHER.apply(event.getBuildContext()))
 				.then(WIND.apply(event.getBuildContext()))
 				.then(TEMP.apply(event.getBuildContext()))
+				.then(RADIATION)
 		);
 		//@formatter:on
 	}
