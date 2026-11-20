@@ -216,7 +216,57 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 			pushSteamThroughPorts();
 		}
 
+		// Spawn particles when running
+		if (level instanceof ServerLevel serverLevel && (state == ReactorState.RUNNING || state == ReactorState.MELTDOWN_WARNING)) {
+			spawnParticles(serverLevel);
+		}
+
 		super.tick();
+	}
+
+	private void spawnParticles(ServerLevel level) {
+		// Spawn particles around fuel rods
+		for (BlockPos partPos : parts) {
+			if (level.getBlockEntity(partPos) instanceof FissionFuelRodBlockEntity) {
+				int particleCount = state == ReactorState.MELTDOWN_WARNING ? 20 : 8;
+
+				for (int i = 0; i < particleCount; i++) {
+					double px = partPos.getX() + 0.5 + (level.random.nextDouble() - 0.5) * 0.6;
+					double py = partPos.getY() + level.random.nextDouble();
+					double pz = partPos.getZ() + 0.5 + (level.random.nextDouble() - 0.5) * 0.6;
+
+					if (state == ReactorState.MELTDOWN_WARNING) {
+						// Intense flames and smoke during meltdown warning
+						level.sendParticles(net.minecraft.core.particles.ParticleTypes.FLAME,
+								px, py, pz, 1, 0.05, 0.1, 0.05, 0.03);
+						level.sendParticles(net.minecraft.core.particles.ParticleTypes.LARGE_SMOKE,
+								px, py + 0.5, pz, 1, 0.1, 0.15, 0.1, 0.01);
+						if (level.random.nextFloat() < 0.2f) {
+							level.sendParticles(net.minecraft.core.particles.ParticleTypes.LAVA,
+									px, py, pz, 1, 0, 0, 0, 0);
+						}
+					} else {
+						// Normal running - steam and heat shimmer
+						level.sendParticles(net.minecraft.core.particles.ParticleTypes.SMOKE,
+								px, py, pz, 1, 0.02, 0.05, 0.02, 0.005);
+						if (level.random.nextFloat() < 0.15f) {
+							level.sendParticles(net.minecraft.core.particles.ParticleTypes.CLOUD,
+									px, py + 0.3, pz, 1, 0.05, 0.02, 0.05, 0.01);
+						}
+					}
+				}
+			}
+		}
+
+		// Also spawn ambient particles in the reactor interior
+		if (level.random.nextFloat() < 0.5f) {
+			for (BlockPos partPos : parts) {
+				if (level.getBlockState(partPos).isAir() || level.getBlockEntity(partPos) instanceof FissionFuelRodBlockEntity) {
+					continue;
+				}
+				// Skip - we only want interior air blocks, which aren't in parts
+			}
+		}
 	}
 
 	private void pushSteamThroughPorts() {

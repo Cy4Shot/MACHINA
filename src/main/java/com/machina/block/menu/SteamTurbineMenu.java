@@ -19,6 +19,7 @@ public class SteamTurbineMenu extends MachinaMachineMenu<SteamTurbineControllerB
 	private int lastSteamRate = 0;
 	private int lastEnergyProduced = 0;
 	private int efficiencyScaled = 0;
+	private int bufferEfficiencyScaled = 10000;
 	private int energy = 0;
 	private int maxEnergy = 1;
 
@@ -36,6 +37,7 @@ public class SteamTurbineMenu extends MachinaMachineMenu<SteamTurbineControllerB
 				x -> this.lastSteamRate = x,
 				x -> this.lastEnergyProduced = x,
 				x -> this.efficiencyScaled = x,
+				x -> this.bufferEfficiencyScaled = x,
 				x -> this.energy = x,
 				x -> this.maxEnergy = x));
 	}
@@ -57,6 +59,10 @@ public class SteamTurbineMenu extends MachinaMachineMenu<SteamTurbineControllerB
 		return efficiencyScaled / 10000.0f;
 	}
 
+	public float getBufferEfficiency() {
+		return bufferEfficiencyScaled / 10000.0f;
+	}
+
 	public int getEnergy() {
 		return energy;
 	}
@@ -75,5 +81,9 @@ public class SteamTurbineMenu extends MachinaMachineMenu<SteamTurbineControllerB
 
 	public String getMaxEnergyString() {
 		return StringUtils.formatPower(maxEnergy);
+	}
+
+	public boolean isBufferFull() {
+		return bufferEfficiencyScaled < 100; // Less than 1% buffer efficiency means essentially full
 	}
 }

@@ -116,7 +116,7 @@ public class DatagenBlockTags extends BlockTagsProvider {
 
 		tag(BlockTagInit.STEAM_TURBINE_CTM).add(BlockInit.STEAM_TURBINE_CONTROLLER.get(),
 				BlockInit.STEAM_TURBINE_CASING.get(), BlockInit.STEAM_TURBINE_ENERGY_PORT.get(),
-				BlockInit.STEAM_TURBINE_STEAM_PORT.get());
+				BlockInit.STEAM_TURBINE_STEAM_PORT.get(), BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY.get());
 		tag(BlockTagInit.STEAM_TURBINE_GLASS_CTM).add(BlockInit.STEAM_TURBINE_GLASS.get());
 
 		FamiliesInit.ORES.forEach(this::oreFamily);

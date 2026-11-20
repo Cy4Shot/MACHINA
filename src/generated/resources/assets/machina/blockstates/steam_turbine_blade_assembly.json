@@ -1,4 +1,16 @@
 {
+  "athena:loader": "athena:ctm",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:steam_turbine_ctm"
+  },
+  "ctm_textures": {
+    "center": "machina:block/ctm/steam_turbine_blade_assembly/c",
+    "empty": "machina:block/ctm/steam_turbine_blade_assembly/e",
+    "horizontal": "machina:block/ctm/steam_turbine_blade_assembly/h",
+    "particle": "machina:block/steam_turbine_blade_assembly",
+    "vertical": "machina:block/ctm/steam_turbine_blade_assembly/v"
+  },
   "variants": {
     "": {
       "model": "machina:block/steam_turbine_blade_assembly"

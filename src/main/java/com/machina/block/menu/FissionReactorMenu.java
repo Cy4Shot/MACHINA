@@ -46,7 +46,7 @@ public class FissionReactorMenu extends MachinaMachineMenu<FissionReactorControl
 
 		this.addSlot(new AcceptSlot(container, 0, 17, -62,
 				stack -> stack.getItemHolder().getData(DataMapsInit.FISSION_FUEL) != null));
-		this.addSlot(new ResultSlot(container, 1, 17, 20));
+		this.addSlot(new ResultSlot(container, 1, 17, 22));
 
 		invSlots(inv, 0);
 

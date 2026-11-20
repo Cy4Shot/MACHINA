@@ -1247,6 +1247,7 @@
   "gui.machina.turbine.energy_tooltip": "Energy: %s / %s",
   "gui.machina.turbine.not_formed": "Turbine Not Formed",
   "gui.machina.turbine.status.idle": "IDLE",
+  "gui.machina.turbine.status.output_full": "OUTPUT FULL",
   "gui.machina.turbine.status.running": "RUNNING",
   "gui.machina.turbine.status.starting": "SPINNING UP...",
   "gui.machina.turbine.steam_input": "Steam Input",

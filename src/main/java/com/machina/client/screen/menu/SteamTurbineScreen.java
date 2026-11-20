@@ -47,11 +47,15 @@ public class SteamTurbineScreen extends MachinaMenuScreen<SteamTurbineMenu> {
 		float efficiency = this.menu.getEfficiency();
 		int steamRate = this.menu.getLastSteamRate();
 		int energyProduced = this.menu.getLastEnergyProduced();
+		boolean bufferFull = this.menu.isBufferFull();
 
 		Component statusText;
 		int statusColor;
 
-		if (efficiency > 0.9f) {
+		if (bufferFull) {
+			statusText = Component.translatable("gui.machina.turbine.status.output_full");
+			statusColor = MUI.RED;
+		} else if (efficiency > 0.9f) {
 			statusText = Component.translatable("gui.machina.turbine.status.running");
 			statusColor = MUI.GREEN;
 		} else if (efficiency > 0) {
@@ -111,16 +115,20 @@ public class SteamTurbineScreen extends MachinaMenuScreen<SteamTurbineMenu> {
 		gui.fill(x, y, x + 120, y + 12, 0xFF101010);
 		gui.fill(x + 1, y + 1, x + 119, y + 11, 0xFF202020);
 
-		float efficiency = this.menu.getEfficiency();
-		int fillWidth = (int) (efficiency * 116);
-		int color = efficiency >= 0.9f ? 0xFF00AA00 : (efficiency >= 0.5f ? 0xFFAAAA00 : 0xFFAA5500);
+		// Show combined efficiency (spin-up × buffer)
+		float spinEfficiency = this.menu.getEfficiency();
+		float bufferEfficiency = this.menu.getBufferEfficiency();
+		float totalEfficiency = spinEfficiency * bufferEfficiency;
+
+		int fillWidth = (int) (totalEfficiency * 116);
+		int color = totalEfficiency >= 0.9f ? 0xFF00AA00 : (totalEfficiency >= 0.5f ? 0xFFAAAA00 : 0xFFAA5500);
 		gui.fill(x + 2, y + 2, x + 2 + fillWidth, y + 10, color);
 
-		String effStr = StringUtils.formatPercent(efficiency);
-		MUI.drawString(gui, Component.literal(effStr), x, y + 14, efficiency >= 0.9f ? MUI.GREEN : MUI.ACC_1);
+		String effStr = StringUtils.formatPercent(totalEfficiency);
+		MUI.drawString(gui, Component.literal(effStr), x, y + 14, totalEfficiency >= 0.9f ? MUI.GREEN : MUI.ACC_1);
 
 		registerHoverable("efficiency_gauge", x, y, x + 120, y + 12,
 				() -> Component.translatable("gui.machina.turbine.efficiency_tooltip",
-						StringUtils.formatPercent(this.menu.getEfficiency())));
+						StringUtils.formatPercent(this.menu.getEfficiency() * this.menu.getBufferEfficiency())));
 	}
 }

@@ -114,7 +114,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		ctm(BlockInit.STEAM_TURBINE_STEAM_PORT, BlockTagInit.STEAM_TURBINE_CTM);
 		ctm(BlockInit.STEAM_TURBINE_GLASS, BlockTagInit.STEAM_TURBINE_GLASS_CTM);
 		invisible(BlockInit.STEAM_TURBINE_BLADE);
-		cube(BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY);
+		ctm(BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY, BlockTagInit.STEAM_TURBINE_CTM);
 
 		cube(BlockInit.BROWN_MUSHROOM_STALK);
 		cube(BlockInit.GREEN_MUSHROOM_STALK);

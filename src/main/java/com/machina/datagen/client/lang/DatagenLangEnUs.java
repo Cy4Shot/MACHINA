@@ -1084,6 +1084,7 @@ public class DatagenLangEnUs extends DatagenLang {
 		addUI("turbine.status.idle", "IDLE");
 		addUI("turbine.status.starting", "SPINNING UP...");
 		addUI("turbine.status.running", "RUNNING");
+		addUI("turbine.status.output_full", "OUTPUT FULL");
 		addUI("turbine.steam_input", "Steam Input");
 		addUI("turbine.steam_rate_tooltip", "Steam Rate: %d mB/t");
 		addUI("turbine.energy_stored", "Energy Stored");
