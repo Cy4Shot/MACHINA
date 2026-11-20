@@ -10,8 +10,11 @@ import com.machina.registration.CapabilityRegistrar;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.DataMapsInit;
 import com.machina.registration.init.MultiblockInit;
+import com.machina.api.network.s2c.S2CNuclearExplosion;
 import com.machina.world.data.RadiationData;
 import com.mojang.serialization.Codec;
+
+import net.neoforged.neoforge.network.PacketDistributor;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
@@ -405,11 +408,71 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 	private void triggerMeltdown() {
 		if (level instanceof ServerLevel serverLevel) {
 			BlockPos center = worldPosition;
-			serverLevel.explode(null, center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5, 8.0f, true,
-					ExplosionInteraction.BLOCK);
+
+			// Send nuclear explosion visual to all nearby players
+			float explosionPower = 8.0f;
+			S2CNuclearExplosion packet = new S2CNuclearExplosion(center.getX() + 0.5, center.getY() + 0.5,
+					center.getZ() + 0.5, explosionPower);
+			PacketDistributor.sendToPlayersNear(serverLevel, null, center.getX(), center.getY(), center.getZ(), 500,
+					packet);
+
+			// Spawn massive particle burst
+			spawnExplosionParticles(serverLevel, center);
+
+			// Actual explosion damage
+			serverLevel.explode(null, center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5, explosionPower,
+					true, ExplosionInteraction.BLOCK);
+
+			// Irradiate the area
 			irradiateArea(serverLevel, center);
 		}
 		resetReactor();
+	}
+
+	private void spawnExplosionParticles(ServerLevel level, BlockPos center) {
+		// Initial flash particles
+		for (int i = 0; i < 200; i++) {
+			double offsetX = (level.random.nextDouble() - 0.5) * 20;
+			double offsetY = level.random.nextDouble() * 30;
+			double offsetZ = (level.random.nextDouble() - 0.5) * 20;
+			double velX = (level.random.nextDouble() - 0.5) * 0.5;
+			double velY = level.random.nextDouble() * 0.8 + 0.2;
+			double velZ = (level.random.nextDouble() - 0.5) * 0.5;
+
+			level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, center.getX() + offsetX, center.getY() + offsetY,
+					center.getZ() + offsetZ, 1, velX, velY, velZ, 0.1);
+		}
+
+		// Fire and smoke
+		for (int i = 0; i < 500; i++) {
+			double angle = level.random.nextDouble() * Math.PI * 2;
+			double radius = level.random.nextDouble() * 15;
+			double offsetX = Math.cos(angle) * radius;
+			double offsetY = level.random.nextDouble() * 50;
+			double offsetZ = Math.sin(angle) * radius;
+			double velY = 0.5 + level.random.nextDouble() * 1.0;
+
+			level.sendParticles(ParticleTypes.LARGE_SMOKE, center.getX() + offsetX, center.getY() + offsetY,
+					center.getZ() + offsetZ, 1, 0, velY, 0, 0.05);
+
+			if (level.random.nextFloat() < 0.3f) {
+				level.sendParticles(ParticleTypes.FLAME, center.getX() + offsetX, center.getY() + offsetY * 0.5,
+						center.getZ() + offsetZ, 1, 0, velY * 0.5, 0, 0.1);
+			}
+		}
+
+		// Shockwave dust ring
+		for (int i = 0; i < 300; i++) {
+			double angle = level.random.nextDouble() * Math.PI * 2;
+			double radius = 5 + level.random.nextDouble() * 30;
+			double offsetX = Math.cos(angle) * radius;
+			double offsetZ = Math.sin(angle) * radius;
+			double velX = Math.cos(angle) * 0.8;
+			double velZ = Math.sin(angle) * 0.8;
+
+			level.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, center.getX() + offsetX, center.getY() + 1,
+					center.getZ() + offsetZ, 1, velX, 0.1, velZ, 0.02);
+		}
 	}
 
 	private void irradiateArea(ServerLevel level, BlockPos center) {

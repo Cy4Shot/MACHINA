@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import com.machina.api.util.MachinaRL;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
@@ -17,14 +18,15 @@ public class ShaderHandler {
 	public static final List<MachinaShader> SHADERS = new ArrayList<>();
 
 	//@formatter:off
-	public static final MachinaShader ROCKET_PART_BENCH = create("rocket_part_bench");
-	public static final MachinaShader FLARE = create("flare");
-	public static final MachinaShader PLANET = create("planet");
-	public static final MachinaShader AURORA = create("aurora");
+	public static final MachinaShader ROCKET_PART_BENCH = create("rocket_part_bench", DefaultVertexFormat.NEW_ENTITY);
+	public static final MachinaShader FLARE = create("flare", DefaultVertexFormat.NEW_ENTITY);
+	public static final MachinaShader PLANET = create("planet", DefaultVertexFormat.NEW_ENTITY);
+	public static final MachinaShader AURORA = create("aurora", DefaultVertexFormat.NEW_ENTITY);
+	public static final MachinaShader NUKE_GLOW = create("nuke_glow", DefaultVertexFormat.POSITION);
 	//@formatter:on
 
-	private static MachinaShader create(String name) {
-		MachinaShader shader = new MachinaShader(name);
+	private static MachinaShader create(String name, VertexFormat format) {
+		MachinaShader shader = new MachinaShader(name, format);
 		SHADERS.add(shader);
 		return shader;
 	}
@@ -32,7 +34,7 @@ public class ShaderHandler {
 	public static void register(BiConsumer<ShaderInstance, Consumer<ShaderInstance>> cons, ResourceProvider man) {
 		SHADERS.forEach(shader -> {
 			try {
-				cons.accept(new ShaderInstance(man, MachinaRL.create(shader.name), DefaultVertexFormat.NEW_ENTITY),
+				cons.accept(new ShaderInstance(man, MachinaRL.create(shader.name), shader.getFormat()),
 						shader::setShaderInstance);
 			} catch (IOException e) {
 				e.printStackTrace();

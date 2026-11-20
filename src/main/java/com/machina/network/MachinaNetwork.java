@@ -34,6 +34,7 @@ import com.machina.api.network.s2c.S2COpenDirectionalContainer;
 import com.machina.api.network.s2c.S2CRocketRefuelingStationSync;
 import com.machina.api.network.s2c.S2CRocketScreenOpen;
 import com.machina.api.network.s2c.S2CTemperatureChange;
+import com.machina.api.network.s2c.S2CNuclearExplosion;
 import com.machina.api.network.s2c.S2CRadiationSync;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
 import com.machina.api.network.s2c.S2CWeatherEventChange;
@@ -86,6 +87,7 @@ public class MachinaNetwork {
 		s2c(reg, S2CCinematicLand.class);
 		s2c(reg, S2CRocketRefuelingStationSync.class);
 		s2c(reg, S2CRadiationSync.class);
+		s2c(reg, S2CNuclearExplosion.class);
 
 		config2c(reg, S2CSyncStarchart.class);
 		config2c(reg, S2CSyncBiomes.class);

@@ -8,10 +8,20 @@ public class MachinaShader {
 
 	protected ShaderInstance shaderInstance;
 	protected final String name;
-	protected VertexFormat format;
+	protected final VertexFormat format;
 
 	public MachinaShader(String name) {
 		this.name = name;
+		this.format = null;
+	}
+
+	public MachinaShader(String name, VertexFormat format) {
+		this.name = name;
+		this.format = format;
+	}
+
+	public VertexFormat getFormat() {
+		return format;
 	}
 
 	public void bind() {

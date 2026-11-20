@@ -6,6 +6,8 @@ import com.machina.Machina;
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.client.ClientRadiationData;
+import com.machina.client.explosion.NuclearExplosionManager;
+import com.machina.client.explosion.NuclearExplosionRenderer;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingInit;
 
@@ -20,6 +22,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
 
 @EventBusSubscriber(modid = Machina.MOD_ID, value = Dist.CLIENT)
@@ -37,6 +40,14 @@ public class ClientForgeEvents {
 		}
 
 		spawnRadiationMist();
+		NuclearExplosionManager.tick();
+	}
+
+	@SubscribeEvent
+	public static void onRenderLevelStage(final RenderLevelStageEvent event) {
+		if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
+			NuclearExplosionRenderer.render(event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaPartialTick(false));
+		}
 	}
 
 	private static void spawnRadiationMist() {
