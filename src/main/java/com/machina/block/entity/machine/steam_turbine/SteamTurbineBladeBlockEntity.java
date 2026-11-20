@@ -85,7 +85,7 @@ public class SteamTurbineBladeBlockEntity extends MultiblockPartBlockEntity {
 			return false;
 		}
 		return BlockHelper.getFromTe(level, getMaster(), SteamTurbineControllerBlockEntity.class,
-				controller -> controller.getEfficiency() > 0);
+				SteamTurbineControllerBlockEntity::isEffectivelyRunning);
 	}
 
 	public float getRotation() {

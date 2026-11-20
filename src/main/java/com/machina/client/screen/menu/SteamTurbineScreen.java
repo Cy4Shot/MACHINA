@@ -35,10 +35,10 @@ public class SteamTurbineScreen extends MachinaMenuScreen<SteamTurbineMenu> {
 			return;
 		}
 
-		drawStatusPanel(gui, i + 30, j - 55);
-		drawSteamRateGauge(gui, i + 30, j - 25, mx, my);
-		drawEnergyGauge(gui, i + 30, j + 10, mx, my);
-		drawEfficiencyGauge(gui, i + 30, j + 45, mx, my);
+		drawStatusPanel(gui, i + 115, j - 55);
+		drawSteamRateGauge(gui, i + 35, j + 25, mx, my);
+		drawEfficiencyGauge(gui, i + 125, j + 25, mx, my);
+		drawEnergyBar(gui, 0, -20, true, "");
 
 		drawOverlay(gui);
 	}
@@ -66,68 +66,49 @@ public class SteamTurbineScreen extends MachinaMenuScreen<SteamTurbineMenu> {
 			statusColor = MUI.CYAN;
 		}
 
-		MUI.drawString(gui, statusText, x, y, statusColor);
+		MUI.drawCenteredString(gui, statusText, x, y, statusColor);
 
 		String rateStr = steamRate + " mB/t -> " + StringUtils.formatPower(energyProduced) + "/t";
-		MUI.drawString(gui, Component.literal(rateStr), x, y + 12, MUI.WHITE);
+		MUI.drawCenteredString(gui, Component.literal(rateStr), x, y + 12, MUI.WHITE);
 	}
 
 	private void drawSteamRateGauge(GuiGraphics gui, int x, int y, int mx, int my) {
 		MUI.drawString(gui, Component.translatable("gui.machina.turbine.steam_input"), x, y - 8, MUI.CYAN);
 
-		gui.fill(x, y, x + 120, y + 12, 0xFF101010);
-		gui.fill(x + 1, y + 1, x + 119, y + 11, 0xFF202020);
+		gui.fill(x, y, x + 75, y + 12, 0xFF101010);
+		gui.fill(x + 1, y + 1, x + 74, y + 11, 0xFF202020);
 
 		int steamRate = this.menu.getLastSteamRate();
 		int maxVisualRate = 2000;
 		float percent = Math.min(1.0f, (float) steamRate / maxVisualRate);
-		int fillWidth = (int) (percent * 116);
+		int fillWidth = (int) (percent * 71);
 		gui.fill(x + 2, y + 2, x + 2 + fillWidth, y + 10, 0xFF555555);
 
 		String steamStr = steamRate + " mB/t";
 		MUI.drawString(gui, Component.literal(steamStr), x, y + 14, steamRate > 0 ? MUI.GREEN : MUI.WHITE);
 
-		registerHoverable("steam_gauge", x, y, x + 120, y + 12,
+		registerHoverable("steam_gauge", x, y, x + 75, y + 12,
 				() -> Component.translatable("gui.machina.turbine.steam_rate_tooltip", this.menu.getLastSteamRate()));
-	}
-
-	private void drawEnergyGauge(GuiGraphics gui, int x, int y, int mx, int my) {
-		MUI.drawString(gui, Component.translatable("gui.machina.turbine.energy_stored"), x, y - 8, MUI.CYAN);
-
-		gui.fill(x, y, x + 120, y + 12, 0xFF101010);
-		gui.fill(x + 1, y + 1, x + 119, y + 11, 0xFF202020);
-
-		float percent = this.menu.getEnergyPercent();
-		int fillWidth = (int) (percent * 116);
-		gui.fill(x + 2, y + 2, x + 2 + fillWidth, y + 10, 0xFFAA0000);
-
-		String energyStr = this.menu.getEnergyString() + " / " + this.menu.getMaxEnergyString();
-		MUI.drawString(gui, Component.literal(energyStr), x, y + 14, MUI.WHITE);
-
-		registerHoverable("energy_gauge", x, y, x + 120, y + 12,
-				() -> Component.translatable("gui.machina.turbine.energy_tooltip",
-						this.menu.getEnergyString(), this.menu.getMaxEnergyString()));
 	}
 
 	private void drawEfficiencyGauge(GuiGraphics gui, int x, int y, int mx, int my) {
 		MUI.drawString(gui, Component.translatable("gui.machina.turbine.efficiency"), x, y - 8, MUI.CYAN);
 
-		gui.fill(x, y, x + 120, y + 12, 0xFF101010);
-		gui.fill(x + 1, y + 1, x + 119, y + 11, 0xFF202020);
+		gui.fill(x, y, x + 75, y + 12, 0xFF101010);
+		gui.fill(x + 1, y + 1, x + 74, y + 11, 0xFF202020);
 
-		// Show combined efficiency (spin-up × buffer)
 		float spinEfficiency = this.menu.getEfficiency();
 		float bufferEfficiency = this.menu.getBufferEfficiency();
 		float totalEfficiency = spinEfficiency * bufferEfficiency;
 
-		int fillWidth = (int) (totalEfficiency * 116);
+		int fillWidth = (int) (totalEfficiency * 71);
 		int color = totalEfficiency >= 0.9f ? 0xFF00AA00 : (totalEfficiency >= 0.5f ? 0xFFAAAA00 : 0xFFAA5500);
 		gui.fill(x + 2, y + 2, x + 2 + fillWidth, y + 10, color);
 
 		String effStr = StringUtils.formatPercent(totalEfficiency);
 		MUI.drawString(gui, Component.literal(effStr), x, y + 14, totalEfficiency >= 0.9f ? MUI.GREEN : MUI.ACC_1);
 
-		registerHoverable("efficiency_gauge", x, y, x + 120, y + 12,
+		registerHoverable("efficiency_gauge", x, y, x + 75, y + 12,
 				() -> Component.translatable("gui.machina.turbine.efficiency_tooltip",
 						StringUtils.formatPercent(this.menu.getEfficiency() * this.menu.getBufferEfficiency())));
 	}

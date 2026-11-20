@@ -313,8 +313,11 @@ public abstract class ConnectorBlock extends Block implements EntityBlock, IClic
 	@Override
 	public AbstractContainerMenu createMenu(int id, Inventory inv, Player player, BlockPos pos, Direction d) {
 		if (getMenu() != null) {
-			return getMenu().apply(id, inv, ContainerLevelAccess.create(player.level(), pos),
-					player.level().getCapability(Capabilities.ItemHandler.BLOCK, pos, d), d);
+			IItemHandler handler = player.level().getCapability(Capabilities.ItemHandler.BLOCK, pos, d);
+			if (handler == null) {
+				return null;
+			}
+			return getMenu().apply(id, inv, ContainerLevelAccess.create(player.level(), pos), handler, d);
 		}
 		return null;
 	}

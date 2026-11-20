@@ -9,7 +9,6 @@ import com.machina.api.cap.steam.SteamBlockEntity;
 import com.machina.api.util.block.BlockHelper;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.MultiblockInit;
-import com.machina.registration.init.ParticleTypeInit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -124,8 +123,8 @@ public class SteamTurbineControllerBlockEntity extends MultiblockMasterBlockEnti
 			pushEnergyThroughPorts();
 		}
 
-		// Spawn steam particles when running
-		if (efficiency > 0 && level instanceof ServerLevel serverLevel) {
+		// Spawn steam particles when running (but not when output buffer is full)
+		if (efficiency > 0 && bufferEfficiency >= 0.01f && level instanceof ServerLevel serverLevel) {
 			spawnParticles(serverLevel);
 		}
 
@@ -151,13 +150,11 @@ public class SteamTurbineControllerBlockEntity extends MultiblockMasterBlockEnti
 					double vx = Math.cos(angle) * speed;
 					double vz = Math.sin(angle) * speed;
 
-					level.sendParticles(ParticleTypes.WHITE_SMOKE,
-							px, py, pz, 1, vx, 0.02, vz, 0.01);
+					level.sendParticles(ParticleTypes.WHITE_SMOKE, px, py, pz, 1, vx, 0.02, vz, 0.01);
 
 					// Extra puff particles
 					if (level.random.nextFloat() < 0.1f) {
-						level.sendParticles(ParticleTypes.POOF,
-								px, py, pz, 1, 0, 0.01, 0, 0.02);
+						level.sendParticles(ParticleTypes.POOF, px, py, pz, 1, 0, 0.01, 0, 0.02);
 					}
 				}
 			}
@@ -227,5 +224,9 @@ public class SteamTurbineControllerBlockEntity extends MultiblockMasterBlockEnti
 
 	public float getBufferEfficiency() {
 		return bufferEfficiency;
+	}
+
+	public boolean isEffectivelyRunning() {
+		return efficiency > 0 && bufferEfficiency >= 0.01f;
 	}
 }
