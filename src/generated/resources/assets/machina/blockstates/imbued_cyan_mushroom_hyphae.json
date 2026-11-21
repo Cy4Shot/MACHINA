@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "machina:block/imbued_cyan_mushroom_hyphae1"
+      },
+      {
+        "model": "machina:block/imbued_cyan_mushroom_hyphae2"
+      },
+      {
+        "model": "machina:block/imbued_cyan_mushroom_hyphae3"
+      },
+      {
+        "model": "machina:block/imbued_cyan_mushroom_hyphae4"
+      },
+      {
+        "model": "machina:block/imbued_cyan_mushroom_hyphae5"
+      },
+      {
+        "model": "machina:block/imbued_cyan_mushroom_hyphae6"
+      }
+    ]
+  }
+}

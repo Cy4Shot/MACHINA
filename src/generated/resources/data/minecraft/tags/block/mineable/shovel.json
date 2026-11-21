@@ -31,6 +31,10 @@
     "machina:peat_stairs",
     "machina:silt",
     "machina:silt_slab",
-    "machina:silt_stairs"
+    "machina:silt_stairs",
+    "machina:toxic_dirt",
+    "machina:toxic_dirt_slab",
+    "machina:toxic_dirt_stairs",
+    "machina:toxic_grass_block"
   ]
 }

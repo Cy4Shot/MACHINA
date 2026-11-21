@@ -164,6 +164,8 @@ public class FamiliesInit {
 		DIRTS.add(new DirtFamily("peat", BlockInit.PEAT.get(), BlockInit.PEAT_STAIRS.get(), BlockInit.PEAT_SLAB.get(),
 				false));
 		DIRTS.add(new DirtFamily("silt", BlockInit.SILT.get(), BlockInit.SILT_STAIRS.get(), BlockInit.SILT_SLAB.get()));
+		DIRTS.add(new DirtFamily("toxic", BlockInit.TOXIC_DIRT.get(), BlockInit.TOXIC_DIRT_STAIRS.get(),
+				BlockInit.TOXIC_DIRT_SLAB.get(), Optional.of(BlockInit.TOXIC_GRASS_BLOCK.get()), false));
 
 		// Woods
 		WOODS.add(new WoodFamily("tropical", BlockInit.TROPICAL_LOG.get(), BlockInit.TROPICAL_WOOD.get(),

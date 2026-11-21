@@ -122,6 +122,15 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropAsSilkOr(BlockInit.IMBUED_PURPLE_MUSHROOM_CAP.get(), BlockInit.PURPLE_MUSHROOM_CAP.get());
 		dropAsSilkOr(BlockInit.IMBUED_YELLOW_MUSHROOM_CAP.get(), BlockInit.YELLOW_MUSHROOM_CAP.get());
 
+		// Toxic mushrooms (hightech toxic forest)
+		dropSelf(BlockInit.TOXIC_MUSHROOM_STALK.get());
+		dropSelf(BlockInit.TOXIC_MUSHROOM_CAP.get());
+		dropAsSilkOr(BlockInit.TOXIC_MUSHROOM_GILLS.get(), BlockInit.TOXIC_MUSHROOM_CAP.get());
+		dropAsSilkOr(BlockInit.IMBUED_TOXIC_MUSHROOM_CAP.get(), BlockInit.TOXIC_MUSHROOM_CAP.get());
+		dropSelf(BlockInit.CYAN_MUSHROOM_STALK.get());
+		dropSelf(BlockInit.CYAN_MUSHROOM_CAP.get());
+		leaves(BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE.get());
+
 		dropSelf(BlockInit.PURPLE_GLOWSHROOM.get());
 		pot(BlockInit.POTTED_PURPLE_GLOWSHROOM.get());
 		dropSelf(BlockInit.PINK_GLOWSHROOM.get());
@@ -138,6 +147,10 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		pot(BlockInit.POTTED_TURQUOISE_GLOWSHROOM.get());
 		dropSelf(BlockInit.BLUE_GLOWSHROOM.get());
 		pot(BlockInit.POTTED_BLUE_GLOWSHROOM.get());
+		dropSelf(BlockInit.TOX_SHROOM.get());
+		pot(BlockInit.POTTED_TOX_SHROOM.get());
+		dropSelf(BlockInit.CYAN_TOX_SHROOM.get());
+		pot(BlockInit.POTTED_CYAN_TOX_SHROOM.get());
 
 		dropSelf(BlockInit.SPRUCE_CUP.get());
 		pot(BlockInit.POTTED_SPRUCE_CUP.get());
@@ -164,6 +177,8 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropAsSilkShears(BlockInit.MYCELIAL_GRASS.get());
 		dropAsSilkShears(BlockInit.FERROUS_GRASS.get());
 		dropAsSilkShears(BlockInit.MOONGRASS.get());
+		dropAsSilkShears(BlockInit.TOXIC_GRASS.get());
+		dropAsSilkShears(BlockInit.TOXIC_TENDRIL.get());
 		petals(BlockInit.PURPLE_PETALS.get());
 		petals(BlockInit.RED_PETALS.get());
 		petals(BlockInit.ORANGE_PETALS.get());

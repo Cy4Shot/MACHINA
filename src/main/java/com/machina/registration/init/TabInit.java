@@ -162,6 +162,15 @@ public class TabInit {
 				add(a, BlockInit.IMBUED_PURPLE_MUSHROOM_CAP);
 				add(a, BlockInit.IMBUED_YELLOW_MUSHROOM_CAP);
 
+				// Toxic mushrooms (hightech toxic forest)
+				add(a, BlockInit.TOXIC_MUSHROOM_STALK);
+				add(a, BlockInit.TOXIC_MUSHROOM_CAP);
+				add(a, BlockInit.TOXIC_MUSHROOM_GILLS);
+				add(a, BlockInit.IMBUED_TOXIC_MUSHROOM_CAP);
+				add(a, BlockInit.CYAN_MUSHROOM_STALK);
+				add(a, BlockInit.CYAN_MUSHROOM_CAP);
+				add(a, BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE);
+
 				add(a, BlockInit.TROPICAL_GRASS);
 				add(a, BlockInit.TWISTED_GRASS);
 				add(a, BlockInit.CONIFEROUS_GRASS);
@@ -170,6 +179,8 @@ public class TabInit {
 				add(a, BlockInit.MYCELIAL_GRASS);
 				add(a, BlockInit.FERROUS_GRASS);
 				add(a, BlockInit.MOONGRASS);
+				add(a, BlockInit.TOXIC_GRASS);
+				add(a, BlockInit.TOXIC_TENDRIL);
 
 				add(a, BlockInit.PURPLE_GROUNDLILY);
 				add(a, BlockInit.PINK_GROUNDLILY);
@@ -218,6 +229,8 @@ public class TabInit {
 				add(a, BlockInit.GREEN_GLOWSHROOM);
 				add(a, BlockInit.TURQUOISE_GLOWSHROOM);
 				add(a, BlockInit.BLUE_GLOWSHROOM);
+				add(a, BlockInit.TOX_SHROOM);
+				add(a, BlockInit.CYAN_TOX_SHROOM);
 
 				fruit(a, FruitInit.FRUITS);
 				ores(a, FamiliesInit.ORES);

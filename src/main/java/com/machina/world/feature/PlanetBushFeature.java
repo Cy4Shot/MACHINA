@@ -7,6 +7,7 @@ import com.machina.api.util.math.sdf.operator.SDFDisplacement;
 import com.machina.api.util.math.sdf.operator.SDFScale3D;
 import com.machina.api.util.math.sdf.post.SDFChanceFilter;
 import com.machina.api.util.math.sdf.primitive.SDFSphere;
+import com.machina.registration.init.TagInit.BlockTagInit;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -32,7 +33,6 @@ public class PlanetBushFeature extends Feature<PlanetBushFeature.PlanetBushFeatu
 		super(PlanetBushFeatureConfig.CODEC);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean place(FeaturePlaceContext<PlanetBushFeatureConfig> ctx) {
 		PlanetBushFeatureConfig config = ctx.config();
@@ -56,7 +56,7 @@ public class PlanetBushFeature extends Feature<PlanetBushFeature.PlanetBushFeatu
 				return false;
 			}
 			int shifted = 0;
-			while (!level.getBlockState(p.immutable().below()).isSolid()) {
+			while (!level.getBlockState(p.immutable().below()).is(BlockTagInit.PLANET_GRASSABLE)) {
 				p.move(Direction.DOWN);
 				if (++shifted > 3) {
 					return false;

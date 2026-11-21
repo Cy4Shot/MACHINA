@@ -1,4 +1,4 @@
-// 1.21.1	2026-05-01T20:19:55.8913537	Tags for minecraft:item mod id machina
+// 1.21.1	2026-11-21T14:35:15.1344282	Tags for minecraft:item mod id machina
 9d5498fda4bcffdbda8de1971b5dde664a3f8822 data/c/tags/item/buckets/acetaldehyde.json
 1f9d2bcaf65c99e592823b53c96ef9be02376902 data/c/tags/item/buckets/acetic_acid.json
 4ff4928c63ea1165c7ade302ba8ea5f314ffbc8c data/c/tags/item/buckets/ammonia.json
@@ -638,7 +638,7 @@ cd65dbab468093b89567f6171dedf632799ce846 data/c/tags/item/wooden_trapdoors/tropi
 95a11bcb0fe1da053e3a088fae8f2864fbe0bdaa data/c/tags/item/wooden_trapdoors/warped.json
 410081ab979372c1083833fe55b1af5aa642fb95 data/machina/tags/item/capacitor.json
 a36c9095d6197703b3c4c15c98f8854ca11e74ff data/minecraft/tags/item/buttons.json
-f055533b8c0f73c1b4b5c3d41270498100588ade data/minecraft/tags/item/dirt.json
+60b87d2b6c2888823e0abed9b2073bc037895ed7 data/minecraft/tags/item/dirt.json
 7a80f5e002c7995f995402aac1c652b0155ce510 data/minecraft/tags/item/doors.json
 1381d3c0c7c1bf795ddb6a58476a9e5986faa660 data/minecraft/tags/item/fences.json
 b168985f82afea7c795a4d2b44788f1b50106658 data/minecraft/tags/item/fence_gates.json
@@ -649,9 +649,9 @@ c75145b8820239ba5fb4cb234ffe47c44621aa8e data/minecraft/tags/item/logs.json
 13d63356d22c85d569e80af14281d00dec2d8dce data/minecraft/tags/item/planks.json
 042123db0e1d7fac503b9b49fe2fa4f1a5b2ca78 data/minecraft/tags/item/sand.json
 5d193dd1d658aed27fe53e6b6e6f8c60815e188a data/minecraft/tags/item/signs.json
-30e42e5255204aa84baced69c5d30d1bbb9d7466 data/minecraft/tags/item/slabs.json
+5360565822c152d1da513eb2727f22280d0634ec data/minecraft/tags/item/slabs.json
 c2ba72bc6bef0df82a063fe7cb5180a527c04e20 data/minecraft/tags/item/small_flowers.json
-7db061d581d2dc3ba5fed6a1979859636478507b data/minecraft/tags/item/stairs.json
+61ddd51b76dba04e54f0d7a0bb33b3563091647e data/minecraft/tags/item/stairs.json
 8f499dedacdd2d12e7aefc4a76ad5fed6a791abc data/minecraft/tags/item/stone_buttons.json
 c1bc6e20290032d37c00634d66785313d0d75585 data/minecraft/tags/item/stone_crafting_materials.json
 1cc27bfa0180795c508e9de31d6adf9d80acf81d data/minecraft/tags/item/tall_flowers.json

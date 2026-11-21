@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "machina:block/imbued_toxic_mushroom_cap"
+  }
+}

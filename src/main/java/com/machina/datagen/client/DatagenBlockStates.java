@@ -137,6 +137,15 @@ public class DatagenBlockStates extends BlockStateProvider {
 		cube(BlockInit.IMBUED_PURPLE_MUSHROOM_CAP);
 		cube(BlockInit.IMBUED_YELLOW_MUSHROOM_CAP);
 
+		// Toxic mushrooms (hightech toxic forest)
+		cube(BlockInit.TOXIC_MUSHROOM_STALK);
+		cube(BlockInit.TOXIC_MUSHROOM_CAP);
+		cube(BlockInit.TOXIC_MUSHROOM_GILLS);
+		cube(BlockInit.IMBUED_TOXIC_MUSHROOM_CAP);
+		cube(BlockInit.CYAN_MUSHROOM_STALK);
+		cube(BlockInit.CYAN_MUSHROOM_CAP);
+		bushyLeaves(BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE);
+
 		cube(BlockInit.TROPICAL_SAND);
 		cube(BlockInit.MOONSAND);
 		cube(BlockInit.FERROUS_SAND);
@@ -156,6 +165,8 @@ public class DatagenBlockStates extends BlockStateProvider {
 		flower(BlockInit.MYCELIAL_GRASS);
 		flower(BlockInit.FERROUS_GRASS);
 		flower(BlockInit.MOONGRASS);
+		flower(BlockInit.TOXIC_GRASS);
+		flower(BlockInit.TOXIC_TENDRIL);
 
 		flower(BlockInit.SPINDLESPROUT);
 		flower(BlockInit.SMALL_FERN);
@@ -216,6 +227,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 		flower_pot(BlockInit.POTTED_TURQUOISE_GLOWSHROOM);
 		flower(BlockInit.BLUE_GLOWSHROOM);
 		flower_pot(BlockInit.POTTED_BLUE_GLOWSHROOM);
+		flower(BlockInit.TOX_SHROOM);
+		flower_pot(BlockInit.POTTED_TOX_SHROOM);
+		flower(BlockInit.CYAN_TOX_SHROOM);
+		flower_pot(BlockInit.POTTED_CYAN_TOX_SHROOM);
 
 		item(BlockInit.ATMOSPHERIC_SEPARATOR);
 		item(BlockInit.ELECTRIC_PUMP);
@@ -368,7 +383,37 @@ public class DatagenBlockStates extends BlockStateProvider {
 	}
 
 	private void leaves(LeavesBlock leaves) {
-		simpleBlockWithItem(leaves, models().cubeAll(name(leaves), blockTexture(leaves)).renderType("translucent"));
+		simpleBlockWithItem(leaves, models().cubeAll(name(leaves), blockTexture(leaves)).renderType("cutout"));
+	}
+
+	private void bushyLeaves(DeferredBlock<Block> block) {
+		Block b = block.get();
+		String n = name(b);
+		ResourceLocation texWavy = ResourceLocation.fromNamespaceAndPath("machina", "block/" + n + "_wavy");
+		ResourceLocation texBush1 = ResourceLocation.fromNamespaceAndPath("machina", "block/" + n + "_bush1");
+		ResourceLocation texBush1Dark = ResourceLocation.fromNamespaceAndPath("machina", "block/" + n + "_bush1_dark");
+		ResourceLocation texBush2 = ResourceLocation.fromNamespaceAndPath("machina", "block/" + n + "_bush2");
+		ResourceLocation texBush2Dark = ResourceLocation.fromNamespaceAndPath("machina", "block/" + n + "_bush2_dark");
+		ResourceLocation texParticle = blockTexture(b);
+
+		// Generate 6 model variants using different base models and bush textures
+		// Models 1-3 use bush1 textures, models 4-6 use bush2 textures
+		// Each references a different hyphae_base model (1-5, cycling)
+		int[] baseModels = {1, 2, 3, 4, 5, 1};
+		ConfiguredModel[] variants = new ConfiguredModel[6];
+		for (int i = 0; i < 6; i++) {
+			ResourceLocation bush = (i < 3) ? texBush1 : texBush2;
+			ResourceLocation darkBush = (i < 3) ? texBush1Dark : texBush2Dark;
+			ModelFile model = models().withExistingParent(n + (i + 1), ResourceLocation.fromNamespaceAndPath("machina", "block/hyphae_base" + baseModels[i]))
+					.texture("all", texWavy)
+					.texture("bush", bush)
+					.texture("dark_bush", darkBush)
+					.texture("particle", texParticle)
+					.renderType("cutout");
+			variants[i] = new ConfiguredModel(model);
+		}
+		getVariantBuilder(b).partialState().setModels(variants);
+		simpleBlockItem(b, models().cubeAll(n + "_item", texParticle));
 	}
 
 	private void slab(SlabBlock slab, Block material) {

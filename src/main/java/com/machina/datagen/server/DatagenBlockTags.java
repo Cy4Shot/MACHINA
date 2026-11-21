@@ -76,6 +76,8 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		smallFlower(BlockInit.SMALL_FERN, BlockInit.POTTED_SMALL_FERN);
 		smallFlower(BlockInit.DEAD_SMALL_FERN, BlockInit.POTTED_DEAD_SMALL_FERN);
 		smallFlower(BlockInit.NEEDLEGRASS, BlockInit.POTTED_NEEDLEGRASS);
+		smallFlower(BlockInit.TOX_SHROOM, BlockInit.POTTED_TOX_SHROOM);
+		smallFlower(BlockInit.CYAN_TOX_SHROOM, BlockInit.POTTED_CYAN_TOX_SHROOM);
 
 		tallFlower(BlockInit.SPINDLEGRASS);
 		tallFlower(BlockInit.NEEDLETHATCH);
@@ -167,6 +169,7 @@ public class DatagenBlockTags extends BlockTagsProvider {
 	private void dirtFamily(DirtFamily family) {
 		tag(BlockTags.DIRT).add(family.dirt());
 		tag(BlockTagInit.PLANET_CARVABLE).add(family.dirt(), family.slab(), family.stairs());
+		tag(BlockTagInit.PLANET_GRASSABLE).add(family.dirt());
 		tag(BlockTags.SLABS).add(family.slab());
 		tag(BlockTags.STAIRS).add(family.stairs());
 		tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES).add(family.dirt(), family.slab(), family.stairs());
@@ -175,6 +178,7 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		if (family.grass().isPresent()) {
 			tag(BlockTags.DIRT).add(family.grass().get());
 			tag(BlockTagInit.PLANET_CARVABLE).add(family.grass().get());
+			tag(BlockTagInit.PLANET_GRASSABLE).add(family.grass().get());
 			tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES).add(family.grass().get());
 			tag(BlockTags.MINEABLE_WITH_SHOVEL).add(family.grass().get());
 		}

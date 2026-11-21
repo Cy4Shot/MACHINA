@@ -15,6 +15,7 @@ public class TagInit {
 	public static class BlockTagInit {
 
 		public static final TagKey<Block> PLANET_CARVABLE = create("planet_carvable");
+		public static final TagKey<Block> PLANET_GRASSABLE = create("planet_grassable");
 
 		public static final TagKey<Block> GEOTHERMAL_GENERATOR_CTM = create("geothermal_generator_ctm");
 		public static final TagKey<Block> FISSION_REACTOR_CTM = create("fission_reactor_ctm");

@@ -670,6 +670,21 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.IMBUED_PURPLE_MUSHROOM_CAP, "Imbued Purple Mushroom Cap");
 		add(BlockInit.IMBUED_YELLOW_MUSHROOM_CAP, "Imbued Yellow Mushroom Cap");
 
+		// Toxic mushrooms (hightech toxic forest)
+		add(BlockInit.TOXIC_MUSHROOM_STALK, "Toxic Mushroom Stalk");
+		add(BlockInit.TOXIC_MUSHROOM_CAP, "Toxic Mushroom Cap");
+		add(BlockInit.TOXIC_MUSHROOM_GILLS, "Toxic Mushroom Gills");
+		add(BlockInit.IMBUED_TOXIC_MUSHROOM_CAP, "Imbued Toxic Mushroom Cap");
+		add(BlockInit.CYAN_MUSHROOM_STALK, "Cyan Mushroom Stalk");
+		add(BlockInit.CYAN_MUSHROOM_CAP, "Cyan Mushroom Cap");
+		add(BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE, "Imbued Cyan Mushroom Hyphae");
+
+		// Toxic dirt (hightech toxic forest)
+		add(BlockInit.TOXIC_DIRT, "Toxic Dirt");
+		add(BlockInit.TOXIC_DIRT_STAIRS, "Toxic Dirt Stairs");
+		add(BlockInit.TOXIC_DIRT_SLAB, "Toxic Dirt Slab");
+		add(BlockInit.TOXIC_GRASS_BLOCK, "Toxic Grass Block");
+
 		add(BlockInit.TROPICAL_GRASS, "Tropical Grass");
 		add(BlockInit.TWISTED_GRASS, "Twisted Grass");
 		add(BlockInit.CONIFEROUS_GRASS, "Coniferous Grass");
@@ -678,6 +693,8 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.MYCELIAL_GRASS, "Mycelial Grass");
 		add(BlockInit.FERROUS_GRASS, "Ferrous Grass");
 		add(BlockInit.MOONGRASS, "Moongrass");
+		add(BlockInit.TOXIC_GRASS, "Toxic Grass");
+		add(BlockInit.TOXIC_TENDRIL, "Toxic Tendril");
 
 		add(BlockInit.PURPLE_PETALS, "Purple Petals");
 		add(BlockInit.RED_PETALS, "Red Petals");
@@ -738,6 +755,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.POTTED_TURQUOISE_GLOWSHROOM, "Potted Turquoise Glowshroom");
 		add(BlockInit.BLUE_GLOWSHROOM, "Blue Glowshroom");
 		add(BlockInit.POTTED_BLUE_GLOWSHROOM, "Potted Blue Glowshroom");
+		add(BlockInit.TOX_SHROOM, "Tox Shroom");
+		add(BlockInit.POTTED_TOX_SHROOM, "Potted Tox Shroom");
+		add(BlockInit.CYAN_TOX_SHROOM, "Cyan Tox Shroom");
+		add(BlockInit.POTTED_CYAN_TOX_SHROOM, "Potted Cyan Tox Shroom");
 
 		// Tooltips
 		addTooltip("ldpe", "Low Density Polyethylene");

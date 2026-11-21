@@ -1,0 +1,10 @@
+{
+  "parent": "machina:block/hyphae_base2",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "all": "machina:block/imbued_cyan_mushroom_hyphae_wavy",
+    "bush": "machina:block/imbued_cyan_mushroom_hyphae_bush1",
+    "dark_bush": "machina:block/imbued_cyan_mushroom_hyphae_bush1_dark",
+    "particle": "machina:block/imbued_cyan_mushroom_hyphae"
+  }
+}

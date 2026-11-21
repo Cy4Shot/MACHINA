@@ -2,6 +2,7 @@ package com.machina.world.feature;
 
 import com.machina.api.util.block.WeightedStateProviderProvider;
 import com.machina.block.PebbleBlock;
+import com.machina.registration.init.TagInit.BlockTagInit;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -68,7 +69,7 @@ public class PlanetGrassFeature extends Feature<PlanetGrassFeature.PlanetGrassFe
 					Direction.Plane.HORIZONTAL.getRandomDirection(random));
 		}
 
-		if (blockstate.canSurvive(level, pos)) {
+		if (blockstate.canSurvive(level, pos) && level.getBlockState(pos.below()).is(BlockTagInit.PLANET_GRASSABLE)) {
 			if (blockstate.getBlock() instanceof DoublePlantBlock) {
 				if (!level.isEmptyBlock(pos.above())) {
 					return false;

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "machina:block/toxic_dirt_slab"
+    },
+    "type=double": {
+      "model": "machina:block/toxic_dirt"
+    },
+    "type=top": {
+      "model": "machina:block/toxic_dirt_slab_top"
+    }
+  }
+}

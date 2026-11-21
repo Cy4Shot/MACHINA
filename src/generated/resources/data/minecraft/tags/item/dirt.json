@@ -11,6 +11,8 @@
     "machina:mycelial_dirt",
     "machina:mycelial_grass_block",
     "machina:peat",
-    "machina:silt"
+    "machina:silt",
+    "machina:toxic_dirt",
+    "machina:toxic_grass_block"
   ]
 }

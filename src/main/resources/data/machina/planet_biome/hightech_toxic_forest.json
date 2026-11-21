@@ -1,0 +1,206 @@
+{
+	"home": "machina:hightech_wastes",
+	"surface": "machina:small_patches",
+	"base": "machina:basalt",
+	"stair": "machina:basalt_stairs",
+	"slab": "machina:basalt_slab",
+	"extra": "machina:toxic_dirt",
+	"top": [
+		"machina:toxic_dirt",
+		"machina:toxic_dirt",
+		"machina:toxic_grass_block"
+	],
+	"second": "machina:toxic_dirt",
+	"trees": [
+		{
+			"type": "machina:bell_mushroom",
+			"blocks": [
+				"machina:toxic_mushroom_stalk",
+				"machina:toxic_mushroom_cap",
+				"machina:toxic_mushroom_gills"
+			],
+			"chance": 0.25,
+			"fruits": [
+				"machina:imbued_cyan_mushroom_hyphae"
+			],
+			"fruit_dirs": [
+				"UP",
+				"EAST",
+				"WEST",
+				"NORTH",
+				"SOUTH"
+			],
+			"fruit_chance": 0.15,
+			"tree_fruit_chance": 1
+		},
+		{
+			"type": "machina:branch_funnel_mushroom",
+			"blocks": [
+				"machina:cyan_mushroom_stalk",
+				"machina:cyan_mushroom_cap",
+				"machina:cyan_mushroom_cap"
+			],
+			"chance": 0.18,
+			"fruits": [
+				"machina:imbued_cyan_mushroom_hyphae"
+			],
+			"fruit_dirs": [
+				"UP"
+			],
+			"fruit_chance": 1,
+			"tree_fruit_chance": 1
+		},
+		{
+			"type": "machina:acacia",
+			"blocks": [
+				"machina:cyan_mushroom_stalk",
+				"machina:imbued_cyan_mushroom_hyphae"
+			],
+			"chance": 0.15,
+			"fruits": [
+				"machina:imbued_cyan_mushroom_hyphae"
+			],
+			"fruit_dirs": [
+				"UP",
+				"DOWN"
+			],
+			"fruit_chance": 0.8,
+			"tree_fruit_chance": 1
+		},
+		{
+			"type": "machina:branch_funnel_mushroom",
+			"blocks": [
+				"machina:toxic_mushroom_stalk",
+				"machina:toxic_mushroom_cap",
+				"machina:cyan_mushroom_cap"
+			],
+			"chance": 0.1,
+			"fruits": [
+				"machina:imbued_toxic_mushroom_cap"
+			],
+			"fruit_dirs": [
+				"UP"
+			],
+			"fruit_chance": 1,
+			"tree_fruit_chance": 1
+		}
+	],
+	"bushes": [
+		{
+			"block": "machina:toxic_mushroom_cap",
+			"radius": 1.5,
+			"chance": 12
+		},
+		{
+			"block": "machina:imbued_cyan_mushroom_hyphae",
+			"radius": 2.0,
+			"chance": 6
+		}
+	],
+	"grass": {
+		"enabled": true,
+		"min": 25,
+		"max": 40,
+		"grasses": [
+		{
+				"block": "machina:toxic_grass",
+				"weight": 125
+			},
+			{
+				"block": "machina:toxic_tendril",
+				"weight": 100
+			},
+			{
+				"block": "machina:basalt_pebbles",
+				"weight": 15
+			},
+			{
+				"block": "machina:anthracite_pebbles",
+				"weight": 10
+			},
+			{
+				"block": "machina:tox_shroom",
+				"weight": 30
+			},
+			{
+				"block": "machina:cyan_tox_shroom",
+				"weight": 25
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=1]",
+				"weight": 30
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=2]",
+				"weight": 20
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=3]",
+				"weight": 15
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=4]",
+				"weight": 10
+			}
+		]
+	},
+	"lakes": {
+		"enabled": true,
+		"block": "machina:toxic_dirt",
+		"chance": 0.4,
+		"decorator_chance": 0.05,
+		"decorators": [
+			{
+				"block": "machina:green_waterlily",
+				"weight": 2
+			},
+			{
+				"block": "machina:turquoise_waterlily",
+				"weight": 1
+			}
+		]
+	},
+	"rocks": [
+		{
+			"base": "machina:basalt",
+			"stair": "machina:basalt_stairs",
+			"slab": "machina:basalt_slab",
+			"wall": "machina:basalt_wall",
+			"chance": 0.5,
+			"radius": 1.01,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:anthracite",
+			"stair": "machina:anthracite_stairs",
+			"slab": "machina:anthracite_slab",
+			"wall": "machina:anthracite_wall",
+			"chance": 0.4,
+			"radius": 1.51,
+			"deform": 2.0
+		},
+		{
+			"base": "machina:shale",
+			"stair": "machina:shale_stairs",
+			"slab": "machina:shale_slab",
+			"wall": "machina:shale_wall",
+			"chance": 0.3,
+			"radius": 2.01,
+			"deform": 2.0
+		}
+	],
+	"big_rocks": [
+		{
+			"type": "machina:wisp",
+			"block": "machina:basalt",
+			"extra": "machina:basalt_wall",
+			"chance": 0.15,
+			"up_extra_chance": 0.2,
+			"down_extra_chance": 0.2,
+			"side_extra_chance": 0
+		}
+	],
+	"client_settings": {
+		"weather_tint": 4283190348
+	}
+}

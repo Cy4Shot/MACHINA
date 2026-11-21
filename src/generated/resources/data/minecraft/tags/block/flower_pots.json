@@ -13,6 +13,8 @@
     "machina:potted_spindlesprout",
     "machina:potted_small_fern",
     "machina:potted_dead_small_fern",
-    "machina:potted_needlegrass"
+    "machina:potted_needlegrass",
+    "machina:potted_tox_shroom",
+    "machina:potted_cyan_tox_shroom"
   ]
 }

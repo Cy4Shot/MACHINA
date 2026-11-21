@@ -13,6 +13,8 @@
     "machina:spindlesprout",
     "machina:small_fern",
     "machina:dead_small_fern",
-    "machina:needlegrass"
+    "machina:needlegrass",
+    "machina:tox_shroom",
+    "machina:cyan_tox_shroom"
   ]
 }

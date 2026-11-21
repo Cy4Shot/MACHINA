@@ -15,6 +15,7 @@ import com.machina.api.block.OreBlock;
 import com.machina.api.item.ChemicalBlockItem;
 import com.machina.api.util.MachinaRL;
 import com.machina.block.CrystalBlock;
+import com.machina.block.GlowshroomBlock;
 import com.machina.block.HightechTurretBlock;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
@@ -522,6 +523,21 @@ public class BlockInit {
 	public static final DeferredBlock<Block> IMBUED_PURPLE_MUSHROOM_CAP = block("imbued_purple_mushroom_cap", Blocks.MUSHROOM_STEM);
 	public static final DeferredBlock<Block> IMBUED_YELLOW_MUSHROOM_CAP = block("imbued_yellow_mushroom_cap", Blocks.MUSHROOM_STEM);
 
+	// Toxic mushroom blocks (for hightech_toxic_forest)
+	public static final DeferredBlock<Block> TOXIC_MUSHROOM_STALK = block("toxic_mushroom_stalk", Blocks.MUSHROOM_STEM);
+	public static final DeferredBlock<Block> TOXIC_MUSHROOM_CAP = block("toxic_mushroom_cap", Blocks.MUSHROOM_STEM);
+	public static final DeferredBlock<Block> TOXIC_MUSHROOM_GILLS = block("toxic_mushroom_gills", Blocks.MUSHROOM_STEM);
+	public static final DeferredBlock<Block> IMBUED_TOXIC_MUSHROOM_CAP = register("imbued_toxic_mushroom_cap", Blocks.MUSHROOM_STEM, light(2), Block::new);
+	public static final DeferredBlock<Block> CYAN_MUSHROOM_STALK = block("cyan_mushroom_stalk", Blocks.MUSHROOM_STEM);
+	public static final DeferredBlock<Block> CYAN_MUSHROOM_CAP = register("cyan_mushroom_cap", Blocks.MUSHROOM_STEM, light(3), Block::new);
+	public static final DeferredBlock<Block> IMBUED_CYAN_MUSHROOM_HYPHAE = register("imbued_cyan_mushroom_hyphae", Blocks.OAK_LEAVES, p -> p.noOcclusion(), Block::new);
+
+	// Toxic ground blocks
+	public static final DeferredBlock<Block> TOXIC_DIRT = block("toxic_dirt", Blocks.DIRT);
+	public static final DeferredBlock<StairBlock> TOXIC_DIRT_STAIRS = stairs("toxic_dirt_stairs", TOXIC_DIRT, Blocks.DIRT);
+	public static final DeferredBlock<SlabBlock> TOXIC_DIRT_SLAB = slab("toxic_dirt_slab", Blocks.DIRT);
+	public static final DeferredBlock<Block> TOXIC_GRASS_BLOCK = block("toxic_grass_block", Blocks.GRASS_BLOCK);
+
 	public static final DeferredBlock<BushBlock> TROPICAL_GRASS = register("tropical_grass", Blocks.SHORT_GRASS, TallGrassBlock::new);
 	public static final DeferredBlock<BushBlock> TWISTED_GRASS = register("twisted_grass", Blocks.SHORT_GRASS, TallGrassBlock::new);
 	public static final DeferredBlock<BushBlock> CONIFEROUS_GRASS = register("coniferous_grass", Blocks.SHORT_GRASS, TallGrassBlock::new);
@@ -530,7 +546,9 @@ public class BlockInit {
 	public static final DeferredBlock<BushBlock> MYCELIAL_GRASS = register("mycelial_grass", Blocks.SHORT_GRASS, TallGrassBlock::new);
 	public static final DeferredBlock<BushBlock> FERROUS_GRASS = register("ferrous_grass", Blocks.SHORT_GRASS, TallFakeGrassBlock::new);
 	public static final DeferredBlock<BushBlock> MOONGRASS = register("moongrass", Blocks.SHORT_GRASS, TallFakeGrassBlock::new);
-	
+	public static final DeferredBlock<BushBlock> TOXIC_GRASS = register("toxic_grass", Blocks.SHORT_GRASS, TallFakeGrassBlock::new);
+	public static final DeferredBlock<BushBlock> TOXIC_TENDRIL = register("toxic_tendril", Blocks.SHORT_GRASS, TallFakeGrassBlock::new);
+
 	public static final DeferredBlock<SmallFlowerBlock> CLOVER = register("clover", Blocks.PINK_PETALS, SmallFlowerBlock::new);
 	public static final DeferredBlock<SmallFlowerBlock> SPINDLESPROUT = register("spindlesprout", Blocks.FERN, SmallFlowerBlock::new);
 	public static final DeferredBlock<SmallFlowerBlock> SMALL_FERN = register("small_fern", Blocks.FERN, SmallFlowerBlock::new);
@@ -577,14 +595,14 @@ public class BlockInit {
 	public static final DeferredBlock<MachinaWaterlilyBlock> TURQUOISE_WATERLILY = waterlily("turquoise_waterlily");
 	public static final DeferredBlock<MachinaWaterlilyBlock> BLUE_WATERLILY = waterlily("blue_waterlily");
 
-	public static final DeferredBlock<FlowerBlock> PURPLE_GLOWSHROOM = flower("purple_glowshroom", MobEffects.GLOWING, 30, Blocks.BROWN_MUSHROOM, light(6));
-	public static final DeferredBlock<FlowerBlock> PINK_GLOWSHROOM = flower("pink_glowshroom", MobEffects.GLOWING, 30, Blocks.BROWN_MUSHROOM, light(7));
-	public static final DeferredBlock<FlowerBlock> RED_GLOWSHROOM = flower("red_glowshroom", MobEffects.GLOWING, 30, Blocks.BROWN_MUSHROOM, light(7));
-	public static final DeferredBlock<FlowerBlock> ORANGE_GLOWSHROOM = flower("orange_glowshroom", MobEffects.GLOWING, 30, Blocks.BROWN_MUSHROOM, light(7));
-	public static final DeferredBlock<FlowerBlock> YELLOW_GLOWSHROOM = flower("yellow_glowshroom", MobEffects.GLOWING, 30, Blocks.BROWN_MUSHROOM, light(7));
-	public static final DeferredBlock<FlowerBlock> GREEN_GLOWSHROOM = flower("green_glowshroom", MobEffects.GLOWING, 30, Blocks.BROWN_MUSHROOM, light(7));
-	public static final DeferredBlock<FlowerBlock> TURQUOISE_GLOWSHROOM = flower("turquoise_glowshroom", MobEffects.GLOWING, 30, Blocks.BROWN_MUSHROOM, light(7));
-	public static final DeferredBlock<FlowerBlock> BLUE_GLOWSHROOM = flower("blue_glowshroom", MobEffects.GLOWING, 30, Blocks.BROWN_MUSHROOM, light(7));
+	public static final DeferredBlock<GlowshroomBlock> PURPLE_GLOWSHROOM = glowshroom("purple_glowshroom", MobEffects.GLOWING, 30, light(6));
+	public static final DeferredBlock<GlowshroomBlock> PINK_GLOWSHROOM = glowshroom("pink_glowshroom", MobEffects.GLOWING, 30, light(7));
+	public static final DeferredBlock<GlowshroomBlock> RED_GLOWSHROOM = glowshroom("red_glowshroom", MobEffects.GLOWING, 30, light(7));
+	public static final DeferredBlock<GlowshroomBlock> ORANGE_GLOWSHROOM = glowshroom("orange_glowshroom", MobEffects.GLOWING, 30, light(7));
+	public static final DeferredBlock<GlowshroomBlock> YELLOW_GLOWSHROOM = glowshroom("yellow_glowshroom", MobEffects.GLOWING, 30, light(7));
+	public static final DeferredBlock<GlowshroomBlock> GREEN_GLOWSHROOM = glowshroom("green_glowshroom", MobEffects.GLOWING, 30, light(7));
+	public static final DeferredBlock<GlowshroomBlock> TURQUOISE_GLOWSHROOM = glowshroom("turquoise_glowshroom", MobEffects.GLOWING, 30, light(7));
+	public static final DeferredBlock<GlowshroomBlock> BLUE_GLOWSHROOM = glowshroom("blue_glowshroom", MobEffects.GLOWING, 30, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_PURPLE_GLOWSHROOM = flower_pot("potted_purple_glowshroom", PURPLE_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_PINK_GLOWSHROOM = flower_pot("potted_pink_glowshroom", PINK_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_RED_GLOWSHROOM = flower_pot("potted_red_glowshroom", RED_GLOWSHROOM, light(7));
@@ -593,6 +611,12 @@ public class BlockInit {
 	public static final DeferredBlock<FlowerPotBlock> POTTED_GREEN_GLOWSHROOM = flower_pot("potted_green_glowshroom", GREEN_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_TURQUOISE_GLOWSHROOM = flower_pot("potted_turquoise_glowshroom", TURQUOISE_GLOWSHROOM, light(7));
 	public static final DeferredBlock<FlowerPotBlock> POTTED_BLUE_GLOWSHROOM = flower_pot("potted_blue_glowshroom", BLUE_GLOWSHROOM, light(7));
+
+	// Toxic glowshrooms (brighter, for hightech_toxic_forest)
+	public static final DeferredBlock<GlowshroomBlock> TOX_SHROOM = glowshroom("tox_shroom", MobEffects.POISON, 10, light(10));
+	public static final DeferredBlock<GlowshroomBlock> CYAN_TOX_SHROOM = glowshroom("cyan_tox_shroom", MobEffects.POISON, 10, light(9));
+	public static final DeferredBlock<FlowerPotBlock> POTTED_TOX_SHROOM = flower_pot("potted_tox_shroom", TOX_SHROOM, light(10));
+	public static final DeferredBlock<FlowerPotBlock> POTTED_CYAN_TOX_SHROOM = flower_pot("potted_cyan_tox_shroom", CYAN_TOX_SHROOM, light(9));
 
 	public static final List<DeferredBlock<Block>> ORE_BASES = List.of(
 			FELDSPAR, GRAY_SOAPSTONE, GREEN_SOAPSTONE, WHITE_SOAPSTONE, MOONSTONE, SHALE, MARBLE, CHALK, LIMESTONE, GNEISS, BASALT, PEAT, TROPICAL_DIRT, FOREST_DIRT, CONIFEROUS_DIRT);
@@ -785,6 +809,11 @@ public class BlockInit {
 		return register(name, prop, a -> a, p -> new FlowerBlock(effect, duration, p));
 	}
 
+	public static DeferredBlock<GlowshroomBlock> glowshroom(String name, Holder<MobEffect> effect, int duration,
+			Function<Block.Properties, Block.Properties> extra) {
+		return register(name, Blocks.BROWN_MUSHROOM, extra, p -> new GlowshroomBlock(effect, duration, p));
+	}
+
 	public static DeferredBlock<TallFlowerBlock> tall_flower(String name, Block prop) {
 		return register(name, prop, a -> a, TallFlowerBlock::new);
 	}
@@ -793,7 +822,7 @@ public class BlockInit {
 		return _register(name, BlockInit.of(Blocks.FLOWER_POT, a -> a, p -> new FlowerPotBlock(null, flower, p)));
 	}
 
-	public static DeferredBlock<FlowerPotBlock> flower_pot(String name, DeferredBlock<FlowerBlock> flower,
+	public static DeferredBlock<FlowerPotBlock> flower_pot(String name, DeferredBlock<? extends Block> flower,
 			Function<Block.Properties, Block.Properties> extra) {
 		return _register(name, BlockInit.of(Blocks.FLOWER_POT, extra, p -> new FlowerPotBlock(null, flower, p)));
 	}
