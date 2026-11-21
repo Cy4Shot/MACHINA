@@ -15,19 +15,13 @@ import com.machina.weather.WeatherEvent;
 import com.machina.weather.manager.ServerWeatherManager;
 import com.machina.weather.system.ServerWeatherSystem;
 import com.machina.world.PlanetRegistrationHandler;
-import com.machina.api.network.s2c.S2CNuclearExplosion;
+import com.machina.world.data.NuclearExplosionData;
 import com.machina.world.data.RadiationData;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.FloatArgumentType;
-
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.network.PacketDistributor;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
-
-import net.minecraft.world.level.ChunkPos;
 
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -37,6 +31,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec2;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -242,26 +239,10 @@ public class CommandManager {
 			}));
 
 	public static final ArgumentBuilder<CommandSourceStack, ?> NUKE = Commands.literal("nuke")
-		.executes(ctx -> {
-			CommandSourceStack source = ctx.getSource();
-			ServerPlayer player = source.getPlayer();
-			if (player == null) {
-				source.sendFailure(Component.literal("Must be run by a player"));
-				return Command.SINGLE_SUCCESS;
-			}
-			HitResult hit = player.pick(1000.0, 0.0f, false);
-			if (hit.getType() != HitResult.Type.BLOCK) {
-				source.sendFailure(Component.literal("Not looking at a block"));
-				return Command.SINGLE_SUCCESS;
-			}
-			BlockHitResult blockHit = (BlockHitResult) hit;
-			return spawnNuke(source, blockHit.getBlockPos().getX() + 0.5, blockHit.getBlockPos().getY() + 0.5, blockHit.getBlockPos().getZ() + 0.5, 8.0f);
-		})
-		.then(Commands.argument("power", FloatArgumentType.floatArg(1.0f, 50.0f))
+		.then(Commands.literal("start")
 			.executes(ctx -> {
 				CommandSourceStack source = ctx.getSource();
 				ServerPlayer player = source.getPlayer();
-				float power = FloatArgumentType.getFloat(ctx, "power");
 				if (player == null) {
 					source.sendFailure(Component.literal("Must be run by a player"));
 					return Command.SINGLE_SUCCESS;
@@ -272,13 +253,38 @@ public class CommandManager {
 					return Command.SINGLE_SUCCESS;
 				}
 				BlockHitResult blockHit = (BlockHitResult) hit;
-				return spawnNuke(source, blockHit.getBlockPos().getX() + 0.5, blockHit.getBlockPos().getY() + 0.5, blockHit.getBlockPos().getZ() + 0.5, power);
+				return spawnNuke(source, blockHit.getBlockPos().getX() + 0.5, blockHit.getBlockPos().getY() + 0.5, blockHit.getBlockPos().getZ() + 0.5, 8.0f);
+			})
+			.then(Commands.argument("power", FloatArgumentType.floatArg(1.0f, 7.0f))
+				.executes(ctx -> {
+					CommandSourceStack source = ctx.getSource();
+					ServerPlayer player = source.getPlayer();
+					float power = FloatArgumentType.getFloat(ctx, "power");
+					if (player == null) {
+						source.sendFailure(Component.literal("Must be run by a player"));
+						return Command.SINGLE_SUCCESS;
+					}
+					HitResult hit = player.pick(1000.0, 0.0f, false);
+					if (hit.getType() != HitResult.Type.BLOCK) {
+						source.sendFailure(Component.literal("Not looking at a block"));
+						return Command.SINGLE_SUCCESS;
+					}
+					BlockHitResult blockHit = (BlockHitResult) hit;
+					return spawnNuke(source, blockHit.getBlockPos().getX() + 0.5, blockHit.getBlockPos().getY() + 0.5, blockHit.getBlockPos().getZ() + 0.5, power);
+				})))
+		.then(Commands.literal("clearAll")
+			.executes(ctx -> {
+				CommandSourceStack source = ctx.getSource();
+				ServerLevel level = source.getLevel();
+				NuclearExplosionData data = NuclearExplosionData.get(level);
+				int count = data.clearAll();
+				source.sendSuccess(() -> Component.literal("Cleared " + count + " active nuclear explosions"), true);
+				return Command.SINGLE_SUCCESS;
 			}));
 
 	private static int spawnNuke(CommandSourceStack source, double x, double y, double z, float power) {
 		ServerLevel level = source.getLevel();
-		S2CNuclearExplosion packet = new S2CNuclearExplosion(x, y, z, power);
-		PacketDistributor.sendToPlayersNear(level, null, x, y, z, 1000, packet);
+		NuclearExplosionData.get(level).spawnExplosion(x, y, z, power);
 		source.sendSuccess(() -> Component.literal("Spawned nuclear explosion at [" + (int)x + ", " + (int)y + ", " + (int)z + "] with power " + power), true);
 		return Command.SINGLE_SUCCESS;
 	}

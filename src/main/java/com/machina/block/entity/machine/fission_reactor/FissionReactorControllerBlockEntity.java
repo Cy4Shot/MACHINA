@@ -10,11 +10,9 @@ import com.machina.registration.CapabilityRegistrar;
 import com.machina.registration.init.BlockEntityInit;
 import com.machina.registration.init.DataMapsInit;
 import com.machina.registration.init.MultiblockInit;
-import com.machina.api.network.s2c.S2CNuclearExplosion;
+import com.machina.world.data.NuclearExplosionData;
 import com.machina.world.data.RadiationData;
 import com.mojang.serialization.Codec;
-
-import net.neoforged.neoforge.network.PacketDistributor;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
@@ -26,7 +24,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -409,19 +406,9 @@ public class FissionReactorControllerBlockEntity extends MultiblockMasterBlockEn
 		if (level instanceof ServerLevel serverLevel) {
 			BlockPos center = worldPosition;
 
-			// Send nuclear explosion visual to all nearby players
-			float explosionPower = 8.0f;
-			S2CNuclearExplosion packet = new S2CNuclearExplosion(center.getX() + 0.5, center.getY() + 0.5,
-					center.getZ() + 0.5, explosionPower);
-			PacketDistributor.sendToPlayersNear(serverLevel, null, center.getX(), center.getY(), center.getZ(), 500,
-					packet);
-
-			// Spawn massive particle burst
-			spawnExplosionParticles(serverLevel, center);
-
-			// Actual explosion damage
-			serverLevel.explode(null, center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5, explosionPower,
-					true, ExplosionInteraction.BLOCK);
+			// Spawn nuke with power 2
+			NuclearExplosionData.get(serverLevel).spawnExplosion(
+				center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5, 2.0f);
 
 			// Irradiate the area
 			irradiateArea(serverLevel, center);

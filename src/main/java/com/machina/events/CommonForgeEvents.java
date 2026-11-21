@@ -10,6 +10,7 @@ import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.JsonLoaderInit;
 import com.machina.world.biome.PlanetBiome;
+import com.machina.world.data.NuclearExplosionData;
 import com.machina.world.data.PlanetDimensionData;
 import com.machina.world.data.RadiationData;
 
@@ -185,6 +186,11 @@ public class CommonForgeEvents {
 		if (!(event.getLevel() instanceof ServerLevel level)) {
 			return;
 		}
+
+		// Tick nuclear explosions every tick
+		NuclearExplosionData.get(level).tick();
+
+		// Tick radiation every 20 ticks
 		if (level.getGameTime() % 20 != 0) {
 			return;
 		}
@@ -194,14 +200,18 @@ public class CommonForgeEvents {
 	@SubscribeEvent
 	public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
-			RadiationData.get((ServerLevel) player.level()).syncToPlayer(player);
+			ServerLevel level = (ServerLevel) player.level();
+			RadiationData.get(level).syncToPlayer(player);
+			NuclearExplosionData.get(level).syncToPlayer(player);
 		}
 	}
 
 	@SubscribeEvent
 	public static void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
-			RadiationData.get((ServerLevel) player.level()).syncToPlayer(player);
+			ServerLevel level = (ServerLevel) player.level();
+			RadiationData.get(level).syncToPlayer(player);
+			NuclearExplosionData.get(level).syncToPlayer(player);
 		}
 	}
 }

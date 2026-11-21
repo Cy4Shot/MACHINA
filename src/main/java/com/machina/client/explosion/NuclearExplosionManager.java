@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.machina.client.explosion.sound.NuclearExplosionSounds;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
@@ -19,6 +21,10 @@ public class NuclearExplosionManager {
 
 	public static void addExplosion(Vec3 pos, float power, ResourceKey<Level> dimension) {
 		activeExplosions.add(new NuclearExplosion(pos, power, dimension));
+	}
+
+	public static void addExplosion(Vec3 pos, float power, float initialProgress, ResourceKey<Level> dimension) {
+		activeExplosions.add(new NuclearExplosion(pos, power, initialProgress, dimension));
 	}
 
 	public static void tick() {
@@ -37,6 +43,7 @@ public class NuclearExplosionManager {
 
 	public static void clear() {
 		activeExplosions.clear();
+		NuclearExplosionSounds.clear();
 	}
 
 	public static boolean hasActiveExplosions() {

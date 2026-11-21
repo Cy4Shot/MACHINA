@@ -53,8 +53,16 @@ public class NuclearExplosionSounds {
 			ExplosionSoundState state = soundStates.computeIfAbsent(id, k -> {
 				ExplosionSoundState newState = new ExplosionSoundState();
 				// Calculate when sound arrives based on distance
-				double distance = playerPos.distanceTo(explosion.getPosition());
-				newState.soundArrivalTime = (float) (distance / SPEED_OF_SOUND);
+				double dist = playerPos.distanceTo(explosion.getPosition());
+				newState.soundArrivalTime = (float) (dist / SPEED_OF_SOUND);
+
+				// If joined in progress, skip initial sounds (snap, rumble start, wind start)
+				if (explosion.isJoinedInProgress()) {
+					newState.snapPlayed = true;
+					newState.rumblePlayed = true;
+					newState.windPlayed = true;
+					newState.distantBoomPlayed = true;
+				}
 				return newState;
 			});
 

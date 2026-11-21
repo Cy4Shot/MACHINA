@@ -14,6 +14,7 @@ public class NuclearExplosion {
 	private final int durationTicks;
 	private final ResourceKey<Level> dimension;
 	private final RandomSource random;
+	private final float initialProgress;
 
 	public NuclearExplosion(BlockPos pos, float power, ResourceKey<Level> dimension) {
 		this.position = Vec3.atCenterOf(pos);
@@ -22,15 +23,23 @@ public class NuclearExplosion {
 		this.durationTicks = (int) (power * 800);
 		this.dimension = dimension;
 		this.random = RandomSource.create();
+		this.initialProgress = 0.0f;
 	}
 
 	public NuclearExplosion(Vec3 pos, float power, ResourceKey<Level> dimension) {
+		this(pos, power, 0.0f, dimension);
+	}
+
+	public NuclearExplosion(Vec3 pos, float power, float initialProgress, ResourceKey<Level> dimension) {
 		this.position = pos;
-		this.startTime = System.currentTimeMillis();
 		this.power = power;
 		this.durationTicks = (int) (power * 800);
 		this.dimension = dimension;
 		this.random = RandomSource.create();
+		this.initialProgress = initialProgress;
+		// Adjust startTime based on initial progress
+		long elapsedMs = (long) (initialProgress * durationTicks * 50);
+		this.startTime = System.currentTimeMillis() - elapsedMs;
 	}
 
 	public Vec3 getPosition() {
@@ -51,6 +60,14 @@ public class NuclearExplosion {
 
 	public long getStartTime() {
 		return startTime;
+	}
+
+	public float getInitialProgress() {
+		return initialProgress;
+	}
+
+	public boolean isJoinedInProgress() {
+		return initialProgress > 0.01f;
 	}
 
 	public float getProgress() {
