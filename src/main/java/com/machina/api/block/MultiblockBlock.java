@@ -27,6 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.common.extensions.IBlockExtension;
 
 public abstract class MultiblockBlock extends MachineBlock implements IClickableBlock {
 
@@ -104,6 +105,30 @@ public abstract class MultiblockBlock extends MachineBlock implements IClickable
 		}
 
 		super.onRemove(state, level, pos, newState, moving);
+	}
+
+	@Override
+	public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, net.minecraft.world.level.material.FluidState fluid) {
+		// Prevent breaking multiblock blocks while the machine is running (unless creative)
+		if (!player.isCreative() && isMultiblockLocked(level, pos)) {
+			return false;
+		}
+		return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
+	}
+
+	private boolean isMultiblockLocked(Level level, BlockPos pos) {
+		if (isMaster()) {
+			return BlockHelper.getFromTe(level, pos, MultiblockMasterBlockEntity.class,
+				MultiblockMasterBlockEntity::isMultiblockLocked) == Boolean.TRUE;
+		} else {
+			BlockPos masterPos = BlockHelper.getFromTe(level, pos, MultiblockPartBlockEntity.class,
+				MultiblockPartBlockEntity::getMaster);
+			if (masterPos != null) {
+				return BlockHelper.getFromTe(level, masterPos, MultiblockMasterBlockEntity.class,
+					MultiblockMasterBlockEntity::isMultiblockLocked) == Boolean.TRUE;
+			}
+		}
+		return false;
 	}
 
 	@Override

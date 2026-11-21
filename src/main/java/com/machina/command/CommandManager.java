@@ -255,7 +255,7 @@ public class CommandManager {
 				BlockHitResult blockHit = (BlockHitResult) hit;
 				return spawnNuke(source, blockHit.getBlockPos().getX() + 0.5, blockHit.getBlockPos().getY() + 0.5, blockHit.getBlockPos().getZ() + 0.5, 8.0f);
 			})
-			.then(Commands.argument("power", FloatArgumentType.floatArg(1.0f, 7.0f))
+			.then(Commands.argument("power", FloatArgumentType.floatArg(1.0f, 15.0f))
 				.executes(ctx -> {
 					CommandSourceStack source = ctx.getSource();
 					ServerPlayer player = source.getPlayer();

@@ -240,4 +240,12 @@ public abstract class MultiblockMasterBlockEntity extends MachinaBlockEntity {
 	public boolean isCapabilitiesActive(MachinaCap cap) {
 		return this.formed;
 	}
+
+	/**
+	 * Returns true if the multiblock should be protected from breaking.
+	 * Override in subclasses to prevent breaking while machine is running.
+	 */
+	public boolean isMultiblockLocked() {
+		return false;
+	}
 }
