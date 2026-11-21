@@ -51,19 +51,19 @@ void initBlastParams() {
     g_blastTime = clamp(Progress, 0.001, 0.999);
     g_scale = Power * 10.0;
 
-    // Rise phase - only rises during first 15% of animation, then stops
-    float risePhase = smoothstep(0.0, 0.15, g_blastTime);  // 0 to 1 during first 15%
-    float riseHeight = risePhase * 2.3 * g_scale;  // Rise height
+    // Rise phase - only rises during first 7.5% of animation (doubled duration, same real time)
+    float risePhase = smoothstep(0.0, 0.075, g_blastTime);
+    float riseHeight = risePhase * 2.3 * g_scale;
     g_cloudCentre = ExplosionCenter + vec3(0.0, riseHeight, 0.0);
 
-    // Spread phase - starts slow, accelerates after rise stops
-    float spreadPhase = smoothstep(0.1, 0.8, g_blastTime);
+    // Spread phase - halved timings for doubled duration
+    float spreadPhase = smoothstep(0.05, 0.4, g_blastTime);
 
     // Cloud gets much wider after it stops rising
-    g_cloudWidth = 1.0 + spreadPhase * 4.0;  // Spreads to 5x width
+    g_cloudWidth = 1.0 + spreadPhase * 4.0;
 
-    // Flatten dramatically - becomes very pancake-like
-    g_cloudFlatten = 1.0 - spreadPhase * 0.7;  // Compresses to 0.3x height
+    // Flatten dramatically
+    g_cloudFlatten = 1.0 - spreadPhase * 0.7;
 
     // Gets wispier over time
     g_wispiness = 0.5 + g_blastTime * 1.5;
@@ -97,8 +97,9 @@ float g_debrisAmount = 0.0;
 float debrisSdf(vec3 pos) {
     vec3 p = pos - ExplosionCenter;
 
-    // Ease-out - fast start, slows down quickly
-    float debrisTime = 1.0 - pow(1.0 - g_blastTime, 4.0);  // Quartic ease-out - slows faster
+    // Ease-out - expands during first 20% (halved for doubled duration)
+    float expandTime = min(g_blastTime / 0.2, 1.0);
+    float debrisTime = 1.0 - pow(1.0 - expandTime, 3.0);
 
     // Ring expands but slows down
     float minRadius = 1.5 * g_scale;
@@ -139,17 +140,9 @@ float debrisSdf(vec3 pos) {
 
     d += (noise - 0.25) * g_scale * 0.3;
 
-    // Fade out - starts earlier
-    float fadeTime = 1.0 - smoothstep(0.3, 0.7, g_blastTime);
-
-    // Fade edges - but NOT near player (removed inner fade)
-    float fadeOuter = 1.0 - smoothstep(ringRadius - ringThickness * 0.3, ringRadius + ringThickness * 0.5, distFromCenter);
-
-    // Apply density falloff - less aggressive so it stays visible longer
-    d += (1.0 - densityFalloff) * g_scale * 0.3;
-
-    // Fade out
-    d += (1.0 - fadeOuter * fadeTime) * g_scale * 1.5;
+    // Fade out debris - starts after expansion, uses full extended duration
+    float fadeOut = smoothstep(0.2, 0.9, g_blastTime);
+    d += fadeOut * g_scale * 10.0;
 
     return d;
 }
@@ -196,8 +189,8 @@ float sdf(vec3 pos) {
     float bulge = 1.0 - exp2(-20.0 * g_blastTimeEased);
 
     // Cloud shape evolves: disc -> torus over time
-    // Starts as filled disc, hole appears gradually
-    float holeFormation = smoothstep(0.2, 0.6, g_blastTime);  // Hole forms between 20-60%
+    // Starts as filled disc, hole appears gradually (halved timings)
+    float holeFormation = smoothstep(0.1, 0.3, g_blastTime);
 
     float outerRadius = 1.0 * g_scale * bulge * g_cloudWidth;  // Outer edge grows
     float innerRadius = outerRadius * 0.4 * holeFormation;     // Hole appears gradually
@@ -225,6 +218,10 @@ float sdf(vec3 pos) {
 
     g = min(g, h);
     float mainCloud = ff + g * 0.6;
+
+    // Fade out main cloud - starts later, uses full extended duration
+    float cloudFadeOut = smoothstep(0.4, 1.0, g_blastTime);
+    mainCloud += cloudFadeOut * g_scale * 10.0;
 
     // Combine with debris ring
     float debris = debrisSdf(pos);

@@ -17,7 +17,7 @@ public class NuclearExplosion {
 		this.position = Vec3.atCenterOf(pos);
 		this.startTime = System.currentTimeMillis();
 		this.power = power;
-		this.durationTicks = (int) (power * 400);
+		this.durationTicks = (int) (power * 800);
 		this.dimension = dimension;
 	}
 
@@ -25,7 +25,7 @@ public class NuclearExplosion {
 		this.position = pos;
 		this.startTime = System.currentTimeMillis();
 		this.power = power;
-		this.durationTicks = (int) (power * 400);
+		this.durationTicks = (int) (power * 800);
 		this.dimension = dimension;
 	}
 
