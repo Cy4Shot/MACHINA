@@ -66,7 +66,8 @@ public class NuclearExplosionRenderer {
 
 		// Bounding box size
 		float scale = power * 15.0f;
-		float boxSize = scale * 10.0f;
+		float debrisRadius = 6.0f * power * 10.0f + scale * 3.0f;  // Max debris radius
+		float boxSize = Math.max(scale * 10.0f, debrisRadius);
 		float cloudHeight = progress * 8.0f * scale;
 
 		Matrix4f invViewProj = new Matrix4f(RenderSystem.getProjectionMatrix()).mul(RenderSystem.getModelViewMatrix())
@@ -121,38 +122,37 @@ public class NuclearExplosionRenderer {
 
 		// Use the poseStack matrix - same as the rest of the world
 		poseStack.pushPose();
-		Matrix4f matrix = poseStack.last().pose();
 
 		// Check if camera is inside the bounding box
 		boolean inside = cx > minX && cx < maxX && cy > minY && cy < maxY && cz > minZ && cz < maxZ;
 
 		if (inside) {
 			float nearDist = 0.5f;
-			addQuad(buffer, matrix, cx, cy, cz, cx - nearDist, cy - nearDist, cz - nearDist, cx + nearDist,
-					cy - nearDist, cz - nearDist, cx + nearDist, cy + nearDist, cz - nearDist, cx - nearDist,
-					cy + nearDist, cz - nearDist);
-			addQuad(buffer, matrix, cx, cy, cz, cx + nearDist, cy - nearDist, cz + nearDist, cx - nearDist,
-					cy - nearDist, cz + nearDist, cx - nearDist, cy + nearDist, cz + nearDist, cx + nearDist,
-					cy + nearDist, cz + nearDist);
-			addQuad(buffer, matrix, cx, cy, cz, cx - nearDist, cy - nearDist, cz + nearDist, cx - nearDist,
-					cy - nearDist, cz - nearDist, cx - nearDist, cy + nearDist, cz - nearDist, cx - nearDist,
-					cy + nearDist, cz + nearDist);
-			addQuad(buffer, matrix, cx, cy, cz, cx + nearDist, cy - nearDist, cz - nearDist, cx + nearDist,
-					cy - nearDist, cz + nearDist, cx + nearDist, cy + nearDist, cz + nearDist, cx + nearDist,
-					cy + nearDist, cz - nearDist);
-			addQuad(buffer, matrix, cx, cy, cz, cx - nearDist, cy - nearDist, cz + nearDist, cx + nearDist,
-					cy - nearDist, cz + nearDist, cx + nearDist, cy - nearDist, cz - nearDist, cx - nearDist,
-					cy - nearDist, cz - nearDist);
-			addQuad(buffer, matrix, cx, cy, cz, cx - nearDist, cy + nearDist, cz - nearDist, cx + nearDist,
-					cy + nearDist, cz - nearDist, cx + nearDist, cy + nearDist, cz + nearDist, cx - nearDist,
-					cy + nearDist, cz + nearDist);
+			addQuad(buffer, cx, cy, cz, cx - nearDist, cy - nearDist, cz - nearDist, cx + nearDist, cy - nearDist,
+					cz - nearDist, cx + nearDist, cy + nearDist, cz - nearDist, cx - nearDist, cy + nearDist,
+					cz - nearDist);
+			addQuad(buffer, cx, cy, cz, cx + nearDist, cy - nearDist, cz + nearDist, cx - nearDist, cy - nearDist,
+					cz + nearDist, cx - nearDist, cy + nearDist, cz + nearDist, cx + nearDist, cy + nearDist,
+					cz + nearDist);
+			addQuad(buffer, cx, cy, cz, cx - nearDist, cy - nearDist, cz + nearDist, cx - nearDist, cy - nearDist,
+					cz - nearDist, cx - nearDist, cy + nearDist, cz - nearDist, cx - nearDist, cy + nearDist,
+					cz + nearDist);
+			addQuad(buffer, cx, cy, cz, cx + nearDist, cy - nearDist, cz - nearDist, cx + nearDist, cy - nearDist,
+					cz + nearDist, cx + nearDist, cy + nearDist, cz + nearDist, cx + nearDist, cy + nearDist,
+					cz - nearDist);
+			addQuad(buffer, cx, cy, cz, cx - nearDist, cy - nearDist, cz + nearDist, cx + nearDist, cy - nearDist,
+					cz + nearDist, cx + nearDist, cy - nearDist, cz - nearDist, cx - nearDist, cy - nearDist,
+					cz - nearDist);
+			addQuad(buffer, cx, cy, cz, cx - nearDist, cy + nearDist, cz - nearDist, cx + nearDist, cy + nearDist,
+					cz - nearDist, cx + nearDist, cy + nearDist, cz + nearDist, cx - nearDist, cy + nearDist,
+					cz + nearDist);
 		} else {
-			addQuad(buffer, matrix, cx, cy, cz, minX, minY, minZ, maxX, minY, minZ, maxX, maxY, minZ, minX, maxY, minZ);
-			addQuad(buffer, matrix, cx, cy, cz, maxX, minY, maxZ, minX, minY, maxZ, minX, maxY, maxZ, maxX, maxY, maxZ);
-			addQuad(buffer, matrix, cx, cy, cz, minX, minY, maxZ, minX, minY, minZ, minX, maxY, minZ, minX, maxY, maxZ);
-			addQuad(buffer, matrix, cx, cy, cz, maxX, minY, minZ, maxX, minY, maxZ, maxX, maxY, maxZ, maxX, maxY, minZ);
-			addQuad(buffer, matrix, cx, cy, cz, minX, minY, maxZ, maxX, minY, maxZ, maxX, minY, minZ, minX, minY, minZ);
-			addQuad(buffer, matrix, cx, cy, cz, minX, maxY, minZ, maxX, maxY, minZ, maxX, maxY, maxZ, minX, maxY, maxZ);
+			addQuad(buffer, cx, cy, cz, minX, minY, minZ, maxX, minY, minZ, maxX, maxY, minZ, minX, maxY, minZ);
+			addQuad(buffer, cx, cy, cz, maxX, minY, maxZ, minX, minY, maxZ, minX, maxY, maxZ, maxX, maxY, maxZ);
+			addQuad(buffer, cx, cy, cz, minX, minY, maxZ, minX, minY, minZ, minX, maxY, minZ, minX, maxY, maxZ);
+			addQuad(buffer, cx, cy, cz, maxX, minY, minZ, maxX, minY, maxZ, maxX, maxY, maxZ, maxX, maxY, minZ);
+			addQuad(buffer, cx, cy, cz, minX, minY, maxZ, maxX, minY, maxZ, maxX, minY, minZ, minX, minY, minZ);
+			addQuad(buffer, cx, cy, cz, minX, maxY, minZ, maxX, maxY, minZ, maxX, maxY, maxZ, minX, maxY, maxZ);
 		}
 
 		BufferUploader.drawWithShader(buffer.buildOrThrow());
@@ -170,8 +170,8 @@ public class NuclearExplosionRenderer {
 		RenderSystem.enableDepthTest();
 	}
 
-	private static void addQuad(BufferBuilder buffer, Matrix4f matrix, float cx, float cy, float cz, float x1, float y1,
-			float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) {
+	private static void addQuad(BufferBuilder buffer, float cx, float cy, float cz, float x1, float y1, float z1,
+			float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) {
 		// Camera-relative coordinates, transformed by poseStack matrix
 		buffer.addVertex(x1 - cx, y1 - cy, z1 - cz);
 		buffer.addVertex(x2 - cx, y2 - cy, z2 - cz);

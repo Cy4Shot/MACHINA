@@ -15,6 +15,8 @@ uniform mat4 ModelViewMat;
 
 out vec4 fragColor;
 
+// Shader inspired by https://www.shadertoy.com/user/TekF
+
 // Sample 3D noise texture directly - 32x32x32 volume with trilinear filtering
 float grayNoise3D(vec3 x) {
     // Normalize to 0-1 range for texture sampling (tiles every 32 units)
@@ -24,12 +26,50 @@ float grayNoise3D(vec3 x) {
 
 vec3 g_cloudCentre;
 float g_blastTime;
+float g_blastTimeEased;  // Ease-out version for animation
 float g_scale;
+
+// Ease-out functions
+float easeOutQuad(float t) {
+    return 1.0 - (1.0 - t) * (1.0 - t);
+}
+
+float easeOutCubic(float t) {
+    return 1.0 - pow(1.0 - t, 3.0);
+}
+
+float easeOutQuint(float t) {
+    return 1.0 - pow(1.0 - t, 5.0);
+}
+
+// Cloud shape parameters that evolve over time
+float g_cloudWidth;   // Horizontal spread
+float g_cloudFlatten; // Vertical compression
+float g_wispiness;    // How wispy/noisy
 
 void initBlastParams() {
     g_blastTime = clamp(Progress, 0.001, 0.999);
     g_scale = Power * 10.0;
-    g_cloudCentre = ExplosionCenter + vec3(0.0, g_blastTime * 8.0 * g_scale, 0.0);
+
+    // Rise phase - only rises during first 15% of animation, then stops
+    float risePhase = smoothstep(0.0, 0.15, g_blastTime);  // 0 to 1 during first 15%
+    float riseHeight = risePhase * 2.3 * g_scale;  // Rise height
+    g_cloudCentre = ExplosionCenter + vec3(0.0, riseHeight, 0.0);
+
+    // Spread phase - starts slow, accelerates after rise stops
+    float spreadPhase = smoothstep(0.1, 0.8, g_blastTime);
+
+    // Cloud gets much wider after it stops rising
+    g_cloudWidth = 1.0 + spreadPhase * 4.0;  // Spreads to 5x width
+
+    // Flatten dramatically - becomes very pancake-like
+    g_cloudFlatten = 1.0 - spreadPhase * 0.7;  // Compresses to 0.3x height
+
+    // Gets wispier over time
+    g_wispiness = 0.5 + g_blastTime * 1.5;
+
+    // For other calculations that need eased time
+    g_blastTimeEased = easeOutQuint(g_blastTime);
 }
 
 vec3 flow(vec3 pos) {
@@ -48,6 +88,70 @@ vec3 flow(vec3 pos) {
     v *= exp2(-pow(g * 3.0 / g_scale, 2.0));
 
     return v;
+}
+
+// Track if current sample is debris (for coloring)
+float g_debrisAmount = 0.0;
+
+// Ground debris ring SDF - expanding ring of dust
+float debrisSdf(vec3 pos) {
+    vec3 p = pos - ExplosionCenter;
+
+    // Ease-out - fast start, slows down quickly
+    float debrisTime = 1.0 - pow(1.0 - g_blastTime, 4.0);  // Quartic ease-out - slows faster
+
+    // Ring expands but slows down
+    float minRadius = 1.5 * g_scale;
+    float maxRadius = 6.0 * g_scale;
+    float ringRadius = minRadius + debrisTime * (maxRadius - minRadius);
+
+    // Ring gets wider as it expands (thicker band)
+    float ringThickness = (1.0 + debrisTime * 2.0) * g_scale;  // 1x to 3x thickness
+
+    // Density decreases linearly as ring expands
+    float densityFalloff = minRadius / ringRadius;
+
+    // Distance from ring center (horizontal)
+    float distFromCenter = length(p.xz);
+
+    // How far from the ring centerline (0 = on ring, 1 = at edge)
+    float ringPos = clamp(abs(distFromCenter - ringRadius) / ringThickness, 0.0, 1.0);
+
+    // Height tapers - doubled height
+    float maxHeight = 0.3 * g_scale;
+    float taperHeight = maxHeight * (1.0 - ringPos * ringPos);
+    taperHeight = max(taperHeight, 0.04 * g_scale);
+
+    // Horizontal ring distance
+    float ringDist = abs(distFromCenter - ringRadius) - ringThickness;
+
+    // Vertical constraint - hugs the ground
+    float vertDist = abs(p.y - 0.1 * g_scale) - taperHeight;
+
+    float d = max(ringDist, vertDist);
+
+    // Animated noise - slows down over time
+    float noiseSpeed = 0.3 * (1.0 - g_blastTime * 0.8);  // Slows to 20% speed
+    vec3 noisePos = pos / (2.0 * g_scale);
+    vec3 noiseOffset = vec3(Time * noiseSpeed, 0.0, Time * noiseSpeed);
+    float noise = grayNoise3D((noisePos + noiseOffset) * 6.0) * 0.4;
+    noise += grayNoise3D((noisePos + noiseOffset * 0.6) * 12.0) * 0.2;
+
+    d += (noise - 0.25) * g_scale * 0.3;
+
+    // Fade out - starts earlier
+    float fadeTime = 1.0 - smoothstep(0.3, 0.7, g_blastTime);
+
+    // Fade edges - but NOT near player (removed inner fade)
+    float fadeOuter = 1.0 - smoothstep(ringRadius - ringThickness * 0.3, ringRadius + ringThickness * 0.5, distFromCenter);
+
+    // Apply density falloff - less aggressive so it stays visible longer
+    d += (1.0 - densityFalloff) * g_scale * 0.3;
+
+    // Fade out
+    d += (1.0 - fadeOuter * fadeTime) * g_scale * 1.5;
+
+    return d;
 }
 
 float sdf(vec3 pos) {
@@ -84,22 +188,51 @@ float sdf(vec3 pos) {
     f1 += grayNoise3D((offset1 + u1) * 64.0) / 32.0;
 
     float ff = mix(f0, f1, tt);
-    ff *= 0.5 * g_scale;
+    // Noise influence increases with wispiness
+    ff *= 0.5 * g_scale * g_wispiness;
 
     vec3 p = pos - g_cloudCentre;
-    float bulge = 1.0 - exp2(-20.0 * g_blastTime);
-    float g = length(vec2(p.y, length(p.xz) - 1.0 * g_scale * bulge)) - 1.0 * g_scale;
+
+    float bulge = 1.0 - exp2(-20.0 * g_blastTimeEased);
+
+    // Cloud shape evolves: disc -> torus over time
+    // Starts as filled disc, hole appears gradually
+    float holeFormation = smoothstep(0.2, 0.6, g_blastTime);  // Hole forms between 20-60%
+
+    float outerRadius = 1.0 * g_scale * bulge * g_cloudWidth;  // Outer edge grows
+    float innerRadius = outerRadius * 0.4 * holeFormation;     // Hole appears gradually
+    float thickness = 1.0 * g_scale * g_cloudFlatten;          // Vertical thickness
+
+    // Distance calculation - blend between disc and torus
+    float pxzLen = length(p.xz);
+
+    // Disc SDF (no hole)
+    float discDist = length(vec2(p.y, max(0.0, pxzLen - outerRadius))) - thickness;
+
+    // Torus SDF (with hole)
+    float torusDist = length(vec2(p.y, pxzLen - (outerRadius + innerRadius) * 0.5)) - (outerRadius - innerRadius) * 0.5 - thickness * 0.5;
+
+    // Blend from disc to torus
+    float g = mix(discDist, torusDist, holeFormation);
+
     ff *= bulge;
 
-    // Stem
-    float h = length(pos.xz - ExplosionCenter.xz) - 0.7 * g_scale + 0.15 * (g_cloudCentre.y - pos.y - 1.5 * g_scale);
+    // Stem - also gets wider over time
+    float stemWidth = 0.7 * g_scale * (1.0 + g_blastTime * 0.3);
+    float h = length(pos.xz - ExplosionCenter.xz) - stemWidth + 0.15 * (g_cloudCentre.y - pos.y - 1.5 * g_scale);
     h = max(h, pos.y - g_cloudCentre.y);
     h = max(h, (ExplosionCenter.y - 2.0 * g_scale - pos.y) * 0.3);
 
     g = min(g, h);
-    ff += g * 0.6;
+    float mainCloud = ff + g * 0.6;
 
-    return ff;
+    // Combine with debris ring
+    float debris = debrisSdf(pos);
+
+    // Track how much we're in debris vs main cloud (for coloring)
+    g_debrisAmount = debris < mainCloud ? 1.0 : 0.0;
+
+    return min(mainCloud, debris);
 }
 
 void main() {
@@ -132,6 +265,8 @@ void main() {
     pos += rayDir * startDist;
     totalDist = startDist;
 
+    float debrisAccum = 0.0;  // Track debris contribution
+
     for (int i = 0; i < 24; i++) {
         float h = sdf(pos);
         float vis = smoothstep(epsilon, softness, h);
@@ -148,11 +283,16 @@ void main() {
             float newvis = visibility * pow(vis, h * density);
             float contribution = visibility - newvis;
 
+            // Accumulate debris contribution for graying
+            debrisAccum += contribution * g_debrisAmount;
+
             light0 += contribution * smoothstep(-0.5, 1.0, (sdf(pos + sunDir * softness) - h) / softness);
 
             vec3 lightDelta = g_cloudCentre - pos;
             float lightDist2 = dot(lightDelta, lightDelta) / (g_scale * g_scale);
-            light1 += contribution * pow(smoothstep(-1.0, 1.0, (sdf(pos + normalize(lightDelta) * softness) - h) / softness), 2.0)
+            // Reduce fire glow for debris (more gray)
+            float fireScale = 1.0 - g_debrisAmount * 0.8;
+            light1 += contribution * fireScale * pow(smoothstep(-1.0, 1.0, (sdf(pos + normalize(lightDelta) * softness) - h) / softness), 2.0)
                       / (lightDist2 + 1.0);
 
             visibility = newvis;
