@@ -43,15 +43,96 @@ public class NuclearExplosionRenderer {
 			return;
 		}
 
-		// Use camera position exactly as the rest of the world does
 		Vec3 cameraPos = camera.getPosition();
+		Vec3 playerPos = Minecraft.getInstance().player != null ? Minecraft.getInstance().player.position() : cameraPos;
 		ResourceKey<Level> currentDimension = Minecraft.getInstance().level.dimension();
 
+		// Calculate max darkness from all explosions
+		float maxDarkness = 0f;
+		for (NuclearExplosion explosion : NuclearExplosionManager.getActiveExplosions()) {
+			if (explosion.getDimension().equals(currentDimension)) {
+				float darkness = getDarkness(explosion, playerPos);
+				maxDarkness = Math.max(maxDarkness, darkness);
+			}
+		}
+
+		// Render darkening pass first (before nukes)
+		if (maxDarkness > 0.01f) {
+			renderDarkening(maxDarkness);
+		}
+
+		// Render all nukes on top
 		for (NuclearExplosion explosion : NuclearExplosionManager.getActiveExplosions()) {
 			if (explosion.getDimension().equals(currentDimension)) {
 				renderExplosion(poseStack, explosion, cameraPos);
 			}
 		}
+	}
+
+	private static float getDarkness(NuclearExplosion explosion, Vec3 playerPos) {
+		float progress = explosion.getProgress();
+		float power = explosion.getPower();
+		double distance = playerPos.distanceTo(explosion.getPosition());
+		float maxRange = power * 300.0f;
+
+		if (distance >= maxRange)
+			return 0f;
+
+		// Duration scales with distance (closer = longer darkness)
+		float distanceFactor = 1.0f - (float) (distance / maxRange);
+		float fadeDuration = 0.15f * distanceFactor;  // Up to 15% of animation
+
+		if (progress < fadeDuration && fadeDuration > 0.001f) {
+			// Exponential fade - fast at first, then slows
+			float fadeTime = progress / fadeDuration;
+			float darkness = (float) Math.exp(-fadeTime * 8.0);  // Exponential decay
+			return Math.min(darkness, 1.0f);  // Full intensity, capped at 1.0
+		}
+		return 0f;
+	}
+
+	private static void renderDarkening(float darkness) {
+		Minecraft mc = Minecraft.getInstance();
+		int width = mc.getWindow().getGuiScaledWidth();
+		int height = mc.getWindow().getGuiScaledHeight();
+
+		// Save current matrices
+		Matrix4f oldProj = new Matrix4f(RenderSystem.getProjectionMatrix());
+
+		// Set up orthographic projection for screen-space rendering
+		RenderSystem.setProjectionMatrix(new Matrix4f().ortho(0, width, height, 0, -1000, 1000),
+				com.mojang.blaze3d.vertex.VertexSorting.ORTHOGRAPHIC_Z);
+		RenderSystem.getModelViewStack().pushMatrix();
+		RenderSystem.getModelViewStack().identity();
+		RenderSystem.applyModelViewMatrix();
+
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.disableDepthTest();
+		RenderSystem.depthMask(false);
+		RenderSystem.setShader(net.minecraft.client.renderer.GameRenderer::getPositionColorShader);
+
+		// Draw black quad multiple times to stack darkness (10x darker)
+		int alpha = (int) (darkness * 255);
+
+		for (int i = 0; i < 10; i++) {
+			BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS,
+					DefaultVertexFormat.POSITION_COLOR);
+			buffer.addVertex(0, 0, 0).setColor(0, 0, 0, alpha);
+			buffer.addVertex(0, height, 0).setColor(0, 0, 0, alpha);
+			buffer.addVertex(width, height, 0).setColor(0, 0, 0, alpha);
+			buffer.addVertex(width, 0, 0).setColor(0, 0, 0, alpha);
+			BufferUploader.drawWithShader(buffer.buildOrThrow());
+		}
+
+		// Restore matrices
+		RenderSystem.getModelViewStack().popMatrix();
+		RenderSystem.applyModelViewMatrix();
+		RenderSystem.setProjectionMatrix(oldProj, com.mojang.blaze3d.vertex.VertexSorting.DISTANCE_TO_ORIGIN);
+
+		RenderSystem.depthMask(true);
+		RenderSystem.enableDepthTest();
+		RenderSystem.disableBlend();
 	}
 
 	private static void renderExplosion(PoseStack poseStack, NuclearExplosion explosion, Vec3 cameraPos) {
@@ -64,10 +145,10 @@ public class NuclearExplosionRenderer {
 		float time = explosion.getTime();
 		float power = explosion.getPower();
 
-		// Bounding box size
+		// Bounding box size - must be large enough to cover debris from any angle
 		float scale = power * 15.0f;
-		float debrisRadius = 6.0f * power * 10.0f + scale * 3.0f;  // Max debris radius
-		float boxSize = Math.max(scale * 10.0f, debrisRadius);
+		float debrisRadius = 6.0f * power * 10.0f * 1.5f; // Max debris radius with margin
+		float boxSize = Math.max(scale * 10.0f, debrisRadius) + scale * 2.0f; // Extra padding
 		float cloudHeight = progress * 8.0f * scale;
 
 		Matrix4f invViewProj = new Matrix4f(RenderSystem.getProjectionMatrix()).mul(RenderSystem.getModelViewMatrix())

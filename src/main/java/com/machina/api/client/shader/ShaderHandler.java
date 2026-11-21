@@ -23,6 +23,7 @@ public class ShaderHandler {
 	public static final MachinaShader PLANET = create("planet", DefaultVertexFormat.NEW_ENTITY);
 	public static final MachinaShader AURORA = create("aurora", DefaultVertexFormat.NEW_ENTITY);
 	public static final MachinaShader NUKE_GLOW = create("nuke_glow", DefaultVertexFormat.POSITION);
+	public static final MachinaShader NUKE_DARKEN = create("nuke_darken", DefaultVertexFormat.POSITION);
 	//@formatter:on
 
 	private static MachinaShader create(String name, VertexFormat format) {

@@ -1,4 +1,40 @@
 {
+	"nuke_snap": {
+		"subtitle": "machina.subtitle.nuke_snap",
+		"sounds": [
+			{
+				"name": "machina:nuke/snap",
+				"stream": false
+			}
+		]
+	},
+	"nuke_rumble": {
+		"subtitle": "machina.subtitle.nuke_rumble",
+		"sounds": [
+			{
+				"name": "machina:nuke/rumble",
+				"stream": true
+			}
+		]
+	},
+	"nuke_wind": {
+		"subtitle": "machina.subtitle.nuke_wind",
+		"sounds": [
+			{
+				"name": "machina:nuke/wind",
+				"stream": true
+			}
+		]
+	},
+	"nuke_distant_boom": {
+		"subtitle": "machina.subtitle.nuke_distant_boom",
+		"sounds": [
+			{
+				"name": "machina:nuke/distant_boom",
+				"stream": false
+			}
+		]
+	},
 	"rocket_launch": {
 		"subtitle": "machina.subtitle.rocket_launch",
 		"sounds": [

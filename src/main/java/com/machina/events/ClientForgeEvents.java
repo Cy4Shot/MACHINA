@@ -6,8 +6,10 @@ import com.machina.Machina;
 import com.machina.api.client.ClientStarchart;
 import com.machina.api.client.screen.MachinaMenuScreen;
 import com.machina.client.ClientRadiationData;
+import com.machina.client.explosion.NuclearExplosionEffects;
 import com.machina.client.explosion.NuclearExplosionManager;
 import com.machina.client.explosion.NuclearExplosionRenderer;
+import com.machina.client.explosion.sound.NuclearExplosionSounds;
 import com.machina.client.screen.StarchartScreen;
 import com.machina.registration.init.KeyBindingInit;
 
@@ -32,7 +34,15 @@ public class ClientForgeEvents {
 
 	@SubscribeEvent
 	public static void onClientTick(final ClientTickEvent.Pre event) {
-		if (mc.screen != null || mc.level == null)
+		if (mc.level == null)
+			return;
+
+		// Effects run even with screen open (overlay, shake, sounds)
+		NuclearExplosionManager.tick();
+		NuclearExplosionEffects.tick();
+		NuclearExplosionSounds.tick();
+
+		if (mc.screen != null)
 			return;
 
 		if (KeyBindingInit.STARCHART_KEY.isDown()) {
@@ -40,7 +50,6 @@ public class ClientForgeEvents {
 		}
 
 		spawnRadiationMist();
-		NuclearExplosionManager.tick();
 	}
 
 	@SubscribeEvent

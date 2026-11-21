@@ -19,6 +19,12 @@ public class SoundInit {
 	public static final Supplier<SoundEvent> ROCKET_LAUNCH = create("rocket_launch");
 	public static final Supplier<SoundEvent> ROCKET_LAND = create("rocket_land");
 
+	// Nuclear explosion sounds
+	public static final Supplier<SoundEvent> NUKE_SNAP = create("nuke_snap");
+	public static final Supplier<SoundEvent> NUKE_RUMBLE = create("nuke_rumble");
+	public static final Supplier<SoundEvent> NUKE_WIND = create("nuke_wind");
+	public static final Supplier<SoundEvent> NUKE_DISTANT_BOOM = create("nuke_distant_boom");
+
 	private static Supplier<SoundEvent> create(String name) {
 		return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(MachinaRL.create(name)));
 	}

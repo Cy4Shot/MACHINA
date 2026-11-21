@@ -2,6 +2,7 @@ package com.machina.client.explosion;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -12,6 +13,7 @@ public class NuclearExplosion {
 	private final float power;
 	private final int durationTicks;
 	private final ResourceKey<Level> dimension;
+	private final RandomSource random;
 
 	public NuclearExplosion(BlockPos pos, float power, ResourceKey<Level> dimension) {
 		this.position = Vec3.atCenterOf(pos);
@@ -19,6 +21,7 @@ public class NuclearExplosion {
 		this.power = power;
 		this.durationTicks = (int) (power * 800);
 		this.dimension = dimension;
+		this.random = RandomSource.create();
 	}
 
 	public NuclearExplosion(Vec3 pos, float power, ResourceKey<Level> dimension) {
@@ -27,6 +30,7 @@ public class NuclearExplosion {
 		this.power = power;
 		this.durationTicks = (int) (power * 800);
 		this.dimension = dimension;
+		this.random = RandomSource.create();
 	}
 
 	public Vec3 getPosition() {
@@ -39,6 +43,14 @@ public class NuclearExplosion {
 
 	public ResourceKey<Level> getDimension() {
 		return dimension;
+	}
+
+	public RandomSource random() {
+		return random;
+	}
+
+	public long getStartTime() {
+		return startTime;
 	}
 
 	public float getProgress() {

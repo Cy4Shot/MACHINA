@@ -106,8 +106,9 @@ float debrisSdf(vec3 pos) {
     float maxRadius = 6.0 * g_scale;
     float ringRadius = minRadius + debrisTime * (maxRadius - minRadius);
 
-    // Ring gets wider as it expands (thicker band)
-    float ringThickness = (1.0 + debrisTime * 2.0) * g_scale;  // 1x to 3x thickness
+    // Asymmetric thickness - thicker inside, thinner outside
+    float innerThickness = (1.0 + debrisTime * 2.5) * g_scale;  // Inside edge
+    float outerThickness = (0.5 + debrisTime * 1.0) * g_scale;  // Outside edge (smaller)
 
     // Density decreases linearly as ring expands
     float densityFalloff = minRadius / ringRadius;
@@ -115,16 +116,19 @@ float debrisSdf(vec3 pos) {
     // Distance from ring center (horizontal)
     float distFromCenter = length(p.xz);
 
-    // How far from the ring centerline (0 = on ring, 1 = at edge)
-    float ringPos = clamp(abs(distFromCenter - ringRadius) / ringThickness, 0.0, 1.0);
+    // Asymmetric ring distance
+    float innerDist = ringRadius - distFromCenter - innerThickness;  // Inside edge
+    float outerDist = distFromCenter - ringRadius - outerThickness;  // Outside edge
+    float ringDist = max(innerDist, outerDist);
 
-    // Height tapers - doubled height
+    // How far from the ring centerline for height tapering
+    float avgThickness = (innerThickness + outerThickness) * 0.5;
+    float ringPos = clamp(abs(distFromCenter - ringRadius) / avgThickness, 0.0, 1.0);
+
+    // Height tapers
     float maxHeight = 0.3 * g_scale;
     float taperHeight = maxHeight * (1.0 - ringPos * ringPos);
     taperHeight = max(taperHeight, 0.04 * g_scale);
-
-    // Horizontal ring distance
-    float ringDist = abs(distFromCenter - ringRadius) - ringThickness;
 
     // Vertical constraint - hugs the ground
     float vertDist = abs(p.y - 0.1 * g_scale) - taperHeight;
@@ -258,7 +262,12 @@ void main() {
     float firstHitDist = -1.0;
 
     float distToCenter = length(ExplosionCenter - rayOrigin);
-    float startDist = max(0.0, distToCenter - g_scale * 5.0);
+    // Check if we might be in debris ring (horizontal distance from explosion)
+    float horizDist = length(ExplosionCenter.xz - rayOrigin.xz);
+    float maxDebrisRadius = 6.0 * g_scale;
+    bool maybeInDebris = horizDist < maxDebrisRadius + g_scale * 2.0 && rayOrigin.y < ExplosionCenter.y + g_scale;
+    // Only skip ahead if definitely outside debris area
+    float startDist = maybeInDebris ? 0.0 : max(0.0, distToCenter - g_scale * 5.0);
     pos += rayDir * startDist;
     totalDist = startDist;
 
@@ -268,7 +277,8 @@ void main() {
         float h = sdf(pos);
         float vis = smoothstep(epsilon, softness, h);
 
-        if (pos.y < ExplosionCenter.y - 0.5 * g_scale) vis = 1.0;
+        // Skip rendering below ground for main cloud only, not debris
+        if (pos.y < ExplosionCenter.y - 0.5 * g_scale && g_debrisAmount < 0.5) vis = 1.0;
 
         h = max(h, epsilon);
 
@@ -321,6 +331,13 @@ void main() {
     col += light1 * vec4(8.0, 2.0, 0.25, 0.0) / (25.0 * pow(g_blastTime, 2.0));
 
     col = mix(vec4(0.0), col, 1.0 - visibility);
+
+    // Initial white-hot flash - exponential fade (fast at first, then slows)
+    float flashTime = min(g_blastTime / 0.08, 1.0);  // Normalize to 0-1 over first 8%
+    float flashIntensity = exp(-flashTime * 20.0);  // Exponential decay (4x faster)
+    vec3 whiteHot = vec3(15.0, 14.0, 12.0);  // Very bright warm white
+    col.rgb = mix(col.rgb, whiteHot * (1.0 - visibility), flashIntensity);
+
     col = pow(col, vec4(1.0 / 2.2));
 
     fragColor = vec4(col.rgb, 1.0 - visibility);
