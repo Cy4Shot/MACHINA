@@ -26,6 +26,6 @@ public record S2CNuclearExplosion(double x, double y, double z, float power) imp
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void handle(Player player) {
-		NuclearExplosionManager.addExplosion(new Vec3(x, y, z), power);
+		NuclearExplosionManager.addExplosion(new Vec3(x, y, z), power, player.level().dimension());
 	}
 }

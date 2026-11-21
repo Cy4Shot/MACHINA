@@ -5,18 +5,20 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class NuclearExplosionManager {
 
 	private static final List<NuclearExplosion> activeExplosions = new ArrayList<>();
 
-	public static void addExplosion(BlockPos pos, float power) {
-		activeExplosions.add(new NuclearExplosion(pos, power));
+	public static void addExplosion(BlockPos pos, float power, ResourceKey<Level> dimension) {
+		activeExplosions.add(new NuclearExplosion(pos, power, dimension));
 	}
 
-	public static void addExplosion(Vec3 pos, float power) {
-		activeExplosions.add(new NuclearExplosion(pos, power));
+	public static void addExplosion(Vec3 pos, float power, ResourceKey<Level> dimension) {
+		activeExplosions.add(new NuclearExplosion(pos, power, dimension));
 	}
 
 	public static void tick() {

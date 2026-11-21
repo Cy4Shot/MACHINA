@@ -5,6 +5,7 @@ in vec4 clipSpacePos;
 
 uniform sampler3D NoiseTex;
 uniform vec3 CameraPos;
+uniform mat4 InvViewProj;
 uniform vec3 ExplosionCenter;
 uniform float Time;
 uniform float Progress;
@@ -103,9 +104,15 @@ float sdf(vec3 pos) {
 
 void main() {
     initBlastParams();
+    
+    vec2 ndc = clipSpacePos.xy / clipSpacePos.w;
+    vec4 nearP = InvViewProj * vec4(ndc, -1.0, 1.0);
+	vec4 farP  = InvViewProj * vec4(ndc,  1.0, 1.0);
+	nearP /= nearP.w;
+	farP  /= farP.w;
 
-    vec3 rayOrigin = CameraPos;
-    vec3 rayDir = normalize(fragWorldPos - CameraPos);
+    vec3 rayOrigin = nearP.xyz + CameraPos;
+	vec3 rayDir    = normalize(farP.xyz - nearP.xyz);
 
     float softness = (0.1 + pow(g_blastTime, 2.0) * 0.5) * g_scale;
     float density = 1.2 / softness;
@@ -152,7 +159,7 @@ void main() {
         }
 
         if (visibility <= 0.01) break;
-        if (totalDist > distToCenter + g_scale * 6.0) break;
+        if (totalDist > distToCenter + g_scale * 12.0) break;
 
         pos += h * rayDir;
         totalDist += h;

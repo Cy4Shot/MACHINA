@@ -1,6 +1,8 @@
 package com.machina.client.explosion;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class NuclearExplosion {
@@ -9,19 +11,22 @@ public class NuclearExplosion {
 	private final long startTime;
 	private final float power;
 	private final int durationTicks;
+	private final ResourceKey<Level> dimension;
 
-	public NuclearExplosion(BlockPos pos, float power) {
+	public NuclearExplosion(BlockPos pos, float power, ResourceKey<Level> dimension) {
 		this.position = Vec3.atCenterOf(pos);
 		this.startTime = System.currentTimeMillis();
 		this.power = power;
 		this.durationTicks = (int) (power * 400);
+		this.dimension = dimension;
 	}
 
-	public NuclearExplosion(Vec3 pos, float power) {
+	public NuclearExplosion(Vec3 pos, float power, ResourceKey<Level> dimension) {
 		this.position = pos;
 		this.startTime = System.currentTimeMillis();
 		this.power = power;
 		this.durationTicks = (int) (power * 400);
+		this.dimension = dimension;
 	}
 
 	public Vec3 getPosition() {
@@ -30,6 +35,10 @@ public class NuclearExplosion {
 
 	public float getPower() {
 		return power;
+	}
+
+	public ResourceKey<Level> getDimension() {
+		return dimension;
 	}
 
 	public float getProgress() {

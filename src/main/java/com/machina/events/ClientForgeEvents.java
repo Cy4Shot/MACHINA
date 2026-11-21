@@ -45,7 +45,7 @@ public class ClientForgeEvents {
 
 	@SubscribeEvent
 	public static void onRenderLevelStage(final RenderLevelStageEvent event) {
-		if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
+		if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
 			NuclearExplosionRenderer.render(event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaPartialTick(false));
 		}
 	}
