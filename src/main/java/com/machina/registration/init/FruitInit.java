@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.machina.api.item.FruitItem;
+import com.machina.block.FruitBlock;
 
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -42,7 +43,7 @@ public class FruitInit {
 
 	private static Fruit register(String name, int nut, float sat, int flags) {
 		DeferredHolder<Block, Block> rb = BlockInit.BLOCKS.register(name,
-				() -> new Block(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.CROP)));
+				() -> new FruitBlock(BlockBehaviour.Properties.of().noCollission().instabreak().sound(SoundType.CROP)));
 		DeferredHolder<Item, FruitItem> ri = ItemInit.ITEMS.register(name,
 				() -> new FruitItem(rb.get(), new Item.Properties().food(food(nut, sat, flags))));
 

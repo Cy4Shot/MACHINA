@@ -24,6 +24,21 @@
     "machina:coniferous_grass": {
       "chance": 0.3
     },
+    "machina:cooked_cyan_sporocarp": {
+      "chance": 0.85
+    },
+    "machina:cooked_tox_sporocarp": {
+      "chance": 0.85
+    },
+    "machina:cyan_sporocarp": {
+      "chance": 0.65
+    },
+    "machina:cyan_tox_shroom": {
+      "chance": 0.65
+    },
+    "machina:dead_small_fern": {
+      "chance": 0.3
+    },
     "machina:dragon_peony": {
       "chance": 0.65
     },
@@ -47,6 +62,9 @@
     },
     "machina:grelp_berry": {
       "chance": 1.0
+    },
+    "machina:imbued_cyan_mushroom_hyphae": {
+      "chance": 0.65
     },
     "machina:moongrass": {
       "chance": 0.3
@@ -131,6 +149,18 @@
     },
     "machina:tama_spore": {
       "chance": 1.0
+    },
+    "machina:tox_shroom": {
+      "chance": 0.65
+    },
+    "machina:tox_sporocarp": {
+      "chance": 0.65
+    },
+    "machina:toxic_grass": {
+      "chance": 0.3
+    },
+    "machina:toxic_tendril": {
+      "chance": 0.3
     },
     "machina:tropical_grass": {
       "chance": 0.3

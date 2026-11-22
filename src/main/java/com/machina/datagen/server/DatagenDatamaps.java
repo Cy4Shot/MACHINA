@@ -47,6 +47,8 @@ public class DatagenDatamaps extends DataMapProvider {
 		compost(compost, provider, BlockInit.GREEN_GLOWSHROOM, 0.65f);
 		compost(compost, provider, BlockInit.TURQUOISE_GLOWSHROOM, 0.65f);
 		compost(compost, provider, BlockInit.BLUE_GLOWSHROOM, 0.65f);
+		compost(compost, provider, BlockInit.TOX_SHROOM, 0.65f);
+		compost(compost, provider, BlockInit.CYAN_TOX_SHROOM, 0.65f);
 
 		compost(compost, provider, BlockInit.SPRUCE_CUP, 0.65f);
 		compost(compost, provider, BlockInit.DRAGON_PEONY, 0.65f);
@@ -55,6 +57,7 @@ public class DatagenDatamaps extends DataMapProvider {
 
 		compost(compost, provider, BlockInit.SPINDLESPROUT, 0.3f);
 		compost(compost, provider, BlockInit.SMALL_FERN, 0.3f);
+		compost(compost, provider, BlockInit.DEAD_SMALL_FERN, 0.3f);
 		compost(compost, provider, BlockInit.NEEDLEGRASS, 0.3f);
 		compost(compost, provider, BlockInit.SPINDLEGRASS, 0.3f);
 		compost(compost, provider, BlockInit.NEEDLETHATCH, 0.3f);
@@ -68,6 +71,8 @@ public class DatagenDatamaps extends DataMapProvider {
 		compost(compost, provider, BlockInit.MYCELIAL_GRASS, 0.3f);
 		compost(compost, provider, BlockInit.FERROUS_GRASS, 0.3f);
 		compost(compost, provider, BlockInit.MOONGRASS, 0.3f);
+		compost(compost, provider, BlockInit.TOXIC_GRASS, 0.3f);
+		compost(compost, provider, BlockInit.TOXIC_TENDRIL, 0.3f);
 
 		compost(compost, provider, BlockInit.PURPLE_PETALS, 0.3f);
 		compost(compost, provider, BlockInit.RED_PETALS, 0.3f);
@@ -98,6 +103,15 @@ public class DatagenDatamaps extends DataMapProvider {
 		for (Fruit fruit : FruitInit.FRUITS) {
 			compost(compost, fruit.item(), 1.0f);
 		}
+
+		// Sporocarps
+		compost(compost, ItemInit.TOX_SPOROCARP, 0.65f);
+		compost(compost, ItemInit.CYAN_SPOROCARP, 0.65f);
+		compost(compost, ItemInit.COOKED_TOX_SPOROCARP, 0.85f);
+		compost(compost, ItemInit.COOKED_CYAN_SPOROCARP, 0.85f);
+
+		// Hyphae (leaf-like)
+		compost(compost, provider, BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE, 0.65f);
 
 		DataMapProvider.Builder<Integer, Fluid> chemburn = builder(DataMapsInit.CHEMICAL_BURNABLE);
 		chemburn(chemburn, FluidInit.HYDROGEN, 100);

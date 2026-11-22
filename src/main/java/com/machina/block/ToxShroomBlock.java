@@ -19,7 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.SuspiciousStewEffects;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -28,7 +30,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.item.context.BlockPlaceContext;
 
-public class ToxShroomBlock extends FlowerBlock {
+public class ToxShroomBlock extends FlowerBlock implements BonemealableBlock {
 
 	public static final BooleanProperty PICKED = BooleanProperty.create("picked");
 
@@ -106,5 +108,20 @@ public class ToxShroomBlock extends FlowerBlock {
 		if (state.getValue(PICKED) && random.nextInt(3) == 0) {
 			level.setBlock(pos, state.setValue(PICKED, false), 2);
 		}
+	}
+
+	@Override
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+		return state.getValue(PICKED);
+	}
+
+	@Override
+	public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+		return true;
+	}
+
+	@Override
+	public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+		level.setBlock(pos, state.setValue(PICKED, false), 2);
 	}
 }
