@@ -58,13 +58,14 @@
 			],
 			"chance": 0.15,
 			"fruits": [
-				"machina:imbued_cyan_mushroom_hyphae"
+				"machina:imbued_cyan_mushroom_hyphae",
+				"machina:grelp_berry",
+				"machina:argo_berry"
 			],
 			"fruit_dirs": [
-				"UP",
 				"DOWN"
 			],
-			"fruit_chance": 0.8,
+			"fruit_chance": 0.35,
 			"tree_fruit_chance": 1
 		},
 		{

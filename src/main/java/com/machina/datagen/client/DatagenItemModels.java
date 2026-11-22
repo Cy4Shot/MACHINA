@@ -78,6 +78,11 @@ public class DatagenItemModels extends ItemModelProvider {
 		simpleItem(ItemInit.SPENT_URANIUM_FUEL);
 		simpleItem(ItemInit.SPENT_THORIUM_FUEL);
 
+		simpleItem(ItemInit.TOX_SPOROCARP);
+		simpleItem(ItemInit.CYAN_SPOROCARP);
+		simpleItem(ItemInit.COOKED_TOX_SPOROCARP);
+		simpleItem(ItemInit.COOKED_CYAN_SPOROCARP);
+
 		simpleItem(ItemInit.TROPICAL_SIGN);
 		simpleItem(ItemInit.TROPICAL_HANGING_SIGN);
 

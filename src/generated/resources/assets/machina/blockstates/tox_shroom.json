@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "picked=false": {
       "model": "machina:block/tox_shroom"
+    },
+    "picked=true": {
+      "model": "machina:block/tox_shroom_picked"
     }
   }
 }

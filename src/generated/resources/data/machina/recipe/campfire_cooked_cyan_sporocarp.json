@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "machina:cyan_sporocarp"
+  },
+  "result": {
+    "count": 1,
+    "id": "machina:cooked_cyan_sporocarp"
+  }
+}

@@ -21,6 +21,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -562,6 +563,27 @@ public class DatagenRecipes extends DatagenRecipeProvider implements IConditionB
 				new ItemStack(ItemInit.ALUMINUM_DUST.get(), 32),
 				new ItemStack(ItemInit.GOLD_WIRE.get(), 96),
 				new ItemStack(ItemInit.COPPER_COIL.get(), 48));
+
+		// Tox Sporocarp cooking
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ItemInit.TOX_SPOROCARP.get()), RecipeCategory.FOOD, ItemInit.COOKED_TOX_SPOROCARP.get(), 0.35f, 200)
+				.unlockedBy(getHasName(ItemInit.TOX_SPOROCARP), has(ItemInit.TOX_SPOROCARP))
+				.save(gen, Machina.MOD_ID + ":smelting_cooked_tox_sporocarp");
+		SimpleCookingRecipeBuilder.smoking(Ingredient.of(ItemInit.TOX_SPOROCARP.get()), RecipeCategory.FOOD, ItemInit.COOKED_TOX_SPOROCARP.get(), 0.35f, 100)
+				.unlockedBy(getHasName(ItemInit.TOX_SPOROCARP), has(ItemInit.TOX_SPOROCARP))
+				.save(gen, Machina.MOD_ID + ":smoking_cooked_tox_sporocarp");
+		SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ItemInit.TOX_SPOROCARP.get()), RecipeCategory.FOOD, ItemInit.COOKED_TOX_SPOROCARP.get(), 0.35f, 600)
+				.unlockedBy(getHasName(ItemInit.TOX_SPOROCARP), has(ItemInit.TOX_SPOROCARP))
+				.save(gen, Machina.MOD_ID + ":campfire_cooked_tox_sporocarp");
+
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ItemInit.CYAN_SPOROCARP.get()), RecipeCategory.FOOD, ItemInit.COOKED_CYAN_SPOROCARP.get(), 0.35f, 200)
+				.unlockedBy(getHasName(ItemInit.CYAN_SPOROCARP), has(ItemInit.CYAN_SPOROCARP))
+				.save(gen, Machina.MOD_ID + ":smelting_cooked_cyan_sporocarp");
+		SimpleCookingRecipeBuilder.smoking(Ingredient.of(ItemInit.CYAN_SPOROCARP.get()), RecipeCategory.FOOD, ItemInit.COOKED_CYAN_SPOROCARP.get(), 0.35f, 100)
+				.unlockedBy(getHasName(ItemInit.CYAN_SPOROCARP), has(ItemInit.CYAN_SPOROCARP))
+				.save(gen, Machina.MOD_ID + ":smoking_cooked_cyan_sporocarp");
+		SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ItemInit.CYAN_SPOROCARP.get()), RecipeCategory.FOOD, ItemInit.COOKED_CYAN_SPOROCARP.get(), 0.35f, 600)
+				.unlockedBy(getHasName(ItemInit.CYAN_SPOROCARP), has(ItemInit.CYAN_SPOROCARP))
+				.save(gen, Machina.MOD_ID + ":campfire_cooked_cyan_sporocarp");
 		//@formatter:on
 
 		FamiliesInit.ORES.forEach(x -> oreFamily(gen, x));

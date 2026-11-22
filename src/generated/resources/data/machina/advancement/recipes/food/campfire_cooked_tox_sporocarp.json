@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "machina:campfire_cooked_tox_sporocarp"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tox_sporocarp": {
+      "conditions": {
+        "items": [
+          {
+            "items": "machina:tox_sporocarp"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tox_sporocarp"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "machina:campfire_cooked_tox_sporocarp"
+    ]
+  }
+}

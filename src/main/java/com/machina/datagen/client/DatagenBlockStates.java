@@ -227,9 +227,9 @@ public class DatagenBlockStates extends BlockStateProvider {
 		flower_pot(BlockInit.POTTED_TURQUOISE_GLOWSHROOM);
 		flower(BlockInit.BLUE_GLOWSHROOM);
 		flower_pot(BlockInit.POTTED_BLUE_GLOWSHROOM);
-		flower(BlockInit.TOX_SHROOM);
+		toxShroom(BlockInit.TOX_SHROOM);
 		flower_pot(BlockInit.POTTED_TOX_SHROOM);
-		flower(BlockInit.CYAN_TOX_SHROOM);
+		toxShroom(BlockInit.CYAN_TOX_SHROOM);
 		flower_pot(BlockInit.POTTED_CYAN_TOX_SHROOM);
 
 		item(BlockInit.ATMOSPHERIC_SEPARATOR);
@@ -494,6 +494,19 @@ public class DatagenBlockStates extends BlockStateProvider {
 		ResourceLocation tex = blockTexture(f);
 		simpleBlock(f, models().cross(name(f), tex).renderType("cutout"));
 		simpleFlatItem(f, tex);
+	}
+
+	private void toxShroom(DeferredBlock<? extends Block> shroom) {
+		Block b = shroom.get();
+		String n = name(b);
+		ResourceLocation texFull = blockTexture(b);
+		ResourceLocation texPicked = ResourceLocation.fromNamespaceAndPath("machina", "block/" + n + "_picked");
+		ModelFile modelFull = models().cross(n, texFull).renderType("cutout");
+		ModelFile modelPicked = models().cross(n + "_picked", texPicked).renderType("cutout");
+		getVariantBuilder(b)
+				.partialState().with(com.machina.block.ToxShroomBlock.PICKED, false).modelForState().modelFile(modelFull).addModel()
+				.partialState().with(com.machina.block.ToxShroomBlock.PICKED, true).modelForState().modelFile(modelPicked).addModel();
+		simpleFlatItem(b, texFull);
 	}
 
 	private void cross(Block b) {

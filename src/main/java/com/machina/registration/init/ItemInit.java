@@ -19,6 +19,10 @@ import com.machina.item.filter.AdvancedItemFilterItem;
 import com.machina.item.filter.FluidFilterItem;
 import com.machina.item.filter.ItemFilterItem;
 
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
+
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
@@ -246,6 +250,26 @@ public class ItemInit {
 
 	public static final DeferredItem<Item> SPENT_URANIUM_FUEL = basic("spent_uranium_fuel");
 	public static final DeferredItem<Item> SPENT_THORIUM_FUEL = basic("spent_thorium_fuel");
+
+	// Tox Shroom Sporocarps
+	public static final DeferredItem<Item> TOX_SPOROCARP = register("tox_sporocarp", () -> new Item(new Item.Properties().food(
+			new FoodProperties.Builder().nutrition(2).saturationModifier(0.1f)
+					.effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200, 0), 1.0f)
+					.effect(() -> new MobEffectInstance(EffectInit.RADIATION, 100, 0), 0.8f)
+					.build())));
+	public static final DeferredItem<Item> CYAN_SPOROCARP = register("cyan_sporocarp", () -> new Item(new Item.Properties().food(
+			new FoodProperties.Builder().nutrition(2).saturationModifier(0.1f)
+					.effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200, 0), 1.0f)
+					.effect(() -> new MobEffectInstance(EffectInit.RADIATION, 100, 0), 0.8f)
+					.effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 3600, 0), 1.0f)
+					.build())));
+	public static final DeferredItem<Item> COOKED_TOX_SPOROCARP = register("cooked_tox_sporocarp", () -> new Item(new Item.Properties().food(
+			new FoodProperties.Builder().nutrition(5).saturationModifier(0.6f).build())));
+	public static final DeferredItem<Item> COOKED_CYAN_SPOROCARP = register("cooked_cyan_sporocarp", () -> new Item(new Item.Properties().food(
+			new FoodProperties.Builder().nutrition(5).saturationModifier(0.6f)
+					.effect(() -> new MobEffectInstance(MobEffects.GLOWING, 400, 0), 1.0f)
+					.effect(() -> new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0), 1.0f)
+					.build())));
 
 	public static final DeferredItem<SignItem> TROPICAL_SIGN = sign("tropical_sign", BlockInit.TROPICAL_SIGN, BlockInit.TROPICAL_WALL_SIGN);
 	public static final DeferredItem<HangingSignItem> TROPICAL_HANGING_SIGN = hanging_sign("tropical_hanging_sign", BlockInit.TROPICAL_HANGING_SIGN, BlockInit.TROPICAL_WALL_HANGING_SIGN);

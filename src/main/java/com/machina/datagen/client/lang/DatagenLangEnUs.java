@@ -759,6 +759,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.POTTED_TOX_SHROOM, "Potted Tox Shroom");
 		add(BlockInit.CYAN_TOX_SHROOM, "Cyan Tox Shroom");
 		add(BlockInit.POTTED_CYAN_TOX_SHROOM, "Potted Cyan Tox Shroom");
+		add(ItemInit.TOX_SPOROCARP, "Tox Sporocarp");
+		add(ItemInit.CYAN_SPOROCARP, "Cyan Sporocarp");
+		add(ItemInit.COOKED_TOX_SPOROCARP, "Cooked Tox Sporocarp");
+		add(ItemInit.COOKED_CYAN_SPOROCARP, "Cooked Cyan Sporocarp");
 
 		// Tooltips
 		addTooltip("ldpe", "Low Density Polyethylene");

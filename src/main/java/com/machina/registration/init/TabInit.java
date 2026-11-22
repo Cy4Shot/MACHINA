@@ -231,6 +231,10 @@ public class TabInit {
 				add(a, BlockInit.BLUE_GLOWSHROOM);
 				add(a, BlockInit.TOX_SHROOM);
 				add(a, BlockInit.CYAN_TOX_SHROOM);
+				add(a, ItemInit.TOX_SPOROCARP);
+				add(a, ItemInit.CYAN_SPOROCARP);
+				add(a, ItemInit.COOKED_TOX_SPOROCARP);
+				add(a, ItemInit.COOKED_CYAN_SPOROCARP);
 
 				fruit(a, FruitInit.FRUITS);
 				ores(a, FamiliesInit.ORES);
