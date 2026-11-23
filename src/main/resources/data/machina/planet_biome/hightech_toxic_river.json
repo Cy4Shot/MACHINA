@@ -7,37 +7,101 @@
 	"extra": "machina:ash",
 	"top": [
 		"machina:polluted_sand",
-		"machina:toxic_sand"
+		"machina:toxic_sand",
+		"machina:toxic_dirt"
 	],
 	"second": "machina:ash",
 	"trees": [
 	],
 	"bushes": [
+		{
+			"block": "machina:toxic_mushroom_cap",
+			"radius": 1.0,
+			"perchunk": 4
+		},
+		{
+			"block": "machina:imbued_cyan_mushroom_hyphae",
+			"radius": 1.5,
+			"perchunk": 3
+		}
 	],
 	"grass": {
 		"enabled": true,
-		"min": 1,
-		"max": 1,
+		"min": 10,
+		"max": 20,
 		"grasses": [
 			{
 				"block": "machina:basalt_pebbles",
-				"weight": 1
+				"weight": 20
 			},
 			{
 				"block": "machina:anthracite_pebbles",
-				"weight": 1
+				"weight": 15
+			},
+			{
+				"block": "machina:toxic_grass",
+				"weight": 60
+			},
+			{
+				"block": "machina:toxic_tendril",
+				"weight": 50
+			},
+			{
+				"block": "machina:tox_shroom",
+				"weight": 20
+			},
+			{
+				"block": "machina:cyan_tox_shroom",
+				"weight": 15
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=1]",
+				"weight": 20
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=2]",
+				"weight": 12
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=3]",
+				"weight": 8
+			},
+			{
+				"block": "machina:green_petals[flower_amount=1]",
+				"weight": 10
+			},
+			{
+				"block": "machina:green_petals[flower_amount=2]",
+				"weight": 5
 			}
 		]
 	},
 	"lakes": {
-		"enabled": false,
-		"block": "machina:basalt",
-		"chance": 1,
-		"decorator_chance": 0,
+		"enabled": true,
+		"block": "machina:toxic_dirt",
+		"chance": 0.6,
+		"decorator_chance": 0.08,
 		"decorators": [
+			{
+				"block": "machina:green_waterlily",
+				"weight": 3
+			},
+			{
+				"block": "machina:turquoise_waterlily",
+				"weight": 2
+			}
 		]
 	},
 	"rocks": [
+		{
+			"base": "machina:basalt",
+			"stair": "machina:basalt_stairs",
+			"slab": "machina:basalt_slab",
+			"wall": "machina:basalt_wall",
+			"chance": 0.3,
+			"radius": 1.01,
+			"deform": 2.0
+		}
 	],
 	"big_rocks": [
 	],

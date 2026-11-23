@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-22T12:47:09.8500586	Block States: machina
+// 1.21.1	2026-11-23T15:54:00.0986484	Block States: machina
 d187663fc7bcccef764a874bcbb17418e7742531 assets/machina/blockstates/acetaldehyde_block.json
 299cf136358fcea6715841b98a6ae47b95261cb2 assets/machina/blockstates/acetic_acid_block.json
 50a442d0603d988745db7d24bba69b49421e601f assets/machina/blockstates/aluminum_block.json
@@ -178,6 +178,7 @@ d8969cee9ca605d79f9bae0da06137f821c5eb6d assets/machina/blockstates/coniferous_w
 e47d700c445daa3d30de596067bbb0e198b27055 assets/machina/blockstates/coniferous_wood.json
 dcaf30acbc394bc88685679bf2393f6ccabc91b9 assets/machina/blockstates/constantan_block.json
 1e8be427e66f3e35969c0f52a47ab7c559ebc42f assets/machina/blockstates/creative_battery.json
+04a4bfbb1efb8b00a9683e5c1a994ab90ca91f93 assets/machina/blockstates/cyan_lichen.json
 42c798cc0cab9978de0b9b0994181a4e79856e62 assets/machina/blockstates/cyan_mushroom_cap.json
 4f57cc6364ac9c4ec492f44ecbe3d4ba4460a4d4 assets/machina/blockstates/cyan_mushroom_stalk.json
 f5b8837532fa193811350b52fa8f3e319e30a490 assets/machina/blockstates/cyan_tox_shroom.json
@@ -866,6 +867,7 @@ fbdbec9f45820d409e9c0c3079e6ad085903e392 assets/machina/blockstates/toxic_dirt_s
 5f74bbe723e7b7abba2dc52619f9432f5de872d3 assets/machina/blockstates/toxic_mushroom_stalk.json
 d33c9cdb822a425f16399be06573529ddc33ab9e assets/machina/blockstates/toxic_sand.json
 20854b3819cc7c2c11b3ada6d244caf53b2f0742 assets/machina/blockstates/toxic_tendril.json
+f1366556ee61ea05660160ee2652263580bbc142 assets/machina/blockstates/tox_lichen.json
 9eade924cdcc6ce4268fb31b6b65ad73ed9ea091 assets/machina/blockstates/tox_shroom.json
 419ae7d0dc392d7f67cecbe456377063eaa92aea assets/machina/blockstates/tropical_button.json
 01dc964c72fa73f5415334c8fa087671b73f52c0 assets/machina/blockstates/tropical_dirt.json
@@ -1154,6 +1156,7 @@ bc13e00de3bedf961bf07cca1d04d790ba4ba25f assets/machina/models/block/coniferous_
 ca4bdd34cac6ec70fa74f0c9159a215a1f52ff7c assets/machina/models/block/coniferous_wood_horizontal.json
 32ba8208281befdbc67cef15c377cc7c4ec5e0e4 assets/machina/models/block/constantan_block.json
 4d395937b16ecbcb800116d25bc24b63fc504acf assets/machina/models/block/creative_battery.json
+67413c34f18d41507a02b7ead624f3c573d93513 assets/machina/models/block/cyan_lichen.json
 be4537e9147d68c62729b131012f95f7b7ae0827 assets/machina/models/block/cyan_mushroom_cap.json
 198104a0d0201e1fa8278d839a7c28fc988b5712 assets/machina/models/block/cyan_mushroom_stalk.json
 37251070c24a22e7da8ed089e11a509496f94f2a assets/machina/models/block/cyan_tox_shroom.json
@@ -1735,6 +1738,7 @@ f05fac44ec5884cb528246cf9f514b2cc26f9e56 assets/machina/models/block/toxic_grass
 3b2b6dfbf471e4a61d74ed7c8ca66ca29cac5e5c assets/machina/models/block/toxic_mushroom_stalk.json
 597aecf7359877d0c41763e6c1133bdcee7ef5be assets/machina/models/block/toxic_sand.json
 0f82d754939d0fc77b9938ae254be04d18798966 assets/machina/models/block/toxic_tendril.json
+d72a05fdf0ffafcd0280f0ea939093d578bfacd2 assets/machina/models/block/tox_lichen.json
 d2f09a743e19b3b1aad114656adbaf694a99b3e3 assets/machina/models/block/tox_shroom.json
 0fc7cfd78114a1a0032f5d44be0c096e197745c9 assets/machina/models/block/tox_shroom_picked.json
 194669a1fcba469f9799b097b4d4420a63caf09d assets/machina/models/block/tropical_button.json
@@ -2016,6 +2020,7 @@ bb07d66c2a54162f58bdc75035c5168fa1b6da6d assets/machina/models/item/coniferous_p
 f523a66a42ec5b1ff9fffe615e1f3f4b9071ea9a assets/machina/models/item/coniferous_wood.json
 cc54946d608c684ee1ea552ae9da3bb09806a007 assets/machina/models/item/constantan_block.json
 4fcd037caf92cad8cdb4531aedcb4da2e3038541 assets/machina/models/item/creative_battery.json
+d2fd74e825d9710c23efc78016e948dd0019e198 assets/machina/models/item/cyan_lichen.json
 8bf5722e555820d4a65264380de6a5ee6524ef57 assets/machina/models/item/cyan_mushroom_cap.json
 2d94504a04ab25c76abbb7595eb5e0de80a2b0fc assets/machina/models/item/cyan_mushroom_stalk.json
 6e02670730416a4cfd511497bb6f3f775114bc71 assets/machina/models/item/cyan_tox_shroom.json
@@ -2628,6 +2633,7 @@ dfa6df63129c50ed903198ee6cfa938e23393c1b assets/machina/models/item/toxic_dirt_s
 91d750690d729cf7bda2587bc91d8bd248d9d680 assets/machina/models/item/toxic_mushroom_stalk.json
 41ba416e54a1072b14f0a8a3dd24fea5dfbcbab9 assets/machina/models/item/toxic_sand.json
 a1f6db18eb99ce7cdadd48c129e46fb9d512aa39 assets/machina/models/item/toxic_tendril.json
+08bf42025a9a23636449b0dc40df0dbb781e3013 assets/machina/models/item/tox_lichen.json
 6cce4f5d1b166a9bfa57abe936287ef6e62a72b4 assets/machina/models/item/tox_shroom.json
 4a8e390f8e7378d4d8161d7cde10b33955438e3a assets/machina/models/item/tropical_button.json
 e7687ec396f41cd8ca38c674c71d9ca10982b205 assets/machina/models/item/tropical_dirt.json

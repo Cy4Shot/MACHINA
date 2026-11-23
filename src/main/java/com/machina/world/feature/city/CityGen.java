@@ -1,14 +1,27 @@
 package com.machina.world.feature.city;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector3f;
+
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityGrid;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityOvergrown;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOvergrownGround;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOvergrownVine;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRuin;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeTree;
+import com.machina.api.starchart.planet_biome.TreeMaker;
+import com.machina.api.util.math.MathUtil;
+import com.machina.api.util.math.sdf.SDF;
+import com.machina.registration.init.RegistryInit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WallSide;
@@ -335,6 +348,10 @@ public class CityGen {
 		if (roadY < level.getMinBuildHeight() + 1)
 			return;
 
+		// Skip if terrain is water
+		if (!level.getFluidState(new BlockPos(x, terrainY, z)).isEmpty())
+			return;
+
 		int diff = roadY - terrainY;
 		if (Math.abs(diff) > maxHeightDiff)
 			return;
@@ -414,11 +431,14 @@ public class CityGen {
 	// ================================================================
 
 	private static final int BUILDING_CELL_SIZE = 16;
-	private static final int MAX_BUILDING_SIZE = 32;
+
+	private static final ThreadLocal<PlanetBiomeCityGrid> CITY_CONFIG = new ThreadLocal<>();
+	private static final ThreadLocal<Float> HEIGHT_MULTIPLIER = ThreadLocal.withInitial(() -> 1.0f);
 
 	public static void generateBuildings(WorldGenLevel level, int chunkX, int chunkZ, List<PlanetBiomeRuin> ruins,
 			List<BlockState> gradientBlocks, List<BlockState> accentBlocks, float accentChance, long worldSeed,
-			RandomSource random, int roadSpacing, int roadWidth) {
+			RandomSource random, int roadSpacing, int roadWidth,
+			PlanetBiomeCityOvergrown overgrown, PlanetBiomeCityGrid cityConfig) {
 
 		if (ruins.isEmpty() || gradientBlocks.isEmpty())
 			return;
@@ -426,15 +446,20 @@ public class CityGen {
 		GRADIENT_BLOCKS.set(gradientBlocks);
 		ACCENT_BLOCKS.set(accentBlocks);
 		ACCENT_CHANCE.set(accentChance);
+		OVERGROWN_CONFIG.set(overgrown);
+		CITY_CONFIG.set(cityConfig);
 
 		int baseX = chunkX << 4;
 		int baseZ = chunkZ << 4;
 
 		// Find all building cells that could affect this chunk
-		int cellMinX = Math.floorDiv(baseX - MAX_BUILDING_SIZE, BUILDING_CELL_SIZE);
-		int cellMaxX = Math.floorDiv(baseX + 15 + MAX_BUILDING_SIZE, BUILDING_CELL_SIZE);
-		int cellMinZ = Math.floorDiv(baseZ - MAX_BUILDING_SIZE, BUILDING_CELL_SIZE);
-		int cellMaxZ = Math.floorDiv(baseZ + 15 + MAX_BUILDING_SIZE, BUILDING_CELL_SIZE);
+		// Building origin within cell (16 blocks) + building extends up to 28 blocks
+		// But limit to 48 blocks to avoid chunk access errors (3 chunks away is usually safe)
+		int lookupRadius = 48;
+		int cellMinX = Math.floorDiv(baseX - lookupRadius, BUILDING_CELL_SIZE);
+		int cellMaxX = Math.floorDiv(baseX + 15 + lookupRadius, BUILDING_CELL_SIZE);
+		int cellMinZ = Math.floorDiv(baseZ - lookupRadius, BUILDING_CELL_SIZE);
+		int cellMaxZ = Math.floorDiv(baseZ + 15 + lookupRadius, BUILDING_CELL_SIZE);
 
 		for (int cellX = cellMinX; cellX <= cellMaxX; cellX++) {
 			for (int cellZ = cellMinZ; cellZ <= cellMaxZ; cellZ++) {
@@ -443,8 +468,45 @@ public class CityGen {
 		}
 	}
 
+	private static float getUrbanIntensity(int worldX, int worldZ, long worldSeed, int noiseScale) {
+		// Large-scale simplex-like noise for urban intensity (0 = suburbs, 1 = city center)
+		double nx = (double) worldX / noiseScale;
+		double nz = (double) worldZ / noiseScale;
+
+		// Simple hash-based smooth noise (like value noise)
+		int ix = (int) Math.floor(nx);
+		int iz = (int) Math.floor(nz);
+		float fx = (float) (nx - ix);
+		float fz = (float) (nz - iz);
+
+		// Smoothstep interpolation
+		fx = fx * fx * (3 - 2 * fx);
+		fz = fz * fz * (3 - 2 * fz);
+
+		// Hash corners
+		float c00 = hashToFloat(ix, iz, worldSeed);
+		float c10 = hashToFloat(ix + 1, iz, worldSeed);
+		float c01 = hashToFloat(ix, iz + 1, worldSeed);
+		float c11 = hashToFloat(ix + 1, iz + 1, worldSeed);
+
+		// Bilinear interpolation
+		float v0 = c00 + fx * (c10 - c00);
+		float v1 = c01 + fx * (c11 - c01);
+		return v0 + fz * (v1 - v0);
+	}
+
+	private static float hashToFloat(int x, int z, long seed) {
+		long h = seed ^ ((long) x * 374761393L + (long) z * 668265263L);
+		h = (h ^ (h >>> 33)) * 0xff51afd7ed558ccdL;
+		h = (h ^ (h >>> 33)) * 0xc4ceb9fe1a85ec53L;
+		return (float) ((h & 0xFFFFFFFFL) / (double) 0xFFFFFFFFL);
+	}
+
 	private static void generateBuildingsInCell(WorldGenLevel level, int cellX, int cellZ, long worldSeed,
 			List<PlanetBiomeRuin> ruins, int roadSpacing) {
+
+		PlanetBiomeCityGrid cfg = CITY_CONFIG.get();
+		var urban = cfg.urban();
 
 		// Deterministic seed for this cell
 		long cellSeed = worldSeed ^ ((long) cellX * 341873128712L + (long) cellZ * 132897987541L);
@@ -453,40 +515,111 @@ public class CityGen {
 		int cellBaseX = cellX * BUILDING_CELL_SIZE;
 		int cellBaseZ = cellZ * BUILDING_CELL_SIZE;
 
-		// Skip if this cell is on a road
+		// Skip if this cell center is on a road
 		int cellChunkX = Math.floorDiv(cellBaseX + BUILDING_CELL_SIZE / 2, 16);
 		int cellChunkZ = Math.floorDiv(cellBaseZ + BUILDING_CELL_SIZE / 2, 16);
 		if (isZRoadChunk(cellChunkX, roadSpacing) || isXRoadChunk(cellChunkZ, roadSpacing)) {
 			return;
 		}
 
-		// Number of buildings in this cell (2-5)
-		int count = 2 + cellRandom.nextInt(4);
+		// Compute urban intensity for this cell (0 = suburbs, 1 = city center)
+		float urbanIntensity = getUrbanIntensity(cellBaseX, cellBaseZ, worldSeed, urban.noise_scale());
 
-		for (int i = 0; i < count; i++) {
-			// Deterministic position within cell
-			int localX = 2 + cellRandom.nextInt(BUILDING_CELL_SIZE - 4);
-			int localZ = 2 + cellRandom.nextInt(BUILDING_CELL_SIZE - 4);
+		// Check if entire city block is a toxic garden (determined per-block, not per-cell)
+		int blockSize = cfg.block_size();
+		int cityBlockX = Math.floorDiv(cellBaseX, blockSize);
+		int cityBlockZ = Math.floorDiv(cellBaseZ, blockSize);
+		long blockSeed = worldSeed ^ ((long) cityBlockX * 198491317L + (long) cityBlockZ * 6542989L);
+		float blockRandom = hashToFloat(cityBlockX, cityBlockZ, blockSeed);
+		float toxicChance = urban.toxic_garden_chance() * (1.5f - urbanIntensity);
+
+		// Check if cell center is in water - skip garden/buildings if so
+		int cellCenterX = cellBaseX + BUILDING_CELL_SIZE / 2;
+		int cellCenterZ = cellBaseZ + BUILDING_CELL_SIZE / 2;
+		int cellCenterY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, cellCenterX, cellCenterZ);
+		if (!level.getFluidState(new BlockPos(cellCenterX, cellCenterY, cellCenterZ)).isEmpty()) {
+			return; // Skip entire cell if center is water
+		}
+
+		if (blockRandom < toxicChance) {
+			// This entire city block is a toxic garden - generate patches but no buildings
+			generateToxicGarden(level, cellBaseX, cellBaseZ, cellRandom);
+
+			// Try to spawn a tree at the center of this city block (only from the cell containing the center)
+			int blockCenterX = cityBlockX * blockSize + blockSize / 2;
+			int blockCenterZ = cityBlockZ * blockSize + blockSize / 2;
+			if (cellBaseX <= blockCenterX && blockCenterX < cellBaseX + BUILDING_CELL_SIZE &&
+				cellBaseZ <= blockCenterZ && blockCenterZ < cellBaseZ + BUILDING_CELL_SIZE) {
+				// This cell contains the block center - try to spawn a tree
+				float treeRandom = hashToFloat(cityBlockX + 1000, cityBlockZ + 1000, blockSeed);
+				if (treeRandom < urban.garden_tree_chance() && !urban.garden_trees().isEmpty()) {
+					// Pick a random tree from the list
+					PlanetBiomeTree treeCfg = urban.garden_trees().get(cellRandom.nextInt(urban.garden_trees().size()));
+					spawnGardenTree(level, blockCenterX, blockCenterZ, treeCfg, cellRandom);
+				}
+			}
+			return;
+		}
+
+		// Building count varies with urban intensity
+		int minBuildings = Math.round(urban.suburb_min_buildings() + urbanIntensity * (urban.center_min_buildings() - urban.suburb_min_buildings()));
+		int maxBuildings = Math.round(urban.suburb_max_buildings() + urbanIntensity * (urban.center_max_buildings() - urban.suburb_max_buildings()));
+		int buildingCount = minBuildings + (maxBuildings > minBuildings ? cellRandom.nextInt(maxBuildings - minBuildings + 1) : 0);
+
+		// Height multiplier varies with urban intensity
+		float heightMult = urban.suburb_height_mult() + urbanIntensity * (urban.center_height_mult() - urban.suburb_height_mult());
+		HEIGHT_MULTIPLIER.set(heightMult);
+
+		int[] cb = CHUNK_BOUNDS.get();
+		int chunkCenterX = (cb[0] + cb[1]) / 2;
+		int chunkCenterZ = (cb[2] + cb[3]) / 2;
+		int roadBuffer = urban.road_buffer();
+
+		for (int i = 0; i < buildingCount; i++) {
+			int localX = roadBuffer + cellRandom.nextInt(Math.max(1, BUILDING_CELL_SIZE - roadBuffer * 2 - 4));
+			int localZ = roadBuffer + cellRandom.nextInt(Math.max(1, BUILDING_CELL_SIZE - roadBuffer * 2 - 4));
 			int wx = cellBaseX + localX;
 			int wz = cellBaseZ + localZ;
 
-			// Pick ruin type deterministically (before heightmap query to maintain RNG
-			// sequence)
+			// Pick ruin type deterministically
 			PlanetBiomeRuin ruin = ruins.get(cellRandom.nextInt(ruins.size()));
 			if (cellRandom.nextFloat() > ruin.chance())
 				continue;
 
-			// Skip if building origin is too far from current chunk to affect it
-			int[] cb = CHUNK_BOUNDS.get();
-			int distX = Math.max(0, Math.max(cb[0] - wx, wx - cb[1]));
-			int distZ = Math.max(0, Math.max(cb[2] - wz, wz - cb[3]));
-			if (distX > MAX_BUILDING_SIZE || distZ > MAX_BUILDING_SIZE)
+			// Check if building origin is within safe query range (2 chunks = 32 blocks)
+			int distX = Math.abs(wx - chunkCenterX);
+			int distZ = Math.abs(wz - chunkCenterZ);
+			if (distX > 32 || distZ > 32) {
+				// Too far for safe heightmap query - run generator with dummy origin to maintain random state
+				BlockPos dummyOrigin = new BlockPos(wx, 64, wz);
+				switch (ruin.shape()) {
+				case TUBE -> generateTubeVariant(level, dummyOrigin, ruin, cellRandom);
+				case PILLAR -> generatePillarVariant(level, dummyOrigin, ruin, cellRandom);
+				case WALL -> generateWallVariant(level, dummyOrigin, ruin, cellRandom);
+				case FOUNDATION -> generateFoundationVariant(level, dummyOrigin, ruin, cellRandom);
+				case RUBBLE -> generateRubbleVariant(level, dummyOrigin, ruin, cellRandom);
+				}
 				continue;
+			}
 
 			int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, wx, wz);
 			BlockPos origin = new BlockPos(wx, surfaceY, wz);
 
-			// Generate sub-variant based on shape
+			// Skip if building origin is in water
+			if (!level.getFluidState(origin).isEmpty() || !level.getFluidState(origin.below()).isEmpty()) {
+				// Still run generator with dummy to maintain random state
+				BlockPos dummyOrigin = new BlockPos(wx, 64, wz);
+				switch (ruin.shape()) {
+				case TUBE -> generateTubeVariant(level, dummyOrigin, ruin, cellRandom);
+				case PILLAR -> generatePillarVariant(level, dummyOrigin, ruin, cellRandom);
+				case WALL -> generateWallVariant(level, dummyOrigin, ruin, cellRandom);
+				case FOUNDATION -> generateFoundationVariant(level, dummyOrigin, ruin, cellRandom);
+				case RUBBLE -> generateRubbleVariant(level, dummyOrigin, ruin, cellRandom);
+				}
+				continue;
+			}
+
+			// Run the generator - random state stays consistent, inBounds() clips to current chunk
 			switch (ruin.shape()) {
 			case TUBE -> generateTubeVariant(level, origin, ruin, cellRandom);
 			case PILLAR -> generatePillarVariant(level, origin, ruin, cellRandom);
@@ -495,6 +628,94 @@ public class CityGen {
 			case RUBBLE -> generateRubbleVariant(level, origin, ruin, cellRandom);
 			}
 		}
+	}
+
+	private static void generateToxicGarden(WorldGenLevel level, int baseX, int baseZ, RandomSource r) {
+		// Generate patches of ash and toxic dirt as a "toxic garden" with decorations
+		BlockState ash = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+				.get(net.minecraft.resources.ResourceLocation.parse("machina:ash")).defaultBlockState();
+		BlockState toxicDirt = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+				.get(net.minecraft.resources.ResourceLocation.parse("machina:toxic_sand")).defaultBlockState();
+		BlockState toxShroom = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+				.get(net.minecraft.resources.ResourceLocation.parse("machina:tox_shroom")).defaultBlockState();
+		BlockState toxicGrass = net.minecraft.core.registries.BuiltInRegistries.BLOCK
+				.get(net.minecraft.resources.ResourceLocation.parse("machina:toxic_grass")).defaultBlockState();
+
+		int numPatches = 4 + r.nextInt(4);
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+
+		for (int p = 0; p < numPatches; p++) {
+			int cx = baseX + 3 + r.nextInt(BUILDING_CELL_SIZE - 6);
+			int cz = baseZ + 3 + r.nextInt(BUILDING_CELL_SIZE - 6);
+			int radius = 4 + r.nextInt(4);
+			BlockState patchBlock = r.nextBoolean() ? ash : toxicDirt;
+
+			for (int dx = -radius; dx <= radius; dx++) {
+				for (int dz = -radius; dz <= radius; dz++) {
+					if (dx * dx + dz * dz > radius * radius) continue;
+					if (r.nextFloat() < 0.15f) continue;
+
+					int wx = cx + dx;
+					int wz = cz + dz;
+					if (!inBounds(wx, wz)) continue;
+
+					int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, wx, wz);
+					pos.set(wx, surfaceY, wz);
+
+					// Skip if in water
+					if (!level.getFluidState(pos).isEmpty()) continue;
+
+					level.setBlock(pos, patchBlock, 2);
+
+					// Add decorations on top
+					if (r.nextFloat() < 0.15f) {
+						pos.set(wx, surfaceY + 1, wz);
+						level.setBlock(pos, r.nextFloat() < 0.3f ? toxShroom : toxicGrass, 2);
+					}
+				}
+			}
+		}
+	}
+
+	private static void spawnGardenTree(WorldGenLevel level, int centerX, int centerZ, PlanetBiomeTree treeCfg, RandomSource r) {
+		int[] cb = CHUNK_BOUNDS.get();
+
+		// Snap tree position to center of current chunk to avoid cross-chunk issues
+		// Trees can extend ~10 blocks, so placing at chunk center (8,8) keeps them in bounds
+		int chunkBaseX = cb[0];
+		int chunkBaseZ = cb[2];
+		int treeX = chunkBaseX + 8;
+		int treeZ = chunkBaseZ + 8;
+
+		// Only spawn if the original center was meant for this chunk
+		// (prevents duplicate trees from adjacent chunks)
+		int targetChunkX = centerX >> 4;
+		int targetChunkZ = centerZ >> 4;
+		int currentChunkX = chunkBaseX >> 4;
+		int currentChunkZ = chunkBaseZ >> 4;
+		if (targetChunkX != currentChunkX || targetChunkZ != currentChunkZ) {
+			return;
+		}
+
+		TreeMaker maker = RegistryInit.TREE.get(treeCfg.tree());
+		if (maker == null) return;
+
+		int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, treeX, treeZ);
+		BlockPos origin = new BlockPos(treeX, surfaceY, treeZ);
+
+		if (!maker.allowsWaterPlacement() && !level.getFluidState(origin).isEmpty()) {
+			return;
+		}
+
+		SDF tree = maker.build(treeCfg, r, level, origin);
+		if (tree == null) return;
+
+		if (r.nextFloat() < treeCfg.tree_fruit_chance()) {
+			BlockState fruit = MathUtil.randomInList(treeCfg.fruit(), r);
+			tree = tree.addPostProcesses(maker.fruit(r, treeCfg, fruit));
+		}
+
+		tree.fillRecursive(level, origin);
 	}
 
 	// --- TUBE variants: tall hollow buildings ---
@@ -520,9 +741,12 @@ public class CityGen {
 	private static void generateSkyscraper(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int w = randRange(c.min_size(), c.max_size(), r);
 		int d = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 		int floorH = 4 + r.nextInt(2);
+
+		// Get overgrown config
+		PlanetBiomeCityOvergrown overgrown = OVERGROWN_CONFIG.get();
 
 		// Pick a door position
 		int doorSide = r.nextInt(4);
@@ -556,8 +780,10 @@ public class CityGen {
 					}
 
 					if (!wall) {
-						if (y % floorH == 0)
+						// Floor block
+						if (y % floorH == 0) {
 							placeBlock(level, origin, x, y, z, c, r);
+						}
 						continue;
 					}
 
@@ -593,6 +819,11 @@ public class CityGen {
 		}
 
 		scatterRubble(level, origin, Math.max(w, d) + 4, c, r);
+
+		// Apply overgrown vegetation after building structure is complete
+		if (overgrown.enabled()) {
+			applyOvergrownToBuilding(level, origin, w, d, h, floorH, overgrown, r);
+		}
 	}
 
 	private static void placeWindowBlock(WorldGenLevel level, BlockPos origin, int ox, int oy, int oz) {
@@ -651,6 +882,10 @@ public class CityGen {
 		}
 
 		scatterRubble(level, origin, radius + 3, c, r);
+		PlanetBiomeCityOvergrown overgrown = OVERGROWN_CONFIG.get();
+		if (overgrown.enabled()) {
+			applyOvergrownToBuilding(level, origin.offset(-radius, 0, -radius), radius * 2, radius * 2, h, floorH, overgrown, r);
+		}
 	}
 
 	private static void generateOfficeBlock(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
@@ -709,6 +944,10 @@ public class CityGen {
 		}
 
 		scatterRubble(level, origin, Math.max(w, d) + 3, c, r);
+		PlanetBiomeCityOvergrown overgrown = OVERGROWN_CONFIG.get();
+		if (overgrown.enabled()) {
+			applyOvergrownToBuilding(level, origin, w, d, h, floorH, overgrown, r);
+		}
 	}
 
 	private static void generateSteppedTower(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
@@ -778,12 +1017,16 @@ public class CityGen {
 		}
 
 		scatterRubble(level, origin, Math.max(baseW, baseD) + 3, c, r);
+		PlanetBiomeCityOvergrown overgrown = OVERGROWN_CONFIG.get();
+		if (overgrown.enabled()) {
+			applyOvergrownToBuilding(level, origin, baseW, baseD, h, floorH, overgrown, r);
+		}
 	}
 
 	private static void generateUBuilding(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int w = randRange(c.min_size(), c.max_size(), r);
 		int d = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 		int floorH = 4 + r.nextInt(2);
 		int gapStart = w / 3;
@@ -833,6 +1076,10 @@ public class CityGen {
 		}
 
 		scatterRubble(level, origin, Math.max(w, d) + 3, c, r);
+		PlanetBiomeCityOvergrown overgrown = OVERGROWN_CONFIG.get();
+		if (overgrown.enabled()) {
+			applyOvergrownToBuilding(level, origin, w, d, h, floorH, overgrown, r);
+		}
 	}
 
 	private static void generatePlusBuilding(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
@@ -840,7 +1087,7 @@ public class CityGen {
 		int armLen = randRange(c.min_size() / 2, c.max_size() / 2, r);
 		if (armW < 2)
 			armW = 2;
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 		int floorH = 4 + r.nextInt(2);
 		int fullSize = armLen * 2 + armW;
@@ -896,7 +1143,7 @@ public class CityGen {
 	private static void generateSpire(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int sizeX = randRange(c.min_size(), c.max_size(), r);
 		int sizeZ = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 
 		for (int y = 0; y < h; y++) {
@@ -919,7 +1166,7 @@ public class CityGen {
 	private static void generateNarrowTower(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int sizeX = randRange(c.min_size(), c.max_size(), r);
 		int sizeZ = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 		int floorH = 5 + r.nextInt(2);
 
@@ -960,7 +1207,7 @@ public class CityGen {
 	}
 
 	private static void generateAntenna(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 		int baseSize = randRange(c.min_size(), Math.min(c.max_size(), c.min_size() + 3), r);
 		int colH = columnHeight(h, c, r);
@@ -994,7 +1241,7 @@ public class CityGen {
 	private static void generateObelisk(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int baseW = randRange(c.min_size(), c.max_size(), r);
 		int baseD = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 
 		for (int y = 0; y < h; y++) {
@@ -1042,7 +1289,7 @@ public class CityGen {
 	private static void generateWall(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int length = randRange(c.min_size(), c.max_size(), r);
 		int thickness = 1 + r.nextInt(3);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 		boolean alongX = r.nextBoolean();
 
@@ -1066,7 +1313,7 @@ public class CityGen {
 		int len1 = randRange(c.min_size(), c.max_size(), r);
 		int len2 = randRange(c.min_size(), c.max_size(), r);
 		int thickness = 1 + r.nextInt(3);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 
 		for (int i = 0; i < len1; i++) {
@@ -1162,7 +1409,7 @@ public class CityGen {
 		int stemLen = randRange(c.min_size(), c.max_size(), r);
 		int crossLen = randRange(c.min_size(), c.max_size(), r);
 		int thickness = 1 + r.nextInt(3);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 
 		for (int i = 0; i < stemLen; i++) {
@@ -1244,6 +1491,10 @@ public class CityGen {
 		}
 
 		scatterRubble(level, origin, Math.max(w, d) + 2, c, r);
+		PlanetBiomeCityOvergrown overgrown = OVERGROWN_CONFIG.get();
+		if (overgrown.enabled()) {
+			applyOvergrownToBuilding(level, origin, w, d, h, 4, overgrown, r);
+		}
 	}
 
 	private static void generatePerimeterWall(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
@@ -1452,7 +1703,7 @@ public class CityGen {
 	private static void generateRubblePile(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int sizeX = randRange(c.min_size(), c.max_size(), r);
 		int sizeZ = randRange(c.min_size(), c.max_size(), r);
-		int maxH = randRange(c.min_height(), c.max_height(), r);
+		int maxH = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(maxH);
 
 		for (int x = 0; x < sizeX; x++) {
@@ -1491,7 +1742,7 @@ public class CityGen {
 	private static void generateHalfBuilding(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int w = randRange(c.min_size(), c.max_size(), r);
 		int d = randRange(c.min_size(), c.max_size(), r);
-		int h = randRange(c.min_height(), c.max_height(), r);
+		int h = randHeightScaled(c.min_height(), c.max_height(), r);
 		setBuildingHeight(h);
 
 		boolean shearX = r.nextBoolean();
@@ -1576,14 +1827,14 @@ public class CityGen {
 	private static void generateRubbleField(WorldGenLevel level, BlockPos origin, PlanetBiomeRuin c, RandomSource r) {
 		int sizeX = randRange(c.min_size(), c.max_size(), r);
 		int sizeZ = randRange(c.min_size(), c.max_size(), r);
-		setBuildingHeight(randRange(c.min_height(), c.max_height(), r));
+		setBuildingHeight(randHeightScaled(c.min_height(), c.max_height(), r));
 		int clumps = 3 + r.nextInt(5);
 
 		for (int cl = 0; cl < clumps; cl++) {
 			int cx = r.nextInt(sizeX);
 			int cz = r.nextInt(sizeZ);
 			int clumpR = 2 + r.nextInt(4);
-			int maxH = randRange(c.min_height(), c.max_height(), r);
+			int maxH = randHeightScaled(c.min_height(), c.max_height(), r);
 
 			for (int x = cx - clumpR; x <= cx + clumpR; x++) {
 				for (int z = cz - clumpR; z <= cz + clumpR; z++) {
@@ -1671,6 +1922,8 @@ public class CityGen {
 	private static final ThreadLocal<List<BlockState>> GRADIENT_BLOCKS = ThreadLocal.withInitial(List::of);
 	private static final ThreadLocal<List<BlockState>> ACCENT_BLOCKS = ThreadLocal.withInitial(List::of);
 	private static final ThreadLocal<Float> ACCENT_CHANCE = ThreadLocal.withInitial(() -> 0.001f);
+	private static final ThreadLocal<PlanetBiomeCityOvergrown> OVERGROWN_CONFIG = ThreadLocal
+			.withInitial(() -> PlanetBiomeCityOvergrown.DISABLED);
 
 	private static void setBuildingHeight(int h) {
 		BUILDING_HEIGHT_CTX.get()[0] = Math.max(1, h);
@@ -1811,5 +2064,468 @@ public class CityGen {
 		if (max <= min)
 			return min;
 		return min + r.nextInt(max - min + 1);
+	}
+
+	private static int randHeightScaled(int min, int max, RandomSource r) {
+		int base = randRange(min, max, r);
+		return Math.max(min, Math.round(base * HEIGHT_MULTIPLIER.get()));
+	}
+
+	// ================================================================
+	// OVERGROWN VEGETATION
+	// ================================================================
+
+	@SuppressWarnings("deprecation")
+	private static void applyOvergrownToBuilding(WorldGenLevel level, BlockPos origin, int width, int depth,
+			int height, int floorHeight, PlanetBiomeCityOvergrown overgrown, RandomSource r) {
+
+		PlanetBiomeOvergrownGround ground = overgrown.ground();
+		PlanetBiomeOvergrownVine vines = overgrown.vines();
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+
+		// Replace some floors with dirt and place grass on them
+		if (ground.dirt_floor_chance() > 0 && !ground.dirt_floor_blocks().isEmpty()) {
+			int numFloors = height / floorHeight;
+			for (int floor = 0; floor < numFloors; floor++) {
+				// Check if this floor should be dirt
+				if (r.nextFloat() >= ground.dirt_floor_chance()) continue;
+
+				int floorY = origin.getY() + (floor * floorHeight);
+
+				// Replace floor blocks with dirt
+				for (int x = 1; x < width - 1; x++) {
+					for (int z = 1; z < depth - 1; z++) {
+						int wx = origin.getX() + x;
+						int wz = origin.getZ() + z;
+						if (!inBounds(wx, wz)) continue;
+
+						pos.set(wx, floorY, wz);
+						BlockState currentBlock = level.getBlockState(pos);
+
+						// Only replace solid blocks (actual floor blocks)
+						if (!currentBlock.isSolid()) continue;
+
+						// Replace with dirt
+						BlockState dirtBlock = ground.dirt_floor_blocks().get(r.nextInt(ground.dirt_floor_blocks().size()));
+						level.setBlock(pos, dirtBlock, 2);
+
+						// Place grass on top (if space available)
+						if (!ground.dirt_floor_grass().isEmpty() && r.nextFloat() < 0.4f) {
+							pos.set(wx, floorY + 1, wz);
+							if (level.getBlockState(pos).isAir()) {
+								BlockState grassBlock = ground.dirt_floor_grass().get(r.nextInt(ground.dirt_floor_grass().size()));
+								level.setBlock(pos, grassBlock, 2);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Track placed base block positions (top of each stack) for lichen and shroom placement
+		List<int[]> topBlockPositions = new ArrayList<>();
+
+		// Place floor vegetation in small MOUNDS on some floors
+		if (!ground.base_blocks().isEmpty()) {
+			int numFloors = height / floorHeight;
+			for (int floor = 0; floor < numFloors; floor++) {
+				// Not every floor is overgrown
+				if (r.nextFloat() >= ground.floor_chance()) continue;
+
+				int floorY = origin.getY() + (floor * floorHeight) + 1; // +1 to be on top of floor block
+
+				// Place clusters per floor (configurable count)
+				int numClusters = ground.cluster_min_count() + r.nextInt(Math.max(1, ground.cluster_max_count() - ground.cluster_min_count() + 1));
+				for (int cluster = 0; cluster < numClusters; cluster++) {
+					// Random cluster center (inside building, not on walls)
+					int cx = 1 + r.nextInt(Math.max(1, width - 2));
+					int cz = 1 + r.nextInt(Math.max(1, depth - 2));
+					int clusterSize = ground.cluster_min_size() + r.nextInt(Math.max(1, ground.cluster_max_size() - ground.cluster_min_size() + 1));
+
+					// Fill cluster with base blocks - small mounds
+					for (int dx = -clusterSize; dx <= clusterSize; dx++) {
+						for (int dz = -clusterSize; dz <= clusterSize; dz++) {
+							// Circular cluster shape
+							if (dx * dx + dz * dz > clusterSize * clusterSize) continue;
+							// Fade out at edges
+							if (r.nextFloat() < 0.3f) continue;
+
+							int x = cx + dx;
+							int z = cz + dz;
+							if (x < 1 || x >= width - 1 || z < 1 || z >= depth - 1) continue;
+
+							int wx = origin.getX() + x;
+							int wz = origin.getZ() + z;
+							if (!inBounds(wx, wz)) continue;
+
+							pos.set(wx, floorY, wz);
+							if (!level.getBlockState(pos).isAir()) continue;
+
+							// Check there's a floor below
+							pos.set(wx, floorY - 1, wz);
+							if (!level.getBlockState(pos).isSolid()) continue;
+
+							// Place base block
+							pos.set(wx, floorY, wz);
+							BlockState baseBlock = ground.base_blocks().get(r.nextInt(ground.base_blocks().size()));
+							level.setBlock(pos, baseBlock, 2);
+
+							int topY = floorY;
+							// 30% chance to stack 2 high (only near cluster center)
+							if (r.nextFloat() < 0.3f && dx * dx + dz * dz <= 1) {
+								pos.set(wx, floorY + 1, wz);
+								if (level.getBlockState(pos).isAir()) {
+									level.setBlock(pos, baseBlock, 2);
+									topY = floorY + 1;
+								}
+							}
+							topBlockPositions.add(new int[]{wx, topY, wz});
+						}
+					}
+				}
+			}
+		}
+
+		// Place lichens on and around base blocks
+		if (!ground.lichen_blocks().isEmpty() && ground.lichen_chance() > 0) {
+			for (int[] basePos : topBlockPositions) {
+				int bx = basePos[0], by = basePos[1], bz = basePos[2];
+
+				// Try to place lichen on top of base block (attaching DOWN)
+				if (r.nextFloat() < ground.lichen_chance()) {
+					pos.set(bx, by + 1, bz);
+					if (level.getBlockState(pos).isAir()) {
+						BlockState lichen = ground.lichen_blocks().get(r.nextInt(ground.lichen_blocks().size()));
+						// Set the DOWN face property for proper attachment
+						lichen = lichen.setValue(MultifaceBlock.getFaceProperty(Direction.DOWN), true);
+						level.setBlock(pos, lichen, 2);
+					}
+				}
+
+				// Try to place lichen on nearby solid blocks (walls, floor, etc)
+				Direction[] allDirs = Direction.values();
+				for (Direction dir : allDirs) {
+					if (r.nextFloat() >= ground.lichen_chance() * 0.5f) continue; // Lower chance for spread
+
+					int nx = bx + dir.getStepX();
+					int ny = by + dir.getStepY();
+					int nz = bz + dir.getStepZ();
+					if (!inBounds(nx, nz)) continue;
+
+					pos.set(nx, ny, nz);
+					BlockState targetState = level.getBlockState(pos);
+
+					// If target is solid, try to place lichen on its exposed faces
+					if (targetState.isSolid()) {
+						// Check each face of the solid block for air
+						for (Direction face : Direction.values()) {
+							if (r.nextFloat() < 0.6f) continue;
+							int lx = nx + face.getStepX();
+							int ly = ny + face.getStepY();
+							int lz = nz + face.getStepZ();
+							if (!inBounds(lx, lz)) continue;
+
+							pos.set(lx, ly, lz);
+							if (level.getBlockState(pos).isAir()) {
+								BlockState lichen = ground.lichen_blocks().get(r.nextInt(ground.lichen_blocks().size()));
+								// Set face property pointing back toward the solid block
+								lichen = lichen.setValue(MultifaceBlock.getFaceProperty(face.getOpposite()), true);
+								level.setBlock(pos, lichen, 2);
+								}
+							}
+						}
+					}
+				}
+			}
+
+		// Place shrooms on top of base blocks
+		if (!ground.shroom_blocks().isEmpty() && ground.shroom_chance() > 0) {
+			for (int[] basePos : topBlockPositions) {
+				if (r.nextFloat() >= ground.shroom_chance()) continue;
+
+				int bx = basePos[0], by = basePos[1], bz = basePos[2];
+				pos.set(bx, by + 1, bz);
+				if (level.getBlockState(pos).isAir()) {
+					// Check the base block is solid (shrooms need solid base)
+					pos.set(bx, by, bz);
+					if (level.getBlockState(pos).isSolid()) {
+						pos.set(bx, by + 1, bz);
+						BlockState shroom = ground.shroom_blocks().get(r.nextInt(ground.shroom_blocks().size()));
+						level.setBlock(pos, shroom, 2);
+					}
+				}
+			}
+		}
+
+		// Spread lichens throughout the building on walls, floors, and ceilings
+		if (!ground.lichen_blocks().isEmpty() && ground.lichen_chance() > 0) {
+			int numFloors = height / floorHeight;
+			// Scan through building and place lichens on exposed surfaces
+			for (int floor = 0; floor < numFloors; floor++) {
+				if (r.nextFloat() >= ground.floor_chance()) continue;
+
+				int floorY = origin.getY() + (floor * floorHeight);
+
+				// Scatter lichens throughout this floor
+				int lichenAttempts = (width * depth) / 4; // More attempts for larger buildings
+				for (int attempt = 0; attempt < lichenAttempts; attempt++) {
+					int x = r.nextInt(width);
+					int z = r.nextInt(depth);
+					int wx = origin.getX() + x;
+					int wz = origin.getZ() + z;
+					if (!inBounds(wx, wz)) continue;
+
+					// Pick a random Y within this floor
+					int wy = floorY + 1 + r.nextInt(Math.max(1, floorHeight - 1));
+
+					pos.set(wx, wy, wz);
+					if (!level.getBlockState(pos).isAir()) continue;
+
+					// Check all 6 directions for a solid block to attach to
+					for (Direction dir : Direction.values()) {
+						if (r.nextFloat() >= ground.lichen_chance() * 0.3f) continue; // Lower per-face chance
+
+						int nx = wx + dir.getStepX();
+						int ny = wy + dir.getStepY();
+						int nz = wz + dir.getStepZ();
+
+						BlockPos neighborPos = new BlockPos(nx, ny, nz);
+						if (level.getBlockState(neighborPos).isSolid()) {
+							// Place lichen attached to this face
+							BlockState lichen = ground.lichen_blocks().get(r.nextInt(ground.lichen_blocks().size()));
+							lichen = lichen.setValue(MultifaceBlock.getFaceProperty(dir), true);
+							level.setBlock(pos, lichen, 2);
+							break; // Only attach to one face per position
+						}
+					}
+				}
+			}
+		}
+
+		// Place ONE branching vine per building (chance-based) on a random wall
+		List<BlockState> wallBlocks = vines.wall_blocks();
+		if (!wallBlocks.isEmpty() && vines.vine_chance() > 0 && r.nextFloat() < vines.vine_chance()) {
+			BlockState vineBlock = wallBlocks.get(r.nextInt(wallBlocks.size()));
+
+			int maxVy = Math.min(height, vines.max_wall_height());
+			int vy = origin.getY() + vines.min_wall_height() + r.nextInt(Math.max(1, maxVy - vines.min_wall_height()));
+
+			// Pick a random wall (0=north, 1=south, 2=west, 3=east)
+			int wall = r.nextInt(4);
+			int vx, vz;
+			Direction wallDir;
+
+			switch (wall) {
+				case 0: // North face
+					vx = origin.getX() + 2 + r.nextInt(Math.max(1, width - 4));
+					vz = origin.getZ() - 1;
+					wallDir = Direction.SOUTH;
+					break;
+				case 1: // South face
+					vx = origin.getX() + 2 + r.nextInt(Math.max(1, width - 4));
+					vz = origin.getZ() + depth;
+					wallDir = Direction.NORTH;
+					break;
+				case 2: // West face
+					vx = origin.getX() - 1;
+					vz = origin.getZ() + 2 + r.nextInt(Math.max(1, depth - 4));
+					wallDir = Direction.EAST;
+					break;
+				default: // East face
+					vx = origin.getX() + width;
+					vz = origin.getZ() + 2 + r.nextInt(Math.max(1, depth - 4));
+					wallDir = Direction.WEST;
+					break;
+			}
+
+			// Pass building bounds for geometric wall checking (avoids chunk boundary issues)
+			placeBranchingVine(level, vx, vy, vz, wallDir, vineBlock, r, vines, origin, width, depth, height);
+		}
+	}
+
+	private static void placeBranchingVine(WorldGenLevel level, int startX, int startY, int startZ,
+			Direction wallDir, BlockState vineBlock, RandomSource r, PlanetBiomeOvergrownVine config,
+			BlockPos buildingOrigin, int buildingW, int buildingD, int buildingH) {
+
+		// Get configurable vine parameters
+		int minLength = config.vine_min_length();
+		int maxLength = config.vine_max_length();
+		int minBranches = config.vine_min_branches();
+		int maxBranches = config.vine_max_branches();
+
+		// Create main vine stem going DOWN with dramatic curves along the wall
+		int vineLength = minLength + r.nextInt(Math.max(1, maxLength - minLength + 1));
+		List<Vector3f> mainSpline = new ArrayList<>();
+
+		// wallDir points TOWARD the wall the vine hugs
+		boolean wallOnZ = (wallDir == Direction.NORTH || wallDir == Direction.SOUTH);
+
+		float x = startX;
+		float y = startY;
+		float z = startZ;
+
+		// Momentum for smooth curves
+		float momentumX = 0;
+		float momentumZ = 0;
+
+		mainSpline.add(new Vector3f(x, y, z));
+
+		// Build main stem with smooth curved motion
+		for (int i = 1; i <= vineLength; i++) {
+			y -= 0.9f + r.nextFloat() * 0.2f; // Go down
+
+			// Add random force, then apply momentum for smooth curves
+			if (wallOnZ) {
+				// Wall is north/south, vine moves along X axis
+				momentumX += (r.nextFloat() - 0.5f) * 0.8f;
+				momentumX *= 0.85f; // Dampen
+				x += momentumX;
+			} else {
+				// Wall is east/west, vine moves along Z axis
+				momentumZ += (r.nextFloat() - 0.5f) * 0.8f;
+				momentumZ *= 0.85f; // Dampen
+				z += momentumZ;
+			}
+
+			mainSpline.add(new Vector3f(x, y, z));
+		}
+
+		int thickness = config.vine_thickness();
+
+		// Place main stem blocks (use geometric wall check to avoid chunk boundary issues)
+		placeVineSpline(level, mainSpline, vineBlock, wallDir, r, thickness, buildingOrigin, buildingW, buildingD, buildingH);
+
+		// Add branches
+		int numBranches = minBranches + (maxBranches > minBranches ? r.nextInt(maxBranches - minBranches + 1) : 0);
+		for (int b = 0; b < numBranches; b++) {
+			// Branch from random point along main stem (not too close to ends)
+			int branchPoint = 3 + r.nextInt(Math.max(1, mainSpline.size() - 6));
+			if (branchPoint >= mainSpline.size()) continue;
+
+			Vector3f branchStart = mainSpline.get(branchPoint);
+			int branchLength = 4 + r.nextInt(Math.max(1, vineLength / 2));
+
+			List<Vector3f> branchSpline = new ArrayList<>();
+			branchSpline.add(new Vector3f(branchStart));
+
+			float bx = branchStart.x();
+			float by = branchStart.y();
+			float bz = branchStart.z();
+			float bMomentum = 0;
+
+			// Branch curves away then back
+			float curveDir = r.nextBoolean() ? 1f : -1f;
+
+			for (int i = 1; i <= branchLength; i++) {
+				by -= 0.7f + r.nextFloat() * 0.5f;
+
+				// Curve outward then back
+				float curveFactor = (float) Math.sin(Math.PI * i / branchLength) * 2f;
+				bMomentum += (r.nextFloat() - 0.5f) * 0.5f + curveDir * 0.3f * curveFactor;
+				bMomentum *= 0.8f;
+
+				if (wallOnZ) {
+					bx += bMomentum;
+				} else {
+					bz += bMomentum;
+				}
+				branchSpline.add(new Vector3f(bx, by, bz));
+			}
+
+			// Branches are slightly thinner
+			placeVineSpline(level, branchSpline, vineBlock, wallDir, r, Math.max(1, thickness - 1), buildingOrigin, buildingW, buildingD, buildingH);
+		}
+	}
+
+	private static void placeVineSpline(WorldGenLevel level, List<Vector3f> spline, BlockState vineBlock,
+			Direction wallDir, RandomSource r, int thickness,
+			BlockPos buildingOrigin, int buildingW, int buildingD, int buildingH) {
+		if (spline.size() < 2) return;
+
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+
+		// Building bounds for geometric wall check (avoids chunk boundary issues)
+		int bMinX = buildingOrigin.getX();
+		int bMaxX = bMinX + buildingW - 1;
+		int bMinZ = buildingOrigin.getZ();
+		int bMaxZ = bMinZ + buildingD - 1;
+		int bMinY = buildingOrigin.getY();
+		int bMaxY = bMinY + buildingH;
+
+		// Max radius based on thickness (1=single, 2=3x3, 3=5x5)
+		int maxRadius = thickness - 1;
+		int splineLen = spline.size();
+
+		// Walk along spline and place blocks
+		Vector3f prev = spline.get(0);
+		for (int i = 1; i < splineLen; i++) {
+			Vector3f curr = spline.get(i);
+
+			// Taper: thin at start, thick in middle, thin at end
+			float progress = (float) i / (splineLen - 1);
+			float taperFactor = (float) Math.sin(progress * Math.PI); // 0 -> 1 -> 0
+			int radius = Math.round(maxRadius * taperFactor);
+
+			// Interpolate between points
+			float dx = curr.x() - prev.x();
+			float dy = curr.y() - prev.y();
+			float dz = curr.z() - prev.z();
+			float dist = (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
+			int steps = Math.max(1, (int) Math.ceil(dist * 2));
+
+			for (int s = 0; s <= steps; s++) {
+				float t = (float) s / steps;
+				int px = Math.round(prev.x() + dx * t);
+				int py = Math.round(prev.y() + dy * t);
+				int pz = Math.round(prev.z() + dz * t);
+
+				// SNAP to wall face - force the perpendicular coordinate to the correct wall position
+				// This prevents any floating point drift from causing floating vines
+				if (wallDir == Direction.SOUTH) {
+					pz = bMinZ - 1; // North face of building
+				} else if (wallDir == Direction.NORTH) {
+					pz = bMaxZ + 1; // South face of building
+				} else if (wallDir == Direction.EAST) {
+					px = bMinX - 1; // West face of building
+				} else if (wallDir == Direction.WEST) {
+					px = bMaxX + 1; // East face of building
+				}
+
+				// Place cluster of blocks based on current radius
+				for (int ox = -radius; ox <= radius; ox++) {
+					for (int oz = -radius; oz <= radius; oz++) {
+						for (int oy = 0; oy <= (radius > 0 ? 1 : 0); oy++) {
+							// Skip corners for organic shape
+							if (radius > 0 && Math.abs(ox) + Math.abs(oz) > radius && r.nextFloat() < 0.7f) continue;
+
+							int bx = px + ox;
+							int by = py + oy;
+							int bz = pz + oz;
+
+							if (!inBounds(bx, bz)) continue;
+							pos.set(bx, by, bz);
+
+							// Skip if below ground or above building
+							if (by < bMinY || by > bMaxY) continue;
+
+							// Ensure block is within building's wall extent (along the wall, not perpendicular)
+							if (wallDir == Direction.SOUTH || wallDir == Direction.NORTH) {
+								// N/S wall - check X bounds
+								if (bx < bMinX || bx > bMaxX) continue;
+							} else {
+								// E/W wall - check Z bounds
+								if (bz < bMinZ || bz > bMaxZ) continue;
+							}
+
+							// Only check if position is air
+							if (!level.getBlockState(pos).isAir()) continue;
+
+							level.setBlock(pos, vineBlock, 2);
+						}
+					}
+				}
+			}
+			prev = curr;
+		}
 	}
 }

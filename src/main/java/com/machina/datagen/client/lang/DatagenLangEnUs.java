@@ -679,6 +679,10 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(BlockInit.CYAN_MUSHROOM_CAP, "Cyan Mushroom Cap");
 		add(BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE, "Imbued Cyan Mushroom Hyphae");
 
+		// Lichen blocks
+		add(BlockInit.CYAN_LICHEN, "Cyan Lichen");
+		add(BlockInit.TOX_LICHEN, "Tox Lichen");
+
 		// Toxic dirt (hightech toxic forest)
 		add(BlockInit.TOXIC_DIRT, "Toxic Dirt");
 		add(BlockInit.TOXIC_DIRT_STAIRS, "Toxic Dirt Stairs");

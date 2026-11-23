@@ -90,6 +90,9 @@ public class DatagenBlockTags extends BlockTagsProvider {
 		sand(BlockInit.POLLUTED_SAND);
 		sand(BlockInit.TOXIC_SAND);
 
+		// Allow plants to spawn on these blocks
+		tag(BlockTagInit.PLANET_GRASSABLE).add(BlockInit.POLLUTED_SAND.get(), BlockInit.TOXIC_SAND.get(), BlockInit.ASH.get());
+
 		tag(BlockTags.FLOWERS).add(BlockInit.CLOVER.get(), BlockInit.PURPLE_GROUNDLILY.get(),
 				BlockInit.PINK_GROUNDLILY.get(), BlockInit.RED_GROUNDLILY.get(), BlockInit.ORANGE_GROUNDLILY.get(),
 				BlockInit.YELLOW_GROUNDLILY.get(), BlockInit.GREEN_GROUNDLILY.get(),

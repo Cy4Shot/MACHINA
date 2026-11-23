@@ -170,6 +170,8 @@ public class TabInit {
 				add(a, BlockInit.CYAN_MUSHROOM_STALK);
 				add(a, BlockInit.CYAN_MUSHROOM_CAP);
 				add(a, BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE);
+				add(a, BlockInit.CYAN_LICHEN);
+				add(a, BlockInit.TOX_LICHEN);
 
 				add(a, BlockInit.TROPICAL_GRASS);
 				add(a, BlockInit.TWISTED_GRASS);

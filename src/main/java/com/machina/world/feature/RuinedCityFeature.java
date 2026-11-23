@@ -2,10 +2,11 @@ package com.machina.world.feature;
 
 import java.util.List;
 
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityGrid;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityOvergrown;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeRuin;
 import com.machina.world.feature.city.CityGen;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -31,23 +32,17 @@ public class RuinedCityFeature extends Feature<RuinedCityFeature.Config> {
 			List<BlockState> gradientBlocks, List<BlockState> accentBlocks,
 			float accentChance, int roadSmooth, int slopeCheck, int headroom,
 			int bridgeThreshold, int tunnelThreshold, int maxHeightDiff,
-			int roadWidth, int blockSize) implements FeatureConfiguration {
+			int roadWidth, int blockSize, PlanetBiomeCityOvergrown overgrown,
+			PlanetBiomeCityGrid cityGrid) implements FeatureConfiguration {
 
-		public static final Codec<Config> CODEC = RecordCodecBuilder.create(instance -> instance
-				.group(Codec.list(PlanetBiomeRuin.CODEC).fieldOf("ruins").forGetter(Config::ruins),
-						Codec.list(BlockState.CODEC).fieldOf("road_blocks").forGetter(Config::roadBlocks),
-						Codec.list(BlockState.CODEC).fieldOf("gradient_blocks").forGetter(Config::gradientBlocks),
-						Codec.list(BlockState.CODEC).fieldOf("accent_blocks").forGetter(Config::accentBlocks),
-						Codec.FLOAT.fieldOf("accent_chance").forGetter(Config::accentChance),
-						Codec.INT.fieldOf("road_smooth").forGetter(Config::roadSmooth),
-						Codec.INT.fieldOf("slope_check").forGetter(Config::slopeCheck),
-						Codec.INT.fieldOf("headroom").forGetter(Config::headroom),
-						Codec.INT.fieldOf("bridge_threshold").forGetter(Config::bridgeThreshold),
-						Codec.INT.fieldOf("tunnel_threshold").forGetter(Config::tunnelThreshold),
-						Codec.INT.fieldOf("max_height_diff").forGetter(Config::maxHeightDiff),
-						Codec.INT.fieldOf("road_width").forGetter(Config::roadWidth),
-						Codec.INT.fieldOf("block_size").forGetter(Config::blockSize))
-				.apply(instance, Config::new));
+		public Config(PlanetBiomeCityGrid cg) {
+			this(cg.ruins(), cg.road_blocks(), cg.gradient_blocks(), cg.accent_blocks(),
+					cg.accent_chance(), cg.road_smooth(), cg.slope_check(), cg.headroom(),
+					cg.bridge_threshold(), cg.tunnel_threshold(), cg.max_height_diff(),
+					cg.road_width(), cg.block_size(), cg.overgrown(), cg);
+		}
+
+		public static final Codec<Config> CODEC = PlanetBiomeCityGrid.CODEC.xmap(Config::new, Config::cityGrid);
 	}
 
 	public RuinedCityFeature() {
@@ -87,7 +82,8 @@ public class RuinedCityFeature extends Feature<RuinedCityFeature.Config> {
 			CityGen.generateBuildings(level, chunkX, chunkZ,
 					config.ruins(), config.gradientBlocks(), config.accentBlocks(),
 					config.accentChance(),
-					seed, random, roadSpacing, config.roadWidth());
+					seed, random, roadSpacing, config.roadWidth(),
+					config.overgrown(), config.cityGrid());
 		}
 
 		return true;

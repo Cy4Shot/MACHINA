@@ -38,6 +38,7 @@ import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.PinkPetalsBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -50,6 +51,7 @@ import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.IGeneratedBlockState;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -145,6 +147,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 		cube(BlockInit.CYAN_MUSHROOM_STALK);
 		cube(BlockInit.CYAN_MUSHROOM_CAP);
 		bushyLeaves(BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE);
+
+		// Lichen blocks
+		lichenBlock(BlockInit.CYAN_LICHEN);
+		lichenBlock(BlockInit.TOX_LICHEN);
 
 		cube(BlockInit.TROPICAL_SAND);
 		cube(BlockInit.MOONSAND);
@@ -414,6 +420,38 @@ public class DatagenBlockStates extends BlockStateProvider {
 		}
 		getVariantBuilder(b).partialState().setModels(variants);
 		simpleBlockItem(b, models().cubeAll(n + "_item", texParticle));
+	}
+
+	private void lichenBlock(DeferredBlock<Block> block) {
+		Block b = block.get();
+		String n = name(b);
+		ResourceLocation texture = blockTexture(b);
+
+		// Create model like vanilla glow_lichen but with our texture
+		ModelFile model = models().withExistingParent(n, ResourceLocation.withDefaultNamespace("block/glow_lichen"))
+				.texture("glow_lichen", texture)
+				.texture("particle", texture)
+				.renderType("cutout");
+
+		// Create multipart blockstate for each face direction
+		MultiPartBlockStateBuilder builder = getMultipartBuilder(b);
+
+		// North face
+		builder.part().modelFile(model).addModel().condition(MultifaceBlock.getFaceProperty(Direction.NORTH), true);
+		// East face (rotated 90)
+		builder.part().modelFile(model).rotationY(90).uvLock(true).addModel().condition(MultifaceBlock.getFaceProperty(Direction.EAST), true);
+		// South face (rotated 180)
+		builder.part().modelFile(model).rotationY(180).uvLock(true).addModel().condition(MultifaceBlock.getFaceProperty(Direction.SOUTH), true);
+		// West face (rotated 270)
+		builder.part().modelFile(model).rotationY(270).uvLock(true).addModel().condition(MultifaceBlock.getFaceProperty(Direction.WEST), true);
+		// Up face (rotated x 270)
+		builder.part().modelFile(model).rotationX(270).uvLock(true).addModel().condition(MultifaceBlock.getFaceProperty(Direction.UP), true);
+		// Down face (rotated x 90)
+		builder.part().modelFile(model).rotationX(90).uvLock(true).addModel().condition(MultifaceBlock.getFaceProperty(Direction.DOWN), true);
+
+		// Item model - use block texture as flat item
+		itemModels().withExistingParent(n, ResourceLocation.withDefaultNamespace("item/generated"))
+				.texture("layer0", texture);
 	}
 
 	private void slab(SlabBlock slab, Block material) {

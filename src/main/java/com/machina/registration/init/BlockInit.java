@@ -18,6 +18,7 @@ import com.machina.block.CrystalBlock;
 import com.machina.block.GlowshroomBlock;
 import com.machina.block.ToxShroomBlock;
 import com.machina.block.HightechTurretBlock;
+import com.machina.block.LichenBlock;
 import com.machina.block.MachinaHangingSignBlock;
 import com.machina.block.MachinaHangingWallSignBlock;
 import com.machina.block.MachinaSignBlock;
@@ -533,6 +534,10 @@ public class BlockInit {
 	public static final DeferredBlock<Block> CYAN_MUSHROOM_CAP = register("cyan_mushroom_cap", Blocks.MUSHROOM_STEM, light(3), Block::new);
 	public static final DeferredBlock<Block> IMBUED_CYAN_MUSHROOM_HYPHAE = register("imbued_cyan_mushroom_hyphae", Blocks.OAK_LEAVES, p -> p.noOcclusion(), Block::new);
 
+	// Lichen blocks (like glow lichen but not glowing)
+	public static final DeferredBlock<Block> CYAN_LICHEN = register("cyan_lichen", Blocks.GLOW_LICHEN, p -> p.lightLevel(s -> 0).noOcclusion(), LichenBlock::new);
+	public static final DeferredBlock<Block> TOX_LICHEN = register("tox_lichen", Blocks.GLOW_LICHEN, p -> p.lightLevel(s -> 0).noOcclusion(), LichenBlock::new);
+
 	// Toxic ground blocks
 	public static final DeferredBlock<Block> TOXIC_DIRT = block("toxic_dirt", Blocks.DIRT);
 	public static final DeferredBlock<StairBlock> TOXIC_DIRT_STAIRS = stairs("toxic_dirt_stairs", TOXIC_DIRT, Blocks.DIRT);
@@ -815,9 +820,10 @@ public class BlockInit {
 		return register(name, Blocks.BROWN_MUSHROOM, extra, p -> new GlowshroomBlock(effect, duration, p));
 	}
 
-	public static DeferredBlock<ToxShroomBlock> toxShroom(String name, Function<Block.Properties, Block.Properties> extra,
-			Supplier<Item> sporocarp) {
-		return register(name, Blocks.BROWN_MUSHROOM, extra, p -> new ToxShroomBlock(MobEffects.POISON, 10, p).setSporocarp(sporocarp));
+	public static DeferredBlock<ToxShroomBlock> toxShroom(String name,
+			Function<Block.Properties, Block.Properties> extra, Supplier<Item> sporocarp) {
+		return register(name, Blocks.BROWN_MUSHROOM, extra,
+				p -> new ToxShroomBlock(MobEffects.POISON, 10, p).setSporocarp(sporocarp));
 	}
 
 	public static DeferredBlock<TallFlowerBlock> tall_flower(String name, Block prop) {

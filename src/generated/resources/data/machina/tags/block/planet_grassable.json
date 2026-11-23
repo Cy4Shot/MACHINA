@@ -1,5 +1,8 @@
 {
   "values": [
+    "machina:polluted_sand",
+    "machina:toxic_sand",
+    "machina:ash",
     "machina:tropical_dirt",
     "machina:tropical_grass_block",
     "machina:forest_dirt",

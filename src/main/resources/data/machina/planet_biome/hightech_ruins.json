@@ -15,19 +15,44 @@
 	"trees": [
 	],
 	"bushes": [
+		{
+			"block": "machina:imbued_cyan_mushroom_hyphae",
+			"radius": 1.5,
+			"perchunk": 3
+		}
 	],
 	"grass": {
 		"enabled": true,
-		"min": 1,
-		"max": 1,
+		"min": 20,
+		"max": 30,
 		"grasses": [
 			{
 				"block": "machina:basalt_pebbles",
-				"weight": 1
+				"weight": 20
 			},
 			{
 				"block": "machina:anthracite_pebbles",
-				"weight": 1
+				"weight": 15
+			},
+			{
+				"block": "machina:toxic_grass",
+				"weight": 40
+			},
+			{
+				"block": "machina:toxic_tendril",
+				"weight": 30
+			},
+			{
+				"block": "machina:tox_shroom",
+				"weight": 15
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=1]",
+				"weight": 10
+			},
+			{
+				"block": "machina:turquoise_petals[flower_amount=2]",
+				"weight": 5
 			}
 		]
 	},
@@ -138,7 +163,98 @@
 				"min_weathering": 0.01,
 				"max_weathering": 0.12
 			}
-		]
+		],
+		"overgrown": {
+			"enabled": true,
+			"ground": {
+				"base_blocks": [
+					"machina:ash"
+				],
+				"lichen_blocks": [
+					"machina:cyan_lichen",
+					"machina:tox_lichen"
+				],
+				"shroom_blocks": [
+					"machina:tox_shroom",
+					"machina:cyan_tox_shroom"
+				],
+				"floor_chance": 0.6,
+				"cluster_min_count": 2,
+				"cluster_max_count": 5,
+				"cluster_min_size": 1,
+				"cluster_max_size": 2,
+				"lichen_chance": 0.6,
+				"shroom_chance": 0.25,
+				"dirt_floor_chance": 0.2,
+				"dirt_floor_blocks": [
+					"machina:toxic_dirt"
+				],
+				"dirt_floor_grass": [
+					"machina:toxic_grass",
+					"machina:toxic_tendril",
+					"machina:tox_shroom",
+					"machina:cyan_tox_shroom"
+				]
+			},
+			"vines": {
+				"wall_blocks": [
+					"machina:imbued_cyan_mushroom_hyphae"
+				],
+				"wall_chance": 0.3,
+				"min_wall_height": 10,
+				"max_wall_height": 70,
+				"vine_chance": 0.85,
+				"vine_min_length": 20,
+				"vine_max_length": 50,
+				"vine_min_branches": 2,
+				"vine_max_branches": 4,
+				"vine_thickness": 2
+			}
+		},
+		"urban": {
+			"suburb_min_buildings": 1,
+			"suburb_max_buildings": 2,
+			"center_min_buildings": 4,
+			"center_max_buildings": 6,
+			"suburb_height_mult": 0.5,
+			"center_height_mult": 1.4,
+			"noise_scale": 256,
+			"toxic_garden_chance": 0.05,
+			"road_buffer": 2,
+			"garden_tree_chance": 0.5,
+			"garden_trees": [
+				{
+					"type": "machina:branch_funnel_mushroom",
+					"blocks": [
+						"machina:cyan_mushroom_stalk",
+						"machina:cyan_mushroom_cap",
+						"machina:cyan_mushroom_cap"
+					],
+					"chance": 1.0,
+					"fruits": [
+						"machina:imbued_cyan_mushroom_hyphae"
+					],
+					"fruit_dirs": ["UP"],
+					"fruit_chance": 1.0,
+					"tree_fruit_chance": 1.0
+				},
+				{
+					"type": "machina:acacia",
+					"blocks": [
+						"machina:cyan_mushroom_stalk",
+						"machina:imbued_cyan_mushroom_hyphae"
+					],
+					"chance": 1.0,
+					"fruits": [
+						"machina:imbued_cyan_mushroom_hyphae",
+						"machina:argo_berry"
+					],
+					"fruit_dirs": ["DOWN"],
+					"fruit_chance": 0.3,
+					"tree_fruit_chance": 1.0
+				}
+			]
+		}
 	},
 	"client_settings": {
 		"weather_tint": 4286775214

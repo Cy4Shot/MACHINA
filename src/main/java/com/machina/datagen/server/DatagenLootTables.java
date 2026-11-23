@@ -131,6 +131,10 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.CYAN_MUSHROOM_CAP.get());
 		leaves(BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE.get());
 
+		// Lichens
+		dropSelf(BlockInit.CYAN_LICHEN.get());
+		dropSelf(BlockInit.TOX_LICHEN.get());
+
 		dropSelf(BlockInit.PURPLE_GLOWSHROOM.get());
 		pot(BlockInit.POTTED_PURPLE_GLOWSHROOM.get());
 		dropSelf(BlockInit.PINK_GLOWSHROOM.get());

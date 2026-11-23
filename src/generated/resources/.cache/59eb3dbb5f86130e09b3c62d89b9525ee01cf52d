@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-21T16:00:21.6359168	Loot Tables
+// 1.21.1	2026-11-23T15:43:11.3056142	Loot Tables
 9c69a81d87f9d2efa09100515a3bd0e62742e303 data/machina/loot_table/blocks/advanced_energy_cable.json
 d41415b3bf5044ae5d4ae9dafa59d10fd34abf7a data/machina/loot_table/blocks/advanced_fluid_pipe.json
 4dbdee8b229405b9eb5535c30170a5bd30750bbb data/machina/loot_table/blocks/advanced_item_conduit.json
@@ -171,6 +171,7 @@ ec86f3711a773ebf73578538332b9f87b007ef86 data/machina/loot_table/blocks/conifero
 90f9ebb874600320433b2afb82e8bda70ac5abca data/machina/loot_table/blocks/coniferous_wood.json
 cccb72f08a51af5b01813e2b5a7266310b661c4f data/machina/loot_table/blocks/constantan_block.json
 378ab8a3c5cf5fb82150e88505b7e0bc67ad0e8c data/machina/loot_table/blocks/creative_battery.json
+adb7af3fa01f9fb94f210b3fdff84b4a66263ca6 data/machina/loot_table/blocks/cyan_lichen.json
 31c10df34d49a8003693e28055110180f163af87 data/machina/loot_table/blocks/cyan_mushroom_cap.json
 d1e36e0be03c633997a8fb43045d2ac3b0b5b7e5 data/machina/loot_table/blocks/cyan_mushroom_stalk.json
 ae1f51b3fd16a00267d927be00a6f0e50e2f9755 data/machina/loot_table/blocks/cyan_tox_shroom.json
@@ -818,6 +819,7 @@ e24acfcfaccd475198cbb0ea4a1f73ff56fd8d63 data/machina/loot_table/blocks/toxic_mu
 8d6594545e4331d5275e10df51cb9bae8f773d51 data/machina/loot_table/blocks/toxic_mushroom_stalk.json
 0429909f5b2ca6ace37d1e697ba02adb21904834 data/machina/loot_table/blocks/toxic_sand.json
 4d02d6c3bb350814deff9b422f7845710396e16d data/machina/loot_table/blocks/toxic_tendril.json
+a38378f7feea7e85543b947d9b9a264feab520a2 data/machina/loot_table/blocks/tox_lichen.json
 8d03951c808d761ea51bc3bafbeaf5c041a612c0 data/machina/loot_table/blocks/tox_shroom.json
 7fc090c9dd2a7a86a238820e321606cde7db50d9 data/machina/loot_table/blocks/tropical_button.json
 782ced6a093b5e9dd804a7a1c4d1be37f08eff4d data/machina/loot_table/blocks/tropical_dirt.json

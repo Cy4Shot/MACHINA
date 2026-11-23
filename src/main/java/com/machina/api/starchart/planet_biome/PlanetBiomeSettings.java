@@ -242,15 +242,103 @@ public record PlanetBiomeSettings(ResourceLocation home, PlanetBiomeBlocks block
 				.apply(instance, PlanetBiomeRuin::new));
 	}
 
+	public record PlanetBiomeOvergrownGround(
+			List<BlockState> base_blocks, List<BlockState> lichen_blocks, List<BlockState> shroom_blocks,
+			float floor_chance, int cluster_min_count, int cluster_max_count,
+			int cluster_min_size, int cluster_max_size, float lichen_chance, float shroom_chance,
+			float dirt_floor_chance, List<BlockState> dirt_floor_blocks, List<BlockState> dirt_floor_grass) {
+		public static final PlanetBiomeOvergrownGround DISABLED = new PlanetBiomeOvergrownGround(
+				java.util.Collections.emptyList(), java.util.Collections.emptyList(), java.util.Collections.emptyList(),
+				0f, 0, 0, 0, 0, 0f, 0f, 0f, java.util.Collections.emptyList(), java.util.Collections.emptyList());
+
+		public static final Codec<PlanetBiomeOvergrownGround> CODEC = RecordCodecBuilder.create(instance -> instance
+				.group(Codec.list(BlockState.CODEC).optionalFieldOf("base_blocks", java.util.Collections.emptyList())
+								.forGetter(PlanetBiomeOvergrownGround::base_blocks),
+						Codec.list(BlockState.CODEC).optionalFieldOf("lichen_blocks", java.util.Collections.emptyList())
+								.forGetter(PlanetBiomeOvergrownGround::lichen_blocks),
+						Codec.list(BlockState.CODEC).optionalFieldOf("shroom_blocks", java.util.Collections.emptyList())
+								.forGetter(PlanetBiomeOvergrownGround::shroom_blocks),
+						Codec.FLOAT.optionalFieldOf("floor_chance", 0.6f).forGetter(PlanetBiomeOvergrownGround::floor_chance),
+						Codec.INT.optionalFieldOf("cluster_min_count", 1).forGetter(PlanetBiomeOvergrownGround::cluster_min_count),
+						Codec.INT.optionalFieldOf("cluster_max_count", 3).forGetter(PlanetBiomeOvergrownGround::cluster_max_count),
+						Codec.INT.optionalFieldOf("cluster_min_size", 2).forGetter(PlanetBiomeOvergrownGround::cluster_min_size),
+						Codec.INT.optionalFieldOf("cluster_max_size", 4).forGetter(PlanetBiomeOvergrownGround::cluster_max_size),
+						Codec.FLOAT.optionalFieldOf("lichen_chance", 0.4f).forGetter(PlanetBiomeOvergrownGround::lichen_chance),
+						Codec.FLOAT.optionalFieldOf("shroom_chance", 0.15f).forGetter(PlanetBiomeOvergrownGround::shroom_chance),
+						Codec.FLOAT.optionalFieldOf("dirt_floor_chance", 0f).forGetter(PlanetBiomeOvergrownGround::dirt_floor_chance),
+						Codec.list(BlockState.CODEC).optionalFieldOf("dirt_floor_blocks", java.util.Collections.emptyList())
+								.forGetter(PlanetBiomeOvergrownGround::dirt_floor_blocks),
+						Codec.list(BlockState.CODEC).optionalFieldOf("dirt_floor_grass", java.util.Collections.emptyList())
+								.forGetter(PlanetBiomeOvergrownGround::dirt_floor_grass))
+				.apply(instance, PlanetBiomeOvergrownGround::new));
+	}
+
+	public record PlanetBiomeOvergrownVine(
+			List<BlockState> wall_blocks, float wall_chance, int min_wall_height, int max_wall_height,
+			float vine_chance, int vine_min_length, int vine_max_length,
+			int vine_min_branches, int vine_max_branches, int vine_thickness) {
+		public static final PlanetBiomeOvergrownVine DISABLED = new PlanetBiomeOvergrownVine(
+				java.util.Collections.emptyList(), 0f, 0, 0, 0f, 0, 0, 0, 0, 1);
+
+		public static final Codec<PlanetBiomeOvergrownVine> CODEC = RecordCodecBuilder.create(instance -> instance
+				.group(Codec.list(BlockState.CODEC).optionalFieldOf("wall_blocks", java.util.Collections.emptyList())
+								.forGetter(PlanetBiomeOvergrownVine::wall_blocks),
+						Codec.FLOAT.optionalFieldOf("wall_chance", 0.3f).forGetter(PlanetBiomeOvergrownVine::wall_chance),
+						Codec.INT.optionalFieldOf("min_wall_height", 10).forGetter(PlanetBiomeOvergrownVine::min_wall_height),
+						Codec.INT.optionalFieldOf("max_wall_height", 70).forGetter(PlanetBiomeOvergrownVine::max_wall_height),
+						Codec.FLOAT.optionalFieldOf("vine_chance", 0.85f).forGetter(PlanetBiomeOvergrownVine::vine_chance),
+						Codec.INT.optionalFieldOf("vine_min_length", 20).forGetter(PlanetBiomeOvergrownVine::vine_min_length),
+						Codec.INT.optionalFieldOf("vine_max_length", 50).forGetter(PlanetBiomeOvergrownVine::vine_max_length),
+						Codec.INT.optionalFieldOf("vine_min_branches", 2).forGetter(PlanetBiomeOvergrownVine::vine_min_branches),
+						Codec.INT.optionalFieldOf("vine_max_branches", 4).forGetter(PlanetBiomeOvergrownVine::vine_max_branches),
+						Codec.INT.optionalFieldOf("vine_thickness", 2).forGetter(PlanetBiomeOvergrownVine::vine_thickness))
+				.apply(instance, PlanetBiomeOvergrownVine::new));
+	}
+
+	public record PlanetBiomeCityOvergrown(boolean enabled, PlanetBiomeOvergrownGround ground, PlanetBiomeOvergrownVine vines) {
+		public static final PlanetBiomeCityOvergrown DISABLED = new PlanetBiomeCityOvergrown(false,
+				PlanetBiomeOvergrownGround.DISABLED, PlanetBiomeOvergrownVine.DISABLED);
+
+		public static final Codec<PlanetBiomeCityOvergrown> CODEC = RecordCodecBuilder.create(instance -> instance
+				.group(Codec.BOOL.fieldOf("enabled").forGetter(PlanetBiomeCityOvergrown::enabled),
+						PlanetBiomeOvergrownGround.CODEC.optionalFieldOf("ground", PlanetBiomeOvergrownGround.DISABLED)
+								.forGetter(PlanetBiomeCityOvergrown::ground),
+						PlanetBiomeOvergrownVine.CODEC.optionalFieldOf("vines", PlanetBiomeOvergrownVine.DISABLED)
+								.forGetter(PlanetBiomeCityOvergrown::vines))
+				.apply(instance, PlanetBiomeCityOvergrown::new));
+	}
+
+	public record PlanetBiomeCityUrban(int suburb_min_buildings, int suburb_max_buildings,
+			int center_min_buildings, int center_max_buildings,
+			float suburb_height_mult, float center_height_mult,
+			int noise_scale, float toxic_garden_chance, int road_buffer,
+			float garden_tree_chance, List<PlanetBiomeTree> garden_trees) {
+		public static final PlanetBiomeCityUrban DEFAULT = new PlanetBiomeCityUrban(1, 2, 3, 5, 0.6f, 1.2f, 256, 0.05f, 2, 0.5f, java.util.Collections.emptyList());
+
+		public static final Codec<PlanetBiomeCityUrban> CODEC = RecordCodecBuilder.create(instance -> instance
+				.group(Codec.INT.optionalFieldOf("suburb_min_buildings", 1).forGetter(PlanetBiomeCityUrban::suburb_min_buildings),
+						Codec.INT.optionalFieldOf("suburb_max_buildings", 2).forGetter(PlanetBiomeCityUrban::suburb_max_buildings),
+						Codec.INT.optionalFieldOf("center_min_buildings", 3).forGetter(PlanetBiomeCityUrban::center_min_buildings),
+						Codec.INT.optionalFieldOf("center_max_buildings", 5).forGetter(PlanetBiomeCityUrban::center_max_buildings),
+						Codec.FLOAT.optionalFieldOf("suburb_height_mult", 0.6f).forGetter(PlanetBiomeCityUrban::suburb_height_mult),
+						Codec.FLOAT.optionalFieldOf("center_height_mult", 1.2f).forGetter(PlanetBiomeCityUrban::center_height_mult),
+						Codec.INT.optionalFieldOf("noise_scale", 256).forGetter(PlanetBiomeCityUrban::noise_scale),
+						Codec.FLOAT.optionalFieldOf("toxic_garden_chance", 0.05f).forGetter(PlanetBiomeCityUrban::toxic_garden_chance),
+						Codec.INT.optionalFieldOf("road_buffer", 2).forGetter(PlanetBiomeCityUrban::road_buffer),
+						Codec.FLOAT.optionalFieldOf("garden_tree_chance", 0.5f).forGetter(PlanetBiomeCityUrban::garden_tree_chance),
+						Codec.list(PlanetBiomeTree.CODEC).optionalFieldOf("garden_trees", java.util.Collections.emptyList()).forGetter(PlanetBiomeCityUrban::garden_trees))
+				.apply(instance, PlanetBiomeCityUrban::new));
+	}
+
 	public record PlanetBiomeCityGrid(boolean enabled, int road_width, int block_size,
 			List<BlockState> road_blocks, List<BlockState> gradient_blocks, List<BlockState> accent_blocks,
 			float accent_chance, int road_smooth, int slope_check, int headroom,
 			int bridge_threshold, int tunnel_threshold, int max_height_diff,
-			List<PlanetBiomeRuin> ruins) {
+			List<PlanetBiomeRuin> ruins, PlanetBiomeCityOvergrown overgrown, PlanetBiomeCityUrban urban) {
 		public static final PlanetBiomeCityGrid DISABLED = new PlanetBiomeCityGrid(false, 3, 16,
 				java.util.Collections.emptyList(), java.util.Collections.emptyList(),
 				java.util.Collections.emptyList(), 0.001f, 8, 4, 4, 2, 2, 8,
-				java.util.Collections.emptyList());
+				java.util.Collections.emptyList(), PlanetBiomeCityOvergrown.DISABLED, PlanetBiomeCityUrban.DEFAULT);
 
 		public static final Codec<PlanetBiomeCityGrid> CODEC = RecordCodecBuilder.create(instance -> instance
 				.group(Codec.BOOL.fieldOf("enabled").forGetter(PlanetBiomeCityGrid::enabled),
@@ -266,7 +354,11 @@ public record PlanetBiomeSettings(ResourceLocation home, PlanetBiomeBlocks block
 						Codec.INT.fieldOf("bridge_threshold").forGetter(PlanetBiomeCityGrid::bridge_threshold),
 						Codec.INT.fieldOf("tunnel_threshold").forGetter(PlanetBiomeCityGrid::tunnel_threshold),
 						Codec.INT.fieldOf("max_height_diff").forGetter(PlanetBiomeCityGrid::max_height_diff),
-						Codec.list(PlanetBiomeRuin.CODEC).fieldOf("ruins").forGetter(PlanetBiomeCityGrid::ruins))
+						Codec.list(PlanetBiomeRuin.CODEC).fieldOf("ruins").forGetter(PlanetBiomeCityGrid::ruins),
+						PlanetBiomeCityOvergrown.CODEC.optionalFieldOf("overgrown", PlanetBiomeCityOvergrown.DISABLED)
+								.forGetter(PlanetBiomeCityGrid::overgrown),
+						PlanetBiomeCityUrban.CODEC.optionalFieldOf("urban", PlanetBiomeCityUrban.DEFAULT)
+								.forGetter(PlanetBiomeCityGrid::urban))
 				.apply(instance, PlanetBiomeCityGrid::new));
 	}
 
