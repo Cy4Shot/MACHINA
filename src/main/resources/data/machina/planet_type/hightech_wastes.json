@@ -236,5 +236,8 @@
 			"min_y": -16,
 			"max_y": 64
 		}
+	],
+	"structure_sets": [
+		"machina:city_vault"
 	]
 }

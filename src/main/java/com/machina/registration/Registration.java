@@ -30,6 +30,7 @@ import com.machina.registration.init.RocketPartInit;
 import com.machina.registration.init.SoundInit;
 import com.machina.registration.init.TabInit;
 import com.machina.registration.init.WeatherEventInit;
+import com.machina.registration.init.StructureInit;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -69,6 +70,8 @@ public class Registration {
 		WeatherEventInit.WEATHER_EVENTS.register(bus);
 		ParticleTypeInit.PARTICLE_TYPES.register(bus);
 		EffectInit.EFFECTS.register(bus);
+		StructureInit.STRUCTURE_TYPES.register(bus);
+		StructureInit.STRUCTURE_PIECE_TYPES.register(bus);
 		OverworldOresInit.register(); // Only used for datagen
 		CustomCTMRegistrar.register();
 	}

@@ -254,6 +254,20 @@
 					"tree_fruit_chance": 1.0
 				}
 			]
+		},
+		"vault": {
+			"enabled": true,
+			"chance": 0.15,
+			"blocks": [
+				"machina:anthracite",
+				"machina:basalt",
+				"minecraft:deepslate_bricks",
+				"minecraft:cracked_deepslate_bricks"
+			],
+			"accent_blocks": [
+				"minecraft:iron_bars",
+				"machina:fission_reactor_glass"
+			]
 		}
 	},
 	"client_settings": {

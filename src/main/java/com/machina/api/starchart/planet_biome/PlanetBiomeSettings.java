@@ -330,15 +330,31 @@ public record PlanetBiomeSettings(ResourceLocation home, PlanetBiomeBlocks block
 				.apply(instance, PlanetBiomeCityUrban::new));
 	}
 
+	public record PlanetBiomeCityVault(boolean enabled, float chance, List<BlockState> blocks, List<BlockState> accent_blocks) {
+		public static final PlanetBiomeCityVault DISABLED = new PlanetBiomeCityVault(false, 0f,
+				java.util.Collections.emptyList(), java.util.Collections.emptyList());
+
+		public static final Codec<PlanetBiomeCityVault> CODEC = RecordCodecBuilder.create(instance -> instance
+				.group(Codec.BOOL.optionalFieldOf("enabled", false).forGetter(PlanetBiomeCityVault::enabled),
+						Codec.FLOAT.optionalFieldOf("chance", 0.1f).forGetter(PlanetBiomeCityVault::chance),
+						Codec.list(BlockState.CODEC).optionalFieldOf("blocks", java.util.Collections.emptyList())
+								.forGetter(PlanetBiomeCityVault::blocks),
+						Codec.list(BlockState.CODEC).optionalFieldOf("accent_blocks", java.util.Collections.emptyList())
+								.forGetter(PlanetBiomeCityVault::accent_blocks))
+				.apply(instance, PlanetBiomeCityVault::new));
+	}
+
 	public record PlanetBiomeCityGrid(boolean enabled, int road_width, int block_size,
 			List<BlockState> road_blocks, List<BlockState> gradient_blocks, List<BlockState> accent_blocks,
 			float accent_chance, int road_smooth, int slope_check, int headroom,
 			int bridge_threshold, int tunnel_threshold, int max_height_diff,
-			List<PlanetBiomeRuin> ruins, PlanetBiomeCityOvergrown overgrown, PlanetBiomeCityUrban urban) {
+			List<PlanetBiomeRuin> ruins, PlanetBiomeCityOvergrown overgrown, PlanetBiomeCityUrban urban,
+			PlanetBiomeCityVault vault) {
 		public static final PlanetBiomeCityGrid DISABLED = new PlanetBiomeCityGrid(false, 3, 16,
 				java.util.Collections.emptyList(), java.util.Collections.emptyList(),
 				java.util.Collections.emptyList(), 0.001f, 8, 4, 4, 2, 2, 8,
-				java.util.Collections.emptyList(), PlanetBiomeCityOvergrown.DISABLED, PlanetBiomeCityUrban.DEFAULT);
+				java.util.Collections.emptyList(), PlanetBiomeCityOvergrown.DISABLED, PlanetBiomeCityUrban.DEFAULT,
+				PlanetBiomeCityVault.DISABLED);
 
 		public static final Codec<PlanetBiomeCityGrid> CODEC = RecordCodecBuilder.create(instance -> instance
 				.group(Codec.BOOL.fieldOf("enabled").forGetter(PlanetBiomeCityGrid::enabled),
@@ -359,7 +375,8 @@ public record PlanetBiomeSettings(ResourceLocation home, PlanetBiomeBlocks block
 								.forGetter(PlanetBiomeCityGrid::overgrown),
 						PlanetBiomeCityUrban.CODEC.optionalFieldOf("urban", PlanetBiomeCityUrban.DEFAULT)
 								.forGetter(PlanetBiomeCityGrid::urban))
-				.apply(instance, PlanetBiomeCityGrid::new));
+				.apply(instance, (e, rw, bs, rb, gb, ab, ac, rs, sc, h, bt, tt, mhd, r, o, u) ->
+						new PlanetBiomeCityGrid(e, rw, bs, rb, gb, ab, ac, rs, sc, h, bt, tt, mhd, r, o, u, PlanetBiomeCityVault.DISABLED)));
 	}
 
 	public record PlanetBiomeClientSettings(int weather_tint) {

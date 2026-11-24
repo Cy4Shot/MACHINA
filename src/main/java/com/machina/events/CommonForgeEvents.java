@@ -1,9 +1,15 @@
 package com.machina.events;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import com.machina.Machina;
 import com.machina.api.block.IClickableBlock;
 import com.machina.api.recipe.RecipeRefreshManager;
 import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
+import com.machina.api.starchart.planet_structure.PlanetStructure;
+import com.machina.api.starchart.planet_structure.PlanetStructureLoader;
 import com.machina.registration.init.EffectInit;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
@@ -13,9 +19,12 @@ import com.machina.world.biome.PlanetBiome;
 import com.machina.world.data.NuclearExplosionData;
 import com.machina.world.data.PlanetDimensionData;
 import com.machina.world.data.RadiationData;
+import com.machina.world.structure.CityVaultStructure;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.Registry;
@@ -25,15 +34,24 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.heightproviders.ConstantHeight;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
@@ -42,12 +60,12 @@ import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
@@ -99,8 +117,13 @@ public class CommonForgeEvents {
 	@SubscribeEvent
 	public static void serverAboutToStart(final ServerAboutToStartEvent event) {
 		MinecraftServer server = event.getServer();
+
+		// Register biomes first
 		PlanetBiomeLoader.INSTANCE.getEntrySet()
 				.forEach(e -> registerBiome(server, e.getKey(), new PlanetBiome(e.getValue())));
+
+		// Register structures
+		PlanetStructureLoader.INSTANCE.getEntrySet().forEach(e -> registerStructure(server, e.getKey(), e.getValue()));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -115,8 +138,69 @@ public class CommonForgeEvents {
 			biomeReg.register(key, biome, RegistrationInfo.BUILT_IN);
 		} else {
 			throw new IllegalStateException(
-					String.format("Unable to register dimension %s -- dimension registry not writable", loc));
+					String.format("Unable to register biome %s -- biome registry not writable", loc));
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private static void registerStructure(MinecraftServer server, ResourceLocation loc,
+			PlanetStructure planetStructure) {
+		// Get registries
+		Registry<Structure> structureRegistry = server.registryAccess().registryOrThrow(Registries.STRUCTURE);
+		Registry<StructureSet> structureSetRegistry = server.registryAccess().registryOrThrow(Registries.STRUCTURE_SET);
+		Registry<Biome> biomeRegistry = server.registryAccess().registryOrThrow(Registries.BIOME);
+
+		ResourceKey<Structure> structureKey = ResourceKey.create(Registries.STRUCTURE, loc);
+		ResourceKey<StructureSet> structureSetKey = ResourceKey.create(Registries.STRUCTURE_SET, loc);
+
+		if (structureRegistry.containsKey(structureKey)) {
+			return;
+		}
+
+		// Create biome holder set (all registered planet biomes)
+		List<Holder<Biome>> biomeHolders = PlanetBiomeLoader.INSTANCE.getAllLoc().stream()
+				.map(biomeLoc -> biomeRegistry.getHolder(ResourceKey.create(Registries.BIOME, biomeLoc)))
+				.filter(Optional::isPresent).map(Optional::get).map(h -> (Holder<Biome>) h).toList();
+		HolderSet<Biome> biomeSet = HolderSet.direct(biomeHolders);
+
+		// Create structure settings
+		Structure.StructureSettings settings = new Structure.StructureSettings(biomeSet, Map.of(),
+				GenerationStep.Decoration.UNDERGROUND_STRUCTURES, TerrainAdjustment.NONE);
+
+		// Create the structure based on type
+		Structure structure = createStructure(planetStructure.type(), settings);
+		if (structure == null) {
+			Machina.LOGGER.warn("Unknown structure type: {}", planetStructure.type());
+			return;
+		}
+
+		// Register structure
+		if (structureRegistry instanceof MappedRegistry<Structure> reg) {
+			reg.unfreeze();
+			reg.register(structureKey, structure, RegistrationInfo.BUILT_IN);
+		}
+
+		// Create and register structure set
+		Holder<Structure> structureHolder = structureRegistry.getHolder(structureKey).orElseThrow();
+		RandomSpreadStructurePlacement placement = new RandomSpreadStructurePlacement(planetStructure.spacing(),
+				planetStructure.separation(), RandomSpreadType.LINEAR, planetStructure.salt());
+		StructureSet structureSet = new StructureSet(
+				List.of(new StructureSet.StructureSelectionEntry(structureHolder, 1)), placement);
+
+		if (structureSetRegistry instanceof MappedRegistry<StructureSet> reg) {
+			reg.unfreeze();
+			reg.register(structureSetKey, structureSet, RegistrationInfo.BUILT_IN);
+		}
+
+		Machina.LOGGER.info("Registered planet structure: {}", loc);
+	}
+
+	private static Structure createStructure(String type, Structure.StructureSettings settings) {
+		return switch (type) {
+		case "city_vault" -> new CityVaultStructure(settings, ConstantHeight.of(VerticalAnchor.absolute(64)),
+				Optional.of(Heightmap.Types.WORLD_SURFACE_WG));
+		default -> null;
+		};
 	}
 
 	@SubscribeEvent

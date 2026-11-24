@@ -17,6 +17,7 @@ import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCit
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOvergrownGround;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOvergrownVine;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityUrban;
+import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityVault;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeBlocks;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBlockWeight;
 import com.machina.api.starchart.planet_biome.placement.PlacementModifier;
@@ -216,12 +217,27 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 		}
 	}
 
+	public record PlanetBiomeCityVaultJsonInfo(Boolean enabled, Float chance, List<String> blocks,
+			List<String> accent_blocks) implements JsonInfo<PlanetBiomeCityVault> {
+		public PlanetBiomeCityVault cast() {
+			List<BlockState> vaultBlocks = blocks == null ? List.of()
+					: blocks.stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
+			List<BlockState> accentBlocks = accent_blocks == null ? List.of()
+					: accent_blocks.stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
+			return new PlanetBiomeCityVault(
+					enabled != null ? enabled : false,
+					chance != null ? chance : 0.1f,
+					vaultBlocks,
+					accentBlocks);
+		}
+	}
+
 	public record PlanetBiomeCityGridJsonInfo(boolean enabled, int road_width, int block_size,
 			List<String> road_blocks, List<String> gradient_blocks, List<String> accent_blocks,
 			float accent_chance, int road_smooth, int slope_check, int headroom,
 			int bridge_threshold, int tunnel_threshold, int max_height_diff,
 			List<PlanetBiomeRuinJsonInfo> ruins, PlanetBiomeCityOvergrownJsonInfo overgrown,
-			PlanetBiomeCityUrbanJsonInfo urban) implements JsonInfo<PlanetBiomeCityGrid> {
+			PlanetBiomeCityUrbanJsonInfo urban, PlanetBiomeCityVaultJsonInfo vault) implements JsonInfo<PlanetBiomeCityGrid> {
 		public PlanetBiomeCityGrid cast() {
 			List<BlockState> roadBlocks = road_blocks().stream().map(PlanetBiomeJsonInfo::getBlock)
 					.collect(Collectors.toList());
@@ -233,10 +249,11 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 					.collect(Collectors.toList());
 			PlanetBiomeCityOvergrown overgrownConfig = overgrown == null ? PlanetBiomeCityOvergrown.DISABLED : overgrown.cast();
 			PlanetBiomeCityUrban urbanConfig = urban == null ? PlanetBiomeCityUrban.DEFAULT : urban.cast();
+			PlanetBiomeCityVault vaultConfig = vault == null ? PlanetBiomeCityVault.DISABLED : vault.cast();
 			return new PlanetBiomeCityGrid(enabled, road_width, block_size, roadBlocks,
 					gradientBlocks, accentBlocks, accent_chance, road_smooth, slope_check,
 					headroom, bridge_threshold, tunnel_threshold, max_height_diff, ruinsList,
-					overgrownConfig, urbanConfig);
+					overgrownConfig, urbanConfig, vaultConfig);
 		}
 	}
 

@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import com.google.common.base.Suppliers;
 import com.machina.api.starchart.Starchart;
 import com.machina.api.starchart.obj.Planet;
+import com.machina.api.starchart.planet_structure.PlanetStructure;
+import com.machina.api.starchart.planet_structure.PlanetStructureLoader;
 import com.machina.api.starchart.planet_trait.PlanetOreTrait;
 import com.machina.api.starchart.planet_trait.PlanetTrait;
 import com.machina.api.util.PlanetHelper;
@@ -21,7 +23,10 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
@@ -30,9 +35,9 @@ import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.Aquifer.FluidStatus;
-import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.level.levelgen.Beardifier;
 import net.minecraft.world.level.levelgen.DensityFunctions;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
@@ -40,6 +45,8 @@ import net.minecraft.world.level.levelgen.NoiseChunk;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseSettings;
 import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
 
 public class PlanetChunkGenerator extends NoiseBasedChunkGenerator {
 
@@ -151,5 +158,39 @@ public class PlanetChunkGenerator extends NoiseBasedChunkGenerator {
 		return PlanetNoiseChunk.forChunk(chunk, random,
 				Beardifier.forStructuresInChunk(structureManager, chunk.getPos()), this.settings.value(),
 				this.globalFluidPicker.get(), blender, this.oreTraits, this.getBiomeSource());
+	}
+
+	@Override
+	public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> structureSetLookup,
+			RandomState randomState, long seed) {
+		// Filter to only include structure sets defined in the planet type
+		List<ResourceLocation> allowedSets = planet.type().structure_sets();
+		if (allowedSets.isEmpty()) {
+			return ChunkGeneratorStructureState.createForFlat(randomState, seed, this.biomeSource,
+					java.util.stream.Stream.empty());
+		}
+
+		List<Holder<StructureSet>> filtered = new ArrayList<>();
+		for (ResourceLocation id : allowedSets) {
+			ResourceKey<StructureSet> key = ResourceKey.create(Registries.STRUCTURE_SET, id);
+			structureSetLookup.get(key).ifPresent(filtered::add);
+		}
+
+		return ChunkGeneratorStructureState.createForFlat(randomState, seed, this.biomeSource, filtered.stream());
+	}
+
+	public List<PlanetStructure> getPlanetStructures() {
+		List<PlanetStructure> structures = new ArrayList<>();
+		for (ResourceLocation id : planet.type().structure_sets()) {
+			PlanetStructure structure = PlanetStructureLoader.INSTANCE.get(id);
+			if (structure != null) {
+				structures.add(structure);
+			}
+		}
+		return structures;
+	}
+
+	public long getSeed() {
+		return seed;
 	}
 }

@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId, Shape shape,
 		List<BiomePlacementJsonInfo> biomes, List<String> weathers, PlanetTraitSettingsJsonInfo traits, String base,
-		List<PlanetOreJsonInfo> ores, String dominant_liquid) implements JsonInfo<PlanetType> {
+		List<PlanetOreJsonInfo> ores, String dominant_liquid, List<String> structure_sets) implements JsonInfo<PlanetType> {
 
 	public static BlockState getBlock(String block) {
 		return BlockHelper.parseState(BlockHelper.blockHolderLookup(), block);
@@ -80,12 +80,14 @@ public record PlanetTypeJsonInfo(String name, int iconY, int color, int shaderId
 		List<WeatherEvent> weathers = weathers().stream()
 				.map(x -> RegistryInit.WEATHER_EVENT.get(ResourceLocation.parse(x))).collect(Collectors.toList());
 		List<PlanetOre> ores = ores().stream().map(PlanetOreJsonInfo::cast).collect(Collectors.toList());
+		List<ResourceLocation> structureSets = structure_sets() == null ? List.of()
+				: structure_sets().stream().map(ResourceLocation::parse).collect(Collectors.toList());
 
 		HolderLookup<Block> block = BlockHelper.blockHolderLookup();
 		BlockState base = BlockHelper.parseState(block, base());
 		ChemicalFluid dominant_liquid = dominant_liquid() == null ? null
 				: BlockHelper.parseChemicalFluid(dominant_liquid());
 		return new PlanetType(name, iconY, color, shaderId, shape(), biomes, weathers, traits.cast(), base, ores,
-				dominant_liquid);
+				dominant_liquid, structureSets);
 	}
 }

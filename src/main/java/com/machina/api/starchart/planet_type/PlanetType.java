@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public record PlanetType(ResourceLocation name, int iconY, int color, int shaderId, Shape shape,
 		List<BiomePlacement> biomes, List<WeatherEvent> weathers, PlanetTraitSettings traits, BlockState base,
-		List<PlanetOre> ores, ChemicalFluid dominant_liquid) {
+		List<PlanetOre> ores, ChemicalFluid dominant_liquid, List<ResourceLocation> structure_sets) {
 
 	public record Shape(int sea_level, NoiseSettings noise_settings) {
 		public net.minecraft.world.level.levelgen.NoiseSettings getNoiseSettings() {
