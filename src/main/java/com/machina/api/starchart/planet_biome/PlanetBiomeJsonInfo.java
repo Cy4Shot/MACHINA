@@ -217,18 +217,11 @@ public record PlanetBiomeJsonInfo(String home, String base, String surface, List
 		}
 	}
 
-	public record PlanetBiomeCityVaultJsonInfo(Boolean enabled, Float chance, List<String> blocks,
-			List<String> accent_blocks) implements JsonInfo<PlanetBiomeCityVault> {
+	public record PlanetBiomeCityVaultJsonInfo(Boolean enabled, Float chance) implements JsonInfo<PlanetBiomeCityVault> {
 		public PlanetBiomeCityVault cast() {
-			List<BlockState> vaultBlocks = blocks == null ? List.of()
-					: blocks.stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
-			List<BlockState> accentBlocks = accent_blocks == null ? List.of()
-					: accent_blocks.stream().map(PlanetBiomeJsonInfo::getBlock).collect(Collectors.toList());
 			return new PlanetBiomeCityVault(
 					enabled != null ? enabled : false,
-					chance != null ? chance : 0.1f,
-					vaultBlocks,
-					accentBlocks);
+					chance != null ? chance : 0.1f);
 		}
 	}
 

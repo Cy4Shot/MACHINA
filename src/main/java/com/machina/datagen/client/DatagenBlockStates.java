@@ -18,6 +18,7 @@ import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.DirtFamily;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
+import com.machina.registration.init.FamiliesInit.VaultFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -152,6 +153,27 @@ public class DatagenBlockStates extends BlockStateProvider {
 		lichenBlock(BlockInit.CYAN_LICHEN);
 		lichenBlock(BlockInit.TOX_LICHEN);
 
+		// Vault blocks - upper levels (dirty, patterned)
+		cube(BlockInit.VAULT_STONE);
+		cube(BlockInit.VAULT_BRICKS);
+		cube(BlockInit.VAULT_BRICKS_CRACKED);
+		cube(BlockInit.VAULT_BRICKS_MOSSY);
+		cube(BlockInit.VAULT_TILES);
+		log(BlockInit.VAULT_PILLAR.get());
+
+		// Vault blocks - mid levels (transitional)
+		cube(BlockInit.VAULT_STONE_DARK);
+		cube(BlockInit.VAULT_BRICKS_DARK);
+		cube(BlockInit.VAULT_TILES_DARK);
+		log(BlockInit.VAULT_PILLAR_DARK.get());
+
+		// Vault blocks - lower levels (clean, CTM-ready)
+		ctm(BlockInit.ANCIENT_VAULT_STONE, BlockTagInit.ANCIENT_VAULT_CTM);
+		ctm(BlockInit.ANCIENT_VAULT_BRICKS, BlockTagInit.ANCIENT_VAULT_CTM);
+		ctm(BlockInit.ANCIENT_VAULT_TILES, BlockTagInit.ANCIENT_VAULT_CTM);
+		ctmPillar(BlockInit.ANCIENT_VAULT_PILLAR, BlockTagInit.ANCIENT_VAULT_PILLAR_CTM);
+		ctm(BlockInit.GILDED_VAULT_BRICKS, BlockTagInit.ANCIENT_VAULT_CTM);
+
 		cube(BlockInit.TROPICAL_SAND);
 		cube(BlockInit.MOONSAND);
 		cube(BlockInit.FERROUS_SAND);
@@ -248,6 +270,7 @@ public class DatagenBlockStates extends BlockStateProvider {
 		FluidInit.OBJS.forEach(this::fluid);
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.STONES.forEach(this::stoneFamily);
+		FamiliesInit.VAULTS.forEach(this::vaultFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);
 		FamiliesInit.WOODS.forEach(this::woodFamily);
 	}
@@ -273,6 +296,12 @@ public class DatagenBlockStates extends BlockStateProvider {
 		button(fam.button(), fam.base());
 		pressure_plate(fam.pressure_plate(), fam.base());
 		pebble(fam.pebbles());
+	}
+
+	private void vaultFamily(VaultFamily fam) {
+		slab(fam.slab(), fam.base());
+		stairs(fam.stairs(), fam.base());
+		wall(fam.wall(), fam.base());
 	}
 
 	private void dirtFamily(DirtFamily fam) {
@@ -380,6 +409,26 @@ public class DatagenBlockStates extends BlockStateProvider {
 			builder.setCTMTag(ctmTag);
 		}
 		simpleBlockItem(b, rod);
+	}
+
+	private static final ResourceLocation CTM_PILLAR_LOADER = ResourceLocation.fromNamespaceAndPath("athena", "pillar");
+
+	private void ctmPillar(DeferredBlock<? extends RotatedPillarBlock> block, TagKey<Block> ctmTag) {
+		Block b = block.get();
+		ModelFile cube = cubeAll(b);
+		//@formatter:off
+		CTMBlockStateBuilder builder = getCTMBuilder(b, cube)
+			.setLoader(CTM_PILLAR_LOADER)
+			.addCTMTexture("particle", blockTexture(b))
+			.addCTMTexture("self", ctmTexture(b, "0"))
+			.addCTMTexture("top", ctmTexture(b, "1"))
+			.addCTMTexture("center", ctmTexture(b, "2"))
+			.addCTMTexture("bottom", ctmTexture(b, "3"));
+		//@formatter:on
+		if (ctmTag != null) {
+			builder.setCTMTag(ctmTag);
+		}
+		simpleBlockItem(b, cube);
 	}
 
 	private void geo(DeferredBlock<? extends Block> block, String textureName) {

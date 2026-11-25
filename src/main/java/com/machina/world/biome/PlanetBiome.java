@@ -24,6 +24,7 @@ import com.machina.world.feature.PlanetLakeFeature;
 import com.machina.world.feature.PlanetOreFeature;
 import com.machina.world.feature.PlanetRockFeature;
 import com.machina.world.feature.PlanetTreeFeature;
+import com.machina.world.feature.RuinedCityFeature;
 
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -140,8 +141,7 @@ public class PlanetBiome extends Biome {
 		// City grid generation — runs every chunk, chunk type determined internally
 		if (s.city_grid().enabled()) {
 			var cg = s.city_grid();
-			add(builder, Decoration.SURFACE_STRUCTURES, new com.machina.world.feature.RuinedCityFeature(),
-					new com.machina.world.feature.RuinedCityFeature.Config(cg),
+			add(builder, Decoration.SURFACE_STRUCTURES, new RuinedCityFeature(), new RuinedCityFeature.Config(cg),
 					count(1), spread(), onFloor(), biome());
 		}
 

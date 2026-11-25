@@ -605,6 +605,19 @@ public class CityGen {
 			int surfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, wx, wz);
 			BlockPos origin = new BlockPos(wx, surfaceY, wz);
 
+			// Skip if no sky access (prevents buildings inside underground structures)
+			if (!level.canSeeSky(origin.above())) {
+				BlockPos dummyOrigin = new BlockPos(wx, 64, wz);
+				switch (ruin.shape()) {
+				case TUBE -> generateTubeVariant(level, dummyOrigin, ruin, cellRandom);
+				case PILLAR -> generatePillarVariant(level, dummyOrigin, ruin, cellRandom);
+				case WALL -> generateWallVariant(level, dummyOrigin, ruin, cellRandom);
+				case FOUNDATION -> generateFoundationVariant(level, dummyOrigin, ruin, cellRandom);
+				case RUBBLE -> generateRubbleVariant(level, dummyOrigin, ruin, cellRandom);
+				}
+				continue;
+			}
+
 			// Skip if building origin is in water
 			if (!level.getFluidState(origin).isEmpty() || !level.getFluidState(origin.below()).isEmpty()) {
 				// Still run generator with dummy to maintain random state

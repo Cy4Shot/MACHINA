@@ -185,6 +185,51 @@ public class BlockInit {
 	// Misc
 	public static final DeferredBlock<HightechTurretBlock> HIGHTECH_TURRET = register("hightech_turret", Blocks.IRON_BLOCK, HightechTurretBlock::new);
 
+	// Vault Blocks - Upper levels (dirty, patterned)
+	public static final DeferredBlock<Block> VAULT_STONE = block("vault_stone", Blocks.STONE_BRICKS);
+	public static final DeferredBlock<Block> VAULT_BRICKS = block("vault_bricks", Blocks.STONE_BRICKS);
+	public static final DeferredBlock<Block> VAULT_BRICKS_CRACKED = block("vault_bricks_cracked", Blocks.CRACKED_STONE_BRICKS);
+	public static final DeferredBlock<Block> VAULT_BRICKS_MOSSY = block("vault_bricks_mossy", Blocks.MOSSY_STONE_BRICKS);
+	public static final DeferredBlock<Block> VAULT_TILES = block("vault_tiles", Blocks.STONE_BRICKS);
+	public static final DeferredBlock<RotatedPillarBlock> VAULT_PILLAR = log("vault_pillar", Blocks.STONE_BRICKS);
+
+	// Vault Blocks - Mid levels (transitional)
+	public static final DeferredBlock<Block> VAULT_STONE_DARK = block("vault_stone_dark", Blocks.DEEPSLATE);
+	public static final DeferredBlock<Block> VAULT_BRICKS_DARK = block("vault_bricks_dark", Blocks.DEEPSLATE_BRICKS);
+	public static final DeferredBlock<Block> VAULT_TILES_DARK = block("vault_tiles_dark", Blocks.DEEPSLATE_TILES);
+	public static final DeferredBlock<RotatedPillarBlock> VAULT_PILLAR_DARK = log("vault_pillar_dark", Blocks.DEEPSLATE);
+
+	// Vault Blocks - Lower levels (clean, CTM-ready)
+	public static final DeferredBlock<Block> ANCIENT_VAULT_STONE = block("ancient_vault_stone", Blocks.POLISHED_DEEPSLATE);
+	public static final DeferredBlock<Block> ANCIENT_VAULT_BRICKS = block("ancient_vault_bricks", Blocks.POLISHED_BLACKSTONE_BRICKS);
+	public static final DeferredBlock<Block> ANCIENT_VAULT_TILES = block("ancient_vault_tiles", Blocks.POLISHED_BLACKSTONE);
+	public static final DeferredBlock<RotatedPillarBlock> ANCIENT_VAULT_PILLAR = log("ancient_vault_pillar", Blocks.POLISHED_BLACKSTONE);
+	public static final DeferredBlock<Block> GILDED_VAULT_BRICKS = block("gilded_vault_bricks", Blocks.GILDED_BLACKSTONE);
+
+	// Vault Block Variants - Upper levels
+	public static final DeferredBlock<SlabBlock> VAULT_BRICKS_SLAB = slab("vault_bricks_slab", Blocks.STONE_BRICK_SLAB);
+	public static final DeferredBlock<StairBlock> VAULT_BRICKS_STAIRS = stairs("vault_bricks_stairs", VAULT_BRICKS, Blocks.STONE_BRICK_STAIRS);
+	public static final DeferredBlock<WallBlock> VAULT_BRICKS_WALL = wall("vault_bricks_wall", Blocks.STONE_BRICK_WALL);
+	public static final DeferredBlock<SlabBlock> VAULT_TILES_SLAB = slab("vault_tiles_slab", Blocks.STONE_BRICK_SLAB);
+	public static final DeferredBlock<StairBlock> VAULT_TILES_STAIRS = stairs("vault_tiles_stairs", VAULT_TILES, Blocks.STONE_BRICK_STAIRS);
+	public static final DeferredBlock<WallBlock> VAULT_TILES_WALL = wall("vault_tiles_wall", Blocks.STONE_BRICK_WALL);
+
+	// Vault Block Variants - Mid levels
+	public static final DeferredBlock<SlabBlock> VAULT_BRICKS_DARK_SLAB = slab("vault_bricks_dark_slab", Blocks.DEEPSLATE_BRICK_SLAB);
+	public static final DeferredBlock<StairBlock> VAULT_BRICKS_DARK_STAIRS = stairs("vault_bricks_dark_stairs", VAULT_BRICKS_DARK, Blocks.DEEPSLATE_BRICK_STAIRS);
+	public static final DeferredBlock<WallBlock> VAULT_BRICKS_DARK_WALL = wall("vault_bricks_dark_wall", Blocks.DEEPSLATE_BRICK_WALL);
+	public static final DeferredBlock<SlabBlock> VAULT_TILES_DARK_SLAB = slab("vault_tiles_dark_slab", Blocks.DEEPSLATE_TILE_SLAB);
+	public static final DeferredBlock<StairBlock> VAULT_TILES_DARK_STAIRS = stairs("vault_tiles_dark_stairs", VAULT_TILES_DARK, Blocks.DEEPSLATE_TILE_STAIRS);
+	public static final DeferredBlock<WallBlock> VAULT_TILES_DARK_WALL = wall("vault_tiles_dark_wall", Blocks.DEEPSLATE_TILE_WALL);
+
+	// Vault Block Variants - Lower levels
+	public static final DeferredBlock<SlabBlock> ANCIENT_VAULT_BRICKS_SLAB = slab("ancient_vault_bricks_slab", Blocks.POLISHED_BLACKSTONE_BRICK_SLAB);
+	public static final DeferredBlock<StairBlock> ANCIENT_VAULT_BRICKS_STAIRS = stairs("ancient_vault_bricks_stairs", ANCIENT_VAULT_BRICKS, Blocks.POLISHED_BLACKSTONE_BRICK_STAIRS);
+	public static final DeferredBlock<WallBlock> ANCIENT_VAULT_BRICKS_WALL = wall("ancient_vault_bricks_wall", Blocks.POLISHED_BLACKSTONE_BRICK_WALL);
+	public static final DeferredBlock<SlabBlock> ANCIENT_VAULT_TILES_SLAB = slab("ancient_vault_tiles_slab", Blocks.POLISHED_BLACKSTONE_SLAB);
+	public static final DeferredBlock<StairBlock> ANCIENT_VAULT_TILES_STAIRS = stairs("ancient_vault_tiles_stairs", ANCIENT_VAULT_TILES, Blocks.POLISHED_BLACKSTONE_STAIRS);
+	public static final DeferredBlock<WallBlock> ANCIENT_VAULT_TILES_WALL = wall("ancient_vault_tiles_wall", Blocks.POLISHED_BLACKSTONE_WALL);
+
 	public static final DeferredBlock<Block> RAW_ALUMINUM_BLOCK = block("raw_aluminum_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_NICKEL_BLOCK = block("raw_nickel_block", Blocks.IRON_BLOCK);
 	public static final DeferredBlock<Block> RAW_LEAD_BLOCK = block("raw_lead_block", Blocks.IRON_BLOCK);

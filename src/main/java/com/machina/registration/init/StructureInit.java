@@ -4,6 +4,7 @@ import com.machina.Machina;
 import com.machina.world.structure.CityVaultStructure;
 import com.machina.world.structure.vault.VaultCorridorPiece;
 import com.machina.world.structure.vault.VaultEntrancePiece;
+import com.machina.world.structure.vault.VaultLevelStaircasePiece;
 import com.machina.world.structure.vault.VaultMainChamberPiece;
 import com.machina.world.structure.vault.VaultSideRoomPiece;
 import com.machina.world.structure.vault.VaultStaircasePiece;
@@ -23,6 +24,8 @@ public class StructureInit {
 	public static final DeferredRegister<StructurePieceType> STRUCTURE_PIECE_TYPES =
 		DeferredRegister.create(Registries.STRUCTURE_PIECE, Machina.MOD_ID);
 
+	// Structure: Vault
+	
 	public static final Supplier<StructureType<CityVaultStructure>> CITY_VAULT =
 		STRUCTURE_TYPES.register("city_vault", () -> () -> CityVaultStructure.CODEC);
 
@@ -40,4 +43,7 @@ public class StructureInit {
 
 	public static final Supplier<StructurePieceType> VAULT_SIDE_ROOM =
 		STRUCTURE_PIECE_TYPES.register("vault_side_room", () -> VaultSideRoomPiece::new);
+
+	public static final Supplier<StructurePieceType> VAULT_LEVEL_STAIRCASE =
+		STRUCTURE_PIECE_TYPES.register("vault_level_staircase", () -> VaultLevelStaircasePiece::new);
 }

@@ -1,0 +1,19 @@
+{
+  "athena:loader": "athena:ctm",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:ancient_vault_ctm"
+  },
+  "ctm_textures": {
+    "center": "machina:block/ctm/ancient_vault_stone/c",
+    "empty": "machina:block/ctm/ancient_vault_stone/e",
+    "horizontal": "machina:block/ctm/ancient_vault_stone/h",
+    "particle": "machina:block/ancient_vault_stone",
+    "vertical": "machina:block/ctm/ancient_vault_stone/v"
+  },
+  "variants": {
+    "": {
+      "model": "machina:block/ancient_vault_stone"
+    }
+  }
+}

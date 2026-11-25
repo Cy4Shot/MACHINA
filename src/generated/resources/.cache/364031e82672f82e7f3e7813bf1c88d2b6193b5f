@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-21T14:35:15.1344282	Tags for minecraft:item mod id machina
+// 1.21.1	2026-11-25T12:05:54.6172928	Tags for minecraft:item mod id machina
 9d5498fda4bcffdbda8de1971b5dde664a3f8822 data/c/tags/item/buckets/acetaldehyde.json
 1f9d2bcaf65c99e592823b53c96ef9be02376902 data/c/tags/item/buckets/acetic_acid.json
 4ff4928c63ea1165c7ade302ba8ea5f314ffbc8c data/c/tags/item/buckets/ammonia.json
@@ -649,14 +649,14 @@ c75145b8820239ba5fb4cb234ffe47c44621aa8e data/minecraft/tags/item/logs.json
 13d63356d22c85d569e80af14281d00dec2d8dce data/minecraft/tags/item/planks.json
 042123db0e1d7fac503b9b49fe2fa4f1a5b2ca78 data/minecraft/tags/item/sand.json
 5d193dd1d658aed27fe53e6b6e6f8c60815e188a data/minecraft/tags/item/signs.json
-5360565822c152d1da513eb2727f22280d0634ec data/minecraft/tags/item/slabs.json
+13a1d0c6d15bff007e7fd2af599523abc40861cf data/minecraft/tags/item/slabs.json
 c2ba72bc6bef0df82a063fe7cb5180a527c04e20 data/minecraft/tags/item/small_flowers.json
-61ddd51b76dba04e54f0d7a0bb33b3563091647e data/minecraft/tags/item/stairs.json
+9ce03d6249c3201f6dc5004ac07ba6f6ec7a919c data/minecraft/tags/item/stairs.json
 8f499dedacdd2d12e7aefc4a76ad5fed6a791abc data/minecraft/tags/item/stone_buttons.json
 c1bc6e20290032d37c00634d66785313d0d75585 data/minecraft/tags/item/stone_crafting_materials.json
 1cc27bfa0180795c508e9de31d6adf9d80acf81d data/minecraft/tags/item/tall_flowers.json
 a6384b88a9072c1db5f0b0f4f6b022972f1c6eab data/minecraft/tags/item/trapdoors.json
-6fed2788bb753f0f99e376b9eb37bafd25af7dbe data/minecraft/tags/item/walls.json
+4bc630bcb7184f7758e42012e5e2d5118507d09f data/minecraft/tags/item/walls.json
 309f2f3f72d2768b8b61adf7b4ebf1e768561356 data/minecraft/tags/item/wooden_buttons.json
 7a80f5e002c7995f995402aac1c652b0155ce510 data/minecraft/tags/item/wooden_doors.json
 1381d3c0c7c1bf795ddb6a58476a9e5986faa660 data/minecraft/tags/item/wooden_fences.json

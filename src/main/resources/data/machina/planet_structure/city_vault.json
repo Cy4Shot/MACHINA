@@ -1,7 +1,7 @@
 {
 	"id": "machina:city_vault",
 	"type": "city_vault",
-	"spacing": 16,
-	"separation": 8,
+	"spacing": 48,
+	"separation": 24,
 	"salt": 1234567890
 }

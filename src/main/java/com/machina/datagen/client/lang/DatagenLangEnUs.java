@@ -768,6 +768,51 @@ public class DatagenLangEnUs extends DatagenLang {
 		add(ItemInit.COOKED_TOX_SPOROCARP, "Cooked Tox Sporocarp");
 		add(ItemInit.COOKED_CYAN_SPOROCARP, "Cooked Cyan Sporocarp");
 
+		// Vault blocks - upper levels (dirty, patterned)
+		add(BlockInit.VAULT_STONE, "Vault Stone");
+		add(BlockInit.VAULT_BRICKS, "Vault Bricks");
+		add(BlockInit.VAULT_BRICKS_CRACKED, "Cracked Vault Bricks");
+		add(BlockInit.VAULT_BRICKS_MOSSY, "Mossy Vault Bricks");
+		add(BlockInit.VAULT_TILES, "Vault Tiles");
+		add(BlockInit.VAULT_PILLAR, "Vault Pillar");
+
+		// Vault blocks - mid levels (transitional)
+		add(BlockInit.VAULT_STONE_DARK, "Dark Vault Stone");
+		add(BlockInit.VAULT_BRICKS_DARK, "Dark Vault Bricks");
+		add(BlockInit.VAULT_TILES_DARK, "Dark Vault Tiles");
+		add(BlockInit.VAULT_PILLAR_DARK, "Dark Vault Pillar");
+
+		// Vault blocks - lower levels (clean, CTM-ready)
+		add(BlockInit.ANCIENT_VAULT_STONE, "Ancient Vault Stone");
+		add(BlockInit.ANCIENT_VAULT_BRICKS, "Ancient Vault Bricks");
+		add(BlockInit.ANCIENT_VAULT_TILES, "Ancient Vault Tiles");
+		add(BlockInit.ANCIENT_VAULT_PILLAR, "Ancient Vault Pillar");
+		add(BlockInit.GILDED_VAULT_BRICKS, "Gilded Vault Bricks");
+
+		// Vault block variants - upper levels
+		add(BlockInit.VAULT_BRICKS_SLAB, "Vault Brick Slab");
+		add(BlockInit.VAULT_BRICKS_STAIRS, "Vault Brick Stairs");
+		add(BlockInit.VAULT_BRICKS_WALL, "Vault Brick Wall");
+		add(BlockInit.VAULT_TILES_SLAB, "Vault Tile Slab");
+		add(BlockInit.VAULT_TILES_STAIRS, "Vault Tile Stairs");
+		add(BlockInit.VAULT_TILES_WALL, "Vault Tile Wall");
+
+		// Vault block variants - mid levels
+		add(BlockInit.VAULT_BRICKS_DARK_SLAB, "Dark Vault Brick Slab");
+		add(BlockInit.VAULT_BRICKS_DARK_STAIRS, "Dark Vault Brick Stairs");
+		add(BlockInit.VAULT_BRICKS_DARK_WALL, "Dark Vault Brick Wall");
+		add(BlockInit.VAULT_TILES_DARK_SLAB, "Dark Vault Tile Slab");
+		add(BlockInit.VAULT_TILES_DARK_STAIRS, "Dark Vault Tile Stairs");
+		add(BlockInit.VAULT_TILES_DARK_WALL, "Dark Vault Tile Wall");
+
+		// Vault block variants - lower levels
+		add(BlockInit.ANCIENT_VAULT_BRICKS_SLAB, "Ancient Vault Brick Slab");
+		add(BlockInit.ANCIENT_VAULT_BRICKS_STAIRS, "Ancient Vault Brick Stairs");
+		add(BlockInit.ANCIENT_VAULT_BRICKS_WALL, "Ancient Vault Brick Wall");
+		add(BlockInit.ANCIENT_VAULT_TILES_SLAB, "Ancient Vault Tile Slab");
+		add(BlockInit.ANCIENT_VAULT_TILES_STAIRS, "Ancient Vault Tile Stairs");
+		add(BlockInit.ANCIENT_VAULT_TILES_WALL, "Ancient Vault Tile Wall");
+
 		// Tooltips
 		addTooltip("ldpe", "Low Density Polyethylene");
 		addTooltip("hdpe", "High Density Polyethylene");

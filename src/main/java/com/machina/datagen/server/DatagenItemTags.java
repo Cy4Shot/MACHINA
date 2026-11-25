@@ -14,6 +14,7 @@ import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.DirtFamily;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
+import com.machina.registration.init.FamiliesInit.VaultFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
@@ -94,6 +95,7 @@ public class DatagenItemTags extends ItemTagsProvider {
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);
 		FamiliesInit.STONES.forEach(this::stoneFamily);
+		FamiliesInit.VAULTS.forEach(this::vaultFamily);
 		FamiliesInit.WOODS.forEach(this::woodFamily);
 		FamiliesInit.WOODS_VANILLA.forEach(this::woodFamily);
 		FluidInit.OBJS.forEach(this::fluidObj);
@@ -189,6 +191,12 @@ public class DatagenItemTags extends ItemTagsProvider {
 		tag(ItemTags.STONE_BUTTONS).add(family.button().asItem());
 
 		tag(ItemTags.STONE_CRAFTING_MATERIALS).add(family.base().asItem());
+	}
+
+	private void vaultFamily(VaultFamily family) {
+		tag(ItemTags.SLABS).add(family.slab().asItem());
+		tag(ItemTags.STAIRS).add(family.stairs().asItem());
+		tag(ItemTags.WALLS).add(family.wall().asItem());
 	}
 
 	private void woodFamily(WoodFamily family) {

@@ -330,17 +330,12 @@ public record PlanetBiomeSettings(ResourceLocation home, PlanetBiomeBlocks block
 				.apply(instance, PlanetBiomeCityUrban::new));
 	}
 
-	public record PlanetBiomeCityVault(boolean enabled, float chance, List<BlockState> blocks, List<BlockState> accent_blocks) {
-		public static final PlanetBiomeCityVault DISABLED = new PlanetBiomeCityVault(false, 0f,
-				java.util.Collections.emptyList(), java.util.Collections.emptyList());
+	public record PlanetBiomeCityVault(boolean enabled, float chance) {
+		public static final PlanetBiomeCityVault DISABLED = new PlanetBiomeCityVault(false, 0f);
 
 		public static final Codec<PlanetBiomeCityVault> CODEC = RecordCodecBuilder.create(instance -> instance
 				.group(Codec.BOOL.optionalFieldOf("enabled", false).forGetter(PlanetBiomeCityVault::enabled),
-						Codec.FLOAT.optionalFieldOf("chance", 0.1f).forGetter(PlanetBiomeCityVault::chance),
-						Codec.list(BlockState.CODEC).optionalFieldOf("blocks", java.util.Collections.emptyList())
-								.forGetter(PlanetBiomeCityVault::blocks),
-						Codec.list(BlockState.CODEC).optionalFieldOf("accent_blocks", java.util.Collections.emptyList())
-								.forGetter(PlanetBiomeCityVault::accent_blocks))
+						Codec.FLOAT.optionalFieldOf("chance", 0.1f).forGetter(PlanetBiomeCityVault::chance))
 				.apply(instance, PlanetBiomeCityVault::new));
 	}
 

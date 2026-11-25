@@ -173,6 +173,30 @@ public class TabInit {
 				add(a, BlockInit.CYAN_LICHEN);
 				add(a, BlockInit.TOX_LICHEN);
 
+				// Vault blocks - upper levels (dirty, patterned)
+				add(a, BlockInit.VAULT_STONE);
+				add(a, BlockInit.VAULT_BRICKS);
+				add(a, BlockInit.VAULT_BRICKS_CRACKED);
+				add(a, BlockInit.VAULT_BRICKS_MOSSY);
+				add(a, BlockInit.VAULT_TILES);
+				add(a, BlockInit.VAULT_PILLAR);
+
+				// Vault blocks - mid levels (transitional)
+				add(a, BlockInit.VAULT_STONE_DARK);
+				add(a, BlockInit.VAULT_BRICKS_DARK);
+				add(a, BlockInit.VAULT_TILES_DARK);
+				add(a, BlockInit.VAULT_PILLAR_DARK);
+
+				// Vault blocks - lower levels (clean, CTM-ready)
+				add(a, BlockInit.ANCIENT_VAULT_STONE);
+				add(a, BlockInit.ANCIENT_VAULT_BRICKS);
+				add(a, BlockInit.ANCIENT_VAULT_TILES);
+				add(a, BlockInit.ANCIENT_VAULT_PILLAR);
+				add(a, BlockInit.GILDED_VAULT_BRICKS);
+
+				// Vault block variants
+				family(a, FamiliesInit.VAULTS);
+
 				add(a, BlockInit.TROPICAL_GRASS);
 				add(a, BlockInit.TWISTED_GRASS);
 				add(a, BlockInit.CONIFEROUS_GRASS);

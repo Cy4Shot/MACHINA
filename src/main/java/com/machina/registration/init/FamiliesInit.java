@@ -37,6 +37,7 @@ public class FamiliesInit {
 	public static final List<DirtFamily> DIRTS = new ArrayList<>();
 	public static final List<WoodFamily> WOODS = new ArrayList<>();
 	public static final List<StoneFamily> STONES = new ArrayList<>();
+	public static final List<VaultFamily> VAULTS = new ArrayList<>();
 	public static final List<WoodFamily> WOODS_VANILLA = new ArrayList<>();
 
 	static {
@@ -276,6 +277,26 @@ public class FamiliesInit {
 				BlockInit.BASALT_SPRINGSTONE_WALL.get(), BlockInit.BASALT_SPRINGSTONE_PRESSURE_PLATE.get(),
 				BlockInit.BASALT_SPRINGSTONE_BUTTON.get(), BlockInit.BASALT_SPRINGSTONE_PEBBLES.get()));
 
+		// Vault families
+		VAULTS.add(new VaultFamily("vault_bricks", BlockInit.VAULT_BRICKS.get(),
+				BlockInit.VAULT_BRICKS_SLAB.get(), BlockInit.VAULT_BRICKS_STAIRS.get(),
+				BlockInit.VAULT_BRICKS_WALL.get()));
+		VAULTS.add(new VaultFamily("vault_tiles", BlockInit.VAULT_TILES.get(),
+				BlockInit.VAULT_TILES_SLAB.get(), BlockInit.VAULT_TILES_STAIRS.get(),
+				BlockInit.VAULT_TILES_WALL.get()));
+		VAULTS.add(new VaultFamily("vault_bricks_dark", BlockInit.VAULT_BRICKS_DARK.get(),
+				BlockInit.VAULT_BRICKS_DARK_SLAB.get(), BlockInit.VAULT_BRICKS_DARK_STAIRS.get(),
+				BlockInit.VAULT_BRICKS_DARK_WALL.get()));
+		VAULTS.add(new VaultFamily("vault_tiles_dark", BlockInit.VAULT_TILES_DARK.get(),
+				BlockInit.VAULT_TILES_DARK_SLAB.get(), BlockInit.VAULT_TILES_DARK_STAIRS.get(),
+				BlockInit.VAULT_TILES_DARK_WALL.get()));
+		VAULTS.add(new VaultFamily("ancient_vault_bricks", BlockInit.ANCIENT_VAULT_BRICKS.get(),
+				BlockInit.ANCIENT_VAULT_BRICKS_SLAB.get(), BlockInit.ANCIENT_VAULT_BRICKS_STAIRS.get(),
+				BlockInit.ANCIENT_VAULT_BRICKS_WALL.get()));
+		VAULTS.add(new VaultFamily("ancient_vault_tiles", BlockInit.ANCIENT_VAULT_TILES.get(),
+				BlockInit.ANCIENT_VAULT_TILES_SLAB.get(), BlockInit.ANCIENT_VAULT_TILES_STAIRS.get(),
+				BlockInit.ANCIENT_VAULT_TILES_WALL.get()));
+
 		// Woods Vanilla
 		WOODS_VANILLA.add(new WoodFamily("oak", Blocks.OAK_LOG, Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_LOG,
 				Blocks.STRIPPED_OAK_WOOD, Blocks.OAK_PLANKS, Blocks.OAK_STAIRS, Blocks.OAK_SLAB, Blocks.OAK_FENCE,
@@ -498,6 +519,15 @@ public class FamiliesInit {
 		@Override
 		public List<ItemLike> tab() {
 			return List.of(base, stairs, slab, wall, pressure_plate, button, pebbles);
+		}
+	}
+
+	public record VaultFamily(String name, Block base, SlabBlock slab, StairBlock stairs, WallBlock wall)
+			implements ItemLikeFamily {
+
+		@Override
+		public List<ItemLike> tab() {
+			return List.of(base, stairs, slab, wall);
 		}
 	}
 }

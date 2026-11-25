@@ -100,8 +100,7 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
     // Dev Dependencies
-    // runtimeOnly fg.deobf("curse.maven:spark-361579:4738952")
-    // runtimeOnly fg.deobf("curse.maven:mekanism-268560:5662583")
+    runtimeOnly "curse.maven:spark-361579:6225208"
 
     // Optional Dependencies
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"

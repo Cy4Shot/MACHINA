@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "machina:block/ancient_vault_tiles_slab"
+    },
+    "type=double": {
+      "model": "machina:block/ancient_vault_tiles"
+    },
+    "type=top": {
+      "model": "machina:block/ancient_vault_tiles_slab_top"
+    }
+  }
+}

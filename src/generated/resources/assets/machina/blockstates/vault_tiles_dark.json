@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "machina:block/vault_tiles_dark"
+    }
+  }
+}

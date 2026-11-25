@@ -7,6 +7,7 @@ import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.DirtFamily;
 import com.machina.registration.init.FamiliesInit.OreFamily;
 import com.machina.registration.init.FamiliesInit.StoneFamily;
+import com.machina.registration.init.FamiliesInit.VaultFamily;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
 import com.machina.registration.init.FruitInit;
 import com.machina.registration.init.FruitInit.Fruit;
@@ -216,6 +217,7 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);
 		FamiliesInit.STONES.forEach(this::stoneFamily);
+		FamiliesInit.VAULTS.forEach(this::vaultFamily);
 		FamiliesInit.WOODS.forEach(this::woodFamily);
 
 		dropSelf(BlockInit.TROPICAL_SAND.get());
@@ -226,8 +228,29 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(BlockInit.TOXIC_SAND.get());
 
 		dropOther(BlockInit.SULFUR_GEYSER.get(), BlockInit.BASALT);
-		
+
 		dropNothing(BlockInit.HIGHTECH_TURRET.get());
+
+		// Vault blocks - upper levels (dirty, patterned)
+		dropSelf(BlockInit.VAULT_STONE.get());
+		dropSelf(BlockInit.VAULT_BRICKS.get());
+		dropSelf(BlockInit.VAULT_BRICKS_CRACKED.get());
+		dropSelf(BlockInit.VAULT_BRICKS_MOSSY.get());
+		dropSelf(BlockInit.VAULT_TILES.get());
+		dropSelf(BlockInit.VAULT_PILLAR.get());
+
+		// Vault blocks - mid levels (transitional)
+		dropSelf(BlockInit.VAULT_STONE_DARK.get());
+		dropSelf(BlockInit.VAULT_BRICKS_DARK.get());
+		dropSelf(BlockInit.VAULT_TILES_DARK.get());
+		dropSelf(BlockInit.VAULT_PILLAR_DARK.get());
+
+		// Vault blocks - lower levels (clean, CTM-ready)
+		dropSelf(BlockInit.ANCIENT_VAULT_STONE.get());
+		dropSelf(BlockInit.ANCIENT_VAULT_BRICKS.get());
+		dropSelf(BlockInit.ANCIENT_VAULT_TILES.get());
+		dropSelf(BlockInit.ANCIENT_VAULT_PILLAR.get());
+		dropSelf(BlockInit.GILDED_VAULT_BRICKS.get());
 	}
 
 	private void oreFamily(OreFamily family) {
@@ -259,6 +282,12 @@ public class DatagenLootTables extends BlockLootSubProvider {
 		dropSelf(family.button());
 		dropSelf(family.pressure_plate());
 		dropSelf(family.pebbles());
+		slab(family.slab());
+	}
+
+	private void vaultFamily(VaultFamily family) {
+		dropSelf(family.stairs());
+		dropSelf(family.wall());
 		slab(family.slab());
 	}
 
