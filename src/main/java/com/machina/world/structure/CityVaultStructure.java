@@ -34,7 +34,8 @@ public class CityVaultStructure extends Structure {
 
 	private static final int NUM_LEVELS = 4;
 	private static final int LEVEL_HEIGHT = 25;
-	private static final int FIRST_LEVEL_DEPTH = 40;
+	private static final int MIN_FIRST_LEVEL_DEPTH = 30;
+	private static final int MAX_FIRST_LEVEL_DEPTH = 40;
 	private static final int GRID_SIZE = 3;
 	private static final int ROOM_SPACING = 35;
 
@@ -112,9 +113,12 @@ public class CityVaultStructure extends Structure {
 				levelCenterZ[level + 1] = levelCenterZ[level] + stairOffsetZ;
 			}
 
+			// Calculate first level depth (at least 30 blocks below surface, but no higher than Y=40)
+			int firstLevelY = Math.min(MAX_FIRST_LEVEL_DEPTH, surfaceY - MIN_FIRST_LEVEL_DEPTH);
+
 			// Generate each level
 			for (int level = 0; level < NUM_LEVELS; level++) {
-				int levelY = FIRST_LEVEL_DEPTH - (level * LEVEL_HEIGHT);
+				int levelY = firstLevelY - (level * LEVEL_HEIGHT);
 				VaultPalette palette = VaultPalette.forLevel(level);
 
 				// Position for staircase to next level (null for bottom level)

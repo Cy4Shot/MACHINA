@@ -256,16 +256,16 @@ public class VaultOvergrowthHelper {
 		// === SURFACE-FOLLOWING VINES ===
 		if (!data.vineBlocks().isEmpty() && data.vineChance() > 0) {
 			float densityMultiplier = levelMultiplier * levelMultiplier * 100f * vineMultiplier;
+			// Main chamber gets much denser and longer vines
+			if (isMainChamber) {
+				densityMultiplier *= 4.0f;
+			}
 			applySurfaceVines(level, box, origin, width, depth, height, densityMultiplier,
-				stairwellCenter, stairwellRadius, data, random);
+				stairwellCenter, stairwellRadius, data, random, isMainChamber);
 		}
 
-		// === SPECIAL DECORATIONS ===
-		if (isMainChamber) {
-			// Main chamber gets ceiling hanging vines
-			applyCeilingHangingVines(level, box, origin, width, depth, height,
-				stairwellCenter, stairwellRadius, random, noiseSeed);
-		} else {
+		// === SPECIAL DECORATIONS (non-main rooms only) ===
+		if (!isMainChamber) {
 			// Other rooms get small bushes/ground vines
 			applySmallBushes(level, box, origin, width, depth, height,
 				stairwellCenter, stairwellRadius, random, noiseSeed);
@@ -452,7 +452,7 @@ public class VaultOvergrowthHelper {
 	private static void applySurfaceVines(WorldGenLevel level, BoundingBox box, BlockPos origin,
 			int width, int depth, int height, float densityMultiplier,
 			BlockPos stairwellCenter, int stairwellRadius,
-			OvergrowthData data, RandomSource random) {
+			OvergrowthData data, RandomSource random, boolean isMainChamber) {
 
 		float scaledVineChance = data.vineChance() * densityMultiplier / 20f;
 		int numVines = Math.max(0, (int) (scaledVineChance * 5));
@@ -473,8 +473,10 @@ public class VaultOvergrowthHelper {
 			BlockPos startPos = findSurfaceStart(level, box, startX, startY, startZ, origin, width, depth, height, random);
 			if (startPos == null) continue;
 
-			// Generate surface-following vine
-			int vineLength = data.vineMinLength() + random.nextInt(Math.max(1, data.vineMaxLength() - data.vineMinLength() + 1));
+			// Generate surface-following vine - much longer in main chamber
+			int minLen = isMainChamber ? 12 : data.vineMinLength();
+			int maxLen = isMainChamber ? 25 : data.vineMaxLength();
+			int vineLength = minLen + random.nextInt(Math.max(1, maxLen - minLen + 1));
 			placeSurfaceFollowingVine(level, box, startPos, vineLength, vineBlock, data, random,
 				origin, width, depth, height, stairwellCenter, stairwellRadius);
 		}
@@ -697,52 +699,6 @@ public class VaultOvergrowthHelper {
 			}
 		}
 	}
-
-	@SuppressWarnings("deprecation")
-	private static void applyCeilingHangingVines(WorldGenLevel level, BoundingBox box, BlockPos origin,
-			int width, int depth, int height, BlockPos stairwellCenter, int stairwellRadius,
-			RandomSource random, long noiseSeed) {
-
-		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-		BlockState hyphaeBlock = BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE.get().defaultBlockState();
-		int ceilingY = origin.getY() + height;
-		double noiseScale = 0.1;
-
-		for (int x = 0; x < width; x++) {
-			for (int z = 0; z < depth; z++) {
-				int wx = origin.getX() + x;
-				int wz = origin.getZ() + z;
-
-				if (isInStairwell(wx, wz, stairwellCenter, stairwellRadius)) continue;
-
-				// Use noise to create patchy distribution
-				double noise = octavePerlin(wx * noiseScale, wz * noiseScale, noiseSeed + 77777, 2, 0.5);
-				if (noise < 0.3) continue;
-
-				// Random chance for vine placement
-				if (random.nextFloat() > 0.15f) continue;
-
-				// Check ceiling is solid
-				pos.set(wx, ceilingY, wz);
-				if (!box.isInside(pos)) continue;
-				if (!level.getBlockState(pos).isSolid()) continue;
-
-				// Place hanging vine (long vines for main chamber)
-				int vineLength = 4 + random.nextInt(6);
-				for (int y = 1; y <= vineLength; y++) {
-					int vy = ceilingY - y;
-					if (vy <= origin.getY()) break;
-
-					pos.set(wx, vy, wz);
-					if (!box.isInside(pos)) break;
-					if (!level.getBlockState(pos).isAir()) break;
-
-					level.setBlock(pos, hyphaeBlock, 2);
-				}
-			}
-		}
-	}
-
 	@SuppressWarnings("deprecation")
 	private static void applySmallBushes(WorldGenLevel level, BoundingBox box, BlockPos origin,
 			int width, int depth, int height, BlockPos stairwellCenter, int stairwellRadius,

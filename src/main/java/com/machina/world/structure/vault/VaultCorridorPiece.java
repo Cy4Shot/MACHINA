@@ -180,14 +180,26 @@ public class VaultCorridorPiece extends StructurePiece {
 		}
 
 		// Apply overgrowth using helper (no stairwell in corridors, reduced vine density)
+		// Extend a bit towards the room connection
 		if (overgrowthData != null && !overgrowthData.isEmpty()) {
-			int corridorWidth = direction.getAxis() == Direction.Axis.X ? length : CORRIDOR_WIDTH;
-			int corridorDepth = direction.getAxis() == Direction.Axis.Z ? length : CORRIDOR_WIDTH;
-			int minX = direction == Direction.WEST ? start.getX() - length : start.getX() - halfWidth;
-			int minZ = direction == Direction.NORTH ? start.getZ() - length : start.getZ() - halfWidth;
+			int extend = 5; // extend towards room connection
+			int minX, minZ, overWidth, overDepth;
+			if (direction.getAxis() == Direction.Axis.X) {
+				// East-West corridor
+				minX = direction == Direction.WEST ? start.getX() - length : start.getX() - extend;
+				minZ = start.getZ() - halfWidth;
+				overWidth = length + 1 + extend;
+				overDepth = CORRIDOR_WIDTH;
+			} else {
+				// North-South corridor
+				minX = start.getX() - halfWidth;
+				minZ = direction == Direction.NORTH ? start.getZ() - length : start.getZ() - extend;
+				overWidth = CORRIDOR_WIDTH;
+				overDepth = length + 1 + extend;
+			}
 			BlockPos overgrowthOrigin = new BlockPos(minX, floorY, minZ);
 			VaultOvergrowthHelper.applyOvergrowth(level, box, overgrowthOrigin,
-				corridorWidth, corridorDepth, CORRIDOR_HEIGHT, levelIndex, totalLevels, null, 0,
+				overWidth, overDepth, CORRIDOR_HEIGHT, levelIndex, totalLevels, null, 0,
 				overgrowthData, random, 0.25f);
 		}
 	}
