@@ -13,6 +13,8 @@ import com.machina.api.starchart.planet_structure.PlanetStructureLoader;
 import com.machina.registration.init.EffectInit;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
+import com.machina.registration.init.FluidInit;
+import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.JsonLoaderInit;
 import com.machina.world.biome.PlanetBiome;
@@ -43,6 +45,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -247,6 +250,20 @@ public class CommonForgeEvents {
 		ServerLevel level = (ServerLevel) player.level();
 		RadiationData radiationData = RadiationData.get(level);
 		ChunkPos chunkPos = new ChunkPos(player.blockPosition());
+
+		// Check if player is in a radioactive fluid
+		FluidState fluidState = level.getFluidState(player.blockPosition());
+		if (!fluidState.isEmpty()) {
+			FluidObject fluidObj = FluidObject.fromFluid(fluidState.getType());
+			if (fluidObj != null && fluidObj.isRadioactive()) {
+				MobEffectInstance current = player.getEffect(EffectInit.RADIATION);
+				int amplifier = 2; // Strong radiation from direct contact
+				if (current == null || current.getDuration() < 30 || current.getAmplifier() < amplifier) {
+					player.addEffect(new MobEffectInstance(EffectInit.RADIATION, 60, amplifier, false, true, true));
+				}
+				return; // Skip chunk radiation check if in radioactive fluid
+			}
+		}
 
 		if (radiationData.isChunkIrradiated(chunkPos)) {
 			long remainingTicks = radiationData.getRemainingTicks(chunkPos, level.getGameTime());

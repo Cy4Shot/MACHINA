@@ -59,8 +59,8 @@ public class FluidInit {
 	public static final FluidObject MOLTEN_IRIDIUM = create("molten_iridium", "Ir", 0xFF_a1a09e);
 	public static final FluidObject MOLTEN_OSMIUM = create("molten_osmium", "Os", 0xFF_8eb0c9);
 	public static final FluidObject MOLTEN_COBALT = create("molten_cobalt", "Co", 0xFF_617aeb);
-	public static final FluidObject MOLTEN_URANINITE = create("molten_uraninite", "UO2", 0xFF_62bb54);
-	public static final FluidObject MOLTEN_THORIUM = create("molten_thorium", "ThO2", 0xFF_d3989c);
+	public static final FluidObject MOLTEN_URANINITE = createRadioactive("molten_uraninite", "UO2", 0xFF_62bb54, 12);
+	public static final FluidObject MOLTEN_THORIUM = createRadioactive("molten_thorium", "ThO2", 0xFF_d3989c, 10);
 
 	public static final FluidObject OXYGEN = create("oxygen", "O2", 0xFF_ffffff, "Oxygen");
 	public static final FluidObject NITROGEN = create("nitrogen", "N2", 0xFF_b2d4db, "Nitrogen");
@@ -112,13 +112,16 @@ public class FluidInit {
 		return new FluidObject(name, code, b -> b.col(col).coolprops(coolprops));
 	}
 
+	public static FluidObject createRadioactive(String name, String code, int col, int luminosity) {
+		return new FluidObject(name, code, b -> b.col(col).lum(luminosity).radioactive(true));
+	}
+
 	public static class FluidObject {
 
 		public static final FluidObject WATER = new FluidObject(Fluids.WATER, "water", c -> c);
 
 		private static final Item.Properties BUCKET_PROP = new Item.Properties().stacksTo(1)
 				.craftRemainder(Items.BUCKET);
-		private static final Block.Properties BLOCK_PROP = Block.Properties.ofFullCopy(Blocks.WATER);
 
 		private final String name;
 		private final Chemical CHEM;
@@ -148,9 +151,15 @@ public class FluidInit {
 			Supplier<FluidType> sFluidType = () -> FLUID_TYPE.get();
 			CHEM = builder.apply(ChemicalBuilder.init()).build(name);
 
+			Block.Properties blockProps = Block.Properties.ofFullCopy(Blocks.WATER);
+			if (CHEM.getLuminosity() > 0) {
+				blockProps = blockProps.lightLevel(state -> CHEM.getLuminosity());
+			}
+			final Block.Properties finalBlockProps = blockProps;
+
 			FLUID_TYPE = builder(name, CHEM);
 			PROPS = make(sFluidType, sFluid, sFlowing, sBucket, sBlock);
-			BLOCK = BlockInit.register(name + "_block", () -> new LiquidBlock(sFluid.get(), BLOCK_PROP));
+			BLOCK = BlockInit.register(name + "_block", () -> new LiquidBlock(sFluid.get(), finalBlockProps));
 			BLOCKS.add(name + "_block");
 
 			BUCKET = ItemInit.register(name + "_bucket", () -> new MachinaBucket(sFluid.get(), BUCKET_PROP, code));
@@ -192,6 +201,19 @@ public class FluidInit {
 			return FLUID_TYPE.get();
 		}
 
+		public boolean isRadioactive() {
+			return CHEM.isRadioactive();
+		}
+
+		public static FluidObject fromFluid(Fluid fluid) {
+			for (FluidObject obj : OBJS) {
+				if (obj.fluid() == fluid || obj.flowing() == fluid) {
+					return obj;
+				}
+			}
+			return null;
+		}
+
 		private static BaseFlowingFluid.Properties make(Supplier<FluidType> type, Supplier<FlowingFluid> still,
 				Supplier<FlowingFluid> flowing, Supplier<MachinaBucket> bucket, Supplier<LiquidBlock> block) {
 			return new BaseFlowingFluid.Properties(type, still, flowing).bucket(bucket).block(block);
@@ -209,7 +231,7 @@ public class FluidInit {
 		private final Chemical c;
 
 		private ChemicalBuilder() {
-			c = new Chemical("", 0, 0, 1, null);
+			c = new Chemical("", 0, 0, 1, null, false);
 		}
 
 		public ChemicalBuilder col(int v) {
@@ -227,6 +249,11 @@ public class FluidInit {
 			return this;
 		}
 
+		public ChemicalBuilder radioactive(boolean radioactive) {
+			c.radioactive = radioactive;
+			return this;
+		}
+
 		public Chemical build(String name) {
 			c.name = name;
 			return c;
@@ -239,20 +266,22 @@ public class FluidInit {
 
 	public static class Chemical {
 
-		public static final Chemical WATER = new Chemical("Water", 0x0000FF, 0, 1, "Water");
+		public static final Chemical WATER = new Chemical("Water", 0x0000FF, 0, 1, "Water", false);
 
 		private String name;
 		private int color;
 		private int luminosity;
 		private final int density;
 		private String coolprops;
+		private boolean radioactive;
 
-		public Chemical(String name, int color, int luminosity, int density, String coolprops) {
+		public Chemical(String name, int color, int luminosity, int density, String coolprops, boolean radioactive) {
 			this.name = name;
 			this.color = color;
 			this.luminosity = luminosity;
 			this.density = density;
 			this.coolprops = coolprops;
+			this.radioactive = radioactive;
 		}
 
 		public String getName() {
@@ -277,6 +306,10 @@ public class FluidInit {
 
 		public String getCoolpropsID() {
 			return this.coolprops;
+		}
+
+		public boolean isRadioactive() {
+			return radioactive;
 		}
 
 		public FluidPhase getPhase(double T, double P) {

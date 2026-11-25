@@ -221,6 +221,7 @@ public class ClientModEvents {
 	@SubscribeEvent
 	static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
 		FluidInit.OBJS.forEach(obj -> {
+			boolean isMolten = obj.name().startsWith("molten_");
 			event.registerFluidType(new IClientFluidTypeExtensions() {
 				private static final ResourceLocation UNDERWATER_LOCATION = ResourceLocation
 						.withDefaultNamespace("textures/misc/underwater.png");
@@ -230,15 +231,17 @@ public class ClientModEvents {
 						.withDefaultNamespace("block/water_flow");
 				private static final ResourceLocation WATER_OVERLAY = ResourceLocation
 						.withDefaultNamespace("block/water_overlay");
+				private static final ResourceLocation MOLTEN_STILL = MachinaRL.create("block/molten_still");
+				private static final ResourceLocation MOLTEN_FLOW = MachinaRL.create("block/molten_flow");
 
 				@Override
 				public ResourceLocation getStillTexture() {
-					return WATER_STILL;
+					return isMolten ? MOLTEN_STILL : WATER_STILL;
 				}
 
 				@Override
 				public ResourceLocation getFlowingTexture() {
-					return WATER_FLOW;
+					return isMolten ? MOLTEN_FLOW : WATER_FLOW;
 				}
 
 				@Override
