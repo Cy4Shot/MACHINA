@@ -212,6 +212,9 @@ public class BlockInit {
 	public static final DeferredBlock<WallBlock> RUINED_VAULT_TILES_WALL = wall("ruined_vault_tiles_wall", Blocks.STONE_BRICK_WALL);
 
 	// Vault Block Variants - Mid levels (standard)
+	public static final DeferredBlock<SlabBlock> VAULT_STONE_SLAB = slab("vault_stone_slab", Blocks.DEEPSLATE_BRICK_SLAB);
+	public static final DeferredBlock<StairBlock> VAULT_STONE_STAIRS = stairs("vault_stone_stairs", VAULT_STONE, Blocks.DEEPSLATE_BRICK_STAIRS);
+	public static final DeferredBlock<WallBlock> VAULT_STONE_WALL = wall("vault_stone_wall", Blocks.DEEPSLATE_BRICK_WALL);
 	public static final DeferredBlock<SlabBlock> VAULT_BRICKS_SLAB = slab("vault_bricks_slab", Blocks.DEEPSLATE_BRICK_SLAB);
 	public static final DeferredBlock<StairBlock> VAULT_BRICKS_STAIRS = stairs("vault_bricks_stairs", VAULT_BRICKS, Blocks.DEEPSLATE_BRICK_STAIRS);
 	public static final DeferredBlock<WallBlock> VAULT_BRICKS_WALL = wall("vault_bricks_wall", Blocks.DEEPSLATE_BRICK_WALL);

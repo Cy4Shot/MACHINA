@@ -6,14 +6,15 @@ import java.util.Optional;
 
 import com.machina.Machina;
 import com.machina.api.block.IClickableBlock;
+import com.machina.api.network.s2c.S2CVaultStateSync;
 import com.machina.api.recipe.RecipeRefreshManager;
 import com.machina.api.starchart.planet_biome.PlanetBiomeLoader;
 import com.machina.api.starchart.planet_structure.PlanetStructure;
 import com.machina.api.starchart.planet_structure.PlanetStructureLoader;
+import com.machina.api.util.MachinaRL;
 import com.machina.registration.init.EffectInit;
 import com.machina.registration.init.FamiliesInit;
 import com.machina.registration.init.FamiliesInit.WoodFamily;
-import com.machina.registration.init.FluidInit;
 import com.machina.registration.init.FluidInit.FluidObject;
 import com.machina.registration.init.ItemInit;
 import com.machina.registration.init.JsonLoaderInit;
@@ -45,7 +46,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -55,6 +55,7 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
+import net.minecraft.world.level.material.FluidState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
@@ -71,9 +72,14 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = Machina.MOD_ID)
 public class CommonForgeEvents {
+
+	private static final ResourceKey<Structure> CITY_VAULT_KEY = ResourceKey.create(Registries.STRUCTURE, MachinaRL.create("city_vault"));
+	private static final java.util.WeakHashMap<ServerPlayer, Boolean> playerVaultState = new java.util.WeakHashMap<>();
+	private static final java.util.WeakHashMap<ServerLevel, HolderSet<Structure>> vaultHolderSetCache = new java.util.WeakHashMap<>();
 
 	@SubscribeEvent
 	public static void addReloadListeners(AddReloadListenerEvent event) {
@@ -248,6 +254,30 @@ public class CommonForgeEvents {
 		}
 
 		ServerLevel level = (ServerLevel) player.level();
+
+		// Check vault state every 10 ticks
+		if (level.getGameTime() % 10 == 0) {
+			boolean inVault = false;
+
+			HolderSet<Structure> vaultHolderSet = vaultHolderSetCache.computeIfAbsent(level, lvl -> {
+				var registry = lvl.registryAccess().lookupOrThrow(Registries.STRUCTURE);
+				Optional<Holder.Reference<Structure>> holder = registry.get(CITY_VAULT_KEY);
+				return holder.map(HolderSet::direct).orElse(null);
+			});
+
+			if (vaultHolderSet != null) {
+				inVault = level.structureManager()
+					.getStructureWithPieceAt(player.blockPosition(), vaultHolderSet)
+					.isValid();
+			}
+
+			Boolean previousState = playerVaultState.get(player);
+			if (previousState == null || previousState != inVault) {
+				playerVaultState.put(player, inVault);
+				PacketDistributor.sendToPlayer(player, new S2CVaultStateSync(inVault));
+			}
+		}
+
 		RadiationData radiationData = RadiationData.get(level);
 		ChunkPos chunkPos = new ChunkPos(player.blockPosition());
 

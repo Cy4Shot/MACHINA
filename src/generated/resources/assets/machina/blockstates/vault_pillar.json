@@ -1,16 +1,19 @@
 {
+  "athena:loader": "athena:pillar",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:vault_pillar_ctm"
+  },
+  "ctm_textures": {
+    "bottom": "machina:block/ctm/vault_pillar/b",
+    "center": "machina:block/ctm/vault_pillar/c",
+    "particle": "machina:block/vault_pillar",
+    "self": "machina:block/ctm/vault_pillar/s",
+    "top": "machina:block/ctm/vault_pillar/t"
+  },
   "variants": {
-    "axis=x": {
-      "model": "machina:block/vault_pillar_horizontal",
-      "x": 90,
-      "y": 90
-    },
-    "axis=y": {
+    "": {
       "model": "machina:block/vault_pillar"
-    },
-    "axis=z": {
-      "model": "machina:block/vault_pillar_horizontal",
-      "x": 90
     }
   }
 }

@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-25T13:06:34.8160798	Tags for minecraft:block mod id machina
+// 1.21.1	2026-11-25T17:05:41.3785023	Tags for minecraft:block mod id machina
 cfa55b4a585a33cf6c1b6083f7bdc69d262fe032 data/c/tags/block/buttons.json
 eaa914dd57257b2be31c39b5afcebf6df64e2b0e data/c/tags/block/buttons/acacia.json
 5085dd7e2458679d2151f7254d3c0b9084327e06 data/c/tags/block/buttons/birch.json
@@ -365,6 +365,8 @@ d7d34845116c74b198d2f3fa2795d6c88dedd9cc data/machina/tags/block/planet_carvable
 53298919f8c051e4e9c2ed7c63cd93c90f72532e data/machina/tags/block/planet_grassable.json
 bfd3901ae5cd7a0821495263efa0b4e9566f9e7c data/machina/tags/block/steam_turbine_ctm.json
 df9a6db03136462bc6337022e4b87565ec9616e3 data/machina/tags/block/steam_turbine_glass_ctm.json
+b3a1b8737c60ad10f20ddb359aedcc1dc5065c8f data/machina/tags/block/vault_pillar_ctm.json
+459986aba6126817a82eee00f8e773ac672695d7 data/machina/tags/block/vault_stone_ctm.json
 bc165a83fc99c46491057fc684e43b9c8bfe2ba1 data/minecraft/tags/block/all_hanging_signs.json
 7c44ea88f327b4a2f349864841d9969230973907 data/minecraft/tags/block/all_signs.json
 a36c9095d6197703b3c4c15c98f8854ca11e74ff data/minecraft/tags/block/buttons.json
@@ -379,21 +381,21 @@ b168985f82afea7c795a4d2b44788f1b50106658 data/minecraft/tags/block/fence_gates.j
 c75145b8820239ba5fb4cb234ffe47c44621aa8e data/minecraft/tags/block/logs.json
 85d4bfabb2b3520ad485a7e89fa06e50cdb47a1f data/minecraft/tags/block/mineable/axe.json
 21fc97909b35084de5948f73d9209f29159f5698 data/minecraft/tags/block/mineable/hoe.json
-cae38e2522815437abab98dae87394d30457e887 data/minecraft/tags/block/mineable/pickaxe.json
+6970d0d4aaae0f1b1b6508cdfbffadad13c911c4 data/minecraft/tags/block/mineable/pickaxe.json
 fc0ff3c65bde503a58d700feb2fdfa88f7983026 data/minecraft/tags/block/mineable/shovel.json
 61fdf06a1909c9d488c62d7dfea962468cb2611d data/minecraft/tags/block/overworld_carver_replaceables.json
 13d63356d22c85d569e80af14281d00dec2d8dce data/minecraft/tags/block/planks.json
 37c4c8b363f3f69cc117bbfff4f9e7a78859da7d data/minecraft/tags/block/pressure_plates.json
 042123db0e1d7fac503b9b49fe2fa4f1a5b2ca78 data/minecraft/tags/block/sand.json
 5d193dd1d658aed27fe53e6b6e6f8c60815e188a data/minecraft/tags/block/signs.json
-537ddbc5e0027a6c7241af6ebefab06882bce13d data/minecraft/tags/block/slabs.json
+4349061cc2616fa19ecac6bc6cbf788ccacdbe3e data/minecraft/tags/block/slabs.json
 1af23e1a4e61fff07f4e0b226d4603826818dfc8 data/minecraft/tags/block/small_flowers.json
-c01c9e2b1c9b3c2320afdc59563db31e68ec5f92 data/minecraft/tags/block/stairs.json
+05589b35ef94e7d1812135683d8a37fcfdfa6478 data/minecraft/tags/block/stairs.json
 8f499dedacdd2d12e7aefc4a76ad5fed6a791abc data/minecraft/tags/block/stone_buttons.json
 620b11dceb968543c769971b4bba005384e1b69d data/minecraft/tags/block/stone_pressure_plates.json
 1cc27bfa0180795c508e9de31d6adf9d80acf81d data/minecraft/tags/block/tall_flowers.json
 a6384b88a9072c1db5f0b0f4f6b022972f1c6eab data/minecraft/tags/block/trapdoors.json
-684e906415b2ca81ab76b79b0df386140c6b9c9b data/minecraft/tags/block/walls.json
+7363eea4d153cbeb48525719ab967c0b2f0a04fc data/minecraft/tags/block/walls.json
 e6565c88953b5a71d0140d51013ed5e729dcdad7 data/minecraft/tags/block/wall_hanging_signs.json
 b6ba322037f901c4ceef902e2b496aa30a57df9b data/minecraft/tags/block/wall_signs.json
 309f2f3f72d2768b8b61adf7b4ebf1e768561356 data/minecraft/tags/block/wooden_buttons.json

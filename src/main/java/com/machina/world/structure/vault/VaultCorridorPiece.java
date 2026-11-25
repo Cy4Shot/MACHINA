@@ -179,7 +179,7 @@ public class VaultCorridorPiece extends StructurePiece {
 			}
 		}
 
-		// Apply overgrowth using helper (no stairwell in corridors)
+		// Apply overgrowth using helper (no stairwell in corridors, reduced vine density)
 		if (overgrowthData != null && !overgrowthData.isEmpty()) {
 			int corridorWidth = direction.getAxis() == Direction.Axis.X ? length : CORRIDOR_WIDTH;
 			int corridorDepth = direction.getAxis() == Direction.Axis.Z ? length : CORRIDOR_WIDTH;
@@ -188,7 +188,7 @@ public class VaultCorridorPiece extends StructurePiece {
 			BlockPos overgrowthOrigin = new BlockPos(minX, floorY, minZ);
 			VaultOvergrowthHelper.applyOvergrowth(level, box, overgrowthOrigin,
 				corridorWidth, corridorDepth, CORRIDOR_HEIGHT, levelIndex, totalLevels, null, 0,
-				overgrowthData, random);
+				overgrowthData, random, 0.25f);
 		}
 	}
 

@@ -162,10 +162,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 		log(BlockInit.RUINED_VAULT_PILLAR.get());
 
 		// Vault blocks - mid levels (standard)
-		cube(BlockInit.VAULT_STONE);
+		ctm(BlockInit.VAULT_STONE, BlockTagInit.VAULT_STONE_CTM);
 		cube(BlockInit.VAULT_BRICKS);
 		cube(BlockInit.VAULT_TILES);
-		log(BlockInit.VAULT_PILLAR.get());
+		ctmPillar(BlockInit.VAULT_PILLAR, BlockTagInit.VAULT_PILLAR_CTM);
 
 		// Vault blocks - lower levels (deep)
 		ctm(BlockInit.DEEP_VAULT_TILES, BlockTagInit.DEEP_VAULT_CTM);

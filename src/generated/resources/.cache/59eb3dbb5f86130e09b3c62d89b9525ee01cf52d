@@ -1,4 +1,4 @@
-// 1.21.1	2026-11-25T13:06:34.7980798	Loot Tables
+// 1.21.1	2026-11-25T17:01:07.0281602	Loot Tables
 9c69a81d87f9d2efa09100515a3bd0e62742e303 data/machina/loot_table/blocks/advanced_energy_cable.json
 d41415b3bf5044ae5d4ae9dafa59d10fd34abf7a data/machina/loot_table/blocks/advanced_fluid_pipe.json
 4dbdee8b229405b9eb5535c30170a5bd30750bbb data/machina/loot_table/blocks/advanced_item_conduit.json
@@ -904,6 +904,9 @@ b8f79fe333bb3f7cc18f26be58ce30bbdfcc1538 data/machina/loot_table/blocks/vault_br
 56c8cd0cf8353c300b8eff72fd8cb86425ecbc19 data/machina/loot_table/blocks/vault_bricks_wall.json
 cacaab4b2338aa3b24e0b7a198a0e452559a497e data/machina/loot_table/blocks/vault_pillar.json
 741351e5f727f762c87306c1cca6adbdbda8be1c data/machina/loot_table/blocks/vault_stone.json
+65f36568d62128dcbed5b793121551291b26b81e data/machina/loot_table/blocks/vault_stone_slab.json
+138b6122340a69ca19a4bca0aba2cbcb939fbaa9 data/machina/loot_table/blocks/vault_stone_stairs.json
+5cac54ec8f4afe520acf878314a8c64b426391b9 data/machina/loot_table/blocks/vault_stone_wall.json
 d40d0dc9a54408f283365aef87c564027e31f396 data/machina/loot_table/blocks/vault_tiles.json
 6e203a5a5840dc15b37f823d9a4a64c6305b50e0 data/machina/loot_table/blocks/vault_tiles_slab.json
 d081a71573046d93848707ebc596f0ba585a6051 data/machina/loot_table/blocks/vault_tiles_stairs.json

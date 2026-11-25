@@ -1,4 +1,16 @@
 {
+  "athena:loader": "athena:ctm",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:vault_stone_ctm"
+  },
+  "ctm_textures": {
+    "center": "machina:block/ctm/vault_stone/c",
+    "empty": "machina:block/ctm/vault_stone/e",
+    "horizontal": "machina:block/ctm/vault_stone/h",
+    "particle": "machina:block/vault_stone",
+    "vertical": "machina:block/ctm/vault_stone/v"
+  },
   "variants": {
     "": {
       "model": "machina:block/vault_stone"

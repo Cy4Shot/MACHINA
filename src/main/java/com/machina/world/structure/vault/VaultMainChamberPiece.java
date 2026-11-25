@@ -101,171 +101,156 @@ public class VaultMainChamberPiece extends StructurePiece {
 		int cx = center.getX();
 		int cz = center.getZ();
 		int floorY = center.getY();
-		int totalRadius = CHAMBER_RADIUS + WALL_THICKNESS;
-		int bedrockRadius = totalRadius + BEDROCK_SHELL;
 
-		// First pass: bedrock shell (skip corridor connection points)
-		for (int x = cx - bedrockRadius; x <= cx + bedrockRadius; x++) {
-			for (int z = cz - bedrockRadius; z <= cz + bedrockRadius; z++) {
-				int dx = x - cx;
-				int dz = z - cz;
-				float dist = (float) Math.sqrt(dx * dx + dz * dz);
+		int innerRadius = CHAMBER_RADIUS;
+		int wallRadius = innerRadius + WALL_THICKNESS;
+		int bedrockRadius = wallRadius + BEDROCK_SHELL;
 
-				if (dist > bedrockRadius || dist <= totalRadius) continue;
+		int corridorHalfWidth = VaultCorridorPiece.CORRIDOR_WIDTH / 2 + WALL_THICKNESS;
 
-				boolean isCorridorConnection = false;
+		// First pass: bedrock shell (skip entrance connections)
+		for (int rx = -bedrockRadius; rx <= bedrockRadius; rx++) {
+			for (int rz = -bedrockRadius; rz <= bedrockRadius; rz++) {
+				int wx = cx + rx;
+				int wz = cz + rz;
+				double dist = Math.sqrt(rx * rx + rz * rz);
+
+				boolean isBedrockShell = dist > wallRadius && dist <= bedrockRadius;
+
+				boolean isEntranceConnection = false;
 				for (Direction dir : Direction.Plane.HORIZONTAL) {
 					if (corridorDirections[dir.get2DDataValue()]) {
-						int perpDist;
-						int parallelDist;
-						if (dir.getAxis() == Direction.Axis.X) {
-							perpDist = Math.abs(dz);
-							parallelDist = dir == Direction.EAST ? dx : -dx;
-						} else {
-							perpDist = Math.abs(dx);
-							parallelDist = dir == Direction.SOUTH ? dz : -dz;
-						}
-						if (perpDist <= VaultCorridorPiece.CORRIDOR_WIDTH / 2 + WALL_THICKNESS + 1 && parallelDist > CHAMBER_RADIUS - 1) {
-							isCorridorConnection = true;
-							break;
+						switch (dir) {
+							case NORTH -> { if (rz <= -innerRadius && Math.abs(rx) <= corridorHalfWidth) isEntranceConnection = true; }
+							case SOUTH -> { if (rz >= innerRadius && Math.abs(rx) <= corridorHalfWidth) isEntranceConnection = true; }
+							case WEST -> { if (rx <= -innerRadius && Math.abs(rz) <= corridorHalfWidth) isEntranceConnection = true; }
+							case EAST -> { if (rx >= innerRadius && Math.abs(rz) <= corridorHalfWidth) isEntranceConnection = true; }
+							default -> {}
 						}
 					}
 				}
 
-				if (isCorridorConnection) continue;
+				if (isEntranceConnection) continue;
 
-				for (int y = floorY - FLOOR_THICKNESS - BEDROCK_SHELL; y <= floorY + CHAMBER_HEIGHT + WALL_THICKNESS + BEDROCK_SHELL; y++) {
-					if (!box.isInside(x, y, z)) continue;
-					level.setBlock(new BlockPos(x, y, z), Blocks.BEDROCK.defaultBlockState(), 2);
+				if (isBedrockShell) {
+					for (int y = floorY - FLOOR_THICKNESS - BEDROCK_SHELL; y <= floorY + CHAMBER_HEIGHT + WALL_THICKNESS + BEDROCK_SHELL; y++) {
+						if (!box.isInside(wx, y, wz)) continue;
+						level.setBlock(new BlockPos(wx, y, wz), Blocks.BEDROCK.defaultBlockState(), 2);
+					}
+				} else if (dist <= wallRadius) {
+					boolean isStairwell = rx * rx + rz * rz <= STAIR_WELL_RADIUS * STAIR_WELL_RADIUS;
+
+					if (box.isInside(wx, floorY - FLOOR_THICKNESS - BEDROCK_SHELL, wz)) {
+						level.setBlock(new BlockPos(wx, floorY - FLOOR_THICKNESS - BEDROCK_SHELL, wz), Blocks.BEDROCK.defaultBlockState(), 2);
+					}
+					// Skip stairwell area for top bedrock
+					if (!isStairwell && box.isInside(wx, floorY + CHAMBER_HEIGHT + WALL_THICKNESS + BEDROCK_SHELL, wz)) {
+						level.setBlock(new BlockPos(wx, floorY + CHAMBER_HEIGHT + WALL_THICKNESS + BEDROCK_SHELL, wz), Blocks.BEDROCK.defaultBlockState(), 2);
+					}
 				}
 			}
 		}
 
-		// Bedrock floor and ceiling
-		for (int x = cx - totalRadius; x <= cx + totalRadius; x++) {
-			for (int z = cz - totalRadius; z <= cz + totalRadius; z++) {
-				int dx = x - cx;
-				int dz = z - cz;
-				float dist = (float) Math.sqrt(dx * dx + dz * dz);
-				if (dist > totalRadius) continue;
+		// Second pass: room structure
+		for (int rx = -wallRadius; rx <= wallRadius; rx++) {
+			for (int rz = -wallRadius; rz <= wallRadius; rz++) {
+				int wx = cx + rx;
+				int wz = cz + rz;
+				double dist = Math.sqrt(rx * rx + rz * rz);
 
-				boolean isStairWell = dist <= STAIR_WELL_RADIUS;
+				if (dist > wallRadius) continue;
 
-				boolean isCorridorConnection = false;
-				for (Direction dir : Direction.Plane.HORIZONTAL) {
-					if (corridorDirections[dir.get2DDataValue()]) {
-						int perpDist;
-						int parallelDist;
-						if (dir.getAxis() == Direction.Axis.X) {
-							perpDist = Math.abs(dz);
-							parallelDist = dir == Direction.EAST ? dx : -dx;
-						} else {
-							perpDist = Math.abs(dx);
-							parallelDist = dir == Direction.SOUTH ? dz : -dz;
-						}
-						if (perpDist <= VaultCorridorPiece.CORRIDOR_WIDTH / 2 + WALL_THICKNESS + 1 && parallelDist > CHAMBER_RADIUS - 1) {
-							isCorridorConnection = true;
-							break;
-						}
-					}
-				}
+				boolean isWall = dist > innerRadius;
+				boolean isInterior = dist <= innerRadius;
+				boolean isStairwell = rx * rx + rz * rz <= STAIR_WELL_RADIUS * STAIR_WELL_RADIUS;
 
-				if (!isCorridorConnection && box.isInside(x, floorY - FLOOR_THICKNESS - BEDROCK_SHELL, z)) {
-					level.setBlock(new BlockPos(x, floorY - FLOOR_THICKNESS - BEDROCK_SHELL, z), Blocks.BEDROCK.defaultBlockState(), 2);
-				}
-				if (!isStairWell && !isCorridorConnection && box.isInside(x, floorY + CHAMBER_HEIGHT + WALL_THICKNESS + BEDROCK_SHELL, z)) {
-					level.setBlock(new BlockPos(x, floorY + CHAMBER_HEIGHT + WALL_THICKNESS + BEDROCK_SHELL, z), Blocks.BEDROCK.defaultBlockState(), 2);
-				}
-			}
-		}
-
-		// Second pass: chamber structure
-		for (int x = cx - totalRadius; x <= cx + totalRadius; x++) {
-			for (int z = cz - totalRadius; z <= cz + totalRadius; z++) {
-				int dx = x - cx;
-				int dz = z - cz;
-				float dist = (float) Math.sqrt(dx * dx + dz * dz);
-
-				if (dist > totalRadius) continue;
-
-				boolean isWallZone = dist > CHAMBER_RADIUS;
-				boolean isInterior = dist <= CHAMBER_RADIUS;
-				boolean isStairWell = dist <= STAIR_WELL_RADIUS;
-
-				boolean isCorridorPath = false;
-				for (Direction dir : Direction.Plane.HORIZONTAL) {
-					if (corridorDirections[dir.get2DDataValue()]) {
-						int perpDist;
-						int parallelDist;
-						if (dir.getAxis() == Direction.Axis.X) {
-							perpDist = Math.abs(dz);
-							parallelDist = dir == Direction.EAST ? dx : -dx;
-						} else {
-							perpDist = Math.abs(dx);
-							parallelDist = dir == Direction.SOUTH ? dz : -dz;
-						}
-						if (perpDist <= VaultCorridorPiece.CORRIDOR_WIDTH / 2 + 1 && parallelDist > CHAMBER_RADIUS - WALL_THICKNESS) {
-							isCorridorPath = true;
-							break;
+				boolean isEntrance = false;
+				if (isWall) {
+					for (Direction dir : Direction.Plane.HORIZONTAL) {
+						if (corridorDirections[dir.get2DDataValue()]) {
+							int doorHalfWidth = VaultCorridorPiece.CORRIDOR_WIDTH / 2;
+							switch (dir) {
+								case NORTH -> { if (rz <= -innerRadius && Math.abs(rx) <= doorHalfWidth) isEntrance = true; }
+								case SOUTH -> { if (rz >= innerRadius && Math.abs(rx) <= doorHalfWidth) isEntrance = true; }
+								case WEST -> { if (rx <= -innerRadius && Math.abs(rz) <= doorHalfWidth) isEntrance = true; }
+								case EAST -> { if (rx >= innerRadius && Math.abs(rz) <= doorHalfWidth) isEntrance = true; }
+								default -> {}
+							}
 						}
 					}
 				}
 
-				// Floor layers (thick) - use base blocks
-				for (int y = floorY - FLOOR_THICKNESS; y < floorY; y++) {
-					if (!box.isInside(x, y, z)) continue;
-					level.setBlock(new BlockPos(x, y, z), palette.getRandomBase(x, y, z), 2);
+				// Floor layers (thick) - fill everything, staircase piece carves through
+				for (int y = floorY - FLOOR_THICKNESS; y <= floorY; y++) {
+					if (!box.isInside(wx, y, wz)) continue;
+					level.setBlock(new BlockPos(wx, y, wz), palette.getRandomBase(wx, y, wz), 2);
 				}
 
-				// Main floor - use base blocks
-				if (box.isInside(x, floorY, z)) {
-					level.setBlock(new BlockPos(x, floorY, z), palette.getRandomBase(x, floorY, z), 2);
-				}
-
-				// Interior and walls
+				// Walls and interior
 				for (int y = floorY + 1; y <= floorY + CHAMBER_HEIGHT; y++) {
-					if (!box.isInside(x, y, z)) continue;
-					BlockPos pos = new BlockPos(x, y, z);
+					if (!box.isInside(wx, y, wz)) continue;
+					BlockPos pos = new BlockPos(wx, y, wz);
 
-					if (isWallZone) {
-						if (isCorridorPath && y <= floorY + VaultCorridorPiece.CORRIDOR_HEIGHT) {
+					if (isStairwell) continue;
+
+					if (isWall) {
+						if (isEntrance && y <= floorY + VaultCorridorPiece.CORRIDOR_HEIGHT) {
 							level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
 						} else {
-							// Walls - use base blocks
-							level.setBlock(pos, palette.getRandomBase(x, y, z), 2);
+							level.setBlock(pos, palette.getRandomBase(wx, y, wz), 2);
 						}
-					} else if (isInterior && !isStairWell) {
+					} else if (isInterior) {
 						level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
 					}
 				}
 
-				// Ceiling (thick) - skip stairwell, use base blocks
-				if (!isStairWell) {
-					for (int y = floorY + CHAMBER_HEIGHT + 1; y <= floorY + CHAMBER_HEIGHT + WALL_THICKNESS; y++) {
-						if (!box.isInside(x, y, z)) continue;
-						level.setBlock(new BlockPos(x, y, z), palette.getRandomBase(x, y, z), 2);
-					}
-				}
-
-				// Pillars (but not in stair well area) - use pillar blocks
-				if (!isStairWell && !isWallZone && (dx + 100) % 10 == 0 && (dz + 100) % 10 == 0 && dist < CHAMBER_RADIUS - 3) {
-					for (int y = floorY + 1; y <= floorY + CHAMBER_HEIGHT; y++) {
-						if (box.isInside(x, y, z)) {
-							level.setBlock(new BlockPos(x, y, z), palette.getRandomPillar(x, y, z), 2);
-						}
-					}
+				// Ceiling (thick) - skip stairwell for hole
+				for (int y = floorY + CHAMBER_HEIGHT + 1; y <= floorY + CHAMBER_HEIGHT + WALL_THICKNESS; y++) {
+					if (!box.isInside(wx, y, wz)) continue;
+					if (isStairwell) continue;
+					level.setBlock(new BlockPos(wx, y, wz), palette.getRandomBase(wx, y, wz), 2);
 				}
 			}
 		}
 
-		// Apply overgrowth using helper (skip stairwell area)
+		// Add pillars (8 around the room)
+		int pillarDist = CHAMBER_RADIUS - 4;
+		for (int i = 0; i < 8; i++) {
+			double angle = Math.PI * 2 * i / 8;
+			int px = cx + (int) (Math.cos(angle) * pillarDist);
+			int pz = cz + (int) (Math.sin(angle) * pillarDist);
+
+			for (int y = floorY + 1; y <= floorY + CHAMBER_HEIGHT; y++) {
+				if (!box.isInside(px, y, pz)) continue;
+				level.setBlock(new BlockPos(px, y, pz), palette.getRandomPillar(px, y, pz), 2);
+			}
+		}
+
+		// Add floor pattern - checkerboard in center area
+		for (int rx = -innerRadius / 2; rx <= innerRadius / 2; rx++) {
+			for (int rz = -innerRadius / 2; rz <= innerRadius / 2; rz++) {
+				int wx = cx + rx;
+				int wz = cz + rz;
+
+				if (!box.isInside(wx, floorY, wz)) continue;
+
+				boolean isStairwell = rx * rx + rz * rz <= STAIR_WELL_RADIUS * STAIR_WELL_RADIUS;
+				if (isStairwell) continue;
+
+				if ((rx + rz) % 4 == 0) {
+					level.setBlock(new BlockPos(wx, floorY, wz), palette.getRandomBase(wx, floorY, wz), 2);
+				}
+			}
+		}
+
+		// Apply overgrowth using helper (skip stairwell area, this is main chamber)
 		if (overgrowthData != null && !overgrowthData.isEmpty()) {
 			BlockPos overgrowthOrigin = new BlockPos(cx - CHAMBER_RADIUS, floorY, cz - CHAMBER_RADIUS);
 			BlockPos stairwellCenter = new BlockPos(cx, floorY, cz);
 			VaultOvergrowthHelper.applyOvergrowth(level, box, overgrowthOrigin,
 				CHAMBER_RADIUS * 2, CHAMBER_RADIUS * 2, CHAMBER_HEIGHT,
 				levelIndex, totalLevels, stairwellCenter, STAIR_WELL_RADIUS,
-				overgrowthData, random);
+				overgrowthData, random, 1.0f, true);
 		}
 	}
 }

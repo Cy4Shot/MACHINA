@@ -17,6 +17,7 @@ public class DatagenParticleDescriptions extends ParticleDescriptionProvider {
 	@Override
 	protected void addDescriptions() {
 		spriteSet(ParticleTypeInit.DUST_STORM, 21);
+		sprite(ParticleTypeInit.BIOME_ASH.get(), net.minecraft.resources.ResourceLocation.withDefaultNamespace("generic_0"));
 	}
 	
 	private void spriteSet(DeferredHolder<ParticleType<?>, ? extends ParticleType<?>> particle, int count) {

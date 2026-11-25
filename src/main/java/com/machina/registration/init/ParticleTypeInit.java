@@ -1,6 +1,7 @@
 package com.machina.registration.init;
 
 import com.machina.Machina;
+import com.machina.particle.BiomeAshParticleType;
 import com.machina.particle.DustStormParticleType;
 
 import net.minecraft.core.particles.ParticleType;
@@ -14,4 +15,7 @@ public class ParticleTypeInit {
 
 	public static final DeferredHolder<ParticleType<?>, DustStormParticleType> DUST_STORM = PARTICLE_TYPES
 			.register("dust_storm", () -> new DustStormParticleType(true));
+
+	public static final DeferredHolder<ParticleType<?>, BiomeAshParticleType> BIOME_ASH = PARTICLE_TYPES
+			.register("biome_ash", () -> new BiomeAshParticleType(false));
 }

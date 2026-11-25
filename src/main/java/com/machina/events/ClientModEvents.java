@@ -27,6 +27,7 @@ import com.machina.client.model.rocket.part.SimpleLifeSupportModel;
 import com.machina.client.model.rocket.part.SimpleShieldModel;
 import com.machina.client.model.rocket.part.SimpleThrusterModel;
 import com.machina.client.model.rocket.part.TriTallThrusterModel;
+import com.machina.client.particle.BiomeAshParticle.BiomeAshParticleProvider;
 import com.machina.client.particle.DustStormParticle.DustStormParticleProvider;
 import com.machina.client.screen.menu.AtmosphericSeparatorScreen;
 import com.machina.client.screen.menu.BatteryScreen;
@@ -176,6 +177,7 @@ public class ClientModEvents {
 	@SubscribeEvent
 	public static void registerParticleProviders(final RegisterParticleProvidersEvent event) {
 		event.registerSpriteSet(ParticleTypeInit.DUST_STORM.get(), DustStormParticleProvider::new);
+		event.registerSpriteSet(ParticleTypeInit.BIOME_ASH.get(), BiomeAshParticleProvider::new);
 	}
 
 	@SubscribeEvent

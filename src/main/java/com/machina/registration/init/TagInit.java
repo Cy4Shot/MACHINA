@@ -26,6 +26,8 @@ public class TagInit {
 
 		public static final TagKey<Block> DEEP_VAULT_CTM = create("deep_vault_ctm");
 		public static final TagKey<Block> DEEP_VAULT_PILLAR_CTM = create("deep_vault_pillar_ctm");
+		public static final TagKey<Block> VAULT_STONE_CTM = create("vault_stone_ctm");
+		public static final TagKey<Block> VAULT_PILLAR_CTM = create("vault_pillar_ctm");
 
 		private static TagKey<Block> create(String name) {
 			return BlockTags.create(MachinaRL.create(name));

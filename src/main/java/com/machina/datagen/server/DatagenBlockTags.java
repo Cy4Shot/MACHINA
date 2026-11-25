@@ -127,6 +127,10 @@ public class DatagenBlockTags extends BlockTagsProvider {
 
 		tag(BlockTagInit.DEEP_VAULT_CTM).add(BlockInit.DEEP_VAULT_TILES.get());
 		tag(BlockTagInit.DEEP_VAULT_PILLAR_CTM).add(BlockInit.DEEP_VAULT_PILLAR.get());
+		tag(BlockTagInit.VAULT_STONE_CTM).add(BlockInit.VAULT_STONE.get(),
+				BlockInit.VAULT_STONE_SLAB.get(), BlockInit.VAULT_STONE_STAIRS.get(),
+				BlockInit.VAULT_STONE_WALL.get());
+		tag(BlockTagInit.VAULT_PILLAR_CTM).add(BlockInit.VAULT_PILLAR.get());
 
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);

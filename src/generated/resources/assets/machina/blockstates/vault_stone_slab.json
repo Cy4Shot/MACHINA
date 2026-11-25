@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "machina:block/vault_stone_slab"
+    },
+    "type=double": {
+      "model": "machina:block/vault_stone"
+    },
+    "type=top": {
+      "model": "machina:block/vault_stone_slab_top"
+    }
+  }
+}

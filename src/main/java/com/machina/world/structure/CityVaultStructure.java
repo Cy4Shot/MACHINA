@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityOvergrown;
 import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityVault;
 import com.machina.registration.init.StructureInit;
 import com.machina.world.biome.PlanetBiome;
@@ -90,9 +89,8 @@ public class CityVaultStructure extends Structure {
 		BlockPos structurePos = new BlockPos(centerX, surfaceY, centerZ);
 		int blockSize = planetBiome.settings.city_grid().block_size();
 
-		// Get overgrowth config from city grid
-		PlanetBiomeCityOvergrown overgrownConfig = planetBiome.settings.city_grid().overgrown();
-		VaultOvergrowthHelper.OvergrowthData overgrowthData = VaultOvergrowthHelper.OvergrowthData.fromConfig(overgrownConfig);
+		// Use vault-specific overgrowth config
+		VaultOvergrowthHelper.OvergrowthData overgrowthData = VaultOvergrowthHelper.OvergrowthData.createVaultDefault();
 
 		return Optional.of(new GenerationStub(structurePos, builder -> {
 			RandomSource random = RandomSource.create(seed ^ ((long) chunkX * 198491317L + (long) chunkZ * 6542989L));

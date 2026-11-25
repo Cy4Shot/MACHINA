@@ -285,6 +285,9 @@ public class FamiliesInit {
 				BlockInit.RUINED_VAULT_TILES_SLAB.get(), BlockInit.RUINED_VAULT_TILES_STAIRS.get(),
 				BlockInit.RUINED_VAULT_TILES_WALL.get()));
 		// Vault families - Standard (mid level)
+		VAULTS.add(new VaultFamily("vault_stone", BlockInit.VAULT_STONE.get(),
+				BlockInit.VAULT_STONE_SLAB.get(), BlockInit.VAULT_STONE_STAIRS.get(),
+				BlockInit.VAULT_STONE_WALL.get()));
 		VAULTS.add(new VaultFamily("vault_bricks", BlockInit.VAULT_BRICKS.get(),
 				BlockInit.VAULT_BRICKS_SLAB.get(), BlockInit.VAULT_BRICKS_STAIRS.get(),
 				BlockInit.VAULT_BRICKS_WALL.get()));

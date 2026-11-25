@@ -3,9 +3,7 @@ package com.machina.world.structure.vault.helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeCityOvergrown;
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOvergrownGround;
-import com.machina.api.starchart.planet_biome.PlanetBiomeSettings.PlanetBiomeOvergrownVine;
+import com.machina.registration.init.BlockInit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -51,28 +49,45 @@ public class VaultOvergrowthHelper {
 			List.of(), 0f, 0, 0, 0, 0, 1
 		);
 
-		public static OvergrowthData fromConfig(PlanetBiomeCityOvergrown config) {
-			if (config == null || !config.enabled()) return EMPTY;
-			PlanetBiomeOvergrownGround ground = config.ground();
-			PlanetBiomeOvergrownVine vines = config.vines();
+		public static OvergrowthData createVaultDefault() {
 			return new OvergrowthData(
-				new ArrayList<>(ground.base_blocks()),
-				new ArrayList<>(ground.lichen_blocks()),
-				new ArrayList<>(ground.shroom_blocks()),
-				ground.floor_chance(),
-				ground.cluster_min_count(),
-				ground.cluster_max_count(),
-				ground.cluster_min_size(),
-				ground.cluster_max_size(),
-				ground.lichen_chance(),
-				ground.shroom_chance(),
-				new ArrayList<>(vines.wall_blocks()),
-				vines.vine_chance(),
-				vines.vine_min_length(),
-				vines.vine_max_length(),
-				vines.vine_min_branches(),
-				vines.vine_max_branches(),
-				vines.vine_thickness()
+				// Base blocks (floor/ground)
+				List.of(
+					BlockInit.TOXIC_DIRT.get().defaultBlockState(),
+					BlockInit.TOXIC_GRASS_BLOCK.get().defaultBlockState()
+				),
+				// Lichen blocks
+				List.of(
+					BlockInit.TOX_LICHEN.get().defaultBlockState()
+				),
+				// Shroom blocks (includes tendrils)
+				List.of(
+					BlockInit.TOX_SHROOM.get().defaultBlockState(),
+					BlockInit.CYAN_TOX_SHROOM.get().defaultBlockState(),
+					BlockInit.TOXIC_TENDRIL.get().defaultBlockState(),
+					BlockInit.TOXIC_GRASS.get().defaultBlockState()
+				),
+				// Floor chance
+				0.8f,
+				// Cluster counts
+				3, 8,
+				// Cluster sizes
+				2, 5,
+				// Lichen chance
+				0.3f,
+				// Shroom chance
+				0.15f,
+				// Vine blocks
+				List.of(
+					BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE.get().defaultBlockState()
+				),
+				// Vine params
+				0.4f,  // vine chance
+				3,     // min length
+				8,     // max length
+				1,     // min branches
+				3,     // max branches
+				2      // thickness
 			);
 		}
 
@@ -200,15 +215,27 @@ public class VaultOvergrowthHelper {
 			int width, int depth, int height, int levelIndex, int totalLevels,
 			BlockPos stairwellCenter, int stairwellRadius,
 			OvergrowthData data, RandomSource random) {
+		applyOvergrowth(level, box, origin, width, depth, height, levelIndex, totalLevels,
+			stairwellCenter, stairwellRadius, data, random, 1.0f, false);
+	}
+
+	public static void applyOvergrowth(WorldGenLevel level, BoundingBox box, BlockPos origin,
+			int width, int depth, int height, int levelIndex, int totalLevels,
+			BlockPos stairwellCenter, int stairwellRadius,
+			OvergrowthData data, RandomSource random, float vineMultiplier) {
+		applyOvergrowth(level, box, origin, width, depth, height, levelIndex, totalLevels,
+			stairwellCenter, stairwellRadius, data, random, vineMultiplier, false);
+	}
+
+	public static void applyOvergrowth(WorldGenLevel level, BoundingBox box, BlockPos origin,
+			int width, int depth, int height, int levelIndex, int totalLevels,
+			BlockPos stairwellCenter, int stairwellRadius,
+			OvergrowthData data, RandomSource random, float vineMultiplier, boolean isMainChamber) {
 
 		if (data.isEmpty()) return;
 
-		float levelMultiplier;
-		if (totalLevels <= 1) {
-			levelMultiplier = 1.0f;
-		} else {
-			levelMultiplier = 1.0f - ((float) levelIndex / (totalLevels - 1));
-		}
+		// All floors have equal dense overgrowth
+		float levelMultiplier = 0.8f;
 
 		long noiseSeed = random.nextLong();
 		List<int[]> grassedPositions = new ArrayList<>();
@@ -228,9 +255,20 @@ public class VaultOvergrowthHelper {
 
 		// === SURFACE-FOLLOWING VINES ===
 		if (!data.vineBlocks().isEmpty() && data.vineChance() > 0) {
-			float densityMultiplier = levelMultiplier * levelMultiplier * 100f;
+			float densityMultiplier = levelMultiplier * levelMultiplier * 100f * vineMultiplier;
 			applySurfaceVines(level, box, origin, width, depth, height, densityMultiplier,
 				stairwellCenter, stairwellRadius, data, random);
+		}
+
+		// === SPECIAL DECORATIONS ===
+		if (isMainChamber) {
+			// Main chamber gets ceiling hanging vines
+			applyCeilingHangingVines(level, box, origin, width, depth, height,
+				stairwellCenter, stairwellRadius, random, noiseSeed);
+		} else {
+			// Other rooms get small bushes/ground vines
+			applySmallBushes(level, box, origin, width, depth, height,
+				stairwellCenter, stairwellRadius, random, noiseSeed);
 		}
 	}
 
@@ -240,15 +278,12 @@ public class VaultOvergrowthHelper {
 			OvergrowthData data, RandomSource random, long noiseSeed, List<int[]> grassedPositions) {
 
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-		double noiseScale = 0.08;
-		int floorY = origin.getY();
+		double patchNoiseScale = 0.08; // Lower = bigger patches
+		double moundNoiseScale = 0.2;
+		int floorY = origin.getY(); // The actual floor block level
 
-		// Coverage: top level is thinner, lower levels have more coverage
-		float minCoverage = 0.25f; // Bottom level still has some overgrowth
-		float maxCoverage = 0.7f;  // Top level is thinner than before
-		float baseCoverage = minCoverage + (maxCoverage - minCoverage) * levelMultiplier;
-		// Max height of grass mounds scales with level
-		int maxGrassHeight = Math.max(1, (int) (3 * levelMultiplier + 1));
+		// Patch threshold - higher = rarer patches
+		float patchThreshold = 0.45f;
 
 		for (int x = 0; x < width; x++) {
 			for (int z = 0; z < depth; z++) {
@@ -257,53 +292,60 @@ public class VaultOvergrowthHelper {
 
 				if (isInStairwell(wx, wz, stairwellCenter, stairwellRadius)) continue;
 
-				// Multi-octave Perlin for smooth, interesting terrain
-				double noise = octavePerlin(wx * noiseScale, wz * noiseScale, noiseSeed, 4, 0.5);
-				noise = (noise + 1.0) * 0.5; // Normalize to 0-1
+				// Patch noise determines where floor gets replaced
+				// Use fixed seed (0) so noise is consistent across all structure pieces
+				double patchNoise = octavePerlin(wx * patchNoiseScale, wz * patchNoiseScale, 0, 2, 0.6);
+				patchNoise = (patchNoise + 1.0) * 0.5;
 
-				// Coverage check - higher levels have higher threshold
-				float coverageThreshold = 1.0f - baseCoverage;
-				if (noise < coverageThreshold) continue;
+				// Skip if not in a patch
+				if (patchNoise < patchThreshold) continue;
 
-				// Height varies smoothly based on noise, minimum is floor level
-				double heightNoise = octavePerlin(wx * noiseScale * 2, wz * noiseScale * 2, noiseSeed + 12345, 3, 0.6);
-				heightNoise = (heightNoise + 1.0) * 0.5;
-				int grassHeight = (int) (heightNoise * maxGrassHeight);
+				// === LAYER 0: Replace floor block ===
+				pos.set(wx, floorY, wz);
+				if (box.isInside(pos)) {
+					BlockState baseBlock = data.baseBlocks().get(random.nextInt(data.baseBlocks().size()));
+					level.setBlock(pos, baseBlock, 2);
+				}
 
-				// Replace floor and build up grass mound
-				for (int y = 0; y <= grassHeight; y++) {
-					int wy = floorY + y;
-					if (!box.isInside(wx, wy, wz)) continue;
+				// Mound height noise - determines how tall this spot gets
+				// Use fixed seed (12345) so mounds are consistent across pieces
+				double moundNoise = octavePerlin(wx * moundNoiseScale, wz * moundNoiseScale, 12345, 2, 0.5);
+				moundNoise = (moundNoise + 1.0) * 0.5;
+				// Add randomness for organic edges
+				moundNoise += (random.nextFloat() - 0.5) * 0.3;
 
-					pos.set(wx, wy, wz);
-					BlockState current = level.getBlockState(pos);
+				int topY = floorY;
 
-					// Only replace air or the existing floor
-					if (y == 0) {
-						// Replace floor block with grass base
+				// === LAYER 1: First mound layer (common in center of patches) ===
+				if (moundNoise > 0.4) {
+					pos.set(wx, floorY + 1, wz);
+					if (box.isInside(pos) && level.getBlockState(pos).isAir()) {
 						BlockState baseBlock = data.baseBlocks().get(random.nextInt(data.baseBlocks().size()));
 						level.setBlock(pos, baseBlock, 2);
-					} else if (current.isAir()) {
-						// Stack grass blocks above
+						topY = floorY + 1;
+					}
+				}
+
+				// === LAYER 2: Second mound layer (rarer, peaks of mounds) ===
+				if (moundNoise > 0.7) {
+					pos.set(wx, floorY + 2, wz);
+					if (box.isInside(pos) && level.getBlockState(pos).isAir()) {
 						BlockState baseBlock = data.baseBlocks().get(random.nextInt(data.baseBlocks().size()));
 						level.setBlock(pos, baseBlock, 2);
+						topY = floorY + 2;
 					}
 				}
 
 				// Track top position for vegetation
-				int topY = floorY + grassHeight;
 				grassedPositions.add(new int[]{wx, topY, wz});
 
 				// Add vegetation on top
 				pos.set(wx, topY + 1, wz);
 				if (box.isInside(pos) && level.getBlockState(pos).isAir()) {
-					// Shrooms
 					if (!data.shroomBlocks().isEmpty() && random.nextFloat() < data.shroomChance() * levelMultiplier) {
 						BlockState shroom = data.shroomBlocks().get(random.nextInt(data.shroomBlocks().size()));
 						level.setBlock(pos, shroom, 2);
-					}
-					// Lichen on grass surface
-					else if (!data.lichenBlocks().isEmpty() && random.nextFloat() < data.lichenChance() * levelMultiplier * 0.3f) {
+					} else if (!data.lichenBlocks().isEmpty() && random.nextFloat() < data.lichenChance() * levelMultiplier * 0.3f) {
 						BlockState lichen = data.lichenBlocks().get(random.nextInt(data.lichenBlocks().size()));
 						if (lichen.getBlock() instanceof MultifaceBlock) {
 							lichen = lichen.setValue(MultifaceBlock.getFaceProperty(Direction.DOWN), true);
@@ -651,6 +693,99 @@ public class VaultOvergrowthHelper {
 						vine = vineBlock.setValue(MultifaceBlock.getFaceProperty(newAttach), true);
 					}
 					level.setBlock(thickPos, vine, 2);
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private static void applyCeilingHangingVines(WorldGenLevel level, BoundingBox box, BlockPos origin,
+			int width, int depth, int height, BlockPos stairwellCenter, int stairwellRadius,
+			RandomSource random, long noiseSeed) {
+
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+		BlockState hyphaeBlock = BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE.get().defaultBlockState();
+		int ceilingY = origin.getY() + height;
+		double noiseScale = 0.1;
+
+		for (int x = 0; x < width; x++) {
+			for (int z = 0; z < depth; z++) {
+				int wx = origin.getX() + x;
+				int wz = origin.getZ() + z;
+
+				if (isInStairwell(wx, wz, stairwellCenter, stairwellRadius)) continue;
+
+				// Use noise to create patchy distribution
+				double noise = octavePerlin(wx * noiseScale, wz * noiseScale, noiseSeed + 77777, 2, 0.5);
+				if (noise < 0.3) continue;
+
+				// Random chance for vine placement
+				if (random.nextFloat() > 0.15f) continue;
+
+				// Check ceiling is solid
+				pos.set(wx, ceilingY, wz);
+				if (!box.isInside(pos)) continue;
+				if (!level.getBlockState(pos).isSolid()) continue;
+
+				// Place hanging vine (long vines for main chamber)
+				int vineLength = 4 + random.nextInt(6);
+				for (int y = 1; y <= vineLength; y++) {
+					int vy = ceilingY - y;
+					if (vy <= origin.getY()) break;
+
+					pos.set(wx, vy, wz);
+					if (!box.isInside(pos)) break;
+					if (!level.getBlockState(pos).isAir()) break;
+
+					level.setBlock(pos, hyphaeBlock, 2);
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	private static void applySmallBushes(WorldGenLevel level, BoundingBox box, BlockPos origin,
+			int width, int depth, int height, BlockPos stairwellCenter, int stairwellRadius,
+			RandomSource random, long noiseSeed) {
+
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+		BlockState hyphaeBlock = BlockInit.IMBUED_CYAN_MUSHROOM_HYPHAE.get().defaultBlockState();
+		int floorY = origin.getY();
+		double noiseScale = 0.12;
+
+		for (int x = 0; x < width; x++) {
+			for (int z = 0; z < depth; z++) {
+				int wx = origin.getX() + x;
+				int wz = origin.getZ() + z;
+
+				if (isInStairwell(wx, wz, stairwellCenter, stairwellRadius)) continue;
+
+				// Use noise to create patchy distribution
+				double noise = octavePerlin(wx * noiseScale, wz * noiseScale, noiseSeed + 88888, 2, 0.5);
+				if (noise < 0.5) continue;
+
+				// Random chance for bush placement (sparse)
+				if (random.nextFloat() > 0.06f) continue;
+
+				// Find top of floor (may have grass mound)
+				int startY = floorY + 1;
+				for (int y = floorY + 4; y > floorY; y--) {
+					pos.set(wx, y, wz);
+					if (box.isInside(pos) && level.getBlockState(pos).isSolid()) {
+						startY = y + 1;
+						break;
+					}
+				}
+
+				// Place small bush (1-2 blocks tall, mostly 1)
+				int bushHeight = random.nextFloat() < 0.7f ? 1 : 2;
+				for (int y = 0; y < bushHeight; y++) {
+					int by = startY + y;
+					pos.set(wx, by, wz);
+					if (!box.isInside(pos)) break;
+					if (!level.getBlockState(pos).isAir()) break;
+
+					level.setBlock(pos, hyphaeBlock, 2);
 				}
 			}
 		}

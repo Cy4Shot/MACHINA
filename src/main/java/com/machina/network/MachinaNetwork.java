@@ -38,6 +38,7 @@ import com.machina.api.network.s2c.S2CClearNukes;
 import com.machina.api.network.s2c.S2CNuclearExplosion;
 import com.machina.api.network.s2c.S2CRadiationSync;
 import com.machina.api.network.s2c.S2CUpdateDimensionList;
+import com.machina.api.network.s2c.S2CVaultStateSync;
 import com.machina.api.network.s2c.S2CWeatherEventChange;
 import com.machina.api.network.s2c.S2CWeatherIntensityChange;
 import com.machina.api.network.s2c.S2CWindDirectionChange;
@@ -90,6 +91,7 @@ public class MachinaNetwork {
 		s2c(reg, S2CRadiationSync.class);
 		s2c(reg, S2CNuclearExplosion.class);
 		s2c(reg, S2CClearNukes.class);
+		s2c(reg, S2CVaultStateSync.class);
 
 		config2c(reg, S2CSyncStarchart.class);
 		config2c(reg, S2CSyncBiomes.class);
