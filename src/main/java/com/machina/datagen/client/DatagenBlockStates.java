@@ -153,26 +153,23 @@ public class DatagenBlockStates extends BlockStateProvider {
 		lichenBlock(BlockInit.CYAN_LICHEN);
 		lichenBlock(BlockInit.TOX_LICHEN);
 
-		// Vault blocks - upper levels (dirty, patterned)
+		// Vault blocks - upper levels (ruined, dirty, patterned)
+		cube(BlockInit.RUINED_VAULT_STONE);
+		cube(BlockInit.RUINED_VAULT_BRICKS);
+		cube(BlockInit.RUINED_VAULT_BRICKS_CRACKED);
+		cube(BlockInit.RUINED_VAULT_BRICKS_MOSSY);
+		cube(BlockInit.RUINED_VAULT_TILES);
+		log(BlockInit.RUINED_VAULT_PILLAR.get());
+
+		// Vault blocks - mid levels (standard)
 		cube(BlockInit.VAULT_STONE);
 		cube(BlockInit.VAULT_BRICKS);
-		cube(BlockInit.VAULT_BRICKS_CRACKED);
-		cube(BlockInit.VAULT_BRICKS_MOSSY);
 		cube(BlockInit.VAULT_TILES);
 		log(BlockInit.VAULT_PILLAR.get());
 
-		// Vault blocks - mid levels (transitional)
-		cube(BlockInit.VAULT_STONE_DARK);
-		cube(BlockInit.VAULT_BRICKS_DARK);
-		cube(BlockInit.VAULT_TILES_DARK);
-		log(BlockInit.VAULT_PILLAR_DARK.get());
-
-		// Vault blocks - lower levels (clean, CTM-ready)
-		ctm(BlockInit.ANCIENT_VAULT_STONE, BlockTagInit.ANCIENT_VAULT_CTM);
-		ctm(BlockInit.ANCIENT_VAULT_BRICKS, BlockTagInit.ANCIENT_VAULT_CTM);
-		ctm(BlockInit.ANCIENT_VAULT_TILES, BlockTagInit.ANCIENT_VAULT_CTM);
-		ctmPillar(BlockInit.ANCIENT_VAULT_PILLAR, BlockTagInit.ANCIENT_VAULT_PILLAR_CTM);
-		ctm(BlockInit.GILDED_VAULT_BRICKS, BlockTagInit.ANCIENT_VAULT_CTM);
+		// Vault blocks - lower levels (deep)
+		ctm(BlockInit.DEEP_VAULT_TILES, BlockTagInit.DEEP_VAULT_CTM);
+		ctmPillar(BlockInit.DEEP_VAULT_PILLAR, BlockTagInit.DEEP_VAULT_PILLAR_CTM);
 
 		cube(BlockInit.TROPICAL_SAND);
 		cube(BlockInit.MOONSAND);
@@ -420,10 +417,10 @@ public class DatagenBlockStates extends BlockStateProvider {
 		CTMBlockStateBuilder builder = getCTMBuilder(b, cube)
 			.setLoader(CTM_PILLAR_LOADER)
 			.addCTMTexture("particle", blockTexture(b))
-			.addCTMTexture("self", ctmTexture(b, "0"))
-			.addCTMTexture("top", ctmTexture(b, "1"))
-			.addCTMTexture("center", ctmTexture(b, "2"))
-			.addCTMTexture("bottom", ctmTexture(b, "3"));
+			.addCTMTexture("self", ctmTexture(b, "s"))
+			.addCTMTexture("top", ctmTexture(b, "t"))
+			.addCTMTexture("center", ctmTexture(b, "c"))
+			.addCTMTexture("bottom", ctmTexture(b, "b"));
 		//@formatter:on
 		if (ctmTag != null) {
 			builder.setCTMTag(ctmTag);

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_wall_side",
-  "textures": {
-    "wall": "machina:block/ancient_vault_tiles"
-  }
-}

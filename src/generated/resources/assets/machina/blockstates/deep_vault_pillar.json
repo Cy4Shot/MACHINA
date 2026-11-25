@@ -1,0 +1,19 @@
+{
+  "athena:loader": "athena:pillar",
+  "connect_to": {
+    "type": "tag",
+    "tag": "machina:deep_vault_pillar_ctm"
+  },
+  "ctm_textures": {
+    "bottom": "machina:block/ctm/deep_vault_pillar/b",
+    "center": "machina:block/ctm/deep_vault_pillar/c",
+    "particle": "machina:block/deep_vault_pillar",
+    "self": "machina:block/ctm/deep_vault_pillar/s",
+    "top": "machina:block/ctm/deep_vault_pillar/t"
+  },
+  "variants": {
+    "": {
+      "model": "machina:block/deep_vault_pillar"
+    }
+  }
+}

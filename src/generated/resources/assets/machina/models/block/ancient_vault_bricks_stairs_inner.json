@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "machina:block/ancient_vault_bricks",
-    "side": "machina:block/ancient_vault_bricks",
-    "top": "machina:block/ancient_vault_bricks"
-  }
-}

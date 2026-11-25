@@ -16,11 +16,10 @@
     "machina:gneiss_wall",
     "machina:basalt_wall",
     "machina:basalt_springstone_wall",
+    "machina:ruined_vault_bricks_wall",
+    "machina:ruined_vault_tiles_wall",
     "machina:vault_bricks_wall",
     "machina:vault_tiles_wall",
-    "machina:vault_bricks_dark_wall",
-    "machina:vault_tiles_dark_wall",
-    "machina:ancient_vault_bricks_wall",
-    "machina:ancient_vault_tiles_wall"
+    "machina:deep_vault_tiles_wall"
   ]
 }

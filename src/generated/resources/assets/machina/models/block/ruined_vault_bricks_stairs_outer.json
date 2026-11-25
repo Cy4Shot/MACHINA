@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "machina:block/ruined_vault_bricks",
+    "side": "machina:block/ruined_vault_bricks",
+    "top": "machina:block/ruined_vault_bricks"
+  }
+}

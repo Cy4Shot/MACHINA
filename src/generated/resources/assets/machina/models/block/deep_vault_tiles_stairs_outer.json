@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "machina:block/deep_vault_tiles",
+    "side": "machina:block/deep_vault_tiles",
+    "top": "machina:block/deep_vault_tiles"
+  }
+}

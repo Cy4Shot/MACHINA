@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "machina:block/ruined_vault_tiles",
+    "side": "machina:block/ruined_vault_tiles",
+    "top": "machina:block/ruined_vault_tiles"
+  }
+}

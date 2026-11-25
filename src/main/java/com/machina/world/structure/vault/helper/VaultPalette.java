@@ -48,11 +48,64 @@ public class VaultPalette {
 	private static VaultPalette createUpperPalette() {
 		return new VaultPalette(
 			List.of(
+				BlockInit.RUINED_VAULT_STONE.get().defaultBlockState(),
+				BlockInit.RUINED_VAULT_BRICKS.get().defaultBlockState(),
+				BlockInit.RUINED_VAULT_BRICKS_CRACKED.get().defaultBlockState(),
+				BlockInit.RUINED_VAULT_BRICKS_MOSSY.get().defaultBlockState(),
+				BlockInit.RUINED_VAULT_TILES.get().defaultBlockState()
+			),
+			List.of(
+				BlockInit.RUINED_VAULT_BRICKS_STAIRS.get().defaultBlockState(),
+				BlockInit.RUINED_VAULT_TILES_STAIRS.get().defaultBlockState()
+			),
+			List.of(
+				BlockInit.RUINED_VAULT_BRICKS_SLAB.get().defaultBlockState(),
+				BlockInit.RUINED_VAULT_TILES_SLAB.get().defaultBlockState()
+			),
+			List.of(
+				BlockInit.RUINED_VAULT_BRICKS_WALL.get().defaultBlockState(),
+				BlockInit.RUINED_VAULT_TILES_WALL.get().defaultBlockState()
+			),
+			List.of(
+				BlockInit.RUINED_VAULT_PILLAR.get().defaultBlockState()
+			)
+		);
+	}
+
+	private static VaultPalette createTransitionalPalette() {
+		return new VaultPalette(
+			List.of(
+				BlockInit.RUINED_VAULT_BRICKS.get().defaultBlockState(),
+				BlockInit.RUINED_VAULT_BRICKS_CRACKED.get().defaultBlockState(),
+				BlockInit.VAULT_STONE.get().defaultBlockState(),
+				BlockInit.VAULT_BRICKS.get().defaultBlockState()
+			),
+			List.of(
+				BlockInit.RUINED_VAULT_BRICKS_STAIRS.get().defaultBlockState(),
+				BlockInit.VAULT_BRICKS_STAIRS.get().defaultBlockState()
+			),
+			List.of(
+				BlockInit.RUINED_VAULT_BRICKS_SLAB.get().defaultBlockState(),
+				BlockInit.VAULT_BRICKS_SLAB.get().defaultBlockState()
+			),
+			List.of(
+				BlockInit.RUINED_VAULT_BRICKS_WALL.get().defaultBlockState(),
+				BlockInit.VAULT_BRICKS_WALL.get().defaultBlockState()
+			),
+			List.of(
+				BlockInit.RUINED_VAULT_PILLAR.get().defaultBlockState(),
+				BlockInit.VAULT_PILLAR.get().defaultBlockState()
+			)
+		);
+	}
+
+	private static VaultPalette createDarkPalette() {
+		return new VaultPalette(
+			List.of(
 				BlockInit.VAULT_STONE.get().defaultBlockState(),
 				BlockInit.VAULT_BRICKS.get().defaultBlockState(),
-				BlockInit.VAULT_BRICKS_CRACKED.get().defaultBlockState(),
-				BlockInit.VAULT_BRICKS_MOSSY.get().defaultBlockState(),
-				BlockInit.VAULT_TILES.get().defaultBlockState()
+				BlockInit.VAULT_TILES.get().defaultBlockState(),
+				BlockInit.DEEP_VAULT_TILES.get().defaultBlockState()
 			),
 			List.of(
 				BlockInit.VAULT_BRICKS_STAIRS.get().defaultBlockState(),
@@ -72,81 +125,22 @@ public class VaultPalette {
 		);
 	}
 
-	private static VaultPalette createTransitionalPalette() {
-		return new VaultPalette(
-			List.of(
-				BlockInit.VAULT_BRICKS.get().defaultBlockState(),
-				BlockInit.VAULT_BRICKS_CRACKED.get().defaultBlockState(),
-				BlockInit.VAULT_STONE_DARK.get().defaultBlockState(),
-				BlockInit.VAULT_BRICKS_DARK.get().defaultBlockState()
-			),
-			List.of(
-				BlockInit.VAULT_BRICKS_STAIRS.get().defaultBlockState(),
-				BlockInit.VAULT_BRICKS_DARK_STAIRS.get().defaultBlockState()
-			),
-			List.of(
-				BlockInit.VAULT_BRICKS_SLAB.get().defaultBlockState(),
-				BlockInit.VAULT_BRICKS_DARK_SLAB.get().defaultBlockState()
-			),
-			List.of(
-				BlockInit.VAULT_BRICKS_WALL.get().defaultBlockState(),
-				BlockInit.VAULT_BRICKS_DARK_WALL.get().defaultBlockState()
-			),
-			List.of(
-				BlockInit.VAULT_PILLAR.get().defaultBlockState(),
-				BlockInit.VAULT_PILLAR_DARK.get().defaultBlockState()
-			)
-		);
-	}
-
-	private static VaultPalette createDarkPalette() {
-		return new VaultPalette(
-			List.of(
-				BlockInit.VAULT_STONE_DARK.get().defaultBlockState(),
-				BlockInit.VAULT_BRICKS_DARK.get().defaultBlockState(),
-				BlockInit.VAULT_TILES_DARK.get().defaultBlockState(),
-				BlockInit.ANCIENT_VAULT_STONE.get().defaultBlockState()
-			),
-			List.of(
-				BlockInit.VAULT_BRICKS_DARK_STAIRS.get().defaultBlockState(),
-				BlockInit.VAULT_TILES_DARK_STAIRS.get().defaultBlockState()
-			),
-			List.of(
-				BlockInit.VAULT_BRICKS_DARK_SLAB.get().defaultBlockState(),
-				BlockInit.VAULT_TILES_DARK_SLAB.get().defaultBlockState()
-			),
-			List.of(
-				BlockInit.VAULT_BRICKS_DARK_WALL.get().defaultBlockState(),
-				BlockInit.VAULT_TILES_DARK_WALL.get().defaultBlockState()
-			),
-			List.of(
-				BlockInit.VAULT_PILLAR_DARK.get().defaultBlockState()
-			)
-		);
-	}
-
 	private static VaultPalette createAncientPalette() {
 		return new VaultPalette(
 			List.of(
-				BlockInit.ANCIENT_VAULT_STONE.get().defaultBlockState(),
-				BlockInit.ANCIENT_VAULT_BRICKS.get().defaultBlockState(),
-				BlockInit.ANCIENT_VAULT_TILES.get().defaultBlockState(),
-				BlockInit.GILDED_VAULT_BRICKS.get().defaultBlockState()
+				BlockInit.DEEP_VAULT_TILES.get().defaultBlockState()
 			),
 			List.of(
-				BlockInit.ANCIENT_VAULT_BRICKS_STAIRS.get().defaultBlockState(),
-				BlockInit.ANCIENT_VAULT_TILES_STAIRS.get().defaultBlockState()
+				BlockInit.DEEP_VAULT_TILES_STAIRS.get().defaultBlockState()
 			),
 			List.of(
-				BlockInit.ANCIENT_VAULT_BRICKS_SLAB.get().defaultBlockState(),
-				BlockInit.ANCIENT_VAULT_TILES_SLAB.get().defaultBlockState()
+				BlockInit.DEEP_VAULT_TILES_SLAB.get().defaultBlockState()
 			),
 			List.of(
-				BlockInit.ANCIENT_VAULT_BRICKS_WALL.get().defaultBlockState(),
-				BlockInit.ANCIENT_VAULT_TILES_WALL.get().defaultBlockState()
+				BlockInit.DEEP_VAULT_TILES_WALL.get().defaultBlockState()
 			),
 			List.of(
-				BlockInit.ANCIENT_VAULT_PILLAR.get().defaultBlockState()
+				BlockInit.DEEP_VAULT_PILLAR.get().defaultBlockState()
 			)
 		);
 	}

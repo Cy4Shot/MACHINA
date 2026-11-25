@@ -231,26 +231,23 @@ public class DatagenLootTables extends BlockLootSubProvider {
 
 		dropNothing(BlockInit.HIGHTECH_TURRET.get());
 
-		// Vault blocks - upper levels (dirty, patterned)
+		// Vault blocks - upper levels (ruined)
+		dropSelf(BlockInit.RUINED_VAULT_STONE.get());
+		dropSelf(BlockInit.RUINED_VAULT_BRICKS.get());
+		dropSelf(BlockInit.RUINED_VAULT_BRICKS_CRACKED.get());
+		dropSelf(BlockInit.RUINED_VAULT_BRICKS_MOSSY.get());
+		dropSelf(BlockInit.RUINED_VAULT_TILES.get());
+		dropSelf(BlockInit.RUINED_VAULT_PILLAR.get());
+
+		// Vault blocks - mid levels (standard)
 		dropSelf(BlockInit.VAULT_STONE.get());
 		dropSelf(BlockInit.VAULT_BRICKS.get());
-		dropSelf(BlockInit.VAULT_BRICKS_CRACKED.get());
-		dropSelf(BlockInit.VAULT_BRICKS_MOSSY.get());
 		dropSelf(BlockInit.VAULT_TILES.get());
 		dropSelf(BlockInit.VAULT_PILLAR.get());
 
-		// Vault blocks - mid levels (transitional)
-		dropSelf(BlockInit.VAULT_STONE_DARK.get());
-		dropSelf(BlockInit.VAULT_BRICKS_DARK.get());
-		dropSelf(BlockInit.VAULT_TILES_DARK.get());
-		dropSelf(BlockInit.VAULT_PILLAR_DARK.get());
-
-		// Vault blocks - lower levels (clean, CTM-ready)
-		dropSelf(BlockInit.ANCIENT_VAULT_STONE.get());
-		dropSelf(BlockInit.ANCIENT_VAULT_BRICKS.get());
-		dropSelf(BlockInit.ANCIENT_VAULT_TILES.get());
-		dropSelf(BlockInit.ANCIENT_VAULT_PILLAR.get());
-		dropSelf(BlockInit.GILDED_VAULT_BRICKS.get());
+		// Vault blocks - lower levels (deep)
+		dropSelf(BlockInit.DEEP_VAULT_TILES.get());
+		dropSelf(BlockInit.DEEP_VAULT_PILLAR.get());
 	}
 
 	private void oreFamily(OreFamily family) {

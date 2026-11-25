@@ -125,10 +125,8 @@ public class DatagenBlockTags extends BlockTagsProvider {
 				BlockInit.STEAM_TURBINE_STEAM_PORT.get(), BlockInit.STEAM_TURBINE_BLADE_ASSEMBLY.get());
 		tag(BlockTagInit.STEAM_TURBINE_GLASS_CTM).add(BlockInit.STEAM_TURBINE_GLASS.get());
 
-		tag(BlockTagInit.ANCIENT_VAULT_CTM).add(BlockInit.ANCIENT_VAULT_STONE.get(),
-				BlockInit.ANCIENT_VAULT_BRICKS.get(), BlockInit.ANCIENT_VAULT_TILES.get(),
-				BlockInit.GILDED_VAULT_BRICKS.get());
-		tag(BlockTagInit.ANCIENT_VAULT_PILLAR_CTM).add(BlockInit.ANCIENT_VAULT_PILLAR.get());
+		tag(BlockTagInit.DEEP_VAULT_CTM).add(BlockInit.DEEP_VAULT_TILES.get());
+		tag(BlockTagInit.DEEP_VAULT_PILLAR_CTM).add(BlockInit.DEEP_VAULT_PILLAR.get());
 
 		FamiliesInit.ORES.forEach(this::oreFamily);
 		FamiliesInit.DIRTS.forEach(this::dirtFamily);

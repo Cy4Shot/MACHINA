@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "machina:block/ancient_vault_tiles",
-    "side": "machina:block/ancient_vault_tiles",
-    "top": "machina:block/ancient_vault_tiles"
-  }
-}

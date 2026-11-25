@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "machina:block/vault_pillar_dark_top",
-    "side": "machina:block/vault_pillar_dark"
-  }
-}
